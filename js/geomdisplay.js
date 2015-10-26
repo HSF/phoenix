@@ -12,7 +12,7 @@
     
     // Global variable for GUI etc
     var guiParameters = {};
-    var geomFolder,gui;
+    var geomFolder,detailedGeomFolder, simpleGeomFolder,gui;
     var mouse = new THREE.Vector2();
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;    
@@ -77,40 +77,65 @@
       
       if (geomFolder===undefined) {
         geomFolder   = gui.addFolder('Geometry');
+        detailedGeomFolder   = geomFolder.addFolder('Detailed');
+        simpleGeomFolder   = geomFolder.addFolder('Simplified');
       }
+      // TODO - add cleanup.
+      
+      // _buildGeometryMenu('Detailed', detailedGeomFolder);
+      _buildGeometryMenu('Simplified', simpleGeomFolder);
+      console.log(guiParameters);
+    }
+    
+  
+    
+    function _buildGeometryMenu(level, guifolder){
+      console.log("_buildGeometryMenu for "+level);
+      var levelGeometry = detectorGeometry[level];
+      
+      var onChangeFunction = function(identifier, thislayer){
+        return function(value){
+          console.log("onChange1 for "+identifier);
+          thislayer.Scene.visible = value;
+        }
+      };
+      
+      var count = 0;
+      for (var k in levelGeometry) if (levelGeometry.hasOwnProperty(k)) ++count;
+      var hasMoreThanTenEntries=false;
+      var currentFolder =guifolder;
+      
+      if (count>10) {
+        hasMoreThanTenEntries=true;
+        currentFolder =  guifolder.addFolder('Subfolder1');
+      }
+      count=0;
+      var folderCount=2;
       
       var prop;
-      for (prop in detectorGeometry){
-        if (!detectorGeometry.hasOwnProperty(prop)){ continue; }
-        var layer = detectorGeometry[prop];
-        var identifier = layer.Name;
+      for (prop in levelGeometry){
+        count++;
+        if (!levelGeometry.hasOwnProperty(prop)){ continue; }
+        var layer = levelGeometry[prop];
+        // console.log(layer)
+        var identifier = prop;
         guiParameters[identifier]=true;
+        console.log(count%10)
+        if (count%10===0){
+          console.log("Adding folder "+folderCount)
+          currentFolder =  guifolder.addFolder('Subfolder'+folderCount++);
+        }
         
-        var menu = layer["Menu"] = geomFolder.add( guiParameters, identifier ).name(identifier).listen();
+        var menu = layer["Menu"] = currentFolder.add( guiParameters, identifier ).name(identifier).listen();
         // console.log("menu: ");
-        menu.onChange(function(value) {
-          var thisidentifier = this.property;
-          // Clumsy - change once we sort our JSON better.
-          var thislayer;
-          for (prop in detectorGeometry){
-          	if (!detectorGeometry.hasOwnProperty(prop)){ continue; }
-          	if (detectorGeometry[prop]!==thisidentifier) {continue; }
-          }
-          console.log("layer[Menu].onChange for ...")
-          console.log(layer)
-          thislayer.Scene.visible = value;
-          // if (parameters['labels']) muonlabels.visible = value;
-        });
-        // console.log(menu);
-        
+        menu.onChange( onChangeFunction( identifier, layer) );
       }
-      console.log(guiParameters);
     }
     
     function _buildGeometryFromLayer(layer) {
       // Add the group which holds the 3D objects
-      layer["Scene"] = new THREE.Group();
-      console.log(layer)
+      layer.Scene = new THREE.Group();
+      // console.log(layer)
       // Now build actual geometry
       var geometry;
       switch (layer.Shape) {
@@ -131,6 +156,7 @@
         geometry = outside.extrude({ amount: layer.Dimensions[2], bevelEnabled: false });
         break;
       case "DIS":
+      case "DISC":
         // r_i,r_o,th
         // ignoring thickness for the moment.
         geometry = new THREE.RingGeometry( layer.Dimensions[0], layer.Dimensions[1], 32 );;
@@ -141,7 +167,7 @@
         var hx1 = layer.Dimensions[0]/2.0;
         var hx2 = layer.Dimensions[1]/2.0;
         var h = layer.Dimensions[2]/2.0;
-      
+        // var h = 10;
         pts.push(new THREE.Vector2(-hx2,h));
         pts.push(new THREE.Vector2(hx2,h));
         pts.push(new THREE.Vector2(hx1,-h));
@@ -153,30 +179,40 @@
       default:
         console.log("Unknown geometry type! ["+layer.Shape+"]");
       }
+      // console.log(geometry)
       return geometry;
     }
     
     function _buildGeometryFromJSON(detgeometry) {
+      console.log("dumping detgeometry:");
       console.log(detgeometry);
       
       // console.log("buildGeometryFromJSON: Processing "+detgeometry.length+ " layers")
       detectorGeometry = detgeometry;
       // for (var i = 0; i < detgeometry.length; i++){
-      var i = 0;
-      var prop;
-        
-      for (prop in detectorGeometry){
-        if (!detectorGeometry.hasOwnProperty(prop)){ continue; }
+      _buildGeometryLevelFromJSON('Simplified');
+      _updateMenu();
+    }
+    
+    function _buildGeometryLevelFromJSON(level) {
+      // for (var i = 0; i < detgeometry.length; i++){
+      var levelGeometry = detectorGeometry[level];
+      for (var prop in levelGeometry){
+        if (!levelGeometry.hasOwnProperty(prop)){ continue; }
 
-        var layer = detectorGeometry[prop];
-        console.log("Layer "+prop+":"+layer);
+        var layer = levelGeometry[prop];
+        // console.log("Layer "+prop+":"+layer);
         
         var geometry = _buildGeometryFromLayer(layer);
         // var material = new THREE.MeshPhongMaterial( { color: 0x00ff00  } );
-        if (layer.hasOwnProperty("LayerColor")){
-          layer.LayerColor=0x00ff00;
+        if (!layer.hasOwnProperty("Colour")){
+          layer.Colour=0x00ff00;
         }
-        var material = new THREE.MeshBasicMaterial( { color: layer.Colour, opacity:0.5, transparent:true } );
+        
+        if (!layer.hasOwnProperty("EdgeColour")){
+          layer.EdgeColour=0x00dd00;
+        }
+        var material = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true } );
          // Build objects from geometry.
         var modulecentre; 
         // var coords = layer[2];
@@ -192,17 +228,16 @@
           geom.matrix.makeRotationFromEuler( new THREE.Euler( layer.Coords[index+1][0], layer.Coords[index+1][1], layer.Coords[index+1][2]) );
           geom.matrix.setPosition(modulecentre);
           geom.matrixAutoUpdate = false;
-          layer["Scene"].add( geom );
+          layer.Scene.add( geom );
       
-          var egh = new THREE.EdgesHelper( geom, 0x449458 );
+          var egh = new THREE.EdgesHelper( geom, Number(layer.EdgeColour) );
           egh.material.linewidth = 2;
-          layer["Scene"].add( egh );
+          layer.Scene.add( egh );
       
           // console.log(layer);
         }
         scene.add(layer["Scene"]);
       }
-      // _updateMenu();
     }
     
     function _buildGeometryFromParameters(parameters) {
@@ -309,7 +344,8 @@
     }
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry){
-      _buildGeometryFromJSON(detgeometry.detailed);
+      // console.log(detgeometry)
+      _buildGeometryFromJSON(detgeometry);
     }
     
     EventDisplay.buildGeometryFromParameters = function(parameters){
