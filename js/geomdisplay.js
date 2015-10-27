@@ -123,7 +123,7 @@
         console.log(count%10)
         if (count%10===0){
           console.log("Adding folder "+folderCount)
-          currentFolder =  guifolder.addFolder('Subfolder'+folderCount++);
+          currentFolder =  guifolder.addFolder('Subfolder '+folderCount++);
         }
         
         var menu = layer["Menu"] = currentFolder.add( guiParameters, identifier ).name(identifier).listen();
