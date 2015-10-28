@@ -9,6 +9,7 @@
     
     // Global variables for visualisation
 	  var detectorGeometry = {};
+	  var eventData = {};
     
     // Global variable for GUI etc
     var guiParameters = {};
@@ -27,6 +28,10 @@
       camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
       camera.position.z = 700;
       camera.position.y = 200;
+      
+      // Reset far clip plane
+      camera.far = camera.position.length()*50.0;
+      camera.updateProjectionMatrix();
       
       controls = new THREE.OrbitControls( camera );
       controls.autoRotate=false;
@@ -65,6 +70,13 @@
       renderer.domElement.addEventListener( 'mousemove', onMouseMove );
       window.addEventListener( 'resize', onWindowResize, false );
       
+    }
+    
+    function _getPosition(length, eta, phi){
+      var theta = 2 * Math.atan(Math.pow(Math.E,eta) );
+      return new THREE.Vector3( length* Math.cos(phi)*Math.sin(theta), 
+                                  length * Math.sin(phi)*Math.sin(theta), 
+                                  length * Math.cos(theta) );
     }
     
     function _updateMenu(){
@@ -120,9 +132,8 @@
         // console.log(layer)
         var identifier = prop;
         guiParameters[identifier]=true;
-        console.log(count%10)
         if (count%10===0){
-          console.log("Adding folder "+folderCount)
+          // console.log("Adding folder "+folderCount)
           currentFolder =  guifolder.addFolder('Subfolder '+folderCount++);
         }
         
@@ -292,6 +303,136 @@
       }
     }
     
+    function _buildEventDataFromJSON(eventdata) {
+      console.log("dumping eventdata:");
+      console.log(eventdata);      
+      eventData = eventdata;
+      
+      // Test with tracks
+      var trackcollections = eventData["xAOD::Type::TrackParticle"]
+      console.log(trackcollections)
+      
+      for (var collname in trackcollections){
+        if (!trackcollections.hasOwnProperty(collname)){ continue; }
+        var collection = trackcollections[collname];
+        for (var trkname in collection) {
+          if (!collection.hasOwnProperty(trkname)){ continue; }
+          _addTrack(collection,trkname,scene)
+        }
+      }
+      
+      // Caloclusters
+      var clustercollections = eventData["xAOD::Type::CaloCluster"];
+      for (var collname in clustercollections){
+        if (!clustercollections.hasOwnProperty(collname)){ continue; }
+        var collection = clustercollections[collname];
+        for (var clusname in collection) {
+          if (!collection.hasOwnProperty(clusname)){ continue; }
+          _addCluster(collection,clusname,scene, 1100.0, 3200.0)
+        }
+      }
+      
+      // Jets
+      var jetcollections = eventData["xAOD::Type::Jet"];
+      for (var collname in jetcollections){
+        if (!jetcollections.hasOwnProperty(collname)){ continue; }
+        var collection = jetcollections[collname];
+        for (var jetname in collection) {
+          if (!collection.hasOwnProperty(jetname)){ continue; }
+          _addJet(collection,jetname,scene)
+        }
+      }
+      
+      
+      // _buildGeometryLevelFromJSON('Simplified');
+      // _updateMenu();
+    }
+    
+    function _addTrack(tracks, trkName, scene){
+      // console.log('Adding track '+track.name+' which is of type '+track.type)
+      var length = 100;
+      var colour = 0x00ff2d;
+      
+      var positions = tracks[trkName].pos
+      var numPoints = positions.length;
+      if (numPoints<3){
+        console.log("Track with too few points. Skipping.");
+        return;
+      }
+      var points = []
+      
+      for (var i=0; i<numPoints;i++){
+        points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
+      }
+      var curve = new THREE.SplineCurve3( points );
+      var geometry = new THREE.Geometry();
+      geometry.vertices = curve.getPoints( 150 );
+      var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+      var splineObject = new THREE.Line( geometry, material );
+
+      scene.add( splineObject );
+    }
+    
+
+    
+    function _addCluster(clustercollections, clusName, scene, maxR, maxZ){
+      // console.log('Adding cluster '+clusName+' with energy '+clustercollections[clusName].energy)
+      var length = clustercollections[clusName].energy*0.003;
+      var geometry = new THREE.BoxGeometry( 30, 30, length );
+      var material = new THREE.MeshBasicMaterial( { color: Math.random()*0xffffff } );
+      var cube = new THREE.Mesh( geometry, material );
+      
+      var pos = _getPosition(4000.0, clustercollections[clusName].eta, clustercollections[clusName].phi);
+      cube.position.x = pos.x;
+      cube.position.y = pos.y;
+      if (pos.x*pos.x+pos.y*pos.y > maxR * maxR) {
+        cube.position.x = maxR*Math.cos(clustercollections[clusName].phi);
+        cube.position.y = maxR*Math.sin(clustercollections[clusName].phi);
+      }
+      cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+      cube.lookAt(new THREE.Vector3( 0, 0, 0 ));
+      // console.log('Adding cluster '+clusName+' at ');
+      console.log(cube.position);
+      
+      scene.add( cube );
+    }
+    
+    function _addJet(jetcollections, jetName, scene){
+      // console.log('Adding jet '+jetName+' with energy '+clustercollections[clusName].energy)
+      // var dR = jetcollections[jetName].coneR;
+  
+      var eta = jetcollections[jetName].eta;
+      var phi = jetcollections[jetName].phi;
+      var theta = 2 * Math.atan(Math.pow(Math.E,eta) );
+      var length = jetcollections[jetName].energy*0.01;
+      var width = length*0.1;
+
+      var sphi   = Math.sin(phi);
+      var cphi   = Math.cos(phi);
+      var stheta = Math.sin(theta);
+      var ctheta = Math.cos(theta);
+      //
+      var translation = new THREE.Vector3( 0.5*length*cphi*stheta, 0.5*length*sphi*stheta, 0.5*length*ctheta );
+    
+      var x=cphi*stheta, y=sphi*stheta, z=ctheta;
+      console.log('eta='+eta+'\t phi='+phi+'\t x='+x+'\t y='+y+'\t z='+z)
+      var v1=new THREE.Vector3(0,1,0);
+      var v2=new THREE.Vector3(x,y,z);
+      var quaternion = new THREE.Quaternion()
+      quaternion.setFromUnitVectors(v1,v2);
+    
+      var geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false) ; // Cone
+ 
+      var material = new THREE.MeshBasicMaterial({color: 0x2194CE, opacity: 0.3, transparent: true});
+      material.opacity = 0.5;
+      var mesh = new THREE.Mesh( geometry, material ) ;
+      mesh.position.copy( translation );
+      mesh.quaternion.copy(quaternion);
+      // mesh.matrixAutoUpdate = false;
+      scene.add( mesh );
+  
+    }
+    
     function onWindowResize() {
       console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y)
 
@@ -350,6 +491,11 @@
     
     EventDisplay.buildGeometryFromParameters = function(parameters){
       _buildGeometryFromParameters(parameters);
+    }
+    
+    EventDisplay.buildEventDataFromJSON = function(edgeometry){
+      // console.log(detgeometry)
+      _buildEventDataFromJSON(edgeometry);
     }
     
     return EventDisplay;
