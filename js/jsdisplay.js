@@ -12,11 +12,17 @@
 	  var eventData = {};
     
     // Global variable for GUI etc
-    var guiParameters = {};
-    var geomFolder,detailedGeomFolder, simpleGeomFolder,gui;
-    var mouse = new THREE.Vector2();
-    var windowHalfX = window.innerWidth / 2;
-    var windowHalfY = window.innerHeight / 2;    
+      var guiParameters = {};
+      var geomFolder,eventFolder, detailedGeomFolder, simpleGeomFolder,gui;
+      var mouse = new THREE.Vector2();
+      var windowHalfX = window.innerWidth / 2;
+      var windowHalfY = window.innerHeight / 2;
+      var onChangeFunction = function(identifier, thislayer){
+            return function(value){
+              console.log("onChange1 for "+identifier);
+              thislayer.Scene.visible = value;
+            }
+          };
 
     function _init(){
       
@@ -66,6 +72,10 @@
       
       gui = new dat.GUI();
       // geomFolder   = gui.addFolder('Geometry');
+        // geometry
+      if (guiParameters===undefined) {
+        guiParameters["test"]=0
+      }
       
       renderer.domElement.addEventListener( 'mousemove', onMouseMove );
       window.addEventListener( 'resize', onWindowResize, false );
@@ -81,12 +91,7 @@
     
     function _updateMenu(){
       console.log("_updateMenu");
-      
-      // geometry
-      if (guiParameters===undefined) {
-        guiParameters["test"]=0
-      }
-      
+
       if (geomFolder===undefined) {
         geomFolder   = gui.addFolder('Geometry');
         detailedGeomFolder   = geomFolder.addFolder('Detailed');
@@ -96,6 +101,7 @@
       
       // _buildGeometryMenu('Detailed', detailedGeomFolder);
       _buildGeometryMenu('Simplified', simpleGeomFolder);
+      //_buildEventMenu();
       console.log(guiParameters);
     }
     
@@ -104,14 +110,6 @@
     function _buildGeometryMenu(level, guifolder){
       console.log("_buildGeometryMenu for "+level);
       var levelGeometry = detectorGeometry[level];
-      
-      var onChangeFunction = function(identifier, thislayer){
-        return function(value){
-          console.log("onChange1 for "+identifier);
-          thislayer.Scene.visible = value;
-        }
-      };
-      
       var count = 0;
       for (var k in levelGeometry) if (levelGeometry.hasOwnProperty(k)) ++count;
       var hasMoreThanTenEntries=false;
@@ -142,6 +140,32 @@
         menu.onChange( onChangeFunction( identifier, layer) );
       }
     }
+
+    function _buildEventMenu() {
+        // console.log('_buildEventMenu: ed=');
+        // console.log(eventData);
+        eventFolder   = gui.addFolder('Reconstruction');
+
+        var prop;
+        var typeFolder;
+        for (prop in eventData){
+            if (!eventData.hasOwnProperty(prop)){ continue; }
+            if (prop==='event number' || prop==='run number') { continue; }
+            typeFolder =  eventFolder.addFolder(prop);
+            _addMenuEventCollection(typeFolder, eventData[prop]);
+        }
+        console.log(eventData);
+    }
+
+      function _addMenuEventCollection(folder, collection){
+          var prop;
+          for (prop in collection) {
+              if (!collection.hasOwnProperty(prop)){ continue; }
+              guiParameters[prop]=true;
+              var menu = collection["Menu"] = folder.add( guiParameters, prop ).name(prop).listen();
+              menu.onChange( onChangeFunction( prop, collection[prop]) );
+          }
+      }
     
     function _buildGeometryFromLayer(layer) {
       // Add the group which holds the 3D objects
@@ -304,52 +328,74 @@
     }
     
     function _buildEventDataFromJSON(eventdata) {
-      console.log("dumping eventdata:");
-      console.log(eventdata);      
+      //console.log("dumping eventdata:");
+      //console.log(eventdata);
       eventData = eventdata;
       
       // Test with tracks
       var trackcollections = eventData["xAOD::Type::TrackParticle"]
-      console.log(trackcollections)
+      //console.log(trackcollections)
       
-      for (var collname in trackcollections){
-        if (!trackcollections.hasOwnProperty(collname)){ continue; }
-        var collection = trackcollections[collname];
-        for (var trkname in collection) {
-          if (!collection.hasOwnProperty(trkname)){ continue; }
-          _addTrack(collection,trkname,scene)
-        }
-      }
-      
+      //for (var collname in trackcollections){
+      //  if (!trackcollections.hasOwnProperty(collname)){ continue; }
+      //  var collection = trackcollections[collname];
+      //
+      //  for (var trkname in collection) {
+      //    if (!collection.hasOwnProperty(trkname)){ continue; }
+      //    _addTrack(collection,trkname,scene)
+      //  }
+      //}
+
+        _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack);
+        // _addEventCollections(eventData["xAOD::Type::CaloCluster"], _addCluster);
+        _addEventCollections(eventData["xAOD::Type::Jet"], _addJet);
+
       // Caloclusters
       var clustercollections = eventData["xAOD::Type::CaloCluster"];
       for (var collname in clustercollections){
-        if (!clustercollections.hasOwnProperty(collname)){ continue; }
-        var collection = clustercollections[collname];
-        for (var clusname in collection) {
-          if (!collection.hasOwnProperty(clusname)){ continue; }
-          _addCluster(collection,clusname,scene, 1100.0, 3200.0)
-        }
+       if (!clustercollections.hasOwnProperty(collname)){ continue; }
+       var collection = clustercollections[collname];
+       for (var clusname in collection) {
+         if (!collection.hasOwnProperty(clusname)){ continue; }
+         _addCluster(collection,clusname,scene, 1100.0, 3200.0)
+       }
       }
       
       // Jets
-      var jetcollections = eventData["xAOD::Type::Jet"];
-      for (var collname in jetcollections){
-        if (!jetcollections.hasOwnProperty(collname)){ continue; }
-        var collection = jetcollections[collname];
-        for (var jetname in collection) {
-          if (!collection.hasOwnProperty(jetname)){ continue; }
-          _addJet(collection,jetname,scene)
-        }
-      }
+      //var jetcollections = eventData["xAOD::Type::Jet"];
+      //for (var collname in jetcollections){
+      //  if (!jetcollections.hasOwnProperty(collname)){ continue; }
+      //  var collection = jetcollections[collname];
+      //  for (var jetname in collection) {
+      //    if (!collection.hasOwnProperty(jetname)){ continue; }
+      //    _addJet(collection,jetname,scene)
+      //  }
+      //}
       
       
       // _buildGeometryLevelFromJSON('Simplified');
-      // _updateMenu();
+       _buildEventMenu();
     }
+
+      function _addEventCollections(collections, addObject){
+        var collscene;
+          for (var collname in collections){
+            if (!collections.hasOwnProperty(collname)){ continue; }
+            var collection = collections[collname];
+            if (!collection) {continue;}
+            collscene = new THREE.Group();
+
+            for (var objname in collection) {
+                if (!collection.hasOwnProperty(objname)){ continue; }
+                addObject(collection,objname,collscene)
+            }
+            collection.Scene = collscene;
+          }
+          scene.add(collection.Scene)
+      }
     
     function _addTrack(tracks, trkName, scene){
-      // console.log('Adding track '+track.name+' which is of type '+track.type)
+      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
@@ -373,8 +419,6 @@
       scene.add( splineObject );
     }
     
-
-    
     function _addCluster(clustercollections, clusName, scene, maxR, maxZ){
       // console.log('Adding cluster '+clusName+' with energy '+clustercollections[clusName].energy)
       var length = clustercollections[clusName].energy*0.003;
@@ -392,7 +436,7 @@
       cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
       cube.lookAt(new THREE.Vector3( 0, 0, 0 ));
       // console.log('Adding cluster '+clusName+' at ');
-      console.log(cube.position);
+      //console.log(cube.position);
       
       scene.add( cube );
     }
@@ -415,7 +459,6 @@
       var translation = new THREE.Vector3( 0.5*length*cphi*stheta, 0.5*length*sphi*stheta, 0.5*length*ctheta );
     
       var x=cphi*stheta, y=sphi*stheta, z=ctheta;
-      console.log('eta='+eta+'\t phi='+phi+'\t x='+x+'\t y='+y+'\t z='+z);
       var v1=new THREE.Vector3(0,1,0);
       var v2=new THREE.Vector3(x,y,z);
       var quaternion = new THREE.Quaternion();
