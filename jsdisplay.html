@@ -1,0 +1,58 @@
+<!-- author: Edward Moyse -->
+<html> <head> <title>Geometry display</title> <style> body { margin: 0; } canvas { width: 100%; height: 100% } </style> </head> <body>
+  <script src="js/three.min.js"></script> 
+  <script src="js/dat.gui.min.js"></script>
+  <script src="js/OrbitControls.js"></script> 
+  <script src="js/stats.min.js"></script>
+  <script src="js/geomdisplay.js"></script> 
+
+  <script> // Our Javascript will go here. 
+  
+  window.EventDisplay.init();
+  
+  
+  var xmlhttpGeom = new XMLHttpRequest();
+  var urlGeom = "https://emoyse.web.cern.ch/emoyse/TrackingGeometry.json";
+  var geomLoaded = false;
+  
+  xmlhttpGeom.onreadystatechange = function() {
+      if (xmlhttpGeom.readyState == 4 && xmlhttpGeom.status == 200) {
+          var myArr = JSON.parse(xmlhttpGeom.responseText);
+          // myFunction(myArr);
+          // window.EventDisplay.buildGeometryFromJSON(myArr);
+          geomLoaded=true;
+      }
+  };
+  xmlhttpGeom.open("GET", urlGeom, true);
+  xmlhttpGeom.send();
+  
+  var xmlhttpEventData = new XMLHttpRequest();
+  var urlEvent = "https://emoyse.web.cern.ch/emoyse/EventDump.json";
+  var eventLoaded = false;
+
+  xmlhttpEventData.onreadystatechange = function() {
+      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+          var myArr = JSON.parse(xmlhttpEventData.responseText);
+          // myFunction(myArr);
+          window.EventDisplay.buildEventDataFromJSON(myArr);
+          eventLoaded=true;
+      }
+  };
+  xmlhttpEventData.open("GET", urlEvent, true);
+  xmlhttpEventData.send();
+  
+//   console.log(detgeometry)
+  
+  // var parameters = { ModuleName: "Module 2", Xdim:10., Ydim:1. , Zdim:45, NumPhiEl:64, NumZEl:10, Radius:75, MinZ:-250, MaxZ:250, TiltAngle:0.3, PhiOffset:0.0, Colour:0x00ff00, EdgeColour:0x449458  };
+  // window.EventDisplay.buildGeometryFromParameters(parameters);
+  //
+  //   var parameters2 = { ModuleName: "Module 3", Xdim:10., Ydim:1. , Zdim:45, NumPhiEl:64, NumZEl:10, Radius:150, MinZ:-250, MaxZ:250, TiltAngle:0.3, ZTiltAngle:0.3, PhiOffset:0.0, Colour:0xff3300, EdgeColour:0xff9c3e  };
+  //
+  //   window.EventDisplay.buildGeometryFromParameters(parameters2);
+  
+  
+  // console.log(window.EventDisplay);
+  window.EventDisplay.animate();
+  
+  </script> 
+</body> </html>
