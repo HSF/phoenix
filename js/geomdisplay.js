@@ -474,6 +474,7 @@
       renderer.render( scene, camera );
 
     }
+
     EventDisplay.animate = function() {
       // console('animate');
       requestAnimationFrame( EventDisplay.animate );
