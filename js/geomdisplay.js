@@ -80,7 +80,7 @@
     }
     
     function _updateMenu(){
-      console.log("_updateMenu")
+      console.log("_updateMenu");
       
       // geometry
       if (guiParameters===undefined) {
@@ -157,12 +157,12 @@
         break;
       case "CYL":
         // r,th,z
-        var outside = new THREE.Shape()
+        var outside = new THREE.Shape();
         outside.absarc(0,0,layer.Dimensions[0]+layer.Dimensions[1]/2.0,0.0,Math.PI*2.0,false);
-      
-        var inside = new THREE.Shape()
+
+        var inside = new THREE.Shape();
         inside.absarc(0,0,layer.Dimensions[0]-layer.Dimensions[1]/2.0,0.0,Math.PI*2.0,true);
-      
+
         outside.holes.push(inside);
         geometry = outside.extrude({ amount: layer.Dimensions[2], bevelEnabled: false });
         break;
@@ -170,7 +170,7 @@
       case "DISC":
         // r_i,r_o,th
         // ignoring thickness for the moment.
-        geometry = new THREE.RingGeometry( layer.Dimensions[0], layer.Dimensions[1], 32 );;
+        geometry = new THREE.RingGeometry( layer.Dimensions[0], layer.Dimensions[1], 32 );
         break;
       case "TRA":
         //hx1, hx2,hy,th
@@ -183,10 +183,10 @@
         pts.push(new THREE.Vector2(hx2,h));
         pts.push(new THREE.Vector2(hx1,-h));
         pts.push(new THREE.Vector2(-hx1,-h));
-      
+
         var shape = new THREE.Shape( pts );
         geometry = shape.extrude({ amount: layer.Dimensions[3], bevelEnabled: false });
-        break;  
+        break;
       default:
         console.log("Unknown geometry type! ["+layer.Shape+"]");
       }
@@ -275,18 +275,18 @@
       var geometry = new THREE.BoxGeometry(moduleXdim, moduleYdim, moduleZdim );
       var material = new THREE.MeshBasicMaterial( { color: colour , opacity:0.5, transparent:true } );
 
-      var zstep = (maxZ-minZ)/numZEl
-      var phistep = 2.*Math.PI/numPhiEl
+      var zstep = (maxZ-minZ)/numZEl;
+      var phistep = 2.*Math.PI/numPhiEl;
 
-      var z = minZ+zstep/2.
+      var z = minZ+zstep/2.;
 
       var halfPi = Math.PI/2.0;
       var modulecentre;
       for (var elZ =0; elZ < numZEl ; elZ++){
         console.log(elZ);
-        var phi = phiOffset
+        var phi = phiOffset;
         for ( var elPhi=0 ; elPhi<  numPhiEl ; elPhi++){
-          phi += phistep
+          phi += phistep;
           modulecentre = new THREE.Vector3( radius*Math.cos(phi), radius*Math.sin(phi), z );
           var cube = new THREE.Mesh( geometry.clone(), material );
             
@@ -353,13 +353,13 @@
       var length = 100;
       var colour = 0x00ff2d;
       
-      var positions = tracks[trkName].pos
+      var positions = tracks[trkName].pos;
       var numPoints = positions.length;
       if (numPoints<3){
         console.log("Track with too few points. Skipping.");
         return;
       }
-      var points = []
+      var points = [];
       
       for (var i=0; i<numPoints;i++){
         points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
@@ -415,10 +415,10 @@
       var translation = new THREE.Vector3( 0.5*length*cphi*stheta, 0.5*length*sphi*stheta, 0.5*length*ctheta );
     
       var x=cphi*stheta, y=sphi*stheta, z=ctheta;
-      console.log('eta='+eta+'\t phi='+phi+'\t x='+x+'\t y='+y+'\t z='+z)
+      console.log('eta='+eta+'\t phi='+phi+'\t x='+x+'\t y='+y+'\t z='+z);
       var v1=new THREE.Vector3(0,1,0);
       var v2=new THREE.Vector3(x,y,z);
-      var quaternion = new THREE.Quaternion()
+      var quaternion = new THREE.Quaternion();
       quaternion.setFromUnitVectors(v1,v2);
     
       var geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false) ; // Cone
@@ -478,25 +478,25 @@
       // console('animate');
       requestAnimationFrame( EventDisplay.animate );
       _render();
-    }
+    };
     
     EventDisplay.init = function(){
       _init();
-    }
+    };
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry){
       // console.log(detgeometry)
       _buildGeometryFromJSON(detgeometry);
-    }
+    };
     
     EventDisplay.buildGeometryFromParameters = function(parameters){
       _buildGeometryFromParameters(parameters);
-    }
+    };
     
     EventDisplay.buildEventDataFromJSON = function(edgeometry){
       // console.log(detgeometry)
       _buildEventDataFromJSON(edgeometry);
-    }
+    };
     
     return EventDisplay;
   }
