@@ -140,6 +140,8 @@
         var layer = levelGeometry[prop];
         // console.log(layer)
         var identifier = prop + " " + layer.Shape;
+        if (layer.Name) identifier = layer.Name;
+        
         guiParameters[identifier]=true;
         if (count%10===0){
           // console.log("Adding folder "+folderCount)
