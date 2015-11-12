@@ -12,17 +12,17 @@
 	  var eventData = {};
     
     // Global variable for GUI etc
-      var guiParameters = {};
-      var geomFolder,eventFolder, detailedGeomFolder, simpleGeomFolder,gui;
-      var mouse = new THREE.Vector2();
-      var windowHalfX = window.innerWidth / 2;
-      var windowHalfY = window.innerHeight / 2;
-      var onChangeFunction = function(identifier, thislayer){
-            return function(value){
-              console.log("onChange1 for "+identifier);
-              thislayer.Scene.visible = value;
-            }
-          };
+    var guiParameters = {};
+    var geomFolder,eventFolder, detailedGeomFolder, simpleGeomFolder,gui;
+    var mouse = new THREE.Vector2();
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+    var onChangeFunction = function(identifier, this_collection){
+          return function(value){
+            console.log("onChange1 for "+identifier);
+            this_collection.Scene.visible = value;
+          }
+        };
 
     function _init(){
       
@@ -32,8 +32,9 @@
       document.body.appendChild( container );
       
       camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
-      camera.position.z = 700;
+      camera.position.z = 2500;
       camera.position.y = 200;
+      camera.position.x = 1000;
       
       // Reset far clip plane
       camera.far = camera.position.length()*50.0;
@@ -41,7 +42,7 @@
       
       controls = new THREE.OrbitControls( camera );
       controls.autoRotate=false;
-
+      
       scene = new THREE.Scene();
     
       // var ambient = new THREE.AmbientLight( 0x444444 );
@@ -60,7 +61,7 @@
       var axis = new THREE.AxisHelper( 200 );
       // blue is z, red is phi=0
       scene.add( axis );
-      axis.visible=true; // off by default
+      axis.visible=false; // off by default
       
       // Add stats
       stats = new Stats();
@@ -69,13 +70,20 @@
       container.appendChild( stats.domElement );
       
       // Menu
-      
       gui = new dat.GUI();
-      // geomFolder   = gui.addFolder('Geometry');
-        // geometry
-      if (guiParameters===undefined) {
-        guiParameters["test"]=0
-      }
+      
+      var controlsFolder   = gui.addFolder('Controls');
+      guiParameters.rotate=controls.autoRotate;
+      var autoRotate = controlsFolder.add( guiParameters, 'rotate' ).name('Auto Rotate?').listen();
+      autoRotate.onChange(function(value)
+      { controls.autoRotate=value; });
+      
+      guiParameters.axis=false;
+      var axisVis = controlsFolder.add( guiParameters, 'axis' ).name('Axes').listen();
+      axisVis.onChange(function(value)
+      { axis.visible = value; });
+      guiParameters.Geometry = false;
+      
       
       renderer.domElement.addEventListener( 'mousemove', onMouseMove );
       window.addEventListener( 'resize', onWindowResize, false );
@@ -99,17 +107,20 @@
       }
       // TODO - add cleanup.
       
+      detectorGeometry["Menu"] = geomFolder.add( guiParameters, "Geometry" ).name("Show").listen();
+      detectorGeometry["Menu"].onChange( onChangeFunction( "Geometry", detectorGeometry) );
+      
       // _buildGeometryMenu('Detailed', detailedGeomFolder);
       _buildGeometryMenu('Simplified', simpleGeomFolder);
+      
       //_buildEventMenu();
       console.log(guiParameters);
     }
     
-  
-    
     function _buildGeometryMenu(level, guifolder){
-      console.log("_buildGeometryMenu for "+level);
+      // console.log("_buildGeometryMenu for "+level);
       var levelGeometry = detectorGeometry[level];
+      
       var count = 0;
       for (var k in levelGeometry) if (levelGeometry.hasOwnProperty(k)) ++count;
       var hasMoreThanTenEntries=false;
@@ -128,7 +139,7 @@
         if (!levelGeometry.hasOwnProperty(prop)){ continue; }
         var layer = levelGeometry[prop];
         // console.log(layer)
-        var identifier = prop;
+        var identifier = prop + " " + layer.Shape;
         guiParameters[identifier]=true;
         if (count%10===0){
           // console.log("Adding folder "+folderCount)
@@ -140,32 +151,6 @@
         menu.onChange( onChangeFunction( identifier, layer) );
       }
     }
-
-    function _buildEventMenu() {
-        // console.log('_buildEventMenu: ed=');
-        // console.log(eventData);
-        eventFolder   = gui.addFolder('Reconstruction');
-
-        var prop;
-        var typeFolder;
-        for (prop in eventData){
-            if (!eventData.hasOwnProperty(prop)){ continue; }
-            if (prop==='event number' || prop==='run number') { continue; }
-            typeFolder =  eventFolder.addFolder(prop);
-            _addMenuEventCollection(typeFolder, eventData[prop]);
-        }
-        console.log(eventData);
-    }
-
-      function _addMenuEventCollection(folder, collection){
-          var prop;
-          for (prop in collection) {
-              if (!collection.hasOwnProperty(prop)){ continue; }
-              guiParameters[prop]=true;
-              var menu = collection["Menu"] = folder.add( guiParameters, prop ).name(prop).listen();
-              menu.onChange( onChangeFunction( prop, collection[prop]) );
-          }
-      }
     
     function _buildGeometryFromLayer(layer) {
       // Add the group which holds the 3D objects
@@ -188,7 +173,7 @@
         inside.absarc(0,0,layer.Dimensions[0]-layer.Dimensions[1]/2.0,0.0,Math.PI*2.0,true);
 
         outside.holes.push(inside);
-        geometry = outside.extrude({ amount: layer.Dimensions[2], bevelEnabled: false });
+        geometry = outside.extrude({ amount: layer.Dimensions[2]*2.0, bevelEnabled: false });
         break;
       case "DIS":
       case "DISC":
@@ -219,13 +204,16 @@
     }
     
     function _buildGeometryFromJSON(detgeometry) {
-      console.log("dumping detgeometry:");
       console.log(detgeometry);
       
       // console.log("buildGeometryFromJSON: Processing "+detgeometry.length+ " layers")
       detectorGeometry = detgeometry;
+      detectorGeometry.Scene = new THREE.Group();
       // for (var i = 0; i < detgeometry.length; i++){
       _buildGeometryLevelFromJSON('Simplified');
+      scene.add(detectorGeometry.Scene);
+      detectorGeometry.Scene.visible = guiParameters["Geometry"];
+      console.log("vis = "+guiParameters["Geometry"])
       _updateMenu();
     }
     
@@ -248,6 +236,7 @@
           layer.EdgeColour=0x00dd00;
         }
         var material = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true } );
+        var materialDS = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true, side:THREE.DoubleSide } );
          // Build objects from geometry.
         var modulecentre; 
         // var coords = layer[2];
@@ -257,9 +246,16 @@
           // console.log(j)
           var index = j*2;
           modulecentre =   new THREE.Vector3( layer.Coords[index][0], layer.Coords[index][1], layer.Coords[index][2] );
+          // if it's a cylinder, we need to shift along z.
+          if (layer.Shape=='CYL') modulecentre.z -= layer.Dimensions[2];
           var modulegeometry = geometry.clone();
-          var geom = new THREE.Mesh( geometry.clone(), material );
-   
+          
+          var geom;
+          if (layer.Shape=='DIS' || layer.Shape=='DISC')  {
+            geom = new THREE.Mesh( geometry.clone(), materialDS );
+          } else {
+            geom = new THREE.Mesh( geometry.clone(), material );
+          }
           geom.matrix.makeRotationFromEuler( new THREE.Euler( layer.Coords[index+1][0], layer.Coords[index+1][1], layer.Coords[index+1][2]) );
           geom.matrix.setPosition(modulecentre);
           geom.matrixAutoUpdate = false;
@@ -271,7 +267,7 @@
       
           // console.log(layer);
         }
-        scene.add(layer["Scene"]);
+        detectorGeometry.Scene.add(layer["Scene"]);
       }
     }
     
@@ -293,7 +289,7 @@
       var phiOffset  = parameters.PhiOffset;
       var colour     = parameters.Colour;
       var edgecolour = parameters.EdgeColour;
-      console.log('_buildGeometryFromParameters for module '+moduleName)
+      // console.log('_buildGeometryFromParameters for module '+moduleName)
 
       // Make the geometry and material
       var geometry = new THREE.BoxGeometry(moduleXdim, moduleYdim, moduleZdim );
@@ -330,72 +326,78 @@
     function _buildEventDataFromJSON(eventdata) {
       //console.log("dumping eventdata:");
       //console.log(eventdata);
-      eventData = eventdata;
-      
-      // Test with tracks
-      var trackcollections = eventData["xAOD::Type::TrackParticle"]
-      //console.log(trackcollections)
-      
-      //for (var collname in trackcollections){
-      //  if (!trackcollections.hasOwnProperty(collname)){ continue; }
-      //  var collection = trackcollections[collname];
-      //
-      //  for (var trkname in collection) {
-      //    if (!collection.hasOwnProperty(trkname)){ continue; }
-      //    _addTrack(collection,trkname,scene)
-      //  }
-      //}
+      eventData = eventdata; // YUCK
+      eventFolder   = gui.addFolder('Reconstruction');
+      var eventScene = new THREE.Group();
 
-        _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack);
-        // _addEventCollections(eventData["xAOD::Type::CaloCluster"], _addCluster);
-        _addEventCollections(eventData["xAOD::Type::Jet"], _addJet);
-
-      // Caloclusters
+      // Switch to turn off all reco
+      var recoIdentifier = "Show";
+      guiParameters[recoIdentifier]=true; // On by default      
+      eventData.Menu = eventFolder.add( guiParameters, recoIdentifier ).name(recoIdentifier).listen();
+      eventData.Menu.onChange( onChangeFunction( recoIdentifier, eventData) );
+      
+      // console.log(recoMenu);
+      
+      // Fill data      
+      _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack, "Tracks", eventScene);
+      _addEventCollections(eventData["xAOD::Type::Jet"], _addJet, "Jets", eventScene);
+      // _addEventCollections(eventData["Measurement"], _addMeasurement);
+      
+      // Caloclusters - special because we need dimensions of calorimeter.
+      // TODO - get from JSON?
       var clustercollections = eventData["xAOD::Type::CaloCluster"];
+      var typeFolder =  eventFolder.addFolder("CaloClusters");
+      
+      var collscene;
       for (var collname in clustercollections){
-       if (!clustercollections.hasOwnProperty(collname)){ continue; }
-       var collection = clustercollections[collname];
-       for (var clusname in collection) {
-         if (!collection.hasOwnProperty(clusname)){ continue; }
-         _addCluster(collection,clusname,scene, 1100.0, 3200.0)
-       }
+        if (!clustercollections.hasOwnProperty(collname)){ continue; }
+        var collection = clustercollections[collname];
+        if (!collection) {continue;}
+        collscene = new THREE.Group();
+        for (var clusname in collection) {
+          if (!collection.hasOwnProperty(clusname)){ continue; }
+          _addCluster(collection,clusname,collscene, 1100.0, 3200.0)
+          
+        }
+        collection.Scene = collscene;
+        eventScene.add(collection.Scene)
+        // _addMenuEventCollection(typeFolder, collection)
+        guiParameters[collname]=true; // On by default
+        collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
+        collection.Menu.onChange( onChangeFunction( collname, collection) );
       }
       
-      // Jets
-      //var jetcollections = eventData["xAOD::Type::Jet"];
-      //for (var collname in jetcollections){
-      //  if (!jetcollections.hasOwnProperty(collname)){ continue; }
-      //  var collection = jetcollections[collname];
-      //  for (var jetname in collection) {
-      //    if (!collection.hasOwnProperty(jetname)){ continue; }
-      //    _addJet(collection,jetname,scene)
-      //  }
-      //}
+      eventData.Scene = eventScene;
+      scene.add(eventData.Scene);
       
-      
-      // _buildGeometryLevelFromJSON('Simplified');
-       _buildEventMenu();
     }
 
-      function _addEventCollections(collections, addObject){
-        var collscene;
-          for (var collname in collections){
-            if (!collections.hasOwnProperty(collname)){ continue; }
-            var collection = collections[collname];
-            if (!collection) {continue;}
-            collscene = new THREE.Group();
+    function _addEventCollections(collections, addObject, folder, scene){
+      var collscene;
+      var typeFolder =  eventFolder.addFolder(folder);
+      
+      for (var collname in collections){
+        if (!collections.hasOwnProperty(collname)){ continue; }
+        var collection = collections[collname];
+        if (!collection) {continue;}
+        collscene = new THREE.Group();
 
-            for (var objname in collection) {
-                if (!collection.hasOwnProperty(objname)){ continue; }
-                addObject(collection,objname,collscene)
-            }
-            collection.Scene = collscene;
-          }
-          scene.add(collection.Scene)
+        for (var objname in collection) {
+            if (!collection.hasOwnProperty(objname)){ continue; }
+            addObject(collection,objname,collscene)
+        }
+        
+        guiParameters[collname]=true; // On by default
+        collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
+        collection.Menu.onChange( onChangeFunction( collname, collection) );
+        
+        collection.Scene = collscene;
+        scene.add(collection.Scene)
       }
+    }
     
     function _addTrack(tracks, trkName, scene){
-      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
+      // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
