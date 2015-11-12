@@ -18,7 +18,6 @@
   xmlhttpGeom.onreadystatechange = function() {
       if (xmlhttpGeom.readyState == 4 && xmlhttpGeom.status == 200) {
           var myArr = JSON.parse(xmlhttpGeom.responseText);
-          // myFunction(myArr);
           window.EventDisplay.buildGeometryFromJSON(myArr);
           geomLoaded=true;
       }
@@ -33,7 +32,6 @@
   xmlhttpEventData.onreadystatechange = function() {
       if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
           var myArr = JSON.parse(xmlhttpEventData.responseText);
-          // myFunction(myArr);
           window.EventDisplay.buildEventDataFromJSON(myArr);
           eventLoaded=true;
       }
