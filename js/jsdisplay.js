@@ -58,7 +58,7 @@
       // renderer.sortObjects = false;
       container.appendChild( renderer.domElement );
       
-      var axis = new THREE.AxisHelper( 200 );
+      var axis = new THREE.AxisHelper( 2000 );
       // blue is z, red is phi=0
       scene.add( axis );
       axis.visible=false; // off by default
