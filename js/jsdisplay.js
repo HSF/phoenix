@@ -44,6 +44,7 @@
       controls.autoRotate=false;
       
       scene = new THREE.Scene();
+      scene.name="Root"
     
       // var ambient = new THREE.AmbientLight( 0x444444 );
       // scene.add( ambient );
@@ -99,64 +100,108 @@
     
     function _updateMenu(){
       console.log("_updateMenu");
-
+      // Take care of the uppermost level stuff.
+      
       if (geomFolder===undefined) {
         geomFolder   = gui.addFolder('Geometry');
-        detailedGeomFolder   = geomFolder.addFolder('Detailed');
-        simpleGeomFolder   = geomFolder.addFolder('Simplified');
+        // detailedGeomFolder   = geomFolder.addFolder('Detailed');
+        // simpleGeomFolder   = geomFolder.addFolder('Simplified');
       }
       // TODO - add cleanup.
-      
-      detectorGeometry["Menu"] = geomFolder.add( guiParameters, "Geometry" ).name("Show").listen();
-      detectorGeometry["Menu"].onChange( onChangeFunction( "Geometry", detectorGeometry) );
-      
       // _buildGeometryMenu('Detailed', detailedGeomFolder);
-      _buildGeometryMenu('Simplified', simpleGeomFolder);
+      // _buildGeometryMenu('Simplified', geomFolder);
+      _buildGeometryMenu(detectorGeometry, geomFolder);
+      scene.add(detectorGeometry.Scene);
+      detectorGeometry.Scene.visible = guiParameters["Geometry"];
       
-      //_buildEventMenu();
-      console.log(guiParameters);
+      
+      // _buildEventMenu();
+      // console.log(guiParameters);
+      console.log(scene);
+      
     }
     
-    function _buildGeometryMenu(level, guifolder){
-      // console.log("_buildGeometryMenu for "+level);
-      var levelGeometry = detectorGeometry[level];
+    function _buildGeometryMenu(volume, currentfolder){
+      console.log("_buildGeometryMenu for ",volume.Name);
+      console.log(volume);
       
-      var count = 0;
-      for (var k in levelGeometry) if (levelGeometry.hasOwnProperty(k)) ++count;
-      var hasMoreThanTenEntries=false;
-      var currentFolder =guifolder;
+      // Add the group which holds the 3D objects
+      volume.Scene = new THREE.Group();
+      volume.Scene.name="DetectorGeometry1"
       
-      if (count>10) {
-        hasMoreThanTenEntries=true;
-        currentFolder =  guifolder.addFolder('Subfolder1');
-      }
-      count=0;
-      var folderCount=2;
+      guiParameters[volume.Name]=true; // FIXME - we should check that this is unique?
+      volume["Menu"] = currentfolder.add( guiParameters, volume.Name ).name("Show").listen();
+      volume["Menu"].onChange( onChangeFunction( volume.Name, volume) );
       
-      var prop;
-      for (prop in levelGeometry){
-        count++;
-        if (!levelGeometry.hasOwnProperty(prop)){ continue; }
-        var layer = levelGeometry[prop];
-        // console.log(layer)
-        var identifier = prop + " " + layer.Shape;
-        if (layer.Name) identifier = layer.Name;
-        
-        guiParameters[identifier]=true;
-        if (count%10===0){
-          // console.log("Adding folder "+folderCount)
-          currentFolder =  guifolder.addFolder('Subfolder '+folderCount++);
+      // if (level) {
+      //   var levelGeometry = detectorGeometry[level];
+      var len=0,i=0,vname='';   
+      
+      if (('Volumes' in volume) && (volume.Volumes.length>0)){
+        // console.log('Lets add some more levels');
+        for (len = volume.Volumes.length, i=0;i<len;++i){
+          console.log('i:',i)
+          _buildGeometryMenu(volume.Volumes[i], currentfolder.addFolder(volume.Volumes[i].Name));
+          volume.Scene.add(volume.Volumes[i].Scene);
         }
-        
-        var menu = layer["Menu"] = currentFolder.add( guiParameters, identifier ).name(identifier).listen();
-        // console.log("menu: ");
-        menu.onChange( onChangeFunction( identifier, layer) );
       }
+
+      // Ignoring this for the moment - will put it back in one day.
+      
+      // var count = 0;
+//
+//
+//       for (var k in levelGeometry) if (levelGeometry.hasOwnProperty(k)) ++count;
+//       var hasMoreThanTenEntries=false;
+//       var currentFolder =guifolder;
+//
+//       if (count>10) {
+//         hasMoreThanTenEntries=true;
+//         currentFolder =  guifolder.addFolder('Subfolder1');
+//       }
+//       count=0;
+//       var folderCount=2;
+
+      if (('Layers' in volume) && (volume.Layers.length>0)){
+        for (len = volume.Layers.length, i=0;i<len;++i){
+          var layer = volume.Layers[i];
+          console.log('Adding menu for layer', layer);
+          // var identifier = prop + " " + layer.Shape;
+          var identifier = 'Layer '+layer.Index;
+          // if (layer.Name) identifier = layer.Name;
+          guiParameters[identifier]=true; // FIXME - we should check that this is unique?
+          var menu = layer["Menu"] = currentfolder.add( guiParameters, identifier ).name(identifier).listen();
+          menu.onChange( onChangeFunction( identifier, layer) );
+          
+          // Now make 3D
+          var geometry = _buildGeometryFromLayer(layer);
+          _buildShapeFromLayer(layer,geometry,volume);
+        }
+      }
+    
+
+      // var prop;
+      // for (prop in levelGeometry){
+      //   count++;
+      //   if (!levelGeometry.hasOwnProperty(prop)){ continue; }
+      //   var layer = levelGeometry[prop];
+      //   // console.log(layer)
+      //   var identifier = prop + " " + layer.Shape;
+      //   if (layer.Name) identifier = layer.Name;
+      //
+      //   guiParameters[identifier]=true;
+      //   if (count%10===0){
+      //     // console.log("Adding folder "+folderCount)
+      //     currentFolder =  guifolder.addFolder('Subfolder '+folderCount++);
+      //   }
+      //
+      //   var menu = layer["Menu"] = currentFolder.add( guiParameters, identifier ).name(identifier).listen();
+      //   // console.log("menu: ");
+      //   menu.onChange( onChangeFunction( identifier, layer) );
+      // }
     }
     
     function _buildGeometryFromLayer(layer) {
-      // Add the group which holds the 3D objects
-      layer.Scene = new THREE.Group();
       // console.log(layer)
       // Now build actual geometry
       var geometry;
@@ -186,9 +231,9 @@
       case "TRA":
         //hx1, hx2,hy,th
         var pts = [];
-        var hx1 = layer.Dimensions[0]/2.0;
-        var hx2 = layer.Dimensions[1]/2.0;
-        var h = layer.Dimensions[2]/2.0;
+        var hx1 = layer.Dimensions[0];
+        var hx2 = layer.Dimensions[1];
+        var h = layer.Dimensions[2];
         // var h = 10;
         pts.push(new THREE.Vector2(-hx2,h));
         pts.push(new THREE.Vector2(hx2,h));
@@ -196,7 +241,7 @@
         pts.push(new THREE.Vector2(-hx1,-h));
 
         var shape = new THREE.Shape( pts );
-        geometry = shape.extrude({ amount: layer.Dimensions[3], bevelEnabled: false });
+        geometry = shape.extrude({ amount: 1.0, bevelEnabled: false });
         break;
       default:
         console.log("Unknown geometry type! ["+layer.Shape+"]");
@@ -206,70 +251,86 @@
     }
     
     function _buildGeometryFromJSON(detgeometry) {
+      console.log('_buildGeometryFromJSON with this geom:');
       console.log(detgeometry);
       
       // console.log("buildGeometryFromJSON: Processing "+detgeometry.length+ " layers")
       detectorGeometry = detgeometry;
-      detectorGeometry.Scene = new THREE.Group();
+      detectorGeometry.Scene = new THREE.Group(); // Will hold 3D objects
+      detectorGeometry.Scene.name="DetectorGeometry"
+      
       // for (var i = 0; i < detgeometry.length; i++){
-      _buildGeometryLevelFromJSON('Simplified');
+      // _buildGeometryLevelFromJSON(detgeometry); // FIXME!
       scene.add(detectorGeometry.Scene);
       detectorGeometry.Scene.visible = guiParameters["Geometry"];
       console.log("vis = "+guiParameters["Geometry"])
       _updateMenu();
     }
     
-    function _buildGeometryLevelFromJSON(level) {
+    function _buildShapeFromLayer(layer,geometry,volume) {
+      
+      // Add the group which holds the 3D objects
+      layer.Scene = new THREE.Group();
+      layer.Scene.name = "Layer" + layer.Index + ":"+layer.Shape
+      
+      // var material = new THREE.MeshPhongMaterial( { color: 0x00ff00  } );
+      if (!layer.hasOwnProperty("Colour")){
+        layer.Colour=0x00ff00;
+      }
+      
+      if (!layer.hasOwnProperty("EdgeColour")){
+        layer.EdgeColour=0x00dd00;
+      }
+      var material = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true } );
+      var materialDS = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true, side:THREE.DoubleSide } );
+       // Build objects from geometry.
+      var modulecentre; 
+      // var coords = layer[2];
+      var numCoords = layer.Coords.length/2;
+      // console.log("numCoords="+numCoords)
+      for (var j = 0; j < numCoords; j++) {
+        // console.log(j)
+        var index = j*2;
+        modulecentre =   new THREE.Vector3( layer.Coords[index][0], layer.Coords[index][1], layer.Coords[index][2] );
+        // if it's a cylinder, we need to shift along z.
+        if (layer.Shape=='CYL') modulecentre.z -= layer.Dimensions[2];
+        var modulegeometry = geometry.clone();
+        
+        var geom;
+        if (layer.Shape=='DIS' || layer.Shape=='DISC')  {
+          geom = new THREE.Mesh( geometry.clone(), materialDS );
+        } else {
+          geom = new THREE.Mesh( geometry.clone(), material );
+        }
+        geom.matrix.makeRotationFromEuler( new THREE.Euler( layer.Coords[index+1][0], layer.Coords[index+1][1], layer.Coords[index+1][2]) );
+        geom.matrix.setPosition(modulecentre);
+        geom.matrixAutoUpdate = false;
+        layer.Scene.add( geom );
+    
+        var egh = new THREE.EdgesHelper( geom, Number(layer.EdgeColour) );
+        egh.material.linewidth = 2;
+        layer.Scene.add( egh );
+    
+        // console.log(layer);
+      }
+      volume.Scene.add(layer["Scene"]);
+    }
+    
+    function _buildGeometryLevelFromJSON(volume) {
       // for (var i = 0; i < detgeometry.length; i++){
-      var levelGeometry = detectorGeometry[level];
+      console.log('_buildGeometryLevelFromJSON: level',volume);
+        
+      // var levelGeometry = detectorGeometry[level]; // FIXME!
+      
+      
+      
       for (var prop in levelGeometry){
         if (!levelGeometry.hasOwnProperty(prop)){ continue; }
 
         var layer = levelGeometry[prop];
         // console.log("Layer "+prop+":"+layer);
-        
         var geometry = _buildGeometryFromLayer(layer);
-        // var material = new THREE.MeshPhongMaterial( { color: 0x00ff00  } );
-        if (!layer.hasOwnProperty("Colour")){
-          layer.Colour=0x00ff00;
-        }
-        
-        if (!layer.hasOwnProperty("EdgeColour")){
-          layer.EdgeColour=0x00dd00;
-        }
-        var material = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true } );
-        var materialDS = new THREE.MeshBasicMaterial( { color: Number(layer.Colour), opacity:0.5, transparent:true, side:THREE.DoubleSide } );
-         // Build objects from geometry.
-        var modulecentre; 
-        // var coords = layer[2];
-        var numCoords = layer.Coords.length/2;
-        // console.log("numCoords="+numCoords)
-        for (var j = 0; j < numCoords; j++) {
-          // console.log(j)
-          var index = j*2;
-          modulecentre =   new THREE.Vector3( layer.Coords[index][0], layer.Coords[index][1], layer.Coords[index][2] );
-          // if it's a cylinder, we need to shift along z.
-          if (layer.Shape=='CYL') modulecentre.z -= layer.Dimensions[2];
-          var modulegeometry = geometry.clone();
-          
-          var geom;
-          if (layer.Shape=='DIS' || layer.Shape=='DISC')  {
-            geom = new THREE.Mesh( geometry.clone(), materialDS );
-          } else {
-            geom = new THREE.Mesh( geometry.clone(), material );
-          }
-          geom.matrix.makeRotationFromEuler( new THREE.Euler( layer.Coords[index+1][0], layer.Coords[index+1][1], layer.Coords[index+1][2]) );
-          geom.matrix.setPosition(modulecentre);
-          geom.matrixAutoUpdate = false;
-          layer.Scene.add( geom );
-      
-          var egh = new THREE.EdgesHelper( geom, Number(layer.EdgeColour) );
-          egh.material.linewidth = 2;
-          layer.Scene.add( egh );
-      
-          // console.log(layer);
-        }
-        detectorGeometry.Scene.add(layer["Scene"]);
+        _buildShapeFromLayer(layer, geometry)
       }
     }
     
@@ -533,7 +594,7 @@
     };
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry){
-      // console.log(detgeometry)
+      // console.log("EventDisplay.buildGeometryFromJSON ")
       _buildGeometryFromJSON(detgeometry);
     };
     

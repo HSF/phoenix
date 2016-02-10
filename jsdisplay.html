@@ -10,34 +10,106 @@
   
   window.EventDisplay.init();
   
+  "use strict";
   
+  var cleanGeom = {};
+  var validVolNames = [ "InDet::Containers::InnerDetector", "InDet::Detectors::SCT::Barrel" ];
+
+  
+  function cleanRawGeometry(volume){
+    // console.log("Clean this raw geometry:");
+    // console.log(volume);
+    var i, len;
+
+    // if(!('Volumes' in volume) || !('Layers' in volume)) {
+    //   console.log('Object is missing either Volumes or Layers. Skipping.');
+    //   return cleanGeom;
+    // }
+    
+    var keepMe=false;
+
+    if (('Layers' in volume) && volume.Layers.length>0){
+      // console.log("has " + volume.Layers.length + " layers");
+      keepMe=true;
+    }
+    
+    var cleanVolumes = [];
+    // console.log("Looping over :",volume.Volumes.length);
+    
+    for ( len = volume.Volumes.length, i=0;i<len;++i ){
+      // console.log("i:",i,", len:",len);
+      var cleanVol = cleanRawGeometry(volume.Volumes[i]);
+      if (cleanVol) cleanVolumes.push(cleanVol);
+      // console.log(cleanVolumes);
+    }
+    
+    // console.log('cleanVolumes.length='+cleanVolumes.length);
+    
+    if (cleanVolumes.length>1){
+      // size is >0 so we need to keep this volume.
+      keepMe=true;
+    } else if (cleanVolumes.length==1) {
+      // console.log(volume.Name+': No keepme, so returning cleanVolumes[0]!');
+      
+      if (!keepMe) return cleanVolumes[0];
+    } else {
+      if (!keepMe) {
+        console.log('No keepme, so returning null!');
+        return null;
+      }
+    }
+    
+    // Looks like we're keeping this one!
+    var thisVolume = {};
+    thisVolume.Name = volume.Name;
+    if (cleanVolumes.length>0) {
+      thisVolume.Volumes = cleanVolumes;
+    } else {
+      thisVolume.Volumes =[];
+    }
+    if (('Layers' in volume) && volume.Layers.length>0){
+      thisVolume.Layers = volume.Layers;
+    } else {
+      thisVolume.Layers = [];
+    }
+    // console.log('Dumping kept volume:');
+    // console.log(thisVolume);
+    return thisVolume;
+
+    // for (len = validVolNames.length, i=0; i<len; ++i) {
+    //   if (volume.Name===validVolNames[i]){
+    //     // volume is one of the ones we want to keep.
+    //     cleanGeom.Volumes.push(volume);
+    // }    
+  }
+
   var xmlhttpGeom = new XMLHttpRequest();
   var urlGeom = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/TrackingGeometry.json";
-  var geomLoaded = false;
   
   xmlhttpGeom.onreadystatechange = function() {
       if (xmlhttpGeom.readyState == 4 && xmlhttpGeom.status == 200) {
-          var myArr = JSON.parse(xmlhttpGeom.responseText);
-          window.EventDisplay.buildGeometryFromJSON(myArr);
-          geomLoaded=true;
+        var myArr = JSON.parse(xmlhttpGeom.responseText);
+        var cleanGeom = cleanRawGeometry(myArr);
+        console.log(cleanGeom);
+        window.EventDisplay.buildGeometryFromJSON(cleanGeom);
       }
   };
   xmlhttpGeom.open("GET", urlGeom, true);
   xmlhttpGeom.send();
   
-  var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
-  var eventLoaded = false;
-
-  xmlhttpEventData.onreadystatechange = function() {
-      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-          var myArr = JSON.parse(xmlhttpEventData.responseText);
-          window.EventDisplay.buildEventDataFromJSON(myArr);
-          eventLoaded=true;
-      }
-  };
-  xmlhttpEventData.open("GET", urlEvent, true);
-  xmlhttpEventData.send();
+  // var xmlhttpEventData = new XMLHttpRequest();
+  // var urlEvent = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
+  // var eventLoaded = false;
+  //
+  // xmlhttpEventData.onreadystatechange = function() {
+  //     if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+  //         var myArr = JSON.parse(xmlhttpEventData.responseText);
+  //         window.EventDisplay.buildEventDataFromJSON(myArr);
+  //         eventLoaded=true;
+  //     }
+  // };
+  // xmlhttpEventData.open("GET", urlEvent, true);
+  // xmlhttpEventData.send();
   
 //   console.log(detgeometry)
   
