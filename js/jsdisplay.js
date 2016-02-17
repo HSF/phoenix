@@ -111,14 +111,13 @@
       // _buildGeometryMenu('Detailed', detailedGeomFolder);
       // _buildGeometryMenu('Simplified', geomFolder);
       _buildGeometryMenu(detectorGeometry, geomFolder);
-      scene.add(detectorGeometry.Scene);
-      detectorGeometry.Scene.visible = guiParameters["Geometry"];
-      
+      // scene.add(detectorGeometry.Scene);
+      // detectorGeometry.Scene.visible = guiParameters["Geometry"] = false;
+      // onChangeFunction(detectorGeometry.Name, detectorGeometry);
       
       // _buildEventMenu();
       // console.log(guiParameters);
       console.log(scene);
-      
     }
     
     function _buildGeometryMenu(volume, currentfolder){
@@ -127,11 +126,12 @@
       
       // Add the group which holds the 3D objects
       volume.Scene = new THREE.Group();
-      volume.Scene.name="DetectorGeometry1"
+      volume.Scene.name=volume.Name;
       
       guiParameters[volume.Name]=true; // FIXME - we should check that this is unique?
       volume["Menu"] = currentfolder.add( guiParameters, volume.Name ).name("Show").listen();
       volume["Menu"].onChange( onChangeFunction( volume.Name, volume) );
+      volume.Scene.visible = guiParameters[volume.Name];
       
       // if (level) {
       //   var levelGeometry = detectorGeometry[level];
@@ -256,15 +256,17 @@
       
       // console.log("buildGeometryFromJSON: Processing "+detgeometry.length+ " layers")
       detectorGeometry = detgeometry;
-      detectorGeometry.Scene = new THREE.Group(); // Will hold 3D objects
-      detectorGeometry.Scene.name="DetectorGeometry"
+      // detectorGeometry.Scene = new THREE.Group(); // Will hold 3D objects
+      // detectorGeometry.Scene.name="DetectorGeometry"
       
       // for (var i = 0; i < detgeometry.length; i++){
       // _buildGeometryLevelFromJSON(detgeometry); // FIXME!
-      scene.add(detectorGeometry.Scene);
-      detectorGeometry.Scene.visible = guiParameters["Geometry"];
-      console.log("vis = "+guiParameters["Geometry"])
+      // detectorGeometry.Scene.visible = guiParameters["Geometry"];
+      // console.log("vis = "+guiParameters["Geometry"])
       _updateMenu();
+      scene.add(detectorGeometry.Scene);
+      detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
+      
     }
     
     function _buildShapeFromLayer(layer,geometry,volume) {
