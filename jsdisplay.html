@@ -85,32 +85,34 @@
 
   var xmlhttpGeom = new XMLHttpRequest();
   var urlGeom = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/TrackingGeometry.json";
+  // var urlGeom = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/AndiTrackingGeometry.json";
   
   xmlhttpGeom.onreadystatechange = function() {
       if (xmlhttpGeom.readyState == 4 && xmlhttpGeom.status == 200) {
         var myArr = JSON.parse(xmlhttpGeom.responseText);
         var cleanGeom = cleanRawGeometry(myArr);
+        // var cleanGeom = myArr;
         console.log(cleanGeom);
-        window.EventDisplay.buildGeometryFromJSON(cleanGeom);
+        window.EventDisplay.buildGeometryFromJSON(cleanGeom, true, false);
       }
   };
   xmlhttpGeom.open("GET", urlGeom, true);
   xmlhttpGeom.send();
   
-  // var xmlhttpEventData = new XMLHttpRequest();
-  // var urlEvent = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
-  // var eventLoaded = false;
-  //
-  // xmlhttpEventData.onreadystatechange = function() {
-  //     if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-  //         var myArr = JSON.parse(xmlhttpEventData.responseText);
-  //         window.EventDisplay.buildEventDataFromJSON(myArr);
-  //         eventLoaded=true;
-  //     }
-  // };
-  // xmlhttpEventData.open("GET", urlEvent, true);
-  // xmlhttpEventData.send();
-  
+  var xmlhttpEventData = new XMLHttpRequest();
+  var urlEvent = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
+  var eventLoaded = false;
+
+  xmlhttpEventData.onreadystatechange = function() {
+      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+          var myArr = JSON.parse(xmlhttpEventData.responseText);
+          window.EventDisplay.buildEventDataFromJSON(myArr);
+          eventLoaded=true;
+      }
+  };
+  xmlhttpEventData.open("GET", urlEvent, true);
+  xmlhttpEventData.send();
+
 //   console.log(detgeometry)
   
   // var parameters = { ModuleName: "Module 2", Xdim:10., Ydim:1. , Zdim:45, NumPhiEl:64, NumZEl:10, Radius:75, MinZ:-250, MaxZ:250, TiltAngle:0.3, PhiOffset:0.0, Colour:0x00ff00, EdgeColour:0x449458  };
