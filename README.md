@@ -1,0 +1,1 @@
+Visualises event and geometry data using three.js.
