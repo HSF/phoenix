@@ -11,6 +11,9 @@
 	  var detectorGeometry = {};
 	  var eventData = {};
     
+    //configuration
+    var configuration = {};
+    
     // Global variable for GUI etc
     var guiParameters = {};
     var geomFolder,eventFolder, detailedGeomFolder, simpleGeomFolder,gui;
@@ -19,7 +22,8 @@
     var windowHalfY = window.innerHeight / 2;
     var onChangeFunction = function(identifier, this_collection){
           return function(value){
-            console.log("onChange1 for "+identifier);
+            console.log("onChange1 for "+identifier+" with value="+value);
+            console.log("this_collection.Scene.visible"+this_collection.Scene.visible);
             this_collection.Scene.visible = value;
           }
         };
@@ -83,7 +87,7 @@
       var axisVis = controlsFolder.add( guiParameters, 'axis' ).name('Axes').listen();
       axisVis.onChange(function(value)
       { axis.visible = value; });
-      guiParameters.Geometry = false;
+      // guiParameters.Geometry = false;
       
       
       renderer.domElement.addEventListener( 'mousemove', onMouseMove );
@@ -98,30 +102,30 @@
                                   length * Math.cos(theta) );
     }
     
-    function _updateMenu(){
-      console.log("_updateMenu");
-      // Take care of the uppermost level stuff.
-      
-      if (geomFolder===undefined) {
-        geomFolder   = gui.addFolder('Geometry');
-        // detailedGeomFolder   = geomFolder.addFolder('Detailed');
-        // simpleGeomFolder   = geomFolder.addFolder('Simplified');
-      }
-      // TODO - add cleanup.
-      // _buildGeometryMenu('Detailed', detailedGeomFolder);
-      // _buildGeometryMenu('Simplified', geomFolder);
-      _buildGeometryMenu(detectorGeometry, geomFolder);
-      // scene.add(detectorGeometry.Scene);
-      // detectorGeometry.Scene.visible = guiParameters["Geometry"] = false;
-      // onChangeFunction(detectorGeometry.Name, detectorGeometry);
-      
-      // _buildEventMenu();
-      // console.log(guiParameters);
-      console.log(scene);
-    }
+    // function _updateMenu(){
+    //   console.log("_updateMenu");
+    //   // Take care of the uppermost level stuff.
+    //
+    //   if (geomFolder===undefined) {
+    //     geomFolder   = gui.addFolder('Geometry');
+    //     // detailedGeomFolder   = geomFolder.addFolder('Detailed');
+    //     // simpleGeomFolder   = geomFolder.addFolder('Simplified');
+    //   }
+    //   // TODO - add cleanup.
+    //   // _buildGeometryMenu('Detailed', detailedGeomFolder);
+    //   // _buildGeometryMenu('Simplified', geomFolder);
+    //   _buildGeometryMenu(detectorGeometry, geomFolder);
+    //   // scene.add(detectorGeometry.Scene);
+    //   // detectorGeometry.Scene.visible = guiParameters["Geometry"] = false;
+    //   // onChangeFunction(detectorGeometry.Name, detectorGeometry);
+    //
+    //   // _buildEventMenu();
+    //   // console.log(guiParameters);
+    //   console.log(scene);
+    // }
     
-    function _buildGeometryMenu(volume, currentfolder){
-      console.log("_buildGeometryMenu for ",volume.Name);
+    function _buildGeometry(volume, currentfolder){
+      console.log("_buildGeometry for ",volume.Name);
       console.log(volume);
       
       // Add the group which holds the 3D objects
@@ -141,7 +145,7 @@
         // console.log('Lets add some more levels');
         for (len = volume.Volumes.length, i=0;i<len;++i){
           console.log('i:',i)
-          _buildGeometryMenu(volume.Volumes[i], currentfolder.addFolder(volume.Volumes[i].Name));
+          _buildGeometry(volume.Volumes[i], currentfolder.addFolder(volume.Volumes[i].Name));
           volume.Scene.add(volume.Volumes[i].Scene);
         }
       }
@@ -162,7 +166,7 @@
 //       count=0;
 //       var folderCount=2;
 
-      if (('Layers' in volume) && (volume.Layers.length>0)){
+      if ( configuration.showSurfaces && ('Layers' in volume) && (volume.Layers.length>0)){
         for (len = volume.Layers.length, i=0;i<len;++i){
           var layer = volume.Layers[i];
           console.log('Adding menu for layer', layer);
@@ -178,8 +182,13 @@
           _buildShapeFromLayer(layer,geometry,volume);
         }
       }
+      
+      if (configuration.showVolumes && ('Bounds' in volume) ){
+        // console.log('Lets make 3d volume from ',volume);
+        var geometry = _buildGeometryFromVolume(volume);
+        _buildShapeFromVolume(geometry,volume);
+      }
     
-
       // var prop;
       // for (prop in levelGeometry){
       //   count++;
@@ -209,7 +218,9 @@
       case "CUB":
       case "BOX":
         // xh,yh,zh
-        geometry = new THREE.BoxGeometry(layer.Dimensions[0], layer.Dimensions[1], layer.Dimensions[2] );
+        var boxgeometry = new THREE.BoxGeometry(layer.Dimensions[0], layer.Dimensions[1], layer.Dimensions[2] );
+        geometry = new THREE.BufferGeometry();
+        geometry.fromGeometry(boxgeometry);
         break;
       case "CYL":
         // r,th,z
@@ -250,23 +261,94 @@
       return geometry;
     }
     
-    function _buildGeometryFromJSON(detgeometry) {
-      console.log('_buildGeometryFromJSON with this geom:');
+    function _buildGeometryFromJSON(detgeometry, showsurfaces, showvolumes) {
+      console.log('_buildGeometryFromJSON with this geom:', 'showsurfaces',showsurfaces,'showvolumes',showvolumes);
       console.log(detgeometry);
       
       // console.log("buildGeometryFromJSON: Processing "+detgeometry.length+ " layers")
       detectorGeometry = detgeometry;
-      // detectorGeometry.Scene = new THREE.Group(); // Will hold 3D objects
-      // detectorGeometry.Scene.name="DetectorGeometry"
+      configuration.showSurfaces = showsurfaces;
+      configuration.showVolumes = showvolumes;
       
-      // for (var i = 0; i < detgeometry.length; i++){
-      // _buildGeometryLevelFromJSON(detgeometry); // FIXME!
-      // detectorGeometry.Scene.visible = guiParameters["Geometry"];
-      // console.log("vis = "+guiParameters["Geometry"])
-      _updateMenu();
+      // Let's build the menu and geometry
+      if (geomFolder===undefined) {
+        geomFolder   = gui.addFolder('Geometry');
+      }
+
+      _buildGeometry(detectorGeometry, geomFolder);
+      guiParameters.Geometry = false;
+      
       scene.add(detectorGeometry.Scene);
-      detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
+      // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
+      // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
+    }
+    
+    function _buildGeometryFromVolume(volume) {
+      // console.log(layer)
+      // Now build actual geometry
+      var geometry;
+      switch (volume.Shape) {
+      case "CUB":
+      case "BOX":
+        // xh,yh,zh
+        var boxgeometry = new THREE.BoxGeometry(volume.Bounds[0], volume.Bounds[1], volume.Bounds[2] );
+        geometry = new THREE.BufferGeometry();
+        geometry.fromGeometry(boxgeometry);
+        break;
+      case "CYL":
+        // r,th,z
+        var outside = new THREE.Shape();
+        outside.absarc(0,0,volume.Bounds[0]+volume.Bounds[1]/2.0,0.0,Math.PI*2.0,false);
+
+        var inside = new THREE.Shape();
+        inside.absarc(0,0,volume.Bounds[0]-volume.Bounds[1]/2.0,0.0,Math.PI*2.0,true);
+
+        outside.holes.push(inside);
+        geometry = outside.extrude({ amount: volume.Bounds[2]*2.0, bevelEnabled: false });
+        break;
+      case "TRA":
+        //hx1, hx2,hy,th
+        var pts = [];
+        var hx1 = volume.Bounds[0];
+        var hx2 = volume.Bounds[1];
+        var h = volume.Bounds[2];
+        // var h = 10;
+        pts.push(new THREE.Vector2(-hx2,h));
+        pts.push(new THREE.Vector2(hx2,h));
+        pts.push(new THREE.Vector2(hx1,-h));
+        pts.push(new THREE.Vector2(-hx1,-h));
+
+        var shape = new THREE.Shape( pts );
+        geometry = shape.extrude({ amount: 1.0, bevelEnabled: false });
+        break;
+      default:
+        console.log("Unknown volume type! ["+volume.Shape+"]");
+      }
+      // console.log(geometry)
+      return geometry;
+    }
+    
+    function _buildShapeFromVolume(geometry,volume) {
+      if (!volume.hasOwnProperty("Colour")){
+        volume.Colour=0xd2bedf;
+      }
       
+      if (!volume.hasOwnProperty("EdgeColour")){
+        volume.EdgeColour=0xa2bef9;
+      }
+      
+      console.log('volume',volume);
+      var material = new THREE.MeshBasicMaterial( { color: Number(volume.Colour), opacity:0.5, transparent:true } );
+      var volumecentre =   new THREE.Vector3( volume.Coords[0][0], volume.Coords[0][1], volume.Coords[0][2] -  volume.Coords[1][2]);
+      // if (volume.Shape=='CYL') volumecentre.z -= layer.Bounds[1];
+      var geom = new THREE.Mesh( geometry.clone(), material );    
+      geom.matrix.makeRotationFromEuler( new THREE.Euler( volume.Coords[1][0], volume.Coords[1][1], volume.Coords[1][2]) );
+      geom.matrix.setPosition(volumecentre);
+      geom.matrixAutoUpdate = false;
+      volume.Scene.add( geom );
+      var egh = new THREE.EdgesHelper( geom, Number(volume.EdgeColour) );
+      egh.material.linewidth = 2;
+      volume.Scene.add( egh );
     }
     
     function _buildShapeFromLayer(layer,geometry,volume) {
@@ -296,7 +378,7 @@
         modulecentre =   new THREE.Vector3( layer.Coords[index][0], layer.Coords[index][1], layer.Coords[index][2] );
         // if it's a cylinder, we need to shift along z.
         if (layer.Shape=='CYL') modulecentre.z -= layer.Dimensions[2];
-        var modulegeometry = geometry.clone();
+        // var modulegeometry = geometry.clone();
         
         var geom;
         if (layer.Shape=='DIS' || layer.Shape=='DISC')  {
@@ -321,10 +403,6 @@
     function _buildGeometryLevelFromJSON(volume) {
       // for (var i = 0; i < detgeometry.length; i++){
       console.log('_buildGeometryLevelFromJSON: level',volume);
-        
-      // var levelGeometry = detectorGeometry[level]; // FIXME!
-      
-      
       
       for (var prop in levelGeometry){
         if (!levelGeometry.hasOwnProperty(prop)){ continue; }
@@ -595,9 +673,9 @@
       _init();
     };
     
-    EventDisplay.buildGeometryFromJSON = function(detgeometry){
-      // console.log("EventDisplay.buildGeometryFromJSON ")
-      _buildGeometryFromJSON(detgeometry);
+    EventDisplay.buildGeometryFromJSON = function(detgeometry, showsurfaces, showvolumes){
+      console.log("EventDisplay.buildGeometryFromJSON ")
+      _buildGeometryFromJSON(detgeometry, showsurfaces, showvolumes);
     };
     
     EventDisplay.buildGeometryFromParameters = function(parameters){
