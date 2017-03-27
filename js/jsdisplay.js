@@ -45,7 +45,7 @@
       camera.updateProjectionMatrix();
       
       controls = new THREE.OrbitControls( camera );
-      controls.autoRotate=false;
+      controls.autoRotate=true;
       
       scene = new THREE.Scene();
       scene.name="Root"

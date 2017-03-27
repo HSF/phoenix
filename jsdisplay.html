@@ -84,7 +84,7 @@
   }
 
   var xmlhttpGeom = new XMLHttpRequest();
-  var urlGeom = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/TrackingGeometry.json";
+  var urlGeom = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/TrackingGeometry.json";
   // var urlGeom = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/AndiTrackingGeometry.json";
   
   xmlhttpGeom.onreadystatechange = function() {
@@ -100,7 +100,7 @@
   xmlhttpGeom.send();
   
   var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "http://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
+  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
   var eventLoaded = false;
 
   xmlhttpEventData.onreadystatechange = function() {
