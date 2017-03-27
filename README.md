@@ -45,6 +45,14 @@ where
 * OBJECT_TYPE is one of the supported types mentioned above, 
 * and COLLECTION_NAME is an arbitrary name used to label this particular collection (you can have as many collections of each OBJECT_TYPE as you like).
 
+Uniquely for clusters, you need to define the plane(s) on which to project the clusters as a property of the collection itself, using the following notation 
+
+```
+'CYL':[30.2493,243.645,136.947,213.396,3.14159,2850]
+```
+
+(other shapes will be supported soon)
+
 What follows in the list of objects depends on the type:
 
 * 'Tracks' have the following information: 
@@ -53,7 +61,13 @@ What follows in the list of objects depends on the type:
   * 'params' - the parameters of the tracks, defined as d0,z0, ABC
   * 'pos' - further positions along the track (a possible extension is to store positions and directions, to permit bezier curves, and perhaps a simple extrapolation system which would further reduce the amount of information needing to be stored)
 * 'Clusters' have the following information: 
-  * '
+  * 'phi' - phi direction
+  * 'eta' - eta direction
+* 'Jets' have the following information:
+  * 'coneR' - the radius of the jet cone
+  * 'phi'- phi direction
+  * 'eta' - eta direction
+  
 As an example: 
 ``` { "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
 ```
