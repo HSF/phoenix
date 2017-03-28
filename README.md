@@ -72,26 +72,30 @@ As an example:
 { "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
 ```
 
-# Geometry#
-## Volumes##
+## Geometry##
+### Volumes###
 
 WEB supports a limited set of volumes at the moment. All are passed with the following notation 
 ```
 { "Name" : XXX, "Shape" : YYY, "Bounds", [...], "Layers" : [...layers...], "Volumes" : [ ... sub-volumes ... ],  }
 ```
-where
+where the contents are:
 
-* Name - arbitrary name
+* Name - an arbitrary name for the volume
 * Shape - the shape of the volume (see below)
 * Bounds - defines the size of the shape (see below)
 * Layers - layers contained by this volume
 * Volumes - sub-volumes contained by this volume
 
 Currently the supported shapes are:
+
 * 'CUB'/'BOX' - a cube in space, defined by its width/height/depth.
 * 'CYL' - a cylinder, defined by inner radius, outer radius, medium radius, deltaRadius and halflengthZ.
 
-#Interactivity#
+### Surfaces###
+TODO
+
+##Interactivity##
 
 If you open `geom_display.html` it will show a basic geometry, constructed entirely programmatically.
 
@@ -110,12 +114,13 @@ var parameters2 = { ModuleName: "Module 3", Xdim:18., Ydim:1. , Zdim:85, NumPhiE
 
 window.EventDisplay.buildGeometryFromParameters(parameters2);
 ```
-and you can add another layer.
+and you can add another layer, as shown below. 
+
 ![adding a layer interactively](img/basic_geom_2.png)
 
 TODO - expand.
 
-#Contact#
+##Contact##
 
 This is still very much a work in progress, so let me know of any problems (and don't be too surprised if there are some).
 
