@@ -77,7 +77,7 @@ As an example:
 
 WEB supports a limited set of volumes at the moment. All are passed with the following notation 
 ```
-{ "Name" : XXX, "Shape" : YYY, "Bounds", [...], "Layers" : [...layers...], "Volumes\" : [ ... sub-volumes ... ],  }
+{ "Name" : XXX, "Shape" : YYY, "Bounds", [...], "Layers" : [...layers...], "Volumes" : [ ... sub-volumes ... ],  }
 ```
 where
 
@@ -116,6 +116,7 @@ and you can add another layer.
 TODO - expand.
 
 #Contact#
+
 This is still very much a work in progress, so let me know of any problems (and don't be too surprised if there are some).
 
 edward.moyse@cern.ch
