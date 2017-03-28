@@ -68,14 +68,28 @@ What follows in the list of objects depends on the type:
   
 As an example: 
 
-``` { "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
+```
+{ "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
 ```
 
 # Geometry#
+## Volumes##
 
-WEB supports a limited set of shapes at the moment. All are passed with the 
+WEB supports a limited set of volumes at the moment. All are passed with the following notation 
+```
+{ "Name" : XXX, "Shape" : YYY, "Bounds", [...], "Layers" : [...layers...], "Volumes\" : [ ... sub-volumes ... ],  }
+```
+where
+
+* Name - arbitrary name
+* Shape - the shape of the volume (see below)
+* Bounds - defines the size of the shape (see below)
+* Layers - layers contained by this volume
+* Volumes - sub-volumes contained by this volume
+
+Currently the supported shapes are:
 * 'CUB'/'BOX' - a cube in space, defined by its width/height/depth.
-* 
+* 'CYL' - a cylinder, defined by inner radius, outer radius, medium radius, deltaRadius and halflengthZ.
 
 #Interactivity#
 
@@ -97,7 +111,7 @@ var parameters2 = { ModuleName: "Module 3", Xdim:18., Ydim:1. , Zdim:85, NumPhiE
 window.EventDisplay.buildGeometryFromParameters(parameters2);
 ```
 and you can add another layer.
-![adding a layer interactively](img/basic_geom.png)
+![adding a layer interactively](img/basic_geom_2.png)
 
 TODO - expand.
 
