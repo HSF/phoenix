@@ -9,7 +9,7 @@ Technically the 3D is done with [three.js](http://threejs.org), the menu (at the
 ## Installation ##
 
 To install, you need to clone this repository, but also copy any missing files from [here](http://emoyse.web.cern.ch/emoyse/WebEventDisplay/js/) and put them in your local js directory.
-It should then be enough to open `jsdisplay.html` in a web browser.
+It should then be enough to open `jsdisplay.html` in a web browser (though please note that there can be permissions problems with modern browsers - see [here](https://threejs.org/docs/index.html#Manual/Getting_Started/How_to_run_things_locally) for details).
 
 * This should be much improved.
 
