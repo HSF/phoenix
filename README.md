@@ -95,6 +95,7 @@ Currently the supported shapes are:
 ### Surfaces###
 TODO
 
+
 ##Interactivity##
 
 If you open `geom_display.html` it will show a basic geometry, constructed entirely programmatically.
@@ -119,6 +120,7 @@ and you can add another layer, as shown below.
 ![adding a layer interactively](img/basic_geom_2.png)
 
 TODO - expand.
+
 
 ##Contact##
 
