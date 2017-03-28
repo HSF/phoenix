@@ -7,7 +7,6 @@ The idea of this project is to have a simple way to visualise event and geometry
 Technically the 3D is done with [three.js](http://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON. 
 
 ## Installation ##
-------------
 
 To install, you need to clone this repository, but also copy any missing files from [here](http://emoyse.web.cern.ch/emoyse/WebEventDisplay/js/) and put them in your local js directory.
 It should then be enough to open `jsdisplay.html` in a web browser.
@@ -15,12 +14,11 @@ It should then be enough to open `jsdisplay.html` in a web browser.
 * This should be much improved.
 
 ## Using this with your own data ##
------------------------------
-
 
 The JSON format is pretty simple, but I'm still in the process of documenting it (and it might evolve). If you're unsure, you can always have a look at the `.json` files in http://emoyse.web.cern.ch/emoyse/WebEventDisplay
 
 Otherwise, here are some rough explanations:
+
 ### Event data ###
 Currently WED supports the following physics objects:
 
@@ -69,8 +67,15 @@ What follows in the list of objects depends on the type:
   * 'eta' - eta direction
   
 As an example: 
+
 ``` { "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
 ```
+
+# Geometry#
+TODO
+
+#Interactivity#
+TODO
 
 This is still very much a work in progress, so let me know of any problems (but don't be too surprised if there are some).
 
