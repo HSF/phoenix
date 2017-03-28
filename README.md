@@ -1,25 +1,25 @@
-# WebEventDisplay #
+# WebEventDisplay
 
-## Introduction ##
+## Introduction 
 
 The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
 
 Technically the 3D is done with [three.js](http://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON. 
 
-## Installation ##
+## Installation 
 
 To install, you need to clone this repository, but also copy any missing files from [here](http://emoyse.web.cern.ch/emoyse/WebEventDisplay/js/) and put them in your local js directory (you could also install three.js and DAT.GUI manually, but this is a bit more work)
 It should then be enough to open `jsdisplay.html` in a web browser, which will show geometry and event data, or `geom_display.html` which will give a demo about how to create geometry data yourself using WED's interactivity. Please note that there can be permissions problems with modern browsers - see [here](https://threejs.org/docs/index.html#Manual/Getting_Started/How_to_run_things_locally) for details.
 
 * This should be much improved.
 
-## Using this with your own data ##
+## Using this with your own data 
 
 The JSON format is pretty simple, but I'm still in the process of documenting it (and it might evolve). If you're unsure, you can always have a look at the `.json` files in http://emoyse.web.cern.ch/emoyse/WebEventDisplay
 
 Otherwise, here are some rough explanations:
 
-### Event data ###
+### Event data 
 Currently WED supports the following physics objects:
 
 * Tracks - the trajectory of a charged particle (usually in a magnetic field)
@@ -72,8 +72,8 @@ As an example:
 { "event number":123, "run number":234, "Tracks" : {"Inner Detector Tracks":[ {"chi2":52.1087, "dof":34, "params": [-0.0150713, 0.725162, 2.11179, 2.86823, -3.23906e-05], "pos": [] }}
 ```
 
-## Geometry##
-### Volumes###
+## Geometry
+### Volumes
 
 WEB supports a limited set of volumes at the moment. All are passed with the following notation 
 ```
@@ -92,11 +92,11 @@ Currently the supported shapes are:
 * 'CUB'/'BOX' - a cube in space, defined by its width/height/depth.
 * 'CYL' - a cylinder, defined by inner radius, outer radius, medium radius, deltaRadius and halflengthZ.
 
-### Surfaces###
+### Surfaces
 TODO
 
 
-##Interactivity##
+##Interactivity
 
 If you open `geom_display.html` it will show a basic geometry, constructed entirely programmatically.
 
@@ -122,7 +122,7 @@ and you can add another layer, as shown below.
 TODO - expand.
 
 
-##Contact##
+##Contact
 
 This is still very much a work in progress, so let me know of any problems (and don't be too surprised if there are some).
 
