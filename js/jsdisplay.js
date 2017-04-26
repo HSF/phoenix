@@ -8,13 +8,14 @@
     var camera, scene, controls, stats, renderer;
     
 		var clipPlanes = [
-			new THREE.Plane( new THREE.Vector3( 1,  0,  0 ), 0 ),
-			new THREE.Plane( new THREE.Vector3( 0, -1,  0 ), 0 ),
-			new THREE.Plane( new THREE.Vector3( 0,  0, -1 ), 0 )
+			new THREE.Plane( new THREE.Vector3( 1,  0,  0 ), 0 ), 
+      new THREE.Plane( new THREE.Vector3( 0, -1,  0 ), 0 ),
+      new THREE.Plane( new THREE.Vector3( 0,  0, -1 ), 0 )
 		];
     
     // Global variables for visualisation
 	  var detectorGeometry = {};
+	  var objGeometry = {};
 	  var eventData = {};
     
     //configuration
@@ -51,27 +52,23 @@
       camera.updateProjectionMatrix();
       
       controls = new THREE.OrbitControls( camera );
-      controls.autoRotate=true;
+      controls.autoRotate=false;
       
       scene = new THREE.Scene();
       scene.name="Root"
       
 			var ambient = new THREE.AmbientLight( 0x707070 );
 			scene.add( ambient );
-			var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-			directionalLight.position.set( 0, 0, 1 );
-			scene.add( directionalLight );
-    
-      // var ambient = new THREE.AmbientLight( 0x444444 );
-      // scene.add( ambient );
-      //
-      // var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-      // directionalLight.position.set( 0, 0, 1 ).normalize();
-      // scene.add( directionalLight );
+			var directionalLight = new THREE.PointLight( 0xffeedd );
+			directionalLight.position.set( camera.position );
+      // directionalLight.target(new THREE.Vector3(0,0,0));
+      camera.add( directionalLight );
+      scene.add(camera)
     
       renderer = new THREE.WebGLRenderer( { antialias: true } );
       renderer.setPixelRatio( window.devicePixelRatio );
       renderer.setSize( window.innerWidth, window.innerHeight );
+      renderer.localClippingEnabled = false;
       // renderer.sortObjects = false;
       container.appendChild( renderer.domElement );
       
@@ -101,9 +98,32 @@
       { axis.visible = value; });
       // guiParameters.Geometry = false;
       
+      guiParameters.clipping=renderer.localClippingEnabled;
+      var doClipping = controlsFolder.add( guiParameters, 'clipping' ).name('Clipping?').listen();
+      doClipping.onChange(function(value)
+      { renderer.localClippingEnabled=value; });
       
-      renderer.domElement.addEventListener( 'mousemove', onMouseMove );
-      window.addEventListener( 'resize', onWindowResize, false );
+			guiParameters.clipIntersection = true;
+			guiParameters.xClipPosition = 0;
+			guiParameters.yClipPosition = 0;
+			guiParameters.zClipPosition = 0;
+      
+      // controlsFolder.add( guiParameters, 'clipIntersection' ).onChange( function () {
+      //   for (var geometry in objGeometry) {
+      //     var children = geometry.Scene.children;
+      //     for ( var i = 0; i < children.length; i ++ ) {
+      //       var child = children[ i ];
+      //       child.material.clipIntersection = ! child.material.clipIntersection;
+      //     }
+      //   }
+      //   }
+      // );
+      controlsFolder.add( guiParameters, 'xClipPosition', -350, 350 );
+      controlsFolder.add( guiParameters, 'yClipPosition', -350, 350 );
+      controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
+      
+    renderer.domElement.addEventListener( 'mousemove', onMouseMove );
+    window.addEventListener( 'resize', onWindowResize, false );
       
     }
     
@@ -295,15 +315,12 @@
       // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
     }
     
-		function _setMatFlat( material ) {
-			material.shading = THREE.FlatShading;
-			material.needsUpdate = true;
-		};
-    
     function _setObjFlat( object3d ) {
       console.log(object3d);
-      var material2 = new THREE.MeshPhongMaterial({ color: 0xa65e00 });
+      var material2 = new THREE.MeshPhongMaterial({ color: 0x41a6f4 });
       material2.shading = THREE.FlatShading;
+      material2.clippingPlanes = clipPlanes;
+      material2.clipShadows = false
       
       object3d.traverse( function(child) {
           if (child instanceof THREE.Mesh) {
@@ -347,24 +364,26 @@
       
 			var loader = new THREE.OBJLoader( manager );
 			loader.load( objectname, function ( object ) {
-        object.traverse(_setObjFlat ); // Not working. :-(
-        console.log('Add object');
+        object.traverse(_setObjFlat ); 
+        // console.log('Add object');
   			scene.add( object );   
-        detectorGeometry[name]=object;     
-			}, onProgress, onError );
+        objGeometry[name]={
+          Scene: object,
+          Menu: 0
+        }     
+        var geometry  = objGeometry[name];
+        console.log(geometry);
       
-      var geometry  = detectorGeometry[name];
-      
-      if (geomFolder===undefined) {
-        geomFolder   = gui.addFolder('Geometry');
-      }
-      guiParameters.Geometry = true;
+        if (geomFolder===undefined) {
+          geomFolder   = gui.addFolder('Geometry');
+        }
+        guiParameters.Geometry = true;
 
-      guiParameters[name]=true; // FIXME - we should check that this is unique?
-      // geometry["Menu"] = geomFolder.add( guiParameters, name).name("Show").listen();
-      // geometry["Menu"].onChange( onChangeFunction( name, volume) );
-      // geometry.Scene.visible = guiParameters[name];
-      
+        guiParameters[name]=true; // FIXME - we should check that this is unique?
+        geometry.Menu = geomFolder.add( guiParameters, name).name("Show").listen();
+        geometry.Menu.onChange( onChangeFunction( name, geometry) );
+        geometry.Scene.visible = guiParameters[name];
+			}, onProgress, onError );
     }
     
   
@@ -742,7 +761,28 @@
       // console.log(vv);
       // innerdetector.material.uniforms.viewVector.value =  camera.position;
     
+    
       controls.update();    
+      var clipPosition;
+      // For the moment just loop through the obj geometries
+      for (var name in objGeometry) {
+        if (objGeometry[name].hasOwnProperty('Scene')){
+          var children = objGeometry[name].Scene.children;
+          for ( var i = 0; i < children.length; i ++ ) {
+            var current = children[ i ].material;
+  					for ( var j = 0; j < current.clippingPlanes.length; j ++ ) {
+  						var plane = current.clippingPlanes[ j ];
+              // console.log(plane)
+              // plane.constant = ( 149 * plane.constant + guiParameters.clipPosition ) / 150;
+              if      (j===0) clipPosition = guiParameters.xClipPosition;
+              else if (j===1) clipPosition = guiParameters.yClipPosition;
+              else if (j===2) clipPosition = guiParameters.zClipPosition;
+              plane.constant = clipPosition ;
+  					}
+          }
+        } 
+      }
+    
       stats.update();
       renderer.render( scene, camera );
 
