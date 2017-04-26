@@ -49,6 +49,12 @@
       
       scene = new THREE.Scene();
       scene.name="Root"
+      
+			var ambient = new THREE.AmbientLight( 0x707070 );
+			scene.add( ambient );
+			var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+			directionalLight.position.set( 0, 0, 1 );
+			scene.add( directionalLight );
     
       // var ambient = new THREE.AmbientLight( 0x444444 );
       // scene.add( ambient );
@@ -283,6 +289,81 @@
       // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
     }
     
+		function _setMatFlat( material ) {
+			material.shading = THREE.FlatShading;
+			material.needsUpdate = true;
+		};
+    
+    function _setObjFlat( object3d ) {
+      console.log(object3d);
+      var material2 = new THREE.MeshPhongMaterial({ color: 0xa65e00 });
+      material2.shading = THREE.FlatShading;
+      
+      object3d.traverse( function(child) {
+          if (child instanceof THREE.Mesh) {
+
+            // apply custom material
+            child.material = material2;
+
+            // enable casting shadows
+            child.castShadow = false;
+            child.receiveShadow = false;
+          }
+        });
+      
+			// if ( object3d.material ) {
+//         console.log("material");
+//
+//         _setMatFlat( object3d.material );
+//       } else {
+//         console.log("No material!");
+//         var material2 = new THREE.MeshLambertMaterial({ color: 0xa65e00 });
+//         material2.shading = THREE.FlatShading;
+//         object3d.material = material2;
+//       }
+		};
+    
+    function _loadGeomFromObj(objectname, name){      
+			var manager = new THREE.LoadingManager();
+			manager.onProgress = function ( item, loaded, total ) {
+				console.log( item, loaded, total );
+			};
+      
+			var onProgress = function ( xhr ) {
+				if ( xhr.lengthComputable ) {
+					var percentComplete = xhr.loaded / xhr.total * 100;
+					console.log( Math.round(percentComplete, 2) + '% downloaded' );
+				}
+			};
+			var onError = function ( xhr ) {
+        console.log('Error loading');
+			};
+      
+			var loader = new THREE.OBJLoader( manager );
+			loader.load( objectname, function ( object ) {
+        object.traverse(_setObjFlat ); // Not working. :-(
+        console.log('Add object');
+  			scene.add( object );   
+        detectorGeometry["name"]=object;     
+			}, onProgress, onError );
+      
+
+      
+      if (geomFolder===undefined) {
+        geomFolder   = gui.addFolder('Geometry');
+      }
+      guiParameters.Geometry = true;
+
+      guiParameters[name]=true; // FIXME - we should check that this is unique?
+      // geometry["Menu"] = currentfolder.add( guiParameters, name).name("Show").listen();
+      // geometry["Menu"].onChange( onChangeFunction( name, volume) );
+      // geometry.Scene.visible = guiParameters[name];
+      
+    }
+    
+    
+    
+    
     function _buildGeometryFromVolume(volume) {
       // console.log(layer)
       // Now build actual geometry
@@ -467,8 +548,8 @@
     }
     
     function _buildEventDataFromJSON(eventdata) {
-      //console.log("dumping eventdata:");
-      //console.log(eventdata);
+      console.log("dumping eventdata:");
+      console.log(eventdata);
       eventData = eventdata; // YUCK
       eventFolder   = gui.addFolder('Reconstruction');
       var eventScene = new THREE.Group();
@@ -540,7 +621,7 @@
     }
     
     function _addTrack(tracks, trkName, scene){
-      // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
+      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
@@ -674,7 +755,6 @@
     };
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry, showsurfaces, showvolumes){
-      console.log("EventDisplay.buildGeometryFromJSON ")
       _buildGeometryFromJSON(detgeometry, showsurfaces, showvolumes);
     };
     
@@ -685,6 +765,10 @@
     EventDisplay.buildEventDataFromJSON = function(edgeometry){
       // console.log(detgeometry)
       _buildEventDataFromJSON(edgeometry);
+    };
+    
+    EventDisplay.loadGeomFromObj = function(objectname, name){
+      _loadGeomFromObj(objectname, name);
     };
     
     return EventDisplay;
