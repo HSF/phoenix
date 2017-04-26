@@ -7,6 +7,12 @@
     // Global variables for THREE
     var camera, scene, controls, stats, renderer;
     
+		var clipPlanes = [
+			new THREE.Plane( new THREE.Vector3( 1,  0,  0 ), 0 ),
+			new THREE.Plane( new THREE.Vector3( 0, -1,  0 ), 0 ),
+			new THREE.Plane( new THREE.Vector3( 0,  0, -1 ), 0 )
+		];
+    
     // Global variables for visualisation
 	  var detectorGeometry = {};
 	  var eventData = {};
@@ -344,10 +350,10 @@
         object.traverse(_setObjFlat ); // Not working. :-(
         console.log('Add object');
   			scene.add( object );   
-        detectorGeometry["name"]=object;     
+        detectorGeometry[name]=object;     
 			}, onProgress, onError );
       
-
+      var geometry  = detectorGeometry[name];
       
       if (geomFolder===undefined) {
         geomFolder   = gui.addFolder('Geometry');
@@ -355,15 +361,13 @@
       guiParameters.Geometry = true;
 
       guiParameters[name]=true; // FIXME - we should check that this is unique?
-      // geometry["Menu"] = currentfolder.add( guiParameters, name).name("Show").listen();
+      // geometry["Menu"] = geomFolder.add( guiParameters, name).name("Show").listen();
       // geometry["Menu"].onChange( onChangeFunction( name, volume) );
       // geometry.Scene.visible = guiParameters[name];
       
     }
     
-    
-    
-    
+  
     function _buildGeometryFromVolume(volume) {
       // console.log(layer)
       // Now build actual geometry
