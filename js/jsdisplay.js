@@ -320,7 +320,8 @@
       var material2 = new THREE.MeshPhongMaterial({ color: 0x41a6f4 });
       material2.shading = THREE.FlatShading;
       material2.clippingPlanes = clipPlanes;
-      material2.clipShadows = false
+      material2.clipShadows = false;
+      material2.side = THREE.DoubleSide;
       
       object3d.traverse( function(child) {
           if (child instanceof THREE.Mesh) {
@@ -372,6 +373,7 @@
           Menu: 0
         }     
         var geometry  = objGeometry[name];
+        geometry.computeFaceNormals();
         console.log(geometry);
       
         if (geomFolder===undefined) {
