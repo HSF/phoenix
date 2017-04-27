@@ -17,7 +17,7 @@
 	  var detectorGeometry = {};
 	  var objGeometry = {};
 	  var eventData = {};
-    
+        
     //configuration
     var configuration = {};
     
@@ -588,36 +588,45 @@
       // Fill data      
       _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack, "Tracks", eventScene);
       _addEventCollections(eventData["xAOD::Type::Jet"], _addJet, "Jets", eventScene);
+      
+      // _addTrackPoints(eventData, eventScene);
       // _addEventCollections(eventData["Measurement"], _addMeasurement);
       
+      
       // Caloclusters - special because we need dimensions of calorimeter.
-      // TODO - get from JSON?
-      var clustercollections = eventData["xAOD::Type::CaloCluster"];
-      var typeFolder =  eventFolder.addFolder("CaloClusters");
+      _addClusterCollections(eventData, eventScene);
       
-      var collscene;
-      for (var collname in clustercollections){
-        if (!clustercollections.hasOwnProperty(collname)){ continue; }
-        var collection = clustercollections[collname];
-        if (!collection) {continue;}
-        collscene = new THREE.Group();
-        for (var clusname in collection) {
-          if (!collection.hasOwnProperty(clusname)){ continue; }
-          _addCluster(collection,clusname,collscene, 1100.0, 3200.0)
-          
-        }
-        collection.Scene = collscene;
-        eventScene.add(collection.Scene)
-        // _addMenuEventCollection(typeFolder, collection)
-        guiParameters[collname]=true; // On by default
-        collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
-        collection.Menu.onChange( onChangeFunction( collname, collection) );
-      }
       
+     
       eventData.Scene = eventScene;
       scene.add(eventData.Scene);
       
     }
+    
+    function _addClusterCollections(eventData, eventScene){
+    // TODO - get from JSON?
+    var clustercollections = eventData["xAOD::Type::CaloCluster"];
+    var typeFolder =  eventFolder.addFolder("CaloClusters");
+    
+    var collscene;
+    for (var collname in clustercollections){
+      if (!clustercollections.hasOwnProperty(collname)){ continue; }
+      var collection = clustercollections[collname];
+      if (!collection) {continue;}
+      collscene = new THREE.Group();
+      for (var clusname in collection) {
+        if (!collection.hasOwnProperty(clusname)){ continue; }
+        _addCluster(collection,clusname,collscene, 1100.0, 3200.0)
+        
+      }
+      collection.Scene = collscene;
+      eventScene.add(collection.Scene)
+      // _addMenuEventCollection(typeFolder, collection)
+      guiParameters[collname]=true; // On by default
+      collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
+      collection.Menu.onChange( onChangeFunction( collname, collection) );
+    } 
+  }
 
     function _addEventCollections(collections, addObject, folder, scene){
       var collscene;
@@ -644,7 +653,7 @@
     }
     
     function _addTrack(tracks, trkName, scene){
-      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
+      // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
@@ -659,13 +668,51 @@
       for (var i=0; i<numPoints;i++){
         points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
       }
-      var curve = new THREE.SplineCurve3( points );
+      var curve = new THREE.CatmullRomCurve3( points );
       var geometry = new THREE.Geometry();
       geometry.vertices = curve.getPoints( 150 );
       var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
       var splineObject = new THREE.Line( geometry, material );
 
       scene.add( splineObject );
+    }
+    
+    function _addTrackPoints(tracks, scene){
+      var points = [];
+      
+      var trackcollections = eventData["xAOD::Type::TrackParticle"];
+      var typeFolder =  eventFolder.addFolder("Track Points");
+    
+      var collscene;
+      for (var collname in trackcollections){
+        if (!trackcollections.hasOwnProperty(collname)){ continue; }
+        var collection = trackcollections[collname];
+        if (!collection) {continue;}
+        collscene = new THREE.Group();
+        for (var trackname in collection) {
+          if (!collection.hasOwnProperty(trackname)){ continue; }
+          
+          var positions = collection[trackname].pos;
+          if (!positions) { continue;}
+          
+          for (var i=0; i<positions.length;i++){
+            points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
+          }
+        }
+        // _addMenuEventCollection(typeFolder, collection)
+        // guiParameters[collname]=true; // On by default
+//         collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
+//         collection.Menu.onChange( onChangeFunction( collname, collection) );
+      } 
+      
+      // we'll do all points at the same time
+      var pointPos = new Float32Array( points.length * 3 );
+			var geometry = new THREE.BufferGeometry();
+      geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+      geometry.computeBoundingSphere();
+      var material = new THREE.PointsMaterial( { size: 15} );
+      points = new THREE.Points( geometry, material );
+      scene.add( points );
     }
     
     function _addCluster(clustercollections, clusName, scene, maxR, maxZ){
@@ -806,9 +853,8 @@
       _buildGeometryFromParameters(parameters);
     };
     
-    EventDisplay.buildEventDataFromJSON = function(edgeometry){
-      // console.log(detgeometry)
-      _buildEventDataFromJSON(edgeometry);
+    EventDisplay.buildEventDataFromJSON = function(event){
+      _buildEventDataFromJSON(event);
     };
     
     EventDisplay.loadGeomFromObj = function(objectname, name){
