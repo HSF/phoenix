@@ -5,3 +5,5 @@ js/OrbitControls.js
 js/stats.js
 js/stats.min.js
 js/TrackballControls.js
+geometry/pixels.obj
+geometry/toroids.obj
