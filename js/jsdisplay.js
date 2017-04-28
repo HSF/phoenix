@@ -15,6 +15,7 @@
     
     // Global variables for visualisation
 	  var detectorGeometry = {};
+    var geomcolour;
 	  var objGeometry = {};
 	  var eventData = {};
         
@@ -99,14 +100,14 @@
       // guiParameters.Geometry = false;
       
       guiParameters.clipping=renderer.localClippingEnabled;
-      var doClipping = controlsFolder.add( guiParameters, 'clipping' ).name('Clipping?').listen();
+      var doClipping = controlsFolder.add( guiParameters, 'clipping' ).name('Enable clipping').listen();
       doClipping.onChange(function(value)
       { renderer.localClippingEnabled=value; });
       
 			guiParameters.clipIntersection = true;
 			guiParameters.xClipPosition = 0;
 			guiParameters.yClipPosition = 0;
-			guiParameters.zClipPosition = 0;
+			guiParameters.zClipPosition = 4000;
       
       // controlsFolder.add( guiParameters, 'clipIntersection' ).onChange( function () {
       //   for (var geometry in objGeometry) {
@@ -118,8 +119,8 @@
       //   }
       //   }
       // );
-      controlsFolder.add( guiParameters, 'xClipPosition', -350, 350 );
-      controlsFolder.add( guiParameters, 'yClipPosition', -350, 350 );
+      controlsFolder.add( guiParameters, 'xClipPosition', -750, 750 );
+      controlsFolder.add( guiParameters, 'yClipPosition', -750, 750 );
       controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
       
     renderer.domElement.addEventListener( 'mousemove', onMouseMove );
@@ -315,9 +316,9 @@
       // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
     }
     
-    function _setObjFlat( object3d ) {
-      console.log(object3d);
-      var material2 = new THREE.MeshPhongMaterial({ color: 0x41a6f4 });
+    function _setObjFlat( object3d, colour ) {
+      console.log(object3d, colour);
+      var material2 = new THREE.MeshPhongMaterial({ color: colour });
       material2.shading = THREE.FlatShading;
       material2.clippingPlanes = clipPlanes;
       material2.clipShadows = false;
@@ -347,7 +348,13 @@
 //       }
 		};
     
-    function _loadGeomFromObj(objectname, name){      
+    function _loadGeomFromObj(objectname, name, colour){ 
+      if (!colour ) {
+        geomcolour = 0x41a6f4;     
+      } else {
+        geomcolour=colour
+      }
+      
 			var manager = new THREE.LoadingManager();
 			manager.onProgress = function ( item, loaded, total ) {
 				console.log( item, loaded, total );
@@ -365,15 +372,16 @@
       
 			var loader = new THREE.OBJLoader( manager );
 			loader.load( objectname, function ( object ) {
-        object.traverse(_setObjFlat ); 
+        _setObjFlat(object, colour); 
         // console.log('Add object');
   			scene.add( object );   
         objGeometry[name]={
           Scene: object,
+          Colour: colour,
           Menu: 0
         }     
         var geometry  = objGeometry[name];
-        geometry.computeFaceNormals();
+        // geometry.computeFaceNormals();
         console.log(geometry);
       
         if (geomFolder===undefined) {
@@ -382,7 +390,7 @@
         guiParameters.Geometry = true;
 
         guiParameters[name]=true; // FIXME - we should check that this is unique?
-        geometry.Menu = geomFolder.add( guiParameters, name).name("Show").listen();
+        geometry.Menu = geomFolder.add( guiParameters, name).name(name).listen();
         geometry.Menu.onChange( onChangeFunction( name, geometry) );
         geometry.Scene.visible = guiParameters[name];
 			}, onProgress, onError );
@@ -569,7 +577,8 @@
           scene.add( egh );
         }
         z += zstep
-      }
+      } 
+
     }
     
     function _buildEventDataFromJSON(eventdata) {
@@ -591,7 +600,7 @@
       _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack, "Tracks", eventScene);
       _addEventCollections(eventData["xAOD::Type::Jet"], _addJet, "Jets", eventScene);
       
-      // _addTrackPoints(eventData, eventScene);
+      _addTrackPoints(eventData, eventScene);
       // _addEventCollections(eventData["Measurement"], _addMeasurement);
       
       
@@ -680,6 +689,8 @@
     }
     
     function _addTrackPoints(tracks, scene){
+      console.log("_addTrackPoints");
+      
       var points = [];
       
       var trackcollections = eventData["xAOD::Type::TrackParticle"];
@@ -702,19 +713,32 @@
           }
         }
         // _addMenuEventCollection(typeFolder, collection)
-        // guiParameters[collname]=true; // On by default
-//         collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
-//         collection.Menu.onChange( onChangeFunction( collname, collection) );
+
       } 
+      console.log(points);
+      
       
       // we'll do all points at the same time
       var pointPos = new Float32Array( points.length * 3 );
+			for ( var i = 0; i < points.length; i += 3 ) {
+        pointPos[i]=points[i].x;
+        pointPos[i+1]=points[i].y;
+        pointPos[i+2]=points[i].z;
+      }
+      
 			var geometry = new THREE.BufferGeometry();
-      geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+      geometry.addAttribute( 'position', new THREE.BufferAttribute( pointPos, 3 ) );
       geometry.computeBoundingSphere();
       var material = new THREE.PointsMaterial( { size: 15} );
-      points = new THREE.Points( geometry, material );
-      scene.add( points );
+      var pointsObj = new THREE.Points( geometry, material );
+      console.log(pointsObj);
+      
+      scene.add( pointsObj );
+
+      guiParameters["Points"]=true; // On by default
+      pointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name(collname).listen();
+      pointsObj.Menu.onChange( onChangeFunction( "Points", collection) );
+
     }
     
     function _addCluster(clustercollections, clusName, scene, maxR, maxZ){
@@ -859,8 +883,8 @@
       _buildEventDataFromJSON(event);
     };
     
-    EventDisplay.loadGeomFromObj = function(objectname, name){
-      _loadGeomFromObj(objectname, name);
+    EventDisplay.loadGeomFromObj = function(objectname, name, colour){
+      _loadGeomFromObj(objectname, name, colour);
     };
     
     return EventDisplay;
