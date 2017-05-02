@@ -18,6 +18,7 @@
     var geomcolour;
 	  var objGeometry = {};
 	  var eventData = {};
+    var animationSphere = 0;
         
     //configuration
     var configuration = {};
@@ -598,8 +599,8 @@
       // console.log(recoMenu);
       
       // Fill data      
-      _addEventCollections(eventData["xAOD::Type::TrackParticle"], _addTrack, "Tracks", eventScene);
-      _addEventCollections(eventData["xAOD::Type::Jet"], _addJet, "Jets", eventScene);
+      _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
+      _addEventCollections(eventData["Jets"], _addJet, "Jets", eventScene);
       
       _addTrackPoints(eventData, eventScene);
       // _addEventCollections(eventData["Measurement"], _addMeasurement);
@@ -617,7 +618,7 @@
     
     function _addClusterCollections(eventData, eventScene){
     // TODO - get from JSON?
-    var clustercollections = eventData["xAOD::Type::CaloCluster"];
+    var clustercollections = eventData["CaloClusters"];
     var typeFolder =  eventFolder.addFolder("CaloClusters");
     
     var collscene;
@@ -675,18 +676,21 @@
         console.log("Track with too few points. Skipping.");
         return;
       }
+      
       var points = [];
       
       for (var i=0; i<numPoints;i++){
         points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
       }
-      var curve = new THREE.CatmullRomCurve3( points );
-      var geometry = new THREE.Geometry();
-      geometry.vertices = curve.getPoints( 150 );
-      var material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
-      var splineObject = new THREE.Line( geometry, material );
+      
+      var curve         = new THREE.CatmullRomCurve3( points );
+      var geometry      = new THREE.Geometry();
+      geometry.vertices = curve.getPoints( 50 );
+      var material      = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+      var splineObject  = new THREE.Line( geometry, material );
 
       scene.add( splineObject );
+      tracks[trkName].geometry = splineObject;
     }
     
     function _addTrackPoints(tracks, scene){
@@ -694,7 +698,7 @@
       
       var points = [];
       
-      var trackcollections = eventData["xAOD::Type::TrackParticle"];
+      var trackcollections = eventData["Tracks"];
       var typeFolder =  eventFolder.addFolder("Track Points");
     
       var collscene;
@@ -838,6 +842,10 @@
     
       controls.update();    
       var clipPosition;
+      
+      // 
+      animationSphere += 1;
+      
       // For the moment just loop through the obj geometries
       for (var name in objGeometry) {
         if (objGeometry[name].hasOwnProperty('Scene')){
