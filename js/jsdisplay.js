@@ -715,7 +715,7 @@
         // _addMenuEventCollection(typeFolder, collection)
 
       } 
-      console.log(points);
+      // console.log(points);
       
       
       // we'll do all points at the same time
@@ -736,7 +736,7 @@
       scene.add( pointsObj );
 
       guiParameters["Points"]=true; // On by default
-      pointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name(collname).listen();
+      pointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name('Track Points').listen();
       pointsObj.Menu.onChange( onChangeFunction( "Points", collection) );
 
     }
