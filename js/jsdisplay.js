@@ -19,6 +19,7 @@
 	  var objGeometry = {};
 	  var eventData = {};
     var animationSphere = 0;
+    var trackPointsObj;
         
     //configuration
     var configuration = {};
@@ -32,6 +33,7 @@
     var onChangeFunction = function(identifier, this_collection){
           return function(value){
             console.log("onChange1 for "+identifier+" with value="+value);
+            console.log(this_collection);
             console.log("this_collection.Scene.visible"+this_collection.Scene.visible);
             this_collection.Scene.visible = value;
           }
@@ -616,8 +618,7 @@
       
     }
     
-    function _addClusterCollections(eventData, eventScene){
-    // TODO - get from JSON?
+  function _addClusterCollections(eventData, eventScene){
     var clustercollections = eventData["CaloClusters"];
     var typeFolder =  eventFolder.addFolder("CaloClusters");
     
@@ -735,14 +736,16 @@
       geometry.addAttribute( 'position', new THREE.BufferAttribute( pointPos, 3 ) );
       geometry.computeBoundingSphere();
       var material = new THREE.PointsMaterial( { size: 15} );
-      var pointsObj = new THREE.Points( geometry, material );
-      console.log(pointsObj);
+      trackPointsObj = new THREE.Points( geometry, material );
       
-      scene.add( pointsObj );
+      scene.add( trackPointsObj );
+      trackPointsObj.Scene=trackPointsObj; // Yuck?
 
       guiParameters["Points"]=true; // On by default
-      pointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name('Track Points').listen();
-      pointsObj.Menu.onChange( onChangeFunction( "Points", collection) );
+      trackPointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name('Track Points').listen();
+      trackPointsObj.Menu.onChange( onChangeFunction( "Points", trackPointsObj) );
+      console.log(trackPointsObj);
+      
 
     }
     
