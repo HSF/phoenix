@@ -107,7 +107,7 @@
 			guiParameters.clipIntersection = true;
 			guiParameters.xClipPosition = 0;
 			guiParameters.yClipPosition = 0;
-			guiParameters.zClipPosition = 4000;
+			guiParameters.zClipPosition = -4000;
       
       // controlsFolder.add( guiParameters, 'clipIntersection' ).onChange( function () {
       //   for (var geometry in objGeometry) {
@@ -123,7 +123,7 @@
       controlsFolder.add( guiParameters, 'yClipPosition', -750, 750 );
       controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
       
-    renderer.domElement.addEventListener( 'mousemove', onMouseMove );
+    // renderer.domElement.addEventListener( 'mousemove', onMouseMove );
     window.addEventListener( 'resize', onWindowResize, false );
       
     }
@@ -321,6 +321,7 @@
       var material2 = new THREE.MeshPhongMaterial({ color: colour });
       material2.shading = THREE.FlatShading;
       material2.clippingPlanes = clipPlanes;
+      material2.clipIntersection = true
       material2.clipShadows = false;
       material2.side = THREE.DoubleSide;
       
