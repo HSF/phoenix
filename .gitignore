@@ -7,3 +7,12 @@ js/stats.min.js
 js/TrackballControls.js
 geometry/pixels.obj
 geometry/toroids.obj
+geometry/ATLASR2/SCT.obj
+geometry/ATLASR2/TRT.mtl
+geometry/ATLASR2/TRT.obj
+geometry/ATLASR2/pixel.obj
+geometry/ATLASR2/toroids.obj
+geometry/CTD/LStrip.obj
+geometry/CTD/Pix.obj
+geometry/CTD/SStrip.obj
+geometry/sSurfaces.obj
