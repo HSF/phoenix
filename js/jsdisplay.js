@@ -5,7 +5,7 @@
     var EventDisplay = {};
     
     // Global variables for THREE
-    var camera, scene, controls, stats, renderer;
+    var camera, scene, controls, stats, renderer, raycaster;
     
 		var clipPlanes = [
 			new THREE.Plane( new THREE.Vector3( 1,  0,  0 ), 0 ), 
@@ -47,16 +47,15 @@
       document.body.appendChild( container );
       
       camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
-      camera.position.z = 2500;
-      camera.position.y = 200;
-      camera.position.x = 1000;
+      camera.position.z = 4500;
+      camera.position.y = 2900;
+      camera.position.x = -6500;
       
       // Reset far clip plane
       camera.far = camera.position.length()*50.0;
       camera.updateProjectionMatrix();
       
-      controls = new THREE.OrbitControls( camera );
-      controls.autoRotate=false;
+
       
       scene = new THREE.Scene();
       scene.name="Root"
@@ -68,13 +67,19 @@
       // directionalLight.target(new THREE.Vector3(0,0,0));
       camera.add( directionalLight );
       scene.add(camera)
+      
+      raycaster = new THREE.Raycaster();
+      raycaster.linePrecision = 3;
     
       renderer = new THREE.WebGLRenderer( { antialias: true } );
       renderer.setPixelRatio( window.devicePixelRatio );
       renderer.setSize( window.innerWidth, window.innerHeight );
-      renderer.localClippingEnabled = false;
+      renderer.localClippingEnabled = true;
       // renderer.sortObjects = false;
       container.appendChild( renderer.domElement );
+      
+      controls = new THREE.OrbitControls( camera, renderer.domElement );
+      controls.autoRotate=false;
       
       var axis = new THREE.AxisHelper( 2000 );
       // blue is z, red is phi=0
@@ -126,7 +131,11 @@
       controlsFolder.add( guiParameters, 'yClipPosition', -750, 750 );
       controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
       
-    // renderer.domElement.addEventListener( 'mousemove', onMouseMove );
+      guiParameters.selectObj=true;
+      var selectObj = controlsFolder.add( guiParameters, 'selectObj' ).name('Select?').listen();
+      selectObj.onChange(function(value)
+      { selectObj = value; });
+      
     window.addEventListener( 'resize', onWindowResize, false );
       
     }
@@ -386,7 +395,7 @@
         }     
         var geometry  = objGeometry[name];
         // geometry.computeFaceNormals();
-        console.log(geometry);
+        // console.log(geometry);
       
         if (geomFolder===undefined) {
           geomFolder   = gui.addFolder('Geometry');
@@ -611,7 +620,7 @@
       // Caloclusters - special because we need dimensions of calorimeter.
       _addClusterCollections(eventData, eventScene);
       
-      
+      _addHits(eventData, eventScene)      
      
       eventData.Scene = eventScene;
       scene.add(eventData.Scene);
@@ -641,6 +650,46 @@
       collection.Menu.onChange( onChangeFunction( collname, collection) );
     } 
   }
+  
+  function _addHits(hits, scene){
+    console.log("_addHits");
+    
+    var points = [];
+    
+    var collections = eventData["Hits"];
+    // console.log(collections);
+    
+    var typeFolder =  eventFolder.addFolder("Hits");
+  
+    var collscene;
+    for (var collname in collections){
+      var points = collections[collname];
+      console.log(collname, points.length);
+      
+      collscene = new THREE.Group();
+        
+        // we'll do all points at the same time
+        var pointPos = new Float32Array( points.length * 3 );
+        for ( var i = 0; i < points.length; i += 3 ) {
+          pointPos[i]=points[i][0];
+          pointPos[i+1]=points[i][1];
+          pointPos[i+2]=points[i][2];
+        }
+
+        var geometry = new THREE.BufferGeometry();
+        geometry.addAttribute( 'position', new THREE.BufferAttribute( pointPos, 3 ) );
+        geometry.computeBoundingSphere();
+        var material = new THREE.PointsMaterial( { size: 25} );
+        var pointsObj = new THREE.Points( geometry, material );
+
+        scene.add( pointsObj );
+
+        // guiParameters["Space points"]=true; // On by default
+        // trackPointsObj.Menu = typeFolder.add( guiParameters, "Space points" ).name('Space points').listen();
+        // trackPointsObj.Menu.onChange( onChangeFunction( "Space points", trackPointsObj) );
+    } 
+  }
+  
 
     function _addEventCollections(collections, addObject, folder, scene){
       var collscene;
@@ -666,6 +715,25 @@
       }
     }
     
+    function _updateEventCollections(collections, updateObject){
+      var collscene;
+      
+      for (var collname in collections){
+        if (!collections.hasOwnProperty(collname)){ continue; }
+        var collection = collections[collname];
+        if (!collection) {continue;}
+            // console.log(collections)
+
+        for (var objname in collection) {      
+            // console.log(collection)
+            if (objname==='Menu' || objname==='Scene') { continue; } // Find a better solution
+
+            if (!collection.hasOwnProperty(objname)){ continue; }
+            updateObject(collection,objname)
+        }
+      }
+    }
+    
     function _addTrack(tracks, trkName, scene){
       // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
@@ -674,10 +742,10 @@
       var positions = tracks[trkName].pos;
       var numPoints = positions.length;
       if (numPoints<3){
-        console.log("Track with too few points. Skipping.");
+        // console.log("Track with too few points. Skipping. "+positions);
         return;
       }
-      
+      //
       var points = [];
       
       for (var i=0; i<numPoints;i++){
@@ -692,6 +760,43 @@
 
       scene.add( splineObject );
       tracks[trkName].geometry = splineObject;
+    }
+    
+    function _updateTrack(tracks, trkName){
+      var length = 100;
+      var colour = 0x00ff2d;
+      
+      var positions = tracks[trkName].pos;
+      var numPoints = positions.length;
+      if (numPoints<3){
+        // console.log("Track with too few points. Skipping. "+positions);
+        return;
+      }
+      
+      var points = [];
+      
+      for (var i=0; i<numPoints;i++){
+        points.push(new THREE.Vector3(positions[i][0],positions[i][1],positions[i][2]) );
+      }
+      
+      var curve         = new THREE.CatmullRomCurve3( points );
+      var geometry      = new THREE.Geometry();
+      points = []
+      var curvePoints = curve.getPoints( 25 );
+      for (point in curvePoints){
+        if (Math.sqrt 
+         (point[0]*point[0] + 
+          point[1]*point[1] +
+          point[2]*point[2])> animationSphere) break;
+      
+        points.push(point)
+      }
+      geometry.vertices = points;
+          
+      var material      = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+      var splineObject = tracks[trkName].geometry;
+      geometry.verticesNeedUpdate = true
+      splineObject.geometry = geometry;      
     }
     
     function _addTrackPoints(tracks, scene){
@@ -744,9 +849,7 @@
       guiParameters["Points"]=true; // On by default
       trackPointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name('Track Points').listen();
       trackPointsObj.Menu.onChange( onChangeFunction( "Points", trackPointsObj) );
-      console.log(trackPointsObj);
-      
-
+      // console.log(trackPointsObj);
     }
     
     function _addCluster(clustercollections, clusName, scene, maxR, maxZ){
@@ -819,17 +922,17 @@
 
     }
     
-    function onMouseMove( e ) {
-      // console.log('onMouseMove');
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    }
-  
-    function onDocumentMouseMove( event ) {
-      mouse.x = ( event.clientX - windowHalfX ) / 2;
-      mouse.y = ( event.clientY - windowHalfY ) / 2;
-      console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
-    }
+    // function onMouseMove( e ) {
+    //   console.log('onMouseMove');
+    //   mouse.x = e.clientX;
+    //   mouse.y = e.clientY;
+    // }
+    //
+    // function onDocumentMouseMove( event ) {
+    //   mouse.x = ( event.clientX - windowHalfX ) / 2;
+    //   mouse.y = ( event.clientY - windowHalfY ) / 2;
+    //   console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
+    // }
 
     
     function _render() {
@@ -846,8 +949,11 @@
       controls.update();    
       var clipPosition;
       
-      // 
-      animationSphere += 1;
+      // Animation
+      // animationSphere += 1;
+      // if (animationSphere<1000) _updateEventCollections(eventData["Tracks"], _updateTrack);
+      
+      // console.log(camera.position)
       
       // For the moment just loop through the obj geometries
       for (var name in objGeometry) {
@@ -869,6 +975,13 @@
       }
     
       stats.update();
+
+      // 
+      if (guiParameters.selectObj) {
+        // console.log('Selecting objects');
+        raycaster.setFromCamera( mouse, camera );
+        console.log(raycaster.intersectObjects( scene.children ))
+      }
       renderer.render( scene, camera );
 
     }
