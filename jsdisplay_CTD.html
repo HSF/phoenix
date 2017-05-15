@@ -14,23 +14,22 @@
   "use strict";
   
   var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/EventDump.json";
+  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/SpacePoints.json";
   var eventLoaded = false;
 
-  // xmlhttpEventData.onreadystatechange = function() {
-  //     if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-  //         var myArr = JSON.parse(xmlhttpEventData.responseText);
-  //         window.EventDisplay.buildEventDataFromJSON(myArr);
-  //         eventLoaded=true;
-  //     }
-  // };
-  // xmlhttpEventData.open("GET", urlEvent, true);
-  // xmlhttpEventData.send();
+  xmlhttpEventData.onreadystatechange = function() {
+      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+          var myArr = JSON.parse(xmlhttpEventData.responseText);
+          window.EventDisplay.buildEventDataFromJSON(myArr);
+          eventLoaded=true;
+      }
+  };
+  xmlhttpEventData.open("GET", urlEvent, true);
+  xmlhttpEventData.send();
 
-  window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'Toroids', 0xf9ac59);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59);
   window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8);
-  window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'SCT', 0xb1dbb3);
-  // window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3);
 
   window.EventDisplay.animate();
   
