@@ -13,21 +13,21 @@
   
   "use strict";
   
-  var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/hits.json";
-  var eventLoaded = false;
+  // var xmlhttpEventData = new XMLHttpRequest();
+  // var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/hits.json";
+  // var eventLoaded = false;
+  //
+  // xmlhttpEventData.onreadystatechange = function() {
+  //     if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+  //         var myArr = JSON.parse(xmlhttpEventData.responseText);
+  //         window.EventDisplay.buildEventDataFromJSON(myArr);
+  //         eventLoaded=true;
+  //     }
+  // };
+  // xmlhttpEventData.open("GET", urlEvent, true);
+  // xmlhttpEventData.send();
 
-  xmlhttpEventData.onreadystatechange = function() {
-      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-          var myArr = JSON.parse(xmlhttpEventData.responseText);
-          window.EventDisplay.buildEventDataFromJSON(myArr);
-          eventLoaded=true;
-      }
-  };
-  xmlhttpEventData.open("GET", urlEvent, true);
-  xmlhttpEventData.send();
-
-  window.EventDisplay.loadGeomFromObj('geometry/sSurfaces.obj', 'Andi is fat!');
+  window.EventDisplay.loadGeomFromObj('../../Dropbox/trackingml/SStrip.obj', 'Andi is fat!');
 
   window.EventDisplay.animate();
   
