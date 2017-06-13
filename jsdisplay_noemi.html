@@ -1,21 +1,69 @@
 <!-- author: Edward Moyse -->
-<html> <head> <title>Geometry display</title> <style> body { margin: 0; } canvas { width: 100%; height: 100% } </style> </head> <body>
-  <script src="js/three.min.js"></script> 
+<html> <head> <title>Geometry display</title> 
+  <style> 
+    body { margin: 0; } 
+    canvas { width: 100%; height: 100% } 
+    caption {
+    position:absolute;
+    top:-500px; left:0; right:0;
+    background: rgba(0, 0, 0, 0.5);
+    color:white;
+    font-family:arial;
+    padding:30px;
+    text-align:justify;
+    transition: all 500ms ease; }
+
+    box{
+        width:383px;
+        height:212px;
+        position:relative;
+        overflow:hidden;
+    }
+
+  box:hover .caption{
+      top:0;
+      height:100%;
+  }
+  
+	#info {
+		position: absolute;
+    bottom:20px; left:0; right:0;
+    width:100%;
+		padding: 10px;
+		text-align: left;
+    color:white;
+    font-family:arial;
+    background: rgba(0, 0, 0, 0.5);
+    
+	}
+  
+	#fileUploadInput {
+		display: none;
+	}
+ </style>   <script src="js/three.min.js"></script> 
   <script src="js/dat.gui.min.js"></script>
   <script src="js/OrbitControls.js"></script> 
   <script src="js/stats.min.js"></script>
+	<script src="js/OBJLoader2.js"></script>
+  <script src="js/MTLLoader.js"></script>
   <script src="js/jsdisplay.js"></script>
-	<script src="js/OBJLoader.js"></script>
+  
+</head> <body>
 
+  <div id="info" > </div>
+  <input id="fileUploadInput" type="file" name="files[]" multiple accept=".obj,.mtl" />
+  
   <script> // Our Javascript will go here. 
   
-  window.EventDisplay.init();
+  window.EventDisplay.init({ "LoadGeometry": true, "LoadEventData":true });
   
   "use strict";
   
   var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/hits.json";
+  var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/hits_v84.json";
+  // var urlEvent = "file://hits_v84.json";
   var eventLoaded = false;
+  var info = document.getElementById( "info" );
 
   xmlhttpEventData.onreadystatechange = function() {
       if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
@@ -27,9 +75,10 @@
   xmlhttpEventData.open("GET", urlEvent, true);
   xmlhttpEventData.send();
 
-  window.EventDisplay.loadGeomFromObj('geometry/pixels.obj', 'Pixels');
+  window.EventDisplay.loadGeomFromObj('geometry/ITk_InclinedQuads_v84.obj', 'Pixels', 0x6699ff);
 
   window.EventDisplay.animate();
   
   </script> 
+
 </body> </html>
