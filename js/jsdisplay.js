@@ -23,6 +23,7 @@
         
     //configuration
     var configuration = {};
+    var fileApiAvailable = true;
     
     // Global variable for GUI etc
     var guiParameters = {};
@@ -38,8 +39,15 @@
             this_collection.Scene.visible = value;
           }
         };
+    
+    // var wwObjLoader2 = new THREE.OBJLoader2.WWOBJLoader2();
+    // wwObjLoader2.setCrossOrigin( 'anonymous' );
+    
+    // Selection
+    var lastSelectedObject=0;
+    var lastSelectedObjectMaterial=0;
 
-    function _init(){
+    function _init( configuration ){
       
       var container;
 
@@ -54,8 +62,7 @@
       // Reset far clip plane
       camera.far = camera.position.length()*50.0;
       camera.updateProjectionMatrix();
-      
-
+    
       
       scene = new THREE.Scene();
       scene.name="Root"
@@ -69,7 +76,7 @@
       scene.add(camera)
       
       raycaster = new THREE.Raycaster();
-      raycaster.linePrecision = 3;
+      raycaster.linePrecision = 5;
     
       renderer = new THREE.WebGLRenderer( { antialias: true } );
       renderer.setPixelRatio( window.devicePixelRatio );
@@ -136,8 +143,79 @@
       selectObj.onChange(function(value)
       { selectObj = value; });
       
-    window.addEventListener( 'resize', onWindowResize, false );
+      var elemFileInput = document.getElementById( 'fileUploadInput' );
       
+      if ( fileApiAvailable && elemFileInput) {
+        guiParameters.loadObjFile = function () {
+        					elemFileInput.click();
+        				};
+        controlsFolder.add( guiParameters, 'loadObjFile' ).name( 'Load OBJ/MTL Files' );
+        
+        var handleFileSelect = function ( object3d ) {
+        					_handleFileSelect( object3d );
+        				};
+        elemFileInput.addEventListener( 'change' , handleFileSelect, false );
+        
+      }
+      
+      window.addEventListener( 'resize', onWindowResize, false );
+      // renderer.domElement.addEventListener( 'mousemove', onMouseMove, false );
+      renderer.domElement.addEventListener( 'click', onMouseClick, false );      
+    }
+    
+    function _handleFileSelect( object3d ) {
+      var fileObj = null;
+			var fileMtl = null;
+			var files = event.target.files;
+			for ( var i = 0, file; file = files[ i ]; i++) {
+				if ( file.name.indexOf( '\.obj' ) > 0 && fileObj === null ) {
+					fileObj = file;
+				}
+				if ( file.name.indexOf( '\.mtl' ) > 0 && fileMtl === null ) {
+					fileMtl = file;
+				}
+			}
+      
+      var Validator = THREE.OBJLoader2.prototype._getValidator();
+			if ( ! Validator.isValid( fileObj ) ) {
+				alert( 'Unable to load OBJ file from given files. If you want to load a MTL file as well, select them both at the same time.' );
+			} else {
+        console.log(fileObj);
+        
+        if (fileMtl) {
+          var mtlLoader = new THREE.MTLLoader();
+          				mtlLoader.setPath( 'obj/male02/' );
+          				mtlLoader.load( 'male02_dds.mtl', function( materials ) {
+          					materials.preload();
+          					var objLoader = new THREE.OBJLoader();
+          					objLoader.setMaterials( materials );
+          					objLoader.setPath( 'obj/male02/' );
+          					objLoader.load( 'male02.obj', function ( object ) {
+          						object.position.y = - 95;
+          						scene.add( object );
+          					}, onProgress, onError );
+          				});
+        } else {
+          var fileReader = new FileReader();
+  				fileReader.onload = function( fileDataObj ) {
+            console.log('fileReader onload ',fileDataObj);
+            _loadGeomFromObj(fileDataObj.target.result, fileObj.name.replace('.obj',''), fileMtl);
+  				};
+          fileReader.readAsDataURL( fileObj );
+        }
+      }
+    }
+    
+    function _loadFilesUser(objDef) {
+      console.log(objDef);
+      var prepData = new THREE.OBJLoader2.WWOBJLoader2.PrepDataArrayBuffer(
+      						objDef.name, objDef.objAsArrayBuffer, objDef.pathTexture, objDef.mtlAsString
+      					);
+			prepData.setSceneGraphBaseNode( this.scene );
+      // prepData.setStreamMeshes( this.streamMeshes );
+			wwObjLoader2.prepareRun( prepData );
+			wwObjLoader2.run();
+      console.log('Run wwObjLoader2');
     }
     
     function _getPosition(length, eta, phi){
@@ -329,18 +407,24 @@
     }
     
     function _setObjFlat( object3d, colour ) {
-      console.log(object3d, colour);
-      var material2 = new THREE.MeshPhongMaterial({ color: colour });
+      // console.log(object3d, colour);
+      var material2 = new THREE.MeshPhongMaterial({ color: colour, wireframe: false });
       material2.shading = THREE.FlatShading;
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
       material2.side = THREE.DoubleSide;
       
+      var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframe_linewidth: 10 });
+      wireframeMaterial.clippingPlanes = clipPlanes;
+      // wireframeMaterial.clipIntersection = true
+      // wireframeMaterial.clipShadows = false;
+      
       object3d.traverse( function(child) {
           if (child instanceof THREE.Mesh) {
 
             // apply custom material
+            // child.material = [ material2, wireframeMaterial ];
             child.material = material2;
 
             // enable casting shadows
@@ -361,7 +445,9 @@
 //       }
 		};
     
-    function _loadGeomFromObj(objectname, name, colour){ 
+    function _loadGeomFromObj(objectname, name, colour, materials){ 
+      // by default, let's clear the existing geometry here.
+      
       if (!colour ) {
         geomcolour = 0x41a6f4;     
       } else {
@@ -383,7 +469,8 @@
         console.log('Error loading');
 			};
       
-			var loader = new THREE.OBJLoader( manager );
+			var loader = new THREE.OBJLoader2( manager );
+      if (materials) loader.setMaterials(materials);
 			loader.load( objectname, function ( object ) {
         _setObjFlat(object, colour); 
         // console.log('Add object');
@@ -594,13 +681,14 @@
 
     }
     
-    function _buildEventDataFromJSON(eventdata) {
+    function _buildEventDataFromJSON(jsonData) {
       console.log("dumping eventdata:");
-      console.log(eventdata);
-      eventData = eventdata; // YUCK
+      console.log(jsonData);
+      eventData = jsonData; 
+      console.log(gui);
       eventFolder   = gui.addFolder('Reconstruction');
       var eventScene = new THREE.Group();
-
+      eventScene.name="Event data";
       // Switch to turn off all reco
       var recoIdentifier = "Show";
       guiParameters[recoIdentifier]=true; // On by default      
@@ -620,10 +708,12 @@
       // Caloclusters - special because we need dimensions of calorimeter.
       _addClusterCollections(eventData, eventScene);
       
-      _addHits(eventData, eventScene)      
+      _addHits(eventData, eventScene);     
      
       eventData.Scene = eventScene;
       scene.add(eventData.Scene);
+      console.log("Event data scene:");
+      console.log(eventData.Scene.children);
       
     }
     
@@ -637,6 +727,7 @@
       var collection = clustercollections[collname];
       if (!collection) {continue;}
       collscene = new THREE.Group();
+      collscene.name="Clusters"
       for (var clusname in collection) {
         if (!collection.hasOwnProperty(clusname)){ continue; }
         _addCluster(collection,clusname,collscene, 1100.0, 3200.0)
@@ -657,16 +748,16 @@
     var points = [];
     
     var collections = eventData["Hits"];
-    // console.log(collections);
     
     var typeFolder =  eventFolder.addFolder("Hits");
   
     var collscene;
     for (var collname in collections){
       var points = collections[collname];
-      console.log(collname, points.length);
+      console.log('hits', collname, points.length);
       
-      collscene = new THREE.Group();
+      // collscene = new THREE.Group();
+      // collscene.name=collname;
         
         // we'll do all points at the same time
         var pointPos = new Float32Array( points.length * 3 );
@@ -681,7 +772,8 @@
         geometry.computeBoundingSphere();
         var material = new THREE.PointsMaterial( { size: 25} );
         var pointsObj = new THREE.Points( geometry, material );
-
+        pointsObj.name = collname;
+        console.log(pointsObj)
         scene.add( pointsObj );
 
         // guiParameters["Space points"]=true; // On by default
@@ -700,6 +792,7 @@
         var collection = collections[collname];
         if (!collection) {continue;}
         collscene = new THREE.Group();
+        collscene.name = collname;
 
         for (var objname in collection) {
             if (!collection.hasOwnProperty(objname)){ continue; }
@@ -735,7 +828,7 @@
     }
     
     function _addTrack(tracks, trkName, scene){
-      // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
+      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
@@ -757,9 +850,11 @@
       geometry.vertices = curve.getPoints( 50 );
       var material      = new THREE.LineBasicMaterial( { color : 0xff0000 } );
       var splineObject  = new THREE.Line( geometry, material );
+      splineObject.name = trkName;
 
       scene.add( splineObject );
       tracks[trkName].geometry = splineObject;
+      splineObject.eventData = tracks[trkName];
     }
     
     function _updateTrack(tracks, trkName){
@@ -813,6 +908,7 @@
         var collection = trackcollections[collname];
         if (!collection) {continue;}
         collscene = new THREE.Group();
+        collscene.name = collname;
         for (var trackname in collection) {
           if (!collection.hasOwnProperty(trackname)){ continue; }
           
@@ -840,7 +936,7 @@
 			var geometry = new THREE.BufferGeometry();
       geometry.addAttribute( 'position', new THREE.BufferAttribute( pointPos, 3 ) );
       geometry.computeBoundingSphere();
-      var material = new THREE.PointsMaterial( { size: 15} );
+      var material = new THREE.PointsMaterial( { size: 15, color: 0xffff66}  );
       trackPointsObj = new THREE.Points( geometry, material );
       
       scene.add( trackPointsObj );
@@ -858,7 +954,7 @@
       var geometry = new THREE.BoxGeometry( 30, 30, length );
       var material = new THREE.MeshBasicMaterial( { color: Math.random()*0xffffff } );
       var cube = new THREE.Mesh( geometry, material );
-      
+      cube.name = clusName;
       var pos = _getPosition(4000.0, clustercollections[clusName].eta, clustercollections[clusName].phi);
       cube.position.x = pos.x;
       cube.position.y = pos.y;
@@ -904,6 +1000,7 @@
       var mesh = new THREE.Mesh( geometry, material ) ;
       mesh.position.copy( translation );
       mesh.quaternion.copy(quaternion);
+      mesh.name=jetName;
       // mesh.matrixAutoUpdate = false;
       scene.add( mesh );
   
@@ -922,17 +1019,62 @@
 
     }
     
-    // function onMouseMove( e ) {
-    //   console.log('onMouseMove');
-    //   mouse.x = e.clientX;
-    //   mouse.y = e.clientY;
-    // }
-    //
-    // function onDocumentMouseMove( event ) {
-    //   mouse.x = ( event.clientX - windowHalfX ) / 2;
-    //   mouse.y = ( event.clientY - windowHalfY ) / 2;
-    //   console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
-    // }
+    function onMouseMove( e ) {
+      console.log('onMouseMove');
+      // mouse.x = e.clientX;
+      // mouse.y = e.clientY;
+    }
+    
+    function onMouseClick( e ) {
+    	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // console.log('onMouseClick: '+mouse.x+', '+mouse.y);
+      // console.log(eventData.Scene);
+      // console.log(scene.children);
+      
+      var clickedmaterial = new THREE.LineBasicMaterial( {
+      	color: 0xffffff,
+      	linewidth: 1,
+      	linecap: 'round', //ignored by WebGLRenderer
+      	linejoin:  'round' //ignored by WebGLRenderer
+      } );
+      
+      if (guiParameters.selectObj) {
+        raycaster.setFromCamera( mouse, camera );
+        // console.log(raycaster.intersectObjects( eventData.Scene.children[0].children ))
+        var picks = raycaster.intersectObjects( scene.children, true );
+        console.log('Selected object: ');
+        // console.log(picks);
+        for ( var i = 0; i < picks.length; i ++ ) {
+          if (!picks[i].hasOwnProperty("object")){ continue; }
+          
+          if (picks[i].object.hasOwnProperty("eventData")){ 
+            console.log(picks[i].object.eventData); 
+            if (info) {
+              var output = '';
+              for (var property in picks[i].object.eventData) {
+                output += property + ': ' + picks[i].object.eventData[property]+'; <br>';
+              }
+              info.innerHTML = output
+            }
+            if (lastSelectedObject){
+              lastSelectedObject.material = lastSelectedObjectMaterial;
+            }
+            lastSelectedObject = picks[i].object;
+            lastSelectedObjectMaterial = picks[i].object.material;
+            picks[i].object.material = clickedmaterial;          
+          }
+        }
+      }     
+    }
+
+    function onDocumentMouseMove( event ) {
+      mouse.x = ( event.clientX - windowHalfX ) / 2;
+      mouse.y = ( event.clientY - windowHalfY ) / 2;
+      console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
+    }
+    
+    
 
     
     function _render() {
@@ -961,30 +1103,33 @@
           var children = objGeometry[name].Scene.children;
           for ( var i = 0; i < children.length; i ++ ) {
             var current = children[ i ].material;
-  					for ( var j = 0; j < current.clippingPlanes.length; j ++ ) {
-  						var plane = current.clippingPlanes[ j ];
-              // console.log(plane)
-              // plane.constant = ( 149 * plane.constant + guiParameters.clipPosition ) / 150;
-              if      (j===0) clipPosition = guiParameters.xClipPosition;
-              else if (j===1) clipPosition = guiParameters.yClipPosition;
-              else if (j===2) clipPosition = guiParameters.zClipPosition;
-              plane.constant = clipPosition ;
-  					}
+            if (Array.isArray(current)) {
+              for (var j = 0; j<current.length; j++){
+                _updateClipPlane(current[j], clipPosition);
+              }
+            } else {
+              _updateClipPlane(current, clipPosition);
+            }
           }
         } 
       }
     
       stats.update();
-
-      // 
-      if (guiParameters.selectObj) {
-        // console.log('Selecting objects');
-        raycaster.setFromCamera( mouse, camera );
-        console.log(raycaster.intersectObjects( scene.children ))
-      }
       renderer.render( scene, camera );
 
     }
+    
+     function _updateClipPlane(current, clipPosition) {
+			for ( var j = 0; j < current.clippingPlanes.length; j ++ ) {
+				var plane = current.clippingPlanes[ j ];
+         // console.log(plane)
+         // plane.constant = ( 149 * plane.constant + guiParameters.clipPosition ) / 150;
+         if      (j===0) clipPosition = guiParameters.xClipPosition;
+         else if (j===1) clipPosition = guiParameters.yClipPosition;
+         else if (j===2) clipPosition = guiParameters.zClipPosition;
+         plane.constant = clipPosition ;
+			}
+     }
 
     EventDisplay.animate = function() {
       // console('animate');
@@ -992,8 +1137,9 @@
       _render();
     };
     
-    EventDisplay.init = function(){
-      _init();
+    EventDisplay.init = function(configuration){
+      console.log(configuration)
+      _init( configuration );
     };
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry, showsurfaces, showvolumes){
