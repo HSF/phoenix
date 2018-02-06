@@ -7,11 +7,25 @@ stages:
   stage: deploy
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
-    - ci_scripts/deploy-dfs-website.sh "$CI_WEBSITE_DIR" "$DFS_WEBSITE_DIR"
+    - ci_scripts/deploy-eos.sh 
 
-test:
+.test:
   stage: test
   image: alpine:3.5
   script:
     # install additional Alpine packages
     - apk add --update bash git make
+    
+deploy_staging:
+  variables:
+  EOS_PATH: "$WEBSITE_PATH/_staging/$CI_COMMIT_REF_NAME"
+  <<: *deploy_definition
+  except:
+    - master
+  environment:
+    name: staging/$CI_COMMIT_REF_NAME
+    # NB: would like to use the following but my env variables seem to be empty
+    #     here when using gitlab-ci-multi-runner v1.8.0
+    #url: https://cern.ch/$WEBSITE_NAME$JEKYLL_BASEURL
+    url: https://cern.ch/atlassoftwaredocs/_staging/$CI_COMMIT_REF_NAME
+    on_stop: remove_staging
