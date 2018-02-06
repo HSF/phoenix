@@ -8,6 +8,7 @@ stages:
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
     - echo "About to copy to EOS"
+    - echo $EOS_ACCOUNT_USERNAME
     - klist
     - /sbin/deploy-eos
 
