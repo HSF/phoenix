@@ -9,6 +9,7 @@ stages:
   script:
     - echo "About to copy to EOS"
     - ls
+    - ls /sbin
     - /sbin/deploy-eos.sh 
 
 .test:
@@ -21,6 +22,7 @@ stages:
 deploy_staging:
   variables:
     EOS_PATH: "$WEBSITE_PATH/_staging/$CI_COMMIT_REF_NAME"
+    CI_OUTPUT_DIR: "."
   <<: *deploy_definition
   # except:
   #  - master
