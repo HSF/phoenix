@@ -20,5 +20,5 @@ deploy_staging:
   variables:
     EOS_PATH: "$WEBSITE_PATH/_staging/$CI_COMMIT_REF_NAME"
   <<: *deploy_definition
-  except:
-    - master
+  # except:
+  #  - master
