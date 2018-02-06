@@ -28,4 +28,4 @@ deploy_staging:
     #     here when using gitlab-ci-multi-runner v1.8.0
     #url: https://cern.ch/$WEBSITE_NAME$JEKYLL_BASEURL
     url: https://cern.ch/atlassoftwaredocs/_staging/$CI_COMMIT_REF_NAME
-    on_stop: remove_staging
+    #on_stop: remove_staging
