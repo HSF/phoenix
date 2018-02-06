@@ -9,7 +9,8 @@ stages:
   script:
     - echo "About to copy to EOS"
     - echo $EOS_ACCOUNT_USERNAME
-    - klist
+    - /usr/bin/klist
+    - which klist
     - /sbin/deploy-eos
 
 .test:
