@@ -1,0 +1,17 @@
+stages:
+  - test
+  - build
+  - deploy
+
+.deploy_template: &deploy_definition
+  stage: deploy
+  image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
+  script:
+    - ci_scripts/deploy-dfs-website.sh "$CI_WEBSITE_DIR" "$DFS_WEBSITE_DIR"
+
+test:
+  stage: test
+  image: alpine:3.5
+  script:
+    # install additional Alpine packages
+    - apk add --update bash git make
