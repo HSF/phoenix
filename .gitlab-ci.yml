@@ -7,7 +7,9 @@ stages:
   stage: deploy
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
-    - ci_scripts/deploy-eos.sh 
+    - echo "About to copy to EOS"
+    - ls
+    - /sbin/deploy-eos.sh 
 
 .test:
   stage: test
