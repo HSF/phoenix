@@ -14,9 +14,9 @@ stages:
     - /usr/bin/klist
     - echo "$CI_OUTPUT_DIR/"
     - echo "$EOS_MGM_URL/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "$EOS_MGM_URL/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/js" "$EOS_MGM_URL/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/img" "$EOS_MGM_URL/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/js" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/img" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
     #- /sbin/deploy-eos
 
 .test:
