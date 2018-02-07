@@ -12,7 +12,12 @@ stages:
     - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
     - /usr/bin/klist
-    - /sbin/deploy-eos
+    - echo "$CI_OUTPUT_DIR/"
+    - echo "$EOS_MGM_URL/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "$EOS_MGM_URL/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/js" "$EOS_MGM_URL/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/img" "$EOS_MGM_URL/$EOS_PATH/"
+    #- /sbin/deploy-eos
 
 .test:
   stage: test
