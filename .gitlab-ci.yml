@@ -1,6 +1,5 @@
 stages:
   - test
-  - build
   - deploy
 
 .deploy_template: &deploy_definition
@@ -13,7 +12,6 @@ stages:
     - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
     - /usr/bin/klist
-    - echo "$CI_OUTPUT_DIR/"
     - echo "$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "index.html" "$EOS_DIR/$EOS_PATH/"
@@ -30,8 +28,7 @@ stages:
     
 deploy_staging:
   variables:
-    EOS_PATH: "$WEBSITE_PATH/_staging/$CI_COMMIT_REF_NAME"
-    CI_OUTPUT_DIR: "."
+    EOS_PATH: "_staging/$CI_COMMIT_REF_NAME"
   <<: *deploy_definition
   # except:
   #  - master
@@ -57,4 +54,17 @@ remove_staging:
   environment:
     name: staging/$CI_COMMIT_REF_NAME
     action: stop
+
+deploy_production:
+  variables:
+    EOS_PATH: ""
+  <<: *deploy_definition
+  only:
+    - master
+  environment:
+    name: production
+    url: https://emoyse.web.cern.ch/emoyse/webeventdisplay
+    # NB: would like to use the following but my env variables seem to be empty
+    #     here when using gitlab-ci-multi-runner v1.8.0
+    #url: https://cern.ch/$WEBSITE_NAME
 
