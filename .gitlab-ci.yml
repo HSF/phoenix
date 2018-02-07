@@ -12,7 +12,6 @@ stages:
     - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
     - /usr/bin/klist
-    - which klist
     - /sbin/deploy-eos
 
 .test:
