@@ -16,8 +16,8 @@ stages:
     - echo "$CI_OUTPUT_DIR/"
     - echo "$EOS_MGM_URL/$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "js" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/js"
-    - /usr/bin/xrdcp --force --recursive --silent --path "img" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/img"
+    - /usr/bin/xrdcp --force --recursive --silent --path "js" "EOS_MGM_URL/$EOS_DIR/$EOS_PATH/js/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "img" "EOS_MGM_URL/$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
 
 .test:
