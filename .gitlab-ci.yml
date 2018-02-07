@@ -16,6 +16,7 @@ stages:
     - echo "$CI_OUTPUT_DIR/"
     - echo "$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "index.html" "$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "js" "$EOS_DIR/$EOS_PATH/js/"
     - /usr/bin/xrdcp --force --recursive --silent --path "img" "$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
@@ -34,3 +35,5 @@ deploy_staging:
   <<: *deploy_definition
   # except:
   #  - master
+  environment:
+    name: staging/$CI_COMMIT_REF_NAME
