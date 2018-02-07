@@ -14,10 +14,10 @@ stages:
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
     - /usr/bin/klist
     - echo "$CI_OUTPUT_DIR/"
-    - echo "$EOS_MGM_URL/$EOS_DIR/$EOS_PATH/"
+    - echo "$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "js" "EOS_MGM_URL/$EOS_DIR/$EOS_PATH/js/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "img" "EOS_MGM_URL/$EOS_DIR/$EOS_PATH/img/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "js" "$EOS_DIR/$EOS_PATH/js/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "img" "$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
 
 .test:
