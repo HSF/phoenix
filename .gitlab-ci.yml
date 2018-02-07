@@ -37,3 +37,24 @@ deploy_staging:
   #  - master
   environment:
     name: staging/$CI_COMMIT_REF_NAME
+    url: https://emoyse.web.cern.ch/emoyse/_staging/$CI_COMMIT_REF_NAME
+    on_stop: remove_staging
+    
+remove_staging:
+  stage: deploy
+  variables:
+    # don't checkout code from git (to prevent checking out deleted branches)
+    GIT_STRATEGY: none
+  image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
+  before_script:
+    - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
+  script:
+    - STAGING_DIR="$WEBSITE_FULL_DIR\\_staging"
+    - DELETEME_DIR="$WEBSITE_FULL_DIR\\_staging\\_deleteme"
+  after_script:
+    - kdestroy
+  when: manual
+  environment:
+    name: staging/$CI_COMMIT_REF_NAME
+    action: stop
+
