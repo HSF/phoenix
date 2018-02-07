@@ -15,6 +15,9 @@ stages:
     - echo "$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "index.html" "$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "geom_display.html" "$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_ATLAS.html" "$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_CTD.html" "$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "js" "$EOS_DIR/$EOS_PATH/js/"
     - /usr/bin/xrdcp --force --recursive --silent --path "img" "$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
@@ -34,7 +37,7 @@ deploy_staging:
   #  - master
   environment:
     name: staging/$CI_COMMIT_REF_NAME
-    url: https://emoyse.web.cern.ch/emoyse/webeventdisplay/_staging/$CI_COMMIT_REF_NAME
+    url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
     on_stop: remove_staging
     
 remove_staging:
@@ -63,7 +66,7 @@ deploy_production:
     - master
   environment:
     name: production
-    url: https://emoyse.web.cern.ch/emoyse/webeventdisplay
+    url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
     # NB: would like to use the following but my env variables seem to be empty
     #     here when using gitlab-ci-multi-runner v1.8.0
     #url: https://cern.ch/$WEBSITE_NAME
