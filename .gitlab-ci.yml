@@ -8,15 +8,16 @@ stages:
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
     - echo "About to copy to EOS"
+    - pwd
     - echo $EOS_ACCOUNT_USERNAME
     - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
     - /usr/bin/klist
     - echo "$CI_OUTPUT_DIR/"
-    - echo "$EOS_MGM_URL/$EOS_PATH/"
-    #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/js" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/img" "root://eosuser.cern.ch/e/emoyse/$EOS_PATH/"
+    - echo "$EOS_MGM_URL/$EOS_DIR/$EOS_PATH/"
+    #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "js" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "img" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
     #- /sbin/deploy-eos
 
 .test:
