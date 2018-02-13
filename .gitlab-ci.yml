@@ -19,6 +19,7 @@ stages:
     - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_ATLAS.html" "$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_CTD.html" "$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "js" "$EOS_DIR/$EOS_PATH/js/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "lib" "$EOS_DIR/$EOS_PATH/lib/"
     - /usr/bin/xrdcp --force --recursive --silent --path "img" "$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
 
