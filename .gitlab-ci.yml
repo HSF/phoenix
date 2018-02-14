@@ -60,11 +60,13 @@ remove_staging:
     action: stop
 
 deploy_production:
+  stage: deploy
   variables:
     EOS_PATH: ""
   <<: *deploy_definition
   only:
     - master
+  when: manual
   environment:
     name: production
     url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
