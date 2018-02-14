@@ -49,6 +49,7 @@ remove_staging:
     EOS_PATH: "_staging/$CI_COMMIT_REF_NAME"
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   before_script:
+    - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
   script:
     - /usr/bin/klist
