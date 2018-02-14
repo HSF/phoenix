@@ -55,7 +55,6 @@ remove_staging:
     - /usr/bin/eos rmdir "$EOS_DIR/$EOS_PATH/"
   after_script:
     - kdestroy
-  when: manual
   environment:
     name: production
     action: stop
