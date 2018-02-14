@@ -2,26 +2,21 @@ stages:
   - test
   - staging
   - production
-  - clean staging
 
 .deploy_template: &deploy_definition
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
     - echo "About to copy to EOS"
-    - pwd
-    - echo $EOS_ACCOUNT_USERNAME
     - kinit="/usr/bin/kinit"
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
-    - /usr/bin/klist
-    - echo "$EOS_DIR/$EOS_PATH/"
     #- /usr/bin/xrdcp --force --recursive --silent --path "$CI_OUTPUT_DIR/*.html" "root://eosuser//eos/user/e/emoyse/www/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "index.html" "$EOS_DIR/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "geom_display.html" "$EOS_DIR/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_ATLAS.html" "$EOS_DIR/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_CTD.html" "$EOS_DIR/$EOS_PATH/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "js" "$EOS_DIR/$EOS_PATH/js/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "lib" "$EOS_DIR/$EOS_PATH/lib/"
-    - /usr/bin/xrdcp --force --recursive --silent --path "img" "$EOS_DIR/$EOS_PATH/img/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "index.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "geom_display.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_ATLAS.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_CTD.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "js" "root://eosuser/$EOS_DIR/$EOS_PATH/js/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "lib" "root://eosuser/$EOS_DIR/$EOS_PATH/lib/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "img" "root://eosuser/$EOS_DIR/$EOS_PATH/img/"
     #- /sbin/deploy-eos
 
 .test:
@@ -42,7 +37,7 @@ deploy_staging:
     name: staging/$CI_COMMIT_REF_NAME
     url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
     
-remove_staging:
+.remove_staging:
   stage: clean staging
   variables:
     # don't checkout code from git (to prevent checking out deleted branches)
@@ -56,7 +51,7 @@ remove_staging:
     - /usr/bin/klist
     - echo $EOS_DIR
     - echo $EOS_PATH
-    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_PATH
+    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
   after_script:
     - kdestroy
   environment:
@@ -71,6 +66,9 @@ deploy_production:
   only:
     - master
   when: manual
+  after_script:
+    - echo "Removing staging"
+    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
   environment:
     name: production
     url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
