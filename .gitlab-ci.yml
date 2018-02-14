@@ -52,7 +52,7 @@ remove_staging:
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
   script:
     - /usr/bin/klist
-    - /usr/bin/eos rmdir "$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdfs rmdir "$EOS_DIR/$EOS_PATH/"
   after_script:
     - kdestroy
   environment:
