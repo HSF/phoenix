@@ -39,7 +39,6 @@ deploy_staging:
   environment:
     name: staging/$CI_COMMIT_REF_NAME
     url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
-    on_stop: remove_staging
     
 remove_staging:
   stage: deploy
@@ -54,7 +53,6 @@ remove_staging:
   script:
     - /usr/bin/klist
     - /usr/bin/eos rmdir "$EOS_DIR/$EOS_PATH/"
-
   after_script:
     - kdestroy
   when: manual
@@ -73,7 +71,6 @@ deploy_production:
   environment:
     name: production
     url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
-    # NB: would like to use the following but my env variables seem to be empty
-    #     here when using gitlab-ci-multi-runner v1.8.0
-    #url: https://cern.ch/$WEBSITE_NAME
+    on_stop: remove_staging
+    
 
