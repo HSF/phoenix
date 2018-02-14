@@ -32,7 +32,7 @@ stages:
     - apk add --update bash git make
     
 deploy_staging:
-  stage: stage
+  stage: staging
   variables:
     EOS_PATH: "_staging/$CI_COMMIT_REF_NAME"
   <<: *deploy_definition
