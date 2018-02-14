@@ -1,7 +1,8 @@
 stages:
   - test
-  - stage
+  - staging
   - production
+  - clean staging
 
 .deploy_template: &deploy_definition
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
@@ -42,7 +43,7 @@ deploy_staging:
     url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
     
 remove_staging:
-  stage: production
+  stage: clean staging
   variables:
     # don't checkout code from git (to prevent checking out deleted branches)
     GIT_STRATEGY: none
@@ -53,8 +54,9 @@ remove_staging:
     - echo "$EOS_ACCOUNT_PASSWORD" | $kinit "$EOS_ACCOUNT_USERNAME@CERN.CH" 2>&1 >/dev/null
   script:
     - /usr/bin/klist
-    - echo "$EOS_DIR/$EOS_PATH/"
-    - /usr/bin/xrdfs rmdir "$EOS_DIR/$EOS_PATH/"
+    - echo $EOS_DIR
+    - echo $EOS_PATH
+    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_PATH
   after_script:
     - kdestroy
   environment:
