@@ -72,6 +72,7 @@ deploy_production:
   environment:
     name: production
     url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
-    on_stop: remove_staging
+    action: stop
+
     
 
