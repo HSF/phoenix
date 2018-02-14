@@ -57,7 +57,7 @@ remove_staging:
     - kdestroy
   when: manual
   environment:
-    name: staging/$CI_COMMIT_REF_NAME
+    name: production
     action: stop
 
 deploy_production:
