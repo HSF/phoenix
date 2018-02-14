@@ -1,9 +1,9 @@
 stages:
   - test
-  - deploy
+  - stage
+  - production
 
 .deploy_template: &deploy_definition
-  stage: deploy
   image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer
   script:
     - echo "About to copy to EOS"
@@ -31,6 +31,7 @@ stages:
     - apk add --update bash git make
     
 deploy_staging:
+  stage: stage
   variables:
     EOS_PATH: "_staging/$CI_COMMIT_REF_NAME"
   <<: *deploy_definition
@@ -41,7 +42,7 @@ deploy_staging:
     url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
     
 remove_staging:
-  stage: deploy
+  stage: production
   variables:
     # don't checkout code from git (to prevent checking out deleted branches)
     GIT_STRATEGY: none
@@ -61,7 +62,7 @@ remove_staging:
     action: stop
 
 deploy_production:
-  stage: deploy
+  stage: production
   variables:
     EOS_PATH: ""
   <<: *deploy_definition
