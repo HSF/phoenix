@@ -415,8 +415,8 @@
       material2.clipShadows = false;
       material2.side = THREE.DoubleSide;
       
-      var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
-      wireframeMaterial.clippingPlanes = clipPlanes;
+      // var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
+      // wireframeMaterial.clippingPlanes = clipPlanes;
       // wireframeMaterial.clipIntersection = true
       // wireframeMaterial.clipShadows = false;
       
@@ -469,11 +469,43 @@
         console.log('Error loading');
 			};
       
-      var testOBJ2Loader=false;
+      var testOBJ2Loader=true;
       var loader;
       if (testOBJ2Loader){
-  			loader = new THREE.OBJLoader2( manager );
-        if (materials) loader.setMaterials(materials);        
+        // loader = new THREE.OBJLoader2( manager );
+        //         if (materials) loader.setMaterials(materials);  
+        // loader.load( objectname, function ( object ) {
+        //         _setObjFlat(object, colour);
+        //         // console.log('Add object');
+        //         scene.add( object );
+        //         objGeometry[name]={
+        //           Scene: object,
+        //           Colour: colour,
+        //           Menu: 0
+          //         }
+          
+        var prepData = new THREE.LoaderSupport.PrepData( name );  
+        var local = new THREE.Object3D();
+        prepData.setStreamMeshesTo( local );
+        scene.add( local );
+        prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( objectname, 'OBJ' ) );
+				var objLoader = new THREE.OBJLoader2();
+				objLoader.run( prepData );
+        objGeometry[name]={
+          Scene: local,
+          Colour: colour,
+          Menu: 0
+        }  
+        var geometry  = objGeometry[name];
+        if (geomFolder===undefined) {
+          geomFolder   = gui.addFolder('Geometry');
+        }
+        guiParameters.Geometry = true;
+
+        guiParameters[name]=true; // FIXME - we should check that this is unique?
+        geometry.Menu = geomFolder.add( guiParameters, name).name(name).listen();
+        geometry.Menu.onChange( onChangeFunction( name, geometry) );
+        geometry.Scene.visible = guiParameters[name];
       } else {
         var manager = new THREE.LoadingManager();
         			manager.onProgress = function ( item, loaded, total ) {
@@ -490,18 +522,16 @@
                 console.log('Error loading');
         			};
       
-        			loader = new THREE.OBJLoader( manager );        
-      }
-
-			loader.load( objectname, function ( object ) {
-        _setObjFlat(object, colour); 
-        // console.log('Add object');
-  			scene.add( object );   
-        objGeometry[name]={
-          Scene: object,
-          Colour: colour,
-          Menu: 0
-        }     
+        			loader = new THREE.OBJLoader( manager );    
+              loader.load( objectname, function ( object ) {
+                      _setObjFlat(object, colour);
+                      // console.log('Add object');
+                      scene.add( object );
+                      objGeometry[name]={
+                        Scene: object,
+                        Colour: colour,
+                        Menu: 0
+                      }    
         var geometry  = objGeometry[name];
         // geometry.computeFaceNormals();
         // console.log(geometry);
@@ -517,7 +547,7 @@
         geometry.Scene.visible = guiParameters[name];
 			}, onProgress, onError );
     }
-    
+  }
   
     function _buildGeometryFromVolume(volume) {
       // console.log(layer)
