@@ -34,7 +34,7 @@ deploy_staging:
   # except:
   #  - master
   after_script:
-    /usr/bin/xrdcp --force --recursive --silent --path "root://eosuser/$EOS_DIR/geometry" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "root://eosuser/$EOS_DIR/geometry" "root://eosuser/$EOS_DIR/$EOS_PATH/"
   environment:
     name: staging/$CI_COMMIT_REF_NAME
     url: emoyse.web.cern.ch/emoyse/WebEventDisplay/_staging/$CI_COMMIT_REF_NAME
