@@ -88,7 +88,7 @@
       controls = new THREE.OrbitControls( camera, renderer.domElement );
       controls.autoRotate=false;
       
-      var axis = new THREE.AxisHelper( 2000 );
+      var axis = new THREE.AxesHelper( 2000 );
       // blue is z, red is phi=0
       scene.add( axis );
       axis.visible=false; // off by default
@@ -409,13 +409,13 @@
     function _setObjFlat( object3d, colour ) {
       // console.log(object3d, colour);
       var material2 = new THREE.MeshPhongMaterial({ color: colour, wireframe: false });
-      material2.shading = THREE.FlatShading;
+      material2.flatShading = true;
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
       material2.side = THREE.DoubleSide;
       
-      var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframe_linewidth: 10 });
+      var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
       wireframeMaterial.clippingPlanes = clipPlanes;
       // wireframeMaterial.clipIntersection = true
       // wireframeMaterial.clipShadows = false;
@@ -469,8 +469,30 @@
         console.log('Error loading');
 			};
       
-			var loader = new THREE.OBJLoader2( manager );
-      if (materials) loader.setMaterials(materials);
+      var testOBJ2Loader=false;
+      var loader;
+      if (testOBJ2Loader){
+  			loader = new THREE.OBJLoader2( manager );
+        if (materials) loader.setMaterials(materials);        
+      } else {
+        var manager = new THREE.LoadingManager();
+        			manager.onProgress = function ( item, loaded, total ) {
+        				console.log( item, loaded, total );
+        			};
+      
+        			var onProgress = function ( xhr ) {
+        				if ( xhr.lengthComputable ) {
+        					var percentComplete = xhr.loaded / xhr.total * 100;
+        					console.log( Math.round(percentComplete, 2) + '% downloaded' );
+        				}
+        			};
+        			var onError = function ( xhr ) {
+                console.log('Error loading');
+        			};
+      
+        			loader = new THREE.OBJLoader( manager );        
+      }
+
 			loader.load( objectname, function ( object ) {
         _setObjFlat(object, colour); 
         // console.log('Add object');
@@ -1034,7 +1056,7 @@
       
       var clickedmaterial = new THREE.LineBasicMaterial( {
       	color: 0xffffff,
-      	linewidth: 1,
+      	wireframeLinewidth: 1,
       	linecap: 'round', //ignored by WebGLRenderer
       	linejoin:  'round' //ignored by WebGLRenderer
       } );
