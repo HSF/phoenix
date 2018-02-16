@@ -67,13 +67,26 @@
       scene = new THREE.Scene();
       scene.name="Root"
       
-			var ambient = new THREE.AmbientLight( 0x707070 );
-			scene.add( ambient );
-			var directionalLight = new THREE.PointLight( 0xffeedd );
-			directionalLight.position.set( camera.position );
-      // directionalLight.target(new THREE.Vector3(0,0,0));
-      camera.add( directionalLight );
-      scene.add(camera)
+      // var ambient = new THREE.AmbientLight( 0x707070 );
+      // scene.add( ambient );
+      
+			var ambientLight = new THREE.AmbientLight( 0x404040 );
+			var directionalLight1 = new THREE.DirectionalLight( 0xC0C090 );
+			var directionalLight2 = new THREE.DirectionalLight( 0xC0C090 );
+
+			directionalLight1.position.set( -100, -50, 100 );
+			directionalLight2.position.set( 100, 50, -100 );
+
+			scene.add( directionalLight1 );
+			scene.add( directionalLight2 );
+			scene.add( ambientLight );
+      
+      
+      var directionalLight = new THREE.PointLight( 0xeeeedd );
+      directionalLight.position.set( camera.position );
+            // directionalLight.target(new THREE.Vector3(0,0,0));
+            // camera.add( directionalLight );
+            scene.add(camera)
       
       raycaster = new THREE.Raycaster();
       raycaster.linePrecision = 5;
@@ -409,11 +422,11 @@
     function _setObjFlat( object3d, colour ) {
       // console.log(object3d, colour);
       var material2 = new THREE.MeshPhongMaterial({ color: colour, wireframe: false });
-      material2.flatShading = true;
+      // material2.flatShading = false;
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
-      material2.side = THREE.DoubleSide;
+      // material2.side = THREE.DoubleSide;
       
       // var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
       // wireframeMaterial.clippingPlanes = clipPlanes;
@@ -423,6 +436,7 @@
       object3d.traverse( function(child) {
           if (child instanceof THREE.Mesh) {
 
+console.log('Found mesh')
             // apply custom material
             // child.material = [ material2, wireframeMaterial ];
             child.material = material2;
@@ -472,6 +486,7 @@
       var testOBJ2Loader=true;
       var loader;
       if (testOBJ2Loader){
+        console.log('Using OBJLoader2 for '+name);
         // loader = new THREE.OBJLoader2( manager );
         //         if (materials) loader.setMaterials(materials);  
         // loader.load( objectname, function ( object ) {
@@ -483,19 +498,40 @@
         //           Colour: colour,
         //           Menu: 0
           //         }
-          
+
+				var callbackOnLoad = function ( event ) {
+					console.log( 'Loading complete: ' + event.detail.modelName );
+          console.log(scene);
+          _setObjFlat(event.detail.loaderRootNode, colour);
+				};
+      
+        var Validator = THREE.LoaderSupport.Validator;
+      
+				var callbackOnProgress = function( event ) {
+					var output = Validator.verifyInput( event.detail.text, '' );
+					console.log( 'Progress: ' + output );
+				};
+				var scope = this;
+        
         var prepData = new THREE.LoaderSupport.PrepData( name );  
-        var local = new THREE.Object3D();
-        prepData.setStreamMeshesTo( local );
+        var local = new THREE.Object3D( );
+        local.name=name;
         scene.add( local );
+
+        prepData.setStreamMeshesTo( local );
         prepData.addResource( new THREE.LoaderSupport.ResourceDescriptor( objectname, 'OBJ' ) );
+
+				var callbacks = prepData.getCallbacks();
+				callbacks.setCallbackOnProgress( callbackOnProgress );
+				callbacks.setCallbackOnLoad( callbackOnLoad );
+        
 				var objLoader = new THREE.OBJLoader2();
 				objLoader.run( prepData );
         objGeometry[name]={
           Scene: local,
           Colour: colour,
           Menu: 0
-        }  
+        }
         var geometry  = objGeometry[name];
         if (geomFolder===undefined) {
           geomFolder   = gui.addFolder('Geometry');
@@ -506,6 +542,7 @@
         geometry.Menu = geomFolder.add( guiParameters, name).name(name).listen();
         geometry.Menu.onChange( onChangeFunction( name, geometry) );
         geometry.Scene.visible = guiParameters[name];
+        
       } else {
         var manager = new THREE.LoadingManager();
         			manager.onProgress = function ( item, loaded, total ) {
@@ -1086,7 +1123,6 @@
       
       var clickedmaterial = new THREE.LineBasicMaterial( {
       	color: 0xffffff,
-      	wireframeLinewidth: 1,
       	linecap: 'round', //ignored by WebGLRenderer
       	linejoin:  'round' //ignored by WebGLRenderer
       } );
@@ -1126,9 +1162,7 @@
       console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
     }
     
-    
-
-    
+     
     function _render() {
       // console.log('camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
       // camera.position.x += ( mouse.x - camera.position.x ) * .05;
@@ -1163,9 +1197,9 @@
               _updateClipPlane(current, clipPosition);
             }
           }
-        } 
+        }
       }
-    
+
       stats.update();
       renderer.render( scene, camera );
 

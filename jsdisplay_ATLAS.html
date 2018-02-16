@@ -6,7 +6,7 @@
   <script src="lib/stats.min.js"></script>
   <script src="lib/LoaderSupport.js"></script>
   <script src="lib/OBJLoader2.js"></script>
-  <script src="lib/OBJLoader.js"></script>
+  <!-- <script src="lib/OBJLoader.js"></script> -->
 	<script src="lib/MTLLoader.js"></script>
   <script src="js/jsdisplay.js"></script>
 
@@ -30,10 +30,10 @@
   xmlhttpEventData.open("GET", urlEvent, true);
   // xmlhttpEventData.send();
 
-  // window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181);
+  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181);
   window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8);
-  // window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3);
-  // window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59);
+  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3);
+  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59);
 
   window.EventDisplay.animate();
   
