@@ -178,16 +178,16 @@
     
     function _handleFileSelect( object3d ) {
       var fileObj = null;
-			var fileMtl = null;
-			var files = event.target.files;
-			for ( var i = 0, file; file = files[ i ]; i++) {
-				if ( file.name.indexOf( '\.obj' ) > 0 && fileObj === null ) {
-					fileObj = file;
-				}
-				if ( file.name.indexOf( '\.mtl' ) > 0 && fileMtl === null ) {
-					fileMtl = file;
-				}
-			}
+  		var fileMtl = null;
+  		var files = event.target.files;
+  		for ( var i = 0, file; file = files[ i ]; i++) {
+  			if ( file.name.indexOf( '\.obj' ) > 0 && fileObj === null ) {
+  				fileObj = file;
+  			}
+  			if ( file.name.indexOf( '\.mtl' ) > 0 && fileMtl === null ) {
+  				fileMtl = file;
+  			}
+  		}
       
       var Validator = THREE.OBJLoader2.prototype._getValidator();
 			if ( ! Validator.isValid( fileObj ) ) {
@@ -197,24 +197,24 @@
         
         if (fileMtl) {
           var mtlLoader = new THREE.MTLLoader();
-          				mtlLoader.setPath( 'obj/male02/' );
-          				mtlLoader.load( 'male02_dds.mtl', function( materials ) {
-          					materials.preload();
-          					var objLoader = new THREE.OBJLoader();
-          					objLoader.setMaterials( materials );
-          					objLoader.setPath( 'obj/male02/' );
-          					objLoader.load( 'male02.obj', function ( object ) {
-          						object.position.y = - 95;
-          						scene.add( object );
-          					}, onProgress, onError );
-          				});
+  				mtlLoader.setPath( 'obj/male02/' );
+  				mtlLoader.load( 'male02_dds.mtl', function( materials ) {
+  					materials.preload();
+  					var objLoader = new THREE.OBJLoader();
+  					objLoader.setMaterials( materials );
+  					objLoader.setPath( 'obj/male02/' );
+  					objLoader.load( 'male02.obj', function ( object ) {
+  						object.position.y = - 95;
+  						scene.add( object );
+  					}, onProgress, onError );
+  				});
         } else {
-          var fileReader = new FileReader();
-  				fileReader.onload = function( fileDataObj ) {
-            console.log('fileReader onload ',fileDataObj);
-            _loadGeomFromObj(fileDataObj.target.result, fileObj.name.replace('.obj',''), fileMtl);
-  				};
-          fileReader.readAsDataURL( fileObj );
+    			var fileReader = new FileReader();
+    			fileReader.onload = function( fileDataObj ) {
+    				console.log('fileReader onload ',fileDataObj);
+    				_loadGeomFromObj(fileDataObj.target.result, fileObj.name.replace('.obj',''), fileMtl);
+    			};
+    			fileReader.readAsDataURL( fileObj );
         }
       }
     }
@@ -419,14 +419,14 @@
       // detectorGeometry.Scene.visible = guiParameters[detectorGeometry.Name]=false;
     }
     
-    function _setObjFlat( object3d, colour ) {
+    function _setObjFlat( object3d, colour, doublesided ) {
       // console.log(object3d, colour);
       var material2 = new THREE.MeshPhongMaterial({ color: colour, wireframe: false });
       // material2.flatShading = false;
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
-      // material2.side = THREE.DoubleSide;
+      if (doublesided) material2.side = THREE.DoubleSide;
       
       // var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
       // wireframeMaterial.clippingPlanes = clipPlanes;
@@ -459,7 +459,7 @@ console.log('Found mesh')
 //       }
 		};
     
-    function _loadGeomFromObj(objectname, name, colour, materials){ 
+    function _loadGeomFromObj(objectname, name, colour, doublesided, materials){ 
       // by default, let's clear the existing geometry here.
       
       if (!colour ) {
@@ -502,7 +502,7 @@ console.log('Found mesh')
 				var callbackOnLoad = function ( event ) {
 					console.log( 'Loading complete: ' + event.detail.modelName );
           console.log(scene);
-          _setObjFlat(event.detail.loaderRootNode, colour);
+          _setObjFlat(event.detail.loaderRootNode, colour, doublesided);
 				};
       
         var Validator = THREE.LoaderSupport.Validator;
@@ -561,7 +561,7 @@ console.log('Found mesh')
       
         			loader = new THREE.OBJLoader( manager );    
               loader.load( objectname, function ( object ) {
-                      _setObjFlat(object, colour);
+                      _setObjFlat(object, colour, doublesided);
                       // console.log('Add object');
                       scene.add( object );
                       objGeometry[name]={
@@ -1240,8 +1240,8 @@ console.log('Found mesh')
       _buildEventDataFromJSON(event);
     };
     
-    EventDisplay.loadGeomFromObj = function(objectname, name, colour){
-      _loadGeomFromObj(objectname, name, colour);
+    EventDisplay.loadGeomFromObj = function(objectname, name, colour, doublesided){
+      _loadGeomFromObj(objectname, name, colour, doublesided);
     };
     
     return EventDisplay;

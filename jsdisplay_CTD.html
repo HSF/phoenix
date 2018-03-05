@@ -1,5 +1,50 @@
 <!-- author: Edward Moyse -->
-<html> <head> <title>Geometry display</title> <style> body { margin: 0; } canvas { width: 100%; height: 100% } </style> </head> <body>
+<html> <head> <title>CTD Event display</title> 
+  <style> 
+    body { margin: 0; } 
+    canvas { width: 100%; height: 100% } 
+    caption {
+    position:absolute;
+    top:-500px; left:0; right:0;
+    background: rgba(0, 0, 0, 0.5);
+    color:white;
+    font-family:arial;
+    padding:30px;
+    text-align:justify;
+    transition: all 500ms ease; }
+
+    box{
+        width:383px;
+        height:212px;
+        position:relative;
+        overflow:hidden;
+    }
+
+	box:hover .caption{
+	  top:0;
+	  height:100%;
+	}
+  
+	#about {
+		position: absolute;
+    	bottom:20px; left:0; right:0;
+    	width:100%;
+		padding: 10px;
+		text-align: left;
+    	color:white;
+    	font-family:arial;
+		font-size:12;
+    	background: rgba(0, 0, 0, 0.5);
+	}
+  
+	#fileUploadInput {
+		display: none;
+	}
+ </style>
+
+</head> <body>
+    <div id="about" > Created with <a href="https://gitlab.cern.ch/emoyse/WebEventDisplay">WebEventDisplay</a> </div>
+	
   <script src="lib/three.min.js"></script> 
   <script src="lib/dat.gui.min.js"></script>
   <script src="lib/OrbitControls.js"></script> 
@@ -15,24 +60,25 @@
   
   "use strict";
   
-  // var xmlhttpEventData = new XMLHttpRequest();
-  // var urlEvent = "https://emoyse.web.cern.ch/emoyse/WebEventDisplay/SpacePoints.json";
-  // var eventLoaded = false;
-  //
-  // xmlhttpEventData.onreadystatechange = function() {
-  //     if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-  //         var myArr = JSON.parse(xmlhttpEventData.responseText);
-  //         window.EventDisplay.buildEventDataFromJSON(myArr);
-  //         eventLoaded=true;
-  //     }
-  // };
-  // xmlhttpEventData.open("GET", urlEvent, true);
-  // xmlhttpEventData.send();
+  // Load event data
+  var xmlhttpEventData = new XMLHttpRequest();
+  var urlEvent = "event000000000-spacepoints.json";
+  var eventLoaded = false;
 
-  window.EventDisplay.loadGeomFromObj('file:////Users/emoyse/Documents/WebEventDisplay/geometry/CTD/Apollo 11.obj', 'Apollo', 0xf9ac59);
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59);
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8);
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3);
+  xmlhttpEventData.onreadystatechange = function() {
+      if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+          var myArr = JSON.parse(xmlhttpEventData.responseText);
+          window.EventDisplay.buildEventDataFromJSON(myArr);
+          eventLoaded=true;
+      }
+  };
+  xmlhttpEventData.open("GET", urlEvent, true);
+  xmlhttpEventData.send();
+
+  // Load geometry data
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59, true);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8, true);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3, true);
 
   window.EventDisplay.animate();
   

@@ -8,10 +8,15 @@ Technically the 3D is done with [three.js](http://threejs.org), the menu (at the
 
 ### Installation 
 
-To install, you need to clone this repository, but also copy any missing files from [here](http://emoyse.web.cern.ch/emoyse/WebEventDisplay/js/) and put them in your local js directory (you could also install three.js and DAT.GUI manually, but this is a bit more work)
-It should then be enough to open `jsdisplay.html` in a web browser, which will show geometry and event data, or `geom_display.html` which will give a demo about how to create geometry data yourself using WED's interactivity. Please note that there can be permissions problems with modern browsers - see [here](https://threejs.org/docs/index.html#Manual/Getting_Started/How_to_run_things_locally) for details.
+To install, you need to clone this repository, using e.g. 
+`git clone ssh://git@gitlab.cern.ch:7999/emoyse/WebEventDisplay.git`
 
-* This should be much improved.
+In order to have access to the geometry files, you would need to do:
+`scp -r lxplus.cern.ch:/eos/user/e/emoyse/www/WebEventDisplay/geometry .`
+[FIXME - this obviously isn't a long term solution]
+
+To avoid permissions problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) and then point your browser to `http://0.0.0.0:8000`
+See [here](https://threejs.org/docs/index.html#Manual/Getting_Started/How_to_run_things_locally) for more details (and alternative solutions).
 
 ### Using this with your own data 
 
@@ -25,6 +30,7 @@ Currently WED supports the following physics objects:
 * Tracks - the trajectory of a charged particle (usually in a magnetic field)
 * Calorimeter clusters - deposits of energy in a calorimeter
 * Jets - cones of activity within the detector
+* Hits - individual measurements
 
 And coming soon:
 
