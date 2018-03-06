@@ -62,7 +62,8 @@
   
   // Load event data
   var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "event000000000-spacepoints.json";
+  // var urlEvent = "event000000000-spacepoints.json";
+  var urlEvent = "event000000000-hits.json";
   var eventLoaded = false;
 
   xmlhttpEventData.onreadystatechange = function() {
@@ -76,10 +77,12 @@
   xmlhttpEventData.send();
 
   // Load geometry data
-  window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59, true);
-  window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8, true);
-  window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3, true);
-
+  // window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59, false);
+  // window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8, false);
+  // window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3, false);
+  // window.EventDisplay.loadGeomFromObj('geometry/CTD/BeamPipe.obj', 'Beampipe', 0xb1dbb3, false);
+  // window.EventDisplay.loadGeomFromObj('geometry/CTD/PST.obj', 'PST', 0xb1dbb3, false);
+  
   window.EventDisplay.animate();
   
   </script> 
