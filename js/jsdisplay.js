@@ -147,8 +147,8 @@
       //   }
       //   }
       // );
-      controlsFolder.add( guiParameters, 'xClipPosition', -750, 750 );
-      controlsFolder.add( guiParameters, 'yClipPosition', -750, 750 );
+      controlsFolder.add( guiParameters, 'xClipPosition', -1200, 1200 );
+      controlsFolder.add( guiParameters, 'yClipPosition', -1200, 1200 );
       controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
       
       guiParameters.selectObj=true;
@@ -787,17 +787,26 @@ console.log('Found mesh')
       // console.log(recoMenu);
       
       // Fill data      
-      _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
-      _addEventCollections(eventData["Jets"], _addJet, "Jets", eventScene);
+      if (eventData["Tracks"]){
+        _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
+        _addTrackPoints(eventData, eventScene);
+      }
       
-      _addTrackPoints(eventData, eventScene);
+      if (eventData["Jets"]){
+        _addEventCollections(eventData["Jets"], _addJet, "Jets", eventScene);
+      }
+      
       // _addEventCollections(eventData["Measurement"], _addMeasurement);
       
       
       // Caloclusters - special because we need dimensions of calorimeter.
-      _addClusterCollections(eventData, eventScene);
+      if (eventData["CaloClusters"]){
+        _addClusterCollections(eventData, eventScene);
+      }
       
-      _addHits(eventData, eventScene);     
+      if (eventData["Hits"]){
+        _addHits(eventData, eventScene);  
+      }   
      
       eventData.Scene = eventScene;
       scene.add(eventData.Scene);
@@ -843,10 +852,12 @@ console.log('Found mesh')
     var collscene;
     for (var collname in collections){
       var points = collections[collname];
+      var collection = collections[collname];
+      
       console.log('hits', collname, points.length);
       
-      // collscene = new THREE.Group();
-      // collscene.name=collname;
+      collscene = new THREE.Group();
+      collscene.name=collname;
         
         // we'll do all points at the same time
         var pointPos = new Float32Array( points.length * 3 );
@@ -862,12 +873,17 @@ console.log('Found mesh')
         var material = new THREE.PointsMaterial( { size: 25} );
         var pointsObj = new THREE.Points( geometry, material );
         pointsObj.name = collname;
-        console.log(pointsObj)
-        scene.add( pointsObj );
+        // console.log(pointsObj)
+        collscene.add( pointsObj );
 
-        // guiParameters["Space points"]=true; // On by default
-        // trackPointsObj.Menu = typeFolder.add( guiParameters, "Space points" ).name('Space points').listen();
-        // trackPointsObj.Menu.onChange( onChangeFunction( "Space points", trackPointsObj) );
+        guiParameters[collname]=true; // On by default
+        typeFolder.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
+        typeFolder.Menu.onChange( onChangeFunction( collname, points) );
+        
+        points.Scene = collscene;
+        scene.add(points.Scene)
+        console.log(points)
+        
     } 
   }
   
