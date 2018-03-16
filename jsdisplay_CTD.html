@@ -1,17 +1,20 @@
 <!-- author: Edward Moyse -->
 <html> <head> <title>CTD Event display</title> 
   <style> 
-    body { margin: 0; } 
-    canvas { width: 100%; height: 100% } 
+    body { margin: 0;     background-color: black;} 
+    canvas { width: 100%; height: 100%;     background-color: black;} 
+    
     caption {
-    position:absolute;
-    top:-500px; left:0; right:0;
-    background: rgba(0, 0, 0, 0.5);
-    color:white;
-    font-family:arial;
-    padding:30px;
-    text-align:justify;
-    transition: all 500ms ease; }
+        position:absolute;
+        top:-500px; left:0; right:0;
+        background-color: red;
+        background: rgba(0, 0, 0,0);
+        color:white;
+        font-family:arial;
+        padding:30px;
+        text-align:justify;
+        transition: all 500ms ease; 
+    }
 
     box{
         width:383px;
@@ -63,7 +66,7 @@
   // Load event data
   var xmlhttpEventData = new XMLHttpRequest();
   // var urlEvent = "event000000000-spacepoints.json";
-  var urlEvent = "event000000000-hits.json";
+  var urlEvent = "event000000016.json";
   var eventLoaded = false;
 
   xmlhttpEventData.onreadystatechange = function() {
@@ -77,9 +80,9 @@
   xmlhttpEventData.send();
 
   // Load geometry data
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59, false);
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8, false);
-  // window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3, false);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/LStrip.obj', 'L Strip', 0xf9ac59, false);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/Pix.obj', 'Pixel', 0xe2a9e8, false);
+  window.EventDisplay.loadGeomFromObj('geometry/CTD/SStrip.obj', 'S Strip', 0xb1dbb3, false);
   // window.EventDisplay.loadGeomFromObj('geometry/CTD/BeamPipe.obj', 'Beampipe', 0xb1dbb3, false);
   // window.EventDisplay.loadGeomFromObj('geometry/CTD/PST.obj', 'PST', 0xb1dbb3, false);
   
