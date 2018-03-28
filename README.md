@@ -15,7 +15,7 @@ In order to have access to the geometry files, you would need to do:
 `scp -r lxplus.cern.ch:/eos/user/e/emoyse/www/WebEventDisplay/geometry .`
 [FIXME - this obviously isn't a long term solution]
 
-To avoid permissions problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) and then point your browser to `http://0.0.0.0:8000`
+To avoid permissions problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) or `python -m SimpleHTTPServer` (Python 2.X) and then point your browser to `http://0.0.0.0:8000`
 See [here](https://threejs.org/docs/index.html#manual/introduction/How-to-run-things-locally) for more details (and alternative solutions).
 
 ### Using this with your own data 
