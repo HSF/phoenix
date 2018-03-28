@@ -771,10 +771,10 @@ console.log('Found mesh')
     }
     
     function _buildEventDataFromJSON(jsonData) {
-      console.log("dumping eventdata:");
+      console.log("_buildEventDataFromJSON: dumping input eventdata:");
       console.log(jsonData);
       eventData = jsonData; 
-      console.log(gui);
+      // console.log(gui);
       eventFolder   = gui.addFolder('Reconstruction');
       var eventScene = new THREE.Group();
       eventScene.name="Event data";
@@ -786,13 +786,15 @@ console.log('Found mesh')
       
       // console.log(recoMenu);
       
-      // Fill data      
+      // Fill data
       if (eventData["Tracks"]){
+        console.log("Adding Tracks")
         _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
         _addTrackPoints(eventData, eventScene);
       }
       
       if (eventData["Jets"]){
+        console.log("Adding Jets")
         _addEventCollections(eventData["Jets"], _addJet, "Jets", eventScene);
       }
       
@@ -800,11 +802,13 @@ console.log('Found mesh')
       
       
       // Caloclusters - special because we need dimensions of calorimeter.
-      if (eventData["CaloClusters"]){
-        _addClusterCollections(eventData, eventScene);
-      }
+      // if (eventData["CaloClusters"]){
+      //   console.log("Adding CaloClusters")
+      //   _addClusterCollections(eventData, eventScene);
+      // }
       
       if (eventData["Hits"]){
+        console.log("Adding Hits")
         _addHits(eventData, eventScene);  
       }   
      
@@ -893,6 +897,7 @@ console.log('Found mesh')
       var typeFolder =  eventFolder.addFolder(folder);
       
       for (var collname in collections){
+        console.log(collname)
         if (!collections.hasOwnProperty(collname)){ continue; }
         var collection = collections[collname];
         if (!collection) {continue;}
@@ -933,7 +938,7 @@ console.log('Found mesh')
     }
     
     function _addTrack(tracks, trkName, scene){
-      console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
+      // console.log('Adding track '+trkName+' which is of type '+tracks[trkName].type)
       var length = 100;
       var colour = 0x00ff2d;
       
@@ -1076,13 +1081,14 @@ console.log('Found mesh')
     }
     
     function _addJet(jetcollections, jetName, scene){
-      // console.log('Adding jet '+jetName+' with energy '+clustercollections[clusName].energy)
+      console.log('Adding jet '+jetName+' with data ')
+      console.log(jetcollections[jetName])
       // var dR = jetcollections[jetName].coneR;
   
       var eta = jetcollections[jetName].eta;
       var phi = jetcollections[jetName].phi;
       var theta = 2 * Math.atan(Math.pow(Math.E,eta) );
-      var length = jetcollections[jetName].energy*0.01;
+      var length = jetcollections[jetName].energy*0.2;
       var width = length*0.1;
 
       var sphi   = Math.sin(phi);
