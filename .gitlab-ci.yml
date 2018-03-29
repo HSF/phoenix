@@ -55,7 +55,7 @@ deploy_staging:
     - /usr/bin/klist
     - echo $EOS_DIR
     - echo $EOS_PATH
-    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
+    - /usr/bin/xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
   after_script:
     - kdestroy
   environment:
@@ -72,7 +72,7 @@ deploy_production:
   when: manual
   after_script:
     - echo "Removing staging"
-    - /xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
+    - /usr/bin/xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
   environment:
     name: production
     url: https://emoyse.web.cern.ch/emoyse/WebEventDisplay
