@@ -55,7 +55,7 @@ deploy_staging:
     - /usr/bin/klist
     - echo $EOS_DIR
     - echo $EOS_PATH
-    - /usr/bin/xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH
+    - /usr/bin/xrdfs root://eosatlas.cern.ch rmdir $EOS_DIR/$EOSPATH/$CI_COMMIT_REF_NAME
   after_script:
     - kdestroy
   environment:
