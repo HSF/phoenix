@@ -47,12 +47,15 @@
     var lastSelectedObject=0;
     var lastSelectedObjectMaterial=0;
 
-    function _init( configuration ){
-      
+    function _init( newConf ){
+      configuration = newConf;
       var container;
 
       container = document.createElement( 'div' );
       document.body.appendChild( container );
+    
+      scene = new THREE.Scene();
+      scene.name="Root"
       
       camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
       camera.position.z = 4500;
@@ -62,10 +65,7 @@
       // Reset far clip plane
       camera.far = camera.position.length()*50.0;
       camera.updateProjectionMatrix();
-    
-      
-      scene = new THREE.Scene();
-      scene.name="Root"
+      scene.add(camera)
       
       // var ambient = new THREE.AmbientLight( 0x707070 );
       // scene.add( ambient );
@@ -80,13 +80,11 @@
 			scene.add( directionalLight1 );
 			scene.add( directionalLight2 );
 			scene.add( ambientLight );
-      
-      
+       
       var directionalLight = new THREE.PointLight( 0xeeeedd );
       directionalLight.position.set( camera.position );
-            // directionalLight.target(new THREE.Vector3(0,0,0));
-            // camera.add( directionalLight );
-            scene.add(camera)
+      // directionalLight.target(new THREE.Vector3(0,0,0));
+      // camera.add( directionalLight );
       
       raycaster = new THREE.Raycaster();
       raycaster.linePrecision = 5;
@@ -147,27 +145,42 @@
       //   }
       //   }
       // );
-      controlsFolder.add( guiParameters, 'xClipPosition', -1200, 1200 );
-      controlsFolder.add( guiParameters, 'yClipPosition', -1200, 1200 );
-      controlsFolder.add( guiParameters, 'zClipPosition', -4000, 4000 );
+      controlsFolder.add( guiParameters, 'xClipPosition', -configuration.xClipPosition, configuration.xClipPosition );
+      controlsFolder.add( guiParameters, 'yClipPosition', -configuration.yClipPosition, configuration.yClipPosition );
+      controlsFolder.add( guiParameters, 'zClipPosition', -configuration.zClipPosition, configuration.yClipPosition );
       
       guiParameters.selectObj=true;
       var selectObj = controlsFolder.add( guiParameters, 'selectObj' ).name('Select?').listen();
       selectObj.onChange(function(value)
       { selectObj = value; });
       
-      var elemFileInput = document.getElementById( 'fileUploadInput' );
+      var geomFileInput = document.getElementById( 'fileUploadInput' );
       
-      if ( fileApiAvailable && elemFileInput) {
+      if ( fileApiAvailable && geomFileInput) {
         guiParameters.loadObjFile = function () {
-        					elemFileInput.click();
+        					geomFileInput.click();
         				};
         controlsFolder.add( guiParameters, 'loadObjFile' ).name( 'Load OBJ/MTL Files' );
         
         var handleFileSelect = function ( object3d ) {
-        					_handleFileSelect( object3d );
+        					_handleObjFileSelect( object3d );
         				};
         elemFileInput.addEventListener( 'change' , handleFileSelect, false );
+        
+      }
+      
+      var eventFileInput = document.getElementById( configuration.eventFileUploader );
+      
+      if ( fileApiAvailable && eventFileInput) {
+        guiParameters.loadEventFile = function () {
+        					eventFileInput.click();
+        				};
+        controlsFolder.add( guiParameters, 'loadEventFile' ).name( 'Load event Files' );
+        
+        var handleFileSelect = function ( eventFile ) {
+        					_handleEventFileSelect( eventFile );
+        				};
+        eventFileInput.addEventListener( 'change' , handleFileSelect, false );
         
       }
       
@@ -176,7 +189,7 @@
       renderer.domElement.addEventListener( 'click', onMouseClick, false );      
     }
     
-    function _handleFileSelect( object3d ) {
+    function _handleObjFileSelect( object3d ) {
       var fileObj = null;
   		var fileMtl = null;
   		var files = event.target.files;
@@ -219,16 +232,20 @@
       }
     }
     
-    function _loadFilesUser(objDef) {
-      console.log(objDef);
-      var prepData = new THREE.OBJLoader2.WWOBJLoader2.PrepDataArrayBuffer(
-      						objDef.name, objDef.objAsArrayBuffer, objDef.pathTexture, objDef.mtlAsString
-      					);
-			prepData.setSceneGraphBaseNode( this.scene );
-      // prepData.setStreamMeshes( this.streamMeshes );
-			wwObjLoader2.prepareRun( prepData );
-			wwObjLoader2.run();
-      console.log('Run wwObjLoader2');
+    function _handleEventFileSelect( eventfile ) {
+      var urlEvent = event.target.files[0].name;//FIXME
+      console.log('Got event file: ', urlEvent)
+      var xmlhttpEventData = new XMLHttpRequest();
+      var eventLoaded = false;
+      xmlhttpEventData.onreadystatechange = function() {
+          if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
+              var myArr = JSON.parse(xmlhttpEventData.responseText);
+              _buildEventDataFromJSON(myArr);
+              eventLoaded=true;
+          }
+      };
+      xmlhttpEventData.open("GET", urlEvent, true);
+      xmlhttpEventData.send();
     }
     
     function _getPosition(length, eta, phi){
@@ -1245,9 +1262,24 @@ console.log('Found mesh')
       _render();
     };
     
+    /// Set default configuration values
+    EventDisplay.getDefaultConfiguration = function Configuration(){
+      // Menu configuration
+      this.xClipPosition = 1200;
+      this.yClipPosition = 1200;
+      this.zClipPosition = 4000;
+      this.eventFileUploader = 'offbydefault'
+    }
+    
     EventDisplay.init = function(configuration){
-      console.log(configuration)
-      _init( configuration );
+      if (typeof(configuration) === 'undefined') {
+        console.log('No configuration set, so using default.')
+        configuration = getDefaultConfiguration();
+      } else {
+        console.log('Init called with the following configuration:')
+        console.log(configuration)  
+      }
+      _init( configuration );   
     };
     
     EventDisplay.buildGeometryFromJSON = function(detgeometry, showsurfaces, showvolumes){
