@@ -99,10 +99,12 @@
       controls = new THREE.OrbitControls( camera, renderer.domElement );
       controls.autoRotate=false;
       
-      var axis = new THREE.AxesHelper( 2000 );
-      // blue is z, red is phi=0
-      scene.add( axis );
-      axis.visible=false; // off by default
+      if (configuration.allowShowAxes) {
+        var axis = new THREE.AxesHelper( 2000 );
+        // blue is z, red is phi=0
+        scene.add( axis );
+        axis.visible=false; // off by default
+      }
       
       // Add stats
       stats = new Stats();
@@ -119,10 +121,12 @@
       autoRotate.onChange(function(value)
       { controls.autoRotate=value; });
       
-      guiParameters.axis=false;
-      var axisVis = controlsFolder.add( guiParameters, 'axis' ).name('Axes').listen();
-      axisVis.onChange(function(value)
-      { axis.visible = value; });
+      if (configuration.allowShowAxes) {      
+        guiParameters.axis=false;
+        var axisVis = controlsFolder.add( guiParameters, 'axis' ).name('Axes').listen();
+        axisVis.onChange(function(value)
+        { axis.visible = value; });
+      }
       // guiParameters.Geometry = false;
       
       guiParameters.clipping=renderer.localClippingEnabled;
@@ -133,7 +137,7 @@
 			guiParameters.clipIntersection = true;
 			guiParameters.xClipPosition = 0;
 			guiParameters.yClipPosition = 0;
-			guiParameters.zClipPosition = -4000;
+			guiParameters.zClipPosition = -configuration.zClipPosition;
       
       // controlsFolder.add( guiParameters, 'clipIntersection' ).onChange( function () {
       //   for (var geometry in objGeometry) {
@@ -147,14 +151,14 @@
       // );
       controlsFolder.add( guiParameters, 'xClipPosition', -configuration.xClipPosition, configuration.xClipPosition );
       controlsFolder.add( guiParameters, 'yClipPosition', -configuration.yClipPosition, configuration.yClipPosition );
-      controlsFolder.add( guiParameters, 'zClipPosition', -configuration.zClipPosition, configuration.yClipPosition );
+      controlsFolder.add( guiParameters, 'zClipPosition', -configuration.zClipPosition, configuration.zClipPosition );
       
       guiParameters.selectObj=true;
       var selectObj = controlsFolder.add( guiParameters, 'selectObj' ).name('Select?').listen();
       selectObj.onChange(function(value)
       { selectObj = value; });
       
-      var geomFileInput = document.getElementById( 'fileUploadInput' );
+      var geomFileInput = document.getElementById( configuration.geomFileUploader );
       
       if ( fileApiAvailable && geomFileInput) {
         guiParameters.loadObjFile = function () {
@@ -165,7 +169,7 @@
         var handleFileSelect = function ( object3d ) {
         					_handleObjFileSelect( object3d );
         				};
-        elemFileInput.addEventListener( 'change' , handleFileSelect, false );
+        geomFileInput.addEventListener( 'change' , _handleObjFileSelect, false );
         
       }
       
@@ -178,10 +182,9 @@
         controlsFolder.add( guiParameters, 'loadEventFile' ).name( 'Load event Files' );
         
         var handleFileSelect = function ( eventFile ) {
-        					_handleEventFileSelect( eventFile );
+        					_handleEventFileSelect( this.eventFile );
         				};
-        eventFileInput.addEventListener( 'change' , handleFileSelect, false );
-        
+        eventFileInput.addEventListener( 'change' , _handleEventFileSelect, false );    
       }
       
       window.addEventListener( 'resize', onWindowResize, false );
@@ -233,19 +236,37 @@
     }
     
     function _handleEventFileSelect( eventfile ) {
-      var urlEvent = event.target.files[0].name;//FIXME
-      console.log('Got event file: ', urlEvent)
-      var xmlhttpEventData = new XMLHttpRequest();
-      var eventLoaded = false;
-      xmlhttpEventData.onreadystatechange = function() {
-          if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-              var myArr = JSON.parse(xmlhttpEventData.responseText);
-              _buildEventDataFromJSON(myArr);
-              eventLoaded=true;
+      console.log("Calling custom convertor for ", eventfile.target.files);
+      
+      var eventNum=null;
+      var filename="";
+      for (var i = 0; i < eventfile.target.files.length; i++){
+        filename=eventfile.target.files[i].name;
+        console.log(filename);
+        if (! eventNum){
+          eventNum = parseInt(filename.match(/\d+/));
+        } else {
+          if (parseInt(filename.match(/\d+/))!=eventNum) {
+            console.log('Error, mismatched event numbers. Aborting.')
+            _printInfoMessage('Error, you attempted to load files with mismatched event numbers. Aborting.');
+            return;
           }
-      };
-      xmlhttpEventData.open("GET", urlEvent, true);
-      xmlhttpEventData.send();
+        } 
+      }
+      
+      if (configuration.customEventFileConvertor) {
+        console.log("Calling custom convertor for ", eventfile.target.files);
+        configuration.customEventFileConvertor(eventfile.target.files, eventNum)
+      } else {
+        console.log('Got event files: ', event.target.files)
+  			var fileReader = new FileReader();
+  			fileReader.onload = function( fileDataObj ) {
+  				console.log('fileReader onload ',fileDataObj);
+          var myArr = JSON.parse(fileDataObj.target.result);
+  				_buildEventDataFromJSON(myArr);
+  			};
+  			fileReader.readAsText( event.target.files[0]);
+      }
     }
     
     function _getPosition(length, eta, phi){
@@ -797,7 +818,8 @@ console.log('Found mesh')
       eventScene.name="Event data";
       // Switch to turn off all reco
       var recoIdentifier = "Show";
-      guiParameters[recoIdentifier]=true; // On by default      
+      guiParameters[recoIdentifier]=true; // On by default   
+      eventData.Menu = "test";   
       eventData.Menu = eventFolder.add( guiParameters, recoIdentifier ).name(recoIdentifier).listen();
       eventData.Menu.onChange( onChangeFunction( recoIdentifier, eventData) );
       
@@ -807,7 +829,7 @@ console.log('Found mesh')
       if (eventData["Tracks"]){
         console.log("Adding Tracks")
         _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
-        _addTrackPoints(eventData, eventScene);
+        // _addTrackPoints(eventData, eventScene);
       }
       
       if (eventData["Jets"]){
@@ -875,7 +897,7 @@ console.log('Found mesh')
       var points = collections[collname];
       var collection = collections[collname];
       
-      console.log('hits', collname, points.length);
+      console.log('hits named ', collname, 'with this many entries:',points.length);
       
       collscene = new THREE.Group();
       collscene.name=collname;
@@ -903,8 +925,7 @@ console.log('Found mesh')
         
         points.Scene = collscene;
         scene.add(points.Scene)
-        console.log(points)
-        
+        // console.log(points)        
     } 
   }
   
@@ -960,9 +981,19 @@ console.log('Found mesh')
       var colour = 0x00ff2d;
       
       var positions = tracks[trkName].pos;
+      
+      //Now sort these. 
+      positions.sort(function(a, b) {
+        var dist_a = a[0]*a[0]+a[1]*a[1]+a[2]*a[2];
+        var dist_b = b[0]*b[0]+b[1]*b[1]+b[2]*b[2];
+        if (dist_a < dist_b) {return -1;}
+        if (dist_a > dist_b) {return -1;}
+        return 0;
+      });
+      
       var numPoints = positions.length;
       if (numPoints<3){
-        // console.log("Track with too few points. Skipping. "+positions);
+        console.log("Track with too few points["+numPoints+"]. Skipping. Positions are: "+positions+" particle_id: "+tracks[trkName].particle_id);
         return;
       }
       //
@@ -1134,6 +1165,12 @@ console.log('Found mesh')
   
     }
     
+    function _printInfoMessage(message){
+      if (info) {
+        info.innerHTML = message;
+      }
+    }
+    
     function onWindowResize() {
       console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y)
 
@@ -1182,7 +1219,7 @@ console.log('Found mesh')
               for (var property in picks[i].object.eventData) {
                 output += property + ': ' + picks[i].object.eventData[property]+'; <br>';
               }
-              info.innerHTML = output
+              _printInfoMessage(output);
             }
             if (lastSelectedObject){
               lastSelectedObject.material = lastSelectedObjectMaterial;
@@ -1269,6 +1306,8 @@ console.log('Found mesh')
       this.yClipPosition = 1200;
       this.zClipPosition = 4000;
       this.eventFileUploader = 'offbydefault'
+      this.geomFileUploader = 'offbydefault'
+      this.allowShowAxes = true;
     }
     
     EventDisplay.init = function(configuration){
