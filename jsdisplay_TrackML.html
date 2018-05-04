@@ -101,7 +101,8 @@
     for (var line = 1 ; line < data.length ; line++) {
       values = data[line].split(',');
       particle_data.push( { particle_id: parseInt(values[0]), 
-                          vertex_pos: [ parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3]) ]
+                          vertex_pos: [ parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3]) ],
+                          mom: [parseFloat(values[4]), parseFloat(values[5]), parseFloat(values[6])]
                           });
     }    
   }
@@ -138,7 +139,8 @@
           // Add the relevant data from particle, such as first hit position - we'll add the particle_id because we need it later.
           event_data.Tracks.Particles[i]
           = { particle_id: particle_data[i].particle_id, 
-            pos: [ particle_data[i].vertex_pos ] };
+            pos: [ particle_data[i].vertex_pos ],
+            mom: particle_data[i].mom };
             // console.log('Just added: ', event_data.Tracks.Particles[i-1]);
           }
         }

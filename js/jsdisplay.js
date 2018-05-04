@@ -464,6 +464,7 @@
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
+      // material2.wireframe = true;
       if (doublesided) material2.side = THREE.DoubleSide;
       
       // var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
@@ -996,6 +997,16 @@ console.log('Found mesh')
         console.log("Track with too few points["+numPoints+"]. Skipping. Positions are: "+positions+" particle_id: "+tracks[trkName].particle_id);
         return;
       }
+      
+      // Apply pT cut TODO - make this configurable.
+      if (tracks[trkName]("mom")){
+        var mom=tracks[trkName].mom;      
+        if (mom[0]*mom[0]+mom[1]*mom[1]+mom[2]*mom[2]<0.25){
+          console.log("Track mom<0.5 GeV. Skipping. Positions are: "+positions+" particle_id: "+tracks[trkName].particle_id);
+          return;
+        }
+      }
+      
       //
       var points = [];
       
