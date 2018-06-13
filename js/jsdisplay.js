@@ -464,7 +464,7 @@
       material2.clippingPlanes = clipPlanes;
       material2.clipIntersection = true
       material2.clipShadows = false;
-      material2.wireframe = true;
+      material2.wireframe = false;
       if (doublesided) material2.side = THREE.DoubleSide;
       
       // var wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, wireframeLinewidth: 10 });
@@ -1311,7 +1311,7 @@ console.log('Found mesh')
     };
     
     /// Set default configuration values
-    EventDisplay.getDefaultConfiguration = function Configuration(){
+    function Configuration(){
       // Menu configuration
       this.xClipPosition = 1200;
       this.yClipPosition = 1200;
@@ -1321,14 +1321,17 @@ console.log('Found mesh')
       this.allowShowAxes = true;
     }
     
+    EventDisplay.getDefaultConfiguration = function(){
+      return new Configuration();
+    }
+    
     EventDisplay.init = function(configuration){
       if (typeof(configuration) === 'undefined') {
         console.log('No configuration set, so using default.')
-        configuration = getDefaultConfiguration();
-      } else {
-        console.log('Init called with the following configuration:')
-        console.log(configuration)  
+        configuration = new Configuration();
       }
+      console.log('Init called with the following configuration:')
+      console.log(configuration)  
       _init( configuration );   
     };
     
