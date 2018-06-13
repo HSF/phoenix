@@ -14,6 +14,7 @@ stages:
     - /usr/bin/xrdcp --force --recursive --silent --path "geom_display.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_ATLAS.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_CTD.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
+    - /usr/bin/xrdcp --force --recursive --silent --path "jsdisplay_TrackML.html" "root://eosuser/$EOS_DIR/$EOS_PATH/"
     - /usr/bin/xrdcp --force --recursive --silent --path "js" "root://eosuser/$EOS_DIR/$EOS_PATH/js/"
     - /usr/bin/xrdcp --force --recursive --silent --path "lib" "root://eosuser/$EOS_DIR/$EOS_PATH/lib/"
     - /usr/bin/xrdcp --force --recursive --silent --path "img" "root://eosuser/$EOS_DIR/$EOS_PATH/img/"
