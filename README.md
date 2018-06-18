@@ -1,4 +1,4 @@
-## WebEventDisplay
+## Phoenix
 
 ### Introduction 
 
@@ -9,7 +9,7 @@ Technically the 3D is done with [three.js](http://threejs.org), the menu (at the
 ### Installation 
 
 To install, you need to clone this repository, using e.g. 
-`git clone ssh://git@gitlab.cern.ch:7999/emoyse/WebEventDisplay.git`
+`git clone git@github.com:HSF/phoenix.git``
 
 In order to have access to the geometry files, you would need to do:
 `scp -r lxplus.cern.ch:/eos/user/e/emoyse/www/WebEventDisplay/geometry .`
