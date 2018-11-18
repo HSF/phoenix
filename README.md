@@ -12,16 +12,19 @@ To install, you need to clone this repository, using e.g.
 `git clone git@github.com:HSF/phoenix.git``
 
 There are some standard event data and geometry files you can download:
+
 `wget http://emoyse.web.cern.ch/emoyse/Phoenix/EventAndGeom.tar.gz`
+
 `tar xvzf EventAndGeom.tar.gz`
+
 (these are necessary to run the examples shown if you open `index.html` )
 
-To avoid permissions problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) or `python -m SimpleHTTPServer` (Python 2.X) and then point your browser to `http://0.0.0.0:8000`
+To avoid cross-domain permission problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) or `python -m SimpleHTTPServer` (Python 2.X) and then point your browser to `http://0.0.0.0:8000`
 See [here](https://threejs.org/docs/index.html#manual/introduction/How-to-run-things-locally) for more details (and alternative solutions).
 
 ### Using this with your own data 
 
-The JSON format is pretty simple, but I'm still in the process of documenting it (and it might evolve). If you're unsure, you can always have a look at the `.json` files in http://emoyse.web.cern.ch/emoyse/WebEventDisplay
+The JSON format is pretty simple, but we're still in the process of documenting it (and it might evolve).
 
 Otherwise, here are some rough explanations:
 
