@@ -131,6 +131,13 @@ and you can add another layer, as shown below.
 
 TODO - expand.
 
+### Testing
+You can run the CI tests locally by making sure you have `jshint` installed and then running the test
+```
+npm install jshint --save-dev
+npm test
+```
+
 
 ### Contact
 

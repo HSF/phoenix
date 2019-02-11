@@ -37,7 +37,7 @@
             console.log(this_collection);
             console.log("this_collection.Scene.visible"+this_collection.Scene.visible);
             this_collection.Scene.visible = value;
-          }
+          };
         };
     
     // var wwObjLoader2 = new THREE.OBJLoader2.WWOBJLoader2();
@@ -55,7 +55,7 @@
       document.body.appendChild( container );
     
       scene = new THREE.Scene();
-      scene.name="Root"
+      scene.name="Root";
       
       camera = new THREE.PerspectiveCamera( 33, window.innerWidth / window.innerHeight, 1, 10000 );
       camera.position.z = 4500;
@@ -65,7 +65,7 @@
       // Reset far clip plane
       camera.far = camera.position.length()*50.0;
       camera.updateProjectionMatrix();
-      scene.add(camera)
+      scene.add(camera);
       
       // var ambient = new THREE.AmbientLight( 0x707070 );
       // scene.add( ambient );
@@ -166,9 +166,9 @@
         				};
         controlsFolder.add( guiParameters, 'loadObjFile' ).name( 'Load OBJ/MTL Files' );
         
-        var handleFileSelect = function ( object3d ) {
-        					_handleObjFileSelect( object3d );
-        				};
+        // var handleFileSelect = function ( object3d ) {
+        //           _handleObjFileSelect( object3d );
+        //         };
         geomFileInput.addEventListener( 'change' , _handleObjFileSelect, false );
         
       }
@@ -181,9 +181,9 @@
         				};
         controlsFolder.add( guiParameters, 'loadEventFile' ).name( 'Load event Files' );
         
-        var handleFileSelect = function ( eventFile ) {
-        					_handleEventFileSelect( this.eventFile );
-        				};
+        // var handleFileSelect = function ( eventFile ) {
+        //           _handleEventFileSelect( this.eventFile );
+        //         };
         eventFileInput.addEventListener( 'change' , _handleEventFileSelect, false );    
       }
       
@@ -196,7 +196,7 @@
       var fileObj = null;
   		var fileMtl = null;
   		var files = event.target.files;
-  		for ( var i = 0, file; file = files[ i ]; i++) {
+  		for ( var i = 0, file; !!(file = files[ i ]); i++) {
   			if ( file.name.indexOf( '\.obj' ) > 0 && fileObj === null ) {
   				fileObj = file;
   			}
@@ -247,7 +247,7 @@
           eventNum = parseInt(filename.match(/\d+/));
         } else {
           if (parseInt(filename.match(/\d+/))!=eventNum) {
-            console.log('Error, mismatched event numbers. Aborting.')
+            console.log('Error, mismatched event numbers. Aborting.');
             _printInfoMessage('Error, you attempted to load files with mismatched event numbers. Aborting.');
             return;
           }
@@ -256,9 +256,9 @@
       
       if (configuration.customEventFileConvertor) {
         console.log("Calling custom convertor for ", eventfile.target.files);
-        configuration.customEventFileConvertor(eventfile.target.files, eventNum)
+        configuration.customEventFileConvertor(eventfile.target.files, eventNum);
       } else {
-        console.log('Got event files: ', event.target.files)
+        console.log('Got event files: ', event.target.files);
   			var fileReader = new FileReader();
   			fileReader.onload = function( fileDataObj ) {
   				console.log('fileReader onload ',fileDataObj);
@@ -307,8 +307,8 @@
       volume.Scene.name=volume.Name;
       
       guiParameters[volume.Name]=true; // FIXME - we should check that this is unique?
-      volume["Menu"] = currentfolder.add( guiParameters, volume.Name ).name("Show").listen();
-      volume["Menu"].onChange( onChangeFunction( volume.Name, volume) );
+      volume.Menu = currentfolder.add( guiParameters, volume.Name ).name("Show").listen();
+      volume.Menu.onChange( onChangeFunction( volume.Name, volume) );
       volume.Scene.visible = guiParameters[volume.Name];
       
       // if (level) {
@@ -318,7 +318,7 @@
       if (('Volumes' in volume) && (volume.Volumes.length>0)){
         // console.log('Lets add some more levels');
         for (len = volume.Volumes.length, i=0;i<len;++i){
-          console.log('i:',i)
+          console.log('i:',i);
           _buildGeometry(volume.Volumes[i], currentfolder.addFolder(volume.Volumes[i].Name));
           volume.Scene.add(volume.Volumes[i].Scene);
         }
@@ -348,19 +348,19 @@
           var identifier = 'Layer '+layer.Index;
           // if (layer.Name) identifier = layer.Name;
           guiParameters[identifier]=true; // FIXME - we should check that this is unique?
-          var menu = layer["Menu"] = currentfolder.add( guiParameters, identifier ).name(identifier).listen();
+          var menu = layer.Menu = currentfolder.add( guiParameters, identifier ).name(identifier).listen();
           menu.onChange( onChangeFunction( identifier, layer) );
           
           // Now make 3D
-          var geometry = _buildGeometryFromLayer(layer);
-          _buildShapeFromLayer(layer,geometry,volume);
+          var geometry1 = _buildGeometryFromLayer(layer);
+          _buildShapeFromLayer(layer,geometry1,volume);
         }
       }
       
       if (configuration.showVolumes && ('Bounds' in volume) ){
         // console.log('Lets make 3d volume from ',volume);
-        var geometry = _buildGeometryFromVolume(volume);
-        _buildShapeFromVolume(geometry,volume);
+        var geometry2 = _buildGeometryFromVolume(volume);
+        _buildShapeFromVolume(geometry2,volume);
       }
     
       // var prop;
@@ -462,7 +462,7 @@
       var material2 = new THREE.MeshPhongMaterial({ color: colour, wireframe: false });
       // material2.flatShading = false;
       material2.clippingPlanes = clipPlanes;
-      material2.clipIntersection = true
+      material2.clipIntersection = true;
       material2.clipShadows = false;
       material2.wireframe = false;
       if (doublesided) material2.side = THREE.DoubleSide;
@@ -475,7 +475,7 @@
       object3d.traverse( function(child) {
           if (child instanceof THREE.Mesh) {
 
-console.log('Found mesh')
+            console.log('Found mesh');
             // apply custom material
             // child.material = [ material2, wireframeMaterial ];
             child.material = material2;
@@ -496,7 +496,7 @@ console.log('Found mesh')
 //         material2.shading = THREE.FlatShading;
 //         object3d.material = material2;
 //       }
-		};
+		}
     
     function _loadGeomFromObj(objectname, name, colour, doublesided, materials){ 
       // by default, let's clear the existing geometry here.
@@ -504,7 +504,7 @@ console.log('Found mesh')
       if (!colour ) {
         geomcolour = 0x41a6f4;     
       } else {
-        geomcolour=colour
+        geomcolour=colour;
       }
       
 			var manager = new THREE.LoadingManager();
@@ -550,7 +550,6 @@ console.log('Found mesh')
 					var output = Validator.verifyInput( event.detail.text, '' );
 					console.log( 'Progress: ' + output );
 				};
-				var scope = this;
         
         var prepData = new THREE.LoaderSupport.PrepData( name );  
         var local = new THREE.Object3D( );
@@ -570,7 +569,7 @@ console.log('Found mesh')
           Scene: local,
           Colour: colour,
           Menu: 0
-        }
+        };
         var geometry  = objGeometry[name];
         if (geomFolder===undefined) {
           geomFolder   = gui.addFolder('Geometry');
@@ -583,22 +582,22 @@ console.log('Found mesh')
         geometry.Scene.visible = guiParameters[name];
         
       } else {
-        var manager = new THREE.LoadingManager();
-        			manager.onProgress = function ( item, loaded, total ) {
+        var manager2 = new THREE.LoadingManager();
+        			manager2.onProgress = function ( item, loaded, total ) {
         				console.log( item, loaded, total );
         			};
       
-        			var onProgress = function ( xhr ) {
+        			var onProgress2 = function ( xhr ) {
         				if ( xhr.lengthComputable ) {
         					var percentComplete = xhr.loaded / xhr.total * 100;
         					console.log( Math.round(percentComplete, 2) + '% downloaded' );
         				}
         			};
-        			var onError = function ( xhr ) {
+        			var onError2 = function ( xhr ) {
                 console.log('Error loading');
         			};
       
-        			loader = new THREE.OBJLoader( manager );    
+        			loader = new THREE.OBJLoader( manager2 );    
               loader.load( objectname, function ( object ) {
                       _setObjFlat(object, colour, doublesided);
                       // console.log('Add object');
@@ -607,7 +606,7 @@ console.log('Found mesh')
                         Scene: object,
                         Colour: colour,
                         Menu: 0
-                      }    
+                      };
         var geometry  = objGeometry[name];
         // geometry.computeFaceNormals();
         // console.log(geometry);
@@ -621,7 +620,7 @@ console.log('Found mesh')
         geometry.Menu = geomFolder.add( guiParameters, name).name(name).listen();
         geometry.Menu.onChange( onChangeFunction( name, geometry) );
         geometry.Scene.visible = guiParameters[name];
-			}, onProgress, onError );
+			}, onProgress2, onError2 );
     }
   }
   
@@ -697,7 +696,7 @@ console.log('Found mesh')
       
       // Add the group which holds the 3D objects
       layer.Scene = new THREE.Group();
-      layer.Scene.name = "Layer" + layer.Index + ":"+layer.Shape
+      layer.Scene.name = "Layer" + layer.Index + ":"+layer.Shape;
       
       // var material = new THREE.MeshPhongMaterial( { color: 0x00ff00  } );
       if (!layer.hasOwnProperty("Colour")){
@@ -739,7 +738,7 @@ console.log('Found mesh')
     
         // console.log(layer);
       }
-      volume.Scene.add(layer["Scene"]);
+      volume.Scene.add(layer.Scene);
     }
     
     function _buildGeometryLevelFromJSON(volume) {
@@ -752,7 +751,7 @@ console.log('Found mesh')
         var layer = levelGeometry[prop];
         // console.log("Layer "+prop+":"+layer);
         var geometry = _buildGeometryFromLayer(layer);
-        _buildShapeFromLayer(layer, geometry)
+        _buildShapeFromLayer(layer, geometry);
       }
     }
     
@@ -781,9 +780,9 @@ console.log('Found mesh')
       var material = new THREE.MeshBasicMaterial( { color: colour , opacity:0.5, transparent:true } );
 
       var zstep = (maxZ-minZ)/numZEl;
-      var phistep = 2.*Math.PI/numPhiEl;
+      var phistep = 2.0*Math.PI/numPhiEl;
 
-      var z = minZ+zstep/2.;
+      var z = minZ+zstep/2.0;
 
       var halfPi = Math.PI/2.0;
       var modulecentre;
@@ -804,7 +803,7 @@ console.log('Found mesh')
           egh.material.linewidth = 2;
           scene.add( egh );
         }
-        z += zstep
+        z += zstep;
       } 
 
     }
@@ -827,15 +826,15 @@ console.log('Found mesh')
       // console.log(recoMenu);
       
       // Fill data
-      if (eventData["Tracks"]){
-        console.log("Adding Tracks")
-        _addEventCollections(eventData["Tracks"], _addTrack, "Tracks", eventScene);
+      if (eventData.Tracks){
+        console.log("Adding Tracks");
+        _addEventCollections(eventData.Tracks, _addTrack, "Tracks", eventScene);
         // _addTrackPoints(eventData, eventScene);
       }
       
-      if (eventData["Jets"]){
-        console.log("Adding Jets")
-        _addEventCollections(eventData["Jets"], _addJet, "Jets", eventScene);
+      if (eventData.Jets){
+        console.log("Adding Jets");
+        _addEventCollections(eventData.Jets, _addJet, "Jets", eventScene);
       }
       
       // _addEventCollections(eventData["Measurement"], _addMeasurement);
@@ -847,8 +846,8 @@ console.log('Found mesh')
       //   _addClusterCollections(eventData, eventScene);
       // }
       
-      if (eventData["Hits"]){
-        console.log("Adding Hits")
+      if (eventData.Hits){
+        console.log("Adding Hits");
         _addHits(eventData, eventScene);  
       }   
      
@@ -860,7 +859,7 @@ console.log('Found mesh')
     }
     
   function _addClusterCollections(eventData, eventScene){
-    var clustercollections = eventData["CaloClusters"];
+    var clustercollections = eventData.CaloClusters;
     var typeFolder =  eventFolder.addFolder("CaloClusters");
     
     var collscene;
@@ -869,14 +868,14 @@ console.log('Found mesh')
       var collection = clustercollections[collname];
       if (!collection) {continue;}
       collscene = new THREE.Group();
-      collscene.name="Clusters"
+      collscene.name="Clusters";
       for (var clusname in collection) {
         if (!collection.hasOwnProperty(clusname)){ continue; }
-        _addCluster(collection,clusname,collscene, 1100.0, 3200.0)
+        _addCluster(collection,clusname,collscene, 1100.0, 3200.0);
         
       }
       collection.Scene = collscene;
-      eventScene.add(collection.Scene)
+      eventScene.add(collection.Scene);
       // _addMenuEventCollection(typeFolder, collection)
       guiParameters[collname]=true; // On by default
       collection.Menu = typeFolder.add( guiParameters, collname ).name(collname).listen();
@@ -889,13 +888,13 @@ console.log('Found mesh')
     
     var points = [];
     
-    var collections = eventData["Hits"];
+    var collections = eventData.Hits;
     
     var typeFolder =  eventFolder.addFolder("Hits");
   
     var collscene;
     for (var collname in collections){
-      var points = collections[collname];
+      points = collections[collname];
       var collection = collections[collname];
       
       console.log('hits named ', collname, 'with this many entries:',points.length);
@@ -925,7 +924,7 @@ console.log('Found mesh')
         typeFolder.Menu.onChange( onChangeFunction( collname, points) );
         
         points.Scene = collscene;
-        scene.add(points.Scene)
+        scene.add(points.Scene);
         // console.log(points)        
     } 
   }
@@ -936,7 +935,7 @@ console.log('Found mesh')
       var typeFolder =  eventFolder.addFolder(folder);
       
       for (var collname in collections){
-        console.log(collname)
+        console.log(collname);
         if (!collections.hasOwnProperty(collname)){ continue; }
         var collection = collections[collname];
         if (!collection) {continue;}
@@ -945,7 +944,7 @@ console.log('Found mesh')
 
         for (var objname in collection) {
             if (!collection.hasOwnProperty(objname)){ continue; }
-            addObject(collection,objname,collscene)
+            addObject(collection,objname,collscene);
         }
         
         guiParameters[collname]=true; // On by default
@@ -953,7 +952,7 @@ console.log('Found mesh')
         collection.Menu.onChange( onChangeFunction( collname, collection) );
         
         collection.Scene = collscene;
-        scene.add(collection.Scene)
+        scene.add(collection.Scene);
       }
     }
     
@@ -971,7 +970,7 @@ console.log('Found mesh')
             if (objname==='Menu' || objname==='Scene') { continue; } // Find a better solution
 
             if (!collection.hasOwnProperty(objname)){ continue; }
-            updateObject(collection,objname)
+            updateObject(collection,objname);
         }
       }
     }
@@ -1045,21 +1044,21 @@ console.log('Found mesh')
       
       var curve         = new THREE.CatmullRomCurve3( points );
       var geometry      = new THREE.Geometry();
-      points = []
+      points = [];
       var curvePoints = curve.getPoints( 25 );
-      for (point in curvePoints){
+      for (var point in curvePoints){
         if (Math.sqrt 
          (point[0]*point[0] + 
           point[1]*point[1] +
           point[2]*point[2])> animationSphere) break;
       
-        points.push(point)
+          points.push(point);
       }
       geometry.vertices = points;
           
       var material      = new THREE.LineBasicMaterial( { color : 0xff0000 } );
       var splineObject = tracks[trkName].geometry;
-      geometry.verticesNeedUpdate = true
+      geometry.verticesNeedUpdate = true;
       splineObject.geometry = geometry;      
     }
     
@@ -1068,7 +1067,7 @@ console.log('Found mesh')
       
       var points = [];
       
-      var trackcollections = eventData["Tracks"];
+      var trackcollections = eventData.Tracks;
       var typeFolder =  eventFolder.addFolder("Track Points");
     
       var collscene;
@@ -1096,10 +1095,10 @@ console.log('Found mesh')
       
       // we'll do all points at the same time
       var pointPos = new Float32Array( points.length * 3 );
-			for ( var i = 0; i < points.length; i += 3 ) {
-        pointPos[i]=points[i].x;
-        pointPos[i+1]=points[i].y;
-        pointPos[i+2]=points[i].z;
+			for ( var j = 0; j < points.length; j += 3 ) {
+        pointPos[j]=points[j].x;
+        pointPos[j+1]=points[j].y;
+        pointPos[j+2]=points[j].z;
       }
       
 			var geometry = new THREE.BufferGeometry();
@@ -1111,7 +1110,7 @@ console.log('Found mesh')
       scene.add( trackPointsObj );
       trackPointsObj.Scene=trackPointsObj; // Yuck?
 
-      guiParameters["Points"]=true; // On by default
+      guiParameters.Points=true; // On by default
       trackPointsObj.Menu = typeFolder.add( guiParameters, "Points" ).name('Track Points').listen();
       trackPointsObj.Menu.onChange( onChangeFunction( "Points", trackPointsObj) );
       // console.log(trackPointsObj);
@@ -1140,8 +1139,8 @@ console.log('Found mesh')
     }
     
     function _addJet(jetcollections, jetName, scene){
-      console.log('Adding jet '+jetName+' with data ')
-      console.log(jetcollections[jetName])
+      console.log('Adding jet '+jetName+' with data ');
+      console.log(jetcollections[jetName]);
       // var dR = jetcollections[jetName].coneR;
   
       var eta = jetcollections[jetName].eta;
@@ -1183,7 +1182,7 @@ console.log('Found mesh')
     }
     
     function onWindowResize() {
-      console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y)
+      console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y);
 
       windowHalfX = window.innerWidth / 2;
       windowHalfY = window.innerHeight / 2;
@@ -1246,7 +1245,7 @@ console.log('Found mesh')
     function onDocumentMouseMove( event ) {
       mouse.x = ( event.clientX - windowHalfX ) / 2;
       mouse.y = ( event.clientY - windowHalfY ) / 2;
-      console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY)
+      console.log('onDocumentMouseMove: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouseX+'/'+mouseY);
     }
     
      
@@ -1316,22 +1315,22 @@ console.log('Found mesh')
       this.xClipPosition = 1200;
       this.yClipPosition = 1200;
       this.zClipPosition = 4000;
-      this.eventFileUploader = 'offbydefault'
-      this.geomFileUploader = 'offbydefault'
+      this.eventFileUploader = 'offbydefault';
+      this.geomFileUploader = 'offbydefault';
       this.allowShowAxes = true;
     }
     
     EventDisplay.getDefaultConfiguration = function(){
       return new Configuration();
-    }
+    };
     
     EventDisplay.init = function(configuration){
       if (typeof(configuration) === 'undefined') {
-        console.log('No configuration set, so using default.')
+        console.log('No configuration set, so using default.');
         configuration = new Configuration();
       }
-      console.log('Init called with the following configuration:')
-      console.log(configuration)  
+      console.log('Init called with the following configuration:');
+      console.log(configuration);
       _init( configuration );   
     };
     
@@ -1355,7 +1354,7 @@ console.log('Found mesh')
   }
   
   if(typeof(EventDisplay) === 'undefined'){
-    console.log('EventDisplay not yet known - defining and adding to window.')
+    console.log('EventDisplay not yet known - defining and adding to window.');
     window.EventDisplay = define_EventDisplay();
   }
   else{

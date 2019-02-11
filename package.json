@@ -1,0 +1,12 @@
+{
+  "name": "Phoenix-tests",
+  "description": "Simple Travis-CI check for JSHint (Code Linting)",
+  "author": "edward.moyse@cern.ch",
+  "version": "0.0.1",
+  "devDependencies": {
+    "jshint": "^2.6.0"
+  },
+  "scripts": {
+    "test": "jshint js/jsdisplay.js"
+  }
+}
