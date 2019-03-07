@@ -1,2 +1,4 @@
 geometry/
 event_data/
+*.tar*
+
