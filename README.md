@@ -6,7 +6,7 @@
 [build-link]: https://travis-ci.com/HSF/phoenix
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
-
+[![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
 
 ### Introduction
 
