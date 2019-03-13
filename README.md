@@ -21,7 +21,7 @@ To install, you need to clone this repository, using e.g.
 
 There are some standard event data and geometry files you can download:
 
-`wget http://emoyse.web.cern.ch/emoyse/Phoenix/EventAndGeom.tar.gz`
+`wget http://emoyse.web.cern.ch/emoyse/phoenix-data/EventAndGeom.tar.gz`
 
 `tar xvzf EventAndGeom.tar.gz`
 
