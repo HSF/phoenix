@@ -1180,6 +1180,16 @@
         info.innerHTML = message;
       }
     }
+
+    function _setPresetViews(views){
+      var presetViewFolder = gui.addFolder('Preset Views');
+      for(var i=0; i<views.length; i++){
+        views[i].setView = function () {
+          camera.position.set(...this.cameraPos);
+        };
+        presetViewFolder.add( views[i], 'setView' ).name(views[i].name);
+      }
+    }
     
     function onWindowResize() {
       console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y);
@@ -1349,6 +1359,10 @@
     EventDisplay.loadGeomFromObj = function(objectname, name, colour, doublesided){
       _loadGeomFromObj(objectname, name, colour, doublesided);
     };
+
+    EventDisplay.setPresetViews = function(views){
+      _setPresetViews(views);
+    }
     
     return EventDisplay;
   }

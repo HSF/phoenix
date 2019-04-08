@@ -226,7 +226,20 @@
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
-  
+  window.EventDisplay.setPresetViews([
+    {
+      name: 'Center View',
+      cameraPos: [-500,1000,00]
+    },
+    {
+      name: 'Right View',
+      cameraPos: [0,0,6000]
+    },
+    {
+      name: 'Left View',
+      cameraPos: [0,0,-6000]
+    }
+  ]);
   window.EventDisplay.animate();
   
   </script> 
