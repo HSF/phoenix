@@ -1182,28 +1182,26 @@
     }
 
     function _setPresetViews(views){
+      function setCameraPos(cameraPos){
+        return function(){
+          camera.position.set(cameraPos[0], cameraPos[1], cameraPos[2]);
+        };
+      }
       // For adding to the controls
       var presetViewFolder = gui.addFolder('Preset Views');
       for(var i=0; i<views.length; i++){
-        views[i].setView = function () {
-          camera.position.set(...this.cameraPos);
-        };
+        views[i].setView = setCameraPos(views[i].cameraPos);
         presetViewFolder.add( views[i], 'setView' ).name(views[i].name);
       }
       // For icons
-      function onIconClick(cameraPos){
-        return function(){
-          camera.position.set(...cameraPos);
-        }
-      }
       var presetIconsUl = document.createElement('ul');
       presetIconsUl.className = 'preset-views-ul';
       var presetIconsLi = new Array(views.length);
-      for(var i=0; i<views.length; i++){
+      for(i=0; i<views.length; i++){
         presetIconsLi[i] = document.createElement('li');
         presetIconsLi[i].setAttribute('title', views[i].name);
         presetIconsLi[i].innerHTML = '<i class="'+views[i].icon+'"></i>';
-        presetIconsLi[i].addEventListener('click', onIconClick(views[i].cameraPos));
+        presetIconsLi[i].addEventListener('click', setCameraPos(views[i].cameraPos));
         presetIconsUl.append(presetIconsLi[i]);
       }
       document.body.append(presetIconsUl);
@@ -1380,7 +1378,7 @@
 
     EventDisplay.setPresetViews = function(views){
       _setPresetViews(views);
-    }
+    };
     
     return EventDisplay;
   }
