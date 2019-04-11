@@ -1182,6 +1182,7 @@
     }
 
     function _setPresetViews(views){
+      // For adding to the controls
       var presetViewFolder = gui.addFolder('Preset Views');
       for(var i=0; i<views.length; i++){
         views[i].setView = function () {
@@ -1189,6 +1190,23 @@
         };
         presetViewFolder.add( views[i], 'setView' ).name(views[i].name);
       }
+      // For icons
+      function onIconClick(cameraPos){
+        return function(){
+          camera.position.set(...cameraPos);
+        }
+      }
+      var presetIconsUl = document.createElement('ul');
+      presetIconsUl.className = 'preset-views-ul';
+      var presetIconsLi = new Array(views.length);
+      for(var i=0; i<views.length; i++){
+        presetIconsLi[i] = document.createElement('li');
+        presetIconsLi[i].setAttribute('title', views[i].name);
+        presetIconsLi[i].innerHTML = '<i class="'+views[i].icon+'"></i>';
+        presetIconsLi[i].addEventListener('click', onIconClick(views[i].cameraPos));
+        presetIconsUl.append(presetIconsLi[i]);
+      }
+      document.getElementsByTagName('body')[0].append(presetIconsUl);
     }
     
     function onWindowResize() {
