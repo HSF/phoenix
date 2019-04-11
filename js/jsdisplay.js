@@ -1206,7 +1206,7 @@
         presetIconsLi[i].addEventListener('click', onIconClick(views[i].cameraPos));
         presetIconsUl.append(presetIconsLi[i]);
       }
-      document.getElementsByTagName('body')[0].append(presetIconsUl);
+      document.body.append(presetIconsUl);
     }
     
     function onWindowResize() {
