@@ -1,5 +1,6 @@
 <!-- author: Edward Moyse -->
 <html> <head> <title>TrackingML Event display</title> 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <style> 
     body { margin: 0;     background-color: black;} 
     canvas { width: 100%; height: 100%;     background-color: black;} 
@@ -55,6 +56,34 @@
 	#eventFileUploadInput {
 		display: none;
 	}
+  .preset-views-ul{
+    color: white;
+    position: absolute;
+    right: 0;
+    left: 0;
+    text-align: center;
+    top: 10px;
+  }
+  .preset-views-ul li{
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    list-style-type: none;
+    margin: 5px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+  }
+  .preset-views-ul li i{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    transform: translateY(-50%);
+  }
  </style>
 
 </head> <body>
@@ -226,7 +255,23 @@
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
   window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
-  
+  window.EventDisplay.setPresetViews([
+    {
+      name: 'Right View',
+      cameraPos: [0,0,6000],
+      icon: 'fas fa-caret-right'
+    },
+    {
+      name: 'Center View',
+      cameraPos: [-500,1000,00],
+      icon: 'far fa-circle'
+    },
+    {
+      name: 'Left View',
+      cameraPos: [0,0,-6000],
+      icon: 'fas fa-caret-left'
+    }
+  ]);
   window.EventDisplay.animate();
   
   </script> 

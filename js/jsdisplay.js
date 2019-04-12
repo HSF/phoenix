@@ -1180,6 +1180,32 @@
         info.innerHTML = message;
       }
     }
+
+    function _setPresetViews(views){
+      function setCameraPos(cameraPos){
+        return function(){
+          camera.position.set(cameraPos[0], cameraPos[1], cameraPos[2]);
+        };
+      }
+      // For adding to the controls
+      var presetViewFolder = gui.addFolder('Preset Views');
+      for(var i=0; i<views.length; i++){
+        views[i].setView = setCameraPos(views[i].cameraPos);
+        presetViewFolder.add( views[i], 'setView' ).name(views[i].name);
+      }
+      // For icons
+      var presetIconsUl = document.createElement('ul');
+      presetIconsUl.className = 'preset-views-ul';
+      var presetIconsLi = new Array(views.length);
+      for(i=0; i<views.length; i++){
+        presetIconsLi[i] = document.createElement('li');
+        presetIconsLi[i].setAttribute('title', views[i].name);
+        presetIconsLi[i].innerHTML = '<i class="'+views[i].icon+'"></i>';
+        presetIconsLi[i].addEventListener('click', setCameraPos(views[i].cameraPos));
+        presetIconsUl.append(presetIconsLi[i]);
+      }
+      document.body.append(presetIconsUl);
+    }
     
     function onWindowResize() {
       console.log('onWindowResize: camera x/y='+camera.position.x +'/'+camera.position.y+'\t mouseX/Y='+mouse.x+'/'+mouse.y);
@@ -1348,6 +1374,10 @@
     
     EventDisplay.loadGeomFromObj = function(objectname, name, colour, doublesided){
       _loadGeomFromObj(objectname, name, colour, doublesided);
+    };
+
+    EventDisplay.setPresetViews = function(views){
+      _setPresetViews(views);
     };
     
     return EventDisplay;
