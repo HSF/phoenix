@@ -1184,7 +1184,7 @@
     function _setPresetViews(views){
       function setCameraPos(cameraPos){
         return function(){
-          camera.position.set(cameraPos[0], cameraPos[1], cameraPos[2]);
+          new TWEEN.Tween(camera.position).to({ x: cameraPos[0], y: cameraPos[1], z: cameraPos[2] }, 1000).easing(TWEEN.Easing.Quadratic.Out).start();
         };
       }
       // For adding to the controls
@@ -1329,10 +1329,11 @@
 			}
      }
 
-    EventDisplay.animate = function() {
+    EventDisplay.animate = function(time) {
       // console('animate');
       requestAnimationFrame( EventDisplay.animate );
       _render();
+      TWEEN.update(time);
     };
     
     /// Set default configuration values
