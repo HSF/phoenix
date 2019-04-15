@@ -59,23 +59,20 @@
   .preset-views-ul{
     color: white;
     position: absolute;
-    right: 0;
-    left: 0;
     text-align: center;
-    top: 10px;
+    top: 30%;
   }
   .preset-views-ul li{
     position: relative;
     cursor: pointer;
-    display: inline-block;
+    display: block;
     list-style-type: none;
-    margin: 5px;
+    margin-bottom: 5px;
     border: 1px solid white;
     border-radius: 10px;
     font-size: 20px;
     width: 30px;
     height: 30px;
-    vertical-align: middle;
   }
   .preset-views-ul li i{
     position: absolute;
@@ -83,6 +80,11 @@
     right: 0;
     left: 0;
     transform: translateY(-50%);
+  }
+  @media screen and (max-width: 768px){
+    .preset-views-ul{
+      display: none;
+    }
   }
  </style>
 
@@ -96,6 +98,7 @@
   <script src="lib/dat.gui.min.js"></script>
   <script src="lib/OrbitControls.js"></script> 
   <script src="lib/stats.min.js"></script>
+  <script src="lib/Tween.min.js"></script>
   <script src="lib/LoaderSupport.js"></script>
   <script src="lib/OBJLoader2.js"></script>
   <script src="lib/MTLLoader.js"></script>
