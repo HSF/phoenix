@@ -4,6 +4,7 @@
   <script src="lib/dat.gui.min.js"></script>
   <script src="lib/OrbitControls.js"></script> 
   <script src="lib/stats.min.js"></script>
+  <script src="lib/Tween.min.js"></script>
   <script src="lib/LoaderSupport.js"></script>
   <script src="lib/OBJLoader2.js"></script>
   <!-- <script src="lib/OBJLoader.js"></script> -->
@@ -17,7 +18,7 @@
   "use strict";
   
   var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "EventDump.json";
+  var urlEvent = "event_data/atlaseventdump.json";
   var eventLoaded = false;
 
   xmlhttpEventData.onreadystatechange = function() {
