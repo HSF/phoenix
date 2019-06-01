@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as THREE from 'three';
+import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 
 @Component({
   selector: 'app-task1',
@@ -25,7 +27,7 @@ export class Task1Component implements OnInit {
     document.body.appendChild(renderer.domElement);
 
     // Orbit controls allow to move around
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
@@ -48,7 +50,7 @@ export class Task1Component implements OnInit {
     var objects = [];
 
     // Loading .obj file
-    var objLoader = new THREE.OBJLoader();
+    var objLoader = new OBJLoader();
     objLoader.load('../../assets/files/Pix.obj', function(object) {
 
       scene.add(object);
