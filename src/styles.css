@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Circular";
+  src: url(/assets/fonts/CircularStd-Black.otf);
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(/assets/fonts/Lato-Regular.ttf);
+}
