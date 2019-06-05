@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import * as Stats from 'stats-js';
 import * as dat from 'dat.gui';
+import {ThreeService} from './three.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,14 @@ export class UIService {
   stats;
   gui;
   guiParameters = {rotate: undefined};
+  private UIFunctions;
 
-  constructor() {
+  constructor(private three:ThreeService) {
   }
 
   showUI() {
     this.showStats();
-    this.showMenu()
+    this.showMenu();
   }
 
   private showStats() {
@@ -31,14 +33,16 @@ export class UIService {
   }
 
   private showMenu() {
-    this.gui = new dat.GUI(  );
+    this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
 
     const controlsFolder = this.gui.addFolder('Controls');
     this.guiParameters.rotate = false;
     const autoRotate = controlsFolder.add(this.guiParameters, 'rotate').name('Auto Rotate?').listen();
     autoRotate.onChange((value) => {
-      console.log(value);
+      this.three.autoRotate(value);
     });
   }
+
+
 }
