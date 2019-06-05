@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
-import {Scene} from 'three';
-import * as Stats from 'stats-js';
-import {UIService} from './ui.service';
+import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -12,47 +10,39 @@ import {UIService} from './ui.service';
 export class ThreeService {
 
   // Variables
-  scene: Scene;
+  private scene: Scene;
+  private controls: OrbitControls;
+  private renderer: WebGLRenderer;
+  private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
   objects = [];
-  stats;
 
-  constructor(private ui: UIService) {}
+  constructor() {
+  }
 
   init() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
 
     // Arguments: FOV, aspect ratio, near and far distances
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
-    camera.position.z = 200;
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
+    this.camera.position.z = 200;
 
     // Main renderer for current browsers
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.domElement.className = 'ui-element';
-    document.body.appendChild(renderer.domElement);
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.domElement.className = 'ui-element';
+    document.body.appendChild(this.renderer.domElement);
 
     // Orbit controls allow to move around
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.enableZoom = true;
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.25;
+    this.controls.enableZoom = true;
+    this.controls.autoRotate = false;
 
     // Different lights to better see the object
     this.setLights();
-
-    // Showing the UI elements
-    this.ui.showUI();
-
-    // Animate loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      controls.update();
-      this.ui.updateUI();
-      renderer.render(this.scene, camera);
-    };
-    animate();
   }
 
   setLights() {
@@ -89,4 +79,16 @@ export class ThreeService {
   }
 
 
+  autoRotate(value) {
+    this.controls.autoRotate = value;
+  }
+
+
+  updateControls() {
+    this.controls.update();
+  }
+
+  render() {
+    this.renderer.render(this.scene, this.camera);
+  }
 }

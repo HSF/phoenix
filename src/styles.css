@@ -13,9 +13,9 @@ canvas {
   max-height: 92vh;
 }
 
+/* dat.gui styles */
 #gui {
   position: absolute;
   top: 8em;
   right: 0px;
 }
-
