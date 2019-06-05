@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EventdisplayService} from '../services/eventdisplay.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
+  constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
+    this.eventDisplay.clearDisplay();
   }
 
 }

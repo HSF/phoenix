@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {EventdisplayService} from '../services/eventdisplay.service';
 
 @Component({
   selector: 'app-geometry',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeometryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
+    this.eventDisplay.task1();
   }
 
 }

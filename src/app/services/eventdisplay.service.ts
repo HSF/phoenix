@@ -13,12 +13,16 @@ export class EventdisplayService {
   }
 
   init(): void {
+    this.graphicsLibrary.clearCanvas();
     this.graphicsLibrary.init();
   }
-
 
   task1() {
     this.init();
     this.graphicsLibrary.loadOBJFile('../../assets/files/Pix.obj');
+  }
+
+  clearDisplay() {
+    this.graphicsLibrary.clearCanvas();
   }
 }
