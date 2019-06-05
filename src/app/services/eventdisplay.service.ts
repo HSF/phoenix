@@ -27,7 +27,8 @@ export class EventdisplayService {
 
   task1() {
     this.init();
-    this.graphicsLibrary.loadOBJFile('../../assets/files/Pix.obj');
+    this.graphicsLibrary.loadOBJFile('../../assets/files/Pix.obj', 'Pix');
+    this.ui.addGeometry('Pix');
   }
 
   clearDisplay() {

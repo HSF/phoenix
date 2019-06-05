@@ -15,7 +15,12 @@ export class ThreeService {
   private renderer: WebGLRenderer;
   private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
-  objects = [];
+  objects = {};
+  private clipPlanes = [
+    new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
+    new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
+    new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)
+  ];
 
   constructor() {
   }
@@ -66,23 +71,43 @@ export class ThreeService {
         elements.item(0).remove();
       }
     }
+    const gui = document.getElementById('gui');
+    if (gui != null) {
+      gui.remove();
+    }
   }
 
   // Move to a loader Service
-  loadOBJFile(filename: string): void {
+  loadOBJFile(filename: string, name:string): void {
+    const colour = 0x41a6f4;
     const objLoader = new OBJLoader();
     objLoader.load(filename, (object) => {
+      this.setObjFlat(object, colour);
       this.scene.add(object);
-      object.position.y -= 60;
-      this.objects.push(object);
+      this.objects[name] = object;
     });
   }
 
+  setObjFlat(object3d, colour) {
+    const material2 = new THREE.MeshPhongMaterial({color: colour, wireframe: false});
+    material2.clippingPlanes = this.clipPlanes;
+    material2.clipIntersection = true;
+    material2.clipShadows = false;
+    material2.wireframe = false;
+
+    object3d.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.material = material2;
+        // enable casting shadows
+        child.castShadow = false;
+        child.receiveShadow = false;
+      }
+    });
+  }
 
   autoRotate(value) {
     this.controls.autoRotate = value;
   }
-
 
   updateControls() {
     this.controls.update();
@@ -90,5 +115,9 @@ export class ThreeService {
 
   render() {
     this.renderer.render(this.scene, this.camera);
+  }
+
+  objectVisibility(name: string, value: boolean) {
+    this.objects[name].visible = value;
   }
 }

@@ -10,9 +10,9 @@ export class UIService {
   stats;
   gui;
   guiParameters = {rotate: undefined};
-  private UIFunctions;
+  geomFolder;
 
-  constructor(private three:ThreeService) {
+  constructor(private three: ThreeService) {
   }
 
   showUI() {
@@ -35,7 +35,6 @@ export class UIService {
   private showMenu() {
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
-
     const controlsFolder = this.gui.addFolder('Controls');
     this.guiParameters.rotate = false;
     const autoRotate = controlsFolder.add(this.guiParameters, 'rotate').name('Auto Rotate?').listen();
@@ -44,5 +43,14 @@ export class UIService {
     });
   }
 
-
+  addGeometry(name: string) {
+    if (this.geomFolder == null) {
+      this.geomFolder = this.gui.addFolder('Geometry');
+    }
+    this.guiParameters[name]  = true;
+    const menu = this.geomFolder.add( this.guiParameters, name).name(name).listen();
+    menu.onChange((value) => {
+      this.three.objectVisibility(name, value);
+    });
+  }
 }
