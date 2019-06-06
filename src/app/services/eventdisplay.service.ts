@@ -7,7 +7,7 @@ import {UIService} from './ui.service';
 })
 export class EventdisplayService {
 
-  constructor(private graphicsLibrary: ThreeService, private ui:UIService) {
+  constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
 
   init(): void {
@@ -25,10 +25,10 @@ export class EventdisplayService {
     animate();
   }
 
-  task1() {
-    this.init();
-    this.graphicsLibrary.loadOBJFile('../../assets/files/Pix.obj', 'Pix');
-    this.ui.addGeometry('Pix');
+
+  loadGeometryFromOBJ(filename: string, name: string, colour) {
+    this.graphicsLibrary.loadOBJFile(filename, name, colour);
+    this.ui.addGeometry(name);
   }
 
   clearDisplay() {

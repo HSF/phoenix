@@ -78,8 +78,10 @@ export class ThreeService {
   }
 
   // Move to a loader Service
-  loadOBJFile(filename: string, name:string): void {
-    const colour = 0x41a6f4;
+  loadOBJFile(filename: string, name: string, colour): void {
+    if (colour == null) {
+      colour = 0x41a6f4;
+    }
     const objLoader = new OBJLoader();
     objLoader.load(filename, (object) => {
       this.setObjFlat(object, colour);

@@ -19,3 +19,7 @@ canvas {
   top: 8em;
   right: 0px;
 }
+
+.loading-spinner {
+  margin-top: 40vh;
+}

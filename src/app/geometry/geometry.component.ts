@@ -11,7 +11,6 @@ export class GeometryComponent implements OnInit {
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.task1();
   }
 
 }
