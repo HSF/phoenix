@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ThreeService} from './three.service';
 import {UIService} from './ui.service';
+import {Configuration} from './configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,11 @@ export class EventdisplayService {
   constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
 
-  init(): void {
+  init(configuration: Configuration): void {
     this.graphicsLibrary.clearCanvas();
-    this.graphicsLibrary.init();
+    this.graphicsLibrary.init(configuration);
     // Showing the UI elements
-    this.ui.showUI();
+    this.ui.showUI(configuration);
     // Animate loop
     const animate = () => {
       requestAnimationFrame(animate);
@@ -33,5 +34,10 @@ export class EventdisplayService {
 
   clearDisplay() {
     this.graphicsLibrary.clearCanvas();
+  }
+
+
+  buildGeometryFromParameters(parameters) {
+    this.graphicsLibrary.buildGeometryFromParameters(parameters);
   }
 }

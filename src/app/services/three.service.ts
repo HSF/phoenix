@@ -2,30 +2,34 @@ import {Injectable} from '@angular/core';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
-import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import {AxesHelper, EdgesGeometry, LineBasicMaterial, LineSegments, PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import {Configuration} from './configuration';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreeService {
 
-  // Variables
+  // Threejs Variables
   private scene: Scene;
   private controls: OrbitControls;
   private renderer: WebGLRenderer;
   private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
   objects = {};
+  // Clipping planes
   private clipPlanes = [
     new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
     new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
     new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)
   ];
+  // Axis
+  private axis: AxesHelper;
 
   constructor() {
   }
 
-  init() {
+  init(configuration: Configuration) {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
 
@@ -48,6 +52,8 @@ export class ThreeService {
 
     // Different lights to better see the object
     this.setLights();
+    // Customizing with configuration
+    this.setConfiguration(configuration);
   }
 
   setLights() {
@@ -60,6 +66,20 @@ export class ThreeService {
     this.scene.add(keyLight);
     this.scene.add(fillLight);
     this.scene.add(backLight);
+  }
+
+  setConfiguration(configuration: Configuration) {
+    if (configuration.allowShowAxes) {
+      this.setAxis(configuration.allowShowAxes);
+    }
+  }
+
+  setAxis(value: boolean) {
+    if (this.axis == null) {
+      this.axis = new THREE.AxesHelper(2000);
+      this.scene.add(this.axis);
+    }
+    this.axis.visible = value;
   }
 
 
@@ -90,7 +110,7 @@ export class ThreeService {
     });
   }
 
-  setObjFlat(object3d, colour) {
+  private setObjFlat(object3d, colour) {
     const material2 = new THREE.MeshPhongMaterial({color: colour, wireframe: false});
     material2.clippingPlanes = this.clipPlanes;
     material2.clipIntersection = true;
@@ -122,4 +142,56 @@ export class ThreeService {
   objectVisibility(name: string, value: boolean) {
     this.objects[name].visible = value;
   }
+
+  setClipping(value: boolean) {
+    this.renderer.localClippingEnabled = value;
+  }
+
+  getXClipPlane() {
+    return this.clipPlanes[0];
+  }
+
+  getYClipPlane() {
+    return this.clipPlanes[1];
+  }
+
+  getZClipPlane() {
+    return this.clipPlanes[2];
+  }
+
+  buildGeometryFromParameters(parameters) {
+    // Make the geometry and material
+    const geometry = new THREE.BoxGeometry(parameters.xDim, parameters.yDim, parameters.zDim);
+    const material = new THREE.MeshBasicMaterial({color: parameters.colour, opacity: 0.5, transparent: true});
+
+    const zstep = (parameters.maxZ - parameters.minZ) / parameters.numZEl;
+    const phistep = 2.0 * Math.PI / parameters.numPhiEl;
+
+    let z = parameters.minZ + zstep / 2.0;
+
+    const halfPi = Math.PI / 2.0;
+    let modulecentre;
+    const ztiltAngle = 0;
+    for (let elZ = 0; elZ < parameters.numZEl; elZ++) {
+      console.log(elZ);
+      let phi = parameters.phiOffset;
+      for (let elPhi = 0; elPhi < parameters.numPhiEl; elPhi++) {
+        phi += phistep;
+        modulecentre = new THREE.Vector3(parameters.radius * Math.cos(phi), parameters.radius * Math.sin(phi), z);
+        const cube = new THREE.Mesh(geometry.clone(), material);
+
+        cube.matrix.makeRotationFromEuler(new THREE.Euler(ztiltAngle, 0.0, halfPi + phi + parameters.tiltAngle));
+        cube.matrix.setPosition(modulecentre);
+        cube.matrixAutoUpdate = false;
+        this.scene.add(cube);
+
+        const egh = new LineSegments(new EdgesGeometry(cube.geometry), new LineBasicMaterial({color: parameters.colour}));
+        // @ts-ignore
+        egh.material.linewidth = 2;
+        this.scene.add(egh);
+      }
+      z += zstep;
+    }
+  }
+
 }

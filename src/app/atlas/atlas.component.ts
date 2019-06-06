@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
+import {Configuration} from '../services/configuration';
 
 @Component({
   selector: 'app-atlas',
@@ -13,7 +14,7 @@ export class AtlasComponent implements OnInit {
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.init();
+    this.eventDisplay.init(new Configuration());
     this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181);
     this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8);
     this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3);
