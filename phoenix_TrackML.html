@@ -1,102 +1,18 @@
 <!-- author: Edward Moyse -->
-<html> <head> <title>TrackingML Event display</title> 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <style> 
-    body { margin: 0;     background-color: black;} 
-    canvas { width: 100%; height: 100%;     background-color: black;} 
-    
-    caption {
-        position:absolute;
-        top:-500px; left:0; right:0;
-        background-color: red;
-        background: rgba(0, 0, 0,0);
-        color:white;
-        font-family:arial;
-        padding:30px;
-        text-align:justify;
-        transition: all 500ms ease; 
-    }
-
-    box{
-        width:383px;
-        height:212px;
-        position:relative;
-        overflow:hidden;
-    }
-
-	box:hover .caption{
-	  top:0;
-	  height:100%;
-	}
-  
-  #about {
-    position: absolute;
-    bottom:20px; left:0; right:0;
-    width:20%;
-    padding: 10px;
-    text-align: left;
-    color:white;
-    font-family:arial;
-    font-size:12;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  
-	#info {
-		position: absolute;
-    bottom:20px; left:40%; right:0;
-    width:50%;
-		padding: 10px;
-		text-align: left;
-    color:white;
-    font-family:arial;
-		font-size:12;
-    background: rgba(0, 0, 0, 0.5);
-	}
-  
-	#eventFileUploadInput {
-		display: none;
-	}
-  .preset-views-ul{
-    color: white;
-    position: absolute;
-    text-align: center;
-    top: 30%;
-  }
-  .preset-views-ul li{
-    position: relative;
-    cursor: pointer;
-    display: block;
-    list-style-type: none;
-    margin-bottom: 5px;
-    border: 1px solid white;
-    border-radius: 10px;
-    font-size: 20px;
-    width: 30px;
-    height: 30px;
-  }
-  .preset-views-ul li i{
-    position: absolute;
-    top: 50%;
-    right: 0;
-    left: 0;
-    transform: translateY(-50%);
-  }
-  @media screen and (max-width: 768px){
-    .preset-views-ul{
-      display: none;
-    }
-  }
- </style>
-
-</head> <body>
-    <div id="about" > Created with <a href="https://github.com/HSF/phoenix">Phoenix</a> </div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TrackingML Event display</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+  <div id="about">Created with <a href="https://github.com/HSF/phoenix">Phoenix</a> </div>
   <input id="eventFileUploadInput" type="file" name="files[]" multiple accept=".csv" />
-  <div id="info" ></div>
-  
-	
-  <script src="lib/three.min.js"></script> 
+  <div id="info"></div>
+  <script src="lib/three.min.js"></script>
   <script src="lib/dat.gui.min.js"></script>
-  <script src="lib/OrbitControls.js"></script> 
+  <script src="lib/OrbitControls.js"></script>
   <script src="lib/stats.min.js"></script>
   <script src="lib/Tween.min.js"></script>
   <script src="lib/LoaderSupport.js"></script>
@@ -104,178 +20,183 @@
   <script src="lib/MTLLoader.js"></script>
   <script src="js/jsdisplay.js"></script>
 
-  <script> // Our Javascript will go here. 
-  var hit_data=[];
-  var particle_data=[];
-  var truth_data = [];
-  var num_files=0;
-  var num_files_processed=0;
-  var eventnum=0;
-  
-  var processHits = function (hits) {
-    var data = hits.split('\n')
-    console.log('processHits with ',data.length, 'entries and '+num_files_processed+'/'+num_files+' files processed.');
-    
-    var values = null;
-    // format is: hit_id,x,y,z,volume_id,layer_id,module_id
-    for (var line = 1 ; line < data.length ; line++) {
-      values = data[line].split(',');
-      hit_data[ values[0] ] = [ parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3]) ];
-    }
-  }
-  
-  var processParticles = function (particles){
-    var data = particles.split('\n')
-    console.log('processParticles with ',data.length, 'entries and '+num_files_processed+'/'+num_files+' files processed.');
-    
-    var values = null;
-    // format is: particle_id,vx,vy,vz,px,py,pz,q,nhits
-    for (var line = 1 ; line < data.length ; line++) {
-      values = data[line].split(',');
-      particle_data.push( { particle_id: parseInt(values[0]), 
-                          vertex_pos: [ parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3]) ],
-                          mom: [parseFloat(values[4]), parseFloat(values[5]), parseFloat(values[6])]
-                          });
-    }    
-  }
-  
-  var processTruth = function (truth){
-    var data = truth.split('\n')
-    console.log('processTruth with ',data.length, 'entries and '+num_files_processed+'/'+num_files+' files processed.');
-    
-    var values = null;
-    // format is: hit_id,particle_id,tx,ty,tz,tpx,tpy,tpz,weight
-    for (var line = 1 ; line < data.length ; line++) {
-      values = data[line].split(',');
-      truth_data[ values[0] ] = [ values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]];
-    }
-  }
-  
-  var finishConversion = function (){
-    console.log('finishConversion',num_files_processed, num_files);
-    
-    console.log('Everything is loaded now. #hits, #particles, #truth = ',hit_data.length, particle_data.length, truth_data.length )
-    var event_data = {eventNumber: eventnum, runNumber: 0};
-    if (hit_data) {
-      event_data.Hits= {};
-      event_data.Hits.Reconstructed = [];
-      for (var i = 1; i < hit_data.length; i++){
-        event_data.Hits.Reconstructed[i-1]= [ hit_data[i][0], hit_data[i][1], hit_data[i][2] ];
+  <script> // Our Javascript will go here.
+
+    var hit_data = [];
+    var particle_data = [];
+    var truth_data = [];
+    var num_files = 0;
+    var num_files_processed = 0;
+    var eventnum = 0;
+
+    var processHits = function (hits) {
+      var data = hits.split('\n')
+      console.log('processHits with ', data.length, 'entries and ' + num_files_processed + '/' + num_files + ' files processed.');
+
+      var values = null;
+      // format is: hit_id,x,y,z,volume_id,layer_id,module_id
+      for (var line = 1; line < data.length; line++) {
+        values = data[line].split(',');
+        hit_data[values[0]] = [parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3])];
       }
     }
-    
-    if (truth_data) {
-      event_data.Tracks = { Particles: [] };
-      if (particle_data ) {
-        for (var i = 0; i < particle_data.length; i++){
-          // Add the relevant data from particle, such as first hit position - we'll add the particle_id because we need it later.
-          event_data.Tracks.Particles[i]
-          = { particle_id: particle_data[i].particle_id, 
-            pos: [ particle_data[i].vertex_pos ],
-            mom: particle_data[i].mom };
+
+    var processParticles = function (particles) {
+      var data = particles.split('\n')
+      console.log('processParticles with ', data.length, 'entries and ' + num_files_processed + '/' + num_files + ' files processed.');
+
+      var values = null;
+      // format is: particle_id,vx,vy,vz,px,py,pz,q,nhits
+      for (var line = 1; line < data.length; line++) {
+        values = data[line].split(',');
+        particle_data.push({
+          particle_id: parseInt(values[0]),
+          vertex_pos: [parseFloat(values[1]), parseFloat(values[2]), parseFloat(values[3])],
+          mom: [parseFloat(values[4]), parseFloat(values[5]), parseFloat(values[6])]
+        });
+      }
+    }
+
+    var processTruth = function (truth) {
+      var data = truth.split('\n')
+      console.log('processTruth with ', data.length, 'entries and ' + num_files_processed + '/' + num_files + ' files processed.');
+
+      var values = null;
+      // format is: hit_id,particle_id,tx,ty,tz,tpx,tpy,tpz,weight
+      for (var line = 1; line < data.length; line++) {
+        values = data[line].split(',');
+        truth_data[values[0]] = [values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]];
+      }
+    }
+
+    var finishConversion = function () {
+      console.log('finishConversion', num_files_processed, num_files);
+
+      console.log('Everything is loaded now. #hits, #particles, #truth = ', hit_data.length, particle_data.length, truth_data.length)
+      var event_data = { eventNumber: eventnum, runNumber: 0 };
+      if (hit_data) {
+        event_data.Hits = {};
+        event_data.Hits.Reconstructed = [];
+        for (var i = 1; i < hit_data.length; i++) {
+          event_data.Hits.Reconstructed[i - 1] = [hit_data[i][0], hit_data[i][1], hit_data[i][2]];
+        }
+      }
+
+      if (truth_data) {
+        event_data.Tracks = { Particles: [] };
+        if (particle_data) {
+          for (var i = 0; i < particle_data.length; i++) {
+            // Add the relevant data from particle, such as first hit position - we'll add the particle_id because we need it later.
+            event_data.Tracks.Particles[i]
+              = {
+                particle_id: particle_data[i].particle_id,
+                pos: [particle_data[i].vertex_pos],
+                mom: particle_data[i].mom
+              };
             // console.log('Just added: ', event_data.Tracks.Particles[i-1]);
           }
         }
-        var hit_id=null, particle_id=null;
-        var stepSize = parseInt(truth_data.length/10);
-        for (var i = 1; i < truth_data.length; i++){
+        var hit_id = null, particle_id = null;
+        var stepSize = parseInt(truth_data.length / 10);
+        for (var i = 1; i < truth_data.length; i++) {
           // Now add the truth data - i.e. add the truth hits which match a particle to the particle (unsorted for the moment)
           hit_id = i;
           particle_id = parseInt(truth_data[i][0]);
-          for (var j = 0; j < event_data.Tracks.Particles.length; j++){
+          for (var j = 0; j < event_data.Tracks.Particles.length; j++) {
             // console.log(event_data.Tracks.Particles[j]);
-            if (event_data.Tracks.Particles[j].particle_id === particle_id ) {
+            if (event_data.Tracks.Particles[j].particle_id === particle_id) {
               // Found matching particle - add the truth hit position to the particles positions
-              event_data.Tracks.Particles[j].pos.push([ parseFloat(truth_data[i][1]),parseFloat(truth_data[i][2]),parseFloat(truth_data[i][3]) ]); 
+              event_data.Tracks.Particles[j].pos.push([parseFloat(truth_data[i][1]), parseFloat(truth_data[i][2]), parseFloat(truth_data[i][3])]);
             }
           }
-          if (i%stepSize === 0 ) {
-            document.getElementById('info').innerHTML = 'Processed '+100*i/truth_data.length+'% of event data.';
+          if (i % stepSize === 0) {
+            document.getElementById('info').innerHTML = 'Processed ' + 100 * i / truth_data.length + '% of event data.';
           }
         }
-        document.getElementById('info').innerHTML = 'Processed all event data. Have '+event_data.Tracks.Particles.length+' particles and '+event_data.Hits.Reconstructed.length+' hits.';    
-    }  
-    
-    var num_particle_stubs = 0;
-    for (var j = 0; j < event_data.Tracks.Particles.length; j++){
-      if (event_data.Tracks.Particles[j].pos.length < 3) {
-        // console.log ('Track has less than 3 positions');
-        // console.log(event_data.Tracks.Particles[j]);
-        num_particle_stubs++;
+        document.getElementById('info').innerHTML = 'Processed all event data. Have ' + event_data.Tracks.Particles.length + ' particles and ' + event_data.Hits.Reconstructed.length + ' hits.';
       }
-    }
-    
-    console.log('Found '+num_particle_stubs+' particles with <3 hits (inc vertex)');
-    
+
+      var num_particle_stubs = 0;
+      for (var j = 0; j < event_data.Tracks.Particles.length; j++) {
+        if (event_data.Tracks.Particles[j].pos.length < 3) {
+          // console.log ('Track has less than 3 positions');
+          // console.log(event_data.Tracks.Particles[j]);
+          num_particle_stubs++;
+        }
+      }
+
+      console.log('Found ' + num_particle_stubs + ' particles with <3 hits (inc vertex)');
+
       // Now pass to jsdisplay
       window.EventDisplay.buildEventDataFromJSON(event_data);
-  }
-  
-  var convertTrackMLtoJSON = function( files, tmpeventnum ) {
-    eventnum=tmpeventnum;
-    console.log('convertTrackMLtoJSON: ', files, eventnum)
-    num_files = files.length;
-    for (var i = 0; i < files.length; i++){
-      console.log('processing: ',files[i].name);
-      
-      var fileReader = new FileReader();
-      if (files[i].name.match('\-hits\.')) {
-        fileReader.onload = function( fileDataObj) {
-          console.log('Loaded ',fileDataObj.target);
-          processHits(fileDataObj.target.result);
-          if (++num_files_processed === num_files) finishConversion();
-        };
-      } else if (files[i].name.match('\-particles\.')) {
-        fileReader.onload = function( fileDataObj) {
-          console.log('Loaded ',fileDataObj.target);
-          processParticles(fileDataObj.target.result);
-          if (++num_files_processed === num_files) finishConversion();
-        };
-      } else if (files[i].name.match('\-truth\.')) {
-        fileReader.onload = function( fileDataObj) {
-          console.log('Loaded ',fileDataObj.target);
-          processTruth(fileDataObj.target.result);
-          if (++num_files_processed === num_files) finishConversion();
-        };
+    }
+
+    var convertTrackMLtoJSON = function (files, tmpeventnum) {
+      eventnum = tmpeventnum;
+      console.log('convertTrackMLtoJSON: ', files, eventnum)
+      num_files = files.length;
+      for (var i = 0; i < files.length; i++) {
+        console.log('processing: ', files[i].name);
+
+        var fileReader = new FileReader();
+        if (files[i].name.match('\-hits\.')) {
+          fileReader.onload = function (fileDataObj) {
+            console.log('Loaded ', fileDataObj.target);
+            processHits(fileDataObj.target.result);
+            if (++num_files_processed === num_files) finishConversion();
+          };
+        } else if (files[i].name.match('\-particles\.')) {
+          fileReader.onload = function (fileDataObj) {
+            console.log('Loaded ', fileDataObj.target);
+            processParticles(fileDataObj.target.result);
+            if (++num_files_processed === num_files) finishConversion();
+          };
+        } else if (files[i].name.match('\-truth\.')) {
+          fileReader.onload = function (fileDataObj) {
+            console.log('Loaded ', fileDataObj.target);
+            processTruth(fileDataObj.target.result);
+            if (++num_files_processed === num_files) finishConversion();
+          };
+        }
+        fileReader.readAsText(files[i]);
       }
-      fileReader.readAsText( files[i]);
     }
-  }
-  
-  var configuration = new window.EventDisplay.getDefaultConfiguration();
-  configuration.eventFileUploader='eventFileUploadInput';
-  configuration.allowShowAxes = false;
-  configuration.customEventFileConvertor=convertTrackMLtoJSON;
-  console.log(configuration)
 
-  window.EventDisplay.init(configuration);
-  
-  "use strict";
+    var configuration = new window.EventDisplay.getDefaultConfiguration();
+    configuration.eventFileUploader = 'eventFileUploadInput';
+    configuration.allowShowAxes = false;
+    configuration.customEventFileConvertor = convertTrackMLtoJSON;
+    console.log(configuration)
 
-  // Load geometry data
-  window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
-  window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
-  window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
-  window.EventDisplay.loadGeomFromObj('geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
-  window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
-  window.EventDisplay.setPresetViews([
-    {
-      name: 'Right View',
-      cameraPos: [0,0,6000],
-      icon: 'fas fa-caret-right'
-    },
-    {
-      name: 'Center View',
-      cameraPos: [-500,1000,00],
-      icon: 'far fa-circle'
-    },
-    {
-      name: 'Left View',
-      cameraPos: [0,0,-6000],
-      icon: 'fas fa-caret-left'
-    }
-  ]);
-  window.EventDisplay.animate();
-  
-  </script> 
-</body> </html>
+    window.EventDisplay.init(configuration);
+
+    "use strict";
+
+    // Load geometry data
+    window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
+    window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
+    window.EventDisplay.loadGeomFromObj('geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
+    window.EventDisplay.loadGeomFromObj('geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
+    window.EventDisplay.loadGeomFromObj('geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
+    window.EventDisplay.setPresetViews([
+      {
+        name: 'Right View',
+        cameraPos: [0, 0, 6000],
+        icon: 'fas fa-caret-right'
+      },
+      {
+        name: 'Center View',
+        cameraPos: [-500, 1000, 00],
+        icon: 'far fa-circle'
+      },
+      {
+        name: 'Left View',
+        cameraPos: [0, 0, -6000],
+        icon: 'fas fa-caret-left'
+      }
+    ]);
+    window.EventDisplay.animate();
+
+  </script>
+</body>
+</html>

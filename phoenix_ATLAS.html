@@ -1,42 +1,52 @@
 <!-- author: Edward Moyse -->
-<html> <head> <title>Geometry display</title> <style> body { margin: 0; } canvas { width: 100%; height: 100% } </style> </head> <body>
-  <script src="lib/three.js"></script> 
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Geometry display</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+
+<body>
+  <script src="lib/three.js"></script>
   <script src="lib/dat.gui.min.js"></script>
-  <script src="lib/OrbitControls.js"></script> 
+  <script src="lib/OrbitControls.js"></script>
   <script src="lib/stats.min.js"></script>
   <script src="lib/Tween.min.js"></script>
   <script src="lib/LoaderSupport.js"></script>
   <script src="lib/OBJLoader2.js"></script>
   <!-- <script src="lib/OBJLoader.js"></script> -->
-	<script src="lib/MTLLoader.js"></script>
+  <script src="lib/MTLLoader.js"></script>
   <script src="js/jsdisplay.js"></script>
 
   <script> // Our Javascript will go here. 
-  
-  window.EventDisplay.init();
-  
-  "use strict";
-  
-  var xmlhttpEventData = new XMLHttpRequest();
-  var urlEvent = "event_data/atlaseventdump.json";
-  var eventLoaded = false;
 
-  xmlhttpEventData.onreadystatechange = function() {
+    window.EventDisplay.init();
+
+    "use strict";
+
+    var xmlhttpEventData = new XMLHttpRequest();
+    var urlEvent = "event_data/atlaseventdump.json";
+    var eventLoaded = false;
+
+    xmlhttpEventData.onreadystatechange = function () {
       if (xmlhttpEventData.readyState == 4 && xmlhttpEventData.status == 200) {
-          var myArr = JSON.parse(xmlhttpEventData.responseText);
-          window.EventDisplay.buildEventDataFromJSON(myArr);
-          eventLoaded=true;
+        var myArr = JSON.parse(xmlhttpEventData.responseText);
+        window.EventDisplay.buildEventDataFromJSON(myArr);
+        eventLoaded = true;
       }
-  };
-  xmlhttpEventData.open("GET", urlEvent, true);
-  xmlhttpEventData.send();
+    };
+    xmlhttpEventData.open("GET", urlEvent, true);
+    xmlhttpEventData.send();
 
-  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181);
-  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8);
-  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3);
-  window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59);
+    window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181);
+    window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8);
+    window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3);
+    window.EventDisplay.loadGeomFromObj('geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59);
 
-  window.EventDisplay.animate();
-  
-  </script> 
-</body> </html>
+    window.EventDisplay.animate();
+
+  </script>
+</body>
+
+</html>
