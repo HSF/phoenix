@@ -13,6 +13,6 @@ addons:
 
 script:
   - npm run lint
-  - npm run test:headless
+  - npm run test
   - npm run build
   - xvfb-run npm run e2e
