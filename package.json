@@ -1,6 +1,8 @@
 {
-  "name": "phoenix",
-  "version": "0.0.0",
+  "name": "phoenix-tests",
+  "description": "Simple Travis-CI check for JSHint (Code Linting)",
+  "author": "edward.moyse@cern.ch",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
