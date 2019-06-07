@@ -27,8 +27,8 @@ export class EventdisplayService {
   }
 
 
-  loadGeometryFromOBJ(filename: string, name: string, colour) {
-    this.graphicsLibrary.loadOBJFile(filename, name, colour);
+  loadGeometryFromOBJ(filename: string, name: string, colour, doubleSided: boolean) {
+    this.graphicsLibrary.loadOBJFile(filename, name, colour, doubleSided);
     this.ui.addGeometry(name);
   }
 

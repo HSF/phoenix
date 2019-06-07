@@ -25,8 +25,8 @@ export class GeometryComponent implements OnInit {
       maxZ: 250,
       tiltAngle: 0.3,
       phiOffset: 0.0,
-      colour: 0x00ff00,
-      edgeColour: 0x449458
+      colour: 0x41a6f4,
+      edgeColour: 0x41a6f4
     };
     this.eventDisplay.init(new Configuration());
     this.eventDisplay.buildGeometryFromParameters(parameters);

@@ -98,24 +98,27 @@ export class ThreeService {
   }
 
   // Move to a loader Service
-  loadOBJFile(filename: string, name: string, colour): void {
+  loadOBJFile(filename: string, name: string, colour, doubleSided: boolean): void {
     if (colour == null) {
       colour = 0x41a6f4;
     }
     const objLoader = new OBJLoader();
     objLoader.load(filename, (object) => {
-      this.setObjFlat(object, colour);
+      this.setObjFlat(object, colour, doubleSided);
       this.scene.add(object);
       this.objects[name] = object;
     });
   }
 
-  private setObjFlat(object3d, colour) {
+  private setObjFlat(object3d, colour, doubleSided) {
     const material2 = new THREE.MeshPhongMaterial({color: colour, wireframe: false});
     material2.clippingPlanes = this.clipPlanes;
     material2.clipIntersection = true;
     material2.clipShadows = false;
     material2.wireframe = false;
+    if (doubleSided) {
+      material2.side = THREE.DoubleSide;
+    }
 
     object3d.traverse((child) => {
       if (child instanceof THREE.Mesh) {

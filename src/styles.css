@@ -20,6 +20,28 @@ canvas {
   right: 0px;
 }
 
-.loading-spinner {
-  margin-top: 40vh;
+#gui ul .folder .dg ul .title {
+  background: #193746;
+  text-shadow: none;
+  color: white;
+  border-color: #f0f0f0;
+}
+
+#gui ul .folder:first-child .dg ul .title {
+  border-radius: 5px 5px 0 0;
+}
+
+#gui ul .folder .dg ul .cr {
+  background: #f0f0f0;
+  color: #333333;
+  text-shadow: none;
+  border-color: #f0f0f0;
+}
+
+#gui .close-button {
+  background: #193746;
+  text-shadow: none;
+  color: white;
+  border-color: #f0f0f0;
+  border-radius: 0 0 5px 5px;
 }
