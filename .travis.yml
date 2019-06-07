@@ -12,5 +12,5 @@ install:
   - npm ci
  
 script:
-  - npm run install
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+  - npm install
+  - ng test -watch false -browsers ChromeHeadless
