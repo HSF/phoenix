@@ -1,18 +1,16 @@
-language: node_js
-node_js:
-  - "8"
 dist: trusty
 sudo: false
-
-cache:
-  directories:
-    - node_modules
-
+ 
+language: node_js
+node_js:
+  - 10
+ 
 addons:
-  chrome: stable
+   chrome: stable
 
+install:
+  - npm ci
+ 
 script:
-  - npm run lint
-  - npm run test
-  - npm run build
-  - xvfb-run npm run e2e
+  - npm run install
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
