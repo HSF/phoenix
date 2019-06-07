@@ -13,4 +13,5 @@ install:
  
 script:
   - npm install
-  - ng test -watch false -browsers ChromeHeadless
+  - yarn all_tests #Uses yarn to run our custom script all_tests
+
