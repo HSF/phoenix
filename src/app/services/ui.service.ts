@@ -68,4 +68,12 @@ export class UIService {
       this.three.objectVisibility(name, value);
     });
   }
+
+  clearUI() {
+    const gui = document.getElementById('gui');
+    if (gui != null) {
+      gui.remove();
+    }
+    this.geomFolder = null;
+  }
 }

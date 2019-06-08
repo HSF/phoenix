@@ -12,7 +12,7 @@ export class EventdisplayService {
   }
 
   init(configuration: Configuration): void {
-    this.graphicsLibrary.clearCanvas();
+    this.clearDisplay();
     this.graphicsLibrary.init(configuration);
     // Showing the UI elements
     this.ui.showUI(configuration);
@@ -34,6 +34,7 @@ export class EventdisplayService {
 
   clearDisplay() {
     this.graphicsLibrary.clearCanvas();
+    this.ui.clearUI();
   }
 
 

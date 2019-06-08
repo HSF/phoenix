@@ -57,15 +57,16 @@ export class ThreeService {
   }
 
   setLights() {
-    const keyLight = new THREE.DirectionalLight(new THREE.Color('hsl(348, 49%, 71%)'), 1.0);
-    keyLight.position.set(-100, 0, 100);
-    const fillLight = new THREE.DirectionalLight(new THREE.Color('hsl(212, 66%, 26%)'), 0.75);
-    fillLight.position.set(100, 0, 100);
-    const backLight = new THREE.DirectionalLight(0xffffff, 1.0);
-    backLight.position.set(100, 0, -100).normalize();
-    this.scene.add(keyLight);
-    this.scene.add(fillLight);
-    this.scene.add(backLight);
+    const ambientLight = new THREE.AmbientLight( 0x404040 );
+    const directionalLight1 = new THREE.DirectionalLight( 0xC0C090 );
+    const directionalLight2 = new THREE.DirectionalLight( 0xC0C090 );
+
+    directionalLight1.position.set( -100, -50, 100 );
+    directionalLight2.position.set( 100, 50, -100 );
+
+    this.scene.add( directionalLight1 );
+    this.scene.add( directionalLight2 );
+    this.scene.add( ambientLight );
   }
 
   setConfiguration(configuration: Configuration) {
@@ -82,7 +83,6 @@ export class ThreeService {
     this.axis.visible = value;
   }
 
-
   clearCanvas() {
     const elements = document.body.getElementsByClassName('ui-element');
     const elementsSize = elements.length;
@@ -90,10 +90,6 @@ export class ThreeService {
       if (elements.item(0) != null) {
         elements.item(0).remove();
       }
-    }
-    const gui = document.getElementById('gui');
-    if (gui != null) {
-      gui.remove();
     }
   }
 
