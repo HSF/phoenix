@@ -20,5 +20,9 @@ install:
   - npm install
 
 script:
+  - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+
+after_success:
+  - npm run coveralls

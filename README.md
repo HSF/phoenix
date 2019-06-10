@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/emiliocortina/phoenix.svg?branch=master)](https://travis-ci.com/emiliocortina/phoenix)
+[![Coverage Status](https://coveralls.io/repos/github/emiliocortina/phoenix/badge.svg?branch=master)](https://coveralls.io/github/emiliocortina/phoenix?branch=master)
 # Phoenix
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
