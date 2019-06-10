@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.com/emiliocortina/phoenix.svg?branch=testing_merge3)](https://travis-ci.com/emiliocortina/phoenix)
 [![Coverage Status](https://coveralls.io/repos/github/emiliocortina/phoenix/badge.svg?branch=testing_merge3)](https://coveralls.io/github/emiliocortina/phoenix?branch=testing_merge3)
+[![Known Vulnerabilities](https://snyk.io/test/github/emiliocortina/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ccfa8dc1854142433f65/maintainability)](https://codeclimate.com/github/emiliocortina/phoenix/maintainability)
+
 ![Phoenix Logo](./src/assets/images/logo-text.svg)
 # Phoenix Project
 
