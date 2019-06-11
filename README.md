@@ -1,12 +1,11 @@
-[![Build Status][build-img]][build-link]  [![License][license-img]][license-url][![Coverage Status](https://coveralls.io/repos/github/emiliocortina/phoenix/badge.svg?branch=master)](https://coveralls.io/github/emiliocortina/phoenix?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/emiliocortina/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ccfa8dc1854142433f65/maintainability)](https://codeclimate.com/github/emiliocortina/phoenix/maintainability)
+[![Build Status][build-img]][build-link] [![License][license-img]][license-url] [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
+
 
 ![Phoenix Logo](./src/assets/images/logo-text.svg)
 # Phoenix Project
