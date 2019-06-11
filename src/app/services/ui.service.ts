@@ -10,7 +10,14 @@ import {Configuration} from './configuration';
 export class UIService {
   stats;
   gui;
-  guiParameters = {rotate: undefined, axis: undefined, xClipPosition: undefined, yClipPosition: undefined, zClipPosition: undefined};
+  guiParameters = {
+    rotate: undefined,
+    axis: undefined,
+    xClipPosition: undefined,
+    yClipPosition: undefined,
+    zClipPosition: undefined,
+    lowRes: undefined
+  };
   private geomFolder: any;
   private controlsFolder: any;
 
@@ -42,6 +49,7 @@ export class UIService {
     this.addMenu('rotate', 'Atuto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addMenu('axis', 'Axis', true, (value) => this.three.setAxis(value));
     this.addMenu('clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
+    this.addMenu('lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
 
     this.controlsFolder.add(this.three.getXClipPlane(), 'constant', -configuration.xClipPosition, configuration.xClipPosition)
       .name('xClipPosition');

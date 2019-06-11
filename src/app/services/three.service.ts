@@ -39,7 +39,7 @@ export class ThreeService {
 
     // Main renderer for current browsers
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth, window.innerHeight, false);
     this.renderer.domElement.className = 'ui-element';
     document.body.appendChild(this.renderer.domElement);
 
@@ -57,16 +57,16 @@ export class ThreeService {
   }
 
   setLights() {
-    const ambientLight = new THREE.AmbientLight( 0x404040 );
-    const directionalLight1 = new THREE.DirectionalLight( 0xC0C090 );
-    const directionalLight2 = new THREE.DirectionalLight( 0xC0C090 );
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    const directionalLight1 = new THREE.DirectionalLight(0xC0C090);
+    const directionalLight2 = new THREE.DirectionalLight(0xC0C090);
 
-    directionalLight1.position.set( -100, -50, 100 );
-    directionalLight2.position.set( 100, 50, -100 );
+    directionalLight1.position.set(-100, -50, 100);
+    directionalLight2.position.set(100, 50, -100);
 
-    this.scene.add( directionalLight1 );
-    this.scene.add( directionalLight2 );
-    this.scene.add( ambientLight );
+    this.scene.add(directionalLight1);
+    this.scene.add(directionalLight2);
+    this.scene.add(ambientLight);
   }
 
   setConfiguration(configuration: Configuration) {
@@ -193,4 +193,11 @@ export class ThreeService {
     }
   }
 
+  lowerResolution(value: boolean) {
+    if (value) {
+      this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
+    } else {
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+  }
 }
