@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "Circular";
+  src: url(/assets/fonts/CircularStd-Black.otf);
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(/assets/fonts/Lato-Regular.ttf);
+}
+
+canvas {
+  width: 100%;
+  max-width: 100%;
+  max-height: 92vh;
+}
+
+/* dat.gui styles */
+#gui {
+  position: absolute;
+  top: 8em;
+  right: 0px;
+}
+
+#gui ul .folder .dg ul .title {
+  background: #193746;
+  text-shadow: none;
+  color: white;
+  border-color: #f0f0f0;
+}
+
+#gui ul .folder:first-child .dg ul .title {
+  border-radius: 5px 5px 0 0;
+}
+
+#gui ul .folder .dg ul .cr {
+  background: #f0f0f0;
+  color: #333333;
+  text-shadow: none;
+  border-color: #f0f0f0;
+}
+
+#gui .close-button {
+  background: #193746;
+  text-shadow: none;
+  color: white;
+  border-color: #f0f0f0;
+  border-radius: 0 0 5px 5px;
+}

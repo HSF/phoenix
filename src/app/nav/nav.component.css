@@ -1,0 +1,26 @@
+.navbar-light .navbar-toggler {
+  border: none;
+}
+nav a.navbar-brand{
+  font-family: "Lato";
+  color: #777;
+  font-weight: 500;
+}
+
+.navbar-brand img {
+  height: 2em;
+  margin-right: 1.2em;
+}
+
+.profile-menu img {
+  object-fit: cover;
+  height: 2.3em;
+  width: 2.3em;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+nav a {
+  color: #4e4e4e;
+}

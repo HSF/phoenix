@@ -1,34 +1,24 @@
-## Phoenix
-
-[![Build Status][build-img]][build-link]  [![License][license-img]][license-url]
+[![Build Status][build-img]][build-link]  [![License][license-img]][license-url][![Coverage Status](https://coveralls.io/repos/github/emiliocortina/phoenix/badge.svg?branch=master)](https://coveralls.io/github/emiliocortina/phoenix?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/emiliocortina/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
+[![Maintainability](https://api.codeclimate.com/v1/badges/ccfa8dc1854142433f65/maintainability)](https://codeclimate.com/github/emiliocortina/phoenix/maintainability)
+[![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
-[![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
 
-### Introduction
+![Phoenix Logo](./src/assets/images/logo-text.svg)
+# Phoenix Project
 
 The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
-
 Technically the 3D is done with [three.js](http://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON.
 
-### Installation
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
-To install, you need to clone this repository, using e.g.
-`git clone git@github.com:HSF/phoenix.git``
+## Development server
 
-There are some standard event data and geometry files you can download:
-
-`wget http://emoyse.web.cern.ch/emoyse/phoenix-data/EventAndGeom.tar.gz`
-
-`tar xvzf EventAndGeom.tar.gz`
-
-(these are necessary to run the examples shown if you open `index.html` )
-
-To avoid cross-domain permission problems with modern browsers you're much better off running a local webserver, e.g. with `python -m http.server` (python 3.X) or `python -m SimpleHTTPServer` (Python 2.X) and then point your browser to `http://0.0.0.0:8000`
-See [here](https://threejs.org/docs/index.html#manual/introduction/How-to-run-things-locally) for more details (and alternative solutions).
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Using this with your own data
 
@@ -118,7 +108,7 @@ TODO
 
 If you open `geom_display.html` it will show a basic geometry, constructed entirely programmatically.
 
-![basic geometry](img/basic_geom.png)
+![basic geometry](./src/assets/images/basic_geom.png)
 
 the javascript to do this is the following :
 ```javascript
@@ -135,19 +125,20 @@ window.EventDisplay.buildGeometryFromParameters(parameters2);
 ```
 and you can add another layer, as shown below.
 
-![adding a layer interactively](img/basic_geom_2.png)
-
-TODO - expand.
-
-### Testing
-You can run the CI tests locally by making sure you have `jshint` installed and then running the test
-```
-npm install jshint --save-dev
-npm test
-```
+![adding a layer interactively](./src/assets/images/basic_geom_2.png)
 
 
-### Contact
+## Testing
+###Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+### Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+
+## Contact
 
 This is still very much a work in progress, so let me know of any problems (and don't be too surprised if there are some).
 
