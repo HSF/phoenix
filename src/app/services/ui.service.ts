@@ -46,7 +46,7 @@ export class UIService {
     this.gui.domElement.id = 'gui';
     this.controlsFolder = this.gui.addFolder('Controls');
 
-    this.addMenu('rotate', 'Atuto Rotate?', false, (value) => this.three.autoRotate(value));
+    this.addMenu('rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addMenu('axis', 'Axis', true, (value) => this.three.setAxis(value));
     this.addMenu('clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
     this.addMenu('lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
