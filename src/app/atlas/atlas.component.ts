@@ -15,10 +15,10 @@ export class AtlasComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.init(new Configuration());
-    this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181, false);
-    this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8, false);
-    this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3, false);
-    this.eventDisplay.loadGeometryFromOBJ('../../assets/geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59, false);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0x878181, false);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/pixel.obj', 'Pixel', 0xe2a9e8, false);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xb1dbb3, false);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0xf9ac59, false);
   }
 
 }
