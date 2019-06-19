@@ -34,4 +34,9 @@ h1 {
 
 .btn.btn-primary {
   border: none;
+  background-color: #1E8BB0;
+}
+
+.btn.btn-primary:hover {
+  background-color: #19506f;
 }

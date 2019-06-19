@@ -11,18 +11,25 @@
 
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link">Playground</a>
+        </li>
 
         <li class="nav-item">
           <a routerLink="/geometry" class="nav-link">Geometry</a>
         </li>
 
-        <li class="nav-item">
-          <a routerLink="/atlas" class="nav-link">ATLAS</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            More
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a routerLink="/atlas" class="nav-link">ATLAS</a>
+            <a routerLink="/trackml" class="nav-link">TrackML</a>
+          </div>
         </li>
 
-        <li class="nav-item">
-          <a routerLink="/trackml" class="nav-link">TrackML</a>
-        </li>
+
       </ul>
     </div>
   </div>
