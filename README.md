@@ -134,9 +134,12 @@ and you can add another layer, as shown below.
 
 ![adding a layer interactively](./src/assets/images/basic_geom_2.png)
 
+## Architecture
+This is a simple overview of the application's architecture:
+![adding a layer interactively](./src/assets/images/architecture.svg)
 
 ## Testing
-###Running unit tests
+### Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
