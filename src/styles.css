@@ -22,7 +22,7 @@ canvas {
 }
 
 #gui ul .folder .dg ul .title {
-  background: #193746;
+  background: #1E8BB0;
   text-shadow: none;
   color: white;
   border-color: #f0f0f0;
@@ -33,16 +33,30 @@ canvas {
 }
 
 #gui ul .folder .dg ul .cr {
-  background: #f0f0f0;
+  background: #ffffff;
   color: #333333;
   text-shadow: none;
   border-color: #f0f0f0;
 }
 
 #gui .close-button {
-  background: #193746;
+  background: #1E8BB0;
   text-shadow: none;
   color: white;
   border-color: #f0f0f0;
   border-radius: 0 0 5px 5px;
+}
+
+#gui .dg .c .slider .slider-fg {
+  background: #1E8BB0;
+}
+
+#gui .dg .c .slider {
+  background: none;
+}
+
+#gui .dg .cr.number input[type=text] {
+  color: #333333;
+  margin-top: -0.5em;
+  background: none;
 }

@@ -16,10 +16,12 @@ export class UIService {
     xClipPosition: undefined,
     yClipPosition: undefined,
     zClipPosition: undefined,
-    lowRes: undefined
+    lowRes: undefined,
+    eventData: undefined
   };
   private geomFolder: any;
   private controlsFolder: any;
+  private eventFolder: any;
 
   constructor(private three: ThreeService) {
   }
@@ -83,5 +85,28 @@ export class UIService {
       gui.remove();
     }
     this.geomFolder = null;
+  }
+
+  addEventDataFolder() {
+    if (this.eventFolder == null) {
+      this.eventFolder = this.gui.addFolder('Event Data');
+    }
+    this.guiParameters.eventData = true;
+    const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
+    menu.onChange((value) => {
+      this.three.objectVisibility('Event Data', value);
+    });
+  }
+
+  addEventDataTypeFolder(objectType: string) {
+    return this.eventFolder.addFolder(objectType);
+  }
+
+  addCollection(folder: any, collname: string) {
+    this.guiParameters[collname] = true;
+    const menu = folder.add(this.guiParameters, collname).name(collname).listen();
+    menu.onChange((value) => {
+      this.three.objectVisibility(collname, value);
+    });
   }
 }
