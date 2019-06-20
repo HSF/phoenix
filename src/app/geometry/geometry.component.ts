@@ -9,7 +9,10 @@ import {Configuration} from '../services/configuration';
 })
 export class GeometryComponent implements OnInit {
 
-  constructor(private eventDisplay: EventdisplayService) {
+  private eventDisplay: EventdisplayService;
+
+  constructor() {
+    this.eventDisplay = new EventdisplayService();
   }
 
   ngOnInit() {

@@ -218,15 +218,16 @@ export class ThreeService {
   public addCollection(collection: any, collname: string, addObject: any) {
     if (this.eventDataCollections == null) {
       this.eventDataCollections = new Group();
+      this.scene.add(this.eventDataCollections);
     }
     const collscene = new THREE.Group();
     for (const objname of Object.keys(collection)) {
       const object = collection[objname];
       addObject(object, collscene);
     }
+    collscene.name = collname;
     this.eventDataCollections.add(collscene);
-    this.objects[collname] = collscene;
-    this.scene.add(collscene);
+    this.objects['Event Data'] = this.eventDataCollections;
   }
 
   public addTrack(track: any, scene: any) {
@@ -278,4 +279,10 @@ export class ThreeService {
   }
 
 
+  public collectionVisibility(collname: string, value: any) {
+    const collection = this.eventDataCollections.getObjectByName(collname);
+    if (collection != null) {
+      collection.visible = value;
+    }
+  }
 }

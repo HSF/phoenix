@@ -106,7 +106,7 @@ export class UIService {
     this.guiParameters[collname] = true;
     const menu = folder.add(this.guiParameters, collname).name(collname).listen();
     menu.onChange((value) => {
-      this.three.objectVisibility(collname, value);
+      this.three.collectionVisibility(collname, value);
     });
   }
 }

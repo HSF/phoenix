@@ -8,7 +8,12 @@ import {Configuration} from './configuration';
 })
 export class EventdisplayService {
 
-  constructor(private graphicsLibrary: ThreeService, private ui: UIService, ) {
+  private graphicsLibrary: ThreeService;
+  private ui: UIService;
+
+  constructor() {
+    this.graphicsLibrary = new ThreeService();
+    this.ui = new UIService(this.graphicsLibrary);
   }
 
   public init(configuration: Configuration): void {
@@ -53,7 +58,7 @@ export class EventdisplayService {
       const collection = collections[collname];
       if (collection != null) {
         this.graphicsLibrary.addCollection(collection, collname, addObject);
-        // this.ui.addCollection(typeFolder, collname);
+        this.ui.addCollection(typeFolder, collname);
       }
     }
   }

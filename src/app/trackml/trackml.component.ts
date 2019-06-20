@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
 
@@ -9,7 +9,11 @@ import {Configuration} from '../services/configuration';
 })
 export class TrackmlComponent implements OnInit {
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  private eventDisplay: EventdisplayService;
+
+  constructor() {
+    this.eventDisplay = new EventdisplayService();
+  }
 
   ngOnInit() {
     this.eventDisplay.init(new Configuration());

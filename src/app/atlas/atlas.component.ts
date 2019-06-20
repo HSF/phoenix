@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
 import {JSONLoader} from 'three';
@@ -12,9 +12,11 @@ import {JsonLoaderService} from '../services/loaders/json-loader.service';
 })
 export class AtlasComponent implements OnInit {
 
-  loading = true;
+  private eventDisplay: EventdisplayService;
 
-  constructor(private eventDisplay: EventdisplayService, private jsonLoader: JsonLoaderService) { }
+  constructor(private jsonLoader: JsonLoaderService) {
+    this.eventDisplay = new EventdisplayService();
+  }
 
   ngOnInit() {
     this.eventDisplay.init(new Configuration());
