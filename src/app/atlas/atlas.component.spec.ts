@@ -1,6 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AtlasComponent } from './atlas.component';
+import {AtlasComponent} from './atlas.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('AtlasComponent', () => {
   let component: AtlasComponent;
@@ -8,9 +9,10 @@ describe('AtlasComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AtlasComponent ]
+      declarations: [AtlasComponent],
+      imports: [HttpClientTestingModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

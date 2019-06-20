@@ -2,14 +2,13 @@ import {Injectable} from '@angular/core';
 import {ThreeService} from './three.service';
 import {UIService} from './ui.service';
 import {Configuration} from './configuration';
-import {JsonLoaderService} from './loaders/json-loader.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventdisplayService {
 
-  constructor(private graphicsLibrary: ThreeService, private ui: UIService, private jsonLoader: JsonLoaderService) {
+  constructor(private graphicsLibrary: ThreeService, private ui: UIService, ) {
   }
 
   public init(configuration: Configuration): void {
@@ -41,11 +40,7 @@ export class EventdisplayService {
     this.graphicsLibrary.buildGeometryFromParameters(parameters);
   }
 
-  public buildEventDataFromJSON(url: string) {
-    this.jsonLoader.get(url).subscribe((res: any) => this.parseJSON(res));
-  }
-
-  private parseJSON(eventData: any) {
+  public buildEventDataFromJSON(eventData: any) {
     this.ui.addEventDataFolder();
     if (eventData.Tracks) {
       this.addEventCollections(eventData.Tracks, this.graphicsLibrary.addTrack, 'Tracks');

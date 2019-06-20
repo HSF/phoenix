@@ -271,11 +271,10 @@ export class ThreeService {
     const curve = new THREE.CatmullRomCurve3(points);
     const geometry = new THREE.Geometry();
     geometry.vertices = curve.getPoints(50);
-    const material = new THREE.LineBasicMaterial({color: 0x1E8BB0});
+    const material = new THREE.LineBasicMaterial({color: colour});
     const splineObject = new THREE.Line(geometry, material);
 
     scene.add(splineObject);
-    track.geometry = splineObject;
   }
 
 
