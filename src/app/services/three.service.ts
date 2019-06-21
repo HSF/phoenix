@@ -234,7 +234,7 @@ export class ThreeService {
   }
 
 
-  public addCollection(collection: any, collname: string, addObject: any) {
+  public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void) {
     if (this.eventDataCollections == null) {
       this.eventDataCollections = new Group();
       this.scene.add(this.eventDataCollections);
@@ -297,6 +297,39 @@ export class ThreeService {
     scene.add(splineObject);
   }
 
+  addJet(jet: any, scene: any) {
+    console.log(jet);
+
+    const eta = jet.eta;
+    const phi = jet.phi;
+    const theta = 2 * Math.atan(Math.pow(Math.E, eta));
+    const length = jet.energy * 0.2;
+    const width = length * 0.1;
+
+    const sphi = Math.sin(phi);
+    const cphi = Math.cos(phi);
+    const stheta = Math.sin(theta);
+    const ctheta = Math.cos(theta);
+    //
+    const translation = new THREE.Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
+
+    const x = cphi * stheta;
+    const y = sphi * stheta;
+    const z = ctheta;
+    const v1 = new THREE.Vector3(0, 1, 0);
+    const v2 = new THREE.Vector3(x, y, z);
+    const quaternion = new THREE.Quaternion();
+    quaternion.setFromUnitVectors(v1, v2);
+
+    const geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false); // Cone
+
+    const material = new THREE.MeshBasicMaterial({color: 0x2194CE, opacity: 0.3, transparent: true});
+    material.opacity = 0.5;
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.copy(translation);
+    mesh.quaternion.copy(quaternion);
+    scene.add(mesh);
+  }
 
   public collectionVisibility(collname: string, value: any) {
     const collection = this.eventDataCollections.getObjectByName(collname);

@@ -27,7 +27,7 @@ export class EventdisplayService {
 
   public loadGeometryFromOBJ(filename: string, name: string, colour, doubleSided: boolean) {
     this.graphicsLibrary.loadOBJFile(filename, name, colour, doubleSided);
-    this.ui.addGeometry(name);
+    this.ui.addGeometry(name, colour);
   }
 
   public buildGeometryFromParameters(parameters) {
@@ -38,6 +38,9 @@ export class EventdisplayService {
     this.ui.addEventDataFolder();
     if (eventData.Tracks) {
       this.addEventCollections(eventData.Tracks, this.graphicsLibrary.addTrack, 'Tracks');
+    }
+    if (eventData.Jets) {
+      this.addEventCollections(eventData.Jets, this.graphicsLibrary.addJet, 'Jets');
     }
   }
 

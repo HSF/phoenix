@@ -21,11 +21,19 @@ canvas {
   right: 0px;
 }
 
-#gui ul .folder .dg ul .title {
+#gui .folder .title {
   background: #1E8BB0;
   text-shadow: none;
   color: white;
   border-color: #f0f0f0;
+}
+
+#gui .folder .folder .title {
+  background: #56ADC5;
+}
+
+#gui .folder .folder .folder .title {
+  background: #84CFE1;
 }
 
 #gui ul .folder:first-child .dg ul .title {

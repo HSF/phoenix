@@ -88,11 +88,11 @@ export class UIService {
     this.geomFolder = null;
   }
 
-  public addGeometry(name: string) {
+  public addGeometry(name: string, colour) {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
-    this.guiParameters[name] = {show: true, color: '#1861b3'};
+    this.guiParameters[name] = {show: true, color: colour};
     const objFolder = this.geomFolder.addFolder(name);
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objectColor(name, value));
