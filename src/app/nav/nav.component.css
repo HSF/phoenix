@@ -1,7 +1,8 @@
 .navbar-light .navbar-toggler {
   border: none;
 }
-nav a.navbar-brand{
+
+nav a.navbar-brand {
   font-family: "Lato";
   color: #777;
   font-weight: 500;
@@ -23,4 +24,29 @@ nav a.navbar-brand{
 
 nav a {
   color: #4e4e4e;
+}
+
+.dropdown-menu {
+  text-align: center;
+  color: #4e4e4e;
+  min-width: 0;
+  padding: .5rem 1rem;
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.185);
+}
+
+
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 992px) {
+  .dropdown-menu.show {
+    border: none;
+    box-shadow: none;
+  }
 }

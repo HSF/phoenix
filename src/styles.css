@@ -21,11 +21,19 @@ canvas {
   right: 0px;
 }
 
-#gui ul .folder .dg ul .title {
-  background: #193746;
+#gui .folder .title {
+  background: #1E8BB0;
   text-shadow: none;
   color: white;
   border-color: #f0f0f0;
+}
+
+#gui .folder .folder .title {
+  background: #56ADC5;
+}
+
+#gui .folder .folder .folder .title {
+  background: #84CFE1;
 }
 
 #gui ul .folder:first-child .dg ul .title {
@@ -33,16 +41,34 @@ canvas {
 }
 
 #gui ul .folder .dg ul .cr {
-  background: #f0f0f0;
+  background: #ffffff;
   color: #333333;
   text-shadow: none;
   border-color: #f0f0f0;
 }
 
 #gui .close-button {
-  background: #193746;
+  background: #1E8BB0;
   text-shadow: none;
   color: white;
   border-color: #f0f0f0;
   border-radius: 0 0 5px 5px;
+}
+
+#gui .dg .c .slider .slider-fg {
+  background: #1E8BB0;
+}
+
+#gui .dg .c .slider {
+  background: none;
+}
+
+#gui .dg .cr.number input[type=text] {
+  color: #333333;
+  margin-top: -0.5em;
+  background: none;
+}
+
+#gui .dg .c input[type=text] {
+  max-height: 2em;
 }

@@ -7,10 +7,11 @@ import {EventdisplayService} from '../services/eventdisplay.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  constructor(private eventDisplay: EventdisplayService) { }
+
+  constructor() {
+  }
 
   ngOnInit() {
-    this.eventDisplay.clearDisplay();
   }
 
 }
