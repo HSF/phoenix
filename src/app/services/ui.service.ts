@@ -27,7 +27,7 @@ export class UIService {
   constructor(private three: ThreeService) {
   }
 
-  showUI(configuration: Configuration) {
+  public showUI(configuration: Configuration) {
     this.showStats();
     this.showMenu(configuration);
   }
@@ -44,7 +44,7 @@ export class UIService {
     canvas.appendChild(this.stats.dom);
   }
 
-  updateUI() {
+  public updateUI() {
     this.stats.update();
   }
 
@@ -80,18 +80,7 @@ export class UIService {
     menu.onChange(onChange);
   }
 
-  addGeometry(name: string) {
-    if (this.geomFolder == null) {
-      this.geomFolder = this.gui.addFolder('Geometry');
-    }
-    this.guiParameters[name] = true;
-    const menu = this.geomFolder.add(this.guiParameters, name).name(name).listen();
-    menu.onChange((value) => {
-      this.three.objectVisibility(name, value);
-    });
-  }
-
-  clearUI() {
+  public clearUI() {
     const gui = document.getElementById('gui');
     if (gui != null) {
       gui.remove();
@@ -99,7 +88,21 @@ export class UIService {
     this.geomFolder = null;
   }
 
-  addEventDataFolder() {
+  public addGeometry(name: string) {
+    if (this.geomFolder == null) {
+      this.geomFolder = this.gui.addFolder('Geometry');
+    }
+    this.guiParameters[name] = {show: true, color: '#1861b3'};
+    const objFolder = this.geomFolder.addFolder(name);
+    const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
+    colorMenu.onChange((value) => this.three.objectColor(name, value));
+    const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
+    showMenu.onChange((value) => {
+      this.three.objectVisibility(name, value);
+    });
+  }
+
+  public addEventDataFolder() {
     if (this.eventFolder == null) {
       this.eventFolder = this.gui.addFolder('Event Data');
     }
@@ -110,15 +113,15 @@ export class UIService {
     });
   }
 
-  addEventDataTypeFolder(objectType: string) {
+  public addEventDataTypeFolder(objectType: string) {
     return this.eventFolder.addFolder(objectType);
   }
 
-  addCollection(folder: any, collname: string) {
-    this.guiParameters[collname] = true;
-    const menu = folder.add(this.guiParameters, collname).name(collname).listen();
+  public addCollection(typeFolder: any, collectionName: string) {
+    this.guiParameters[collectionName] = true;
+    const menu = typeFolder.add(this.guiParameters, collectionName).name(collectionName).listen();
     menu.onChange((value) => {
-      this.three.collectionVisibility(collname, value);
+      this.three.collectionVisibility(collectionName, value);
     });
   }
 }

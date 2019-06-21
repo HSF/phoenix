@@ -60,3 +60,7 @@ canvas {
   margin-top: -0.5em;
   background: none;
 }
+
+#gui .dg .c input[type=text] {
+  max-height: 2em;
+}

@@ -89,8 +89,8 @@ export class ThreeService {
 
   private setLights() {
     const ambientLight = new THREE.AmbientLight(0x404040);
-    const directionalLight1 = new THREE.DirectionalLight(0xC0C090);
-    const directionalLight2 = new THREE.DirectionalLight(0xC0C090);
+    const directionalLight1 = new THREE.DirectionalLight(0xBFBFBF);
+    const directionalLight2 = new THREE.DirectionalLight(0xBFBFBF);
 
     directionalLight1.position.set(-100, -50, 100);
     directionalLight2.position.set(100, 50, -100);
@@ -251,7 +251,7 @@ export class ThreeService {
 
   public addTrack(track: any, scene: any) {
     const length = 100;
-    const colour = 0x00ff2d;
+    const colour = 0xff0000;
 
     const positions = track.pos;
     // Now sort these.
@@ -303,5 +303,17 @@ export class ThreeService {
     if (collection != null) {
       collection.visible = value;
     }
+  }
+
+
+  objectColor(name: string, value: any) {
+    const object = this.objects[name];
+    object.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        if (child.material instanceof THREE.MeshPhongMaterial) {
+          child.material.color.set(value);
+        }
+      }
+    });
   }
 }
