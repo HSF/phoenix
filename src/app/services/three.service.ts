@@ -16,9 +16,9 @@ export class ThreeService {
   private renderer: WebGLRenderer;
   private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
-  objects = {};
+  private objects;
   // EventData
-  eventDataCollections: Group;
+  private eventDataCollections: Group;
   // Clipping planes
   private clipPlanes = [
     new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
@@ -43,18 +43,14 @@ export class ThreeService {
     this.camera.position.z = 200;
 
     // Main renderer for current browsers
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight, false);
-    this.renderer.domElement.className = 'ui-element';
-    document.body.appendChild(this.renderer.domElement);
+    this.setRenderer();
+
+    // Object Collections
+    this.objects = {};
+    this.eventDataCollections = null;
 
     // Orbit controls allow to move around
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.25;
-    this.controls.enableZoom = true;
-    this.controls.autoRotate = false;
-
+    this.setControls();
     // Different lights to better see the object
     this.setLights();
     // Customizing with configuration
@@ -69,6 +65,28 @@ export class ThreeService {
     this.renderer.render(this.scene, this.camera);
   }
 
+  /**
+   * Private auxiliary functions.
+   */
+  private setRenderer() {
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(window.innerWidth, window.innerHeight, false);
+    this.renderer.domElement.className = 'ui-element';
+    let canvas = document.getElementById('eventDisplay');
+    if (canvas == null) {
+      canvas = document.body;
+    }
+    canvas.appendChild(this.renderer.domElement);
+  }
+
+  private setControls() {
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.25;
+    this.controls.enableZoom = true;
+    this.controls.autoRotate = false;
+  }
+
   private setLights() {
     const ambientLight = new THREE.AmbientLight(0x404040);
     const directionalLight1 = new THREE.DirectionalLight(0xC0C090);
@@ -81,6 +99,7 @@ export class ThreeService {
     this.scene.add(directionalLight2);
     this.scene.add(ambientLight);
   }
+
 
   private setConfiguration(configuration: Configuration) {
     if (configuration.allowShowAxes) {

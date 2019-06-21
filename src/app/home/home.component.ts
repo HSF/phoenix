@@ -8,14 +8,10 @@ import {EventdisplayService} from '../services/eventdisplay.service';
 })
 export class HomeComponent implements OnInit {
 
-  private eventDisplay: EventdisplayService;
-
   constructor() {
-    this.eventDisplay = new EventdisplayService();
   }
 
   ngOnInit() {
-    this.eventDisplay.clearDisplay();
   }
 
 }

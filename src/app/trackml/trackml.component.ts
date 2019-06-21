@@ -9,10 +9,7 @@ import {Configuration} from '../services/configuration';
 })
 export class TrackmlComponent implements OnInit {
 
-  private eventDisplay: EventdisplayService;
-
-  constructor() {
-    this.eventDisplay = new EventdisplayService();
+  constructor(private eventDisplay: EventdisplayService) {
   }
 
   ngOnInit() {

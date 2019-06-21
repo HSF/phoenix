@@ -8,16 +8,10 @@ import {Configuration} from './configuration';
 })
 export class EventdisplayService {
 
-  private graphicsLibrary: ThreeService;
-  private ui: UIService;
-
-  constructor() {
-    this.graphicsLibrary = new ThreeService();
-    this.ui = new UIService(this.graphicsLibrary);
+  constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
 
   public init(configuration: Configuration): void {
-    this.clearDisplay();
     this.graphicsLibrary.init(configuration);
     // Showing the UI elements
     this.ui.showUI(configuration);
@@ -29,11 +23,6 @@ export class EventdisplayService {
       this.graphicsLibrary.render();
     };
     animate();
-  }
-
-  public clearDisplay() {
-    this.graphicsLibrary.clearCanvas();
-    this.ui.clearUI();
   }
 
   public loadGeometryFromOBJ(filename: string, name: string, colour, doubleSided: boolean) {

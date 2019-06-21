@@ -12,10 +12,9 @@ import {JsonLoaderService} from '../services/loaders/json-loader.service';
 })
 export class AtlasComponent implements OnInit {
 
-  private eventDisplay: EventdisplayService;
 
-  constructor(private jsonLoader: JsonLoaderService) {
-    this.eventDisplay = new EventdisplayService();
+
+  constructor(private eventDisplay: EventdisplayService, private jsonLoader: JsonLoaderService) {
   }
 
   ngOnInit() {

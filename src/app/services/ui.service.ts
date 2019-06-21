@@ -8,9 +8,9 @@ import {Configuration} from './configuration';
   providedIn: 'root'
 })
 export class UIService {
-  stats;
-  gui;
-  guiParameters = {
+  private stats;
+  private gui;
+  private guiParameters = {
     rotate: undefined,
     axis: undefined,
     xClipPosition: undefined,
@@ -22,6 +22,7 @@ export class UIService {
   private geomFolder: any;
   private controlsFolder: any;
   private eventFolder: any;
+  private domDisplay;
 
   constructor(private three: ThreeService) {
   }
@@ -36,7 +37,11 @@ export class UIService {
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
     this.stats.domElement.style.cssText = 'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10000; bottom: 0px;';
-    document.body.appendChild(this.stats.dom);
+    let canvas = document.getElementById('eventDisplay');
+    if (canvas == null) {
+      canvas = document.body;
+    }
+    canvas.appendChild(this.stats.dom);
   }
 
   updateUI() {
@@ -46,7 +51,14 @@ export class UIService {
   private showMenu(configuration: Configuration) {
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
+    let canvas = document.getElementById('eventDisplay');
+    if (canvas == null) {
+      canvas = document.body;
+    }
+    canvas.appendChild(this.gui.domElement);
     this.controlsFolder = this.gui.addFolder('Controls');
+    this.geomFolder = null;
+    this.eventFolder = null;
 
     this.addMenu('rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addMenu('axis', 'Axis', true, (value) => this.three.setAxis(value));
