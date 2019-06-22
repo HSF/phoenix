@@ -251,7 +251,10 @@ export class ThreeService {
 
   public addTrack(track: any, scene: any) {
     const length = 100;
-    const colour = 0xff0000;
+    let colour = 0xff0000;
+    if (track.color) {
+      colour = parseInt(track.color, 16);
+    }
 
     const positions = track.pos;
     // Now sort these.
