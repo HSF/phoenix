@@ -30,6 +30,11 @@ export class EventdisplayService {
     this.ui.addGeometry(name, colour);
   }
 
+  public loadGeometryFromOBJContent(content: string, name: string) {
+    this.graphicsLibrary.loadOBJFromContent(content, name);
+    this.ui.addGeometry(name, 0x000fff);
+  }
+
   public buildGeometryFromParameters(parameters) {
     this.graphicsLibrary.buildGeometryFromParameters(parameters);
   }

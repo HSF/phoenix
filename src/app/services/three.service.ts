@@ -213,6 +213,14 @@ export class ThreeService {
     });
   }
 
+  public loadOBJFromContent(content: string, name:string) {
+    const objLoader = new OBJLoader();
+    const object = objLoader.parse(content);
+    this.setObjFlat(object, 0x41a6f4, false);
+    this.scene.add(object);
+    this.objects[name] = object;
+  }
+
   private setObjFlat(object3d, colour, doubleSided) {
     const material2 = new THREE.MeshPhongMaterial({color: colour, wireframe: false});
     material2.clippingPlanes = this.clipPlanes;

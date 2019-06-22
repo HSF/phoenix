@@ -1,0 +1,46 @@
+#modalToggle {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  background-color: #1E8BB0;
+  border: none;
+}
+
+
+textarea {
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: 0px 0px 4px rgba(54, 54, 54, 0.07);
+  border-radius: 10px;
+  color: rgba(0, 0, 0, 0.7);
+  padding: 0.2em 0.5em;
+  margin-right: 0.8em;
+}
+
+#file.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1em;
+  font-weight: 700;
+  color: white;
+  background-color: #1E8BB0;
+  display: inline-block;
+  cursor: pointer;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.inputfile + label img {
+  max-height: 2em;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: #1c5779;
+}
