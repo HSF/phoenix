@@ -9,13 +9,15 @@ import {AtlasComponent} from './atlas/atlas.component';
 import {TrackmlComponent} from './trackml/trackml.component';
 import {NavComponent} from './nav/nav.component';
 import {RouterModule, Routes} from '@angular/router';
+import { PlaygroundComponent } from './playground/playground.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'geometry', component: GeometryComponent},
   {path: 'atlas', component: AtlasComponent},
-  {path: 'trackml', component: TrackmlComponent}
+  {path: 'trackml', component: TrackmlComponent},
+  {path: 'playground', component: PlaygroundComponent}
 ];
 
 @NgModule({
@@ -25,7 +27,8 @@ const routes: Routes = [
     GeometryComponent,
     AtlasComponent,
     TrackmlComponent,
-    NavComponent
+    NavComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,
