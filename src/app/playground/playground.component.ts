@@ -11,17 +11,12 @@ import {HttpClient} from '@angular/common/http';
 export class PlaygroundComponent implements OnInit {
 
   fileData = null;
-  fileToUpload;
 
-  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
+  constructor(private eventDisplay: EventdisplayService) {
   }
 
   ngOnInit() {
     this.eventDisplay.init(new Configuration());
-  }
-
-  fileProgress(fileInput: any) {
-    this.fileData = fileInput.target.files[0] as File;
   }
 
 

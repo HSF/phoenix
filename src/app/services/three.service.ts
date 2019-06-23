@@ -48,6 +48,8 @@ export class ThreeService {
     // Object Collections
     this.objects = {};
     this.eventDataCollections = null;
+    // Axis
+    this.axis = null;
 
     // Orbit controls allow to move around
     this.setControls();
