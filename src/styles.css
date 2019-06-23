@@ -1,11 +1,10 @@
-@font-face {
-  font-family: "Circular";
-  src: url(/assets/fonts/CircularStd-Black.otf);
+.btn.btn-primary {
+  border: none;
+  background-color: #1E8BB0;
 }
 
-@font-face {
-  font-family: "Lato";
-  src: url(/assets/fonts/Lato-Regular.ttf);
+.btn.btn-primary:hover {
+  background-color: #19506f;
 }
 
 canvas {
@@ -71,4 +70,14 @@ canvas {
 
 #gui .dg .c input[type=text] {
   max-height: 2em;
+}
+
+@font-face {
+  font-family: "Circular";
+  src: url(/assets/fonts/CircularStd-Black.otf);
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url(/assets/fonts/Lato-Regular.ttf);
 }
