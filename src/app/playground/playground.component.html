@@ -1,0 +1,34 @@
+<div id="eventDisplay">
+</div>
+
+<!-- JSON Modal -->
+<button type="button" id="modalToggle" class="btn btn-primary" data-toggle="modal" data-target="#jsonModal">
+  Add geometries
+</button>
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="jsonModalTitle">Add geometries</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <h5>Load File:</h5>
+            <input type="file" accept="application/json, .obj" id="file" name="image" class="inputfile" (change)="handleFileInput($event.target.files)"/>
+            <label for="file"> <img src="assets/images/upload.svg" alt="Icon made by Pixel Buddha from www.flaticons.com"> Choose a file</label>
+            <p>Currently supported json event data files and OBJ files.</p>
+            <p>Supported file formats: .json, .obj</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

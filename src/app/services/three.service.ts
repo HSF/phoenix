@@ -48,6 +48,8 @@ export class ThreeService {
     // Object Collections
     this.objects = {};
     this.eventDataCollections = null;
+    // Axis
+    this.axis = null;
 
     // Orbit controls allow to move around
     this.setControls();
@@ -211,6 +213,14 @@ export class ThreeService {
       this.scene.add(object);
       this.objects[name] = object;
     });
+  }
+
+  public loadOBJFromContent(content: string, name:string) {
+    const objLoader = new OBJLoader();
+    const object = objLoader.parse(content);
+    this.setObjFlat(object, 0x41a6f4, false);
+    this.scene.add(object);
+    this.objects[name] = object;
   }
 
   private setObjFlat(object3d, colour, doubleSided) {
