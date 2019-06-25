@@ -2,7 +2,17 @@ import {Injectable} from '@angular/core';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
-import {AxesHelper, EdgesGeometry, Group, LineBasicMaterial, LineSegments, PerspectiveCamera, Scene, WebGLRenderer} from 'three';
+import {
+  AxesHelper,
+  EdgesGeometry,
+  Group, Line,
+  LineBasicMaterial,
+  LineSegments, Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer
+} from 'three';
 import {Configuration} from './configuration';
 
 @Injectable({
@@ -52,7 +62,7 @@ export class ThreeService {
     this.axis = null;
 
     // Orbit controls allow to move around
-    this.setControls();
+    this.setOrbitControls();
     // Different lights to better see the object
     this.setLights();
     // Customizing with configuration
@@ -81,7 +91,7 @@ export class ThreeService {
     canvas.appendChild(this.renderer.domElement);
   }
 
-  private setControls() {
+  private setOrbitControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.25;
@@ -101,7 +111,6 @@ export class ThreeService {
     this.scene.add(directionalLight2);
     this.scene.add(ambientLight);
   }
-
 
   private setConfiguration(configuration: Configuration) {
     if (configuration.allowShowAxes) {
@@ -215,7 +224,7 @@ export class ThreeService {
     });
   }
 
-  public loadOBJFromContent(content: string, name:string) {
+  public loadOBJFromContent(content: string, name: string) {
     const objLoader = new OBJLoader();
     const object = objLoader.parse(content);
     this.setObjFlat(object, 0x41a6f4, false);
@@ -248,15 +257,15 @@ export class ThreeService {
     if (this.eventDataCollections == null) {
       this.eventDataCollections = new Group();
       this.scene.add(this.eventDataCollections);
+      this.objects['Event Data'] = this.eventDataCollections;
     }
     const collscene = new THREE.Group();
+    collscene.name = collname;
     for (const objname of Object.keys(collection)) {
       const object = collection[objname];
       addObject(object, collscene);
     }
-    collscene.name = collname;
     this.eventDataCollections.add(collscene);
-    this.objects['Event Data'] = this.eventDataCollections;
   }
 
   public addTrack(track: any, scene: any) {
@@ -349,7 +358,7 @@ export class ThreeService {
   }
 
 
-  objectColor(name: string, value: any) {
+  objColor(name: string, value: any) {
     const object = this.objects[name];
     object.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -358,5 +367,19 @@ export class ThreeService {
         }
       }
     });
+  }
+
+  collectionColor(collectionName: string, value: any) {
+    const collection = this.eventDataCollections.getObjectByName(collectionName);
+    for (const child of Object.values(collection.children)) {
+      let color;
+      // For jets and tracks
+      if (child instanceof Line || child instanceof Mesh) {
+        if (child.material instanceof LineBasicMaterial || child.material instanceof MeshBasicMaterial) {
+          color = child.material.color;
+        }
+      }
+      color.set(value);
+    }
   }
 }

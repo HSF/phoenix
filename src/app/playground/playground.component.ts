@@ -21,6 +21,7 @@ export class PlaygroundComponent implements OnInit {
 
 
   handleFileInput(files: any) {
+    console.log('handleando');
     const file = files[0];
     const reader = new FileReader();
     if (file.type == 'application/json') {
