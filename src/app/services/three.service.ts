@@ -10,7 +10,7 @@ import {
   LineSegments, Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
-  Scene,
+  Scene, Vector3,
   WebGLRenderer
 } from 'three';
 import {Configuration} from './configuration';
@@ -383,6 +383,21 @@ export class ThreeService {
         }
       }
       color.set(value);
+    }
+  }
+
+  darkBackground(value: boolean) {
+    let background = 0xffffff;
+    if (value) {
+      background = 0x1c1c1c;
+    }
+    this.scene.background = new THREE.Color(background);
+  }
+
+  getObjectPosition(name: string): Vector3 {
+    const object = this.objects[name];
+    if (object) {
+      return object.position;
     }
   }
 }

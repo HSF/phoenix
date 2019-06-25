@@ -22,7 +22,7 @@ export class UIService {
   private geomFolder: any;
   private controlsFolder: any;
   private eventFolder: any;
-  private domDisplay;
+  private configuration: Configuration;
 
   constructor(private three: ThreeService) {
   }
@@ -49,6 +49,7 @@ export class UIService {
   }
 
   private showMenu(configuration: Configuration) {
+    this.configuration = configuration;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
     let canvas = document.getElementById('eventDisplay');
@@ -62,8 +63,9 @@ export class UIService {
 
     this.addMenu('rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addMenu('axis', 'Axis', true, (value) => this.three.setAxis(value));
-    this.addMenu('clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
     this.addMenu('lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
+    this.addMenu('darkBg', 'Dark Background', false, (value) => this.three.darkBackground(value));
+    this.addMenu('clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
 
     this.controlsFolder.add(this.three.getXClipPlane(), 'constant', -configuration.xClipPosition, configuration.xClipPosition)
       .name('xClipPosition');
@@ -92,25 +94,34 @@ export class UIService {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
-    this.guiParameters[name] = {show: true, color: colour};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y:0, z:0};
     const objFolder = this.geomFolder.addFolder(name);
+    // Controls for changing the color
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
+    // Controls for showing/hiding
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
-    showMenu.onChange((value) => {
-      this.three.objectVisibility(name, value);
-    });
+    showMenu.onChange((value) =>  this.three.objectVisibility(name, value));
+    // Controls for positioning.
+    // const position = this.three.getObjectPosition(name);
+    objFolder.add(this.guiParameters[name], 'x', -this.configuration.maxPositionX, this.configuration.maxPositionX)
+      .name('X').onChange((value) => this.three.getObjectPosition(name).setX(value));
+    objFolder.add(this.guiParameters[name], 'y', -this.configuration.maxPositionY, this.configuration.maxPositionY)
+      .name('Y').onChange((value) => this.three.getObjectPosition(name).setY(value));
+    objFolder.add(this.guiParameters[name], 'z', -this.configuration.maxPositionZ, this.configuration.maxPositionZ)
+      .name('Z').onChange((value) => this.three.getObjectPosition(name).setZ(value));
   }
 
+  /**
+   * Functions for event data toggles.
+   */
   public addEventDataFolder() {
     if (this.eventFolder == null) {
       this.eventFolder = this.gui.addFolder('Event Data');
     }
     this.guiParameters.eventData = true;
     const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
-    menu.onChange((value) => {
-      this.three.objectVisibility('Event Data', value);
-    });
+    menu.onChange((value) => this.three.objectVisibility('Event Data', value));
   }
 
   public addEventDataTypeFolder(objectType: string) {
@@ -120,8 +131,10 @@ export class UIService {
   public addCollection(typeFolder: any, collectionName: string) {
     this.guiParameters[collectionName] = {show: true, color: 0x000000};
     const collFolder = typeFolder.addFolder(collectionName);
+    // Controls for showing/hiding
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
     showMenu.onChange((value) => this.three.collectionVisibility(collectionName, value));
+    // Controls for changing the color
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
   }
