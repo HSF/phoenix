@@ -21,7 +21,6 @@ export class PlaygroundComponent implements OnInit {
 
 
   handleFileInput(files: any) {
-    console.log('handleando');
     const file = files[0];
     const reader = new FileReader();
     if (file.type == 'application/json') {
@@ -37,7 +36,7 @@ export class PlaygroundComponent implements OnInit {
       };
       reader.readAsText(file);
     } else {
-      console.log('Error : ¡¡¡ Archivo no válido !!!');
+      console.log('Error : ¡¡¡ Invalid file format !!!');
     }
   }
 
