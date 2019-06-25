@@ -9,7 +9,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="jsonModalTitle">Add geometries</h5>
+        <h4 class="modal-title" id="jsonModalTitle">Add geometries</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -18,10 +18,13 @@
         <form>
           <div class="form-group">
             <h5>Load File:</h5>
-            <input type="file" accept="application/json, .obj" id="file" name="image" class="inputfile" (change)="handleFileInput($event.target.files)"/>
-            <label for="file"> <img src="assets/images/upload.svg" alt="Icon made by Pixel Buddha from www.flaticons.com"> Choose a file</label>
-            <p>Currently supported json event data files and OBJ files.</p>
-            <p>Supported file formats: .json, .obj</p>
+            <div class="row centered">
+              <input type="file" id="eventDataFile" class="inputfile" accept="application/json" name="image" (change)="handleFileInput($event.target.files)"/>
+              <label for="eventDataFile"> <img src="assets/images/eventData.svg" alt="Icon made by Pixel Buddha from www.flaticons.com"> Load event data</label>
+              <input type="file" id="objFile"  class="inputfile" accept="obj" name="image" (change)="handleFileInput($event.target.files)"/>
+              <label for="objFile"> <img src="assets/images/obj.svg" alt="Icon made by Pixel Buddha from www.flaticons.com">Load .obj</label>
+            </div>
+            <p>Currently supported event data files written in JSON and OBJ files. Supported file formats: .json, .obj</p>
           </div>
         </form>
       </div>

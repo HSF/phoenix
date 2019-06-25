@@ -95,7 +95,7 @@ export class UIService {
     this.guiParameters[name] = {show: true, color: colour};
     const objFolder = this.geomFolder.addFolder(name);
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
-    colorMenu.onChange((value) => this.three.objectColor(name, value));
+    colorMenu.onChange((value) => this.three.objColor(name, value));
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
     showMenu.onChange((value) => {
       this.three.objectVisibility(name, value);
@@ -118,10 +118,11 @@ export class UIService {
   }
 
   public addCollection(typeFolder: any, collectionName: string) {
-    this.guiParameters[collectionName] = true;
-    const menu = typeFolder.add(this.guiParameters, collectionName).name(collectionName).listen();
-    menu.onChange((value) => {
-      this.three.collectionVisibility(collectionName, value);
-    });
+    this.guiParameters[collectionName] = {show: true, color: 0x000000};
+    const collFolder = typeFolder.addFolder(collectionName);
+    const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
+    showMenu.onChange((value) => this.three.collectionVisibility(collectionName, value));
+    const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
+    colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
   }
 }

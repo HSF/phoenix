@@ -36,7 +36,7 @@ export class PlaygroundComponent implements OnInit {
       };
       reader.readAsText(file);
     } else {
-      console.log('Error : ¡¡¡ Archivo no válido !!!');
+      console.log('Error : ¡¡¡ Invalid file format !!!');
     }
   }
 
