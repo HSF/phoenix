@@ -42,7 +42,8 @@ export class ThreeService {
   }
 
   /**
-   * Initialization functions.
+   * Initializes the necessary three.js functionality.
+   * @param configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.scene = new THREE.Scene();
@@ -77,9 +78,10 @@ export class ThreeService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  /**
-   * Private auxiliary functions.
-   */
+  /*********************************
+   * Private auxiliary functions.  *
+   *********************************/
+
   private setRenderer() {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -118,9 +120,10 @@ export class ThreeService {
     }
   }
 
-  /**
-   * Public functions.
-   */
+  /*********************************
+   *      Public functions.        *
+   *********************************/
+
   public clearCanvas() {
     const elements = document.body.getElementsByClassName('ui-element');
     const elementsSize = elements.length;
@@ -173,9 +176,10 @@ export class ThreeService {
     }
   }
 
-  /**
-   * Loading functions.
-   */
+  /*********************************
+   * Loading geometries functions. *
+   *********************************/
+
   public buildGeometryFromParameters(parameters) {
     // Make the geometry and material
     const geometry = new THREE.BoxGeometry(parameters.xDim, parameters.yDim, parameters.zDim);
@@ -211,7 +215,6 @@ export class ThreeService {
     }
   }
 
-  // Move to a loader Service
   public loadOBJFile(filename: string, name: string, colour, doubleSided: boolean): void {
     if (colour == null) {
       colour = 0x41a6f4;
@@ -316,7 +319,7 @@ export class ThreeService {
     scene.add(splineObject);
   }
 
-  addJet(jet: any, scene: any) {
+  public addJet(jet: any, scene: any) {
     console.log(jet);
 
     const eta = jet.eta;
@@ -357,8 +360,7 @@ export class ThreeService {
     }
   }
 
-
-  objColor(name: string, value: any) {
+  public objColor(name: string, value: any) {
     const object = this.objects[name];
     object.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -369,7 +371,7 @@ export class ThreeService {
     });
   }
 
-  collectionColor(collectionName: string, value: any) {
+  public collectionColor(collectionName: string, value: any) {
     const collection = this.eventDataCollections.getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
       let color;

@@ -28,7 +28,9 @@ export class UIService {
   }
 
   public showUI(configuration: Configuration) {
+    // Shows a panel on screen with information about the performance (fps).
     this.showStats();
+    // Shows the menu that contains the options to interact with the scene.
     this.showMenu(configuration);
   }
 
@@ -73,6 +75,13 @@ export class UIService {
       .name('zClipPosition');
   }
 
+  /**
+   * Adds a boolean toggle to the 'Controls' folder.
+   * @param fieldName Name of the field that will be changed.
+   * @param tag Name that will be shown next to the toggle.
+   * @param defaultValue initial value that will be set.
+   * @param onChange function that will be executed when the toggle is pressed.
+   */
   private addMenu(fieldName: string, tag: string, defaultValue: boolean, onChange: (value: boolean) => any) {
     onChange(defaultValue);
     this.guiParameters[fieldName] = defaultValue;
@@ -92,25 +101,26 @@ export class UIService {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
+    // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {show: true, color: colour};
     const objFolder = this.geomFolder.addFolder(name);
+    // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
+    // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
-    showMenu.onChange((value) => {
-      this.three.objectVisibility(name, value);
-    });
+    showMenu.onChange((value) => this.three.objectVisibility(name, value));
   }
 
   public addEventDataFolder() {
+    // A new folder for the Event Data is added to the GUI.
     if (this.eventFolder == null) {
       this.eventFolder = this.gui.addFolder('Event Data');
     }
     this.guiParameters.eventData = true;
+    // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
-    menu.onChange((value) => {
-      this.three.objectVisibility('Event Data', value);
-    });
+    menu.onChange((value) => this.three.objectVisibility('Event Data', value));
   }
 
   public addEventDataTypeFolder(objectType: string) {
@@ -118,10 +128,13 @@ export class UIService {
   }
 
   public addCollection(typeFolder: any, collectionName: string) {
+    // A new folder for the collection is added to the 'Event Data' folder
     this.guiParameters[collectionName] = {show: true, color: 0x000000};
     const collFolder = typeFolder.addFolder(collectionName);
+    // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
     showMenu.onChange((value) => this.three.collectionVisibility(collectionName, value));
+    // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
   }
