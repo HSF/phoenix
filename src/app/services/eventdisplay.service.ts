@@ -83,4 +83,7 @@ export class EventdisplayService {
     this.graphicsLibrary.buildGeometryFromParameters(parameters);
   }
 
+  saveConfiguration() {
+    this.graphicsLibrary.exportScene();
+  }
 }

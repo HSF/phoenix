@@ -14,6 +14,7 @@ import {
   WebGLRenderer
 } from 'three';
 import {Configuration} from './configuration';
+import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 
 @Injectable({
   providedIn: 'root'
@@ -120,9 +121,34 @@ export class ThreeService {
     }
   }
 
+  private saveString( text, filename ) {
+    this.save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+  }
+
+  private save( blob, filename ) {
+    const link = document.createElement( 'a' );
+    link.style.display = 'none';
+    document.body.appendChild( link );
+    link.href = URL.createObjectURL( blob );
+    link.download = filename;
+    link.click();
+  }
+
   /*********************************
    *      Public functions.        *
    *********************************/
+
+  public exportScene() {
+    // Instantiate a exporter
+    const exporter = new GLTFExporter();
+
+    // Parse the input and generate the glTF output
+    exporter.parse( this.scene, ( result ) => {
+      const output = JSON.stringify( result, null, 2 );
+      console.log( output );
+      this.saveString( output, 'phoenix-scene.gltf' );
+    }, null );
+  }
 
   public clearCanvas() {
     const elements = document.body.getElementsByClassName('ui-element');
@@ -311,8 +337,8 @@ export class ThreeService {
     }
 
     const curve = new THREE.CatmullRomCurve3(points);
-    const geometry = new THREE.Geometry();
-    geometry.vertices = curve.getPoints(50);
+    const vertices = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
     const material = new THREE.LineBasicMaterial({color: colour});
     const splineObject = new THREE.Line(geometry, material);
 

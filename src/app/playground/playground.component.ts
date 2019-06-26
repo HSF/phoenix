@@ -16,7 +16,6 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.init(new Configuration());
   }
 
-
   handleFileInput(files: any) {
     const file = files[0];
     const reader = new FileReader();
@@ -35,6 +34,10 @@ export class PlaygroundComponent implements OnInit {
     } else {
       console.log('Error : ¡ Invalid file format !');
     }
+  }
+
+  saveConfiguration() {
+    this.eventDisplay.saveConfiguration();
   }
 
 }
