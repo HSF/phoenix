@@ -15,6 +15,8 @@ import {
 } from 'three';
 import {Configuration} from './configuration';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {load} from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -121,15 +123,15 @@ export class ThreeService {
     }
   }
 
-  private saveString( text, filename ) {
-    this.save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+  private saveString(text, filename) {
+    this.save(new Blob([text], {type: 'text/plain'}), filename);
   }
 
-  private save( blob, filename ) {
-    const link = document.createElement( 'a' );
+  private save(blob, filename) {
+    const link = document.createElement('a');
     link.style.display = 'none';
-    document.body.appendChild( link );
-    link.href = URL.createObjectURL( blob );
+    document.body.appendChild(link);
+    link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
   }
@@ -143,11 +145,11 @@ export class ThreeService {
     const exporter = new GLTFExporter();
 
     // Parse the input and generate the glTF output
-    exporter.parse( this.scene, ( result ) => {
-      const output = JSON.stringify( result, null, 2 );
-      console.log( output );
-      this.saveString( output, 'phoenix-scene.gltf' );
-    }, null );
+    exporter.parse(this.scene, (result) => {
+      const output = JSON.stringify(result, null, 2);
+      console.log(output);
+      this.saveString(output, 'phoenix-scene.gltf');
+    }, null);
   }
 
   public clearCanvas() {
@@ -409,5 +411,12 @@ export class ThreeService {
       }
       color.set(value);
     }
+  }
+
+  public loadScene(scene: any) {
+    const loader = new GLTFLoader();
+    loader.parse(scene, '', (gltf) => {
+      this.scene.add(gltf.scene);
+    });
   }
 }

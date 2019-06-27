@@ -31,7 +31,7 @@ textarea {
   font-size: 1em;
   font-weight: 700;
   color: white;
-  background-color: #1E8BB0;
+  background-color: #6EAECE;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -49,7 +49,7 @@ textarea {
 }
 
 .imageLabel:hover {
-  background-color: #1c5779;
+  background-color: #118AB2;
 }
 
 .imageLabel.loadExport img {
@@ -62,5 +62,17 @@ textarea {
 }
 
 #exportScene {
-  background-color: #168e6b;
+  background-color: #06D6A0;
+}
+
+#exportScene:hover {
+  background-color: #05c292;
+}
+
+#importScene {
+  background-color: #ecc25e;
+}
+
+#importScene:hover {
+  background-color: #d6b44d;
 }

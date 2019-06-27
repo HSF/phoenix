@@ -20,7 +20,7 @@
             <h5>Load File:</h5>
             <div class="row centered">
               <input type="file" id="eventDataFile" class="inputfile" accept="application/json" name="image" (change)="handleFileInput($event.target.files)"/>
-              <label for="eventDataFile" class="imageLabel"> <img src="assets/images/eventData.svg" alt="Icon made by Pixel Buddha from www.flaticons.com"> Load event data</label>
+              <label for="eventDataFile" class="imageLabel"> <img src="assets/images/eventData.svg" alt="Icon made by Pixel Buddha from www.flaticons.com">Load event data</label>
               <input type="file" id="objFile"  class="inputfile" accept="obj" name="image" (change)="handleFileInput($event.target.files)"/>
               <label for="objFile" class="imageLabel"> <img src="assets/images/obj.svg" alt="Icon made by Pixel Buddha from www.flaticons.com">Load .obj</label>
             </div>
@@ -31,8 +31,8 @@
         <h5>Export and import scene:</h5>
         <div class="row centered">
           <label class="imageLabel loadExport" id="exportScene" (click)="saveConfiguration()"> <img src="assets/images/save.svg" alt="Icon made by Dave Gandy from www.flaticons.com">Save scene</label>
-          <input type="file" id="loadScene" class="inputfile" accept="application/json" name="image" (change)="handleFileInput($event.target.files)"/>
-          <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/images/upload.svg" alt="Icon made by Pixel Buddha from www.flaticons.com"> Load event data</label>
+          <input type="file" id="loadScene" class="inputfile" accept=".gltf" name="image" (change)="handleFileInput($event.target.files)"/>
+          <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/images/upload.svg" alt="Icon made by Pixel Buddha from www.flaticons.com">Load scene</label>
         </div>
       </div>
       <div class="modal-footer">

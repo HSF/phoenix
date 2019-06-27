@@ -31,13 +31,19 @@ export class PlaygroundComponent implements OnInit {
         this.eventDisplay.loadGeometryFromOBJContent(reader.result.toString(), file.name.split('.')[0]);
       };
       reader.readAsText(file);
+    }
+    if (file.name.split('.').pop() === 'gltf') {
+      reader.onload = () => {
+        this.eventDisplay.loadDisplay(reader.result.toString());
+      };
+      reader.readAsText(file);
     } else {
       console.log('Error : ¡ Invalid file format !');
     }
   }
 
   saveConfiguration() {
-    this.eventDisplay.saveConfiguration();
+    this.eventDisplay.saveDisplay();
   }
 
 }
