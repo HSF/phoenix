@@ -10,6 +10,7 @@ import {TrackmlComponent} from './trackml/trackml.component';
 import {NavComponent} from './nav/nav.component';
 import {RouterModule, Routes} from '@angular/router';
 import { PlaygroundComponent } from './playground/playground.component';
+import { PlaygroundVrComponent } from './playground-vr/playground-vr.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'geometry', component: GeometryComponent},
   {path: 'atlas', component: AtlasComponent},
   {path: 'trackml', component: TrackmlComponent},
-  {path: 'playground', component: PlaygroundComponent}
+  {path: 'playground', component: PlaygroundComponent},
+  {path: 'playgroundVR', component: PlaygroundVrComponent}
 ];
 
 @NgModule({
@@ -28,7 +30,8 @@ const routes: Routes = [
     AtlasComponent,
     TrackmlComponent,
     NavComponent,
-    PlaygroundComponent
+    PlaygroundComponent,
+    PlaygroundVrComponent
   ],
   imports: [
     BrowserModule,
