@@ -14,6 +14,9 @@ import {
   WebGLRenderer
 } from 'three';
 import {Configuration} from './configuration';
+import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {load} from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +45,8 @@ export class ThreeService {
   }
 
   /**
-   * Initialization functions.
+   * Initializes the necessary three.js functionality.
+   * @param configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.scene = new THREE.Scene();
@@ -77,9 +81,10 @@ export class ThreeService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  /**
-   * Private auxiliary functions.
-   */
+  /*********************************
+   * Private auxiliary functions.  *
+   *********************************/
+
   private setRenderer() {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
@@ -118,9 +123,35 @@ export class ThreeService {
     }
   }
 
-  /**
-   * Public functions.
-   */
+  private saveString(text, filename) {
+    this.save(new Blob([text], {type: 'text/plain'}), filename);
+  }
+
+  private save(blob, filename) {
+    const link = document.createElement('a');
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
+
+  /*********************************
+   *      Public functions.        *
+   *********************************/
+
+  public exportScene() {
+    // Instantiate a exporter
+    const exporter = new GLTFExporter();
+
+    // Parse the input and generate the glTF output
+    exporter.parse(this.scene, (result) => {
+      const output = JSON.stringify(result, null, 2);
+      console.log(output);
+      this.saveString(output, 'phoenix-scene.gltf');
+    }, null);
+  }
+
   public clearCanvas() {
     const elements = document.body.getElementsByClassName('ui-element');
     const elementsSize = elements.length;
@@ -173,9 +204,10 @@ export class ThreeService {
     }
   }
 
-  /**
-   * Loading functions.
-   */
+  /*********************************
+   * Loading geometries functions. *
+   *********************************/
+
   public buildGeometryFromParameters(parameters) {
     // Make the geometry and material
     const geometry = new THREE.BoxGeometry(parameters.xDim, parameters.yDim, parameters.zDim);
@@ -211,7 +243,6 @@ export class ThreeService {
     }
   }
 
-  // Move to a loader Service
   public loadOBJFile(filename: string, name: string, colour, doubleSided: boolean): void {
     if (colour == null) {
       colour = 0x41a6f4;
@@ -311,15 +342,15 @@ export class ThreeService {
     }
 
     const curve = new THREE.CatmullRomCurve3(points);
-    const geometry = new THREE.Geometry();
-    geometry.vertices = curve.getPoints(50);
+    const vertices = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
     const material = new THREE.LineBasicMaterial({color: colour});
     const splineObject = new THREE.Line(geometry, material);
 
     scene.add(splineObject);
   }
 
-  addJet(jet: any, scene: any) {
+  public addJet(jet: any, scene: any) {
     console.log(jet);
 
     const eta = jet.eta;
@@ -360,8 +391,7 @@ export class ThreeService {
     }
   }
 
-
-  objColor(name: string, value: any) {
+  public objColor(name: string, value: any) {
     const object = this.objects[name];
     object.traverse((child) => {
       if (child instanceof THREE.Mesh) {
@@ -372,7 +402,7 @@ export class ThreeService {
     });
   }
 
-  collectionColor(collectionName: string, value: any) {
+  public collectionColor(collectionName: string, value: any) {
     const collection = this.eventDataCollections.getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
       let color;
@@ -384,6 +414,13 @@ export class ThreeService {
       }
       color.set(value);
     }
+  }
+
+  public loadScene(scene: any) {
+    const loader = new GLTFLoader();
+    loader.parse(scene, '', (gltf) => {
+      this.scene.add(gltf.scene);
+    });
   }
 
   darkBackground(value: boolean) {

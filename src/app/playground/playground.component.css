@@ -27,25 +27,52 @@ textarea {
   z-index: -1;
 }
 
-.inputfile + label {
+.imageLabel {
   font-size: 1em;
   font-weight: 700;
   color: white;
-  background-color: #1E8BB0;
-  display: inline-block;
+  background-color: #6EAECE;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  justify-content: center;
   cursor: pointer;
   padding: 1em 0.5em;
   border-radius: 10px;
-  width: 10rem;
+  width: 8rem;
   text-align: center;
   margin: 0 0.4rem;
 }
 
-.inputfile + label img {
+.imageLabel img {
   max-height: 2em;
 }
 
-.inputfile:focus + label,
-.inputfile + label:hover {
-  background-color: #1c5779;
+.imageLabel:hover {
+  background-color: #118AB2;
+}
+
+.imageLabel.loadExport img {
+  max-height: 1.2em;
+}
+
+.imageLabel.loadExport {
+  padding: 0.8em 0.2em;
+  width: 7rem;
+}
+
+#exportScene {
+  background-color: #06D6A0;
+}
+
+#exportScene:hover {
+  background-color: #05c292;
+}
+
+#importScene {
+  background-color: #ecc25e;
+}
+
+#importScene:hover {
+  background-color: #d6b44d;
 }
