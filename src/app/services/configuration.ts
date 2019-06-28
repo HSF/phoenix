@@ -2,17 +2,18 @@ export class Configuration {
   xClipPosition: number;
   yClipPosition: number;
   zClipPosition: number;
-  eventFileUploader: string;
-  geomFileUploader: string;
+  maxPositionX: number;
+  maxPositionY: number;
+  maxPositionZ: number;
   allowShowAxes: boolean;
-  customEventFileConvertor: any;
 
   constructor() {
     this.xClipPosition = 1200;
     this.yClipPosition = 1200;
     this.zClipPosition = 4000;
-    this.eventFileUploader = 'offbydefault';
-    this.geomFileUploader = 'offbydefault';
+    this.maxPositionX = 4000;
+    this.maxPositionY = 4000;
+    this.maxPositionZ = 4000;
     this.allowShowAxes = true;
   }
 }

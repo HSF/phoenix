@@ -10,7 +10,7 @@ import {
   LineSegments, Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
-  Scene,
+  Scene, Vector3,
   WebGLRenderer
 } from 'three';
 import {Configuration} from './configuration';
@@ -301,7 +301,10 @@ export class ThreeService {
 
   public addTrack(track: any, scene: any) {
     const length = 100;
-    const colour = 0xff0000;
+    let colour = 0xff0000;
+    if (track.color) {
+      colour = parseInt(track.color, 16);
+    }
 
     const positions = track.pos;
     // Now sort these.
@@ -418,5 +421,20 @@ export class ThreeService {
     loader.parse(scene, '', (gltf) => {
       this.scene.add(gltf.scene);
     });
+  }
+
+  darkBackground(value: boolean) {
+    let background = 0xffffff;
+    if (value) {
+      background = 0x1c1c1c;
+    }
+    this.scene.background = new THREE.Color(background);
+  }
+
+  getObjectPosition(name: string): Vector3 {
+    const object = this.objects[name];
+    if (object) {
+      return object.position;
+    }
   }
 }
