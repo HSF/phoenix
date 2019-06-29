@@ -29,6 +29,20 @@ export class EventdisplayService {
     animate();
   }
 
+  public initVR(configuration: Configuration) {
+    this.graphicsLibrary.init(configuration);
+    // Showing the UI elements
+    this.ui.showUI(configuration);
+    // Animate loop
+    const animate = () => {
+      this.graphicsLibrary.updateControls();
+      this.ui.updateUI();
+      this.graphicsLibrary.render();
+    };
+    this.graphicsLibrary.setVRButton();
+    this.graphicsLibrary.setAnimationLoop(animate);
+  }
+
   /**
    * Loads an OBJ file and adds it to the scene and to the UI menu.
    * @param filename URL of the OBJ file to load.
@@ -90,4 +104,6 @@ export class EventdisplayService {
   public loadDisplay(scene: any) {
     this.graphicsLibrary.loadScene(scene);
   }
+
+
 }

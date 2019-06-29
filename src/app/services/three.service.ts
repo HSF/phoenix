@@ -26,7 +26,7 @@ export class ThreeService {
   // Threejs Variables
   private scene: Scene;
   private controls: OrbitControls;
-  private renderer: WebGLRenderer;
+  renderer: WebGLRenderer;
   private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects;
@@ -436,5 +436,14 @@ export class ThreeService {
     if (object) {
       return object.position;
     }
+  }
+
+  setAnimationLoop(animate: () => void) {
+    this.renderer.vr.enabled = true;
+    this.renderer.setAnimationLoop(animate);
+  }
+
+  setVRButton() {
+    // document.body.appendChild(WEBVR.createButton(this.renderer));
   }
 }
