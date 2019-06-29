@@ -72,6 +72,30 @@ canvas {
   max-height: 2em;
 }
 
+/* Preset views styles */
+.preset-views-wrapper {
+  position: absolute;
+  top: 30%;
+}
+
+.preset-views {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.preset-views  img {
+  cursor: pointer;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .preset-views-ul {
+    display: none;
+  }
+}
+
 @font-face {
   font-family: "Circular";
   src: url(/assets/fonts/CircularStd-Black.otf);
