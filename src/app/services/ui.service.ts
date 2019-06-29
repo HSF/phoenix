@@ -3,6 +3,7 @@ import * as Stats from 'stats-js';
 import * as dat from 'dat.gui';
 import {ThreeService} from './three.service';
 import {Configuration} from './configuration';
+import {PresetView} from './preset-view';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class UIService {
   private controlsFolder: any;
   private eventFolder: any;
   private configuration: Configuration;
+  private canvas: HTMLElement;
 
   constructor(private three: ThreeService) {
   }
@@ -54,11 +56,11 @@ export class UIService {
     this.configuration = configuration;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
-    let canvas = document.getElementById('eventDisplay');
-    if (canvas == null) {
-      canvas = document.body;
+    this.canvas = document.getElementById('eventDisplay');
+    if (this.canvas == null) {
+      this.canvas = document.body;
     }
-    canvas.appendChild(this.gui.domElement);
+    this.canvas.appendChild(this.gui.domElement);
     this.controlsFolder = this.gui.addFolder('Controls');
     this.geomFolder = null;
     this.eventFolder = null;
@@ -75,6 +77,30 @@ export class UIService {
       .name('yClipPosition');
     this.controlsFolder.add(this.three.getZClipPlane(), 'constant', -configuration.zClipPosition, configuration.zClipPosition)
       .name('zClipPosition');
+
+    if (configuration.anyPresetView()) {
+      this.displayPresetViews(configuration.presetViews);
+    }
+  }
+
+  private displayPresetViews(presetViews: PresetView[]) {
+    const presetViewFolder = this.gui.addFolder('Preset Views');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'preset-views-wrapper';
+    const presetIconsUl = document.createElement('div');
+    presetIconsUl.className = 'preset-views';
+    wrapper.append(presetIconsUl);
+    presetViews.forEach((view) => {
+      // For menu
+      view.setView = this.three.setCameraPos(view.cameraPos);
+      presetViewFolder.add(view, 'setView').name(view.name);
+      // For icons
+      const viewElement = document.createElement('img');
+      viewElement.setAttribute('src', view.getIconURL());
+      viewElement.addEventListener('click', this.three.setCameraPos(view.cameraPos));
+      presetIconsUl.append(viewElement);
+    });
+    this.canvas.append(wrapper);
   }
 
   /**
@@ -104,14 +130,14 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y:0, z:0};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0};
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
     // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
-    showMenu.onChange((value) =>  this.three.objectVisibility(name, value));
+    showMenu.onChange((value) => this.three.objectVisibility(name, value));
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);
     objFolder.add(this.guiParameters[name], 'x', -this.configuration.maxPositionX, this.configuration.maxPositionX)

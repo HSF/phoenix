@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
+import {PresetView} from '../services/preset-view';
 
 @Component({
   selector: 'app-playground',
@@ -13,7 +14,13 @@ export class PlaygroundComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventDisplay.init(new Configuration());
+    const configuration = new Configuration();
+    configuration.presetViews = [
+      new PresetView('Right View', [0, 0, 6000], 'right.svg'),
+      new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
+      new PresetView('Right View', [0, 0, -6000], 'left.svg')
+    ];
+    this.eventDisplay.init(configuration);
   }
 
   handleFileInput(files: any) {
