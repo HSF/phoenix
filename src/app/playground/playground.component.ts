@@ -18,7 +18,7 @@ export class PlaygroundComponent implements OnInit {
     configuration.presetViews = [
       new PresetView('Right View', [0, 0, 6000], 'right.svg'),
       new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
-      new PresetView('Right View', [0, 0, -6000], 'left.svg')
+      new PresetView('Left View', [0, 0, -6000], 'left.svg')
     ];
     this.eventDisplay.init(configuration);
   }
