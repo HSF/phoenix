@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
+import {PresetView} from '../services/preset-view';
 
 @Component({
   selector: 'app-playground',
@@ -8,12 +9,19 @@ import {Configuration} from '../services/configuration';
   styleUrls: ['./playground.component.css']
 })
 export class PlaygroundComponent implements OnInit {
+  hiddenInfo = true;
 
   constructor(private eventDisplay: EventdisplayService) {
   }
 
   ngOnInit() {
-    this.eventDisplay.init(new Configuration());
+    const configuration = new Configuration();
+    configuration.presetViews = [
+      new PresetView('Right View', [0, 0, 6000], 'right.svg'),
+      new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
+      new PresetView('Left View', [0, 0, -6000], 'left.svg')
+    ];
+    this.eventDisplay.init(configuration);
   }
 
   handleFileInput(files: any) {
@@ -46,4 +54,7 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.saveDisplay();
   }
 
+  toggleInfo() {
+    this.hiddenInfo = !this.hiddenInfo;
+  }
 }

@@ -1,6 +1,6 @@
 .btn.btn-primary {
   border: none;
-  background-color: #1E8BB0;
+  background-color: #118AB2;
 }
 
 .btn.btn-primary:hover {
@@ -70,6 +70,30 @@ canvas {
 
 #gui .dg .c input[type=text] {
   max-height: 2em;
+}
+
+/* Preset views styles */
+.preset-views-wrapper {
+  position: absolute;
+  top: 30%;
+}
+
+.preset-views {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+
+.preset-views  img {
+  cursor: pointer;
+  height: 3rem;
+  margin-bottom: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .preset-views-ul {
+    display: none;
+  }
 }
 
 @font-face {

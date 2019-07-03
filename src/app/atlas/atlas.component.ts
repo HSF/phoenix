@@ -3,6 +3,7 @@ import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
 import {JSONLoader} from 'three';
 import {JsonLoaderService} from '../services/loaders/json-loader.service';
+import {PresetView} from '../services/preset-view';
 
 
 @Component({
@@ -18,7 +19,13 @@ export class AtlasComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventDisplay.init(new Configuration());
+    const configuration = new Configuration();
+    configuration.presetViews = [
+      new PresetView('Right View', [0, 0, 6000], 'right.svg'),
+      new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
+      new PresetView('Left View', [0, 0, -6000], 'left.svg')
+    ];
+    this.eventDisplay.init(configuration);
     this.jsonLoader.get('assets/files/atlaseventdump.json').subscribe((res: any) => this.eventDisplay.buildEventDataFromJSON(res));
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0xaaaaaa, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0x356aa5, false);

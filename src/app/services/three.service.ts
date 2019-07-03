@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import * as THREE from 'three';
+import * as TWEEN from '@tweenjs/tween.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
 import {
@@ -16,7 +17,7 @@ import {
 import {Configuration} from './configuration';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {load} from '@angular/core/src/render3';
+
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,7 @@ export class ThreeService {
 
   public updateControls() {
     this.controls.update();
+    TWEEN.update();
   }
 
   public render() {
@@ -122,6 +124,7 @@ export class ThreeService {
       this.setAxis(configuration.allowShowAxes);
     }
   }
+
 
   private saveString(text, filename) {
     this.save(new Blob([text], {type: 'text/plain'}), filename);
@@ -436,6 +439,16 @@ export class ThreeService {
     if (object) {
       return object.position;
     }
+  }
+
+  setCameraPos(cameraPos: number[]) {
+    return () => {
+      new TWEEN.Tween(this.camera.position).to({
+        x: cameraPos[0],
+        y: cameraPos[1],
+        z: cameraPos[2]
+      }, 1000).start();
+    };
   }
 
   setAnimationLoop(animate: () => void) {
