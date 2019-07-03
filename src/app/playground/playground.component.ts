@@ -9,6 +9,7 @@ import {PresetView} from '../services/preset-view';
   styleUrls: ['./playground.component.css']
 })
 export class PlaygroundComponent implements OnInit {
+  hiddenInfo = true;
 
   constructor(private eventDisplay: EventdisplayService) {
   }
@@ -53,4 +54,7 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.saveDisplay();
   }
 
+  toggleInfo() {
+    this.hiddenInfo = !this.hiddenInfo;
+  }
 }
