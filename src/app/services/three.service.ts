@@ -91,6 +91,7 @@ export class ThreeService {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight, false);
     this.renderer.domElement.className = 'ui-element';
+    this.renderer.domElement.id = 'three-canvas';
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
       canvas = document.body;
@@ -122,6 +123,9 @@ export class ThreeService {
   private setConfiguration(configuration: Configuration) {
     if (configuration.allowShowAxes) {
       this.setAxis(configuration.allowShowAxes);
+    }
+    if (configuration.allowSelecting) {
+      this.enableSelecting();
     }
   }
 
@@ -373,5 +377,35 @@ export class ThreeService {
 
   setVRButton() {
     // document.body.appendChild(WEBVR.createButton(this.renderer));
+  }
+
+  private enableSelecting() {
+    if (document.getElementById('three-canvas')) {
+      document.getElementById('three-canvas').addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
+    }
+  }
+
+  // When the mouse is click do something with the selected object
+  onDocumentMouseDown(event) {
+    event.preventDefault();
+    const mouse3D = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1,
+      0.5);
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mouse3D, this.camera);
+
+    // Obtaining the array of objects that the projected click intersects
+    const arrayOfObjects = Object.values(this.objects);
+    // @ts-ignore
+    const intersects = raycaster.intersectObjects(arrayOfObjects, true);
+
+    if (intersects.length > 0) {
+      // We want the closest one
+      this.objectOnClick(intersects[0].object);
+    }
+  }
+
+  objectOnClick(selected) {
+    console.log(selected);
   }
 }

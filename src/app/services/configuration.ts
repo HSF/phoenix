@@ -10,6 +10,7 @@ export class Configuration {
   maxPositionY: number;
   maxPositionZ: number;
   allowShowAxes: boolean;
+  allowSelecting: boolean;
   presetViews: PresetView[];
   eventDataLoader: EventDataLoader;
 
@@ -21,6 +22,7 @@ export class Configuration {
     this.maxPositionY = 4000;
     this.maxPositionZ = 4000;
     this.allowShowAxes = true;
+    this.allowSelecting = false;
     this.presetViews = [];
     this.eventDataLoader = new AtlasLoader();
   }

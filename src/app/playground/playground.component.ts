@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
 import {PresetView} from '../services/preset-view';
+import {config} from 'rxjs';
 
 @Component({
   selector: 'app-playground',
@@ -21,6 +22,7 @@ export class PlaygroundComponent implements OnInit {
       new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
       new PresetView('Left View', [0, 0, -6000], 'left.svg')
     ];
+    configuration.allowSelecting = true;
     this.eventDisplay.init(configuration);
   }
 
