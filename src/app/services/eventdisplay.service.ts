@@ -7,6 +7,7 @@ import {Configuration} from './configuration';
   providedIn: 'root'
 })
 export class EventdisplayService {
+  private configuration: Configuration;
 
   constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
@@ -16,6 +17,7 @@ export class EventdisplayService {
    * @param configuration used to customize different aspects.
    */
   public init(configuration: Configuration): void {
+    this.configuration = configuration;
     this.graphicsLibrary.init(configuration);
     // Showing the UI elements
     this.ui.showUI(configuration);
@@ -71,10 +73,10 @@ export class EventdisplayService {
   public buildEventDataFromJSON(eventData: any) {
     this.ui.addEventDataFolder();
     if (eventData.Tracks) {
-      this.addEventCollections(eventData.Tracks, this.graphicsLibrary.addTrack, 'Tracks');
+      this.addEventCollections(eventData.Tracks, this.configuration.addTrack(), 'Tracks');
     }
     if (eventData.Jets) {
-      this.addEventCollections(eventData.Jets, this.graphicsLibrary.addJet, 'Jets');
+      this.addEventCollections(eventData.Jets, this.configuration.addJet(), 'Jets');
     }
   }
 
@@ -106,4 +108,10 @@ export class EventdisplayService {
   }
 
 
+  allowSelection(selectedObject: any) {
+    if (document.getElementById('three-canvas')) {
+      document.getElementById('three-canvas').addEventListener('click',
+        (event) => this.graphicsLibrary.onDocumentMouseDown.bind(this.graphicsLibrary)(event, selectedObject));
+    }
+  }
 }

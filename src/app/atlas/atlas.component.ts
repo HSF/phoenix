@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../services/eventdisplay.service';
 import {Configuration} from '../services/configuration';
-import {JSONLoader} from 'three';
-import {JsonLoaderService} from '../services/loaders/json-loader.service';
 import {PresetView} from '../services/preset-view';
+import {HttpClient} from '@angular/common/http';
 
 
 @Component({
@@ -15,7 +14,7 @@ export class AtlasComponent implements OnInit {
 
 
 
-  constructor(private eventDisplay: EventdisplayService, private jsonLoader: JsonLoaderService) {
+  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -26,7 +25,7 @@ export class AtlasComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left.svg')
     ];
     this.eventDisplay.init(configuration);
-    this.jsonLoader.get('assets/files/atlaseventdump.json').subscribe((res: any) => this.eventDisplay.buildEventDataFromJSON(res));
+    this.http.get('assets/files/atlaseventdump.json').subscribe((res: any) => this.eventDisplay.buildEventDataFromJSON(res));
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0xaaaaaa, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0x356aa5, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xfff400, false);

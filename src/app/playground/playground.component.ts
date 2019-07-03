@@ -9,12 +9,14 @@ import {PresetView} from '../services/preset-view';
   styleUrls: ['./playground.component.css']
 })
 export class PlaygroundComponent implements OnInit {
-  hiddenInfo = true;
+  hiddenInfo = false;
+  selectedObject: any;
 
   constructor(private eventDisplay: EventdisplayService) {
   }
 
   ngOnInit() {
+    this.selectedObject = {name: 'Object', attributes: []};
     const configuration = new Configuration();
     configuration.presetViews = [
       new PresetView('Right View', [0, 0, 6000], 'right.svg'),
@@ -22,6 +24,7 @@ export class PlaygroundComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left.svg')
     ];
     this.eventDisplay.init(configuration);
+    this.eventDisplay.allowSelection(this.selectedObject);
   }
 
   handleFileInput(files: any) {

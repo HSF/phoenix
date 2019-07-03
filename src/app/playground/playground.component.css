@@ -84,17 +84,22 @@ textarea {
 }
 
 #infoPanel {
-  max-width: 14rem;
-  max-height: 15rem;
+  width: 15rem;
+  max-width: 15rem;
+  max-height: 16rem;
   min-width: 7rem;
   border: 1px solid rgba(88, 88, 88, 0.08);
   box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
   border-radius: 10px;
   color: rgba(0, 0, 0, 0.7);
-  padding: 0.5em 0.8em;
+  padding: 0 0.8em;
   overflow-y: scroll;
   z-index: 99;
   background: white;
+}
+
+#infoPanel attributeField {
+  max-width: 12rem;
 }
 
 .infoPanelHeader {
@@ -102,9 +107,18 @@ textarea {
   flex-direction: row;
   align-items: center;
   align-content: center;
+  justify-content: space-around;
+  border-bottom: 1px solid rgba(88, 88, 88, 0.08);
+  margin-bottom: 0.7rem;
+  padding: 0.8rem 0.6rem;
 }
+
+.infoPanelHeader h5 {
+  font-family: Circular, sans-serif;
+}
+
 .infoPanelHeader img {
-  height: 0.8rem;
+  height: 0.6rem;
   cursor: pointer;
 }
 
@@ -112,6 +126,10 @@ textarea {
   margin: 0 1rem;
 }
 
-#infoPanel.hidden {
+#infoPanelBody {
+  margin-bottom: 1rem;
+}
+
+#infoPanelBody.hidden {
   display: none;
 }
