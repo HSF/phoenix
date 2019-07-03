@@ -1,15 +1,17 @@
 <div id="eventDisplay">
   <div class="infoPanelWrapper">
-    <div id="infoPanel" [ngClass]="{'hidden' : hiddenInfo}">
+    <div id="infoPanel">
       <div class="infoPanelHeader">
-        <h5>Title</h5>
-        <img src="assets/images/close.svg" alt="" (click)="toggleInfo()">
+        <div></div>
+        <h5 id="infoName">{{selectedObject.name}}</h5>
+        <img [src]="hiddenInfo? 'assets/images/expand.svg' : 'assets/images/collapse.svg'" alt="" (click)="toggleInfo()">
       </div>
-      <div class="infoPanelBody">
-        <p>X: 7</p>
-        <p>Y: 100</p>
-        <p>Z: 22</p>
-         </div>
+      <div id="infoPanelBody" [ngClass]="{'hidden' : hiddenInfo}">
+        <div *ngFor="let attribute of selectedObject.attributes" class="attributeField">
+          <strong>{{attribute.attributeName}}</strong>
+           : {{attribute.attributeValue | attributePipe}}
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PlaygroundComponent } from './playground.component';
+import {AttributePipe} from '../services/loaders/attribute.pipe';
 
 describe('PlaygroundComponent', () => {
   let component: PlaygroundComponent;
@@ -8,7 +9,7 @@ describe('PlaygroundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlaygroundComponent ]
+      declarations: [ PlaygroundComponent, AttributePipe ]
     })
     .compileComponents();
   }));

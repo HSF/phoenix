@@ -47,10 +47,12 @@ export class AtlasLoader implements EventDataLoader {
 
     const curve = new THREE.CatmullRomCurve3(points);
     const vertices = curve.getPoints(50);
-    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
+    const geometry = new THREE.Geometry().setFromPoints(vertices);
     const material = new THREE.LineBasicMaterial({color: colour});
+    material.linewidth = 2;
     const splineObject = new THREE.Line(geometry, material);
     splineObject.userData = track;
+    splineObject.name = 'Track';
     scene.add(splineObject);
   }
 
@@ -86,6 +88,7 @@ export class AtlasLoader implements EventDataLoader {
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jet;
+    mesh.name = 'Jet';
     scene.add(mesh);
   }
 

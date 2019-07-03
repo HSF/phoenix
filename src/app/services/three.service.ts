@@ -386,13 +386,13 @@ export class ThreeService {
   }
 
   // When the mouse is click do something with the selected object
-  onDocumentMouseDown(event) {
+  onDocumentMouseDown(event, selectedObject: any) {
     event.preventDefault();
-    const mouse3D = new THREE.Vector3((event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1,
-      0.5);
+    const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1);
     const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse3D, this.camera);
+    raycaster.linePrecision = 20;
+    raycaster.setFromCamera(mouse, this.camera);
 
     // Obtaining the array of objects that the projected click intersects
     const arrayOfObjects = Object.values(this.objects);
@@ -401,11 +401,12 @@ export class ThreeService {
 
     if (intersects.length > 0) {
       // We want the closest one
-      this.objectOnClick(intersects[0].object);
+      selectedObject.name = intersects[0].object.name;
+      selectedObject.attributes.splice(0, selectedObject.attributes.length);
+      for (let key in intersects[0].object.userData) {
+        selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
+      }
     }
   }
 
-  objectOnClick(selected) {
-    console.log(selected);
-  }
 }

@@ -11,6 +11,7 @@ import {NavComponent} from './nav/nav.component';
 import {RouterModule, Routes} from '@angular/router';
 import { PlaygroundComponent } from './playground/playground.component';
 import { PlaygroundVrComponent } from './playground-vr/playground-vr.component';
+import { AttributePipe } from './services/loaders/attribute.pipe';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,7 +32,8 @@ const routes: Routes = [
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,
-    PlaygroundVrComponent
+    PlaygroundVrComponent,
+    AttributePipe
   ],
   imports: [
     BrowserModule,
