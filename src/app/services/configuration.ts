@@ -1,4 +1,6 @@
 import {PresetView} from './preset-view';
+import {EventDataLoader} from './loaders/event-data-loader';
+import {AtlasLoader} from './loaders/atlas-loader';
 
 export class Configuration {
   xClipPosition: number;
@@ -9,6 +11,7 @@ export class Configuration {
   maxPositionZ: number;
   allowShowAxes: boolean;
   presetViews: PresetView[];
+  eventDataLoader: EventDataLoader;
 
   constructor() {
     this.xClipPosition = 1200;
@@ -19,9 +22,18 @@ export class Configuration {
     this.maxPositionZ = 4000;
     this.allowShowAxes = true;
     this.presetViews = [];
+    this.eventDataLoader = new AtlasLoader();
   }
 
   public anyPresetView(): boolean {
     return this.presetViews.length > 0;
+  }
+
+  addTrack() {
+    return this.eventDataLoader.addTrack;
+  }
+
+  addJet() {
+    return this.eventDataLoader.addJet;
   }
 }
