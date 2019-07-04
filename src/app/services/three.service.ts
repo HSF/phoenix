@@ -348,7 +348,7 @@ export class ThreeService {
   darkBackground(value: boolean) {
     let background = 0xffffff;
     if (value) {
-      background = 0x1c1c1c;
+      background = 0x0;
     }
     this.scene.background = new THREE.Color(background);
   }

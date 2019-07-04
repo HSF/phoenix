@@ -1,12 +1,12 @@
 <div id="eventDisplay">
   <div class="infoPanelWrapper">
-    <div id="infoPanel">
+    <div id="infoPanel" [ngClass]="{'hidden' : hiddenInfo}">
       <div class="infoPanelHeader">
         <div></div>
         <h5 id="infoName">{{selectedObject.name}}</h5>
-        <img [src]="hiddenInfo? 'assets/images/expand.svg' : 'assets/images/collapse.svg'" alt="" (click)="toggleInfo()">
+        <img [src]="hiddenInfoBody? 'assets/images/expand.svg' : 'assets/images/collapse.svg'" alt="" (click)="hiddenInfoBody = !hiddenInfoBody">
       </div>
-      <div id="infoPanelBody" [ngClass]="{'hidden' : hiddenInfo}">
+      <div id="infoPanelBody" [ngClass]="{'hidden' : hiddenInfoBody}">
         <div *ngFor="let attribute of selectedObject.attributes" class="attributeField">
           <strong>{{attribute.attributeName}}</strong>
            : {{attribute.attributeValue | attributePipe}}
@@ -16,10 +16,15 @@
   </div>
 </div>
 
+<div class="optionsWrapper">
+  <div id="playgroundOptions">
+    <button type="button" id="modalToggle" class="btn btn-primary" data-toggle="modal" data-target="#jsonModal">
+    </button>
+    <img [src]="hiddenInfo? 'assets/images/info.svg' : 'assets/images/info_active.svg'" alt="" (click)="hiddenInfo = !hiddenInfo">
+  </div>
+</div>
+
 <!-- Geometries Modal -->
-<button type="button" id="modalToggle" class="btn btn-primary" data-toggle="modal" data-target="#jsonModal">
-  Add geometries
-</button>
 <div class="modal fade" id="jsonModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

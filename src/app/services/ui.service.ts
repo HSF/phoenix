@@ -85,11 +85,8 @@ export class UIService {
 
   private displayPresetViews(presetViews: PresetView[]) {
     const presetViewFolder = this.gui.addFolder('Preset Views');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'preset-views-wrapper';
     const presetIconsUl = document.createElement('div');
     presetIconsUl.className = 'preset-views';
-    wrapper.append(presetIconsUl);
     presetViews.forEach((view) => {
       // For menu
       view.setView = this.three.setCameraPos(view.cameraPos);
@@ -100,7 +97,12 @@ export class UIService {
       viewElement.addEventListener('click', this.three.setCameraPos(view.cameraPos));
       presetIconsUl.append(viewElement);
     });
-    this.canvas.append(wrapper);
+    const element = document.getElementById('playgroundOptions');
+    if (element) {
+      element.appendChild(presetIconsUl);
+    } else {
+      this.canvas.append(presetIconsUl);
+    }
   }
 
   /**

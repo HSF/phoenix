@@ -1,3 +1,24 @@
+::-webkit-scrollbar {
+  width: 0.3em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgb(211, 211, 211);
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgb(211, 211, 211);;
+}
+
 .btn.btn-primary {
   border: none;
   background-color: #118AB2;
@@ -16,7 +37,7 @@ canvas {
 /* dat.gui styles */
 #gui {
   position: absolute;
-  top: 8em;
+  top: 6rem;
   right: 0px;
 }
 
@@ -80,14 +101,15 @@ canvas {
 
 .preset-views {
   display: flex;
-  flex-direction: column;
-  margin-left: 1rem;
+  flex-direction: row;
+  margin-right: 1rem;
 }
 
 .preset-views  img {
   cursor: pointer;
   height: 3rem;
-  margin-bottom: 1rem;
+  width: 3rem;
+  margin-right: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {

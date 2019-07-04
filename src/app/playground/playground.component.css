@@ -1,9 +1,3 @@
-#modalToggle {
-  position: absolute;
-  bottom: 1em;
-  right: 1em;
-}
-
 .row {
   justify-content: center;
   margin: 1rem 0;
@@ -62,7 +56,7 @@ textarea {
 }
 
 #exportScene {
-  background-color: #06D6A0;
+  background-color: #5BD99E;
 }
 
 #exportScene:hover {
@@ -80,7 +74,7 @@ textarea {
 .infoPanelWrapper {
   position: absolute;
   top: 6rem;
-  left: 5rem;
+  left: 2rem;
 }
 
 #infoPanel {
@@ -96,6 +90,10 @@ textarea {
   overflow-y: scroll;
   z-index: 99;
   background: white;
+}
+
+#infoPanel.hidden {
+  display: none;
 }
 
 #infoPanel attributeField {
@@ -133,3 +131,47 @@ textarea {
 #infoPanelBody.hidden {
   display: none;
 }
+
+.optionsWrapper {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#playgroundOptions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-content: center;
+  background: white;
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+}
+
+#playgroundOptions img {
+  height: 3rem;
+  width: 3rem;
+  cursor: pointer;
+}
+
+#modalToggle {
+  background: none;
+  background-image: url("/assets/images/more.svg");
+  border: none;
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 3rem;
+  margin-left: 0.4rem;
+}
+#modalToggle:focus {
+  outline: none;
+  box-shadow: none;
+}
+
