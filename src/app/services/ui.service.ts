@@ -40,7 +40,7 @@ export class UIService {
     this.stats = Stats();
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
-    this.stats.domElement.style.cssText = 'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10000; bottom: 0px;';
+    this.stats.domElement.style.cssText = 'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10; bottom: 0px;';
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
       canvas = document.body;
