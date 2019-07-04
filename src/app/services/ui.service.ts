@@ -97,7 +97,7 @@ export class UIService {
       viewElement.addEventListener('click', this.three.setCameraPos(view.cameraPos));
       presetIconsUl.append(viewElement);
     });
-    const element = document.getElementById('playgroundOptions');
+    const element = document.getElementById('optionsPanel');
     if (element) {
       element.appendChild(presetIconsUl);
     } else {
