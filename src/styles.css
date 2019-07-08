@@ -102,6 +102,7 @@ canvas {
 .preset-views {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .preset-views img:last-child {
@@ -142,10 +143,35 @@ canvas {
   height: 3rem;
   width: 3rem;
   cursor: pointer;
+  align-self: center
 }
 
 .optionsSeparator {
   margin: 0 0.5rem;
+}
+
+.eventSelector {
+  display: flex;
+}
+
+.eventSelector label {
+  color: #777777;
+}
+
+.eventSelector select {
+  width: 5rem;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(assets/images/logo-small.svg) 96% / 30% no-repeat #f9f9f9;
+}
+
+.eventSelector label {
+  display: none;
 }
 
 @media screen and (max-width: 768px) {

@@ -8,6 +8,8 @@ import {Configuration} from './configuration';
 })
 export class EventdisplayService {
   private configuration: Configuration;
+  private eventsData: any;
+  public events: string[];
 
   constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
@@ -66,12 +68,37 @@ export class EventdisplayService {
   }
 
   /**
-   * Receives an object containing the event data and builds the different collections
+   * Receives an object containing all the events and saves it.
+   * Then it loads by default the first event.
+   * @param eventsData array of strings containing the keys of the eventsData object.
+   */
+  public loadEventsFromJSON(eventsData: any) {
+    this.eventsData = eventsData;
+    const events = Object.keys(eventsData);
+    this.loadEvent(events[0]);
+    return events;
+  }
+
+  /**
+   * Receives a string representing the key of an event and loads
+   * the event associated with that key.
+   * @param eventKey string that represents the event in the eventsData object.
+   */
+  public loadEvent(eventKey: any) {
+    const event = this.eventsData[eventKey];
+    if (event) {
+      this.buildEventDataFromJSON(event);
+    }
+  }
+
+  /**
+   * Receives an object containing one event and builds the different collections
    * of physics objects.
    * @param eventData object containing the event data.
    */
   public buildEventDataFromJSON(eventData: any) {
     this.ui.addEventDataFolder();
+    this.graphicsLibrary.clearEventData();
     if (eventData.Tracks) {
       this.addEventCollections(eventData.Tracks, this.configuration.addTrack(), 'Tracks');
     }
@@ -108,10 +135,12 @@ export class EventdisplayService {
   }
 
 
-  allowSelection(selectedObject: any) {
+  public allowSelection(selectedObject: any) {
     if (document.getElementById('three-canvas')) {
       document.getElementById('three-canvas').addEventListener('click',
         (event) => this.graphicsLibrary.onDocumentMouseDown.bind(this.graphicsLibrary)(event, selectedObject));
     }
   }
+
+
 }

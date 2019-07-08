@@ -11,8 +11,7 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./atlas.component.css']
 })
 export class AtlasComponent implements OnInit {
-
-
+  events: any;
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -25,11 +24,15 @@ export class AtlasComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left.svg')
     ];
     this.eventDisplay.init(configuration);
-    this.http.get('assets/files/atlaseventdump.json').subscribe((res: any) => this.eventDisplay.buildEventDataFromJSON(res));
+    this.http.get('assets/files/atlaseventdump2.json').subscribe((res: any) => this.events = this.eventDisplay.loadEventsFromJSON(res));
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0xaaaaaa, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0x356aa5, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xfff400, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/pixel.obj', 'Pixel', 0x356aa5, false);
   }
 
+  onOptionsSelected(selected: any) {
+    const value = selected.target.value;
+    this.eventDisplay.loadEvent(value);
+  }
 }

@@ -129,7 +129,6 @@ export class ThreeService {
     }
   }
 
-
   private saveString(text, filename) {
     this.save(new Blob([text], {type: 'text/plain'}), filename);
   }
@@ -167,6 +166,15 @@ export class ThreeService {
         elements.item(0).remove();
       }
     }
+  }
+
+  public clearEventData() {
+    if (this.eventDataCollections != null) {
+      this.scene.remove(this.eventDataCollections);
+    }
+    this.eventDataCollections = new Group();
+    this.scene.add(this.eventDataCollections);
+    this.objects['Event Data'] = this.eventDataCollections;
   }
 
   public setAxis(value: boolean) {
@@ -208,6 +216,37 @@ export class ThreeService {
       this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
     } else {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+  }
+
+  public loadScene(scene: any) {
+    const loader = new GLTFLoader();
+    loader.parse(scene, '', (gltf) => {
+      this.scene.add(gltf.scene);
+    });
+  }
+
+  public darkBackground(value: boolean) {
+    let background = 0xffffff;
+    if (value) {
+      background = 0x0;
+    }
+    this.scene.background = new THREE.Color(background);
+  }
+
+  public setCameraPos(cameraPos: number[]) {
+    return () => {
+      new TWEEN.Tween(this.camera.position).to({
+        x: cameraPos[0],
+        y: cameraPos[1],
+        z: cameraPos[2]
+      }, 1000).start();
+    };
+  }
+
+  private enableSelecting() {
+    if (document.getElementById('three-canvas')) {
+      document.getElementById('three-canvas').addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
     }
   }
 
@@ -290,7 +329,6 @@ export class ThreeService {
     });
   }
 
-
   public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void) {
     if (this.eventDataCollections == null) {
       this.eventDataCollections = new Group();
@@ -338,51 +376,20 @@ export class ThreeService {
     }
   }
 
-  public loadScene(scene: any) {
-    const loader = new GLTFLoader();
-    loader.parse(scene, '', (gltf) => {
-      this.scene.add(gltf.scene);
-    });
-  }
-
-  darkBackground(value: boolean) {
-    let background = 0xffffff;
-    if (value) {
-      background = 0x0;
-    }
-    this.scene.background = new THREE.Color(background);
-  }
-
-  getObjectPosition(name: string): Vector3 {
+  public getObjectPosition(name: string): Vector3 {
     const object = this.objects[name];
     if (object) {
       return object.position;
     }
   }
 
-  setCameraPos(cameraPos: number[]) {
-    return () => {
-      new TWEEN.Tween(this.camera.position).to({
-        x: cameraPos[0],
-        y: cameraPos[1],
-        z: cameraPos[2]
-      }, 1000).start();
-    };
-  }
-
-  setAnimationLoop(animate: () => void) {
+  public setAnimationLoop(animate: () => void) {
     this.renderer.vr.enabled = true;
     this.renderer.setAnimationLoop(animate);
   }
 
-  setVRButton() {
+  public setVRButton() {
     // document.body.appendChild(WEBVR.createButton(this.renderer));
-  }
-
-  private enableSelecting() {
-    if (document.getElementById('three-canvas')) {
-      document.getElementById('three-canvas').addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
-    }
   }
 
   // When the mouse is click do something with the selected object

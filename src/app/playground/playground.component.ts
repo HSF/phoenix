@@ -12,6 +12,7 @@ export class PlaygroundComponent implements OnInit {
   hiddenInfo = true;
   hiddenInfoBody = true;
   selectedObject: any;
+  private events: string[];
 
   constructor(private eventDisplay: EventdisplayService) {
   }
@@ -34,7 +35,7 @@ export class PlaygroundComponent implements OnInit {
     if (file.type === 'application/json') {
       reader.onload = () => {
         const json = JSON.parse(reader.result.toString());
-        this.eventDisplay.buildEventDataFromJSON(json);
+        this.events = this.eventDisplay.loadEventsFromJSON(json);
       };
       reader.readAsText(file);
     }
@@ -60,5 +61,10 @@ export class PlaygroundComponent implements OnInit {
 
   toggleInfo() {
     this.hiddenInfo = !this.hiddenInfo;
+  }
+
+  onOptionsSelected(selected: any) {
+    const value = selected.target.value;
+    this.eventDisplay.loadEvent(value);
   }
 }

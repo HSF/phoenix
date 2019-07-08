@@ -154,10 +154,12 @@ export class UIService {
    * Functions for event data toggles.
    */
   public addEventDataFolder() {
-    // A new folder for the Event Data is added to the GUI.
-    if (this.eventFolder == null) {
-      this.eventFolder = this.gui.addFolder('Event Data');
+    // If there is already an event data folder it is deleted and creates a new one.
+    if (this.eventFolder != null) {
+      this.gui.removeFolder(this.eventFolder);
     }
+    // A new folder for the Event Data is added to the GUI.
+    this.eventFolder = this.gui.addFolder('Event Data');
     this.guiParameters.eventData = true;
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
