@@ -13,7 +13,7 @@
 The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
 Technically the 3D is done with [three.js](http://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4. 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
 ## Development server
 
@@ -25,6 +25,7 @@ For example, on a mac you might need to do:
 ```
 brew install nodejs
 npm install -g @angular/cli
+npm install --save-dev @angular-devkit/build-angular
 ```
 
 ### Using this with your own data
