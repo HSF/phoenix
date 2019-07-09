@@ -1,5 +1,7 @@
-[![Build Status][build-img]][build-link] [![License][license-img]][license-url] [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
+
+[![Build Status][build-img]][build-link] [![License][license-img]][license-url] [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
+[![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
