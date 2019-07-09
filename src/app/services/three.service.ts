@@ -17,6 +17,7 @@ import {
 import {Configuration} from './configuration';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
+import {WebVR} from './web-vr';
 
 
 @Injectable({
@@ -389,10 +390,14 @@ export class ThreeService {
   }
 
   public setVRButton() {
-    // document.body.appendChild(WEBVR.createButton(this.renderer));
+    const webVR = new WebVR();
+    let canvas = document.getElementById('eventDisplay');
+    if (canvas == null) {
+      canvas = document.body;
+    }
+    canvas.appendChild(webVR.createButton(this.renderer, null));
   }
 
-  // When the mouse is click do something with the selected object
   onDocumentMouseDown(event, selectedObject: any) {
     event.preventDefault();
     const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,
