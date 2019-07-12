@@ -1,6 +1,6 @@
 import {PresetView} from './preset-view';
 import {EventDataLoader} from './loaders/event-data-loader';
-import {AtlasLoader} from './loaders/atlas-loader';
+import {PhoenixLoader} from './loaders/phoenix-loader';
 
 export class Configuration {
   xClipPosition: number;
@@ -24,7 +24,7 @@ export class Configuration {
     this.allowShowAxes = true;
     this.allowSelecting = false;
     this.presetViews = [];
-    this.eventDataLoader = new AtlasLoader();
+    this.eventDataLoader = new PhoenixLoader();
   }
 
   public anyPresetView(): boolean {
