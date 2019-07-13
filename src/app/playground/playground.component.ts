@@ -29,31 +29,6 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.allowSelection(this.selectedObject);
   }
 
-  handleFileInput(files: any) {
-    const file = files[0];
-    const reader = new FileReader();
-    if (file.type === 'application/json') {
-      reader.onload = () => {
-        const json = JSON.parse(reader.result.toString());
-        this.events = this.eventDisplay.loadEventsFromJSON(json);
-      };
-      reader.readAsText(file);
-    }
-    if (file.name.split('.').pop() === 'obj') {
-      reader.onload = () => {
-        this.eventDisplay.loadGeometryFromOBJContent(reader.result.toString(), file.name.split('.')[0]);
-      };
-      reader.readAsText(file);
-    }
-    if (file.name.split('.').pop() === 'gltf') {
-      reader.onload = () => {
-        this.eventDisplay.loadDisplay(reader.result.toString());
-      };
-      reader.readAsText(file);
-    } else {
-      console.log('Error : ¡ Invalid file format !');
-    }
-  }
 
   saveConfiguration() {
     this.eventDisplay.saveDisplay();
@@ -66,5 +41,57 @@ export class PlaygroundComponent implements OnInit {
   onOptionsSelected(selected: any) {
     const value = selected.target.value;
     this.eventDisplay.loadEvent(value);
+  }
+
+  processJSON(json: any) {
+    return this.eventDisplay.loadEventsFromJSON(json);
+  }
+
+  processOBJ(content: any, name: any) {
+    this.eventDisplay.loadGeometryFromOBJContent(content, name);
+  }
+
+  processGLTF(content: any) {
+    this.eventDisplay.loadDisplay(content);
+  }
+
+  handleEventDataInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.type === 'application/json') {
+      reader.onload = () => {
+        const json = JSON.parse(reader.result.toString());
+        this.events = this.processJSON(json);
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
+  }
+
+  handleOBJInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.name.split('.').pop() === 'obj') {
+      reader.onload = () => {
+        this.processOBJ(reader.result.toString(), file.name.split('.')[0]);
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
+  }
+
+  handleGLTFInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.name.split('.').pop() === 'gltf') {
+      reader.onload = () => {
+        this.processGLTF(reader.result.toString());
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
   }
 }

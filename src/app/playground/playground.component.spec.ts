@@ -1,7 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PlaygroundComponent } from './playground.component';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {PlaygroundComponent} from './playground.component';
 import {AttributePipe} from '../services/loaders/attribute.pipe';
+import * as file from '../../assets/files/atlaseventdump2.json';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 describe('PlaygroundComponent', () => {
   let component: PlaygroundComponent;
@@ -9,9 +10,10 @@ describe('PlaygroundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlaygroundComponent, AttributePipe ]
+      declarations: [PlaygroundComponent, AttributePipe],
+      imports: [HttpClientModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -22,5 +24,15 @@ describe('PlaygroundComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load sample json file', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => component.processJSON(res));
+  }));
+
+  it('should toggle info', () => {
+    const info = component.hiddenInfo;
+    component.toggleInfo();
+    expect(component.hiddenInfo).toBe(!info);
   });
 });
