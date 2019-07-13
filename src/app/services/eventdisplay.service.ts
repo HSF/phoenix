@@ -105,6 +105,9 @@ export class EventdisplayService {
     if (eventData.Jets) {
       this.addEventCollections(eventData.Jets, this.configuration.addJet(), 'Jets');
     }
+    if (eventData.Hits) {
+      this.addEventCollections(eventData.Hits, this.configuration.addHits(), 'Hits');
+    }
   }
 
   /**

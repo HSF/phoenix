@@ -338,8 +338,7 @@ export class ThreeService {
     }
     const collscene = new THREE.Group();
     collscene.name = collname;
-    for (const objname of Object.keys(collection)) {
-      const object = collection[objname];
+    for (const object of collection) {
       addObject(object, collscene);
     }
     this.eventDataCollections.add(collscene);

@@ -38,4 +38,8 @@ export class Configuration {
   addJet() {
     return this.eventDataLoader.addJet;
   }
+
+  addHits() {
+    return this.eventDataLoader.addHits;
+  }
 }

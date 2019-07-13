@@ -4,14 +4,14 @@ import * as THREE from 'three';
 
 export class PhoenixLoader implements EventDataLoader {
   addTrack(track: any, scene: Scene) {
+    if (!track.pos) {
+      return;
+    }
+
     const length = 100;
     let colour = 0xff0000;
     if (track.color) {
       colour = parseInt(track.color, 16);
-    }
-
-    if (!track.pos) {
-      return;
     }
 
     const positions = track.pos;
@@ -95,5 +95,23 @@ export class PhoenixLoader implements EventDataLoader {
     mesh.name = 'Jet';
     scene.add(mesh);
   }
+
+  addHits(hits: any, scene: Scene) {
+    const pointPos = new Float32Array(hits.length * 3);
+    let i = 0;
+    for (const hit of hits) {
+      pointPos[i] = hit[0];
+      pointPos[i + 1] = hit[1];
+      pointPos[i + 2] = hit[2];
+      i += 3;
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.addAttribute('position', new THREE.BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    const material = new THREE.PointsMaterial({size: 25});
+    const pointsObj = new THREE.Points(geometry, material);
+    scene.add(pointsObj);
+  }
+
 
 }
