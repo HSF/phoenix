@@ -74,7 +74,12 @@ export class EventdisplayService {
    */
   public loadEventsFromJSON(eventsData: any) {
     this.eventsData = eventsData;
-    const events = Object.keys(eventsData);
+    const events = [];
+    for (const ev of Object.keys(eventsData)) {
+      if (eventsData[ev] != null) {
+        events.push(ev);
+      }
+    }
     this.loadEvent(events[0]);
     return events;
   }
