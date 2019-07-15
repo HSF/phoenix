@@ -21,6 +21,7 @@ h1 {
 
 .card-title{
   font-family: Circular;
+  color: #333333;
 }
 .card-img-top {
   width: 100%;
@@ -36,3 +37,20 @@ h1 {
   color: #777777;
 }
 
+footer {
+  background-color: rgb(255, 255, 255);
+  margin: 5rem 1rem 3rem;
+  color: #777777;
+}
+
+footer p {
+  text-align: center;
+}
+
+footer p a {
+  color: #666666;
+}
+
+footer p a:hover {
+  color: #555555;
+}

@@ -26,6 +26,19 @@ nav a {
   color: #4e4e4e;
 }
 
+#github-link {
+  display: flex;
+  align-items: center;
+}
+
+#github-link a img {
+  height: 1.6rem;
+}
+
+#github-link a img:hover {
+  opacity: 0.8;
+}
+
 .dropdown-menu {
   text-align: center;
   color: #4e4e4e;
