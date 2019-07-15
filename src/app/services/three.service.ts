@@ -297,6 +297,7 @@ export class ThreeService {
     const objLoader = new OBJLoader();
     objLoader.load(filename, (object) => {
       this.setObjFlat(object, colour, doubleSided);
+      object.name = name;
       this.scene.add(object);
       this.objects[name] = object;
     });
@@ -360,6 +361,13 @@ export class ThreeService {
         }
       }
     });
+  }
+
+
+  public removeOBJ(name: string) {
+    const object = this.objects[name];
+    this.scene.remove(object);
+    this.objects[name] = undefined;
   }
 
   public collectionColor(collectionName: string, value: any) {

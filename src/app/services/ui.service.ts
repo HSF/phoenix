@@ -132,7 +132,7 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, remove: this.removeOBJ(name)};
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
@@ -148,6 +148,8 @@ export class UIService {
       .name('Y').onChange((value) => this.three.getObjectPosition(name).setY(value));
     objFolder.add(this.guiParameters[name], 'z', -this.configuration.maxPositionZ, this.configuration.maxPositionZ)
       .name('Z').onChange((value) => this.three.getObjectPosition(name).setZ(value));
+    // Controls for deleting the obj
+    objFolder.add(this.guiParameters[name], 'remove').name('Remove');
   }
 
   /**
@@ -180,5 +182,15 @@ export class UIService {
     // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
+  }
+
+  private removeOBJ(name: string) {
+    return () => {
+      const folder = this.geomFolder.__folders[name];
+      if (folder) {
+        this.geomFolder.removeFolder(folder);
+      }
+      this.three.removeOBJ(name);
+    };
   }
 }
