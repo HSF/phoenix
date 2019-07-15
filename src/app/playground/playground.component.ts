@@ -12,7 +12,7 @@ export class PlaygroundComponent implements OnInit {
   hiddenInfo = true;
   hiddenInfoBody = true;
   selectedObject: any;
-  private events: string[];
+  events: string[];
 
   constructor(private eventDisplay: EventdisplayService) {
   }
