@@ -120,10 +120,11 @@ export class EventdisplayService {
    */
   private addEventCollections(collections: any, addObject: any, objectType: string) {
     const typeFolder = this.ui.addEventDataTypeFolder(objectType);
+    const typeGroup = this.graphicsLibrary.addEventDataTypeGroup(objectType);
     for (const collname of Object.keys(collections)) {
       const collection = collections[collname];
       if (collection != null) {
-        this.graphicsLibrary.addCollection(collection, collname, addObject);
+        this.graphicsLibrary.addCollection(collection, collname, addObject, typeGroup);
         this.ui.addCollection(typeFolder, collname);
       }
     }
@@ -131,14 +132,6 @@ export class EventdisplayService {
 
   public buildGeometryFromParameters(parameters) {
     this.graphicsLibrary.buildGeometryFromParameters(parameters);
-  }
-
-  public saveDisplay() {
-    this.graphicsLibrary.exportScene();
-  }
-
-  public loadDisplay(scene: any) {
-    this.graphicsLibrary.loadScene(scene);
   }
 
 
@@ -149,5 +142,27 @@ export class EventdisplayService {
     }
   }
 
+  public saveDisplay() {
+    this.graphicsLibrary.exportScene();
+  }
 
+  public loadDisplay(input: any) {
+    const phoenixScene = JSON.parse(input);
+    if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
+      this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
+      this.graphicsLibrary.loadScene(phoenixScene.scene);
+    }
+  }
+
+  private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: {} }) {
+    this.ui.addEventDataFolder();
+    this.graphicsLibrary.clearEventData();
+    for (const objectType of Object.keys(sceneConfiguration.eventData)) {
+      const typeFolder = this.ui.addEventDataTypeFolder(objectType);
+      const collections = sceneConfiguration.eventData[objectType];
+      for (const collection of collections) {
+        this.ui.addCollection(typeFolder, collection);
+      }
+    }
+  }
 }

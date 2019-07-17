@@ -152,6 +152,16 @@ export class UIService {
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
   }
 
+  private removeOBJ(name: string) {
+    return () => {
+      const folder = this.geomFolder.__folders[name];
+      if (folder) {
+        this.geomFolder.removeFolder(folder);
+      }
+      this.three.removeObject(name);
+    };
+  }
+
   /**
    * Functions for event data toggles.
    */
@@ -165,7 +175,7 @@ export class UIService {
     this.guiParameters.eventData = true;
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
-    menu.onChange((value) => this.three.objectVisibility('Event Data', value));
+    menu.onChange((value) => this.three.objectVisibility('EventData', value));
   }
 
   public addEventDataTypeFolder(objectType: string) {
@@ -178,19 +188,11 @@ export class UIService {
     const collFolder = typeFolder.addFolder(collectionName);
     // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
-    showMenu.onChange((value) => this.three.collectionVisibility(collectionName, value));
+    showMenu.onChange((value) => this.three.objectVisibility(collectionName, value));
     // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
   }
 
-  private removeOBJ(name: string) {
-    return () => {
-      const folder = this.geomFolder.__folders[name];
-      if (folder) {
-        this.geomFolder.removeFolder(folder);
-      }
-      this.three.removeOBJ(name);
-    };
-  }
+
 }

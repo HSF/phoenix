@@ -31,9 +31,7 @@ export class ThreeService {
   renderer: WebGLRenderer;
   private camera: PerspectiveCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
-  private objects;
-  // EventData
-  private eventDataCollections: Group;
+  private objects: Object3D[];
   // Clipping planes
   private clipPlanes = [
     new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
@@ -62,8 +60,7 @@ export class ThreeService {
     this.setRenderer();
 
     // Object Collections
-    this.objects = {};
-    this.eventDataCollections = null;
+    this.objects = [];
     // Axis
     this.axis = null;
 
@@ -134,6 +131,17 @@ export class ThreeService {
     this.save(new Blob([text], {type: 'text/plain'}), filename);
   }
 
+  private getEventData(): Object3D {
+    let eventData = this.scene.getObjectByName('EventData');
+    if (eventData == null) {
+      eventData = new Group();
+      eventData.name = 'EventData';
+      this.scene.add(eventData);
+      this.objects.push(eventData);
+    }
+    return eventData;
+  }
+
   private save(blob, filename) {
     const link = document.createElement('a');
     link.style.display = 'none';
@@ -141,6 +149,20 @@ export class ThreeService {
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
+  }
+
+  private saveEventDataConfiguration(eventDataConfig: any) {
+    const eventData = this.getEventData();
+    for (const objectType of eventData.children) {
+      if (objectType.name) {
+        eventDataConfig[objectType.name] = [];
+        for (const collection of objectType.children) {
+          if (collection.name) {
+            eventDataConfig[objectType.name].push(collection.name);
+          }
+        }
+      }
+    }
   }
 
   /*********************************
@@ -151,18 +173,26 @@ export class ThreeService {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
 
+    const sceneConfig = {eventData: {}, geometries: {}};
+
+    this.saveEventDataConfiguration(sceneConfig.eventData);
+    // this.saveGeometriesConfiguration();
+
     // Parse the input and generate the glTF output
     exporter.parse(this.scene, (result) => {
-      const output = JSON.stringify(result, null, 2);
-      console.log(output);
+      const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
+      const output = JSON.stringify(jsonResult, null, 2);
       this.saveString(output, 'phoenix-scene.gltf');
     }, null);
   }
 
   public loadScene(scene: any) {
     const loader = new GLTFLoader();
-    loader.parse(scene, '', (gltf) => {
-      this.scene.add(gltf.scene);
+    const sceneString = JSON.stringify(scene, null, 2);
+    // @ts-ignore
+    loader.parse(sceneString, '', (gltf) => {
+      this.scene = gltf.scene;
+      this.darkBackground(false);
     });
   }
 
@@ -177,12 +207,11 @@ export class ThreeService {
   }
 
   public clearEventData() {
-    if (this.eventDataCollections != null) {
-      this.scene.remove(this.eventDataCollections);
+    const eventData = this.getEventData();
+    if (eventData != null) {
+      this.scene.remove(eventData);
     }
-    this.eventDataCollections = new Group();
-    this.scene.add(this.eventDataCollections);
-    this.objects['Event Data'] = this.eventDataCollections;
+    this.getEventData();
   }
 
   public setAxis(value: boolean) {
@@ -195,12 +224,6 @@ export class ThreeService {
 
   public autoRotate(value) {
     this.controls.autoRotate = value;
-  }
-
-  public objectVisibility(name: string, value: boolean) {
-    if (this.objects[name]) {
-      this.objects[name].visible = value;
-    }
   }
 
   public setClipping(value: boolean) {
@@ -273,16 +296,15 @@ export class ThreeService {
     raycaster.linePrecision = 20;
     raycaster.setFromCamera(mouse, this.camera);
 
-    // Obtaining the array of objects that the projected click intersects
-    const arrayOfObjects = Object.values(this.objects);
     // @ts-ignore
-    const intersects = raycaster.intersectObjects(arrayOfObjects, true);
+    const intersects = raycaster.intersectObjects(this.objects, true);
 
     if (intersects.length > 0) {
       // We want the closest one
       selectedObject.name = intersects[0].object.name;
       selectedObject.attributes.splice(0, selectedObject.attributes.length);
-      for (let key in intersects[0].object.userData) {
+
+      for (const key of Object.keys(intersects[0].object.userData)) {
         selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
       }
     }
@@ -348,7 +370,7 @@ export class ThreeService {
     object.userData = {info: data};
     this.setObjFlat(object, colour, doubleSided);
     this.scene.add(object);
-    this.objects[name] = object;
+    this.objects.push(object);
   }
 
   private setObjFlat(object3d, colour, doubleSided) {
@@ -374,7 +396,7 @@ export class ThreeService {
   }
 
   public objColor(name: string, value: any) {
-    const object = this.objects[name];
+    const object = this.scene.getObjectByName(name);
     object.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         if (child.material instanceof THREE.MeshPhongMaterial) {
@@ -384,35 +406,48 @@ export class ThreeService {
     });
   }
 
-  public removeOBJ(name: string) {
-    const object = this.objects[name];
-    this.scene.remove(object);
-    this.objects[name] = undefined;
+  public objectVisibility(name: string, value: boolean) {
+    const object = this.scene.getObjectByName(name);
+    if (object != null) {
+      object.visible = value;
+    }
   }
 
-  public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void) {
-    if (this.eventDataCollections == null) {
-      this.eventDataCollections = new Group();
-      this.scene.add(this.eventDataCollections);
-      this.objects['Event Data'] = this.eventDataCollections;
+  public getObjectPosition(name: string): Vector3 {
+    const object = this.objects.find(o => o.name === name);
+    if (object) {
+      return object.position;
     }
+  }
+
+  public removeObject(name: string) {
+    const object = this.scene.getObjectByName(name);
+    this.scene.remove(object);
+    const index = this.objects.findIndex(o => o === object);
+    if (index > -1) {
+      this.objects.splice(index, 1);
+    }
+  }
+
+  public addEventDataTypeGroup(objectType: string): Group {
+    const eventData = this.getEventData();
+    const typeGroup = new Group();
+    typeGroup.name = objectType;
+    eventData.add(typeGroup);
+    return typeGroup;
+  }
+
+  public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void, typeGroup: Group) {
     const collscene = new THREE.Group();
     collscene.name = collname;
     for (const object of collection) {
       addObject(object, collscene);
     }
-    this.eventDataCollections.add(collscene);
-  }
-
-  public collectionVisibility(collname: string, value: any) {
-    const collection = this.eventDataCollections.getObjectByName(collname);
-    if (collection != null) {
-      collection.visible = value;
-    }
+    typeGroup.add(collscene);
   }
 
   public collectionColor(collectionName: string, value: any) {
-    const collection = this.eventDataCollections.getObjectByName(collectionName);
+    const collection = this.scene.getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
       let color;
       // For jets and tracks
@@ -425,11 +460,5 @@ export class ThreeService {
     }
   }
 
-  public getObjectPosition(name: string): Vector3 {
-    const object = this.objects[name];
-    if (object) {
-      return object.position;
-    }
-  }
 
 }

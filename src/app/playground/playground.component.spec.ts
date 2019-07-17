@@ -30,6 +30,13 @@ describe('PlaygroundComponent', () => {
     http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => component.processJSON(res));
   }));
 
+  it('should load sample json file and save the scene', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => {
+      component.processJSON(res);
+      component.saveConfiguration();
+    });
+  }));
+
   it('should toggle info', () => {
     const info = component.hiddenInfo;
     component.toggleInfo();
