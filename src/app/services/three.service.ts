@@ -165,6 +165,14 @@ export class ThreeService {
     }
   }
 
+  private saveGeometriesConfiguration(geometriesConfig: any[]) {
+    for (const object of this.objects) {
+      if (object.name !== 'EventData') {
+        geometriesConfig.push(object.name);
+      }
+    }
+  }
+
   /*********************************
    *      Public functions.        *
    *********************************/
@@ -173,10 +181,10 @@ export class ThreeService {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
 
-    const sceneConfig = {eventData: {}, geometries: {}};
+    const sceneConfig = {eventData: {}, geometries: []};
 
     this.saveEventDataConfiguration(sceneConfig.eventData);
-    // this.saveGeometriesConfiguration();
+    this.saveGeometriesConfiguration(sceneConfig.geometries);
 
     // Parse the input and generate the glTF output
     exporter.parse(this.scene, (result) => {

@@ -154,7 +154,7 @@ export class EventdisplayService {
     }
   }
 
-  private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: {} }) {
+  private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: [] }) {
     this.ui.addEventDataFolder();
     this.graphicsLibrary.clearEventData();
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
@@ -163,6 +163,10 @@ export class EventdisplayService {
       for (const collection of collections) {
         this.ui.addCollection(typeFolder, collection);
       }
+    }
+
+    for (const geom of sceneConfiguration.geometries) {
+      this.ui.addGeometry(geom, '#ffffff');
     }
   }
 }
