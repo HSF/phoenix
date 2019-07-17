@@ -51,7 +51,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     const curve = new THREE.CatmullRomCurve3(points);
     const vertices = curve.getPoints(50);
-    const geometry = new THREE.Geometry().setFromPoints(vertices);
+    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
     const material = new THREE.LineBasicMaterial({color: colour});
     material.linewidth = 2;
     const splineObject = new THREE.Line(geometry, material);
@@ -108,7 +108,8 @@ export class PhoenixLoader implements EventDataLoader {
     const geometry = new THREE.BufferGeometry();
     geometry.addAttribute('position', new THREE.BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
-    const material = new THREE.PointsMaterial({size: 25});
+    const material = new THREE.PointsMaterial({size: 10});
+    material.color.set('#ff0000');
     const pointsObj = new THREE.Points(geometry, material);
     scene.add(pointsObj);
   }

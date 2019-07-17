@@ -1,5 +1,5 @@
 {
-  "234": {
+  "Event with Jets, Hits, Calorimeter Clusters and Tracks": {
     "event number": 234,
     "run number": 234,
     "Jets": {
@@ -13,7 +13,7 @@
       ]
     },
     "Hits": {
-      "Mis Mejores Hits": [
+      "Some Hits": [
         [
           [
             -27.2185,
@@ -20485,7 +20485,7 @@
       ]
     }
   },
-  "235": {
+  "Event with Tracks": {
     "event number": 235,
     "run number": 235,
     "Tracks": {
@@ -40861,9 +40861,9 @@
       ]
     }
   },
-  "236": {
+  "Event with Hits": {
     "Hits": {
-      "Mis Mejores Hits": [
+      "Some Hits": [
         [
           [
             -27.2185,
@@ -40891,6 +40891,18 @@
             -202.606
           ]
         ]
+      ]
+    }
+  },
+  "Event with Jets": {
+    "Jets": {
+      "AntiKt4EMTopoJets": [
+        {
+          "coneR": 0.4,
+          "phi": 1.56555,
+          "eta": -0.121234,
+          "energy": 5943.56
+        }
       ]
     }
   }

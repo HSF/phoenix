@@ -9,7 +9,6 @@ import {Configuration} from './configuration';
 export class EventdisplayService {
   private configuration: Configuration;
   private eventsData: any;
-  public events: string[];
 
   constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
@@ -68,20 +67,20 @@ export class EventdisplayService {
   }
 
   /**
-   * Receives an object containing all the events and saves it.
+   * Receives an object containing all the eventKeys and saves it.
    * Then it loads by default the first event.
    * @param eventsData array of strings containing the keys of the eventsData object.
    */
   public loadEventsFromJSON(eventsData: any) {
     this.eventsData = eventsData;
-    const events = [];
+    const eventKeys = [];
     for (const ev of Object.keys(eventsData)) {
       if (eventsData[ev] != null) {
-        events.push(ev);
+        eventKeys.push(ev);
       }
     }
-    this.loadEvent(events[0]);
-    return events;
+    this.loadEvent(eventKeys[0]);
+    return eventKeys;
   }
 
   /**

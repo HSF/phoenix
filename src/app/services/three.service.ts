@@ -9,7 +9,7 @@ import {
   Group, Line,
   LineBasicMaterial,
   LineSegments, Mesh,
-  MeshBasicMaterial,
+  MeshBasicMaterial, Object3D,
   PerspectiveCamera,
   Scene, Vector3,
   WebGLRenderer
@@ -159,6 +159,13 @@ export class ThreeService {
     }, null);
   }
 
+  public loadScene(scene: any) {
+    const loader = new GLTFLoader();
+    loader.parse(scene, '', (gltf) => {
+      this.scene.add(gltf.scene);
+    });
+  }
+
   public clearCanvas() {
     const elements = document.body.getElementsByClassName('ui-element');
     const elementsSize = elements.length;
@@ -220,13 +227,6 @@ export class ThreeService {
     }
   }
 
-  public loadScene(scene: any) {
-    const loader = new GLTFLoader();
-    loader.parse(scene, '', (gltf) => {
-      this.scene.add(gltf.scene);
-    });
-  }
-
   public darkBackground(value: boolean) {
     let background = 0xffffff;
     if (value) {
@@ -251,9 +251,46 @@ export class ThreeService {
     }
   }
 
-  /*********************************
-   * Loading geometries functions. *
-   *********************************/
+  public setAnimationLoop(animate: () => void) {
+    this.renderer.vr.enabled = true;
+    this.renderer.setAnimationLoop(animate);
+  }
+
+  public setVRButton() {
+    const webVR = new WebVR();
+    let canvas = document.getElementById('eventDisplay');
+    if (canvas == null) {
+      canvas = document.body;
+    }
+    canvas.appendChild(webVR.createButton(this.renderer, null));
+  }
+
+  public onDocumentMouseDown(event, selectedObject: any) {
+    event.preventDefault();
+    const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1);
+    const raycaster = new THREE.Raycaster();
+    raycaster.linePrecision = 20;
+    raycaster.setFromCamera(mouse, this.camera);
+
+    // Obtaining the array of objects that the projected click intersects
+    const arrayOfObjects = Object.values(this.objects);
+    // @ts-ignore
+    const intersects = raycaster.intersectObjects(arrayOfObjects, true);
+
+    if (intersects.length > 0) {
+      // We want the closest one
+      selectedObject.name = intersects[0].object.name;
+      selectedObject.attributes.splice(0, selectedObject.attributes.length);
+      for (let key in intersects[0].object.userData) {
+        selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
+      }
+    }
+  }
+
+  /**************************************
+   * Functions for loading geometries . *
+   **************************************/
 
   public buildGeometryFromParameters(parameters) {
     // Make the geometry and material
@@ -296,17 +333,20 @@ export class ThreeService {
     }
     const objLoader = new OBJLoader();
     objLoader.load(filename, (object) => {
-      this.setObjFlat(object, colour, doubleSided);
-      object.name = name;
-      this.scene.add(object);
-      this.objects[name] = object;
+      this.processOBJ(object, name, colour, doubleSided, 'OBJ file');
     });
   }
 
   public loadOBJFromContent(content: string, name: string) {
     const objLoader = new OBJLoader();
     const object = objLoader.parse(content);
-    this.setObjFlat(object, 0x41a6f4, false);
+    this.processOBJ(object, name, 0x41a6f4, false, 'OBJ file loaded from the client.');
+  }
+
+  private processOBJ(object: Object3D, name: string, colour: any, doubleSided: boolean, data?: string) {
+    object.name = name;
+    object.userData = {info: data};
+    this.setObjFlat(object, colour, doubleSided);
     this.scene.add(object);
     this.objects[name] = object;
   }
@@ -323,12 +363,31 @@ export class ThreeService {
 
     object3d.traverse((child) => {
       if (child instanceof THREE.Mesh) {
+        child.name = object3d.name;
+        child.userData = object3d.userData;
         child.material = material2;
         // enable casting shadows
         child.castShadow = false;
         child.receiveShadow = false;
       }
     });
+  }
+
+  public objColor(name: string, value: any) {
+    const object = this.objects[name];
+    object.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        if (child.material instanceof THREE.MeshPhongMaterial) {
+          child.material.color.set(value);
+        }
+      }
+    });
+  }
+
+  public removeOBJ(name: string) {
+    const object = this.objects[name];
+    this.scene.remove(object);
+    this.objects[name] = undefined;
   }
 
   public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void) {
@@ -352,24 +411,6 @@ export class ThreeService {
     }
   }
 
-  public objColor(name: string, value: any) {
-    const object = this.objects[name];
-    object.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        if (child.material instanceof THREE.MeshPhongMaterial) {
-          child.material.color.set(value);
-        }
-      }
-    });
-  }
-
-
-  public removeOBJ(name: string) {
-    const object = this.objects[name];
-    this.scene.remove(object);
-    this.objects[name] = undefined;
-  }
-
   public collectionColor(collectionName: string, value: any) {
     const collection = this.eventDataCollections.getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
@@ -388,43 +429,6 @@ export class ThreeService {
     const object = this.objects[name];
     if (object) {
       return object.position;
-    }
-  }
-
-  public setAnimationLoop(animate: () => void) {
-    this.renderer.vr.enabled = true;
-    this.renderer.setAnimationLoop(animate);
-  }
-
-  public setVRButton() {
-    const webVR = new WebVR();
-    let canvas = document.getElementById('eventDisplay');
-    if (canvas == null) {
-      canvas = document.body;
-    }
-    canvas.appendChild(webVR.createButton(this.renderer, null));
-  }
-
-  onDocumentMouseDown(event, selectedObject: any) {
-    event.preventDefault();
-    const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1);
-    const raycaster = new THREE.Raycaster();
-    raycaster.linePrecision = 20;
-    raycaster.setFromCamera(mouse, this.camera);
-
-    // Obtaining the array of objects that the projected click intersects
-    const arrayOfObjects = Object.values(this.objects);
-    // @ts-ignore
-    const intersects = raycaster.intersectObjects(arrayOfObjects, true);
-
-    if (intersects.length > 0) {
-      // We want the closest one
-      selectedObject.name = intersects[0].object.name;
-      selectedObject.attributes.splice(0, selectedObject.attributes.length);
-      for (let key in intersects[0].object.userData) {
-        selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
-      }
     }
   }
 
