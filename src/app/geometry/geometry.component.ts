@@ -5,7 +5,7 @@ import {Configuration} from '../services/configuration';
 @Component({
   selector: 'app-geometry',
   templateUrl: './geometry.component.html',
-  styleUrls: ['./geometry.component.css']
+  styleUrls: ['./geometry.component.scss']
 })
 export class GeometryComponent implements OnInit {
 

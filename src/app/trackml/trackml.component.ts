@@ -6,7 +6,7 @@ import {PresetView} from '../services/preset-view';
 @Component({
   selector: 'app-trackml',
   templateUrl: './trackml.component.html',
-  styleUrls: ['./trackml.component.css']
+  styleUrls: ['./trackml.component.scss']
 })
 export class TrackmlComponent implements OnInit {
 

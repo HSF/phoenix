@@ -36,40 +36,38 @@ textarea {
   width: 8rem;
   text-align: center;
   margin: 0 0.4rem;
-}
 
-.imageLabel img {
-  max-height: 2em;
-}
+  &.loadExport {
+    padding: 0.8em 0.2em;
+    width: 7rem;
+    img {
+      max-height: 1.2em;
+    }
+  }
 
-.imageLabel:hover {
-  background-color: #118AB2;
-}
-
-.imageLabel.loadExport img {
-  max-height: 1.2em;
-}
-
-.imageLabel.loadExport {
-  padding: 0.8em 0.2em;
-  width: 7rem;
+  img {
+    max-height: 2em;
+    &:hover {
+      background-color: #118AB2;
+    }
+  }
 }
 
 #exportScene {
   background-color: #5BD99E;
+  &:hover {
+    background-color: #05c292;
+  }
 }
 
-#exportScene:hover {
-  background-color: #05c292;
-}
 
 #importScene {
   background-color: #ecc25e;
+  &:hover {
+    background-color: #d6b44d;
+  }
 }
 
-#importScene:hover {
-  background-color: #d6b44d;
-}
 
 .infoPanelWrapper {
   position: absolute;
@@ -90,14 +88,14 @@ textarea {
   overflow-y: scroll;
   z-index: 99;
   background: white;
-}
 
-#infoPanel.hidden {
-  display: none;
-}
+  &.hidden {
+    display: none;
+  }
 
-#infoPanel attributeField {
-  max-width: 12rem;
+  attributeField {
+    max-width: 12rem;
+  }
 }
 
 .infoPanelHeader {
@@ -109,27 +107,24 @@ textarea {
   border-bottom: 1px solid rgba(88, 88, 88, 0.08);
   margin-bottom: 0.7rem;
   padding: 0.8rem 0.6rem;
+
+  h5 {
+    font-family: Circular, sans-serif;
+    margin: 0 1rem;
+  }
+
+  img {
+    height: 0.6rem;
+    cursor: pointer;
+  }
 }
 
-.infoPanelHeader h5 {
-  font-family: Circular, sans-serif;
-}
-
-.infoPanelHeader img {
-  height: 0.6rem;
-  cursor: pointer;
-}
-
-.infoPanelHeader h5 {
-  margin: 0 1rem;
-}
 
 #infoPanelBody {
   margin-bottom: 1rem;
-}
-
-#infoPanelBody.hidden {
-  display: none;
+  &.hidden {
+    display: none;
+  }
 }
 
 
@@ -142,9 +137,10 @@ textarea {
   background-position: center;
   width: 3rem;
   margin-left: 0.4rem;
-}
-#modalToggle:focus {
-  outline: none;
-  box-shadow: none;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 }
 

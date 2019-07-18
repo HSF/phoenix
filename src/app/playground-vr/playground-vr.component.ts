@@ -5,7 +5,7 @@ import {Configuration} from '../services/configuration';
 @Component({
   selector: 'app-playground-vr',
   templateUrl: './playground-vr.component.html',
-  styleUrls: ['./playground-vr.component.css']
+  styleUrls: ['./playground-vr.component.scss']
 })
 export class PlaygroundVrComponent implements OnInit {
 

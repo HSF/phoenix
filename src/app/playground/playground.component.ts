@@ -6,7 +6,7 @@ import {PresetView} from '../services/preset-view';
 @Component({
   selector: 'app-playground',
   templateUrl: './playground.component.html',
-  styleUrls: ['./playground.component.css']
+  styleUrls: ['./playground.component.scss']
 })
 export class PlaygroundComponent implements OnInit {
   hiddenInfo = true;

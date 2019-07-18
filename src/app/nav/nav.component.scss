@@ -29,14 +29,13 @@ nav a {
 #github-link {
   display: flex;
   align-items: center;
-}
 
-#github-link a img {
-  height: 1.6rem;
-}
-
-#github-link a img:hover {
-  opacity: 0.8;
+  a img {
+    height: 1.6rem;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 
 .dropdown-menu {

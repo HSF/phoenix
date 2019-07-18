@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 @Component({
   selector: 'app-atlas',
   templateUrl: './atlas.component.html',
-  styleUrls: ['./atlas.component.css']
+  styleUrls: ['./atlas.component.scss']
 })
 export class AtlasComponent implements OnInit {
   events: any;
