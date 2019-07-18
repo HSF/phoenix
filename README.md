@@ -34,7 +34,7 @@ User manual can be found [here](./src/assets/docs/users.md).
 
 Developer guide can be found [here](./src/assets/docs/developers.md).
 
-Contribution guide can be found [here](https://dd4hep.web.cern.ch/dd4hep/reference/).
+Contribution guide can be found [here](./CONTRIBUTING.md).
 
 ## Contact
 
