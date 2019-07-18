@@ -1,4 +1,4 @@
-# Users' manual
+# User manual
 
 ## Using this with your own data
 
