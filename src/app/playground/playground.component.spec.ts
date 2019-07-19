@@ -43,15 +43,22 @@ describe('PlaygroundComponent', () => {
   it('should load sample json file and save the scene', inject([HttpClient], (http: HttpClient) => {
     http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => {
       const text = JSON.stringify(res, null, 2);
-      const blob = new Blob([text], {type: 'application/json'})
+      const blob = new Blob([text], {type: 'application/json'});
       component.handleEventDataInput([blob]);
       component.saveConfiguration();
     });
   }));
 
-  it('should load sample obj file', inject([HttpClient], (http: HttpClient) => {
-    http.get('../../assets/files/Pix.obj').subscribe((res) => {
+  it('should sample obj file', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/toroids.obj').subscribe((res) => {
       component.processOBJ(res, 'Pix');
+    });
+  }));
+
+  it('should load scene', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/phoenix-scene.gltf').subscribe((res) => {
+      const content = JSON.stringify(res, null, 2);
+      component.processGLTF(content);
     });
   }));
 
