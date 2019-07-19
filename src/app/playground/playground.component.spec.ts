@@ -30,10 +30,28 @@ describe('PlaygroundComponent', () => {
     http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => component.processJSON(res));
   }));
 
-  it('should load sample json file and save the scene', inject([HttpClient], (http: HttpClient) => {
+  it('should multi-event file and change event', inject([HttpClient], (http: HttpClient) => {
     http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => {
       component.processJSON(res);
+      if (component.events[1]) {
+        const selected = {target: {value: component.events[1]}};
+        component.onOptionsSelected(selected);
+      }
+    });
+  }));
+
+  it('should load sample json file and save the scene', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/atlaseventdump2.json').subscribe((res) => {
+      const text = JSON.stringify(res, null, 2);
+      const blob = new Blob([text], {type: 'application/json'})
+      component.handleEventDataInput([blob]);
       component.saveConfiguration();
+    });
+  }));
+
+  it('should load sample obj file', inject([HttpClient], (http: HttpClient) => {
+    http.get('../../assets/files/Pix.obj').subscribe((res) => {
+      component.processOBJ(res, 'Pix');
     });
   }));
 

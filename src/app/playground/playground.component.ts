@@ -44,7 +44,7 @@ export class PlaygroundComponent implements OnInit {
   }
 
   processJSON(json: any) {
-    return this.eventDisplay.loadEventsFromJSON(json);
+    this.events = this.eventDisplay.loadEventsFromJSON(json);
   }
 
   processOBJ(content: any, name: any) {
@@ -61,7 +61,7 @@ export class PlaygroundComponent implements OnInit {
     if (file.type === 'application/json') {
       reader.onload = () => {
         const json = JSON.parse(reader.result.toString());
-        this.events = this.processJSON(json);
+        this.processJSON(json);
       };
       reader.readAsText(file);
     } else {

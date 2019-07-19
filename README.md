@@ -8,8 +8,8 @@
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
 
-
 ![Phoenix Logo](./src/assets/images/logo-text.svg)
+
 # Phoenix Project
 
 The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
@@ -30,11 +30,9 @@ The app will automatically reload if you change any of the source files.
 
 
 ## Documentation
-User manual can be found [here](./src/assets/docs/users.md).
-
-Developer guide can be found [here](./src/assets/docs/developers.md).
-
-Contribution guide can be found [here](./CONTRIBUTING.md).
+* [User manual.](./src/assets/docs/users.md)
+* [How to contribute.](./CONTRIBUTING.md)
+* [Developer guide.](./src/assets/docs/developers.md)
 
 ## Contact
 

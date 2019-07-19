@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 export class PhoenixLoader implements EventDataLoader {
   addTrack(track: any, scene: Scene) {
+    // Track with no points
     if (!track.pos) {
       return;
     }
@@ -17,8 +18,7 @@ export class PhoenixLoader implements EventDataLoader {
     const positions = track.pos;
     const numPoints = positions.length;
     if (numPoints < 3) {
-      console.log('Track with too few points[' + numPoints + ']. Skipping. Positions are: '
-        + positions + ' particle_id: ' + track.particle_id);
+      // Track with too few points
       return;
     }
     // Now sort these.
@@ -38,7 +38,7 @@ export class PhoenixLoader implements EventDataLoader {
     if (track.hasOwnProperty('mom')) {
       const mom = track.mom;
       if (mom[0] * mom[0] + mom[1] * mom[1] + mom[2] * mom[2] < 0.25) {
-        console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
+        // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
         return;
       }
     }
@@ -61,8 +61,6 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   addJet(jet: any, scene: Scene) {
-    console.log(jet);
-
     const eta = jet.eta;
     const phi = jet.phi;
     const theta = 2 * Math.atan(Math.pow(Math.E, eta));

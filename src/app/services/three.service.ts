@@ -336,7 +336,7 @@ export class ThreeService {
     let modulecentre;
     const ztiltAngle = 0;
     for (let elZ = 0; elZ < parameters.numZEl; elZ++) {
-      console.log(elZ);
+      // console.log(elZ);
       let phi = parameters.phiOffset;
       for (let elPhi = 0; elPhi < parameters.numPhiEl; elPhi++) {
         phi += phistep;
