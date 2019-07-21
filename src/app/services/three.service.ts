@@ -200,6 +200,7 @@ export class ThreeService {
     // @ts-ignore
     loader.parse(sceneString, '', (gltf) => {
       this.scene = gltf.scene;
+      this.setLights();
       this.darkBackground(false);
     });
   }

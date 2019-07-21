@@ -47,9 +47,10 @@ textarea {
 
   img {
     max-height: 2em;
-    &:hover {
-      background-color: #118AB2;
-    }
+  }
+
+  &:hover {
+    background-color: #118AB2;
   }
 }
 
