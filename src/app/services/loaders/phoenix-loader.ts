@@ -1,5 +1,5 @@
 import {EventDataLoader} from './event-data-loader';
-import {Scene} from 'three';
+import {Scene, Vector3} from 'three';
 import * as THREE from 'three';
 import {UIService} from '../ui.service';
 import {ThreeService} from '../three.service';
@@ -8,6 +8,9 @@ export class PhoenixLoader implements EventDataLoader {
   private graphicsLibrary: ThreeService;
   private ui: UIService;
   private eventData: any;
+  // Cluster constants
+  private maxR = 1100.0;
+  private maxZ = 3200.0;
 
   public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
     this.graphicsLibrary = graphicsLibrary;
@@ -25,6 +28,9 @@ export class PhoenixLoader implements EventDataLoader {
     }
     if (eventData.Hits) {
       this.addEventCollections(eventData.Hits, this.addHits, 'Hits');
+    }
+    if (eventData.CaloClusters) {
+      this.addEventCollections(eventData.CaloClusters, this.addCluster, 'CaloClusters');
     }
   }
 
@@ -149,5 +155,27 @@ export class PhoenixLoader implements EventDataLoader {
     scene.add(pointsObj);
   }
 
+  protected addCluster(cluster: any, scene: Scene) {
+    const maxR = 1100.0;
+    const maxZ = 3200.0;
+    const length = cluster.energy * 0.003;
+    const geometry = new THREE.BoxGeometry(30, 30, length);
+    const material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff});
+    const cube = new THREE.Mesh(geometry, material);
+    const theta = 2 * Math.atan(Math.pow(Math.E, cluster.eta));
+    const pos = new THREE.Vector3(4000.0 * Math.cos(cluster.phi) * Math.sin(theta),
+      4000.0 * Math.sin(cluster.phi) * Math.sin(theta),
+      4000.0 * Math.cos(theta));
+    cube.position.x = pos.x;
+    cube.position.y = pos.y;
+    if (pos.x * pos.x + pos.y * pos.y > maxR * maxR) {
+      cube.position.x = maxR * Math.cos(cluster.phi);
+      cube.position.y = maxR * Math.sin(cluster.phi);
+    }
+    cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+    cube.lookAt(new THREE.Vector3(0, 0, 0));
+
+    scene.add(cube);
+  }
 
 }
