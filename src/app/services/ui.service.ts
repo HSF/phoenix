@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import * as Stats from 'stats-js';
 import * as dat from 'dat.gui';
 import {ThreeService} from './three.service';
-import {Configuration} from './configuration';
-import {PresetView} from './preset-view';
+import {Configuration} from './loaders/configuration.model';
+import {PresetView} from './extras/preset-view.model';
 
 @Injectable({
   providedIn: 'root'

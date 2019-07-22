@@ -7,6 +7,7 @@ export class WebVR {
    */
 
   public createButton(renderer, options) {
+    let button;
 
     if (options && options.frameOfReferenceType) {
       renderer.vr.setFrameOfReferenceType(options.frameOfReferenceType);
@@ -19,6 +20,7 @@ export class WebVR {
       button.style.cursor = 'pointer';
       button.style.left = 'calc(50% - 50px)';
       button.style.width = '100px';
+      button.style.bottom = '6rem';
 
       button.textContent = 'ENTER VR';
 
@@ -64,7 +66,7 @@ export class WebVR {
       button.style.cursor = 'pointer';
       button.style.left = 'calc(50% - 50px)';
       button.style.width = '100px';
-
+      button.style.bottom = '6rem';
       button.textContent = 'ENTER VR';
 
       button.onmouseenter = () => {
@@ -99,7 +101,7 @@ export class WebVR {
       button.style.cursor = 'auto';
       button.style.left = 'calc(50% - 75px)';
       button.style.width = '150px';
-
+      button.style.bottom = '6rem';
       button.textContent = 'VR NOT FOUND';
 
       button.onmouseenter = null;
@@ -130,7 +132,7 @@ export class WebVR {
 
     if ('xr' in navigator) {
 
-      var button = document.createElement('button');
+      button = document.createElement('button');
       button.style.display = 'none';
 
       stylizeElement(button);
@@ -148,7 +150,7 @@ export class WebVR {
       return button;
 
     } else if ('getVRDisplays' in navigator) {
-      const button = document.createElement('button');
+      button = document.createElement('button');
       button.style.display = 'none';
       stylizeElement(button);
 

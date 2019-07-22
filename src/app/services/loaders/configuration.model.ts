@@ -1,6 +1,6 @@
-import {PresetView} from './preset-view';
-import {EventDataLoader} from './loaders/event-data-loader';
-import {PhoenixLoader} from './loaders/phoenix-loader';
+import {PresetView} from '../extras/preset-view.model';
+import {EventDataLoader} from './event-data-loader';
+import {PhoenixLoader} from './phoenix-loader';
 
 export class Configuration {
   xClipPosition: number;

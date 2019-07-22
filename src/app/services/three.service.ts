@@ -14,10 +14,10 @@ import {
   Scene, Vector3,
   WebGLRenderer
 } from 'three';
-import {Configuration} from './configuration';
+import {Configuration} from './loaders/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {WebVR} from './web-vr';
+import {WebVR} from './extras/web-vr';
 
 
 @Injectable({

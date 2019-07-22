@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ThreeService} from './three.service';
 import {UIService} from './ui.service';
-import {Configuration} from './configuration';
+import {Configuration} from './loaders/configuration.model';
 
 @Injectable({
   providedIn: 'root'
