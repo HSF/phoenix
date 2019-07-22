@@ -1,8 +1,8 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {PlaygroundComponent} from './playground.component';
 import {AttributePipe} from '../../services/extras/attribute.pipe';
-import {HttpClient} from '@angular/common/http';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import * as file from '../../../assets/files/atlaseventdump2.json';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 describe('PlaygroundComponent', () => {
   let component: PlaygroundComponent;
@@ -11,7 +11,7 @@ describe('PlaygroundComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PlaygroundComponent, AttributePipe],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientModule]
     })
       .compileComponents();
   }));
