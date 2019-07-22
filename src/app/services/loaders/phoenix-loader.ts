@@ -1,9 +1,46 @@
 import {EventDataLoader} from './event-data-loader';
 import {Scene} from 'three';
 import * as THREE from 'three';
+import {UIService} from '../ui.service';
+import {ThreeService} from '../three.service';
 
 export class PhoenixLoader implements EventDataLoader {
-  addTrack(track: any, scene: Scene) {
+  private graphicsLibrary: ThreeService;
+  private ui: UIService;
+  private eventData: any;
+
+  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
+    this.graphicsLibrary = graphicsLibrary;
+    this.ui = ui;
+    this.eventData = eventData;
+    // Creating UI folder
+    this.ui.addEventDataFolder();
+    // Clearing existing event data
+    this.graphicsLibrary.clearEventData();
+    if (eventData.Tracks) {
+      this.addEventCollections(eventData.Tracks, this.addTrack, 'Tracks');
+    }
+    if (eventData.Jets) {
+      this.addEventCollections(eventData.Jets, this.addJet, 'Jets');
+    }
+    if (eventData.Hits) {
+      this.addEventCollections(eventData.Hits, this.addHits, 'Hits');
+    }
+  }
+
+  private addEventCollections(collections: any, addObject: any, objectType: string) {
+    const typeFolder = this.ui.addEventDataTypeFolder(objectType);
+    const typeGroup = this.graphicsLibrary.addEventDataTypeGroup(objectType);
+    for (const collname of Object.keys(collections)) {
+      const collection = collections[collname];
+      if (collection != null) {
+        this.graphicsLibrary.addCollection(collection, collname, addObject, typeGroup);
+        this.ui.addCollection(typeFolder, collname);
+      }
+    }
+  }
+
+  protected addTrack(track: any, scene: Scene) {
     // Track with no points
     if (!track.pos) {
       return;
@@ -60,7 +97,7 @@ export class PhoenixLoader implements EventDataLoader {
     scene.add(splineObject);
   }
 
-  addJet(jet: any, scene: Scene) {
+  protected addJet(jet: any, scene: Scene) {
     const eta = jet.eta;
     const phi = jet.phi;
     const theta = 2 * Math.atan(Math.pow(Math.E, eta));
@@ -94,7 +131,7 @@ export class PhoenixLoader implements EventDataLoader {
     scene.add(mesh);
   }
 
-  addHits(hits: any, scene: Scene) {
+  protected addHits(hits: any, scene: Scene) {
     const pointPos = new Float32Array(hits.length * 3);
     let i = 0;
     for (const hit of hits) {

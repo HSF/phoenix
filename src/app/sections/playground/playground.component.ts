@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import {EventdisplayService} from '../services/eventdisplay.service';
-import {Configuration} from '../services/loaders/configuration.model';
-import {PresetView} from '../services/extras/preset-view.model';
+import {Component, OnInit} from '@angular/core';
+import {EventdisplayService} from '../../services/eventdisplay.service';
+import {Configuration} from '../../services/loaders/configuration.model';
+import {PresetView} from '../../services/extras/preset-view.model';
 
 @Component({
-  selector: 'app-playground-vr',
-  templateUrl: './playground-vr.component.html',
-  styleUrls: ['./playground-vr.component.scss']
+  selector: 'app-playground',
+  templateUrl: './playground.component.html',
+  styleUrls: ['./playground.component.scss']
 })
-export class PlaygroundVrComponent implements OnInit {
-
+export class PlaygroundComponent implements OnInit {
   hiddenInfo = true;
   hiddenInfoBody = true;
   selectedObject: any;
@@ -26,7 +25,8 @@ export class PlaygroundVrComponent implements OnInit {
       new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
       new PresetView('Right View', [0, 0, 6000], 'right.svg')
     ];
-    this.eventDisplay.initVR(configuration);
+    this.eventDisplay.init(configuration);
+    this.eventDisplay.allowSelection(this.selectedObject);
   }
 
 

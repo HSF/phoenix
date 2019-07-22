@@ -31,15 +31,11 @@ export class Configuration {
     return this.presetViews.length > 0;
   }
 
-  addTrack() {
-    return this.eventDataLoader.addTrack;
+  public setEventDataLoader(eventDataLoader: EventDataLoader) {
+    this.eventDataLoader = eventDataLoader;
   }
 
-  addJet() {
-    return this.eventDataLoader.addJet;
-  }
-
-  addHits() {
-    return this.eventDataLoader.addHits;
+  public getEventDataLoader(): EventDataLoader {
+    return this.eventDataLoader;
   }
 }

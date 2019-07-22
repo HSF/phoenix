@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {EventdisplayService} from '../services/eventdisplay.service';
-import {Configuration} from '../services/loaders/configuration.model';
-import {PresetView} from '../services/extras/preset-view.model';
+import {EventdisplayService} from '../../services/eventdisplay.service';
+import {Configuration} from '../../services/loaders/configuration.model';
+import {PresetView} from '../../services/extras/preset-view.model';
 import {HttpClient} from '@angular/common/http';
 
 

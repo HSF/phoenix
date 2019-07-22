@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {EventdisplayService} from '../services/eventdisplay.service';
-import {Configuration} from '../services/loaders/configuration.model';
+import {EventdisplayService} from '../../services/eventdisplay.service';
+import {Configuration} from '../../services/loaders/configuration.model';
 
 @Component({
   selector: 'app-geometry',

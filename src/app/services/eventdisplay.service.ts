@@ -71,7 +71,7 @@ export class EventdisplayService {
    * Then it loads by default the first event.
    * @param eventsData array of strings containing the keys of the eventsData object.
    */
-  public loadEventsFromJSON(eventsData: any) {
+  public loadEventsFromJSON(eventsData: any): string[] {
     this.eventsData = eventsData;
     const eventKeys = [];
     for (const ev of Object.keys(eventsData)) {
@@ -101,33 +101,7 @@ export class EventdisplayService {
    * @param eventData object containing the event data.
    */
   public buildEventDataFromJSON(eventData: any) {
-    this.ui.addEventDataFolder();
-    this.graphicsLibrary.clearEventData();
-    if (eventData.Tracks) {
-      this.addEventCollections(eventData.Tracks, this.configuration.addTrack(), 'Tracks');
-    }
-    if (eventData.Jets) {
-      this.addEventCollections(eventData.Jets, this.configuration.addJet(), 'Jets');
-    }
-    if (eventData.Hits) {
-      this.addEventCollections(eventData.Hits, this.configuration.addHits(), 'Hits');
-    }
-  }
-
-  /**
-   * Adds all the collections of a given object type.
-   * @param addObject function that will handle building every object from the parameters.
-   */
-  private addEventCollections(collections: any, addObject: any, objectType: string) {
-    const typeFolder = this.ui.addEventDataTypeFolder(objectType);
-    const typeGroup = this.graphicsLibrary.addEventDataTypeGroup(objectType);
-    for (const collname of Object.keys(collections)) {
-      const collection = collections[collname];
-      if (collection != null) {
-        this.graphicsLibrary.addCollection(collection, collname, addObject, typeGroup);
-        this.ui.addCollection(typeFolder, collname);
-      }
-    }
+    this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
   }
 
   public buildGeometryFromParameters(parameters) {

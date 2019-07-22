@@ -1,9 +1,6 @@
-import {Scene} from 'three';
+import {ThreeService} from '../three.service';
+import {UIService} from '../ui.service';
 
 export interface EventDataLoader {
-  addTrack(track: any, scene: Scene);
-
-  addJet(jet: any, scene: Scene);
-
-  addHits(hits: any, scene: Scene);
+  buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void;
 }
