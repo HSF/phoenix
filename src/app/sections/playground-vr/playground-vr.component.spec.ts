@@ -1,23 +1,24 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
-import {PlaygroundComponent} from './playground.component';
-import {AttributePipe} from '../../services/extras/attribute.pipe';
-import {HttpClient} from '@angular/common/http';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('PlaygroundComponent', () => {
-  let component: PlaygroundComponent;
-  let fixture: ComponentFixture<PlaygroundComponent>;
+import {PlaygroundVrComponent} from './playground-vr.component';
+import {AttributePipe} from '../../services/extras/attribute.pipe';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClient} from '@angular/common/http';
+
+describe('PlaygroundVrComponent', () => {
+  let component: PlaygroundVrComponent;
+  let fixture: ComponentFixture<PlaygroundVrComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PlaygroundComponent, AttributePipe],
+      declarations: [PlaygroundVrComponent, AttributePipe],
       imports: [HttpClientTestingModule]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlaygroundComponent);
+    fixture = TestBed.createComponent(PlaygroundVrComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
