@@ -1,5 +1,5 @@
 import {EventDataLoader} from './event-data-loader';
-import {Scene, Vector3} from 'three';
+import {Group, Object3D, Scene, Vector3} from 'three';
 import * as THREE from 'three';
 import {UIService} from '../ui.service';
 import {ThreeService} from '../three.service';
@@ -8,9 +8,6 @@ export class PhoenixLoader implements EventDataLoader {
   private graphicsLibrary: ThreeService;
   private ui: UIService;
   private eventData: any;
-  // Cluster constants
-  private maxR = 1100.0;
-  private maxZ = 3200.0;
 
   public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
     this.graphicsLibrary = graphicsLibrary;
@@ -20,6 +17,10 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui.addEventDataFolder();
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
+    this.loadObjectTypes(eventData);
+  }
+
+  private loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
       this.addEventCollections(eventData.Tracks, this.addTrack, 'Tracks');
     }
@@ -32,6 +33,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.CaloClusters) {
       this.addEventCollections(eventData.CaloClusters, this.addCluster, 'CaloClusters');
     }
+    if (eventData.Muons) {
+      this.addEventCollections(eventData.Muons, this.addMuon, 'Muons');
+    }
   }
 
   private addEventCollections(collections: any, addObject: any, objectType: string) {
@@ -40,13 +44,22 @@ export class PhoenixLoader implements EventDataLoader {
     for (const collname of Object.keys(collections)) {
       const collection = collections[collname];
       if (collection != null) {
-        this.graphicsLibrary.addCollection(collection, collname, addObject, typeGroup);
+        this.addCollection(collection, collname, addObject, typeGroup);
         this.ui.addCollection(typeFolder, collname);
       }
     }
   }
 
-  protected addTrack(track: any, scene: Scene) {
+  private addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void, typeGroup: Group) {
+    const collscene = new THREE.Group();
+    collscene.name = collname;
+    for (const object of collection) {
+      addObject.bind(this)(object, collscene);
+    }
+    typeGroup.add(collscene);
+  }
+
+  protected addTrack(track: any, scene: Object3D): Object3D {
     // Track with no points
     if (!track.pos) {
       return;
@@ -101,9 +114,10 @@ export class PhoenixLoader implements EventDataLoader {
     splineObject.userData = track;
     splineObject.name = 'Track';
     scene.add(splineObject);
+    return splineObject;
   }
 
-  protected addJet(jet: any, scene: Scene) {
+  protected addJet(jet: any, scene: Object3D): Object3D {
     const eta = jet.eta;
     const phi = jet.phi;
     const theta = 2 * Math.atan(Math.pow(Math.E, eta));
@@ -135,9 +149,10 @@ export class PhoenixLoader implements EventDataLoader {
     mesh.userData = jet;
     mesh.name = 'Jet';
     scene.add(mesh);
+    return mesh;
   }
 
-  protected addHits(hits: any, scene: Scene) {
+  protected addHits(hits: any, scene: Object3D): Object3D {
     const pointPos = new Float32Array(hits.length * 3);
     let i = 0;
     for (const hit of hits) {
@@ -153,9 +168,10 @@ export class PhoenixLoader implements EventDataLoader {
     material.color.set('#ff0000');
     const pointsObj = new THREE.Points(geometry, material);
     scene.add(pointsObj);
+    return pointsObj;
   }
 
-  protected addCluster(cluster: any, scene: Scene) {
+  protected addCluster(cluster: any, scene: Object3D): Object3D {
     const maxR = 1100.0;
     const maxZ = 3200.0;
     const length = cluster.energy * 0.003;
@@ -176,6 +192,32 @@ export class PhoenixLoader implements EventDataLoader {
     cube.lookAt(new THREE.Vector3(0, 0, 0));
 
     scene.add(cube);
+    return cube;
+  }
+
+  protected addMuon(muon: any, scene: Scene) {
+    const muonScene = new Group();
+    for (const clusterID of muon.LinkedClusters) {
+      const clusterColl = clusterID.split(':')[0];
+      const clusterIndex = clusterID.split(':')[1];
+      if (clusterColl && clusterIndex && this.eventData.CaloClusters && this.eventData.CaloClusters[clusterColl]) {
+        const cluster = this.eventData.CaloClusters[clusterColl][clusterIndex];
+        if (cluster) {
+          this.addCluster(cluster, muonScene);
+        }
+      }
+    }
+    for (const trackID of muon.LinkedTracks) {
+      const trackColl = trackID.split(':')[0];
+      const trackIndex = trackID.split(':')[1];
+      if (trackColl && trackIndex && this.eventData.Tracks && this.eventData.Tracks[trackColl]) {
+        const track = this.eventData.Tracks[trackColl][trackIndex];
+        if (track) {
+          this.addTrack(track, muonScene);
+        }
+      }
+    }
+    scene.add(muonScene);
   }
 
 }

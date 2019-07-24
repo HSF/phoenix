@@ -172,14 +172,18 @@ export class UIService {
     }
     // A new folder for the Event Data is added to the GUI.
     this.eventFolder = this.gui.addFolder('Event Data');
-    this.guiParameters.eventData = true;
+    this.guiParameters.eventData = {show: true};
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
-    const menu = this.eventFolder.add(this.guiParameters, 'eventData').name('Show').listen();
+    const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
     menu.onChange((value) => this.three.objectVisibility('EventData', value));
   }
 
   public addEventDataTypeFolder(objectType: string) {
-    return this.eventFolder.addFolder(objectType);
+    const typeFolder = this.eventFolder.addFolder(objectType);
+    this.guiParameters.eventData[objectType] = true;
+    const menu = typeFolder.add(this.guiParameters.eventData, objectType).name('Show').listen();
+    menu.onChange((value) => this.three.objectVisibility(objectType, value));
+    return typeFolder;
   }
 
   public addCollection(typeFolder: any, collectionName: string) {

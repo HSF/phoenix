@@ -20483,6 +20483,36 @@
           "energy": 10469.1
         }
       ]
+    },
+    "Muons": {
+      "Muons-Collection-1": [
+        {
+          "Eta": 1.7814583778381348,
+          "LinkedClusters": [
+            "CaloCalTopoClusters:0"
+          ],
+          "LinkedTracks": [
+            "InDetTrackParticles:10"
+          ],
+          "PassedHighPt": false,
+          "Phi": 1.0892446041107178,
+          "Quality": "VeryLoose",
+          "Type": "SegmentTagged"
+        },
+        {
+          "Eta": 0.036324337124824524,
+          "LinkedClusters": [
+            "CaloCalTopoClusters:1"
+          ],
+          "LinkedTracks": [
+            "InDetTrackParticles:51"
+          ],
+          "PassedHighPt": false,
+          "Phi": 1.5280978679656982,
+          "Quality": "VeryLoose",
+          "Type": "CaloTagged"
+        }
+      ]
     }
   },
   "Event with Tracks": {

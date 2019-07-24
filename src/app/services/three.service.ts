@@ -446,15 +446,6 @@ export class ThreeService {
     return typeGroup;
   }
 
-  public addCollection(collection: any, collname: string, addObject: (object: any, scene: any) => void, typeGroup: Group) {
-    const collscene = new THREE.Group();
-    collscene.name = collname;
-    for (const object of collection) {
-      addObject(object, collscene);
-    }
-    typeGroup.add(collscene);
-  }
-
   public collectionColor(collectionName: string, value: any) {
     const collection = this.scene.getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
