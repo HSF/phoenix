@@ -12,7 +12,8 @@ import {
   MeshBasicMaterial, Object3D,
   PerspectiveCamera,
   Scene, Vector3,
-  WebGLRenderer
+  WebGLRenderer,
+  OrthographicCamera,
 } from 'three';
 import {Configuration} from './loaders/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
@@ -27,9 +28,13 @@ export class ThreeService {
 
   // Threejs Variables
   private scene: Scene;
-  private controls: OrbitControls;
+  private activeControls: OrbitControls;
+  private perspectiveControls: OrbitControls;
+  private orthographicControls: OrbitControls;
   renderer: WebGLRenderer;
-  private camera: PerspectiveCamera;
+  private activeCamera: PerspectiveCamera | OrthographicCamera;
+  private perspectiveCamera: PerspectiveCamera;
+  private orthographicCamera: OrthographicCamera;
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects: Object3D[];
   // Clipping planes
@@ -53,8 +58,12 @@ export class ThreeService {
     this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
 
     // Arguments: FOV, aspect ratio, near and far distances
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
-    this.camera.position.z = 200;
+    this.perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
+    // Arguments: left, right, top, bottom, near and far distances
+    this.orthographicCamera = new THREE.OrthographicCamera(-window.innerWidth/2, window.innerWidth/2, window.innerHeight/2, -window.innerHeight/2, 0.1, 100000);
+    this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
+    // Set active camera
+    this.activeCamera = this.perspectiveCamera;
 
     // Main renderer for current browsers
     this.setRenderer();
@@ -65,7 +74,11 @@ export class ThreeService {
     this.axis = null;
 
     // Orbit controls allow to move around
-    this.setOrbitControls();
+    this.perspectiveControls = this.setOrbitControls(this.perspectiveCamera);
+    this.orthographicControls = this.setOrbitControls(this.orthographicCamera);
+    // Set active orbit controls
+    this.activeControls = this.perspectiveControls;
+
     // Different lights to better see the object
     this.setLights();
     // Customizing with configuration
@@ -73,12 +86,12 @@ export class ThreeService {
   }
 
   public updateControls() {
-    this.controls.update();
+    this.activeControls.update();
     TWEEN.update();
   }
 
   public render() {
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(this.scene, this.activeCamera);
   }
 
   /*********************************
@@ -97,12 +110,14 @@ export class ThreeService {
     canvas.appendChild(this.renderer.domElement);
   }
 
-  private setOrbitControls() {
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.25;
-    this.controls.enableZoom = true;
-    this.controls.autoRotate = false;
+  private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera): OrbitControls {
+    let controls = new OrbitControls(camera, this.renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.25;
+    controls.enableZoom = true;
+    controls.autoRotate = false;
+
+    return controls;
   }
 
   private setLights() {
@@ -232,7 +247,8 @@ export class ThreeService {
   }
 
   public autoRotate(value) {
-    this.controls.autoRotate = value;
+    this.perspectiveControls.autoRotate = value;
+    this.orthographicControls.autoRotate = value;
   }
 
   public setClipping(value: boolean) {
@@ -269,12 +285,85 @@ export class ThreeService {
 
   public setCameraPos(cameraPos: number[]) {
     return () => {
-      new TWEEN.Tween(this.camera.position).to({
+      new TWEEN.Tween(this.activeCamera.position).to({
         x: cameraPos[0],
         y: cameraPos[1],
         z: cameraPos[2]
       }, 1000).start();
     };
+  }
+
+  /**
+   * Swaps cameras.
+   * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
+   * @returns {void}
+   * @public
+   */
+  public swapCameras(useOrthographic: boolean): void{
+    if(useOrthographic){
+      // perspective -> ortho
+      this.activeCamera = this.orthographicCamera;
+      this.activeCamera.position.set(this.perspectiveCamera.position.x,this.perspectiveCamera.position.y, this.perspectiveCamera.position.z);
+
+      this.activeControls = this.orthographicControls;
+      this.activeControls.target = this.perspectiveControls.target;
+    }else{
+      // ortho -> perspective
+      this.activeCamera = this.perspectiveCamera;
+      this.activeCamera.position.set(this.orthographicCamera.position.x, this.orthographicCamera.position.y, this.orthographicCamera.position.z);
+
+      this.activeControls = this.perspectiveControls;
+      this.activeControls.target = this.orthographicControls.target;
+    }
+ 
+    this.updateControls();
+  }
+
+  /**
+   * Aligns a camera with one of the main axis.
+   * @param axis Name of the main axis to aling to (x, y, or z).
+   * @returns {void}
+   * @public
+   */
+  public alignCameraWithAxis(axis: string): void{
+    switch (axis){
+      case "x": case "X": {
+        this.alignCameraWithVector(new THREE.Vector3(1, 0, 0));
+        break;
+      }
+      case "y": case "Y": {
+        this.alignCameraWithVector(new THREE.Vector3(0, 1, 0));
+        break;
+      }
+      case "z": case "Z": {
+        this.alignCameraWithVector(new THREE.Vector3(0, 0, 1));
+        break;
+      }
+      default: {
+        console.log('Error : ¡ Invalid camera align parameter (use x, y or z)!');
+      }
+    }
+  }
+
+  /**
+   * Aligns a camera (and move its orbit target) with a vector.
+   * @param targetlookAtVector Vector to align camera to.
+   * @returns {void}
+   * @private
+   */
+  private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void{
+    let activeLookAtVector = new THREE.Vector3(0, 0, -1);
+    activeLookAtVector.applyQuaternion(this.activeCamera.quaternion);
+
+    let orbitTargetVector = new THREE.Vector3();
+    orbitTargetVector.subVectors(this.activeControls.target, this.activeCamera.position);
+    
+    let direction = orbitTargetVector.dot(targetlookAtVector);
+    targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
+    if(direction < 0) targetlookAtVector.multiplyScalar(-1);
+
+    let newLookAtPoint = targetlookAtVector.add(this.activeCamera.position);
+    this.activeControls.target = newLookAtPoint;
   }
 
   private enableSelecting() {
@@ -303,7 +392,7 @@ export class ThreeService {
       -(event.clientY / window.innerHeight) * 2 + 1);
     const raycaster = new THREE.Raycaster();
     raycaster.linePrecision = 20;
-    raycaster.setFromCamera(mouse, this.camera);
+    raycaster.setFromCamera(mouse, this.activeCamera);
 
     // @ts-ignore
     const intersects = raycaster.intersectObjects(this.objects, true);
