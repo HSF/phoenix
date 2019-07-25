@@ -14,7 +14,7 @@ export class PlaygroundComponent implements OnInit {
   selectedObject: any;
   events: string[];
 
-  constructor(private eventDisplay: EventdisplayService) {
+  constructor(protected eventDisplay: EventdisplayService) {
   }
 
   ngOnInit() {
