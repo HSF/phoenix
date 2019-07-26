@@ -13,11 +13,11 @@
 # Phoenix Project
 
 The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
-Technically the 3D is done with [three.js](http://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON.
+Technically the 3D is done with [three.js](https://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
-You can see an online version at [http://hepsoftwarefoundation.org/phoenix/](http://hepsoftwarefoundation.org/phoenix/)
+You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](https://hepsoftwarefoundation.org/phoenix/)
 
 ## Build and install
 
@@ -25,7 +25,7 @@ This is an [Angular](https://angular.io) application, so you will need to have [
 
 You can follow [this guide](https://angular.io/guide/setup-local) to set up your local environment.
 
-Once everything is set up, `ng serve` from the command line in the project directory for a dev server. Then navigate to `http://localhost:4200/` from your browser. 
+Once everything is set up, run `ng serve` from the command line in the project directory for a dev server. Then navigate to `http://localhost:4200/` from your browser. 
 The app will automatically reload if you change any of the source files.
 
 
