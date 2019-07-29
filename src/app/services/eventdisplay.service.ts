@@ -9,6 +9,7 @@ import {Configuration} from './loaders/configuration.model';
 export class EventdisplayService {
   private configuration: Configuration;
   private eventsData: any;
+  private frameID: number;
 
   constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
   }
@@ -22,9 +23,12 @@ export class EventdisplayService {
     this.graphicsLibrary.init(configuration);
     // Showing the UI elements
     this.ui.showUI(configuration);
+    if (this.frameID) {
+      cancelAnimationFrame(this.frameID);
+    }
     // Animate loop
     const animate = () => {
-      requestAnimationFrame(animate);
+      this.frameID = requestAnimationFrame(animate);
       this.graphicsLibrary.updateControls();
       this.ui.updateUI();
       this.graphicsLibrary.render();
