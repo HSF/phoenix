@@ -82,9 +82,9 @@ export class UIService {
     // View parameters
     this.viewFolder = this.controlsFolder.addFolder('View');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
-    this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis("X"));
-    this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis("Y"));
-    this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis("Z"));
+    this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
+    this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
+    this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
 
     if (configuration.anyPresetView()) {
       this.displayPresetViews(configuration.presetViews);
@@ -134,8 +134,7 @@ export class UIService {
    * @param tag Name that will be shown next to the toggle.
    * @param defaultValue initial value that will be set.
    * @param onChange function that will be executed when the toggle is pressed.
-   * @returns {any} Reference to the created object.
-   * @private
+   * @returns Reference to the created object.
    */
   private addToggle(guiLevel: any, fieldName: string, tag: string, defaultValue: boolean, onChange: (value: boolean) => any): any {
     this.guiParameters[fieldName] = defaultValue;
@@ -146,19 +145,18 @@ export class UIService {
     return menu;
   }
 
-   /**
+  /**
    * Adds a button to any level of a GUI.
    * @param guiLevel Parent GUI level, where a button wuill be inserted.
    * @param name Name that will be shown on a button.
    * @param onClick Function that will be called once the button is pressed.
-   * @returns {any} Reference to the created object.
-   * @private
+   * @returns Reference to the created object.
    */
-  private addButton(guiLevel: any, name: string, onClick: () => any): any{
-    let buttonObject = {};
+  private addButton(guiLevel: any, name: string, onClick: () => any): any {
+    const buttonObject = {};
     buttonObject[name] = onClick;
 
-    let button = guiLevel.add(buttonObject, name);
+    const button = guiLevel.add(buttonObject, name);
     return button;
   }
 

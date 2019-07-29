@@ -60,7 +60,9 @@ export class ThreeService {
     // Arguments: FOV, aspect ratio, near and far distances
     this.perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
     // Arguments: left, right, top, bottom, near and far distances
-    this.orthographicCamera = new THREE.OrthographicCamera(-window.innerWidth/2, window.innerWidth/2, window.innerHeight/2, -window.innerHeight/2, 0.1, 100000);
+    this.orthographicCamera = new THREE.OrthographicCamera(
+      -window.innerWidth / 2, window.innerWidth / 2,
+      window.innerHeight / 2, -window.innerHeight / 2, 0.1, 100000);
     this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
     // Set active camera
     this.activeCamera = this.perspectiveCamera;
@@ -111,7 +113,7 @@ export class ThreeService {
   }
 
   private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera): OrbitControls {
-    let controls = new OrbitControls(camera, this.renderer.domElement);
+    const controls = new OrbitControls(camera, this.renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
@@ -296,46 +298,47 @@ export class ThreeService {
   /**
    * Swaps cameras.
    * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
-   * @returns {void}
-   * @public
    */
-  public swapCameras(useOrthographic: boolean): void{
-    if(useOrthographic){
+  public swapCameras(useOrthographic: boolean): void {
+    if (useOrthographic) {
       // perspective -> ortho
       this.activeCamera = this.orthographicCamera;
-      this.activeCamera.position.set(this.perspectiveCamera.position.x,this.perspectiveCamera.position.y, this.perspectiveCamera.position.z);
+      this.activeCamera.position.set(this.perspectiveCamera.position.x,
+        this.perspectiveCamera.position.y, this.perspectiveCamera.position.z);
 
       this.activeControls = this.orthographicControls;
       this.activeControls.target = this.perspectiveControls.target;
-    }else{
+    } else {
       // ortho -> perspective
       this.activeCamera = this.perspectiveCamera;
-      this.activeCamera.position.set(this.orthographicCamera.position.x, this.orthographicCamera.position.y, this.orthographicCamera.position.z);
+      this.activeCamera.position.set(this.orthographicCamera.position.x,
+        this.orthographicCamera.position.y, this.orthographicCamera.position.z);
 
       this.activeControls = this.perspectiveControls;
       this.activeControls.target = this.orthographicControls.target;
     }
- 
+
     this.updateControls();
   }
 
   /**
    * Aligns a camera with one of the main axis.
    * @param axis Name of the main axis to aling to (x, y, or z).
-   * @returns {void}
-   * @public
    */
-  public alignCameraWithAxis(axis: string): void{
-    switch (axis){
-      case "x": case "X": {
+  public alignCameraWithAxis(axis: string): void {
+    switch (axis) {
+      case 'x':
+      case 'X': {
         this.alignCameraWithVector(new THREE.Vector3(1, 0, 0));
         break;
       }
-      case "y": case "Y": {
+      case 'y':
+      case 'Y': {
         this.alignCameraWithVector(new THREE.Vector3(0, 1, 0));
         break;
       }
-      case "z": case "Z": {
+      case 'z':
+      case 'Z': {
         this.alignCameraWithVector(new THREE.Vector3(0, 0, 1));
         break;
       }
@@ -348,21 +351,21 @@ export class ThreeService {
   /**
    * Aligns a camera (and move its orbit target) with a vector.
    * @param targetlookAtVector Vector to align camera to.
-   * @returns {void}
-   * @private
    */
-  private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void{
-    let activeLookAtVector = new THREE.Vector3(0, 0, -1);
+  private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
+    const activeLookAtVector = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.activeCamera.quaternion);
 
-    let orbitTargetVector = new THREE.Vector3();
+    const orbitTargetVector = new THREE.Vector3();
     orbitTargetVector.subVectors(this.activeControls.target, this.activeCamera.position);
-    
-    let direction = orbitTargetVector.dot(targetlookAtVector);
-    targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
-    if(direction < 0) targetlookAtVector.multiplyScalar(-1);
 
-    let newLookAtPoint = targetlookAtVector.add(this.activeCamera.position);
+    const direction = orbitTargetVector.dot(targetlookAtVector);
+    targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
+    if (direction < 0) {
+      targetlookAtVector.multiplyScalar(-1);
+    }
+
+    const newLookAtPoint = targetlookAtVector.add(this.activeCamera.position);
     this.activeControls.target = newLookAtPoint;
   }
 
