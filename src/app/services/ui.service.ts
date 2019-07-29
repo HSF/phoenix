@@ -80,7 +80,11 @@ export class UIService {
       .name('zClipPosition');
 
     // View parameters
-    this.viewFolder = this.controlsFolder.addFolder('View');
+    this.displayViews(configuration);
+  }
+
+  private displayViews(configuration: Configuration) {
+    this.viewFolder = this.gui.addFolder('Views');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
     this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
     this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
@@ -92,7 +96,7 @@ export class UIService {
   }
 
   private displayPresetViews(presetViews: PresetView[]) {
-    const presetViewFolder = this.gui.addFolder('Preset Views');
+    const presetViewFolder = this.viewFolder.addFolder('Preset Views');
     const presetIconsUl = document.createElement('div');
     presetIconsUl.className = 'preset-views';
     presetViews.forEach((view) => {
