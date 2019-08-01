@@ -66,11 +66,11 @@ export class UIService {
     this.geomFolder = null;
     this.eventFolder = null;
 
-    this.addMenu('rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
-    this.addMenu('axis', 'Axis', true, (value) => this.three.setAxis(value));
-    this.addMenu('lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
-    this.addMenu('darkBg', 'Dark Background', false, (value) => this.three.darkBackground(value));
-    this.addMenu('clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
+    this.addToggle(this.controlsFolder, 'rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
+    this.addToggle(this.controlsFolder, 'axis', 'Axis', true, (value) => this.three.setAxis(value));
+    this.addToggle(this.controlsFolder, 'lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
+    this.addToggle(this.controlsFolder, 'darkBg', 'Dark Background', false, (value) => this.three.darkBackground(value));
+    this.addToggle(this.controlsFolder, 'clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
 
     this.controlsFolder.add(this.three.getXClipPlane(), 'constant', -configuration.xClipPosition, configuration.xClipPosition)
       .name('xClipPosition');
@@ -115,20 +115,6 @@ export class UIService {
     } else {
       this.canvas.append(presetIconsUl);
     }
-  }
-
-  /**
-   * Adds a boolean toggle to the 'Controls' folder.
-   * @param fieldName Name of the field that will be changed.
-   * @param tag Name that will be shown next to the toggle.
-   * @param defaultValue initial value that will be set.
-   * @param onChange function that will be executed when the toggle is pressed.
-   */
-  private addMenu(fieldName: string, tag: string, defaultValue: boolean, onChange: (value: boolean) => any) {
-    onChange(defaultValue);
-    this.guiParameters[fieldName] = defaultValue;
-    const menu = this.controlsFolder.add(this.guiParameters, fieldName).name(tag).listen();
-    menu.onChange(onChange);
   }
 
   /**
