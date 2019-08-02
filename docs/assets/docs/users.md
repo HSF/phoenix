@@ -34,8 +34,8 @@ Where:
 * `COLLECTION_NAME` is an arbitrary name used to label this particular collection (you can have as many collections of each OBJECT_TYPE as you like).
 
 You can find various examples in the [files folder](../files):
-* [atlaseventdump2.json](../files/atlaseventdump2.json) is an small multiple event file containing the various objects.
-* [EventData.json](../files/EventData.json) is a bigger file containing more events and objects.
+* [atlaseventdump2.json](../files/event_data/atlaseventdump2.json) is an small multiple event file containing the various objects.
+* [EventData.json](../files/event_data/EventData.json) is a bigger file containing more events and objects.
 
 
 #### Supported object types
