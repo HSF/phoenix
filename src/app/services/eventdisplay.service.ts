@@ -120,8 +120,18 @@ export class EventdisplayService {
     }
   }
 
+  public exportToOBJ() {
+    this.graphicsLibrary.exportSceneToOBJ();
+  }
+
   public saveDisplay() {
-    this.graphicsLibrary.exportScene();
+    this.graphicsLibrary.exportPhoenixScene();
+  }
+
+  public loadGLTF(input: any) {
+    const scene = JSON.parse(input);
+    this.graphicsLibrary.loadScene(scene);
+
   }
 
   public loadDisplay(input: any) {
