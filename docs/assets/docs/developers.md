@@ -12,4 +12,3 @@ The app will automatically reload if you change any of the source files.
 This is an overall model of the architecture of the application (we will try to keep it up to date, but beware that some things may not be completely up to date).
 ![Architecture model](../images/architecture.svg)
 
-### Components
