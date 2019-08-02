@@ -19,6 +19,7 @@ import {Configuration} from './loaders/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {WebVR} from './extras/web-vr';
+import {OBJExporter} from 'three/examples/jsm/exporters/OBJExporter';
 
 
 @Injectable({
@@ -194,7 +195,21 @@ export class ThreeService {
    *      Public functions.        *
    *********************************/
 
-  public exportScene() {
+  exportSceneToOBJ() {
+    // Instantiate a exporter
+    const exporter = new OBJExporter();
+
+    const sceneConfig = {eventData: {}, geometries: []};
+
+    this.saveEventDataConfiguration(sceneConfig.eventData);
+    this.saveGeometriesConfiguration(sceneConfig.geometries);
+
+    // Parse the input and generate the glTF output
+    const result = exporter.parse(this.scene);
+    this.saveString(result, 'phoenix-obj.obj');
+  }
+
+  public exportPhoenixScene() {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
 
@@ -207,7 +222,7 @@ export class ThreeService {
     exporter.parse(this.scene, (result) => {
       const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
       const output = JSON.stringify(jsonResult, null, 2);
-      this.saveString(output, 'phoenix-scene.gltf');
+      this.saveString(output, 'phoenix-scene.phnx');
     }, null);
   }
 

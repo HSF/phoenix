@@ -54,6 +54,14 @@ textarea {
   }
 }
 
+.imageLabel.exportLabel {
+  background-color: #cb7133;
+
+  &:hover {
+    background-color: #ad5b2d;
+  }
+}
+
 #exportScene {
   background-color: #5BD99E;
   &:hover {
@@ -129,14 +137,15 @@ textarea {
 }
 
 
-#modalToggle {
+#fileModalToggle {
   background: none;
-  background-image: url("/assets/icons/more.svg");
+  background-image: url("/assets/icons/file.svg");
   border: none;
   -webkit-appearance: none;
   background-repeat: no-repeat;
   background-position: center;
   width: 3rem;
+  min-width: 3rem;
   margin-left: 0.4rem;
 
   &:focus {

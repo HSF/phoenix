@@ -1,3 +1,5 @@
+
+
 /* Scroll bar styles */
 ::-webkit-scrollbar {
   width: 0.3em;
@@ -49,20 +51,20 @@ canvas {
 
   .folder {
     .title {
-      background: #1E8BB0;
+      background: #F9F9F9;
       text-shadow: none;
-      color: white;
-      border-color: #f0f0f0;
+      color: #333333;
+      border-color: #e9e9e9;
     }
 
     .folder {
       .title {
-        background: #56ADC5;
+        background: #efefef;
       }
 
       .folder {
         .title {
-          background: #84CFE1;
+          background: #e9e9e9;
         }
       }
     }
@@ -70,7 +72,6 @@ canvas {
 
   ul .folder {
     &:first-child .dg ul .title {
-      border-radius: 3px 3px 0 0;
     }
 
     .dg ul .cr {
@@ -82,11 +83,10 @@ canvas {
   }
 
   .close-button {
-    background: #1E8BB0;
+    background: #F9F9F9;
     text-shadow: none;
-    color: white;
+    color: #333333;
     border-color: #f0f0f0;
-    border-radius: 0 0 3px 3px;
   }
 
   .dg .c .slider {
@@ -144,13 +144,16 @@ canvas {
 #optionsPanel {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   background: white;
   border: 1px solid rgba(88, 88, 88, 0.08);
   box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
   border-radius: 10px;
   padding: 0.5rem 1rem;
+  overflow-x: scroll;
+  max-width: 95%;
+  z-index: 10;
   img {
     height: 3rem;
     width: 3rem;
