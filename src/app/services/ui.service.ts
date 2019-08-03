@@ -82,6 +82,7 @@ export class UIService {
     // View parameters
     this.viewFolder = this.controlsFolder.addFolder('View');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
+    this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
     this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis("X"));
     this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis("Y"));
     this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis("Z"));
