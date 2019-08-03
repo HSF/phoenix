@@ -22,6 +22,7 @@ import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {WebVR} from './extras/web-vr';
 import { ControlsManager } from '../controls-manager';
 import { RendererManager } from '../renderer-manager';
+import {OBJExporter} from 'three/examples/jsm/exporters/OBJExporter';
 
 
 @Injectable({
@@ -64,7 +65,9 @@ export class ThreeService {
     // Arguments: FOV, aspect ratio, near and far distances
     this.perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
     // Arguments: left, right, top, bottom, near and far distances
-    this.orthographicCamera = new THREE.OrthographicCamera(-window.innerWidth/2, window.innerWidth/2, window.innerHeight/2, -window.innerHeight/2, 0.1, 100000);
+    this.orthographicCamera = new THREE.OrthographicCamera(
+      -window.innerWidth / 2, window.innerWidth / 2,
+      window.innerHeight / 2, -window.innerHeight / 2, 0.1, 100000);
     this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
 
     // Renderer manager
@@ -252,7 +255,7 @@ export class ThreeService {
   }
 
   private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera, domElement?: HTMLElement): OrbitControls {
-    let controls: OrbitControls = new OrbitControls(camera, domElement);
+    const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
@@ -333,7 +336,21 @@ export class ThreeService {
    *      Public functions.        *
    *********************************/
 
-  public exportScene() {
+  exportSceneToOBJ() {
+    // Instantiate a exporter
+    const exporter = new OBJExporter();
+
+    const sceneConfig = {eventData: {}, geometries: []};
+
+    this.saveEventDataConfiguration(sceneConfig.eventData);
+    this.saveGeometriesConfiguration(sceneConfig.geometries);
+
+    // Parse the input and generate the glTF output
+    const result = exporter.parse(this.scene);
+    this.saveString(result, 'phoenix-obj.obj');
+  }
+
+  public exportPhoenixScene() {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
 
@@ -346,7 +363,7 @@ export class ThreeService {
     exporter.parse(this.scene, (result) => {
       const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
       const output = JSON.stringify(jsonResult, null, 2);
-      this.saveString(output, 'phoenix-scene.gltf');
+      this.saveString(output, 'phoenix-scene.phnx');
     }, null);
   }
 
@@ -436,16 +453,14 @@ export class ThreeService {
   /**
    * Swaps cameras.
    * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
-   * @returns {void}
-   * @public
    */
-  public swapCameras(useOrthographic: boolean): void{
+  public swapCameras(useOrthographic: boolean): void {
     let cameraType: string;
 
-    if(useOrthographic){
+    if (useOrthographic) {
       // perspective -> ortho
       cameraType = "OrthographicCamera";
-    }else{
+    } else {
       // ortho -> perspective
       cameraType = "PerspectiveCamera";
     }
@@ -458,20 +473,21 @@ export class ThreeService {
   /**
    * Aligns a camera with one of the main axis.
    * @param axis Name of the main axis to aling to (x, y, or z).
-   * @returns {void}
-   * @public
    */
-  public alignCameraWithAxis(axis: string): void{
-    switch (axis){
-      case "x": case "X": {
+  public alignCameraWithAxis(axis: string): void {
+    switch (axis) {
+      case 'x':
+      case 'X': {
         this.alignCameraWithVector(new THREE.Vector3(1, 0, 0));
         break;
       }
-      case "y": case "Y": {
+      case 'y':
+      case 'Y': {
         this.alignCameraWithVector(new THREE.Vector3(0, 1, 0));
         break;
       }
-      case "z": case "Z": {
+      case 'z':
+      case 'Z': {
         this.alignCameraWithVector(new THREE.Vector3(0, 0, 1));
         break;
       }
@@ -484,21 +500,21 @@ export class ThreeService {
   /**
    * Aligns a camera (and move its orbit target) with a vector.
    * @param targetlookAtVector Vector to align camera to.
-   * @returns {void}
-   * @private
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void{
-    let activeLookAtVector = new THREE.Vector3(0, 0, -1);
+    const activeLookAtVector = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
-    let orbitTargetVector = new THREE.Vector3();
+    const orbitTargetVector = new THREE.Vector3();
     orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
     
-    let direction = orbitTargetVector.dot(targetlookAtVector);
+    const direction = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
-    if(direction < 0) targetlookAtVector.multiplyScalar(-1);
+    if (direction < 0) {
+      targetlookAtVector.multiplyScalar(-1);
+    }
 
-    let newLookAtPoint = targetlookAtVector.add(this.controlsManager.mainCamera.position);
+    const newLookAtPoint = targetlookAtVector.add(this.controlsManager.mainCamera.position);
     this.controlsManager.mainControls.target = newLookAtPoint;
 
     this.updateControls();

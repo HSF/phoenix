@@ -9,9 +9,11 @@ import {PresetView} from '../../services/extras/preset-view.model';
   styleUrls: ['./playground.component.scss']
 })
 export class PlaygroundComponent implements OnInit {
-  hiddenInfo = true;
-  hiddenInfoBody = true;
+  // Attributes for displaying the information of selected objects
+  hiddenSelectedInfo = true;
+  hiddenSelectedInfoBody = true;
   selectedObject: any;
+  // Array containing the keys of the multiple loaded events
   events: string[];
 
   constructor(protected eventDisplay: EventdisplayService) {
@@ -34,25 +36,9 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.saveDisplay();
   }
 
-  toggleInfo() {
-    this.hiddenInfo = !this.hiddenInfo;
-  }
-
-  onOptionsSelected(selected: any) {
+  changeEvent(selected: any) {
     const value = selected.target.value;
     this.eventDisplay.loadEvent(value);
-  }
-
-  processJSON(json: any) {
-    this.events = this.eventDisplay.loadEventsFromJSON(json);
-  }
-
-  processOBJ(content: any, name: any) {
-    this.eventDisplay.loadGeometryFromOBJContent(content, name);
-  }
-
-  processGLTF(content: any) {
-    this.eventDisplay.loadDisplay(content);
   }
 
   handleEventDataInput(files: any) {
@@ -69,6 +55,10 @@ export class PlaygroundComponent implements OnInit {
     }
   }
 
+  processJSON(json: any) {
+    this.events = this.eventDisplay.loadEventsFromJSON(json);
+  }
+
   handleOBJInput(files: any) {
     const file = files[0];
     const reader = new FileReader();
@@ -82,6 +72,27 @@ export class PlaygroundComponent implements OnInit {
     }
   }
 
+  processOBJ(content: any, name: any) {
+    this.eventDisplay.loadGeometryFromOBJContent(content, name);
+  }
+
+  handleSceneInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.name.split('.').pop() === 'phnx') {
+      reader.onload = () => {
+        this.processScene(reader.result.toString());
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
+  }
+
+  processScene(content: any) {
+    this.eventDisplay.loadDisplay(content);
+  }
+
   handleGLTFInput(files: any) {
     const file = files[0];
     const reader = new FileReader();
@@ -93,5 +104,17 @@ export class PlaygroundComponent implements OnInit {
     } else {
       console.log('Error : ¡ Invalid file format !');
     }
+  }
+
+  processGLTF(content: any) {
+    this.eventDisplay.loadGLTF(content);
+  }
+
+  toggleInfo() {
+    this.hiddenSelectedInfo = !this.hiddenSelectedInfo;
+  }
+
+  exportToOBJ() {
+    this.eventDisplay.exportToOBJ();
   }
 }

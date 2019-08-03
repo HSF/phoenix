@@ -1,12 +1,12 @@
 <div id="eventDisplay">
   <div class="infoPanelWrapper">
-    <div id="infoPanel" [ngClass]="{'hidden' : hiddenInfo}">
+    <div id="infoPanel" [ngClass]="{'hidden' : hiddenSelectedInfo}">
       <div class="infoPanelHeader">
         <div></div>
         <h5 id="infoName">{{selectedObject.name}}</h5>
-        <img [src]="hiddenInfoBody? 'assets/icons/expand.svg' : 'assets/icons/collapse.svg'" alt="" (click)="hiddenInfoBody = !hiddenInfoBody">
+        <img [src]="hiddenSelectedInfoBody? 'assets/icons/expand.svg' : 'assets/icons/collapse.svg'" alt="" (click)="hiddenSelectedInfoBody = !hiddenSelectedInfoBody">
       </div>
-      <div id="infoPanelBody" [ngClass]="{'hidden' : hiddenInfoBody}">
+      <div id="infoPanelBody" [ngClass]="{'hidden' : hiddenSelectedInfoBody}">
         <div *ngFor="let attribute of selectedObject.attributes" class="attributeField">
           <strong>{{attribute.attributeName}}</strong>
           : {{attribute.attributeValue | attributePipe}}
@@ -20,11 +20,11 @@
   <div id="optionsPanel">
     <button type="button" id="modalToggle" class="btn btn-primary" data-toggle="modal" data-target="#jsonModal">
     </button>
-    <img [src]="hiddenInfo? 'assets/icons/info.svg' : 'assets/icons/info_active.svg'" alt="" (click)="hiddenInfo = !hiddenInfo">
+    <img [src]="hiddenSelectedInfo? 'assets/icons/info.svg' : 'assets/icons/info_active.svg'" alt="" (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
     <div class="optionsSeparator"></div>
     <div class="eventSelector" *ngIf="events!=null">
       <label for="event">Event</label>
-      <select id="event" name="event" (change)='onOptionsSelected($event)'>
+      <select id="event" name="event" (change)='changeEvent($event)'>
         <option value="" selected disabled hidden>Choose Event</option>
         <option *ngFor="let event of events" [value]="event">
           {{event}}
@@ -71,7 +71,7 @@
           <label class="imageLabel loadExport" id="exportScene" (click)="saveConfiguration()"> <img
             src="assets/icons/save.svg" alt="Icon made by Dave Gandy from www.flaticons.com">Save scene</label>
           <input type="file" id="loadScene" class="inputfile" accept=".gltf" name="image"
-                 (change)="handleGLTFInput($event.target.files)"/>
+                 (change)="handleSceneInput($event.target.files)"/>
           <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/icons/upload.svg"
                                                                                       alt="Icon made by Pixel Buddha from www.flaticons.com">Load
             scene</label>
