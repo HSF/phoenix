@@ -4,6 +4,7 @@ import * as dat from 'dat.gui';
 import {ThreeService} from './three.service';
 import {Configuration} from './loaders/configuration.model';
 import {PresetView} from './extras/preset-view.model';
+import {Cut} from './extras/cut.model';
 
 @Injectable({
   providedIn: 'root'
@@ -218,7 +219,7 @@ export class UIService {
     return typeFolder;
   }
 
-  public addCollection(typeFolder: any, collectionName: string) {
+  public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
     this.guiParameters[collectionName] = {show: true, color: 0x000000};
     const collFolder = typeFolder.addFolder(collectionName);
@@ -228,6 +229,21 @@ export class UIService {
     // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
+    // Cuts menu
+    if (cuts) {
+      const cutsFolder = collFolder.addFolder('Cuts');
+      for (const cut of cuts) {
+        this.guiParameters[collectionName].cutField = cut.field;
+        this.guiParameters[collectionName].cutMinVal = cut.minValue;
+        this.guiParameters[collectionName].cutMaxVal = cut.maxValue;
+        const cutMenu = cutsFolder.add(this.guiParameters[collectionName], 'cutMinVal', cut.minValue, cut.maxValue).name(cut.field);
+        cutMenu.onChange((value) => {
+          cut.maxValue = value;
+          this.three.collectionFilter(collectionName, cut);
+        });
+      }
+    }
+
   }
 
 

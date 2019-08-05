@@ -20,9 +20,10 @@ import {Configuration} from './loaders/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {WebVR} from './extras/web-vr';
-import { ControlsManager } from '../controls-manager';
-import { RendererManager } from '../renderer-manager';
+import {ControlsManager} from './extras/controls-manager';
+import {RendererManager} from './extras/renderer-manager';
 import {OBJExporter} from 'three/examples/jsm/exporters/OBJExporter';
+import {Cut} from './extras/cut.model';
 
 
 @Injectable({
@@ -89,14 +90,14 @@ export class ThreeService {
     this.controlsManager.overlayControls = this.orthographicControls;
     // Add listener
     this.controlsManager.activeControls.addEventListener(
-      "change", 
-      (function(scope){
+      'change',
+      (function(scope) {
         let controlsManager = scope.controlsManager;
 
-        return function(){
+        return function() {
           controlsManager.transformSync();
           controlsManager.updateSync();
-        }
+        };
       })(this)
     );
 
@@ -120,7 +121,7 @@ export class ThreeService {
   public render() {
     this.rendererManager.mainRenderer.render(this.scene, this.controlsManager.mainCamera);
 
-    if(!this.rendererManager.overlayRenderer.domElement.hidden){
+    if (!this.rendererManager.overlayRenderer.domElement.hidden) {
       this.sceneColor = this.scene.background;
       this.scene.background = null;
 
@@ -154,8 +155,8 @@ export class ThreeService {
    * @returns {void}
    * @private
    */
-  private setOverlayRenderer(): void{
-    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas("overlay-canvas", window.innerWidth/2.5, window.innerHeight/2.5);
+  private setOverlayRenderer(): void {
+    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas('overlay-canvas', window.innerWidth / 2.5, window.innerHeight / 2.5);
     let overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(overlayCanvas);
 
     this.rendererManager.addRenderer(overlayRenderer);
@@ -173,20 +174,20 @@ export class ThreeService {
    * @returns {HTMLCanvasElement}
    * @private
    */
-  private initializeOverlayCanvas(ID: string, width: number, height: number): HTMLCanvasElement{
+  private initializeOverlayCanvas(ID: string, width: number, height: number): HTMLCanvasElement {
     let canvas: HTMLCanvasElement = this.initializeCanvas(ID, width, height);
-    canvas.style.width = width.toString() + "px";
-    canvas.style.height = height.toString() + "px";
-    canvas.style.position = "absolute";
-    canvas.style.backgroundColor = "rgba(0, 0, 0, 0.1)";
-    canvas.style.left = (window.innerWidth - width - 100) + "px";
-    canvas.style.top = 100 + "px";
-    canvas.style.border = "1px solid #ccc";
-    canvas.style.borderRadius = "8px";
+    canvas.style.width = width.toString() + 'px';
+    canvas.style.height = height.toString() + 'px';
+    canvas.style.position = 'absolute';
+    canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+    canvas.style.left = (window.innerWidth - width - 100) + 'px';
+    canvas.style.top = 100 + 'px';
+    canvas.style.border = '1px solid #ccc';
+    canvas.style.borderRadius = '8px';
     //canvas.style.pointerEvents = "none";
-    
+
     // Add listener 
-    let offset: {x: number, y: number} = {x: 0, y: 0};
+    let offset: { x: number, y: number } = {x: 0, y: 0};
     let mouseDown: boolean = false;
 
     canvas.addEventListener('mousedown', function(event) {
@@ -204,7 +205,7 @@ export class ThreeService {
       if (mouseDown) {
 
         canvas.style.left = (event.clientX - offset.x) + 'px';
-        canvas.style.top  = (event.clientY - offset.y) + 'px';
+        canvas.style.top = (event.clientY - offset.y) + 'px';
       }
     }, true);
 
@@ -217,7 +218,7 @@ export class ThreeService {
    * @returns {WebGLRenderer}
    * @private
    */
-  private intializeOverlayRenderer(overlayCanvas: HTMLCanvasElement): WebGLRenderer{
+  private intializeOverlayRenderer(overlayCanvas: HTMLCanvasElement): WebGLRenderer {
     let parameters: WebGLRendererParameters = {canvas: overlayCanvas, antialias: false, alpha: true};
 
     return this.initializeRenderer(parameters);
@@ -231,22 +232,22 @@ export class ThreeService {
    * @returns {HTMLCanvasElement}
    * @private
    */
-  private initializeCanvas(ID: string, width: number = window.innerWidth, height: number = window.innerHeight): HTMLCanvasElement{
-    let canvas: HTMLCanvasElement = document.createElement("canvas") as HTMLCanvasElement;
+  private initializeCanvas(ID: string, width: number = window.innerWidth, height: number = window.innerHeight): HTMLCanvasElement {
+    let canvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
     canvas.id = ID;
     canvas.width = width;
     canvas.height = height;
-    
+
     return canvas;
   }
-  
+
   /**
    * Initializes WebGL Renderer.
    * @param {WebGLRendererParameters} [parameters] Optional parameters for the renderer.
    * @returns {WebGLRenderer}
    * @private
    */
-  private initializeRenderer(parameters?: WebGLRendererParameters): WebGLRenderer{
+  private initializeRenderer(parameters?: WebGLRendererParameters): WebGLRenderer {
     let renderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
     //renderer.setSize(canvas.width, canvas.height);
     //renderer.domElement.style.cssText = canvas.style.cssText;
@@ -459,13 +460,13 @@ export class ThreeService {
 
     if (useOrthographic) {
       // perspective -> ortho
-      cameraType = "OrthographicCamera";
+      cameraType = 'OrthographicCamera';
     } else {
       // ortho -> perspective
-      cameraType = "PerspectiveCamera";
+      cameraType = 'PerspectiveCamera';
     }
 
-    if(this.controlsManager.mainCamera.type !== cameraType){
+    if (this.controlsManager.mainCamera.type !== cameraType) {
       this.controlsManager.swapControls();
     }
   }
@@ -501,13 +502,13 @@ export class ThreeService {
    * Aligns a camera (and move its orbit target) with a vector.
    * @param targetlookAtVector Vector to align camera to.
    */
-  private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void{
+  private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
     const activeLookAtVector = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
     const orbitTargetVector = new THREE.Vector3();
     orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
-    
+
     const direction = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
     if (direction < 0) {
@@ -568,7 +569,7 @@ export class ThreeService {
    * @returns {void}
    * @public
    */
-  public renderOverlay(value: boolean): void{
+  public renderOverlay(value: boolean): void {
     this.rendererManager.overlayRenderer.domElement.hidden = !value;
   }
 
@@ -713,5 +714,20 @@ export class ThreeService {
     }
   }
 
+  public collectionFilter(collectionName: string, filter: Cut) {
+    const collection = this.scene.getObjectByName(collectionName);
+    for (const child of Object.values(collection.children)) {
+      if (child.userData) {
+        const value = child.userData[filter.field];
+        if (value) {
+          if (value <= filter.maxValue && value >= filter.minValue) {
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
+        }
+      }
+    }
+  }
 
 }

@@ -3,6 +3,7 @@ import {Group, Object3D, Scene, Vector3} from 'three';
 import * as THREE from 'three';
 import {UIService} from '../ui.service';
 import {ThreeService} from '../three.service';
+import {Cut} from '../extras/cut.model';
 
 export class PhoenixLoader implements EventDataLoader {
   private graphicsLibrary: ThreeService;
@@ -22,30 +23,41 @@ export class PhoenixLoader implements EventDataLoader {
 
   private loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
-      this.addEventCollections(eventData.Tracks, this.addTrack, 'Tracks');
+      const cuts = [
+        new Cut('chi2', 0, 50),
+        new Cut('dof', 0, 100)];
+      this.addEventCollections(eventData.Tracks, this.addTrack, 'Tracks', cuts);
     }
     if (eventData.Jets) {
-      this.addEventCollections(eventData.Jets, this.addJet, 'Jets');
+      const cuts = [
+        new Cut('phi', 0, 100),
+        new Cut('eta', 0, 100),
+        new Cut('energy', 2000, 10000)];
+      this.addEventCollections(eventData.Jets, this.addJet, 'Jets', cuts);
     }
     if (eventData.Hits) {
       this.addEventCollections(eventData.Hits, this.addHits, 'Hits');
     }
     if (eventData.CaloClusters) {
-      this.addEventCollections(eventData.CaloClusters, this.addCluster, 'CaloClusters');
+      const cuts = [
+        new Cut('phi', 0, 100),
+        new Cut('eta', 0, 100),
+        new Cut('energy', 2000, 10000)];
+      this.addEventCollections(eventData.CaloClusters, this.addCluster, 'CaloClusters', cuts);
     }
     if (eventData.Muons) {
       this.addEventCollections(eventData.Muons, this.addMuon, 'Muons');
     }
   }
 
-  private addEventCollections(collections: any, addObject: any, objectType: string) {
+  private addEventCollections(collections: any, addObject: any, objectType: string, cuts?: Cut[]) {
     const typeFolder = this.ui.addEventDataTypeFolder(objectType);
     const typeGroup = this.graphicsLibrary.addEventDataTypeGroup(objectType);
     for (const collname of Object.keys(collections)) {
       const collection = collections[collname];
       if (collection != null) {
         this.addCollection(collection, collname, addObject, typeGroup);
-        this.ui.addCollection(typeFolder, collname);
+        this.ui.addCollection(typeFolder, collname, cuts);
       }
     }
   }
@@ -167,6 +179,8 @@ export class PhoenixLoader implements EventDataLoader {
     const material = new THREE.PointsMaterial({size: 10});
     material.color.set('#ff0000');
     const pointsObj = new THREE.Points(geometry, material);
+    pointsObj.userData = hits;
+    pointsObj.name = 'Hit';
     scene.add(pointsObj);
     return pointsObj;
   }
@@ -190,7 +204,8 @@ export class PhoenixLoader implements EventDataLoader {
     }
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new THREE.Vector3(0, 0, 0));
-
+    cube.userData = cluster;
+    cube.name = 'Cluster';
     scene.add(cube);
     return cube;
   }
