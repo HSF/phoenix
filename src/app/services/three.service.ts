@@ -731,4 +731,10 @@ export class ThreeService {
     }
   }
 
+  groupVisibility(name: string, value: boolean) {
+    const collection = this.scene.getObjectByName(name);
+    for (const child of Object.values(collection.children)) {
+      child.visible = value;
+    }
+  }
 }

@@ -233,7 +233,7 @@ export class UIService {
 
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
-    this.guiParameters[collectionName] = {show: true, color: 0x000000};
+    this.guiParameters[collectionName] = {show: true, color: 0x000000, resetCut: () => this.three.groupVisibility(collectionName, true)};
     const collFolder = typeFolder.addFolder(collectionName);
     // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
@@ -244,6 +244,7 @@ export class UIService {
     // Cuts menu
     if (cuts) {
       const cutsFolder = collFolder.addFolder('Cuts');
+      cutsFolder.add(this.guiParameters[collectionName], 'resetCut').name('Reset cuts');
       for (const cut of cuts) {
         this.guiParameters[collectionName].cutField = cut.field;
         this.guiParameters[collectionName].cutMinVal = cut.minValue;
