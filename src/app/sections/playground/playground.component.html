@@ -25,8 +25,11 @@
     <button type="button" id="fileModalToggle" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
     </button>
     <!-- Toggle for selected object panel -->
-    <img [src]="hiddenSelectedInfo? 'assets/icons/cursor.svg' : 'assets/icons/cursor_active.svg'" alt=""
+    <img class="optionsButton" [src]="hiddenSelectedInfo? 'assets/icons/cursor.svg' : 'assets/icons/cursor_active.svg'" alt=""
          (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
+    <!-- Toggle for overlay panel -->
+    <img class="optionsButton" [src]="overlayPanel? 'assets/icons/overlay_active.svg' : 'assets/icons/overlay.svg'" alt=""
+         (click)="toggleOverlay()">
     <div class="optionsSeparator"></div>
     <!-- Event selector -->
     <div class="eventSelector" *ngIf="events!=null">

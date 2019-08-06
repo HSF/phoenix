@@ -158,7 +158,10 @@ canvas {
     height: 3rem;
     width: 3rem;
     cursor: pointer;
-    align-self: center
+    align-self: center;
+  }
+  .optionsButton {
+    margin-left: 0.4rem;
   }
 }
 

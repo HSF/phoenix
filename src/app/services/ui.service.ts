@@ -87,7 +87,7 @@ export class UIService {
   private displayViews(configuration: Configuration) {
     this.viewFolder = this.gui.addFolder('Views');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
-    this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
+    this.setOverlayButtons();
     this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
     this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
     this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
@@ -96,6 +96,18 @@ export class UIService {
       this.displayPresetViews(configuration.presetViews);
     }
   }
+
+  private setOverlayButtons() {
+    this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
+    /*const element = document.getElementById('optionsPanel');
+    if (element) {
+      const overlayButton = document.createElement('img');
+      overlayButton.setAttribute('src', view.getIconURL());
+      overlayButton.addEventListener('click', this.three.setCameraPos(view.cameraPos));
+      element.append(overlayButton);
+    }*/
+  }
+
 
   private displayPresetViews(presetViews: PresetView[]) {
     const presetViewFolder = this.viewFolder.addFolder('Preset Views');

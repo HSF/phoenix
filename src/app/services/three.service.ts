@@ -156,7 +156,8 @@ export class ThreeService {
    * @private
    */
   private setOverlayRenderer(): void {
-    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas('overlay-canvas', window.innerWidth / 2.5, window.innerHeight / 2.5);
+    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas(
+      'overlay-canvas', window.innerWidth / 2.5, window.innerHeight / 2.5);
     let overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(overlayCanvas);
 
     this.rendererManager.addRenderer(overlayRenderer);
