@@ -189,6 +189,23 @@ canvas {
   }
 }
 
+#fileModalToggle {
+  background: none;
+  background-image: url("assets/icons/file.svg");
+  border: none;
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 3rem;
+  min-width: 3rem;
+  margin-left: 0.4rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .preset-views-ul {
     display: none;
