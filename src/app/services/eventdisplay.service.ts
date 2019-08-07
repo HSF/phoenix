@@ -157,4 +157,8 @@ export class EventdisplayService {
       this.ui.addGeometry(geom, '#ffffff');
     }
   }
+
+  renderOverlay(overlayPanel: boolean) {
+    this.graphicsLibrary.renderOverlay(overlayPanel);
+  }
 }

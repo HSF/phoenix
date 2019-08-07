@@ -4,6 +4,7 @@ import * as dat from 'dat.gui';
 import {ThreeService} from './three.service';
 import {Configuration} from './loaders/configuration.model';
 import {PresetView} from './extras/preset-view.model';
+import {Cut} from './extras/cut.model';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +87,7 @@ export class UIService {
   private displayViews(configuration: Configuration) {
     this.viewFolder = this.gui.addFolder('Views');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
+    this.setOverlayButtons();
     this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
     this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
     this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
@@ -94,6 +96,18 @@ export class UIService {
       this.displayPresetViews(configuration.presetViews);
     }
   }
+
+  private setOverlayButtons() {
+    this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
+    /*const element = document.getElementById('optionsPanel');
+    if (element) {
+      const overlayButton = document.createElement('img');
+      overlayButton.setAttribute('src', view.getIconURL());
+      overlayButton.addEventListener('click', this.three.setCameraPos(view.cameraPos));
+      element.append(overlayButton);
+    }*/
+  }
+
 
   private displayPresetViews(presetViews: PresetView[]) {
     const presetViewFolder = this.viewFolder.addFolder('Preset Views');
@@ -217,9 +231,9 @@ export class UIService {
     return typeFolder;
   }
 
-  public addCollection(typeFolder: any, collectionName: string) {
+  public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
-    this.guiParameters[collectionName] = {show: true, color: 0x000000};
+    this.guiParameters[collectionName] = {show: true, color: 0x000000, resetCut: () => this.three.groupVisibility(collectionName, true)};
     const collFolder = typeFolder.addFolder(collectionName);
     // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
@@ -227,6 +241,22 @@ export class UIService {
     // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
     colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
+    // Cuts menu
+    if (cuts) {
+      const cutsFolder = collFolder.addFolder('Cuts');
+      cutsFolder.add(this.guiParameters[collectionName], 'resetCut').name('Reset cuts');
+      for (const cut of cuts) {
+        this.guiParameters[collectionName].cutField = cut.field;
+        this.guiParameters[collectionName].cutMinVal = cut.minValue;
+        this.guiParameters[collectionName].cutMaxVal = cut.maxValue;
+        const cutMenu = cutsFolder.add(this.guiParameters[collectionName], 'cutMinVal', cut.minValue, cut.maxValue).name(cut.field);
+        cutMenu.onChange((value) => {
+          cut.maxValue = value;
+          this.three.collectionFilter(collectionName, cut);
+        });
+      }
+    }
+
   }
 
 

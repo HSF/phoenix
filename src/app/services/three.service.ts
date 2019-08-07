@@ -14,12 +14,16 @@ import {
   Scene, Vector3,
   WebGLRenderer,
   OrthographicCamera,
+  WebGLRendererParameters,
 } from 'three';
 import {Configuration} from './loaders/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {WebVR} from './extras/web-vr';
+import {ControlsManager} from './extras/controls-manager';
+import {RendererManager} from './extras/renderer-manager';
 import {OBJExporter} from 'three/examples/jsm/exporters/OBJExporter';
+import {Cut} from './extras/cut.model';
 
 
 @Injectable({
@@ -29,13 +33,14 @@ export class ThreeService {
 
   // Threejs Variables
   private scene: Scene;
-  private activeControls: OrbitControls;
+  private sceneColor: THREE.Color | THREE.Texture;
   private perspectiveControls: OrbitControls;
   private orthographicControls: OrbitControls;
-  renderer: WebGLRenderer;
-  private activeCamera: PerspectiveCamera | OrthographicCamera;
   private perspectiveCamera: PerspectiveCamera;
   private orthographicCamera: OrthographicCamera;
+  // Managers
+  private rendererManager: RendererManager;
+  private controlsManager: ControlsManager;
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects: Object3D[];
   // Clipping planes
@@ -65,22 +70,41 @@ export class ThreeService {
       -window.innerWidth / 2, window.innerWidth / 2,
       window.innerHeight / 2, -window.innerHeight / 2, 0.1, 100000);
     this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
-    // Set active camera
-    this.activeCamera = this.perspectiveCamera;
 
+    // Renderer manager
+    this.rendererManager = new RendererManager();
     // Main renderer for current browsers
     this.setRenderer();
+    // Overlay renderer
+    this.setOverlayRenderer();
+
+    // Orbit controls allow to move around
+    this.perspectiveControls = this.setOrbitControls(this.perspectiveCamera, this.rendererManager.mainRenderer.domElement);
+    this.orthographicControls = this.setOrbitControls(this.orthographicCamera, this.rendererManager.mainRenderer.domElement);
+    // Controls manager
+    this.controlsManager = new ControlsManager(this.perspectiveControls);
+    // Set active orbit controls
+    this.controlsManager.addControls(this.perspectiveControls);
+    this.controlsManager.addControls(this.orthographicControls);
+    this.controlsManager.mainControls = this.perspectiveControls;
+    this.controlsManager.overlayControls = this.orthographicControls;
+    // Add listener
+    this.controlsManager.activeControls.addEventListener(
+      'change',
+      (function(scope) {
+        let controlsManager = scope.controlsManager;
+
+        return function() {
+          controlsManager.transformSync();
+          controlsManager.updateSync();
+        };
+      })(this)
+    );
 
     // Object Collections
     this.objects = [];
     // Axis
     this.axis = null;
-
-    // Orbit controls allow to move around
-    this.perspectiveControls = this.setOrbitControls(this.perspectiveCamera);
-    this.orthographicControls = this.setOrbitControls(this.orthographicCamera);
-    // Set active orbit controls
-    this.activeControls = this.perspectiveControls;
 
     // Different lights to better see the object
     this.setLights();
@@ -89,12 +113,22 @@ export class ThreeService {
   }
 
   public updateControls() {
-    this.activeControls.update();
+    this.controlsManager.activeControls.update();
+    this.controlsManager.updateSync();
     TWEEN.update();
   }
 
   public render() {
-    this.renderer.render(this.scene, this.activeCamera);
+    this.rendererManager.mainRenderer.render(this.scene, this.controlsManager.mainCamera);
+
+    if (!this.rendererManager.overlayRenderer.domElement.hidden) {
+      this.sceneColor = this.scene.background;
+      this.scene.background = null;
+
+      this.rendererManager.overlayRenderer.render(this.scene, this.controlsManager.overlayCamera);
+
+      this.scene.background = this.sceneColor;
+    }
   }
 
   /*********************************
@@ -102,19 +136,128 @@ export class ThreeService {
    *********************************/
 
   private setRenderer() {
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight, false);
-    this.renderer.domElement.className = 'ui-element';
-    this.renderer.domElement.id = 'three-canvas';
+    let renderer: WebGLRenderer = new THREE.WebGLRenderer();
+
+    this.rendererManager.addRenderer(renderer);
+    this.rendererManager.mainRenderer = renderer;
+    this.rendererManager.mainRenderer.setSize(window.innerWidth, window.innerHeight, false);
+    this.rendererManager.mainRenderer.domElement.className = 'ui-element';
+    this.rendererManager.mainRenderer.domElement.id = 'three-canvas';
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
       canvas = document.body;
     }
-    canvas.appendChild(this.renderer.domElement);
+    canvas.appendChild(this.rendererManager.mainRenderer.domElement);
   }
 
-  private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera): OrbitControls {
-    const controls = new OrbitControls(camera, this.renderer.domElement);
+  /**
+   * Sets overlay renderer to a renderer manager.
+   * @returns {void}
+   * @private
+   */
+  private setOverlayRenderer(): void {
+    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas(
+      'overlay-canvas', window.innerWidth / 2.5, window.innerHeight / 2.5);
+    let overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(overlayCanvas);
+
+    this.rendererManager.addRenderer(overlayRenderer);
+    this.rendererManager.overlayRenderer = overlayRenderer;
+
+    let canvas = document.getElementById('eventDisplay');
+    canvas.appendChild(this.rendererManager.overlayRenderer.domElement);
+  }
+
+  /**
+   * Initializes overlay HTML canvas element.
+   * @param {string} ID ID of the canvas element.
+   * @param {number} width Desired width of the canvas element.
+   * @param {number} height Desired height of the canvas element.
+   * @returns {HTMLCanvasElement}
+   * @private
+   */
+  private initializeOverlayCanvas(ID: string, width: number, height: number): HTMLCanvasElement {
+    let canvas: HTMLCanvasElement = this.initializeCanvas(ID, width, height);
+    canvas.style.width = width.toString() + 'px';
+    canvas.style.height = height.toString() + 'px';
+    canvas.style.position = 'absolute';
+    canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+    canvas.style.left = (window.innerWidth - width - 100) + 'px';
+    canvas.style.top = 100 + 'px';
+    canvas.style.border = '1px solid #ccc';
+    canvas.style.borderRadius = '8px';
+    //canvas.style.pointerEvents = "none";
+
+    // Add listener 
+    let offset: { x: number, y: number } = {x: 0, y: 0};
+    let mouseDown: boolean = false;
+
+    canvas.addEventListener('mousedown', function(event) {
+      mouseDown = true;
+      offset.x = event.clientX - canvas.offsetLeft;
+      offset.y = event.clientY - canvas.offsetTop;
+    }, true);
+
+    document.addEventListener('mouseup', function() {
+      mouseDown = false;
+    }, true);
+
+    document.addEventListener('mousemove', function(event) {
+      event.preventDefault();
+      if (mouseDown) {
+
+        canvas.style.left = (event.clientX - offset.x) + 'px';
+        canvas.style.top = (event.clientY - offset.y) + 'px';
+      }
+    }, true);
+
+    return canvas;
+  }
+
+  /**
+   * Initializes overlay renderer.
+   * @param {WebGLRendererParameters} overlayCanvas Canvas element for the renderer.
+   * @returns {WebGLRenderer}
+   * @private
+   */
+  private intializeOverlayRenderer(overlayCanvas: HTMLCanvasElement): WebGLRenderer {
+    let parameters: WebGLRendererParameters = {canvas: overlayCanvas, antialias: false, alpha: true};
+
+    return this.initializeRenderer(parameters);
+  }
+
+  /**
+   * Initializes HTML canvas element.
+   * @param {string} ID ID of the canvas element.
+   * @param {number} width Desired width of the canvas element.
+   * @param {number} height Desired height of the canvas element.
+   * @returns {HTMLCanvasElement}
+   * @private
+   */
+  private initializeCanvas(ID: string, width: number = window.innerWidth, height: number = window.innerHeight): HTMLCanvasElement {
+    let canvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
+    canvas.id = ID;
+    canvas.width = width;
+    canvas.height = height;
+
+    return canvas;
+  }
+
+  /**
+   * Initializes WebGL Renderer.
+   * @param {WebGLRendererParameters} [parameters] Optional parameters for the renderer.
+   * @returns {WebGLRenderer}
+   * @private
+   */
+  private initializeRenderer(parameters?: WebGLRendererParameters): WebGLRenderer {
+    let renderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
+    //renderer.setSize(canvas.width, canvas.height);
+    //renderer.domElement.style.cssText = canvas.style.cssText;
+
+    return renderer;
+  }
+
+  private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera, domElement?: HTMLElement): OrbitControls {
+    const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
@@ -264,12 +407,11 @@ export class ThreeService {
   }
 
   public autoRotate(value) {
-    this.perspectiveControls.autoRotate = value;
-    this.orthographicControls.autoRotate = value;
+    this.controlsManager.activeControls.autoRotate = value;
   }
 
   public setClipping(value: boolean) {
-    this.renderer.localClippingEnabled = value;
+    this.rendererManager.setLocalClippingEnabled(value);
   }
 
   public getXClipPlane() {
@@ -286,9 +428,9 @@ export class ThreeService {
 
   public lowerResolution(value: boolean) {
     if (value) {
-      this.renderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
+      this.rendererManager.mainRenderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
     } else {
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.rendererManager.mainRenderer.setSize(window.innerWidth, window.innerHeight);
     }
   }
 
@@ -302,7 +444,7 @@ export class ThreeService {
 
   public setCameraPos(cameraPos: number[]) {
     return () => {
-      new TWEEN.Tween(this.activeCamera.position).to({
+      new TWEEN.Tween(this.controlsManager.activeCamera.position).to({
         x: cameraPos[0],
         y: cameraPos[1],
         z: cameraPos[2]
@@ -315,25 +457,19 @@ export class ThreeService {
    * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
    */
   public swapCameras(useOrthographic: boolean): void {
+    let cameraType: string;
+
     if (useOrthographic) {
       // perspective -> ortho
-      this.activeCamera = this.orthographicCamera;
-      this.activeCamera.position.set(this.perspectiveCamera.position.x,
-        this.perspectiveCamera.position.y, this.perspectiveCamera.position.z);
-
-      this.activeControls = this.orthographicControls;
-      this.activeControls.target = this.perspectiveControls.target;
+      cameraType = 'OrthographicCamera';
     } else {
       // ortho -> perspective
-      this.activeCamera = this.perspectiveCamera;
-      this.activeCamera.position.set(this.orthographicCamera.position.x,
-        this.orthographicCamera.position.y, this.orthographicCamera.position.z);
-
-      this.activeControls = this.perspectiveControls;
-      this.activeControls.target = this.orthographicControls.target;
+      cameraType = 'PerspectiveCamera';
     }
 
-    this.updateControls();
+    if (this.controlsManager.mainCamera.type !== cameraType) {
+      this.controlsManager.swapControls();
+    }
   }
 
   /**
@@ -369,10 +505,10 @@ export class ThreeService {
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
     const activeLookAtVector = new THREE.Vector3(0, 0, -1);
-    activeLookAtVector.applyQuaternion(this.activeCamera.quaternion);
+    activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
     const orbitTargetVector = new THREE.Vector3();
-    orbitTargetVector.subVectors(this.activeControls.target, this.activeCamera.position);
+    orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
 
     const direction = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
@@ -380,8 +516,10 @@ export class ThreeService {
       targetlookAtVector.multiplyScalar(-1);
     }
 
-    const newLookAtPoint = targetlookAtVector.add(this.activeCamera.position);
-    this.activeControls.target = newLookAtPoint;
+    const newLookAtPoint = targetlookAtVector.add(this.controlsManager.mainCamera.position);
+    this.controlsManager.mainControls.target = newLookAtPoint;
+
+    this.updateControls();
   }
 
   private enableSelecting() {
@@ -391,8 +529,8 @@ export class ThreeService {
   }
 
   public setAnimationLoop(animate: () => void) {
-    this.renderer.vr.enabled = true;
-    this.renderer.setAnimationLoop(animate);
+    this.rendererManager.mainRenderer.vr.enabled = true;
+    this.rendererManager.mainRenderer.setAnimationLoop(animate);
   }
 
   public setVRButton() {
@@ -401,7 +539,7 @@ export class ThreeService {
     if (canvas == null) {
       canvas = document.body;
     }
-    canvas.appendChild(webVR.createButton(this.renderer, null));
+    canvas.appendChild(webVR.createButton(this.rendererManager.mainRenderer, null));
   }
 
   public onDocumentMouseDown(event, selectedObject: any) {
@@ -410,7 +548,7 @@ export class ThreeService {
       -(event.clientY / window.innerHeight) * 2 + 1);
     const raycaster = new THREE.Raycaster();
     raycaster.linePrecision = 20;
-    raycaster.setFromCamera(mouse, this.activeCamera);
+    raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
 
     // @ts-ignore
     const intersects = raycaster.intersectObjects(this.objects, true);
@@ -424,6 +562,16 @@ export class ThreeService {
         selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
       }
     }
+  }
+
+  /**
+   * Sets visibility of an overlay.
+   * @param value Boolean value whether to show and render overlay or not.
+   * @returns {void}
+   * @public
+   */
+  public renderOverlay(value: boolean): void {
+    this.rendererManager.overlayRenderer.domElement.hidden = !value;
   }
 
   /**************************************
@@ -567,5 +715,26 @@ export class ThreeService {
     }
   }
 
+  public collectionFilter(collectionName: string, filter: Cut) {
+    const collection = this.scene.getObjectByName(collectionName);
+    for (const child of Object.values(collection.children)) {
+      if (child.userData) {
+        const value = child.userData[filter.field];
+        if (value) {
+          if (value <= filter.maxValue && value >= filter.minValue) {
+            child.visible = true;
+          } else {
+            child.visible = false;
+          }
+        }
+      }
+    }
+  }
 
+  groupVisibility(name: string, value: boolean) {
+    const collection = this.scene.getObjectByName(name);
+    for (const child of Object.values(collection.children)) {
+      child.visible = value;
+    }
+  }
 }

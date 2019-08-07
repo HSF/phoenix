@@ -12,6 +12,7 @@ export class PlaygroundComponent implements OnInit {
   // Attributes for displaying the information of selected objects
   hiddenSelectedInfo = true;
   hiddenSelectedInfoBody = true;
+  overlayPanel = false;
   selectedObject: any;
   // Array containing the keys of the multiple loaded events
   events: string[];
@@ -29,6 +30,7 @@ export class PlaygroundComponent implements OnInit {
     ];
     this.eventDisplay.init(configuration);
     this.eventDisplay.allowSelection(this.selectedObject);
+    this.eventDisplay.renderOverlay(this.overlayPanel);
   }
 
 
@@ -116,5 +118,10 @@ export class PlaygroundComponent implements OnInit {
 
   exportToOBJ() {
     this.eventDisplay.exportToOBJ();
+  }
+
+  toggleOverlay() {
+    this.overlayPanel = !this.overlayPanel;
+    this.eventDisplay.renderOverlay(this.overlayPanel);
   }
 }

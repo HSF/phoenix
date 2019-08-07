@@ -158,7 +158,10 @@ canvas {
     height: 3rem;
     width: 3rem;
     cursor: pointer;
-    align-self: center
+    align-self: center;
+  }
+  .optionsButton {
+    margin-left: 0.4rem;
   }
 }
 
@@ -183,6 +186,23 @@ canvas {
     -moz-appearance: none;
     appearance: none;
     background: url(assets/images/logo-small.svg) 96% / 30% no-repeat #f9f9f9;
+  }
+}
+
+#fileModalToggle {
+  background: none;
+  background-image: url("assets/icons/file.svg");
+  border: none;
+  -webkit-appearance: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 3rem;
+  min-width: 3rem;
+  margin-left: 0.4rem;
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
   }
 }
 
