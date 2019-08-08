@@ -139,3 +139,46 @@ textarea {
 
 
 
+
+.example-box {
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+  padding: 1rem 1.5rem;
+  position: absolute;
+  z-index: 999999;
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+  border-radius: 10px;
+
+  &:active {
+    box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.2);
+  }
+
+  .example-handle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #ccc;
+    cursor: move;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  table tr td {
+    margin: 1rem;
+
+  }
+}
+
+
+
+
+
+
+

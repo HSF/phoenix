@@ -1,5 +1,50 @@
-<div id="eventDisplay">
+<div class="example-box" *ngIf="showObjectsInfo" cdkDrag>
+  <table>
+    <tr>
+      <th>#</th>
+      <th>coneR</th>
+      <th>phi</th>
+      <th>eta</th>
+      <th>energy</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.4</td>
+      <td>1.56555</td>
+      <td>-0.121234</td>
+      <td>5943.56</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0.4</td>
+      <td>1.56555</td>
+      <td>-0.121234</td>
+      <td>5943.56</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0.4</td>
+      <td>1.56555</td>
+      <td>-0.121234</td>
+      <td>5943.56</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>0.4</td>
+      <td>1.56555</td>
+      <td>-0.121234</td>
+      <td>5943.56</td>
+    </tr>
+  </table>
+  <div class="example-handle" cdkDragHandle>
+    <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </div>
+</div>
 
+<div id="eventDisplay">
   <div class="infoPanelWrapper">
     <div id="infoPanel" [ngClass]="{'hidden' : hiddenSelectedInfo}">
       <div class="infoPanelHeader">
@@ -16,7 +61,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <div class="optionsWrapper">
@@ -25,10 +69,16 @@
     <button type="button" id="fileModalToggle" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
     </button>
     <!-- Toggle for selected object panel -->
-    <img class="optionsButton" [src]="hiddenSelectedInfo? 'assets/icons/cursor.svg' : 'assets/icons/cursor_active.svg'" alt=""
+    <img class="optionsButton" [src]="showObjectsInfo? 'assets/icons/info_active.svg' : 'assets/icons/info.svg'"
+         alt=""
+         (click)="showObjectsInfo = !showObjectsInfo">
+    <!-- Toggle for selected object panel -->
+    <img class="optionsButton" [src]="hiddenSelectedInfo? 'assets/icons/cursor.svg' : 'assets/icons/cursor_active.svg'"
+         alt=""
          (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
     <!-- Toggle for overlay panel -->
-    <img class="optionsButton" [src]="overlayPanel? 'assets/icons/overlay_active.svg' : 'assets/icons/overlay.svg'" alt=""
+    <img class="optionsButton" [src]="overlayPanel? 'assets/icons/overlay_active.svg' : 'assets/icons/overlay.svg'"
+         alt=""
          (click)="toggleOverlay()">
     <div class="optionsSeparator"></div>
     <!-- Event selector -->

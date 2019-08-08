@@ -13,6 +13,7 @@ export class PlaygroundComponent implements OnInit {
   hiddenSelectedInfo = true;
   hiddenSelectedInfoBody = true;
   overlayPanel = false;
+  showObjectsInfo = true;
   selectedObject: any;
   // Array containing the keys of the multiple loaded events
   events: string[];
