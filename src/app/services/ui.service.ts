@@ -246,12 +246,12 @@ export class UIService {
       const cutsFolder = collFolder.addFolder('Cuts');
       cutsFolder.add(this.guiParameters[collectionName], 'resetCut').name('Reset cuts');
       for (const cut of cuts) {
-        this.guiParameters[collectionName].cutField = cut.field;
-        this.guiParameters[collectionName].cutMinVal = cut.minValue;
-        this.guiParameters[collectionName].cutMaxVal = cut.maxValue;
-        const cutMenu = cutsFolder.add(this.guiParameters[collectionName], 'cutMinVal', cut.minValue, cut.maxValue).name(cut.field);
-        cutMenu.onChange((value) => {
-          cut.maxValue = value;
+        const minCut = cutsFolder.add(cut, 'minValue', cut.minValue, cut.maxValue).name('min ' + cut.field);
+        minCut.onChange((value) => {
+          this.three.collectionFilter(collectionName, cut);
+        });
+        const maxCut = cutsFolder.add(cut, 'maxValue', cut.minValue, cut.maxValue).name('max ' + cut.field);
+        maxCut.onChange((value) => {
           this.three.collectionFilter(collectionName, cut);
         });
       }

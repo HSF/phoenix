@@ -235,4 +235,24 @@ export class PhoenixLoader implements EventDataLoader {
     scene.add(muonScene);
   }
 
+  getCollections(): string[] {
+    const collections = [];
+    for (const objectType of Object.keys(this.eventData)) {
+      for (const collection of Object.keys(this.eventData[objectType])) {
+        collections.push(collection);
+      }
+    }
+    return collections;
+  }
+
+  getCollection(collectionName: string): any {
+    for (const objectType of Object.keys(this.eventData)) {
+      for (const collection of Object.keys(this.eventData[objectType])) {
+        if (collection === collectionName) {
+          return this.eventData[objectType][collection];
+        }
+      }
+    }
+  }
+
 }

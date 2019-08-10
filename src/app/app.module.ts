@@ -12,6 +12,7 @@ import {RouterModule, Routes} from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { PlaygroundVrComponent } from './sections/playground-vr/playground-vr.component';
 import { AttributePipe } from './services/extras/attribute.pipe';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -38,6 +39,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    DragDropModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

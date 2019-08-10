@@ -13,9 +13,13 @@ export class PlaygroundComponent implements OnInit {
   hiddenSelectedInfo = true;
   hiddenSelectedInfoBody = true;
   overlayPanel = false;
+  showObjectsInfo = false;
   selectedObject: any;
   // Array containing the keys of the multiple loaded events
   events: string[];
+  collections: string[];
+  showingCollection: any;
+  collectionColumns: string[];
 
   constructor(protected eventDisplay: EventdisplayService) {
   }
@@ -41,6 +45,13 @@ export class PlaygroundComponent implements OnInit {
   changeEvent(selected: any) {
     const value = selected.target.value;
     this.eventDisplay.loadEvent(value);
+    this.collections = this.eventDisplay.getCollections();
+  }
+
+  changeCollection(selected: any) {
+    const value = selected.target.value;
+    this.showingCollection = this.eventDisplay.getCollection(value);
+    this.collectionColumns = Object.keys(this.showingCollection[0]);
   }
 
   handleEventDataInput(files: any) {
@@ -59,6 +70,7 @@ export class PlaygroundComponent implements OnInit {
 
   processJSON(json: any) {
     this.events = this.eventDisplay.loadEventsFromJSON(json);
+    this.collections = this.eventDisplay.getCollections();
   }
 
   handleOBJInput(files: any) {
