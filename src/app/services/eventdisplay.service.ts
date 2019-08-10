@@ -161,4 +161,12 @@ export class EventdisplayService {
   renderOverlay(overlayPanel: boolean) {
     this.graphicsLibrary.renderOverlay(overlayPanel);
   }
+
+  getCollection(value: string) {
+    return this.configuration.getEventDataLoader().getCollection(value);
+  }
+
+  getCollections(): string[] {
+    return this.configuration.getEventDataLoader().getCollections();
+  }
 }

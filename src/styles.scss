@@ -173,11 +173,11 @@ canvas {
 .eventSelector {
   display: flex;
   label {
-    color: #777777;
     display: none;
+    color: #777777;
   }
   select {
-    width: 5rem;
+    width: 6rem;
     padding: 5px 35px 5px 5px;
     font-size: 16px;
     border: 1px solid rgba(88, 88, 88, 0.08);
@@ -186,6 +186,7 @@ canvas {
     -moz-appearance: none;
     appearance: none;
     background: url(assets/images/logo-small.svg) 96% / 30% no-repeat #f9f9f9;
+    color: #777777;
   }
 }
 

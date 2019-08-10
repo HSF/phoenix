@@ -3,4 +3,8 @@ import {UIService} from '../ui.service';
 
 export interface EventDataLoader {
   buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void;
+
+  getCollection(value: string): any;
+
+  getCollections(): string[];
 }
