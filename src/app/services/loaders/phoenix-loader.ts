@@ -30,7 +30,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
     if (eventData.Jets) {
       const cuts = [
-        new Cut('phi', 0, 100),
+        new Cut('phi', -Math.PI, Math.PI),
         new Cut('eta', 0, 100),
         new Cut('energy', 2000, 10000)];
       this.addEventCollections(eventData.Jets, this.addJet, 'Jets', cuts);
@@ -40,7 +40,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
     if (eventData.CaloClusters) {
       const cuts = [
-        new Cut('phi', 0, 100),
+        new Cut('phi', -Math.PI, Math.PI),
         new Cut('eta', 0, 100),
         new Cut('energy', 2000, 10000)];
       this.addEventCollections(eventData.CaloClusters, this.addCluster, 'CaloClusters', cuts);
@@ -190,7 +190,7 @@ export class PhoenixLoader implements EventDataLoader {
     const maxZ = 3200.0;
     const length = cluster.energy * 0.003;
     const geometry = new THREE.BoxGeometry(30, 30, length);
-    const material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff});
+    const material = new THREE.MeshPhongMaterial({color: Math.random() * 0xffffff});
     const cube = new THREE.Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, cluster.eta));
     const pos = new THREE.Vector3(4000.0 * Math.cos(cluster.phi) * Math.sin(theta),
