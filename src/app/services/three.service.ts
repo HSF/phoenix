@@ -655,6 +655,10 @@ export class ThreeService {
         // enable casting shadows
         child.castShadow = false;
         child.receiveShadow = false;
+      } else {
+        if (child instanceof LineSegments && child.material instanceof LineBasicMaterial) {
+          child.material.color.set(colour);
+        }
       }
     });
   }
@@ -662,8 +666,9 @@ export class ThreeService {
   public objColor(name: string, value: any) {
     const object = this.scene.getObjectByName(name);
     object.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        if (child.material instanceof THREE.MeshPhongMaterial) {
+      if (child instanceof THREE.Mesh || child instanceof LineSegments) {
+        if (child.material instanceof THREE.MeshPhongMaterial
+          || child.material instanceof LineBasicMaterial) {
           child.material.color.set(value);
         }
       }
