@@ -41,6 +41,8 @@ export class ThreeService {
   // Managers
   private rendererManager: RendererManager;
   private controlsManager: ControlsManager;
+  // Scene export ignore list
+  private ignoreList: string[];
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects: Object3D[];
   // Clipping planes
@@ -101,6 +103,8 @@ export class ThreeService {
       })(this)
     );
 
+    // Export ignore list
+    this.ignoreList = [(new THREE.AmbientLight()).type, (new THREE.DirectionalLight()).type, (new THREE.AxesHelper()).type];
     // Object Collections
     this.objects = [];
     // Axis
@@ -347,11 +351,15 @@ export class ThreeService {
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
 
+    // Get a copy of clean scene before parse
+    const cleanScene: THREE.Scene = this.cleanScene(this.scene);
+
     // Parse the input and generate the glTF output
-    const result = exporter.parse(this.scene);
+    const result = exporter.parse(cleanScene);
     this.saveString(result, 'phoenix-obj.obj');
   }
 
+  //SAVE SCENE
   public exportPhoenixScene() {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
@@ -361,14 +369,19 @@ export class ThreeService {
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
 
+    // Get a copy of clean scene before parse
+    const cleanScene: THREE.Scene = this.cleanScene(this.scene);
+
     // Parse the input and generate the glTF output
-    exporter.parse(this.scene, (result) => {
+    exporter.parse(cleanScene, (result) => {
       const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
       const output = JSON.stringify(jsonResult, null, 2);
       this.saveString(output, 'phoenix-scene.phnx');
     }, null);
   }
 
+
+  //LAOD SCENE
   public loadScene(scene: any) {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
@@ -377,7 +390,32 @@ export class ThreeService {
       this.scene = gltf.scene;
       this.setLights();
       this.darkBackground(false);
+
+      if(this.axis !== null) this.scene.add(this.axis);
     });
+  }
+
+  /**
+   * Creates a cleaned copy of a scene.
+   * @param {Scene} scene Scene to copy and clean.
+   * @returns {Scene}
+   * @private
+   */
+  private cleanScene(scene: THREE.Scene): THREE.Scene{
+    const clearScene: THREE.Scene = scene.clone();
+    const scope = this;
+    const removeList = [];
+
+    clearScene.traverse(
+      function(object: THREE.Object3D){
+        if(scope.ignoreList.includes(object.type)) removeList.push(object);
+      }
+    );
+
+    clearScene.remove(...removeList);
+
+
+    return clearScene;
   }
 
   public clearCanvas() {
@@ -394,6 +432,9 @@ export class ThreeService {
     const eventData = this.getEventData();
     if (eventData != null) {
       this.scene.remove(eventData);
+
+      //clear previously saved objects
+      this.objects = [];
     }
     this.getEventData();
   }
