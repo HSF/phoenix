@@ -780,15 +780,21 @@ export class ThreeService {
 
   public collectionColor(collectionName: string, value: any) {
     const collection = this.scene.getObjectByName(collectionName);
+
     for (const child of Object.values(collection.children)) {
-      let color;
-      // For jets and tracks
-      if (child instanceof Line || child instanceof Mesh) {
-        if (child.material instanceof LineBasicMaterial || child.material instanceof MeshBasicMaterial) {
-          color = child.material.color;
+
+      child.traverse(
+        function(object: THREE.Object3D){
+
+          // For jets and tracks
+          if (object instanceof Line || object instanceof Mesh) {
+            if (object.material instanceof LineBasicMaterial || object.material instanceof MeshBasicMaterial) {
+              object.material.color.set(value);
+            }
+          }
         }
-      }
-      color.set(value);
+      );
+
     }
   }
 
