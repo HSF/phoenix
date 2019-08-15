@@ -30,7 +30,8 @@ export class PlaygroundComponent implements OnInit {
     configuration.presetViews = [
       new PresetView('Left View', [0, 0, -6000], 'left.svg'),
       new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
-      new PresetView('Right View', [0, 0, 6000], 'right.svg')
+      new PresetView('Right View', [0, 0, 6000], 'right.svg'),
+      new PresetView('Zoom View', [-1, 1, 0], 'zoom.svg')
     ];
     this.eventDisplay.init(configuration);
     this.eventDisplay.allowSelection(this.selectedObject);
