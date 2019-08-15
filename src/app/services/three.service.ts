@@ -483,14 +483,46 @@ export class ThreeService {
     this.scene.background = new THREE.Color(background);
   }
 
-  public setCameraPos(cameraPos: number[]) {
-    return () => {
-      new TWEEN.Tween(this.controlsManager.activeCamera.position).to({
-        x: cameraPos[0],
-        y: cameraPos[1],
-        z: cameraPos[2]
-      }, 1000).start();
-    };
+  /**
+   * Animates camera transform.
+   * @param {number[]} cameraPosition End position.
+   * @param {number[]} cameraTarget End target.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraTransform(cameraPosition: number[], cameraTarget: number[], duration: number): void {
+      this.animateCameraPosition(cameraPosition, duration);
+      this.animateCameraTarget(cameraTarget, duration);
+  }
+  /**
+   * Animates camera position.
+   * @param {number[]} cameraPosition End position.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraPosition(cameraPosition: number[], duration: number): void{
+    const posAnimation = new TWEEN.Tween(this.controlsManager.activeCamera.position);
+    posAnimation.to({
+      x: cameraPosition[0],
+      y: cameraPosition[1],
+      z: cameraPosition[2]
+    }, duration);
+    posAnimation.start();
+  }
+   /**
+   * Animates camera target.
+   * @param {number[]} cameraTarget End target.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraTarget(cameraTarget: number[], duration: number): void{
+    const rotAnimation = new TWEEN.Tween(this.controlsManager.activeControls.target);
+    rotAnimation.to({
+      x: cameraTarget[0],
+      y: cameraTarget[1],
+      z: cameraTarget[2]
+    }, duration);
+    rotAnimation.start();
   }
 
   /**
@@ -545,22 +577,26 @@ export class ThreeService {
    * @param targetlookAtVector Vector to align camera to.
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
-    const activeLookAtVector = new THREE.Vector3(0, 0, -1);
+    const activeLookAtVector: THREE.Vector3  = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
-    const orbitTargetVector = new THREE.Vector3();
+    const orbitTargetVector: THREE.Vector3  = new THREE.Vector3();
     orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
 
-    const direction = orbitTargetVector.dot(targetlookAtVector);
+    const direction: number = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
     if (direction < 0) {
       targetlookAtVector.multiplyScalar(-1);
     }
 
-    const newLookAtPoint = targetlookAtVector.add(this.controlsManager.mainCamera.position);
-    this.controlsManager.mainControls.target = newLookAtPoint;
+    const newLookAtPoint: THREE.Vector3 = targetlookAtVector.add(this.controlsManager.mainCamera.position);
 
-    this.updateControls();
+    //instant change
+    //this.controlsManager.mainControls.target = newLookAtPoint;
+    //this.updateControls();
+
+    //animated change
+    this.animateCameraTarget(newLookAtPoint.toArray(), 1000);
   }
 
   private enableSelecting() {
