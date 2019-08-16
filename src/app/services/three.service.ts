@@ -125,8 +125,9 @@ export class ThreeService {
       this.sceneColor = this.scene.background;
       this.scene.background = null;
 
-      this.rendererManager.overlayRenderer.render(this.scene, this.controlsManager.overlayCamera);
-
+      if (!this.rendererManager.isFixedOverlay()) {
+        this.rendererManager.overlayRenderer.render(this.scene, this.controlsManager.overlayCamera);
+      }
       this.scene.background = this.sceneColor;
     }
   }
@@ -741,5 +742,9 @@ export class ThreeService {
     for (const child of Object.values(collection.children)) {
       child.visible = value;
     }
+  }
+
+  fixOverlayView(value: boolean) {
+    this.rendererManager.setFixOverlay(value);
   }
 }

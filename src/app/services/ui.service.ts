@@ -99,6 +99,8 @@ export class UIService {
 
   private setOverlayButtons() {
     this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
+    this.addToggle(this.viewFolder, 'setFixOverlay', 'Fix Overlay', false, (value) => this.three.fixOverlayView(value));
+
     /*const element = document.getElementById('optionsPanel');
     if (element) {
       const overlayButton = document.createElement('img');
