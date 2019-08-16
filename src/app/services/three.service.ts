@@ -551,7 +551,7 @@ export class ThreeService {
     raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
 
     // @ts-ignore
-    const intersects = raycaster.intersectObjects(this.objects, true);
+    const intersects = raycaster.intersectObjects(this.scene.children, true);
 
     if (intersects.length > 0) {
       // We want the closest one
