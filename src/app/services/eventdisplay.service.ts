@@ -77,13 +77,9 @@ export class EventdisplayService {
    */
   public loadEventsFromJSON(eventsData: any): string[] {
     this.eventsData = eventsData;
-    const eventKeys = [];
-    for (const ev of Object.keys(eventsData)) {
-      if (eventsData[ev] != null) {
-        eventKeys.push(ev);
-      }
-    }
+    const eventKeys = this.configuration.getEventDataLoader().buildEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
+
     return eventKeys;
   }
 
@@ -93,7 +89,12 @@ export class EventdisplayService {
    * @param eventKey string that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
-    const event = this.eventsData[eventKey];
+    let event = this.eventsData[eventKey];
+
+    if(Array.isArray(event)){
+      event = event[0];
+    }
+
     if (event) {
       this.buildEventDataFromJSON(event);
     }
@@ -105,6 +106,11 @@ export class EventdisplayService {
    * @param eventData object containing the event data.
    */
   public buildEventDataFromJSON(eventData: any) {
+    // Creating UI folder
+    this.ui.addEventDataFolder();
+    // Clearing existing event data
+    this.graphicsLibrary.clearEventData();
+    // Build data and add to scene
     this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
   }
 
@@ -136,15 +142,19 @@ export class EventdisplayService {
 
   public loadDisplay(input: any) {
     const phoenixScene = JSON.parse(input);
+    
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
+      // Creating UI folder
+      this.ui.addEventDataFolder();
+      // Clearing existing event data
+      this.graphicsLibrary.clearEventData();
+      // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
       this.graphicsLibrary.loadScene(phoenixScene.scene);
     }
   }
 
   private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: [] }) {
-    this.ui.addEventDataFolder();
-    this.graphicsLibrary.clearEventData();
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
       const typeFolder = this.ui.addEventDataTypeFolder(objectType);
       const collections = sceneConfiguration.eventData[objectType];
