@@ -387,7 +387,11 @@ export class ThreeService {
     const sceneString = JSON.stringify(scene, null, 2);
     // @ts-ignore
     loader.parse(sceneString, '', (gltf) => {
+      const eventData = this.getEventData();
       this.scene = gltf.scene;
+
+      eventData.children = gltf.scene.getObjectByName('EventData').children;
+      
       this.setLights();
       this.darkBackground(false);
 
