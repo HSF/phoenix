@@ -41,6 +41,8 @@ export class ThreeService {
   // Managers
   private rendererManager: RendererManager;
   private controlsManager: ControlsManager;
+  // Scene export ignore list
+  private ignoreList: string[];
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects: Object3D[];
   // Clipping planes
@@ -101,6 +103,8 @@ export class ThreeService {
       })(this)
     );
 
+    // Export ignore list
+    this.ignoreList = [(new THREE.AmbientLight()).type, (new THREE.DirectionalLight()).type, (new THREE.AxesHelper()).type];
     // Object Collections
     this.objects = [];
     // Axis
@@ -348,11 +352,15 @@ export class ThreeService {
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
 
+    // Get a copy of clean scene before parse
+    const cleanScene: THREE.Scene = this.cleanScene(this.scene);
+
     // Parse the input and generate the glTF output
-    const result = exporter.parse(this.scene);
+    const result = exporter.parse(cleanScene);
     this.saveString(result, 'phoenix-obj.obj');
   }
 
+  //SAVE SCENE
   public exportPhoenixScene() {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
@@ -362,23 +370,57 @@ export class ThreeService {
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
 
+    // Get a copy of clean scene before parse
+    const cleanScene: THREE.Scene = this.cleanScene(this.scene);
+
     // Parse the input and generate the glTF output
-    exporter.parse(this.scene, (result) => {
+    exporter.parse(cleanScene, (result) => {
       const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
       const output = JSON.stringify(jsonResult, null, 2);
       this.saveString(output, 'phoenix-scene.phnx');
     }, null);
   }
 
+
+  //LAOD SCENE
   public loadScene(scene: any) {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
     // @ts-ignore
     loader.parse(sceneString, '', (gltf) => {
+      const eventData = this.getEventData();
       this.scene = gltf.scene;
+
+      eventData.children = gltf.scene.getObjectByName('EventData').children;
+      
       this.setLights();
       this.darkBackground(false);
+
+      if(this.axis !== null) this.scene.add(this.axis);
     });
+  }
+
+  /**
+   * Creates a cleaned copy of a scene.
+   * @param {Scene} scene Scene to copy and clean.
+   * @returns {Scene}
+   * @private
+   */
+  private cleanScene(scene: THREE.Scene): THREE.Scene{
+    const clearScene: THREE.Scene = scene.clone();
+    const scope = this;
+    const removeList = [];
+
+    clearScene.traverse(
+      function(object: THREE.Object3D){
+        if(scope.ignoreList.includes(object.type)) removeList.push(object);
+      }
+    );
+
+    clearScene.remove(...removeList);
+
+
+    return clearScene;
   }
 
   public clearCanvas() {
@@ -395,6 +437,9 @@ export class ThreeService {
     const eventData = this.getEventData();
     if (eventData != null) {
       this.scene.remove(eventData);
+
+      //clear previously saved objects
+      this.objects = [];
     }
     this.getEventData();
   }
@@ -443,14 +488,46 @@ export class ThreeService {
     this.scene.background = new THREE.Color(background);
   }
 
-  public setCameraPos(cameraPos: number[]) {
-    return () => {
-      new TWEEN.Tween(this.controlsManager.activeCamera.position).to({
-        x: cameraPos[0],
-        y: cameraPos[1],
-        z: cameraPos[2]
-      }, 1000).start();
-    };
+  /**
+   * Animates camera transform.
+   * @param {number[]} cameraPosition End position.
+   * @param {number[]} cameraTarget End target.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraTransform(cameraPosition: number[], cameraTarget: number[], duration: number): void {
+      this.animateCameraPosition(cameraPosition, duration);
+      this.animateCameraTarget(cameraTarget, duration);
+  }
+  /**
+   * Animates camera position.
+   * @param {number[]} cameraPosition End position.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraPosition(cameraPosition: number[], duration: number): void{
+    const posAnimation = new TWEEN.Tween(this.controlsManager.activeCamera.position);
+    posAnimation.to({
+      x: cameraPosition[0],
+      y: cameraPosition[1],
+      z: cameraPosition[2]
+    }, duration);
+    posAnimation.start();
+  }
+   /**
+   * Animates camera target.
+   * @param {number[]} cameraTarget End target.
+   * @param {number} duration Duration of an animation in seconds.
+   * @private
+   */
+  public animateCameraTarget(cameraTarget: number[], duration: number): void{
+    const rotAnimation = new TWEEN.Tween(this.controlsManager.activeControls.target);
+    rotAnimation.to({
+      x: cameraTarget[0],
+      y: cameraTarget[1],
+      z: cameraTarget[2]
+    }, duration);
+    rotAnimation.start();
   }
 
   /**
@@ -505,22 +582,26 @@ export class ThreeService {
    * @param targetlookAtVector Vector to align camera to.
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
-    const activeLookAtVector = new THREE.Vector3(0, 0, -1);
+    const activeLookAtVector: THREE.Vector3  = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
-    const orbitTargetVector = new THREE.Vector3();
+    const orbitTargetVector: THREE.Vector3  = new THREE.Vector3();
     orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
 
-    const direction = orbitTargetVector.dot(targetlookAtVector);
+    const direction: number = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
     if (direction < 0) {
       targetlookAtVector.multiplyScalar(-1);
     }
 
-    const newLookAtPoint = targetlookAtVector.add(this.controlsManager.mainCamera.position);
-    this.controlsManager.mainControls.target = newLookAtPoint;
+    const newLookAtPoint: THREE.Vector3 = targetlookAtVector.add(this.controlsManager.mainCamera.position);
 
-    this.updateControls();
+    //instant change
+    //this.controlsManager.mainControls.target = newLookAtPoint;
+    //this.updateControls();
+
+    //animated change
+    this.animateCameraTarget(newLookAtPoint.toArray(), 1000);
   }
 
   private enableSelecting() {
@@ -709,15 +790,21 @@ export class ThreeService {
 
   public collectionColor(collectionName: string, value: any) {
     const collection = this.scene.getObjectByName(collectionName);
+
     for (const child of Object.values(collection.children)) {
-      let color;
-      // For jets and tracks
-      if (child instanceof Line || child instanceof Mesh) {
-        if (child.material instanceof LineBasicMaterial || child.material instanceof MeshBasicMaterial) {
-          color = child.material.color;
+
+      child.traverse(
+        function(object: THREE.Object3D){
+
+          // For jets and tracks
+          if (object instanceof Line || object instanceof Mesh) {
+            if (object.material instanceof LineBasicMaterial || object.material instanceof MeshBasicMaterial) {
+              object.material.color.set(value);
+            }
+          }
         }
-      }
-      color.set(value);
+      );
+
     }
   }
 

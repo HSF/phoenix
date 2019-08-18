@@ -115,14 +115,20 @@ export class UIService {
     const presetViewFolder = this.viewFolder.addFolder('Preset Views');
     const presetIconsUl = document.createElement('div');
     presetIconsUl.className = 'preset-views';
+
+    const scope = this;
     presetViews.forEach((view) => {
+      // Animation
+      const animationFunction = function(){
+        scope.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
+      };
       // For menu
-      view.setView = this.three.setCameraPos(view.cameraPos);
+      view.setView = animationFunction;
       presetViewFolder.add(view, 'setView').name(view.name);
       // For icons
       const viewElement = document.createElement('img');
       viewElement.setAttribute('src', view.getIconURL());
-      viewElement.addEventListener('click', this.three.setCameraPos(view.cameraPos));
+      viewElement.addEventListener('click', animationFunction);
       presetIconsUl.append(viewElement);
     });
     const element = document.getElementById('optionsPanel');
