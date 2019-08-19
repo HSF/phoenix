@@ -61,22 +61,29 @@
 
 <div class="optionsWrapper">
   <div id="optionsPanel">
-    <!-- Toggle for the loading modal -->
-    <button type="button" id="fileModalToggle" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
-    </button>
+    <!-- Toggle for the loading modal-->
+    <svg class="optionsButton" data-toggle="modal" data-target="#fileModal">
+      <use href="assets/icons/file.svg#file"></use>
+    </svg>
+
     <!-- Toggle for selected object panel -->
-    <img class="optionsButton" [src]="showObjectsInfo? 'assets/icons/info_active.svg' : 'assets/icons/info.svg'"
-         alt=""
+    <svg class="optionsButton" [ngClass]="showObjectsInfo? 'activeIcon' : ''"
          (click)="showObjectsInfo = !showObjectsInfo">
+      <use href="assets/icons/info.svg#info"></use>
+    </svg>
+
     <!-- Toggle for selected object panel -->
-    <img class="optionsButton" [src]="hiddenSelectedInfo? 'assets/icons/cursor.svg' : 'assets/icons/cursor_active.svg'"
-         alt=""
-         (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
+    <svg class="optionsButton" [ngClass]="hiddenSelectedInfo? '' : 'activeIcon'" (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
+      <use href="assets/icons/cursor.svg#cursor"></use>
+    </svg>
+
     <!-- Toggle for overlay panel -->
-    <img class="optionsButton" [src]="overlayPanel? 'assets/icons/overlay_active.svg' : 'assets/icons/overlay.svg'"
-         alt=""
-         (click)="toggleOverlay()">
+    <svg class="optionsButton" [ngClass]="overlayPanel? 'activeIcon' : ''" (click)="toggleOverlay()">
+      <use href="assets/icons/overlay.svg#overlay"></use>
+    </svg>
+
     <div class="optionsSeparator"></div>
+
     <!-- Event selector -->
     <div class="eventSelector" *ngIf="events!=null">
       <label for="event">Event</label>

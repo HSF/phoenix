@@ -120,17 +120,20 @@ export class UIService {
     const scope = this;
     presetViews.forEach((view) => {
       // Animation
-      const animationFunction = function() {
+      const animationFunction = () => {
         scope.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
       };
       // For menu
       view.setView = animationFunction;
       presetViewFolder.add(view, 'setView').name(view.name);
       // For icons
-      const viewElement = document.createElement('img');
-      viewElement.setAttribute('src', view.getIconURL());
-      viewElement.addEventListener('click', animationFunction);
-      presetIconsUl.append(viewElement);
+      const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svgElement.classList.add('optionsButton');
+      svgElement.addEventListener('click', animationFunction);
+      const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      useElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', view.getIconURL());
+      svgElement.append(useElement);
+      presetIconsUl.append(svgElement);
     });
     const element = document.getElementById('optionsPanel');
     if (element) {

@@ -16,9 +16,9 @@ export class TrackmlComponent implements OnInit {
   ngOnInit() {
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Right View', [0, 0, 6000], 'right.svg'),
-      new PresetView('Center View', [-500, 1000, 0], 'circle.svg'),
-      new PresetView('Left View', [0, 0, -6000], 'left.svg')
+      new PresetView('Right View', [0, 0, 6000], 'right'),
+      new PresetView('Center View', [-500, 1000, 0], 'circle'),
+      new PresetView('Left View', [0, 0, -6000], 'left')
     ];
     this.eventDisplay.init(configuration);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
