@@ -13,6 +13,7 @@ export class Configuration {
   allowSelecting: boolean;
   presetViews: PresetView[];
   eventDataLoader: EventDataLoader;
+  darkBackground: boolean;
 
   constructor() {
     this.xClipPosition = 1200;
@@ -25,6 +26,7 @@ export class Configuration {
     this.allowSelecting = false;
     this.presetViews = [];
     this.eventDataLoader = new PhoenixLoader();
+    this.darkBackground = matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   public anyPresetView(): boolean {

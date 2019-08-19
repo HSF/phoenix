@@ -4,7 +4,7 @@
 
 nav a.navbar-brand {
   font-family: "Lato";
-  color: #777;
+  color: var(--phoenix-text-color-secondary);
   font-weight: 500;
 }
 
@@ -23,7 +23,7 @@ nav a.navbar-brand {
 
 
 nav a {
-  color: #4e4e4e;
+  color:var(--phoenix-text-color-secondary);;
 }
 
 #github-link {
@@ -48,12 +48,12 @@ nav a {
 }
 
 
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
-  color: rgba(0, 0, 0, 0.5);
+.navbar-light .navbar-nav .nav-link {
+  color: var(--phoenix-text-color-secondary) !important;
 }
 
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link:hover {
-  color: rgba(0, 0, 0, 0.7);
+.navbar-light .navbar-nav .nav-link:hover {
+  color: red !important;
 }
 
 @media (max-width: 992px) {

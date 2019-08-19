@@ -1,4 +1,21 @@
+:root{
+  --phoenix-background-color: #ffffff;
+  --phoenix-background-color-secondary: #ffffff;
+  --phoenix-background-color-tertiary: #ffffff;
+  --phoenix-text-color: #333333;
+  --phoenix-text-color-secondary: #777777;
+  --phoenix-box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
+  --phoenix-scroll-color: #D3D3D3;
+  --dat-background-primary: #F9F9F9;
+  --dat-background-secondary: #efefef;
+  --dat-background-tertiary: #e9e9e9;
+  --dat-background-quaternary: #ffffff;
+  --dat-border: #f0f0f0;
+}
 
+html, body {
+  background-color: var(--phoenix-background-color);
+}
 
 /* Scroll bar styles */
 ::-webkit-scrollbar {
@@ -15,7 +32,7 @@
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 10px;
   border-radius: 10px;
-  background: rgb(211, 211, 211);
+  background: var(--phoenix-scroll-color);
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
 }
 
@@ -51,20 +68,20 @@ canvas {
 
   .folder {
     .title {
-      background: #F9F9F9;
+      background: var(--dat-background-primary);
       text-shadow: none;
-      color: #333333;
-      border-color: #e9e9e9;
+      color: var(--phoenix-text-color);
+      border-color: var(--dat-border);
     }
 
     .folder {
       .title {
-        background: #efefef;
+        background: var(--dat-background-secondary);
       }
 
       .folder {
         .title {
-          background: #e9e9e9;
+          background: var(--dat-background-tertiary);
         }
       }
     }
@@ -75,29 +92,29 @@ canvas {
     }
 
     .dg ul .cr {
-      background: #ffffff;
-      color: #333333;
+      background: var(--dat-background-quaternary);
+      color: var(--phoenix-text-color);
       text-shadow: none;
-      border-color: #f0f0f0;
+      border-color: var(--dat-border);
     }
   }
 
   .close-button {
-    background: #F9F9F9;
+    background: var(--dat-background-primary);
     text-shadow: none;
-    color: #333333;
-    border-color: #f0f0f0;
+    color: var(--phoenix-text-color);
+    border-color: var(--dat-border);
   }
 
   .dg .c .slider {
     background: none;
     .slider-fg {
-      background: #1E8BB0;
+      background-image: linear-gradient(to right, #1e8bb0, #00acb9, #00ca9d, #81df69, #f1e833);
     }
   }
 
   .dg .cr.number input[type=text] {
-    color: #333333;
+    color: var(--phoenix-text-color);
     margin-top: -0.5em;
     background: none;
   }
@@ -146,9 +163,9 @@ canvas {
   flex-direction: row-reverse;
   justify-content: flex-start;
   align-content: center;
-  background: white;
+  background: var(--phoenix-background-color-secondary);
   border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+  box-shadow: var(--phoenix-box-shadow);
   border-radius: 10px;
   padding: 0.5rem 1rem;
   overflow-x: scroll;
@@ -176,7 +193,7 @@ canvas {
   display: flex;
   label {
     display: none;
-    color: #777777;
+    color: var(--phoenix-text-color-secondary);
   }
   select {
     width: 6rem;
@@ -187,8 +204,8 @@ canvas {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: url(assets/images/logo-small.svg) 96% / 30% no-repeat #f9f9f9;
-    color: #777777;
+    background: url(assets/images/logo-small.svg) 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
   }
 }
 
@@ -223,4 +240,21 @@ canvas {
 @font-face {
   font-family: "Lato";
   src: url(assets/fonts/Lato-Regular.ttf);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root{
+    --phoenix-background-color: #000000;
+    --phoenix-background-color-secondary: #181818;
+    --phoenix-background-color-tertiary: #262626;
+    --phoenix-text-color: white;
+    --phoenix-text-color-secondary: #dbdbdb;
+    --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
+    --phoenix-scroll-color: #3d3d3d;
+    --dat-background-primary: #181818;
+    --dat-background-secondary: #262626;
+    --dat-background-tertiary: #343434;
+    --dat-background-quaternary: #101010;
+    --dat-border: #343434;
+  }
 }

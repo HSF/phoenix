@@ -24,8 +24,8 @@ textarea {
 .imageLabel {
   font-size: 1em;
   font-weight: 700;
-  color: white;
-  background-color: #6EAECE;
+  color: var(--phoenix-text-color);
+  background-color: #6eaece;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -87,19 +87,19 @@ textarea {
   left: 2rem;
 }
 
-#infoPanel {
+#selectedObjectPanel {
   width: 15rem;
   max-width: 15rem;
   max-height: 16rem;
   min-width: 7rem;
   border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+  box-shadow: var(--phoenix-box-shadow);
   border-radius: 10px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--phoenix-text-color-secondary);
   padding: 0 0.8em;
   overflow-y: scroll;
   z-index: 99;
-  background: white;
+  background: var(--phoenix-background-color-secondary);
 
   &.hidden {
     display: none;
@@ -108,43 +108,45 @@ textarea {
   attributeField {
     max-width: 12rem;
   }
-}
 
-.infoPanelHeader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  align-content: center;
-  justify-content: space-around;
-  border-bottom: 1px solid rgba(88, 88, 88, 0.08);
-  margin-bottom: 0.7rem;
-  padding: 0.8rem 0.6rem;
+  .selectedObjectPanelHeader {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+    border-bottom: 1px solid rgba(88, 88, 88, 0.08);
+    margin-bottom: 0.7rem;
+    padding: 0.8rem 0.6rem;
 
-  h5 {
-    font-family: Circular, sans-serif;
-    margin: 0 1rem;
+    h5 {
+      font-family: Circular, sans-serif;
+      margin: 0 1rem;
+    }
+
+    img {
+      height: 0.6rem;
+      cursor: pointer;
+    }
   }
 
-  img {
-    height: 0.6rem;
-    cursor: pointer;
+
+  #selectedObjectPanelBody {
+    margin-bottom: 1rem;
+
+    &.hidden {
+      display: none;
+    }
   }
 }
 
 
-#infoPanelBody {
-  margin-bottom: 1rem;
-
-  &.hidden {
-    display: none;
-  }
-}
 
 
 .info-box {
   box-sizing: border-box;
-  color: #777777;
-  background: #fff;
+  color: var(--phoenix-text-color-secondary);
+  background: var(--phoenix-background-color-secondary);
   transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
   padding: 1rem 1.5rem;
   position: absolute;
@@ -168,7 +170,7 @@ textarea {
     align-items: center;
 
     span {
-      color: #777777;
+      color: var(--phoenix-text-color-secondary);
       margin-right: 1rem;
     }
   }
@@ -182,7 +184,7 @@ textarea {
     position: absolute;
     top: 5px;
     right: 15px;
-    color: #ccc;
+    color: var(--phoenix-background-color-tertiary);
     cursor: move;
     width: 1rem;
     height: 1rem;
@@ -190,11 +192,12 @@ textarea {
 
   #collectionTable {
     position: relative;
+    color: var(--phoenix-text-color-secondary);
 
     thead tr th {
       position: sticky;
       top: 0;
-      background: white;
+      background: var(--phoenix-background-color-secondary);
     }
 
     tr * {

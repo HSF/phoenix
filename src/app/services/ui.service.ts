@@ -70,7 +70,8 @@ export class UIService {
     this.addToggle(this.controlsFolder, 'rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addToggle(this.controlsFolder, 'axis', 'Axis', true, (value) => this.three.setAxis(value));
     this.addToggle(this.controlsFolder, 'lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
-    this.addToggle(this.controlsFolder, 'darkBg', 'Dark Background', false, (value) => this.three.darkBackground(value));
+    this.addToggle(this.controlsFolder, 'darkBg', 'Dark Background', configuration.darkBackground,
+      (value) => this.three.darkBackground(value));
     this.addToggle(this.controlsFolder, 'clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
 
     this.controlsFolder.add(this.three.getXClipPlane(), 'constant', -configuration.xClipPosition, configuration.xClipPosition)
@@ -119,7 +120,7 @@ export class UIService {
     const scope = this;
     presetViews.forEach((view) => {
       // Animation
-      const animationFunction = function(){
+      const animationFunction = function() {
         scope.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
       };
       // For menu

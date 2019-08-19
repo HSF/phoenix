@@ -392,11 +392,13 @@ export class ThreeService {
       this.scene = gltf.scene;
 
       eventData.children = gltf.scene.getObjectByName('EventData').children;
-      
+
       this.setLights();
       this.darkBackground(false);
 
-      if(this.axis !== null) this.scene.add(this.axis);
+      if (this.axis !== null) {
+        this.scene.add(this.axis);
+      }
     });
   }
 
@@ -406,14 +408,16 @@ export class ThreeService {
    * @returns {Scene}
    * @private
    */
-  private cleanScene(scene: THREE.Scene): THREE.Scene{
+  private cleanScene(scene: THREE.Scene): THREE.Scene {
     const clearScene: THREE.Scene = scene.clone();
     const scope = this;
     const removeList = [];
 
     clearScene.traverse(
-      function(object: THREE.Object3D){
-        if(scope.ignoreList.includes(object.type)) removeList.push(object);
+      function(object: THREE.Object3D) {
+        if (scope.ignoreList.includes(object.type)) {
+          removeList.push(object);
+        }
       }
     );
 
@@ -438,7 +442,7 @@ export class ThreeService {
     if (eventData != null) {
       this.scene.remove(eventData);
 
-      //clear previously saved objects
+      // clear previously saved objects
       this.objects = [];
     }
     this.getEventData();
@@ -496,16 +500,17 @@ export class ThreeService {
    * @private
    */
   public animateCameraTransform(cameraPosition: number[], cameraTarget: number[], duration: number): void {
-      this.animateCameraPosition(cameraPosition, duration);
-      this.animateCameraTarget(cameraTarget, duration);
+    this.animateCameraPosition(cameraPosition, duration);
+    this.animateCameraTarget(cameraTarget, duration);
   }
+
   /**
    * Animates camera position.
    * @param {number[]} cameraPosition End position.
    * @param {number} duration Duration of an animation in seconds.
    * @private
    */
-  public animateCameraPosition(cameraPosition: number[], duration: number): void{
+  public animateCameraPosition(cameraPosition: number[], duration: number): void {
     const posAnimation = new TWEEN.Tween(this.controlsManager.activeCamera.position);
     posAnimation.to({
       x: cameraPosition[0],
@@ -514,13 +519,14 @@ export class ThreeService {
     }, duration);
     posAnimation.start();
   }
-   /**
+
+  /**
    * Animates camera target.
    * @param {number[]} cameraTarget End target.
    * @param {number} duration Duration of an animation in seconds.
    * @private
    */
-  public animateCameraTarget(cameraTarget: number[], duration: number): void{
+  public animateCameraTarget(cameraTarget: number[], duration: number): void {
     const rotAnimation = new TWEEN.Tween(this.controlsManager.activeControls.target);
     rotAnimation.to({
       x: cameraTarget[0],
@@ -582,10 +588,10 @@ export class ThreeService {
    * @param targetlookAtVector Vector to align camera to.
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
-    const activeLookAtVector: THREE.Vector3  = new THREE.Vector3(0, 0, -1);
+    const activeLookAtVector: THREE.Vector3 = new THREE.Vector3(0, 0, -1);
     activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
 
-    const orbitTargetVector: THREE.Vector3  = new THREE.Vector3();
+    const orbitTargetVector: THREE.Vector3 = new THREE.Vector3();
     orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
 
     const direction: number = orbitTargetVector.dot(targetlookAtVector);
@@ -794,7 +800,7 @@ export class ThreeService {
     for (const child of Object.values(collection.children)) {
 
       child.traverse(
-        function(object: THREE.Object3D){
+        function(object: THREE.Object3D) {
 
           // For jets and tracks
           if (object instanceof Line || object instanceof Mesh) {

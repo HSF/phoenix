@@ -89,7 +89,7 @@ export class EventdisplayService {
    * @param eventKey string that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
-    let event = this.eventsData[eventKey];
+    const event = this.eventsData[eventKey];
 
     if (event) {
       this.buildEventDataFromJSON(event);
