@@ -28,6 +28,7 @@
       </tr>
       </tbody>
     </table>
+    <p class="emptyBox" *ngIf="!collections">Load event data to be able to display information about the collections here.</p>
   </div>
 
 
@@ -41,7 +42,7 @@
 </div>
 
 <div id="eventDisplay">
-  <div class="infoPanelWrapper">
+  <div class="infoPanelWrapper" cdkDrag>
     <div id="selectedObjectPanel" [ngClass]="{'hidden' : hiddenSelectedInfo}">
       <div class="selectedObjectPanelHeader">
         <div></div>

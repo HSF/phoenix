@@ -21,6 +21,9 @@ nav a.navbar-brand {
   cursor: pointer;
 }
 
+li a svg {
+
+}
 
 nav a {
   color:var(--phoenix-text-color-secondary);;
@@ -30,8 +33,9 @@ nav a {
   display: flex;
   align-items: center;
 
-  a img {
+  a svg {
     height: 1.6rem;
+    width: 1.6rem;
     &:hover {
       opacity: 0.8;
     }
@@ -53,7 +57,7 @@ nav a {
 }
 
 .navbar-light .navbar-nav .nav-link:hover {
-  color: red !important;
+  color: var(--phoenix-text-color-hover) !important;
 }
 
 @media (max-width: 992px) {

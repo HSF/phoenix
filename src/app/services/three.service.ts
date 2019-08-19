@@ -391,7 +391,10 @@ export class ThreeService {
       const eventData = this.getEventData();
       this.scene = gltf.scene;
 
-      eventData.children = gltf.scene.getObjectByName('EventData').children;
+      const savedEvent = gltf.scene.getObjectByName('EventData');
+      if (savedEvent) {
+        eventData.children = savedEvent.children;
+      }
 
       this.setLights();
       this.darkBackground(false);

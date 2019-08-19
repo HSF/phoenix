@@ -4,6 +4,7 @@
   --phoenix-background-color-tertiary: #ffffff;
   --phoenix-text-color: #333333;
   --phoenix-text-color-secondary: #777777;
+  --phoenix-text-color-hover: #c5c5c5;
   --phoenix-box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
   --phoenix-scroll-color: #D3D3D3;
   --phoenix-options-icon-bg: #ffffff;
@@ -122,7 +123,7 @@ canvas {
     background: none;
   }
 
-  .dg .c input[type=text] {
+  .dg .cr.color .c input[type=text] {
     max-height: 2em;
   }
 }
@@ -245,6 +246,7 @@ canvas {
     --phoenix-background-color-tertiary: #262626;
     --phoenix-text-color: white;
     --phoenix-text-color-secondary: #dbdbdb;
+    --phoenix-text-color-hover: #c5c5c5;
     --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
     --phoenix-scroll-color: #3d3d3d;
     --phoenix-options-icon-bg: #313131;

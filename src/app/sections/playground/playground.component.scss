@@ -24,7 +24,7 @@ textarea {
 .imageLabel {
   font-size: 1em;
   font-weight: 700;
-  color: var(--phoenix-text-color);
+  color: white;
   background-color: #6eaece;
   display: flex;
   flex-direction: column;
@@ -178,6 +178,10 @@ textarea {
   .boxBody {
     max-height: 40vh;
     overflow-y: scroll;
+
+    p.emptyBox {
+      max-width: 21em;
+    }
   }
 
   .info-handle {
@@ -211,6 +215,14 @@ textarea {
 }
 
 
+.modal-content {
+  background: var(--phoenix-background-color-secondary);
+  color: var(--phoenix-text-color-secondary);
+
+  .close {
+    color: var(--phoenix-text-color-secondary);
+  }
+}
 
 
 
