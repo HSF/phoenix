@@ -11,6 +11,6 @@ export class PresetView {
   }
 
   getIconURL() {
-    return '/assets/preset-views/' + this.icon + '.svg#' + this.icon;
+    return 'assets/preset-views/' + this.icon + '.svg#' + this.icon;
   }
 }
