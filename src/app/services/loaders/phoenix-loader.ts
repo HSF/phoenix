@@ -11,21 +11,25 @@ export class PhoenixLoader implements EventDataLoader {
   private eventData: any;
 
 
-  public buildEventsList(eventsData: any): string[]{
+  public buildEventsList(eventsData: any): string[] {
     const eventsList: string[] = [];
 
     for (const eventName of Object.keys(eventsData)) {
-      if (eventsData[eventName] !== null) eventsList.push(eventName);
+      if (eventsData[eventName] !== null) {
+        eventsList.push(eventName);
+      }
     }
 
     return eventsList;
   }
 
-  public buildCollectionsList(object: any): string[]{
+  public buildCollectionsList(object: any): string[] {
     const collectionsList: string[] = [];
 
     for (const collectionName of Object.keys(object)) {
-      if(object[collectionName] !== null) collectionsList.push(collectionName);
+      if (object[collectionName] !== null) {
+        collectionsList.push(collectionName);
+      }
     }
 
     return collectionsList;
@@ -97,7 +101,8 @@ export class PhoenixLoader implements EventDataLoader {
     }
   }
 
-  private addCollection(objectCollection: any, collectionName: string, addObject: (object: any, scene: Object3D) => void, objectGroup: Group) {
+  private addCollection(objectCollection: any, collectionName: string,
+                        addObject: (object: any, scene: Object3D) => void, objectGroup: Group) {
     const collscene = new THREE.Group();
     collscene.name = collectionName;
 
@@ -125,16 +130,16 @@ export class PhoenixLoader implements EventDataLoader {
     positions.sort((a, b) => {
       const distA = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
       const distB = b[0] * b[0] + b[1] * b[1] + b[2] * b[2];
-      
+
       return distA - distB;
     });
 
-    //const length = 100;
+    // const length = 100;
     let color;
     if (track.color) {
       color = parseInt(track.color, 16);
-    }else{
-      color = 0xff0000
+    } else {
+      color = 0xff0000;
     }
 
     // Apply pT cut TODO - make this configurable.
@@ -235,7 +240,7 @@ export class PhoenixLoader implements EventDataLoader {
     // geometry
     const geometry = new THREE.BoxGeometry(30, 30, length);
     // material
-    const material = new THREE.MeshBasicMaterial({color: Math.random() * 0xffffff});
+    const material = new THREE.MeshPhongMaterial({color: 0xFFD166});
     // object
     const cube = new THREE.Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, cluster.eta));
@@ -287,7 +292,9 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   getCollections(): string[] {
-    if(!this.eventData) return null;
+    if (!this.eventData) {
+      return null;
+    }
 
     const collections = [];
     for (const objectType of Object.keys(this.eventData)) {
@@ -299,7 +306,9 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   getCollection(collectionName: string): any {
-    if(!this.eventData) return null;
+    if (!this.eventData) {
+      return null;
+    }
 
     for (const objectType of Object.keys(this.eventData)) {
       for (const collection of Object.keys(this.eventData[objectType])) {

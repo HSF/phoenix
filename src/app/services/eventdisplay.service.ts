@@ -91,10 +91,6 @@ export class EventdisplayService {
   public loadEvent(eventKey: any) {
     let event = this.eventsData[eventKey];
 
-    if(Array.isArray(event)){
-      event = event[0];
-    }
-
     if (event) {
       this.buildEventDataFromJSON(event);
     }
@@ -142,7 +138,7 @@ export class EventdisplayService {
 
   public loadDisplay(input: any) {
     const phoenixScene = JSON.parse(input);
-    
+
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
       // Creating UI folder
       this.ui.addEventDataFolder();
