@@ -189,7 +189,7 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, remove: this.removeOBJ(name)};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, remove: this.removeOBJ(name), scale: 1};
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
@@ -197,6 +197,11 @@ export class UIService {
     // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
     showMenu.onChange((value) => this.three.objectVisibility(name, value));
+    // Scale slider
+    const scaleMenu = objFolder.add(this.guiParameters[name], 'scale', 0, 1000).name('Scale');
+    scaleMenu.onChange((value) => {
+      this.three.scaleObject(name, value);
+    });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);
     objFolder.add(this.guiParameters[name], 'x', -this.configuration.maxPositionX, this.configuration.maxPositionX)

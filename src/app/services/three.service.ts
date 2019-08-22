@@ -789,6 +789,11 @@ export class ThreeService {
     }
   }
 
+  public scaleObject(name: string, value: any) {
+    const object = this.scene.getObjectByName(name);
+    object.scale.set(value, value, value);
+  }
+
   public addEventDataTypeGroup(objectType: string): Group {
     const eventData = this.getEventData();
     const typeGroup = new Group();
@@ -843,4 +848,6 @@ export class ThreeService {
   fixOverlayView(value: boolean) {
     this.rendererManager.setFixOverlay(value);
   }
+
+
 }
