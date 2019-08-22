@@ -382,7 +382,7 @@ export class ThreeService {
   }
 
 
-  //LAOD SCENE
+  //LOAD SCENE
   public loadScene(scene: any) {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
@@ -396,6 +396,23 @@ export class ThreeService {
         eventData.children = savedEvent.children;
       }
 
+      this.setLights();
+      this.darkBackground(false);
+
+      if (this.axis !== null) {
+        this.scene.add(this.axis);
+      }
+    });
+  }
+
+  //LOAD SCENE
+  public loadGLTFDetector(scene_url: any) {
+    console.log("Loading ", scene_url)
+    const loader = new GLTFLoader();
+    // @ts-ignore
+    loader.load(scene_url, (gltf) => {
+    
+      this.scene.add(gltf.scene);
       this.setLights();
       this.darkBackground(false);
 
