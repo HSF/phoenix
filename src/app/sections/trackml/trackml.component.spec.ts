@@ -8,7 +8,8 @@ describe('TrackmlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrackmlComponent ]
+      declarations: [ TrackmlComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   }));
