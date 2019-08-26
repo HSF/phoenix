@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
 import {GeometryComponent} from './sections/geometry/geometry.component';
 import {AtlasComponent} from './sections/atlas/atlas.component';
+import {LHCbComponent} from './sections/lhcb/lhcb.component';
 import {TrackmlComponent} from './sections/trackml/trackml.component';
 import {NavComponent} from './nav/nav.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'geometry', component: GeometryComponent},
   {path: 'atlas', component: AtlasComponent},
+  {path: 'lhcb', component: LHCbComponent},
   {path: 'trackml', component: TrackmlComponent},
   {path: 'playground', component: PlaygroundComponent},
   {path: 'playgroundVR', component: PlaygroundVrComponent}
@@ -30,6 +32,7 @@ const routes: Routes = [
     HomeComponent,
     GeometryComponent,
     AtlasComponent,
+    LHCbComponent,
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,

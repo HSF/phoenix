@@ -1,0 +1,15 @@
+<div id="eventDisplay"></div>
+<div class="optionsWrapper">
+  <div id="optionsPanel">
+    <div class="eventSelector" *ngIf="events!=null">
+      <label for="event">Event</label>
+      <select id="event" name="event" (change)='onOptionsSelected($event)'>
+        <option value="" selected disabled hidden>Choose Event</option>
+        <option *ngFor="let event of events" [value]="event">
+          {{event}}
+        </option>
+      </select>
+    </div>
+    <div class="optionsSeparator"></div>
+  </div>
+</div>

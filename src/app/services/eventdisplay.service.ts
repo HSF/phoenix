@@ -136,6 +136,10 @@ export class EventdisplayService {
 
   }
 
+  public loadGLTFDetector(url: any) {
+    this.graphicsLibrary.loadGLTFDetector(url);
+  }
+
   public loadDisplay(input: any) {
     const phoenixScene = JSON.parse(input);
 
