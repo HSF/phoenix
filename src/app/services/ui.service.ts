@@ -80,8 +80,8 @@ export class UIService {
       .name('yClipPosition');
     this.controlsFolder.add(this.three.getZClipPlane(), 'constant', -configuration.zClipPosition, configuration.zClipPosition)
       .name('zClipPosition');
-
-    // View parameters
+    var opacity = this.controlsFolder.add(this.configuration, 'detectorOpacity', 0.0, 1.0).name('Opacity');
+    opacity.onFinishChange((newValue) => this.three.setDetectorOpacity(newValue));
     this.displayViews(configuration);
   }
 
