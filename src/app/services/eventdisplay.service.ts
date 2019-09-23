@@ -11,7 +11,7 @@ export class EventdisplayService {
   private eventsData: any;
   private frameID: number;
 
-  constructor(private graphicsLibrary: ThreeService, private ui: UIService) {
+  constructor(public graphicsLibrary: ThreeService, private ui: UIService) {
   }
 
   /**

@@ -516,7 +516,7 @@ export class ThreeService {
   public setDetectorOpacity(value: number) {
     console.log("Changing detector opacity to ", value)
     if (value) {
-      this.detector.traverse( function (o) {
+      this.detector.traverse( function (o: any) {
         if (o.isMesh == true) {
           o.material.transparent = true;
           o.material.opacity = value;
