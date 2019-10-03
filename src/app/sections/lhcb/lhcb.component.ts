@@ -3,6 +3,7 @@ import {EventdisplayService} from '../../services/eventdisplay.service';
 import {Configuration} from '../../services/loaders/configuration.model';
 import {PresetView} from '../../services/extras/preset-view.model';
 import {HttpClient} from '@angular/common/http';
+import {LHCbLoader} from '../../services/loaders/lhcb-loader';
 
 
 @Component({
@@ -12,6 +13,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class LHCbComponent implements OnInit {
   events: any;
+  loader: LHCbLoader;
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -25,5 +27,18 @@ export class LHCbComponent implements OnInit {
     ];
     this.eventDisplay.init(configuration);
     this.eventDisplay.loadGLTFDetector('assets/geometry/LHCb/lhcb.gltf');
+    this.loader = new LHCbLoader();
+    configuration.eventDataLoader = this.loader;
+    this.loadEventData(configuration)
+
+  }
+
+  private loadEventData(config: Configuration) {
+    this.http.get('assets/files/lhcb/00191749_0005296728.json').subscribe((data: any) => {
+      this.loader.process(data);
+      const eventData = this.loader.getEventData();
+      this.eventDisplay.buildEventDataFromJSON(eventData);
+      this.eventDisplay.graphicsLibrary.setDetectorOpacity(config.detectorOpacity)
+    });
   }
 }
