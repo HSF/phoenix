@@ -1,4 +1,4 @@
-import {EventDataLoader} from './event-data-loader';
+import {EventDataLoader} from '../event-data-loader';
 import {ThreeService} from '../three.service';
 import {UIService} from '../ui.service';
 import {PhoenixLoader} from './phoenix-loader';
@@ -83,17 +83,18 @@ export class TrackmlLoader extends PhoenixLoader {
           // console.log('Just added: ', event_data.Tracks.Particles[i-1]);
         }
       }
-      var hit_id = null, particle_id = null;
+      let hitId;
+      let particleId;
       // tslint:disable-next-line:radix
       const stepSize = parseInt(String(this.truthData.length / 10));
       for (let i = 1; i < this.truthData.length; i++) {
         // Now add the truth data - i.e. add the truth hits which match a particle to the particle (unsorted for the moment)
-        hit_id = i;
+        hitId = i;
         // tslint:disable-next-line:radix
-        particle_id = parseInt(this.truthData[i][0]);
+        particleId = parseInt(this.truthData[i][0]);
         for (let j = 0; j < eventData.Tracks.Particles.length; j++) {
           // console.log(event_data.Tracks.Particles[j]);
-          if (eventData.Tracks.Particles[j].particle_id === particle_id) {
+          if (eventData.Tracks.Particles[j].particle_id === particleId) {
             // Found matching particle - add the truth hit position to the particles positions
             eventData.Tracks.Particles[j].pos.push(
               [parseFloat(this.truthData[i][1]), parseFloat(this.truthData[i][2]), parseFloat(this.truthData[i][3])]);
@@ -105,12 +106,12 @@ export class TrackmlLoader extends PhoenixLoader {
       }
     }
 
-    let num_particle_stubs = 0;
+    let numParticleStubs = 0;
     for (let j = 0; j < eventData.Tracks.Particles.length; j++) {
       if (eventData.Tracks.Particles[j].pos.length < 3) {
         // console.log ('Track has less than 3 positions');
         // console.log(event_data.Tracks.Particles[j]);
-        num_particle_stubs++;
+        numParticleStubs++;
       }
     }
     const events = {};

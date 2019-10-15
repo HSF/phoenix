@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventdisplayService } from './eventdisplay.service';
+import { EventdisplayService } from '../eventdisplay.service';
 
 describe('EventdisplayService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

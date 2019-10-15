@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ThreeService} from './three.service';
 import {UIService} from './ui.service';
-import {Configuration} from './loaders/configuration.model';
+import {Configuration} from './extras/configuration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -77,7 +77,7 @@ export class EventdisplayService {
    */
   public loadEventsFromJSON(eventsData: any): string[] {
     this.eventsData = eventsData;
-    const eventKeys = this.configuration.getEventDataLoader().buildEventsList(eventsData);
+    const eventKeys = this.configuration.getEventDataLoader().getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
 
     return eventKeys;
@@ -178,5 +178,9 @@ export class EventdisplayService {
 
   getCollections(): string[] {
     return this.configuration.getEventDataLoader().getCollections();
+  }
+
+  setDetectorOpacity(detectorOpacity: number) {
+    this.graphicsLibrary.setDetectorOpacity(detectorOpacity);
   }
 }

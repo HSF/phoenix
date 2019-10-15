@@ -1,4 +1,4 @@
-import {EventDataLoader} from './event-data-loader';
+import {EventDataLoader} from '../event-data-loader';
 import {ThreeService} from '../three.service';
 import {UIService} from '../ui.service';
 import {PhoenixLoader} from './phoenix-loader';
@@ -12,7 +12,7 @@ export class LHCbLoader extends PhoenixLoader {
   }
 
   public process(data: any) {
-    console.log("Processing event data")
+    console.log('Processing event data')
     this.data = data;
   }
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EventdisplayService} from '../../services/eventdisplay.service';
-import {Configuration} from '../../services/loaders/configuration.model';
+import {Configuration} from '../../services/extras/configuration.model';
 import {PresetView} from '../../services/extras/preset-view.model';
 import {HttpClient} from '@angular/common/http';
 
@@ -19,9 +19,9 @@ export class AtlasComponent implements OnInit {
   ngOnInit() {
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Right View', [0, 0, 6000], 'right'),
+      new PresetView('Left View', [0, 0, -6000], 'left'),
       new PresetView('Center View', [-500, 1000, 0], 'circle'),
-      new PresetView('Left View', [0, 0, -6000], 'left')
+      new PresetView('Right View', [0, 0, 6000], 'right')
     ];
     this.eventDisplay.init(configuration);
     this.http.get('assets/files/event_data/atlaseventdump2.json')

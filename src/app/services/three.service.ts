@@ -16,7 +16,7 @@ import {
   OrthographicCamera,
   WebGLRendererParameters,
 } from 'three';
-import {Configuration} from './loaders/configuration.model';
+import {Configuration} from './extras/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
 import {WebVR} from './extras/web-vr';
@@ -193,7 +193,7 @@ export class ThreeService {
     canvas.style.borderRadius = '8px';
     //canvas.style.pointerEvents = "none";
 
-    // Add listener 
+    // Add listener
     let offset: { x: number, y: number } = {x: 0, y: 0};
     let mouseDown: boolean = false;
 

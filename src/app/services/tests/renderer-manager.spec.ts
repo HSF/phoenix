@@ -1,4 +1,4 @@
-import { RendererManager } from './renderer-manager';
+import { RendererManager } from '../extras/renderer-manager';
 
 describe('RendererManager', () => {
   it('should create an instance', () => {
