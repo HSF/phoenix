@@ -37,6 +37,7 @@ export class EventdisplayService {
   }
 
   public initVR(configuration: Configuration) {
+    this.configuration = configuration;
     this.graphicsLibrary.init(configuration);
     // Showing the UI elements
     this.ui.showUI(configuration);
