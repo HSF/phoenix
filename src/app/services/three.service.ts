@@ -292,6 +292,9 @@ export class ThreeService {
     if (configuration.allowSelecting) {
       this.enableSelecting();
     }
+    if (configuration.colorScheme) {
+      configuration.colorScheme.addListener(() => this.darkBackground(configuration.colorScheme.matches));
+    }
   }
 
   private saveString(text, filename) {
@@ -408,11 +411,11 @@ export class ThreeService {
 
   //LOAD SCENE
   public loadGLTFDetector(scene_url: any) {
-    console.log("Loading ", scene_url)
+    console.log('Loading ', scene_url);
     const loader = new GLTFLoader();
     // @ts-ignore
     loader.load(scene_url, (gltf) => {
-      this.detector= gltf.scene;
+      this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
       this.darkBackground(false);
@@ -514,9 +517,9 @@ export class ThreeService {
   }
 
   public setDetectorOpacity(value: number) {
-    console.log("Changing detector opacity to ", value)
+    console.log('Changing detector opacity to ', value);
     if (value) {
-      this.detector.traverse( function (o: any) {
+      this.detector.traverse(function(o: any) {
         if (o.isMesh == true) {
           o.material.transparent = true;
           o.material.opacity = value;

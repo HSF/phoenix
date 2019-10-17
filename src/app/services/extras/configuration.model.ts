@@ -15,6 +15,7 @@ export class Configuration {
   eventDataLoader: EventDataLoader;
   darkBackground: boolean;
   detectorOpacity: number;
+  colorScheme: MediaQueryList;
 
   constructor() {
     this.xClipPosition = 1200;
@@ -27,7 +28,8 @@ export class Configuration {
     this.allowSelecting = false;
     this.presetViews = [];
     this.eventDataLoader = new PhoenixLoader();
-    this.darkBackground = matchMedia('(prefers-color-scheme: dark)').matches;
+    this.colorScheme = matchMedia('(prefers-color-scheme: dark)');
+    this.darkBackground = this.colorScheme.matches;
     this.detectorOpacity = 1;
   }
 
