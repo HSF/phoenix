@@ -17,6 +17,7 @@ export class TrackmlLoader extends PhoenixLoader {
 
   public processHits(hits: any) {
     const data = hits.split('\n');
+    console.log("Event has this many hits:",data.length)
 
     let values;
     // format is: hit_id,x,y,z,volume_id,layer_id,module_id
@@ -28,6 +29,7 @@ export class TrackmlLoader extends PhoenixLoader {
 
   public processParticles(particles: any) {
     const data = particles.split('\n');
+    console.log("Event has this many particles:",data.length)
 
     let values;
     // format is: particle_id,vx,vy,vz,px,py,pz,q,nhits
@@ -44,6 +46,7 @@ export class TrackmlLoader extends PhoenixLoader {
 
   public processTruth(truth: any) {
     const data = truth.split('\n');
+    console.log("Event has this many truth:",data.length)
 
     let values;
     // format is: hit_id,particle_id,tx,ty,tz,tpx,tpy,tpz,weight
@@ -64,10 +67,15 @@ export class TrackmlLoader extends PhoenixLoader {
     if (this.hitData) {
       eventData.Hits = {};
       eventData.Hits.Reconstructed = [];
+      let mod = Math.round(this.hitData.length / 5000);
+      if (mod<1) mod = 1;
+      let count = 0;
       for (let i = 1; i < this.hitData.length; i++) {
-        eventData.Hits.Reconstructed[i - 1] = [[this.hitData[i][0], this.hitData[i][1], this.hitData[i][2]]];
+        if (i%mod) continue;
+        eventData.Hits.Reconstructed[count++] = [[this.hitData[i][0], this.hitData[i][1], this.hitData[i][2]]];
       }
     }
+    console.log('Will show this many hits',eventData.Hits.Reconstructed.length)
 
     if (this.truthData) {
       eventData.Tracks = {Particles: []};
