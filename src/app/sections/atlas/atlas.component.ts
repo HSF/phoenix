@@ -30,6 +30,10 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0x356aa5, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xfff400, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/pixel.obj', 'Pixel', 0x356aa5, false);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/LAR_Bar.obj', 'LAr Barrel', 0x19CCD2, true);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, true);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true);
+    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TileCal.obj', 'Tile Cal', 0xc14343, true);
   }
 
   onOptionsSelected(selected: any) {
