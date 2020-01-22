@@ -80,8 +80,8 @@ export class UIService {
       .name('yClipPosition');
     this.controlsFolder.add(this.three.getZClipPlane(), 'constant', -configuration.zClipPosition, configuration.zClipPosition)
       .name('zClipPosition');
-    var opacity = this.controlsFolder.add(this.configuration, 'detectorOpacity', 0.0, 1.0).name('Opacity');
-    opacity.onFinishChange((newValue) => this.three.setDetectorOpacity(newValue));
+    // var opacity = this.controlsFolder.add(this.configuration, 'detectorOpacity', 0.0, 1.0).name('Opacity');
+    // opacity.onFinishChange((newValue) => this.three.setDetectorOpacity(newValue));
     this.displayViews(configuration);
   }
 
@@ -189,11 +189,16 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, remove: this.removeOBJ(name), scale: 1};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity:1.0,  remove: this.removeOBJ(name), scale: 1};
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
+
+    var opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
+    opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name,newValue));
+  
+
     // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
     showMenu.onChange((value) => this.three.objectVisibility(name, value));

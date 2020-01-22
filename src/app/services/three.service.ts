@@ -528,6 +528,20 @@ export class ThreeService {
     }
   }
 
+  public setNamedDetectorOpacity(name: string, value: number) {
+    console.log('Changing detector opacity to ', value);
+    const object = this.scene.getObjectByName(name);
+
+    if (value) {
+      object.traverse(function(o: any) {
+        if (o.isMesh == true) {
+          o.material.transparent = true;
+          o.material.opacity = value;
+        }
+      });
+    }
+  }
+
   /**
    * Animates camera transform.
    * @param {number[]} cameraPosition End position.
