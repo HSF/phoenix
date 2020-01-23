@@ -11,19 +11,32 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./atlas.component.scss']
 })
 export class AtlasComponent implements OnInit {
-  events: any;
-
+  // Attributes for displaying the information of selected objects
+  hiddenSelectedInfo = true;
+  hiddenSelectedInfoBody = true;
+  overlayPanel = false;
+  showObjectsInfo = false;
+  selectedObject: any;
+  // Array containing the keys of the multiple loaded events
+  events: string[];
+  collections: string[];
+  showingCollection: any;
+  collectionColumns: string[];
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
 
   ngOnInit() {
+    this.selectedObject = {name: 'Object', attributes: []};
+
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Left View', [0, 0, -6000], 'left'),
-      new PresetView('Center View', [-500, 1000, 0], 'circle'),
-      new PresetView('Right View', [0, 0, 6000], 'right')
+      new PresetView('Left View', [0, 0, -12000], 'left'),
+      new PresetView('Center View', [-500, 12000, 0], 'circle'),
+      new PresetView('Right View', [0, 0, 12000], 'right')
     ];
+    
     this.eventDisplay.init(configuration);
+    this.eventDisplay.allowSelection(this.selectedObject);
     this.http.get('assets/files/event_data/atlaseventdump2.json')
       .subscribe((res: any) => this.events = this.eventDisplay.loadEventsFromJSON(res));
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0xaaaaaa, false);
@@ -40,4 +53,11 @@ export class AtlasComponent implements OnInit {
     const value = selected.target.value;
     this.eventDisplay.loadEvent(value);
   }
+
+  changeCollection(selected: any) {
+    const value = selected.target.value;
+    this.showingCollection = this.eventDisplay.getCollection(value);
+    this.collectionColumns = Object.keys(this.showingCollection[0]);
+  }
+  
 }
