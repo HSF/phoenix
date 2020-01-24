@@ -3,6 +3,7 @@ import {ThreeService} from '../three.service';
 import {UIService} from '../ui.service';
 import {PhoenixLoader} from './phoenix-loader';
 import { TrackmlLoader } from './trackml-loader';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 export class JiveXMLLoader extends PhoenixLoader {
   private data: any;
@@ -32,12 +33,13 @@ export class JiveXMLLoader extends PhoenixLoader {
       Tracks: {}
     };
 
-    let tracks = firstEvent.getElementsByTagName("Track");
+    let tracksHTML = firstEvent.getElementsByTagName("Track");
+    let tracks = Array.from(tracksHTML)
     const nameOfCollection = "Tracks"
     for (var trackColl of tracks){
         // Extract the only collection we (currently) care about
         if (trackColl.getAttribute("storeGateKey")==nameOfCollection){
-            const numOfTracks = trackColl.getAttribute("count");
+            const numOfTracks = Number(trackColl.getAttribute("count"));
             let jsontracks = []
 
             // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
@@ -50,7 +52,7 @@ export class JiveXMLLoader extends PhoenixLoader {
             const numPolyline = trackColl.getElementsByTagName("numPolyline")[0].innerHTML.replace(/\r\n|\n|\r/gm," ").trim().split(" ").map(Number);
             let polylineCounter=0;
             for (let i = 0; i < numOfTracks; i++) {
-                let track={};
+                let track={chi2: 0.0, dof: 0.0, pos: []};
                 track.chi2 = chi2[i];
                 track.dof  = numDoF[i];
                 let pos = [];
