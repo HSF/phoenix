@@ -3,6 +3,7 @@ import {EventdisplayService} from '../../services/eventdisplay.service';
 import {Configuration} from '../../services/extras/configuration.model';
 import {PresetView} from '../../services/extras/preset-view.model';
 import {HttpClient} from '@angular/common/http';
+import {JiveXMLLoader} from '../../services/loaders/jivexml-loader';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class AtlasComponent implements OnInit {
   collections: string[];
   showingCollection: any;
   collectionColumns: string[];
+
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
 
@@ -59,5 +61,44 @@ export class AtlasComponent implements OnInit {
     this.showingCollection = this.eventDisplay.getCollection(value);
     this.collectionColumns = Object.keys(this.showingCollection[0]);
   }
-  
+
+  handleJSONEventDataInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.type === 'application/json') {
+      reader.onload = () => {
+        const json = JSON.parse(reader.result.toString());
+        this.processJSON(json);
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
+  }
+
+  processJSON(json: any) {
+    this.events = this.eventDisplay.loadEventsFromJSON(json);
+    this.collections = this.eventDisplay.getCollections();
+  }
+
+  handleJiveXMLEventDataInput(files: any) {
+    const file = files[0];
+    const reader = new FileReader();
+    if (file.type === 'text/xml') {
+      reader.onload = () => {
+        this.processJiveXML(reader.result.toString());
+      };
+      reader.readAsText(file);
+    } else {
+      console.log('Error : ¡ Invalid file format !');
+    }
+  }
+
+  processJiveXML(jive:any) {
+    console.log("Got JiveXML.")
+    let jiveloader = new JiveXMLLoader();
+    jiveloader.process(jive);
+    const eventData = jiveloader.getEventData();
+    this.eventDisplay.buildEventDataFromJSON(eventData);
+  }
 }

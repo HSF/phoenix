@@ -1,4 +1,4 @@
-<!-- 
+
 <div class="info-box" *ngIf="showObjectsInfo" cdkDrag>
 
   <div class="boxHeader" *ngIf="collections!=null">
@@ -40,7 +40,7 @@
       <path d="M0 0h24v24H0z" fill="none"></path>
     </svg>
   </div>
-</div> -->
+</div>
 
 <div id="eventDisplay">
   <div class="infoPanelWrapper" cdkDrag>
@@ -63,6 +63,11 @@
 
 <div class="optionsWrapper">
   <div id="optionsPanel">
+        <!-- Toggle for the loading modal-->
+        <svg class="optionsButton" data-toggle="modal" data-target="#fileModal">
+          <use href="assets/icons/file.svg#file"></use>
+        </svg>
+
     <!-- Toggle for selected object panel -->
     <svg class="optionsButton" [ngClass]="showObjectsInfo? 'activeIcon' : ''"
          (click)="showObjectsInfo = !showObjectsInfo">
@@ -89,3 +94,53 @@
     <div class="optionsSeparator"></div>
   </div>
 </div>
+
+<!-- Modals -->
+
+<!-- Load event Modal -->
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="jsonModalTitle">Load and Save</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <h5>Event data:</h5>
+            <div class="row centered">
+              <input type="file" id="eventJSONDataFile" class="inputfile" accept="application/json" name="image"
+                     (change)="handleJSONEventDataInput($event.target.files)"/>
+              <label for="eventJSONDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
+                                                                  alt="Event data icon">Load
+                JSON</label>
+              <input type="file" id="eventJiveXMLDataFile" class="inputfile" accept="text/xml" name="image"
+                (change)="handleJiveXMLEventDataInput($event.target.files)"/>
+         <label for="eventJiveXMLDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
+                                                             alt="Event data icon">Load
+           JiveXML</label>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <h5>Export and import scene:</h5>
+        <div class="row centered">
+          <label class="imageLabel loadExport" id="exportScene" (click)="saveConfiguration()"> <img
+            src="assets/icons/save.svg" alt="Icon made by Dave Gandy from www.flaticons.com">Save scene</label>
+          <input type="file" id="loadScene" class="inputfile" accept=".phnx" name="image"
+                 (change)="handleSceneInput($event.target.files)"/>
+          <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/icons/upload.svg"
+                                                                                      alt="Icon made by Pixel Buddha from www.flaticons.com">Load
+            scene</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END  MODAL -->
