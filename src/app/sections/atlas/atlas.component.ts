@@ -86,6 +86,7 @@ export class AtlasComponent implements OnInit {
     const reader = new FileReader();
     if (file.type === 'text/xml') {
       reader.onload = () => {
+        console.log('Loaded: '+file.name);
         this.processJiveXML(reader.result.toString());
       };
       reader.readAsText(file);
