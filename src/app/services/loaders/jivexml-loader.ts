@@ -46,6 +46,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getJets(firstEvent, eventData);
     this.getCaloClusters(firstEvent, eventData);
 
+    console.log('Got this eventdata', eventData);
     return eventData;
   }
   
@@ -55,7 +56,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     const nameOfCollection = "Tracks"
     for (var trackColl of trackCollections){
         // Extract the only collection we (currently) care about
-        if (trackColl.getAttribute("storeGateKey")==nameOfCollection){
+        // if (trackColl.getAttribute("storeGateKey")==nameOfCollection){
             const numOfTracks = Number(trackColl.getAttribute("count"));
             let jsontracks = []
 
@@ -81,7 +82,7 @@ export class JiveXMLLoader extends PhoenixLoader {
                 jsontracks.push(track);
             }
             eventData.Tracks[ trackColl.getAttribute("storeGateKey")] = jsontracks;
-        }
+        // }
     }
   }
 
@@ -138,7 +139,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     const nameOfCollection = "AntiKt4TopoJets"
     for (var jetColl of jetCollections){
       // Extract the only collection we (currently) care about
-      if (jetColl.getAttribute("storeGateKey")==nameOfCollection){
+      // if (jetColl.getAttribute("storeGateKey")==nameOfCollection){
           const numOfJets = Number(jetColl.getAttribute("count"));
           let jsontracks = []
 
@@ -153,7 +154,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           }
           console.log(temp);
           eventData.Jets[ jetColl.getAttribute("storeGateKey")] = temp;
-      }
+      // }
     } 
   }
 
@@ -163,7 +164,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     const nameOfCollection = "CaloTopoCluster_ESD"
     for (var clusterColl of clusterCollections){
       // Extract the only collection we (currently) care about
-      if (clusterColl.getAttribute("storeGateKey")==nameOfCollection){
+      // if (clusterColl.getAttribute("storeGateKey")==nameOfCollection){
           const numOfClusters = Number(clusterColl.getAttribute("count"));
           let jsontracks = []
 
@@ -178,7 +179,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           }
           console.log(temp);
           eventData.CaloClusters[ clusterColl.getAttribute("storeGateKey")] = temp;
-      }
+      // }
     } 
   }
 }
