@@ -15,9 +15,7 @@ export class UIService {
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
-    xClipPosition: undefined,
-    yClipPosition: undefined,
-    zClipPosition: undefined,
+    clippingAngle: 0,
     lowRes: undefined,
     eventData: undefined
   };
@@ -74,14 +72,8 @@ export class UIService {
       (value) => this.three.darkBackground(value));
     this.addToggle(this.controlsFolder, 'clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
 
-    this.controlsFolder.add(this.three.getXClipPlane(), 'constant', -configuration.xClipPosition, configuration.xClipPosition)
-      .name('xClipPosition');
-    this.controlsFolder.add(this.three.getYClipPlane(), 'constant', -configuration.yClipPosition, configuration.yClipPosition)
-      .name('yClipPosition');
-    this.controlsFolder.add(this.three.getZClipPlane(), 'constant', -configuration.zClipPosition, configuration.zClipPosition)
-      .name('zClipPosition');
-    // var opacity = this.controlsFolder.add(this.configuration, 'detectorOpacity', 0.0, 1.0).name('Opacity');
-    // opacity.onFinishChange((newValue) => this.three.setDetectorOpacity(newValue));
+    this.controlsFolder.add(this.guiParameters, 'clippingAngle', 0, 180).name('Clipping angle')
+      .onChange((angle) => this.three.rotateClipping(angle));
     this.displayViews(configuration);
   }
 
@@ -101,14 +93,6 @@ export class UIService {
   private setOverlayButtons() {
     this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
     this.addToggle(this.viewFolder, 'setFixOverlay', 'Fix Overlay', false, (value) => this.three.fixOverlayView(value));
-
-    /*const element = document.getElementById('optionsPanel');
-    if (element) {
-      const overlayButton = document.createElement('img');
-      overlayButton.setAttribute('src', view.getIconURL());
-      overlayButton.addEventListener('click', this.three.setCameraPos(view.cameraPos));
-      element.append(overlayButton);
-    }*/
   }
 
 
@@ -189,15 +173,15 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity:1.0,  remove: this.removeOBJ(name), scale: 1};
+    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1};
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
 
     var opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
-    opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name,newValue));
-  
+    opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name, newValue));
+
 
     // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();

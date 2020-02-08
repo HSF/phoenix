@@ -3,9 +3,6 @@ import {EventDataLoader} from '../event-data-loader';
 import {PhoenixLoader} from '../loaders/phoenix-loader';
 
 export class Configuration {
-  xClipPosition: number;
-  yClipPosition: number;
-  zClipPosition: number;
   maxPositionX: number;
   maxPositionY: number;
   maxPositionZ: number;
@@ -18,9 +15,6 @@ export class Configuration {
   colorScheme: MediaQueryList;
 
   constructor() {
-    this.xClipPosition = 1200;
-    this.yClipPosition = 1200;
-    this.zClipPosition = 4000;
     this.maxPositionX = 4000;
     this.maxPositionY = 4000;
     this.maxPositionZ = 4000;

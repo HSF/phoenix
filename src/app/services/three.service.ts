@@ -14,7 +14,7 @@ import {
   Scene, Vector3,
   WebGLRenderer,
   OrthographicCamera,
-  WebGLRendererParameters,
+  WebGLRendererParameters, Plane, Quaternion,
 } from 'three';
 import {Configuration} from './extras/configuration.model';
 import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
@@ -47,10 +47,10 @@ export class ThreeService {
   // Array of objects we are going to pass to the RayCaster for intersecting
   private objects: Object3D[];
   // Clipping planes
-  private clipPlanes = [
-    new THREE.Plane(new THREE.Vector3(1, 0, 0), 0),
-    new THREE.Plane(new THREE.Vector3(0, -1, 0), 0),
-    new THREE.Plane(new THREE.Vector3(0, 0, -1), 0)
+  private clipPlanes: Plane[] = [
+    new Plane(new THREE.Vector3(0, 1, 0), 0),
+    new Plane(new THREE.Vector3(0, -1, 0), 0),
+    new Plane(new THREE.Vector3(0, 0, 1), -15000)
   ];
   // Axis
   private axis: AxesHelper;
@@ -486,6 +486,15 @@ export class ThreeService {
 
   public setClipping(value: boolean) {
     this.rendererManager.setLocalClippingEnabled(value);
+  }
+
+  public rotateClipping(angle: number) {
+    const q = new Quaternion();
+    q.setFromAxisAngle(
+      new Vector3(0, 0, 1),
+      (angle * Math.PI) / 180
+    );
+    this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
   }
 
   public getXClipPlane() {
