@@ -63,10 +63,10 @@
 
 <div class="optionsWrapper">
   <div id="optionsPanel">
-        <!-- Toggle for the loading modal-->
-        <svg class="optionsButton" data-toggle="modal" data-target="#fileModal">
-          <use href="assets/icons/file.svg#file"></use>
-        </svg>
+    <!-- Toggle for the loading modal-->
+    <svg class="optionsButton" data-toggle="modal" data-target="#fileModal">
+      <use href="assets/icons/file.svg#file"></use>
+    </svg>
 
     <!-- Toggle for selected object panel -->
     <svg class="optionsButton" [ngClass]="showObjectsInfo? 'activeIcon' : ''"
@@ -93,6 +93,12 @@
     </div>
     <div class="optionsSeparator"></div>
   </div>
+  <div id="helpPanel">
+    <!-- Toggle for the help modal-->
+    <svg class="optionsButton" data-toggle="modal" data-target="#helpModal">
+      <use href="assets/icons/help.svg#help"></use>
+    </svg>
+  </div>
 </div>
 
 <!-- Modals -->
@@ -112,16 +118,16 @@
           <div class="form-group">
             <h5>Event data:</h5>
             <div class="row centered">
-              <input type="file" id="eventJSONDataFile" class="inputfile" accept="application/json" name="image"
-                     (change)="handleJSONEventDataInput($event.target.files)"/>
-              <label for="eventJSONDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
-                                                                  alt="Event data icon">Load
-                JSON</label>
-              <input type="file" id="eventJiveXMLDataFile" class="inputfile" accept="text/xml" name="image"
-                (change)="handleJiveXMLEventDataInput($event.target.files)"/>
-         <label for="eventJiveXMLDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
-                                                             alt="Event data icon">Load
-           JiveXML</label>
+              <input type="file" id="eventJSONDataFile" class="inputfile" accept="application/json" name="image" (change)="handleJSONEventDataInput($event.target.files)"/>
+              <label for="eventJSONDataFile" class="imageLabel">
+                <img src="assets/icons/eventData.svg" alt="Event data icon">
+                Load JSON
+              </label>
+              <input type="file" id="eventJiveXMLDataFile" class="inputfile" accept="text/xml" name="image" (change)="handleJiveXMLEventDataInput($event.target.files)"/>
+              <label for="eventJiveXMLDataFile" class="imageLabel">
+                <img src="assets/icons/eventData.svg" alt="Event data icon">
+                Load JiveXML
+              </label>
             </div>
           </div>
         </form>
@@ -145,4 +151,27 @@
     </div>
   </div>
 </div>
-<!-- END  MODAL -->
+<!-- END - Load event Modal -->
+
+<!-- Help Modal -->
+<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="jsonModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="jsonModalTitle">Help</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Slow rendering?</h4>
+        <hr>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END - Help Modal -->
+<!-- END  Modals -->

@@ -160,21 +160,6 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-#optionsPanel {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  align-content: center;
-  background: var(--phoenix-background-color-secondary);
-  border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: var(--phoenix-box-shadow);
-  border-radius: 10px;
-  padding: 0.5rem 1rem;
-  overflow-x: scroll;
-  max-width: 95%;
-  z-index: 10;
 
   img, .optionsButton {
     height: 3rem;
@@ -194,6 +179,26 @@ canvas {
   }
 }
 
+#optionsPanel {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-content: center;
+  background: var(--phoenix-background-color-secondary);
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: var(--phoenix-box-shadow);
+  border-radius: 10px;
+  max-width: 95%;
+  padding: 0.5rem 1rem;
+  overflow-x: scroll;
+  z-index: 10;
+}
+
+#helpPanel {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+}
 
 .optionsSeparator {
   margin: 0 0.5rem;
