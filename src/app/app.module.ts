@@ -17,6 +17,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IOPanelComponent } from './components/ui-menu/io-panel/io-panel.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -49,9 +51,13 @@ const routes: Routes = [
     HttpClientModule,
     DragDropModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
-  providers: [],
+  entryComponents: [
+    IOPanelComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

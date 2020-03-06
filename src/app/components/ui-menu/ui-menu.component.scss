@@ -1,6 +1,4 @@
-
-
-  #selectedObjectPanel {
+#selectedObjectPanel {
     width: 15rem;
     max-width: 15rem;
     max-height: 16rem;
@@ -11,7 +9,7 @@
     color: var(--phoenix-text-color-secondary);
     padding: 0 0.8em;
     overflow-y: scroll;
-    z-index: 99;
+    z-index: 92;
     background: var(--phoenix-background-color-secondary);
 
     &.hidden {
@@ -63,7 +61,7 @@
     transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
     padding: 1rem 1.5rem;
     position: absolute;
-    z-index: 999999;
+    z-index: 91;
     border: 1px solid rgba(88, 88, 88, 0.08);
     box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
     border-radius: 10px;
@@ -149,7 +147,7 @@
   max-width: 95%;
   padding: 0.5rem 1rem;
   overflow-x: scroll;
-  z-index: 10;
+  z-index: 90;
 
   img, .optionsButton {
     height: 3rem;

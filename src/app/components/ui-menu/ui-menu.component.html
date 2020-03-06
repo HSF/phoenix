@@ -64,7 +64,7 @@
 <div class="optionsWrapper">
     <div id="optionsPanel">
         <!-- Toggle for the loading modal-->
-        <svg class="optionsButton" data-toggle="modal" data-target="#fileModal">
+        <svg class="optionsButton" data-toggle="modal" (click)="openIODialog()">
             <use href="assets/icons/file.svg#file"></use>
         </svg>
 
@@ -104,5 +104,4 @@
 <!-- Modals -->
 
 <!-- Geometries Modal -->
-<app-io-panel></app-io-panel>
 <!-- END  MODAL -->

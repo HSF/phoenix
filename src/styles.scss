@@ -1,3 +1,14 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+// Define an alternate dark theme.
+$primary: mat-palette($mat-cyan);
+$accent:  mat-palette($mat-amber, A200, A100, A400);
+$warn:    mat-palette($mat-deep-orange);
+$dark-theme:   mat-dark-theme($primary, $accent, $warn);
+$light-theme: mat-light-theme($primary, $accent, $warn);
+@include angular-material-theme($light-theme);
+
 :root {
   --phoenix-logo: url(assets/images/logo-small.svg);
   --phoenix-background-color: #ffffff;
@@ -15,6 +26,34 @@
   --dat-background-tertiary: #e9e9e9;
   --dat-background-quaternary: #ffffff;
   --dat-border: #f0f0f0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --phoenix-background-color: #000000;
+    --phoenix-background-color-secondary: #181818;
+    --phoenix-background-color-tertiary: #262626;
+    --phoenix-text-color: white;
+    --phoenix-text-color-secondary: #dbdbdb;
+    --phoenix-text-color-hover: #c5c5c5;
+    --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
+    --phoenix-scroll-color: #3d3d3d;
+    --phoenix-options-icon-bg: #313131;
+    --phoenix-options-icon-path: #fff;
+    --dat-background-primary: #181818;
+    --dat-background-secondary: #262626;
+    --dat-background-tertiary: #343434;
+    --dat-background-quaternary: #101010;
+    --dat-border: #343434;
+  }
+
+  @include angular-material-theme($dark-theme);
+
+  #optionsPanel {
+    .optionsButton.activeIcon {
+      --phoenix-options-icon-path: #6DDBEE;
+    }
+  }
 }
 
 html, body {
@@ -140,28 +179,4 @@ canvas {
   src: url(assets/fonts/Lato-Regular.ttf);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --phoenix-background-color: #000000;
-    --phoenix-background-color-secondary: #181818;
-    --phoenix-background-color-tertiary: #262626;
-    --phoenix-text-color: white;
-    --phoenix-text-color-secondary: #dbdbdb;
-    --phoenix-text-color-hover: #c5c5c5;
-    --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
-    --phoenix-scroll-color: #3d3d3d;
-    --phoenix-options-icon-bg: #313131;
-    --phoenix-options-icon-path: #fff;
-    --dat-background-primary: #181818;
-    --dat-background-secondary: #262626;
-    --dat-background-tertiary: #343434;
-    --dat-background-quaternary: #101010;
-    --dat-border: #343434;
-  }
 
-  #optionsPanel {
-    .optionsButton.activeIcon {
-      --phoenix-options-icon-path: #6DDBEE;
-    }
-  }
-}
