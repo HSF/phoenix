@@ -1,30 +1,31 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
-import {AppComponent} from './app.component';
-import {HomeComponent} from './components/home/home.component';
-import {GeometryComponent} from './sections/geometry/geometry.component';
-import {AtlasComponent} from './sections/atlas/atlas.component';
-import {LHCbComponent} from './sections/lhcb/lhcb.component';
-import {TrackmlComponent} from './sections/trackml/trackml.component';
-import {NavComponent} from './components/nav/nav.component';
-import {RouterModule, Routes} from '@angular/router';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { GeometryComponent } from './sections/geometry/geometry.component';
+import { AtlasComponent } from './sections/atlas/atlas.component';
+import { LHCbComponent } from './sections/lhcb/lhcb.component';
+import { TrackmlComponent } from './sections/trackml/trackml.component';
+import { NavComponent } from './components/nav/nav.component';
+import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { PlaygroundVrComponent } from './sections/playground-vr/playground-vr.component';
 import { AttributePipe } from './services/extras/attribute.pipe';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'geometry', component: GeometryComponent},
-  {path: 'atlas', component: AtlasComponent},
-  {path: 'lhcb', component: LHCbComponent},
-  {path: 'trackml', component: TrackmlComponent},
-  {path: 'playground', component: PlaygroundComponent},
-  {path: 'playgroundVR', component: PlaygroundVrComponent}
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'geometry', component: GeometryComponent },
+  { path: 'atlas', component: AtlasComponent },
+  { path: 'lhcb', component: LHCbComponent },
+  { path: 'trackml', component: TrackmlComponent },
+  { path: 'playground', component: PlaygroundComponent },
+  { path: 'playgroundVR', component: PlaygroundVrComponent }
 ];
 
 @NgModule({
@@ -45,7 +46,8 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     DragDropModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
