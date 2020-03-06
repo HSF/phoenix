@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as Stats from 'stats-js';
 import * as dat from 'dat.gui';
-import {ThreeService} from './three.service';
-import {Configuration} from './extras/configuration.model';
-import {PresetView} from './extras/preset-view.model';
-import {Cut} from './extras/cut.model';
+import { ThreeService } from './three.service';
+import { Configuration } from './extras/configuration.model';
+import { PresetView } from './extras/preset-view.model';
+import { Cut } from './extras/cut.model';
 
 @Injectable({
   providedIn: 'root'
@@ -86,7 +86,7 @@ export class UIService {
     this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
 
     if (configuration.anyPresetView()) {
-      this.displayPresetViews(configuration.presetViews);
+      //  this.displayPresetViews(configuration.presetViews);
     }
   }
 
@@ -173,13 +173,13 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = {show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1};
+    this.guiParameters[name] = { show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1 };
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
 
-    var opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
+    let opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
     opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name, newValue));
 
 
@@ -223,7 +223,7 @@ export class UIService {
     }
     // A new folder for the Event Data is added to the GUI.
     this.eventFolder = this.gui.addFolder('Event Data');
-    this.guiParameters.eventData = {show: true};
+    this.guiParameters.eventData = { show: true };
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
     menu.onChange((value) => this.three.objectVisibility('EventData', value));
@@ -239,7 +239,7 @@ export class UIService {
 
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
-    this.guiParameters[collectionName] = {show: true, color: 0x000000, resetCut: () => this.three.groupVisibility(collectionName, true)};
+    this.guiParameters[collectionName] = { show: true, color: 0x000000, resetCut: () => this.three.groupVisibility(collectionName, true) };
     const collFolder = typeFolder.addFolder(collectionName);
     // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();

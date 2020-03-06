@@ -1,4 +1,5 @@
 :root {
+  --phoenix-logo: url(assets/images/logo-small.svg);
   --phoenix-background-color: #ffffff;
   --phoenix-background-color-secondary: #ffffff;
   --phoenix-background-color-tertiary: #ffffff;
@@ -128,111 +129,6 @@ canvas {
   }
 }
 
-/* Preset views styles */
-.preset-views-wrapper {
-  position: absolute;
-  top: 30%;
-}
-
-.preset-views {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  img {
-    cursor: pointer;
-    height: 3rem;
-    width: 3rem;
-    margin-right: 0.5rem;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-}
-
-
-.optionsWrapper {
-  position: absolute;
-  bottom: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  img, .optionsButton {
-    height: 3rem;
-    width: 3rem;
-    min-height: 3rem;
-    min-width: 3rem;
-    cursor: pointer;
-    align-self: center;
-  }
-
-  .optionsButton {
-    margin-left: 0.4rem;
-
-    &.activeIcon {
-      --phoenix-options-icon-path: #00A7BA;
-    }
-  }
-}
-
-#optionsPanel {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  align-content: center;
-  background: var(--phoenix-background-color-secondary);
-  border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: var(--phoenix-box-shadow);
-  border-radius: 10px;
-  max-width: 95%;
-  padding: 0.5rem 1rem;
-  overflow-x: scroll;
-  z-index: 10;
-}
-
-#helpPanel {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.5rem;
-}
-
-.optionsSeparator {
-  margin: 0 0.5rem;
-}
-
-.eventSelector {
-  display: flex;
-
-  label {
-    display: none;
-    color: var(--phoenix-text-color-secondary);
-  }
-
-  select {
-    width: 6rem;
-    padding: 5px 35px 5px 5px;
-    font-size: 16px;
-    border: 1px solid rgba(88, 88, 88, 0.08);
-    box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: url(assets/images/logo-small.svg) 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
-    color: var(--phoenix-text-color-secondary);
-  }
-}
-
-
-
-@media screen and (max-width: 768px) {
-  .preset-views-ul {
-    display: none;
-  }
-}
 
 @font-face {
   font-family: "Circular";
@@ -265,7 +161,7 @@ canvas {
 
   #optionsPanel {
     .optionsButton.activeIcon {
-      --phoenix-options-icon-path: #F1E833;
+      --phoenix-options-icon-path: #6DDBEE;
     }
   }
 }

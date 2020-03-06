@@ -3,17 +3,18 @@ import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 
 import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
+import {HomeComponent} from './components/home/home.component';
 import {GeometryComponent} from './sections/geometry/geometry.component';
 import {AtlasComponent} from './sections/atlas/atlas.component';
 import {LHCbComponent} from './sections/lhcb/lhcb.component';
 import {TrackmlComponent} from './sections/trackml/trackml.component';
-import {NavComponent} from './nav/nav.component';
+import {NavComponent} from './components/nav/nav.component';
 import {RouterModule, Routes} from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { PlaygroundVrComponent } from './sections/playground-vr/playground-vr.component';
 import { AttributePipe } from './services/extras/attribute.pipe';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -37,7 +38,8 @@ const routes: Routes = [
     NavComponent,
     PlaygroundComponent,
     PlaygroundVrComponent,
-    AttributePipe
+    AttributePipe,
+    UiMenuComponent
   ],
   imports: [
     BrowserModule,
