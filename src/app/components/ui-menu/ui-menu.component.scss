@@ -1,83 +1,5 @@
-.row {
-    justify-content: center;
-    margin: 1rem 0;
-  }
-  
-  .inputfile {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
-  
-  .imageLabel {
-    font-size: 1em;
-    font-weight: 700;
-    color: white;
-    background-color: #6eaece;
-    display: flex;
-    flex-direction: column;
-    justify-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 1em 0.5em;
-    border-radius: 10px;
-    width: 8rem;
-    text-align: center;
-    margin: 0 0.4rem;
-  
-    &.loadExport {
-      padding: 0.8em 0.2em;
-      width: 7rem;
-  
-      img {
-        max-height: 1.2em;
-      }
-    }
-  
-    img {
-      max-height: 2em;
-    }
-  
-    &:hover {
-      background-color: #118AB2;
-    }
-  }
-  
-  .imageLabel.exportLabel {
-    background-color: #cb7133;
-  
-    &:hover {
-      background-color: #ad5b2d;
-    }
-  }
-  
-  #exportScene {
-    background-color: #5BD99E;
-  
-    &:hover {
-      background-color: #05c292;
-    }
-  }
-  
-  
-  #importScene {
-    background-color: #ecc25e;
-  
-    &:hover {
-      background-color: #d6b44d;
-    }
-  }
-  
-  
-  .infoPanelWrapper {
-    position: absolute;
-    top: 6rem;
-    left: 2rem;
-  }
-  
+
+
   #selectedObjectPanel {
     width: 15rem;
     max-width: 15rem;
@@ -91,15 +13,15 @@
     overflow-y: scroll;
     z-index: 99;
     background: var(--phoenix-background-color-secondary);
-  
+
     &.hidden {
       display: none;
     }
-  
+
     attributeField {
       max-width: 12rem;
     }
-  
+
     .selectedObjectPanelHeader {
       display: flex;
       flex-direction: row;
@@ -109,31 +31,31 @@
       border-bottom: 1px solid rgba(88, 88, 88, 0.08);
       margin-bottom: 0.7rem;
       padding: 0.8rem 0.6rem;
-  
+
       h5 {
         font-family: Circular, sans-serif;
         margin: 0 1rem;
       }
-  
+
       img {
         height: 0.6rem;
         cursor: pointer;
       }
     }
-  
-  
+
+
     #selectedObjectPanelBody {
       margin-bottom: 1rem;
-  
+
       &.hidden {
         display: none;
       }
     }
   }
-  
-  
-  
-  
+
+
+
+
   .info-box {
     box-sizing: border-box;
     color: var(--phoenix-text-color-secondary);
@@ -148,33 +70,33 @@
     max-width: 50vw;
     overflow-y: scroll;
     overflow-x: scroll;
-  
+
     &:active {
       box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.2);
     }
-  
+
     .boxHeader {
       margin-bottom: 0.8rem;
       display: flex;
       flex-direction: row;
       align-content: center;
       align-items: center;
-  
+
       span {
         color: var(--phoenix-text-color-secondary);
         margin-right: 1rem;
       }
     }
-  
+
     .boxBody {
       max-height: 40vh;
       overflow-y: scroll;
-  
+
       p.emptyBox {
         max-width: 21em;
       }
     }
-  
+
     .info-handle {
       position: absolute;
       top: 5px;
@@ -184,44 +106,26 @@
       width: 1rem;
       height: 1rem;
     }
-  
+
     #collectionTable {
       position: relative;
       color: var(--phoenix-text-color-secondary);
-  
+
       thead tr th {
         position: sticky;
         top: 0;
         background: var(--phoenix-background-color-secondary);
       }
-  
+
       tr * {
         padding-right: 1.2rem;
-  
+
         &:last-child {
           padding-right: 0;
         }
       }
     }
   }
-  
-  
-  .modal-content {
-    background: var(--phoenix-background-color-secondary);
-    color: var(--phoenix-text-color-secondary);
-  
-    .close {
-      color: var(--phoenix-text-color-secondary);
-    }
-  }
-  
-  
-  
- 
-/* Preset views styles */
-
-
-
 
 .optionsWrapper {
   position: absolute;
@@ -268,7 +172,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-  
+
     .optionsButton {
       max-height: 3rem;
       max-width: 3rem;
@@ -276,7 +180,7 @@
       width: 3rem;
       margin-right: 0.5rem;
       cursor: pointer;
-  
+
       &:last-child {
         margin: 0;
       }
@@ -323,5 +227,4 @@
     display: none;
   }
 }
-  
-  
+
