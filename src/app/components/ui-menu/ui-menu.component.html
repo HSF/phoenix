@@ -32,9 +32,7 @@
         </svg>
 
         <!-- Toggle for overlay panel -->
-        <svg class="optionsButton" [ngClass]="overlayPanel? 'activeIcon' : ''" (click)="toggleOverlay()">
-            <use href="assets/icons/overlay.svg#overlay"></use>
-        </svg>
+        <app-overlay-view></app-overlay-view>
 
         <div class="optionsSeparator"></div>
 

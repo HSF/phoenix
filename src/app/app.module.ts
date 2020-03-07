@@ -25,6 +25,7 @@ import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggl
 import { CollectionsInfoOverlayComponent } from './components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component';
 import { IoOptionsComponent } from './components/ui-menu/io-options/io-options.component';
 import { IOOptionsDialogComponent } from './components/ui-menu/io-options/io-options-dialog/io-options-dialog.component';
+import { OverlayViewComponent } from './components/ui-menu/overlay-view/overlay-view.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,7 +55,8 @@ const routes: Routes = [
     MenuToggleComponent,
     CollectionsInfoOverlayComponent,
     IoOptionsComponent,
-    IOOptionsDialogComponent
+    IOOptionsDialogComponent,
+    OverlayViewComponent
   ],
   imports: [
     BrowserModule,

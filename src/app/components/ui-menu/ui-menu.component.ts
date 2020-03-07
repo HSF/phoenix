@@ -22,9 +22,4 @@ export class UiMenuComponent implements OnInit {
   ngOnInit() {
     this.eventDisplay.listenToLoadedEventsChange((events) => this.events = events);
   }
-
-  toggleOverlay() {
-    this.overlayPanel = !this.overlayPanel;
-    this.eventDisplay.renderOverlay(this.overlayPanel);
-  }
 }
