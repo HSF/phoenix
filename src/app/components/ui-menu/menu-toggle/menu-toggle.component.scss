@@ -1,12 +1,17 @@
 .optionsButton {
-    height: 3rem;
-    width: 3rem;
-    min-height: 3rem;
-    min-width: 3rem;
-    cursor: pointer;
-    align-self: center;
-  }
+}
 
-  .optionsButton {
-    margin-left: 0.4rem;
-  }
+.buttonWrapper {
+  display: flex;
+  height: 3rem;
+  width: 3rem;
+  min-height: 3rem;
+  min-width: 3rem;
+  padding: 0.8rem;
+  cursor: pointer;
+  align-self: center;
+  margin-left: 0.6rem;
+  background-color: var(--phoenix-options-icon-bg);
+  box-shadow: var(--phoenix-icon-shadow);
+  border-radius: 3rem;
+}
