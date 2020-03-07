@@ -9,11 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UiMenuComponent implements OnInit {
 
-  // Attributes for displaying the information of selected objects
-  hiddenSelectedInfo = true;
-  hiddenSelectedInfoBody = true;
-  overlayPanel = false;
-  selectedObject: any;
   // Array containing the keys of the multiple loaded events
   events: string[];
 

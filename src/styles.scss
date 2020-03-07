@@ -83,6 +83,7 @@ body {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: var(--phoenix-scroll-color);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
 }
 
@@ -138,9 +139,6 @@ canvas {
   }
 
   ul .folder {
-    &:first-child .dg ul .title {
-    }
-
     .dg ul .cr {
       background: var(--dat-background-quaternary);
       color: var(--phoenix-text-color);
