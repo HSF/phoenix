@@ -19,6 +19,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IOPanelComponent } from './components/ui-menu/io-panel/io-panel.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CollectionsInfoComponent } from './components/ui-menu/collections-info/collections-info.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggle.component';
+import { CollectionsInfoOverlayComponent } from './components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -44,7 +49,10 @@ const routes: Routes = [
     PlaygroundVrComponent,
     AttributePipe,
     UiMenuComponent,
-    IOPanelComponent
+    IOPanelComponent,
+    CollectionsInfoComponent,
+    MenuToggleComponent,
+    CollectionsInfoOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -54,9 +62,12 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
+    MatTooltipModule,
+    OverlayModule
   ],
   entryComponents: [
-    IOPanelComponent
+    IOPanelComponent,
+    CollectionsInfoOverlayComponent
   ],
   bootstrap: [AppComponent]
 })

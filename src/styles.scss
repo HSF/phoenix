@@ -1,11 +1,11 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @include mat-core();
 
 // Define an alternate dark theme.
 $primary: mat-palette($mat-cyan);
-$accent:  mat-palette($mat-amber, A200, A100, A400);
-$warn:    mat-palette($mat-deep-orange);
-$dark-theme:   mat-dark-theme($primary, $accent, $warn);
+$accent: mat-palette($mat-amber, A200, A100, A400);
+$warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($primary, $accent, $warn);
 $light-theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($light-theme);
 
@@ -18,14 +18,18 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   --phoenix-text-color-secondary: #777777;
   --phoenix-text-color-hover: #c5c5c5;
   --phoenix-box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
-  --phoenix-scroll-color: #D3D3D3;
+  --phoenix-scroll-color: #d3d3d3;
   --phoenix-options-icon-bg: #ffffff;
   --phoenix-options-icon-path: #777777;
-  --dat-background-primary: #F9F9F9;
+  --dat-background-primary: #f9f9f9;
   --dat-background-secondary: #efefef;
   --dat-background-tertiary: #e9e9e9;
   --dat-background-quaternary: #ffffff;
   --dat-border: #f0f0f0;
+
+  .optionsButton.activeIcon {
+    --phoenix-options-icon-path: #00c4ba;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,12 +55,13 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
 
   #optionsPanel {
     .optionsButton.activeIcon {
-      --phoenix-options-icon-path: #6DDBEE;
+      --phoenix-options-icon-path: #1cfff4;
     }
   }
 }
 
-html, body {
+html,
+body {
   background-color: var(--phoenix-background-color);
 }
 
@@ -80,7 +85,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgb(211, 211, 211);;
+  background: rgb(211, 211, 211);
 }
 
 ::-webkit-scrollbar-corner {
@@ -90,7 +95,7 @@ html, body {
 
 .btn.btn-primary {
   border: none;
-  background-color: #118AB2;
+  background-color: #118ab2;
 }
 
 .btn.btn-primary:hover {
@@ -157,17 +162,38 @@ canvas {
     }
   }
 
-  .dg .cr.number input[type=text] {
+  .dg .cr.number input[type="text"] {
     color: var(--phoenix-text-color);
     margin-top: -0.5em;
     background: none;
   }
 
-  .dg .cr.color .c input[type=text] {
+  .dg .cr.color .c input[type="text"] {
     max-height: 2em;
   }
 }
 
+.eventSelector {
+  display: flex;
+
+  label {
+    display: none;
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  select {
+    width: 6rem;
+    padding: 5px 35px 5px 5px;
+    font-size: 16px;
+    border: 1px solid rgba(88, 88, 88, 0.08);
+    box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: var(--phoenix-logo) 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+  }
+}
 
 @font-face {
   font-family: "Circular";
@@ -178,5 +204,3 @@ canvas {
   font-family: "Lato";
   src: url(assets/fonts/Lato-Regular.ttf);
 }
-
-

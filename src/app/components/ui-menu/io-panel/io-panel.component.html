@@ -2,26 +2,27 @@
     <h1 mat-dialog-title>Add geometries</h1>
     <div mat-dialog-content class="dialog-content">
         <!-- Import file -->
-        <div class="form-group">
-            <h5>Import File:</h5>
-            <div class="row centered">
-                <input type="file" id="eventDataFile" class="inputfile" accept="application/json" name="image" />
-                <label for="eventDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
-                        alt="Event data icon">Load
-                    event data</label>
-                <input type="file" id="objFile" class="inputfile" accept=".obj" name="image" />
-                <label for="objFile" class="imageLabel"> <img src="assets/icons/obj.svg"
-                        alt="Icon made by Pixel Buddha from www.flaticons.com">Load
-                    .obj</label>
-                <input type="file" id="gltfFile" class="inputfile" accept=".gltf" name="image" />
-                <label for="gltfFile" class="imageLabel"> <img src="assets/icons/gltf.svg"
-                        alt="Icon made by Pixel Buddha from www.flaticons.com">Load
-                    .gltf</label>
-            </div>
-            <p>Currently supported event data files written in JSON and OBJ files. Supported file formats:
-                .json,
-                .obj</p>
+        <h5>Import File:</h5>
+        <div class="row centered">
+            <input type="file" id="eventDataFile" class="inputfile" accept="application/json" name="image"
+                (change)="handleEventDataInput($event.target.files)" />
+            <label for="eventDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
+                    alt="Event data icon">Load
+                event data</label>
+            <input type="file" id="objFile" class="inputfile" accept=".obj" name="image"
+                (change)="handleOBJInput($event.target.files)" />
+            <label for="objFile" class="imageLabel"> <img src="assets/icons/obj.svg"
+                    alt="Icon made by Pixel Buddha from www.flaticons.com">Load
+                .obj</label>
+            <input type="file" id="gltfFile" class="inputfile" accept=".gltf" name="image"
+                (change)="handleGLTFInput($event.target.files)" />
+            <label for="gltfFile" class="imageLabel"> <img src="assets/icons/gltf.svg"
+                    alt="Icon made by Pixel Buddha from www.flaticons.com">Load
+                .gltf</label>
         </div>
+        <p>Currently supported event data files written in JSON and OBJ files. Supported file formats:
+            .json,
+            .obj</p>
         <!-- Export file -->
         <h5>Export file:</h5>
         <div class="row centered">

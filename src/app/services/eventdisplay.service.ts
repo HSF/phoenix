@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {ThreeService} from './three.service';
-import {UIService} from './ui.service';
-import {Configuration} from './extras/configuration.model';
+import { Injectable } from '@angular/core';
+import { ThreeService } from './three.service';
+import { UIService } from './ui.service';
+import { Configuration } from './extras/configuration.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ export class EventdisplayService {
   private configuration: Configuration;
   private eventsData: any;
   private frameID: number;
+  private onEventsChange: ((events: any) => void)[] = [];
+  private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
 
   constructor(public graphicsLibrary: ThreeService, private ui: UIService) {
   }
@@ -80,7 +82,7 @@ export class EventdisplayService {
     this.eventsData = eventsData;
     const eventKeys = this.configuration.getEventDataLoader().getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
-
+    this.onEventsChange.forEach(callback => callback(eventKeys));
     return eventKeys;
   }
 
@@ -94,6 +96,7 @@ export class EventdisplayService {
 
     if (event) {
       this.buildEventDataFromJSON(event);
+      this.onDisplayedEventChange.forEach((callback) => callback(event));
     }
   }
 
@@ -183,5 +186,13 @@ export class EventdisplayService {
 
   setDetectorOpacity(detectorOpacity: number) {
     this.graphicsLibrary.setDetectorOpacity(detectorOpacity);
+  }
+
+  public listenToDisplayedEventChange(callback: (event) => any) {
+    this.onDisplayedEventChange.push(callback);
+  }
+
+  public listenToLoadedEventsChange(callback: (events) => any) {
+    this.onEventsChange.push(callback);
   }
 }

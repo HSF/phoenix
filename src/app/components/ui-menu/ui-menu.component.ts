@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialog } from '@angular/material/dialog';
 import { IOPanelComponent } from './io-panel/io-panel.component';
+import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-ui-menu',
@@ -14,17 +15,16 @@ export class UiMenuComponent implements OnInit {
   hiddenSelectedInfo = true;
   hiddenSelectedInfoBody = true;
   overlayPanel = false;
-  showObjectsInfo = false;
   selectedObject: any;
   // Array containing the keys of the multiple loaded events
   events: string[];
   collections: string[];
-  showingCollection: any;
-  collectionColumns: string[];
 
   constructor(private eventDisplay: EventdisplayService, private dialog: MatDialog) { }
 
   ngOnInit() {
+    this.eventDisplay.listenToLoadedEventsChange((events) => this.events = events);
+    this.collections = this.eventDisplay.getCollections();
   }
 
   toggleOverlay() {
