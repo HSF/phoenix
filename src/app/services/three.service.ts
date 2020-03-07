@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import {
@@ -25,7 +26,6 @@ import {
 import { Configuration } from './extras/configuration.model';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { WebVR } from './extras/web-vr';
 import { ControlsManager } from './extras/controls-manager';
 import { RendererManager } from './extras/renderer-manager';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
@@ -464,7 +464,7 @@ export class ThreeService {
     // @ts-ignore
     loader.parse(sceneString, '', gltf => {
       const eventData = this.getEventData();
-      this.scene = gltf.scene;
+      gltf.scene.children.forEach((child) => this.scene.add(child));
 
       const savedEvent = gltf.scene.getObjectByName('EventData');
       if (savedEvent) {
@@ -508,7 +508,7 @@ export class ThreeService {
     const scope = this;
     const removeList = [];
 
-    clearScene.traverse(function(object: THREE.Object3D) {
+    clearScene.traverse(function (object: THREE.Object3D) {
       if (scope.ignoreList.includes(object.type)) {
         removeList.push(object);
       }
@@ -600,7 +600,7 @@ export class ThreeService {
   public setDetectorOpacity(value: number) {
     console.log('Changing detector opacity to ', value);
     if (value) {
-      this.detector.traverse(function(o: any) {
+      this.detector.traverse(function (o: any) {
         if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
@@ -614,7 +614,7 @@ export class ThreeService {
     const object = this.scene.getObjectByName(name);
 
     if (value) {
-      object.traverse(function(o: any) {
+      object.traverse(function (o: any) {
         if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
@@ -776,18 +776,17 @@ export class ThreeService {
   }
 
   public setAnimationLoop(animate: () => void) {
-    this.rendererManager.mainRenderer.vr.enabled = true;
+    this.rendererManager.mainRenderer.xr.enabled = true;
     this.rendererManager.mainRenderer.setAnimationLoop(animate);
   }
 
   public setVRButton() {
-    const webVR = new WebVR();
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
       canvas = document.body;
     }
     canvas.appendChild(
-      webVR.createButton(this.rendererManager.mainRenderer, null)
+      VRButton.createButton(this.rendererManager.mainRenderer)
     );
   }
 
@@ -798,7 +797,6 @@ export class ThreeService {
       -(event.clientY / window.innerHeight) * 2 + 1
     );
     const raycaster = new THREE.Raycaster();
-    raycaster.linePrecision = 20;
     raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
 
     // @ts-ignore
@@ -1011,7 +1009,7 @@ export class ThreeService {
     const collection = this.scene.getObjectByName(collectionName);
 
     for (const child of Object.values(collection.children)) {
-      child.traverse(function(object: THREE.Object3D) {
+      child.traverse(function (object: THREE.Object3D) {
         // For jets and tracks
         if (object instanceof Line || object instanceof Mesh) {
           if (

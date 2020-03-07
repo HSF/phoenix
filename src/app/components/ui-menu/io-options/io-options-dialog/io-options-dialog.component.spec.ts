@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { AppModule } from 'src/app/app.module';
-import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;
