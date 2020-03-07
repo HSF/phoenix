@@ -13,18 +13,8 @@
         <!-- Toggle for overlay panel -->
         <app-overlay-view></app-overlay-view>
 
-        <div class="optionsSeparator"></div>
-
         <!-- Event selector -->
-        <div class="eventSelector" *ngIf="events!=null">
-            <label for="event">Event</label>
-            <select id="event" name="event">
-                <option value="" selected disabled hidden>Choose Event</option>
-                <option *ngFor="let event of events" [value]="event">
-                    {{event}}
-                </option>
-            </select>
-        </div>
-        <div class="optionsSeparator"></div>
+        <app-event-selector></app-event-selector>
+
     </div>
 </div>

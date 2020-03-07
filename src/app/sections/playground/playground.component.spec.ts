@@ -2,6 +2,7 @@ import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing'
 import { PlaygroundComponent } from './playground.component';
 import { AttributePipe } from '../../services/extras/attribute.pipe';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AppModule } from 'src/app/app.module';
 
 describe('PlaygroundComponent', () => {
   let component: PlaygroundComponent;
@@ -9,8 +10,7 @@ describe('PlaygroundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PlaygroundComponent, AttributePipe],
-      imports: [HttpClientModule]
+      imports: [AppModule, HttpClientModule]
     })
       .compileComponents();
   }));

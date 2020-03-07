@@ -19,7 +19,7 @@ export class PlaygroundVrComponent extends PlaygroundComponent implements OnInit
       new PresetView('Right View', [0, 0, 6000], 'right'),
       new PresetView('Zoom View', [-1, 1, 0], 'zoom')
     ];
-    this.eventDisplay.initVR(configuration);
+    // this.eventDisplay.initVR(configuration);
   }
 
 }

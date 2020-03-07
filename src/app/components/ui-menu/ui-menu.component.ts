@@ -7,14 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './ui-menu.component.html',
   styleUrls: ['./ui-menu.component.scss']
 })
-export class UiMenuComponent implements OnInit {
+export class UiMenuComponent {
 
-  // Array containing the keys of the multiple loaded events
-  events: string[];
+  constructor() { }
 
-  constructor(private eventDisplay: EventdisplayService, private dialog: MatDialog) { }
-
-  ngOnInit() {
-    this.eventDisplay.listenToLoadedEventsChange((events) => this.events = events);
-  }
 }

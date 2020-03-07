@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewComponent } from './overlay-view.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('OverlayViewComponent', () => {
   let component: OverlayViewComponent;
@@ -8,9 +9,9 @@ describe('OverlayViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OverlayViewComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

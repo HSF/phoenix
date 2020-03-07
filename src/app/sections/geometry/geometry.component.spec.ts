@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeometryComponent } from './geometry.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('GeometryComponent', () => {
   let component: GeometryComponent;
@@ -8,9 +9,9 @@ describe('GeometryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GeometryComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

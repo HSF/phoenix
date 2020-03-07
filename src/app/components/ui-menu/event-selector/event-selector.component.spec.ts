@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectionsInfoComponent } from './collections-info.component';
+import { EventSelectorComponent } from './event-selector.component';
 import { AppModule } from 'src/app/app.module';
 
-describe('CollectionsInfoComponent', () => {
-  let component: CollectionsInfoComponent;
-  let fixture: ComponentFixture<CollectionsInfoComponent>;
+describe('EventSelectorComponent', () => {
+  let component: EventSelectorComponent;
+  let fixture: ComponentFixture<EventSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('CollectionsInfoComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionsInfoComponent);
+    fixture = TestBed.createComponent(EventSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IoOptionsComponent } from './io-options.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('IoOptionsComponent', () => {
   let component: IoOptionsComponent;
@@ -8,9 +9,9 @@ describe('IoOptionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IoOptionsComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

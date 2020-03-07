@@ -28,6 +28,7 @@ import { IOOptionsDialogComponent } from './components/ui-menu/io-options/io-opt
 import { OverlayViewComponent } from './components/ui-menu/overlay-view/overlay-view.component';
 import { ObjectSelectionComponent } from './components/ui-menu/object-selection/object-selection.component';
 import { ObjectSelectionOverlayComponent } from './components/ui-menu/object-selection/object-selection-overlay/object-selection-overlay.component';
+import { EventSelectorComponent } from './components/ui-menu/event-selector/event-selector.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -60,7 +61,8 @@ const routes: Routes = [
     IOOptionsDialogComponent,
     OverlayViewComponent,
     ObjectSelectionComponent,
-    ObjectSelectionOverlayComponent
+    ObjectSelectionOverlayComponent,
+    EventSelectorComponent
   ],
   imports: [
     BrowserModule,

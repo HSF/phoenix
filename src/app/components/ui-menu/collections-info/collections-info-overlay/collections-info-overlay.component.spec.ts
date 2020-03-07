@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
@@ -8,9 +9,9 @@ describe('CollectionsInfoOverlayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CollectionsInfoOverlayComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

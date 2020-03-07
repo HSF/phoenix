@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiMenuComponent } from './ui-menu.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('UiMenuComponent', () => {
   let component: UiMenuComponent;
@@ -8,9 +9,9 @@ describe('UiMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiMenuComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

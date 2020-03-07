@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('ObjectSelectionOverlayComponent', () => {
   let component: ObjectSelectionOverlayComponent;
@@ -8,9 +9,9 @@ describe('ObjectSelectionOverlayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ObjectSelectionOverlayComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
