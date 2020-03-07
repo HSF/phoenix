@@ -1,6 +1,5 @@
-<div class="buttonWrapper">
-    <svg class="optionsButton" data-toggle="modal" [matTooltip]="tooltip" matTooltipPosition="above"
-        [ngClass]="{'activeIcon': active}">
+<div class="buttonWrapper" [matTooltip]="tooltip" matTooltipPosition="above">
+    <svg class="optionsButton" [ngClass]="{'activeIcon': active}">
         <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
     </svg>
 </div>

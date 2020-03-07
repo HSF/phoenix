@@ -1,20 +1,5 @@
 <!-- Selected -->
-<div class="infoPanelWrapper" cdkDrag *ngIf="selectedObject">
-    <div id="selectedObjectPanel" [ngClass]="{'hidden' : hiddenSelectedInfo}">
-        <div class="selectedObjectPanelHeader">
-            <div></div>
-            <h5 id="infoName">{{selectedObject.name}}</h5>
-            <img [src]="hiddenSelectedInfoBody? 'assets/icons/expand.svg' : 'assets/icons/collapse.svg'" alt=""
-                (click)="hiddenSelectedInfoBody = !hiddenSelectedInfoBody">
-        </div>
-        <div id="selectedObjectPanelBody" [ngClass]="{'hidden' : hiddenSelectedInfoBody}">
-            <div *ngFor="let attribute of selectedObject.attributes" class="attributeField">
-                <strong>{{attribute.attributeName}}</strong>
-                : {{attribute.attributeValue | attributePipe}}
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <div class="optionsWrapper">
     <div id="optionsPanel">
@@ -26,10 +11,7 @@
         <app-collections-info></app-collections-info>
 
         <!-- Toggle for selected object panel -->
-        <svg class="optionsButton" [ngClass]="hiddenSelectedInfo? '' : 'activeIcon'"
-            (click)="hiddenSelectedInfo = !hiddenSelectedInfo">
-            <use href="assets/icons/cursor.svg#cursor"></use>
-        </svg>
+        <app-object-selection></app-object-selection>
 
         <!-- Toggle for overlay panel -->
         <app-overlay-view></app-overlay-view>

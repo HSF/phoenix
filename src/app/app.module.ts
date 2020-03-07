@@ -26,6 +26,8 @@ import { CollectionsInfoOverlayComponent } from './components/ui-menu/collection
 import { IoOptionsComponent } from './components/ui-menu/io-options/io-options.component';
 import { IOOptionsDialogComponent } from './components/ui-menu/io-options/io-options-dialog/io-options-dialog.component';
 import { OverlayViewComponent } from './components/ui-menu/overlay-view/overlay-view.component';
+import { ObjectSelectionComponent } from './components/ui-menu/object-selection/object-selection.component';
+import { ObjectSelectionOverlayComponent } from './components/ui-menu/object-selection/object-selection-overlay/object-selection-overlay.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -56,7 +58,9 @@ const routes: Routes = [
     CollectionsInfoOverlayComponent,
     IoOptionsComponent,
     IOOptionsDialogComponent,
-    OverlayViewComponent
+    OverlayViewComponent,
+    ObjectSelectionComponent,
+    ObjectSelectionOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,8 @@ const routes: Routes = [
   ],
   entryComponents: [
     IOOptionsDialogComponent,
-    CollectionsInfoOverlayComponent
+    CollectionsInfoOverlayComponent,
+    ObjectSelectionOverlayComponent
   ],
   bootstrap: [AppComponent]
 })
