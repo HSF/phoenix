@@ -1,4 +1,3 @@
-
 .row {
   justify-content: center;
   margin: 1rem 0;
@@ -43,7 +42,7 @@
   }
 
   &:hover {
-    background-color: #118AB2;
+    background-color: #118ab2;
   }
 }
 
@@ -56,13 +55,12 @@
 }
 
 #exportScene {
-  background-color: #5BD99E;
+  background-color: #5bd99e;
 
   &:hover {
     background-color: #05c292;
   }
 }
-
 
 #importScene {
   background-color: #ecc25e;
@@ -71,7 +69,6 @@
     background-color: #d6b44d;
   }
 }
-
 
 .infoPanelWrapper {
   position: absolute;

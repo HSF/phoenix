@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IOPanelComponent } from './io-panel.component';
+import { IoOptionsComponent } from './io-options.component';
 
-describe('IoPanelComponent', () => {
-  let component: IOPanelComponent;
-  let fixture: ComponentFixture<IOPanelComponent>;
+describe('IoOptionsComponent', () => {
+  let component: IoOptionsComponent;
+  let fixture: ComponentFixture<IoOptionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IOPanelComponent ]
+      declarations: [ IoOptionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IOPanelComponent);
+    fixture = TestBed.createComponent(IoOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

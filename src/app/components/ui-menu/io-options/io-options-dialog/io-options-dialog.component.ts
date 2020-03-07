@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-io-panel',
-  templateUrl: './io-panel.component.html',
-  styleUrls: ['./io-panel.component.scss']
+  selector: 'app-io-options-dialog',
+  templateUrl: './io-options-dialog.component.html',
+  styleUrls: ['./io-options-dialog.component.scss']
 })
-export class IOPanelComponent {
+export class IOOptionsDialogComponent {
 
-  constructor(private eventDisplay: EventdisplayService, public dialogRef: MatDialogRef<IOPanelComponent>) { }
+  constructor(private eventDisplay: EventdisplayService, public dialogRef: MatDialogRef<IOOptionsDialogComponent>) { }
 
   onNoClick(): void {
     this.dialogRef.close();

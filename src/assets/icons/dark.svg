@@ -1,0 +1,8 @@
+<svg width="0" height="0" class="hidden">
+	<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 208 208" id="dark">
+		<path fill="var(--phoenix-options-icon-path, #fff)" d="M104 6.5V63a41 41 0 0 1 0 82v56.5a97.5 97.5 0 0 0 0-195zM63 104a41 41 0 0 0 41 41V63a41 41 0 0 0-41 41z">
+		</path>
+		<circle cx="104" cy="104" r="97.5" fill="none" stroke="var(--phoenix-options-icon-path, #fff)" stroke-miterlimit="10" stroke-width="13">
+		</circle>
+	</symbol>
+</svg>

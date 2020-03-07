@@ -16,7 +16,6 @@ import { AttributePipe } from './services/extras/attribute.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IOPanelComponent } from './components/ui-menu/io-panel/io-panel.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -24,6 +23,8 @@ import { CollectionsInfoComponent } from './components/ui-menu/collections-info/
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggle.component';
 import { CollectionsInfoOverlayComponent } from './components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component';
+import { IoOptionsComponent } from './components/ui-menu/io-options/io-options.component';
+import { IOOptionsDialogComponent } from './components/ui-menu/io-options/io-options-dialog/io-options-dialog.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -49,10 +50,11 @@ const routes: Routes = [
     PlaygroundVrComponent,
     AttributePipe,
     UiMenuComponent,
-    IOPanelComponent,
     CollectionsInfoComponent,
     MenuToggleComponent,
-    CollectionsInfoOverlayComponent
+    CollectionsInfoOverlayComponent,
+    IoOptionsComponent,
+    IOOptionsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +68,7 @@ const routes: Routes = [
     OverlayModule
   ],
   entryComponents: [
-    IOPanelComponent,
+    IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent
   ],
   bootstrap: [AppComponent]
