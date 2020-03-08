@@ -173,13 +173,15 @@ export class UIService {
       this.geomFolder = this.gui.addFolder('Geometry');
     }
     // A new folder for the object is added to the 'Geometry' folder
-    this.guiParameters[name] = { show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1 };
+    this.guiParameters[name] = {
+      show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
+    };
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
     colorMenu.onChange((value) => this.three.objColor(name, value));
 
-    let opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
+    const opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
     opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name, newValue));
 
 

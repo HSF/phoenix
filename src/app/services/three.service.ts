@@ -290,9 +290,8 @@ export class ThreeService {
    * Initializes HTML canvas element.
    * @param ID ID of the canvas element.
    * @param width Desired width of the canvas element.
-   * @param {number} height Desired height of the canvas element.
-   * @returns {HTMLCanvasElement}
-   * @private
+   * @param height Desired height of the canvas element.
+   * @returns canvas
    */
   private initializeCanvas(
     ID: string,
@@ -311,9 +310,8 @@ export class ThreeService {
 
   /**
    * Initializes WebGL Renderer.
-   * @param {WebGLRendererParameters} [parameters] Optional parameters for the renderer.
-   * @returns {WebGLRenderer}
-   * @private
+   * @param [parameters] Optional parameters for the renderer.
+   * @returns renderer
    */
   private initializeRenderer(
     parameters?: WebGLRendererParameters
@@ -359,9 +357,9 @@ export class ThreeService {
       this.enableSelecting();
     }
     if (configuration.colorScheme) {
-      configuration.colorScheme.addListener(() =>
-        this.darkBackground(configuration.colorScheme.matches)
-      );
+      configuration.colorScheme.addEventListener('change', () => {
+        this.darkBackground(configuration.colorScheme.matches);
+      });
     }
   }
 
@@ -481,11 +479,11 @@ export class ThreeService {
   }
 
   // LOAD SCENE
-  public loadGLTFDetector(scene_url: any) {
-    console.log('Loading ', scene_url);
+  public loadGLTFDetector(sceneUrl: any) {
+    console.log('Loading ', sceneUrl);
     const loader = new GLTFLoader();
     // @ts-ignore
-    loader.load(scene_url, gltf => {
+    loader.load(sceneUrl, gltf => {
       this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
@@ -499,16 +497,15 @@ export class ThreeService {
 
   /**
    * Creates a cleaned copy of a scene.
-   * @param {Scene} scene Scene to copy and clean.
-   * @returns {Scene}
-   * @private
+   * @param scene Scene to copy and clean.
+   * @returns a clean scene
    */
   private cleanScene(scene: THREE.Scene): THREE.Scene {
     const clearScene: THREE.Scene = scene.clone();
     const scope = this;
     const removeList = [];
 
-    clearScene.traverse(function (object: THREE.Object3D) {
+    clearScene.traverse((object: THREE.Object3D) => {
       if (scope.ignoreList.includes(object.type)) {
         removeList.push(object);
       }
@@ -600,7 +597,7 @@ export class ThreeService {
   public setDetectorOpacity(value: number) {
     console.log('Changing detector opacity to ', value);
     if (value) {
-      this.detector.traverse(function (o: any) {
+      this.detector.traverse((o: any) => {
         if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
@@ -614,7 +611,7 @@ export class ThreeService {
     const object = this.scene.getObjectByName(name);
 
     if (value) {
-      object.traverse(function (o: any) {
+      object.traverse((o: any) => {
         if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
@@ -625,10 +622,9 @@ export class ThreeService {
 
   /**
    * Animates camera transform.
-   * @param {number[]} cameraPosition End position.
-   * @param {number[]} cameraTarget End target.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraPosition End position.
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
    */
   public animateCameraTransform(
     cameraPosition: number[],
@@ -641,9 +637,8 @@ export class ThreeService {
 
   /**
    * Animates camera position.
-   * @param {number[]} cameraPosition End position.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraPosition End position.
+   * @param duration Duration of an animation in seconds.
    */
   public animateCameraPosition(
     cameraPosition: number[],
@@ -665,9 +660,8 @@ export class ThreeService {
 
   /**
    * Animates camera target.
-   * @param {number[]} cameraTarget End target.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
    */
   public animateCameraTarget(cameraTarget: number[], duration: number): void {
     const rotAnimation = new TWEEN.Tween(
@@ -819,8 +813,6 @@ export class ThreeService {
   /**
    * Sets visibility of an overlay.
    * @param value Boolean value whether to show and render overlay or not.
-   * @returns {void}
-   * @public
    */
   public renderOverlay(value: boolean): void {
     this.rendererManager.overlayRenderer.domElement.hidden = !value;
@@ -1009,7 +1001,7 @@ export class ThreeService {
     const collection = this.scene.getObjectByName(collectionName);
 
     for (const child of Object.values(collection.children)) {
-      child.traverse(function (object: THREE.Object3D) {
+      child.traverse((object: THREE.Object3D) => {
         // For jets and tracks
         if (object instanceof Line || object instanceof Mesh) {
           if (
