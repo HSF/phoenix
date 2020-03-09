@@ -356,23 +356,6 @@ export class ThreeService {
     if (configuration.allowSelecting) {
       this.enableSelecting();
     }
-    if (configuration.colorScheme) {
-      try {
-        // Chrome & Firefox
-        configuration.colorScheme.addEventListener('change', (e) => {
-          this.darkBackground(configuration.colorScheme.matches);
-        });
-      } catch (e1) {
-        try {
-          // Safari
-          configuration.colorScheme.addListener((e) => {
-            this.darkBackground(configuration.colorScheme.matches);
-          });
-        } catch (e2) {
-          console.error(e2);
-        }
-      }
-    }
   }
 
   private saveString(text, filename) {

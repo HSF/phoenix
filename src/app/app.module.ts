@@ -33,6 +33,7 @@ import { ObjectSelectionOverlayComponent } from './components/ui-menu/object-sel
 import { EventSelectorComponent } from './components/ui-menu/event-selector/event-selector.component';
 import { ObjectClippingComponent } from './components/ui-menu/object-clipping/object-clipping.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DarkThemeComponent } from './components/ui-menu/dark-theme/dark-theme.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -67,7 +68,8 @@ const routes: Routes = [
     ObjectSelectionComponent,
     ObjectSelectionOverlayComponent,
     EventSelectorComponent,
-    ObjectClippingComponent
+    ObjectClippingComponent,
+    DarkThemeComponent
   ],
   imports: [
     BrowserModule,

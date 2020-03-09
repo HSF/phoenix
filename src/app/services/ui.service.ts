@@ -25,6 +25,7 @@ export class UIService {
   private viewFolder: any;
   private configuration: Configuration;
   private canvas: HTMLElement;
+  private darkTheme: boolean;
 
   constructor(private three: ThreeService) {
   }
@@ -34,6 +35,8 @@ export class UIService {
     this.showStats();
     // Shows the menu that contains the options to interact with the scene.
     this.showMenu(configuration);
+    // Detect UI color scheme
+    this.detectColorScheme();
   }
 
   private showStats() {
@@ -269,6 +272,41 @@ export class UIService {
 
   public setClipping(value: boolean) {
     this.three.setClipping(value);
+  }
+
+  public detectColorScheme() {
+    let dark = false;    // default to light
+
+    // local storage is used to override OS theme settings
+    if (localStorage.getItem('theme')) {
+      if (localStorage.getItem('theme') === 'dark') {
+        dark = true;
+      }
+    } else if (!window.matchMedia) {
+      // matchMedia method not supported
+    } else if (matchMedia('(prefers-color-scheme: dark)').matches) {
+      // OS theme setting detected as dark
+      dark = true;
+    }
+
+    this.darkTheme = dark;
+    // dark theme preferred, set document with a `data-theme` attribute
+    this.setDarkTheme(dark);
+  }
+
+  public setDarkTheme(dark: boolean) {
+    if (dark) {
+      localStorage.setItem('theme', 'dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+      localStorage.setItem('theme', 'light');
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+    this.three.darkBackground(dark);
+  }
+
+  public getDarkTheme() {
+    return this.darkTheme;
   }
 
 }
