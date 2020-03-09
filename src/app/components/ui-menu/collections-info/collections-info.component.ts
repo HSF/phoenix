@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentRef } from '@angular/core';
+import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
@@ -8,7 +8,7 @@ import { CollectionsInfoOverlayComponent } from './collections-info-overlay/coll
   templateUrl: './collections-info.component.html',
   styleUrls: ['./collections-info.component.scss']
 })
-export class CollectionsInfoComponent implements OnInit {
+export class CollectionsInfoComponent implements OnInit, OnDestroy {
 
   showObjectsInfo = false;
   overlayWindow: ComponentRef<CollectionsInfoOverlayComponent>;
@@ -20,6 +20,10 @@ export class CollectionsInfoComponent implements OnInit {
     const overlayPortal = new ComponentPortal(CollectionsInfoOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.showObjectsInfo = this.showObjectsInfo;
+  }
+
+  ngOnDestroy(): void {
+    this.overlayWindow.destroy();
   }
 
   toggleOverlay() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentRef } from '@angular/core';
+import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay/object-selection-overlay.component';
@@ -8,7 +8,7 @@ import { ObjectSelectionOverlayComponent } from './object-selection-overlay/obje
   templateUrl: './object-selection.component.html',
   styleUrls: ['./object-selection.component.scss']
 })
-export class ObjectSelectionComponent implements OnInit {
+export class ObjectSelectionComponent implements OnInit, OnDestroy {
 
   // Attributes for displaying the information of selected objects
   hiddenSelectedInfo = true;
@@ -21,6 +21,10 @@ export class ObjectSelectionComponent implements OnInit {
     const overlayPortal = new ComponentPortal(ObjectSelectionOverlayComponent);
     this.overlayWindow = overlayRef.attach(overlayPortal);
     this.overlayWindow.instance.hiddenSelectedInfo = this.hiddenSelectedInfo;
+  }
+
+  ngOnDestroy(): void {
+    this.overlayWindow.destroy();
   }
 
   toggleOverlay() {
