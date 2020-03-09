@@ -357,9 +357,21 @@ export class ThreeService {
       this.enableSelecting();
     }
     if (configuration.colorScheme) {
-      configuration.colorScheme.addEventListener('change', () => {
-        this.darkBackground(configuration.colorScheme.matches);
-      });
+      try {
+        // Chrome & Firefox
+        configuration.colorScheme.addEventListener('change', (e) => {
+          this.darkBackground(configuration.colorScheme.matches);
+        });
+      } catch (e1) {
+        try {
+          // Safari
+          configuration.colorScheme.addListener((e) => {
+            this.darkBackground(configuration.colorScheme.matches);
+          });
+        } catch (e2) {
+          console.error(e2);
+        }
+      }
     }
   }
 

@@ -7,6 +7,7 @@ import { Configuration } from './extras/configuration.model';
   providedIn: 'root'
 })
 export class EventdisplayService {
+
   private configuration: Configuration;
   private eventsData: any;
   private frameID: number;
@@ -195,4 +196,6 @@ export class EventdisplayService {
   public listenToLoadedEventsChange(callback: (events) => any) {
     this.onEventsChange.push(callback);
   }
+
+
 }

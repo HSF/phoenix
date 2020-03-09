@@ -19,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSliderModule } from '@angular/material/slider';
 import { CollectionsInfoComponent } from './components/ui-menu/collections-info/collections-info.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggle.component';
@@ -29,6 +31,8 @@ import { OverlayViewComponent } from './components/ui-menu/overlay-view/overlay-
 import { ObjectSelectionComponent } from './components/ui-menu/object-selection/object-selection.component';
 import { ObjectSelectionOverlayComponent } from './components/ui-menu/object-selection/object-selection-overlay/object-selection-overlay.component';
 import { EventSelectorComponent } from './components/ui-menu/event-selector/event-selector.component';
+import { ObjectClippingComponent } from './components/ui-menu/object-clipping/object-clipping.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -62,7 +66,8 @@ const routes: Routes = [
     OverlayViewComponent,
     ObjectSelectionComponent,
     ObjectSelectionOverlayComponent,
-    EventSelectorComponent
+    EventSelectorComponent,
+    ObjectClippingComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +78,10 @@ const routes: Routes = [
     MatDialogModule,
     MatButtonModule,
     MatTooltipModule,
-    OverlayModule
+    OverlayModule,
+    MatMenuModule,
+    MatSliderModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     IOOptionsDialogComponent,

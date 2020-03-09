@@ -10,12 +10,12 @@ import { Cut } from './extras/cut.model';
   providedIn: 'root'
 })
 export class UIService {
+
   private stats;
   private gui;
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
-    clippingAngle: 0,
     lowRes: undefined,
     eventData: undefined
   };
@@ -70,17 +70,14 @@ export class UIService {
     this.addToggle(this.controlsFolder, 'lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
     this.addToggle(this.controlsFolder, 'darkBg', 'Dark Background', configuration.darkBackground,
       (value) => this.three.darkBackground(value));
-    this.addToggle(this.controlsFolder, 'clipping', 'Enable Clipping', false, (value) => this.three.setClipping(value));
 
-    this.controlsFolder.add(this.guiParameters, 'clippingAngle', 0, 180).name('Clipping angle')
-      .onChange((angle) => this.three.rotateClipping(angle));
     this.displayViews(configuration);
   }
 
   private displayViews(configuration: Configuration) {
     this.viewFolder = this.gui.addFolder('Views');
     this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
-    this.setOverlayButtons();
+    // this.setOverlayButtons();
     this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
     this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
     this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
@@ -264,8 +261,14 @@ export class UIService {
         });
       }
     }
-
   }
 
+  public rotateClipping(angle: number) {
+    this.three.rotateClipping(angle);
+  }
+
+  public setClipping(value: boolean) {
+    this.three.setClipping(value);
+  }
 
 }

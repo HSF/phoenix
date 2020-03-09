@@ -23,18 +23,12 @@
   overflow-x: scroll;
   z-index: 90;
 
-  img,
-  .optionsButton {
-    height: 3rem;
-    width: 3rem;
-    min-height: 3rem;
-    min-width: 3rem;
-    cursor: pointer;
-    align-self: center;
+  * {
+    margin-left: 0.8rem;
   }
 
-  .optionsButton {
-    margin-left: 0.4rem;
+  > *:last-child {
+    margin-left: 0;
   }
 
   .preset-views {

@@ -2,8 +2,8 @@
 @include mat-core();
 
 // Define an alternate dark theme.
-$primary: mat-palette($mat-cyan);
-$accent: mat-palette($mat-amber, A200, A100, A400);
+$primary: mat-palette($mat-amber);
+$accent: mat-palette($mat-cyan, A200, A100, A400);
 $warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme($primary, $accent, $warn);
 $light-theme: mat-light-theme($primary, $accent, $warn);
@@ -109,6 +109,7 @@ canvas {
   width: 100%;
   max-width: 100%;
   max-height: 92vh;
+  outline: none;
 }
 
 /* dat.gui styles */
