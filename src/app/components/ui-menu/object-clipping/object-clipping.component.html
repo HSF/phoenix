@@ -1,0 +1,10 @@
+<mat-menu #menu>
+    <mat-checkbox class="mat-menu-item" (click)="$event.stopPropagation()" (change)="toggleClipping($event)">Clipping
+    </mat-checkbox>
+    <mat-slider min="0" max="180" step="1" thumbLabel (click)="$event.stopPropagation()"
+        (input)="changeClippingAngle($event)">
+    </mat-slider>
+</mat-menu>
+
+<app-menu-toggle [matMenuTriggerFor]="menu" tooltip="Geometry clipping" icon="clipping" [active]="clippingEnabled">
+</app-menu-toggle>

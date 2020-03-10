@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {Object3D} from 'three';
+import { Object3D } from 'three';
 
 
 export class PhoenixObjects {
@@ -52,7 +52,7 @@ export class PhoenixObjects {
     // geometry
     const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
     // material
-    const material = new THREE.LineBasicMaterial({color: objectColor});
+    const material = new THREE.LineBasicMaterial({ color: objectColor });
     material.linewidth = 2;
     // object
     const splineObject = new THREE.Line(geometry, material);
@@ -86,7 +86,7 @@ export class PhoenixObjects {
 
     const geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false); // Cone
 
-    const material = new THREE.MeshBasicMaterial({color: 0x2194CE, opacity: 0.3, transparent: true});
+    const material = new THREE.MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
     material.opacity = 0.5;
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(translation);
@@ -110,10 +110,10 @@ export class PhoenixObjects {
 
     // geometry
     const geometry = new THREE.BufferGeometry();
-    geometry.addAttribute('position', new THREE.BufferAttribute(pointPos, 3));
+    geometry.setAttribute('position', new THREE.BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material = new THREE.PointsMaterial({size: 10});
+    const material = new THREE.PointsMaterial({ size: 10 });
     material.color.set('#ff0000');
     // object
     const pointsObj = new THREE.Points(geometry, material);
@@ -130,7 +130,7 @@ export class PhoenixObjects {
     // geometry
     const geometry = new THREE.BoxGeometry(30, 30, length);
     // material
-    const material = new THREE.MeshPhongMaterial({color: 0xFFD166});
+    const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
     // object
     const cube = new THREE.Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));

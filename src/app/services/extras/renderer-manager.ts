@@ -1,8 +1,8 @@
-import {WebGLRenderer} from 'three';
+import { WebGLRenderer } from 'three';
 
 export class RendererManager {
-  //MEMBERS
-  //private _activeRenderer: WebGLRenderer;
+  // MEMBERS
+  // private _activeRenderer: WebGLRenderer;
 
   private _mainRenderer: WebGLRenderer;
   private _overlayRenderer: WebGLRenderer;
@@ -10,9 +10,9 @@ export class RendererManager {
   private _fixedOverlay: boolean;
 
 
-  //CONSTRUCTOR
+  // CONSTRUCTOR
   constructor() {
-    //this._activeRenderer = null;
+    // this._activeRenderer = null;
 
     this._mainRenderer = null;
     this._overlayRenderer = null;
@@ -20,7 +20,7 @@ export class RendererManager {
   }
 
 
-  //SET/GET
+  // SET/GET
   /*set activeControls(renderer: WebGLRenderer){
       this._activeRenderer = renderer;
   }*/
@@ -52,7 +52,7 @@ export class RendererManager {
   }
 
 
-  //FUNCTIONS
+  // FUNCTIONS
   public addRenderer(renderer: WebGLRenderer) {
     if (!this.containsObject(renderer, this._renderers)) {
       this._renderers.push(renderer);
@@ -60,14 +60,14 @@ export class RendererManager {
   }
 
   public removeControls(renderer: WebGLRenderer): void {
-    let index: number = this._renderers.indexOf(renderer);
+    const index: number = this._renderers.indexOf(renderer);
     if (index > -1) {
       this._renderers.splice(index, 1);
     }
   }
 
   public swapRenderers(rendererA: WebGLRenderer, rendererB: WebGLRenderer): void {
-    let temp: WebGLRenderer = rendererA;
+    const temp: WebGLRenderer = rendererA;
     rendererA = rendererB;
     rendererB = temp;
   }
@@ -83,7 +83,7 @@ export class RendererManager {
   }
 
   public setLocalClippingEnabled(value: boolean): void {
-    for (let i: number = 0; i < this._renderers.length; i++) {
+    for (let i = 0; i < this._renderers.length; i++) {
       this._renderers[i].localClippingEnabled = value;
     }
   }

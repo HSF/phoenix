@@ -1,8 +1,9 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {PlaygroundVrComponent} from './playground-vr.component';
-import {AttributePipe} from '../../services/extras/attribute.pipe';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { PlaygroundVrComponent } from './playground-vr.component';
+import { AttributePipe } from '../../services/extras/attribute.pipe';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AppModule } from 'src/app/app.module';
 
 describe('PlaygroundVrComponent', () => {
   let component: PlaygroundVrComponent;
@@ -10,8 +11,7 @@ describe('PlaygroundVrComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PlaygroundVrComponent, AttributePipe],
-      imports: [HttpClientTestingModule]
+      imports: [AppModule, HttpClientTestingModule]
     })
       .compileComponents();
   }));

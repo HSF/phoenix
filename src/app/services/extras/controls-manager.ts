@@ -2,7 +2,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Camera } from 'three';
 
 export class ControlsManager {
-    //MEMBERS
+    // MEMBERS
     private _activeControls: OrbitControls;
 
     private _mainControls: OrbitControls;
@@ -10,8 +10,8 @@ export class ControlsManager {
     private _controls: OrbitControls[];
 
 
-    //CONSTRUCTOR
-    constructor(activeControls: OrbitControls){
+    // CONSTRUCTOR
+    constructor(activeControls: OrbitControls) {
         this._activeControls = activeControls;
 
         this._mainControls = null;
@@ -20,86 +20,86 @@ export class ControlsManager {
     }
 
 
-    //SET/GET
-    set activeControls(controls: OrbitControls){
+    // SET/GET
+    set activeControls(controls: OrbitControls) {
         this._activeControls = controls;
     }
-    set mainControls(controls: OrbitControls){
+    set mainControls(controls: OrbitControls) {
         this._mainControls = controls;
     }
-    set overlayControls(controls: OrbitControls){
+    set overlayControls(controls: OrbitControls) {
         this._overlayControls = controls;
     }
 
-    get activeControls(): OrbitControls{
+    get activeControls(): OrbitControls {
         return this._activeControls;
     }
-    get mainControls(): OrbitControls{
+    get mainControls(): OrbitControls {
         return this._mainControls;
     }
-    get overlayControls(): OrbitControls{
+    get overlayControls(): OrbitControls {
         return this._overlayControls;
     }
-    get activeCamera(): Camera{
+    get activeCamera(): Camera {
         return this._activeControls.object;
     }
-    get mainCamera(): Camera{
+    get mainCamera(): Camera {
         return this._mainControls.object;
     }
-    get overlayCamera(): Camera{
+    get overlayCamera(): Camera {
         return this._overlayControls.object;
     }
 
 
-    //FUNCTIONS
-    public addControls(controls: OrbitControls): void{
-        if(!this.containsObject(controls, this._controls)) this._controls.push(controls);
+    // FUNCTIONS
+    public addControls(controls: OrbitControls): void {
+        if (!this.containsObject(controls, this._controls)) { this._controls.push(controls); }
     }
 
-    public removeControls(controls: OrbitControls): void{
-        let index: number = this._controls.indexOf(controls);
+    public removeControls(controls: OrbitControls): void {
+        const index: number = this._controls.indexOf(controls);
         if (index > -1) {
             this._controls.splice(index, 1);
         }
     }
 
-    public swapControls(): void{
-        let temp: OrbitControls = this._mainControls;
+    public swapControls(): void {
+        const temp: OrbitControls = this._mainControls;
         this._mainControls = this._overlayControls;
-        //this._mainControls.autoRotate = temp.autoRotate;
+        // this._mainControls.autoRotate = temp.autoRotate;
         this._overlayControls = temp;
     }
 
-    public updateSync(): void{
-        for(let i = 0; i < this._controls.length; i++){
-            if(this._controls[i] === this._activeControls) continue;
+    public updateSync(): void {
+        for (let i = 0; i < this._controls.length; i++) {
+            if (this._controls[i] === this._activeControls) { continue; }
 
             this.update(this._controls[i]);
         }
     }
 
-    public update(controls: OrbitControls): void{
+    public update(controls: OrbitControls): void {
         controls.update();
     }
 
-    public transformSync(): void{
-        for(let i = 0; i < this._controls.length; i++){
-            if(this._controls[i] === this._activeControls) continue;
+    public transformSync(): void {
+        for (let i = 0; i < this._controls.length; i++) {
+            if (this._controls[i] === this._activeControls) { continue; }
 
             this.positionSync(this._controls[i]);
             this.rotationSync(this._controls[i]);
-            //this._controls[i].update();
+            // this._controls[i].update();
         }
     }
 
-    private positionSync(controls: OrbitControls): void{
+    private positionSync(controls: OrbitControls): void {
         controls.object.position.set(this._activeControls.object.position.x, this._activeControls.object.position.y, this._activeControls.object.position.z);
-        //controls.update();
+        // controls.update();
     }
 
-    private rotationSync(controls: OrbitControls): void{
+    private rotationSync(controls: OrbitControls): void {
         controls.target = this._activeControls.target;
-        //controls.update();
+        // controls.update();
     }
 
     private containsObject(obj: OrbitControls, list: OrbitControls[]): boolean {
@@ -108,7 +108,7 @@ export class ControlsManager {
                 return true;
             }
         }
-    
+
         return false;
     }
 
@@ -118,7 +118,7 @@ export class ControlsManager {
                 return i;
             }
         }
-    
+
         return -1;
     }
 }
