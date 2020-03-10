@@ -34,6 +34,7 @@ import { EventSelectorComponent } from './components/ui-menu/event-selector/even
 import { ObjectClippingComponent } from './components/ui-menu/object-clipping/object-clipping.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DarkThemeComponent } from './components/ui-menu/dark-theme/dark-theme.component';
+import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotate.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -69,7 +70,8 @@ const routes: Routes = [
     ObjectSelectionOverlayComponent,
     EventSelectorComponent,
     ObjectClippingComponent,
-    DarkThemeComponent
+    DarkThemeComponent,
+    AutoRotateComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class ObjectClippingComponent implements OnInit {
 
+  clippingEnabled: boolean;
+
   constructor(private uiService: UIService) { }
 
   ngOnInit(): void {
@@ -23,6 +25,7 @@ export class ObjectClippingComponent implements OnInit {
   toggleClipping(change: MatCheckboxChange) {
     const value = change.checked;
     this.uiService.setClipping(value);
+    this.clippingEnabled = value;
   }
 
 }

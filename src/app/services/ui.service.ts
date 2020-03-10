@@ -70,10 +70,6 @@ export class UIService {
 
     this.addToggle(this.controlsFolder, 'rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
     this.addToggle(this.controlsFolder, 'axis', 'Axis', true, (value) => this.three.setAxis(value));
-    this.addToggle(this.controlsFolder, 'lowRes', 'Low Resolution', false, (value) => this.three.lowerResolution(value));
-    this.addToggle(this.controlsFolder, 'darkBg', 'Dark Background', configuration.darkBackground,
-      (value) => this.three.darkBackground(value));
-
     this.displayViews(configuration);
   }
 
@@ -307,6 +303,10 @@ export class UIService {
 
   public getDarkTheme() {
     return this.darkTheme;
+  }
+
+  public setAutoRotate(rotate: boolean) {
+    this.three.autoRotate(rotate);
   }
 
 }
