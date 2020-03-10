@@ -223,7 +223,9 @@ export class UIService {
   }
 
   public getPresetViews(): PresetView[] {
-    return this.configuration.presetViews;
+    if (this.configuration) {
+      return this.configuration.presetViews;
+    }
   }
 
   public displayView(view: PresetView) {
