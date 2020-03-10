@@ -209,6 +209,7 @@ export class ThreeService {
 
     const canvas = document.getElementById('eventDisplay');
     canvas.appendChild(this.rendererManager.overlayRenderer.domElement);
+    this.renderOverlay(false);
   }
 
   /**

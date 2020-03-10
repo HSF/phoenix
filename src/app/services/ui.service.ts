@@ -64,96 +64,9 @@ export class UIService {
       this.canvas = document.body;
     }
     this.canvas.appendChild(this.gui.domElement);
-    this.controlsFolder = this.gui.addFolder('Controls');
     this.geomFolder = null;
     this.eventFolder = null;
 
-    this.addToggle(this.controlsFolder, 'rotate', 'Auto Rotate?', false, (value) => this.three.autoRotate(value));
-    this.addToggle(this.controlsFolder, 'axis', 'Axis', true, (value) => this.three.setAxis(value));
-    this.displayViews(configuration);
-  }
-
-  private displayViews(configuration: Configuration) {
-    this.viewFolder = this.gui.addFolder('Views');
-    this.addToggle(this.viewFolder, 'useOrtho', 'Orthographic View', false, (value) => this.three.swapCameras(value));
-    // this.setOverlayButtons();
-    this.addButton(this.viewFolder, 'Align X', () => this.three.alignCameraWithAxis('X'));
-    this.addButton(this.viewFolder, 'Align Y', () => this.three.alignCameraWithAxis('Y'));
-    this.addButton(this.viewFolder, 'Align Z', () => this.three.alignCameraWithAxis('Z'));
-
-    if (configuration.anyPresetView()) {
-      //  this.displayPresetViews(configuration.presetViews);
-    }
-  }
-
-  private setOverlayButtons() {
-    this.addToggle(this.viewFolder, 'Overlay', 'Overlay', true, (value) => this.three.renderOverlay(value));
-    this.addToggle(this.viewFolder, 'setFixOverlay', 'Fix Overlay', false, (value) => this.three.fixOverlayView(value));
-  }
-
-
-  private displayPresetViews(presetViews: PresetView[]) {
-    const presetViewFolder = this.viewFolder.addFolder('Preset Views');
-    const presetIconsUl = document.createElement('div');
-    presetIconsUl.className = 'preset-views';
-
-    const scope = this;
-    presetViews.forEach((view) => {
-      // Animation
-      const animationFunction = () => {
-        scope.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
-      };
-      // For menu
-      view.setView = animationFunction;
-      presetViewFolder.add(view, 'setView').name(view.name);
-      // For icons
-      const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svgElement.classList.add('optionsButton');
-      svgElement.addEventListener('click', animationFunction);
-      const useElement = document.createElementNS('http://www.w3.org/2000/svg', 'use');
-      useElement.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', view.getIconURL());
-      svgElement.append(useElement);
-      presetIconsUl.append(svgElement);
-    });
-    const element = document.getElementById('optionsPanel');
-    if (element) {
-      element.appendChild(presetIconsUl);
-    } else {
-      this.canvas.append(presetIconsUl);
-    }
-  }
-
-  /**
-   * Adds a boolean toggle to the any level of a GUI.
-   * @param guiLevel Name of the folder that you want to apppend to.
-   * @param fieldName Name of the field that will be changed.
-   * @param tag Name that will be shown next to the toggle.
-   * @param defaultValue initial value that will be set.
-   * @param onChange function that will be executed when the toggle is pressed.
-   * @returns Reference to the created object.
-   */
-  private addToggle(guiLevel: any, fieldName: string, tag: string, defaultValue: boolean, onChange: (value: boolean) => any): any {
-    this.guiParameters[fieldName] = defaultValue;
-    const menu = guiLevel.add(this.guiParameters, fieldName).name(tag);
-    menu.onChange(onChange);
-    onChange(defaultValue);
-
-    return menu;
-  }
-
-  /**
-   * Adds a button to any level of a GUI.
-   * @param guiLevel Parent GUI level, where a button wuill be inserted.
-   * @param name Name that will be shown on a button.
-   * @param onClick Function that will be called once the button is pressed.
-   * @returns Reference to the created object.
-   */
-  private addButton(guiLevel: any, name: string, onClick: () => any): any {
-    const buttonObject = {};
-    buttonObject[name] = onClick;
-
-    const button = guiLevel.add(buttonObject, name);
-    return button;
   }
 
   public clearUI() {
@@ -307,6 +220,18 @@ export class UIService {
 
   public setAutoRotate(rotate: boolean) {
     this.three.autoRotate(rotate);
+  }
+
+  public getPresetViews(): PresetView[] {
+    return this.configuration.presetViews;
+  }
+
+  public displayView(view: PresetView) {
+    this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
+  }
+
+  public toggleOrthographicView(orthographic: boolean) {
+    this.three.swapCameras(orthographic);
   }
 
 }
