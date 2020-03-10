@@ -1,0 +1,44 @@
+<!-- Show objects -->
+<div class="info-box" *ngIf="showObjectsInfo" cdkDrag>
+    <div class="boxHeader" *ngIf="collections!=null">
+        <span>Choose a collection: </span>
+        <div class="eventSelector">
+            <label for="event">Event</label>
+            <select id="collection" name="collection" (change)='changeCollection($event)'>
+                <option value="" selected disabled hidden>Choose Collection</option>
+                <option *ngFor="let collection of collections" [value]="collection">
+                    {{collection}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="boxBody">
+        <table id="collectionTable" *ngIf="showingCollection">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th *ngFor="let column of collectionColumns">{{column}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let object of showingCollection; index as i">
+                    <td>#{{i}}</td>
+                    <td *ngFor="let column of collectionColumns">{{object[column]}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="emptyBox" *ngIf="!collections">Load event data to be able to display information about the collections
+            here.</p>
+    </div>
+
+
+    <div class="info-handle" cdkDragHandle>
+        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z">
+            </path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+.optionsWrapper {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#optionsPanel {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  background: var(--phoenix-background-color-secondary);
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: var(--phoenix-box-shadow);
+  border-radius: 16px;
+  max-width: 95%;
+  padding: 0.5rem 1rem;
+  overflow-x: scroll;
+  z-index: 90;
+
+  * {
+    margin-left: 0.8rem;
+  }
+
+  > *:last-child {
+    margin-left: 0;
+  }
+
+  .preset-views {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .optionsButton {
+      max-height: 3rem;
+      max-width: 3rem;
+      height: 3rem;
+      width: 3rem;
+      margin-right: 0.5rem;
+      cursor: pointer;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+#helpPanel {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.5rem;
+}
+
+.optionsSeparator {
+  margin: 0 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .preset-views-ul {
+    display: none;
+  }
+}

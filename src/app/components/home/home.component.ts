@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {EventdisplayService} from '../services/eventdisplay.service';
+import {EventdisplayService} from '../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-home',

@@ -1,22 +1,70 @@
+@import "~@angular/material/theming";
+@include mat-core();
+
+// Define an alternate dark theme.
+$primary: mat-palette($mat-amber);
+$accent: mat-palette($mat-cyan, A200, A100, A400);
+$warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($primary, $accent, $warn);
+$light-theme: mat-light-theme($primary, $accent, $warn);
+@include angular-material-theme($light-theme);
+
 :root {
+  --phoenix-logo: url(assets/images/logo-small.svg);
   --phoenix-background-color: #ffffff;
   --phoenix-background-color-secondary: #ffffff;
   --phoenix-background-color-tertiary: #ffffff;
   --phoenix-text-color: #333333;
   --phoenix-text-color-secondary: #777777;
   --phoenix-text-color-hover: #c5c5c5;
-  --phoenix-box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.1);
-  --phoenix-scroll-color: #D3D3D3;
+  --phoenix-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.1);
+  --phoenix-scroll-color: #d3d3d3;
   --phoenix-options-icon-bg: #ffffff;
   --phoenix-options-icon-path: #777777;
-  --dat-background-primary: #F9F9F9;
+  --phoenix-icon-shadow: 0px 3px 6px rgba(0, 0, 0, 0.11);
+  --dat-background-primary: #f9f9f9;
   --dat-background-secondary: #efefef;
   --dat-background-tertiary: #e9e9e9;
   --dat-background-quaternary: #ffffff;
   --dat-border: #f0f0f0;
+
+  .optionsButton.activeIcon {
+    --phoenix-options-icon-path: #00c4ba;
+  }
 }
 
-html, body {
+//dark theme
+[data-theme="dark"] {
+  --phoenix-background-color: #000000;
+  --phoenix-background-color-secondary: #181818;
+  --phoenix-background-color-tertiary: #262626;
+  --phoenix-text-color: white;
+  --phoenix-text-color-secondary: #dbdbdb;
+  --phoenix-text-color-hover: #c5c5c5;
+  --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
+  --phoenix-scroll-color: #3d3d3d;
+  --phoenix-options-icon-bg: #313131;
+  --phoenix-options-icon-path: #fff;
+  --phoenix-icon-shadow: 0px 4px 8px rgba(0, 0, 0, 0.22);
+  --dat-background-primary: #181818;
+  --dat-background-secondary: #262626;
+  --dat-background-tertiary: #343434;
+  --dat-background-quaternary: #101010;
+  --dat-border: #343434;
+
+  transition: 1s;
+
+  @include angular-material-theme($dark-theme);
+
+  #optionsPanel {
+    .optionsButton.activeIcon {
+      --phoenix-options-icon-path: #1cfff4;
+    }
+  }
+}
+
+html,
+body {
   background-color: var(--phoenix-background-color);
 }
 
@@ -36,11 +84,12 @@ html, body {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: var(--phoenix-scroll-color);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
   -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.048);
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgb(211, 211, 211);;
+  background: rgb(211, 211, 211);
 }
 
 ::-webkit-scrollbar-corner {
@@ -50,7 +99,7 @@ html, body {
 
 .btn.btn-primary {
   border: none;
-  background-color: #118AB2;
+  background-color: #118ab2;
 }
 
 .btn.btn-primary:hover {
@@ -61,6 +110,7 @@ canvas {
   width: 100%;
   max-width: 100%;
   max-height: 92vh;
+  outline: none;
 }
 
 /* dat.gui styles */
@@ -91,9 +141,6 @@ canvas {
   }
 
   ul .folder {
-    &:first-child .dg ul .title {
-    }
-
     .dg ul .cr {
       background: var(--dat-background-quaternary);
       color: var(--phoenix-text-color);
@@ -117,91 +164,15 @@ canvas {
     }
   }
 
-  .dg .cr.number input[type=text] {
+  .dg .cr.number input[type="text"] {
     color: var(--phoenix-text-color);
     margin-top: -0.5em;
     background: none;
   }
 
-  .dg .cr.color .c input[type=text] {
+  .dg .cr.color .c input[type="text"] {
     max-height: 2em;
   }
-}
-
-/* Preset views styles */
-.preset-views-wrapper {
-  position: absolute;
-  top: 30%;
-}
-
-.preset-views {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  img {
-    cursor: pointer;
-    height: 3rem;
-    width: 3rem;
-    margin-right: 0.5rem;
-
-    &:last-child {
-      margin: 0;
-    }
-  }
-}
-
-
-.optionsWrapper {
-  position: absolute;
-  bottom: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  img, .optionsButton {
-    height: 3rem;
-    width: 3rem;
-    min-height: 3rem;
-    min-width: 3rem;
-    cursor: pointer;
-    align-self: center;
-  }
-
-  .optionsButton {
-    margin-left: 0.4rem;
-
-    &.activeIcon {
-      --phoenix-options-icon-path: #00A7BA;
-    }
-  }
-}
-
-#optionsPanel {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  align-content: center;
-  background: var(--phoenix-background-color-secondary);
-  border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: var(--phoenix-box-shadow);
-  border-radius: 10px;
-  max-width: 95%;
-  padding: 0.5rem 1rem;
-  overflow-x: scroll;
-  z-index: 10;
-}
-
-#helpPanel {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.5rem;
-}
-
-.optionsSeparator {
-  margin: 0 0.5rem;
 }
 
 .eventSelector {
@@ -217,20 +188,12 @@ canvas {
     padding: 5px 35px 5px 5px;
     font-size: 16px;
     border: 1px solid rgba(88, 88, 88, 0.08);
-    box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
+    box-shadow: var(--phoenix-icon-shadow);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: url(assets/images/logo-small.svg) 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
+    background: var(--phoenix-logo) 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
     color: var(--phoenix-text-color-secondary);
-  }
-}
-
-
-
-@media screen and (max-width: 768px) {
-  .preset-views-ul {
-    display: none;
   }
 }
 
@@ -242,30 +205,4 @@ canvas {
 @font-face {
   font-family: "Lato";
   src: url(assets/fonts/Lato-Regular.ttf);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --phoenix-background-color: #000000;
-    --phoenix-background-color-secondary: #181818;
-    --phoenix-background-color-tertiary: #262626;
-    --phoenix-text-color: white;
-    --phoenix-text-color-secondary: #dbdbdb;
-    --phoenix-text-color-hover: #c5c5c5;
-    --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
-    --phoenix-scroll-color: #3d3d3d;
-    --phoenix-options-icon-bg: #313131;
-    --phoenix-options-icon-path: #fff;
-    --dat-background-primary: #181818;
-    --dat-background-secondary: #262626;
-    --dat-background-tertiary: #343434;
-    --dat-background-quaternary: #101010;
-    --dat-border: #343434;
-  }
-
-  #optionsPanel {
-    .optionsButton.activeIcon {
-      --phoenix-options-icon-path: #F1E833;
-    }
-  }
 }

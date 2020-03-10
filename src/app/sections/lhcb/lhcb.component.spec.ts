@@ -1,7 +1,8 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {LHCbComponent} from './lhcb.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { LHCbComponent } from './lhcb.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AppModule } from 'src/app/app.module';
 
 describe('LHCbComponent', () => {
   let component: LHCbComponent;
@@ -9,8 +10,7 @@ describe('LHCbComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LHCbComponent],
-      imports: [HttpClientTestingModule]
+      imports: [AppModule]
     })
       .compileComponents();
   }));

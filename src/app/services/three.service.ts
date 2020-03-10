@@ -1,36 +1,40 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import {
   AxesHelper,
   EdgesGeometry,
-  Group, Line,
+  Group,
+  Line,
   LineBasicMaterial,
-  LineSegments, Mesh,
-  MeshBasicMaterial, Object3D,
+  LineSegments,
+  Mesh,
+  MeshBasicMaterial,
+  Object3D,
   PerspectiveCamera,
-  Scene, Vector3,
+  Scene,
+  Vector3,
   WebGLRenderer,
   OrthographicCamera,
-  WebGLRendererParameters, Plane, Quaternion,
+  WebGLRendererParameters,
+  Plane,
+  Quaternion
 } from 'three';
-import {Configuration} from './extras/configuration.model';
-import {GLTFExporter} from 'three/examples/jsm/exporters/GLTFExporter';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import {WebVR} from './extras/web-vr';
-import {ControlsManager} from './extras/controls-manager';
-import {RendererManager} from './extras/renderer-manager';
-import {OBJExporter} from 'three/examples/jsm/exporters/OBJExporter';
-import {Cut} from './extras/cut.model';
-
+import { Configuration } from './extras/configuration.model';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { ControlsManager } from './extras/controls-manager';
+import { RendererManager } from './extras/renderer-manager';
+import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
+import { Cut } from './extras/cut.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreeService {
-
   // Threejs Variables
   private scene: Scene;
   private detector: Object3D;
@@ -67,11 +71,21 @@ export class ThreeService {
     this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
 
     // Arguments: FOV, aspect ratio, near and far distances
-    this.perspectiveCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
+    this.perspectiveCamera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      100000
+    );
     // Arguments: left, right, top, bottom, near and far distances
     this.orthographicCamera = new THREE.OrthographicCamera(
-      -window.innerWidth / 2, window.innerWidth / 2,
-      window.innerHeight / 2, -window.innerHeight / 2, 0.1, 100000);
+      -window.innerWidth / 2,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      -window.innerHeight / 2,
+      0.1,
+      100000
+    );
     this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
 
     // Renderer manager
@@ -82,8 +96,14 @@ export class ThreeService {
     this.setOverlayRenderer();
 
     // Orbit controls allow to move around
-    this.perspectiveControls = this.setOrbitControls(this.perspectiveCamera, this.rendererManager.mainRenderer.domElement);
-    this.orthographicControls = this.setOrbitControls(this.orthographicCamera, this.rendererManager.mainRenderer.domElement);
+    this.perspectiveControls = this.setOrbitControls(
+      this.perspectiveCamera,
+      this.rendererManager.mainRenderer.domElement
+    );
+    this.orthographicControls = this.setOrbitControls(
+      this.orthographicCamera,
+      this.rendererManager.mainRenderer.domElement
+    );
     // Controls manager
     this.controlsManager = new ControlsManager(this.perspectiveControls);
     // Set active orbit controls
@@ -94,10 +114,10 @@ export class ThreeService {
     // Add listener
     this.controlsManager.activeControls.addEventListener(
       'change',
-      (function(scope) {
-        let controlsManager = scope.controlsManager;
+      ((scope) => {
+        const controlsManager = scope.controlsManager;
 
-        return function() {
+        return () => {
           controlsManager.transformSync();
           controlsManager.updateSync();
         };
@@ -105,7 +125,11 @@ export class ThreeService {
     );
 
     // Export ignore list
-    this.ignoreList = [(new THREE.AmbientLight()).type, (new THREE.DirectionalLight()).type, (new THREE.AxesHelper()).type];
+    this.ignoreList = [
+      new THREE.AmbientLight().type,
+      new THREE.DirectionalLight().type,
+      new THREE.AxesHelper().type
+    ];
     // Object Collections
     this.objects = [];
     // Axis
@@ -124,14 +148,20 @@ export class ThreeService {
   }
 
   public render() {
-    this.rendererManager.mainRenderer.render(this.scene, this.controlsManager.mainCamera);
+    this.rendererManager.mainRenderer.render(
+      this.scene,
+      this.controlsManager.mainCamera
+    );
 
     if (!this.rendererManager.overlayRenderer.domElement.hidden) {
       this.sceneColor = this.scene.background;
       this.scene.background = null;
 
       if (!this.rendererManager.isFixedOverlay()) {
-        this.rendererManager.overlayRenderer.render(this.scene, this.controlsManager.overlayCamera);
+        this.rendererManager.overlayRenderer.render(
+          this.scene,
+          this.controlsManager.overlayCamera
+        );
       }
       this.scene.background = this.sceneColor;
     }
@@ -142,11 +172,15 @@ export class ThreeService {
    *********************************/
 
   private setRenderer() {
-    let renderer: WebGLRenderer = new THREE.WebGLRenderer();
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer();
 
     this.rendererManager.addRenderer(renderer);
     this.rendererManager.mainRenderer = renderer;
-    this.rendererManager.mainRenderer.setSize(window.innerWidth, window.innerHeight, false);
+    this.rendererManager.mainRenderer.setSize(
+      window.innerWidth,
+      window.innerHeight,
+      false
+    );
     this.rendererManager.mainRenderer.domElement.className = 'ui-element';
     this.rendererManager.mainRenderer.domElement.id = 'three-canvas';
     let canvas = document.getElementById('eventDisplay');
@@ -158,89 +192,116 @@ export class ThreeService {
 
   /**
    * Sets overlay renderer to a renderer manager.
-   * @returns {void}
-   * @private
+   *
    */
   private setOverlayRenderer(): void {
-    let overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas(
-      'overlay-canvas', window.innerWidth / 2.5, window.innerHeight / 2.5);
-    let overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(overlayCanvas);
+    const overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas(
+      'overlay-canvas',
+      window.innerWidth / 2.5,
+      window.innerHeight / 2.5
+    );
+    const overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(
+      overlayCanvas
+    );
 
     this.rendererManager.addRenderer(overlayRenderer);
     this.rendererManager.overlayRenderer = overlayRenderer;
 
-    let canvas = document.getElementById('eventDisplay');
+    const canvas = document.getElementById('eventDisplay');
     canvas.appendChild(this.rendererManager.overlayRenderer.domElement);
+    this.renderOverlay(false);
   }
 
   /**
    * Initializes overlay HTML canvas element.
-   * @param {string} ID ID of the canvas element.
-   * @param {number} width Desired width of the canvas element.
-   * @param {number} height Desired height of the canvas element.
-   * @returns {HTMLCanvasElement}
-   * @private
+   * @param ID ID of the canvas element.
+   * @param width Desired width of the canvas element.
+   * @param height Desired height of the canvas element.
    */
-  private initializeOverlayCanvas(ID: string, width: number, height: number): HTMLCanvasElement {
-    let canvas: HTMLCanvasElement = this.initializeCanvas(ID, width, height);
+  private initializeOverlayCanvas(
+    ID: string,
+    width: number,
+    height: number
+  ): HTMLCanvasElement {
+    const canvas: HTMLCanvasElement = this.initializeCanvas(ID, width, height);
     canvas.style.width = width.toString() + 'px';
     canvas.style.height = height.toString() + 'px';
     canvas.style.position = 'absolute';
     canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-    canvas.style.left = (window.innerWidth - width - 100) + 'px';
+    canvas.style.left = window.innerWidth - width - 100 + 'px';
     canvas.style.top = 100 + 'px';
     canvas.style.border = '1px solid #ccc';
     canvas.style.borderRadius = '8px';
-    //canvas.style.pointerEvents = "none";
+    // canvas.style.pointerEvents = "none";
 
     // Add listener
-    let offset: { x: number, y: number } = {x: 0, y: 0};
-    let mouseDown: boolean = false;
+    const offset: { x: number; y: number } = { x: 0, y: 0 };
+    let mouseDown = false;
 
-    canvas.addEventListener('mousedown', function(event) {
-      mouseDown = true;
-      offset.x = event.clientX - canvas.offsetLeft;
-      offset.y = event.clientY - canvas.offsetTop;
-    }, true);
+    canvas.addEventListener(
+      'mousedown',
+      (event) => {
+        mouseDown = true;
+        offset.x = event.clientX - canvas.offsetLeft;
+        offset.y = event.clientY - canvas.offsetTop;
+      },
+      true
+    );
 
-    document.addEventListener('mouseup', function() {
-      mouseDown = false;
-    }, true);
+    document.addEventListener(
+      'mouseup',
+      () => {
+        mouseDown = false;
+      },
+      true
+    );
 
-    document.addEventListener('mousemove', function(event) {
-      event.preventDefault();
-      if (mouseDown) {
-
-        canvas.style.left = (event.clientX - offset.x) + 'px';
-        canvas.style.top = (event.clientY - offset.y) + 'px';
-      }
-    }, true);
+    document.addEventListener(
+      'mousemove',
+      (event) => {
+        event.preventDefault();
+        if (mouseDown) {
+          canvas.style.left = event.clientX - offset.x + 'px';
+          canvas.style.top = event.clientY - offset.y + 'px';
+        }
+      },
+      true
+    );
 
     return canvas;
   }
 
   /**
    * Initializes overlay renderer.
-   * @param {WebGLRendererParameters} overlayCanvas Canvas element for the renderer.
-   * @returns {WebGLRenderer}
-   * @private
+   * @param overlayCanvas Canvas element for the renderer.
    */
-  private intializeOverlayRenderer(overlayCanvas: HTMLCanvasElement): WebGLRenderer {
-    let parameters: WebGLRendererParameters = {canvas: overlayCanvas, antialias: false, alpha: true};
+  private intializeOverlayRenderer(
+    overlayCanvas: HTMLCanvasElement
+  ): WebGLRenderer {
+    const parameters: WebGLRendererParameters = {
+      canvas: overlayCanvas,
+      antialias: false,
+      alpha: true
+    };
 
     return this.initializeRenderer(parameters);
   }
 
   /**
    * Initializes HTML canvas element.
-   * @param {string} ID ID of the canvas element.
-   * @param {number} width Desired width of the canvas element.
-   * @param {number} height Desired height of the canvas element.
-   * @returns {HTMLCanvasElement}
-   * @private
+   * @param ID ID of the canvas element.
+   * @param width Desired width of the canvas element.
+   * @param height Desired height of the canvas element.
+   * @returns canvas
    */
-  private initializeCanvas(ID: string, width: number = window.innerWidth, height: number = window.innerHeight): HTMLCanvasElement {
-    let canvas: HTMLCanvasElement = document.createElement('canvas') as HTMLCanvasElement;
+  private initializeCanvas(
+    ID: string,
+    width: number = window.innerWidth,
+    height: number = window.innerHeight
+  ): HTMLCanvasElement {
+    const canvas: HTMLCanvasElement = document.createElement(
+      'canvas'
+    ) as HTMLCanvasElement;
     canvas.id = ID;
     canvas.width = width;
     canvas.height = height;
@@ -250,19 +311,23 @@ export class ThreeService {
 
   /**
    * Initializes WebGL Renderer.
-   * @param {WebGLRendererParameters} [parameters] Optional parameters for the renderer.
-   * @returns {WebGLRenderer}
-   * @private
+   * @param [parameters] Optional parameters for the renderer.
+   * @returns renderer
    */
-  private initializeRenderer(parameters?: WebGLRendererParameters): WebGLRenderer {
-    let renderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
-    //renderer.setSize(canvas.width, canvas.height);
-    //renderer.domElement.style.cssText = canvas.style.cssText;
+  private initializeRenderer(
+    parameters?: WebGLRendererParameters
+  ): WebGLRenderer {
+    const renderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
+    // renderer.setSize(canvas.width, canvas.height);
+    // renderer.domElement.style.cssText = canvas.style.cssText;
 
     return renderer;
   }
 
-  private setOrbitControls(camera: PerspectiveCamera | OrthographicCamera, domElement?: HTMLElement): OrbitControls {
+  private setOrbitControls(
+    camera: PerspectiveCamera | OrthographicCamera,
+    domElement?: HTMLElement
+  ): OrbitControls {
     const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
@@ -274,8 +339,8 @@ export class ThreeService {
 
   private setLights() {
     const ambientLight = new THREE.AmbientLight(0x404040);
-    const directionalLight1 = new THREE.DirectionalLight(0xBFBFBF);
-    const directionalLight2 = new THREE.DirectionalLight(0xBFBFBF);
+    const directionalLight1 = new THREE.DirectionalLight(0xbfbfbf);
+    const directionalLight2 = new THREE.DirectionalLight(0xbfbfbf);
 
     directionalLight1.position.set(-100, -50, 100);
     directionalLight2.position.set(100, 50, -100);
@@ -292,13 +357,10 @@ export class ThreeService {
     if (configuration.allowSelecting) {
       this.enableSelecting();
     }
-    if (configuration.colorScheme) {
-      configuration.colorScheme.addListener(() => this.darkBackground(configuration.colorScheme.matches));
-    }
   }
 
   private saveString(text, filename) {
-    this.save(new Blob([text], {type: 'text/plain'}), filename);
+    this.save(new Blob([text], { type: 'text/plain' }), filename);
   }
 
   private getEventData(): Object3D {
@@ -351,7 +413,7 @@ export class ThreeService {
     // Instantiate a exporter
     const exporter = new OBJExporter();
 
-    const sceneConfig = {eventData: {}, geometries: []};
+    const sceneConfig = { eventData: {}, geometries: [] };
 
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
@@ -364,12 +426,12 @@ export class ThreeService {
     this.saveString(result, 'phoenix-obj.obj');
   }
 
-  //SAVE SCENE
+  // SAVE SCENE
   public exportPhoenixScene() {
     // Instantiate a exporter
     const exporter = new GLTFExporter();
 
-    const sceneConfig = {eventData: {}, geometries: []};
+    const sceneConfig = { eventData: {}, geometries: [] };
 
     this.saveEventDataConfiguration(sceneConfig.eventData);
     this.saveGeometriesConfiguration(sceneConfig.geometries);
@@ -378,22 +440,25 @@ export class ThreeService {
     const cleanScene: THREE.Scene = this.cleanScene(this.scene);
 
     // Parse the input and generate the glTF output
-    exporter.parse(cleanScene, (result) => {
-      const jsonResult = {sceneConfiguration: sceneConfig, scene: result};
-      const output = JSON.stringify(jsonResult, null, 2);
-      this.saveString(output, 'phoenix-scene.phnx');
-    }, null);
+    exporter.parse(
+      cleanScene,
+      result => {
+        const jsonResult = { sceneConfiguration: sceneConfig, scene: result };
+        const output = JSON.stringify(jsonResult, null, 2);
+        this.saveString(output, 'phoenix-scene.phnx');
+      },
+      null
+    );
   }
 
-
-  //LOAD SCENE
+  // LOAD SCENE
   public loadScene(scene: any) {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
     // @ts-ignore
-    loader.parse(sceneString, '', (gltf) => {
+    loader.parse(sceneString, '', gltf => {
       const eventData = this.getEventData();
-      this.scene = gltf.scene;
+      gltf.scene.children.forEach((child) => this.scene.add(child));
 
       const savedEvent = gltf.scene.getObjectByName('EventData');
       if (savedEvent) {
@@ -409,12 +474,12 @@ export class ThreeService {
     });
   }
 
-  //LOAD SCENE
-  public loadGLTFDetector(scene_url: any) {
-    console.log('Loading ', scene_url);
+  // LOAD SCENE
+  public loadGLTFDetector(sceneUrl: any) {
+    console.log('Loading ', sceneUrl);
     const loader = new GLTFLoader();
     // @ts-ignore
-    loader.load(scene_url, (gltf) => {
+    loader.load(sceneUrl, gltf => {
       this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
@@ -428,25 +493,21 @@ export class ThreeService {
 
   /**
    * Creates a cleaned copy of a scene.
-   * @param {Scene} scene Scene to copy and clean.
-   * @returns {Scene}
-   * @private
+   * @param scene Scene to copy and clean.
+   * @returns a clean scene
    */
   private cleanScene(scene: THREE.Scene): THREE.Scene {
     const clearScene: THREE.Scene = scene.clone();
     const scope = this;
     const removeList = [];
 
-    clearScene.traverse(
-      function(object: THREE.Object3D) {
-        if (scope.ignoreList.includes(object.type)) {
-          removeList.push(object);
-        }
+    clearScene.traverse((object: THREE.Object3D) => {
+      if (scope.ignoreList.includes(object.type)) {
+        removeList.push(object);
       }
-    );
+    });
 
     clearScene.remove(...removeList);
-
 
     return clearScene;
   }
@@ -490,10 +551,7 @@ export class ThreeService {
 
   public rotateClipping(angle: number) {
     const q = new Quaternion();
-    q.setFromAxisAngle(
-      new Vector3(0, 0, 1),
-      (angle * Math.PI) / 180
-    );
+    q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
     this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
   }
 
@@ -511,9 +569,16 @@ export class ThreeService {
 
   public lowerResolution(value: boolean) {
     if (value) {
-      this.rendererManager.mainRenderer.setSize(window.innerWidth / 2, window.innerHeight / 2, false);
+      this.rendererManager.mainRenderer.setSize(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        false
+      );
     } else {
-      this.rendererManager.mainRenderer.setSize(window.innerWidth, window.innerHeight);
+      this.rendererManager.mainRenderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+      );
     }
   }
 
@@ -528,8 +593,8 @@ export class ThreeService {
   public setDetectorOpacity(value: number) {
     console.log('Changing detector opacity to ', value);
     if (value) {
-      this.detector.traverse(function(o: any) {
-        if (o.isMesh == true) {
+      this.detector.traverse((o: any) => {
+        if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
         }
@@ -542,8 +607,8 @@ export class ThreeService {
     const object = this.scene.getObjectByName(name);
 
     if (value) {
-      object.traverse(function(o: any) {
-        if (o.isMesh == true) {
+      object.traverse((o: any) => {
+        if (o.isMesh === true) {
           o.material.transparent = true;
           o.material.opacity = value;
         }
@@ -553,45 +618,59 @@ export class ThreeService {
 
   /**
    * Animates camera transform.
-   * @param {number[]} cameraPosition End position.
-   * @param {number[]} cameraTarget End target.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraPosition End position.
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
    */
-  public animateCameraTransform(cameraPosition: number[], cameraTarget: number[], duration: number): void {
+  public animateCameraTransform(
+    cameraPosition: number[],
+    cameraTarget: number[],
+    duration: number
+  ): void {
     this.animateCameraPosition(cameraPosition, duration);
     this.animateCameraTarget(cameraTarget, duration);
   }
 
   /**
    * Animates camera position.
-   * @param {number[]} cameraPosition End position.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraPosition End position.
+   * @param duration Duration of an animation in seconds.
    */
-  public animateCameraPosition(cameraPosition: number[], duration: number): void {
-    const posAnimation = new TWEEN.Tween(this.controlsManager.activeCamera.position);
-    posAnimation.to({
-      x: cameraPosition[0],
-      y: cameraPosition[1],
-      z: cameraPosition[2]
-    }, duration);
+  public animateCameraPosition(
+    cameraPosition: number[],
+    duration: number
+  ): void {
+    const posAnimation = new TWEEN.Tween(
+      this.controlsManager.activeCamera.position
+    );
+    posAnimation.to(
+      {
+        x: cameraPosition[0],
+        y: cameraPosition[1],
+        z: cameraPosition[2]
+      },
+      duration
+    );
     posAnimation.start();
   }
 
   /**
    * Animates camera target.
-   * @param {number[]} cameraTarget End target.
-   * @param {number} duration Duration of an animation in seconds.
-   * @private
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
    */
   public animateCameraTarget(cameraTarget: number[], duration: number): void {
-    const rotAnimation = new TWEEN.Tween(this.controlsManager.activeControls.target);
-    rotAnimation.to({
-      x: cameraTarget[0],
-      y: cameraTarget[1],
-      z: cameraTarget[2]
-    }, duration);
+    const rotAnimation = new TWEEN.Tween(
+      this.controlsManager.activeControls.target
+    );
+    rotAnimation.to(
+      {
+        x: cameraTarget[0],
+        y: cameraTarget[1],
+        z: cameraTarget[2]
+      },
+      duration
+    );
     rotAnimation.start();
   }
 
@@ -637,7 +716,9 @@ export class ThreeService {
         break;
       }
       default: {
-        console.log('Error : ¡ Invalid camera align parameter (use x, y or z)!');
+        console.log(
+          'Error : ¡ Invalid camera align parameter (use x, y or z)!'
+        );
       }
     }
   }
@@ -648,10 +729,15 @@ export class ThreeService {
    */
   private alignCameraWithVector(targetlookAtVector: THREE.Vector3): void {
     const activeLookAtVector: THREE.Vector3 = new THREE.Vector3(0, 0, -1);
-    activeLookAtVector.applyQuaternion(this.controlsManager.mainCamera.quaternion);
+    activeLookAtVector.applyQuaternion(
+      this.controlsManager.mainCamera.quaternion
+    );
 
     const orbitTargetVector: THREE.Vector3 = new THREE.Vector3();
-    orbitTargetVector.subVectors(this.controlsManager.mainControls.target, this.controlsManager.mainCamera.position);
+    orbitTargetVector.subVectors(
+      this.controlsManager.mainControls.target,
+      this.controlsManager.mainCamera.position
+    );
 
     const direction: number = orbitTargetVector.dot(targetlookAtVector);
     targetlookAtVector.normalize().multiplyScalar(orbitTargetVector.length());
@@ -659,42 +745,48 @@ export class ThreeService {
       targetlookAtVector.multiplyScalar(-1);
     }
 
-    const newLookAtPoint: THREE.Vector3 = targetlookAtVector.add(this.controlsManager.mainCamera.position);
+    const newLookAtPoint: THREE.Vector3 = targetlookAtVector.add(
+      this.controlsManager.mainCamera.position
+    );
 
-    //instant change
-    //this.controlsManager.mainControls.target = newLookAtPoint;
-    //this.updateControls();
+    // instant change
+    // this.controlsManager.mainControls.target = newLookAtPoint;
+    // this.updateControls()
 
-    //animated change
+    // animated change
     this.animateCameraTarget(newLookAtPoint.toArray(), 1000);
   }
 
   private enableSelecting() {
     if (document.getElementById('three-canvas')) {
-      document.getElementById('three-canvas').addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
+      document
+        .getElementById('three-canvas')
+        .addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
     }
   }
 
   public setAnimationLoop(animate: () => void) {
-    this.rendererManager.mainRenderer.vr.enabled = true;
+    this.rendererManager.mainRenderer.xr.enabled = true;
     this.rendererManager.mainRenderer.setAnimationLoop(animate);
   }
 
   public setVRButton() {
-    const webVR = new WebVR();
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
       canvas = document.body;
     }
-    canvas.appendChild(webVR.createButton(this.rendererManager.mainRenderer, null));
+    canvas.appendChild(
+      VRButton.createButton(this.rendererManager.mainRenderer)
+    );
   }
 
   public onDocumentMouseDown(event, selectedObject: any) {
     event.preventDefault();
-    const mouse = new THREE.Vector2((event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1);
+    const mouse = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    );
     const raycaster = new THREE.Raycaster();
-    raycaster.linePrecision = 20;
     raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
 
     // @ts-ignore
@@ -706,7 +798,10 @@ export class ThreeService {
       selectedObject.attributes.splice(0, selectedObject.attributes.length);
 
       for (const key of Object.keys(intersects[0].object.userData)) {
-        selectedObject.attributes.push({attributeName: key, attributeValue: intersects[0].object.userData[key]});
+        selectedObject.attributes.push({
+          attributeName: key,
+          attributeValue: intersects[0].object.userData[key]
+        });
       }
     }
   }
@@ -714,8 +809,6 @@ export class ThreeService {
   /**
    * Sets visibility of an overlay.
    * @param value Boolean value whether to show and render overlay or not.
-   * @returns {void}
-   * @public
    */
   public renderOverlay(value: boolean): void {
     this.rendererManager.overlayRenderer.domElement.hidden = !value;
@@ -727,11 +820,19 @@ export class ThreeService {
 
   public buildGeometryFromParameters(parameters) {
     // Make the geometry and material
-    const geometry = new THREE.BoxGeometry(parameters.xDim, parameters.yDim, parameters.zDim);
-    const material = new THREE.MeshBasicMaterial({color: parameters.colour, opacity: 0.5, transparent: true});
+    const geometry = new THREE.BoxGeometry(
+      parameters.xDim,
+      parameters.yDim,
+      parameters.zDim
+    );
+    const material = new THREE.MeshBasicMaterial({
+      color: parameters.colour,
+      opacity: 0.5,
+      transparent: true
+    });
 
     const zstep = (parameters.maxZ - parameters.minZ) / parameters.numZEl;
-    const phistep = 2.0 * Math.PI / parameters.numPhiEl;
+    const phistep = (2.0 * Math.PI) / parameters.numPhiEl;
 
     let z = parameters.minZ + zstep / 2.0;
 
@@ -743,15 +844,24 @@ export class ThreeService {
       let phi = parameters.phiOffset;
       for (let elPhi = 0; elPhi < parameters.numPhiEl; elPhi++) {
         phi += phistep;
-        modulecentre = new THREE.Vector3(parameters.radius * Math.cos(phi), parameters.radius * Math.sin(phi), z);
+        modulecentre = new THREE.Vector3(
+          parameters.radius * Math.cos(phi),
+          parameters.radius * Math.sin(phi),
+          z
+        );
         const cube = new THREE.Mesh(geometry.clone(), material);
 
-        cube.matrix.makeRotationFromEuler(new THREE.Euler(ztiltAngle, 0.0, halfPi + phi + parameters.tiltAngle));
+        cube.matrix.makeRotationFromEuler(
+          new THREE.Euler(ztiltAngle, 0.0, halfPi + phi + parameters.tiltAngle)
+        );
         cube.matrix.setPosition(modulecentre);
         cube.matrixAutoUpdate = false;
         this.scene.add(cube);
 
-        const egh = new LineSegments(new EdgesGeometry(cube.geometry), new LineBasicMaterial({color: parameters.colour}));
+        const egh = new LineSegments(
+          new EdgesGeometry(cube.geometry),
+          new LineBasicMaterial({ color: parameters.colour })
+        );
         // @ts-ignore
         egh.material.linewidth = 2;
         this.scene.add(egh);
@@ -760,12 +870,17 @@ export class ThreeService {
     }
   }
 
-  public loadOBJFile(filename: string, name: string, colour, doubleSided: boolean): void {
+  public loadOBJFile(
+    filename: string,
+    name: string,
+    colour,
+    doubleSided: boolean
+  ): void {
     if (colour == null) {
       colour = 0x41a6f4;
     }
     const objLoader = new OBJLoader();
-    objLoader.load(filename, (object) => {
+    objLoader.load(filename, object => {
       this.processOBJ(object, name, colour, doubleSided, 'OBJ file');
     });
   }
@@ -773,19 +888,34 @@ export class ThreeService {
   public loadOBJFromContent(content: string, name: string) {
     const objLoader = new OBJLoader();
     const object = objLoader.parse(content);
-    this.processOBJ(object, name, 0x41a6f4, false, 'OBJ file loaded from the client.');
+    this.processOBJ(
+      object,
+      name,
+      0x41a6f4,
+      false,
+      'OBJ file loaded from the client.'
+    );
   }
 
-  private processOBJ(object: Object3D, name: string, colour: any, doubleSided: boolean, data?: string) {
+  private processOBJ(
+    object: Object3D,
+    name: string,
+    colour: any,
+    doubleSided: boolean,
+    data?: string
+  ) {
     object.name = name;
-    object.userData = {info: data};
+    object.userData = { info: data };
     this.setObjFlat(object, colour, doubleSided);
     this.scene.add(object);
     this.objects.push(object);
   }
 
   private setObjFlat(object3d, colour, doubleSided) {
-    const material2 = new THREE.MeshPhongMaterial({color: colour, wireframe: false});
+    const material2 = new THREE.MeshPhongMaterial({
+      color: colour,
+      wireframe: false
+    });
     material2.clippingPlanes = this.clipPlanes;
     material2.clipIntersection = true;
     material2.clipShadows = false;
@@ -794,7 +924,7 @@ export class ThreeService {
       material2.side = THREE.DoubleSide;
     }
 
-    object3d.traverse((child) => {
+    object3d.traverse(child => {
       if (child instanceof THREE.Mesh) {
         child.name = object3d.name;
         child.userData = object3d.userData;
@@ -803,7 +933,10 @@ export class ThreeService {
         child.castShadow = false;
         child.receiveShadow = false;
       } else {
-        if (child instanceof LineSegments && child.material instanceof LineBasicMaterial) {
+        if (
+          child instanceof LineSegments &&
+          child.material instanceof LineBasicMaterial
+        ) {
           child.material.color.set(colour);
         }
       }
@@ -812,10 +945,12 @@ export class ThreeService {
 
   public objColor(name: string, value: any) {
     const object = this.scene.getObjectByName(name);
-    object.traverse((child) => {
+    object.traverse(child => {
       if (child instanceof THREE.Mesh || child instanceof LineSegments) {
-        if (child.material instanceof THREE.MeshPhongMaterial
-          || child.material instanceof LineBasicMaterial) {
+        if (
+          child.material instanceof THREE.MeshPhongMaterial ||
+          child.material instanceof LineBasicMaterial
+        ) {
           child.material.color.set(value);
         }
       }
@@ -862,19 +997,17 @@ export class ThreeService {
     const collection = this.scene.getObjectByName(collectionName);
 
     for (const child of Object.values(collection.children)) {
-
-      child.traverse(
-        function(object: THREE.Object3D) {
-
-          // For jets and tracks
-          if (object instanceof Line || object instanceof Mesh) {
-            if (object.material instanceof LineBasicMaterial || object.material instanceof MeshBasicMaterial) {
-              object.material.color.set(value);
-            }
+      child.traverse((object: THREE.Object3D) => {
+        // For jets and tracks
+        if (object instanceof Line || object instanceof Mesh) {
+          if (
+            object.material instanceof LineBasicMaterial ||
+            object.material instanceof MeshBasicMaterial
+          ) {
+            object.material.color.set(value);
           }
         }
-      );
-
+      });
     }
   }
 
@@ -904,6 +1037,4 @@ export class ThreeService {
   fixOverlayView(value: boolean) {
     this.rendererManager.setFixOverlay(value);
   }
-
-
 }
