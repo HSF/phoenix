@@ -466,7 +466,6 @@ export class ThreeService {
       }
 
       this.setLights();
-      this.darkBackground(false);
 
       if (this.axis !== null) {
         this.scene.add(this.axis);
@@ -483,7 +482,6 @@ export class ThreeService {
       this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
-      this.darkBackground(false);
 
       if (this.axis !== null) {
         this.scene.add(this.axis);
