@@ -237,6 +237,8 @@ export class ThreeService {
     // Add listener
     const offset: { x: number; y: number } = { x: 0, y: 0 };
     let mouseDown = false;
+    // Padding limit for element dragging
+    let sidePadding = 3;
 
     canvas.addEventListener(
       'mousedown',
@@ -261,8 +263,19 @@ export class ThreeService {
       (event) => {
         event.preventDefault();
         if (mouseDown) {
-          canvas.style.left = event.clientX - offset.x + 'px';
-          canvas.style.top = event.clientY - offset.y + 'px';
+          let posX = event.clientX - offset.x;
+          let posY = event.clientY - offset.y;
+          let rightLimit = window.innerWidth - canvas.clientWidth - sidePadding;
+          let bottomLimit = window.innerHeight - canvas.clientHeight - sidePadding;
+
+          // If the position is inside the window width AND the position is not less than the left padding
+          if ((posX < rightLimit) && (posX > sidePadding)) {
+            canvas.style.left = posX + 'px';
+          }
+          // If the position is inside the window height AND the position is not less than the top padding
+          if ((posY < bottomLimit) && (posY > sidePadding)) {
+            canvas.style.top = posY + 'px';
+          }
         }
       },
       true
