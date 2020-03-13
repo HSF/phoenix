@@ -17,4 +17,8 @@ export class EventSelectorComponent implements OnInit {
     this.eventDisplay.listenToLoadedEventsChange((events) => this.events = events);
   }
 
+  changeEvent(selected: any) {
+    const value = selected.target.value;
+    this.eventDisplay.loadEvent(value);
+  }
 }
