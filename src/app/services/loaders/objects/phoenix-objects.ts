@@ -4,6 +4,8 @@ import {Object3D} from 'three';
 
 export class PhoenixObjects {
 
+  public static hitSize: number = 10;
+
   public static getTrack(trackParams: any): Object3D {
     const positions = trackParams.pos;
     // Track with no points
@@ -113,7 +115,7 @@ export class PhoenixObjects {
     geometry.addAttribute('position', new THREE.BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material = new THREE.PointsMaterial({size: 10});
+    const material = new THREE.PointsMaterial({size: PhoenixObjects.hitSize});
     material.color.set('#ff0000');
     // object
     const pointsObj = new THREE.Points(geometry, material);

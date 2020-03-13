@@ -40,7 +40,8 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.init(configuration);
     this.eventDisplay.allowSelection(this.selectedObject);
     this.http.get('assets/files/event_data/atlaseventdump2.json')
-      .subscribe((res: any) => this.events = this.eventDisplay.loadEventsFromJSON(res));
+      .subscribe((res: any) => {this.events = this.eventDisplay.loadEventsFromJSON(res)
+      console.log(res);});
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/toroids.obj', 'Toroids', 0xaaaaaa, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/TRT.obj', 'TRT', 0x356aa5, false);
     this.eventDisplay.loadGeometryFromOBJ('assets/geometry/ATLASR2/SCT.obj', 'SCT', 0xfff400, false);
