@@ -418,7 +418,7 @@ export class ThreeService {
       this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
-      this.darkBackground(false);
+      this.darkBackground(true);
 
       if (this.axis !== null) {
         this.scene.add(this.axis);
@@ -903,6 +903,11 @@ export class ThreeService {
 
   fixOverlayView(value: boolean) {
     this.rendererManager.setFixOverlay(value);
+  }
+
+  // Extra function(s)
+  getScene() {
+    return this.scene;
   }
 
 
