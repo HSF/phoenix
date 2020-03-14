@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import {JiveXMLLoader} from '../../../../services/loaders/jivexml-loader';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -18,6 +19,11 @@ export class IOOptionsDialogComponent {
   handleEventDataInput(files: any) {
     const callback = this.processEventData;
     this.handleFileInput(files, 'json', callback);
+  }
+
+  handleJiveXMLDataInput(files: any) {
+    const callback = this.processJiveXML;
+    this.handleFileInput(files, 'xml', callback);
   }
 
   handleOBJInput(files: any) {
@@ -51,6 +57,14 @@ export class IOOptionsDialogComponent {
   processEventData(content: any, name: string, evDisplay: EventdisplayService) {
     const json = JSON.parse(content);
     evDisplay.parsePhoenixEvents(json);
+  }
+
+  processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
+    console.log("Got JiveXML.")
+    let jiveloader = new JiveXMLLoader();
+    jiveloader.process(content);
+    const eventData = jiveloader.getEventData();
+    evDisplay.buildEventDataFromJSON(eventData);
   }
 
   processOBJ(content: any, name: any, evDisplay: EventdisplayService) {
