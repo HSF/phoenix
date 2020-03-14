@@ -91,7 +91,7 @@ export class UIService {
     colorMenu.onChange((value) => this.three.objColor(name, value));
 
     const opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
-    opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name, newValue));
+    opacity.onFinishChange((newValue) => this.three.setGeometryOpacity(name, newValue));
 
 
     // A boolean toggle for showing/hiding the object is added to its folder
