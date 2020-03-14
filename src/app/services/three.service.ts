@@ -42,7 +42,6 @@ export class ThreeService {
   // Threejs Variables
   private scene: Scene;
   private detector: Object3D;
-  private sceneColor: THREE.Color | THREE.Texture;
   private perspectiveControls: OrbitControls;
   private orthographicControls: OrbitControls;
   private perspectiveCamera: PerspectiveCamera;
@@ -97,8 +96,6 @@ export class ThreeService {
     this.importManager = new ImportManager(this.clipPlanes, ThreeService.EVENT_DATA_ID, ThreeService.GEOMETRIES_ID);
     // Renderer manager
     this.rendererManager = new RendererManager();
-    // Overlay renderer
-    this.setOverlayRenderer();
 
     // Orbit controls allow to move around
     this.perspectiveControls = this.setOrbitControls(
@@ -156,18 +153,21 @@ export class ThreeService {
       this.controlsManager.getMainCamera()
     );
 
-    if (!this.rendererManager.getOverlayRenderer().domElement.hidden) {
-      this.sceneColor = this.scene.background;
-      this.scene.background = null;
+    if (this.rendererManager.getOverlayRenderer()) {
+      if (!this.rendererManager.getOverlayRenderer().domElement.hidden) {
+        const sceneColor = this.scene.background;
+        this.scene.background = null;
 
-      if (!this.rendererManager.isFixedOverlay()) {
-        this.rendererManager.getOverlayRenderer().render(
-          this.scene,
-          this.controlsManager.getOverlayCamera()
-        );
+        if (!this.rendererManager.isFixedOverlay()) {
+          this.rendererManager.getOverlayRenderer().render(
+            this.scene,
+            this.controlsManager.getOverlayCamera()
+          );
+        }
+        this.scene.background = sceneColor;
       }
-      this.scene.background = this.sceneColor;
     }
+
   }
 
   /*********************************
@@ -178,134 +178,18 @@ export class ThreeService {
    * Sets overlay renderer to a renderer manager.
    *
    */
-  private setOverlayRenderer(): void {
-    const overlayCanvas: HTMLCanvasElement = this.initializeOverlayCanvas(
-      'overlay-canvas',
-      window.innerWidth / 2.5,
-      window.innerHeight / 2.5
-    );
-    const overlayRenderer: WebGLRenderer = this.intializeOverlayRenderer(
-      overlayCanvas
-    );
-
-    this.rendererManager.addRenderer(overlayRenderer);
-    this.rendererManager.setOverlayRenderer(overlayRenderer);
-
-    const canvas = document.getElementById('eventDisplay');
-    canvas.appendChild(this.rendererManager.getOverlayRenderer().domElement);
-    this.renderOverlay(false);
-  }
-
-  /**
-   * Initializes overlay HTML canvas element.
-   * @param ID ID of the canvas element.
-   * @param width Desired width of the canvas element.
-   * @param height Desired height of the canvas element.
-   */
-  private initializeOverlayCanvas(
-    ID: string,
-    width: number,
-    height: number
-  ): HTMLCanvasElement {
-    const canvas: HTMLCanvasElement = this.initializeCanvas(ID, width, height);
-    canvas.style.width = width.toString() + 'px';
-    canvas.style.height = height.toString() + 'px';
-    canvas.style.position = 'absolute';
-    canvas.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-    canvas.style.left = window.innerWidth - width - 100 + 'px';
-    canvas.style.top = 100 + 'px';
-    canvas.style.border = '1px solid #ccc';
-    canvas.style.borderRadius = '8px';
-    // canvas.style.pointerEvents = "none";
-
-    // Add listener
-    const offset: { x: number; y: number } = { x: 0, y: 0 };
-    let mouseDown = false;
-
-    canvas.addEventListener(
-      'mousedown',
-      (event) => {
-        mouseDown = true;
-        offset.x = event.clientX - canvas.offsetLeft;
-        offset.y = event.clientY - canvas.offsetTop;
-      },
-      true
-    );
-
-    document.addEventListener(
-      'mouseup',
-      () => {
-        mouseDown = false;
-      },
-      true
-    );
-
-    document.addEventListener(
-      'mousemove',
-      (event) => {
-        event.preventDefault();
-        if (mouseDown) {
-          canvas.style.left = event.clientX - offset.x + 'px';
-          canvas.style.top = event.clientY - offset.y + 'px';
-        }
-      },
-      true
-    );
-    return canvas;
-  }
-
-  /**
-   * Initializes overlay renderer.
-   * @param overlayCanvas Canvas element for the renderer.
-   */
-  private intializeOverlayRenderer(
-    overlayCanvas: HTMLCanvasElement
-  ): WebGLRenderer {
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
     const parameters: WebGLRendererParameters = {
       canvas: overlayCanvas,
       antialias: false,
       alpha: true
     };
-
-    return this.initializeRenderer(parameters);
+    const overlayRenderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
+    this.rendererManager.addRenderer(overlayRenderer);
+    this.rendererManager.setOverlayRenderer(overlayRenderer);
   }
 
-  /**
-   * Initializes HTML canvas element.
-   * @param ID ID of the canvas element.
-   * @param width Desired width of the canvas element.
-   * @param height Desired height of the canvas element.
-   * @returns canvas
-   */
-  private initializeCanvas(
-    ID: string,
-    width: number = window.innerWidth,
-    height: number = window.innerHeight
-  ): HTMLCanvasElement {
-    const canvas: HTMLCanvasElement = document.createElement(
-      'canvas'
-    ) as HTMLCanvasElement;
-    canvas.id = ID;
-    canvas.width = width;
-    canvas.height = height;
 
-    return canvas;
-  }
-
-  /**
-   * Initializes WebGL Renderer.
-   * @param [parameters] Optional parameters for the renderer.
-   * @returns renderer
-   */
-  private initializeRenderer(
-    parameters?: WebGLRendererParameters
-  ): WebGLRenderer {
-    const renderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
-    // renderer.setSize(canvas.width, canvas.height);
-    // renderer.domElement.style.cssText = canvas.style.cssText;
-
-    return renderer;
-  }
 
   private setOrbitControls(
     camera: PerspectiveCamera | OrthographicCamera,
@@ -445,21 +329,6 @@ export class ThreeService {
     const q = new Quaternion();
     q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
     this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
-  }
-
-  public lowerResolution(value: boolean) {
-    if (value) {
-      this.rendererManager.getMainRenderer().setSize(
-        window.innerWidth / 2,
-        window.innerHeight / 2,
-        false
-      );
-    } else {
-      this.rendererManager.getMainRenderer().setSize(
-        window.innerWidth,
-        window.innerHeight
-      );
-    }
   }
 
   public darkBackground(value: boolean) {
@@ -608,14 +477,6 @@ export class ThreeService {
         });
       }
     }
-  }
-
-  /**
-   * Sets visibility of an overlay.
-   * @param value Boolean value whether to show and render overlay or not.
-   */
-  public renderOverlay(value: boolean): void {
-    this.rendererManager.getOverlayRenderer().domElement.hidden = !value;
   }
 
   /**************************************

@@ -236,4 +236,8 @@ export class UIService {
     this.three.swapCameras(orthographic);
   }
 
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
+    this.three.setOverlayRenderer(overlayCanvas);
+  }
+
 }

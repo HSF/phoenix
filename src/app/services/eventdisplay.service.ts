@@ -184,8 +184,8 @@ export class EventdisplayService {
 
   // PAFUERA
 
-  public renderOverlay(overlayPanel: boolean) {
-    this.graphicsLibrary.renderOverlay(overlayPanel);
+  public renderOverlay(overlayCanvas: HTMLCanvasElement) {
+    this.graphicsLibrary.setOverlayRenderer(overlayCanvas);
   }
 
   public allowSelection(selectedObject: any) {
