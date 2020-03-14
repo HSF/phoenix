@@ -1,4 +1,4 @@
-<div class="infoPanelWrapper" cdkDrag *ngIf="selectedObject">
+<div class="infoPanelWrapper" cdkDrag cdkDragBoundary="body" *ngIf="selectedObject">
     <div id="selectedObjectPanel" [ngClass]="{'hidden' : hiddenSelectedInfo}">
         <div class="selectedObjectPanelHeader">
             <div></div>

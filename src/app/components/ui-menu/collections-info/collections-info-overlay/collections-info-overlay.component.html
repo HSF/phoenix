@@ -1,5 +1,5 @@
 <!-- Show objects -->
-<div class="info-box" *ngIf="showObjectsInfo" cdkDrag>
+<div class="info-box" *ngIf="showObjectsInfo" cdkDrag cdkDragBoundary="body">
     <div class="boxHeader" *ngIf="collections!=null">
         <span>Choose a collection: </span>
         <div class="eventSelector">

@@ -237,6 +237,8 @@ export class ThreeService {
     // Add listener
     const offset: { x: number; y: number } = { x: 0, y: 0 };
     let mouseDown = false;
+    // Padding limit for element dragging
+    const sidePadding = 3;
 
     canvas.addEventListener(
       'mousedown',
@@ -261,8 +263,19 @@ export class ThreeService {
       (event) => {
         event.preventDefault();
         if (mouseDown) {
-          canvas.style.left = event.clientX - offset.x + 'px';
-          canvas.style.top = event.clientY - offset.y + 'px';
+          const posX = event.clientX - offset.x;
+          const posY = event.clientY - offset.y;
+          const rightLimit = window.innerWidth - canvas.clientWidth - sidePadding;
+          const bottomLimit = window.innerHeight - canvas.clientHeight - sidePadding;
+
+          // If the position is inside the window width AND the position is not less than the left padding
+          if ((posX < rightLimit) && (posX > sidePadding)) {
+            canvas.style.left = posX + 'px';
+          }
+          // If the position is inside the window height AND the position is not less than the top padding
+          if ((posY < bottomLimit) && (posY > sidePadding)) {
+            canvas.style.top = posY + 'px';
+          }
         }
       },
       true
@@ -466,7 +479,6 @@ export class ThreeService {
       }
 
       this.setLights();
-      this.darkBackground(false);
 
       if (this.axis !== null) {
         this.scene.add(this.axis);
@@ -483,7 +495,6 @@ export class ThreeService {
       this.detector = gltf.scene;
       this.scene.add(this.detector);
       this.setLights();
-      this.darkBackground(false);
 
       if (this.axis !== null) {
         this.scene.add(this.axis);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {EventdisplayService} from '../../services/eventdisplay.service';
+import { UIService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +9,14 @@ import {EventdisplayService} from '../../services/eventdisplay.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
+  constructor(private ui: UIService) {
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+    this.ui.detectColorScheme();
   }
 
 }
