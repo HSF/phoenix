@@ -17,9 +17,11 @@ export class UIService {
     rotate: undefined,
     axis: undefined,
     lowRes: undefined,
-    eventData: undefined
+    eventData: undefined,
+    geometries: undefined
   };
   private geomFolder: any;
+  private geomNames: any = [];
   private controlsFolder: any;
   private eventFolder: any;
   private viewFolder: any;
@@ -77,9 +79,24 @@ export class UIService {
     this.geomFolder = null;
   }
 
-  public addGeometry(name: string, colour) {
+  public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder('Geometry');
+    }
+    this.guiParameters.geometries = { show: true };
+    // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
+    const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
+    showGeometriesMenu.onChange((value) => {
+      for (const geomName of this.geomNames) {
+        this.three.objectVisibility(geomName, value);
+      }
+    });
+  }
+
+  public addGeometry(name: string, colour) {
+    this.geomNames.push(name);
+    if (this.geomFolder == null) {
+      this.addGeomFolder();
     }
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
