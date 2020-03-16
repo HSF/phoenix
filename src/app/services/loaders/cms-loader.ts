@@ -99,7 +99,7 @@ export class CMSLoader extends PhoenixLoader {
             cp2 = new THREE.Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
 
             // Create the track curve
-            curve = new THREE.CubicBezierCurve3(p1, cp1, cp2, p2);
+            curve = new THREE.QuadraticBezierCurve3(p1, cp1, cp2, p2);
 
             var positions = [];
             // Divide the curve into points to put into positions array
