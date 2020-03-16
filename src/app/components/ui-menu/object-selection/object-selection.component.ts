@@ -2,6 +2,7 @@ import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay/object-selection-overlay.component';
+import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: 'app-object-selection',
@@ -14,7 +15,7 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
   hiddenSelectedInfo = true;
   overlayWindow: ComponentRef<ObjectSelectionOverlayComponent>;
 
-  constructor(private overlay: Overlay) { }
+  constructor(private overlay: Overlay, private ui: UIService) { }
 
   ngOnInit() {
     const overlayRef = this.overlay.create();
@@ -30,6 +31,7 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
   toggleOverlay() {
     this.hiddenSelectedInfo = !this.hiddenSelectedInfo;
     this.overlayWindow.instance.hiddenSelectedInfo = this.hiddenSelectedInfo;
+    this.ui.toggleObjectionSelectionActive(!this.hiddenSelectedInfo);
   }
 
 }

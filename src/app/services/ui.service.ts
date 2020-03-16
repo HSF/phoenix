@@ -236,4 +236,8 @@ export class UIService {
     this.three.swapCameras(orthographic);
   }
 
+  public toggleObjectionSelectionActive( active: boolean){
+    this.three.setObjectSelectionActive(active);
+  }
+
 }
