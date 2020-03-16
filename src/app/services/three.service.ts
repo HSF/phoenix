@@ -29,6 +29,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { ControlsManager } from './extras/controls-manager';
 import { RendererManager } from './extras/renderer-manager';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { Cut } from './extras/cut.model';
 
 @Injectable({
@@ -58,6 +63,14 @@ export class ThreeService {
   ];
   // Axis
   private axis: AxesHelper;
+
+  // Post processing
+  private composer: EffectComposer;
+  private outlinePass: OutlinePass;
+  private renderPass: RenderPass;
+
+  // Control behaviour
+  private objectSelectionActive: boolean;
 
   constructor() {
   }
@@ -137,8 +150,24 @@ export class ThreeService {
 
     // Different lights to better see the object
     this.setLights();
+
+    // Setup postprocessing
+    this.composer = new EffectComposer(this.rendererManager.mainRenderer);
+
+    this.renderPass = new RenderPass(this.scene, this.perspectiveCamera);
+    this.composer.addPass(this.renderPass);
+
+    this.outlinePass = new OutlinePass(new THREE.Vector2(window.innerWidth, window.innerHeight), this.scene, this.perspectiveCamera);
+    this.outlinePass.overlayMaterial.blending = THREE.NormalBlending;
+    this.composer.addPass(this.outlinePass);
+    this.outlinePass.visibleEdgeColor.set(0xffff66);
+    this.outlinePass.visibleEdgeColor.set(0xdf5330);
+
     // Customizing with configuration
     this.setConfiguration(configuration);
+
+    // Set some defaults
+    this.objectSelectionActive = false;
   }
 
   public updateControls() {
@@ -148,10 +177,12 @@ export class ThreeService {
   }
 
   public render() {
-    this.rendererManager.mainRenderer.render(
-      this.scene,
-      this.controlsManager.mainCamera
-    );
+    // this.rendererManager.mainRenderer.render(
+    //   this.scene,
+    //   this.controlsManager.mainCamera
+    // );
+
+    this.composer.render();
 
     if (!this.rendererManager.overlayRenderer.domElement.hidden) {
       this.sceneColor = this.scene.background;
@@ -165,6 +196,7 @@ export class ThreeService {
       }
       this.scene.background = this.sceneColor;
     }
+
   }
 
   /*********************************
@@ -598,7 +630,9 @@ export class ThreeService {
     if (value) {
       background = 0x0;
     }
-    this.scene.background = new THREE.Color(background);
+    if (this.scene) {
+      this.scene.background = new THREE.Color(background);
+    }
   }
 
   public setDetectorOpacity(value: number) {
@@ -769,10 +803,14 @@ export class ThreeService {
   }
 
   private enableSelecting() {
+    // FIXME - not sure if this is needed, given we have it in eventdisplay.service.ts
     if (document.getElementById('three-canvas')) {
       document
         .getElementById('three-canvas')
-        .addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
+        .addEventListener('touchmove', this.onTouchMove.bind(this));
+      document
+        .getElementById('three-canvas')
+        .addEventListener('mousemove', this.onTouchMove.bind(this));
     }
   }
 
@@ -791,29 +829,68 @@ export class ThreeService {
     );
   }
 
-  public onDocumentMouseDown(event, selectedObject: any) {
+  public setObjectSelectionActive(active: boolean) {
+    console.log('Object selection' + active);
+    this.objectSelectionActive = active;
+    if (!active) {
+      this.outlinePass.selectedObjects = []; // Clear highlighting when switched off.
+    }
+  }
+
+  public onTouchMove(event, selectedObject: any) {
+    console.log('Mouse moved. Objection selection: ' + this.objectSelectionActive);
+    // console.log(event);
+    if (!this.objectSelectionActive) { return; }
+
     event.preventDefault();
-    const mouse = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
-    );
+    const mouse = new THREE.Vector2();
+    if (event.changedTouches) {
+      mouse.x = event.changedTouches[0].pageX;
+      mouse.y = event.changedTouches[0].pageY;
+    } else {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+    console.log(mouse);
+
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
+    raycaster.params.Line.threshold = 3;
 
     // @ts-ignore
     const intersects = raycaster.intersectObjects(this.scene.children, true);
+    console.log('got', intersects);
 
     if (intersects.length > 0) {
-      // We want the closest one
-      selectedObject.name = intersects[0].object.name;
-      selectedObject.attributes.splice(0, selectedObject.attributes.length);
+      // We want the closest one, that is a type we can highlight
+      for (const obj of intersects) {
+        console.log(obj);
+        // console.log(obj.object.type)
+        if (this.ignoreList.includes(obj.object.type)) { continue; }
 
-      for (const key of Object.keys(intersects[0].object.userData)) {
-        selectedObject.attributes.push({
-          attributeName: key,
-          attributeValue: intersects[0].object.userData[key]
-        });
+        // selectedObject.name = obj.object.name;
+        // selectedObject.attributes.splice(0, selectedObject.attributes.length);
+        this.outlinePass.selectedObjects = [obj.object];
+        break;
       }
+
+
+    }
+  }
+
+  public selectObject(event, selectedObject: any) {
+    console.log('Mouse clicked. Objection selection: ' + this.objectSelectionActive);
+    console.log(event);
+    if (!this.objectSelectionActive) { return; }
+    const object = this.outlinePass.selectedObjects[0];
+    selectedObject.name = object.name;
+    selectedObject.attributes.splice(0, selectedObject.attributes.length);
+
+    for (const key of Object.keys(object.userData)) {
+      selectedObject.attributes.push({
+        attributeName: key,
+        attributeValue: object.userData[key]
+      });
     }
   }
 

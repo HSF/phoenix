@@ -122,8 +122,10 @@ export class EventdisplayService {
 
   public allowSelection(selectedObject: any) {
     if (document.getElementById('three-canvas')) {
+      document.getElementById('three-canvas').addEventListener('mousemove',
+        (event) => this.graphicsLibrary.onTouchMove.bind(this.graphicsLibrary)(event, selectedObject));
       document.getElementById('three-canvas').addEventListener('click',
-        (event) => this.graphicsLibrary.onDocumentMouseDown.bind(this.graphicsLibrary)(event, selectedObject));
+      (event) => this.graphicsLibrary.selectObject.bind(this.graphicsLibrary)(event, selectedObject));
     }
   }
 
