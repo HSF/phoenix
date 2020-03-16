@@ -179,14 +179,16 @@ export class ThreeService {
    *
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
-    const parameters: WebGLRendererParameters = {
-      canvas: overlayCanvas,
-      antialias: false,
-      alpha: true
-    };
-    const overlayRenderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
-    this.rendererManager.addRenderer(overlayRenderer);
-    this.rendererManager.setOverlayRenderer(overlayRenderer);
+    if (this.rendererManager) {
+      const parameters: WebGLRendererParameters = {
+        canvas: overlayCanvas,
+        antialias: false,
+        alpha: true
+      };
+      const overlayRenderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
+      this.rendererManager.addRenderer(overlayRenderer);
+      this.rendererManager.setOverlayRenderer(overlayRenderer);
+    }
   }
 
 
@@ -336,7 +338,9 @@ export class ThreeService {
     if (value) {
       background = 0x0;
     }
-    this.scene.background = new THREE.Color(background);
+    if (this.scene) {
+      this.scene.background = new THREE.Color(background);
+    }
   }
 
   public setGeometryOpacity(name: string, value: number) {
