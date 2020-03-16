@@ -62,6 +62,7 @@ export class CMSLoader extends PhoenixLoader {
             distance, scale, cp1, cp2, curve,
             trackInfo;
 
+        var cutsLimit = [0, 0.6];
         for (var i = 0; i < assocs.length; i++) {
             // Current track info
             trackInfo = {
@@ -72,6 +73,9 @@ export class CMSLoader extends PhoenixLoader {
             pt = tracks[i][2];
             phi = tracks[i][3];
             eta = tracks[i][4];
+
+            if (pt < cutsLimit[0] || pt > cutsLimit[1])
+                continue; // Skip this track
 
             // Track i - location in assocs
             ti = assocs[i][0][1];
@@ -99,7 +103,7 @@ export class CMSLoader extends PhoenixLoader {
             cp2 = new THREE.Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
 
             // Create the track curve
-            curve = new THREE.QuadraticBezierCurve3(p1, cp1, cp2, p2);
+            curve = new THREE.QuadraticBezierCurve3(p1, cp1, p2);
 
             var positions = [];
             // Divide the curve into points to put into positions array
