@@ -71,11 +71,18 @@ export class JiveXMLLoader extends PhoenixLoader {
       const polylineX = polyLineXHTML[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const polylineY = trackColl.getElementsByTagName('polylineY')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const polylineZ = trackColl.getElementsByTagName('polylineZ')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const pT = trackColl.getElementsByTagName('pt')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const d0 = trackColl.getElementsByTagName('d0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const z0 = trackColl.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const phi0 = trackColl.getElementsByTagName('phi0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const cotTheta = trackColl.getElementsByTagName('cotTheta')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const author = trackColl.getElementsByTagName('trackAuthor')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       let polylineCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
-        const track = { chi2: 0.0, dof: 0.0, pos: [] };
+        const track = { chi2: 0.0, dof: 0.0, pos: [], dparams:[] };
         track.chi2 = chi2[i];
         track.dof = numDoF[i];
+        track.dparams = [ d0[i], z0[i], phi0[i], Math.tan(cotTheta[i]), 1 / pT[i]];
         const pos = [];
         for (let p = 0; p < numPolyline[i]; p++) {
           pos.push([polylineX[polylineCounter + p], polylineY[polylineCounter + p], polylineZ[polylineCounter + p]]);
