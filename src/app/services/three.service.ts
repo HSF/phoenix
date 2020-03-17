@@ -32,6 +32,7 @@ import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
 import { Cut } from './extras/cut.model';
 import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
+import { SelectionManager } from './three/selection-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,7 @@ export class ThreeService {
   private controlsManager: ControlsManager;
   private exportManager: ExportManager;
   private importManager: ImportManager;
+  private selectionManager: SelectionManager;
   // Scene export ignore list
   private ignoreList: string[];
   // Clipping planes
@@ -61,6 +63,7 @@ export class ThreeService {
   ];
   // Axis
   private axis: AxesHelper;
+
 
   constructor() {
   }
@@ -126,6 +129,13 @@ export class ThreeService {
       })(this)
     );
 
+
+    // Selection manager
+    this.getSelectionManager().init(
+      this.controlsManager.getMainCamera(),
+      this.getScene(),
+      this.rendererManager.getMainRenderer());
+
     // Export ignore list
     this.ignoreList = [
       new THREE.AmbientLight().type,
@@ -167,6 +177,8 @@ export class ThreeService {
         this.scene.background = sceneColor;
       }
     }
+
+    this.selectionManager.render();
 
   }
 
@@ -222,9 +234,6 @@ export class ThreeService {
   private setConfiguration(configuration: Configuration) {
     if (configuration.allowShowAxes) {
       this.setAxis(configuration.allowShowAxes);
-    }
-    if (configuration.allowSelecting) {
-      this.enableSelecting();
     }
   }
 
@@ -434,12 +443,8 @@ export class ThreeService {
     }
   }
 
-  private enableSelecting() {
-    if (document.getElementById('three-canvas')) {
-      document
-        .getElementById('three-canvas')
-        .addEventListener('mousedown', this.onDocumentMouseDown.bind(this));
-    }
+  private toggleSelecting(enable: boolean) {
+
   }
 
   public setAnimationLoop(animate: () => void) {
@@ -457,31 +462,7 @@ export class ThreeService {
     );
   }
 
-  public onDocumentMouseDown(event, selectedObject: any) {
-    event.preventDefault();
-    const mouse = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
-    );
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, this.controlsManager.getMainCamera());
 
-    // @ts-ignore
-    const intersects = raycaster.intersectObjects(this.scene.children, true);
-
-    if (intersects.length > 0) {
-      // We want the closest one
-      selectedObject.name = intersects[0].object.name;
-      selectedObject.attributes.splice(0, selectedObject.attributes.length);
-
-      for (const key of Object.keys(intersects[0].object.userData)) {
-        selectedObject.attributes.push({
-          attributeName: key,
-          attributeValue: intersects[0].object.userData[key]
-        });
-      }
-    }
-  }
 
   /**************************************
    * Functions for loading geometries . *
@@ -597,5 +578,20 @@ export class ThreeService {
 
   public getScene(): any {
     return this.scene;
+  }
+
+  public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
+    this.getSelectionManager().setSelectedObject(selectedObject);
+  }
+
+  public enableSelecting(enable: boolean) {
+    this.getSelectionManager().setSelecting(enable);
+  }
+
+  private getSelectionManager(): SelectionManager {
+    if (!this.selectionManager) {
+      this.selectionManager = new SelectionManager();
+    }
+    return this.selectionManager;
   }
 }

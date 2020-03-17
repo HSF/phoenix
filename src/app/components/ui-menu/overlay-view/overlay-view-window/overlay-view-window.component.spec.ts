@@ -8,9 +8,9 @@ describe('OverlayViewWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OverlayViewWindowComponent ]
+      declarations: [OverlayViewWindowComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -188,10 +188,11 @@ export class EventdisplayService {
     this.graphicsLibrary.setOverlayRenderer(overlayCanvas);
   }
 
-  public allowSelection(selectedObject: any) {
-    if (document.getElementById('three-canvas')) {
-      document.getElementById('three-canvas').addEventListener('click',
-        (event) => this.graphicsLibrary.onDocumentMouseDown.bind(this.graphicsLibrary)(event, selectedObject));
-    }
+  public allowSelection(selectedObject: { name: string, attributes: any[] }) {
+    this.graphicsLibrary.setSelectedObjectDisplay(selectedObject);
+  }
+
+  public enableSelecting(enable: boolean) {
+    this.graphicsLibrary.enableSelecting(enable);
   }
 }
