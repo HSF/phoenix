@@ -66,7 +66,13 @@ export class CMSLoader extends PhoenixLoader {
         for (var i = 0; i < assocs.length; i++) {
             // Current track info
             trackInfo = {
-                pos: []
+                pos: [],
+                pt: tracks[i][2],
+                phi: tracks[i][3],
+                eta: tracks[i][4],
+                charge: tracks[i][5],
+                chi2: tracks[i][6],
+                dof: tracks[i][7]
             };
 
             // Track properties

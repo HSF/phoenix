@@ -47,7 +47,6 @@ export class CMSComponent implements OnInit {
       // The data has some inconsistencies which need to be removed to properly parse JSON
       data = data.replace(/'/g, '"').replace(/\(/g, '[').replace(/\)/g, ']').replace(/nan/g, '0');
       const dataJSON = JSON.parse(data);
-      console.log(dataJSON);
 
       // Setting up the loader to load event data
       this.loader.putData(dataJSON);
