@@ -42,11 +42,6 @@ export class ThreeService {
   public static GEOMETRIES_ID = 'Geometries';
   // Threejs Variables
   private scene: Scene;
-  private detector: Object3D;
-  private perspectiveControls: OrbitControls;
-  private orthographicControls: OrbitControls;
-  private perspectiveCamera: PerspectiveCamera;
-  private orthographicCamera: OrthographicCamera;
   // Managers
   private rendererManager: RendererManager;
   private controlsManager: ControlsManager;
@@ -76,60 +71,13 @@ export class ThreeService {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
 
-    // Arguments: FOV, aspect ratio, near and far distances
-    this.perspectiveCamera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      100000
-    );
-    // Arguments: left, right, top, bottom, near and far distances
-    this.orthographicCamera = new THREE.OrthographicCamera(
-      -window.innerWidth / 2,
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      -window.innerHeight / 2,
-      0.1,
-      100000
-    );
-    this.perspectiveCamera.position.z = this.orthographicCamera.position.z = 200;
-
     // IO Managers
     this.exportManager = new ExportManager();
     this.importManager = new ImportManager(this.clipPlanes, ThreeService.EVENT_DATA_ID, ThreeService.GEOMETRIES_ID);
     // Renderer manager
     this.rendererManager = new RendererManager();
-
-    // Orbit controls allow to move around
-    this.perspectiveControls = this.setOrbitControls(
-      this.perspectiveCamera,
-      this.rendererManager.getMainRenderer().domElement
-    );
-    this.orthographicControls = this.setOrbitControls(
-      this.orthographicCamera,
-      this.rendererManager.getMainRenderer().domElement
-    );
     // Controls manager
-    this.controlsManager = new ControlsManager(this.perspectiveControls);
-    // Set active orbit controls
-    this.controlsManager.addControls(this.perspectiveControls);
-    this.controlsManager.addControls(this.orthographicControls);
-    this.controlsManager.setMainControls(this.perspectiveControls);
-    this.controlsManager.setOverlayControls(this.orthographicControls);
-    // Add listener
-    this.controlsManager.getActiveControls().addEventListener(
-      'change',
-      ((scope) => {
-        const controlsManager = scope.controlsManager;
-
-        return () => {
-          controlsManager.transformSync();
-          controlsManager.updateSync();
-        };
-      })(this)
-    );
-
-
+    this.controlsManager = new ControlsManager(this.rendererManager);
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
@@ -158,28 +106,8 @@ export class ThreeService {
   }
 
   public render() {
-    this.rendererManager.getMainRenderer().render(
-      this.scene,
-      this.controlsManager.getMainCamera()
-    );
-
-    if (this.rendererManager.getOverlayRenderer()) {
-      if (!this.rendererManager.getOverlayRenderer().domElement.hidden) {
-        const sceneColor = this.scene.background;
-        this.scene.background = null;
-
-        if (!this.rendererManager.isFixedOverlay()) {
-          this.rendererManager.getOverlayRenderer().render(
-            this.scene,
-            this.controlsManager.getOverlayCamera()
-          );
-        }
-        this.scene.background = sceneColor;
-      }
-    }
-
-    this.selectionManager.render();
-
+    this.rendererManager.render(this.scene, this.controlsManager);
+    this.selectionManager.render(this.scene, this.controlsManager);
   }
 
   /*********************************
@@ -201,21 +129,6 @@ export class ThreeService {
       this.rendererManager.addRenderer(overlayRenderer);
       this.rendererManager.setOverlayRenderer(overlayRenderer);
     }
-  }
-
-
-
-  private setOrbitControls(
-    camera: PerspectiveCamera | OrthographicCamera,
-    domElement?: HTMLElement
-  ): OrbitControls {
-    const controls: OrbitControls = new OrbitControls(camera, domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.25;
-    controls.enableZoom = true;
-    controls.autoRotate = false;
-
-    return controls;
   }
 
   private setLights() {
@@ -441,10 +354,6 @@ export class ThreeService {
     if (this.controlsManager.getMainCamera().type !== cameraType) {
       this.controlsManager.swapControls();
     }
-  }
-
-  private toggleSelecting(enable: boolean) {
-
   }
 
   public setAnimationLoop(animate: () => void) {

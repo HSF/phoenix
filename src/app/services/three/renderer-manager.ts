@@ -1,4 +1,5 @@
-import { WebGLRenderer } from 'three';
+import { WebGLRenderer, Scene } from 'three';
+import { ControlsManager } from './controls-manager';
 
 export class RendererManager {
   // MEMBERS
@@ -12,6 +13,23 @@ export class RendererManager {
   constructor() {
     // Main renderer for current browsers
     this.setRenderer();
+  }
+
+  public render(scene: Scene, controlsManager: ControlsManager) {
+    if (this.getOverlayRenderer()) {
+      if (!this.getOverlayRenderer().domElement.hidden) {
+        const sceneColor = scene.background;
+        scene.background = null;
+
+        if (!this.isFixedOverlay()) {
+          this.getOverlayRenderer().render(
+            scene,
+            controlsManager.getOverlayCamera()
+          );
+        }
+        scene.background = sceneColor;
+      }
+    }
   }
 
   private setRenderer() {

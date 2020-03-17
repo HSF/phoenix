@@ -1,24 +1,75 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera } from 'three';
+import { RendererManager } from './renderer-manager';
 
 export class ControlsManager {
     // MEMBERS
     private activeControls: OrbitControls;
-
     private mainControls: OrbitControls;
     private overlayControls: OrbitControls;
     private controls: OrbitControls[];
+    private perspectiveControls: OrbitControls;
+    private orthographicControls: OrbitControls;
 
 
     // CONSTRUCTOR
-    constructor(activeControls: OrbitControls) {
-        this.activeControls = activeControls;
-
+    constructor(rendererManager: RendererManager) {
+        this.controls = [];
         this.mainControls = null;
         this.overlayControls = null;
-        this.controls = [];
+        // Arguments: FOV, aspect ratio, near and far distances
+        const perspectiveCamera = new PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            100000
+        );
+        // Arguments: left, right, top, bottom, near and far distances
+        const orthographicCamera = new OrthographicCamera(
+            -window.innerWidth / 2,
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            -window.innerHeight / 2,
+            0.1,
+            100000
+        );
+        // Orbit controls allow to move around
+        this.perspectiveControls = this.setOrbitControls(
+            perspectiveCamera,
+            rendererManager.getMainRenderer().domElement
+        );
+        this.orthographicControls = this.setOrbitControls(
+            orthographicCamera,
+            rendererManager.getMainRenderer().domElement
+        );
+        perspectiveCamera.position.z = orthographicCamera.position.z = 200;
+        // Set active orbit controls
+        this.addControls(this.perspectiveControls);
+        this.addControls(this.orthographicControls);
+        this.setActiveControls(this.perspectiveControls);
+        this.setMainControls(this.perspectiveControls);
+        this.setOverlayControls(this.orthographicControls);
+        // Add listener
+        this.getActiveControls().addEventListener(
+            'change', () => {
+                this.transformSync();
+                this.updateSync();
+            }
+        );
     }
 
+    private setOrbitControls(
+        camera: PerspectiveCamera | OrthographicCamera,
+        domElement?: HTMLElement
+    ): OrbitControls {
+        const controls: OrbitControls = new OrbitControls(camera, domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.25;
+        controls.enableZoom = true;
+        controls.autoRotate = false;
+
+        return controls;
+    }
 
     // SET/GET
     setActiveControls(controls: OrbitControls) {
@@ -30,7 +81,6 @@ export class ControlsManager {
     setOverlayControls(controls: OrbitControls) {
         this.overlayControls = controls;
     }
-
     getActiveControls(): OrbitControls {
         return this.activeControls;
     }

@@ -7,6 +7,7 @@ import {
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { ControlsManager } from './controls-manager';
 
 export class SelectionManager {
 
@@ -37,8 +38,10 @@ export class SelectionManager {
         this.initOutlinePass(camera, scene, renderer);
     }
 
-    public render() {
+    public render(scene: Scene, controlsManager: ControlsManager) {
         if (this.composer) {
+            this.renderPass.scene = scene;
+            this.renderPass.camera = controlsManager.getMainCamera();
             this.composer.render();
         }
     }
