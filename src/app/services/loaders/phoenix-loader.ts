@@ -62,55 +62,31 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
-   * Returns the cuts which exist in a type of collection data.
-   * @param eventDataCollection collection data to process for available cuts.
-   * @param typeName type of collection data.
-   */
-  private getCuts(eventDataCollection: any, typeName: any): Cut[] {
-    const cuts: Cut[] = [];
-    let cutsToCheck: Cut[];
-
-    // If collection is of type tracks then we check for chi2, dof and mom cuts
-    if (typeName === 'Tracks') {
-      cutsToCheck = [
-        new Cut('chi2', 0, 50),
-        new Cut('dof', 0, 100),
-        new Cut('mom', 0, 500)
-      ];
-    }
-
-    // If collection is of type CaloClusters or Jets then we check for phi, eta and energy cuts
-    if (typeName === 'CaloClusters' || typeName === 'Jets') {
-      cutsToCheck = [
-        new Cut('phi', -Math.PI, Math.PI),
-        new Cut('eta', 0, 100),
-        new Cut('energy', 2000, 10000)
-      ];
-    }
-
-    // Checking if cuts exist in event data
-    for (const cut of cutsToCheck) {
-      // Using the first collection element as meta for checking if cut exists
-      if (eventDataCollection[0][cut.field]) {
-        cuts.push(cut);
-      }
-    }
-
-    return cuts;
-  }
-
-  /**
-   * Receives an object containg the data from an event and parses it to reconstruct the different collections
+   * Receives an object containing the data from an event and parses it to reconstruct the different collections
    * of physics objects.
    * @param eventData representing ONE event (expressed in the Phoenix format).
    */
   private loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
-      this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', true);
+      // (Optional) Cuts can be added to any physics object.
+      const cuts: Cut[] = [
+        new Cut('chi2', 0, 50),
+        new Cut('dof', 0, 100),
+        new Cut('mom', 0, 500)
+      ];
+
+      this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', cuts);
     }
 
     if (eventData.Jets) {
-      this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', true);
+      // (Optional) Cuts can be added to any physics object.
+      const cuts = [
+        new Cut('phi', -Math.PI, Math.PI),
+        new Cut('eta', 0, 100),
+        new Cut('energy', 2000, 10000)
+      ];
+
+      this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', cuts);
     }
 
     if (eventData.Hits) {
@@ -118,7 +94,14 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.CaloClusters) {
-      this.addObjectType(eventData.CaloClusters, PhoenixObjects.getCluster, 'CaloClusters', true);
+      // (Optional) Cuts can be added to any physics object.
+      const cuts = [
+        new Cut('phi', -Math.PI, Math.PI),
+        new Cut('eta', 0, 100),
+        new Cut('energy', 2000, 10000)
+      ];
+
+      this.addObjectType(eventData.CaloClusters, PhoenixObjects.getCluster, 'CaloClusters', cuts);
     }
 
     if (eventData.Muons) {
@@ -131,9 +114,9 @@ export class PhoenixLoader implements EventDataLoader {
    * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...).
    * @param getObject function that handles of reconstructing objects of the given type.
    * @param typeName label for naming the object type.
-   * @param includeCuts (Optional) whether to apply filters to the objects.
+   * @param cuts (Optional) filters that can be applied to the objects.
    */
-  private addObjectType(object: any, getObject: any, typeName: string, includeCuts?: boolean) {
+  private addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
@@ -145,10 +128,17 @@ export class PhoenixLoader implements EventDataLoader {
       const objectCollection = object[collectionName];
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
-      let cuts: Cut[];
-      if (includeCuts) {
-        cuts = this.getCuts(objectCollection, typeName);
+
+      // Removing cuts that are not available in data
+      if (cuts) {
+        cuts.forEach(function (cut, i) {
+          // Using the first collection element as meta for checking if cut exists
+          if (!objectCollection[0][cut.field]) {
+            cuts.splice(i, 1);
+          }
+        });
       }
+      
       this.ui.addCollection(typeFolder, collectionName, cuts);
     }
   }
