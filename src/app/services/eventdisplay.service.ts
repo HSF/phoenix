@@ -76,7 +76,7 @@ export class EventdisplayService {
     // Creating UI folder
     this.ui.addEventDataFolder();
     // Clearing existing event data
-    this.graphicsLibrary.clearEventData();
+    this.graphicsLibrary.getSceneManager().clearEventData();
     // Build data and add to scene
     this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
   }
@@ -130,7 +130,7 @@ export class EventdisplayService {
       // Creating UI folder
       this.ui.addEventDataFolder();
       // Clearing existing event data
-      this.graphicsLibrary.clearEventData();
+      this.graphicsLibrary.getSceneManager().clearEventData();
       // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
       this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);

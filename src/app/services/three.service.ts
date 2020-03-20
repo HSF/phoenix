@@ -2,78 +2,56 @@ import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import {
-  AxesHelper,
-  EdgesGeometry,
   Group,
-  Line,
-  LineBasicMaterial,
-  LineSegments,
-  Mesh,
-  MeshBasicMaterial,
   Object3D,
-  PerspectiveCamera,
   Scene,
   Vector3,
-  WebGLRenderer,
-  OrthographicCamera,
-  WebGLRendererParameters,
   Plane,
   Quaternion
 } from 'three';
 import { Configuration } from './extras/configuration.model';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { ControlsManager } from './three/controls-manager';
 import { RendererManager } from './three/renderer-manager';
-import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
-import { Cut } from './extras/cut.model';
 import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
+import { SceneManager } from './three/scene-manager';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThreeService {
-  public static EVENT_DATA_ID = 'EventData';
-  public static GEOMETRIES_ID = 'Geometries';
-  // Threejs Variables
-  private scene: Scene;
   // Managers
+  private sceneManager: SceneManager;
   private rendererManager: RendererManager;
   private controlsManager: ControlsManager;
   private exportManager: ExportManager;
   private importManager: ImportManager;
   private selectionManager: SelectionManager;
   // Scene export ignore list
-  private ignoreList: string[];
+  private ignoreList = [
+    new THREE.AmbientLight().name,
+    new THREE.DirectionalLight().name,
+    new THREE.AxesHelper().name
+  ];
   // Clipping planes
   private clipPlanes: Plane[] = [
     new Plane(new THREE.Vector3(0, 1, 0), 0),
     new Plane(new THREE.Vector3(0, -1, 0), 0),
     new Plane(new THREE.Vector3(0, 0, 1), -15000)
   ];
-  // Axis
-  private axis: AxesHelper;
-
-
-  constructor() {
-  }
 
   /**
    * Initializes the necessary three.js functionality.
    * @param configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color('hsl(0, 0%, 100%)');
-
+    // Scene manager
+    this.getSceneManager();
     // IO Managers
     this.exportManager = new ExportManager();
-    this.importManager = new ImportManager(this.clipPlanes, ThreeService.EVENT_DATA_ID, ThreeService.GEOMETRIES_ID);
+    this.importManager = new ImportManager(this.clipPlanes, SceneManager.EVENT_DATA_ID, SceneManager.GEOMETRIES_ID);
     // Renderer manager
     this.rendererManager = new RendererManager();
     // Controls manager
@@ -81,202 +59,63 @@ export class ThreeService {
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
-      this.getScene(),
+      this.sceneManager.getScene(),
       this.rendererManager.getMainRenderer());
-
-    // Export ignore list
-    this.ignoreList = [
-      new THREE.AmbientLight().type,
-      new THREE.DirectionalLight().type,
-      new THREE.AxesHelper().type
-    ];
-    // Axis
-    this.axis = null;
-
-    // Different lights to better see the object
-    this.setLights();
     // Customizing with configuration
     this.setConfiguration(configuration);
   }
 
+  /**
+   * Updates controls
+   */
   public updateControls() {
     this.controlsManager.getActiveControls().update();
     this.controlsManager.updateSync();
     TWEEN.update();
   }
 
+  /**
+   * Renders three service
+   */
   public render() {
-    this.rendererManager.render(this.scene, this.controlsManager);
-    this.selectionManager.render(this.scene, this.controlsManager);
-  }
-
-  /*********************************
-   * Private auxiliary functions.  *
-   *********************************/
-
-  /**
-   * Sets overlay renderer to a renderer manager.
-   *
-   */
-  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
-    if (this.rendererManager) {
-      const parameters: WebGLRendererParameters = {
-        canvas: overlayCanvas,
-        antialias: false,
-        alpha: true
-      };
-      const overlayRenderer: WebGLRenderer = new THREE.WebGLRenderer(parameters);
-      this.rendererManager.addRenderer(overlayRenderer);
-      this.rendererManager.setOverlayRenderer(overlayRenderer);
-    }
-  }
-
-  private setLights() {
-    const ambientLight = new THREE.AmbientLight(0x404040);
-    const directionalLight1 = new THREE.DirectionalLight(0xbfbfbf);
-    const directionalLight2 = new THREE.DirectionalLight(0xbfbfbf);
-
-    directionalLight1.position.set(-100, -50, 100);
-    directionalLight2.position.set(100, 50, -100);
-
-    this.scene.add(directionalLight1);
-    this.scene.add(directionalLight2);
-    this.scene.add(ambientLight);
-  }
-
-  private setConfiguration(configuration: Configuration) {
-    if (configuration.allowShowAxes) {
-      this.setAxis(configuration.allowShowAxes);
-    }
-  }
-
-  private getObjectsGroup(identifier: string): Object3D {
-    let group = this.scene.getObjectByName(identifier);
-    if (group == null) {
-      group = new Group();
-      group.name = identifier;
-      this.scene.add(group);
-    }
-    return group;
-  }
-
-  private getEventData(): Object3D {
-    return this.getObjectsGroup(ThreeService.EVENT_DATA_ID);
-  }
-
-  private getGeometries(): Object3D {
-    return this.getObjectsGroup(ThreeService.GEOMETRIES_ID);
-  }
-
-  /*********************************
-   *      Public functions.        *
-   *********************************/
-
-  public exportSceneToOBJ() {
-    // Instantiate a exporter
-    const scene = this.cleanScene(this.getScene());
-    this.exportManager.exportSceneToOBJ(scene);
-  }
-
-  // SAVE SCENE
-  public exportPhoenixScene() {
-    const scene = this.cleanScene(this.getScene());
-    // Instantiate a exporter
-    this.exportManager.exportPhoenixScene(
-      this.getScene(), this.getEventData(),
-      this.getGeometries());
-  }
-
-  // LOAD SCENE
-  public parseGLTFGeometry(geometry: any) {
-    const callback = (geometries: Object3D, eventData: Object3D) => {
-      this.scene.add(geometries);
-      this.scene.add(eventData);
-    };
-    this.importManager.parseGLTFGeometry(geometry, callback);
-  }
-
-  // LOAD SCENE
-  public loadGLTFGeometry(sceneUrl: any) {
-    const callback = (geometry: Object3D) => {
-      this.scene.add(geometry);
-    };
-    this.importManager.loadGLTFGeometry(sceneUrl, callback);
+    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
   }
 
   /**
-   * Creates a cleaned copy of a scene.
-   * @param scene Scene to copy and clean.
-   * @returns a clean scene
+   * Returns the scene manager.
    */
-  private cleanScene(scene: THREE.Scene): THREE.Scene {
-    const clearScene: THREE.Scene = scene.clone();
-    const scope = this;
-    const removeList = [];
-
-    clearScene.traverse((object: THREE.Object3D) => {
-      if (scope.ignoreList.includes(object.type)) {
-        removeList.push(object);
-      }
-    });
-
-    clearScene.remove(...removeList);
-
-    return clearScene;
-  }
-
-  public clearEventData() {
-    const eventData = this.getEventData();
-    if (eventData != null) {
-      this.scene.remove(eventData);
+  public getSceneManager(): SceneManager {
+    if (!this.sceneManager) {
+      this.sceneManager = new SceneManager(this.ignoreList);
     }
-    this.getEventData();
+    return this.sceneManager;
   }
 
-  public setAxis(value: boolean) {
-    if (this.axis == null) {
-      this.axis = new THREE.AxesHelper(2000);
-      this.scene.add(this.axis);
-    }
-    this.axis.visible = value;
+  /**
+   * Sets controls to auto rotate.
+   */
+  public autoRotate(autoRotate) {
+    this.controlsManager.getActiveControls().autoRotate = autoRotate;
   }
 
-  public autoRotate(value) {
-    this.controlsManager.getActiveControls().autoRotate = value;
+  /**
+   * Enables geometries to be clipped with clipping planes.
+   */
+  public setClipping(clippingEnabled: boolean) {
+    this.rendererManager.setLocalClippingEnabled(clippingEnabled);
   }
 
-  public setClipping(value: boolean) {
-    this.rendererManager.setLocalClippingEnabled(value);
-  }
-
+  /**
+   * Rotates clipping planes.
+   * @param angle Angle to rotate the clipping planes
+   */
   public rotateClipping(angle: number) {
     const q = new Quaternion();
     q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
     this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
   }
 
-  public darkBackground(value: boolean) {
-    let background = 0xffffff;
-    if (value) {
-      background = 0x0;
-    }
-    if (this.scene) {
-      this.scene.background = new THREE.Color(background);
-    }
-  }
-
-  public setGeometryOpacity(name: string, value: number) {
-    const object = this.scene.getObjectByName(name);
-
-    if (value) {
-      object.traverse((o: any) => {
-        if (o.isMesh === true) {
-          o.material.transparent = true;
-          o.material.opacity = value;
-        }
-      });
-    }
-  }
 
   /**
    * Animates camera transform.
@@ -356,11 +195,18 @@ export class ThreeService {
     }
   }
 
+  /**
+   * Sets animation loop for vr playground.
+   * @param animate Function to render the loop.
+   */
   public setAnimationLoop(animate: () => void) {
     this.rendererManager.getMainRenderer().xr.enabled = true;
     this.rendererManager.getMainRenderer().setAnimationLoop(animate);
   }
 
+  /**
+   * Displays a button to toggle VR.
+   */
   public setVRButton() {
     let canvas = document.getElementById('eventDisplay');
     if (canvas == null) {
@@ -371,136 +217,135 @@ export class ThreeService {
     );
   }
 
-
-
   /**************************************
    * Functions for loading geometries . *
    **************************************/
 
+  /**
+   * Loads a geometry in GLTF format given a URL.
+   * @param filename Path to the geometry.
+   * @param name Given name to the geometry.
+   * @param colour Color to initialize the geometry.
+   * @param doubleSided Renders both sides of the material.
+   */
   public loadOBJGeometry(
     filename: string,
     name: string,
     colour,
     doubleSided: boolean
   ): void {
-    const geometries = this.getGeometries();
+    const geometries = this.sceneManager.getGeometries();
     const callback = (object: Group) => geometries.add(object);
     this.importManager.loadOBJGeometry(callback, filename, name, colour, doubleSided);
   }
 
-  public parseOBJGeometry(content: string, name: string) {
-    const geometries = this.getGeometries();
-    const object = this.importManager.parseOBJGeometry(content, name);
+  /**
+   * Loads a geometry in GLTF format given a URL.
+   * @param sceneUrl Path to the geometry.
+   */
+  public loadGLTFGeometry(sceneUrl: any) {
+    const callback = (geometry: Object3D) => {
+      this.sceneManager.getScene().add(geometry);
+    };
+    this.importManager.loadGLTFGeometry(sceneUrl, callback);
+  }
+
+  /**
+   * Parses and loads a geometry in OBJ format.
+   * @param geometry Geometry in OBJ format.
+   * @param name Given name to the geometry.
+   */
+  public parseOBJGeometry(geometry: string, name: string) {
+    const geometries = this.sceneManager.getGeometries();
+    const object = this.importManager.parseOBJGeometry(geometry, name);
     geometries.add(object);
   }
 
-  public objColor(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
-    object.traverse(child => {
-      if (child instanceof THREE.Mesh || child instanceof LineSegments) {
-        if (
-          child.material instanceof THREE.MeshPhongMaterial ||
-          child.material instanceof LineBasicMaterial
-        ) {
-          child.material.color.set(value);
-        }
-      }
-    });
+  /**
+   * Parses and loads a geometry in GLTF format.
+   * @param geometry Geometry in GLTF format.
+   */
+  public parseGLTFGeometry(geometry: any) {
+    const callback = (geometries: Object3D, eventData: Object3D) => {
+      this.sceneManager.getScene().add(geometries);
+      this.sceneManager.getScene().add(eventData);
+    };
+    this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
-  public objectVisibility(name: string, value: boolean) {
-    const object = this.scene.getObjectByName(name);
-    if (object != null) {
-      object.visible = value;
-    }
+  /**
+   * Exports scene to OBJ file format
+   */
+  public exportSceneToOBJ() {
+    const scene = this.sceneManager.getCleanScene();
+    this.exportManager.exportSceneToOBJ(scene);
   }
 
-  public getObjectPosition(name: string): Vector3 {
-    const object = this.scene.getObjectByName(name);
-    if (object) {
-      return object.position;
-    }
+  /**
+   * Exports scene as phoenix format, allowing to load it later and recover the saved configuration.
+   */
+  public exportPhoenixScene() {
+    const scene = this.sceneManager.getCleanScene();
+    this.exportManager.exportPhoenixScene(
+      scene, this.sceneManager.getEventData(),
+      this.sceneManager.getGeometries());
   }
 
-  public removeObject(name: string) {
-    const object = this.scene.getObjectByName(name);
-    this.scene.remove(object);
+  /**
+   * Fixes the camera position of the overlay view.
+   */
+  public fixOverlayView(fixed: boolean) {
+    this.rendererManager.setFixOverlay(fixed);
   }
 
-  public scaleObject(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
-    object.scale.set(value, value, value);
-  }
-
-  public addEventDataTypeGroup(objectType: string): Group {
-    const eventData = this.getGeometries();
-    const typeGroup = new Group();
-    typeGroup.name = objectType;
-    eventData.add(typeGroup);
-    return typeGroup;
-  }
-
-  public collectionColor(collectionName: string, value: any) {
-    const collection = this.scene.getObjectByName(collectionName);
-
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object: THREE.Object3D) => {
-        // For jets and tracks
-        if (object instanceof Line || object instanceof Mesh) {
-          if (
-            object.material instanceof LineBasicMaterial ||
-            object.material instanceof MeshBasicMaterial
-          ) {
-            object.material.color.set(value);
-          }
-        }
-      });
-    }
-  }
-
-  public collectionFilter(collectionName: string, filter: Cut) {
-    const collection = this.scene.getObjectByName(collectionName);
-    for (const child of Object.values(collection.children)) {
-      if (child.userData) {
-        const value = child.userData[filter.field];
-        if (value) {
-          if (value <= filter.maxValue && value >= filter.minValue) {
-            child.visible = true;
-          } else {
-            child.visible = false;
-          }
-        }
-      }
-    }
-  }
-
-  public groupVisibility(name: string, value: boolean) {
-    const collection = this.scene.getObjectByName(name);
-    for (const child of Object.values(collection.children)) {
-      child.visible = value;
-    }
-  }
-
-  public fixOverlayView(value: boolean) {
-    this.rendererManager.setFixOverlay(value);
-  }
-
-  public getScene(): any {
-    return this.scene;
-  }
-
+  /**
+   * Initializes the object in which will be shown the information of the selected geometries.
+   * @param selectedObject Object to display the data.
+   */
   public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
     this.getSelectionManager().setSelectedObject(selectedObject);
   }
 
+  /**
+   * Toggles the ability of selecting geometries by clicking on the screen.
+   * @param enable Value to enable or disable the functionality.
+   */
   public enableSelecting(enable: boolean) {
     this.getSelectionManager().setSelecting(enable);
   }
 
+  /*********************************
+  * Private auxiliary functions.  *
+  *********************************/
+
+  /**
+   * Sets overlay renderer to a renderer manager.
+   */
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
+    if (this.rendererManager) {
+      this.rendererManager.setOverlayRenderer(overlayCanvas);
+    }
+  }
+
+
+  /**
+   * Sets different parameters according to the configuration.
+   * @param configuration Configuration object.
+   */
+  private setConfiguration(configuration: Configuration) {
+    if (configuration.allowShowAxes) {
+      this.sceneManager.setAxis(configuration.allowShowAxes);
+    }
+  }
+
+  /**
+   * Returns the scene manager.
+   */
   private getSelectionManager(): SelectionManager {
     if (!this.selectionManager) {
       this.selectionManager = new SelectionManager();
     }
     return this.selectionManager;
   }
+
 }

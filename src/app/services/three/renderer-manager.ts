@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene } from 'three';
+import { WebGLRenderer, Scene, WebGLRendererParameters } from 'three';
 import { ControlsManager } from './controls-manager';
 
 export class RendererManager {
@@ -56,8 +56,15 @@ export class RendererManager {
     this.mainRenderer = renderer;
   }
 
-  setOverlayRenderer(renderer: WebGLRenderer) {
-    this.overlayRenderer = renderer;
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
+    const parameters: WebGLRendererParameters = {
+      canvas: overlayCanvas,
+      antialias: false,
+      alpha: true
+    };
+    const overlayRenderer: WebGLRenderer = new WebGLRenderer(parameters);
+    this.addRenderer(overlayRenderer);
+    this.overlayRenderer = overlayRenderer;
   }
 
   setRenderers(renderers: WebGLRenderer[]) {
