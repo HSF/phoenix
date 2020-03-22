@@ -17,6 +17,7 @@ export class CMSComponent implements OnInit {
   loader: CMSLoader;
   selectedObject: any;
   scene: Scene;
+  eventInfo: any = [];
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -47,6 +48,17 @@ export class CMSComponent implements OnInit {
       // The data has some inconsistencies which need to be removed to properly parse JSON
       data = data.replace(/'/g, '"').replace(/\(/g, '[').replace(/\)/g, ']').replace(/nan/g, '0');
       const dataJSON = JSON.parse(data);
+
+      // Putting event info in an array to display the experiment overlay
+      const eventInfoV2 = dataJSON['Collections']['Event_V2'][0];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      let recordTime: any = new Date(eventInfoV2[5]);
+      recordTime = recordTime.getFullYear() + '-' + months[recordTime.getMonth()] + '-' + recordTime.getDate() + ' '
+      + recordTime.getHours() + ':' + recordTime.getMinutes() + ':' + recordTime.getSeconds() + ' GMT';
+      this.eventInfo.push({label: 'Recorded', data: recordTime});
+      this.eventInfo.push({label: 'Run', data: eventInfoV2[0]});
+      this.eventInfo.push({label: 'Event', data: eventInfoV2[1]});
+      this.eventInfo.push({label: 'LS', data: eventInfoV2[2]});
 
       // Setting up the loader to load event data
       this.loader.putData(dataJSON);

@@ -1,6 +1,20 @@
 <div id="eventDisplay">
-  <div id="eventLogo">
-    <img src="assets/images/cms.svg" />
+  <div id="eventInfo">
+    <div class="row">
+      <div class="col-4">
+        <img src="assets/images/cms.svg" />
+      </div>
+      <div class="col-8">
+        <h6><b>CMS Experiment at LHC, CERN</b></h6>
+        <table class="table table-borderless table-sm">
+          <tr *ngFor="let info of eventInfo">
+            <th>{{info.label}}:</th>
+            <td>{{info.data}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
   </div>
 </div>
 <div class="optionsWrapper">
