@@ -54,17 +54,32 @@
 #eventDisplay {
   position: relative;
   
-  #eventLogo {
+  #eventInfo {
     position: absolute;
     left: 10px;
     top: 10px;
-    width: 150px;
-    height: 150px;
+    width: 400px;
+    color: var(--phoenix-text-color-secondary);
+    font-size: 13px;
     padding: 15px;
     overflow: hidden;
 
     img {
       width: 100%;
     }
+
+    table {
+      color: var(--phoenix-text-color-secondary);
+      
+      th, td {
+        padding: 0;
+        margin: 0;
+      }
+      td {
+        padding-left: 4px;
+      }
+
+    }
+
   }
 }
