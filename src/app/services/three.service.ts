@@ -31,9 +31,7 @@ import { RendererManager } from './extras/renderer-manager';
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { Cut } from './extras/cut.model';
 
 @Injectable({
@@ -139,9 +137,9 @@ export class ThreeService {
 
     // Export ignore list
     this.ignoreList = [
-      new THREE.AmbientLight().type,
-      new THREE.DirectionalLight().type,
-      new THREE.AxesHelper().type
+      THREE.AmbientLight.name,
+      THREE.DirectionalLight.name,
+      THREE.AxesHelper.name
     ];
     // Object Collections
     this.objects = [];
@@ -838,7 +836,6 @@ export class ThreeService {
   }
 
   public onTouchMove(event, selectedObject: any) {
-    console.log('Mouse moved. Objection selection: ' + this.objectSelectionActive);
     // console.log(event);
     if (!this.objectSelectionActive) { return; }
 
@@ -851,7 +848,6 @@ export class ThreeService {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
-    console.log(mouse);
 
     const raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(mouse, this.controlsManager.mainCamera);
@@ -859,22 +855,21 @@ export class ThreeService {
 
     // @ts-ignore
     const intersects = raycaster.intersectObjects(this.scene.children, true);
-    console.log('got', intersects);
+
+    const canvas = document.getElementById('eventDisplay');
 
     if (intersects.length > 0) {
-      // We want the closest one, that is a type we can highlight
-      for (const obj of intersects) {
-        console.log(obj);
-        // console.log(obj.object.type)
-        if (this.ignoreList.includes(obj.object.type)) { continue; }
-
-        // selectedObject.name = obj.object.name;
+      if (!this.ignoreList.includes(intersects[0].object.type)) {
+        canvas.style.cursor = 'pointer';
+        // selectedObject.name = intersects[0].object.name;
         // selectedObject.attributes.splice(0, selectedObject.attributes.length);
-        this.outlinePass.selectedObjects = [obj.object];
-        break;
+        this.outlinePass.selectedObjects = [intersects[0].object];
+      } else {
+        canvas.style.removeProperty('cursor');
       }
-
-
+    } else {
+      this.outlinePass.selectedObjects = [];
+      canvas.style.removeProperty('cursor');
     }
   }
 
