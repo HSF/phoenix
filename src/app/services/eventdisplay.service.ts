@@ -55,50 +55,16 @@ export class EventdisplayService {
   }
 
   /**
-   * Loads an OBJ file and adds it to the scene and to the UI menu.
-   * @param filename URL of the OBJ file to load.
-   * @param name to display the geometry in the UI.
-   */
-  public loadGeometryFromOBJ(filename: string, name: string, colour, doubleSided: boolean) {
-    this.graphicsLibrary.loadOBJFile(filename, name, colour, doubleSided);
-    this.ui.addGeometry(name, colour);
-  }
-
-  /**
-   * Receives the content of an OBJ file and adds it to the scene and to the UI menu.
-   * @param content string representing the OBJ file.
-   * @param name to display the geometry in the UI.
-   */
-  public loadGeometryFromOBJContent(content: string, name: string) {
-    this.graphicsLibrary.loadOBJFromContent(content, name);
-    this.ui.addGeometry(name, 0x000fff);
-  }
-
-  /**
    * Receives an object containing all the eventKeys and saves it.
    * Then it loads by default the first event.
    * @param eventsData array of strings containing the keys of the eventsData object.
    */
-  public loadEventsFromJSON(eventsData: any): string[] {
+  public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
     const eventKeys = this.configuration.getEventDataLoader().getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach(callback => callback(eventKeys));
     return eventKeys;
-  }
-
-  /**
-   * Receives a string representing the key of an event and loads
-   * the event associated with that key.
-   * @param eventKey string that represents the event in the eventsData object.
-   */
-  public loadEvent(eventKey: any) {
-    const event = this.eventsData[eventKey];
-
-    if (event) {
-      this.buildEventDataFromJSON(event);
-      this.onDisplayedEventChange.forEach((callback) => callback(event));
-    }
   }
 
   /**
@@ -115,37 +81,49 @@ export class EventdisplayService {
     this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
   }
 
-  public buildGeometryFromParameters(parameters) {
-    this.graphicsLibrary.buildGeometryFromParameters(parameters);
-  }
+  /**
+   * Receives a string representing the key of an event and loads
+   * the event associated with that key.
+   * @param eventKey string that represents the event in the eventsData object.
+   */
+  public loadEvent(eventKey: any) {
+    const event = this.eventsData[eventKey];
 
-
-  public allowSelection(selectedObject: any) {
-    if (document.getElementById('three-canvas')) {
-      document.getElementById('three-canvas').addEventListener('click',
-        (event) => this.graphicsLibrary.onDocumentMouseDown.bind(this.graphicsLibrary)(event, selectedObject));
+    if (event) {
+      this.buildEventDataFromJSON(event);
+      this.onDisplayedEventChange.forEach((callback) => callback(event));
     }
   }
+
+
+  // LOADING GEOMETRIES
+
+  /**
+   * Loads an OBJ file and adds it to the scene and to the UI menu.
+   * @param filename URL of the OBJ file to load.
+   * @param name to display the geometry in the UI.
+   */
+  public loadOBJGeometry(filename: string, name: string, colour, doubleSided: boolean) {
+    this.graphicsLibrary.loadOBJGeometry(filename, name, colour, doubleSided);
+    this.ui.addGeometry(name, colour);
+  }
+
+  /**
+   * Receives the content of an OBJ file and adds it to the scene and to the UI menu.
+   * @param content string representing the OBJ file.
+   * @param name to display the geometry in the UI.
+   */
+  public parseOBJGeometry(content: string, name: string) {
+    this.graphicsLibrary.parseOBJGeometry(content, name);
+    this.ui.addGeometry(name, 0x000fff);
+  }
+
 
   public exportToOBJ() {
     this.graphicsLibrary.exportSceneToOBJ();
   }
 
-  public saveDisplay() {
-    this.graphicsLibrary.exportPhoenixScene();
-  }
-
-  public loadGLTF(input: any) {
-    const scene = JSON.parse(input);
-    this.graphicsLibrary.loadScene(scene);
-
-  }
-
-  public loadGLTFDetector(url: any) {
-    this.graphicsLibrary.loadGLTFDetector(url);
-  }
-
-  public loadDisplay(input: any) {
+  public parsePhoenixDisplay(input: any) {
     const phoenixScene = JSON.parse(input);
 
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
@@ -155,9 +133,24 @@ export class EventdisplayService {
       this.graphicsLibrary.clearEventData();
       // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
-      this.graphicsLibrary.loadScene(phoenixScene.scene);
+      this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);
     }
   }
+
+  public exportPhoenixDisplay() {
+    this.graphicsLibrary.exportPhoenixScene();
+  }
+
+  public parseGLTFGeometry(input: any) {
+    const scene = JSON.parse(input);
+    this.graphicsLibrary.parseGLTFGeometry(scene);
+  }
+
+  public loadGLTFGeometry(url: any) {
+    this.graphicsLibrary.loadGLTFGeometry(url);
+  }
+
+
 
   private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: [] }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
@@ -173,20 +166,12 @@ export class EventdisplayService {
     }
   }
 
-  renderOverlay(overlayPanel: boolean) {
-    this.graphicsLibrary.renderOverlay(overlayPanel);
-  }
-
-  getCollection(value: string) {
+  public getCollection(value: string) {
     return this.configuration.getEventDataLoader().getCollection(value);
   }
 
-  getCollections(): string[] {
+  public getCollections(): string[] {
     return this.configuration.getEventDataLoader().getCollections();
-  }
-
-  setDetectorOpacity(detectorOpacity: number) {
-    this.graphicsLibrary.setDetectorOpacity(detectorOpacity);
   }
 
   public listenToDisplayedEventChange(callback: (event) => any) {
@@ -197,5 +182,17 @@ export class EventdisplayService {
     this.onEventsChange.push(callback);
   }
 
+  // PAFUERA
 
+  public renderOverlay(overlayCanvas: HTMLCanvasElement) {
+    this.graphicsLibrary.setOverlayRenderer(overlayCanvas);
+  }
+
+  public allowSelection(selectedObject: { name: string, attributes: any[] }) {
+    this.graphicsLibrary.setSelectedObjectDisplay(selectedObject);
+  }
+
+  public enableSelecting(enable: boolean) {
+    this.graphicsLibrary.enableSelecting(enable);
+  }
 }
