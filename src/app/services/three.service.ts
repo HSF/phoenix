@@ -21,7 +21,10 @@ import {
   OrthographicCamera,
   WebGLRendererParameters,
   Plane,
-  Quaternion
+  Quaternion,
+  Points,
+  PointsMaterial,
+  MeshPhongMaterial
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
@@ -1031,7 +1034,7 @@ export class ThreeService {
     object.traverse(child => {
       if (child instanceof THREE.Mesh || child instanceof LineSegments) {
         if (
-          child.material instanceof THREE.MeshPhongMaterial ||
+          child.material instanceof MeshPhongMaterial ||
           child.material instanceof LineBasicMaterial
         ) {
           child.material.color.set(value);
@@ -1081,11 +1084,13 @@ export class ThreeService {
 
     for (const child of Object.values(collection.children)) {
       child.traverse((object: THREE.Object3D) => {
-        // For jets and tracks
-        if (object instanceof Line || object instanceof Mesh) {
+        // For jets, tracks, caloclusters, muons and hits
+        if (object instanceof Line || object instanceof Mesh || object instanceof Points) {
           if (
             object.material instanceof LineBasicMaterial ||
-            object.material instanceof MeshBasicMaterial
+            object.material instanceof MeshBasicMaterial ||
+            object.material instanceof PointsMaterial ||
+            object.material instanceof MeshPhongMaterial
           ) {
             object.material.color.set(value);
           }
