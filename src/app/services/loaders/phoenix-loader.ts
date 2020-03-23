@@ -119,7 +119,7 @@ export class PhoenixLoader implements EventDataLoader {
   private addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName);
-    const objectGroup = this.graphicsLibrary.getSceneManager().addEventDataTypeGroup(typeName);
+    const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
 

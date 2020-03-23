@@ -16,6 +16,7 @@ export class SceneManager {
         this.ignoreList = ignoreList;
         this.scene.background = new Color('hsl(0, 0%, 100%)');
         this.axis = null;
+        this.setLights();
     }
 
     /**
@@ -83,7 +84,7 @@ export class SceneManager {
         const object = this.scene.getObjectByName(name);
 
         if (value) {
-            object.traverse((o: any) => {
+            object.children.forEach((o: any) => {
                 if (o.isMesh === true) {
                     o.material.transparent = true;
                     o.material.opacity = value;
@@ -101,7 +102,7 @@ export class SceneManager {
     public OBJGeometryColor(name: string, value: any) {
         const object = this.scene.getObjectByName(name);
         if (object) {
-            object.traverse(child => {
+            object.children.forEach(child => {
                 if (child instanceof Mesh || child instanceof LineSegments) {
                     if (
                         child.material instanceof MeshPhongMaterial ||

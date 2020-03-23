@@ -133,49 +133,6 @@ export class ThreeService {
   }
 
   /**
-   * Animates camera position.
-   * @param cameraPosition End position.
-   * @param duration Duration of an animation in seconds.
-   */
-  public animateCameraPosition(
-    cameraPosition: number[],
-    duration: number
-  ): void {
-    const posAnimation = new TWEEN.Tween(
-      this.controlsManager.getActiveCamera().position
-    );
-    posAnimation.to(
-      {
-        x: cameraPosition[0],
-        y: cameraPosition[1],
-        z: cameraPosition[2]
-      },
-      duration
-    );
-    posAnimation.start();
-  }
-
-  /**
-   * Animates camera target.
-   * @param cameraTarget End target.
-   * @param duration Duration of an animation in seconds.
-   */
-  public animateCameraTarget(cameraTarget: number[], duration: number): void {
-    const rotAnimation = new TWEEN.Tween(
-      this.controlsManager.getActiveControls().target
-    );
-    rotAnimation.to(
-      {
-        x: cameraTarget[0],
-        y: cameraTarget[1],
-        z: cameraTarget[2]
-      },
-      duration
-    );
-    rotAnimation.start();
-  }
-
-  /**
    * Swaps cameras.
    * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
    */
@@ -314,6 +271,24 @@ export class ThreeService {
     this.getSelectionManager().setSelecting(enable);
   }
 
+  /**
+   * Clears event data of the scene.
+   */
+  public clearEventData() {
+    this.sceneManager.clearEventData();
+  }
+
+  /**
+   * Adds to the event display all collections of a given object type.
+   * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...)
+   * @param getObject function that handles of reconstructing objects of the given type.
+   * @param typeName label for naming the object type.
+   * @param cuts (Optional) filters that can be applied to the objects.
+   */
+  addEventDataTypeGroup(typeName: string): Group {
+    return this.sceneManager.addEventDataTypeGroup(typeName);
+  }
+
   /*********************************
   * Private auxiliary functions.  *
   *********************************/
@@ -348,4 +323,46 @@ export class ThreeService {
     return this.selectionManager;
   }
 
+  /**
+   * Animates camera position.
+   * @param cameraPosition End position.
+   * @param duration Duration of an animation in seconds.
+   */
+  private animateCameraPosition(
+    cameraPosition: number[],
+    duration: number
+  ): void {
+    const posAnimation = new TWEEN.Tween(
+      this.controlsManager.getActiveCamera().position
+    );
+    posAnimation.to(
+      {
+        x: cameraPosition[0],
+        y: cameraPosition[1],
+        z: cameraPosition[2]
+      },
+      duration
+    );
+    posAnimation.start();
+  }
+
+  /**
+   * Animates camera target.
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
+   */
+  private animateCameraTarget(cameraTarget: number[], duration: number): void {
+    const rotAnimation = new TWEEN.Tween(
+      this.controlsManager.getActiveControls().target
+    );
+    rotAnimation.to(
+      {
+        x: cameraTarget[0],
+        y: cameraTarget[1],
+        z: cameraTarget[2]
+      },
+      duration
+    );
+    rotAnimation.start();
+  }
 }
