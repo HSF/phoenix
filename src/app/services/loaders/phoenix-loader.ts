@@ -129,16 +129,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
 
-      // Removing cuts that are not available in data
-      if (cuts) {
-        cuts.forEach(function (cut, i) {
-          // Using the first collection element as meta for checking if cut exists
-          if (!objectCollection[0][cut.field]) {
-            cuts.splice(i, 1);
-          }
-        });
-      }
-      
+      cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
       this.ui.addCollection(typeFolder, collectionName, cuts);
     }
   }
@@ -208,6 +199,5 @@ export class PhoenixLoader implements EventDataLoader {
     // add to scene
     return muonScene;
   }
-
 
 }
