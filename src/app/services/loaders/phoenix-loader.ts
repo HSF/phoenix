@@ -72,7 +72,7 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts: Cut[] = [
         new Cut('chi2', 0, 50),
         new Cut('dof', 0, 100),
-        new Cut('momentum', 0, 500)
+        new Cut('mom', 0, 500)
       ];
 
       this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', cuts);
