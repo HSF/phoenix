@@ -48,7 +48,7 @@ export class ThreeService {
    */
   public init(configuration: Configuration) {
     // Scene manager
-    this.getSceneManager();
+    this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
     this.exportManager = new ExportManager();
     this.importManager = new ImportManager(this.clipPlanes, SceneManager.EVENT_DATA_ID, SceneManager.GEOMETRIES_ID);
