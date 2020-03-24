@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import {JiveXMLLoader} from '../../../../services/loaders/jivexml-loader';
+import { JiveXMLLoader } from '../../../../services/loaders/jivexml-loader';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -41,6 +41,11 @@ export class IOOptionsDialogComponent {
     this.handleFileInput(files, 'gltf', callback);
   }
 
+  handlePhoenixInput(files: any) {
+    const callback = this.processPhoenixScene;
+    this.handleFileInput(files, 'phnx', callback);
+  }
+
   handleFileInput(files: any, extension: string, callback) {
     const file = files[0];
     const reader = new FileReader();
@@ -60,8 +65,8 @@ export class IOOptionsDialogComponent {
   }
 
   processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
-    console.log("Got JiveXML.")
-    let jiveloader = new JiveXMLLoader();
+    console.log('Got JiveXML.');
+    const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();
     evDisplay.buildEventDataFromJSON(eventData);
@@ -77,6 +82,15 @@ export class IOOptionsDialogComponent {
 
   processGLTF(content: any, name: string, evDisplay: EventdisplayService) {
     evDisplay.parseGLTFGeometry(content);
+  }
+
+  processPhoenixScene(content: any, name: string, evDisplay: EventdisplayService) {
+    evDisplay.parsePhoenixDisplay(content);
+  }
+
+  saveScene() {
+    console.log('queloqueeee');
+    this.eventDisplay.exportPhoenixDisplay();
   }
 
 }
