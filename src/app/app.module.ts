@@ -38,6 +38,7 @@ import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotat
 import { ViewOptionsComponent } from './components/ui-menu/view-options/view-options.component';
 import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
 import { CmsComponent } from './sections/cms/cms.component';
+import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -78,7 +79,8 @@ const routes: Routes = [
     AutoRotateComponent,
     ViewOptionsComponent,
     OverlayViewWindowComponent,
-    CmsComponent
+    CmsComponent,
+    ExperimentInfoComponent
   ],
   imports: [
     BrowserModule,

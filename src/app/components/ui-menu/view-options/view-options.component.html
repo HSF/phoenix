@@ -2,7 +2,7 @@
     <mat-checkbox class="mat-menu-item" (click)="$event.stopPropagation()" (change)="toggleOrthographic($event)">
         Orthographic
     </mat-checkbox>
-    <button mat-menu-item [matMenuTriggerFor]="presetViews">Preset views</button>
+    <button mat-menu-item [matMenuTriggerFor]="presetViews" *ngIf="views.length>0">Preset views</button>
 </mat-menu>
 
 <mat-menu #presetViews>
