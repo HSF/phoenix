@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Scene, Group, Plane, Geometry } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Scene, Group, Plane, Geometry, Material } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { ThreeService } from '../three.service';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -101,12 +101,26 @@ export class ImportManager {
         });
     }
 
-    public loadGLTFGeometry(sceneUrl: any, callback: (Geometry: Object3D) => any) {
+    public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any) {
         const loader = new GLTFLoader();
         // @ts-ignore
         loader.load(sceneUrl, gltf => {
             const geometry = gltf.scene;
+            this.processGLTFGeometry(geometry, name);
             callback(geometry);
+        });
+    }
+
+    private processGLTFGeometry(geometry: Object3D, name: string) {
+        geometry.name = name;
+        geometry.traverse((child) => {
+            if (child instanceof Mesh) {
+                if (child.material instanceof Material) {
+                    child.material.clippingPlanes = this.clipPlanes;
+                    child.material.clipIntersection = true;
+                    child.material.clipShadows = false;
+                }
+            }
         });
     }
 }

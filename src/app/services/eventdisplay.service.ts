@@ -146,8 +146,9 @@ export class EventdisplayService {
     this.graphicsLibrary.parseGLTFGeometry(scene);
   }
 
-  public loadGLTFGeometry(url: any) {
-    this.graphicsLibrary.loadGLTFGeometry(url);
+  public loadGLTFGeometry(url: any, name: string) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name);
+    this.ui.addGeometry(name, 0xff0000);
   }
 
 

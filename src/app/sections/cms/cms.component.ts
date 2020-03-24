@@ -15,6 +15,7 @@ export class CmsComponent implements OnInit {
   ngOnInit() {
     const configuration = new Configuration();
     this.eventDisplay.init(configuration);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector');
   }
 
 }

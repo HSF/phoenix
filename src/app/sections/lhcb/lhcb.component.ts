@@ -26,7 +26,7 @@ export class LHCbComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left')
     ];
     this.eventDisplay.init(configuration);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf');
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
     this.loader = new LHCbLoader();
     configuration.eventDataLoader = this.loader;
     this.loadEventData(configuration);

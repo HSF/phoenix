@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material } from 'three';
 import { Cut } from '../extras/cut.model';
 
 
@@ -84,8 +84,8 @@ export class SceneManager {
         const object = this.scene.getObjectByName(name);
 
         if (value) {
-            object.children.forEach((o: any) => {
-                if (o.isMesh === true) {
+            object.traverse((o) => {
+                if (o instanceof Mesh && o.material instanceof Material) {
                     o.material.transparent = true;
                     o.material.opacity = value;
                 }
@@ -102,10 +102,11 @@ export class SceneManager {
     public OBJGeometryColor(name: string, value: any) {
         const object = this.scene.getObjectByName(name);
         if (object) {
-            object.children.forEach(child => {
+            object.traverse(child => {
                 if (child instanceof Mesh || child instanceof LineSegments) {
                     if (
                         child.material instanceof MeshPhongMaterial ||
+                        child.material instanceof MeshBasicMaterial ||
                         child.material instanceof LineBasicMaterial
                     ) {
                         child.material.color.set(value);
