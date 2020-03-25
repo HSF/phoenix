@@ -79,6 +79,7 @@ export class EventdisplayService {
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
     this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
+    this.onDisplayedEventChange.forEach((callback) => callback(eventData));
   }
 
   /**
@@ -91,7 +92,6 @@ export class EventdisplayService {
 
     if (event) {
       this.buildEventDataFromJSON(event);
-      this.onDisplayedEventChange.forEach((callback) => callback(event));
     }
   }
 
