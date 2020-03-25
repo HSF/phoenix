@@ -1,2 +1,9 @@
-<div class="experimentInfo"><img class="experimentLogo" src="assets/images/cms.svg" alt="">
+<div class="experimentInfo">
+    <a target="_blank" rel="noopener noreferrer" *ngIf="experiment"
+        href="https://home.cern/science/experiments/{{experiment}}">
+        <img class="experimentLogo" src="assets/images/{{experiment}}.svg" alt="">
+    </a>
+    <div class="textInfo">
+        <p *ngFor="let infoField of experimentInfo">{{infoField}}</p>
+    </div>
 </div>

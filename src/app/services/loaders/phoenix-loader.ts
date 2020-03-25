@@ -199,5 +199,9 @@ export class PhoenixLoader implements EventDataLoader {
     return muonScene;
   }
 
+  getEventMetadata(): string[] {
+    // Not implemented
+    return [];
+  }
 
 }

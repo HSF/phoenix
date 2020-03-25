@@ -42,4 +42,23 @@ export class CMSLoader implements EventDataLoader {
         console.log('Method not implemented.');
     }
 
+    public getEventMetadata(): string[] {
+        const metadata = [];
+        if (this.eventData && this.eventData.Collections) {
+            const data = this.eventData.Collections.Event_V2;
+            if (data) {
+                const ei = data[0];
+                const run = ei[0];
+                const event = ei[1];
+                const ls = ei[2];
+                const time = ei[5];
+                metadata.push('CMS Experiment at the LHC, CERN');
+                metadata.push('Data recorded: ' + time);
+                metadata.push('Run / Event / LS: ' + run + ' / ' + event + ' / ' + ls);
+
+            }
+        }
+        return metadata;
+    }
+
 }

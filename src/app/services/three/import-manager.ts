@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Scene, Group, Plane, Geometry, Material } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { ThreeService } from '../three.service';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 export class ImportManager {

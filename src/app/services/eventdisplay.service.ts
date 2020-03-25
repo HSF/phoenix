@@ -183,6 +183,10 @@ export class EventdisplayService {
     this.onEventsChange.push(callback);
   }
 
+  public getEventMetadata(): string[] {
+    return this.configuration.getEventDataLoader().getEventMetadata();
+  }
+
   // PAFUERA
 
   public renderOverlay(overlayCanvas: HTMLCanvasElement) {
