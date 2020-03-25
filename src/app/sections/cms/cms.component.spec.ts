@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CmsComponent } from './cms.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('CmsComponent', () => {
   let component: CmsComponent;
@@ -8,9 +9,9 @@ describe('CmsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CmsComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

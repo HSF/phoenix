@@ -6,6 +6,7 @@ import { CMSEventDescription } from './event-description';
 export class CMSLoader implements EventDataLoader {
 
     eventData: any;
+    loadedCollections: string[] = [];
 
     public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
         this.eventData = eventData;
@@ -19,6 +20,7 @@ export class CMSLoader implements EventDataLoader {
                 const group = graphicsLibrary.getSceneManager().getEventData();
                 group.add(collectionGeometry);
                 ui.addCollection(eventDataFolder, collectionDescription.name);
+                this.loadedCollections.push(collectionDescription.name);
             }
         }
     }
@@ -34,7 +36,7 @@ export class CMSLoader implements EventDataLoader {
         return eventsList;
     }
     public getCollections(): string[] {
-        return Object.keys(this.eventData.Collections);
+        return this.loadedCollections;
     }
     public getCollection(collectionName: string) {
         console.log('Method not implemented.');

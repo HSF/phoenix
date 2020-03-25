@@ -163,9 +163,9 @@ export class SceneManager {
      * @param objectType Name of the object type.
      * @returns The new group added to the event data.
      */
-    public addEventDataTypeGroup(objectType: string): Object3D {
+    public addEventDataTypeGroup(objectType: string): Group {
         const eventData = this.getEventData();
-        let typeGroup = this.scene.getObjectByName(objectType);
+        let typeGroup = this.scene.getObjectByName(objectType) as Group;
         if (!typeGroup) {
             typeGroup = new Group();
         }
