@@ -11,6 +11,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
 
 :root {
   --phoenix-logo: url(assets/images/logo-small.svg);
+  --phoenix-selector: url(assets/images/selector.png);
   --phoenix-background-color: #ffffff;
   --phoenix-background-color-secondary: #ffffff;
   --phoenix-background-color-tertiary: #ffffff;
@@ -185,14 +186,14 @@ canvas {
 
   select {
     width: 6rem;
-    padding: 5px 35px 5px 5px;
+    padding: 5px;
     font-size: 16px;
     border: 1px solid rgba(88, 88, 88, 0.08);
     box-shadow: var(--phoenix-icon-shadow);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: 96% / 30% no-repeat var(--phoenix-background-color-tertiary);
+    background-color: var(--phoenix-background-color-tertiary);
     color: var(--phoenix-text-color-secondary);
   }
 }

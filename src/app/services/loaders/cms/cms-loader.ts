@@ -55,7 +55,6 @@ export class CMSLoader implements EventDataLoader {
                 metadata.push('CMS Experiment at the LHC, CERN');
                 metadata.push('Data recorded: ' + time);
                 metadata.push('Run / Event / LS: ' + run + ' / ' + event + ' / ' + ls);
-
             }
         }
         return metadata;

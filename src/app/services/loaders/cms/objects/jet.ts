@@ -41,6 +41,8 @@ export class Jet extends Shape {
         const jet = new Mesh(geometry, material);
         jet.lookAt(new Vector3(length * 0.5 * st * cp, length * 0.5 * st * sp, length * 0.5 * ct));
         jet.visible = true;
+        jet.name = 'Jet [' + this.name + ']';
+        jet.userData = { et, eta, theta, phi };
 
         // Removing cuts for demonstration purposes
         // TODO enable back
