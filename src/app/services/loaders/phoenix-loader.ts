@@ -139,7 +139,8 @@ export class PhoenixLoader implements EventDataLoader {
    * @param getObject handles reconstructing the objects of the objects of the collection.
    * @param objectGroup group containing the collections of the same object type.
    */
-  private addCollection(objectCollection: any, collectionName: string,
+  private addCollection(
+    objectCollection: any, collectionName: string,
     getObject: (object: any) => Object3D, objectGroup: Group) {
     const collscene = new THREE.Group();
     collscene.name = collectionName;
@@ -198,5 +199,9 @@ export class PhoenixLoader implements EventDataLoader {
     return muonScene;
   }
 
+  getEventMetadata(): string[] {
+    // Not implemented
+    return [];
+  }
 
 }

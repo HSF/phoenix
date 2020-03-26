@@ -37,6 +37,8 @@ import { DarkThemeComponent } from './components/ui-menu/dark-theme/dark-theme.c
 import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotate.component';
 import { ViewOptionsComponent } from './components/ui-menu/view-options/view-options.component';
 import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
+import { CmsComponent } from './sections/cms/cms.component';
+import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,7 +48,8 @@ const routes: Routes = [
   { path: 'lhcb', component: LHCbComponent },
   { path: 'trackml', component: TrackmlComponent },
   { path: 'playground', component: PlaygroundComponent },
-  { path: 'playgroundVR', component: PlaygroundVrComponent }
+  { path: 'playgroundVR', component: PlaygroundVrComponent },
+  { path: 'cms', component: CmsComponent }
 ];
 
 @NgModule({
@@ -75,7 +78,9 @@ const routes: Routes = [
     DarkThemeComponent,
     AutoRotateComponent,
     ViewOptionsComponent,
-    OverlayViewWindowComponent
+    OverlayViewWindowComponent,
+    CmsComponent,
+    ExperimentInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,8 @@
-import {ThreeService} from './three.service';
-import {UIService} from './ui.service';
-
+import { ThreeService } from './three.service';
+import { UIService } from './ui.service';
+/**
+ * Event data loader
+ */
 export interface EventDataLoader {
 
   /**
@@ -31,5 +33,10 @@ export interface EventDataLoader {
    * @return object containing all physics objects from the desired collection.
    */
   getCollection(collectionName: string): any;
+
+  /**
+   * @returns Metadata associated to the displayed event (experiment info, time, run, event...).
+   */
+  getEventMetadata(): string[];
 
 }
