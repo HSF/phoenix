@@ -79,6 +79,7 @@ export class EventdisplayService {
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
     this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
+    this.onDisplayedEventChange.forEach((callback) => callback(eventData));
   }
 
   /**
@@ -91,7 +92,6 @@ export class EventdisplayService {
 
     if (event) {
       this.buildEventDataFromJSON(event);
-      this.onDisplayedEventChange.forEach((callback) => callback(event));
     }
   }
 
@@ -146,8 +146,9 @@ export class EventdisplayService {
     this.graphicsLibrary.parseGLTFGeometry(scene);
   }
 
-  public loadGLTFGeometry(url: any) {
-    this.graphicsLibrary.loadGLTFGeometry(url);
+  public loadGLTFGeometry(url: any, name: string) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name);
+    this.ui.addGeometry(name, 0xff0000);
   }
 
 
@@ -180,6 +181,10 @@ export class EventdisplayService {
 
   public listenToLoadedEventsChange(callback: (events) => any) {
     this.onEventsChange.push(callback);
+  }
+
+  public getEventMetadata(): string[] {
+    return this.configuration.getEventDataLoader().getEventMetadata();
   }
 
   // PAFUERA

@@ -140,6 +140,10 @@ export class UIService {
     menu.onChange((value) => this.three.getSceneManager().objectVisibility('EventData', value));
   }
 
+  public getEventDataFolder() {
+    return this.eventFolder;
+  }
+
   public addEventDataTypeFolder(objectType: string) {
     const typeFolder = this.eventFolder.addFolder(objectType);
     this.guiParameters.eventData[objectType] = true;

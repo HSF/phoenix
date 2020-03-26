@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {EventdisplayService} from '../../services/eventdisplay.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { EventdisplayService } from '../../services/eventdisplay.service';
 import { UIService } from '../../services/ui.service';
 
 @Component({
@@ -7,12 +7,9 @@ import { UIService } from '../../services/ui.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit {
 
   constructor(private ui: UIService) {
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit() {
