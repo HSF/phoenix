@@ -56,16 +56,22 @@
   
   #eventInfo {
     position: absolute;
-    left: 10px;
-    top: 10px;
-    width: 400px;
+    left: 0.7rem;
+    top: 0.7rem;
+    display: flex;
     color: var(--phoenix-text-color-secondary);
-    font-size: 13px;
-    padding: 15px;
-    overflow: hidden;
+    font-size: 0.75rem;
 
-    img {
-      width: 100%;
+    #experimentLogo {
+      width: 6rem;
+      margin-right: 0.5rem;
+      img {
+        width: 100%;
+      }
+    }
+
+    h3 {
+      font-size: 1rem;
     }
 
     table {
@@ -76,7 +82,7 @@
         margin: 0;
       }
       td {
-        padding-left: 4px;
+        padding-left: 0.5rem;
       }
 
     }
