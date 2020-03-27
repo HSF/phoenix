@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { ThreeService } from './three.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
+import { HttpClient } from '@angular/common/http';
+
+declare global {
+  interface Window {
+    EventDisplay: any;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +21,7 @@ export class EventdisplayService {
   private onEventsChange: ((events: any) => void)[] = [];
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
 
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService) {
+  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient) {
   }
 
   /**
@@ -37,6 +44,9 @@ export class EventdisplayService {
       this.graphicsLibrary.render();
     };
     animate();
+
+    // Allow adding elements through console
+    this.enableEventDisplayConsole();
   }
 
   public initVR(configuration: Configuration) {
@@ -197,6 +207,43 @@ export class EventdisplayService {
 
   public listenToLoadedEventsChange(callback: (events) => any) {
     this.onEventsChange.push(callback);
+  }
+
+  /**
+   * Enables calling specified event display methods in console
+   */
+  private enableEventDisplayConsole() {
+    const root = this;
+
+    // Defining an EventDisplay object in window to access methods through console
+    window.EventDisplay = {
+      buildGeometryFromParameters: function (params: any) {
+        root.buildGeometryFromParameters(params);
+      },
+      loadGLTFDetector: function (sceneUrl: any) {
+        root.loadGLTFDetector(sceneUrl);
+      },
+      loadGeometryFromOBJ: function (filename: string, name: string, colour: any, doubleSided: boolean) {
+        root.loadGeometryFromOBJ(filename, name, colour, doubleSided);
+      },
+      loadGeometryFromOBJContent: function (content: string, name: string) {
+        root.loadGeometryFromOBJContent(content, name);
+      },
+      loadDisplay: function (displayUrl: any) {
+        root.http
+        .get(displayUrl, { responseType: 'text' })
+        .subscribe((input: any) => {
+          root.loadDisplay(input);
+        });
+      },
+      loadGLTF: function (gltfUrl: any) {
+        root.http
+        .get(gltfUrl, { responseType: 'text' })
+        .subscribe((input: any) => {
+          root.loadGLTF(input);
+        });
+      }
+    };
   }
 
 
