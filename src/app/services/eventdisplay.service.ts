@@ -213,34 +213,32 @@ export class EventdisplayService {
    * Enables calling specified event display methods in console
    */
   private enableEventDisplayConsole() {
-    const root = this;
-
     // Defining an EventDisplay object in window to access methods through console
     window.EventDisplay = {
-      buildGeometryFromParameters: function (params: any) {
-        root.buildGeometryFromParameters(params);
+      buildGeometryFromParameters: (params: any) => {
+        this.buildGeometryFromParameters(params);
       },
-      loadGLTFDetector: function (sceneUrl: any) {
-        root.loadGLTFDetector(sceneUrl);
+      loadGLTFDetector: (sceneUrl: any) => {
+        this.loadGLTFDetector(sceneUrl);
       },
-      loadGeometryFromOBJ: function (filename: string, name: string, colour: any, doubleSided: boolean) {
-        root.loadGeometryFromOBJ(filename, name, colour, doubleSided);
+      loadGeometryFromOBJ: (filename: string, name: string, colour: any, doubleSided: boolean) => {
+        this.loadGeometryFromOBJ(filename, name, colour, doubleSided);
       },
-      loadGeometryFromOBJContent: function (content: string, name: string) {
-        root.loadGeometryFromOBJContent(content, name);
+      loadGeometryFromOBJContent: (content: string, name: string) => {
+        this.loadGeometryFromOBJContent(content, name);
       },
-      loadDisplay: function (displayUrl: any) {
-        root.http
+      loadDisplay: (displayUrl: any) => {
+        this.http
         .get(displayUrl, { responseType: 'text' })
         .subscribe((input: any) => {
-          root.loadDisplay(input);
+          this.loadDisplay(input);
         });
       },
-      loadGLTF: function (gltfUrl: any) {
-        root.http
+      loadGLTF: (gltfUrl: any) => {
+        this.http
         .get(gltfUrl, { responseType: 'text' })
         .subscribe((input: any) => {
-          root.loadGLTF(input);
+          this.loadGLTF(input);
         });
       }
     };
