@@ -62,7 +62,7 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
-   * Receives an object containg the data from an event and parses it to reconstruct the different collections
+   * Receives an object containing the data from an event and parses it to reconstruct the different collections
    * of physics objects.
    * @param eventData representing ONE event (expressed in the Phoenix format).
    */
@@ -111,7 +111,7 @@ export class PhoenixLoader implements EventDataLoader {
 
   /**
    * Adds to the event display all collections of a given object type.
-   * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...)
+   * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...).
    * @param getObject function that handles of reconstructing objects of the given type.
    * @param typeName label for naming the object type.
    * @param cuts (Optional) filters that can be applied to the objects.
@@ -128,6 +128,8 @@ export class PhoenixLoader implements EventDataLoader {
       const objectCollection = object[collectionName];
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
+
+      cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
       this.ui.addCollection(typeFolder, collectionName, cuts);
     }
   }
@@ -197,6 +199,5 @@ export class PhoenixLoader implements EventDataLoader {
     // add to scene
     return muonScene;
   }
-
 
 }
