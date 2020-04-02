@@ -27,6 +27,10 @@ export class UIService {
   private canvas: HTMLElement;
   private darkTheme: boolean;
 
+  private maxPositionX = 4000;
+  private maxPositionY = 4000;
+  private maxPositionZ = 4000;
+
   constructor(private three: ThreeService) {
   }
 
@@ -104,11 +108,11 @@ export class UIService {
     });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);
-    objFolder.add(this.guiParameters[name], 'x', -this.configuration.maxPositionX, this.configuration.maxPositionX)
+    objFolder.add(this.guiParameters[name], 'x', -this.maxPositionX, this.maxPositionX)
       .name('X').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setX(value));
-    objFolder.add(this.guiParameters[name], 'y', -this.configuration.maxPositionY, this.configuration.maxPositionY)
+    objFolder.add(this.guiParameters[name], 'y', -this.maxPositionY, this.maxPositionY)
       .name('Y').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setY(value));
-    objFolder.add(this.guiParameters[name], 'z', -this.configuration.maxPositionZ, this.configuration.maxPositionZ)
+    objFolder.add(this.guiParameters[name], 'z', -this.maxPositionZ, this.maxPositionZ)
       .name('Z').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setZ(value));
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');

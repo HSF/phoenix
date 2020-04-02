@@ -308,9 +308,6 @@ export class ThreeService {
    * @param configuration Configuration object.
    */
   private setConfiguration(configuration: Configuration) {
-    if (configuration.allowShowAxes) {
-      this.sceneManager.setAxis(configuration.allowShowAxes);
-    }
   }
 
   /**
