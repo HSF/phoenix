@@ -1050,6 +1050,41 @@ export class ThreeService {
     }
   }
 
+  /**
+   * Set event data depthTest to enable/disable if event data should show on top of geometry.
+   * @param value A boolean to specify if depthTest is to be enabled or disabled.
+   */
+  public eventDataDepthTest(value: boolean) {
+    const object = this.scene.getObjectByName('EventData');
+
+    if (object !== null) {
+      this.updateChildrenDepthTest(object, value);
+    }
+  }
+  
+  /**
+   * Update all children's depthTest and renderOrder.
+   * @param object Object group whose depthTest is to be changed.
+   * @param value A boolean to specify if depthTest is to be enabled or disabled.
+   */
+  private updateChildrenDepthTest(object: any, value: boolean) {
+    // Changing renderOrder to make event data render on top of geometry
+    // Arbitrarily setting a high value of 999 
+    value ? object.renderOrder = 0 : object.renderOrder = 999;
+
+    // Traversing all event data objects to change material's depthTest
+    object.children.forEach((objectChild: any) => {
+      if (!(objectChild instanceof THREE.Group)) {
+        if (objectChild.material) {
+          objectChild.material.depthTest = value;
+        }
+      } else {
+        // Calling the function again if the object is a group
+        this.updateChildrenDepthTest(objectChild, value);
+      }
+    });
+  }
+
   public getObjectPosition(name: string): Vector3 {
     const object = this.objects.find(o => o.name === name);
     if (object) {
