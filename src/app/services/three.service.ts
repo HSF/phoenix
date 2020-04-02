@@ -1065,7 +1065,7 @@ export class ThreeService {
   /**
    * Update all children's depthTest and renderOrder.
    * @param object Object group whose depthTest is to be changed.
-   * @param value Value of depthTest to be true or false.
+   * @param value A boolean to specify if depthTest is to be enabled or disabled.
    */
   private updateChildrenDepthTest(object: any, value: boolean) {
     // Changing renderOrder to make event data render on top of geometry
