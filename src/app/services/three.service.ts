@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as THREE from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import {
@@ -8,7 +7,13 @@ import {
   Scene,
   Vector3,
   Plane,
-  Quaternion
+  Quaternion,
+  Points,
+  PointsMaterial,
+  MeshPhongMaterial,
+  AmbientLight,
+  DirectionalLight,
+  AxesHelper
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -31,15 +36,15 @@ export class ThreeService {
   private selectionManager: SelectionManager;
   // Scene export ignore list
   private ignoreList = [
-    new THREE.AmbientLight().name,
-    new THREE.DirectionalLight().name,
-    new THREE.AxesHelper().name
+    new AmbientLight().name,
+    new DirectionalLight().name,
+    new AxesHelper().name
   ];
   // Clipping planes
   private clipPlanes: Plane[] = [
-    new Plane(new THREE.Vector3(0, 1, 0), 0),
-    new Plane(new THREE.Vector3(0, -1, 0), 0),
-    new Plane(new THREE.Vector3(0, 0, 1), -15000)
+    new Plane(new Vector3(0, 1, 0), 0),
+    new Plane(new Vector3(0, -1, 0), 0),
+    new Plane(new Vector3(0, 0, 1), -15000)
   ];
 
   /**
@@ -261,6 +266,14 @@ export class ThreeService {
    */
   public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
     this.getSelectionManager().setSelectedObject(selectedObject);
+  }
+
+  /**
+   * Set event data depthTest to enable/disable if event data should show on top of geometry.
+   * @param value A boolean to specify if depthTest is to be enabled or disabled.
+   */
+  public eventDataDepthTest(value: boolean) {
+    this.sceneManager.eventDataDepthTest(value);
   }
 
   /**

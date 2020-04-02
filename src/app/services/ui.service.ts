@@ -5,6 +5,7 @@ import { ThreeService } from './three.service';
 import { Configuration } from './extras/configuration.model';
 import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
+import { SceneManager } from './three/scene-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,11 @@ export class UIService {
     rotate: undefined,
     axis: undefined,
     lowRes: undefined,
-    eventData: undefined
+    eventData: undefined,
+    geometries: undefined
   };
   private geomFolder: any;
+  private geomNames: any = [];
   private controlsFolder: any;
   private eventFolder: any;
   private viewFolder: any;
@@ -81,9 +84,22 @@ export class UIService {
     this.geomFolder = null;
   }
 
-  public addGeometry(name: string, colour) {
+  public addGeomFolder() {
     if (this.geomFolder == null) {
-      this.geomFolder = this.gui.addFolder('Geometry');
+      this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
+    }
+    this.guiParameters.geometries = { show: true };
+    // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
+    const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
+    showGeometriesMenu.onChange((value) => {
+      this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+    });
+  }
+
+  public addGeometry(name: string, colour) {
+    this.geomNames.push(name);
+    if (this.geomFolder == null) {
+      this.addGeomFolder();
     }
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
@@ -138,10 +154,13 @@ export class UIService {
     }
     // A new folder for the Event Data is added to the GUI.
     this.eventFolder = this.gui.addFolder('Event Data');
-    this.guiParameters.eventData = { show: true };
+    this.guiParameters.eventData = { show: true, depthTest: true };
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility('EventData', value));
+    // A boolean toggle for enabling/disabling depthTest of event data.
+    const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
+    depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
 
   public getEventDataFolder() {

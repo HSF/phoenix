@@ -2,6 +2,13 @@ import { Injectable } from '@angular/core';
 import { ThreeService } from './three.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
+import { HttpClient } from '@angular/common/http';
+
+declare global {
+  interface Window {
+    EventDisplay: any;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +21,7 @@ export class EventdisplayService {
   private onEventsChange: ((events: any) => void)[] = [];
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
 
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService) {
+  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient) {
   }
 
   /**
@@ -37,6 +44,9 @@ export class EventdisplayService {
       this.graphicsLibrary.render();
     };
     animate();
+
+    // Allow adding elements through console
+    this.enableEventDisplayConsole();
   }
 
   public initVR(configuration: Configuration) {
@@ -185,6 +195,37 @@ export class EventdisplayService {
 
   public getEventMetadata(): string[] {
     return this.configuration.getEventDataLoader().getEventMetadata();
+  }
+  /**
+   * Enables calling specified event display methods in console
+   */
+  private enableEventDisplayConsole() {
+    // Defining an EventDisplay object in window to access methods through console
+    window.EventDisplay = {
+      loadGLTFGeometry: (sceneUrl: string, name: string) => {
+        this.loadGLTFGeometry(sceneUrl, name);
+      },
+      loadOBJGeometry: (filename: string, name: string, colour: any, doubleSided: boolean) => {
+        this.loadOBJGeometry(filename, name, colour, doubleSided);
+      },
+      parseOBJGeometry: (content: string, name: string) => {
+        this.parseOBJGeometry(content, name);
+      },
+      loadSceneConfiguration: (displayUrl: any) => {
+        this.http
+          .get(displayUrl, { responseType: 'text' })
+          .subscribe((input: any) => {
+            this.loadSceneConfiguration(input);
+          });
+      },
+      parseGLTFGeometry: (gltfUrl: any) => {
+        this.http
+          .get(gltfUrl, { responseType: 'text' })
+          .subscribe((input: any) => {
+            this.parseGLTFGeometry(input);
+          });
+      }
+    };
   }
 
   // PAFUERA
