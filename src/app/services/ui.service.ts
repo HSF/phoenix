@@ -155,7 +155,7 @@ export class UIService {
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
     menu.onChange((value) => this.three.objectVisibility('EventData', value));
-    // A boolean toggle for enabling disabling depthTest of event data.
+    // A boolean toggle for enabling/disabling depthTest of event data.
     const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
