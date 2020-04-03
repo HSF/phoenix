@@ -140,9 +140,9 @@ export class ThreeService {
 
     // Export ignore list
     this.ignoreList = [
-      THREE.AmbientLight.name,
-      THREE.DirectionalLight.name,
-      THREE.AxesHelper.name
+      new THREE.AmbientLight().type,
+      new THREE.DirectionalLight().type,
+      new THREE.AxesHelper().type
     ];
     // Object Collections
     this.objects = [];
