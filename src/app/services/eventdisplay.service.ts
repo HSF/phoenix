@@ -228,8 +228,6 @@ export class EventdisplayService {
     };
   }
 
-  // PAFUERA
-
   public renderOverlay(overlayCanvas: HTMLCanvasElement) {
     this.graphicsLibrary.setOverlayRenderer(overlayCanvas);
   }
