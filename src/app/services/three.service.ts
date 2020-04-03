@@ -36,9 +36,9 @@ export class ThreeService {
   private selectionManager: SelectionManager;
   // Scene export ignore list
   private ignoreList = [
-    new AmbientLight().name,
-    new DirectionalLight().name,
-    new AxesHelper().name
+    new AmbientLight().type,
+    new DirectionalLight().type,
+    new AxesHelper().type
   ];
   // Clipping planes
   private clipPlanes: Plane[] = [
