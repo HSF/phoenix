@@ -140,7 +140,7 @@ export class UIService {
       if (folder) {
         this.geomFolder.removeFolder(folder);
       }
-      this.three.getSceneManager().removeObject(name);
+      this.three.getSceneManager().removeGeometry(name);
     };
   }
 

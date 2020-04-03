@@ -143,9 +143,10 @@ export class SceneManager {
      * Removes an object from the scene.
      * @param name Name of the object to remove.
      */
-    public removeObject(name: string) {
+    public removeGeometry(name: string) {
         const object = this.scene.getObjectByName(name);
-        this.scene.remove(object);
+        const geometries = this.getGeometries() as Group;
+        geometries.remove(object);
     }
 
     /**
