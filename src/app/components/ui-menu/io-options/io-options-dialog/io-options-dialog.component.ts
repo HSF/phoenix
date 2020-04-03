@@ -93,4 +93,8 @@ export class IOOptionsDialogComponent {
     this.eventDisplay.exportPhoenixDisplay();
   }
 
+  exportOBJ() {
+    this.eventDisplay.exportToOBJ();
+  }
+
 }
