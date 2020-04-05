@@ -37,26 +37,4 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLASR2/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLASR2/TileCal.obj', 'Tile Cal', 0xc14343, true);
   }
-
-  handleJiveXMLEventDataInput(files: any) {
-    const file = files[0];
-    const reader = new FileReader();
-    if (file.type === 'text/xml') {
-      reader.onload = () => {
-        console.log('Loaded: ' + file.name);
-        this.processJiveXML(reader.result.toString());
-      };
-      reader.readAsText(file);
-    } else {
-      console.log('Error : ¡ Invalid file format !');
-    }
-  }
-
-  processJiveXML(jive: any) {
-    console.log('Got JiveXML.');
-    const jiveloader = new JiveXMLLoader();
-    jiveloader.process(jive);
-    const eventData = jiveloader.getEventData();
-    this.eventDisplay.buildEventDataFromJSON(eventData);
-  }
 }
