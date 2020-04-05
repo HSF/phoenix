@@ -23,14 +23,6 @@
   overflow-x: scroll;
   z-index: 90;
 
-  * {
-    margin-left: 0.8rem;
-  }
-
-  > *:last-child {
-    margin-left: 0;
-  }
-
   .preset-views {
     display: flex;
     flex-direction: row;
