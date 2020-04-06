@@ -123,7 +123,16 @@ export class SceneManager {
     public objectVisibility(name: string, visible: boolean) {
         const object = this.scene.getObjectByName(name);
         if (object) {
-            object.visible = visible;
+            object.traverse((child) => {
+                child.visible = visible;
+                if (!visible) {
+                    child.layers.disable(0);
+                    child.layers.enable(1);
+                } else {
+                    child.layers.enable(0);
+                    child.layers.disable(1);
+                }
+            });
         }
     }
 
