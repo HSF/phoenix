@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial } from 'three';
 import { Cut } from '../extras/cut.model';
 
 
@@ -186,12 +186,16 @@ export class SceneManager {
         for (const child of Object.values(collection.children)) {
             child.traverse((object: THREE.Object3D) => {
                 // For jets and tracks
-                if (object instanceof Line || object instanceof Mesh) {
+                if (object instanceof Line || object instanceof Mesh || object instanceof Points) {
                     if (
                         object.material instanceof LineBasicMaterial ||
-                        object.material instanceof MeshBasicMaterial
+                        object.material instanceof MeshBasicMaterial ||
+                        object.material instanceof MeshBasicMaterial ||
+                        object.material instanceof PointsMaterial ||
+                        object.material instanceof MeshPhongMaterial
                     ) {
                         object.material.color.set(color);
+
                     }
                 }
             });
