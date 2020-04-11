@@ -36,6 +36,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DarkThemeComponent } from './components/ui-menu/dark-theme/dark-theme.component';
 import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotate.component';
 import { ViewOptionsComponent } from './components/ui-menu/view-options/view-options.component';
+import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
+import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -73,7 +75,9 @@ const routes: Routes = [
     ObjectClippingComponent,
     DarkThemeComponent,
     AutoRotateComponent,
-    ViewOptionsComponent
+    ViewOptionsComponent,
+    OverlayViewWindowComponent,
+    ExperimentInfoComponent
   ],
   imports: [
     BrowserModule,

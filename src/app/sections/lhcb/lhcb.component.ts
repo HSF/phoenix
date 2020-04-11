@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {EventdisplayService} from '../../services/eventdisplay.service';
-import {Configuration} from '../../services/extras/configuration.model';
-import {PresetView} from '../../services/extras/preset-view.model';
-import {HttpClient} from '@angular/common/http';
-import {LHCbLoader} from '../../services/loaders/lhcb-loader';
+import { Component, OnInit } from '@angular/core';
+import { EventdisplayService } from '../../services/eventdisplay.service';
+import { Configuration } from '../../services/extras/configuration.model';
+import { PresetView } from '../../services/extras/preset-view.model';
+import { HttpClient } from '@angular/common/http';
+import { LHCbLoader } from '../../services/loaders/lhcb-loader';
 
 
 @Component({
@@ -26,7 +26,7 @@ export class LHCbComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left')
     ];
     this.eventDisplay.init(configuration);
-    this.eventDisplay.loadGLTFDetector('assets/geometry/LHCb/lhcb.gltf');
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
     this.loader = new LHCbLoader();
     configuration.eventDataLoader = this.loader;
     this.loadEventData(configuration);

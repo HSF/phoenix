@@ -1,0 +1,26 @@
+.experimentInfo {
+  position: absolute;
+  bottom: 6rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+}
+
+.experimentLogo {
+  height: 4rem;
+}
+
+.textInfo {
+  margin-right: 1rem;
+  p {
+    color: var(--phoenix-text-color-secondary);
+    font-size: 0.8rem;
+    text-align: right;
+    margin: 0.5rem 0;
+    user-select: none;
+  }
+}

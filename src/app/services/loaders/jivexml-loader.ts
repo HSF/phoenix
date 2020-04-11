@@ -79,10 +79,10 @@ export class JiveXMLLoader extends PhoenixLoader {
       const author = trackColl.getElementsByTagName('trackAuthor')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       let polylineCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
-        const track = { chi2: 0.0, dof: 0.0, pos: [], dparams:[] };
+        const track = { chi2: 0.0, dof: 0.0, pos: [], dparams: [] };
         track.chi2 = chi2[i];
         track.dof = numDoF[i];
-        track.dparams = [ d0[i], z0[i], phi0[i], Math.tan(cotTheta[i]), 1 / pT[i]];
+        track.dparams = [d0[i], z0[i], phi0[i], Math.tan(cotTheta[i]), 1 / pT[i]];
         const pos = [];
         for (let p = 0; p < numPolyline[i]; p++) {
           pos.push([polylineX[polylineCounter + p], polylineY[polylineCounter + p], polylineZ[polylineCounter + p]]);

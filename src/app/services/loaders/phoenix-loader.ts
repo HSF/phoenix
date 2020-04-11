@@ -1,10 +1,10 @@
-import {EventDataLoader} from '../event-data-loader';
-import {Group, Object3D, Scene, Vector3} from 'three';
+import { EventDataLoader } from '../event-data-loader';
+import { Group, Object3D, Scene, Vector3 } from 'three';
 import * as THREE from 'three';
-import {UIService} from '../ui.service';
-import {ThreeService} from '../three.service';
-import {Cut} from '../extras/cut.model';
-import {PhoenixObjects} from './objects/phoenix-objects';
+import { UIService } from '../ui.service';
+import { ThreeService } from '../three.service';
+import { Cut } from '../extras/cut.model';
+import { PhoenixObjects } from './objects/phoenix-objects';
 
 export class PhoenixLoader implements EventDataLoader {
   private graphicsLibrary: ThreeService;
@@ -141,8 +141,9 @@ export class PhoenixLoader implements EventDataLoader {
    * @param getObject handles reconstructing the objects of the objects of the collection.
    * @param objectGroup group containing the collections of the same object type.
    */
-  private addCollection(objectCollection: any, collectionName: string,
-                        getObject: (object: any) => Object3D, objectGroup: Group) {
+  private addCollection(
+    objectCollection: any, collectionName: string,
+    getObject: (object: any) => Object3D, objectGroup: Group) {
     const collscene = new THREE.Group();
     collscene.name = collectionName;
 
@@ -198,6 +199,11 @@ export class PhoenixLoader implements EventDataLoader {
     }
     // add to scene
     return muonScene;
+  }
+
+  getEventMetadata(): string[] {
+    // Not implemented
+    return [];
   }
 
 }

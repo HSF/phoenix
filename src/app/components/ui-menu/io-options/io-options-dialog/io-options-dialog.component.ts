@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import {JiveXMLLoader} from '../../../../services/loaders/jivexml-loader';
+import { JiveXMLLoader } from '../../../../services/loaders/jivexml-loader';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -36,6 +36,16 @@ export class IOOptionsDialogComponent {
     this.handleFileInput(files, 'phnx', callback);
   }
 
+  handleGLTFInput(files: any) {
+    const callback = this.processGLTF;
+    this.handleFileInput(files, 'gltf', callback);
+  }
+
+  handlePhoenixInput(files: any) {
+    const callback = this.processPhoenixScene;
+    this.handleFileInput(files, 'phnx', callback);
+  }
+
   handleFileInput(files: any, extension: string, callback) {
     const file = files[0];
     const reader = new FileReader();
@@ -51,44 +61,40 @@ export class IOOptionsDialogComponent {
 
   processEventData(content: any, name: string, evDisplay: EventdisplayService) {
     const json = JSON.parse(content);
-    evDisplay.loadEventsFromJSON(json);
-    // this.events = this.eventDisplay.loadEventsFromJSON(json);
-    // this.collections = this.eventDisplay.getCollections();
+    evDisplay.parsePhoenixEvents(json);
   }
 
   processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
-    console.log("Got JiveXML.")
-    let jiveloader = new JiveXMLLoader();
+    console.log('Got JiveXML.');
+    const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();
     evDisplay.buildEventDataFromJSON(eventData);
   }
 
   processOBJ(content: any, name: any, evDisplay: EventdisplayService) {
-    evDisplay.loadGeometryFromOBJContent(content, name);
+    evDisplay.parseOBJGeometry(content, name);
   }
 
   processScene(content: any, name: string, evDisplay: EventdisplayService) {
-    evDisplay.loadDisplay(content);
+    evDisplay.parsePhoenixDisplay(content);
   }
 
-
-
-  handleGLTFInput(files: any) {
-    const file = files[0];
-    const reader = new FileReader();
-    if (file.name.split('.').pop() === 'gltf') {
-      reader.onload = () => {
-        this.processGLTF(reader.result.toString());
-      };
-      reader.readAsText(file);
-    } else {
-      console.log('Error : ¡ Invalid file format !');
-    }
+  processGLTF(content: any, name: string, evDisplay: EventdisplayService) {
+    evDisplay.parseGLTFGeometry(content);
   }
 
-  processGLTF(content: any) {
-    this.eventDisplay.loadGLTF(content);
+  processPhoenixScene(content: any, name: string, evDisplay: EventdisplayService) {
+    evDisplay.parsePhoenixDisplay(content);
+  }
+
+  saveScene() {
+    console.log('queloqueeee');
+    this.eventDisplay.exportPhoenixDisplay();
+  }
+
+  exportOBJ() {
+    this.eventDisplay.exportToOBJ();
   }
 
 }

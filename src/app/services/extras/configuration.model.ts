@@ -1,30 +1,14 @@
-import {PresetView} from './preset-view.model';
-import {EventDataLoader} from '../event-data-loader';
-import {PhoenixLoader} from '../loaders/phoenix-loader';
+import { PresetView } from './preset-view.model';
+import { EventDataLoader } from '../event-data-loader';
+import { PhoenixLoader } from '../loaders/phoenix-loader';
 
 export class Configuration {
-  maxPositionX: number;
-  maxPositionY: number;
-  maxPositionZ: number;
-  allowShowAxes: boolean;
-  allowSelecting: boolean;
   presetViews: PresetView[];
   eventDataLoader: EventDataLoader;
-  darkBackground: boolean;
-  detectorOpacity: number;
-  colorScheme: MediaQueryList;
 
   constructor() {
-    this.maxPositionX = 4000;
-    this.maxPositionY = 4000;
-    this.maxPositionZ = 4000;
-    this.allowShowAxes = true;
-    this.allowSelecting = false;
     this.presetViews = [];
     this.eventDataLoader = new PhoenixLoader();
-    this.colorScheme = matchMedia('(prefers-color-scheme: dark)');
-    this.darkBackground = this.colorScheme.matches;
-    this.detectorOpacity = 1;
   }
 
   public anyPresetView(): boolean {

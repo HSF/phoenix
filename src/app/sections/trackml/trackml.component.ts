@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {EventdisplayService} from '../../services/eventdisplay.service';
-import {Configuration} from '../../services/extras/configuration.model';
-import {PresetView} from '../../services/extras/preset-view.model';
-import {TrackmlLoader} from '../../services/loaders/trackml-loader';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { EventdisplayService } from '../../services/eventdisplay.service';
+import { Configuration } from '../../services/extras/configuration.model';
+import { PresetView } from '../../services/extras/preset-view.model';
+import { TrackmlLoader } from '../../services/loaders/trackml-loader';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-trackml',
@@ -37,11 +37,11 @@ export class TrackmlComponent implements OnInit {
     this.trackMLLoader = new TrackmlLoader();
     configuration.eventDataLoader = this.trackMLLoader;
     this.eventDisplay.init(configuration);
-    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
-    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
-    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
-    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
-    this.eventDisplay.loadGeometryFromOBJ('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
     this.loadTrackMLData();
   }
 

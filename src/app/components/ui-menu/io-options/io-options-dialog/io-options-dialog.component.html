@@ -31,17 +31,18 @@
         <!-- Export file -->
         <h5>Export file:</h5>
         <div class="row centered">
-            <label class="imageLabel exportLabel" id="exportOBJ"> <img src="assets/icons/obj.svg"
+            <label class="imageLabel exportLabel" id="exportOBJ" (click)="exportOBJ()"> <img src="assets/icons/obj.svg"
                     alt="Icon made by Dave Gandy from www.flaticons.com">Save
                 OBJ</label>
         </div>
         <hr>
         <h5>Export and import scene:</h5>
         <div class="row centered">
-            <label class="imageLabel loadExport" id="exportScene"> <img src="assets/icons/save.svg"
-                    alt="Icon made by Dave Gandy from www.flaticons.com">Save
+            <label class="imageLabel loadExport" id="exportScene" (click)="saveScene()"> <img
+                    src="assets/icons/save.svg" alt="Icon made by Dave Gandy from www.flaticons.com">Save
                 scene</label>
-            <input type="file" id="loadScene" class="inputfile" accept=".phnx" name="image" />
+            <input type="file" id="loadScene" class="inputfile" accept=".phnx" name="image"
+                (change)="handlePhoenixInput($event.target.files)" />
             <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/icons/upload.svg"
                     alt="Icon made by Pixel Buddha from www.flaticons.com">Load
                 scene</label>

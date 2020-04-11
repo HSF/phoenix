@@ -5,6 +5,7 @@ import { ThreeService } from './three.service';
 import { Configuration } from './extras/configuration.model';
 import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
+import { SceneManager } from './three/scene-manager';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class UIService {
   private configuration: Configuration;
   private canvas: HTMLElement;
   private darkTheme: boolean;
+
+  private maxPositionX = 4000;
+  private maxPositionY = 4000;
+  private maxPositionZ = 4000;
 
   constructor(private three: ThreeService) {
   }
@@ -81,15 +86,13 @@ export class UIService {
 
   public addGeomFolder() {
     if (this.geomFolder == null) {
-      this.geomFolder = this.gui.addFolder('Geometry');
+      this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
     this.guiParameters.geometries = { show: true };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
     const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
     showGeometriesMenu.onChange((value) => {
-      for (const geomName of this.geomNames) {
-        this.three.objectVisibility(geomName, value);
-      }
+      this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
     });
   }
 
@@ -105,28 +108,28 @@ export class UIService {
     const objFolder = this.geomFolder.addFolder(name);
     // A color picker is added to the object's folder
     const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
-    colorMenu.onChange((value) => this.three.objColor(name, value));
+    colorMenu.onChange((value) => this.three.getSceneManager().OBJGeometryColor(name, value));
 
     const opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
-    opacity.onFinishChange((newValue) => this.three.setNamedDetectorOpacity(name, newValue));
+    opacity.onFinishChange((newValue) => this.three.getSceneManager().setGeometryOpacity(name, newValue));
 
 
     // A boolean toggle for showing/hiding the object is added to its folder
     const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
-    showMenu.onChange((value) => this.three.objectVisibility(name, value));
+    showMenu.onChange((value) => this.three.getSceneManager().objectVisibility(name, value));
     // Scale slider
     const scaleMenu = objFolder.add(this.guiParameters[name], 'scale', 0, 1000).name('Scale');
     scaleMenu.onChange((value) => {
-      this.three.scaleObject(name, value);
+      this.three.getSceneManager().scaleObject(name, value);
     });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);
-    objFolder.add(this.guiParameters[name], 'x', -this.configuration.maxPositionX, this.configuration.maxPositionX)
-      .name('X').onChange((value) => this.three.getObjectPosition(name).setX(value));
-    objFolder.add(this.guiParameters[name], 'y', -this.configuration.maxPositionY, this.configuration.maxPositionY)
-      .name('Y').onChange((value) => this.three.getObjectPosition(name).setY(value));
-    objFolder.add(this.guiParameters[name], 'z', -this.configuration.maxPositionZ, this.configuration.maxPositionZ)
-      .name('Z').onChange((value) => this.three.getObjectPosition(name).setZ(value));
+    objFolder.add(this.guiParameters[name], 'x', -this.maxPositionX, this.maxPositionX)
+      .name('X').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setX(value));
+    objFolder.add(this.guiParameters[name], 'y', -this.maxPositionY, this.maxPositionY)
+      .name('Y').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setY(value));
+    objFolder.add(this.guiParameters[name], 'z', -this.maxPositionZ, this.maxPositionZ)
+      .name('Z').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setZ(value));
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
   }
@@ -137,7 +140,7 @@ export class UIService {
       if (folder) {
         this.geomFolder.removeFolder(folder);
       }
-      this.three.removeObject(name);
+      this.three.getSceneManager().removeGeometry(name);
     };
   }
 
@@ -154,30 +157,37 @@ export class UIService {
     this.guiParameters.eventData = { show: true, depthTest: true };
     // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
     const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
-    menu.onChange((value) => this.three.objectVisibility('EventData', value));
+    menu.onChange((value) => this.three.getSceneManager().objectVisibility('EventData', value));
     // A boolean toggle for enabling/disabling depthTest of event data.
     const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
+  }
+
+  public getEventDataFolder() {
+    return this.eventFolder;
   }
 
   public addEventDataTypeFolder(objectType: string) {
     const typeFolder = this.eventFolder.addFolder(objectType);
     this.guiParameters.eventData[objectType] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, objectType).name('Show').listen();
-    menu.onChange((value) => this.three.objectVisibility(objectType, value));
+    menu.onChange((value) => this.three.getSceneManager().objectVisibility(objectType, value));
     return typeFolder;
   }
 
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
-    this.guiParameters[collectionName] = { show: true, color: 0x000000, resetCut: () => this.three.groupVisibility(collectionName, true) };
+    this.guiParameters[collectionName] = {
+      show: true, color: 0x000000,
+      resetCut: () => this.three.getSceneManager().groupVisibility(collectionName, true)
+    };
     const collFolder = typeFolder.addFolder(collectionName);
     // A boolean toggle for showing/hiding the collection is added to its folder
     const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
-    showMenu.onChange((value) => this.three.objectVisibility(collectionName, value));
+    showMenu.onChange((value) => this.three.getSceneManager().objectVisibility(collectionName, value));
     // A color picker is added to the collection's folder
     const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
-    colorMenu.onChange((value) => this.three.collectionColor(collectionName, value));
+    colorMenu.onChange((value) => this.three.getSceneManager().collectionColor(collectionName, value));
     // Cuts menu
     if (cuts) {
       const cutsFolder = collFolder.addFolder('Cuts');
@@ -185,11 +195,11 @@ export class UIService {
       for (const cut of cuts) {
         const minCut = cutsFolder.add(cut, 'minValue', cut.minValue, cut.maxValue).name('min ' + cut.field);
         minCut.onChange((value) => {
-          this.three.collectionFilter(collectionName, cut);
+          this.three.getSceneManager().collectionFilter(collectionName, cut);
         });
         const maxCut = cutsFolder.add(cut, 'maxValue', cut.minValue, cut.maxValue).name('max ' + cut.field);
         maxCut.onChange((value) => {
-          this.three.collectionFilter(collectionName, cut);
+          this.three.getSceneManager().collectionFilter(collectionName, cut);
         });
       }
     }
@@ -231,7 +241,7 @@ export class UIService {
       localStorage.setItem('theme', 'light');
       document.documentElement.setAttribute('data-theme', 'light');
     }
-    this.three.darkBackground(dark);
+    this.three.getSceneManager().darkBackground(dark);
   }
 
   public getDarkTheme() {
@@ -256,8 +266,8 @@ export class UIService {
     this.three.swapCameras(orthographic);
   }
 
-  public toggleObjectionSelectionActive( active: boolean){
-    this.three.setObjectSelectionActive(active);
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
+    this.three.setOverlayRenderer(overlayCanvas);
   }
 
 }
