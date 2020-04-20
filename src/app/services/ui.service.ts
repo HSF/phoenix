@@ -22,7 +22,6 @@ export class UIService {
     geometries: undefined
   };
   private geomFolder: any;
-  private geomNames: any = [];
   private controlsFolder: any;
   private eventFolder: any;
   private viewFolder: any;
@@ -97,7 +96,6 @@ export class UIService {
   }
 
   public addGeometry(name: string, colour) {
-    this.geomNames.push(name);
     if (this.geomFolder == null) {
       this.addGeomFolder();
     }
