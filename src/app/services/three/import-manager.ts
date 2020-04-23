@@ -66,6 +66,9 @@ export class ImportManager {
         material2.wireframe = false;
         if (doubleSided) {
             material2.side = DoubleSide;
+            material2.onBeforeCompile = (shader) => {
+                shader.fragmentShader = shader.fragmentShader.replace('gl_FragColor = vec4( outgoingLight, diffuseColor.a );', 'if ( gl_FrontFacing ) { gl_FragColor = vec4( outgoingLight, diffuseColor.a ); } else { gl_FragColor = diffuseColor; }');
+            };
         }
 
         object3d.traverse(child => {
