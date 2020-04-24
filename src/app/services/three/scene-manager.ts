@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, DoubleSide } from 'three';
 import { Cut } from '../extras/cut.model';
 
 
@@ -317,6 +317,27 @@ export class SceneManager {
             } else {
                 // Calling the function again if the object is a group
                 this.updateChildrenDepthTest(objectChild, value);
+            }
+        });
+    }
+
+    /**
+     * Toggle for closing sections created by clipping.
+     * @param value A boolean to specify if clipped sections of geometries should be closed.
+     */
+    public closeClippedGeometries(value: boolean) {
+        const objects = this.scene.getObjectByName(SceneManager.GEOMETRIES_ID);
+        
+        objects.traverse((child) => {
+            if (child instanceof Mesh) {
+                if (child.material instanceof Material && child.material.side === DoubleSide) {
+                    child.material.onBeforeCompile = (shader) => {
+                        if (value) {
+                            shader.fragmentShader = shader.fragmentShader.replace('gl_FragColor = vec4( outgoingLight, diffuseColor.a );', 'if ( gl_FrontFacing ) { gl_FragColor = vec4( outgoingLight, diffuseColor.a ); } else { gl_FragColor = diffuseColor; }');
+                        }
+                    }
+                    child.material.needsUpdate = true;
+                }
             }
         });
     }

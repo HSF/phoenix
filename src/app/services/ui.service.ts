@@ -87,11 +87,16 @@ export class UIService {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
-    this.guiParameters.geometries = { show: true };
+    this.guiParameters.geometries = { show: true, closeClippedGeometries: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
     const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
     showGeometriesMenu.onChange((value) => {
       this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+    });
+    // A boolean toggle for closing sections created by clipping.
+    const closeClippedGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'closeClippedGeometries').name('Close Clipped').listen();
+    closeClippedGeometriesMenu.onChange((value) => {
+      this.three.getSceneManager().closeClippedGeometries(value);
     });
   }
 
