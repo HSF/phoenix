@@ -38,6 +38,8 @@ import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotat
 import { ViewOptionsComponent } from './components/ui-menu/view-options/view-options.component';
 import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
 import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
+import { InfoPanelComponent } from './components/ui-menu/info-panel/info-panel.component';
+import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -77,7 +79,9 @@ const routes: Routes = [
     AutoRotateComponent,
     ViewOptionsComponent,
     OverlayViewWindowComponent,
-    ExperimentInfoComponent
+    ExperimentInfoComponent,
+    InfoPanelComponent,
+    InfoPanelOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +100,8 @@ const routes: Routes = [
   entryComponents: [
     IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent,
-    ObjectSelectionOverlayComponent
+    ObjectSelectionOverlayComponent,
+    InfoPanelOverlayComponent
   ],
   bootstrap: [AppComponent]
 })

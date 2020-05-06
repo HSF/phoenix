@@ -1,0 +1,17 @@
+.card {
+    color: var(--phoenix-text-color-secondary);
+    background: var(--phoenix-background-color-secondary);
+
+    .card-header {
+        cursor: move;
+    }
+
+    .list-group {
+        color: var(--phoenix-text-color-secondary);
+        background: var(--phoenix-background-color-secondary);
+
+        .list-group-item{
+            background-color: var(--phoenix-background-color-secondary);
+        }
+    }
+}
