@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { LoggerService } from '../../../../services/logger.service';
 
 @Component({
   selector: 'app-info-panel-overlay',
@@ -11,10 +11,10 @@ export class InfoPanelOverlayComponent implements OnInit {
   @Input() showInfoPanel: boolean;
   actionsList = [];
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private logger: LoggerService) { }
 
   ngOnInit() {
-    
+    this.actionsList = this.logger.getLoggerList();
   }
 
 }

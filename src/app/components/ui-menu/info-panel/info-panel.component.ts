@@ -14,7 +14,7 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
   showInfoPanel = false;
   overlayWindow: ComponentRef<InfoPanelOverlayComponent>;
 
-  constructor(private overlay: Overlay, private eventDisplay: EventdisplayService) { }
+  constructor(private overlay: Overlay) { }
 
   ngOnInit() {
     const overlayRef = this.overlay.create();

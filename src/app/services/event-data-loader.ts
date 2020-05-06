@@ -1,5 +1,6 @@
 import { ThreeService } from './three.service';
 import { UIService } from './ui.service';
+import { LoggerService } from './logger.service';
 /**
  * Event data loader
  */
@@ -12,7 +13,7 @@ export interface EventDataLoader {
    * @param graphicsLibrary service containing functionality to draw the 3D objects.
    * @param ui service for showing menus and controls to manipulate the geometries.
    */
-  buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void;
+  buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService, logger: LoggerService): void;
 
   /**
    * Takes an object containing multiple events and returns the keys of these events.

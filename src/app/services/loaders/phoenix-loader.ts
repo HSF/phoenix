@@ -5,6 +5,7 @@ import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
+import { LoggerService } from '../logger.service';
 
 export class PhoenixLoader implements EventDataLoader {
   private graphicsLibrary: ThreeService;
@@ -12,13 +13,17 @@ export class PhoenixLoader implements EventDataLoader {
   private eventData: any;
 
 
-  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
+  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService, logger: LoggerService): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
 
     // initiate load
     this.loadObjectTypes(eventData);
+
+    const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
+    const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
+    logger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
   }
 
   public getEventsList(eventsData: any): string[] {

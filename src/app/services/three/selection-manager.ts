@@ -8,6 +8,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ControlsManager } from './controls-manager';
+import { LoggerService } from '../logger.service';
 
 export class SelectionManager {
 
@@ -21,6 +22,8 @@ export class SelectionManager {
     private composer: EffectComposer;
     private outlinePass: OutlinePass;
     private renderPass: RenderPass;
+    // Logger
+    private logger: LoggerService;
 
     constructor() {
         this.isInit = false;
@@ -31,10 +34,11 @@ export class SelectionManager {
         ];
     }
 
-    public init(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
+    public init(camera: Camera, scene: Scene, renderer: WebGLRenderer, logger: LoggerService) {
         this.camera = camera;
         this.scene = scene;
         this.isInit = true;
+        this.logger = logger;
         this.initOutlinePass(camera, scene, renderer);
     }
 
@@ -108,6 +112,17 @@ export class SelectionManager {
                     attributeValue: intersectedObject.userData[key]
                 });
             }
+            
+            // Process properties of the selected object
+            const props = Object.keys(intersectedObject.userData).map((key) => {
+                // Only take properties that are a string or number (no arrays or objects)
+                if (['string', 'number'].includes(typeof(intersectedObject.userData[key]))) {
+                    return key + '=' + intersectedObject.userData[key];
+                }
+            }).filter(val => val);
+            // Build the log text and add to the logger
+            const log = intersectedObject.name + (props.length > 0 ? ' with ' + props.join(', ') : '');
+            this.logger.add(log, 'Clicked');
         }
     }
 
