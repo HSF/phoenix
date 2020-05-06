@@ -22,7 +22,7 @@ import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
-import { LoggerService } from './logger.service';
+import { InfoLoggerService } from './infologger.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class ThreeService {
   private exportManager: ExportManager;
   private importManager: ImportManager;
   private selectionManager: SelectionManager;
-  private logger: LoggerService;
+  private infoLogger: InfoLoggerService;
   // Scene export ignore list
   private ignoreList = [
     new AmbientLight().type,
@@ -53,7 +53,7 @@ export class ThreeService {
    * Initializes the necessary three.js functionality.
    * @param configuration used to customize different aspects.
    */
-  public init(configuration: Configuration, logger: LoggerService) {
+  public init(configuration: Configuration, infoLogger: InfoLoggerService) {
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
@@ -64,13 +64,13 @@ export class ThreeService {
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
     // Logger
-    this.logger = logger;
+    this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
       this.rendererManager.getMainRenderer(),
-      this.logger);
+      this.infoLogger);
     // Customizing with configuration
     this.setConfiguration(configuration);
   }
