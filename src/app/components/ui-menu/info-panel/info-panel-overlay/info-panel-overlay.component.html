@@ -2,6 +2,6 @@
   <h5 class="card-header" cdkDragHandle>Information panel</h5>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngIf="actionsList.length === 0">No actions.</li>
-    <li class="list-group-item" *ngFor="let action of actionsList">{{action}}</li>
+    <li class="list-group-item" *ngFor="let action of actionsList.reverse()">{{action}}</li>
   </ul>
 </div>
