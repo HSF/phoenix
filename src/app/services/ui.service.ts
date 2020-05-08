@@ -10,6 +10,7 @@ import { SceneManager } from './three/scene-manager';
 @Injectable({
   providedIn: 'root'
 })
+/** Service for UI related operations. */
 export class UIService {
 
   private stats;
@@ -33,6 +34,16 @@ export class UIService {
   private maxPositionY = 4000;
   private maxPositionZ = 4000;
 
+  /**
+   * @typedef {import('./three.service').ThreeService} ThreeService
+   * @typedef {import('./extras/configuration.model').Configuration} Configuration
+   * @typedef {import('./extras/cut.model').Cut} Cut
+   */
+
+  /**
+   * Instantiate the UI service.
+   * @param {ThreeService} three - Three service to perform three.js related operations.
+   */
   constructor(private three: ThreeService) {
   }
 
@@ -45,6 +56,9 @@ export class UIService {
     this.detectColorScheme();
   }
 
+  /**
+   * Show stats including FPS, milliseconds to render a frame, allocated memory etc.
+   */
   private showStats() {
     this.stats = Stats();
     this.stats.showPanel(0);
@@ -57,10 +71,17 @@ export class UIService {
     canvas.appendChild(this.stats.dom);
   }
 
+  /**
+   * Update the UI by updating stats for each frame.
+   */
   public updateUI() {
     this.stats.update();
   }
 
+  /**
+   * Show DAT.GUI menu with different controls related to detector geometry and event data.
+   * @param {Configuration} configuration - Configuration options for the menu.
+   */
   private showMenu(configuration: Configuration) {
     this.configuration = configuration;
     this.gui = new dat.GUI();
@@ -75,6 +96,9 @@ export class UIService {
 
   }
 
+  /**
+   * Clear the UI by removing the DAT.GUI menu.
+   */
   public clearUI() {
     const gui = document.getElementById('gui');
     if (gui != null) {
@@ -83,6 +107,9 @@ export class UIService {
     this.geomFolder = null;
   }
 
+  /**
+   * Add geometry (detector geometry) folder to the DAT.GUI menu.
+   */
   public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
@@ -100,7 +127,12 @@ export class UIService {
     });
   }
 
-  public addGeometry(name: string, colour) {
+  /**
+   * Adds geometry to the DAT.GUI menu's geometry folder and sets up its configurable options.
+   * @param {string} name - Name of the geometry.
+   * @param {*} colour - Color of the geometry.
+   */
+  public addGeometry(name: string, colour: any) {
     if (this.geomFolder == null) {
       this.addGeomFolder();
     }
@@ -137,6 +169,10 @@ export class UIService {
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
   }
 
+  /**
+   * Remove object from the DAT.GUI menu.
+   * @param {string} name - Name of the object to be removed.
+   */
   private removeOBJ(name: string) {
     return () => {
       const folder = this.geomFolder.__folders[name];
@@ -148,7 +184,7 @@ export class UIService {
   }
 
   /**
-   * Functions for event data toggles.
+   * Functions for event data toggles like show/hide and depthTest.
    */
   public addEventDataFolder() {
     // If there is already an event data folder it is deleted and creates a new one.
@@ -166,18 +202,31 @@ export class UIService {
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
 
+  /**
+   * Get the event data folder in DAT.GUI menu.
+   */
   public getEventDataFolder() {
     return this.eventFolder;
   }
 
-  public addEventDataTypeFolder(objectType: string) {
-    const typeFolder = this.eventFolder.addFolder(objectType);
-    this.guiParameters.eventData[objectType] = true;
-    const menu = typeFolder.add(this.guiParameters.eventData, objectType).name('Show').listen();
-    menu.onChange((value) => this.three.getSceneManager().objectVisibility(objectType, value));
+  /**
+   * Add folder for event data type like tracks or hits to the DAT.GUI menu.
+   * @param {string} typeName - Name of the type of event data.
+   */
+  public addEventDataTypeFolder(typeName: string) {
+    const typeFolder = this.eventFolder.addFolder(typeName);
+    this.guiParameters.eventData[typeName] = true;
+    const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
+    menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
     return typeFolder;
   }
 
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param {*} typeFolder - DAT.GUI menu folder of an event data type.
+   * @param {string} collectionName - Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param {Cut} cuts - Cuts to the collection of event data that are to be made configurable to filter event data.
+   */
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
     this.guiParameters[collectionName] = {
