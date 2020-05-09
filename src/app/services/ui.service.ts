@@ -13,8 +13,11 @@ import { SceneManager } from './three/scene-manager';
 /** Service for UI related operations. */
 export class UIService {
 
+  /** Stats object from stats-js */
   private stats: any;
+  /** DAT.GUI menu */
   private gui: any;
+  /** Options for the DAT.GUI menu */
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
@@ -36,7 +39,7 @@ export class UIService {
 
   /**
    * Instantiate the UI service.
-   * @param {ThreeService} three - Three service to perform three.js related operations.
+   * @param three Three service to perform three.js related operations.
    */
   constructor(private three: ThreeService) {
   }
@@ -74,7 +77,7 @@ export class UIService {
 
   /**
    * Show DAT.GUI menu with different controls related to detector geometry and event data.
-   * @param {Configuration} configuration - Configuration options for the menu.
+   * @param configuration Configuration options for the menu.
    */
   private showMenu(configuration: Configuration) {
     this.configuration = configuration;
@@ -123,8 +126,8 @@ export class UIService {
 
   /**
    * Adds geometry to the DAT.GUI menu's geometry folder and sets up its configurable options.
-   * @param {string} name - Name of the geometry.
-   * @param {*} colour - Color of the geometry.
+   * @param name Name of the geometry.
+   * @param colour Color of the geometry.
    */
   public addGeometry(name: string, colour: any) {
     if (this.geomFolder == null) {
@@ -165,7 +168,7 @@ export class UIService {
 
   /**
    * Remove object from the DAT.GUI menu.
-   * @param {string} name - Name of the object to be removed.
+   * @param name Name of the object to be removed.
    */
   private removeOBJ(name: string) {
     return () => {
@@ -198,7 +201,7 @@ export class UIService {
 
   /**
    * Get the event data folder in DAT.GUI menu.
-   * @returns {*} - Event data folder.
+   * @returns Event data folder.
    */
   public getEventDataFolder(): any {
     return this.eventFolder;
@@ -206,8 +209,8 @@ export class UIService {
 
   /**
    * Add folder for event data type like tracks or hits to the DAT.GUI menu.
-   * @param {string} typeName - Name of the type of event data.
-   * @returns {*} - DAT.GUI menu's folder for event data type.
+   * @param typeName Name of the type of event data.
+   * @returns DAT.GUI menu's folder for event data type.
    */
   public addEventDataTypeFolder(typeName: string): any {
     const typeFolder = this.eventFolder.addFolder(typeName);
@@ -219,9 +222,9 @@ export class UIService {
 
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param {*} typeFolder - DAT.GUI menu folder of an event data type.
-   * @param {string} collectionName - Name of the collection to be added in the type of event data (tracks, hits etc.).
-   * @param {Cut} cuts - Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param typeFolder DAT.GUI menu folder of an event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
@@ -255,7 +258,7 @@ export class UIService {
 
   /**
    * Rotate the clipping on detector geometry.
-   * @param {number} angle - Angle of rotation of the clipping.
+   * @param angle Angle of rotation of the clipping.
    */
   public rotateClipping(angle: number) {
     this.three.rotateClipping(angle);
@@ -263,7 +266,7 @@ export class UIService {
 
   /**
    * Set if the detector geometry is to be clipped or not.
-   * @param {boolean} value - Set clipping to be true or false.
+   * @param value Set clipping to be true or false.
    */
   public setClipping(value: boolean) {
     this.three.setClipping(value);
@@ -294,7 +297,7 @@ export class UIService {
 
   /**
    * Set if the theme is to be dark or light.
-   * @param {boolean} dark - If the theme is to be dark or light. True for dark and false for light theme.
+   * @param dark If the theme is to be dark or light. True for dark and false for light theme.
    */
   public setDarkTheme(dark: boolean) {
     if (dark) {
@@ -309,7 +312,7 @@ export class UIService {
 
   /**
    * Get if the theme is dark or not.
-   * @returns {boolean} - If the theme is dark or not.
+   * @returns If the theme is dark or not.
    */
   public getDarkTheme(): boolean {
     return this.darkTheme;
@@ -317,7 +320,7 @@ export class UIService {
 
   /**
    * Set autorotate for the orbit controls.
-   * @param {boolean} rotate - If the autorotate is to be set or not.
+   * @param rotate If the autorotate is to be set or not.
    */
   public setAutoRotate(rotate: boolean) {
     this.three.autoRotate(rotate);
@@ -325,7 +328,7 @@ export class UIService {
 
   /**
    * Get preset views from the configuration.
-   * @returns {PresetView[]} - Available preset views.
+   * @returns Available preset views.
    */
   public getPresetViews(): PresetView[] {
     if (this.configuration) {
@@ -335,7 +338,7 @@ export class UIService {
 
   /**
    * Change camera view to a preset view.
-   * @param {PresetView} view - Preset view to which the camera has to be transformed.
+   * @param view Preset view to which the camera has to be transformed.
    */
   public displayView(view: PresetView) {
     this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
@@ -343,7 +346,7 @@ export class UIService {
 
   /**
    * Toggle orthographic/perspective view.
-   * @param {boolean} orthographic - If the camera is to be orthographic or perspective.
+   * @param orthographic If the camera is to be orthographic or perspective.
    */
   public toggleOrthographicView(orthographic: boolean) {
     this.three.swapCameras(orthographic);
@@ -351,7 +354,7 @@ export class UIService {
 
   /**
    * Set the renderer for the secondary overlay canvas.
-   * @param {HTMLCanvasElement} overlayCanvas - Canvas for which the overlay renderer is to be set.
+   * @param overlayCanvas Canvas for which the overlay renderer is to be set.
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     this.three.setOverlayRenderer(overlayCanvas);
