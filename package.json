@@ -1,6 +1,6 @@
 {
-  "name": "phoenix-tests",
-  "description": "Simple Travis-CI check for JSHint (Code Linting)",
+  "name": "phoenix-event-display",
+  "description": "Experiment independent event display",
   "author": "edward.moyse@cern.ch",
   "version": "0.0.1",
   "scripts": {
@@ -11,6 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "ng build --prod --output-path docs --base-href \"/phoenix/\" && cp ./docs/index.html ./docs/404.html",
+    "gen-api-docs": "compodoc -p src/tsconfig.app.json -n \"Phoenix API Docs\" -d api-docs && sed -i 's/\\.\\/src\\/assets/\\.\\.\\/src\\/assets/g' api-docs/index.html",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
