@@ -13,8 +13,8 @@ import { SceneManager } from './three/scene-manager';
 /** Service for UI related operations. */
 export class UIService {
 
-  private stats;
-  private gui;
+  private stats: any;
+  private gui: any;
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
@@ -33,12 +33,6 @@ export class UIService {
   private maxPositionX = 4000;
   private maxPositionY = 4000;
   private maxPositionZ = 4000;
-
-  /**
-   * @typedef {import('./three.service').ThreeService} ThreeService
-   * @typedef {import('./extras/configuration.model').Configuration} Configuration
-   * @typedef {import('./extras/cut.model').Cut} Cut
-   */
 
   /**
    * Instantiate the UI service.
@@ -199,16 +193,18 @@ export class UIService {
 
   /**
    * Get the event data folder in DAT.GUI menu.
+   * @returns {*} - Event data folder.
    */
-  public getEventDataFolder() {
+  public getEventDataFolder(): any {
     return this.eventFolder;
   }
 
   /**
    * Add folder for event data type like tracks or hits to the DAT.GUI menu.
    * @param {string} typeName - Name of the type of event data.
+   * @returns {*} - DAT.GUI menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string) {
+  public addEventDataTypeFolder(typeName: string): any {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
@@ -252,14 +248,25 @@ export class UIService {
     }
   }
 
+  /**
+   * Rotate the clipping on detector geometry.
+   * @param {number} angle - Angle of rotation of the clipping.
+   */
   public rotateClipping(angle: number) {
     this.three.rotateClipping(angle);
   }
 
+  /**
+   * Set if the detector geometry is to be clipped or not.
+   * @param {boolean} value - Set clipping to be true or false.
+   */
   public setClipping(value: boolean) {
     this.three.setClipping(value);
   }
 
+  /**
+   * Detect the current theme and set it.
+   */
   public detectColorScheme() {
     let dark = false;    // default to light
 
@@ -280,6 +287,10 @@ export class UIService {
     this.setDarkTheme(dark);
   }
 
+  /**
+   * Set if the theme is to be dark or light.
+   * @param {boolean} dark - If the theme is to be dark or light. True for dark and false for light theme.
+   */
   public setDarkTheme(dark: boolean) {
     if (dark) {
       localStorage.setItem('theme', 'dark');
@@ -291,28 +302,52 @@ export class UIService {
     this.three.getSceneManager().darkBackground(dark);
   }
 
-  public getDarkTheme() {
+  /**
+   * Get if the theme is dark or not.
+   * @returns {boolean} - If the theme is dark or not.
+   */
+  public getDarkTheme(): boolean {
     return this.darkTheme;
   }
 
+  /**
+   * Set autorotate for the orbit controls.
+   * @param {boolean} rotate - If the autorotate is to be set or not.
+   */
   public setAutoRotate(rotate: boolean) {
     this.three.autoRotate(rotate);
   }
 
+  /**
+   * Get preset views from the configuration.
+   * @returns {PresetView[]} - Available preset views.
+   */
   public getPresetViews(): PresetView[] {
     if (this.configuration) {
       return this.configuration.presetViews;
     }
   }
 
+  /**
+   * Change camera view to a preset view.
+   * @param {PresetView} view - Preset view to which the camera has to be transformed.
+   */
   public displayView(view: PresetView) {
     this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
   }
 
+  /**
+   * Toggle orthographic/perspective view.
+   * @param {boolean} orthographic - If the camera is to be orthographic or perspective.
+   */
   public toggleOrthographicView(orthographic: boolean) {
     this.three.swapCameras(orthographic);
   }
 
+  /**
+   * Set the renderer for the secondary overlay canvas.
+   * @param {HTMLCanvasElement} overlayCanvas - Canvas for which the overlay renderer is to be set.
+   */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     this.three.setOverlayRenderer(overlayCanvas);
   }
