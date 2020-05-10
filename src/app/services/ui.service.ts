@@ -7,17 +7,19 @@ import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
 
+/**
+ * Service for UI related operations.
+ */
 @Injectable({
   providedIn: 'root'
 })
-/** Service for UI related operations. */
 export class UIService {
 
-  /** Stats object from stats-js */
+  /** Stats object from stats-js. */
   private stats: any;
-  /** DAT.GUI menu */
+  /** dat.GUI menu. */
   private gui: any;
-  /** Options for the DAT.GUI menu */
+  /** Options for the dat.GUI menu. */
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
@@ -25,16 +27,26 @@ export class UIService {
     eventData: undefined,
     geometries: undefined
   };
+  /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
+  /** dat.GUI menu folder containing controls. */
   private controlsFolder: any;
+  /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
+  /** dat.GUI menu folder containing view options. */
   private viewFolder: any;
+  /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
+  /** Canvas in which event display is rendered. */
   private canvas: HTMLElement;
+  /** If dark theme is enabled or disabled. */
   private darkTheme: boolean;
 
+  /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
+  /** Max changeable position of an object along the y-axis. */
   private maxPositionY = 4000;
+  /** Max changeable position of an object along the z-axis. */
   private maxPositionZ = 4000;
 
   /**
@@ -44,6 +56,10 @@ export class UIService {
   constructor(private three: ThreeService) {
   }
 
+  /**
+   * Show/load the UI including stats, the dat.GUI menu and theme.
+   * @param configuration Configuration options for preset views and event data loader.
+   */
   public showUI(configuration: Configuration) {
     // Shows a panel on screen with information about the performance (fps).
     this.showStats();
@@ -76,7 +92,7 @@ export class UIService {
   }
 
   /**
-   * Show DAT.GUI menu with different controls related to detector geometry and event data.
+   * Show dat.GUI menu with different controls related to detector geometry and event data.
    * @param configuration Configuration options for the menu.
    */
   private showMenu(configuration: Configuration) {
@@ -94,7 +110,7 @@ export class UIService {
   }
 
   /**
-   * Clear the UI by removing the DAT.GUI menu.
+   * Clear the UI by removing the dat.GUI menu.
    */
   public clearUI() {
     const gui = document.getElementById('gui');
@@ -105,7 +121,7 @@ export class UIService {
   }
 
   /**
-   * Add geometry (detector geometry) folder to the DAT.GUI menu.
+   * Add geometry (detector geometry) folder to the dat.GUI menu.
    */
   public addGeomFolder() {
     if (this.geomFolder == null) {
@@ -125,7 +141,7 @@ export class UIService {
   }
 
   /**
-   * Adds geometry to the DAT.GUI menu's geometry folder and sets up its configurable options.
+   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param colour Color of the geometry.
    */
@@ -167,7 +183,7 @@ export class UIService {
   }
 
   /**
-   * Remove object from the DAT.GUI menu.
+   * Remove object from the dat.GUI menu.
    * @param name Name of the object to be removed.
    */
   private removeOBJ(name: string) {
@@ -200,7 +216,7 @@ export class UIService {
   }
 
   /**
-   * Get the event data folder in DAT.GUI menu.
+   * Get the event data folder in dat.GUI menu.
    * @returns Event data folder.
    */
   public getEventDataFolder(): any {
@@ -208,9 +224,9 @@ export class UIService {
   }
 
   /**
-   * Add folder for event data type like tracks or hits to the DAT.GUI menu.
+   * Add folder for event data type like tracks or hits to the dat.GUI menu.
    * @param typeName Name of the type of event data.
-   * @returns DAT.GUI menu's folder for event data type.
+   * @returns dat.GUI menu's folder for event data type.
    */
   public addEventDataTypeFolder(typeName: string): any {
     const typeFolder = this.eventFolder.addFolder(typeName);
@@ -222,7 +238,7 @@ export class UIService {
 
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param typeFolder DAT.GUI menu folder of an event data type.
+   * @param typeFolder dat.GUI menu folder of an event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
