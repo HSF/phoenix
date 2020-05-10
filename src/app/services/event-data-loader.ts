@@ -22,20 +22,21 @@ export interface EventDataLoader {
   getEventsList(eventsData: any): string[];
 
   /**
-   * Returns the different collections for the current stored event.
-   * @return list of strings, each representing a collection of the event displayed.
+   * Get the different collections for the current stored event.
+   * @returns list of strings, each representing a collection of the event displayed.
    */
   getCollections(): string[];
 
   /**
-   * Returns all the objects inside a collection.
+   * Get all the objects inside a collection.
    * @param collectionName Key of the collection that will be retrieved.
-   * @return object containing all physics objects from the desired collection.
+   * @returns object containing all physics objects from the desired collection.
    */
   getCollection(collectionName: string): any;
 
   /**
-   * @returns Metadata associated to the displayed event (experiment info, time, run, event...).
+   * Get metadata associated to the displayed event (experiment info, time, run, event...).
+   * @returns Metadata of the displayed event
    */
   getEventMetadata(): string[];
 
