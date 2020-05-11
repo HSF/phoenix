@@ -1,3 +1,4 @@
-<canvas #overlayWindow id="overlay-canvas" cdkDrag cdkDragBoundary="body" [hidden]="!showOverlay">
-
-</canvas>
+<app-overlay title="Overlay view" icon="overlay" [active]="showOverlay">
+    <canvas #overlayWindow id="overlay-canvas" [hidden]="!showOverlay">
+    </canvas>
+</app-overlay>
