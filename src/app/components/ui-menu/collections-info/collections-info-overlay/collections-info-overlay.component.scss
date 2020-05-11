@@ -1,27 +1,7 @@
-.info-box {
-    z-index: 91;
-    box-sizing: border-box;
-    color: var(--phoenix-text-color-secondary);
-    background: var(--phoenix-background-color-secondary);
-    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
-    padding: 1rem 1.5rem;
-    border: 1px solid rgba(88, 88, 88, 0.08);
-    box-shadow: 0px 0px 8px rgba(54, 54, 54, 0.1);
-    border-radius: 10px;
-    max-width: 50vw;
-    overflow-y: scroll;
-    overflow-x: scroll;
+.overlay-card.card {
+    max-width: 50vw !important;
 
-    &:active {
-      box-shadow: 0px 0px 16px rgba(54, 54, 54, 0.2);
-    }
-
-    .boxHeader {
-      margin-bottom: 0.8rem;
-      display: flex;
-      flex-direction: row;
-      align-content: center;
-      align-items: center;
+    .collectionSelector {
 
       span {
         color: var(--phoenix-text-color-secondary);
@@ -31,21 +11,11 @@
 
     .boxBody {
       max-height: 40vh;
-      overflow-y: scroll;
+      overflow: scroll;
 
       p.emptyBox {
         max-width: 21em;
       }
-    }
-
-    .info-handle {
-      position: absolute;
-      top: 5px;
-      right: 15px;
-      color: var(--phoenix-text-color-secondary);
-      cursor: move;
-      width: 1rem;
-      height: 1rem;
     }
 
     #collectionTable {

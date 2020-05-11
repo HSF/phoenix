@@ -10,7 +10,6 @@ export class ObjectSelectionOverlayComponent implements OnInit {
 
   // Attributes for displaying the information of selected objects
   @Input() hiddenSelectedInfo: boolean;
-  hiddenSelectedInfoBody = true;
   selectedObject = { name: 'Object', attributes: [] };
 
   constructor(private eventDisplay: EventdisplayService) { }
