@@ -185,14 +185,11 @@ canvas {
   }
 
   select {
-    width: 6rem;
+    width: 8rem;
     padding: 5px;
     font-size: 16px;
     border: 1px solid rgba(88, 88, 88, 0.08);
     box-shadow: var(--phoenix-icon-shadow);
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
     background-color: var(--phoenix-background-color-tertiary);
     color: var(--phoenix-text-color-secondary);
   }
