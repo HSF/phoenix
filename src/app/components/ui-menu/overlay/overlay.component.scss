@@ -1,30 +1,52 @@
 .overlay-card.card {
-  color: var(--phoenix-text-color-secondary);
-  background: var(--phoenix-background-color-secondary);
+  color: var(--phoenix-text-color);
+  background: none;
   max-width: 30vw;
   min-width: 15rem;
-  box-shadow: var(--phoenix-box-shadow);
+  box-shadow: none;
+  border: none;
 
   .card-header {
-    padding: 0.5rem 1rem;
-    border-bottom-color: var(--dat-border);
+    width: 12rem;
+    background: var(--phoenix-background-color-secondary);
+    box-shadow: var(--phoenix-box-shadow);
+    padding: 0.4rem 0.8rem;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border: none;
     cursor: move;
 
     .card-icon {
       display: flex;
-      height: 1.8rem;
-      width: 1.8rem;
-      padding: 0.4rem;
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    h5 {
+      font-size: 0.9rem;
     }
 
     .expandCollapse {
-      height: 0.6rem;
+      height: 0.4rem;
       cursor: pointer;
+      transition: all 0.2s;
+
+      &.expand {
+          transform: scaleY(-1);
+      }
     }
   }
 
+  .overlay-card-content {
+    background: var(--phoenix-background-color);
+    box-shadow: var(--phoenix-box-shadow);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    overflow: auto;
+  }
+
   .list-group {
-    color: var(--phoenix-text-color-secondary);
+    color: var(--phoenix-text-color);
     background: var(--phoenix-background-color-secondary);
     max-height: 40vh;
     overflow: auto;

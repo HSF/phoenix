@@ -5,10 +5,12 @@
         <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
       </svg>
     </div>
-    <h5 class="align-self-start m-0 px-2">{{title}}</h5>
-    <img class="align-self-center expandCollapse"
-      [src]="showBody ? 'assets/icons/collapse.svg' : 'assets/icons/expand.svg'" alt="Expand / Collapse"
+    <h5 class="align-self-center m-0 px-2">{{title}}</h5>
+    <img class="align-self-center expandCollapse" matTooltip="Expand / Collapse" matTooltipPosition="right"
+      alt="Expand / Collapse" src="assets/icons/expand.svg" [ngClass]="{'expand' : showBody}"
       (click)="showBody = !showBody">
   </div>
-  <ng-content *ngIf="showBody"></ng-content>
+  <div class="overlay-card-content" *ngIf="showBody">
+    <ng-content></ng-content>
+  </div>
 </div>
