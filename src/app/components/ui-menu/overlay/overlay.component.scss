@@ -2,9 +2,11 @@
   color: var(--phoenix-text-color);
   background: none;
   max-width: 30vw;
-  min-width: 15rem;
+  min-width: 300px; // Same as overlay.component.ts resize x-axis limit
+  max-height: 70vh;
   box-shadow: none;
   border: none;
+  position: relative;
 
   .card-header {
     width: 12rem;
@@ -43,6 +45,7 @@
     border-radius: 10px;
     border-top-left-radius: 0;
     overflow: auto;
+    height: 100%;
   }
 
   .list-group {
@@ -55,5 +58,14 @@
       background-color: var(--phoenix-background-color-secondary);
       border-color: var(--dat-border);
     }
+  }
+
+  .resize-handle.corner {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: nwse-resize;
+    border-right: 0.3rem solid var(--phoenix-text-color);
+    border-bottom: 0.3rem solid var(--phoenix-text-color);
+    position: absolute;
   }
 }

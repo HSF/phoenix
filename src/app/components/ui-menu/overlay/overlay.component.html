@@ -1,4 +1,4 @@
-<div class="overlay-card card" [ngClass]="{'d-none' : !active}" cdkDrag cdkDragBoundary="body">
+<div #overlayCard class="overlay-card card" [ngClass]="{'d-none' : !active}" cdkDrag cdkDragBoundary="body">
   <div class="card-header d-flex justify-content-between" cdkDragHandle *ngIf="title">
     <div class="align-self-center card-icon" *ngIf="icon">
       <svg>
@@ -13,4 +13,7 @@
   <div class="overlay-card-content" *ngIf="showBody">
     <ng-content></ng-content>
   </div>
+  <!-- Making the overlay resizable -->
+  <span #resizeHandleCorner class="resize-handle corner" *ngIf="resizable" [ngClass]="{'d-none' : !showBody}" cdkDrag
+    (cdkDragMoved)="dragMove()" (mouseenter)="removePositionStyles()"></span>
 </div>
