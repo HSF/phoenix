@@ -14,6 +14,9 @@
     <ng-content></ng-content>
   </div>
   <!-- Making the overlay resizable -->
-  <span #resizeHandleCorner class="resize-handle corner" *ngIf="resizable" [ngClass]="{'d-none' : !showBody}" cdkDrag
-    (cdkDragMoved)="dragMove()" (mouseenter)="removePositionStyles()"></span>
+  <div #resizeHandleCorner class="resize-handle corner d-flex" *ngIf="resizable" [ngClass]="{'d-none' : !showBody}" cdkDrag
+    (cdkDragMoved)="onResize()" (mouseenter)="resetHandlePosition()">
+    <span class="resize-handle-x align-self-end"></span>
+    <span class="resize-handle-y align-self-end"></span>
+  </div>
 </div>
