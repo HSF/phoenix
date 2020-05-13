@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { ResizeSensor } from "css-element-queries";
 
 /**
  * Component for overlay panel.
@@ -42,6 +43,10 @@ export class OverlayComponent implements AfterViewInit {
       const resizeHandleElement = this.resizeHandleCorner.nativeElement;
       resizeHandleElement.style.bottom = '0';
       resizeHandleElement.style.right = '0';
+
+      new ResizeSensor(this.overlayCard.nativeElement, () => {
+        this.resetHandlePosition();
+      });
 
       window.addEventListener('resize', () => {
         this.resetHandlePosition();
