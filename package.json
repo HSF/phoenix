@@ -30,6 +30,7 @@
     "@types/three": "^0.103.2",
     "core-js": "^2.6.11",
     "coveralls": "^3.0.9",
+    "css-element-queries": "^1.2.3",
     "dat.gui": "^0.7.6",
     "rxjs": "~6.5.4",
     "stats-js": "^1.0.1",
