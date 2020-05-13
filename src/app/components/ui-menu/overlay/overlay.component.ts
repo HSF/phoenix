@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 /**
- * Component for overlay windows
+ * Component for overlay panel.
  */
 @Component({
   selector: 'app-overlay',
@@ -10,28 +10,32 @@ import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular
 })
 export class OverlayComponent implements AfterViewInit {
 
-  /** Title of the overlay */
+  /** Title of the overlay. */
   @Input() title: string;
-  /** If the overlay is open or not */
+  /** If the overlay is open or not. */
   @Input() active: boolean = false;
-  /** Icon of the overlay header */
+  /** Icon of the overlay header. */
   @Input() icon: string;
-  /** If the overlay is resizable */
+  /** If the overlay is resizable. */
   @Input() resizable: boolean = false;
-  /** If the overlay body is visible or not */
+  /** If the overlay body is visible or not. */
   showBody: boolean = true;
 
-  /** Complete overlay card containing both header and body */
+  /*********************************************************
+   * Below code is specific to the overlay resize feature. *
+   *********************************************************/
+
+  /** Complete overlay card containing both header and body. */
   @ViewChild('overlayCard') overlayCard: ElementRef;
-  /** Button for resizing the overlay */
+  /** Button for resizing the overlay. */
   @ViewChild('resizeHandleCorner') resizeHandleCorner: ElementRef;
-  /** Minimum resizable width */
+  /** Minimum resizable width. */
   private MIN_RES_WIDTH: number = 300;
   /** Minimum resizable height */
   private MIN_RES_HEIGHT: number = 100;
 
   /**
-   * Move the resizable bottom to the bottom right after the component is created
+   * Move the resizable bottom to the bottom right after the component is created.
    */
   ngAfterViewInit() {
     if (this.resizable) {
@@ -46,7 +50,7 @@ export class OverlayComponent implements AfterViewInit {
   }
 
   /**
-   * Resize the overlay card when the resize handle is dragged
+   * Resize the overlay card when the resize handle is dragged.
    */
   onResize() {
     const resizeHandleElement = this.resizeHandleCorner.nativeElement;
@@ -67,7 +71,7 @@ export class OverlayComponent implements AfterViewInit {
   }
 
   /**
-   * Reset resize handle position
+   * Reset resize handle position.
    */
   resetHandlePosition() {
     const resizeHandleElement = this.resizeHandleCorner.nativeElement;
@@ -81,9 +85,9 @@ export class OverlayComponent implements AfterViewInit {
   }
 
   /**
-   * Set the position of the resize handle using transform3d
-   * @param overlayRect Bounding client rectangle of the overlay card
-   * @param dragRect Bounding client rectangle of the resize handle
+   * Set the position of the resize handle using transform3d.
+   * @param overlayRect Bounding client rectangle of the overlay card.
+   * @param dragRect Bounding client rectangle of the resize handle.
    */
   private setHandleTransform(overlayRect: any, dragRect: any) {
     const translateX = overlayRect.width - dragRect.width;
