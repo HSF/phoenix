@@ -4,13 +4,9 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import {
   Group,
   Object3D,
-  Scene,
   Vector3,
   Plane,
   Quaternion,
-  Points,
-  PointsMaterial,
-  MeshPhongMaterial,
   AmbientLight,
   DirectionalLight,
   AxesHelper
@@ -31,19 +27,25 @@ import { SceneManager } from './three/scene-manager';
 })
 export class ThreeService {
   // Managers
+  /** Manager for three.js scene */
   private sceneManager: SceneManager;
+  /** Manager for three.js renderers */
   private rendererManager: RendererManager;
+  /** Manager for three.js controls */
   private controlsManager: ControlsManager;
+  /** Manager for export operations */
   private exportManager: ExportManager;
+  /** Manager for import operations */
   private importManager: ImportManager;
+  /** Manager for selection of 3D objects and event data */
   private selectionManager: SelectionManager;
-  // Scene export ignore list
+  /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
     new DirectionalLight().type,
     new AxesHelper().type
   ];
-  // Clipping planes
+  /** Clipping planes for clipping geometry */
   private clipPlanes: Plane[] = [
     new Plane(new Vector3(0, 1, 0), 0),
     new Plane(new Vector3(0, -1, 0), 0),

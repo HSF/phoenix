@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "ng build --prod --output-path docs --base-href \"/phoenix/\" && cp ./docs/index.html ./docs/404.html",
-    "gen-api-docs": "compodoc -p src/tsconfig.app.json -n \"Phoenix API Docs\" -d api-docs && sed -i 's/\\.\\/src\\/assets/\\.\\.\\/src\\/assets/g' api-docs/index.html",
+    "gen-api-docs": "compodoc -p src/tsconfig.app.json -n \"Phoenix API Docs\" -d ./docs/api-docs && sed -i \"s/<p.*logo-text.svg.*p>//g\" ./docs/api-docs/index.html && sed -i \"s/Phoenix API Docs/<img data-src=\\\"images\\/logo-text.svg\\\" class='img-responsive' data-type=\\\"compodoc-logo\\\">/g\" ./docs/api-docs/js/menu-wc.js && cp ./src/favicon.ico ./docs/api-docs/images/favicon.ico",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
