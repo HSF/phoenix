@@ -1,5 +1,6 @@
 <div #overlayCard class="overlay-card card" [ngClass]="{'d-none' : !active}" cdkDrag cdkDragBoundary="body">
-  <div class="card-header d-flex justify-content-between" cdkDragHandle *ngIf="title">
+  <div class="card-header d-flex justify-content-between" [ngClass]="{'with-body' : showBody}" cdkDragHandle
+    *ngIf="title">
     <div class="align-self-center card-icon" *ngIf="icon">
       <svg>
         <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>

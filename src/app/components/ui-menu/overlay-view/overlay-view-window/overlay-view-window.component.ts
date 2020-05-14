@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
