@@ -17,7 +17,7 @@ export interface EventDataLoader {
   /**
    * Takes an object containing multiple events and returns the keys of these events.
    * @param eventsData object that contains the different events.
-   * @return list of keys of the different events.
+   * @returns list of keys of the different events.
    */
   getEventsList(eventsData: any): string[];
 
@@ -36,7 +36,7 @@ export interface EventDataLoader {
 
   /**
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
-   * @returns Metadata of the displayed event
+   * @returns Metadata of the displayed event.
    */
   getEventMetadata(): string[];
 

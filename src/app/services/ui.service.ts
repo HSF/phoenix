@@ -8,7 +8,7 @@ import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
 
 /**
- * Service for UI related operations.
+ * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
  */
 @Injectable({
   providedIn: 'root'
