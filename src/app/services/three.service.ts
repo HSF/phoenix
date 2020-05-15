@@ -20,7 +20,7 @@ import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
 
 /**
- * Service for all three.js related operations.
+ * Service for all three.js related functions.
  */
 @Injectable({
   providedIn: 'root'
@@ -201,12 +201,12 @@ export class ThreeService {
   public loadOBJGeometry(
     filename: string,
     name: string,
-    colour,
+    color: any,
     doubleSided: boolean
   ): void {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Group) => geometries.add(object);
-    this.importManager.loadOBJGeometry(callback, filename, name, colour, doubleSided);
+    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
   }
 
   /**
@@ -286,7 +286,7 @@ export class ThreeService {
   }
 
   /**
-   * Toggles the ability of selecting geometries by clicking on the screen.
+   * Toggles the ability of selecting geometries/event data by clicking on the screen.
    * @param enable Value to enable or disable the functionality.
    */
   public enableSelecting(enable: boolean) {
@@ -310,7 +310,7 @@ export class ThreeService {
   }
 
   /**
-   * Sets overlay renderer to a renderer manager.
+   * Sets the renderer to be used to render the event display on the overlayed canvas.
    * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {

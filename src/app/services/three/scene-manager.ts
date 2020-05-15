@@ -14,11 +14,11 @@ export class SceneManager {
     private scene: Scene;
     /** List of objects to ignore for getting a clean scene. */
     private ignoreList: string[];
-    /** An axes helper for visualizing the x, y and z-axis */
+    /** An axes helper for visualizing the x, y and z-axis. */
     private axis: AxesHelper;
 
     /**
-     * Create the scene manager
+     * Create the scene manager.
      * @param ignoreList List of objects to ignore for getting a clean scene.
      */
     constructor(ignoreList: string[]) {
@@ -58,7 +58,7 @@ export class SceneManager {
 
     /**
      * Get a clean copy of the scene.
-     * @returns A clear scene with no {@link ignoreList}.
+     * @returns A clear scene with no objects from the ignoreList.
      */
     public getCleanScene(): Scene {
         const clearScene: Scene = this.scene.clone();
