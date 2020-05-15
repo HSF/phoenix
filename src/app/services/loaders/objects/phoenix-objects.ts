@@ -1,9 +1,16 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
 
-
+/**
+ * Physics objects that make up an event in Phoenix.
+ */
 export class PhoenixObjects {
 
+  /**
+   * Process the Track from the given parameters (and positions)
+   * and get it as a geometry.
+   * @param trackParams Parameters of the Track.
+   */
   public static getTrack(trackParams: any): Object3D {
     const positions = trackParams.pos;
     // Track with no points
@@ -62,6 +69,10 @@ export class PhoenixObjects {
     return splineObject;
   }
 
+  /**
+   * Process the Jet from the given parameters and get it as a geometry.
+   * @param jetParams Parameters for the Jet.
+   */
   public static getJet(jetParams: any): Object3D {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
@@ -97,6 +108,10 @@ export class PhoenixObjects {
     return mesh;
   }
 
+  /**
+   * Process the Hits from the given parameters and get them as a geometry.
+   * @param hitsParams Parameters for the Hits.
+   */
   public static getHits(hitsParams: any): Object3D {
     // attributes
     const pointPos = new Float32Array(hitsParams.length * 3);
@@ -123,6 +138,10 @@ export class PhoenixObjects {
     return pointsObj;
   }
 
+  /**
+   * Process the CLuster from the given parameters and get it as a geometry.
+   * @param clusterParams Parameters for the Cluster.
+   */
   public static getCluster(clusterParams: any): Object3D {
     const maxR = 1100.0;
     const maxZ = 3200.0;

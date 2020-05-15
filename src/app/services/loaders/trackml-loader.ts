@@ -1,13 +1,19 @@
-import { EventDataLoader } from '../event-data-loader';
-import { ThreeService } from '../three.service';
-import { UIService } from '../ui.service';
 import { PhoenixLoader } from './phoenix-loader';
 
+/**
+ * PhoenixLoader for processing and loading an event from TrackML.
+ */
 export class TrackmlLoader extends PhoenixLoader {
+  /** Data containing Hits. */
   private hitData: any;
+  /** Data containing Particles. */
   private particleData: any;
+  /** Data containing truthy Particles. */
   private truthData: any;
 
+  /**
+   * Instiantiate the TrackML loader.
+   */
   constructor() {
     super();
     this.hitData = [];
@@ -15,6 +21,10 @@ export class TrackmlLoader extends PhoenixLoader {
     this.truthData = {};
   }
 
+  /**
+   * Process Hits to format and store them.
+   * @param hits Hits to be processed.
+   */
   public processHits(hits: any) {
     const data = hits.split('\n');
     console.log('Event has this many hits:', data.length);
@@ -27,6 +37,10 @@ export class TrackmlLoader extends PhoenixLoader {
     }
   }
 
+  /**
+   * Process Particles to format and store them.
+   * @param particles Particles to be processed.
+   */
   public processParticles(particles: any) {
     const data = particles.split('\n');
     console.log('Event has this many particles:', data.length);
@@ -44,6 +58,10 @@ export class TrackmlLoader extends PhoenixLoader {
     }
   }
 
+  /**
+   * Process Truth data to format and store it.
+   * @param truth Truth data to be processed.
+   */
   public processTruth(truth: any) {
     const data = truth.split('\n');
     console.log('Event has this many truth: ', data.length);
@@ -56,6 +74,10 @@ export class TrackmlLoader extends PhoenixLoader {
     }
   }
 
+  /**
+   * Get structured event data from the processed Hits, Truth data and Particles.
+   * @param eventNum Event number.
+   */
   public getEventData(eventNum: string): any {
     const eventData = {
       eventNumber: eventNum,
