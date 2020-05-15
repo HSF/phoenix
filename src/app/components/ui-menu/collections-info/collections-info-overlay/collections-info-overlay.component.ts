@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-collections-info-overlay',
   templateUrl: './collections-info-overlay.component.html',
-  styleUrls: ['./collections-info-overlay.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./collections-info-overlay.component.scss']
 })
 export class CollectionsInfoOverlayComponent implements OnInit {
 

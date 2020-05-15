@@ -1,39 +1,35 @@
-.overlay-card.card {
-    max-width: 50vw !important;
+.collectionSelector {
 
-    .collectionSelector {
+  span {
+    color: var(--phoenix-text-color-secondary);
+    margin-right: 1rem;
+  }
+}
 
-      span {
-        color: var(--phoenix-text-color-secondary);
-        margin-right: 1rem;
-      }
-    }
+.boxBody {
+  max-height: 40vh;
+  overflow: scroll;
 
-    .boxBody {
-      max-height: 40vh;
-      overflow: scroll;
+  p.emptyBox {
+    max-width: 21em;
+  }
+}
 
-      p.emptyBox {
-        max-width: 21em;
-      }
-    }
+#collectionTable {
+  position: relative;
+  color: var(--phoenix-text-color-secondary);
 
-    #collectionTable {
-      position: relative;
-      color: var(--phoenix-text-color-secondary);
+  thead tr th {
+    position: sticky;
+    top: 0;
+    background: var(--phoenix-background-color-secondary);
+  }
 
-      thead tr th {
-        position: sticky;
-        top: 0;
-        background: var(--phoenix-background-color-secondary);
-      }
+  tr * {
+    padding-right: 1.2rem;
 
-      tr * {
-        padding-right: 1.2rem;
-
-        &:last-child {
-          padding-right: 0;
-        }
-      }
+    &:last-child {
+      padding-right: 0;
     }
   }
+}

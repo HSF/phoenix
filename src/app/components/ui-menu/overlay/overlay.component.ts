@@ -19,16 +19,18 @@ export class OverlayComponent implements AfterViewInit {
   @Input() icon: string;
   /** If the overlay is resizable. */
   @Input() resizable: boolean = false;
+  /** If the overlay body is transparent or not. */
+  @Input() transparentBody: boolean = false;
   /** If the overlay body is visible or not. */
   showBody: boolean = true;
 
-  /*********************************************************
-   * Below code is specific to the overlay resize feature. *
-   *********************************************************/
+  // *********************************************************
+  // * Below code is specific to the overlay resize feature. *
+  // *********************************************************
 
   /** Complete overlay card containing both header and body. */
   @ViewChild('overlayCard') overlayCard: ElementRef;
-  /** Button for resizing the overlay. */
+  /** Handle for resizing the overlay. */
   @ViewChild('resizeHandleCorner') resizeHandleCorner: ElementRef;
   /** Minimum resizable width. */
   private MIN_RES_WIDTH: number = 300;
@@ -36,7 +38,7 @@ export class OverlayComponent implements AfterViewInit {
   private MIN_RES_HEIGHT: number = 100;
 
   /**
-   * Move the resizable bottom to the bottom right after the component is created.
+   * Move the resizable handle to the bottom right after the component is created.
    */
   ngAfterViewInit() {
     if (this.resizable) {

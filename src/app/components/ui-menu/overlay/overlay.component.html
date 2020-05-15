@@ -11,7 +11,7 @@
       alt="Expand / Collapse" src="assets/icons/expand.svg" [ngClass]="{'expand' : showBody}"
       (click)="showBody = !showBody">
   </div>
-  <div class="overlay-card-content" *ngIf="showBody">
+  <div class="overlay-card-content" *ngIf="showBody" [ngClass]="{'transparent-bg': transparentBody}">
     <ng-content></ng-content>
   </div>
   <!-- Making the overlay resizable -->
