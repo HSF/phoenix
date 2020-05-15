@@ -18,15 +18,15 @@ export class ImportManager {
         callback: (object: Group) => any,
         filename: string,
         name: string,
-        colour,
+        color,
         doubleSided: boolean
     ): void {
-        if (colour == null) {
-            colour = 0x41a6f4;
+        if (color == null) {
+            color = 0x41a6f4;
         }
         const objLoader = new OBJLoader();
         objLoader.load(filename, object => {
-            const processed = this.processOBJ(object, name, colour, doubleSided, 'OBJ file');
+            const processed = this.processOBJ(object, name, color, doubleSided, 'OBJ file');
             callback(processed);
         });
     }
@@ -46,18 +46,18 @@ export class ImportManager {
     private processOBJ(
         object: Object3D,
         name: string,
-        colour: any,
+        color: any,
         doubleSided: boolean,
         data?: string
     ): Group {
         object.name = name;
         object.userData = { info: data };
-        return this.setObjFlat(object, colour, doubleSided);
+        return this.setObjFlat(object, color, doubleSided);
     }
 
-    private setObjFlat(object3d, colour, doubleSided): Group {
+    private setObjFlat(object3d, color, doubleSided): Group {
         const material2 = new MeshPhongMaterial({
-            color: colour,
+            color: color,
             wireframe: false
         });
         material2.clippingPlanes = this.clipPlanes;
@@ -81,7 +81,7 @@ export class ImportManager {
                     child instanceof LineSegments &&
                     child.material instanceof LineBasicMaterial
                 ) {
-                    child.material.color.set(colour);
+                    child.material.color.set(color);
                 }
             }
         });
