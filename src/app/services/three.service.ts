@@ -187,15 +187,15 @@ export class ThreeService {
     );
   }
 
-  /**************************************
-   * Functions for loading geometries . *
-   **************************************/
+  // *************************************
+  // * Functions for loading geometries. *
+  // *************************************
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
    * @param filename Path to the geometry.
    * @param name Given name to the geometry.
-   * @param colour Color to initialize the geometry.
+   * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    */
   public loadOBJGeometry(
@@ -319,9 +319,9 @@ export class ThreeService {
     }
   }
 
-  /*********************************
-  * Private auxiliary functions.  *
-  *********************************/
+  // *********************************
+  // * Private auxiliary functions.  *
+  // *********************************
 
   /**
    * Sets different parameters according to the configuration.

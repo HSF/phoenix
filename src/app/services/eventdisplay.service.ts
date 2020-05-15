@@ -127,9 +127,9 @@ export class EventdisplayService {
     }
   }
 
-  /**********************
-   * LOADING GEOMETRIES *
-   **********************/
+  // **********************
+  // * LOADING GEOMETRIES *
+  // **********************
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename
