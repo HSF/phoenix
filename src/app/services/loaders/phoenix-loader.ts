@@ -1,14 +1,20 @@
 import { EventDataLoader } from '../event-data-loader';
-import { Group, Object3D, Scene, Vector3 } from 'three';
+import { Group, Object3D } from 'three';
 import * as THREE from 'three';
 import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 
+/**
+ * Loader for processing and loading an event.
+ */
 export class PhoenixLoader implements EventDataLoader {
+  /** ThreeService to perform three.js related functions. */
   private graphicsLibrary: ThreeService;
+  /** UIService to perform UI related functions. */
   private ui: UIService;
+  /** Event data processed by the loader. */
   private eventData: any;
 
 
