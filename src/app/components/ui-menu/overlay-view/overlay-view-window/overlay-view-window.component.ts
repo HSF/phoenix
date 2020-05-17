@@ -9,7 +9,7 @@ import { UIService } from 'src/app/services/ui.service';
 export class OverlayViewWindowComponent implements AfterViewInit {
 
   @Input() showOverlay = true;
-  // showOverlay = true;
+  orthographicView: boolean = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
   constructor(private ui: UIService) { }
@@ -29,5 +29,9 @@ export class OverlayViewWindowComponent implements AfterViewInit {
     return canvas;
   }
 
+  switchOverlayView() {
+    this.orthographicView = !this.orthographicView;
+    this.ui.toggleOrthographicView(this.orthographicView);
+  }
 
 }
