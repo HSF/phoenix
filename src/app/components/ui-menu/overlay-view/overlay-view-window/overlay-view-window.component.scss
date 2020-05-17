@@ -2,3 +2,19 @@
   background-color: rgba(0, 0, 0, 0.1);
   width: 100%;
 }
+
+#switch-view {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.overlay-view-wrapper:hover {
+
+  #switch-view {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+}

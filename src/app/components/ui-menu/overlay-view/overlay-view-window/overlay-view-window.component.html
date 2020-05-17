@@ -1,4 +1,10 @@
 <app-overlay title="Overlay View" icon="overlay" [resizable]="true" [transparentBody]="true" [active]="showOverlay">
-  <canvas #overlayWindow id="overlay-canvas" [hidden]="!showOverlay">
-  </canvas>
+  <div class="overlay-view-wrapper">
+    <canvas #overlayWindow id="overlay-canvas" [hidden]="!showOverlay">
+    </canvas>
+    <app-menu-toggle id="switch-view" [icon]="orthographicView ? 'orthographic' : 'perspective'"
+      [matTooltip]="'Switch to ' + (orthographicView ? 'orthographic' : 'perspective') + ' view'"
+      (click)="switchOverlayView()">
+    </app-menu-toggle>
+  </div>
 </app-overlay>
