@@ -194,7 +194,7 @@ export class ThreeService {
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
    * @param filename Path to the geometry.
-   * @param name Given name to the geometry.
+   * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    */
@@ -223,7 +223,7 @@ export class ThreeService {
   /**
    * Parses and loads a geometry in OBJ (.obj) format.
    * @param geometry Geometry in OBJ (.obj) format.
-   * @param name Given name to the geometry.
+   * @param name Name given to the geometry.
    */
   public parseOBJGeometry(geometry: string, name: string) {
     const geometries = this.sceneManager.getGeometries();

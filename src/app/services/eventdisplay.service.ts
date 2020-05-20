@@ -4,11 +4,12 @@ import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
 
-/**
- * Global for adding objects to the window object.
- */
 declare global {
+  /**
+   * Window interface for adding objects to the window object.
+   */
   interface Window {
+    /** EventDisplay object containing event display related functions. */
     EventDisplay: any;
   }
 }
@@ -135,7 +136,7 @@ export class EventdisplayService {
    * Loads an OBJ (.obj) geometry from the given filename
    * and adds it to the dat.GUI menu.
    * @param filename Path to the geometry.
-   * @param name Given name to the geometry.
+   * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    */
@@ -148,7 +149,7 @@ export class EventdisplayService {
    * Parses and loads an OBJ geometry from the given content
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
-   * @param name Given name to the geometry.
+   * @param name Name given to the geometry.
    */
   public parseOBJGeometry(content: string, name: string) {
     this.graphicsLibrary.parseOBJGeometry(content, name);
