@@ -8,7 +8,7 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 export class ExportManager {
 
     /**
-     * Instantiate export manager.
+     * Constructor for the export manager.
      */
     constructor() {
     }

@@ -15,7 +15,7 @@ export class ImportManager {
     private GEOMETRIES_ID: string;
 
     /**
-     * Instantiate the import manager.
+     * Constructor for the import manager.
      * @param clipPlanes Planes for clipping geometry.
      * @param EVENT_DATA_ID Object group ID containing event data.
      * @param GEOMETRIES_ID Object group ID containing detector geometries.

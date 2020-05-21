@@ -12,7 +12,7 @@ export class Configuration {
   eventDataLoader: EventDataLoader;
 
   /**
-   * Instantiate the Configuration.
+   * Constructor for the Configuration.
    */
   constructor() {
     this.presetViews = [];
