@@ -63,6 +63,13 @@
             <code>src/app/services/three/export-manager.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Manager for managing event display&#39;s export related functionality.</p>
+
+            </p>
 
 
 
@@ -131,10 +138,16 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">src/app/services/three/export-manager.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/services/three/export-manager.ts:8</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the export manager.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -169,14 +182,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:33</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Exports scene as phoenix format, allowing to load it later and recover the saved configuration.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -186,6 +201,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,6 +216,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The scene to be exported.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>eventData</td>
@@ -212,6 +232,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Currently loaded event data.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>geometries</td>
@@ -224,6 +248,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Currently loaded geometries.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -265,14 +293,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:20</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Exports scene to OBJ file format.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -282,6 +312,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -296,6 +327,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The scene to be exported.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -330,21 +365,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>save(blob, filename)</code>
+                    <code>save(blob: Blob, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:108</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a temporary link and download/save the data (blob) in a file.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -352,27 +389,43 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>blob</td>
+                                    <td>
+                                            <code>Blob</code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <p>Blob containing exported data.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>filename</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <p>Name of the export file..</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -414,14 +467,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:65</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Save the configuration of the currently loaded event data.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -431,6 +486,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -445,6 +501,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Currently loaded event data.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -486,14 +546,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:84</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Save the configuration of the currently loaded geometries.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -503,6 +565,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -517,6 +580,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Currently loaded geometries.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -558,14 +625,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:54</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Save the configuration of the currently loaded scene including event data and geometries.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -575,6 +644,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -589,6 +659,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Curently loaded event data.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>geometries</td>
@@ -601,6 +675,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Currently loaded geometries.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -635,21 +713,23 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>saveString(text, filename)</code>
+                    <code>saveString(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/app/services/three/export-manager.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/services/three/export-manager.ts:99</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Save string in the file and download it.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -657,27 +737,43 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <p>Text to be stored.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>filename</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                    <td>
+                                        <p>Name of the file.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -709,11 +805,21 @@
 import { Scene, Object3D, Group } from &#x27;three&#x27;;
 import { GLTFExporter } from &#x27;three/examples/jsm/exporters/GLTFExporter&#x27;;
 
+/**
+ * Manager for managing event display&#x27;s export related functionality.
+ */
 export class ExportManager {
 
+    /**
+     * Constructor for the export manager.
+     */
     constructor() {
     }
 
+    /**
+     * Exports scene to OBJ file format.
+     * @param scene The scene to be exported.
+     */
     public exportSceneToOBJ(scene: Scene) {
         // Instantiate a exporter
         const exporter &#x3D; new OBJExporter();
@@ -721,6 +827,12 @@ export class ExportManager {
         this.saveString(result, &#x27;phoenix-obj.obj&#x27;);
     }
 
+    /**
+     * Exports scene as phoenix format, allowing to load it later and recover the saved configuration.
+     * @param scene The scene to be exported.
+     * @param eventData Currently loaded event data.
+     * @param geometries Currently loaded geometries.
+     */
     public exportPhoenixScene(scene: Scene, eventData: Object3D, geometries: Object3D) {
         const exporter &#x3D; new GLTFExporter();
 
@@ -737,8 +849,11 @@ export class ExportManager {
         );
     }
 
-
-
+    /**
+     * Save the configuration of the currently loaded scene including event data and geometries.
+     * @param eventData Curently loaded event data.
+     * @param geometries Currently loaded geometries.
+     */
     private saveSceneConfig(eventData: Object3D, geometries: Object3D) {
         const eventDataConfig &#x3D; this.saveEventDataConfiguration(eventData);
         const geometriesConfig &#x3D; this.saveGeometriesConfiguration(geometries);
@@ -746,7 +861,10 @@ export class ExportManager {
         return sceneConfig;
     }
 
-
+    /**
+     * Save the configuration of the currently loaded event data.
+     * @param eventData Currently loaded event data.
+     */
     private saveEventDataConfiguration(eventData: any) {
         const eventDataConfig &#x3D; {};
         for (const objectType of eventData.children) {
@@ -762,6 +880,10 @@ export class ExportManager {
         return eventDataConfig;
     }
 
+    /**
+     * Save the configuration of the currently loaded geometries.
+     * @param geometries Currently loaded geometries.
+     */
     private saveGeometriesConfiguration(geometries: Object3D) {
         const geometriesConfig &#x3D; [];
         geometries.children.forEach((object) &#x3D;&gt; {
@@ -772,11 +894,21 @@ export class ExportManager {
         return geometriesConfig;
     }
 
-
-    private saveString(text, filename) {
+    /**
+     * Save string in the file and download it.
+     * @param text Text to be stored.
+     * @param filename Name of the file.
+     */
+    private saveString(text: string, filename: string) {
         this.save(new Blob([text], { type: &#x27;text/plain&#x27; }), filename);
     }
-    private save(blob, filename) {
+
+    /**
+     * Create a temporary link and download/save the data (blob) in a file.
+     * @param blob Blob containing exported data.
+     * @param filename Name of the export file..
+     */
+    private save(blob: Blob, filename: string) {
         const link &#x3D; document.createElement(&#x27;a&#x27;);
         link.style.display &#x3D; &#x27;none&#x27;;
         document.body.appendChild(link);

@@ -63,6 +63,13 @@
             <code>src/app/services/extras/configuration.model.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Configuration for preset views and event data loader.</p>
+
+            </p>
 
 
 
@@ -132,10 +139,16 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/app/services/extras/configuration.model.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/extras/configuration.model.ts:12</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the Configuration.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -165,10 +178,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/app/services/extras/configuration.model.ts:7</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/services/extras/configuration.model.ts:12</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event data loader responsible for processing and loading event data. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -192,10 +211,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/services/extras/configuration.model.ts:6</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/extras/configuration.model.ts:10</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Preset views for switching event display camera. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -230,17 +255,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">src/app/services/extras/configuration.model.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/services/extras/configuration.model.ts:26</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get if there are any preset views.</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>If there are any preset views.</p>
 
                     </div>
                 </td>
@@ -271,17 +304,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/app/services/extras/configuration.model.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/services/extras/configuration.model.ts:43</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get the event data loader responsible for processing and loading event data.</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/EventDataLoader.html" target="_self" >EventDataLoader</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The event data loader.</p>
 
                     </div>
                 </td>
@@ -312,14 +353,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/app/services/extras/configuration.model.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/app/services/extras/configuration.model.ts:35</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Set the event data loader to be used.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -329,6 +372,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -343,6 +387,11 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Event data loader responsible for
+processing and loading event data.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -374,23 +423,44 @@
 import { EventDataLoader } from &#x27;../event-data-loader&#x27;;
 import { PhoenixLoader } from &#x27;../loaders/phoenix-loader&#x27;;
 
+/**
+ * Configuration for preset views and event data loader.
+ */
 export class Configuration {
+  /** Preset views for switching event display camera. */
   presetViews: PresetView[];
+  /** Event data loader responsible for processing and loading event data. */
   eventDataLoader: EventDataLoader;
 
+  /**
+   * Constructor for the Configuration.
+   */
   constructor() {
     this.presetViews &#x3D; [];
     this.eventDataLoader &#x3D; new PhoenixLoader();
   }
 
+  /**
+   * Get if there are any preset views.
+   * @returns If there are any preset views.
+   */
   public anyPresetView(): boolean {
     return this.presetViews.length &gt; 0;
   }
 
+  /**
+   * Set the event data loader to be used.
+   * @param eventDataLoader Event data loader responsible for
+   * processing and loading event data.
+   */
   public setEventDataLoader(eventDataLoader: EventDataLoader) {
     this.eventDataLoader &#x3D; eventDataLoader;
   }
 
+  /**
+   * Get the event data loader responsible for processing and loading event data.
+   * @returns The event data loader.
+   */
   public getEventDataLoader(): EventDataLoader {
     return this.eventDataLoader;
   }

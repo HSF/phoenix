@@ -134,8 +134,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">src/app/services/event-data-loader.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">src/app/services/event-data-loader.ts:16</a></div>
                 </td>
             </tr>
 
@@ -170,7 +170,7 @@ the different objects to the graphic library and the UI controls.</p>
 
 
                                     <td>
-                                        <p>object representing the event.</p>
+                                        <p>Object representing the event.</p>
 
                                     </td>
                                 </tr>
@@ -186,7 +186,7 @@ the different objects to the graphic library and the UI controls.</p>
 
 
                                     <td>
-                                        <p>service containing functionality to draw the 3D objects.</p>
+                                        <p>Service containing functionality to draw the 3D objects.</p>
 
                                     </td>
                                 </tr>
@@ -202,7 +202,7 @@ the different objects to the graphic library and the UI controls.</p>
 
 
                                     <td>
-                                        <p>service for showing menus and controls to manipulate the geometries.</p>
+                                        <p>Service for showing menus and controls to manipulate the geometries.</p>
 
                                     </td>
                                 </tr>
@@ -244,8 +244,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/app/services/event-data-loader.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/services/event-data-loader.ts:36</a></div>
                 </td>
             </tr>
 
@@ -293,7 +293,7 @@ the different objects to the graphic library and the UI controls.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>object containing all physics objects from the desired collection.</p>
+                        <p>Object containing all physics objects from the desired collection.</p>
 
                     </div>
                 </td>
@@ -322,8 +322,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/app/services/event-data-loader.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/app/services/event-data-loader.ts:29</a></div>
                 </td>
             </tr>
 
@@ -340,7 +340,7 @@ the different objects to the graphic library and the UI controls.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>list of strings, each representing a collection of the event displayed.</p>
+                        <p>List of strings, each representing a collection of the event displayed.</p>
 
                     </div>
                 </td>
@@ -369,8 +369,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">src/app/services/event-data-loader.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/app/services/event-data-loader.ts:42</a></div>
                 </td>
             </tr>
 
@@ -416,8 +416,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">src/app/services/event-data-loader.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">src/app/services/event-data-loader.ts:23</a></div>
                 </td>
             </tr>
 
@@ -451,7 +451,7 @@ the different objects to the graphic library and the UI controls.</p>
 
 
                                     <td>
-                                        <p>object that contains the different events.</p>
+                                        <p>Object that contains the different events.</p>
 
                                     </td>
                                 </tr>
@@ -465,7 +465,7 @@ the different objects to the graphic library and the UI controls.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>list of keys of the different events.</p>
+                        <p>List of keys of the different events.</p>
 
                     </div>
                 </td>
@@ -480,6 +480,7 @@ the different objects to the graphic library and the UI controls.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeService } from &#x27;./three.service&#x27;;
 import { UIService } from &#x27;./ui.service&#x27;;
+
 /**
  * Event data loader
  */
@@ -488,29 +489,29 @@ export interface EventDataLoader {
   /**
    * Takes an object that represents ONE event and takes care of adding
    * the different objects to the graphic library and the UI controls.
-   * @param eventData object representing the event.
-   * @param graphicsLibrary service containing functionality to draw the 3D objects.
-   * @param ui service for showing menus and controls to manipulate the geometries.
+   * @param eventData Object representing the event.
+   * @param graphicsLibrary Service containing functionality to draw the 3D objects.
+   * @param ui Service for showing menus and controls to manipulate the geometries.
    */
   buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void;
 
   /**
    * Takes an object containing multiple events and returns the keys of these events.
-   * @param eventsData object that contains the different events.
-   * @returns list of keys of the different events.
+   * @param eventsData Object that contains the different events.
+   * @returns List of keys of the different events.
    */
   getEventsList(eventsData: any): string[];
 
   /**
    * Get the different collections for the current stored event.
-   * @returns list of strings, each representing a collection of the event displayed.
+   * @returns List of strings, each representing a collection of the event displayed.
    */
   getCollections(): string[];
 
   /**
    * Get all the objects inside a collection.
    * @param collectionName Key of the collection that will be retrieved.
-   * @returns object containing all physics objects from the desired collection.
+   * @returns Object containing all physics objects from the desired collection.
    */
   getCollection(collectionName: string): any;
 
