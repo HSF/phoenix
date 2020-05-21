@@ -63,7 +63,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Service for all three.js related operations.</p>
+                <p>Service for all three.js related functions.</p>
 
             </p>
 
@@ -787,7 +787,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Toggles the ability of selecting geometries by clicking on the screen.</p>
+                    <div class="io-description"><p>Toggles the ability of selecting geometries/event data by clicking on the screen.</p>
 </div>
 
                     <div class="io-description">
@@ -1367,7 +1367,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, colour, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -1382,9 +1382,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><hr>
-<p>Functions for loading geometries . *</p>
-<hr>
+                    <div class="io-description"><p>Loads an OBJ (.obj) geometry from the given filename.</p>
 </div>
 
                     <div class="io-description">
@@ -1395,6 +1393,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1409,6 +1408,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Path to the geometry.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>name</td>
@@ -1421,10 +1424,15 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Name given to the geometry.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>colour</td>
+                                    <td>color</td>
                                     <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -1432,6 +1440,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Color to initialize the geometry.</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>doubleSided</td>
@@ -1444,6 +1456,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1615,7 +1631,7 @@
 
 
                                     <td>
-                                        <p>Given name to the geometry.</p>
+                                        <p>Name given to the geometry.</p>
 
                                     </td>
                                 </tr>
@@ -1947,9 +1963,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><hr>
-<p>Private auxiliary functions.  *</p>
-<hr>
+                    <div class="io-description"><p>Sets different parameters according to the configuration.</p>
 </div>
 
                     <div class="io-description">
@@ -1960,6 +1974,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1974,6 +1989,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Configuration object.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -2023,7 +2042,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Sets overlay renderer to a renderer manager.</p>
+                    <div class="io-description"><p>Sets the renderer to be used to render the event display on the overlayed canvas.</p>
 </div>
 
                     <div class="io-description">
@@ -2638,7 +2657,7 @@ import { SelectionManager } from &#x27;./three/selection-manager&#x27;;
 import { SceneManager } from &#x27;./three/scene-manager&#x27;;
 
 /**
- * Service for all three.js related operations.
+ * Service for all three.js related functions.
  */
 @Injectable({
   providedIn: &#x27;root&#x27;
@@ -2805,26 +2824,26 @@ export class ThreeService {
     );
   }
 
-  /**************************************
-   * Functions for loading geometries . *
-   **************************************/
+  // *************************************
+  // * Functions for loading geometries. *
+  // *************************************
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
    * @param filename Path to the geometry.
-   * @param name Given name to the geometry.
-   * @param colour Color to initialize the geometry.
+   * @param name Name given to the geometry.
+   * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    */
   public loadOBJGeometry(
     filename: string,
     name: string,
-    colour,
+    color: any,
     doubleSided: boolean
   ): void {
     const geometries &#x3D; this.sceneManager.getGeometries();
     const callback &#x3D; (object: Group) &#x3D;&gt; geometries.add(object);
-    this.importManager.loadOBJGeometry(callback, filename, name, colour, doubleSided);
+    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
   }
 
   /**
@@ -2841,7 +2860,7 @@ export class ThreeService {
   /**
    * Parses and loads a geometry in OBJ (.obj) format.
    * @param geometry Geometry in OBJ (.obj) format.
-   * @param name Given name to the geometry.
+   * @param name Name given to the geometry.
    */
   public parseOBJGeometry(geometry: string, name: string) {
     const geometries &#x3D; this.sceneManager.getGeometries();
@@ -2904,7 +2923,7 @@ export class ThreeService {
   }
 
   /**
-   * Toggles the ability of selecting geometries by clicking on the screen.
+   * Toggles the ability of selecting geometries/event data by clicking on the screen.
    * @param enable Value to enable or disable the functionality.
    */
   public enableSelecting(enable: boolean) {
@@ -2928,7 +2947,7 @@ export class ThreeService {
   }
 
   /**
-   * Sets overlay renderer to a renderer manager.
+   * Sets the renderer to be used to render the event display on the overlayed canvas.
    * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
@@ -2937,9 +2956,9 @@ export class ThreeService {
     }
   }
 
-  /*********************************
-  * Private auxiliary functions.  *
-  *********************************/
+  // *********************************
+  // * Private auxiliary functions.  *
+  // *********************************
 
   /**
    * Sets different parameters according to the configuration.

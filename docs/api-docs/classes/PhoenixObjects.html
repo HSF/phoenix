@@ -63,6 +63,13 @@
             <code>src/app/services/loaders/objects/phoenix-objects.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Physics objects that make up an event in Phoenix.</p>
+
+            </p>
 
 
 
@@ -139,14 +146,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:145</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Process the CLuster from the given parameters and get it as a geometry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -156,6 +165,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,6 +180,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Parameters for the Cluster.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -211,14 +225,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:115</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Process the Hits from the given parameters and get them as a geometry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -228,6 +244,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -242,6 +259,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Parameters for the Hits.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -283,14 +304,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:76</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Process the Jet from the given parameters and get it as a geometry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -300,6 +323,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -314,6 +338,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Parameters for the Jet.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -355,14 +383,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/app/services/loaders/objects/phoenix-objects.ts:14</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Process the Track from the given parameters (and positions)
+and get it as a geometry.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -372,6 +403,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -386,6 +418,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Parameters of the Track.</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -416,9 +452,16 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as THREE from &#x27;three&#x27;;
 import { Object3D } from &#x27;three&#x27;;
 
-
+/**
+ * Physics objects that make up an event in Phoenix.
+ */
 export class PhoenixObjects {
 
+  /**
+   * Process the Track from the given parameters (and positions)
+   * and get it as a geometry.
+   * @param trackParams Parameters of the Track.
+   */
   public static getTrack(trackParams: any): Object3D {
     const positions &#x3D; trackParams.pos;
     // Track with no points
@@ -477,6 +520,10 @@ export class PhoenixObjects {
     return splineObject;
   }
 
+  /**
+   * Process the Jet from the given parameters and get it as a geometry.
+   * @param jetParams Parameters for the Jet.
+   */
   public static getJet(jetParams: any): Object3D {
     const eta &#x3D; jetParams.eta;
     const phi &#x3D; jetParams.phi;
@@ -512,6 +559,10 @@ export class PhoenixObjects {
     return mesh;
   }
 
+  /**
+   * Process the Hits from the given parameters and get them as a geometry.
+   * @param hitsParams Parameters for the Hits.
+   */
   public static getHits(hitsParams: any): Object3D {
     // attributes
     const pointPos &#x3D; new Float32Array(hitsParams.length * 3);
@@ -538,6 +589,10 @@ export class PhoenixObjects {
     return pointsObj;
   }
 
+  /**
+   * Process the CLuster from the given parameters and get it as a geometry.
+   * @param clusterParams Parameters for the Cluster.
+   */
   public static getCluster(clusterParams: any): Object3D {
     const maxR &#x3D; 1100.0;
     const maxZ &#x3D; 3200.0;

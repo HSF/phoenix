@@ -63,6 +63,13 @@
             <code>src/app/services/extras/cut.model.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Cut for specifying filters on event data attribute.</p>
+
+            </p>
 
 
 
@@ -112,12 +119,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">src/app/services/extras/cut.model.ts:4</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/extras/cut.model.ts:10</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Create the cut to filter an event data attribute.</p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -126,6 +135,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -140,6 +150,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Name of the event data attribute to be filtered.</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>minValue</td>
@@ -152,6 +166,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Minimum allowed value of the event data attribute.</p>
+</code>
+                                                        </td>
                                                 </tr>
                                                 <tr>
                                                         <td>maxValue</td>
@@ -164,6 +182,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <code><p>Maximum allowed value of the event data attribute.</p>
+</code>
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -199,10 +221,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="2" class="link-to-prism">src/app/services/extras/cut.model.ts:2</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/app/services/extras/cut.model.ts:6</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Name of the event data attribute to be filtered. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -226,10 +254,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">src/app/services/extras/cut.model.ts:4</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/services/extras/cut.model.ts:10</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Maximum allowed value of the event data attribute. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -253,10 +287,16 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="3" class="link-to-prism">src/app/services/extras/cut.model.ts:3</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/services/extras/cut.model.ts:8</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Minimum allowed value of the event data attribute. </p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -273,10 +313,19 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class Cut {
+  /** Name of the event data attribute to be filtered. */
   field: string;
+  /** Minimum allowed value of the event data attribute. */
   minValue: number;
+  /** Maximum allowed value of the event data attribute. */
   maxValue: number;
 
+  /**
+   * Create the cut to filter an event data attribute.
+   * @param field Name of the event data attribute to be filtered.
+   * @param minValue Minimum allowed value of the event data attribute.
+   * @param maxValue Maximum allowed value of the event data attribute.
+   */
   constructor(field: string, minValue: number, maxValue: number) {
     this.field &#x3D; field;
     this.minValue &#x3D; minValue;
