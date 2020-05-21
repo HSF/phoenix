@@ -96,7 +96,7 @@ export class ImportManager {
      * @param doubleSided Renders both sides of the material.
      * @returns The processed object.
      */
-    private setObjFlat(object3d: Group, color: any, doubleSided: boolean): Group {
+    private setObjFlat(object3d: any, color: any, doubleSided: boolean): Group {
         const material2 = new MeshPhongMaterial({
             color: color,
             wireframe: false
