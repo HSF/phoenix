@@ -8,7 +8,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   private data: any;
 
   /**
-   * Instantiate the JiveXMLLoader.
+   * Constructor for the JiveXMLLoader.
    */
   constructor() {
     super();

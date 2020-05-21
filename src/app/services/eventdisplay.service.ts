@@ -34,7 +34,7 @@ export class EventdisplayService {
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
 
   /**
-   * Instantiate the event display service
+   * Constructor for the event display service.
    * @param graphicsLibrary ThreeService for all three.js related functions.
    * @param ui UIService for all UI related functions.
    * @param http HttpClient for making http requests.

@@ -34,7 +34,7 @@ export class SelectionManager {
     private renderPass: RenderPass;
 
     /**
-     * Instantiate the selection manager.
+     * Constructor for the selection manager.
      */
     constructor() {
         this.isInit = false;

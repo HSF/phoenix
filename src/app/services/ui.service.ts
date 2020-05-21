@@ -50,7 +50,7 @@ export class UIService {
   private maxPositionZ = 4000;
 
   /**
-   * Instantiate the UI service.
+   * Constructor for the UI service.
    * @param three Three service to perform three.js related operations.
    */
   constructor(private three: ThreeService) {

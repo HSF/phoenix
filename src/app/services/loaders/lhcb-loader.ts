@@ -8,7 +8,7 @@ export class LHCbLoader extends PhoenixLoader {
   private data: any;
 
   /**
-   * Instantiate the LHCb loader.
+   * Constructor for the LHCb loader.
    */
   constructor() {
     super();
