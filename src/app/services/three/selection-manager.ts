@@ -2,26 +2,40 @@ import {
     Vector2,
     Raycaster,
     Camera,
-    Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper, NormalBlending, Renderer, WebGLRenderer
+    Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper, NormalBlending, WebGLRenderer
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ControlsManager } from './controls-manager';
 
+/**
+ * Manager for managing event display's selection related functions.
+ */
 export class SelectionManager {
 
+    /** Is initialized. */
     private isInit: boolean;
+    /** The camera inside the scene. */
     private camera: Camera;
+    /** The scene used for event display. */
     private scene: Scene;
-    // Object used to display the information of the selected 3D object.
+    /** Object used to display the information of the selected 3D object. */
     private selectedObject: { name: string; attributes: any[]; };
+    /** Objects to be ignored on hovering over the scene. */
     private ignoreList: string[];
+    
     // Post processing
+    /** Effect composer for outline pass. */
     private composer: EffectComposer;
+    /** Outline pass for highlighting the hovered over event display elements. */
     private outlinePass: OutlinePass;
+    /** Render pass. */
     private renderPass: RenderPass;
 
+    /**
+     * Instantiate the selection manager.
+     */
     constructor() {
         this.isInit = false;
         this.ignoreList = [
@@ -31,6 +45,12 @@ export class SelectionManager {
         ];
     }
 
+    /**
+     * Initialize the selection manager.
+     * @param camera The camera inside the scene.
+     * @param scene The scene used for event display.
+     * @param renderer The renderer used for event display.
+     */
     public init(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
         this.camera = camera;
         this.scene = scene;
@@ -38,6 +58,11 @@ export class SelectionManager {
         this.initOutlinePass(camera, scene, renderer);
     }
 
+    /**
+     * Render the services of selection manager.
+     * @param scene The scene used for event display.
+     * @param controlsManager Manager responsible for managing three.js controls.
+     */
     public render(scene: Scene, controlsManager: ControlsManager) {
         if (this.composer) {
             this.renderPass.scene = scene;
@@ -46,10 +71,18 @@ export class SelectionManager {
         }
     }
 
+    /**
+     * Set the currently selected object.
+     * @param selectedObject The currently selected object.
+     */
     public setSelectedObject(selectedObject: { name: string, attributes: any[] }) {
         this.selectedObject = selectedObject;
     }
 
+    /**
+     * Set if selecting is to be enabled or disabled.
+     * @param enable If selecting is to be enabled or disabled.
+     */
     public setSelecting(enable: boolean) {
         if (this.isInit) {
             if (enable) {
@@ -60,6 +93,12 @@ export class SelectionManager {
         }
     }
 
+    /**
+     * Initialize the outline pass for highlighting hovered over event display elements.
+     * @param camera The camera inside the scene.
+     * @param scene The scene used for event display.
+     * @param renderer The renderer used for event display.
+     */
     private initOutlinePass(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
         this.composer = new EffectComposer(renderer);
         this.renderPass = new RenderPass(scene, camera);
@@ -71,6 +110,9 @@ export class SelectionManager {
         this.outlinePass.visibleEdgeColor.set(0xdf5330);
     }
 
+    /**
+     * Enable selecting of event display elements and set mouse move and click events.
+     */
     private enableSelecting() {
         document.getElementById('three-canvas').addEventListener('mousemove',
             this.onTouchMove, true);
@@ -78,6 +120,9 @@ export class SelectionManager {
             this.onDocumentMouseDown, true);
     }
 
+    /**
+     * Disable selecting of event display elements and remove mouse move and click events.
+     */
     private disableSelecting() {
         document.getElementById('three-canvas').removeEventListener('mousemove',
             this.onTouchMove, true);
@@ -87,6 +132,9 @@ export class SelectionManager {
     }
 
 
+    /**
+     * Function to call on mouse move when object selection is enabled.
+     */
     private onTouchMove = (event: any) => {
         const intersectedObject = this.intersectObject(event);
         if (intersectedObject) {
@@ -95,7 +143,9 @@ export class SelectionManager {
         }
     }
 
-
+    /**
+     * Function to call on mouse click when object selection is enabled.
+     */
     private onDocumentMouseDown = () => {
         const intersectedObject = this.outlinePass.selectedObjects[0];
         if (intersectedObject) {
@@ -111,7 +161,11 @@ export class SelectionManager {
         }
     }
 
-
+    /**
+     * Check if any object intersects on mouse move.
+     * @param event Event containing data of the mouse move.
+     * @returns Intersected or hovered over object.
+     */
     private intersectObject(event: any): Object3D {
         event.preventDefault();
         const mouse = new Vector2();
