@@ -1,7 +1,6 @@
-<div class="overlay-card card" cdkDrag cdkDragBoundary="body" *ngIf="showInfoPanel">
-  <h5 class="card-header" cdkDragHandle>Information panel</h5>
+<app-overlay title="Info Panel" icon="info-panel" [resizable]="true" [active]="showInfoPanel">
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngIf="actionsList.length === 0">No actions.</li>
     <li class="list-group-item" *ngFor="let action of actionsList.reverse()">{{action}}</li>
   </ul>
-</div>
+</app-overlay>

@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { UIService } from 'src/app/services/ui.service';
 export class OverlayViewWindowComponent implements AfterViewInit {
 
   @Input() showOverlay = true;
-  // showOverlay = true;
+  orthographicView: boolean = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
   constructor(private ui: UIService) { }
@@ -30,5 +29,9 @@ export class OverlayViewWindowComponent implements AfterViewInit {
     return canvas;
   }
 
+  switchOverlayView() {
+    this.orthographicView = !this.orthographicView;
+    this.ui.toggleOrthographicView(this.orthographicView);
+  }
 
 }

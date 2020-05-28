@@ -1,51 +1,8 @@
-#selectedObjectPanel {
-  width: 15rem;
-  max-width: 15rem;
+#selectedObjectPanelBody {
+  padding: 0 0.8em;
+  overflow: auto;
+  /* Using px because rem gives a buggy right margin */
+  max-width: 300px;
   max-height: 16rem;
   min-width: 7rem;
-  border: 1px solid rgba(88, 88, 88, 0.08);
-  box-shadow: var(--phoenix-box-shadow);
-  border-radius: 10px;
-  color: var(--phoenix-text-color-secondary);
-  padding: 0 0.8em;
-  overflow-y: scroll;
-  z-index: 92;
-  background: var(--phoenix-background-color-secondary);
-
-  &.hidden {
-    display: none;
-  }
-
-  .attributeField {
-    max-width: 12rem;
-  }
-
-  .selectedObjectPanelHeader {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: center;
-    justify-content: space-around;
-    border-bottom: 1px solid rgba(88, 88, 88, 0.08);
-    margin-bottom: 0.7rem;
-    padding: 0.8rem 0.6rem;
-
-    h5 {
-      font-family: Circular, sans-serif;
-      margin: 0 1rem;
-    }
-
-    img {
-      height: 0.6rem;
-      cursor: pointer;
-    }
-  }
-
-  #selectedObjectPanelBody {
-    margin-bottom: 1rem;
-
-    &.hidden {
-      display: none;
-    }
-  }
 }

@@ -1,0 +1,20 @@
+<div #overlayCard class="overlay-card card" [ngClass]="{'d-none' : !active}" cdkDrag cdkDragBoundary="body">
+  <div class="card-header d-flex justify-content-between" [ngClass]="{'with-body' : showBody}" cdkDragHandle
+    *ngIf="title">
+    <div class="align-self-center card-icon" *ngIf="icon">
+      <svg>
+        <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
+      </svg>
+    </div>
+    <h5 class="align-self-center m-0 px-2">{{title}}</h5>
+    <img class="align-self-center expandCollapse" matTooltip="Expand / Collapse" matTooltipPosition="right"
+      alt="Expand / Collapse" src="assets/icons/expand.svg" [ngClass]="{'expand' : showBody}"
+      (click)="showBody = !showBody">
+  </div>
+  <div class="overlay-card-content" *ngIf="showBody" [ngClass]="{'transparent-bg': transparentBody}">
+    <ng-content></ng-content>
+  </div>
+  <!-- Making the overlay resizable -->
+  <span #resizeHandleCorner class="resize-handle corner" *ngIf="resizable" [ngClass]="{'d-none' : !showBody}" cdkDrag
+    (cdkDragMoved)="onResize()"></span>
+</div>

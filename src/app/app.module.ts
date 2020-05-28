@@ -40,6 +40,7 @@ import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/ov
 import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 import { InfoPanelComponent } from './components/ui-menu/info-panel/info-panel.component';
 import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component';
+import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -81,7 +82,8 @@ const routes: Routes = [
     OverlayViewWindowComponent,
     ExperimentInfoComponent,
     InfoPanelComponent,
-    InfoPanelOverlayComponent
+    InfoPanelOverlayComponent,
+    OverlayComponent
   ],
   imports: [
     BrowserModule,
