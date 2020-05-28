@@ -174,9 +174,9 @@ export class SceneManager {
     }
 
     /**
-     * Scales an object's size.
-     * @param name Name of the object to remove.
-     * @param value Value to scale the object's size.
+     * Scales an object.
+     * @param name Name of the object to scale.
+     * @param value Value to scale the object by.
      */
     public scaleObject(name: string, value: any) {
         const object = this.scene.getObjectByName(name);
