@@ -1052,7 +1052,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setObjFlat(object3d: Group, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>setObjFlat(object3d: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -1085,7 +1085,7 @@
                                 <tr>
                                     <td>object3d</td>
                                     <td>
-                                            <code>Group</code>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -1255,7 +1255,7 @@ export class ImportManager {
      * @param doubleSided Renders both sides of the material.
      * @returns The processed object.
      */
-    private setObjFlat(object3d: Group, color: any, doubleSided: boolean): Group {
+    private setObjFlat(object3d: any, color: any, doubleSided: boolean): Group {
         const material2 &#x3D; new MeshPhongMaterial({
             color: color,
             wireframe: false

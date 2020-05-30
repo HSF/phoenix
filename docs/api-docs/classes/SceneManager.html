@@ -1685,7 +1685,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Scales an object&#39;s size.</p>
+                    <div class="io-description"><p>Scales an object.</p>
 </div>
 
                     <div class="io-description">
@@ -1712,7 +1712,7 @@
 
 
                                     <td>
-                                        <p>Name of the object to remove.</p>
+                                        <p>Name of the object to scale.</p>
 
                                     </td>
                                 </tr>
@@ -1728,7 +1728,7 @@
 
 
                                     <td>
-                                        <p>Value to scale the object&#39;s size.</p>
+                                        <p>Value to scale the object by.</p>
 
                                     </td>
                                 </tr>
@@ -2246,9 +2246,9 @@ export class SceneManager {
     }
 
     /**
-     * Scales an object&#x27;s size.
-     * @param name Name of the object to remove.
-     * @param value Value to scale the object&#x27;s size.
+     * Scales an object.
+     * @param name Name of the object to scale.
+     * @param value Value to scale the object by.
      */
     public scaleObject(name: string, value: any) {
         const object &#x3D; this.scene.getObjectByName(name);
