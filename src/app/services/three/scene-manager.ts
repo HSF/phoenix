@@ -320,4 +320,26 @@ export class SceneManager {
             }
         });
     }
+
+    /**
+     * Wireframe geometries and decrease their opacity.
+     * @param value A boolean to specify if geometries are to be wireframed
+     * or not.
+     */
+    public wireframeGeometries(value: boolean) {
+        const allGeoms = this.getGeometries();
+        allGeoms.traverse((object: any) => {
+            if (object.material) {
+                object.material.wireframe = value;
+                if (value) {
+                    object.material.transparent = true;
+                    object.material.opacity = 0.1;
+                } else {
+                    // Rolling back transparency because depthTest doesn't work with it
+                    object.material.transparent = false;
+                    object.material.opacity = 1;
+                }
+            }
+        });
+    }
 }
