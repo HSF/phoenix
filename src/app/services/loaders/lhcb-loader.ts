@@ -1,6 +1,3 @@
-import { EventDataLoader } from '../event-data-loader';
-import { ThreeService } from '../three.service';
-import { UIService } from '../ui.service';
 import { PhoenixLoader } from './phoenix-loader';
 
 export class LHCbLoader extends PhoenixLoader {
@@ -41,5 +38,17 @@ export class LHCbLoader extends PhoenixLoader {
     }
     eventData.Tracks = { Particles: part_list };
     return eventData;
+  }
+
+  /**
+   * Get LHCb specific metadata associated to the event (experiment info, time, run, event...).
+   * @returns Metadata of the event.
+   */
+  getEventMetadata(): string[] {
+    let metadata = super.getEventMetadata();
+    if (this.data['time']) {
+      metadata.push('Data recorded: ' + this.data['time']);
+    }
+    return metadata;
   }
 }

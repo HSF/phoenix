@@ -202,8 +202,19 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   getEventMetadata(): string[] {
-    // Not implemented
-    return [];
+    let metadata = [];
+    const eventNumber = this.eventData['event number']
+                        ? this.eventData['event number']
+                        : (this.eventData['eventNumber']
+                        ? this.eventData['eventNumber']
+                        : 0);
+    const runNumber = this.eventData['run number']
+                        ? this.eventData['run number']
+                        : (this.eventData['runNumber']
+                        ? this.eventData['runNumber']
+                        : 0);
+    metadata.push('Run / Event: ' + runNumber + ' / ' + eventNumber);
+    return metadata;
   }
 
 }
