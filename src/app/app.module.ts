@@ -39,6 +39,7 @@ import { ViewOptionsComponent } from './components/ui-menu/view-options/view-opt
 import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
 import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
+import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -79,7 +80,8 @@ const routes: Routes = [
     ViewOptionsComponent,
     OverlayViewWindowComponent,
     ExperimentInfoComponent,
-    OverlayComponent
+    OverlayComponent,
+    MainViewToggleComponent
   ],
   imports: [
     BrowserModule,
