@@ -6,8 +6,18 @@
 #switch-view {
   position: absolute;
   bottom: 1em;
-  right: 1em;
+  right: 2em;
   opacity: 0;
+  border-radius: 50%;
+  background: var(--phoenix-background-color-secondary);
+  box-shadow: var(--phoenix-box-shadow);
+  overflow: hidden;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: opacity 0.2s;
 }
 
