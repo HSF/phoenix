@@ -79,15 +79,19 @@ export class ZoomControlsComponent implements OnInit {
   /**
    * Zoom the camera in.
    */
-  zoomIn() {
-    this.zoomTo(1 / this.zoomFactor);
+  zoomIn(leftClick: boolean) {
+    if (leftClick) {
+      this.zoomTo(1 / this.zoomFactor);
+    }
   }
 
   /**
    * Zoom the camera out.
    */
-  zoomOut() {
-    this.zoomTo(this.zoomFactor);
+  zoomOut(leftClick: boolean) {
+    if (leftClick) {
+      this.zoomTo(this.zoomFactor);
+    }
   }
 
   /**
