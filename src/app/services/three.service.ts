@@ -13,7 +13,8 @@ import {
   MeshPhongMaterial,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  Camera
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -299,6 +300,14 @@ export class ThreeService {
    */
   addEventDataTypeGroup(typeName: string): Group {
     return this.sceneManager.addEventDataTypeGroup(typeName);
+  }
+
+  /**
+   * Get the main and overlay cameras.
+   * @returns An array containing the main and overlay camera.
+   */
+  public getAllCameras(): Camera[] {
+    return [this.controlsManager.getMainCamera(), this.controlsManager.getOverlayCamera()];
   }
 
   /*********************************

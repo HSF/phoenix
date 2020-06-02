@@ -40,6 +40,7 @@ import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/ov
 import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
 import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
+import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -81,7 +82,8 @@ const routes: Routes = [
     OverlayViewWindowComponent,
     ExperimentInfoComponent,
     OverlayComponent,
-    MainViewToggleComponent
+    MainViewToggleComponent,
+    ZoomControlsComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { ThreeService } from './three.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
+import { Camera } from 'three';
 
 declare global {
   interface Window {
@@ -159,6 +160,14 @@ export class EventdisplayService {
   public loadGLTFGeometry(url: any, name: string) {
     this.graphicsLibrary.loadGLTFGeometry(url, name);
     this.ui.addGeometry(name, 0xff0000);
+  }
+
+  /**
+   * Get the main and overlay cameras.
+   * @returns An array containing the main and overlay camera.
+   */
+  public getAllCameras(): Camera[] {
+    return this.graphicsLibrary.getAllCameras();
   }
 
 

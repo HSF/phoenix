@@ -1,22 +1,26 @@
-.optionsButton {
-  outline: none;
-}
-
-.buttonWrapper {
+:host {
   display: flex;
-  height: 2.5rem;
-  width: 2.5rem;
-  min-height: 2.5rem;
-  min-width: 2.5rem;
-  padding: 0.65rem;
   margin: 0 0.6rem;
-  cursor: pointer;
-  align-self: center;
-  transition: all 0.4s;
 
-  &:hover {
-    background-color: var(--phoenix-options-icon-bg);
-    border-radius: 15px;
+  .optionsButton {
+    outline: none;
+  }
+
+  .buttonWrapper {
+    display: flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0.65rem;
+    cursor: pointer;
+    align-self: center;
     transition: all 0.4s;
+
+    &:hover {
+      background-color: var(--phoenix-options-icon-bg);
+      border-radius: 15px;
+      transition: all 0.4s;
+    }
   }
 }
