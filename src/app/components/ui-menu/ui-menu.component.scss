@@ -39,6 +39,33 @@
   margin: 0 0.5rem;
 }
 
+#hide-ui-menu {
+  background: var(--phoenix-background-color-secondary);
+  height: 1.2rem;
+  width: 3rem;
+  border: 1px solid var(--dat-border);
+  border-bottom: none;
+  box-shadow: var(--phoenix-box-shadow);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  outline: none;
+  padding: 3px;
+
+  svg {
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+    transition: all 0.3s;
+  }
+
+  &.ui-menu-hidden {
+    svg {
+      transform: scaleY(-1);
+      transition: all 0.3s;
+    }
+  }
+}
+
 @media screen and (max-width: 768px) {
   .preset-views-ul {
     display: none;

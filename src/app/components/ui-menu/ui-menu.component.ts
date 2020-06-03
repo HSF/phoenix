@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ui-menu',
@@ -8,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./ui-menu.component.scss']
 })
 export class UiMenuComponent {
+
+  hideUIMenu: boolean = false;
 
   constructor() { }
 

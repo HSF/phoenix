@@ -31,7 +31,9 @@ export class ZoomControlsComponent implements OnInit {
   ngOnInit(): void {
     this.allCameras = this.eventdisplay.getAllCameras();
     for (const camera of this.allCameras) {
-      const animation = camera.isOrthographicCamera ? new TWEEN.Tween(camera) : new TWEEN.Tween(camera.position);
+      const animation = camera.isOrthographicCamera
+        ? new TWEEN.Tween(camera)
+        : new TWEEN.Tween(camera.position);
       this.animCameraPairs.push({
         'camera': camera,
         'anim': animation
