@@ -18,6 +18,7 @@ import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
+import { InfoLoggerService } from './infologger.service';
 
 /**
  * Service for all three.js related functions.
@@ -39,6 +40,8 @@ export class ThreeService {
   private importManager: ImportManager;
   /** Manager for selection of 3D objects and event data */
   private selectionManager: SelectionManager;
+  /** Service for logging data to the information panel */
+  private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
@@ -55,8 +58,9 @@ export class ThreeService {
   /**
    * Initializes the necessary three.js functionality.
    * @param configuration Configuration to customize different aspects.
+   * @param infoLogger Service for logging data to the information panel.
    */
-  public init(configuration: Configuration) {
+  public init(configuration: Configuration, infoLogger: InfoLoggerService) {
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
@@ -66,11 +70,14 @@ export class ThreeService {
     this.rendererManager = new RendererManager();
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
+    // Logger
+    this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
-      this.rendererManager.getMainRenderer());
+      this.rendererManager.getMainRenderer(),
+      this.infoLogger);
     // Customizing with configuration
     this.setConfiguration(configuration);
   }

@@ -195,6 +195,32 @@ canvas {
   }
 }
 
+/* Common styles */
+.overlay-card.card {
+  color: var(--phoenix-text-color-secondary);
+  background: var(--phoenix-background-color-secondary);
+  max-width: 30vw;
+  box-shadow: var(--phoenix-box-shadow);
+
+  .card-header {
+    text-align: center;
+    border-bottom-color: var(--dat-border);
+    cursor: move;
+  }
+
+  .list-group {
+    color: var(--phoenix-text-color-secondary);
+    background: var(--phoenix-background-color-secondary);
+    overflow: auto;
+
+    .list-group-item {
+      background-color: var(--phoenix-background-color-secondary);
+      border-color: var(--dat-border);
+    }
+  }
+}
+
+/* Additional fonts */
 @font-face {
   font-family: "Circular";
   src: url(assets/fonts/CircularStd-Black.otf);

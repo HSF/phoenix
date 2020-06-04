@@ -8,6 +8,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ControlsManager } from './controls-manager';
+import { InfoLoggerService } from '../infologger.service';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -32,6 +33,8 @@ export class SelectionManager {
     private outlinePass: OutlinePass;
     /** Render pass. */
     private renderPass: RenderPass;
+    // Logger
+    private infoLogger: InfoLoggerService;
 
     /**
      * Constructor for the selection manager.
@@ -50,11 +53,13 @@ export class SelectionManager {
      * @param camera The camera inside the scene.
      * @param scene The scene used for event display.
      * @param renderer The renderer used for event display.
+     * @param infoLogger Service for logging data to the information panel.
      */
-    public init(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
+    public init(camera: Camera, scene: Scene, renderer: WebGLRenderer, infoLogger: InfoLoggerService) {
         this.camera = camera;
         this.scene = scene;
         this.isInit = true;
+        this.infoLogger = infoLogger;
         this.initOutlinePass(camera, scene, renderer);
     }
 
@@ -158,6 +163,17 @@ export class SelectionManager {
                     attributeValue: intersectedObject.userData[key]
                 });
             }
+
+            // Process properties of the selected object
+            const props = Object.keys(intersectedObject.userData).map((key) => {
+                // Only take properties that are a string or number (no arrays or objects)
+                if (['string', 'number'].includes(typeof(intersectedObject.userData[key]))) {
+                    return key + '=' + intersectedObject.userData[key];
+                }
+            }).filter(val => val);
+            // Build the log text and add to the logger
+            const log = intersectedObject.name + (props.length > 0 ? ' with ' + props.join(', ') : '');
+            this.infoLogger.add(log, 'Clicked');
         }
     }
 

@@ -5,6 +5,7 @@ import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
+import { InfoLoggerService } from '../infologger.service';
 
 /**
  * Loader for processing and loading an event.
@@ -24,14 +25,19 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventData Object representing the event.
    * @param graphicsLibrary Service containing functionality to draw the 3D objects.
    * @param ui Service for showing menus and controls to manipulate the geometries.
+   * @param infoLogger Service for logging data to the information panel.
    */
-  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
+  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService, infoLogger: InfoLoggerService): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
 
     // initiate load
     this.loadObjectTypes(eventData);
+
+    const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
+    const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
+    infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
   }
 
   /**

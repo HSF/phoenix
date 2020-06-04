@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ThreeService } from './three.service';
+import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
@@ -38,8 +39,9 @@ export class EventdisplayService {
    * @param graphicsLibrary ThreeService for all three.js related functions.
    * @param ui UIService for all UI related functions.
    * @param http HttpClient for making http requests.
+   * @param infoLogger Service for logging data to the information panel.
    */
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient) {
+  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient, private infoLogger: InfoLoggerService) {
   }
 
   /**
@@ -48,7 +50,7 @@ export class EventdisplayService {
    */
   public init(configuration: Configuration) {
     this.configuration = configuration;
-    this.graphicsLibrary.init(configuration);
+    this.graphicsLibrary.init(configuration, this.infoLogger);
     // Showing the UI elements
     this.ui.showUI(configuration);
     if (this.frameID) {
@@ -73,7 +75,7 @@ export class EventdisplayService {
    */
   public initVR(configuration: Configuration) {
     this.configuration = configuration;
-    this.graphicsLibrary.init(configuration);
+    this.graphicsLibrary.init(configuration, this.infoLogger);
     // Showing the UI elements
     this.ui.showUI(configuration);
     // Animate loop
@@ -111,7 +113,7 @@ export class EventdisplayService {
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
-    this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui);
+    this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui, this.infoLogger);
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
   }
 
@@ -143,6 +145,7 @@ export class EventdisplayService {
   public loadOBJGeometry(filename: string, name: string, color: any, doubleSided: boolean) {
     this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided);
     this.ui.addGeometry(name, color);
+    this.infoLogger.add(name, 'Loaded OBJ geometry');
   }
 
   /**
@@ -161,6 +164,7 @@ export class EventdisplayService {
    */
   public exportToOBJ() {
     this.graphicsLibrary.exportSceneToOBJ();
+    this.infoLogger.add('Exported scene to OBJ');
   }
 
   /**
@@ -207,6 +211,7 @@ export class EventdisplayService {
   public loadGLTFGeometry(url: any, name: string) {
     this.graphicsLibrary.loadGLTFGeometry(url, name);
     this.ui.addGeometry(name, 0xff0000);
+    this.infoLogger.add(name, 'Loaded GLTF geometry');
   }
 
 
@@ -228,6 +233,14 @@ export class EventdisplayService {
     for (const geom of sceneConfiguration.geometries) {
       this.ui.addGeometry(geom, '#ffffff');
     }
+
+    const eventNumber = sceneConfiguration.eventData['event number']
+                        ? sceneConfiguration.eventData['event number']
+                        : sceneConfiguration.eventData['eventNumber'];
+    const runNumber = sceneConfiguration.eventData['run number']
+                        ? sceneConfiguration.eventData['run number']
+                        : sceneConfiguration.eventData['runNumber'];
+    this.infoLogger.add('Scene with event#' + eventNumber + ' and run#' + runNumber, 'Loaded');
   }
 
   /**
