@@ -350,4 +350,12 @@ export class EventdisplayService {
   public enableSelecting(enable: boolean) {
     this.graphicsLibrary.enableSelecting(enable);
   }
+
+  /**
+   * Fixes the camera position of the overlay view.
+   * @param fixed Whether the overlay view is to be fixed or not.
+   */
+  public fixOverlayView(fixed: boolean) {
+    this.graphicsLibrary.fixOverlayView(fixed);
+  }
 }
