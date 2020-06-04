@@ -1,16 +1,26 @@
 import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial } from 'three';
 import { Cut } from '../extras/cut.model';
 
-
+/**
+ * Manager for managing functions of the three.js scene.
+ */
 export class SceneManager {
+    /** Object group ID containing event data. */
     public static EVENT_DATA_ID = 'EventData';
+    /** Object group ID containing detector geometries. */
     public static GEOMETRIES_ID = 'Geometries';
 
+    /** Three.js scene containing all the objects and event data. */
     private scene: Scene;
+    /** List of objects to ignore for getting a clean scene. */
     private ignoreList: string[];
-    // Axis
+    /** An axes helper for visualizing the x, y and z-axis. */
     private axis: AxesHelper;
 
+    /**
+     * Create the scene manager.
+     * @param ignoreList List of objects to ignore for getting a clean scene.
+     */
     constructor(ignoreList: string[]) {
         this.getScene();
         this.ignoreList = ignoreList;
@@ -35,6 +45,10 @@ export class SceneManager {
         this.scene.add(ambientLight);
     }
 
+    /**
+     * Get the current scene and create new if it doesn't exist.
+     * @returns The scene.
+     */
     public getScene(): Scene {
         if (!this.scene) {
             this.scene = new Scene();
@@ -43,9 +57,8 @@ export class SceneManager {
     }
 
     /**
-     * Creates a cleaned copy of a scene.
-     * @param scene Scene to copy and clean.
-     * @returns a clean scene
+     * Get a clean copy of the scene.
+     * @returns A clear scene with no objects from the ignoreList.
      */
     public getCleanScene(): Scene {
         const clearScene: Scene = this.scene.clone();
@@ -63,7 +76,8 @@ export class SceneManager {
     }
 
     /**
-     * Sets the background dark/white.
+     * Sets the scene background to be dark or white.
+     * @param dark If the scene background is dark (true) or white (false).
      */
     public darkBackground(dark: boolean) {
         let background = 0xffffff;
@@ -95,7 +109,7 @@ export class SceneManager {
 
 
     /**
-     * Changes color to an OBJ geometry.
+     * Changes color of an OBJ geometry.
      * @param name Name of the geometry.
      * @param value Value representing the color in hex format.
      */
@@ -119,6 +133,7 @@ export class SceneManager {
     /**
      * Changes objects visibility.
      * @param name Name of the object to change its visibility.
+     * @param visible If the object will be visible (true) or hidden (false).
      */
     public objectVisibility(name: string, visible: boolean) {
         const object = this.scene.getObjectByName(name);
@@ -137,9 +152,9 @@ export class SceneManager {
     }
 
     /**
-     * Gets an object's position
-     * @param name Name of the object
-     * @returns object position.
+     * Gets an object's position.
+     * @param name Name of the object.
+     * @returns Object position.
      */
     public getObjectPosition(name: string): Vector3 {
         const object = this.scene.getObjectByName(name);
@@ -150,7 +165,7 @@ export class SceneManager {
 
     /**
      * Removes an object from the scene.
-     * @param name Name of the object to remove.
+     * @param name Name of the object to be removed.
      */
     public removeGeometry(name: string) {
         const object = this.scene.getObjectByName(name);
@@ -159,9 +174,9 @@ export class SceneManager {
     }
 
     /**
-     * Scales an object's size.
-     * @param name Name of the object to remove.
-     * @param value To scale the object's size.
+     * Scales an object.
+     * @param name Name of the object to scale.
+     * @param value Value to scale the object by.
      */
     public scaleObject(name: string, value: any) {
         const object = this.scene.getObjectByName(name);
@@ -169,7 +184,7 @@ export class SceneManager {
     }
 
     /**
-     * Adds a new type of objects (Jets, Tracks...) to the event data group.
+     * Adds new type of objects (Jets, Tracks...) to the event data group.
      * @param objectType Name of the object type.
      * @returns The new group added to the event data.
      */
@@ -214,7 +229,7 @@ export class SceneManager {
     /**
      * Applies a cut to all objects inside a collection, filtering them given a parameter.
      * @param collectionName Name of the collection.
-     * @param filter Cut used to filter the elements.
+     * @param filter Cut used to filter the objects in the collection.
      */
     public collectionFilter(collectionName: string, filter: Cut) {
         const collection = this.getScene().getObjectByName(collectionName);
@@ -235,7 +250,7 @@ export class SceneManager {
     /**
      * Changes the visibility of all elements in a group.
      * @param name Name of the group.
-     * @param visible Value of visibility.
+     * @param visible If the group will be visible (true) or hidden (false).
      */
     public groupVisibility(name: string, visible: boolean) {
         const collection = this.scene.getObjectByName(name);
@@ -248,7 +263,7 @@ export class SceneManager {
     /**
      * Gets a group of objects from the scene.
      * @param identifier String that identifies the group's name.
-     * @returns The obj
+     * @returns The object.
      */
     public getObjectsGroup(identifier: string): Object3D {
         let group = this.scene.getObjectByName(identifier);
@@ -260,10 +275,18 @@ export class SceneManager {
         return group;
     }
 
+    /**
+     * Get event data inside the scene.
+     * @returns A group of objects with event data.
+     */
     public getEventData(): Object3D {
         return this.getObjectsGroup(SceneManager.EVENT_DATA_ID);
     }
 
+    /**
+     * Get geometries inside the scene.
+     * @returns A group of objects with geometries.
+     */
     public getGeometries(): Object3D {
         return this.getObjectsGroup(SceneManager.GEOMETRIES_ID);
     }
@@ -281,6 +304,7 @@ export class SceneManager {
 
     /**
      * Sets scene axis visibility.
+     * @param visible If the axes will be visible (true) or hidden (false).
      */
     public setAxis(visible: boolean) {
         if (this.axis == null) {
@@ -290,6 +314,10 @@ export class SceneManager {
         this.axis.visible = visible;
     }
 
+    /**
+     * Toggle depthTest of event data.
+     * @param value If depthTest will be true or false.
+     */
     public eventDataDepthTest(value: boolean) {
         const object = this.getEventData();
 
@@ -317,6 +345,28 @@ export class SceneManager {
             } else {
                 // Calling the function again if the object is a group
                 this.updateChildrenDepthTest(objectChild, value);
+            }
+        });
+    }
+
+    /**
+     * Wireframe geometries and decrease their opacity.
+     * @param value A boolean to specify if geometries are to be wireframed
+     * or not.
+     */
+    public wireframeGeometries(value: boolean) {
+        const allGeoms = this.getGeometries();
+        allGeoms.traverse((object: any) => {
+            if (object.material) {
+                object.material.wireframe = value;
+                if (value) {
+                    object.material.transparent = true;
+                    object.material.opacity = 0.1;
+                } else {
+                    // Rolling back transparency because depthTest doesn't work with it
+                    object.material.transparent = false;
+                    object.material.opacity = 1;
+                }
             }
         });
     }

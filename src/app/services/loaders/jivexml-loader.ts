@@ -1,23 +1,33 @@
-import { EventDataLoader } from '../event-data-loader';
-import { ThreeService } from '../three.service';
-import { UIService } from '../ui.service';
 import { PhoenixLoader } from './phoenix-loader';
-import { TrackmlLoader } from './trackml-loader';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 
+/**
+ * PhoenixLoader for processing and loading an event from the JiveXML data format.
+ */
 export class JiveXMLLoader extends PhoenixLoader {
+  /** Event data in JiveXML data format */
   private data: any;
 
+  /**
+   * Constructor for the JiveXMLLoader.
+   */
   constructor() {
     super();
     this.data = {};
   }
 
+  /**
+   * Process JiveXML data to be used by the class.
+   * @param data Event data in JiveXML data format.
+   */
   public process(data: any) {
     console.log('Processing JiveXML event data');
     this.data = data;
   }
 
+  /**
+   * Get the event data from the JiveXML data format.
+   * @returns An object containing all the event data.
+   */
   public getEventData(): any {
 
     const parser = new DOMParser();
@@ -50,6 +60,11 @@ export class JiveXMLLoader extends PhoenixLoader {
     return eventData;
   }
 
+  /**
+   * Extract Tracks from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Tracks.
+   */
   public getTracks(firstEvent: Element, eventData: { Tracks: any }) {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
@@ -62,6 +77,11 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
+      const tmp = trackColl.getElementsByTagName('numPolyline')
+      if (tmp.length === 0 ) { 
+        console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey")+ " has no line information. Skipping.");
+        continue;
+      }
       const numPolyline = trackColl.getElementsByTagName('numPolyline')[0].innerHTML
         .replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const chi2 = trackColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
@@ -96,6 +116,11 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
   }
 
+  /**
+   * Extract Pixel Clusters (type of Hits) from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Pixel Clusters.
+   */
   public getPixelClusters(firstEvent: Element, eventData: { Hits: any }) {
     eventData.Hits = {};
     if (firstEvent.getElementsByTagName('PixCluster').length === 0) { return; }
@@ -114,6 +139,11 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.Pixel.push(temp);
   }
 
+  /**
+   * Extract SCT Clusters (type of Hits) from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with SCT Clusters.
+   */
   public getSCTClusters(firstEvent: Element, eventData: { Hits: any }) {
     if (firstEvent.getElementsByTagName('STC').length === 0) { return; }
 
@@ -131,6 +161,11 @@ export class JiveXMLLoader extends PhoenixLoader {
 
   }
 
+  /**
+   * Extract TRT Drift Circles (type of Hits) from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with TRT Drift Circles.
+   */
   public getTRT_DriftCircles(firstEvent: Element, eventData: { Hits: any }) {
     if (firstEvent.getElementsByTagName('TRT').length === 0) { return; }
 
@@ -147,6 +182,11 @@ export class JiveXMLLoader extends PhoenixLoader {
 
   }
 
+  /**
+   * Extract Jets from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Jets.
+   */
   public getJets(firstEvent: Element, eventData: { Jets: any }) {
 
     const jetsHTML = firstEvent.getElementsByTagName('Jet');
@@ -172,6 +212,11 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
   }
 
+  /**
+   * Extract Calo Clusters from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Calo Clusters.
+   */
   public getCaloClusters(firstEvent: Element, eventData: { CaloClusters: any }) {
     const clustersHTML = firstEvent.getElementsByTagName('Cluster');
     const clusterCollections = Array.from(clustersHTML);
