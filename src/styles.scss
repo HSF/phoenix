@@ -110,12 +110,12 @@ body {
 canvas {
   width: 100%;
   max-width: 100%;
-  max-height: 100vh;
   outline: none;
 }
 
 #eventDisplay {
   height: 100vh;
+  overflow: hidden;
 }
 
 /* dat.gui styles */
