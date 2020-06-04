@@ -3,7 +3,6 @@ import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
-import { JiveXMLLoader } from '../../services/loaders/jivexml-loader';
 
 
 @Component({
