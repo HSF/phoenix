@@ -1,0 +1,6 @@
+<svg width="0" height="0" class="hidden">
+	<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.973 511.973" id="perspective">
+		<path fill="var(--phoenix-options-icon-path, #fff)" d="M256,33L34.3,88.3v256L256,479l221.7-134.7v-256L256,33z M432.7,97L256,146L79.3,97L256,52.1L432.7,97z
+		M64.3,123L231,180l10,255.7L64.3,327V123z M271,435.7L281.3,180l166.4-57v204L271,435.7z"/>
+	</symbol>
+</svg>
