@@ -159,11 +159,6 @@ export class EventdisplayService {
     this.ui.addGeometry(name, 0x000fff);
   }
 
-  public loadJSONGeometry(name: string, json: any) {
-    this.graphicsLibrary.loadJSONGeometry(name, json);
-    this.ui.addGeometry(name, 0x000fff);
-  }
-
   /**
    * Exports scene to OBJ file format.
    */

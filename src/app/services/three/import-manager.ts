@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material, MeshBasicMaterial } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -99,12 +99,13 @@ export class ImportManager {
     private setObjFlat(object3d: any, color: any, doubleSided: boolean): Group {
         const material2 = new MeshPhongMaterial({
             color: color,
-            wireframe: false
+            shininess: 0,
+            wireframe: false,
+            clippingPlanes: this.clipPlanes,
+            clipIntersection: true,
+            clipShadows: false
+
         });
-        material2.clippingPlanes = this.clipPlanes;
-        material2.clipIntersection = true;
-        material2.clipShadows = false;
-        material2.wireframe = false;
         if (doubleSided) {
             material2.side = DoubleSide;
         }
@@ -113,7 +114,11 @@ export class ImportManager {
             if (child instanceof Mesh) {
                 child.name = object3d.name;
                 child.userData = object3d.userData;
-                child.material = material2;
+                // Use the new material
+                if (child.material instanceof Material) {
+                    child.material.dispose();
+                    child.material = material2;
+                }
                 // enable casting shadows
                 child.castShadow = false;
                 child.receiveShadow = false;
@@ -171,6 +176,12 @@ export class ImportManager {
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
                 if (child.material instanceof Material) {
+                    const color = child.material['color'] ? child.material['color'] : 0x2fd691;
+                    // Disposing of the default material
+                    child.material.dispose();
+                    // Changing to a material with 0 shininess
+                    child.material = new MeshPhongMaterial({ color: color, shininess: 0 });
+                    // Setting up the clipping planes
                     child.material.clippingPlanes = this.clipPlanes;
                     child.material.clipIntersection = true;
                     child.material.clipShadows = false;

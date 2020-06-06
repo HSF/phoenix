@@ -9,8 +9,7 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper,
-  ObjectLoader
+  AxesHelper
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -249,25 +248,6 @@ export class ThreeService {
       this.sceneManager.getScene().add(eventData);
     };
     this.importManager.parseGLTFGeometry(geometry, callback);
-  }
-
-  /**
-   * Load geometries from JSON.
-   * @param name Name of the geometries or group of geometries.
-   * @param json JSON containing all the geometries.
-   */
-  public loadJSONGeometry(name: string, json: string | object) {
-    const callback = (loadedObj: any) => {
-      loadedObj.name = name;
-      const geometries = this.sceneManager.getGeometries();
-      geometries.add(loadedObj);
-    }
-    const loader = new ObjectLoader();
-    if (typeof json === 'string') {
-      loader.load(json, callback);
-    } else if (typeof json === 'object') {
-      callback(loader.parse(json));
-    }
   }
 
   /**

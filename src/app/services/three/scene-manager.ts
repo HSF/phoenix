@@ -30,19 +30,21 @@ export class SceneManager {
     }
 
     /**
-     * Initializes the lights of the screen.
+     * Initializes the lights in the scene.
      */
     private setLights() {
-        const ambientLight = new AmbientLight(0x404040);
-        const directionalLight1 = new DirectionalLight(0xbfbfbf);
-        const directionalLight2 = new DirectionalLight(0xbfbfbf);
-
-        directionalLight1.position.set(-100, -50, 100);
-        directionalLight2.position.set(100, 50, -100);
-
-        this.scene.add(directionalLight1);
-        this.scene.add(directionalLight2);
+        const ambientLight = new AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
+        [
+            [-100, -50, 100],   // Bottom left
+            [100, 50, -100],    // Top right
+            [-100, 50, -100],   // Top left
+            [100, -50, 100]     // Bottom right
+        ].forEach((position) => {
+            const directionalLight = new DirectionalLight(0xffffff, 0.2);
+            directionalLight.position.set(position[0], position[1], position[2]);
+            this.scene.add(directionalLight);
+        });
     }
 
     /**
