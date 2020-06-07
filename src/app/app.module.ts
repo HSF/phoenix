@@ -41,6 +41,9 @@ import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/ex
 import { InfoPanelComponent } from './components/ui-menu/info-panel/info-panel.component';
 import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component';
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
+import { TracerMenuComponent } from './components/ui-menu/tracer-menu/tracer-menu.component';
+import { MatIconModule } from '@angular/material/icon';
+import { TracerMenuItemComponent } from './components/ui-menu/tracer-menu/tracer-menu-item/tracer-menu-item.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -83,7 +86,9 @@ const routes: Routes = [
     ExperimentInfoComponent,
     InfoPanelComponent,
     InfoPanelOverlayComponent,
-    OverlayComponent
+    OverlayComponent,
+    TracerMenuComponent,
+    TracerMenuItemComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +102,8 @@ const routes: Routes = [
     OverlayModule,
     MatMenuModule,
     MatSliderModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   entryComponents: [
     IOOptionsDialogComponent,

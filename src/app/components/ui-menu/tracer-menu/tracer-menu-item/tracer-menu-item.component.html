@@ -1,0 +1,9 @@
+<div>{{node.name}}</div>
+<ul>
+    <div class="children">
+        <li *ngFor="let node of node.children">
+            <app-tracer-menu-item [node]="node"></app-tracer-menu-item>
+        </li>
+    </div>
+
+</ul>
