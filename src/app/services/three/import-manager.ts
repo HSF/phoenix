@@ -155,13 +155,14 @@ export class ImportManager {
      * @param sceneUrl URL to the GLTF (.gltf) file.
      * @param name Name of the loaded scene/geometry.
      * @param callback Callback called after the scene/geometry is loaded.
+     * @param scale Scale of the geometry.
      */
-    public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any) {
+    public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any, scale?: number) {
         const loader = new GLTFLoader();
         // @ts-ignore
         loader.load(sceneUrl, gltf => {
             const geometry = gltf.scene;
-            this.processGLTFGeometry(geometry, name);
+            this.processGLTFGeometry(geometry, name, scale);
             callback(geometry);
         });
     }
@@ -170,9 +171,14 @@ export class ImportManager {
      * Process the GLTF (.gltf) geometry by setting up clipping attributes.
      * @param geometry GLTF (.gltf) geometry to be processed.
      * @param name Name of the geometry.
+     * @param scale Scale of the geometry.
      */
-    private processGLTFGeometry(geometry: Object3D, name: string) {
+    private processGLTFGeometry(geometry: Object3D, name: string, scale?: number) {
         geometry.name = name;
+        // Set a custom scale if provided
+        if (scale !== undefined) {
+            geometry.scale.set(scale, scale, scale);
+        }
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
                 if (child.material instanceof Material) {

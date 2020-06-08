@@ -228,11 +228,12 @@ export class ThreeService {
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string) {
+  public loadGLTFGeometry(sceneUrl: any, name: string, scale?: number) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => geometries.add(geometry);
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback);
+    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**

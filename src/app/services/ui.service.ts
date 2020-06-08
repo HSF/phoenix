@@ -139,7 +139,7 @@ export class UIService {
       this.three.getSceneManager().wireframeGeometries(value);
     });
     // Scale slider
-    const scaleMenu = this.geomFolder.add(this.guiParameters.geometries, 'scale', 0, 1000).name('Scale');
+    const scaleMenu = this.geomFolder.add(this.guiParameters.geometries, 'scale', 0, 3000).name('Scale');
     scaleMenu.onChange((value) => {
       this.three.getSceneManager().scaleDetector(value);
     });

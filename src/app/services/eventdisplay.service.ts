@@ -207,9 +207,10 @@ export class EventdisplayService {
    * and adds it to the dat.GUI menu.
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(url: any, name: string) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name);
+  public loadGLTFGeometry(url: any, name: string, scale?: number) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
   }
