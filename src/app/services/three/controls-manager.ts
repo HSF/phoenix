@@ -31,7 +31,7 @@ export class ControlsManager {
         const perspectiveCamera = new PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
-            0.1,
+            10,
             100000
         );
         // Arguments: left, right, top, bottom, near and far distances
@@ -40,7 +40,7 @@ export class ControlsManager {
             window.innerWidth / 2,
             window.innerHeight / 2,
             -window.innerHeight / 2,
-            0.1,
+            10,
             100000
         );
         // Orbit controls allow to move around
