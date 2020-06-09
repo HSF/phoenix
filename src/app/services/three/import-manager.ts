@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material, MeshBasicMaterial } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -176,17 +176,23 @@ export class ImportManager {
     private processGLTFGeometry(geometry: Object3D, name: string, scale?: number) {
         geometry.name = name;
         // Set a custom scale if provided
-        if (scale !== undefined) {
+        if (scale) {
             geometry.scale.set(scale, scale, scale);
         }
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
+                child.name = child.userData.name = name;
                 if (child.material instanceof Material) {
                     const color = child.material['color'] ? child.material['color'] : 0x2fd691;
+                    const side = child.material['side'] ? child.material['side'] : undefined;
                     // Disposing of the default material
                     child.material.dispose();
                     // Changing to a material with 0 shininess
-                    child.material = new MeshPhongMaterial({ color: color, shininess: 0 });
+                    child.material = new MeshPhongMaterial({
+                        color: color,
+                        shininess: 0,
+                        side: side
+                    });
                     // Setting up the clipping planes
                     child.material.clippingPlanes = this.clipPlanes;
                     child.material.clipIntersection = true;
