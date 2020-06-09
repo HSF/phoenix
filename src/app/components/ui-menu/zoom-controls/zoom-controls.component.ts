@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
-import * as TWEEN from '@tweenjs/tween.js';
 
 /**
  * Component for adding zoom controls for the main and overlay cameras.
@@ -10,14 +9,12 @@ import * as TWEEN from '@tweenjs/tween.js';
   templateUrl: './zoom-controls.component.html',
   styleUrls: ['./zoom-controls.component.scss']
 })
-export class ZoomControlsComponent implements OnInit {
+export class ZoomControlsComponent {
 
   /** All camera being used by the scene. */
   allCameras: any[];
   /** Factor to zoom by. */
   private zoomFactor: number = 1.1;
-  /** Array containing pairs of camera and their zoom animation. */
-  private animCameraPairs: any[] = [];
   /** Timeout for clearing mouse hold. */
   private zoomTimeout: any;
   /** The speed and time of zoom. */
@@ -26,24 +23,8 @@ export class ZoomControlsComponent implements OnInit {
   constructor(private eventdisplay: EventdisplayService) { }
 
   /**
-   * Get all the cameras and set up their zoom animations.
-   */
-  ngOnInit(): void {
-    this.allCameras = this.eventdisplay.getAllCameras();
-    for (const camera of this.allCameras) {
-      const animation = camera.isOrthographicCamera
-        ? new TWEEN.Tween(camera)
-        : new TWEEN.Tween(camera.position);
-      this.animCameraPairs.push({
-        'camera': camera,
-        'anim': animation
-      });
-    }
-  }
-
-  /**
    * Zoom all the cameras by a specific zoom factor.
-   * The factor may either be greater or smaller.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
    * @param zoomFactor The factor to zoom by.
    */
   zoomTo(zoomFactor: number) {
@@ -51,27 +32,7 @@ export class ZoomControlsComponent implements OnInit {
       ? Math.floor(this.zoomTime / 1.1)
       : this.zoomTime;
 
-    for (const animCameraPair of this.animCameraPairs) {
-      const camera = animCameraPair['camera'];
-      const anim = animCameraPair['anim'];
-      if (camera.isOrthographicCamera) {
-        anim.to({
-          zoom: camera.zoom * (1 / zoomFactor)
-        }, this.zoomTime);
-        camera.updateProjectionMatrix();
-      } else {
-        const cameraPosition = camera.position;
-        anim.to(
-          {
-            x: cameraPosition.x * zoomFactor,
-            y: cameraPosition.y * zoomFactor,
-            z: cameraPosition.z * zoomFactor
-          },
-          this.zoomTime
-        );
-      }
-      anim.start();
-    }
+    this.eventdisplay.zoomTo(zoomFactor, this.zoomTime);
 
     this.zoomTimeout = setTimeout(() => {
       this.zoomTo(zoomFactor);

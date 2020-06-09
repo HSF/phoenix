@@ -216,11 +216,13 @@ export class EventdisplayService {
   }
 
   /**
-   * Get the main and overlay cameras.
-   * @returns An array containing the main and overlay camera.
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
    */
-  public getAllCameras(): Camera[] {
-    return this.graphicsLibrary.getAllCameras();
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.graphicsLibrary.zoomTo(zoomFactor, zoomTime);
   }
 
 
