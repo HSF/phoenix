@@ -21,7 +21,7 @@ export class PlaygroundComponent implements OnInit {
       new PresetView('Left View', [0, 0, -6000], 'left-cube'),
       new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 6000], 'right-cube'),
-      new PresetView('Zoom View', [-1, 1, 0], undefined)
+      new PresetView('Zoom View', [-1, 1, 0], 'zoom-in')
     ];
     this.eventDisplay.init(configuration);
   }
