@@ -33,4 +33,11 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
 
+  lookAtObject(uuid: string) {
+    if (uuid) {
+      this.eventDisplay.getActiveObjectId().next(uuid);
+      this.eventDisplay.lookAtObject(uuid);
+    }
+  }
+
 }

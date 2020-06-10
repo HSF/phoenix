@@ -35,7 +35,29 @@
 
   tr.active-object {
     color: var(--phoenix-background-color);
-    background: var(--phoenix-text-color-hover);
-    box-shadow: 0 0 15px var(--phoenix-text-color-hover);
+    background: var(--phoenix-text-color);
+    box-shadow: 0 0 15px var(--phoenix-text-color);
+
+    td.look-at-object {
+      --phoenix-options-icon-path: var(--phoenix-background-color);
+      --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
+    }
+  }
+
+  td.look-at-object {
+    max-width: 1rem;
+    max-height: 1rem;
+    padding: 0.2rem;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--phoenix-options-icon-bg);
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 }

@@ -368,4 +368,12 @@ export class EventdisplayService {
   public getActiveObjectId(): any {
       return this.graphicsLibrary.getActiveObjectId();
   }
+
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.graphicsLibrary.lookAtObject(uuid);
+  }
 }

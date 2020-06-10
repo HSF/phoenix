@@ -19,13 +19,19 @@
         <thead>
           <tr>
             <th>No.</th>
+            <th>Go to</th>
             <th *ngFor="let column of collectionColumns">{{column}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let object of showingCollection; index as i" [attr.id]="object.uuid ? object.uuid : null"
+          <tr *ngFor="let object of showingCollection; index as i" [attr.id]="object.uuid"
             [ngClass]="{'active-object': activeObjectId && activeObjectId === object.uuid}">
             <td>#{{i}}</td>
+            <td class="look-at-object" (click)="lookAtObject(object.uuid)">
+              <svg *ngIf="object.uuid">
+                <use href="assets/icons/views.svg#views"></use>
+              </svg>
+            </td>
             <td *ngFor="let column of collectionColumns">{{object[column]}}</td>
           </tr>
         </tbody>

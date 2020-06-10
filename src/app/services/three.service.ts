@@ -404,6 +404,14 @@ export class ThreeService {
    * @returns uuid of the currently selected object.
    */
   public getActiveObjectId(): any {
-      return this.getSelectionManager().getActiveObjectId();
+    return this.getSelectionManager().getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
   }
 }

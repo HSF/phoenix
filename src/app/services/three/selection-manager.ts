@@ -26,8 +26,6 @@ export class SelectionManager {
     private selectedObject: { name: string; attributes: any[]; };
     /** BehaviorSubject for the currently selected object. */
     private activeObject = new BehaviorSubject<string>('');
-    /** Observable for the uuid of the currently selected object. */
-    private activeObjectId = this.activeObject.asObservable();
     /** Objects to be ignored on hovering over the scene. */
     private ignoreList: string[];
 
@@ -94,7 +92,7 @@ export class SelectionManager {
      * @returns uuid of the currently selected object.
      */
     public getActiveObjectId(): any {
-        return this.activeObjectId;
+        return this.activeObject;
     }
 
     /**

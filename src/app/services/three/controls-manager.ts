@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -247,6 +247,28 @@ export class ControlsManager {
             }
             anim.start();
         }
+    }
+
+    /**
+     * Move the camera to look at the object with the given uuid.
+     * @param uuid uuid of the object.
+     * @param alLObjects Group of objects to be traversed for finding the object
+     * with the given uuid.
+     */
+    public lookAtObject(uuid: string, objectsGroup: Object3D) {
+        const cameras = [this.getMainCamera(), this.getOverlayCamera()];
+        objectsGroup.traverse((object: any) => {
+            if (object.uuid === uuid) {
+                for (const camera of cameras) {
+                    // Moving the camera to the object's position and then zooming out
+                    new TWEEN.Tween(camera.position).to({
+                        x: object.position.x * 1.1,
+                        y: object.position.y * 1.1,
+                        z: object.position.z * 1.1
+                    }, 200).start();
+                }
+            }
+        });
     }
 
     /**
