@@ -398,4 +398,12 @@ export class ThreeService {
     );
     rotAnimation.start();
   }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+      return this.getSelectionManager().getActiveObjectId();
+  }
 }

@@ -360,4 +360,12 @@ export class EventdisplayService {
   public fixOverlayView(fixed: boolean) {
     this.graphicsLibrary.fixOverlayView(fixed);
   }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+      return this.graphicsLibrary.getActiveObjectId();
+  }
 }

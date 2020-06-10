@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
@@ -13,17 +13,24 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collections: string[];
   showingCollection: any;
   collectionColumns: string[];
+  activeObjectId: string;
 
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.getCollections());
+    this.eventDisplay.getActiveObjectId().subscribe((value) => {
+      this.activeObjectId = value;
+      if (document.getElementById(value)) {
+        document.getElementById(value).scrollIntoView(false);
+      }
+    });
   }
 
   changeCollection(selected: any) {
     const value = selected.target.value;
     this.showingCollection = this.eventDisplay.getCollection(value);
-    this.collectionColumns = Object.keys(this.showingCollection[0]);
+    this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
 
 }

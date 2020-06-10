@@ -64,6 +64,7 @@ export class PhoenixObjects {
     // object
     const splineObject = new THREE.Line(geometry, material);
     splineObject.userData = trackParams;
+    splineObject.userData.uuid = splineObject.uuid;
     splineObject.name = 'Track';
 
     return splineObject;
@@ -103,6 +104,7 @@ export class PhoenixObjects {
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
+    mesh.userData.uuid = mesh.uuid;
     mesh.name = 'Jet';
 
     return mesh;
@@ -133,6 +135,7 @@ export class PhoenixObjects {
     // object
     const pointsObj = new THREE.Points(geometry, material);
     pointsObj.userData = hitsParams;
+    pointsObj.userData.uuid = pointsObj.uuid;
     pointsObj.name = 'Hit';
 
     return pointsObj;
@@ -165,6 +168,7 @@ export class PhoenixObjects {
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new THREE.Vector3(0, 0, 0));
     cube.userData = clusterParams;
+    cube.userData.uuid = cube.uuid;
     cube.name = 'Cluster';
 
     return cube;

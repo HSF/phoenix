@@ -9,6 +9,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ControlsManager } from './controls-manager';
 import { InfoLoggerService } from '../infologger.service';
+import { BehaviorSubject } from 'rxjs';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -23,9 +24,13 @@ export class SelectionManager {
     private scene: Scene;
     /** Object used to display the information of the selected 3D object. */
     private selectedObject: { name: string; attributes: any[]; };
+    /** BehaviorSubject for the currently selected object. */
+    private activeObject = new BehaviorSubject<string>('');
+    /** Observable for the uuid of the currently selected object. */
+    private activeObjectId = this.activeObject.asObservable();
     /** Objects to be ignored on hovering over the scene. */
     private ignoreList: string[];
-    
+
     // Post processing
     /** Effect composer for outline pass. */
     private composer: EffectComposer;
@@ -33,7 +38,7 @@ export class SelectionManager {
     private outlinePass: OutlinePass;
     /** Render pass. */
     private renderPass: RenderPass;
-    // Logger
+    /** Service for logging data to the information panel. */
     private infoLogger: InfoLoggerService;
 
     /**
@@ -82,6 +87,14 @@ export class SelectionManager {
      */
     public setSelectedObject(selectedObject: { name: string, attributes: any[] }) {
         this.selectedObject = selectedObject;
+    }
+
+    /**
+     * Get the uuid of the currently selected object.
+     * @returns uuid of the currently selected object.
+     */
+    public getActiveObjectId(): any {
+        return this.activeObjectId;
     }
 
     /**
@@ -157,6 +170,8 @@ export class SelectionManager {
             this.selectedObject.name = intersectedObject.name;
             this.selectedObject.attributes.splice(0, this.selectedObject.attributes.length);
 
+            this.activeObject.next(intersectedObject.uuid);
+
             for (const key of Object.keys(intersectedObject.userData)) {
                 this.selectedObject.attributes.push({
                     attributeName: key,
@@ -167,7 +182,7 @@ export class SelectionManager {
             // Process properties of the selected object
             const props = Object.keys(intersectedObject.userData).map((key) => {
                 // Only take properties that are a string or number (no arrays or objects)
-                if (['string', 'number'].includes(typeof(intersectedObject.userData[key]))) {
+                if (['string', 'number'].includes(typeof (intersectedObject.userData[key]))) {
                     return key + '=' + intersectedObject.userData[key];
                 }
             }).filter(val => val);

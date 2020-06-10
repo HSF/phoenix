@@ -32,4 +32,10 @@
       padding-right: 0;
     }
   }
+
+  tr.active-object {
+    color: var(--phoenix-background-color);
+    background: var(--phoenix-text-color-hover);
+    box-shadow: 0 0 15px var(--phoenix-text-color-hover);
+  }
 }
