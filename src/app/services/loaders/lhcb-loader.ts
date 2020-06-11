@@ -33,8 +33,8 @@ export class LHCbLoader extends PhoenixLoader {
     const eventData = {
       eventNumber: this.data.eventNumber,
       runNumber: this.data.runNumber,
-      Hits: undefined,
-      Tracks: undefined
+      Hits: {},
+      Tracks: {}
     };
 
     let part_list = [];
