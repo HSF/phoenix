@@ -414,4 +414,12 @@ export class ThreeService {
   public lookAtObject(uuid: string) {
     this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
   }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
+  }
 }

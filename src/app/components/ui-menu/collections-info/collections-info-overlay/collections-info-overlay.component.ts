@@ -40,4 +40,11 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     }
   }
 
+  highlightObject(uuid: string) {
+    if (uuid) {
+      this.eventDisplay.getActiveObjectId().next(uuid);
+      this.eventDisplay.highlightObject(uuid);
+    }
+  }
+
 }

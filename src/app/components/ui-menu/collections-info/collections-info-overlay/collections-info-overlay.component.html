@@ -14,12 +14,12 @@
       </div>
     </div>
 
-    <div class="boxBody">
-      <table id="collectionTable" *ngIf="showingCollection">
+    <div class="boxBody table-responsive">
+      <table id="collectionTable" class="table table-borderless table-sm" *ngIf="showingCollection">
         <thead>
           <tr>
             <th>No.</th>
-            <th>Go to</th>
+            <th>Selection</th>
             <th *ngFor="let column of collectionColumns">{{column}}</th>
           </tr>
         </thead>
@@ -27,10 +27,19 @@
           <tr *ngFor="let object of showingCollection; index as i" [attr.id]="object.uuid"
             [ngClass]="{'active-object': activeObjectId && activeObjectId === object.uuid}">
             <td>#{{i}}</td>
-            <td class="look-at-object" (click)="lookAtObject(object.uuid)">
-              <svg *ngIf="object.uuid">
-                <use href="assets/icons/views.svg#views"></use>
-              </svg>
+            <td>
+              <div *ngIf="object.uuid" class="row justify-content-center object-select">
+                <div class="col-6 object-select-lookat" (click)="lookAtObject(object.uuid)">
+                  <svg>
+                    <use href="assets/icons/views.svg#views"></use>
+                  </svg>
+                </div>
+                <div class="col-6 object-select-highlight" (click)="highlightObject(object.uuid)">
+                  <svg>
+                    <use href="assets/icons/cursor.svg#cursor"></use>
+                  </svg>
+                </div>
+              </div>
             </td>
             <td *ngFor="let column of collectionColumns">{{object[column]}}</td>
           </tr>

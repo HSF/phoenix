@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3 } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -257,8 +257,10 @@ export class ControlsManager {
      */
     public lookAtObject(uuid: string, objectsGroup: Object3D) {
         const cameras = [this.getMainCamera(), this.getOverlayCamera()];
+        const origin = new Vector3(0, 0, 0);
         objectsGroup.traverse((object: any) => {
-            if (object.uuid === uuid) {
+            if (object.uuid === uuid &&
+                object.position.distanceTo(origin) > 1) {
                 for (const camera of cameras) {
                     // Moving the camera to the object's position and then zooming out
                     new TWEEN.Tween(camera.position).to({

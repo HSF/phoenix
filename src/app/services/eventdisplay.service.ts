@@ -376,4 +376,12 @@ export class EventdisplayService {
   public lookAtObject(uuid: string) {
     this.graphicsLibrary.lookAtObject(uuid);
   }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.graphicsLibrary.highlightObject(uuid);
+  }
 }

@@ -33,7 +33,7 @@ export class PhoenixObjects {
     });
 
     // const length = 100;
-    let objectColor = 0xff0000;
+    let objectColor = localStorage.getItem('theme') === 'dark' ? 0xfcf44e : 0xff0000;
     if (trackParams.color) {
       objectColor = parseInt(trackParams.color, 16);
     }
@@ -57,12 +57,12 @@ export class PhoenixObjects {
     const curve = new THREE.CatmullRomCurve3(points);
     const vertices = curve.getPoints(50);
     // geometry
-    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
+    const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
     // material
-    const material = new THREE.LineBasicMaterial({ color: objectColor });
-    material.linewidth = 2;
+    const material = new THREE.MeshToonMaterial({ color: objectColor });
+    // material.linewidth = 2;
     // object
-    const splineObject = new THREE.Line(geometry, material);
+    const splineObject = new THREE.Mesh(geometry, material);
     splineObject.userData = trackParams;
     splineObject.userData.uuid = splineObject.uuid;
     splineObject.name = 'Track';
