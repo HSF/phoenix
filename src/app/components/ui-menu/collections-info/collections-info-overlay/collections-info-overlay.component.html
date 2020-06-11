@@ -29,12 +29,14 @@
             <td>#{{i}}</td>
             <td>
               <div *ngIf="object.uuid" class="row justify-content-center object-select">
-                <div class="col-6 object-select-lookat" (click)="lookAtObject(object.uuid)">
+                <div class="col-6 object-select-lookat" matTooltip="Move camera to object"
+                  (click)="lookAtObject(object.uuid)">
                   <svg>
                     <use href="assets/icons/views.svg#views"></use>
                   </svg>
                 </div>
-                <div class="col-6 object-select-highlight" (click)="highlightObject(object.uuid)">
+                <div class="col-6 object-select-highlight" matTooltip="Highlight object"
+                  (click)="highlightObject(object.uuid)">
                   <svg>
                     <use href="assets/icons/cursor.svg#cursor"></use>
                   </svg>

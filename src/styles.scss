@@ -113,6 +113,10 @@ canvas {
   outline: none;
 }
 
+select {
+  border-radius: 30px;
+}
+
 #eventDisplay {
   height: 100vh;
   overflow: hidden;

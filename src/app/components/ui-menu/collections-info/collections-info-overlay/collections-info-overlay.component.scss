@@ -1,7 +1,9 @@
 .collectionsInfo {
-  height: 90%;
+  height: 95%;
 
   .collectionSelector {
+    height: 15%;
+    min-height: 2rem;
   
     span {
       color: var(--phoenix-text-color-secondary);
@@ -12,7 +14,7 @@
 }
 
 .boxBody {
-  height: 90%;
+  height: 85%;
   overflow: scroll;
 
   p.emptyBox {
@@ -55,13 +57,19 @@
     .object-select > div {
       max-width: 2em;
       max-height: 2em;
-      padding: 0.4em;
+      padding: 0.5em;
+      margin-right: 0.4em;
       text-align: center;
+      background-color: var(--phoenix-options-icon-bg);
+      border-radius: 10px;
       cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
   
       &:hover {
-        background-color: var(--phoenix-options-icon-bg);
-        border-radius: 10px;
+        border: 1px solid var(--phoenix-options-icon-path);
       }
   
       svg {
