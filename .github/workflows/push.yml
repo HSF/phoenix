@@ -1,33 +1,25 @@
-on: push
-name: Build Phoenix
+name: Build Phoenix and Deploy
+on: 
+  push:
+    tags:
+      - v*
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Node
-        uses: actions/setup-node@v1
+      - name: Checkout 🛎️
+        uses: actions/checkout@v1
 
-      - name: Install required packages
+      - name: Install Required Packages
         run: npm i
-      - name: Deploy Phoenix
+      - name: Build Phoenix
         run: npm run deploy
-      # - name: Generate API docs
+      # - name: Generate API Docs
       #   run: npm run gen-api-docs
 
-#      - name: Create Release
-#        uses: actions/create-release@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          tag_name: ${{ github.ref }}
-#          release_name: Pheonix ${{ github.ref }}
-#          draft: false
-#          prerelease: false
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: master
+          FOLDER: docs
