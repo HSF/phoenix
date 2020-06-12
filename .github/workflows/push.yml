@@ -19,8 +19,8 @@ jobs:
         run: npm i
       - name: Deploy Phoenix
         run: npm run deploy
-      - name: Generate API docs
-        run: npm run gen-api-docs
+      # - name: Generate API docs
+      #   run: npm run gen-api-docs
 
 #      - name: Create Release
 #        uses: actions/create-release@v1
