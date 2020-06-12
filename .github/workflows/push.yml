@@ -27,8 +27,6 @@ jobs:
       
       - name: Commit the newly added files
         run: |
-          git config --local user.email "m.fawaadali98@gmail.com"
-          git config --local user.name "Fawad Ali"
           git add ./docs
           git commit -m "Deploy"
       - name: Push commited changes
