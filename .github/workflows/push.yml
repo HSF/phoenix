@@ -1,0 +1,33 @@
+on: push
+name: Build Phoenix
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node
+        uses: actions/setup-node@v1
+
+      - name: Install required packages
+        run: npm i
+      - name: Deploy Phoenix
+        run: npm run deploy
+      - name: Generate API docs
+        run: npm run gen-api-docs
+
+#      - name: Create Release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Pheonix ${{ github.ref }}
+#          draft: false
+#          prerelease: false
