@@ -1,25 +1,47 @@
-name: Build Phoenix and Deploy
-on: 
+on:
   push:
     tags:
       - v*
+name: Build Phoenix
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v1
-
-      - name: Install Required Packages
-        run: npm i
-      - name: Build Phoenix
-        run: npm run deploy
-      # - name: Generate API Docs
-      #   run: npm run gen-api-docs
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+      - uses: actions/checkout@master
+      - name: Cache node modules
+        uses: actions/cache@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: master
-          FOLDER: docs
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Node
+        uses: actions/setup-node@v1
+
+      - name: Install required packages
+        run: npm i
+      - name: Deploy Phoenix
+        run: npm run deploy
+      # - name: Generate API docs
+      #   run: npm run gen-api-docs
+      
+      - name: Commit the newly added files
+        run: |
+          git config --local user.email "m.fawaadali98@gmail.com"
+          git config --local user.name "Fawad Ali"
+          git add ./docs
+          git commit -m "Deploy"
+      - name: Push commited changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: Create Release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Pheonix ${{ github.ref }}
+#          draft: false
+#          prerelease: false
