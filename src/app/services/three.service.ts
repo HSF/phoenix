@@ -128,14 +128,6 @@ export class ThreeService {
   }
 
   /**
-   * Set if the clipped detector geometry is to be closed or not.
-   * @param closed Boolean to specify if the clipped geometries will be closed.
-   */
-  public closeClippedGeometries(closed: boolean) {
-    this.getSceneManager().closeClippedGeometries(closed);
-  }
-
-  /**
    * Rotates clipping planes.
    * @param angle Angle to rotate the clipping planes.
    */

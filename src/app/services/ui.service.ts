@@ -127,7 +127,7 @@ export class UIService {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
-    this.guiParameters.geometries = { show: true, wireframe: false, closeClippedGeometries: false, scale: 1 };
+    this.guiParameters.geometries = { show: true, wireframe: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
     const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
     showGeometriesMenu.onChange((value) => {
@@ -137,11 +137,6 @@ export class UIService {
     const wireframeGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'wireframe').name('Wireframe').listen();
     wireframeGeometriesMenu.onChange((value) => {
       this.three.getSceneManager().wireframeGeometries(value);
-    });
-    // Scale slider
-    const scaleMenu = this.geomFolder.add(this.guiParameters.geometries, 'scale', 0, 3000).name('Scale');
-    scaleMenu.onChange((value) => {
-      this.three.getSceneManager().scaleDetector(value);
     });
   }
 
@@ -291,14 +286,6 @@ export class UIService {
    */
   public setClipping(value: boolean) {
     this.three.setClipping(value);
-  }
-
-  /**
-   * Set if the clipped detector geometry is to be closed or not.
-   * @param value Boolean to specify if the clipped geometries will be closed.
-   */
-  public closeClippedGeometries(value: boolean) {
-    this.three.closeClippedGeometries(value);
   }
 
   /**

@@ -210,15 +210,6 @@ export class SceneManager {
     }
 
     /**
-     * Scales the complete detector geometry.
-     * @param value Value to scale the detector geometry by.
-     */
-    public scaleDetector(value: any) {
-        const object = this.scene.getObjectByName(SceneManager.GEOMETRIES_ID);
-        object.scale.set(value, value, value);
-    }
-
-    /**
      * Adds new type of objects (Jets, Tracks...) to the event data group.
      * @param objectType Name of the object type.
      * @returns The new group added to the event data.
@@ -401,27 +392,6 @@ export class SceneManager {
                     // Rolling back transparency because depthTest doesn't work with it
                     object.material.transparent = false;
                     object.material.opacity = 1;
-                }
-            }
-        });
-    }
-
-    /**
-     * Toggle for closing sections created by clipping.
-     * @param value A boolean to specify if clipped sections of geometries should be closed.
-     */
-    public closeClippedGeometries(value: boolean) {
-        const objects = this.scene.getObjectByName(SceneManager.GEOMETRIES_ID);
-
-        objects.traverse((child) => {
-            if (child instanceof Mesh) {
-                if (child.material instanceof Material && child.material.side === DoubleSide) {
-                    child.material.onBeforeCompile = (shader) => {
-                        if (value) {
-                            shader.fragmentShader = shader.fragmentShader.replace('gl_FragColor = vec4( outgoingLight, diffuseColor.a );', 'if ( gl_FrontFacing ) { gl_FragColor = vec4( outgoingLight, diffuseColor.a ); } else { gl_FragColor = diffuseColor; }');
-                        }
-                    }
-                    child.material.needsUpdate = true;
                 }
             }
         });

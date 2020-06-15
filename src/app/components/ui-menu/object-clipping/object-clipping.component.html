@@ -1,9 +1,6 @@
 <mat-menu #menu>
   <mat-checkbox class="mat-menu-item" (click)="$event.stopPropagation()" (change)="toggleClipping($event)">Clipping
   </mat-checkbox>
-  <mat-checkbox class="mat-menu-item" (click)="$event.stopPropagation()" (change)="closeClippedGeometries($event)">Close Clipped
-    Geometries
-  </mat-checkbox>
   <mat-slider min="0" max="180" step="1" thumbLabel (click)="$event.stopPropagation()"
     (input)="changeClippingAngle($event)">
   </mat-slider>

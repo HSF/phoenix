@@ -28,8 +28,4 @@ export class ObjectClippingComponent implements OnInit {
     this.clippingEnabled = value;
   }
 
-  closeClippedGeometries(change: MatCheckboxChange) {
-    this.uiService.closeClippedGeometries(change.checked);
-  }
-
 }
