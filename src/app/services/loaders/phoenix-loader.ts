@@ -242,6 +242,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
     // uuid for selection of muons from the collections info panel
     muonParams.uuid = muonScene.uuid;
+    muonScene.name = 'Muon';
     // add to scene
     return muonScene;
   }

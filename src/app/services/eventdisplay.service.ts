@@ -370,11 +370,13 @@ export class EventdisplayService {
   }
 
   /**
-   * Move the camera to look at the object with the given uuid.
+   * Move the camera to look at the object with the given uuid
+   * and highlight it.
    * @param uuid uuid of the object.
    */
   public lookAtObject(uuid: string) {
     this.graphicsLibrary.lookAtObject(uuid);
+    this.graphicsLibrary.highlightObject(uuid);
   }
 
   /**

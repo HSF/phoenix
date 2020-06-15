@@ -157,6 +157,13 @@ export class ControlsManager {
     getOverlayCamera(): Camera {
         return this.overlayControls.object;
     }
+    /**
+     * Get the main and overlay cameras.
+     * @returns An array containing the main and overlay cameras.
+     */
+    getAllCameras(): Camera[] {
+        return [this.getMainCamera(), this.getOverlayCamera()];
+    }
 
 
     // FUNCTIONS
@@ -256,18 +263,39 @@ export class ControlsManager {
      * with the given uuid.
      */
     public lookAtObject(uuid: string, objectsGroup: Object3D) {
-        const cameras = [this.getMainCamera(), this.getOverlayCamera()];
         const origin = new Vector3(0, 0, 0);
         objectsGroup.traverse((object: any) => {
-            if (object.uuid === uuid &&
-                object.position.distanceTo(origin) > 1) {
-                for (const camera of cameras) {
-                    // Moving the camera to the object's position and then zooming out
-                    new TWEEN.Tween(camera.position).to({
-                        x: object.position.x * 1.1,
-                        y: object.position.y * 1.1,
-                        z: object.position.z * 1.1
-                    }, 200).start();
+            if (object.uuid === uuid) {
+                let objectPosition = new Vector3();
+                if (['Track', 'Hit'].includes(object.name)) {
+                    // Get the center of bounding sphere for Tracks and Hits
+                    objectPosition = object.geometry.boundingSphere.center;
+                } else if (object.name === 'Muon') {
+                    // Muon is a group of other event data so we traverse through it
+                    object.traverse((muonObject: any) => {
+                        if (muonObject.name === 'Track') {
+                            // Get the max vector from the bounding box to accumulate with the clusters
+                            objectPosition.add(
+                                muonObject.geometry.boundingSphere.getBoundingBox().max
+                            );
+                        } else {
+                            objectPosition.add(muonObject.position);
+                        }
+                    });
+                } else {
+                    // Get the object position for all other elements
+                    objectPosition = object.position;
+                }
+                // Check if the object is away from the origin
+                if (objectPosition.distanceTo(origin) > 1) {
+                    for (const camera of this.getAllCameras()) {
+                        // Moving the camera to the object's position and then zooming out
+                        new TWEEN.Tween(camera.position).to({
+                            x: objectPosition.x * 1.1,
+                            y: objectPosition.y * 1.1,
+                            z: objectPosition.z * 1.1
+                        }, 200).start();
+                    }
                 }
             }
         });
