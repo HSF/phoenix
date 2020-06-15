@@ -305,7 +305,7 @@ export class ControlsManager {
      * Initialize the zoom controls by setting up the camera and their animations as pairs.
      */
     private initializeZoomControls() {
-        const allCameras: any[] = [this.getMainCamera(), this.getOverlayCamera()];
+        const allCameras: any[] = this.getAllCameras();
         this.zoomCameraAnimPairs = [];
         for (const camera of allCameras) {
             const animation = camera.isOrthographicCamera

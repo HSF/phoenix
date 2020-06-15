@@ -55,19 +55,31 @@ export class PhoenixObjects {
 
     // attributes
     const curve = new THREE.CatmullRomCurve3(points);
-    const vertices = curve.getPoints(50);
-    // geometry
-    const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
-    // material
-    const material = new THREE.MeshToonMaterial({ color: objectColor });
-    // material.linewidth = 2;
-    // object
-    const splineObject = new THREE.Mesh(geometry, material);
-    splineObject.userData = trackParams;
-    splineObject.userData.uuid = splineObject.uuid;
-    splineObject.name = 'Track';
 
-    return splineObject;
+    // TubeGeometry
+    const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
+    const material = new THREE.MeshToonMaterial({ color: objectColor });
+    const tubeObject = new THREE.Mesh(geometry, material);
+    // Setting info to the tubeObject since it will be used for selection
+    tubeObject.userData = trackParams;
+    tubeObject.userData.uuid = tubeObject.uuid;
+    tubeObject.name = 'Track';
+
+    // Line - Creating a Line to put inside the tube to show tracks even on zoom out
+    const vertices = curve.getPoints(50);
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(vertices);
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: objectColor,
+      linewidth: 2
+    });
+    const lineObject = new THREE.Line(lineGeometry, lineMaterial);
+
+    // Creating a group to add both the Tube curve and the Line
+    const trackObject = new THREE.Object3D();
+    trackObject.add(tubeObject);
+    trackObject.add(lineObject);
+
+    return trackObject;
   }
 
   /**

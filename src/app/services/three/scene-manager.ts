@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial } from 'three';
 import { Cut } from '../extras/cut.model';
 
 /**
@@ -216,7 +216,8 @@ export class SceneManager {
                         object.material instanceof MeshBasicMaterial ||
                         object.material instanceof MeshBasicMaterial ||
                         object.material instanceof PointsMaterial ||
-                        object.material instanceof MeshPhongMaterial
+                        object.material instanceof MeshPhongMaterial ||
+                        object.material instanceof MeshToonMaterial
                     ) {
                         object.material.color.set(color);
 

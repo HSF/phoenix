@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({

@@ -1,6 +1,7 @@
 <!-- Show objects -->
 <app-overlay title="Collections Info" icon="info" [resizable]="true" [active]="showObjectsInfo">
-  <div class="collectionsInfo m-2">
+  <!-- Using ngIf to remove it from DOM since this panel requires heavy computing -->
+  <div *ngIf="showObjectsInfo" class="collectionsInfo m-2">
     <div class="collectionSelector mb-2 d-flex align-items-center" *ngIf="collections!=null">
       <span>Choose a collection: </span>
       <div class="eventSelector">
