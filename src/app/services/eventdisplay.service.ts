@@ -373,4 +373,30 @@ export class EventdisplayService {
   public fixOverlayView(fixed: boolean) {
     this.graphicsLibrary.fixOverlayView(fixed);
   }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+      return this.graphicsLibrary.getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid
+   * and highlight it.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.graphicsLibrary.lookAtObject(uuid);
+    this.graphicsLibrary.highlightObject(uuid);
+  }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.graphicsLibrary.highlightObject(uuid);
+  }
 }
