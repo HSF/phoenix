@@ -9,7 +9,8 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  Camera
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -338,6 +339,16 @@ export class ThreeService {
     if (this.rendererManager) {
       this.rendererManager.setOverlayRenderer(overlayCanvas);
     }
+  }
+
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.controlsManager.zoomTo(zoomFactor, zoomTime);
   }
 
   // *********************************

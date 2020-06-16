@@ -7,9 +7,12 @@
       </svg>
     </div>
     <h5 class="align-self-center m-0 px-2">{{title}}</h5>
-    <img class="align-self-center expandCollapse" matTooltip="Expand / Collapse" matTooltipPosition="right"
-      alt="Expand / Collapse" src="assets/icons/expand.svg" [ngClass]="{'expand' : showBody}"
-      (click)="showBody = !showBody">
+    <div class="align-self-center card-icon expandCollapse" matTooltip="Expand / Collapse" matTooltipPosition="right"
+      [ngClass]="{'expand' : showBody}" (click)="showBody = !showBody">
+      <svg>
+        <use href="assets/icons/expand.svg#expand"></use>
+      </svg>
+    </div>
   </div>
   <div class="overlay-card-content" *ngIf="showBody" [ngClass]="{'transparent-bg': transparentBody}">
     <ng-content></ng-content>

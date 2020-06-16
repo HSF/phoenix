@@ -20,7 +20,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   --phoenix-text-color-hover: #c5c5c5;
   --phoenix-box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.1);
   --phoenix-scroll-color: #d3d3d3;
-  --phoenix-options-icon-bg: #ffffff;
+  --phoenix-options-icon-bg: rgba(0, 0, 0, 0.08);
   --phoenix-options-icon-path: #777777;
   --phoenix-icon-shadow: 0px 3px 6px rgba(0, 0, 0, 0.11);
   --dat-background-primary: #f9f9f9;
@@ -44,7 +44,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   --phoenix-text-color-hover: #c5c5c5;
   --phoenix-box-shadow: 0px 0px 8px rgb(26, 26, 26);
   --phoenix-scroll-color: #3d3d3d;
-  --phoenix-options-icon-bg: #313131;
+  --phoenix-options-icon-bg: rgba(255, 255, 255, 0.18);
   --phoenix-options-icon-path: #fff;
   --phoenix-icon-shadow: 0px 4px 8px rgba(0, 0, 0, 0.22);
   --dat-background-primary: #181818;
@@ -110,8 +110,12 @@ body {
 canvas {
   width: 100%;
   max-width: 100%;
-  max-height: 92vh;
   outline: none;
+}
+
+#eventDisplay {
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* dat.gui styles */
@@ -185,8 +189,8 @@ canvas {
   }
 
   select {
-    width: 8rem;
-    padding: 5px;
+    width: 9rem;
+    padding: 5px 10px;
     font-size: 16px;
     border: 1px solid rgba(88, 88, 88, 0.08);
     box-shadow: var(--phoenix-icon-shadow);

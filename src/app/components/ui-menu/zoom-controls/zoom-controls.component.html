@@ -1,0 +1,8 @@
+<div class="d-flex flex-row-reverse">
+  <app-menu-toggle tooltip="Zoom in (hold)" icon="zoom-in" [active]="false" (mousedown)="zoomIn($event.button === 0)" (mouseup)="clearZoom()"
+    (mouseleave)="clearZoom()">
+  </app-menu-toggle>
+  <app-menu-toggle tooltip="Zoom out (hold)" icon="zoom-out" [active]="false" (mousedown)="zoomOut($event.button === 0)" (mouseup)="clearZoom()"
+    (mouseleave)="clearZoom()">
+  </app-menu-toggle>
+</div>

@@ -41,6 +41,8 @@ import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/ex
 import { InfoPanelComponent } from './components/ui-menu/info-panel/info-panel.component';
 import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component';
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
+import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
+import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -83,7 +85,9 @@ const routes: Routes = [
     ExperimentInfoComponent,
     InfoPanelComponent,
     InfoPanelOverlayComponent,
-    OverlayComponent
+    OverlayComponent,
+    MainViewToggleComponent,
+    ZoomControlsComponent
   ],
   imports: [
     BrowserModule,

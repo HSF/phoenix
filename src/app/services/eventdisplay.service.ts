@@ -4,6 +4,7 @@ import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
+import { Camera } from 'three';
 
 declare global {
   /**
@@ -227,6 +228,16 @@ export class EventdisplayService {
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.graphicsLibrary.zoomTo(zoomFactor, zoomTime);
+  }
+
 
 
   /**
@@ -248,11 +259,11 @@ export class EventdisplayService {
     }
 
     const eventNumber = sceneConfiguration.eventData['event number']
-                        ? sceneConfiguration.eventData['event number']
-                        : sceneConfiguration.eventData['eventNumber'];
+      ? sceneConfiguration.eventData['event number']
+      : sceneConfiguration.eventData['eventNumber'];
     const runNumber = sceneConfiguration.eventData['run number']
-                        ? sceneConfiguration.eventData['run number']
-                        : sceneConfiguration.eventData['runNumber'];
+      ? sceneConfiguration.eventData['run number']
+      : sceneConfiguration.eventData['runNumber'];
     this.infoLogger.add('Scene with event#' + eventNumber + ' and run#' + runNumber, 'Loaded');
   }
 
@@ -353,5 +364,13 @@ export class EventdisplayService {
    */
   public enableSelecting(enable: boolean) {
     this.graphicsLibrary.enableSelecting(enable);
+  }
+
+  /**
+   * Fixes the camera position of the overlay view.
+   * @param fixed Whether the overlay view is to be fixed or not.
+   */
+  public fixOverlayView(fixed: boolean) {
+    this.graphicsLibrary.fixOverlayView(fixed);
   }
 }

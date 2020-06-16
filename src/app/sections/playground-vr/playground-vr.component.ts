@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PlaygroundComponent } from '../playground/playground.component';
 import { JiveXMLLoader } from '../../services/loaders/jivexml-loader';

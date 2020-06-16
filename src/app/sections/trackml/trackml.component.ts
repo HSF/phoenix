@@ -30,9 +30,9 @@ export class TrackmlComponent implements OnInit {
   ngOnInit() {
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Right View', [0, 0, 6000], 'right'),
-      new PresetView('Center View', [-500, 1000, 0], 'circle'),
-      new PresetView('Left View', [0, 0, -6000], 'left')
+      new PresetView('Right View', [0, 0, 6000], 'right-cube'),
+      new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
+      new PresetView('Left View', [0, 0, -6000], 'left-cube')
     ];
     this.trackMLLoader = new TrackmlLoader();
     configuration.eventDataLoader = this.trackMLLoader;
