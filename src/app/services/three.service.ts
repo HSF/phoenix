@@ -252,6 +252,18 @@ export class ThreeService {
     this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
+  /**	
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    const geometries = this.sceneManager.getGeometries();
+    const callback = (geometry: Object3D) => geometries.add(geometry);
+    this.importManager.loadJSONGeometry(json, name, callback, scale);
+  }
+
   /**
    * Exports scene to OBJ file format.
    */

@@ -203,7 +203,7 @@ export class EventdisplayService {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene/geometry from the given URL
+   * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * and adds it to the dat.GUI menu.
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
@@ -213,6 +213,18 @@ export class EventdisplayService {
     this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
+  }
+
+  /**
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
+    this.ui.addGeometry(name, 0xff0000);
+    this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
 

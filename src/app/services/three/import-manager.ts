@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material, ObjectLoader } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -162,18 +162,42 @@ export class ImportManager {
         // @ts-ignore
         loader.load(sceneUrl, gltf => {
             const geometry = gltf.scene;
-            this.processGLTFGeometry(geometry, name, scale);
+            this.processGeometry(geometry, name, scale);
             callback(geometry);
         });
     }
 
+    /**	
+     * Loads geometries from JSON.
+     * @param json JSON or URL to JSON file of the geometry.
+     * @param name Name of the geometry or group of geometries.
+     * @param callback Callback called after the geometries are
+     * processed and loaded.
+     * @param scale Scale of the geometry.
+     */
+    public loadJSONGeometry(json: string | object, name: string,
+        callback: (Geometry: Object3D) => any,
+        scale?: number) {
+        const loader = new ObjectLoader();
+        if (typeof json === 'string') {
+            loader.load(json, (geometry: Object3D) => {
+                this.processGeometry(geometry, name, scale);
+                callback(geometry);
+            });
+        } else if (typeof json === 'object') {
+            const geometry = loader.parse(json);
+            this.processGeometry(geometry, name, scale);
+            callback(geometry);
+        }
+    }
+
     /**
-     * Process the GLTF (.gltf) geometry by setting up clipping attributes.
-     * @param geometry GLTF (.gltf) geometry to be processed.
+     * Process the geometry by setting up material and clipping attributes.
+     * @param geometry Geometry to be processed.
      * @param name Name of the geometry.
      * @param scale Scale of the geometry.
      */
-    private processGLTFGeometry(geometry: Object3D, name: string, scale?: number) {
+    private processGeometry(geometry: Object3D, name: string, scale?: number) {
         geometry.name = name;
         // Set a custom scale if provided
         if (scale) {
