@@ -33,7 +33,7 @@ export class PhoenixObjects {
     });
 
     // const length = 100;
-    let objectColor = localStorage.getItem('theme') === 'dark' ? 0xfcf44e : 0xff0000;
+    let objectColor = 0xff0000;
     if (trackParams.color) {
       objectColor = parseInt(trackParams.color, 16);
     }
