@@ -193,7 +193,7 @@ export class EventdisplayService {
     this.onEventsChange.push(callback);
   }
 
-  public getEventMetadata(): string[] {
+  public getEventMetadata(): any[] {
     return this.configuration.getEventDataLoader().getEventMetadata();
   }
   /**

@@ -201,7 +201,7 @@ export class PhoenixLoader implements EventDataLoader {
     return muonScene;
   }
 
-  getEventMetadata(): string[] {
+  getEventMetadata(): any[] {
     let metadata = [];
     let eventRunLS = {};
 
@@ -223,7 +223,10 @@ export class PhoenixLoader implements EventDataLoader {
     });
 
     if (Object.keys(eventRunLS).length > 0) {
-      metadata.push(Object.keys(eventRunLS).join(' / ') + ': ' + Object.values(eventRunLS).join(' / '));
+      metadata.push({
+        label: Object.keys(eventRunLS).join(' / '),
+        value: Object.values(eventRunLS).join(' / ')
+      });
     }
 
     return metadata;

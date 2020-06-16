@@ -8,19 +8,15 @@ import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 })
 export class ExperimentInfoComponent implements OnInit {
 
-  experimentInfo: string[];
+  experimentInfo: any[];
   @Input() experiment: string;
-  private experimentsTagline: object = {
-    'atlas': 'ATLAS Experiment at CERN',
-    'lhcb': 'LHCb Experiment at CERN',
-    'cms': 'CMS Experiment at the LHC, CERN'
-  };
+  @Input() experimentTagline: string;
 
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit(): void {
     this.eventDisplay.listenToDisplayedEventChange(() => {
-      this.experimentInfo = [this.experimentsTagline[this.experiment]];
+      this.experimentInfo = [];
       for (const info of this.eventDisplay.getEventMetadata()) {
         this.experimentInfo.push(info);
       }
