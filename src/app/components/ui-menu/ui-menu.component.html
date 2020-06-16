@@ -5,7 +5,7 @@
       <use href="assets/icons/expand.svg#expand"></use>
     </svg>
   </button>
-  <div id="optionsPanel" [ngClass]="{'d-none': hideUIMenu}">
+  <div id="optionsPanel" [hidden]="hideUIMenu">
     <!-- Toggle for loading geometries modal-->
     <app-io-options></app-io-options>
 
