@@ -17,31 +17,36 @@ export class SceneManager {
     /** An axes helper for visualizing the x, y and z-axis. */
     private axis: AxesHelper;
     /** Whether to use directional light placed at the camera position. */
-    private USE_CAMERA_LIGHT: boolean = true;
+    private useCameraLight: boolean = true;
     /** Directional light following the camera position. */
     public cameraLight: DirectionalLight;
 
     /**
      * Create the scene manager.
      * @param ignoreList List of objects to ignore for getting a clean scene.
+     * @param useCameraLight Whether to use directional light placed at the camera position.
      */
-    constructor(ignoreList: string[]) {
+    constructor(ignoreList: string[], useCameraLight: boolean = true) {
         this.getScene();
         this.ignoreList = ignoreList;
         this.scene.background = new Color('hsl(0, 0%, 100%)');
         this.axis = null;
-        this.setLights();
+        this.setLights(useCameraLight);
     }
 
     /**
      * Initializes the lights in the scene.
+     * @param useCameraLight Whether to use directional light placed at the camera position.
      */
-    private setLights() {
+    private setLights(useCameraLight: boolean = true) {
+        this.useCameraLight = useCameraLight;
+        
         const ambientLight = new AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
 
-        if (this.USE_CAMERA_LIGHT) {
+        if (this.useCameraLight) {
             this.cameraLight = new DirectionalLight(0xffffff, 0.45);
+            this.cameraLight.position.set(0, 0, 10);
             this.scene.add(this.cameraLight);
         } else {
             [
@@ -62,11 +67,11 @@ export class SceneManager {
      * @param camera Camera for setting the position of directional light.
      */
     public updateLights(camera: Camera) {
-        if (this.USE_CAMERA_LIGHT) {
+        if (this.useCameraLight) {
             this.cameraLight.position.set(
                 camera.position.x,
                 camera.position.y,
-                camera.position.z + 1000
+                camera.position.z
             );
         }
     }
