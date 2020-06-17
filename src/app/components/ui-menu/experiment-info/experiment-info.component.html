@@ -6,18 +6,12 @@
   <div class="textInfo">
     <p *ngIf="experimentTagline">{{experimentTagline}}</p>
     <p *ngFor="let infoField of experimentInfo">
-      <!-- If label is given then use the template with label else use the one without label -->
-      <ng-container [ngTemplateOutlet]="infoField.label ? withLabel : withoutLabel"
-        [ngTemplateOutletContext]="{ infoField: infoField }">
+      <ng-container *ngIf="infoField.label">
+        <b>{{infoField.label}}: </b>{{infoField.value}}
+      </ng-container>
+      <ng-container *ngIf="!infoField.label">
+        {{infoField}}
       </ng-container>
     </p>
   </div>
 </div>
-
-<!-- Templates for experiment info with or without label -->
-<ng-template #withLabel let-infoField="infoField">
-  <b>{{infoField.label}}: </b>{{infoField.value}}
-</ng-template>
-<ng-template #withoutLabel let-infoField="infoField">
-  {{infoField}}
-</ng-template>

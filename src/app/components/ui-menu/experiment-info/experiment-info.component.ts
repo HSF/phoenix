@@ -16,12 +16,8 @@ export class ExperimentInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventDisplay.listenToDisplayedEventChange(() => {
-      this.experimentInfo = [];
-      for (const info of this.eventDisplay.getEventMetadata()) {
-        this.experimentInfo.push(info);
-      }
+      this.experimentInfo = this.eventDisplay.getEventMetadata();
     });
   }
-
 
 }
