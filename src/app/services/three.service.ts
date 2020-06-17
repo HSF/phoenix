@@ -98,6 +98,7 @@ export class ThreeService {
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
@@ -221,11 +222,12 @@ export class ThreeService {
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string) {
+  public loadGLTFGeometry(sceneUrl: any, name: string, scale?: number) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => geometries.add(geometry);
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback);
+    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**
@@ -249,6 +251,18 @@ export class ThreeService {
       this.sceneManager.getScene().add(eventData);
     };
     this.importManager.parseGLTFGeometry(geometry, callback);
+  }
+
+  /**	
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    const geometries = this.sceneManager.getGeometries();
+    const callback = (geometry: Object3D) => geometries.add(geometry);
+    this.importManager.loadJSONGeometry(json, name, callback, scale);
   }
 
   /**

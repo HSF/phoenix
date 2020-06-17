@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material, ObjectLoader } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -99,12 +99,13 @@ export class ImportManager {
     private setObjFlat(object3d: any, color: any, doubleSided: boolean): Group {
         const material2 = new MeshPhongMaterial({
             color: color,
-            wireframe: false
+            shininess: 0,
+            wireframe: false,
+            clippingPlanes: this.clipPlanes,
+            clipIntersection: true,
+            clipShadows: false
+
         });
-        material2.clippingPlanes = this.clipPlanes;
-        material2.clipIntersection = true;
-        material2.clipShadows = false;
-        material2.wireframe = false;
         if (doubleSided) {
             material2.side = DoubleSide;
         }
@@ -113,7 +114,11 @@ export class ImportManager {
             if (child instanceof Mesh) {
                 child.name = object3d.name;
                 child.userData = object3d.userData;
-                child.material = material2;
+                // Use the new material
+                if (child.material instanceof Material) {
+                    child.material.dispose();
+                    child.material = material2;
+                }
                 // enable casting shadows
                 child.castShadow = false;
                 child.receiveShadow = false;
@@ -150,27 +155,69 @@ export class ImportManager {
      * @param sceneUrl URL to the GLTF (.gltf) file.
      * @param name Name of the loaded scene/geometry.
      * @param callback Callback called after the scene/geometry is loaded.
+     * @param scale Scale of the geometry.
      */
-    public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any) {
+    public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any, scale?: number) {
         const loader = new GLTFLoader();
         // @ts-ignore
         loader.load(sceneUrl, gltf => {
             const geometry = gltf.scene;
-            this.processGLTFGeometry(geometry, name);
+            this.processGeometry(geometry, name, scale);
             callback(geometry);
         });
     }
 
-    /**
-     * Process the GLTF (.gltf) geometry by setting up clipping attributes.
-     * @param geometry GLTF (.gltf) geometry to be processed.
-     * @param name Name of the geometry.
+    /**	
+     * Loads geometries from JSON.
+     * @param json JSON or URL to JSON file of the geometry.
+     * @param name Name of the geometry or group of geometries.
+     * @param callback Callback called after the geometries are
+     * processed and loaded.
+     * @param scale Scale of the geometry.
      */
-    private processGLTFGeometry(geometry: Object3D, name: string) {
+    public loadJSONGeometry(json: string | object, name: string,
+        callback: (Geometry: Object3D) => any,
+        scale?: number) {
+        const loader = new ObjectLoader();
+        if (typeof json === 'string') {
+            loader.load(json, (geometry: Object3D) => {
+                this.processGeometry(geometry, name, scale);
+                callback(geometry);
+            });
+        } else if (typeof json === 'object') {
+            const geometry = loader.parse(json);
+            this.processGeometry(geometry, name, scale);
+            callback(geometry);
+        }
+    }
+
+    /**
+     * Process the geometry by setting up material and clipping attributes.
+     * @param geometry Geometry to be processed.
+     * @param name Name of the geometry.
+     * @param scale Scale of the geometry.
+     */
+    private processGeometry(geometry: Object3D, name: string, scale?: number) {
         geometry.name = name;
+        // Set a custom scale if provided
+        if (scale) {
+            geometry.scale.set(scale, scale, scale);
+        }
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
+                child.name = child.userData.name = name;
                 if (child.material instanceof Material) {
+                    const color = child.material['color'] ? child.material['color'] : 0x2fd691;
+                    const side = child.material['side'] ? child.material['side'] : undefined;
+                    // Disposing of the default material
+                    child.material.dispose();
+                    // Changing to a material with 0 shininess
+                    child.material = new MeshPhongMaterial({
+                        color: color,
+                        shininess: 0,
+                        side: side
+                    });
+                    // Setting up the clipping planes
                     child.material.clippingPlanes = this.clipPlanes;
                     child.material.clipIntersection = true;
                     child.material.clipShadows = false;

@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
 import { Cut } from '../extras/cut.model';
 
 /**
@@ -16,33 +16,64 @@ export class SceneManager {
     private ignoreList: string[];
     /** An axes helper for visualizing the x, y and z-axis. */
     private axis: AxesHelper;
+    /** Whether to use directional light placed at the camera position. */
+    private useCameraLight: boolean = true;
+    /** Directional light following the camera position. */
+    public cameraLight: DirectionalLight;
 
     /**
      * Create the scene manager.
      * @param ignoreList List of objects to ignore for getting a clean scene.
+     * @param useCameraLight Whether to use directional light placed at the camera position.
      */
-    constructor(ignoreList: string[]) {
+    constructor(ignoreList: string[], useCameraLight: boolean = true) {
         this.getScene();
         this.ignoreList = ignoreList;
         this.scene.background = new Color('hsl(0, 0%, 100%)');
         this.axis = null;
-        this.setLights();
+        this.setLights(useCameraLight);
     }
 
     /**
-     * Initializes the lights of the screen.
+     * Initializes the lights in the scene.
+     * @param useCameraLight Whether to use directional light placed at the camera position.
      */
-    private setLights() {
-        const ambientLight = new AmbientLight(0x404040);
-        const directionalLight1 = new DirectionalLight(0xbfbfbf);
-        const directionalLight2 = new DirectionalLight(0xbfbfbf);
-
-        directionalLight1.position.set(-100, -50, 100);
-        directionalLight2.position.set(100, 50, -100);
-
-        this.scene.add(directionalLight1);
-        this.scene.add(directionalLight2);
+    private setLights(useCameraLight: boolean = true) {
+        this.useCameraLight = useCameraLight;
+        
+        const ambientLight = new AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
+
+        if (this.useCameraLight) {
+            this.cameraLight = new DirectionalLight(0xffffff, 0.45);
+            this.cameraLight.position.set(0, 0, 10);
+            this.scene.add(this.cameraLight);
+        } else {
+            [
+                [-100, -50, 100],   // Bottom left
+                [100, 50, -100],    // Top right
+                [-100, 50, -100],   // Top left
+                [100, -50, 100]     // Bottom right
+            ].forEach((position) => {
+                const directionalLight = new DirectionalLight(0xffffff, 0.2);
+                directionalLight.position.set(position[0], position[1], position[2]);
+                this.scene.add(directionalLight);
+            });
+        }
+    }
+
+    /**
+     * Update position of directional light for each frame rendered.
+     * @param camera Camera for setting the position of directional light.
+     */
+    public updateLights(camera: Camera) {
+        if (this.useCameraLight) {
+            this.cameraLight.position.set(
+                camera.position.x,
+                camera.position.y,
+                camera.position.z
+            );
+        }
     }
 
     /**

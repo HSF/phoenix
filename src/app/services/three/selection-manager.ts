@@ -220,11 +220,11 @@ export class SelectionManager {
     /**
      * Highlight the object with the given uuid by giving it an outline.
      * @param uuid uuid of the object.
-     * @param alLObjects Group of objects to be traversed for finding the object
+     * @param objectsGroup Group of objects to be traversed for finding the object
      * with the given uuid.
      */
-    public highlightObject(uuid: string, alLObjects: Object3D) {
-        alLObjects.traverse((object: any) => {
+    public highlightObject(uuid: string, objectsGroup: Object3D) {
+        objectsGroup.traverse((object: any) => {
             if (object.uuid === uuid) {
                 this.outlinePass.selectedObjects = [object];
             }

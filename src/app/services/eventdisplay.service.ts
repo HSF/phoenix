@@ -204,15 +204,28 @@ export class EventdisplayService {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene/geometry from the given URL
+   * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * and adds it to the dat.GUI menu.
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(url: any, name: string) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name);
+  public loadGLTFGeometry(url: any, name: string, scale?: number) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
+  }
+
+  /**
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
+    this.ui.addGeometry(name, 0xff0000);
+    this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
   /**
@@ -246,11 +259,11 @@ export class EventdisplayService {
     }
 
     const eventNumber = sceneConfiguration.eventData['event number']
-                        ? sceneConfiguration.eventData['event number']
-                        : sceneConfiguration.eventData['eventNumber'];
+      ? sceneConfiguration.eventData['event number']
+      : sceneConfiguration.eventData['eventNumber'];
     const runNumber = sceneConfiguration.eventData['run number']
-                        ? sceneConfiguration.eventData['run number']
-                        : sceneConfiguration.eventData['runNumber'];
+      ? sceneConfiguration.eventData['run number']
+      : sceneConfiguration.eventData['runNumber'];
     this.infoLogger.add('Scene with event#' + eventNumber + ' and run#' + runNumber, 'Loaded');
   }
 

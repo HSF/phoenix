@@ -103,7 +103,7 @@ export class ExportManager {
     /**
      * Create a temporary link and download/save the data (blob) in a file.
      * @param blob Blob containing exported data.
-     * @param filename Name of the export file..
+     * @param filename Name of the export file.
      */
     private save(blob: Blob, filename: string) {
         const link = document.createElement('a');

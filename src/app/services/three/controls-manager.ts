@@ -34,7 +34,7 @@ export class ControlsManager {
         const perspectiveCamera = new PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
-            0.1,
+            10,
             100000
         );
         // Arguments: left, right, top, bottom, near and far distances
@@ -43,7 +43,7 @@ export class ControlsManager {
             window.innerWidth / 2,
             window.innerHeight / 2,
             -window.innerHeight / 2,
-            0.1,
+            10,
             100000
         );
         // Orbit controls allow to move around
@@ -259,7 +259,7 @@ export class ControlsManager {
     /**
      * Move the camera to look at the object with the given uuid.
      * @param uuid uuid of the object.
-     * @param alLObjects Group of objects to be traversed for finding the object
+     * @param objectsGroup Group of objects to be traversed for finding the object
      * with the given uuid.
      */
     public lookAtObject(uuid: string, objectsGroup: Object3D) {
