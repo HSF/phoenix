@@ -7,13 +7,19 @@ import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
 
+/**
+ * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class UIService {
 
-  private stats;
-  private gui;
+  /** Stats object from stats-js. */
+  private stats: any;
+  /** dat.GUI menu. */
+  private gui: any;
+  /** Options for the dat.GUI menu. */
   private guiParameters = {
     rotate: undefined,
     axis: undefined,
@@ -21,21 +27,39 @@ export class UIService {
     eventData: undefined,
     geometries: undefined
   };
+  /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
+  /** dat.GUI menu folder containing controls. */
   private controlsFolder: any;
+  /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
+  /** dat.GUI menu folder containing view options. */
   private viewFolder: any;
+  /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
+  /** Canvas in which event display is rendered. */
   private canvas: HTMLElement;
+  /** If dark theme is enabled or disabled. */
   private darkTheme: boolean;
 
+  /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
+  /** Max changeable position of an object along the y-axis. */
   private maxPositionY = 4000;
+  /** Max changeable position of an object along the z-axis. */
   private maxPositionZ = 4000;
 
+  /**
+   * Constructor for the UI service.
+   * @param three Three service to perform three.js related operations.
+   */
   constructor(private three: ThreeService) {
   }
 
+  /**
+   * Show/load the UI including stats, the dat.GUI menu and theme.
+   * @param configuration Configuration options for preset views and event data loader.
+   */
   public showUI(configuration: Configuration) {
     // Shows a panel on screen with information about the performance (fps).
     this.showStats();
@@ -45,6 +69,9 @@ export class UIService {
     this.detectColorScheme();
   }
 
+  /**
+   * Show stats including FPS, milliseconds to render a frame, allocated memory etc.
+   */
   private showStats() {
     this.stats = Stats();
     this.stats.showPanel(0);
@@ -57,10 +84,17 @@ export class UIService {
     canvas.appendChild(this.stats.dom);
   }
 
+  /**
+   * Update the UI by updating stats for each frame.
+   */
   public updateUI() {
     this.stats.update();
   }
 
+  /**
+   * Show dat.GUI menu with different controls related to detector geometry and event data.
+   * @param configuration Configuration options for the menu.
+   */
   private showMenu(configuration: Configuration) {
     this.configuration = configuration;
     this.gui = new dat.GUI();
@@ -75,6 +109,9 @@ export class UIService {
 
   }
 
+  /**
+   * Clear the UI by removing the dat.GUI menu.
+   */
   public clearUI() {
     const gui = document.getElementById('gui');
     if (gui != null) {
@@ -83,19 +120,32 @@ export class UIService {
     this.geomFolder = null;
   }
 
+  /**
+   * Add geometry (detector geometry) folder to the dat.GUI menu.
+   */
   public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
-    this.guiParameters.geometries = { show: true };
+    this.guiParameters.geometries = { show: true, wireframe: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
     const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
     showGeometriesMenu.onChange((value) => {
       this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
     });
+    // A boolean toggle for enabling/disabling the geometries' wireframing.
+    const wireframeGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'wireframe').name('Wireframe').listen();
+    wireframeGeometriesMenu.onChange((value) => {
+      this.three.getSceneManager().wireframeGeometries(value);
+    });
   }
 
-  public addGeometry(name: string, colour) {
+  /**
+   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
+   * @param name Name of the geometry.
+   * @param colour Color of the geometry.
+   */
+  public addGeometry(name: string, colour: any) {
     if (this.geomFolder == null) {
       this.addGeomFolder();
     }
@@ -132,6 +182,10 @@ export class UIService {
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
   }
 
+  /**
+   * Remove object from the dat.GUI menu.
+   * @param name Name of the object to be removed.
+   */
   private removeOBJ(name: string) {
     return () => {
       const folder = this.geomFolder.__folders[name];
@@ -143,7 +197,7 @@ export class UIService {
   }
 
   /**
-   * Functions for event data toggles.
+   * Functions for event data toggles like show/hide and depthTest.
    */
   public addEventDataFolder() {
     // If there is already an event data folder it is deleted and creates a new one.
@@ -161,18 +215,33 @@ export class UIService {
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
 
-  public getEventDataFolder() {
+  /**
+   * Get the event data folder in dat.GUI menu.
+   * @returns Event data folder.
+   */
+  public getEventDataFolder(): any {
     return this.eventFolder;
   }
 
-  public addEventDataTypeFolder(objectType: string) {
-    const typeFolder = this.eventFolder.addFolder(objectType);
-    this.guiParameters.eventData[objectType] = true;
-    const menu = typeFolder.add(this.guiParameters.eventData, objectType).name('Show').listen();
-    menu.onChange((value) => this.three.getSceneManager().objectVisibility(objectType, value));
+  /**
+   * Add folder for event data type like tracks or hits to the dat.GUI menu.
+   * @param typeName Name of the type of event data.
+   * @returns dat.GUI menu's folder for event data type.
+   */
+  public addEventDataTypeFolder(typeName: string): any {
+    const typeFolder = this.eventFolder.addFolder(typeName);
+    this.guiParameters.eventData[typeName] = true;
+    const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
+    menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
     return typeFolder;
   }
 
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param typeFolder dat.GUI menu folder of an event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   */
   public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
     // A new folder for the collection is added to the 'Event Data' folder
     this.guiParameters[collectionName] = {
@@ -203,14 +272,25 @@ export class UIService {
     }
   }
 
+  /**
+   * Rotate the clipping on detector geometry.
+   * @param angle Angle of rotation of the clipping.
+   */
   public rotateClipping(angle: number) {
     this.three.rotateClipping(angle);
   }
 
+  /**
+   * Set if the detector geometry is to be clipped or not.
+   * @param value Set clipping to be true or false.
+   */
   public setClipping(value: boolean) {
     this.three.setClipping(value);
   }
 
+  /**
+   * Detect the current theme and set it.
+   */
   public detectColorScheme() {
     let dark = false;    // default to light
 
@@ -231,6 +311,10 @@ export class UIService {
     this.setDarkTheme(dark);
   }
 
+  /**
+   * Set if the theme is to be dark or light.
+   * @param dark If the theme is to be dark or light. True for dark and false for light theme.
+   */
   public setDarkTheme(dark: boolean) {
     if (dark) {
       localStorage.setItem('theme', 'dark');
@@ -242,28 +326,52 @@ export class UIService {
     this.three.getSceneManager().darkBackground(dark);
   }
 
-  public getDarkTheme() {
+  /**
+   * Get if the theme is dark or not.
+   * @returns If the theme is dark or not.
+   */
+  public getDarkTheme(): boolean {
     return this.darkTheme;
   }
 
+  /**
+   * Set autorotate for the orbit controls.
+   * @param rotate If the autorotate is to be set or not.
+   */
   public setAutoRotate(rotate: boolean) {
     this.three.autoRotate(rotate);
   }
 
+  /**
+   * Get preset views from the configuration.
+   * @returns Available preset views.
+   */
   public getPresetViews(): PresetView[] {
     if (this.configuration) {
       return this.configuration.presetViews;
     }
   }
 
+  /**
+   * Change camera view to a preset view.
+   * @param view Preset view to which the camera has to be transformed.
+   */
   public displayView(view: PresetView) {
     this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
   }
 
+  /**
+   * Toggle orthographic/perspective view.
+   * @param orthographic If the camera is to be orthographic or perspective.
+   */
   public toggleOrthographicView(orthographic: boolean) {
     this.three.swapCameras(orthographic);
   }
 
+  /**
+   * Set the renderer for the secondary overlay canvas.
+   * @param overlayCanvas Canvas for which the overlay renderer is to be set.
+   */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     this.three.setOverlayRenderer(overlayCanvas);
   }

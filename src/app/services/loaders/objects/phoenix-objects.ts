@@ -1,9 +1,16 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
 
-
+/**
+ * Physics objects that make up an event in Phoenix.
+ */
 export class PhoenixObjects {
 
+  /**
+   * Process the Track from the given parameters (and positions)
+   * and get it as a geometry.
+   * @param trackParams Parameters of the Track.
+   */
   public static getTrack(trackParams: any): Object3D {
     const positions = trackParams.pos;
     // Track with no points
@@ -48,20 +55,37 @@ export class PhoenixObjects {
 
     // attributes
     const curve = new THREE.CatmullRomCurve3(points);
-    const vertices = curve.getPoints(50);
-    // geometry
-    const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
-    // material
-    const material = new THREE.LineBasicMaterial({ color: objectColor });
-    material.linewidth = 2;
-    // object
-    const splineObject = new THREE.Line(geometry, material);
-    splineObject.userData = trackParams;
-    splineObject.name = 'Track';
 
-    return splineObject;
+    // TubeGeometry
+    const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
+    const material = new THREE.MeshToonMaterial({ color: objectColor });
+    const tubeObject = new THREE.Mesh(geometry, material);
+    // Setting info to the tubeObject since it will be used for selection
+    tubeObject.userData = trackParams;
+    tubeObject.userData.uuid = tubeObject.uuid;
+    tubeObject.name = 'Track';
+
+    // Line - Creating a Line to put inside the tube to show tracks even on zoom out
+    const vertices = curve.getPoints(50);
+    const lineGeometry = new THREE.BufferGeometry().setFromPoints(vertices);
+    const lineMaterial = new THREE.LineBasicMaterial({
+      color: objectColor,
+      linewidth: 2
+    });
+    const lineObject = new THREE.Line(lineGeometry, lineMaterial);
+
+    // Creating a group to add both the Tube curve and the Line
+    const trackObject = new THREE.Object3D();
+    trackObject.add(tubeObject);
+    trackObject.add(lineObject);
+
+    return trackObject;
   }
 
+  /**
+   * Process the Jet from the given parameters and get it as a geometry.
+   * @param jetParams Parameters for the Jet.
+   */
   public static getJet(jetParams: any): Object3D {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
@@ -92,11 +116,16 @@ export class PhoenixObjects {
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
+    mesh.userData.uuid = mesh.uuid;
     mesh.name = 'Jet';
 
     return mesh;
   }
 
+  /**
+   * Process the Hits from the given parameters and get them as a geometry.
+   * @param hitsParams Parameters for the Hits.
+   */
   public static getHits(hitsParams: any): Object3D {
     // attributes
     const pointPos = new Float32Array(hitsParams.length * 3);
@@ -118,11 +147,16 @@ export class PhoenixObjects {
     // object
     const pointsObj = new THREE.Points(geometry, material);
     pointsObj.userData = hitsParams;
+    pointsObj.userData.uuid = pointsObj.uuid;
     pointsObj.name = 'Hit';
 
     return pointsObj;
   }
 
+  /**
+   * Process the CLuster from the given parameters and get it as a geometry.
+   * @param clusterParams Parameters for the Cluster.
+   */
   public static getCluster(clusterParams: any): Object3D {
     const maxR = 1100.0;
     const maxZ = 3200.0;
@@ -146,6 +180,7 @@ export class PhoenixObjects {
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new THREE.Vector3(0, 0, 0));
     cube.userData = clusterParams;
+    cube.userData.uuid = cube.uuid;
     cube.name = 'Cluster';
 
     return cube;

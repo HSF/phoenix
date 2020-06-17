@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-playground',
@@ -11,16 +12,16 @@ import { PresetView } from '../../services/extras/preset-view.model';
 export class PlaygroundComponent implements OnInit {
 
 
-  constructor(protected eventDisplay: EventdisplayService) {
+  constructor(protected eventDisplay: EventdisplayService, protected http: HttpClient) {
   }
 
   ngOnInit() {
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Left View', [0, 0, -6000], 'left'),
-      new PresetView('Center View', [-500, 1000, 0], 'circle'),
-      new PresetView('Right View', [0, 0, 6000], 'right'),
-      new PresetView('Zoom View', [-1, 1, 0], 'zoom')
+      new PresetView('Left View', [0, 0, -6000], 'left-cube'),
+      new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
+      new PresetView('Right View', [0, 0, 6000], 'right-cube'),
+      new PresetView('Zoom View', [-1, 1, 0], 'zoom-in')
     ];
     this.eventDisplay.init(configuration);
   }

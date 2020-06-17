@@ -4,16 +4,13 @@ import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import {
   Group,
   Object3D,
-  Scene,
   Vector3,
   Plane,
   Quaternion,
-  Points,
-  PointsMaterial,
-  MeshPhongMaterial,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  Camera
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -22,25 +19,37 @@ import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
+import { InfoLoggerService } from './infologger.service';
 
+/**
+ * Service for all three.js related functions.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class ThreeService {
   // Managers
+  /** Manager for three.js scene */
   private sceneManager: SceneManager;
+  /** Manager for three.js renderers */
   private rendererManager: RendererManager;
+  /** Manager for three.js controls */
   private controlsManager: ControlsManager;
+  /** Manager for export operations */
   private exportManager: ExportManager;
+  /** Manager for import operations */
   private importManager: ImportManager;
+  /** Manager for selection of 3D objects and event data */
   private selectionManager: SelectionManager;
-  // Scene export ignore list
+  /** Service for logging data to the information panel */
+  private infoLogger: InfoLoggerService;
+  /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
     new DirectionalLight().type,
     new AxesHelper().type
   ];
-  // Clipping planes
+  /** Clipping planes for clipping geometry */
   private clipPlanes: Plane[] = [
     new Plane(new Vector3(0, 1, 0), 0),
     new Plane(new Vector3(0, -1, 0), 0),
@@ -49,9 +58,10 @@ export class ThreeService {
 
   /**
    * Initializes the necessary three.js functionality.
-   * @param configuration used to customize different aspects.
+   * @param configuration Configuration to customize different aspects.
+   * @param infoLogger Service for logging data to the information panel.
    */
-  public init(configuration: Configuration) {
+  public init(configuration: Configuration, infoLogger: InfoLoggerService) {
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
@@ -61,11 +71,14 @@ export class ThreeService {
     this.rendererManager = new RendererManager();
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
+    // Logger
+    this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
-      this.rendererManager.getMainRenderer());
+      this.rendererManager.getMainRenderer(),
+      this.infoLogger);
     // Customizing with configuration
     this.setConfiguration(configuration);
   }
@@ -80,15 +93,17 @@ export class ThreeService {
   }
 
   /**
-   * Renders three service
+   * Renders three service.
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
-   * Returns the scene manager.
+   * Get the scene manager and create if it doesn't exist.
+   * @returns The scene manager for managing different aspects and elements of the scene.
    */
   public getSceneManager(): SceneManager {
     if (!this.sceneManager) {
@@ -99,13 +114,15 @@ export class ThreeService {
 
   /**
    * Sets controls to auto rotate.
+   * @param autoRotate If the controls are to be automatically rotated or not.
    */
-  public autoRotate(autoRotate) {
+  public autoRotate(autoRotate: boolean) {
     this.controlsManager.getActiveControls().autoRotate = autoRotate;
   }
 
   /**
    * Enables geometries to be clipped with clipping planes.
+   * @param clippingEnabled If the the geometry clipping is to be enabled or disabled.
    */
   public setClipping(clippingEnabled: boolean) {
     this.rendererManager.setLocalClippingEnabled(clippingEnabled);
@@ -113,7 +130,7 @@ export class ThreeService {
 
   /**
    * Rotates clipping planes.
-   * @param angle Angle to rotate the clipping planes
+   * @param angle Angle to rotate the clipping planes.
    */
   public rotateClipping(angle: number) {
     const q = new Quaternion();
@@ -132,16 +149,16 @@ export class ThreeService {
     cameraPosition: number[],
     cameraTarget: number[],
     duration: number
-  ): void {
+  ) {
     this.animateCameraPosition(cameraPosition, duration);
     this.animateCameraTarget(cameraTarget, duration);
   }
 
   /**
    * Swaps cameras.
-   * @param useOrthographic Boolean value whether to use orthographic or perspective camera.
+   * @param useOrthographic Whether to use orthographic or perspective camera.
    */
-  public swapCameras(useOrthographic: boolean): void {
+  public swapCameras(useOrthographic: boolean) {
     let cameraType: string;
 
     if (useOrthographic) {
@@ -179,42 +196,44 @@ export class ThreeService {
     );
   }
 
-  /**************************************
-   * Functions for loading geometries . *
-   **************************************/
+  // *************************************
+  // * Functions for loading geometries. *
+  // *************************************
 
   /**
-   * Loads a geometry in GLTF format given a URL.
+   * Loads an OBJ (.obj) geometry from the given filename.
    * @param filename Path to the geometry.
-   * @param name Given name to the geometry.
-   * @param colour Color to initialize the geometry.
+   * @param name Name given to the geometry.
+   * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    */
   public loadOBJGeometry(
     filename: string,
     name: string,
-    colour,
+    color: any,
     doubleSided: boolean
   ): void {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Group) => geometries.add(object);
-    this.importManager.loadOBJGeometry(callback, filename, name, colour, doubleSided);
+    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
   }
 
   /**
-   * Loads a geometry in GLTF format given a URL.
-   * @param sceneUrl Path to the geometry.
+   * Loads a GLTF (.gltf) scene/geometry from the given URL.
+   * @param sceneUrl URL to the GLTF (.gltf) file.
+   * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string) {
+  public loadGLTFGeometry(sceneUrl: any, name: string, scale?: number) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => geometries.add(geometry);
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback);
+    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**
-   * Parses and loads a geometry in OBJ format.
-   * @param geometry Geometry in OBJ format.
-   * @param name Given name to the geometry.
+   * Parses and loads a geometry in OBJ (.obj) format.
+   * @param geometry Geometry in OBJ (.obj) format.
+   * @param name Name given to the geometry.
    */
   public parseOBJGeometry(geometry: string, name: string) {
     const geometries = this.sceneManager.getGeometries();
@@ -223,8 +242,8 @@ export class ThreeService {
   }
 
   /**
-   * Parses and loads a geometry in GLTF format.
-   * @param geometry Geometry in GLTF format.
+   * Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry Geometry in GLTF (.gltf) format.
    */
   public parseGLTFGeometry(geometry: any) {
     const callback = (geometries: Object3D, eventData: Object3D) => {
@@ -234,8 +253,20 @@ export class ThreeService {
     this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
+  /**	
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    const geometries = this.sceneManager.getGeometries();
+    const callback = (geometry: Object3D) => geometries.add(geometry);
+    this.importManager.loadJSONGeometry(json, name, callback, scale);
+  }
+
   /**
-   * Exports scene to OBJ file format
+   * Exports scene to OBJ file format.
    */
   public exportSceneToOBJ() {
     const scene = this.sceneManager.getCleanScene();
@@ -254,13 +285,14 @@ export class ThreeService {
 
   /**
    * Fixes the camera position of the overlay view.
+   * @param fixed Whether the overlay view is to be fixed or not.
    */
   public fixOverlayView(fixed: boolean) {
     this.rendererManager.setFixOverlay(fixed);
   }
 
   /**
-   * Initializes the object in which will be shown the information of the selected geometries.
+   * Initializes the object which will show information of the selected geometry/event data.
    * @param selectedObject Object to display the data.
    */
   public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
@@ -268,7 +300,7 @@ export class ThreeService {
   }
 
   /**
-   * Set event data depthTest to enable/disable if event data should show on top of geometry.
+   * Set event data depthTest to enable or disable if event data should show on top of geometry.
    * @param value A boolean to specify if depthTest is to be enabled or disabled.
    */
   public eventDataDepthTest(value: boolean) {
@@ -276,7 +308,7 @@ export class ThreeService {
   }
 
   /**
-   * Toggles the ability of selecting geometries by clicking on the screen.
+   * Toggles the ability of selecting geometries/event data by clicking on the screen.
    * @param enable Value to enable or disable the functionality.
    */
   public enableSelecting(enable: boolean) {
@@ -291,29 +323,37 @@ export class ThreeService {
   }
 
   /**
-   * Adds to the event display all collections of a given object type.
-   * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...)
-   * @param getObject function that handles of reconstructing objects of the given type.
-   * @param typeName label for naming the object type.
-   * @param cuts (Optional) filters that can be applied to the objects.
+   * Adds group of an event data type to the main group containing event data.
+   * @param typeName Type of event data.
+   * @returns Three.js group containing the type of event data.
    */
   addEventDataTypeGroup(typeName: string): Group {
     return this.sceneManager.addEventDataTypeGroup(typeName);
   }
 
-  /*********************************
-  * Private auxiliary functions.  *
-  *********************************/
-
   /**
-   * Sets overlay renderer to a renderer manager.
+   * Sets the renderer to be used to render the event display on the overlayed canvas.
+   * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
-  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     if (this.rendererManager) {
       this.rendererManager.setOverlayRenderer(overlayCanvas);
     }
   }
 
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.controlsManager.zoomTo(zoomFactor, zoomTime);
+  }
+
+  // *********************************
+  // * Private auxiliary functions.  *
+  // *********************************
 
   /**
    * Sets different parameters according to the configuration.
@@ -323,7 +363,8 @@ export class ThreeService {
   }
 
   /**
-   * Returns the scene manager.
+   * Get the selection manager.
+   * @returns Selection manager responsible for managing selection of 3D objects.
    */
   private getSelectionManager(): SelectionManager {
     if (!this.selectionManager) {
@@ -337,10 +378,7 @@ export class ThreeService {
    * @param cameraPosition End position.
    * @param duration Duration of an animation in seconds.
    */
-  private animateCameraPosition(
-    cameraPosition: number[],
-    duration: number
-  ): void {
+  private animateCameraPosition(cameraPosition: number[], duration: number) {
     const posAnimation = new TWEEN.Tween(
       this.controlsManager.getActiveCamera().position
     );
@@ -360,7 +398,7 @@ export class ThreeService {
    * @param cameraTarget End target.
    * @param duration Duration of an animation in seconds.
    */
-  private animateCameraTarget(cameraTarget: number[], duration: number): void {
+  private animateCameraTarget(cameraTarget: number[], duration: number) {
     const rotAnimation = new TWEEN.Tween(
       this.controlsManager.getActiveControls().target
     );
@@ -373,5 +411,29 @@ export class ThreeService {
       duration
     );
     rotAnimation.start();
+  }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+    return this.getSelectionManager().getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
+  }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
   }
 }

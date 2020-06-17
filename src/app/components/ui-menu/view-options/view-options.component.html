@@ -1,13 +1,11 @@
-<mat-menu #menu>
-    <mat-checkbox class="mat-menu-item" (click)="$event.stopPropagation()" (change)="toggleOrthographic($event)">
-        Orthographic
-    </mat-checkbox>
-    <button mat-menu-item [matMenuTriggerFor]="presetViews" *ngIf="views && views.length>0">Preset views</button>
-</mat-menu>
-
 <mat-menu #presetViews>
-    <button mat-menu-item *ngFor="let view of views" (click)="displayView($event, view)">{{view.name}}</button>
+  <button mat-menu-item *ngFor="let view of views" (click)="displayView($event, view)">
+    <svg class="view-icon" *ngIf="view.icon">
+      <use attr.href="assets/icons/{{view.icon}}.svg#{{view.icon}}"></use>
+    </svg>
+    {{view.name}}
+  </button>
 </mat-menu>
 
-<app-menu-toggle [matMenuTriggerFor]="menu" tooltip="View options" icon="views" [active]="false">
+<app-menu-toggle [matMenuTriggerFor]="presetViews" tooltip="View options" icon="views" [active]="false">
 </app-menu-toggle>

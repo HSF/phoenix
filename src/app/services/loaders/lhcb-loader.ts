@@ -1,25 +1,40 @@
 import { PhoenixLoader } from './phoenix-loader';
 
+/**
+ * PhoenixLoader for processing and loading an LHCb event.
+ */
 export class LHCbLoader extends PhoenixLoader {
+  /** Event data to be processed. */
   private data: any;
 
+  /**
+   * Constructor for the LHCb loader.
+   */
   constructor() {
     super();
     this.data = {};
   }
 
+  /**
+   * Set the event data for the loader.
+   * @param data Event data as JSON.
+   */
   public process(data: any) {
     console.log('Processing event data');
     this.data = data;
   }
 
+  /**
+   * Process and get the event data.
+   * @returns The processed event data.
+   */
   public getEventData(): any {
 
     const eventData = {
       eventNumber: this.data.eventNumber,
       runNumber: this.data.runNumber,
-      Hits: undefined,
-      Tracks: undefined
+      Hits: {},
+      Tracks: {}
     };
 
     let part_list = [];

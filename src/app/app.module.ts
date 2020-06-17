@@ -38,7 +38,11 @@ import { AutoRotateComponent } from './components/ui-menu/auto-rotate/auto-rotat
 import { ViewOptionsComponent } from './components/ui-menu/view-options/view-options.component';
 import { OverlayViewWindowComponent } from './components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component';
 import { ExperimentInfoComponent } from './components/ui-menu/experiment-info/experiment-info.component';
+import { InfoPanelComponent } from './components/ui-menu/info-panel/info-panel.component';
+import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component';
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
+import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
+import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -79,7 +83,11 @@ const routes: Routes = [
     ViewOptionsComponent,
     OverlayViewWindowComponent,
     ExperimentInfoComponent,
-    OverlayComponent
+    InfoPanelComponent,
+    InfoPanelOverlayComponent,
+    OverlayComponent,
+    MainViewToggleComponent,
+    ZoomControlsComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +106,8 @@ const routes: Routes = [
   entryComponents: [
     IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent,
-    ObjectSelectionOverlayComponent
+    ObjectSelectionOverlayComponent,
+    InfoPanelOverlayComponent
   ],
   bootstrap: [AppComponent]
 })

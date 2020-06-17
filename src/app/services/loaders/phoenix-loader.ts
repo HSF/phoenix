@@ -1,26 +1,50 @@
 import { EventDataLoader } from '../event-data-loader';
-import { Group, Object3D, Scene, Vector3 } from 'three';
+import { Group, Object3D } from 'three';
 import * as THREE from 'three';
 import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
+import { InfoLoggerService } from '../infologger.service';
 
+/**
+ * Loader for processing and loading an event.
+ */
 export class PhoenixLoader implements EventDataLoader {
+  /** ThreeService to perform three.js related functions. */
   private graphicsLibrary: ThreeService;
+  /** UIService to perform UI related functions. */
   private ui: UIService;
+  /** Event data processed by the loader. */
   private eventData: any;
 
 
-  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService): void {
+  /**
+   * Takes an object that represents ONE event and takes care of adding
+   * the different objects to the graphic library and the UI controls.
+   * @param eventData Object representing the event.
+   * @param graphicsLibrary Service containing functionality to draw the 3D objects.
+   * @param ui Service for showing menus and controls to manipulate the geometries.
+   * @param infoLogger Service for logging data to the information panel.
+   */
+  public buildEventData(eventData: any, graphicsLibrary: ThreeService, ui: UIService, infoLogger: InfoLoggerService): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
 
     // initiate load
     this.loadObjectTypes(eventData);
+
+    const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
+    const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
+    infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
   }
 
+  /**
+   * Get the list of event names from the event data.
+   * @param eventsData Object containing all event data.
+   * @returns List of event names.
+   */
   public getEventsList(eventsData: any): string[] {
     const eventsList: string[] = [];
 
@@ -33,6 +57,10 @@ export class PhoenixLoader implements EventDataLoader {
     return eventsList;
   }
 
+  /**
+   * Get list of collections in the event data.
+   * @returns List of all collection names.
+   */
   public getCollections(): string[] {
     if (!this.eventData) {
       return null;
@@ -40,31 +68,40 @@ export class PhoenixLoader implements EventDataLoader {
 
     const collections = [];
     for (const objectType of Object.keys(this.eventData)) {
-      for (const collection of Object.keys(this.eventData[objectType])) {
-        collections.push(collection);
+      if (this.eventData[objectType]) {
+        for (const collection of Object.keys(this.eventData[objectType])) {
+          collections.push(collection);
+        }
       }
     }
     return collections;
   }
 
+  /**
+   * Get the collection with the given collection name from the event data.
+   * @param collectionName Name of the collection to get.
+   * @returns An object containing the collection.
+   */
   public getCollection(collectionName: string): any {
     if (!this.eventData) {
       return null;
     }
 
     for (const objectType of Object.keys(this.eventData)) {
-      for (const collection of Object.keys(this.eventData[objectType])) {
-        if (collection === collectionName) {
-          return this.eventData[objectType][collection];
+      if (this.eventData[objectType]) {
+        for (const collection of Object.keys(this.eventData[objectType])) {
+          if (collection === collectionName) {
+            return this.eventData[objectType][collection];
+          }
         }
       }
     }
   }
 
   /**
-   * Receives an object containing the data from an event and parses it to reconstruct the different collections
-   * of physics objects.
-   * @param eventData representing ONE event (expressed in the Phoenix format).
+   * Receives an object containing the data from an event and parses it
+   * to reconstruct the different collections of physics objects.
+   * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
   private loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
@@ -111,10 +148,10 @@ export class PhoenixLoader implements EventDataLoader {
 
   /**
    * Adds to the event display all collections of a given object type.
-   * @param object contains all collections of a given type (Tracks, Jets, CaloClusters...).
-   * @param getObject function that handles of reconstructing objects of the given type.
-   * @param typeName label for naming the object type.
-   * @param cuts (Optional) filters that can be applied to the objects.
+   * @param object Contains all collections of a given type (Tracks, Jets, CaloClusters...).
+   * @param getObject Function that handles of reconstructing objects of the given type.
+   * @param typeName Label for naming the object type.
+   * @param cuts Filters that can be applied to the objects.
    */
   private addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
 
@@ -136,10 +173,10 @@ export class PhoenixLoader implements EventDataLoader {
 
   /**
    * Adds to the event display all the objects inside a collection.
-   * @param objectCollection contains the params for every object of the collection.
-   * @param collectionName label to UNIQUELY identify the collection.
-   * @param getObject handles reconstructing the objects of the objects of the collection.
-   * @param objectGroup group containing the collections of the same object type.
+   * @param objectCollection Contains the params for every object of the collection.
+   * @param collectionName Label to UNIQUELY identify the collection.
+   * @param getObject Handles reconstructing the objects of the objects of the collection.
+   * @param objectGroup Group containing the collections of the same object type.
    */
   private addCollection(
     objectCollection: any, collectionName: string,
@@ -157,6 +194,11 @@ export class PhoenixLoader implements EventDataLoader {
     objectGroup.add(collscene);
   }
 
+  /**
+   * Get collection names of a given object type.
+   * @param object Contains all collections of a given type (Tracks, Jets, CaloClusters etc.).
+   * @returns List of collection names of an object type (Tracks, Jets, CaloClusters etc.).
+   */
   private getObjectTypeCollections(object: any): string[] {
     const collectionsList: string[] = [];
 
@@ -169,6 +211,11 @@ export class PhoenixLoader implements EventDataLoader {
     return collectionsList;
   }
 
+  /**
+   * Process the Muon from the given parameters and get it as a group.
+   * @param muonParams Parameters of the Muon.
+   * @returns Muon group containing Clusters and Tracks.
+   */
   protected getMuon(muonParams: any): Object3D {
     const muonScene = new Group();
 
@@ -197,10 +244,17 @@ export class PhoenixLoader implements EventDataLoader {
         }
       }
     }
+    // uuid for selection of muons from the collections info panel
+    muonParams.uuid = muonScene.uuid;
+    muonScene.name = 'Muon';
     // add to scene
     return muonScene;
   }
 
+  /**
+   * Get metadata associated to the event (experiment info, time, run, event...).
+   * @returns Metadata of the event.
+   */
   getEventMetadata(): any[] {
     let metadata = [];
     let eventRunLS = {};
