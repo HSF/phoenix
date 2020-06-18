@@ -21,12 +21,20 @@ export class TracerMenuComponent implements OnInit {
             geometryId: 'Toroids'
           },
           {
-            name: 'Barrel',
-            geometryId: 'Barrel'
+            name: 'LAr Barrel',
+            geometryId: 'LAr Barrel'
           },
           {
-            name: 'EndCap',
-            geometryId: 'EndCap'
+            name: 'LAr EC1',
+            geometryId: 'LAr EC1'
+          },
+          {
+            name: 'LAr EC2',
+            geometryId: 'LAr EC2'
+          },
+          {
+            name: 'Tile Cal',
+            geometryId: 'Tile Cal'
           }
         ]
       },

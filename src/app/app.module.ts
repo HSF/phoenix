@@ -85,11 +85,13 @@ const routes: Routes = [
     AutoRotateComponent,
     ViewOptionsComponent,
     OverlayViewWindowComponent,
+    OverlayComponent,
     ExperimentInfoComponent,
     InfoPanelComponent,
     InfoPanelOverlayComponent,
     MainViewToggleComponent,
-    ZoomControlsComponent
+    ZoomControlsComponent,
+    TracerMenuComponent,
     TracerMenuItemComponent
   ],
   imports: [
