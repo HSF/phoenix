@@ -1,12 +1,12 @@
 <div #overlayCard class="overlay-card card" [hidden]="!active" cdkDrag cdkDragBoundary="body">
   <div class="card-header d-flex justify-content-between" [ngClass]="{'with-body' : showBody}" cdkDragHandle
-    *ngIf="title">
+    *ngIf="overlayTitle">
     <div class="align-self-center card-icon" *ngIf="icon">
       <svg>
         <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
       </svg>
     </div>
-    <h5 class="align-self-center m-0 px-2">{{title}}</h5>
+    <h5 class="align-self-center m-0 px-2">{{overlayTitle}}</h5>
     <div class="align-self-center card-icon expandCollapse" matTooltip="Expand / Collapse" matTooltipPosition="right"
       [ngClass]="{'expand' : showBody}" (click)="showBody = !showBody">
       <svg>

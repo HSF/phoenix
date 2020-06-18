@@ -20,9 +20,9 @@ export class InfoLoggerService {
    */
   add(data: string, label?: string) {
     if (this.infoLoggerList.length > this.maxEntries) {
-      this.infoLoggerList.shift();
+      this.infoLoggerList.pop();
     }
-    this.infoLoggerList.push(label ? (label + ': ' + data) : data);
+    this.infoLoggerList.unshift(label ? (label + ': ' + data) : data);
   }
 
   /**
