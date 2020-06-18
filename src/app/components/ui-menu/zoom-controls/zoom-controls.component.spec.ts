@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZoomControlsComponent } from './zoom-controls.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('ZoomControlsComponent', () => {
   let component: ZoomControlsComponent;
@@ -8,9 +9,9 @@ describe('ZoomControlsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ZoomControlsComponent ]
+      imports: [AppModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

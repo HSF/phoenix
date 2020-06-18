@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewWindowComponent } from './overlay-view-window.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('OverlayViewWindowComponent', () => {
   let component: OverlayViewWindowComponent;
@@ -8,7 +9,7 @@ describe('OverlayViewWindowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OverlayViewWindowComponent]
+      imports: [AppModule]
     })
       .compileComponents();
   }));
