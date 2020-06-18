@@ -1,19 +1,33 @@
 import { Vector3 } from 'three';
 
+/**
+ * Class for performing Runge-Kutta operations.
+ */
 export class RungeKutta {
 
+    /**
+     * Perform a Runge-Kutta step for the given state.
+     * @param state State at which the step is to be performed.
+     * @returns The computed step size.
+     */
     static step(state: State): number {
         // Charge (q) to momemtum (p) ratio in SI units
         const qop: number = state.q / (state.unitC * state.p);
 
         // Runge-Kutta integrator state
-        let h2: number, half_h: number;
-        let B_middle: Vector3, B_last: Vector3, k2: Vector3, k3: Vector3, k4: Vector3;
+        let h2: number,
+            half_h: number,
+            B_middle: Vector3,
+            B_last: Vector3,
+            k2: Vector3,
+            k3: Vector3,
+            k4: Vector3;
 
         // First Runge-Kutta point (at current position)
         const B_first: Vector3 = Field.get(state.pos);
         const k1: Vector3 = state.dir.clone().cross(B_first).multiplyScalar(qop);
 
+        // Try Runge-Kutta step with h as the step size
         const tryRungeKuttaStep = (h: number) => {
             h2 = h * h;
             half_h = h / 2;
@@ -42,6 +56,7 @@ export class RungeKutta {
             return h * (Math.abs(returnVec.x) + Math.abs(returnVec.y) + Math.abs(returnVec.z));
         };
 
+        // Checking the error estimate
         let error_estimate: number = tryRungeKuttaStep(state.stepSize);
         while (error_estimate > 0.0002) {
             state.stepSize = 0.5 * state.stepSize;
@@ -56,13 +71,24 @@ export class RungeKutta {
         state.pos.add(state.dir.clone().multiplyScalar(fh)).add(k1.clone().add(k2).add(k3).multiplyScalar(fh2 / 6));
         // state.dir += (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
         state.dir.add(k1.clone().add(k2.clone().multiplyScalar(2)).add(k3.clone().multiplyScalar(2)).add(k4).multiplyScalar(fh / 6));
-        state.dir = RungeKutta.normalizeVector(state.dir);
+        MathExtras.normalizeVector(state.dir);
 
         return state.stepSize;
     }
 
+    /**
+     * Propagate using the given properties by performing the Runge-Kutta steps.
+     * @param startPos Starting position in 3D space.
+     * @param startDir Starting direction in 3D space.
+     * @param p Momentum.
+     * @param q Charge.
+     * @param mss Max step size.
+     * @param plength Path length.
+     * @returns An array containing position and direction at that position calculated
+     * through the Runge-Kutta steps.
+     */
     static propagate(startPos: Vector3, startDir: Vector3, p: number, q: number,
-        mss: number = -1, plength: number = 1000.0): { pos: Vector3, dir: Vector3 }[] {
+        mss: number = -1, plength: number = 1000): { pos: Vector3, dir: Vector3 }[] {
         let rkState: State = new State();
         rkState.pos = startPos;
         rkState.dir = startDir;
@@ -74,6 +100,7 @@ export class RungeKutta {
 
         while (rkState.pathLength < plength) {
             rkState.pathLength += RungeKutta.step(rkState);
+            // Cloning state to avoid using the reference
             let copiedState = JSON.parse(JSON.stringify(rkState));
             result.push({
                 pos: copiedState.pos,
@@ -83,33 +110,54 @@ export class RungeKutta {
 
         return result;
     }
+}
 
-    static normalizeVector(vector: Vector3): Vector3 {
+/**
+ * Extra mathematical methods required for Runge-Kutta.
+ */
+export class MathExtras {
+    /**
+     * Normalize the given vector.
+     * @param vector The vector to be normalized.
+     */
+    static normalizeVector(vector: Vector3) {
         const imag = 1 / Math.sqrt(vector.x * vector.x * + vector.y * vector.y + vector.z * vector.z);
         vector.x *= imag;
         vector.y *= imag;
         vector.z *= imag;
-        return vector;
     }
-
 }
 
-
+/**
+ * State of the particle.
+ */
 class State {
+    /** Position. */
     pos: Vector3 = new Vector3(0, 0, 0);
+    /** Direction. */
     dir: Vector3 = new Vector3(0, 0, 0);
-    p: number = 0.0;
+    /** Momentum. */
+    p: number = 0;
+    /** Charge. */
     q: number = 1;
+    /** Unit. */
     unitC: number = 0.15;
-    stepSize: number = 1000.0;
-    maxStepSize: number = 10.0;
-    pathLength: number = 0.0;
+    /** Step size. */
+    stepSize: number = 1000;
+    /** Max step size. */
+    maxStepSize: number = 10;
+    /** Path length.. */
+    pathLength: number = 0;
 }
 
-
-// Resets the vector for now but might be used to change the field vector
+/**
+ * @ignore
+ */
 class Field {
+    /**
+     * @ignore
+     */
     static get(field: Vector3): Vector3 {
-        return new Vector3(0, 0.0, 2.0);
+        return new Vector3(0, 0, 2);
     }
 }

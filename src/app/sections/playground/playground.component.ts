@@ -4,7 +4,7 @@ import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
 import { Vector3 } from 'three';
-import { RungeKutta } from '../../services/extras/runge-kutta';
+import { RungeKutta, MathExtras } from '../../services/extras/runge-kutta';
 
 @Component({
   selector: 'app-playground',
@@ -31,13 +31,13 @@ export class PlaygroundComponent implements OnInit {
 
     let start = new Vector3(0, 0, 0);
     let dir = new Vector3(1, 1, 1);
-    dir = RungeKutta.normalizeVector(dir);
+    MathExtras.normalizeVector(dir);
 
     let q = 1; // charge
     let p = 500; // momentum
 
     console.log('----------- Propagation Test -----------');
-    let traj = RungeKutta.propagate(start, dir, p, q, -1., 1000.0);
+    let traj = RungeKutta.propagate(start, dir, p, q, -1, 1000);
     console.log(' - yielded ', traj.length, 'steps');
     console.log('----------------------------------------');
 
