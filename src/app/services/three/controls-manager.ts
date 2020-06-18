@@ -1,6 +1,7 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3 } from 'three';
 import { RendererManager } from './renderer-manager';
+import * as TWEEN from '@tweenjs/tween.js';
 
 /**
  * Manager for managing event display controls.
@@ -18,6 +19,8 @@ export class ControlsManager {
     private perspectiveControls: OrbitControls;
     /** Orbit controls for the orthographic view. */
     private orthographicControls: OrbitControls;
+    /** Pairs of camera and their animation for zoom controls. */
+    private zoomCameraAnimPairs: { camera: Camera, anim: any }[];
 
     /**
      * Constructor for setting up all the controls.
@@ -31,7 +34,7 @@ export class ControlsManager {
         const perspectiveCamera = new PerspectiveCamera(
             75,
             window.innerWidth / window.innerHeight,
-            0.1,
+            10,
             100000
         );
         // Arguments: left, right, top, bottom, near and far distances
@@ -40,7 +43,7 @@ export class ControlsManager {
             window.innerWidth / 2,
             window.innerHeight / 2,
             -window.innerHeight / 2,
-            0.1,
+            10,
             100000
         );
         // Orbit controls allow to move around
@@ -66,6 +69,8 @@ export class ControlsManager {
                 this.updateSync();
             }
         );
+        // Initialize the zoom controls
+        this.initializeZoomControls();
     }
 
     /**
@@ -152,6 +157,13 @@ export class ControlsManager {
     getOverlayCamera(): Camera {
         return this.overlayControls.object;
     }
+    /**
+     * Get the main and overlay cameras.
+     * @returns An array containing the main and overlay cameras.
+     */
+    getAllCameras(): Camera[] {
+        return [this.getMainCamera(), this.getOverlayCamera()];
+    }
 
 
     // FUNCTIONS
@@ -211,6 +223,98 @@ export class ControlsManager {
             if (control === this.activeControls) { continue; }
             this.positionSync(control);
             this.rotationSync(control);
+        }
+    }
+
+    /**
+     * Zoom all the cameras by a specific zoom factor.
+     * The factor may either be greater or smaller.
+     * @param zoomFactor The factor to zoom by.
+     * @param zoomTime The time it takes for a zoom animation to complete.
+     */
+    public zoomTo(zoomFactor: number, zoomTime: number) {
+        for (const zoomCameraAnimPair of this.zoomCameraAnimPairs) {
+            const camera: any = zoomCameraAnimPair.camera;
+            const anim = zoomCameraAnimPair.anim;
+            if (camera.isOrthographicCamera) {
+                anim.to({
+                    zoom: camera.zoom * (1 / zoomFactor)
+                }, zoomTime);
+                camera.updateProjectionMatrix();
+            } else {
+                const cameraPosition = camera.position;
+                anim.to(
+                    {
+                        x: cameraPosition.x * zoomFactor,
+                        y: cameraPosition.y * zoomFactor,
+                        z: cameraPosition.z * zoomFactor
+                    },
+                    zoomTime
+                );
+            }
+            anim.start();
+        }
+    }
+
+    /**
+     * Move the camera to look at the object with the given uuid.
+     * @param uuid uuid of the object.
+     * @param objectsGroup Group of objects to be traversed for finding the object
+     * with the given uuid.
+     */
+    public lookAtObject(uuid: string, objectsGroup: Object3D) {
+        const origin = new Vector3(0, 0, 0);
+        objectsGroup.traverse((object: any) => {
+            if (object.uuid === uuid) {
+                let objectPosition = new Vector3();
+                if (['Track', 'Hit'].includes(object.name)) {
+                    // Get the center of bounding sphere for Tracks and Hits
+                    objectPosition = object.geometry.boundingSphere.center;
+                } else if (object.name === 'Muon') {
+                    // Muon is a group of other event data so we traverse through it
+                    object.traverse((muonObject: any) => {
+                        if (muonObject.name === 'Track') {
+                            // Get the max vector from the bounding box to accumulate with the clusters
+                            objectPosition.add(
+                                muonObject.geometry.boundingSphere.getBoundingBox().max
+                            );
+                        } else {
+                            objectPosition.add(muonObject.position);
+                        }
+                    });
+                } else {
+                    // Get the object position for all other elements
+                    objectPosition = object.position;
+                }
+                // Check if the object is away from the origin
+                if (objectPosition.distanceTo(origin) > 1) {
+                    for (const camera of this.getAllCameras()) {
+                        // Moving the camera to the object's position and then zooming out
+                        new TWEEN.Tween(camera.position).to({
+                            x: objectPosition.x * 1.1,
+                            y: objectPosition.y * 1.1,
+                            z: objectPosition.z * 1.1
+                        }, 200).start();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Initialize the zoom controls by setting up the camera and their animations as pairs.
+     */
+    private initializeZoomControls() {
+        const allCameras: any[] = this.getAllCameras();
+        this.zoomCameraAnimPairs = [];
+        for (const camera of allCameras) {
+            const animation = camera.isOrthographicCamera
+                ? new TWEEN.Tween(camera)
+                : new TWEEN.Tween(camera.position);
+            this.zoomCameraAnimPairs.push({
+                camera: camera,
+                anim: animation
+            });
         }
     }
 

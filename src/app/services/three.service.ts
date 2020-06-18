@@ -9,7 +9,8 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  Camera
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -97,6 +98,7 @@ export class ThreeService {
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
@@ -220,11 +222,12 @@ export class ThreeService {
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string) {
+  public loadGLTFGeometry(sceneUrl: any, name: string, scale?: number) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => geometries.add(geometry);
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback);
+    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**
@@ -248,6 +251,18 @@ export class ThreeService {
       this.sceneManager.getScene().add(eventData);
     };
     this.importManager.parseGLTFGeometry(geometry, callback);
+  }
+
+  /**	
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    const geometries = this.sceneManager.getGeometries();
+    const callback = (geometry: Object3D) => geometries.add(geometry);
+    this.importManager.loadJSONGeometry(json, name, callback, scale);
   }
 
   /**
@@ -326,6 +341,16 @@ export class ThreeService {
     }
   }
 
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.controlsManager.zoomTo(zoomFactor, zoomTime);
+  }
+
   // *********************************
   // * Private auxiliary functions.  *
   // *********************************
@@ -386,5 +411,29 @@ export class ThreeService {
       duration
     );
     rotAnimation.start();
+  }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+    return this.getSelectionManager().getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
+  }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
   }
 }

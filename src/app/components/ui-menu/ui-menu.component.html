@@ -1,33 +1,45 @@
 <div class="optionsWrapper">
-    <div id="optionsPanel">
+  <button id="hide-ui-menu" [matTooltip]="hideUIMenu ? 'Show toolbar' : 'Hide toolbar'" matTooltipPosition="above"
+    (click)="hideUIMenu = !hideUIMenu" [ngClass]="{'ui-menu-hidden': hideUIMenu}">
+    <svg>
+      <use href="assets/icons/expand.svg#expand"></use>
+    </svg>
+  </button>
+  <div id="optionsPanel" [hidden]="hideUIMenu">
+    <!-- Toggle for loading geometries modal-->
+    <app-io-options></app-io-options>
 
-        <!-- Toggle for loading geometries modal-->
-        <app-io-options></app-io-options>
+    <!-- Toggle for collections info -->
+    <app-collections-info></app-collections-info>
 
-        <!-- Toggle for collections info -->
-        <app-collections-info></app-collections-info>
-        
-        <!-- Info panel -->
-        <app-info-panel></app-info-panel>
 
-        <!-- Toggle for selected object panel -->
-        <app-object-selection></app-object-selection>
+    <!-- Info panel -->
+    <app-info-panel></app-info-panel>
 
-        <!-- Toggle for overlay panel -->
-        <app-overlay-view></app-overlay-view>
+    <!-- Toggle for selected object panel -->
+    <app-object-selection></app-object-selection>
 
-        <!-- Toggle for clipping geometries -->
-        <app-object-clipping></app-object-clipping>
+    <!-- Toggle for overlay panel -->
+    <app-overlay-view></app-overlay-view>
 
-        <!-- Dark theme toggle -->
-        <app-dark-theme></app-dark-theme>
+    <!-- Main view toggle -->
+    <app-main-view-toggle></app-main-view-toggle>
 
-        <app-auto-rotate></app-auto-rotate>
+    <!-- Toggle for clipping geometries -->
+    <app-object-clipping></app-object-clipping>
 
-        <app-view-options></app-view-options>
+    <!-- Dark theme toggle -->
+    <app-dark-theme></app-dark-theme>
 
-        <!-- Event selector -->
-        <app-event-selector></app-event-selector>
+    <app-auto-rotate></app-auto-rotate>
 
-    </div>
+    <app-view-options></app-view-options>
+
+    <!-- Zoom in and zoom out controls -->
+    <app-zoom-controls></app-zoom-controls>
+
+    <!-- Event selector -->
+    <app-event-selector></app-event-selector>
+
+  </div>
 </div>

@@ -68,8 +68,10 @@ export class PhoenixLoader implements EventDataLoader {
 
     const collections = [];
     for (const objectType of Object.keys(this.eventData)) {
-      for (const collection of Object.keys(this.eventData[objectType])) {
-        collections.push(collection);
+      if (this.eventData[objectType]) {
+        for (const collection of Object.keys(this.eventData[objectType])) {
+          collections.push(collection);
+        }
       }
     }
     return collections;
@@ -86,9 +88,11 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     for (const objectType of Object.keys(this.eventData)) {
-      for (const collection of Object.keys(this.eventData[objectType])) {
-        if (collection === collectionName) {
-          return this.eventData[objectType][collection];
+      if (this.eventData[objectType]) {
+        for (const collection of Object.keys(this.eventData[objectType])) {
+          if (collection === collectionName) {
+            return this.eventData[objectType][collection];
+          }
         }
       }
     }
@@ -240,6 +244,9 @@ export class PhoenixLoader implements EventDataLoader {
         }
       }
     }
+    // uuid for selection of muons from the collections info panel
+    muonParams.uuid = muonScene.uuid;
+    muonScene.name = 'Muon';
     // add to scene
     return muonScene;
   }
@@ -248,9 +255,35 @@ export class PhoenixLoader implements EventDataLoader {
    * Get metadata associated to the event (experiment info, time, run, event...).
    * @returns Metadata of the event.
    */
-  getEventMetadata(): string[] {
-    // Not implemented
-    return [];
+  getEventMetadata(): any[] {
+    let metadata = [];
+    let eventRunLS = {};
+
+    eventRunLS['Run'] = this.eventData['run number']
+      ? this.eventData['run number']
+      : this.eventData['runNumber'];
+    eventRunLS['Event'] = this.eventData['event number']
+      ? this.eventData['event number']
+      : this.eventData['eventNumber'];
+
+    if (this.eventData['ls']) {
+      eventRunLS['LS'] = this.eventData['ls'];
+    }
+
+    Object.keys(eventRunLS).map(key => {
+      if (!eventRunLS[key]) {
+        delete eventRunLS[key];
+      }
+    });
+
+    if (Object.keys(eventRunLS).length > 0) {
+      metadata.push({
+        label: Object.keys(eventRunLS).join(' / '),
+        value: Object.values(eventRunLS).join(' / ')
+      });
+    }
+
+    return metadata;
   }
 
 }

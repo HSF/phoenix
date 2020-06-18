@@ -19,15 +19,15 @@ export class AtlasComponent implements OnInit {
 
     const configuration = new Configuration();
     configuration.presetViews = [
-      new PresetView('Left View', [0, 0, -12000], 'left'),
-      new PresetView('Center View', [-500, 12000, 0], 'circle'),
-      new PresetView('Right View', [0, 0, 12000], 'right')
+      new PresetView('Left View', [0, 0, -12000], 'left-cube'),
+      new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
+      new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
 
     this.eventDisplay.init(configuration);
     this.http.get('assets/files/event_data/atlaseventdump2.json')
       .subscribe((res: any) => this.eventDisplay.parsePhoenixEvents(res));
-    this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0xaaaaaa, false);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0x8c8c8c, false);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/TRT.obj', 'TRT', 0x356aa5, false);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/SCT.obj', 'SCT', 0xfff400, false);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/pixel.obj', 'Pixel', 0x356aa5, false);

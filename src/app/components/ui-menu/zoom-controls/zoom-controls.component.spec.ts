@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoPanelComponent } from './info-panel.component';
+import { ZoomControlsComponent } from './zoom-controls.component';
 import { AppModule } from 'src/app/app.module';
 
-describe('InfoPanelComponent', () => {
-  let component: InfoPanelComponent;
-  let fixture: ComponentFixture<InfoPanelComponent>;
+describe('ZoomControlsComponent', () => {
+  let component: ZoomControlsComponent;
+  let fixture: ComponentFixture<ZoomControlsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('InfoPanelComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoPanelComponent);
+    fixture = TestBed.createComponent(ZoomControlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

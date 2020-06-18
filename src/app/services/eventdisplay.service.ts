@@ -4,6 +4,7 @@ import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
+import { Camera } from 'three';
 
 declare global {
   /**
@@ -203,15 +204,38 @@ export class EventdisplayService {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene/geometry from the given URL
+   * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * and adds it to the dat.GUI menu.
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
    */
-  public loadGLTFGeometry(url: any, name: string) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name);
+  public loadGLTFGeometry(url: any, name: string, scale?: number) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
+  }
+
+  /**
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
+    this.ui.addGeometry(name, 0xff0000);
+    this.infoLogger.add(name, 'Loaded JSON geometry');
+  }
+
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.graphicsLibrary.zoomTo(zoomFactor, zoomTime);
   }
 
 
@@ -235,11 +259,11 @@ export class EventdisplayService {
     }
 
     const eventNumber = sceneConfiguration.eventData['event number']
-                        ? sceneConfiguration.eventData['event number']
-                        : sceneConfiguration.eventData['eventNumber'];
+      ? sceneConfiguration.eventData['event number']
+      : sceneConfiguration.eventData['eventNumber'];
     const runNumber = sceneConfiguration.eventData['run number']
-                        ? sceneConfiguration.eventData['run number']
-                        : sceneConfiguration.eventData['runNumber'];
+      ? sceneConfiguration.eventData['run number']
+      : sceneConfiguration.eventData['runNumber'];
     this.infoLogger.add('Scene with event#' + eventNumber + ' and run#' + runNumber, 'Loaded');
   }
 
@@ -282,7 +306,7 @@ export class EventdisplayService {
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
    * @returns Metadata of the displayed event.
    */
-  public getEventMetadata(): string[] {
+  public getEventMetadata(): any[] {
     return this.configuration.getEventDataLoader().getEventMetadata();
   }
 
@@ -340,5 +364,39 @@ export class EventdisplayService {
    */
   public enableSelecting(enable: boolean) {
     this.graphicsLibrary.enableSelecting(enable);
+  }
+
+  /**
+   * Fixes the camera position of the overlay view.
+   * @param fixed Whether the overlay view is to be fixed or not.
+   */
+  public fixOverlayView(fixed: boolean) {
+    this.graphicsLibrary.fixOverlayView(fixed);
+  }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+      return this.graphicsLibrary.getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid
+   * and highlight it.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.graphicsLibrary.lookAtObject(uuid);
+    this.graphicsLibrary.highlightObject(uuid);
+  }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.graphicsLibrary.highlightObject(uuid);
   }
 }

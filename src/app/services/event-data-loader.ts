@@ -40,6 +40,6 @@ export interface EventDataLoader {
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
    * @returns Metadata of the displayed event.
    */
-  getEventMetadata(): string[];
+  getEventMetadata(): any[];
 
 }
