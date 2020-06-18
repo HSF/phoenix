@@ -54,4 +54,19 @@ export class LHCbLoader extends PhoenixLoader {
     eventData.Tracks = { Particles: part_list };
     return eventData;
   }
+
+  /**
+   * Get LHCb specific metadata associated to the event (experiment info, time, run, event...).
+   * @returns Metadata of the event.
+   */
+  getEventMetadata(): any[] {
+    let metadata = super.getEventMetadata();
+    if (this.data['time']) {
+      metadata.push({
+        label: 'Data recorded',
+        value: this.data['time']
+      });
+    }
+    return metadata;
+  }
 }

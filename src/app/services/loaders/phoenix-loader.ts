@@ -255,9 +255,35 @@ export class PhoenixLoader implements EventDataLoader {
    * Get metadata associated to the event (experiment info, time, run, event...).
    * @returns Metadata of the event.
    */
-  getEventMetadata(): string[] {
-    // Not implemented
-    return [];
+  getEventMetadata(): any[] {
+    let metadata = [];
+    let eventRunLS = {};
+
+    eventRunLS['Run'] = this.eventData['run number']
+      ? this.eventData['run number']
+      : this.eventData['runNumber'];
+    eventRunLS['Event'] = this.eventData['event number']
+      ? this.eventData['event number']
+      : this.eventData['eventNumber'];
+
+    if (this.eventData['ls']) {
+      eventRunLS['LS'] = this.eventData['ls'];
+    }
+
+    Object.keys(eventRunLS).map(key => {
+      if (!eventRunLS[key]) {
+        delete eventRunLS[key];
+      }
+    });
+
+    if (Object.keys(eventRunLS).length > 0) {
+      metadata.push({
+        label: Object.keys(eventRunLS).join(' / '),
+        value: Object.values(eventRunLS).join(' / ')
+      });
+    }
+
+    return metadata;
   }
 
 }

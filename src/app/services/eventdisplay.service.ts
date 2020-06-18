@@ -306,7 +306,7 @@ export class EventdisplayService {
    * Get metadata associated to the displayed event (experiment info, time, run, event...).
    * @returns Metadata of the displayed event.
    */
-  public getEventMetadata(): string[] {
+  public getEventMetadata(): any[] {
     return this.configuration.getEventDataLoader().getEventMetadata();
   }
 

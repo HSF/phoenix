@@ -8,14 +8,16 @@ import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 })
 export class ExperimentInfoComponent implements OnInit {
 
-  experimentInfo: string[];
+  experimentInfo: any[];
   @Input() experiment: string;
+  @Input() experimentTagline: string;
 
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit(): void {
-    this.eventDisplay.listenToDisplayedEventChange(() => this.experimentInfo = this.eventDisplay.getEventMetadata());
+    this.eventDisplay.listenToDisplayedEventChange(() => {
+      this.experimentInfo = this.eventDisplay.getEventMetadata();
+    });
   }
-
 
 }
