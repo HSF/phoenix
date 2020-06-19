@@ -69,7 +69,7 @@ export class PhoenixObjects {
     const lineObject = new THREE.Line(lineGeometry, lineMaterial);
 
     // Creating a group to add both the Tube curve and the Line
-    const trackObject = new THREE.Object3D();
+    const trackObject = new THREE.Group();
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 

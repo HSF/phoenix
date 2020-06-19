@@ -354,8 +354,23 @@ export class SceneManager {
         const object = this.getEventData();
 
         if (object !== null) {
-            // Traversing all event data objects to change material's depthTest
-            object.traverse((objectChild: any) => {
+            this.updateChildrenDepthTest(object, value);
+        }
+    }
+
+    /**
+     * Update all children's depthTest and renderOrder.
+     * @param object Object group whose depthTest is to be changed.
+     * @param value A boolean to specify if depthTest is to be enabled or disabled.
+     */
+    private updateChildrenDepthTest(object: any, value: boolean) {
+        // Changing renderOrder to make event data render on top of geometry
+        // Arbitrarily setting a high value of 999
+        value ? object.renderOrder = 0 : object.renderOrder = 999;
+
+        // Traversing all event data objects to change material's depthTest
+        object.children.forEach((objectChild: any) => {
+            if (objectChild.children.length === 0) {
                 if (objectChild.material) {
                     // Changing renderOrder to make event data render on top of geometry
                     // Arbitrarily setting a high value of 999
