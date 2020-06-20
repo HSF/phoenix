@@ -11,7 +11,7 @@ export class RungeKutta {
      * @returns The computed step size.
      */
     static step(state: State): number {
-        // Charge (q) to momemtum (p) ratio in SI units
+        // Charge (q) to momentum (p) ratio in SI units
         const qop: number = state.q / (state.unitC * state.p);
 
         // Runge-Kutta integrator state
@@ -25,6 +25,7 @@ export class RungeKutta {
 
         // First Runge-Kutta point (at current position)
         const B_first: Vector3 = Field.get(state.pos);
+        // state.dir.cross(B_first) * qop
         const k1: Vector3 = state.dir.clone().cross(B_first).multiplyScalar(qop);
 
         // Try Runge-Kutta step with h as the step size
@@ -59,7 +60,7 @@ export class RungeKutta {
         // Checking the error estimate
         let error_estimate: number = tryRungeKuttaStep(state.stepSize);
         while (error_estimate > 0.0002) {
-            state.stepSize = 0.5 * state.stepSize;
+            state.stepSize *= 0.5;
             error_estimate = tryRungeKuttaStep(state.stepSize);
         }
 

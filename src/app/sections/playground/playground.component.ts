@@ -53,12 +53,12 @@ export class PlaygroundComponent implements OnInit {
       resultStr += 'l ' + (iv - 1) + ' ' + iv + '\n';
     }
 
-    let blob = new Blob([resultStr], { type: 'text/plain' });
+    this.saveFile(resultStr, 'Track.obj');
 
-    this.saveFile(blob, 'Track.obj');
   }
 
-  saveFile(blob, filename) {
+  saveFile(text, filename) {
+    let blob = new Blob([text], { type: 'text/plain' });
     const link = document.createElement('a');
     link.style.display = 'none';
     document.body.appendChild(link);
