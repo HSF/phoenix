@@ -65,14 +65,14 @@ export class RungeKutta {
         }
 
         let fh: number = state.stepSize;
-        let fh2: number = fh * fh;
+        let fh2: number = Math.pow(fh, 2);
 
         // Update position and momentum
         // state.pos += state.dir * fh + (k1 + k2 + k3) * (fh2 /6)
         state.pos.add(state.dir.clone().multiplyScalar(fh)).add(k1.clone().add(k2).add(k3).multiplyScalar(fh2 / 6));
         // state.dir += (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
         state.dir.add(k1.clone().add(k2.clone().multiplyScalar(2)).add(k3.clone().multiplyScalar(2)).add(k4).multiplyScalar(fh / 6));
-        MathExtras.normalizeVector(state.dir);
+        state.dir.normalize();
 
         return state.stepSize;
     }
@@ -110,22 +110,6 @@ export class RungeKutta {
         }
 
         return result;
-    }
-}
-
-/**
- * Extra mathematical methods required for Runge-Kutta.
- */
-export class MathExtras {
-    /**
-     * Normalize the given vector.
-     * @param vector The vector to be normalized.
-     */
-    static normalizeVector(vector: Vector3) {
-        const imag = 1 / Math.sqrt(vector.x * vector.x * + vector.y * vector.y + vector.z * vector.z);
-        vector.x *= imag;
-        vector.y *= imag;
-        vector.z *= imag;
     }
 }
 
