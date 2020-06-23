@@ -127,10 +127,19 @@ export class PhoenixObjects {
    * @param hitsParams Parameters for the Hits.
    */
   public static getHits(hitsParams: any): Object3D {
+    let positions: any[];
+
+    // If the parameters is an object then take out 'pos' for hits positions
+    if (typeof hitsParams === 'object') {
+      positions = [hitsParams.pos];
+    } else {
+      positions = hitsParams;
+    }
+
     // attributes
-    const pointPos = new Float32Array(hitsParams.length * 3);
+    const pointPos = new Float32Array(positions.length * 3);
     let i = 0;
-    for (const hit of hitsParams) {
+    for (const hit of positions) {
       pointPos[i] = hit[0];
       pointPos[i + 1] = hit[1];
       pointPos[i + 2] = hit[2];
