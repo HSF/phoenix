@@ -7,6 +7,8 @@ import { Vector3, QuadraticBezierCurve3 } from 'three';
 export class CMSLoader extends PhoenixLoader {
     /** Event data to be processed. */
     private data: any;
+    /** Scale factor for resizing geometry to fit Phoenix event display. */
+    private geometryScale: number = 1000;
 
     /**
      * Constructor for the LHCb loader.
@@ -54,9 +56,11 @@ export class CMSLoader extends PhoenixLoader {
             SiPixelClusters_V1: []
         };
         let tempClusters = [];
-        siPixelClusters.forEach(function (cluster: any) {
-            // tempClusters.push(cluster[1]);
-        });
+        const scope = this;
+        for (let cluster of siPixelClusters) {
+            cluster[1] = cluster[1].map((point: number) => point * scope.geometryScale)
+            tempClusters.push(cluster[1]);
+        }
         Hits.SiPixelClusters_V1.push(tempClusters);
         return Hits;
     }
@@ -132,10 +136,11 @@ export class CMSLoader extends PhoenixLoader {
 
             let positions = [];
             // Divide the curve into points to put into positions array
-            curve.getPoints(24).forEach(function (position: any) {
-                position.multiplyScalar(1000);
+            for (const position of curve.getPoints(24)) {
+                // Increasing the scale to fit Phoenix's event display
+                position.multiplyScalar(this.geometryScale);
                 positions.push([position.x, position.y, position.z]);
-            });
+            }
 
             trackInfo.pos = positions;
             allTracksData.push(trackInfo);
