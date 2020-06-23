@@ -31,15 +31,19 @@ export class CMSLoader extends PhoenixLoader {
      * @returns Event data with Hits and Tracks.
      */
     public getEventData(): any {
+        const eventInfo = this.data['Collections']['Event_V2'][0];
+
         let eventData = {
-            eventNumber: '0',
-            runNumber: '',
+            runNumber: eventInfo[0],
+            eventNumber: eventInfo[1],
+            ls: eventInfo[2],
+            time: eventInfo[5],
             Hits: {},
             Tracks: {}
         };
 
         // Getting hits
-        eventData.Hits = this.getPixelClusters();
+        eventData.Hits = this.getHits();
         // Getting tracks
         eventData.Tracks = this.getTracks();
 
@@ -47,21 +51,40 @@ export class CMSLoader extends PhoenixLoader {
     }
 
     /**
-     * Get Pixel Clusters from the event data.
-     * @returns Hits with Pixel Clusters.
+     * Get Hits from the event data.
+     * @returns Hits object containing all cluster collections.
      */
-    private getPixelClusters(): any {
-        const siPixelClusters = this.data['Collections']['SiPixelClusters_V1'];
-        let Hits = {
-            SiPixelClusters_V1: []
-        };
-        let tempClusters = [];
-        const scope = this;
-        for (let cluster of siPixelClusters) {
-            cluster[1] = cluster[1].map((point: number) => point * scope.geometryScale)
-            tempClusters.push(cluster[1]);
+    private getHits(): any {
+        let Hits = {};
+        const collections = this.data['Collections'];
+        const types = this.data['Types'];
+        let clusterCollections = Object.keys(collections)
+            .filter(key => key.toLowerCase().includes('cluster'));
+
+        // Go through each cluster collection
+        for (const clusterCollection of clusterCollections) {
+            Hits[clusterCollection] = [];
+            // Set up each cluster from the cluster collection
+            for (const cluster of collections[clusterCollection]) {
+                let clusterObject = {};
+                // Go through each attribute of the cluster
+                cluster.forEach((attributeValue, index) => {
+                    // Get the attribute name from types
+                    const attributeName = types[clusterCollection][index][0];
+                    clusterObject[attributeName] = attributeValue;
+                });
+                if (clusterObject['pos']) {
+                    // Increasing the scale to fit Phoenix's event display
+                    clusterObject['pos'] = clusterObject['pos'].map((point: number) => point * this.geometryScale);
+                    Hits[clusterCollection].push(clusterObject);
+                }
+            }
+            // If the cluster collection has no hits then remove it
+            if (Hits[clusterCollection].length === 0) {
+                delete Hits[clusterCollection];
+            }
         }
-        Hits.SiPixelClusters_V1.push(tempClusters);
+
         return Hits;
     }
 
@@ -79,7 +102,7 @@ export class CMSLoader extends PhoenixLoader {
         const assocs = this.data['Associations']['TrackExtras_V1'];
 
         // Processing tracks using associations and extras
-        
+
         // Variables to be used inside the loop
         let pt, ti, ei,
             p1, d1,
@@ -147,6 +170,22 @@ export class CMSLoader extends PhoenixLoader {
 
         }
 
-        return { Particles: allTracksData };
+        return { Tracks_V2: allTracksData };
+    }
+
+    /**
+     * Get CMS specific metadata associated to the event.
+     * @returns Metadata of the event.
+     */
+    getEventMetadata(): any[] {
+        let metadata = super.getEventMetadata();
+        const eventInfo = this.data['Collections']['Event_V2'][0];
+        if (eventInfo[3]) {
+            metadata.push({
+                label: 'Orbit',
+                value: eventInfo[3]
+            });
+        }
+        return metadata;
     }
 }
