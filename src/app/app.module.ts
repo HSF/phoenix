@@ -43,6 +43,7 @@ import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
 import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
 import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
+import { CMSComponent } from './sections/cms/cms.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'geometry', component: GeometryComponent },
   { path: 'atlas', component: AtlasComponent },
   { path: 'lhcb', component: LHCbComponent },
+  { path: 'cms', component: CMSComponent },
   { path: 'trackml', component: TrackmlComponent },
   { path: 'playground', component: PlaygroundComponent },
   { path: 'playgroundVR', component: PlaygroundVrComponent }
@@ -62,6 +64,7 @@ const routes: Routes = [
     GeometryComponent,
     AtlasComponent,
     LHCbComponent,
+    CMSComponent,
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,
