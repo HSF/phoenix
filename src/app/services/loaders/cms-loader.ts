@@ -75,7 +75,8 @@ export class CMSLoader extends PhoenixLoader {
                 });
                 if (clusterObject['pos']) {
                     // Increasing the scale to fit Phoenix's event display
-                    clusterObject['pos'] = clusterObject['pos'].map((point: number) => point * this.geometryScale);
+                    clusterObject['pos'] = clusterObject['pos']
+                        .map((point: number) => point * this.geometryScale);
                     Hits[clusterCollection].push(clusterObject);
                 }
             }
@@ -93,41 +94,42 @@ export class CMSLoader extends PhoenixLoader {
      * @returns An object containing all tracks.
      */
     private getTracks(): any {
-        /**
-         * For "Tracks_V2" Approach II - Working
-         */
-        let allTracksData = [];
-        const tracks = this.data['Collections']['Tracks_V2'];
-        const extras = this.data['Collections']['Extras_V1'];
-        const assocs = this.data['Associations']['TrackExtras_V1'];
+
+        let Tracks = {};
+        let allTracks = [];
+
+        const collections = this.data['Collections'];
+        const tracksCollection = Object.keys(collections)
+            .find(key => key.toLowerCase().startsWith('tracks'));
 
         // Processing tracks using associations and extras
+        const tracks = this.data['Collections'][tracksCollection];
+        const extras = this.data['Collections']['Extras_V1'];
+        const assocs = this.data['Associations']['TrackExtras_V1'];
+        // Properties/attributes of tracks
+        const trackTypes = this.data['Types'][tracksCollection];
 
         // Variables to be used inside the loop
-        let pt, ti, ei,
+        let ti, ei,
             p1, d1,
             p2, d2,
             distance, scale, cp1, cp2, curve,
             trackInfo;
+        const min_pt = 1.0;
 
-        const cutsLimit = [0, 0.6];
         for (let i = 0; i < assocs.length; i++) {
             // Current track info
-            trackInfo = {
-                pos: [],
-                pt: tracks[i][2],
-                phi: tracks[i][3],
-                eta: tracks[i][4],
-                charge: tracks[i][5],
-                chi2: tracks[i][6],
-                dof: tracks[i][7]
-            };
+            trackInfo = {};
 
-            // Track properties
-            pt = tracks[i][2];
+            // Set properties/attributes of track
+            trackTypes.forEach((attribute, attributeIndex) => {
+                trackInfo[attribute[0]] = tracks[i][attributeIndex];
+            });
 
-            if (pt < cutsLimit[0] || pt > cutsLimit[1])
-                continue; // Skip this track
+            // SKIPPING TRACKS WITH pt > 1.0
+            if (trackInfo.pt > min_pt) {
+                continue;
+            }
 
             // Track i - location in assocs
             ti = assocs[i][0][1];
@@ -166,11 +168,12 @@ export class CMSLoader extends PhoenixLoader {
             }
 
             trackInfo.pos = positions;
-            allTracksData.push(trackInfo);
+            allTracks.push(trackInfo);
 
         }
 
-        return { Tracks_V2: allTracksData };
+        Tracks[tracksCollection] = allTracks;
+        return Tracks;
     }
 
     /**
