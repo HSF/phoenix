@@ -1,5 +1,5 @@
 import { EventDataLoader } from '../event-data-loader';
-import { Group, Object3D } from 'three';
+import { Group, Object3D, Vector3 } from 'three';
 import * as THREE from 'three';
 import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
@@ -7,6 +7,7 @@ import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLoggerService } from '../infologger.service';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
+import { RungeKutta } from '../extras/runge-kutta';
 
 /**
  * Loader for processing and loading an event.
@@ -33,12 +34,68 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui = ui;
     this.eventData = eventData;
 
+    // Replacing tracks with tracks through Runge-Kutta
+    this.eventData.Tracks = this.getTracksWithRungeKutta(this.eventData['Tracks']);
+
     // initiate load
     this.loadObjectTypes(eventData);
 
     const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
     const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
+  }
+
+  getTracksWithRungeKutta(tracksCollections: any) {
+    let Tracks = {};
+    for (const tracksCollection of Object.keys(tracksCollections)) {
+      Tracks[tracksCollection] = [];
+      for (const track of tracksCollections[tracksCollection]) {
+        const dparams = track.dparams;
+        const d0    = dparams[0],
+              z0    = dparams[1],
+              phi   = dparams[2],
+              theta = dparams[3],
+              qop   = dparams[4];
+        
+        // localToGlobal
+        
+        let p;
+        if (qop !== 0) {
+          p = Math.abs(1 / qop);
+        } else {
+          p = 0;
+        }
+
+        let globalMomentum = new Vector3(
+          p * Math.cos(phi) * Math.sin(theta),
+          p * Math.sin(phi) * Math.sin(theta),
+          p * Math.cos(theta)
+        );
+        const globalPosition = new Vector3(
+          -d0 * Math.sin(phi),
+          d0 * Math.cos(phi),
+          z0
+        );
+
+        const startPos = globalPosition;
+
+        // const startDir = new Vector3(
+        //   Math.sin(phi) * Math.sin(theta),
+        //   Math.cos(phi),
+        //   Math.sin(phi) * Math.cos(theta)
+        // );
+
+        const startDir = new Vector3().setFromSphericalCoords(1, phi, theta);
+        startDir.normalize();
+        const q = Math.round(p * qop);
+
+        const traj = RungeKutta.propagate(startPos, startDir, p, q);
+        track.pos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
+
+        Tracks[tracksCollection].push(track);
+      }
+    }
+    return Tracks;
   }
 
   /**
