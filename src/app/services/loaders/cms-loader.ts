@@ -40,47 +40,64 @@ export class CMSLoader extends PhoenixLoader {
             time: eventInfo[5],
             Hits: {},
             Tracks: {},
-            Jets: {}
+            Jets: {},
+            CaloClusters: {}
         };
 
         // Getting Hits
-        eventData.Hits = this.getHits();
+        eventData.Hits = this.getTrackingClusters(eventData.Hits);
         // Getting Tracks
         eventData.Tracks = this.getTracks();
         // Getting Jets
         eventData.Jets = this.getJets();
+        // Getting CaloClusters
+        eventData.CaloClusters = this.getCaloClusters();
+
+        // Undefining object types if there is no event data
+        for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters']) {
+            if (Object.keys(eventData[objectType]).length === 0) {
+                eventData[objectType] = undefined;
+            }
+        }
 
         return eventData;
     }
 
     /**
-     * Get all Hits from the event data.
+     * Get all tracking clusters from the event data.
+     * @param Hits Hits object in which all cluster collections are to be put.
      * @returns Hits object containing all Cluster collections.
      */
-    private getHits(): any {
-        let Hits = {};
+    private getTrackingClusters(Hits: any): any {
         const collections = this.data['Collections'];
         const types = this.data['Types'];
-        let clusterCollections = Object.keys(collections)
-            .filter(key => key.toLowerCase().includes('cluster'));
+        // These are the collections with point cloud geometries
+        let clusterCollections = [
+            'TrackingRecHits_V1',
+            'SiStripClusters_V1',
+            'SiPixelClusters_V1',
+            'CSCLCTDigis_V1'
+        ];
+        // Filter to check if the provided collections are indeed inside the data
+        clusterCollections = clusterCollections.filter(key => collections[key]);
 
         // Go through each cluster collection
         for (const clusterCollection of clusterCollections) {
             Hits[clusterCollection] = [];
+            const clusterTypes = types[clusterCollection];
             // Set up each cluster from the cluster collection
             for (const cluster of collections[clusterCollection]) {
-                let clusterObject = {};
+                let clusterParams = {};
                 // Go through each attribute of the cluster
-                cluster.forEach((attributeValue, index) => {
+                clusterTypes.forEach((attribute, attributeIndex) => {
                     // Get the attribute name from types
-                    const attributeName = types[clusterCollection][index][0];
-                    clusterObject[attributeName] = attributeValue;
+                    clusterParams[attribute[0]] = cluster[attributeIndex];
                 });
-                if (clusterObject['pos']) {
+                if (clusterParams['pos']) {
                     // Increasing the scale to fit Phoenix's event display
-                    clusterObject['pos'] = clusterObject['pos']
+                    clusterParams['pos'] = clusterParams['pos']
                         .map((point: number) => point * this.geometryScale);
-                    Hits[clusterCollection].push(clusterObject);
+                    Hits[clusterCollection].push(clusterParams);
                 }
             }
             // If the cluster collection has no hits then remove it
@@ -90,6 +107,47 @@ export class CMSLoader extends PhoenixLoader {
         }
 
         return Hits;
+    }
+
+    private getCaloClusters(): any {
+        let CaloClusters = {};
+        const collections = this.data['Collections'];
+        const types = this.data['Types'];
+        const assocs = this.data['Associations']['SuperClusterRecHitFractions_V1'];
+        const extras = collections['RecHitFractions_V1'];
+
+        let caloClustersCollections = [
+            'SuperClusters_V1'
+        ];
+        // Filter to check if the provided collections are indeed inside the data
+        caloClustersCollections = caloClustersCollections.filter(key => collections[key]);
+
+        for (const caloClusterCollection of caloClustersCollections) {
+            CaloClusters[caloClusterCollection] = [];
+            const caloClusterTypes = types[caloClusterCollection];
+            for (const caloCluster of collections[caloClusterCollection]) {
+                let caloClusterParams = {};
+                caloClusterTypes.forEach((attribute, attributeIndex) => {
+                    caloClusterParams[attribute[0]] = caloCluster[attributeIndex];
+                });
+                if (caloClusterParams['energy']) {
+                    // If the attribute of Calo Cluster is energy then scale it to a higher value
+                    caloClusterParams['energy'] *= this.geometryScale;
+                }
+                CaloClusters[caloClusterCollection].push(caloClusterParams);
+            }
+            // If the CaloCluster collection has no CaloClusters then remove it
+            if (CaloClusters[caloClusterCollection].length === 0) {
+                delete CaloClusters[caloClusterCollection];
+            }
+            //! TO BE REVIEWED - Not using extras and assocs
+            // let ri = 0;
+            // for (let i = 0; i < assocs.length; i++) {
+            //     ri = assocs[ri][1][1];
+            //     CaloClusters[caloClusterCollection].push(extras[ri]);
+            // }
+        }
+        return CaloClusters;
     }
 
     /**
@@ -116,20 +174,20 @@ export class CMSLoader extends PhoenixLoader {
             p1, d1,
             p2, d2,
             distance, scale, cp1, cp2, curve,
-            trackInfo;
-        const min_pt = 1.0;
+            trackParams;
+        const min_pt = 1.0; // Cut
 
         for (let i = 0; i < assocs.length; i++) {
             // Current track info
-            trackInfo = {};
+            trackParams = {};
 
             // Set properties/attributes of track
             trackTypes.forEach((attribute, attributeIndex) => {
-                trackInfo[attribute[0]] = tracks[i][attributeIndex];
+                trackParams[attribute[0]] = tracks[i][attributeIndex];
             });
 
-            // SKIPPING TRACKS WITH pt > 1.0
-            if (trackInfo.pt > min_pt) {
+            // SKIPPING TRACKS WITH pt < 1.0
+            if (trackParams.pt < min_pt) {
                 continue;
             }
 
@@ -169,12 +227,14 @@ export class CMSLoader extends PhoenixLoader {
                 positions.push([position.x, position.y, position.z]);
             }
 
-            trackInfo.pos = positions;
-            allTracks.push(trackInfo);
+            trackParams.pos = positions;
+            allTracks.push(trackParams);
 
         }
 
-        Tracks[tracksCollection] = allTracks;
+        if (allTracks.length > 0) {
+            Tracks[tracksCollection] = allTracks;
+        }
         return Tracks;
     }
 
@@ -189,6 +249,7 @@ export class CMSLoader extends PhoenixLoader {
         const collections = this.data['Collections'];
         const jetsCollections = Object.keys(collections)
             .filter(key => key.toLowerCase().includes('jets'));
+        const min_et = 10;
 
         // Iterating all Jets collections
         for (const jetsCollection of jetsCollections) {
@@ -200,12 +261,20 @@ export class CMSLoader extends PhoenixLoader {
                 // Filling Jets params using the given types
                 jetsTypes.forEach((attribute, attributeIndex) => {
                     jetParams[attribute[0]] = jet[attributeIndex];
-                    // If the attribute of Jet is energy then scale it to a higher value
                     if (['et', 'energy'].includes(attribute[0])) {
-                        jetParams[attribute[0]] *= this.geometryScale;
                     }
                 });
-                Jets[jetsCollection].push(jetParams);
+                for (const energyAttribute of ['et', 'energy']) {
+                    // If the attribute of Jet is energy then scale it to a higher value
+                    if (jetParams[energyAttribute] && jetParams[energyAttribute] > min_et) {
+                        jetParams[energyAttribute] *= this.geometryScale;
+                        Jets[jetsCollection].push(jetParams);
+                    }
+                }
+            }
+            // If the Jets collection has no hits then remove it
+            if (Jets[jetsCollection].length === 0) {
+                delete Jets[jetsCollection];
             }
         }
 

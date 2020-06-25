@@ -92,7 +92,11 @@ export class PhoenixObjects {
     // If theta is given then use that else calculate from eta
     const theta = jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
     // Jet energy parameter can either be 'energy' or 'et'
-    const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    // Ugh - We don't want the Jets to go out of the event display
+    if (length > 2000) {
+      length = 2000;
+    }
     const width = length * 0.1;
 
     const sphi = Math.sin(phi);
