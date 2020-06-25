@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
+import { isArray } from 'util';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -10,6 +11,7 @@ export class PhoenixObjects {
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
    * @param trackParams Parameters of the Track.
+   * @returns Track object.
    */
   public static getTrack(trackParams: any): Object3D {
     const positions = trackParams.pos;
@@ -85,6 +87,7 @@ export class PhoenixObjects {
   /**
    * Process the Jet from the given parameters and get it as a geometry.
    * @param jetParams Parameters for the Jet.
+   * @returns Jet object.
    */
   public static getJet(jetParams: any): Object3D {
     const eta = jetParams.eta;
@@ -131,12 +134,13 @@ export class PhoenixObjects {
   /**
    * Process the Hits from the given parameters and get them as a geometry.
    * @param hitsParams Parameters for the Hits.
+   * @returns Hits object.
    */
   public static getHits(hitsParams: any): Object3D {
     let positions: any[];
 
     // If the parameters is an object then take out 'pos' for hits positions
-    if (typeof hitsParams === 'object') {
+    if (typeof hitsParams === 'object' && !isArray(hitsParams)) {
       positions = [hitsParams.pos];
     } else {
       positions = hitsParams;
@@ -171,6 +175,7 @@ export class PhoenixObjects {
   /**
    * Process the CLuster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
+   * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
     const maxR = 1100.0;

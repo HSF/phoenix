@@ -28,7 +28,7 @@ export class CMSLoader extends PhoenixLoader {
 
     /**
      * Get all event data.
-     * @returns Event data with Hits and Tracks.
+     * @returns Event data with Hits, Tracks, Jets and CaloClusters.
      */
     public getEventData(): any {
         const eventInfo = this.data['Collections']['Event_V2'][0];
@@ -69,8 +69,6 @@ export class CMSLoader extends PhoenixLoader {
      * @returns Hits object containing all Cluster collections.
      */
     private getTrackingClusters(Hits: any): any {
-        const collections = this.data['Collections'];
-        const types = this.data['Types'];
         // These are the collections with point cloud geometries
         let clusterCollections = [
             'TrackingRecHits_V1',
@@ -79,75 +77,133 @@ export class CMSLoader extends PhoenixLoader {
             'CSCLCTDigis_V1'
         ];
         // Filter to check if the provided collections are indeed inside the data
-        clusterCollections = clusterCollections.filter(key => collections[key]);
+        clusterCollections = clusterCollections.filter(key => this.data['Collections'][key]);
+        const newHits = this.getObjectCollections(clusterCollections, (objectParams) => {
+            if (objectParams['pos']) {
+                // Increasing the scale to fit Phoenix's event display
+                objectParams['pos'] = objectParams['pos']
+                    .map((point: number) => point * this.geometryScale);
+            }
+        });
 
-        // Go through each cluster collection
-        for (const clusterCollection of clusterCollections) {
-            Hits[clusterCollection] = [];
-            const clusterTypes = types[clusterCollection];
-            // Set up each cluster from the cluster collection
-            for (const cluster of collections[clusterCollection]) {
-                let clusterParams = {};
-                // Go through each attribute of the cluster
-                clusterTypes.forEach((attribute, attributeIndex) => {
-                    // Get the attribute name from types
-                    clusterParams[attribute[0]] = cluster[attributeIndex];
-                });
-                if (clusterParams['pos']) {
-                    // Increasing the scale to fit Phoenix's event display
-                    clusterParams['pos'] = clusterParams['pos']
-                        .map((point: number) => point * this.geometryScale);
-                    Hits[clusterCollection].push(clusterParams);
-                }
-            }
-            // If the cluster collection has no hits then remove it
-            if (Hits[clusterCollection].length === 0) {
-                delete Hits[clusterCollection];
-            }
-        }
+        Object.assign(Hits, newHits);
 
         return Hits;
     }
 
+    /**
+     * Get all CaloClusters from the event data.
+     * @returns CaloClusters object containing all CaloClusters collections.
+     */
     private getCaloClusters(): any {
-        let CaloClusters = {};
-        const collections = this.data['Collections'];
-        const types = this.data['Types'];
-        const assocs = this.data['Associations']['SuperClusterRecHitFractions_V1'];
-        const extras = collections['RecHitFractions_V1'];
-
         let caloClustersCollections = [
             'SuperClusters_V1'
         ];
         // Filter to check if the provided collections are indeed inside the data
-        caloClustersCollections = caloClustersCollections.filter(key => collections[key]);
+        caloClustersCollections = caloClustersCollections.filter(key => this.data['Collections'][key]);
+        const CaloClusters = this.getObjectCollections(caloClustersCollections, (objectParams) => {
+            if (objectParams['energy']) {
+                // If the attribute of Calo Cluster is energy then scale it to a higher value
+                objectParams['energy'] *= this.geometryScale;
+            }
+        });
 
-        for (const caloClusterCollection of caloClustersCollections) {
-            CaloClusters[caloClusterCollection] = [];
-            const caloClusterTypes = types[caloClusterCollection];
-            for (const caloCluster of collections[caloClusterCollection]) {
-                let caloClusterParams = {};
-                caloClusterTypes.forEach((attribute, attributeIndex) => {
-                    caloClusterParams[attribute[0]] = caloCluster[attributeIndex];
-                });
-                if (caloClusterParams['energy']) {
-                    // If the attribute of Calo Cluster is energy then scale it to a higher value
-                    caloClusterParams['energy'] *= this.geometryScale;
-                }
-                CaloClusters[caloClusterCollection].push(caloClusterParams);
-            }
-            // If the CaloCluster collection has no CaloClusters then remove it
-            if (CaloClusters[caloClusterCollection].length === 0) {
-                delete CaloClusters[caloClusterCollection];
-            }
-            //! TO BE REVIEWED - Not using extras and assocs
-            // let ri = 0;
-            // for (let i = 0; i < assocs.length; i++) {
-            //     ri = assocs[ri][1][1];
-            //     CaloClusters[caloClusterCollection].push(extras[ri]);
-            // }
-        }
+        //! TO BE REVIEWED - Not using extras and assocs - output might be different
+        // let ri = 0;
+        // for (let i = 0; i < assocs.length; i++) {
+        //     ri = assocs[ri][1][1];
+        //     CaloClusters[caloClusterCollection].push(extras[ri]);
+        // }
+        
         return CaloClusters;
+    }
+
+    /**
+     * Get all Jets from the event data.
+     * @returns Jets object containing all Jets collections.
+     */
+    private getJets(): any {
+        let Jets = {};
+
+        // Filtering collections to get all Jets collections
+        const jetsCollections = Object.keys(this.data['Collections'])
+            .filter(key => key.toLowerCase().includes('jets'));
+        const cuts = [
+            { attribute: 'et', min: 10 },
+            { attribute: 'energy', min: 10 }
+        ];
+
+        Jets = this.getObjectCollections(jetsCollections, (objectParams) => {
+            for (const energyAttribute of ['et', 'energy']) {
+                if (objectParams[energyAttribute]) {
+                    objectParams[energyAttribute] *= this.geometryScale;
+                    break;
+                }
+            }
+        }, cuts);
+
+        return Jets;
+    }
+
+    /**
+     * Common function for linearly getting event data of collections of an object type.
+     * @param collections Keys for collections to be iterated.
+     * @param processObject Callback for applying a custom logic to object params.
+     * @param cuts Cuts for defining a minimum and maximum value of an attribute.
+     * @returns An object containing all event data from the given collections.
+     */
+    private getObjectCollections(
+        collections: string[],
+        processObject?: (objectParams: any) => void,
+        cuts?: { attribute: string, min?: number, max?: number }[]
+    ): any {
+        let ObjectType = {};
+        // Iterating all collections
+        for (const collection of collections) {
+            ObjectType[collection] = [];
+            const objectAttributes = this.data['Types'][collection];
+            // Iterating a single object collection to process all objects
+            for (const physicsObject of this.data['Collections'][collection]) {
+                let objectParams = {};
+                // Filling object params using the given types
+                objectAttributes.forEach((attribute, attributeIndex) => {
+                    objectParams[attribute[0]] = physicsObject[attributeIndex];
+                });
+
+                // Applying cuts to object (if any)
+                if (cuts) {
+                    let maxPass = true;
+                    let minPass = true;
+                    for (const cut of cuts) {
+                        // Check if the attribute actually exists
+                        if (objectParams[cut.attribute]) {
+                            if (cut.max && objectParams[cut.attribute] > cut.max) {
+                                maxPass = false;
+                                break;
+                            }
+                            if (cut.min && objectParams[cut.attribute] < cut.min) {
+                                minPass = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (maxPass && minPass) {
+                        // Custom processing of object (if any)
+                        processObject(objectParams);
+                        ObjectType[collection].push(objectParams);
+                    }
+                } else {
+                    // Custom processing of object (if any)
+                    processObject(objectParams);
+                    ObjectType[collection].push(objectParams);
+                }
+            }
+            // If the object collection has no data then remove it
+            if (ObjectType[collection].length === 0) {
+                delete ObjectType[collection];
+            }
+        }
+        return ObjectType;
     }
 
     /**
@@ -236,49 +292,6 @@ export class CMSLoader extends PhoenixLoader {
             Tracks[tracksCollection] = allTracks;
         }
         return Tracks;
-    }
-
-    /**
-     * Get all Jets from the event data.
-     * @returns Jets object containing all Jets collections.
-     */
-    private getJets(): any {
-        let Jets = {};
-
-        // Filtering collections to get all Jets collections
-        const collections = this.data['Collections'];
-        const jetsCollections = Object.keys(collections)
-            .filter(key => key.toLowerCase().includes('jets'));
-        const min_et = 10;
-
-        // Iterating all Jets collections
-        for (const jetsCollection of jetsCollections) {
-            Jets[jetsCollection] = [];
-            const jetsTypes = this.data['Types'][jetsCollection];
-            // Iterating a single Jets collection to process all jets
-            for (const jet of collections[jetsCollection]) {
-                let jetParams = {};
-                // Filling Jets params using the given types
-                jetsTypes.forEach((attribute, attributeIndex) => {
-                    jetParams[attribute[0]] = jet[attributeIndex];
-                    if (['et', 'energy'].includes(attribute[0])) {
-                    }
-                });
-                for (const energyAttribute of ['et', 'energy']) {
-                    // If the attribute of Jet is energy then scale it to a higher value
-                    if (jetParams[energyAttribute] && jetParams[energyAttribute] > min_et) {
-                        jetParams[energyAttribute] *= this.geometryScale;
-                        Jets[jetsCollection].push(jetParams);
-                    }
-                }
-            }
-            // If the Jets collection has no hits then remove it
-            if (Jets[jetsCollection].length === 0) {
-                delete Jets[jetsCollection];
-            }
-        }
-
-        return Jets;
     }
 
     /**
