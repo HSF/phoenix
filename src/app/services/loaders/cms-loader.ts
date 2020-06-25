@@ -11,7 +11,7 @@ export class CMSLoader extends PhoenixLoader {
     private geometryScale: number = 1000;
 
     /**
-     * Constructor for the LHCb loader.
+     * Constructor for the CMS loader.
      */
     constructor() {
         super();
@@ -39,20 +39,23 @@ export class CMSLoader extends PhoenixLoader {
             ls: eventInfo[2],
             time: eventInfo[5],
             Hits: {},
-            Tracks: {}
+            Tracks: {},
+            Jets: {}
         };
 
-        // Getting hits
+        // Getting Hits
         eventData.Hits = this.getHits();
-        // Getting tracks
+        // Getting Tracks
         eventData.Tracks = this.getTracks();
+        // Getting Jets
+        eventData.Jets = this.getJets();
 
         return eventData;
     }
 
     /**
-     * Get Hits from the event data.
-     * @returns Hits object containing all cluster collections.
+     * Get all Hits from the event data.
+     * @returns Hits object containing all Cluster collections.
      */
     private getHits(): any {
         let Hits = {};
@@ -90,11 +93,10 @@ export class CMSLoader extends PhoenixLoader {
     }
 
     /**
-     * Get all tracks from the event data.
-     * @returns An object containing all tracks.
+     * Get all Tracks from the event data.
+     * @returns Tracks object containing all Tracks collections.
      */
     private getTracks(): any {
-
         let Tracks = {};
         let allTracks = [];
 
@@ -174,6 +176,40 @@ export class CMSLoader extends PhoenixLoader {
 
         Tracks[tracksCollection] = allTracks;
         return Tracks;
+    }
+
+    /**
+     * Get all Jets from the event data.
+     * @returns Jets object containing all Jets collections.
+     */
+    private getJets(): any {
+        let Jets = {};
+
+        // Filtering collections to get all Jets collections
+        const collections = this.data['Collections'];
+        const jetsCollections = Object.keys(collections)
+            .filter(key => key.toLowerCase().includes('jets'));
+
+        // Iterating all Jets collections
+        for (const jetsCollection of jetsCollections) {
+            Jets[jetsCollection] = [];
+            const jetsTypes = this.data['Types'][jetsCollection];
+            // Iterating a single Jets collection to process all jets
+            for (const jet of collections[jetsCollection]) {
+                let jetParams = {};
+                // Filling Jets params using the given types
+                jetsTypes.forEach((attribute, attributeIndex) => {
+                    jetParams[attribute[0]] = jet[attributeIndex];
+                    // If the attribute of Jet is energy then scale it to a higher value
+                    if (['et', 'energy'].includes(attribute[0])) {
+                        jetParams[attribute[0]] *= this.geometryScale;
+                    }
+                });
+                Jets[jetsCollection].push(jetParams);
+            }
+        }
+
+        return Jets;
     }
 
     /**

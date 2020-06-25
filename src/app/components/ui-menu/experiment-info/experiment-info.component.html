@@ -4,7 +4,7 @@
     <img class="experimentLogo" src="assets/images/{{experiment}}.svg" alt="">
   </a>
   <div class="textInfo">
-    <p *ngIf="experimentTagline">{{experimentTagline}}</p>
+    <p *ngIf="experimentTagline"><b>{{experimentTagline}}</b></p>
     <p *ngFor="let infoField of experimentInfo">
       <ng-container *ngIf="infoField.label">
         <b>{{infoField.label}}: </b>{{infoField.value}}

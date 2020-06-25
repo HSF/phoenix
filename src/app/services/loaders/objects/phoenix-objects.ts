@@ -89,8 +89,10 @@ export class PhoenixObjects {
   public static getJet(jetParams: any): Object3D {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
-    const theta = 2 * Math.atan(Math.pow(Math.E, eta));
-    const length = jetParams.energy * 0.2;
+    // If theta is given then use that else calculate from eta
+    const theta = jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
+    // Jet energy parameter can either be 'energy' or 'et'
+    const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     const width = length * 0.1;
 
     const sphi = Math.sin(phi);
