@@ -1,5 +1,6 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { Vector3, QuadraticBezierCurve3 } from 'three';
+import { CMSObjects } from './objects/cms-objects';
 
 /**
  * PhoenixLoader for processing and loading a CMS event.
@@ -16,6 +17,18 @@ export class CMSLoader extends PhoenixLoader {
     constructor() {
         super();
         this.data = {};
+    }
+
+    /**
+     * Loads all the object types and collections of event data.
+     * Overridden from {@link PhoenixLoader}.
+     * @param eventData Event data of a CMS event containing all collections.
+     */
+    protected loadObjectTypes(eventData: any) {
+        super.loadObjectTypes(eventData);
+        if (eventData.MuonChambers) {
+            this.addObjectType(eventData.MuonChambers, CMSObjects.getMuonChamber, 'MuonChambers');
+        }
     }
 
     /**
@@ -41,7 +54,8 @@ export class CMSLoader extends PhoenixLoader {
             Hits: {},
             Tracks: {},
             Jets: {},
-            CaloClusters: {}
+            CaloClusters: {},
+            MuonChambers: {}
         };
 
         // Getting Hits
@@ -52,9 +66,11 @@ export class CMSLoader extends PhoenixLoader {
         eventData.Jets = this.getJets();
         // Getting CaloClusters
         eventData.CaloClusters = this.getCaloClusters();
+        // Getting MuonChambers
+        eventData.MuonChambers = this.getMuonChambers();
 
         // Undefining object types if there is no event data
-        for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters']) {
+        for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters', 'MuonChambers']) {
             if (Object.keys(eventData[objectType]).length === 0) {
                 eventData[objectType] = undefined;
             }
@@ -76,8 +92,6 @@ export class CMSLoader extends PhoenixLoader {
             'SiPixelClusters_V1',
             'CSCLCTDigis_V1'
         ];
-        // Filter to check if the provided collections are indeed inside the data
-        clusterCollections = clusterCollections.filter(key => this.data['Collections'][key]);
         const newHits = this.getObjectCollections(clusterCollections, (objectParams) => {
             if (objectParams['pos']) {
                 // Increasing the scale to fit Phoenix's event display
@@ -99,8 +113,6 @@ export class CMSLoader extends PhoenixLoader {
         let caloClustersCollections = [
             'SuperClusters_V1'
         ];
-        // Filter to check if the provided collections are indeed inside the data
-        caloClustersCollections = caloClustersCollections.filter(key => this.data['Collections'][key]);
         const CaloClusters = this.getObjectCollections(caloClustersCollections, (objectParams) => {
             if (objectParams['energy']) {
                 // If the attribute of Calo Cluster is energy then scale it to a higher value
@@ -146,6 +158,27 @@ export class CMSLoader extends PhoenixLoader {
     }
 
     /**
+     * Get all Muon Chambers from the event data.
+     * @returns MuonChambers object containing all Muon Chambers collections.
+     */
+    private getMuonChambers(): any {
+        let muonChambersCollections = [
+            'MatchingCSCs_V1',
+            'MuonChambers_V1'
+        ];
+        const MuonChambers = this.getObjectCollections(muonChambersCollections,
+            (muonChamberParams) => {
+                for (const muonChamberParam of Object.keys(muonChamberParams)) {
+                    if (muonChamberParam.startsWith('front') || muonChamberParam.startsWith('back')) {
+                        muonChamberParams[muonChamberParam] = muonChamberParams[muonChamberParam]
+                            .map(val => val * this.geometryScale);
+                    }
+                }
+            });
+        return MuonChambers;
+    }
+
+    /**
      * Common function for linearly getting event data of collections of an object type.
      * @param collections Keys for collections to be iterated.
      * @param processObject Callback for applying a custom logic to object params.
@@ -158,6 +191,10 @@ export class CMSLoader extends PhoenixLoader {
         cuts?: { attribute: string, min?: number, max?: number }[]
     ): any {
         let ObjectType = {};
+
+        // Filter to check if the provided collections are indeed inside the data
+        collections = collections.filter(key => this.data['Collections'][key]);
+
         // Iterating all collections
         for (const collection of collections) {
             ObjectType[collection] = [];
@@ -189,12 +226,12 @@ export class CMSLoader extends PhoenixLoader {
                     }
                     if (maxPass && minPass) {
                         // Custom processing of object (if any)
-                        processObject(objectParams);
+                        processObject?.(objectParams);
                         ObjectType[collection].push(objectParams);
                     }
                 } else {
                     // Custom processing of object (if any)
-                    processObject(objectParams);
+                    processObject?.(objectParams);
                     ObjectType[collection].push(objectParams);
                 }
             }

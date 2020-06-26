@@ -103,7 +103,7 @@ export class PhoenixLoader implements EventDataLoader {
    * to reconstruct the different collections of physics objects.
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
-  private loadObjectTypes(eventData: any) {
+  protected loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
@@ -153,7 +153,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param typeName Label for naming the object type.
    * @param cuts Filters that can be applied to the objects.
    */
-  private addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
+  protected addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
