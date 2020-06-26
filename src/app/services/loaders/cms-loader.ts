@@ -114,7 +114,7 @@ export class CMSLoader extends PhoenixLoader {
         //     ri = assocs[ri][1][1];
         //     CaloClusters[caloClusterCollection].push(extras[ri]);
         // }
-        
+
         return CaloClusters;
     }
 
@@ -212,85 +212,133 @@ export class CMSLoader extends PhoenixLoader {
      */
     private getTracks(): any {
         let Tracks = {};
-        let allTracks = [];
 
-        const collections = this.data['Collections'];
-        const tracksCollection = Object.keys(collections)
-            .find(key => key.toLowerCase().startsWith('tracks'));
+        // All collections with tracks
+        let tracksCollections = [
+            {
+                collection: 'Tracks_V1', extras: 'Extras_V1',
+                assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+            },
+            {
+                collection: 'Tracks_V2', extras: 'Extras_V1',
+                assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+            },
+            {
+                collection: 'Tracks_V3', extras: 'Extras_V1',
+                assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+            },
+            {
+                collection: 'StandaloneMuons_V2', extras: 'Extras_V1',
+                assocs: 'MuonTrackExtras_V1', color: '0xf57842', min_pt: 1
+            },
+            {
+                collection: 'PATStandaloneMuons_V1', extras: 'Extras_V1',
+                assocs: 'PATMuonTrackExtras_V1', color: '0xf5aa42', min_pt: 1
+            },
+            {
+                collection: 'TrackerMuons_V2', extras: 'Extras_V1',
+                assocs: 'MuonTrackerExtras_V1', color: '0xe8d546', min_pt: 2
+            },
+            {
+                collection: 'GsfElectrons_V1', extras: 'Extras_V1',
+                assocs: 'GsfElectronExtras_V1', color: '0x1CFF1A', min_pt: 10
+            },
+            {
+                collection: 'GsfElectrons_V2', extras: 'Extras_V1',
+                assocs: 'GsfElectronExtras_V1', color: '0x1bcf9f', min_pt: 10
+            },
+            {
+                collection: 'GsfElectrons_V3', extras: 'Extras_V1',
+                assocs: 'GsfElectronExtras_V1', color: '0x1ad9ff', min_pt: 10
+            },
+            {
+                collection: 'PATElectrons_V1', extras: 'Extras_V1',
+                assocs: 'PATElectronExtras_V1', color: '0x1a40ff', min_pt: 1
+            }
+        ];
+        // Filtering to check if data actually exists in collections
+        tracksCollections = tracksCollections
+            .filter(obj => this.data['Collections'][obj.collection]);
 
-        // Processing tracks using associations and extras
-        const tracks = this.data['Collections'][tracksCollection];
-        const extras = this.data['Collections']['Extras_V1'];
-        const assocs = this.data['Associations']['TrackExtras_V1'];
-        // Properties/attributes of tracks
-        const trackTypes = this.data['Types'][tracksCollection];
+        for (const tracksCollection of tracksCollections) {
+            Tracks[tracksCollection.collection] = [];
 
-        // Variables to be used inside the loop
-        let ti, ei,
-            p1, d1,
-            p2, d2,
-            distance, scale, cp1, cp2, curve,
-            trackParams;
-        const min_pt = 1.0; // Cut
+            // Processing tracks using associations and extras
+            const tracks = this.data['Collections'][tracksCollection.collection];
+            const extras = this.data['Collections'][tracksCollection.extras];
+            const assocs = this.data['Associations'][tracksCollection.assocs];
+            // Properties/attributes of tracks
+            const trackTypes = this.data['Types'][tracksCollection.collection];
 
-        for (let i = 0; i < assocs.length; i++) {
-            // Current track info
-            trackParams = {};
+            // Variables to be used inside the loop
+            let ti, ei,
+                p1, d1,
+                p2, d2,
+                distance, scale, cp1, cp2, curve,
+                trackParams;
 
-            // Set properties/attributes of track
-            trackTypes.forEach((attribute, attributeIndex) => {
-                trackParams[attribute[0]] = tracks[i][attributeIndex];
-            });
+            for (let i = 0; i < assocs.length; i++) {
+                // Current track info
+                trackParams = {};
 
-            // SKIPPING TRACKS WITH pt < 1.0
-            if (trackParams.pt < min_pt) {
-                continue;
+                // Set properties/attributes of track
+                trackTypes.forEach((attribute, attributeIndex) => {
+                    trackParams[attribute[0]] = tracks[i][attributeIndex];
+                });
+
+                // SKIPPING TRACKS WITH pt < min_pt
+                if (trackParams.pt < tracksCollection.min_pt) {
+                    continue;
+                }
+
+                trackParams.color = tracksCollection.color;
+
+                // Track i - location in assocs
+                ti = assocs[i][0][1];
+                // Extras i - location in assocs
+                ei = assocs[i][1][1];
+
+                // Position 1 of current track
+                p1 = new Vector3(extras[ei][0][0], extras[ei][0][1], extras[ei][0][2]);
+                // Direction of position 1 of current track
+                d1 = new Vector3(extras[ei][1][0], extras[ei][1][1], extras[ei][1][2]);
+                d1.normalize();
+
+                // Position 2 of current track
+                p2 = new Vector3(extras[ei][2][0], extras[ei][2][1], extras[ei][2][2]);
+                // Direction of position 2 of current track
+                d2 = new Vector3(extras[ei][3][0], extras[ei][3][1], extras[ei][3][2]);
+                d2.normalize();
+
+                // Calculate the distance from position 1 to position 2
+                distance = p1.distanceTo(p2);
+                scale = distance * 0.25;
+
+                // Calculating the control points to generate a bezier curve
+                cp1 = new Vector3(p1.x + scale * d1.x, p1.y + scale * d1.y, p1.z + scale * d1.z);
+                cp2 = new Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
+
+                // Create the track curve
+                curve = new QuadraticBezierCurve3(p1, cp1, p2);
+
+                let positions = [];
+                // Divide the curve into points to put into positions array
+                for (const position of curve.getPoints(24)) {
+                    // Increasing the scale to fit Phoenix's event display
+                    position.multiplyScalar(this.geometryScale);
+                    positions.push([position.x, position.y, position.z]);
+                }
+
+                trackParams.pos = positions;
+                Tracks[tracksCollection.collection].push(trackParams);
+
             }
 
-            // Track i - location in assocs
-            ti = assocs[i][0][1];
-            // Extras i - location in assocs
-            ei = assocs[i][1][1];
-
-            // Position 1 of current track
-            p1 = new Vector3(extras[ei][0][0], extras[ei][0][1], extras[ei][0][2]);
-            // Direction of position 1 of current track
-            d1 = new Vector3(extras[ei][1][0], extras[ei][1][1], extras[ei][1][2]);
-            d1.normalize();
-
-            // Position 2 of current track
-            p2 = new Vector3(extras[ei][2][0], extras[ei][2][1], extras[ei][2][2]);
-            // Direction of position 2 of current track
-            d2 = new Vector3(extras[ei][3][0], extras[ei][3][1], extras[ei][3][2]);
-            d2.normalize();
-
-            // Calculate the distance from position 1 to position 2
-            distance = p1.distanceTo(p2);
-            scale = distance * 0.25;
-
-            // Calculating the control points to generate a bezier curve
-            cp1 = new Vector3(p1.x + scale * d1.x, p1.y + scale * d1.y, p1.z + scale * d1.z);
-            cp2 = new Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
-
-            // Create the track curve
-            curve = new QuadraticBezierCurve3(p1, cp1, p2);
-
-            let positions = [];
-            // Divide the curve into points to put into positions array
-            for (const position of curve.getPoints(24)) {
-                // Increasing the scale to fit Phoenix's event display
-                position.multiplyScalar(this.geometryScale);
-                positions.push([position.x, position.y, position.z]);
+            if (Tracks[tracksCollection.collection].length === 0) {
+                delete Tracks[tracksCollection.collection];
             }
-
-            trackParams.pos = positions;
-            allTracks.push(trackParams);
-
         }
 
-        if (allTracks.length > 0) {
-            Tracks[tracksCollection] = allTracks;
-        }
         return Tracks;
     }
 

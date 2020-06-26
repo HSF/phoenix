@@ -35,7 +35,7 @@ export class CMSComponent implements OnInit {
 
     this.readIgArchive('assets/files/cms/phoenix_test.ig', (igArchive: JSZip) => {
       const firstEventPath = Object.keys(igArchive.files).find(fileName => fileName.includes('Event_876295434'));
-      this.selectEventFromIg(firstEventPath, eventJSON => {
+      this.selectEventFromIg(firstEventPath, igArchive, eventJSON => {
         cmsLoader.putEventData(eventJSON);
         this.eventdisplay.buildEventDataFromJSON(cmsLoader.getEventData());
       });
@@ -55,15 +55,17 @@ export class CMSComponent implements OnInit {
     });
   }
 
-  selectEventFromIg(filePath: string, onEventLoaded: (eventJSON: any) => void) {
+  selectEventFromIg(filePath: string, igArchive: JSZip, onEventLoaded: (eventJSON: any) => void) {
     if (!filePath) console.error('Invalid Filepath');
-    if (this.archiveLoaded) {
-      this.igArchive.file(filePath).async('string').then((val: string) => {
-        // The data has some inconsistencies which need to be removed to properly parse JSON
-        val = val.replace(/'/g, '"').replace(/\(/g, '[').replace(/\)/g, ']').replace(/nan/g, '0');
-        const eventJSON = JSON.parse(val);
-        onEventLoaded(eventJSON);
-      });
+    else {
+      if (this.archiveLoaded) {
+        igArchive.file(filePath).async('string').then((val: string) => {
+          // The data has some inconsistencies which need to be removed to properly parse JSON
+          val = val.replace(/'/g, '"').replace(/\(/g, '[').replace(/\)/g, ']').replace(/nan/g, '0');
+          const eventJSON = JSON.parse(val);
+          onEventLoaded(eventJSON);
+        });
+      }
     }
   }
 
