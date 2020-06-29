@@ -141,6 +141,15 @@ export class UIService {
   }
 
   /**
+   * Sets the visibility of a geometry in the scene.
+   * @param name Name of the geometry in the scene
+   * @param visible Value for the visibility of the object
+   */
+  public geometryVisibility(name: string, visible: boolean) {
+    this.three.getSceneManager().objectVisibility(name, visible);
+  }
+
+  /**
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param colour Color of the geometry.
