@@ -1,6 +1,8 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { Vector3, QuadraticBezierCurve3 } from 'three';
 import { CMSObjects } from './objects/cms-objects';
+import JSZip from 'jszip';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * PhoenixLoader for processing and loading a CMS event.
@@ -13,8 +15,9 @@ export class CMSLoader extends PhoenixLoader {
 
     /**
      * Constructor for the CMS loader.
+     * @param http HttpClient for reading ".ig" files.
      */
-    constructor() {
+    constructor(private http: HttpClient) {
         super();
         this.data = {};
     }
@@ -29,6 +32,64 @@ export class CMSLoader extends PhoenixLoader {
         if (eventData.MuonChambers) {
             this.addObjectType(eventData.MuonChambers, CMSObjects.getMuonChamber, 'MuonChambers');
         }
+    }
+
+    /**
+     * Read an ".ig" archive file and access the event data through a callback.
+     * @param path Path to the ".ig" file.
+     * @param onFileRead Callback called with an array of event data when the file is read.
+     * @param eventPathName Complete event path or event number as in the ".ig" archive.
+     */
+    public readIgArchive(path: string, onFileRead: (allEvents: any[]) => void, eventPathName?: string) {
+        const igArchive = new JSZip();
+        let eventsDataInIg = [];
+        this.http.get(path, { responseType: 'arraybuffer' }).subscribe((res) => {
+            igArchive.loadAsync(res).then(() => {
+                let allFilesPath = Object.keys(igArchive.files);
+                // If the event path or name is given then filter all data to get the required events
+                if (eventPathName) {
+                    allFilesPath = allFilesPath.filter(filePath => filePath.includes(eventPathName));
+                }
+                let i = 1;
+                for (const filePathInIg of allFilesPath) {
+                    // If the files are in the "Events" folder then process them.
+                    if (filePathInIg.toLowerCase().startsWith('events')) {
+                        igArchive.file(filePathInIg).async('string')
+                            .then((singleEvent: string) => {
+                                // The data has some inconsistencies which need to be removed to properly parse JSON
+                                singleEvent = singleEvent
+                                    .replace(/'/g, '"').replace(/\(/g, '[')
+                                    .replace(/\)/g, ']').replace(/nan/g, '0');
+                                const eventJSON = JSON.parse(singleEvent);
+                                eventJSON.eventPath = filePathInIg;
+                                eventsDataInIg.push(eventJSON);
+                                if (i === allFilesPath.length) {
+                                    onFileRead(eventsDataInIg);
+                                }
+                                i++;
+                            });
+                    } else {
+                        i++;
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Load event data from an ".ig" archive.
+     * @param filePath Path to the ".ig" archive file.
+     * @param eventPathName Complete event path or event number as in the ".ig" archive.
+     * @param onEventRead Callback called when the event data is read.
+     */
+    public loadEventDataFromIg(
+        filePath: string,
+        eventPathName: string,
+        onEventRead: (eventData: any) => void
+    ) {
+        this.readIgArchive(filePath, (allEvents: any[]) => {
+            onEventRead(allEvents[0]);
+        }, eventPathName);
     }
 
     /**
