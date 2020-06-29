@@ -35,7 +35,7 @@ export class PhoenixLoader implements EventDataLoader {
     this.eventData = eventData;
 
     // Replacing tracks with tracks through Runge-Kutta
-    this.eventData.Tracks = this.getTracksWithRungeKutta(this.eventData['Tracks']);
+    Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
 
     // initiate load
     this.loadObjectTypes(eventData);
@@ -45,10 +45,11 @@ export class PhoenixLoader implements EventDataLoader {
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
   }
 
-  getTracksWithRungeKutta(tracksCollections: any) {
+  getTracksWithRungeKutta(tracksCollectionsEvent: any) {
+    const tracksCollections = JSON.parse(JSON.stringify(tracksCollectionsEvent));
     let Tracks = {};
     for (const tracksCollection of Object.keys(tracksCollections)) {
-      Tracks[tracksCollection] = [];
+      Tracks[tracksCollection + '-rk'] = [];
       for (const track of tracksCollections[tracksCollection]) {
         const dparams = track.dparams;
         const d0    = dparams[0],
@@ -92,9 +93,10 @@ export class PhoenixLoader implements EventDataLoader {
         const traj = RungeKutta.propagate(startPos, startDir, p, q);
         track.pos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
 
-        Tracks[tracksCollection].push(track);
+        Tracks[tracksCollection + '-rk'].push(track);
       }
     }
+    console.log(Tracks);
     return Tracks;
   }
 
