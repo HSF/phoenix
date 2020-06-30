@@ -52,12 +52,14 @@ export class PhoenixLoader implements EventDataLoader {
       Tracks[tracksCollection + '-rk'] = [];
       for (const track of tracksCollections[tracksCollection]) {
         const dparams = track.dparams;
-        const d0    = dparams[0],
+        let   d0    = dparams[0],
               z0    = dparams[1],
               phi   = dparams[2],
               theta = dparams[3],
-              qop   = dparams[4];
+              qop   = dparams[4] * .1;
         
+        phi += Math.PI;
+
         // localToGlobal
         
         let p;
@@ -94,6 +96,7 @@ export class PhoenixLoader implements EventDataLoader {
         track.pos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
 
         Tracks[tracksCollection + '-rk'].push(track);
+        break;
       }
     }
     console.log(Tracks);
@@ -274,6 +277,8 @@ export class PhoenixLoader implements EventDataLoader {
       if (object) {
         collscene.add(object);
       }
+      console.log(objectParams);
+      break;
     }
 
     objectGroup.add(collscene);

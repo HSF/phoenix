@@ -126,7 +126,7 @@ class State {
     /** Charge. */
     q: number = 1;
     /** Unit. */
-    unitC: number = 1;
+    unitC: number = 0.15;
     /** Step size. */
     stepSize: number = 1000;
     /** Max step size. */
