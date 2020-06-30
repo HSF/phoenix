@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { GeometryComponent } from './sections/geometry/geometry.component';
 import { AtlasComponent } from './sections/atlas/atlas.component';
 import { LHCbComponent } from './sections/lhcb/lhcb.component';
+import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'geometry', component: GeometryComponent },
   { path: 'atlas', component: AtlasComponent },
   { path: 'lhcb', component: LHCbComponent },
+  { path: 'cms', component: CMSComponent },
   { path: 'trackml', component: TrackmlComponent },
   { path: 'playground', component: PlaygroundComponent },
   { path: 'playgroundVR', component: PlaygroundVrComponent }
@@ -65,6 +67,7 @@ const routes: Routes = [
     GeometryComponent,
     AtlasComponent,
     LHCbComponent,
+    CMSComponent,
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,

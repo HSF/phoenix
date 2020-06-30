@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
+import { isArray } from 'util';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -10,6 +11,7 @@ export class PhoenixObjects {
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
    * @param trackParams Parameters of the Track.
+   * @returns Track object.
    */
   public static getTrack(trackParams: any): Object3D {
     const positions = trackParams.pos;
@@ -85,12 +87,19 @@ export class PhoenixObjects {
   /**
    * Process the Jet from the given parameters and get it as a geometry.
    * @param jetParams Parameters for the Jet.
+   * @returns Jet object.
    */
   public static getJet(jetParams: any): Object3D {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
-    const theta = 2 * Math.atan(Math.pow(Math.E, eta));
-    const length = jetParams.energy * 0.2;
+    // If theta is given then use that else calculate from eta
+    const theta = jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
+    // Jet energy parameter can either be 'energy' or 'et'
+    let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    // Ugh - We don't want the Jets to go out of the event display
+    if (length > 2000) {
+      length = 2000;
+    }
     const width = length * 0.1;
 
     const sphi = Math.sin(phi);
@@ -125,12 +134,22 @@ export class PhoenixObjects {
   /**
    * Process the Hits from the given parameters and get them as a geometry.
    * @param hitsParams Parameters for the Hits.
+   * @returns Hits object.
    */
   public static getHits(hitsParams: any): Object3D {
+    let positions: any[];
+
+    // If the parameters is an object then take out 'pos' for hits positions
+    if (typeof hitsParams === 'object' && !isArray(hitsParams)) {
+      positions = [hitsParams.pos];
+    } else {
+      positions = hitsParams;
+    }
+
     // attributes
-    const pointPos = new Float32Array(hitsParams.length * 3);
+    const pointPos = new Float32Array(positions.length * 3);
     let i = 0;
-    for (const hit of hitsParams) {
+    for (const hit of positions) {
       pointPos[i] = hit[0];
       pointPos[i + 1] = hit[1];
       pointPos[i + 2] = hit[2];
@@ -156,6 +175,7 @@ export class PhoenixObjects {
   /**
    * Process the CLuster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
+   * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
     const maxR = 1100.0;

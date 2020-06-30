@@ -68,7 +68,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     const collections = [];
     for (const objectType of Object.keys(this.eventData)) {
-      if (this.eventData[objectType]) {
+      if (this.eventData[objectType] && typeof this.eventData[objectType] === 'object') {
         for (const collection of Object.keys(this.eventData[objectType])) {
           collections.push(collection);
         }
@@ -103,7 +103,7 @@ export class PhoenixLoader implements EventDataLoader {
    * to reconstruct the different collections of physics objects.
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
-  private loadObjectTypes(eventData: any) {
+  protected loadObjectTypes(eventData: any) {
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
@@ -153,7 +153,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param typeName Label for naming the object type.
    * @param cuts Filters that can be applied to the objects.
    */
-  private addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
+  protected addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
@@ -257,30 +257,42 @@ export class PhoenixLoader implements EventDataLoader {
    */
   getEventMetadata(): any[] {
     let metadata = [];
-    let eventRunLS = {};
 
-    eventRunLS['Run'] = this.eventData['run number']
-      ? this.eventData['run number']
-      : this.eventData['runNumber'];
-    eventRunLS['Event'] = this.eventData['event number']
-      ? this.eventData['event number']
-      : this.eventData['eventNumber'];
+    // Dividing event meta data into groups by keys and label 
+    // For example, the first array group is for "Run / Event / LS"
+    const eventDataPropGroups = [
+      [
+        { keys: ['runNumber', 'run number'], label: 'Run' },
+        { keys: ['eventNumber', 'event number'], label: 'Event' },
+        { keys: ['ls'], label: 'LS' }
+      ],
+      [
+        { keys: ['time'], label: 'Data recorded' }
+      ]
+    ];
 
-    if (this.eventData['ls']) {
-      eventRunLS['LS'] = this.eventData['ls'];
-    }
+    const eventDataKeys = Object.keys(this.eventData);
 
-    Object.keys(eventRunLS).map(key => {
-      if (!eventRunLS[key]) {
-        delete eventRunLS[key];
+    // Iterating the group
+    for (const eventDataPropGroup of eventDataPropGroups) {
+      let combinedProps = {};
+      // Iterating the props inside a group
+      for (const eventDataProp of eventDataPropGroup) {
+        // Iterating each possible key of a prop
+        for (const eventDataPropKey of eventDataProp.keys) {
+          if (eventDataKeys.includes(eventDataPropKey) && this.eventData[eventDataPropKey]) {
+            combinedProps[eventDataProp.label] = this.eventData[eventDataPropKey];
+            break;
+          }
+        }
       }
-    });
-
-    if (Object.keys(eventRunLS).length > 0) {
-      metadata.push({
-        label: Object.keys(eventRunLS).join(' / '),
-        value: Object.values(eventRunLS).join(' / ')
-      });
+      if (Object.keys(combinedProps).length > 0) {
+        // Joining and pushing the collected combined properties to the actual metadata
+        metadata.push({
+          label: Object.keys(combinedProps).join(' / '),
+          value: Object.values(combinedProps).join(' / ')
+        });
+      }
     }
 
     return metadata;
