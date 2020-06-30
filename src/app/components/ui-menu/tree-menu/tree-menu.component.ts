@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TracerMenuItemComponent } from './tracer-menu-item/tracer-menu-item.component';
+import { TreeMenuItemComponent } from './tree-menu-item/tree-menu-item.component';
 
 @Component({
-  selector: 'app-tracer-menu',
-  templateUrl: './tracer-menu.component.html',
-  styleUrls: ['./tracer-menu.component.scss']
+  selector: 'app-tree-menu',
+  templateUrl: './tree-menu.component.html',
+  styleUrls: ['./tree-menu.component.scss']
 })
-export class TracerMenuComponent implements OnInit {
+export class TreeMenuComponent implements OnInit {
 
   rootNode = {
     name: 'Atlas Detector',
@@ -19,7 +19,13 @@ export class TracerMenuComponent implements OnInit {
           {
             name: 'Toroids',
             geometryId: 'Toroids'
-          },
+          }
+        ]
+      },
+      {
+        name: 'Calorimeters',
+        geometryId: 'CaloSys',
+        children: [
           {
             name: 'LAr Barrel',
             geometryId: 'LAr Barrel'
@@ -40,7 +46,7 @@ export class TracerMenuComponent implements OnInit {
       },
       {
         name: 'Inner detector',
-        geometryId: 'MagnetSys',
+        geometryId: 'InDetSys',
         children: [
           {
             name: 'Pixel',
@@ -54,7 +60,6 @@ export class TracerMenuComponent implements OnInit {
             name: 'TRT',
             geometryId: 'TRT'
           }
-
         ]
       }
     ]

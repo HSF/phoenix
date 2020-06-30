@@ -43,9 +43,9 @@ import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
 import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
 import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
-import { TracerMenuComponent } from './components/ui-menu/tracer-menu/tracer-menu.component';
+import { TreeMenuComponent } from './components/ui-menu/tree-menu/tree-menu.component';
 import { MatIconModule } from '@angular/material/icon';
-import { TracerMenuItemComponent } from './components/ui-menu/tracer-menu/tracer-menu-item/tracer-menu-item.component';
+import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -91,8 +91,8 @@ const routes: Routes = [
     InfoPanelOverlayComponent,
     MainViewToggleComponent,
     ZoomControlsComponent,
-    TracerMenuComponent,
-    TracerMenuItemComponent
+    TreeMenuComponent,
+    TreeMenuItemComponent
   ],
   imports: [
     BrowserModule,

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TracerMenuItemComponent } from './tracer-menu-item.component';
+import { TreeMenuComponent } from './tree-menu.component';
 
-describe('TracerMenuItemComponent', () => {
-  let component: TracerMenuItemComponent;
-  let fixture: ComponentFixture<TracerMenuItemComponent>;
+describe('TreeMenuComponent', () => {
+  let component: TreeMenuComponent;
+  let fixture: ComponentFixture<TreeMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TracerMenuItemComponent ]
+      declarations: [ TreeMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TracerMenuItemComponent);
+    fixture = TestBed.createComponent(TreeMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

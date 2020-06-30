@@ -10,7 +10,7 @@
     <ul [hidden]="!isExpanded" hid>
         <div class="children">
             <li *ngFor="let node of node.children">
-                <app-tracer-menu-item [node]="node"></app-tracer-menu-item>
+                <app-tree-menu-item [node]="node"></app-tree-menu-item>
             </li>
         </div>
     </ul>
