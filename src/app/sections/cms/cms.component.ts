@@ -31,7 +31,7 @@ export class CMSComponent implements OnInit {
 
     this.eventdisplay.init(configuration);
 
-    cmsLoader.loadEventDataFromIg('assets/files/cms/phoenix_test.ig', 'Event_876295434', (eventData: any) => {
+    cmsLoader.loadEventDataFromIg('assets/files/cms/EventData.ig', 'Event_876295434', (eventData: any) => {
       cmsLoader.putEventData(eventData);
       this.eventdisplay.buildEventDataFromJSON(cmsLoader.getEventData());
     });
