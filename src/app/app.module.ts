@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { GeometryComponent } from './sections/geometry/geometry.component';
 import { AtlasComponent } from './sections/atlas/atlas.component';
 import { LHCbComponent } from './sections/lhcb/lhcb.component';
+import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -43,7 +44,9 @@ import { InfoPanelOverlayComponent } from './components/ui-menu/info-panel/info-
 import { OverlayComponent } from './components/ui-menu/overlay/overlay.component';
 import { MainViewToggleComponent } from './components/ui-menu/main-view-toggle/main-view-toggle.component';
 import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-controls.component';
-import { CMSComponent } from './sections/cms/cms.component';
+import { TreeMenuComponent } from './components/ui-menu/tree-menu/tree-menu.component';
+import { MatIconModule } from '@angular/material/icon';
+import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -85,12 +88,14 @@ const routes: Routes = [
     AutoRotateComponent,
     ViewOptionsComponent,
     OverlayViewWindowComponent,
+    OverlayComponent,
     ExperimentInfoComponent,
     InfoPanelComponent,
     InfoPanelOverlayComponent,
-    OverlayComponent,
     MainViewToggleComponent,
-    ZoomControlsComponent
+    ZoomControlsComponent,
+    TreeMenuComponent,
+    TreeMenuItemComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +109,8 @@ const routes: Routes = [
     OverlayModule,
     MatMenuModule,
     MatSliderModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule
   ],
   entryComponents: [
     IOOptionsDialogComponent,
