@@ -15,7 +15,7 @@ export class CMSComponent implements OnInit {
 
   allEvents: string[] = [];
 
-  constructor(private eventdisplay: EventdisplayService, private http: HttpClient) { }
+  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) { }
 
   ngOnInit(): void {
 
@@ -29,11 +29,13 @@ export class CMSComponent implements OnInit {
     const cmsLoader = new CMSLoader(this.http);
     configuration.eventDataLoader = cmsLoader;
 
-    this.eventdisplay.init(configuration);
+    this.eventDisplay.init(configuration);
 
-    cmsLoader.loadEventDataFromIg('assets/files/cms/EventData.ig', 'Event_876295434', (eventData: any) => {
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector', 400);
+
+    cmsLoader.loadEventDataFromIg('assets/files/cms/EventData.ig', 'Event', (eventData: any) => {
       cmsLoader.putEventData(eventData);
-      this.eventdisplay.buildEventDataFromJSON(cmsLoader.getEventData());
+      this.eventDisplay.buildEventDataFromJSON(cmsLoader.getEventData());
     });
 
   }
