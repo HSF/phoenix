@@ -12,7 +12,7 @@ import { ResizeSensor } from "css-element-queries";
 export class OverlayComponent implements AfterViewInit {
 
   /** Title of the overlay. */
-  @Input() title: string;
+  @Input() overlayTitle: string;
   /** If the overlay is open or not. */
   @Input() active: boolean = false;
   /** Icon of the overlay header. */

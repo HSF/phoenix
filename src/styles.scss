@@ -195,7 +195,7 @@ select {
   select {
     width: 9rem;
     padding: 5px 10px;
-    font-size: 16px;
+    font-size: 12px;
     border: 1px solid rgba(88, 88, 88, 0.08);
     box-shadow: var(--phoenix-icon-shadow);
     background-color: var(--phoenix-background-color-tertiary);
@@ -207,8 +207,8 @@ select {
 .overlay-card.card {
   color: var(--phoenix-text-color-secondary);
   background: var(--phoenix-background-color-secondary);
-  max-width: 30vw;
   box-shadow: var(--phoenix-box-shadow);
+  font-size: 12px;
 
   .card-header {
     text-align: center;

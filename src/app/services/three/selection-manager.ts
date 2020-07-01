@@ -186,7 +186,9 @@ export class SelectionManager {
             }).filter(val => val);
             // Build the log text and add to the logger
             const log = intersectedObject.name + (props.length > 0 ? ' with ' + props.join(', ') : '');
-            this.infoLogger.add(log, 'Clicked');
+            if (log) {
+                this.infoLogger.add(log, 'Clicked');
+            }
         }
     }
 
