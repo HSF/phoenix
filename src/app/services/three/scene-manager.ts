@@ -1,6 +1,5 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, CylinderGeometry } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
 import { Cut } from '../extras/cut.model';
-import { PhoenixObjects } from '../loaders/objects/phoenix-objects';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -390,25 +389,20 @@ export class SceneManager {
         });
     }
 
-    public changeJetsSize(value: number) {
+    /**
+     * Change the scale of Jets.
+     * @param value Percentage factor by which the Jets are to be scaled.
+     */
+    public scaleJets(value: number) {
         const jets = this.scene.getObjectByName('Jets');
         value /= 100;
 
-        jets.traverse((objectChild: any) => {
+        jets.traverse((objectChild: Object3D) => {
             if (objectChild.name === 'Jet') {
-                const jetParent = objectChild.parent;
-                jetParent.remove(objectChild);
-                const jetParams = objectChild.userData;
-
-                // We don't want a reference
-                const oldJetParams = JSON.parse(JSON.stringify(jetParams));
-                
-                jetParams.energy ? jetParams.energy *= value : jetParams.et *= value;
-                const newJet = PhoenixObjects.getJet(jetParams);
-                
-                // Restoring energy value
-                newJet.userData.energy ? oldJetParams.energy : oldJetParams.et;
-                jetParent.add(newJet);
+                const previousScale = objectChild.scale.x;
+                objectChild.scale.setScalar(value);
+                // Restoring to original position and then moving again with the current value.
+                objectChild.position.divideScalar(previousScale).multiplyScalar(value);
             }
         });
     }

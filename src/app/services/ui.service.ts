@@ -231,20 +231,17 @@ export class UIService {
   /**
    * Add folder for event data type like tracks or hits to the dat.GUI menu.
    * @param typeName Name of the type of event data.
+   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    * @returns dat.GUI menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string): any {
+  public addEventDataTypeFolder(typeName: string,
+    extendEventDataTypeUI?: (typeFolder: any) => void): any {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
 
-    if (typeName.toLowerCase() === 'jets') {
-      const sizeMenu = typeFolder.add({ jetsSize: 0.01 }, 'jetsSize', 0.01, 2).name('Jets Size');
-      sizeMenu.onChange((value) => {
-        this.three.getSceneManager().changeJetsSize(value);
-      }); 
-    }
+    extendEventDataTypeUI?.(typeFolder);
 
     return typeFolder;
   }

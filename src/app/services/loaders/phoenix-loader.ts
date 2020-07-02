@@ -123,7 +123,15 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 2000, 10000)
       ];
 
-      this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', cuts);
+      const addJetsSizeOption = (typeFolder: any) => {
+        const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
+          .name('Jets Size (%)');
+        sizeMenu.onChange((value: number) => {
+          this.graphicsLibrary.getSceneManager().scaleJets(value);
+        });
+      };
+
+      this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', cuts, addJetsSizeOption);
     }
 
     if (eventData.Hits) {
@@ -152,10 +160,12 @@ export class PhoenixLoader implements EventDataLoader {
    * @param getObject Function that handles of reconstructing objects of the given type.
    * @param typeName Label for naming the object type.
    * @param cuts Filters that can be applied to the objects.
+   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
-  protected addObjectType(object: any, getObject: any, typeName: string, cuts?: Cut[]) {
+  protected addObjectType(object: any, getObject: any, typeName: string,
+    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any) => void) {
 
-    const typeFolder = this.ui.addEventDataTypeFolder(typeName);
+    const typeFolder = this.ui.addEventDataTypeFolder(typeName, extendEventDataTypeUI);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
