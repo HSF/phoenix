@@ -1,5 +1,6 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, CylinderGeometry } from 'three';
 import { Cut } from '../extras/cut.model';
+import { PhoenixObjects } from '../loaders/objects/phoenix-objects';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -347,38 +348,24 @@ export class SceneManager {
     }
 
     /**
-     * Toggle depthTest of event data.
+     * Toggle depthTest of event data by updating all children's depthTest and renderOrder.
      * @param value If depthTest will be true or false.
      */
     public eventDataDepthTest(value: boolean) {
         const object = this.getEventData();
 
         if (object !== null) {
-            this.updateChildrenDepthTest(object, value);
-        }
-    }
-
-    /**
-     * Update all children's depthTest and renderOrder.
-     * @param object Object group whose depthTest is to be changed.
-     * @param value A boolean to specify if depthTest is to be enabled or disabled.
-     */
-    private updateChildrenDepthTest(object: any, value: boolean) {
-        // Changing renderOrder to make event data render on top of geometry
-        // Arbitrarily setting a high value of 999
-        value ? object.renderOrder = 0 : object.renderOrder = 999;
-
-        // Traversing all event data objects to change material's depthTest
-        object.children.forEach((objectChild: any) => {
-            if (!(objectChild instanceof Group)) {
+            // Traversing all event data objects to change material's depthTest
+            object.traverse((objectChild: any) => {
                 if (objectChild.material) {
+                    // Changing renderOrder to make event data render on top of geometry
+                    // Arbitrarily setting a high value of 999
+                    value ? objectChild.renderOrder = 0 : objectChild.renderOrder = 999;
+                    // Applying depthTest
                     objectChild.material.depthTest = value;
                 }
-            } else {
-                // Calling the function again if the object is a group
-                this.updateChildrenDepthTest(objectChild, value);
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -399,6 +386,29 @@ export class SceneManager {
                     object.material.transparent = false;
                     object.material.opacity = 1;
                 }
+            }
+        });
+    }
+
+    public changeJetsSize(value: number) {
+        const jets = this.scene.getObjectByName('Jets');
+        value /= 100;
+
+        jets.traverse((objectChild: any) => {
+            if (objectChild.name === 'Jet') {
+                const jetParent = objectChild.parent;
+                jetParent.remove(objectChild);
+                const jetParams = objectChild.userData;
+
+                // We don't want a reference
+                const oldJetParams = JSON.parse(JSON.stringify(jetParams));
+                
+                jetParams.energy ? jetParams.energy *= value : jetParams.et *= value;
+                const newJet = PhoenixObjects.getJet(jetParams);
+                
+                // Restoring energy value
+                newJet.userData.energy ? oldJetParams.energy : oldJetParams.et;
+                jetParent.add(newJet);
             }
         });
     }

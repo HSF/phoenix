@@ -29,12 +29,8 @@ export class UIService {
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
-  /** dat.GUI menu folder containing controls. */
-  private controlsFolder: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
-  /** dat.GUI menu folder containing view options. */
-  private viewFolder: any;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -242,6 +238,14 @@ export class UIService {
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
+
+    if (typeName.toLowerCase() === 'jets') {
+      const sizeMenu = typeFolder.add({ jetsSize: 0.01 }, 'jetsSize', 0.01, 2).name('Jets Size');
+      sizeMenu.onChange((value) => {
+        this.three.getSceneManager().changeJetsSize(value);
+      }); 
+    }
+
     return typeFolder;
   }
 
