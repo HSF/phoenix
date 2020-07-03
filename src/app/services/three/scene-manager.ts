@@ -347,38 +347,24 @@ export class SceneManager {
     }
 
     /**
-     * Toggle depthTest of event data.
+     * Toggle depthTest of event data by updating all children's depthTest and renderOrder.
      * @param value If depthTest will be true or false.
      */
     public eventDataDepthTest(value: boolean) {
         const object = this.getEventData();
 
         if (object !== null) {
-            this.updateChildrenDepthTest(object, value);
-        }
-    }
-
-    /**
-     * Update all children's depthTest and renderOrder.
-     * @param object Object group whose depthTest is to be changed.
-     * @param value A boolean to specify if depthTest is to be enabled or disabled.
-     */
-    private updateChildrenDepthTest(object: any, value: boolean) {
-        // Changing renderOrder to make event data render on top of geometry
-        // Arbitrarily setting a high value of 999
-        value ? object.renderOrder = 0 : object.renderOrder = 999;
-
-        // Traversing all event data objects to change material's depthTest
-        object.children.forEach((objectChild: any) => {
-            if (!(objectChild instanceof Group)) {
+            // Traversing all event data objects to change material's depthTest
+            object.traverse((objectChild: any) => {
                 if (objectChild.material) {
+                    // Changing renderOrder to make event data render on top of geometry
+                    // Arbitrarily setting a high value of 999
+                    value ? objectChild.renderOrder = 0 : objectChild.renderOrder = 999;
+                    // Applying depthTest
                     objectChild.material.depthTest = value;
                 }
-            } else {
-                // Calling the function again if the object is a group
-                this.updateChildrenDepthTest(objectChild, value);
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -399,6 +385,24 @@ export class SceneManager {
                     object.material.transparent = false;
                     object.material.opacity = 1;
                 }
+            }
+        });
+    }
+
+    /**
+     * Change the scale of Jets.
+     * @param value Percentage factor by which the Jets are to be scaled.
+     */
+    public scaleJets(value: number) {
+        const jets = this.scene.getObjectByName('Jets');
+        value /= 100;
+
+        jets.traverse((objectChild: Object3D) => {
+            if (objectChild.name === 'Jet') {
+                const previousScale = objectChild.scale.x;
+                objectChild.scale.setScalar(value);
+                // Restoring to original position and then moving again with the current value.
+                objectChild.position.divideScalar(previousScale).multiplyScalar(value);
             }
         });
     }

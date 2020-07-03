@@ -97,8 +97,8 @@ export class PhoenixObjects {
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don't want the Jets to go out of the event display
-    if (length > 2000) {
-      length = 2000;
+    if (length > 3000) {
+      length = 3000;
     }
     const width = length * 0.1;
 

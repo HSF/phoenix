@@ -29,12 +29,8 @@ export class UIService {
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
-  /** dat.GUI menu folder containing controls. */
-  private controlsFolder: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
-  /** dat.GUI menu folder containing view options. */
-  private viewFolder: any;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -235,13 +231,18 @@ export class UIService {
   /**
    * Add folder for event data type like tracks or hits to the dat.GUI menu.
    * @param typeName Name of the type of event data.
+   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    * @returns dat.GUI menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string): any {
+  public addEventDataTypeFolder(typeName: string,
+    extendEventDataTypeUI?: (typeFolder: any) => void): any {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
+
+    extendEventDataTypeUI?.(typeFolder);
+
     return typeFolder;
   }
 
