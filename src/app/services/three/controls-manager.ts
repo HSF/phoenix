@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3 } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -267,21 +267,24 @@ export class ControlsManager {
         objectsGroup.traverse((object: any) => {
             if (object.uuid === uuid) {
                 let objectPosition = new Vector3();
-                if (['Track', 'Hit'].includes(object.name)) {
-                    // Get the center of bounding sphere for Tracks and Hits
-                    objectPosition = object.geometry.boundingSphere.center;
-                } else if (object.name === 'Muon') {
-                    // Muon is a group of other event data so we traverse through it
-                    object.traverse((muonObject: any) => {
-                        if (muonObject.name === 'Track') {
-                            // Get the max vector from the bounding box to accumulate with the clusters
-                            objectPosition.add(
-                                muonObject.geometry.boundingSphere.getBoundingBox().max
-                            );
-                        } else {
-                            objectPosition.add(muonObject.position);
+                if (object instanceof Group) {
+                    // If it is a group of other event data we traverse through it
+                    object.traverse((childObject: any) => {
+                        // Make sure the child is not a group (e.g Track is a group)
+                        if (childObject.children.length === 0) {
+                            if (childObject.position.equals(origin)) {
+                                // Get the max vector from the bounding box to accumulate with the clusters
+                                objectPosition.add(
+                                    childObject.geometry.boundingSphere.getBoundingBox().max
+                                );
+                            } else {
+                                objectPosition.add(childObject.position);
+                            }
                         }
                     });
+                } else if (object.position.equals(origin)) {
+                    // Get the center of bounding sphere of objects with no position
+                    objectPosition = object.geometry.boundingSphere.center;
                 } else {
                     // Get the object position for all other elements
                     objectPosition = object.position;
