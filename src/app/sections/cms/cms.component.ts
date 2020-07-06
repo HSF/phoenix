@@ -33,9 +33,9 @@ export class CMSComponent implements OnInit {
 
     this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector', 400);
 
-    cmsLoader.loadEventDataFromIg('assets/files/cms/EventData.ig', 'Event', (eventData: any) => {
-      cmsLoader.putEventData(eventData);
-      this.eventDisplay.buildEventDataFromJSON(cmsLoader.getEventData());
+    cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {
+      const allEventsData = cmsLoader.getAllEventsData(allEvents);
+      this.eventDisplay.parsePhoenixEvents(allEventsData);
     });
 
   }

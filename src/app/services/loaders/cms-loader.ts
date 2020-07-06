@@ -69,6 +69,9 @@ export class CMSLoader extends PhoenixLoader {
                                 i++;
                             });
                     } else {
+                        if (i === allFilesPath.length) {
+                            onFileRead(eventsDataInIg);
+                        }
                         i++;
                     }
                 }
@@ -138,6 +141,20 @@ export class CMSLoader extends PhoenixLoader {
         }
 
         return eventData;
+    }
+
+    /**
+     * Get event data of all events.
+     * @param allEventsDataFromIg An array containing data of all events from ".ig" file.
+     * @returns An object containing event data for all events.
+     */
+    public getAllEventsData(allEventsDataFromIg: any[]): any {
+        let allEventsData = {};
+        for (const eventData of allEventsDataFromIg) {
+            this.data = eventData;
+            allEventsData[eventData.eventPath] = this.getEventData();
+        }
+        return allEventsData;
     }
 
     /**
