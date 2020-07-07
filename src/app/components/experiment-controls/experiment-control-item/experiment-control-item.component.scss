@@ -1,0 +1,47 @@
+.experiment-control-item {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--phoenix-background-color-secondary);
+  color: var(--phoenix-text-color-secondary);
+  border: 2px solid var(--phoenix-background-color-tertiary);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+
+  display: flex;
+  justify-content: space-between;
+
+  .experiment-control-item-left {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 0;
+    padding-right: 0.5rem;
+
+    .experiment-control-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+  }
+
+  .experiment-control-item-right {
+    display: flex;
+    justify-content: flex-end;
+
+    .expand-item {
+        cursor: pointer;
+    }
+  }
+
+  .icon-wrapper {
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 0.2rem;
+    margin-right: 0.3rem;
+
+    svg {
+        width: 100%;
+        height: 100%;
+        vertical-align: top;
+    }
+  }
+}

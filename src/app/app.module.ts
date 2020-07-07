@@ -47,6 +47,8 @@ import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-c
 import { TreeMenuComponent } from './components/ui-menu/tree-menu/tree-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
+import { ExperimentControlsComponent } from './components/experiment-controls/experiment-controls.component';
+import { ExperimentControlItemComponent } from './components/experiment-controls/experiment-control-item/experiment-control-item.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -95,7 +97,9 @@ const routes: Routes = [
     MainViewToggleComponent,
     ZoomControlsComponent,
     TreeMenuComponent,
-    TreeMenuItemComponent
+    TreeMenuItemComponent,
+    ExperimentControlsComponent,
+    ExperimentControlItemComponent
   ],
   imports: [
     BrowserModule,
