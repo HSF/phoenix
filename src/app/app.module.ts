@@ -126,7 +126,8 @@ const routes: Routes = [
     IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
-    InfoPanelOverlayComponent
+    InfoPanelOverlayComponent,
+    ExperimentControlItemComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef, AfterViewInit } from '@angular/core';
 import { ConfigCheckboxComponent } from './config-checkbox/config-checkbox.component';
 import { isArray } from 'util';
 
@@ -7,10 +7,10 @@ import { isArray } from 'util';
   templateUrl: './experiment-control-item.component.html',
   styleUrls: ['./experiment-control-item.component.scss']
 })
-export class ExperimentControlItemComponent implements OnInit {
+export class ExperimentControlItemComponent {
 
-  @ViewChild('itemConfig', { read: ViewContainerRef }) itemConfig;
-  @ViewChild('itemChildren', { read: ViewContainerRef }) itemChildren;
+  @ViewChild('itemConfig', { read: ViewContainerRef }) itemConfig: ViewContainerRef;
+  @ViewChild('itemChildren', { read: ViewContainerRef }) itemChildren: ViewContainerRef;
 
   @Input() name: string;
   @Input() geometryName: string;
@@ -22,9 +22,6 @@ export class ExperimentControlItemComponent implements OnInit {
   childrenActive: boolean = false;
 
   constructor(private resolver: ComponentFactoryResolver) { }
-
-  ngOnInit(): void {
-  }
 
   addChild(name: string, onToggle?: () => void, config?: any[] | any)
     : ExperimentControlItemComponent {

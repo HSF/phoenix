@@ -5,6 +5,8 @@ import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
 import { Camera } from 'three';
+import { ExperimentControlItemComponent } from '../components/experiment-controls/experiment-control-item/experiment-control-item.component';
+import { ConfigCheckboxComponent } from '../components/experiment-controls/experiment-control-item/config-checkbox/config-checkbox.component';
 
 declare global {
   /**
@@ -87,6 +89,12 @@ export class EventdisplayService {
     };
     this.graphicsLibrary.setVRButton();
     this.graphicsLibrary.setAnimationLoop(animate);
+  }
+
+  public setExperimentControls(experimentControlsComponent: ExperimentControlItemComponent) {
+    experimentControlsComponent.addChild('Test Child', () => {
+      console.log('working');
+    });
   }
 
   /**
