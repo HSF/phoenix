@@ -1,30 +1,27 @@
 <div class="experiment-control-item">
   <div class="experiment-control-item-left">
-    <div *ngIf="icon" class="icon-wrapper">
-      <svg>
-        <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
-      </svg>
-    </div>
-    <span class="experiment-control-name">{{name}}</span>
+    <!-- If the item has some toggle function -->
+    <mat-slide-toggle *ngIf="onToggle" class="experiment-control-name" [checked]="visible">
+      <span>{{name}}</span>
+    </mat-slide-toggle>
+    <!-- If the item has no toggle function -->
+    <span *ngIf="!onToggle">{{name}}</span>
   </div>
   <div class="experiment-control-item-right">
-    <div *ngIf="config">
-      <div class="icon-wrapper">
+    <div *ngIf="hasConfig">
+      <div class="icon-wrapper item-settings" (click)="configActive = !configActive">
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
       </div>
-      <div class="d-none experiment-control-config-data">
-        Some config options.
-      </div>
+      <div #itemConfig class="item-config" *ngIf="configActive"></div>
     </div>
-    <div class="icon-wrapper expand-item">
+    <div class="icon-wrapper item-expand" *ngIf="children.length > 0" (click)="childrenActive = !childrenActive"
+      [ngClass]="{ 'expanded': childrenActive }">
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
     </div>
   </div>
 </div>
-<div *ngIf="children.length > 0" class="experiment-control-collapse">
-
-</div>
+<div #itemChildren *ngIf="childrenActive"></div>

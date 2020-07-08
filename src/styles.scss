@@ -23,6 +23,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   --phoenix-options-icon-bg: rgba(0, 0, 0, 0.08);
   --phoenix-options-icon-path: #777777;
   --phoenix-icon-shadow: 0px 3px 6px rgba(0, 0, 0, 0.11);
+  --phoenix-accent: #00c4ba;
   --dat-background-primary: #f9f9f9;
   --dat-background-secondary: #efefef;
   --dat-background-tertiary: #e9e9e9;
@@ -47,6 +48,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   --phoenix-options-icon-bg: rgba(255, 255, 255, 0.18);
   --phoenix-options-icon-path: #fff;
   --phoenix-icon-shadow: 0px 4px 8px rgba(0, 0, 0, 0.22);
+  --phoenix-accent: #1cfff4;
   --dat-background-primary: #181818;
   --dat-background-secondary: #262626;
   --dat-background-tertiary: #343434;
@@ -225,6 +227,21 @@ select {
       background-color: var(--phoenix-background-color-secondary);
       border-color: var(--dat-border);
     }
+  }
+}
+
+/* Overridden styles */
+.experiment-control-item {
+
+  .mat-slide-toggle-bar {
+    width: 30px !important;
+  }
+
+  .mat-slide-toggle-thumb {
+    width: 15px !important;
+    height: 15px !important;
+    position: absolute;
+    top: 2px;
   }
 }
 

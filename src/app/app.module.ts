@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CollectionsInfoComponent } from './components/ui-menu/collections-info/collections-info.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggle.component';
@@ -49,6 +50,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
 import { ExperimentControlsComponent } from './components/experiment-controls/experiment-controls.component';
 import { ExperimentControlItemComponent } from './components/experiment-controls/experiment-control-item/experiment-control-item.component';
+import { ConfigSliderComponent } from './components/experiment-controls/experiment-control-item/config-slider/config-slider.component';
+import { ConfigCheckboxComponent } from './components/experiment-controls/experiment-control-item/config-checkbox/config-checkbox.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -99,7 +102,9 @@ const routes: Routes = [
     TreeMenuComponent,
     TreeMenuItemComponent,
     ExperimentControlsComponent,
-    ExperimentControlItemComponent
+    ExperimentControlItemComponent,
+    ConfigSliderComponent,
+    ConfigCheckboxComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +118,7 @@ const routes: Routes = [
     OverlayModule,
     MatMenuModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule
   ],
