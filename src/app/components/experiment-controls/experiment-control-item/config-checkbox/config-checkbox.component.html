@@ -1,3 +1,3 @@
-<mat-checkbox [checked]="isChecked" (change)="onChange">
+<mat-checkbox [checked]="isChecked" (change)="onChange($event.checked)">
   {{configName}}
 </mat-checkbox>

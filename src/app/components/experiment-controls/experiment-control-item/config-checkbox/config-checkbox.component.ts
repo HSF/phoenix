@@ -5,15 +5,10 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './config-checkbox.component.html',
   styleUrls: ['./config-checkbox.component.scss']
 })
-export class ConfigCheckboxComponent implements OnInit {
+export class ConfigCheckboxComponent {
 
   @Input() isChecked: any;
   @Input() configName: string;
-  @Input() onChange: any;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  @Input() onChange: (value: boolean) => void;
 
 }

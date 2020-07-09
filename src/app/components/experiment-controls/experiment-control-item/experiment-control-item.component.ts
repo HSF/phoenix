@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef, AfterViewInit } from '@angular/core';
-import { ConfigCheckboxComponent } from './config-checkbox/config-checkbox.component';
+import {
+  Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef, ChangeDetectorRef
+} from '@angular/core';
 import { isArray } from 'util';
 
 @Component({
@@ -15,15 +16,22 @@ export class ExperimentControlItemComponent {
   @Input() name: string;
   @Input() geometryName: string;
   @Input() onToggle: (value: boolean) => void;
-  children: ExperimentControlItemComponent[] = [];
+  children = [];
   visible: boolean = true;
   hasConfig: boolean = false;
   configActive: boolean = false;
   childrenActive: boolean = false;
 
-  constructor(private resolver: ComponentFactoryResolver) { }
+  constructor(private resolver: ComponentFactoryResolver, private cd: ChangeDetectorRef) { }
 
-  addChild(name: string, onToggle?: () => void, config?: any[] | any)
+  /**
+   * Add a child to the experiment control item.
+   * @param name Name of the child.
+   * @param onToggle Function on toggling the child.
+   * @param config Configuration options to be added to the child.
+   * @returns The child element.
+   */
+  addChild(name: string, onToggle?: (value: boolean) => void, config?: any[] | any)
     : ExperimentControlItemComponent {
     const factory: ComponentFactory<ExperimentControlItemComponent> = this.resolver
       .resolveComponentFactory(ExperimentControlItemComponent);
@@ -44,9 +52,14 @@ export class ExperimentControlItemComponent {
       }
     }
     this.children.push(componentRef.instance);
+    this.cd.detectChanges();
     return componentRef.instance;
   }
 
+  /**
+   * Add a config to experiment control item.
+   * @param options Options for the config.
+   */
   addConfig(options: any) {
     const factory = this.resolver.resolveComponentFactory(options.component);
     const componentRef = this.itemConfig.createComponent(factory);
@@ -56,6 +69,7 @@ export class ExperimentControlItemComponent {
       }
     }
     this.hasConfig = true;
+    this.cd.detectChanges();
   }
 
 }

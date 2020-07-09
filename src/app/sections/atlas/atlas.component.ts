@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
-import { ExperimentControlItemComponent } from '../../components/experiment-controls/experiment-control-item/experiment-control-item.component';
-import { ConfigCheckboxComponent } from '../../components/experiment-controls/experiment-control-item/config-checkbox/config-checkbox.component';
 
 
 @Component({
@@ -12,9 +10,7 @@ import { ConfigCheckboxComponent } from '../../components/experiment-controls/ex
   templateUrl: './atlas.component.html',
   styleUrls: ['./atlas.component.scss']
 })
-export class AtlasComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('experimentControls') experimentControls: ExperimentControlItemComponent;
+export class AtlasComponent implements OnInit {
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -39,13 +35,5 @@ export class AtlasComponent implements OnInit, AfterViewInit {
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, true);
-  }
-
-  ngAfterViewInit() { 
-    this.experimentControls.addConfig({
-      configName: 'test',
-      component: ConfigCheckboxComponent
-    })
-    this.eventDisplay.setExperimentControls(this.experimentControls);
   }
 }

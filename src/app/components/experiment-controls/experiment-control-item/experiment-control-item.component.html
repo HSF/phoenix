@@ -1,27 +1,32 @@
 <div class="experiment-control-item">
   <div class="experiment-control-item-left">
     <!-- If the item has some toggle function -->
-    <mat-slide-toggle *ngIf="onToggle" class="experiment-control-name" [checked]="visible" (change)="onToggle()">
+    <mat-slide-toggle *ngIf="onToggle" class="experiment-control-name" [checked]="visible" (change)="onToggle($event.checked)">
       <span>{{name}}</span>
     </mat-slide-toggle>
     <!-- If the item has no toggle function -->
     <span *ngIf="!onToggle">{{name}}</span>
   </div>
   <div class="experiment-control-item-right">
-    <div [ngClass]="{ 'd-none': hasConfig }">
+    <div [hidden]="!hasConfig">
       <div class="icon-wrapper item-settings" (click)="configActive = !configActive">
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
       </div>
-      <div #itemConfig class="item-config" [ngClass]="{ 'd-none': hasConfig }"></div>
+      <div class="item-config" [hidden]="!configActive">
+        <ng-container #itemConfig></ng-container>
+      </div>
     </div>
     <div class="icon-wrapper item-expand" *ngIf="children.length > 0" (click)="childrenActive = !childrenActive"
-      [ngClass]="{ 'expanded': childrenActive }">
+      [ngClass]="{ 'expanded': !childrenActive }">
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
     </div>
   </div>
 </div>
-<div #itemChildren [ngClass]="{ 'd-none': childrenActive }"></div>
+<div [hidden]="childrenActive">
+  <ng-container #itemChildren>
+  </ng-container>
+</div>
