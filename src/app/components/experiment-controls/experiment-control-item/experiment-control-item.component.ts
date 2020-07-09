@@ -2,6 +2,7 @@ import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef, ChangeDetectorRef
 } from '@angular/core';
 import { isArray } from 'util';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-experiment-control-item',
@@ -31,25 +32,16 @@ export class ExperimentControlItemComponent {
    * @param config Configuration options to be added to the child.
    * @returns The child element.
    */
-  addChild(name: string, onToggle?: (value: boolean) => void, config?: any[] | any)
+  addChild(name: string, onToggle?: (value: boolean) => void)
     : ExperimentControlItemComponent {
-    const factory: ComponentFactory<ExperimentControlItemComponent> = this.resolver
+    const childFactory: ComponentFactory<ExperimentControlItemComponent> = this.resolver
       .resolveComponentFactory(ExperimentControlItemComponent);
     const componentRef: ComponentRef<ExperimentControlItemComponent> = this.itemChildren
-      .createComponent(factory);
+      .createComponent(childFactory);
     componentRef.instance.name = name;
     componentRef.instance.geometryName = name;
     if (onToggle) {
       componentRef.instance.onToggle = onToggle;
-    }
-    if (config) {
-      if (isArray(config)) {
-        for (const configOptions of config) {
-          componentRef.instance.addConfig(configOptions);
-        }
-      } else {
-        componentRef.instance.addConfig(config);
-      }
     }
     this.children.push(componentRef.instance);
     this.cd.detectChanges();
@@ -57,12 +49,12 @@ export class ExperimentControlItemComponent {
   }
 
   /**
-   * Add a config to experiment control item.
+   * Add a config to the experiment control item.
    * @param options Options for the config.
    */
-  addConfig(options: any) {
-    const factory = this.resolver.resolveComponentFactory(options.component);
-    const componentRef = this.itemConfig.createComponent(factory);
+  addConfig(options: any): ExperimentControlItemComponent {
+    const configFactory = this.resolver.resolveComponentFactory(options.component);
+    const componentRef = this.itemConfig.createComponent(configFactory);
     for (const option of Object.keys(options)) {
       if (option !== 'component') {
         componentRef.instance[option] = options[option];
@@ -70,6 +62,7 @@ export class ExperimentControlItemComponent {
     }
     this.hasConfig = true;
     this.cd.detectChanges();
+    return this;
   }
 
 }

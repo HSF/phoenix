@@ -50,8 +50,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
 import { ExperimentControlsComponent } from './components/experiment-controls/experiment-controls.component';
 import { ExperimentControlItemComponent } from './components/experiment-controls/experiment-control-item/experiment-control-item.component';
-import { ConfigSliderComponent } from './components/experiment-controls/experiment-control-item/config-slider/config-slider.component';
-import { ConfigCheckboxComponent } from './components/experiment-controls/experiment-control-item/config-checkbox/config-checkbox.component';
+import { ConfigSliderComponent } from './components/experiment-controls/config/config-slider/config-slider.component';
+import { ConfigCheckboxComponent } from './components/experiment-controls/config/config-checkbox/config-checkbox.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

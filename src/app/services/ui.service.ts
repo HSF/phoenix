@@ -6,6 +6,9 @@ import { Configuration } from './extras/configuration.model';
 import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
+import { ExperimentControlItemComponent } from '../components/experiment-controls/experiment-control-item/experiment-control-item.component';
+import { ConfigCheckboxComponent } from '../components/experiment-controls/config/config-checkbox/config-checkbox.component';
+import { ConfigSliderComponent } from '../components/experiment-controls/config/config-slider/config-slider.component';
 
 /**
  * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -29,8 +32,10 @@ export class UIService {
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
+  private geomFolderEC: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
+  private eventFolderEC: any;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -44,6 +49,8 @@ export class UIService {
   private maxPositionY = 4000;
   /** Max changeable position of an object along the z-axis. */
   private maxPositionZ = 4000;
+  /** Root node of the experiment controls. */
+  private experimentControls: ExperimentControlItemComponent;
 
   /**
    * Constructor for the UI service.
@@ -63,6 +70,8 @@ export class UIService {
     this.showMenu(configuration);
     // Detect UI color scheme
     this.detectColorScheme();
+    // Set root node of experiment controls
+    this.setExperimentControls(configuration.experimentControlsRoot);
   }
 
   /**
@@ -122,6 +131,10 @@ export class UIService {
   public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
+      // Experiment controls
+      this.geomFolderEC = this.experimentControls.addChild('Detector', (value: boolean) => {
+        this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+      });
     }
     this.guiParameters.geometries = { show: true, wireframe: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
@@ -133,6 +146,16 @@ export class UIService {
     const wireframeGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'wireframe').name('Wireframe').listen();
     wireframeGeometriesMenu.onChange((value) => {
       this.three.getSceneManager().wireframeGeometries(value);
+    });
+
+    // Experiment controls
+    this.geomFolderEC.addConfig({
+      component: ConfigCheckboxComponent,
+      label: 'Wireframe',
+      isChecked: false,
+      onChange: (value: boolean) => {
+        this.three.getSceneManager().wireframeGeometries(value);
+      }
     });
   }
 
@@ -151,7 +174,7 @@ export class UIService {
    * @param colour Color of the geometry.
    */
   public addGeometry(name: string, colour: any) {
-    if (this.geomFolder == null) {
+    if (this.geomFolder == null || this.geomFolderEC == null) {
       this.addGeomFolder();
     }
     // A new folder for the object is added to the 'Geometry' folder
@@ -185,6 +208,29 @@ export class UIService {
       .name('Z').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setZ(value));
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
+
+    // Experiment controls
+    const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
+      this.three.getSceneManager().objectVisibility(name, value);
+    });
+    objFolderEC.addConfig({
+      component: ConfigSliderComponent,
+      label: 'Opacity',
+      min: 0,
+      max: 1,
+      step: 0.05,
+      onChange: (opacity: number) => {
+        this.three.getSceneManager().setGeometryOpacity(name, opacity);
+      }
+    }).addConfig({
+      component: ConfigSliderComponent,
+      label: 'Scale',
+      min: 0, max: 1000, step: 1,
+      allowCustomValue: true,
+      onChange: (scale: number) => {
+        this.three.getSceneManager().scaleObject(name, scale);
+      }
+    });
   }
 
   /**
@@ -384,6 +430,14 @@ export class UIService {
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     this.three.setOverlayRenderer(overlayCanvas);
+  }
+
+  // **********************
+  // * EXPERIMENT CONTROLS *
+  // **********************
+
+  public setExperimentControls(experimentControls: ExperimentControlItemComponent) {
+    this.experimentControls = experimentControls;
   }
 
 }

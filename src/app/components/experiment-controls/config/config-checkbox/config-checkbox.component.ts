@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-config-checkbox',
@@ -8,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ConfigCheckboxComponent {
 
   @Input() isChecked: any;
-  @Input() configName: string;
+  @Input() label: string;
   @Input() onChange: (value: boolean) => void;
 
 }

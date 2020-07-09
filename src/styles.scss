@@ -243,6 +243,11 @@ select {
     position: absolute;
     top: 2px;
   }
+
+  .mat-slider-horizontal {
+    min-width: 0;
+    width: 100%;
+  }
 }
 
 /* Additional fonts */

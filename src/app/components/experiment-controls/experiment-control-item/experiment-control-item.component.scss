@@ -5,12 +5,13 @@
   color: var(--phoenix-text-color-secondary);
   border: 2px solid var(--phoenix-background-color-tertiary);
   border-radius: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: all 0.5s;
 
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   .experiment-control-item-left {
     display: flex;
@@ -39,25 +40,28 @@
 
     .item-settings {
         cursor: pointer;
+        margin-right: 0.2rem;
     }
 
     .item-config {
         position: absolute;
         top: 0;
         left: 100%;
-        width: 12rem;
+        width: 14rem;
         padding: 0.5rem;
         background: var(--phoenix-background-color-secondary);
         color: var(--phoenix-text-color-secondary);
         border: 2px solid var(--phoenix-background-color-tertiary);
         border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
     }
   }
 
   .icon-wrapper {
     width: 1.2rem;
     height: 1.2rem;
-    padding: 0.12rem;
+    padding: 0.15rem;
 
     svg {
       width: 100%;
