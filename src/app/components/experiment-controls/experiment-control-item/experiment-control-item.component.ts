@@ -1,8 +1,6 @@
 import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, ComponentRef, ChangeDetectorRef
 } from '@angular/core';
-import { isArray } from 'util';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-experiment-control-item',
@@ -18,6 +16,7 @@ export class ExperimentControlItemComponent {
   @Input() geometryName: string;
   @Input() onToggle: (value: boolean) => void;
   children = [];
+  parent: ExperimentControlItemComponent;
   visible: boolean = true;
   hasConfig: boolean = false;
   configActive: boolean = false;
@@ -30,7 +29,7 @@ export class ExperimentControlItemComponent {
    * @param name Name of the child.
    * @param onToggle Function on toggling the child.
    * @param config Configuration options to be added to the child.
-   * @returns The child element.
+   * @returns The child node.
    */
   addChild(name: string, onToggle?: (value: boolean) => void)
     : ExperimentControlItemComponent {
@@ -38,19 +37,43 @@ export class ExperimentControlItemComponent {
       .resolveComponentFactory(ExperimentControlItemComponent);
     const componentRef: ComponentRef<ExperimentControlItemComponent> = this.itemChildren
       .createComponent(childFactory);
+
+    componentRef.instance.parent = this;
+
     componentRef.instance.name = name;
     componentRef.instance.geometryName = name;
     if (onToggle) {
       componentRef.instance.onToggle = onToggle;
     }
+
     this.children.push(componentRef.instance);
     this.cd.detectChanges();
     return componentRef.instance;
   }
 
   /**
+   * Remove a child of this node.
+   * @param child The child node to be removed.
+   * @returns The current node.
+   */
+  removeChild(child: ExperimentControlItemComponent) {
+    const childIndex = this.children.indexOf(child);
+    this.itemChildren.remove(childIndex);
+    this.children.splice(childIndex, 1);
+    return this;
+  }
+
+  /**
+   * Remove this node.
+   */
+  remove() {
+    this.parent.removeChild(this);
+  }
+
+  /**
    * Add a config to the experiment control item.
    * @param options Options for the config.
+   * @returns The current node.
    */
   addConfig(options: any): ExperimentControlItemComponent {
     const configFactory = this.resolver.resolveComponentFactory(options.component);

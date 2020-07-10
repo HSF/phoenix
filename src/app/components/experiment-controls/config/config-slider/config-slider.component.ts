@@ -18,7 +18,9 @@ export class ConfigSliderComponent {
   @Input() onChange: (value: number) => void;
 
   onSliderChange(value: number) {
-    this.configSliderInput.nativeElement.value = value;
+    if (this.allowCustomValue) {
+      this.configSliderInput.nativeElement.value = value;
+    }
     this.onChange(value);
   }
 

@@ -32,10 +32,12 @@ export class UIService {
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
-  private geomFolderEC: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
-  private eventFolderEC: any;
+  /** Experiment controls node containing geometries data */
+  private geomFolderEC: ExperimentControlItemComponent;
+  /** Experiment controls node containing event related data */
+  private eventFolderEC: ExperimentControlItemComponent;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -150,6 +152,13 @@ export class UIService {
 
     // Experiment controls
     this.geomFolderEC.addConfig({
+      component: ConfigSliderComponent,
+      label: 'Opacity',
+      min: 0, max: 1, step: 0.01,
+      onChange: (value: number) => {
+        this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
+      }
+    }).addConfig({
       component: ConfigCheckboxComponent,
       label: 'Wireframe',
       isChecked: false,
@@ -222,15 +231,28 @@ export class UIService {
       onChange: (opacity: number) => {
         this.three.getSceneManager().setGeometryOpacity(name, opacity);
       }
-    }).addConfig({
+    });
+    objFolderEC.addConfig({
       component: ConfigSliderComponent,
       label: 'Scale',
-      min: 0, max: 1000, step: 1,
+      min: 0, max: 1000,
       allowCustomValue: true,
       onChange: (scale: number) => {
         this.three.getSceneManager().scaleObject(name, scale);
       }
     });
+    for (const axis of ['X', 'Y', 'Z']) {
+      objFolderEC.addConfig({
+        component: ConfigSliderComponent,
+        label: axis,
+        min: -this['maxPosition' + axis],
+        max: this['maxPosition' + axis],
+        allowCustomValue: true,
+        onChange: (value: number) => {
+          this.three.getSceneManager().getObjectPosition(name)[axis.toLowerCase()] = value;
+        }
+      });
+    }
   }
 
   /**
@@ -264,6 +286,22 @@ export class UIService {
     // A boolean toggle for enabling/disabling depthTest of event data.
     const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
+
+    // Experiment controls
+    if (this.eventFolderEC) {
+      this.eventFolderEC.remove();
+    }
+    this.eventFolderEC = this.experimentControls.addChild('Event Data', (value: boolean) => {
+      this.three.getSceneManager().objectVisibility('EventData', value);
+    });
+    this.eventFolderEC.addConfig({
+      component: ConfigCheckboxComponent,
+      label: 'Depth Test',
+      isChecked: true,
+      onChange: (value: boolean) => {
+        this.three.eventDataDepthTest(value);
+      }
+    });
   }
 
   /**

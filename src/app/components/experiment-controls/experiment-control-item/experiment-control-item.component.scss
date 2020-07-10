@@ -1,10 +1,8 @@
 .experiment-control-item {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.8rem;
   background: var(--phoenix-background-color-secondary);
   color: var(--phoenix-text-color-secondary);
-  border: 2px solid var(--phoenix-background-color-tertiary);
-  border-radius: 0.5rem;
   font-size: 0.8rem;
   transition: all 0.5s;
 
@@ -39,22 +37,22 @@
     }
 
     .item-settings {
-        cursor: pointer;
-        margin-right: 0.2rem;
+      cursor: pointer;
+      margin-right: 0.2rem;
     }
 
     .item-config {
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 14rem;
-        padding: 0.5rem;
-        background: var(--phoenix-background-color-secondary);
-        color: var(--phoenix-text-color-secondary);
-        border: 2px solid var(--phoenix-background-color-tertiary);
-        border-radius: 0.5rem;
-        display: flex;
-        flex-direction: column;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 14rem;
+      padding: 0.5rem;
+      background: var(--phoenix-background-color-secondary);
+      color: var(--phoenix-text-color-secondary);
+      border: 2px solid var(--phoenix-background-color-tertiary);
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: column;
     }
   }
 
