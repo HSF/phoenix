@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 import { PresetView } from 'src/app/services/extras/preset-view.model';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-view-options',
@@ -20,6 +21,11 @@ export class ViewOptionsComponent implements OnInit {
   displayView($event: any, view: PresetView) {
     $event.stopPropagation();
     this.ui.displayView(view);
+  }
+
+  setAxis(change: MatCheckboxChange){
+    const value = change.checked;
+    this.ui.setShowAxis(value)
   }
 
 }
