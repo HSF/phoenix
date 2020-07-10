@@ -9,6 +9,7 @@ import { SceneManager } from './three/scene-manager';
 import { ExperimentControlItemComponent } from '../components/experiment-controls/experiment-control-item/experiment-control-item.component';
 import { ConfigCheckboxComponent } from '../components/experiment-controls/config/config-checkbox/config-checkbox.component';
 import { ConfigSliderComponent } from '../components/experiment-controls/config/config-slider/config-slider.component';
+import { Subject, Observable } from 'rxjs';
 
 /**
  * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -43,7 +44,7 @@ export class UIService {
   /** Canvas in which event display is rendered. */
   private canvas: HTMLElement;
   /** If dark theme is enabled or disabled. */
-  private darkTheme: boolean;
+  private darkTheme: Subject<boolean> = new Subject();;
 
   /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
@@ -133,10 +134,12 @@ export class UIService {
   public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
-      // Experiment controls
-      this.geomFolderEC = this.experimentControls.addChild('Detector', (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
-      });
+      if (this.experimentControls) {
+        // Experiment controls
+        this.geomFolderEC = this.experimentControls.addChild('Detector', (value: boolean) => {
+          this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+        });
+      }
     }
     this.guiParameters.geometries = { show: true, wireframe: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
@@ -150,22 +153,24 @@ export class UIService {
       this.three.getSceneManager().wireframeGeometries(value);
     });
 
-    // Experiment controls
-    this.geomFolderEC.addConfig({
-      component: ConfigSliderComponent,
-      label: 'Opacity',
-      min: 0, max: 1, step: 0.01,
-      onChange: (value: number) => {
-        this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
-      }
-    }).addConfig({
-      component: ConfigCheckboxComponent,
-      label: 'Wireframe',
-      isChecked: false,
-      onChange: (value: boolean) => {
-        this.three.getSceneManager().wireframeGeometries(value);
-      }
-    });
+    if (this.experimentControls) {
+      // Experiment controls
+      this.geomFolderEC.addConfig({
+        component: ConfigSliderComponent,
+        label: 'Opacity',
+        min: 0, max: 1, step: 0.01,
+        onChange: (value: number) => {
+          this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
+        }
+      }).addConfig({
+        component: ConfigCheckboxComponent,
+        label: 'Wireframe',
+        isChecked: false,
+        onChange: (value: boolean) => {
+          this.three.getSceneManager().wireframeGeometries(value);
+        }
+      });
+    }
   }
 
   /**
@@ -218,40 +223,42 @@ export class UIService {
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
 
-    // Experiment controls
-    const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
-      this.three.getSceneManager().objectVisibility(name, value);
-    });
-    objFolderEC.addConfig({
-      component: ConfigSliderComponent,
-      label: 'Opacity',
-      min: 0,
-      max: 1,
-      step: 0.05,
-      onChange: (opacity: number) => {
-        this.three.getSceneManager().setGeometryOpacity(name, opacity);
-      }
-    });
-    objFolderEC.addConfig({
-      component: ConfigSliderComponent,
-      label: 'Scale',
-      min: 0, max: 1000,
-      allowCustomValue: true,
-      onChange: (scale: number) => {
-        this.three.getSceneManager().scaleObject(name, scale);
-      }
-    });
-    for (const axis of ['X', 'Y', 'Z']) {
+    if (this.experimentControls) {
+      // Experiment controls
+      const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
+        this.three.getSceneManager().objectVisibility(name, value);
+      });
       objFolderEC.addConfig({
         component: ConfigSliderComponent,
-        label: axis,
-        min: -this['maxPosition' + axis],
-        max: this['maxPosition' + axis],
-        allowCustomValue: true,
-        onChange: (value: number) => {
-          this.three.getSceneManager().getObjectPosition(name)[axis.toLowerCase()] = value;
+        label: 'Opacity',
+        min: 0,
+        max: 1,
+        step: 0.05,
+        onChange: (opacity: number) => {
+          this.three.getSceneManager().setGeometryOpacity(name, opacity);
         }
       });
+      objFolderEC.addConfig({
+        component: ConfigSliderComponent,
+        label: 'Scale',
+        min: 0, max: 1000,
+        allowCustomValue: true,
+        onChange: (scale: number) => {
+          this.three.getSceneManager().scaleObject(name, scale);
+        }
+      });
+      for (const axis of ['X', 'Y', 'Z']) {
+        objFolderEC.addConfig({
+          component: ConfigSliderComponent,
+          label: axis,
+          min: -this['maxPosition' + axis],
+          max: this['maxPosition' + axis],
+          allowCustomValue: true,
+          onChange: (value: number) => {
+            this.three.getSceneManager().getObjectPosition(name)[axis.toLowerCase()] = value;
+          }
+        });
+      }
     }
   }
 
@@ -287,21 +294,23 @@ export class UIService {
     const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
 
-    // Experiment controls
-    if (this.eventFolderEC) {
-      this.eventFolderEC.remove();
-    }
-    this.eventFolderEC = this.experimentControls.addChild('Event Data', (value: boolean) => {
-      this.three.getSceneManager().objectVisibility('EventData', value);
-    });
-    this.eventFolderEC.addConfig({
-      component: ConfigCheckboxComponent,
-      label: 'Depth Test',
-      isChecked: true,
-      onChange: (value: boolean) => {
-        this.three.eventDataDepthTest(value);
+    if (this.experimentControls) {
+      // Experiment controls
+      if (this.eventFolderEC) {
+        this.eventFolderEC.remove();
       }
-    });
+      this.eventFolderEC = this.experimentControls.addChild('Event Data', (value: boolean) => {
+        this.three.getSceneManager().objectVisibility('EventData', value);
+      });
+      this.eventFolderEC.addConfig({
+        component: ConfigCheckboxComponent,
+        label: 'Depth Test',
+        isChecked: true,
+        onChange: (value: boolean) => {
+          this.three.eventDataDepthTest(value);
+        }
+      });
+    }
   }
 
   /**
@@ -400,7 +409,7 @@ export class UIService {
       dark = true;
     }
 
-    this.darkTheme = dark;
+    this.darkTheme.next(dark);
     // dark theme preferred, set document with a `data-theme` attribute
     this.setDarkTheme(dark);
   }
@@ -422,10 +431,10 @@ export class UIService {
 
   /**
    * Get if the theme is dark or not.
-   * @returns If the theme is dark or not.
+   * @returns Observable to check if the theme is dark or not.
    */
-  public getDarkTheme(): boolean {
-    return this.darkTheme;
+  public getDarkTheme(): Observable<boolean> {
+    return this.darkTheme.asObservable();
   }
 
   /**

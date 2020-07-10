@@ -13,7 +13,6 @@ export class ExperimentControlItemComponent {
   @ViewChild('itemChildren', { read: ViewContainerRef }) itemChildren: ViewContainerRef;
 
   @Input() name: string;
-  @Input() geometryName: string;
   @Input() onToggle: (value: boolean) => void;
   children = [];
   parent: ExperimentControlItemComponent;
@@ -41,7 +40,6 @@ export class ExperimentControlItemComponent {
     componentRef.instance.parent = this;
 
     componentRef.instance.name = name;
-    componentRef.instance.geometryName = name;
     if (onToggle) {
       componentRef.instance.onToggle = onToggle;
     }
