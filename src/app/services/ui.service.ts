@@ -6,10 +6,7 @@ import { Configuration } from './extras/configuration.model';
 import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
-import { ExperimentControlItemComponent } from '../components/experiment-controls/experiment-control-item/experiment-control-item.component';
-import { ConfigCheckboxComponent } from '../components/experiment-controls/config/config-checkbox/config-checkbox.component';
-import { ConfigSliderComponent } from '../components/experiment-controls/config/config-slider/config-slider.component';
-import { Subject, Observable } from 'rxjs';
+import { ExperimentControlNode } from '../components/experiment-controls/experiment-control-node/experiment-control-node';
 
 /**
  * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -36,15 +33,15 @@ export class UIService {
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
   /** Experiment controls node containing geometries data */
-  private geomFolderEC: ExperimentControlItemComponent;
+  private geomFolderEC: ExperimentControlNode;
   /** Experiment controls node containing event related data */
-  private eventFolderEC: ExperimentControlItemComponent;
+  private eventFolderEC: ExperimentControlNode;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
   private canvas: HTMLElement;
   /** If dark theme is enabled or disabled. */
-  private darkTheme: Subject<boolean> = new Subject();;
+  private darkTheme: boolean;
 
   /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
@@ -53,7 +50,7 @@ export class UIService {
   /** Max changeable position of an object along the z-axis. */
   private maxPositionZ = 4000;
   /** Root node of the experiment controls. */
-  private experimentControls: ExperimentControlItemComponent;
+  private experimentControls: ExperimentControlNode;
 
   /**
    * Constructor for the UI service.
@@ -155,15 +152,13 @@ export class UIService {
 
     if (this.experimentControls) {
       // Experiment controls
-      this.geomFolderEC.addConfig({
-        component: ConfigSliderComponent,
+      this.geomFolderEC.addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
         onChange: (value: number) => {
           this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
         }
-      }).addConfig({
-        component: ConfigCheckboxComponent,
+      }).addConfig('checkbox', {
         label: 'Wireframe',
         isChecked: false,
         onChange: (value: boolean) => {
@@ -228,18 +223,14 @@ export class UIService {
       const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
-      objFolderEC.addConfig({
-        component: ConfigSliderComponent,
+      objFolderEC.addConfig('slider', {
         label: 'Opacity',
-        min: 0,
-        max: 1,
-        step: 0.05,
+        min: 0, max: 1, step: 0.05,
         onChange: (opacity: number) => {
           this.three.getSceneManager().setGeometryOpacity(name, opacity);
         }
       });
-      objFolderEC.addConfig({
-        component: ConfigSliderComponent,
+      objFolderEC.addConfig('slider', {
         label: 'Scale',
         min: 0, max: 1000,
         allowCustomValue: true,
@@ -248,8 +239,7 @@ export class UIService {
         }
       });
       for (const axis of ['X', 'Y', 'Z']) {
-        objFolderEC.addConfig({
-          component: ConfigSliderComponent,
+        objFolderEC.addConfig('slider', {
           label: axis,
           min: -this['maxPosition' + axis],
           max: this['maxPosition' + axis],
@@ -302,8 +292,7 @@ export class UIService {
       this.eventFolderEC = this.experimentControls.addChild('Event Data', (value: boolean) => {
         this.three.getSceneManager().objectVisibility('EventData', value);
       });
-      this.eventFolderEC.addConfig({
-        component: ConfigCheckboxComponent,
+      this.eventFolderEC.addConfig('checkbox', {
         label: 'Depth Test',
         isChecked: true,
         onChange: (value: boolean) => {
@@ -409,7 +398,7 @@ export class UIService {
       dark = true;
     }
 
-    this.darkTheme.next(dark);
+    this.darkTheme = dark;
     // dark theme preferred, set document with a `data-theme` attribute
     this.setDarkTheme(dark);
   }
@@ -431,10 +420,10 @@ export class UIService {
 
   /**
    * Get if the theme is dark or not.
-   * @returns Observable to check if the theme is dark or not.
+   * @returns If the theme is dark or not.
    */
-  public getDarkTheme(): Observable<boolean> {
-    return this.darkTheme.asObservable();
+  public getDarkTheme(): boolean {
+    return this.darkTheme;
   }
 
   /**
@@ -483,7 +472,7 @@ export class UIService {
   // * EXPERIMENT CONTROLS *
   // **********************
 
-  public setExperimentControls(experimentControls: ExperimentControlItemComponent) {
+  public setExperimentControls(experimentControls: ExperimentControlNode) {
     this.experimentControls = experimentControls;
   }
 

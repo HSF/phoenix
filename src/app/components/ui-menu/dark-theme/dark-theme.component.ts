@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
@@ -6,17 +6,14 @@ import { UIService } from 'src/app/services/ui.service';
   templateUrl: './dark-theme.component.html',
   styleUrls: ['./dark-theme.component.scss']
 })
-export class DarkThemeComponent implements AfterViewInit {
+export class DarkThemeComponent implements OnInit {
 
   darkTheme = false;
 
-  constructor(private ui: UIService, private cd: ChangeDetectorRef) { }
+  constructor(private ui: UIService) { }
 
-  ngAfterViewInit(): void {
-    this.ui.getDarkTheme().subscribe(value => {
-      this.darkTheme = value;
-      this.cd.detectChanges();
-    });
+  ngOnInit(): void {
+    this.darkTheme = this.ui.getDarkTheme();
   }
 
   setDarkTheme() {

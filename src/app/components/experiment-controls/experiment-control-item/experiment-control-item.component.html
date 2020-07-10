@@ -1,32 +1,45 @@
 <div class="experiment-control-item">
   <div class="experiment-control-item-left">
     <!-- If the item has some toggle function -->
-    <mat-slide-toggle *ngIf="onToggle" class="experiment-control-name" [checked]="visible" (change)="onToggle($event.checked)">
-      <span>{{name}}</span>
+    <mat-slide-toggle *ngIf="currentNode.onToggle" class="experiment-control-name" [checked]="currentNode.toggleState"
+      (change)="currentNode.toggleSelfAndDescendants($event.checked)">
+      <span>{{currentNode.name}}</span>
     </mat-slide-toggle>
     <!-- If the item has no toggle function -->
-    <span *ngIf="!onToggle">{{name}}</span>
+    <span *ngIf="!currentNode.onToggle">{{currentNode.name}}</span>
   </div>
   <div class="experiment-control-item-right">
-    <div [hidden]="!hasConfig">
+    <div *ngIf="currentNode.configs.length > 0">
       <div class="icon-wrapper item-settings" (click)="configActive = !configActive">
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
       </div>
-      <div class="item-config" [hidden]="!configActive">
-        <ng-container #itemConfig></ng-container>
+      <div class="item-config" *ngIf="configActive">
+        <ng-container *ngFor="let config of currentNode.configs"
+        [ngTemplateOutlet]="config.type === 'checkbox' ? configCheckbox : configSlider"
+        [ngTemplateOutletContext]="{ config: config }"></ng-container>
       </div>
     </div>
-    <div class="icon-wrapper item-expand" *ngIf="children.length > 0" (click)="childrenActive = !childrenActive"
-      [ngClass]="{ 'expanded': !childrenActive }">
+    <div class="icon-wrapper item-expand" *ngIf="currentNode.children.length > 0" (click)="childrenActive = !childrenActive"
+      [ngClass]="{ 'expanded': childrenActive }">
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
     </div>
   </div>
 </div>
-<div [hidden]="childrenActive">
-  <ng-container #itemChildren>
-  </ng-container>
+<div *ngIf="childrenActive">
+  <app-experiment-control-item *ngFor="let childNode of currentNode.children" [currentNode]="childNode">
+  </app-experiment-control-item>
 </div>
+
+<!-- Config Types -->
+<ng-template #configCheckbox let-config="config">
+  <app-config-checkbox [label]="config.label" [isChecked]="config.isChecked" [onChange]="config.onChange">
+  </app-config-checkbox>
+</ng-template>
+<ng-template #configSlider let-config="config">
+  <app-config-slider [label]="config.label" [onChange]="config.onChange" [min]="config.min" [max]="config.max"
+    [step]="config.step" [allowCustomValue]="config.allowCustomValue"></app-config-slider>
+</ng-template>

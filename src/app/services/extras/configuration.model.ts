@@ -1,7 +1,7 @@
 import { PresetView } from './preset-view.model';
 import { EventDataLoader } from '../event-data-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
-import { ExperimentControlItemComponent } from '../../components/experiment-controls/experiment-control-item/experiment-control-item.component';
+import { ExperimentControlNode } from '../../components/experiment-controls/experiment-control-node/experiment-control-node';
 
 /**
  * Configuration for preset views and event data loader.
@@ -12,7 +12,7 @@ export class Configuration {
   /** Event data loader responsible for processing and loading event data. */
   eventDataLoader: EventDataLoader;
   /** Root node of the experiment controls. */
-  experimentControlsRoot: ExperimentControlItemComponent;
+  experimentControlsRoot: ExperimentControlNode;
 
   /**
    * Constructor for the Configuration.
