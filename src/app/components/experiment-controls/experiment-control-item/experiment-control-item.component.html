@@ -1,5 +1,7 @@
 <div class="experiment-control-item">
-  <div class="experiment-control-item-left">
+  <div class="experiment-control-item-left align-items-center">
+    <div class="experiment-control-level" [ngStyle]="{ width: (currentNode.nodeLevel / 1.5) + 'rem' }">
+    </div>
     <!-- If the item has some toggle function -->
     <mat-slide-toggle *ngIf="currentNode.onToggle" class="experiment-control-name" [checked]="currentNode.toggleState"
       (change)="currentNode.toggleSelfAndDescendants($event.checked)">
@@ -17,19 +19,19 @@
       </div>
       <div class="item-config" *ngIf="configActive">
         <ng-container *ngFor="let config of currentNode.configs"
-        [ngTemplateOutlet]="config.type === 'checkbox' ? configCheckbox : configSlider"
-        [ngTemplateOutletContext]="{ config: config }"></ng-container>
+          [ngTemplateOutlet]="config.type === 'checkbox' ? configCheckbox : configSlider"
+          [ngTemplateOutletContext]="{ config: config }"></ng-container>
       </div>
     </div>
-    <div class="icon-wrapper item-expand" *ngIf="currentNode.children.length > 0" (click)="childrenActive = !childrenActive"
-      [ngClass]="{ 'expanded': childrenActive }">
+    <div class="icon-wrapper item-expand" *ngIf="currentNode.children.length > 0"
+      (click)="childrenActive = !childrenActive" [ngClass]="{ 'expanded': childrenActive }">
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
     </div>
   </div>
 </div>
-<div *ngIf="childrenActive">
+<div class="experiment-control-children" *ngIf="childrenActive">
   <app-experiment-control-item *ngFor="let childNode of currentNode.children" [currentNode]="childNode">
   </app-experiment-control-item>
 </div>

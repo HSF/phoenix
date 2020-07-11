@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ExperimentControlNode } from './experiment-control-node/experiment-control-node';
 
 @Component({
   selector: 'app-experiment-controls',
   templateUrl: './experiment-controls.component.html',
   styleUrls: ['./experiment-controls.component.scss']
 })
-export class ExperimentControlsComponent implements OnInit {
+export class ExperimentControlsComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  @Input() rootNode: ExperimentControlNode;
 
 }

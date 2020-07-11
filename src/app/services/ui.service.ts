@@ -238,17 +238,6 @@ export class UIService {
           this.three.getSceneManager().scaleObject(name, scale);
         }
       });
-      for (const axis of ['X', 'Y', 'Z']) {
-        objFolderEC.addConfig('slider', {
-          label: axis,
-          min: -this['maxPosition' + axis],
-          max: this['maxPosition' + axis],
-          allowCustomValue: true,
-          onChange: (value: number) => {
-            this.three.getSceneManager().getObjectPosition(name)[axis.toLowerCase()] = value;
-          }
-        });
-      }
     }
   }
 
@@ -322,6 +311,13 @@ export class UIService {
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
+
+    // Experiment controls
+    if (this.experimentControls) {
+      this.eventFolderEC.addChild(typeName, (value: boolean) => {
+        this.three.getSceneManager().objectVisibility(typeName, value);
+      });
+    }
 
     extendEventDataTypeUI?.(typeFolder);
 

@@ -20,6 +20,8 @@ export class ExperimentControlNode {
     children: ExperimentControlNode[] = [];
     /** Configuration options in the node. */
     configs: any[] = [];
+    /** Level of the node. */
+    nodeLevel: number = 0;
     /** Parent of the node. */
     private parent: ExperimentControlNode;
 
@@ -54,6 +56,7 @@ export class ExperimentControlNode {
     addChild(name: string, onToggle?: (value: boolean) => void): ExperimentControlNode {
         const child = new ExperimentControlNode(name, onToggle);
         child.parent = this;
+        child.nodeLevel = this.nodeLevel + 1;
         this.children.push(child);
         return child;
     }
