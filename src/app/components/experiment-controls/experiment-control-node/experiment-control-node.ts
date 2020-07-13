@@ -6,14 +6,6 @@ export class ExperimentControlNode {
     name: string;
     /** Function on toggling the node. */
     onToggle: (value: boolean) => void;
-    /** Function for toggling the current and all child nodes. */
-    toggleSelfAndDescendants: (value: boolean) => void = (value: boolean) => {
-        this.onToggle(value);
-        this.toggleState = value;
-        for (const child of this.children) {
-            child.toggleSelfAndDescendants(value);
-        }
-    }
     /** If the node toggle state is true or false. */
     toggleState: boolean = true;
     /** Children of the node. */
@@ -96,5 +88,17 @@ export class ExperimentControlNode {
         Object.assign(configOptions, options);
         this.configs.push(configOptions);
         return this;
+    }
+    
+    /**
+     * Function for toggling the current and all child nodes.
+     * @param value If the node itself and descendants are to be made true or false.
+     */
+    toggleSelfAndDescendants(value: boolean) {
+        this.onToggle(value);
+        this.toggleState = value;
+        for (const child of this.children) {
+            child.toggleSelfAndDescendants(value);
+        }
     }
 }

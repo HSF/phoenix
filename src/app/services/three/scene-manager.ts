@@ -183,6 +183,27 @@ export class SceneManager {
     }
 
     /**
+     * Changes objects visibility of all direct children.
+     * @param name Name of the object whose children visibility is to be changed..
+     * @param visible If the children will be visible (true) or hidden (false).
+     */
+    public objectVisibilityChildren(name: string, visible: boolean) {
+        const object = this.scene.getObjectByName(name);
+        if (object) {
+            for (const child of object.children) {
+                child.visible = visible;
+                if (!visible) {
+                    child.layers.disable(0);
+                    child.layers.enable(1);
+                } else {
+                    child.layers.enable(0);
+                    child.layers.disable(1);
+                }
+            }
+        }
+    }
+
+    /**
      * Gets an object's position.
      * @param name Name of the object.
      * @returns Object position.

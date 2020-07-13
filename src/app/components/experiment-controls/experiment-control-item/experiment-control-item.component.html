@@ -5,10 +5,10 @@
     <!-- If the item has some toggle function -->
     <mat-slide-toggle *ngIf="currentNode.onToggle" class="experiment-control-name" [checked]="currentNode.toggleState"
       (change)="currentNode.toggleSelfAndDescendants($event.checked)">
-      <span>{{currentNode.name}}</span>
+      <span [title]="currentNode.name">{{currentNode.name}}</span>
     </mat-slide-toggle>
     <!-- If the item has no toggle function -->
-    <span *ngIf="!currentNode.onToggle">{{currentNode.name}}</span>
+    <span *ngIf="!currentNode.onToggle" [title]="currentNode.name">{{currentNode.name}}</span>
   </div>
   <div class="experiment-control-item-right">
     <div *ngIf="currentNode.configs.length > 0">
@@ -18,9 +18,25 @@
         </svg>
       </div>
       <div class="item-config" *ngIf="configActive">
-        <ng-container *ngFor="let config of currentNode.configs"
-          [ngTemplateOutlet]="config.type === 'checkbox' ? configCheckbox : configSlider"
-          [ngTemplateOutletContext]="{ config: config }"></ng-container>
+        <ng-container *ngFor="let config of currentNode.configs" [ngSwitch]="config.type">
+          <!-- Config Types -->
+          <app-config-checkbox *ngSwitchCase="'checkbox'" [label]="config.label" [isChecked]="config.isChecked"
+            [onChange]="config.onChange">
+          </app-config-checkbox>
+
+          <app-config-slider *ngSwitchCase="'slider'" [label]="config.label" [onChange]="config.onChange"
+            [min]="config.min" [max]="config.max" [step]="config.step" [allowCustomValue]="config.allowCustomValue">
+          </app-config-slider>
+
+          <label *ngSwitchCase="'label'">
+            <b>{{config.label}}</b>
+          </label>
+
+          <button *ngSwitchCase="'button'" mat-button mat-stroked-button (click)="config.onClick()">
+            {{config.label}}
+          </button>
+          <!-- Config Types END -->
+        </ng-container>
       </div>
     </div>
     <div class="icon-wrapper item-expand" *ngIf="currentNode.children.length > 0"
@@ -35,13 +51,3 @@
   <app-experiment-control-item *ngFor="let childNode of currentNode.children" [currentNode]="childNode">
   </app-experiment-control-item>
 </div>
-
-<!-- Config Types -->
-<ng-template #configCheckbox let-config="config">
-  <app-config-checkbox [label]="config.label" [isChecked]="config.isChecked" [onChange]="config.onChange">
-  </app-config-checkbox>
-</ng-template>
-<ng-template #configSlider let-config="config">
-  <app-config-slider [label]="config.label" [onChange]="config.onChange" [min]="config.min" [max]="config.max"
-    [step]="config.step" [allowCustomValue]="config.allowCustomValue"></app-config-slider>
-</ng-template>

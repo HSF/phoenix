@@ -134,7 +134,7 @@ export class UIService {
       if (this.experimentControls) {
         // Experiment controls
         this.geomFolderEC = this.experimentControls.addChild('Detector', (value: boolean) => {
-          this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+          this.three.getSceneManager().objectVisibilityChildren(SceneManager.GEOMETRIES_ID, value);
         });
       }
     }
@@ -229,8 +229,7 @@ export class UIService {
         onChange: (opacity: number) => {
           this.three.getSceneManager().setGeometryOpacity(name, opacity);
         }
-      });
-      objFolderEC.addConfig('slider', {
+      }).addConfig('slider', {
         label: 'Scale',
         min: 0, max: 1000,
         allowCustomValue: true,
@@ -312,16 +311,31 @@ export class UIService {
     const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
     menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
 
-    // Experiment controls
-    if (this.experimentControls) {
-      this.eventFolderEC.addChild(typeName, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(typeName, value);
-      });
-    }
-
     extendEventDataTypeUI?.(typeFolder);
 
     return typeFolder;
+  }
+
+  /**
+   * Add child for event data type like tracks or hits to the experiment controls.
+   * @param typeName Name of the type of event data.
+   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
+   * @returns Experiment control node for event data type.
+   */
+  public addEventDataTypeFolderEC(typeName: string,
+    extendEventDataTypeUI?: (typeFolder: any, typeFolderEC: ExperimentControlNode) => void): ExperimentControlNode {
+      // Experiment controls
+      if (this.experimentControls) {
+        const typeFolderEC = this.eventFolderEC.addChild(typeName, (value: boolean) => {
+          this.three.getSceneManager().objectVisibility(typeName, value);
+        });
+        
+        extendEventDataTypeUI?.(undefined, typeFolderEC);
+
+        return typeFolderEC;
+      }
+
+    return undefined;
   }
 
   /**
@@ -356,6 +370,51 @@ export class UIService {
         maxCut.onChange((value) => {
           this.three.getSceneManager().collectionFilter(collectionName, cut);
         });
+      }
+    }
+  }
+
+  /**
+   * Add collection node and its configurable options to the event data type (tracks, hits etc.) node.
+   * @param typeFolder Experiment control node of an event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   */
+  public addCollectionEC(typeFolderEC: ExperimentControlNode, collectionName: string, cuts?: Cut[]) {
+    // Experiment controls
+    if (this.experimentControls) {
+      const collectionNode = typeFolderEC.addChild(collectionName, (value: boolean) => {
+        this.three.getSceneManager().objectVisibility(collectionName, value);
+      });
+  
+      if (cuts) {
+        collectionNode.addConfig('label', {
+          label: 'Cuts'
+        }).addConfig('button', {
+          label: 'Reset cuts',
+          onClick: () => {
+            this.three.getSceneManager().groupVisibility(collectionName, true);
+          }
+        });
+        for (const cut of cuts) {
+          collectionNode.addConfig('slider', {
+            label: 'Min ' + cut.field,
+            min: cut.minValue, max: cut.maxValue,
+            allowCustomValue: true,
+            onChange: (value: number) => {
+              cut.minValue = value;
+              this.three.getSceneManager().collectionFilter(collectionName, cut);
+            }
+          }).addConfig('slider', {
+            label: 'Max ' + cut.field,
+            min: cut.minValue, max: cut.maxValue,
+            allowCustomValue: true,
+            onChange: (value: number) => {
+              cut.maxValue = value;
+              this.three.getSceneManager().collectionFilter(collectionName, cut);
+            }
+          });
+        }
       }
     }
   }

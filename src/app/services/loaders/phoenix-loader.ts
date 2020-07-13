@@ -6,6 +6,7 @@ import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLoggerService } from '../infologger.service';
+import { ExperimentControlNode } from '../../components/experiment-controls/experiment-control-node/experiment-control-node';
 
 /**
  * Loader for processing and loading an event.
@@ -123,12 +124,25 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 2000, 10000)
       ];
 
-      const addJetsSizeOption = (typeFolder: any) => {
-        const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
-          .name('Jets Size (%)');
-        sizeMenu.onChange((value: number) => {
-          this.graphicsLibrary.getSceneManager().scaleJets(value);
-        });
+      const addJetsSizeOption = (typeFolder: any, typeFolderEC: ExperimentControlNode) => {
+        if (typeFolder) {
+          const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
+            .name('Jets Size (%)');
+          sizeMenu.onChange((value: number) => {
+            this.graphicsLibrary.getSceneManager().scaleJets(value);
+          });
+        }
+        // Experiment controls
+        if (typeFolderEC) {
+          typeFolderEC.addConfig('slider', {
+            label: 'Jets Size (%)',
+            min: 1, max: 200,
+            allowCustomValue: true,
+            onChange: (value: number) => {
+              this.graphicsLibrary.getSceneManager().scaleJets(value);
+            }
+          });
+        }
       };
 
       this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', cuts, addJetsSizeOption);
@@ -163,9 +177,10 @@ export class PhoenixLoader implements EventDataLoader {
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
   protected addObjectType(object: any, getObject: any, typeName: string,
-    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any) => void) {
+    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderEC?: ExperimentControlNode) => void) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName, extendEventDataTypeUI);
+    const typeFolderEC = this.ui.addEventDataTypeFolderEC(typeName, extendEventDataTypeUI);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -178,6 +193,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
       this.ui.addCollection(typeFolder, collectionName, cuts);
+      this.ui.addCollectionEC(typeFolderEC, collectionName, cuts);
     }
   }
 
