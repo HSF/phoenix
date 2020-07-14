@@ -10,7 +10,6 @@ export class ConfigSliderComponent {
   @ViewChild('configSliderInput') configSliderInput;
   @ViewChild('configSlider') configSlider;
 
-  @Input() label: string;
   @Input() min: number = 0;
   @Input() max: number = 100;
   @Input() step: number = 1;

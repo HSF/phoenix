@@ -223,7 +223,12 @@ export class UIService {
       const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
-      objFolderEC.addConfig('slider', {
+      objFolderEC.addConfig('color', {
+        label: 'Color',
+        onChange: (value: any) => {
+          this.three.getSceneManager().OBJGeometryColor(name, value)
+        }
+      }).addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.05,
         onChange: (opacity: number) => {

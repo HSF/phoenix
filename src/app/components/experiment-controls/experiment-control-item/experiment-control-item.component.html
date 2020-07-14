@@ -1,7 +1,5 @@
 <div class="experiment-control-item">
   <div class="experiment-control-item-left align-items-center">
-    <div class="experiment-control-level" [ngStyle]="{ width: (currentNode.nodeLevel / 1.5) + 'rem' }">
-    </div>
     <!-- If the item has some toggle function -->
     <mat-slide-toggle *ngIf="currentNode.onToggle" class="experiment-control-name" [checked]="currentNode.toggleState"
       (change)="currentNode.toggleSelfAndDescendants($event.checked)">
@@ -17,25 +15,33 @@
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
       </div>
-      <div class="item-config" *ngIf="configActive">
+      <div class="item-config-backdrop" *ngIf="configActive" (click)="configActive = false"></div>
+      <div class="item-config" [hidden]="!configActive">
         <ng-container *ngFor="let config of currentNode.configs" [ngSwitch]="config.type">
-          <!-- Config Types -->
-          <app-config-checkbox *ngSwitchCase="'checkbox'" [label]="config.label" [isChecked]="config.isChecked"
-            [onChange]="config.onChange">
-          </app-config-checkbox>
+          <!-- Config types -->
+          <label class="item-config-single">
+            <span class="item-config-label" *ngIf="config.type !== 'button'"
+              [ngClass]="{ 'font-weight-bold': config.type === 'label' }">
+              {{config.label}}
+            </span>
+            <div class="item-config-data">
+              <app-config-checkbox *ngSwitchCase="'checkbox'" [isChecked]="config.isChecked"
+                [onChange]="config.onChange">
+              </app-config-checkbox>
 
-          <app-config-slider *ngSwitchCase="'slider'" [label]="config.label" [onChange]="config.onChange"
-            [min]="config.min" [max]="config.max" [step]="config.step" [allowCustomValue]="config.allowCustomValue">
-          </app-config-slider>
+              <app-config-slider *ngSwitchCase="'slider'" [onChange]="config.onChange" [min]="config.min"
+                [max]="config.max" [step]="config.step" [allowCustomValue]="config.allowCustomValue">
+              </app-config-slider>
 
-          <label *ngSwitchCase="'label'">
-            <b>{{config.label}}</b>
+              <button *ngSwitchCase="'button'" mat-button mat-stroked-button (click)="config.onClick()">
+                {{config.label}}
+              </button>
+
+              <input *ngSwitchCase="'color'" type="color" value="#000000"
+                (input)="config.onChange($event.target.value)" />
+            </div>
           </label>
-
-          <button *ngSwitchCase="'button'" mat-button mat-stroked-button (click)="config.onClick()">
-            {{config.label}}
-          </button>
-          <!-- Config Types END -->
+          <!-- Config types END -->
         </ng-container>
       </div>
     </div>

@@ -1,16 +1,9 @@
-.config-slider-label {
-    display: block;
-    width: 50%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
 .config-slider-input {
     background: transparent;
     color: var(--phoenix-text-color);
     border: none;
     border-bottom: 1px solid var(--phoenix-text-color);
-    width: 50%;
+    width: 25%;
     -moz-appearance: textfield;
 }
 

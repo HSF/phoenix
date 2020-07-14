@@ -22,12 +22,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .experiment-control-level {
-      background: var(--phoenix-text-color-secondary);
-      height: 2px;
-      margin-right: 0.2rem;
-    }
   }
 
   .experiment-control-item-right {
@@ -47,6 +41,15 @@
       margin-right: 0.2rem;
     }
 
+    .item-config-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 110;
+    }
+
     .item-config {
       position: absolute;
       top: 0;
@@ -56,9 +59,23 @@
       background: var(--phoenix-background-color-secondary);
       color: var(--phoenix-text-color-secondary);
       border: 2px solid var(--phoenix-background-color-tertiary);
-      border-radius: 0.5rem;
       display: flex;
       flex-direction: column;
+      z-index: 120;
+
+      .item-config-single {
+        display: flex;
+        flex-direction: row;
+
+        .item-config-label {
+          width: 30%;
+        }
+  
+        .item-config-data {
+          flex-grow: 1;
+          padding-left: 0.5rem;
+        }
+      }
     }
   }
 
@@ -82,5 +99,6 @@
 }
 
 .experiment-control-children {
-  border-top: 1px solid var(--phoenix-border);
+  margin-left: 0.5rem;
+  border-left: 1px solid var(--phoenix-accent);
 }

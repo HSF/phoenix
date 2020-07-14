@@ -8,7 +8,6 @@ import { Component, Input } from '@angular/core';
 export class ConfigCheckboxComponent {
 
   @Input() isChecked: any;
-  @Input() label: string;
   @Input() onChange: (value: boolean) => void;
 
 }
