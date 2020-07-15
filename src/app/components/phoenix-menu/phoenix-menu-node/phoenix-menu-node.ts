@@ -1,7 +1,7 @@
 /**
- * A single node of experiment control item.
+ * A single node of phoenix menu item.
  */
-export class ExperimentControlNode {
+export class PhoenixMenuNode {
     /** Name of the node. */
     name: string;
     /** Function on toggling the node. */
@@ -9,16 +9,16 @@ export class ExperimentControlNode {
     /** If the node toggle state is true or false. */
     toggleState: boolean = true;
     /** Children of the node. */
-    children: ExperimentControlNode[] = [];
+    children: PhoenixMenuNode[] = [];
     /** Configuration options in the node. */
     configs: any[] = [];
     /** Level of the node. */
     nodeLevel: number = 0;
     /** Parent of the node. */
-    private parent: ExperimentControlNode;
+    private parent: PhoenixMenuNode;
 
     /**
-     * Create the experiment control node.
+     * Create the phoenix menu node.
      * @param name Name of the node.
      * @param onToggle Function on toggling the node.
      * @param children Children of the node.
@@ -27,9 +27,9 @@ export class ExperimentControlNode {
      */
     constructor(name: string,
         onToggle?: (value: boolean) => void,
-        children?: ExperimentControlNode[],
+        children?: PhoenixMenuNode[],
         configs?: any[],
-        parent?: ExperimentControlNode) {
+        parent?: PhoenixMenuNode) {
         this.name = name;
         this.onToggle = onToggle;
         if (children)
@@ -40,13 +40,13 @@ export class ExperimentControlNode {
     }
 
     /**
-     * Add a child to the experiment control item.
+     * Add a child to the phoenix menu item.
      * @param name Name of the child.
      * @param onToggle Function on toggling the child.
      * @returns The child node.
      */
-    addChild(name: string, onToggle?: (value: boolean) => void): ExperimentControlNode {
-        const child = new ExperimentControlNode(name, onToggle);
+    addChild(name: string, onToggle?: (value: boolean) => void): PhoenixMenuNode {
+        const child = new PhoenixMenuNode(name, onToggle);
         child.parent = this;
         child.nodeLevel = this.nodeLevel + 1;
         this.children.push(child);
@@ -58,7 +58,7 @@ export class ExperimentControlNode {
      * @param child The child node to be removed.
      * @returns The current node.
      */
-    removeChild(child: ExperimentControlNode): ExperimentControlNode {
+    removeChild(child: PhoenixMenuNode): PhoenixMenuNode {
         const childIndex = this.children.indexOf(child);
         this.children.splice(childIndex, 1);
         return this;
@@ -79,11 +79,11 @@ export class ExperimentControlNode {
     }
 
     /**
-     * Add a config to the experiment control item.
+     * Add a config to the phoenix menu item.
      * @param options Options for the config.
      * @returns The current node.
      */
-    addConfig(type: string, options: any): ExperimentControlNode {
+    addConfig(type: string, options: any): PhoenixMenuNode {
         let configOptions = { type: type };
         Object.assign(configOptions, options);
         this.configs.push(configOptions);

@@ -6,7 +6,7 @@ import { ThreeService } from '../three.service';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLoggerService } from '../infologger.service';
-import { ExperimentControlNode } from '../../components/experiment-controls/experiment-control-node/experiment-control-node';
+import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 /**
  * Loader for processing and loading an event.
@@ -124,7 +124,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 2000, 10000)
       ];
 
-      const addJetsSizeOption = (typeFolder: any, typeFolderEC: ExperimentControlNode) => {
+      const addJetsSizeOption = (typeFolder: any, typeFolderEC: PhoenixMenuNode) => {
         if (typeFolder) {
           const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
             .name('Jets Size (%)');
@@ -132,7 +132,7 @@ export class PhoenixLoader implements EventDataLoader {
             this.graphicsLibrary.getSceneManager().scaleJets(value);
           });
         }
-        // Experiment controls
+        // Phoenix menu
         if (typeFolderEC) {
           typeFolderEC.addConfig('slider', {
             label: 'Jets Size (%)',
@@ -177,7 +177,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
   protected addObjectType(object: any, getObject: any, typeName: string,
-    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderEC?: ExperimentControlNode) => void) {
+    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderEC?: PhoenixMenuNode) => void) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName, extendEventDataTypeUI);
     const typeFolderEC = this.ui.addEventDataTypeFolderEC(typeName, extendEventDataTypeUI);

@@ -48,10 +48,10 @@ import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-c
 import { TreeMenuComponent } from './components/ui-menu/tree-menu/tree-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
-import { ExperimentControlsComponent } from './components/experiment-controls/experiment-controls.component';
-import { ExperimentControlItemComponent } from './components/experiment-controls/experiment-control-item/experiment-control-item.component';
-import { ConfigSliderComponent } from './components/experiment-controls/config/config-slider/config-slider.component';
-import { ConfigCheckboxComponent } from './components/experiment-controls/config/config-checkbox/config-checkbox.component';
+import { PhoenixMenuComponent } from './components/phoenix-menu/phoenix-menu.component';
+import { PhoenixMenuItemComponent } from './components/phoenix-menu/pheonix-menu-item/phoenix-menu-item.component';
+import { ConfigSliderComponent } from './components/phoenix-menu/config/config-slider/config-slider.component';
+import { ConfigCheckboxComponent } from './components/phoenix-menu/config/config-checkbox/config-checkbox.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -101,8 +101,8 @@ const routes: Routes = [
     ZoomControlsComponent,
     TreeMenuComponent,
     TreeMenuItemComponent,
-    ExperimentControlsComponent,
-    ExperimentControlItemComponent,
+    PhoenixMenuComponent,
+    PhoenixMenuItemComponent,
     ConfigSliderComponent,
     ConfigCheckboxComponent
   ],
@@ -127,7 +127,7 @@ const routes: Routes = [
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent,
-    ExperimentControlItemComponent
+    PhoenixMenuItemComponent
   ],
   bootstrap: [AppComponent]
 })

@@ -6,7 +6,7 @@ import { Configuration } from './extras/configuration.model';
 import { PresetView } from './extras/preset-view.model';
 import { Cut } from './extras/cut.model';
 import { SceneManager } from './three/scene-manager';
-import { ExperimentControlNode } from '../components/experiment-controls/experiment-control-node/experiment-control-node';
+import { PhoenixMenuNode } from '../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 /**
  * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -32,10 +32,10 @@ export class UIService {
   private geomFolder: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
-  /** Experiment controls node containing geometries data */
-  private geomFolderEC: ExperimentControlNode;
-  /** Experiment controls node containing event related data */
-  private eventFolderEC: ExperimentControlNode;
+  /** Phoenix menu node containing geometries data */
+  private geomFolderEC: PhoenixMenuNode;
+  /** Phoenix menu node containing event related data */
+  private eventFolderEC: PhoenixMenuNode;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -49,8 +49,8 @@ export class UIService {
   private maxPositionY = 4000;
   /** Max changeable position of an object along the z-axis. */
   private maxPositionZ = 4000;
-  /** Root node of the experiment controls. */
-  private experimentControls: ExperimentControlNode;
+  /** Root node of the phoenix menu. */
+  private phoenixMenu: PhoenixMenuNode;
 
   /**
    * Constructor for the UI service.
@@ -70,8 +70,8 @@ export class UIService {
     this.showMenu(configuration);
     // Detect UI color scheme
     this.detectColorScheme();
-    // Set root node of experiment controls
-    this.setExperimentControls(configuration.experimentControlsRoot);
+    // Set root node of phoenix menu
+    this.setExperimentControls(configuration.phoenixMenuRoot);
   }
 
   /**
@@ -131,9 +131,9 @@ export class UIService {
   public addGeomFolder() {
     if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
-      if (this.experimentControls) {
-        // Experiment controls
-        this.geomFolderEC = this.experimentControls.addChild('Detector', (value: boolean) => {
+      if (this.phoenixMenu) {
+        // Phoenix menu
+        this.geomFolderEC = this.phoenixMenu.addChild('Detector', (value: boolean) => {
           this.three.getSceneManager().objectVisibilityChildren(SceneManager.GEOMETRIES_ID, value);
         });
       }
@@ -150,8 +150,8 @@ export class UIService {
       this.three.getSceneManager().wireframeGeometries(value);
     });
 
-    if (this.experimentControls) {
-      // Experiment controls
+    if (this.phoenixMenu) {
+      // Phoenix menu
       this.geomFolderEC.addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
@@ -218,8 +218,8 @@ export class UIService {
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
 
-    if (this.experimentControls) {
-      // Experiment controls
+    if (this.phoenixMenu) {
+      // Phoenix menu
       const objFolderEC = this.geomFolderEC.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
@@ -277,12 +277,12 @@ export class UIService {
     const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
 
-    if (this.experimentControls) {
-      // Experiment controls
+    if (this.phoenixMenu) {
+      // Phoenix menu
       if (this.eventFolderEC) {
         this.eventFolderEC.remove();
       }
-      this.eventFolderEC = this.experimentControls.addChild('Event Data', (value: boolean) => {
+      this.eventFolderEC = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
         this.three.getSceneManager().objectVisibility('EventData', value);
       });
       this.eventFolderEC.addConfig('checkbox', {
@@ -322,15 +322,15 @@ export class UIService {
   }
 
   /**
-   * Add child for event data type like tracks or hits to the experiment controls.
+   * Add child for event data type like tracks or hits to the phoenix menu.
    * @param typeName Name of the type of event data.
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
-   * @returns Experiment control node for event data type.
+   * @returns Phoenix menu node for event data type.
    */
   public addEventDataTypeFolderEC(typeName: string,
-    extendEventDataTypeUI?: (typeFolder: any, typeFolderEC: ExperimentControlNode) => void): ExperimentControlNode {
-      // Experiment controls
-      if (this.experimentControls) {
+    extendEventDataTypeUI?: (typeFolder: any, typeFolderEC: PhoenixMenuNode) => void): PhoenixMenuNode {
+      // Phoenix menu
+      if (this.phoenixMenu) {
         const typeFolderEC = this.eventFolderEC.addChild(typeName, (value: boolean) => {
           this.three.getSceneManager().objectVisibility(typeName, value);
         });
@@ -381,19 +381,24 @@ export class UIService {
 
   /**
    * Add collection node and its configurable options to the event data type (tracks, hits etc.) node.
-   * @param typeFolder Experiment control node of an event data type.
+   * @param typeFolder Phoenix menu node of an event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
-  public addCollectionEC(typeFolderEC: ExperimentControlNode, collectionName: string, cuts?: Cut[]) {
-    // Experiment controls
-    if (this.experimentControls) {
+  public addCollectionEC(typeFolderEC: PhoenixMenuNode, collectionName: string, cuts?: Cut[]) {
+    // Phoenix menu
+    if (this.phoenixMenu) {
       const collectionNode = typeFolderEC.addChild(collectionName, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(collectionName, value);
       });
   
       if (cuts) {
-        collectionNode.addConfig('label', {
+        collectionNode.addConfig('color', {
+          label: 'Color',
+          onChange: (value: any) => {
+            this.three.getSceneManager().collectionColor(collectionName, value)
+          }
+        }).addConfig('label', {
           label: 'Cuts'
         }).addConfig('button', {
           label: 'Reset cuts',
@@ -532,8 +537,8 @@ export class UIService {
   // * EXPERIMENT CONTROLS *
   // **********************
 
-  public setExperimentControls(experimentControls: ExperimentControlNode) {
-    this.experimentControls = experimentControls;
+  public setExperimentControls(phoenixMenu: PhoenixMenuNode) {
+    this.phoenixMenu = phoenixMenu;
   }
 
 }

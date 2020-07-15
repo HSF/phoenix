@@ -1,4 +1,4 @@
-.experiment-control-item {
+.phoenix-menu-item {
   width: 100%;
   padding: 0.6rem;
   background: var(--phoenix-background-color-secondary);
@@ -11,20 +11,20 @@
   justify-content: space-between;
   align-items: center;
 
-  .experiment-control-item-left {
+  .phoenix-menu-item-left {
     display: flex;
     justify-content: flex-start;
     min-width: 0;
     padding-right: 0.5rem;
 
-    .experiment-control-name {
+    .phoenix-menu-name {
       flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
     }
   }
 
-  .experiment-control-item-right {
+  .phoenix-menu-item-right {
     display: flex;
     justify-content: flex-end;
 
@@ -98,7 +98,7 @@
   }
 }
 
-.experiment-control-children {
+.phoenix-menu-children {
   margin-left: 0.5rem;
   border-left: 1px solid var(--phoenix-accent);
 }
