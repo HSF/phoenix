@@ -53,12 +53,12 @@
     .item-config {
       position: absolute;
       top: 0;
-      left: 100%;
+      right: 100%;
       width: 14rem;
       padding: 0.5rem;
       background: var(--phoenix-background-color-secondary);
       color: var(--phoenix-text-color-secondary);
-      border: 2px solid var(--phoenix-background-color-tertiary);
+      box-shadow: var(--phoenix-box-shadow);
       display: flex;
       flex-direction: column;
       z-index: 120;

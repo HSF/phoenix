@@ -71,7 +71,7 @@ export class UIService {
     // Detect UI color scheme
     this.detectColorScheme();
     // Set root node of phoenix menu
-    this.setExperimentControls(configuration.phoenixMenuRoot);
+    this.setPhoenixMenu(configuration.phoenixMenuRoot);
   }
 
   /**
@@ -533,11 +533,15 @@ export class UIService {
     this.three.setOverlayRenderer(overlayCanvas);
   }
 
-  // **********************
-  // * EXPERIMENT CONTROLS *
-  // **********************
+  // ****************
+  // * PHOENIX MENU *
+  // ****************
 
-  public setExperimentControls(phoenixMenu: PhoenixMenuNode) {
+  /**
+   * Set the phoenix menu to be used by the UI service.
+   * @param phoenixMenu The root node of phoenix menu.
+   */
+  public setPhoenixMenu(phoenixMenu: PhoenixMenuNode) {
     this.phoenixMenu = phoenixMenu;
   }
 
