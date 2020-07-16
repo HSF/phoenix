@@ -159,7 +159,7 @@ export class UIService {
     if (this.hasPhoenixMenu) {
       // Phoenix menu
       this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
-        this.three.getSceneManager().objectVisibilityChildren(SceneManager.GEOMETRIES_ID, value);
+        this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
       }, 'perspective');
       this.geomFolderPM.addConfig('slider', {
         label: 'Opacity',
@@ -287,7 +287,7 @@ export class UIService {
       this.guiParameters.eventData = { show: true, depthTest: true };
       // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
       const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
-      menu.onChange((value) => this.three.getSceneManager().objectVisibility('EventData', value));
+      menu.onChange((value) => this.three.getSceneManager().objectVisibility(SceneManager.EVENT_DATA_ID, value));
       // A boolean toggle for enabling/disabling depthTest of event data.
       const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
       depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
@@ -299,7 +299,7 @@ export class UIService {
         this.eventFolderPM.remove();
       }
       this.eventFolderPM = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
-        this.three.getSceneManager().objectVisibility('EventData', value);
+        this.three.getSceneManager().groupVisibility(SceneManager.EVENT_DATA_ID, value);
       }, 'event-folder');
       this.eventFolderPM.addConfig('checkbox', {
         label: 'Depth Test',
@@ -347,17 +347,17 @@ export class UIService {
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    * @returns Phoenix menu node for event data type.
    */
-  public addEventDataTypeFolderEC(typeName: string,
-    extendEventDataTypeUI?: (typeFolder: any, typeFolderEC: PhoenixMenuNode) => void): PhoenixMenuNode {
+  public addEventDataTypeFolderPM(typeName: string,
+    extendEventDataTypeUI?: (typeFolder: any, typeFolderPM: PhoenixMenuNode) => void): PhoenixMenuNode {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      const typeFolderEC = this.eventFolderPM.addChild(typeName, (value: boolean) => {
+      const typeFolderPM = this.eventFolderPM.addChild(typeName, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(typeName, value);
       });
 
-      extendEventDataTypeUI?.(undefined, typeFolderEC);
+      extendEventDataTypeUI?.(undefined, typeFolderPM);
 
-      return typeFolderEC;
+      return typeFolderPM;
     }
 
     return undefined;
@@ -407,10 +407,10 @@ export class UIService {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
-  public addCollectionEC(typeFolderEC: PhoenixMenuNode, collectionName: string, cuts?: Cut[]) {
+  public addCollectionPM(typeFolderPM: PhoenixMenuNode, collectionName: string, cuts?: Cut[]) {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      const collectionNode = typeFolderEC.addChild(collectionName, (value: boolean) => {
+      const collectionNode = typeFolderPM.addChild(collectionName, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(collectionName, value);
       });
 

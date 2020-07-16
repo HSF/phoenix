@@ -124,7 +124,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 2000, 10000)
       ];
 
-      const addJetsSizeOption = (typeFolder: any, typeFolderEC: PhoenixMenuNode) => {
+      const addJetsSizeOption = (typeFolder: any, typeFolderPM: PhoenixMenuNode) => {
         if (typeFolder) {
           const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
             .name('Jets Size (%)');
@@ -133,8 +133,8 @@ export class PhoenixLoader implements EventDataLoader {
           });
         }
         // Phoenix menu
-        if (typeFolderEC) {
-          typeFolderEC.addConfig('slider', {
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
             label: 'Jets Size (%)',
             min: 1, max: 200,
             allowCustomValue: true,
@@ -177,10 +177,10 @@ export class PhoenixLoader implements EventDataLoader {
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
   protected addObjectType(object: any, getObject: any, typeName: string,
-    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderEC?: PhoenixMenuNode) => void) {
+    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderPM?: PhoenixMenuNode) => void) {
 
     const typeFolder = this.ui.addEventDataTypeFolder(typeName, extendEventDataTypeUI);
-    const typeFolderEC = this.ui.addEventDataTypeFolderEC(typeName, extendEventDataTypeUI);
+    const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName, extendEventDataTypeUI);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -193,7 +193,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
       this.ui.addCollection(typeFolder, collectionName, cuts);
-      this.ui.addCollectionEC(typeFolderEC, collectionName, cuts);
+      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts);
     }
   }
 

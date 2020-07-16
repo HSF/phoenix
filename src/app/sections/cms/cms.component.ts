@@ -5,6 +5,7 @@ import { EventdisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
 import JSZip from 'jszip';
 import { CMSLoader } from '../../services/loaders/cms-loader';
+import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 @Component({
   selector: 'app-cms',
@@ -13,7 +14,7 @@ import { CMSLoader } from '../../services/loaders/cms-loader';
 })
 export class CMSComponent implements OnInit {
 
-  allEvents: string[] = [];
+  phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) { }
 
@@ -25,6 +26,7 @@ export class CMSComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
+    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
     const cmsLoader = new CMSLoader(this.http);
     configuration.eventDataLoader = cmsLoader;
