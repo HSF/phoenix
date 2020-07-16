@@ -36,9 +36,8 @@
               {{config.label}}
             </span>
             <div class="item-config-data">
-              <app-config-checkbox *ngSwitchCase="'checkbox'" [isChecked]="config.isChecked"
-                [onChange]="config.onChange">
-              </app-config-checkbox>
+              <mat-checkbox *ngSwitchCase="'checkbox'" [checked]="config.isChecked"
+                (change)="config.onChange($event.checked)"></mat-checkbox>
 
               <app-config-slider *ngSwitchCase="'slider'" [onChange]="config.onChange" [min]="config.min"
                 [max]="config.max" [step]="config.step" [allowCustomValue]="config.allowCustomValue">

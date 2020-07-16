@@ -51,7 +51,6 @@ import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-
 import { PhoenixMenuComponent } from './components/phoenix-menu/phoenix-menu.component';
 import { PhoenixMenuItemComponent } from './components/phoenix-menu/pheonix-menu-item/phoenix-menu-item.component';
 import { ConfigSliderComponent } from './components/phoenix-menu/config/config-slider/config-slider.component';
-import { ConfigCheckboxComponent } from './components/phoenix-menu/config/config-checkbox/config-checkbox.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -103,8 +102,7 @@ const routes: Routes = [
     TreeMenuItemComponent,
     PhoenixMenuComponent,
     PhoenixMenuItemComponent,
-    ConfigSliderComponent,
-    ConfigCheckboxComponent
+    ConfigSliderComponent
   ],
   imports: [
     BrowserModule,
