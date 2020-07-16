@@ -22,6 +22,10 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    .phoenix-menu-icon {
+      margin-right: 0.2rem;
+    }
   }
 
   .phoenix-menu-item-right {
@@ -29,7 +33,6 @@
     justify-content: flex-end;
 
     .item-expand {
-      cursor: pointer;
 
       &.expanded {
         transform: scaleY(-1);
@@ -37,7 +40,6 @@
     }
 
     .item-settings {
-      cursor: pointer;
       margin-right: 0.2rem;
     }
 
@@ -80,14 +82,16 @@
   }
 
   .icon-wrapper {
-    width: 1.5rem;
-    height: 1.5rem;
-    padding: 0.3rem;
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    padding: 0.23rem;
     transition: all 0.4s;
 
-    &:hover {
+    &.icon-clickable:hover {
       background: var(--phoenix-options-icon-bg);
       border-radius: 40%;
+      cursor: pointer;
     }
 
     svg {

@@ -160,7 +160,7 @@ export class UIService {
       // Phoenix menu
       this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
         this.three.getSceneManager().objectVisibilityChildren(SceneManager.GEOMETRIES_ID, value);
-      });
+      }, 'perspective');
       this.geomFolderPM.addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
@@ -234,10 +234,10 @@ export class UIService {
         this.addGeomFolder();
       }
       // Phoenix menu
-      const objFolderEC = this.geomFolderPM.addChild(name, (value: boolean) => {
+      const objFolderPM = this.geomFolderPM.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
-      objFolderEC.addConfig('color', {
+      objFolderPM.addConfig('color', {
         label: 'Color',
         onChange: (value: any) => {
           this.three.getSceneManager().OBJGeometryColor(name, value)
@@ -300,7 +300,7 @@ export class UIService {
       }
       this.eventFolderPM = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
         this.three.getSceneManager().objectVisibility('EventData', value);
-      });
+      }, 'event-folder');
       this.eventFolderPM.addConfig('checkbox', {
         label: 'Depth Test',
         isChecked: true,

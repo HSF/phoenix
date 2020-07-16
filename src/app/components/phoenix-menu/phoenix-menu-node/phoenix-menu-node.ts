@@ -4,6 +4,8 @@
 export class PhoenixMenuNode {
     /** Name of the node. */
     name: string;
+    /** Icon of the node. */
+    icon: string;
     /** Function on toggling the node. */
     onToggle: (value: boolean) => void;
     /** If the node toggle state is true or false. */
@@ -20,33 +22,38 @@ export class PhoenixMenuNode {
     /**
      * Create the phoenix menu node.
      * @param name Name of the node.
+     * @param icon Icon of the node.
      * @param onToggle Function on toggling the node.
      * @param children Children of the node.
      * @param configs Configuration options in the node.
      * @param parent Parent of the node.
      */
     constructor(name: string,
+        icon?: string,
         onToggle?: (value: boolean) => void,
         children?: PhoenixMenuNode[],
         configs?: any[],
         parent?: PhoenixMenuNode) {
         this.name = name;
+        this.icon = icon;
         this.onToggle = onToggle;
         if (children)
             this.children = children;
         if (configs)
             this.configs = configs;
-        this.parent = parent;
+        if (parent)
+            this.parent = parent;
     }
 
     /**
      * Add a child to the phoenix menu item.
      * @param name Name of the child.
      * @param onToggle Function on toggling the child.
+     * @param icon Icon of the child.
      * @returns The child node.
      */
-    addChild(name: string, onToggle?: (value: boolean) => void): PhoenixMenuNode {
-        const child = new PhoenixMenuNode(name, onToggle);
+    addChild(name: string, onToggle?: (value: boolean) => void, icon?: string): PhoenixMenuNode {
+        const child = new PhoenixMenuNode(name, icon, onToggle);
         child.parent = this;
         child.nodeLevel = this.nodeLevel + 1;
         this.children.push(child);
