@@ -13,13 +13,17 @@ export class Configuration {
   eventDataLoader: EventDataLoader;
   /** Root node of the phoenix menu. */
   phoenixMenuRoot: PhoenixMenuNode;
+  /** Whether to enable dat.GUI menu or not. */
+  enableDatGUIMenu: boolean;
 
   /**
    * Constructor for the Configuration.
+   * @param enableDatGUIMenu Whether to enable dat.GUI menu or not.
    */
-  constructor() {
+  constructor(enableDatGUIMenu: boolean = false) {
     this.presetViews = [];
     this.eventDataLoader = new PhoenixLoader();
+    this.enableDatGUIMenu = enableDatGUIMenu;
   }
 
   /**
@@ -45,5 +49,21 @@ export class Configuration {
    */
   public getEventDataLoader(): EventDataLoader {
     return this.eventDataLoader;
+  }
+
+  /**
+   * Set he root node for phoenix menu.
+   * @param phoenixMenuNode The phoenix menu node to be set as the root node.
+   */
+  public setPhoenixMenuRoot(phoenixMenuNode: PhoenixMenuNode) {
+    this.phoenixMenuRoot = phoenixMenuNode;
+  }
+
+  /**
+   * Get he root node for phoenix menu.
+   * @return The root node of phoenix menu.
+   */
+  public getPhoenixMenuRoot(): PhoenixMenuNode {
+    return this.phoenixMenuRoot;
   }
 }
