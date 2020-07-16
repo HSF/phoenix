@@ -126,8 +126,7 @@ const routes: Routes = [
     IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
-    InfoPanelOverlayComponent,
-    PhoenixMenuItemComponent
+    InfoPanelOverlayComponent
   ],
   bootstrap: [AppComponent]
 })

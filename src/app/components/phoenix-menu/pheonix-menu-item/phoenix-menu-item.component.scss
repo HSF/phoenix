@@ -65,6 +65,14 @@
       flex-direction: column;
       z-index: 120;
 
+      &>* {
+        margin-bottom: 0.4rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
       .item-config-single {
         display: flex;
         flex-direction: row;
@@ -72,7 +80,7 @@
         .item-config-label {
           width: 30%;
         }
-  
+
         .item-config-data {
           flex-grow: 1;
           padding-left: 0.5rem;
