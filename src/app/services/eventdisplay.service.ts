@@ -4,7 +4,7 @@ import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
-import { Camera } from 'three';
+import { loadJSRootScripts } from './extras/jsroot-loader';
 
 declare global {
   /**
@@ -226,6 +226,20 @@ export class EventdisplayService {
     this.graphicsLibrary.loadJSONGeometry(json, name, scale);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded JSON geometry');
+  }
+
+  /**
+   * Load JSON geometry from JSRoot.
+   * @param url URL of the JSRoot geometry file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   */
+  public async loadRootJSONGeometry(url: string, name: string, scale?: number) {
+    await loadJSRootScripts((JSROOT) => {
+      JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
+        this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
+      }).send();
+    });
   }
 
   /**

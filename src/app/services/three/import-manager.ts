@@ -208,7 +208,7 @@ export class ImportManager {
                 child.name = child.userData.name = name;
                 if (child.material instanceof Material) {
                     const color = child.material['color'] ? child.material['color'] : 0x2fd691;
-                    const side = child.material['side'] ? child.material['side'] : undefined;
+                    const side = child.material['side'];
                     // Disposing of the default material
                     child.material.dispose();
                     // Changing to a material with 0 shininess

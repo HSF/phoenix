@@ -1,16 +1,25 @@
 import { ScriptService } from "ngx-script-loader";
 
+/** Global JSROOT variable for accessing functions after loading JSRoot scripts. */
+declare const JSROOT: any;
+
+/** Boolean to check if JSRoot scripts are already loaded. */
+let isJSRootLoaded: boolean = false;
+
 /**
  * Synchronously load all JSRoot scripts.
  * @param onScriptsLoaded Callback when all the JSRoot scripts have loaded.
  */
-export async function loadJSRootScripts(onScriptsLoaded: () => void) {
-  const scriptService = new ScriptService(document);
-  const allScripts = ['JSRootCore.js', 'three.min.js', 'ThreeCSG.js', 'JSRootGeoBase.js'];
-  for (const script of allScripts) {
-    await scriptService.loadScript('assets/jsroot/' + script).toPromise();
+export async function loadJSRootScripts(onScriptsLoaded: (JSROOT: any) => void) {
+  if (!isJSRootLoaded) {
+    const scriptService = new ScriptService(document);
+    const allScripts = ['JSRootCore.js', 'three.min.js', 'ThreeCSG.js', 'd3.min.js', 'JSRootPainter.js', 'JSRootGeoBase.js'];
+    for (const script of allScripts) {
+      await scriptService.loadScript('assets/jsroot/' + script).toPromise();
+    }
+    isJSRootLoaded = true;
   }
-  onScriptsLoaded();
+  onScriptsLoaded(JSROOT);
 }
 
 /**

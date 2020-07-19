@@ -3,8 +3,8 @@ import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
-import JSZip from 'jszip';
 import { CMSLoader } from '../../services/loaders/cms-loader';
+import { loadJSRootScripts } from '../../services/extras/jsroot-loader';
 
 @Component({
   selector: 'app-cms',
@@ -17,7 +17,7 @@ export class CMSComponent implements OnInit {
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
 
     const configuration = new Configuration();
     configuration.presetViews = [
@@ -31,7 +31,8 @@ export class CMSComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector', 400);
+    // this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector', 400);
+    await this.eventDisplay.loadRootJSONGeometry('https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', 10);
 
     cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
