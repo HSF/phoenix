@@ -4,7 +4,6 @@ import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
-import { loadJSRootScripts } from './extras/jsroot-loader';
 
 declare global {
   /**
@@ -230,16 +229,15 @@ export class EventdisplayService {
 
   /**
    * Load JSON geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot geometry file.
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    */
-  public async loadRootJSONGeometry(url: string, name: string, scale?: number) {
-    await loadJSRootScripts((JSROOT) => {
-      JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-        this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
-      }).send();
-    });
+  public loadRootJSONGeometry(JSROOT: any, url: string, name: string, scale?: number) {
+    JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
+      this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
+    }).send();
   }
 
   /**

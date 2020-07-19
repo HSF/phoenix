@@ -205,7 +205,7 @@ export class ImportManager {
         }
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
-                child.name = child.userData.name = name;
+                child.name ? child.userData.name = child.name : child.name = child.userData.name = name;
                 if (child.material instanceof Material) {
                     const color = child.material['color'] ? child.material['color'] : 0x2fd691;
                     const side = child.material['side'];
