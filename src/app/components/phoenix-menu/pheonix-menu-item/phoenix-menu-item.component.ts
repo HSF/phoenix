@@ -9,7 +9,5 @@ import { PhoenixMenuNode } from '../phoenix-menu-node/phoenix-menu-node';
 export class PhoenixMenuItemComponent {
 
   @Input() currentNode: PhoenixMenuNode;
-  configActive: boolean = false;
-  childrenActive: boolean = false;
 
 }

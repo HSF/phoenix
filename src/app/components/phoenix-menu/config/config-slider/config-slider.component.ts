@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-config-slider',
@@ -7,25 +7,17 @@ import { Component, Input, ViewChild } from '@angular/core';
 })
 export class ConfigSliderComponent {
 
-  @ViewChild('configSliderInput') configSliderInput;
-  @ViewChild('configSlider') configSlider;
-
+  @Input() value: number = 0;
   @Input() min: number = 0;
   @Input() max: number = 100;
   @Input() step: number = 1;
   @Input() allowCustomValue: boolean = false;
-  @Input() onChange: (value: number) => void;
+  @Output() onChange: EventEmitter<number> = new EventEmitter<number>();
 
-  onSliderChange(value: number) {
-    if (this.allowCustomValue) {
-      this.configSliderInput.nativeElement.value = value;
+  onValueChange(value: number) {
+    if (value) {
+      this.onChange.emit(value);
     }
-    this.onChange(value);
-  }
-
-  onInputChange(value: number) {
-    this.configSlider.value = value;
-    this.onChange(value);
   }
 
 }

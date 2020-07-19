@@ -21,13 +21,15 @@
   </div>
   <div class="phoenix-menu-item-right">
     <div *ngIf="currentNode.configs.length > 0">
-      <span class="icon-wrapper icon-clickable item-settings" (click)="configActive = !configActive">
+      <span class="icon-wrapper icon-clickable item-settings"
+        (click)="currentNode.configActive = !currentNode.configActive">
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
       </span>
-      <div class="item-config-backdrop" *ngIf="configActive" (click)="configActive = false"></div>
-      <div class="item-config" [hidden]="!configActive">
+      <div class="item-config-backdrop" *ngIf="currentNode.configActive" (click)="currentNode.configActive = false">
+      </div>
+      <div class="item-config" [hidden]="!currentNode.configActive">
         <ng-container *ngFor="let config of currentNode.configs" [ngSwitch]="config.type">
           <!-- Config types -->
           <label class="item-config-single">
@@ -37,18 +39,19 @@
             </span>
             <div class="item-config-data">
               <mat-checkbox *ngSwitchCase="'checkbox'" [checked]="config.isChecked"
-                (change)="config.onChange($event.checked)"></mat-checkbox>
+                (change)="config.onChange($event.checked); config.isChecked = $event.checked"></mat-checkbox>
 
-              <app-config-slider *ngSwitchCase="'slider'" [onChange]="config.onChange" [min]="config.min"
-                [max]="config.max" [step]="config.step" [allowCustomValue]="config.allowCustomValue">
+              <app-config-slider *ngSwitchCase="'slider'" [value]="config.value"
+                (onChange)="config.onChange($event); config.value = $event" [min]="config.min" [max]="config.max"
+                [step]="config.step" [allowCustomValue]="config.allowCustomValue">
               </app-config-slider>
 
               <button *ngSwitchCase="'button'" class="w-100" (click)="config.onClick()" mat-button mat-stroked-button>
                 {{config.label}}
               </button>
 
-              <input *ngSwitchCase="'color'" type="color" value="#000000"
-                (input)="config.onChange($event.target.value)" />
+              <input *ngSwitchCase="'color'" type="color" [value]="config.color"
+                (input)="config.onChange($event.target.value); config.color = $event.target.value" />
             </div>
           </label>
           <!-- Config types END -->
@@ -56,14 +59,15 @@
       </div>
     </div>
     <span class="icon-wrapper icon-clickable item-expand" *ngIf="currentNode.children.length > 0"
-      (click)="childrenActive = !childrenActive" [ngClass]="{ 'expanded': childrenActive }">
+      (click)="currentNode.childrenActive = !currentNode.childrenActive"
+      [ngClass]="{ 'expanded': currentNode.childrenActive }">
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
     </span>
   </div>
 </div>
-<div class="phoenix-menu-children" *ngIf="childrenActive">
+<div class="phoenix-menu-children" *ngIf="currentNode.childrenActive">
   <app-phoenix-menu-item *ngFor="let childNode of currentNode.children" [currentNode]="childNode">
   </app-phoenix-menu-item>
 </div>

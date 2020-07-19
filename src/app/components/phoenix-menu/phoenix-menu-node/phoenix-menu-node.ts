@@ -19,6 +19,11 @@ export class PhoenixMenuNode {
     /** Parent of the node. */
     private parent: PhoenixMenuNode;
 
+    /** If the node children are active or not. */
+    childrenActive: boolean = false;
+    /** If the node configuration options are active or not. */
+    configActive: boolean = false;
+
     /**
      * Create the phoenix menu node.
      * @param name Name of the node.
