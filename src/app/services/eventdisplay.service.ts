@@ -241,6 +241,24 @@ export class EventdisplayService {
   }
 
   /**
+   * Load ROOT geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot file.
+   * @param objectName Name of the object inside the ".root" file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   */
+  public loadRootGeometry(JSROOT: any, url: string, objectName: string, name: string, scale?: number) {
+    if (url.indexOf('.root') > 0) {
+      JSROOT.OpenFile(url, (file: any) => {
+        file.ReadObject(objectName, (obj: any) => {
+          this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
+        })
+      });
+    }
+  }
+
+  /**
    * Zoom all the cameras by a specific zoom factor.
    * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
    * @param zoomFactor The factor to zoom by.
