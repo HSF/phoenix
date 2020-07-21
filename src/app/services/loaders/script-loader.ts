@@ -12,9 +12,13 @@ export class ScriptLoader {
    */
   public static loadJSRootScripts(onScriptsLoaded: (JSROOT: any) => void) {
     (async () => {
-      const allScripts = ['JSRootCore.js', 'three.min.js', 'ThreeCSG.js', 'd3.min.js', 'JSRootPainter.js', 'JSRootGeoBase.js'];
+      const allScripts = [
+        'JSRootCore.js', 'three.min.js', 'three.extra.min.js',
+        'ThreeCSG.js', 'd3.min.js', 'JSRootPainter.js', 'JSRoot3DPainter.js',
+        'JSRootGeoBase.js', 'JSRootGeoPainter.js'
+      ];
       for (const script of allScripts) {
-        await this.loadScript('assets/jsroot/' + script);
+        await this.loadScript('assets/jsroot/' + script, 'JSROOT');
       }
       onScriptsLoaded(JSROOT);
     })();
@@ -23,10 +27,11 @@ export class ScriptLoader {
   /**
    * Load a script dynamically from a URL.
    * @param scriptURL URL of the script to be loaded.
+   * @param scriptFor Optional data attribute to identify what the script is for. `[data-scriptFor]`
    * @param parentElement Parent element to which the script is to be appended.
    * Defaults to `<head>` tag.
    */
-  public static loadScript(scriptURL: string,
+  public static loadScript(scriptURL: string, scriptFor?: string,
     parentElement: HTMLElement = document.getElementsByTagName('head')[0]) {
     return new Promise((resolve, reject) => {
       const scriptExists = document.querySelectorAll('script[src="' + scriptURL + '"]');
@@ -35,7 +40,9 @@ export class ScriptLoader {
         const scriptElement = document.createElement('script');
         scriptElement.type = 'text/javascript';
         scriptElement.src = scriptURL;
-        scriptElement.setAttribute('data-scriptFor', 'JSROOT');
+        if (scriptFor) {
+          scriptElement.setAttribute('data-scriptFor', scriptFor);
+        }
         scriptElement.onload = () => {
           resolve();
         }

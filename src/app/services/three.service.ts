@@ -258,11 +258,12 @@ export class ThreeService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
+  public loadJSONGeometry(json: string | object, name: string, scale?: number, doubleSided?: boolean) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => geometries.add(geometry);
-    this.importManager.loadJSONGeometry(json, name, callback, scale);
+    this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
 
   /**

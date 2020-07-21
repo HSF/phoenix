@@ -220,9 +220,11 @@ export class EventdisplayService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
+  public loadJSONGeometry(json: string | object, name: string,
+    scale?: number, doubleSided?: boolean) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided);
     this.ui.addGeometry(name, 0xff0000);
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
@@ -233,10 +235,12 @@ export class EventdisplayService {
    * @param url URL of the JSRoot geometry file.
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    */
-  public loadRootJSONGeometry(JSROOT: any, url: string, name: string, scale?: number) {
+  public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
+    scale?: number, doubleSided?: boolean) {
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-      this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
+      this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale, doubleSided);
     }).send();
   }
 
@@ -247,12 +251,14 @@ export class EventdisplayService {
    * @param objectName Name of the object inside the ".root" file.
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    */
-  public loadRootGeometry(JSROOT: any, url: string, objectName: string, name: string, scale?: number) {
+  public loadRootGeometry(JSROOT: any, url: string, objectName: string,
+    name: string, scale?: number, doubleSided?: boolean) {
     if (url.indexOf('.root') > 0) {
       JSROOT.OpenFile(url, (file: any) => {
         file.ReadObject(objectName, (obj: any) => {
-          this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale);
+          this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale, doubleSided);
         })
       });
     }
@@ -409,7 +415,7 @@ export class EventdisplayService {
    * @returns uuid of the currently selected object.
    */
   public getActiveObjectId(): any {
-      return this.graphicsLibrary.getActiveObjectId();
+    return this.graphicsLibrary.getActiveObjectId();
   }
 
   /**
