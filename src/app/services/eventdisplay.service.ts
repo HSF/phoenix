@@ -240,7 +240,7 @@ export class EventdisplayService {
   public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
     scale?: number, doubleSided?: boolean) {
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-      this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale, doubleSided);
+      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(), name, scale, doubleSided);
     }).send();
   }
 
@@ -258,7 +258,7 @@ export class EventdisplayService {
     if (url.indexOf('.root') > 0) {
       JSROOT.OpenFile(url, (file: any) => {
         file.ReadObject(objectName, (obj: any) => {
-          this.loadJSONGeometry(JSROOT.GEO.build(obj).toJSON(), name, scale, doubleSided);
+          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(), name, scale, doubleSided);
         })
       });
     }
