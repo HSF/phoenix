@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
@@ -9,13 +9,11 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss']
 })
-export class PlaygroundComponent implements OnInit {
+export class PlaygroundComponent implements AfterViewInit {
 
+  constructor(protected eventDisplay: EventdisplayService, protected http: HttpClient) { }
 
-  constructor(protected eventDisplay: EventdisplayService, protected http: HttpClient) {
-  }
-
-  ngOnInit() {
+  ngAfterViewInit() {
     const configuration = new Configuration();
     configuration.presetViews = [
       new PresetView('Left View', [0, 0, -6000], 'left-cube'),

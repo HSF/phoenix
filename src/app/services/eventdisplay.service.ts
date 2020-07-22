@@ -4,7 +4,6 @@ import { InfoLoggerService } from './infologger.service';
 import { UIService } from './ui.service';
 import { Configuration } from './extras/configuration.model';
 import { HttpClient } from '@angular/common/http';
-import { Camera } from 'three';
 
 declare global {
   /**
@@ -47,7 +46,7 @@ export class EventdisplayService {
 
   /**
    * Initializes the components needed to later represent the geometries.
-   * @param configuration used to customize different aspects.
+   * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.configuration = configuration;

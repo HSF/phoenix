@@ -3,6 +3,7 @@ import { EventdisplayService } from '../../services/eventdisplay.service';
 import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
+import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 
 @Component({
@@ -11,6 +12,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./atlas.component.scss']
 })
 export class AtlasComponent implements OnInit {
+
+  phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -23,6 +26,7 @@ export class AtlasComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
+    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
     this.eventDisplay.init(configuration);
     this.http.get('assets/files/event_data/atlaseventdump2.json')
@@ -35,5 +39,6 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, true);
+
   }
 }
