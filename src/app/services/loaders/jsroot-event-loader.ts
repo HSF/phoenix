@@ -1,12 +1,22 @@
-import { Mesh, BufferAttribute, Float32BufferAttribute, Vector3 } from "three";
 import { PhoenixLoader } from "./phoenix-loader";
 
+/**
+ * PhoenixLoader for processing and loading an event from ".root".
+ */
 export class JSRootEventLoader extends PhoenixLoader {
 
+    /** JSROOT object containing all JSROOT functions. */
     private JSROOT: any;
+    /** Event data inside the file. */
     private fileEventData: any;
+    /** URL of the ".root" file to be processed. */
     private rootFileURL: any;
 
+    /**
+     * Constructor for the JSRoot event loader.
+     * @param JSROOT JSROOT object containing all JSROOT functions.
+     * @param rootFileURL URL of the ".root" file to be processed.
+     */
     constructor(JSROOT: any, rootFileURL: string) {
         super();
 
@@ -17,33 +27,51 @@ export class JSRootEventLoader extends PhoenixLoader {
             Hits: {},
             Tracks: {},
             Jets: {},
-            CaloClusters: {},
-            MuonChambers: {}
+            CaloClusters: {}
         };
     }
 
-    public getEventData(objectName: string, onEventData: (eventData: any) => void) {
+    /**
+     * Get event data of the given objects (e.g ['tracks;1', 'hits;1'])
+     * from the currently loaded ".root" file.
+     * @param objects An array identifying objects inside the ".root" file.
+     * @param onEventData Callback when event data is extracted and available for use.
+     */
+    public getEventData(objects: string[], onEventData: (eventData: any) => void) {
         this.JSROOT.OpenFile(this.rootFileURL, (file: any) => {
-            file.ReadObject(objectName, (object: any) => {
-                this.processItemsList(object, 'tracks');
-                this.processItemsList(object, 'hits');
-                this.processItemsList(object, 'clusters');
-                onEventData(this.fileEventData);
-            });
+            let i = 0;
+            for (const objectName of objects) {
+                file.ReadObject(objectName, (object: any) => {
+                    i++;
+                    if (object) {
+                        this.processItemsList(object);
+                    }
+                    if (i === objects.length) {
+                        for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters']) {
+                            if (Object.keys(this.fileEventData[objectType]).length === 0) {
+                                this.fileEventData[objectType] = undefined;
+                            }
+                        }
+                        onEventData(this.fileEventData);
+                    }
+                });
+            }
         });
     }
 
-    private processItemsList(obj: any, itemName: string) {
-        if (["TObjArray", "TList"].includes(obj._typename)) {
-            if (!obj.arr) return false;
+    /**
+     * Process the list of items inside the JSROOT files for relevant event data.
+     * @param obj Object containing the event data in the form of JSROOT classes.
+     */
+    private processItemsList(obj: any) {
+        if ((obj._typename === 'TObjArray') || obj._typename === 'TList') {
+            if (!obj.arr) return;
             for (let n = 0; n < obj.arr.length; ++n) {
-                let sobj = obj.arr[n], sname = obj.opt ? obj.opt[n] : "";
-                if (!sname)
-                    sname = (itemName || "<prnt>") + "/[" + n + "]";
-                this.processItemsList(sobj, sname);
+                let sobj = obj.arr[n];
+                this.processItemsList(sobj);
             }
         } else if (obj._typename === 'THREE.Mesh') {
-            this.addMiscPhysicsObject(obj);
+            // Three.js object - we only want event data
         } else if (obj._typename === 'TGeoTrack') {
             if (!this.fileEventData.Tracks['TGeoTracks']) {
                 this.fileEventData.Tracks['TGeoTracks'] = [];
@@ -53,42 +81,54 @@ export class JSRootEventLoader extends PhoenixLoader {
                 this.fileEventData.Tracks['TGeoTracks'].push(tGeoTrack)
             }
         } else if ((obj._typename === 'TEveTrack') || (obj._typename === 'ROOT::Experimental::TEveTrack')) {
-            if (!this.fileEventData.Tracks['TEveTracks']) {
-                this.fileEventData.Tracks['TEveTracks'] = [];
+            if (!this.fileEventData.Tracks[obj._typename + '(s)']) {
+                this.fileEventData.Tracks[obj._typename + '(s)'] = [];
             }
             const tEveTrack = this.getTEveTrack(obj);
             if (tEveTrack) {
-                this.fileEventData.Tracks['TEveTracks'].push(tEveTrack)
+                this.fileEventData.Tracks[obj._typename + '(s)'].push(tEveTrack)
             }
-        } else if ((obj._typename === 'TEvePointSet') || (obj._typename === "ROOT::Experimental::TEvePointSet") || (obj._typename === "TPolyMarker3D")) {
-
-        } else if ((obj._typename === "TEveGeoShapeExtract") || (obj._typename === "ROOT::Experimental::TEveGeoShapeExtract")) {
-
+        } else if ((obj._typename === 'TEvePointSet') || (obj._typename === 'ROOT::Experimental::TEvePointSet') || (obj._typename === 'TPolyMarker3D')) {
+            if (!this.fileEventData.Hits[obj._typename + '(s)']) {
+                this.fileEventData.Hits[obj._typename + '(s)'] = [];
+            }
+            const hit = this.getHit(obj);
+            if (hit) {
+                this.fileEventData.Hits[obj._typename + '(s)'].push(hit)
+            }
+        } else if ((obj._typename === 'TEveGeoShapeExtract') || (obj._typename === 'ROOT::Experimental::TEveGeoShapeExtract')) {
+            // Some extra shape - we only want event data
         }
     }
 
-    private addMiscPhysicsObject(obj: Mesh) { }
-
+    /**
+     * Process and get the TGeoTrack in phoenix format.
+     * @param track Track object containing the track information.
+     * @returns Track object in the phoenix format.
+     */
     private getTGeoTrack(track: any): any {
         if (!track || !track.fNpoints) return false;
-
-        let npoints = Math.round(track.fNpoints / 4),
-            buf = new Float32Array((npoints - 1) * 6),
-            pos = 0;
-
+        
+        const npoints = Math.round(track.fNpoints / 4);
+        const positions = [];
         for (let k = 0; k < npoints - 1; ++k) {
-            buf[pos] = track.fPoints[k * 4];
-            buf[pos + 1] = track.fPoints[k * 4 + 1];
-            buf[pos + 2] = track.fPoints[k * 4 + 2];
-            buf[pos + 3] = track.fPoints[k * 4 + 4];
-            buf[pos + 4] = track.fPoints[k * 4 + 5];
-            buf[pos + 5] = track.fPoints[k * 4 + 6];
-            pos += 6;
+            positions.push([
+                track.fPoints[k * 4],
+                track.fPoints[k * 4 + 1],
+                track.fPoints[k * 4 + 2]
+            ]);
         }
 
-        return this.getCoordsArray(buf);
+        return {
+            pos: positions
+        };
     }
 
+    /**
+     * Process and get the TEveTrack in phoenix format.
+     * @param track Track object containing the track information.
+     * @returns Track object in the phoenix format.
+     */
     private getTEveTrack(track: any): any {
         if (!track || (track.fN <= 0)) return false;
 
@@ -113,26 +153,22 @@ export class JSRootEventLoader extends PhoenixLoader {
         trackObj['pos'] = positions;
 
         return trackObj;
-
-        // return {
-        //     pos: this.getCoordsArray(buf)
-        // };
     }
 
-    private getCoordsArray(bufferArr: any): any[] {
-        const val = bufferArr instanceof Float32Array ?
-            new BufferAttribute(bufferArr, 3) :
-            new Float32BufferAttribute(bufferArr, 3);
+    /**
+     * Process and get the Hit in phoenix format.
+     * @param hit Hit object containing the hit information.
+     * @returns Hit in phoenix format.
+     */
+    private getHit(hit: any): any {
+        if (!hit || !hit.fN || (hit.fN < 0)) return false;
 
-        const allValues = [];
-        for (let i = 0; i < val.array.length / val.itemSize; i++) {
-            allValues.push([
-                val.array[i * val.itemSize + 0],
-                val.array[i * val.itemSize + 1],
-                val.array[i * val.itemSize + 2]
-            ]);
+        const hitArray = [];
+
+        for (var i = 0; i < hit.fN; i += 3) {
+            hitArray.push([hit.fP[i * 3], hit.fP[i * 3 + 1], hit.fP[i * 3 + 2]]);
         }
 
-        return allValues;
+        return hitArray;
     }
 }

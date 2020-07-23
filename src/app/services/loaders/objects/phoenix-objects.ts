@@ -26,14 +26,6 @@ export class PhoenixObjects {
       return;
     }
 
-    // Now sort these.
-    positions.sort((a, b) => {
-      const distA = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
-      const distB = b[0] * b[0] + b[1] * b[1] + b[2] * b[2];
-
-      return distA - distB;
-    });
-
     // const length = 100;
     let objectColor = 0xff0000;
     if (trackParams.color) {
