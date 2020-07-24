@@ -69,12 +69,13 @@ export class UIService {
    * @param configuration Configuration options for preset views and event data loader.
    */
   public showUI(configuration: Configuration) {
+    this.configuration = configuration;
     // Shows a panel on screen with information about the performance (fps).
     this.showStats();
     // Shows the menu that contains the options to interact with the scene.
     if (configuration.enableDatGUIMenu) {
       this.hasDatGUIMenu = true;
-      this.showDatGUIMenu(configuration);
+      this.showDatGUIMenu();
     }
     // Detect UI color scheme
     this.detectColorScheme();
@@ -109,10 +110,8 @@ export class UIService {
 
   /**
    * Show dat.GUI menu with different controls related to detector geometry and event data.
-   * @param configuration Configuration options for the menu.
    */
-  private showDatGUIMenu(configuration: Configuration) {
-    this.configuration = configuration;
+  private showDatGUIMenu() {
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
     this.canvas = document.getElementById('eventDisplay');
@@ -190,15 +189,16 @@ export class UIService {
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param colour Color of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public addGeometry(name: string, colour: any) {
+  public addGeometry(name: string, colour: any, initiallyVisible: boolean = true) {
     if (this.hasDatGUIMenu) {
       if (this.geomFolder == null) {
         this.addGeomFolder();
       }
       // A new folder for the object is added to the 'Geometry' folder
       this.guiParameters[name] = {
-        show: true, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
+        show: initiallyVisible, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
       };
       const objFolder = this.geomFolder.addFolder(name);
       // A color picker is added to the object's folder
@@ -237,6 +237,7 @@ export class UIService {
       const objFolderPM = this.geomFolderPM.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
+      objFolderPM.toggleState = initiallyVisible;
       objFolderPM.addConfig('color', {
         label: 'Color',
         onChange: (value: any) => {
