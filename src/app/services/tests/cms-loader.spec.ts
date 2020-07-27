@@ -1,7 +1,19 @@
-import { CMSLoader } from './cmsloader';
+import { CMSLoader } from '../loaders/cms-loader';
+import { TestBed, getTestBed } from '@angular/core/testing'
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('CMSLoader', () => {
-  it('should create an instance', () => {
-    expect(new CMSLoader()).toBeTruthy();
+  
+  let injector: TestBed;
+  let cmsLoader: CMSLoader;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [CMSLoader]
+    });
+    injector = getTestBed();
+    cmsLoader = injector.get(CMSLoader);
   });
+
 });

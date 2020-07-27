@@ -2,6 +2,6 @@ import { PhoenixMenuNode } from './phoenix-menu-node';
 
 describe('PhoenixMenuNode', () => {
   it('should create an instance', () => {
-    expect(new PhoenixMenuNode()).toBeTruthy();
+    expect(new PhoenixMenuNode('Test Node')).toBeTruthy();
   });
 });

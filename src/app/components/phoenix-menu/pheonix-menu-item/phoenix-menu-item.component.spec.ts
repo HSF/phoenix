@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuItemComponent } from './phoenix-menu-item.component';
+import { PhoenixMenuNode } from '../phoenix-menu-node/phoenix-menu-node';
 
 describe('PhoenixMenuItemComponent', () => {
   let component: PhoenixMenuItemComponent;
@@ -16,6 +17,7 @@ describe('PhoenixMenuItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PhoenixMenuItemComponent);
     component = fixture.componentInstance;
+    component.currentNode = new PhoenixMenuNode('Test Node');
     fixture.detectChanges();
   });
 
