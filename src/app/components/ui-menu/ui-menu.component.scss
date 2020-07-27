@@ -14,7 +14,7 @@
   justify-content: center;
   align-items: center;
   background: var(--phoenix-background-color-secondary);
-  border: 1px solid rgba(88, 88, 88, 0.08);
+  border: 1px solid var(--phoenix-background-color-tertiary);
   box-shadow: var(--phoenix-box-shadow);
   border-radius: 30px;
   max-width: 95%;
@@ -43,7 +43,7 @@
   background: var(--phoenix-background-color-secondary);
   height: 1.2rem;
   width: 3rem;
-  border: 1px solid var(--dat-border);
+  border: 1px solid var(--phoenix-border);
   border-bottom: none;
   box-shadow: var(--phoenix-box-shadow);
   border-top-left-radius: 15px;

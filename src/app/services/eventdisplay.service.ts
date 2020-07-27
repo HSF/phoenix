@@ -46,7 +46,7 @@ export class EventdisplayService {
 
   /**
    * Initializes the components needed to later represent the geometries.
-   * @param configuration used to customize different aspects.
+   * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.configuration = configuration;

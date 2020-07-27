@@ -1,0 +1,10 @@
+#phoenix-menu {
+  background: var(--phoenix-background-color-secondary);
+  position: absolute;
+  top: 6rem;
+  right: 1rem;
+  width: 15rem;
+  max-width: 30%;
+  box-shadow: var(--phoenix-box-shadow);
+  z-index: 100;
+}

@@ -4,6 +4,7 @@ import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { TrackmlLoader } from '../../services/loaders/trackml-loader';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 @Component({
   selector: 'app-trackml',
@@ -22,6 +23,7 @@ export class TrackmlComponent implements OnInit {
     headers: new HttpHeaders({}),
     responseType: 'text' as 'json'
   };
+  phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
@@ -34,6 +36,7 @@ export class TrackmlComponent implements OnInit {
       new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
       new PresetView('Left View', [0, 0, -6000], 'left-cube')
     ];
+    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
     this.trackMLLoader = new TrackmlLoader();
     configuration.eventDataLoader = this.trackMLLoader;
     this.eventDisplay.init(configuration);

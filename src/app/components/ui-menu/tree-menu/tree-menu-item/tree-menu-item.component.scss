@@ -16,7 +16,7 @@
     &.visible {
         .node-name,
         .mat-icon-rtl-mirror {
-            color: #00c4ba;
+            color: var(--phoenix-accent);
         }
     }
 }

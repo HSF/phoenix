@@ -11,7 +11,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlaygroundComponent implements OnInit {
 
-
   constructor(protected eventDisplay: EventdisplayService, protected http: HttpClient) { }
 
   ngOnInit() {

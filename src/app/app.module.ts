@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CollectionsInfoComponent } from './components/ui-menu/collections-info/collections-info.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MenuToggleComponent } from './components/ui-menu/menu-toggle/menu-toggle.component';
@@ -47,6 +48,9 @@ import { ZoomControlsComponent } from './components/ui-menu/zoom-controls/zoom-c
 import { TreeMenuComponent } from './components/ui-menu/tree-menu/tree-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { TreeMenuItemComponent } from './components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component';
+import { PhoenixMenuComponent } from './components/phoenix-menu/phoenix-menu.component';
+import { PhoenixMenuItemComponent } from './components/phoenix-menu/pheonix-menu-item/phoenix-menu-item.component';
+import { ConfigSliderComponent } from './components/phoenix-menu/config/config-slider/config-slider.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -95,7 +99,10 @@ const routes: Routes = [
     MainViewToggleComponent,
     ZoomControlsComponent,
     TreeMenuComponent,
-    TreeMenuItemComponent
+    TreeMenuItemComponent,
+    PhoenixMenuComponent,
+    PhoenixMenuItemComponent,
+    ConfigSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -109,6 +116,7 @@ const routes: Routes = [
     OverlayModule,
     MatMenuModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule
   ],

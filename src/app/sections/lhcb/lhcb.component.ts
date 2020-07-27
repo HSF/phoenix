@@ -4,6 +4,7 @@ import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
 import { LHCbLoader } from '../../services/loaders/lhcb-loader';
+import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { LHCbLoader } from '../../services/loaders/lhcb-loader';
 export class LHCbComponent implements OnInit {
   events: any;
   loader: LHCbLoader;
+  phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
   constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
   }
@@ -25,6 +27,8 @@ export class LHCbComponent implements OnInit {
       new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
       new PresetView('Left View', [0, 0, -6000], 'left-cube')
     ];
+    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
+
     this.eventDisplay.init(configuration);
     this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
     this.loader = new LHCbLoader();
@@ -38,8 +42,6 @@ export class LHCbComponent implements OnInit {
       this.loader.process(data);
       const eventData = this.loader.getEventData();
       this.eventDisplay.buildEventDataFromJSON(eventData);
-      // TODO Current implementation throws error
-      // this.eventDisplay.setDetectorOpacity(config.detectorOpacity);
     });
   }
 }

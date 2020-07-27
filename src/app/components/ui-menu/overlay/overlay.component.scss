@@ -1,7 +1,7 @@
 .overlay-card.card {
   color: var(--phoenix-text-color);
   background: none;
-  // max-width: 50vw;
+  max-width: 100vw;
   /* Same min-width as overlay.component.ts MIN_RES_WIDTH */
   min-width: 300px;
   height: 100%;
@@ -9,6 +9,7 @@
   box-shadow: none;
   border: none;
   position: relative;
+  z-index: 200;
 
   .card-header {
     width: 12rem;
@@ -66,7 +67,7 @@
 
     .list-group-item {
       background-color: var(--phoenix-background-color-secondary);
-      border-color: var(--dat-border);
+      border-color: var(--phoenix-border);
     }
   }
 
