@@ -141,10 +141,12 @@ export class EventdisplayService {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadOBJGeometry(filename: string, name: string, color: any, doubleSided: boolean) {
-    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided);
-    this.ui.addGeometry(name, color);
+  public loadOBJGeometry(filename: string, name: string, color: any,
+    doubleSided: boolean = false, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, color, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
   }
 
@@ -153,10 +155,11 @@ export class EventdisplayService {
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(content: string, name: string) {
-    this.graphicsLibrary.parseOBJGeometry(content, name);
-    this.ui.addGeometry(name, 0x000fff);
+  public parseOBJGeometry(content: string, name: string, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
+    this.ui.addGeometry(name, 0x000fff, initiallyVisible);
   }
 
   /**
@@ -208,10 +211,12 @@ export class EventdisplayService {
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadGLTFGeometry(url: any, name: string, scale?: number) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadGLTFGeometry(url: any, name: string,
+    scale?: number, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
   }
 
@@ -220,10 +225,12 @@ export class EventdisplayService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadJSONGeometry(json: string | object, name: string,
+    scale?: number, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
@@ -378,7 +385,7 @@ export class EventdisplayService {
    * @returns uuid of the currently selected object.
    */
   public getActiveObjectId(): any {
-      return this.graphicsLibrary.getActiveObjectId();
+    return this.graphicsLibrary.getActiveObjectId();
   }
 
   /**
