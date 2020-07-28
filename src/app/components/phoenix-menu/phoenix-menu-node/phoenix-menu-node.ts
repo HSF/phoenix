@@ -80,7 +80,11 @@ export class PhoenixMenuNode {
      * Remove the current node.
      */
     remove() {
-        this.parent.removeChild(this);
+        if (this.parent) {
+            this.parent.removeChild(this);
+        } else {
+            console.error('Cannot delete root node of phoenix menu. Set it to undefined/null instead.');
+        }
     }
 
     /**
