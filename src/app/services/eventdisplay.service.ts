@@ -141,10 +141,12 @@ export class EventdisplayService {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadOBJGeometry(filename: string, name: string, color: any, doubleSided: boolean) {
-    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided);
-    this.ui.addGeometry(name, color);
+  public loadOBJGeometry(filename: string, name: string, color: any,
+    doubleSided?: boolean, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, color, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
   }
 
@@ -153,10 +155,11 @@ export class EventdisplayService {
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(content: string, name: string) {
-    this.graphicsLibrary.parseOBJGeometry(content, name);
-    this.ui.addGeometry(name, 0x000fff);
+  public parseOBJGeometry(content: string, name: string, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
+    this.ui.addGeometry(name, 0x000fff, initiallyVisible);
   }
 
   /**
@@ -208,10 +211,12 @@ export class EventdisplayService {
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadGLTFGeometry(url: any, name: string, scale?: number) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadGLTFGeometry(url: any, name: string,
+    scale?: number, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
   }
 
@@ -221,11 +226,12 @@ export class EventdisplayService {
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadJSONGeometry(json: string | object, name: string,
-    scale?: number, doubleSided?: boolean) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided);
-    this.ui.addGeometry(name, 0xff0000);
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
@@ -236,11 +242,13 @@ export class EventdisplayService {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
-    scale?: number, doubleSided?: boolean) {
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(), name, scale, doubleSided);
+      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+        name, scale, doubleSided, initiallyVisible);
     }).send();
   }
 
@@ -252,13 +260,15 @@ export class EventdisplayService {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadRootGeometry(JSROOT: any, url: string, objectName: string,
-    name: string, scale?: number, doubleSided?: boolean) {
+    name: string, scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
     if (url.indexOf('.root') > 0) {
       JSROOT.OpenFile(url, (file: any) => {
         file.ReadObject(objectName, (obj: any) => {
-          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(), name, scale, doubleSided);
+          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            name, scale, doubleSided, initiallyVisible);
         })
       });
     }

@@ -206,15 +206,20 @@ export class ThreeService {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
-    doubleSided: boolean
+    doubleSided?: boolean,
+    initiallyVisible: boolean = true
   ): void {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (object: Group) => geometries.add(object);
+    const callback = (object: Group) => {
+      object.visible = initiallyVisible;
+      geometries.add(object);
+    };
     this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
   }
 
@@ -223,10 +228,15 @@ export class ThreeService {
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string, scale?: number) {
+  public loadGLTFGeometry(sceneUrl: any, name: string,
+    scale?: number, initiallyVisible: boolean = true) {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => geometries.add(geometry);
+    const callback = (geometry: Object3D) => {
+      geometry.visible = initiallyVisible;
+      geometries.add(geometry);
+    };
     this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
@@ -234,10 +244,12 @@ export class ThreeService {
    * Parses and loads a geometry in OBJ (.obj) format.
    * @param geometry Geometry in OBJ (.obj) format.
    * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(geometry: string, name: string) {
+  public parseOBJGeometry(geometry: string, name: string, initiallyVisible: boolean = true) {
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
+    object.visible = initiallyVisible;
     geometries.add(object);
   }
 
@@ -259,10 +271,15 @@ export class ThreeService {
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number, doubleSided?: boolean) {
+  public loadJSONGeometry(json: string | object, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => geometries.add(geometry);
+    const callback = (geometry: Object3D) => {
+      geometry.visible = initiallyVisible;
+      geometries.add(geometry);
+    };
     this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
 
@@ -275,7 +292,8 @@ export class ThreeService {
   }
 
   /**
-   * Exports scene as phoenix format, allowing to load it later and recover the saved configuration.
+   * Exports scene as phoenix format, allowing to 
+   * load it later and recover the saved configuration.
    */
   public exportPhoenixScene() {
     const scene = this.sceneManager.getCleanScene();
@@ -352,9 +370,9 @@ export class ThreeService {
     this.controlsManager.zoomTo(zoomFactor, zoomTime);
   }
 
-  // *********************************
-  // * Private auxiliary functions.  *
-  // *********************************
+  // ********************************
+  // * Private auxiliary functions. *
+  // ********************************
 
   /**
    * Sets different parameters according to the configuration.
