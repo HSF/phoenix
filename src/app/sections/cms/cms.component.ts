@@ -3,7 +3,6 @@ import { Configuration } from '../../services/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
-import JSZip from 'jszip';
 import { CMSLoader } from '../../services/loaders/cms-loader';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
