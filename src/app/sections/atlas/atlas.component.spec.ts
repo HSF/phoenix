@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AtlasComponent } from './atlas.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppModule } from 'src/app/app.module';
 
 describe('AtlasComponent', () => {
@@ -11,8 +10,7 @@ describe('AtlasComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule]
-    })
-      .compileComponents();
+    });
   }));
 
   beforeEach(() => {
@@ -21,7 +19,17 @@ describe('AtlasComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  // Test if three.js is initialized
+  it('should initialize three.js canvas', () => {
+    component.ngOnInit();
+    expect(document.getElementById('three-canvas')).toBeTruthy();
   });
 });
