@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TrackmlComponent } from './trackml.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs';
 
 describe('TrackmlComponent', () => {
@@ -13,7 +12,7 @@ describe('TrackmlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientModule],
       providers: [EventdisplayService, HttpClient],
       declarations: [TrackmlComponent]
     }).compileComponents;
@@ -67,9 +66,12 @@ describe('TrackmlComponent', () => {
   }));
 
   it('should load TrackML data', () => {
+    spyOn<any>(component, 'loadTrackMLData').and.callThrough();
     spyOn(http, 'get').and.returnValue(of(`hit_id,x,y,z,volume_id,layer_id,module_id
     1,-64.4099,-7.1637,-1502.5,7,2,1
     2,-55.3361,0.635342,-1502.5,7,2,1`));
     component.ngOnInit();
+
+    expect((component as any).loadTrackMLData).toHaveBeenCalled();
   });
 });
