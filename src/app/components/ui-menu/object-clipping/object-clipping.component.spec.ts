@@ -48,7 +48,7 @@ describe('ObjectClippingComponent', () => {
     expect(component.clippingEnabled).toBe(false);
   });
 
-  it('should change clipping', () => {
+  it('should change clipping angle', () => {
     const sliderValue = 10;
     const matSliderChange = new MatSliderChange();
     matSliderChange.value = sliderValue;

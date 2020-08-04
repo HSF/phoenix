@@ -22,4 +22,18 @@ describe('ConfigSliderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  beforeEach(() => {
+    spyOn(component.onChange, 'emit').and.callThrough();
+  });
+
+  it('should change value', () => {
+    component.onValueChange(100);
+    expect(component.onChange.emit).toHaveBeenCalledWith(100);
+  });
+
+  it('should not change value if undefined', () => {
+    component.onValueChange(undefined);
+    expect(component.onChange.emit).toHaveBeenCalledTimes(0);
+  });
 });
