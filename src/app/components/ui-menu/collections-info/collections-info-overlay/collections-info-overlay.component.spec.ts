@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventdisplayService } from '../../../../services/eventdisplay.service';
-import { HttpClientModule } from '@angular/common/http';
+import { AppModule } from '../../../../app.module';
 import { of } from 'rxjs';
 
 describe('CollectionsInfoOverlayComponent', () => {
@@ -12,7 +12,7 @@ describe('CollectionsInfoOverlayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [AppModule],
       providers: [EventdisplayService],
       declarations: [CollectionsInfoOverlayComponent]
     })

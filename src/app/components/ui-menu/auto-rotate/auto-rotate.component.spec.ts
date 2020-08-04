@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoRotateComponent } from './auto-rotate.component';
+import { AppModule } from '../../../app.module';
 
 describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;
@@ -8,6 +9,7 @@ describe('AutoRotateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [ AutoRotateComponent ]
     })
     .compileComponents();

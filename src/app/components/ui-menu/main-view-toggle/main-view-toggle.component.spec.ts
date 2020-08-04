@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainViewToggleComponent } from './main-view-toggle.component';
+import { AppModule } from '../../../app.module';
 
 describe('MainViewToggleComponent', () => {
   let component: MainViewToggleComponent;
@@ -8,6 +9,7 @@ describe('MainViewToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [ MainViewToggleComponent ]
     })
     .compileComponents();

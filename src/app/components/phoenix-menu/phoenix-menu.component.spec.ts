@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuComponent } from './phoenix-menu.component';
+import { AppModule } from '../../app.module';
+import { PhoenixMenuNode } from './phoenix-menu-node/phoenix-menu-node';
 
 describe('PhoenixMenuComponent', () => {
   let component: PhoenixMenuComponent;
@@ -8,7 +10,8 @@ describe('PhoenixMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhoenixMenuComponent ]
+      imports: [AppModule],
+      declarations: [PhoenixMenuComponent]
     })
     .compileComponents();
   }));
@@ -16,6 +19,7 @@ describe('PhoenixMenuComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PhoenixMenuComponent);
     component = fixture.componentInstance;
+    component.rootNode = new PhoenixMenuNode('Test Node');
     fixture.detectChanges();
   });
 

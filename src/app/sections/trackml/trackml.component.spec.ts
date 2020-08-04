@@ -2,8 +2,9 @@ import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testi
 
 import { TrackmlComponent } from './trackml.component';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { AppModule } from '../../app.module';
 
 describe('TrackmlComponent', () => {
   let component: TrackmlComponent;
@@ -12,7 +13,7 @@ describe('TrackmlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [AppModule],
       providers: [EventdisplayService, HttpClient],
       declarations: [TrackmlComponent]
     }).compileComponents;

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectClippingComponent } from './object-clipping.component';
+import { AppModule } from '../../../app.module';
 import { UIService } from '../../../services/ui.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSliderChange } from '@angular/material/slider';
@@ -13,6 +14,7 @@ describe('ObjectClippingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       providers: [{
         provide: UIService,
         useValue: mockUIService

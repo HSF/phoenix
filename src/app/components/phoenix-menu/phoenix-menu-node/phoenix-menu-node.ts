@@ -101,13 +101,13 @@ export class PhoenixMenuNode {
         this.configs.push(configOptions);
         return this;
     }
-    
+
     /**
      * Function for toggling the current and all child nodes.
      * @param value If the node itself and descendants are to be made true or false.
      */
     toggleSelfAndDescendants(value: boolean) {
-        this.onToggle(value);
+        this.onToggle?.(value);
         this.toggleState = value;
         for (const child of this.children) {
             child.toggleSelfAndDescendants(value);

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DarkThemeComponent } from './dark-theme.component';
+import { AppModule } from '../../../app.module';
 
 describe('DarkThemeComponent', () => {
   let component: DarkThemeComponent;
@@ -8,6 +9,7 @@ describe('DarkThemeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [ DarkThemeComponent ]
     })
     .compileComponents();

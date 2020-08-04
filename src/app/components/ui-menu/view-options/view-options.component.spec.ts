@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewOptionsComponent } from './view-options.component';
+import { AppModule } from '../../../app.module';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
@@ -8,6 +9,7 @@ describe('ViewOptionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AppModule],
       declarations: [ ViewOptionsComponent ]
     })
     .compileComponents();
