@@ -28,8 +28,10 @@ describe('CMSComponent', () => {
   });
 
   // Test if three.js is initialized
-  it('should initialize three.js canvas', () => {
+  it('should initialize three.js canvas', (done) => {
     component.ngOnInit();
+    // Wait for JSRoot scripts to load and geometry to load
+    setTimeout(done, 4000);
     expect(document.getElementById('three-canvas')).toBeTruthy();
-  });
+  }, 5000);
 });
