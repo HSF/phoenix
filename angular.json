@@ -94,6 +94,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/api-docs"
+            ],
+            "codeCoverageExclude": [
+              "src/app/services/extras/**"
             ]
           }
         },

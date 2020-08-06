@@ -35,17 +35,18 @@ describe('PlaygroundVrComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize VR playground', async () => {
+  it('should initialize VR playground', (done) => {
     spyOn(eventDisplayService, 'buildEventDataFromJSON').and.stub();
 
     // Need a real JiveXML file to test
-    await fetch('assets/files/JiveXML/JiveXML_336567_2327102923.xml')
+    fetch('assets/files/JiveXML/JiveXML_336567_2327102923.xml')
       .then(res => res.text())
       .then(res => {
         spyOn(http, 'get').and.returnValue(of(res));
         component.ngOnInit();
 
         expect(eventDisplayService.buildEventDataFromJSON).toHaveBeenCalled();
+        done();
       });
-  });
+  }, 10000);
 });
