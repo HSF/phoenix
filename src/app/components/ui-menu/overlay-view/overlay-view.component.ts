@@ -11,10 +11,11 @@ import { OverlayViewWindowComponent } from './overlay-view-window/overlay-view-w
   styleUrls: ['./overlay-view.component.scss']
 })
 export class OverlayViewComponent implements OnInit, OnDestroy {
-  private overlayWindow: ComponentRef<OverlayViewWindowComponent>;
+
+  overlayWindow: ComponentRef<OverlayViewWindowComponent>;
   showOverlay = false;
 
-  constructor(private eventDisplay: EventdisplayService, private overlay: Overlay) { }
+  constructor(private overlay: Overlay) { }
 
   ngOnInit() {
     const overlayRef = this.overlay.create();

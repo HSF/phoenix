@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewComponent } from './overlay-view.component';
 import { AppModule } from 'src/app/app.module';
+import { Overlay } from '@angular/cdk/overlay';
 
 describe('OverlayViewComponent', () => {
   let component: OverlayViewComponent;
@@ -9,7 +10,9 @@ describe('OverlayViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule]
+      imports: [AppModule],
+      providers: [Overlay],
+      declarations: [OverlayViewComponent]
     })
       .compileComponents();
   }));
@@ -22,5 +25,26 @@ describe('OverlayViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize/create overlay view', () => {
+    component.ngOnInit();
+    expect(component.overlayWindow).toBeTruthy();
+  });
+
+  it('should toggle overlay view', () => {
+    expect(component.showOverlay).toBe(false);
+    component.toggleOverlay();
+    expect(component.showOverlay).toBe(true);
+
+    // Expect the overlay window to be visible
+    expect(component.overlayWindow.instance.showOverlay).toBe(true);
+  });
+
+  it('should destroy overlay view', () => {
+    spyOn(component.overlayWindow, 'destroy');
+
+    component.ngOnDestroy();
+    expect(component.overlayWindow.destroy).toHaveBeenCalled();
   });
 });
