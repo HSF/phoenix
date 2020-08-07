@@ -66,14 +66,15 @@ describe('CMSLoader', () => {
     it('should apply max cut to event data', (done) => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
-        (cmsLoader as any).getObjectCollections(['PFJets_V1'], (object: any) => { }, [
+        const objectCollections = (cmsLoader as any).getObjectCollections(['PFJets_V1'], (object: any) => { }, [
           { attribute: 'et', max: 1 }
         ]);
+        expect(objectCollections).toBeDefined();
         done();
       });
     }, TEST_IG_ARCHIVE_TIMEOUT);
 
-    it('should load object types specific to CMS (MuonChambers)', () => {
+    it('should load object types specific to CMS (MuonChambers)', (done) => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         const eventData = cmsLoader.getEventData();
@@ -86,6 +87,7 @@ describe('CMSLoader', () => {
 
         eventData.MuonChambers = undefined;
         (cmsLoader as any).loadObjectTypes(eventData);
+        done();
       });
     }, TEST_IG_ARCHIVE_TIMEOUT);
 
