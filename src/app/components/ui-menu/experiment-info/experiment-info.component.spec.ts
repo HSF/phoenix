@@ -8,16 +8,17 @@ describe('ExperimentInfoComponent', () => {
   let component: ExperimentInfoComponent;
   let fixture: ComponentFixture<ExperimentInfoComponent>;
 
-  let eventDisplayService: EventdisplayService;
+  const mockEventdisplayService = jasmine.createSpyObj('EventdisplayService', ['getEventMetadata', 'listenToDisplayedEventChange']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [EventdisplayService]
+      providers: [{
+        provide: EventdisplayService,
+        useValue: mockEventdisplayService
+      }]
     })
       .compileComponents();
-
-    eventDisplayService = TestBed.get(EventdisplayService);
   }));
 
   beforeEach(() => {
@@ -31,9 +32,7 @@ describe('ExperimentInfoComponent', () => {
   });
 
   it('should initialize experiment info', () => {
-    spyOn(eventDisplayService, 'getEventMetadata').and.stub();
-    spyOn(eventDisplayService, 'listenToDisplayedEventChange').and.callThrough();
     component.ngOnInit();
-    expect(eventDisplayService.listenToDisplayedEventChange).toHaveBeenCalled();
+    expect(mockEventdisplayService.listenToDisplayedEventChange).toHaveBeenCalled();
   });
 });

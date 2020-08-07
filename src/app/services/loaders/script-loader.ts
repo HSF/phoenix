@@ -45,10 +45,10 @@ export class ScriptLoader {
         if (scriptFor) {
           scriptElement.setAttribute('data-scriptfor', scriptFor);
         }
-        scriptElement.onload = () => {
+        scriptElement.addEventListener('load', () => {
           scriptElement.setAttribute('data-loaded', 'true');
           resolve();
-        }
+        });
         scriptElement.onerror = (event) => {
           console.error('ERROR LOADING SCRIPT: ', event);
           reject();
@@ -59,9 +59,9 @@ export class ScriptLoader {
         if (scriptExists[0].dataset.loaded === 'true') {
           resolve();
         } else {
-          scriptExists[0].onload = () => {
+          scriptExists[0].addEventListener('load', () => {
             resolve();
-          }
+          });
         }
       }
     });

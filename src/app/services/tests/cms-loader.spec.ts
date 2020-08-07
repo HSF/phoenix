@@ -28,10 +28,9 @@ describe('CMSLoader', () => {
   });
 
   describe('CMSLoader methods depending on event data', () => {
-    beforeAll((done) => {
-      fetch(TEST_IG_ARCHIVE).then(res => res.arrayBuffer()).then(res => {
+    beforeAll(async () => {
+      await fetch(TEST_IG_ARCHIVE).then(res => res.arrayBuffer()).then(res => {
         spyOn(http, 'get').and.returnValue(of(res));
-        done();
       });
     }, 20000);
 
