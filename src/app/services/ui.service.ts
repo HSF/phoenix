@@ -127,10 +127,7 @@ export class UIService {
    * Clear the UI by removing the dat.GUI menu.
    */
   public clearUI() {
-    const gui = document.getElementById('gui');
-    if (gui != null) {
-      gui.remove();
-    }
+    document.getElementById('gui')?.remove();
     this.geomFolder = null;
   }
 

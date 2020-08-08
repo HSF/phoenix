@@ -9,7 +9,7 @@ describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;
 
   let http: HttpClient;
-  const TEST_IG_ARCHIVE = 'assets/files/cms/EventData.ig';
+  const TEST_IG_ARCHIVE = 'assets/files/cms/EventData_test.ig';
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 10000;
 
@@ -27,12 +27,16 @@ describe('CMSLoader', () => {
     expect(cmsLoader).toBeTruthy();
   });
 
-  describe('CMSLoader methods depending on event data', () => {
+  describe('methods depending upon event data', () => {
     beforeAll(async () => {
       await fetch(TEST_IG_ARCHIVE).then(res => res.arrayBuffer()).then(res => {
         spyOn(http, 'get').and.returnValue(of(res));
       });
-    }, 20000);
+    }, 30000);
+
+    beforeEach(() => {
+      cmsLoader = new CMSLoader(http);
+    });
 
     it('should read .ig archive without event path', (done) => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
