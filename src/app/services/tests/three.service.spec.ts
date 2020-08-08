@@ -28,6 +28,7 @@ describe('ThreeService', () => {
 
       threePrivate = (three as any);
     });
+
     it('should initialize three service with managers', () => {
       expect(threePrivate.sceneManager).toBeDefined();
       expect(threePrivate.exportManager).toBeDefined();
@@ -173,6 +174,8 @@ describe('ThreeService', () => {
     });
 
     it('should export scene', () => {
+      threePrivate.exportManager.saveString = (text: string, filename: string) => { }
+
       spyOn(threePrivate.exportManager, 'exportSceneToOBJ').and.callThrough();
       three.exportSceneToOBJ();
       expect(threePrivate.exportManager.exportSceneToOBJ).toHaveBeenCalled();
