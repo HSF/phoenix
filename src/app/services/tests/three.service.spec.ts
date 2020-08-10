@@ -214,6 +214,11 @@ describe('ThreeService', () => {
 
       three.enableSelecting(true);
       expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(true);
+      three.enableSelecting(false);
+      expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(false);
+      threePrivate.getSelectionManager().isInit = false;
+      three.enableSelecting(false);
+      expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(false);
     });
 
     it('should clear event data', () => {

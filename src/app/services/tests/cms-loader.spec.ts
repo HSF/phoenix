@@ -11,7 +11,7 @@ describe('CMSLoader', () => {
   let http: HttpClient;
   const TEST_IG_ARCHIVE = 'assets/files/cms/EventData_test.ig';
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
-  const TEST_IG_ARCHIVE_TIMEOUT = 10000;
+  const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
