@@ -67,6 +67,8 @@ export class EventdisplayService {
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
+    // Allow keyboard controls
+    this.enableKeyboardControls();
   }
 
   /**
@@ -436,5 +438,13 @@ export class EventdisplayService {
    */
   public highlightObject(uuid: string) {
     this.graphicsLibrary.highlightObject(uuid);
+  }
+
+  /**
+   * Enable keyboard controls for the event display.
+   */
+  public enableKeyboardControls() {
+    this.ui.enableKeyboardControls();
+    this.graphicsLibrary.enableKeyboardControls();
   }
 }

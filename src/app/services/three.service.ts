@@ -9,8 +9,7 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper,
-  Camera
+  AxesHelper
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -265,7 +264,7 @@ export class ThreeService {
     this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
-  /**	
+  /**
    * Loads geometries from JSON.
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
@@ -292,7 +291,7 @@ export class ThreeService {
   }
 
   /**
-   * Exports scene as phoenix format, allowing to 
+   * Exports scene as phoenix format, allowing to
    * load it later and recover the saved configuration.
    */
   public exportPhoenixScene() {
@@ -454,5 +453,37 @@ export class ThreeService {
    */
   public highlightObject(uuid: string) {
     this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
+  }
+
+  /**
+   * Enable keyboard controls for some Three service operations.
+   */
+  public enableKeyboardControls() {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.shiftKey) {
+        switch (e.keyCode) {
+          case 82: // shift + "r"
+            this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
+            break;
+          case 187: // shift + "+"
+            this.zoomTo(1 / 1.2, 100);
+            break;
+          case 189: // shift + "-"
+            this.zoomTo(1.2, 100);
+            break;
+          case 67: // shift + "c"
+            this.setClipping(!this.rendererManager.getLocalClipping());
+            if (this.rendererManager.getLocalClipping()) {
+              this.rotateClipping(180);
+            }
+            break;
+          case 86: // shift + "v"
+            const isOrthographicView = this.controlsManager.getMainCamera()
+              .type === 'OrthographicCamera';
+            this.swapCameras(!isOrthographicView);
+            break;
+        }
+      }
+    });
   }
 }

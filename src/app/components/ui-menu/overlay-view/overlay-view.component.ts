@@ -1,8 +1,6 @@
 import { Component, ComponentRef, OnDestroy, OnInit } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ObjectSelectionOverlayComponent } from '../object-selection/object-selection-overlay/object-selection-overlay.component';
 import { OverlayViewWindowComponent } from './overlay-view-window/overlay-view-window.component';
 
 @Component({

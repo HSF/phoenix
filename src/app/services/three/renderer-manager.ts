@@ -186,6 +186,16 @@ export class RendererManager {
   }
 
   /**
+   * Get if the local clipping for the first renderer is enabled or disabled.
+   * @returns If the renderer local clipping is enabled or disabled.
+   */
+  public getLocalClipping() {
+    if (this.renderers.length > 0) {
+      return this.renderers[0].localClippingEnabled;
+    }
+  }
+
+  /**
    * Check if the overlay is fixed or not.
    * @returns If the overlay is fixed or not.
    */
