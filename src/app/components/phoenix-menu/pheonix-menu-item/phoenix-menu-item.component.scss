@@ -108,6 +108,17 @@
       vertical-align: top;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+
+    .icon-wrapper {
+      width: 1rem;
+      height: 1rem;
+      padding: 0.15rem;
+    }
+  }
 }
 
 .phoenix-menu-children {

@@ -1,26 +1,46 @@
 .experimentInfo {
   position: absolute;
-  bottom: 6rem;
-  right: 2rem;
+  top: 5rem;
+  left: 1rem;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-items: flex-end;
   justify-content: flex-end;
   align-items: center;
   align-content: center;
 }
 
-.experimentLogo {
-  height: 4rem;
+.experimentLogoWrapper {
+  width: 6rem;
+
+  .experimentLogo {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .textInfo {
-  margin-right: 1rem;
+  margin-left: 1rem;
+
   p {
     color: var(--phoenix-text-color-secondary);
     font-size: 0.8rem;
-    text-align: right;
-    margin: 0.5rem 0;
+    margin-bottom: 0.5rem;
     user-select: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .experimentInfo {
+    top: 4rem;
+    max-width: 40%;
+  }
+
+  .experimentLogoWrapper {
+    height: 4rem;
+  }
+
+  .textInfo {
+    display: none;
   }
 }
