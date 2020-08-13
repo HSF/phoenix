@@ -570,7 +570,7 @@ export class UIService {
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.shiftKey) {
         switch (e.keyCode) {
-          case 68: // shift + "d"
+          case 84: // shift + "t"
             this.setDarkTheme(!this.getDarkTheme());
             break;
         }
