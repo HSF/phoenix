@@ -134,6 +134,8 @@ export class SelectionManager {
             this.onTouchMove, true);
         document.getElementById('three-canvas').addEventListener('click',
             this.onDocumentMouseDown, true);
+        document.getElementById('three-canvas').addEventListener('touchstart',
+            this.onTouchDown);
     }
 
     /**
@@ -144,6 +146,8 @@ export class SelectionManager {
             this.onTouchMove, true);
         document.getElementById('three-canvas').removeEventListener('click',
             this.onDocumentMouseDown, true);
+        document.getElementById('three-canvas').removeEventListener('touchstart',
+            this.onTouchDown);
         this.outlinePass.selectedObjects = [];
     }
 
@@ -192,25 +196,25 @@ export class SelectionManager {
         }
     }
 
+    private onTouchDown = (event: TouchEvent) => {
+        event.preventDefault();
+        this.onTouchMove(event.targetTouches[0]);
+        this.onDocumentMouseDown();
+    }
+
     /**
      * Check if any object intersects on mouse move.
      * @param event Event containing data of the mouse move.
      * @returns Intersected or hovered over object.
      */
     private intersectObject(event: any): Object3D {
-        event.preventDefault();
+        event.preventDefault?.();
         const mouse = new Vector2();
-        if (event.changedTouches) {
-            mouse.x = event.changedTouches[0].pageX;
-            mouse.y = event.changedTouches[0].pageY;
-        } else {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        }
+        mouse.x = (event.clientX / this.composer.renderer.domElement.clientWidth) * 2 - 1;
+        mouse.y = -(event.clientY / this.composer.renderer.domElement.clientHeight) * 2 + 1;
         const raycaster = new Raycaster();
         raycaster.setFromCamera(mouse, this.camera);
         raycaster.params.Line.threshold = 3;
-        // @ts-ignore
         const intersects = raycaster.intersectObjects(this.scene.children, true);
 
         if (intersects.length > 0) {
