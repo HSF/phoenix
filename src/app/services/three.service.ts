@@ -491,8 +491,12 @@ export class ThreeService {
    * Animate the camera through the event scene.
    * @param startPos Start position of the translation animation.
    * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
    */
-  public animateThroughEvent(startPos: number[], tweenDuration: number) {
-    this.controlsManager.animateThroughEvent(startPos, tweenDuration);
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () => void) {
+    this.controlsManager
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
   }
 }

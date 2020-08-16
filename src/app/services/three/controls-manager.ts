@@ -399,17 +399,20 @@ export class ControlsManager {
      * Animate the camera through the event scene.
      * @param startPos Start position of the translation animation.
      * @param tweenDuration Duration of each tween in the translation animation.
+     * @param onAnimationEnd Callback when the last animation ends.
      */
-    public animateThroughEvent(startPos: number[], tweenDuration: number) {
+    public animateThroughEvent(startPos: number[],
+        tweenDuration: number,
+        onAnimationEnd?: () => void) {
         // Move to start
-        const start = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Sinusoidal.In);
+        const start = this.getCameraTween(startPos, 1000, TWEEN.Easing.Cubic.Out);
         // Move to position along the detector axis
         const alongAxisPosition = [0, 0, startPos[2]];
         const startXAxis = this.getCameraTween(alongAxisPosition, tweenDuration);
 
         const radius = 500;
         const numOfSteps = 24;
-        const angle = 2 * Math.PI;
+        const angle = 3 * Math.PI;
         const step = angle / numOfSteps;
 
         let rotationPositions = [];
@@ -422,10 +425,10 @@ export class ControlsManager {
         }
 
         // Go to origin
-        const rotateStart = this.getCameraTween([0, 0, radius], tweenDuration);
+        const rotateStart = this.getCameraTween([0, 0, radius], tweenDuration, TWEEN.Easing.Cubic.Out);
 
         let rotate = rotateStart;
-        const rotationTime = tweenDuration * 3;
+        const rotationTime = tweenDuration * 4;
         const singleRotationTime = rotationTime / numOfSteps;
         // Rotating around the event
         for (const pos of rotationPositions) {
@@ -436,15 +439,15 @@ export class ControlsManager {
 
         // Go to the end position and then back to the starting point
         const endPos = [0, 0, -startPos[2]];
-        const end = this.getCameraTween(endPos, tweenDuration, TWEEN.Easing.Back.Out);
-        end.onComplete(() => {
-            const startClone = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Sinusoidal.In);
-            startClone.start();
-        });
+        const end = this.getCameraTween(endPos, tweenDuration, TWEEN.Easing.Cubic.In);
+        const startClone = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Cubic.Out);
+        startClone.onComplete(onAnimationEnd);
+        startClone.delay(500);
 
         start.chain(startXAxis);
         startXAxis.chain(rotateStart);
         rotate.chain(end);
+        end.chain(startClone);
 
         start.start();
     }
