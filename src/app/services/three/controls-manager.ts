@@ -373,4 +373,79 @@ export class ControlsManager {
 
         return -1;
     }
+
+    /**
+     * Get the camera tween for animating camera to a position.
+     * @param pos End position of the camera tween.
+     * @param duration Duration of the tween.
+     * @param easing Animation easing of the tween if any.
+     * @returns Tween object of the camera animation.
+     */
+    public getCameraTween(pos: number[],
+        duration: number = 1000,
+        easing?: any): any {
+        const tween = new TWEEN.Tween(
+            this.getActiveCamera().position
+        ).to({ x: pos[0], y: pos[1], z: pos[2] }, duration);
+
+        if (easing) {
+            tween.easing(easing);
+        }
+
+        return tween;
+    }
+
+    /**
+     * Animate the camera through the event scene.
+     * @param startPos Start position of the translation animation.
+     * @param tweenDuration Duration of each tween in the translation animation.
+     */
+    public animateThroughEvent(startPos: number[], tweenDuration: number) {
+        // Move to start
+        const start = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Sinusoidal.In);
+        // Move to position along the detector axis
+        const alongAxisPosition = [0, 0, startPos[2]];
+        const startXAxis = this.getCameraTween(alongAxisPosition, tweenDuration);
+
+        const radius = 500;
+        const numOfSteps = 24;
+        const angle = 2 * Math.PI;
+        const step = angle / numOfSteps;
+
+        let rotationPositions = [];
+        for (let i = 1; i <= numOfSteps; i++) {
+            rotationPositions.push([
+                radius * Math.sin(step * i), // x
+                0, // y
+                radius * Math.cos(step * i) // z
+            ]);
+        }
+
+        // Go to origin
+        const rotateStart = this.getCameraTween([0, 0, radius], tweenDuration);
+
+        let rotate = rotateStart;
+        const rotationTime = tweenDuration * 3;
+        const singleRotationTime = rotationTime / numOfSteps;
+        // Rotating around the event
+        for (const pos of rotationPositions) {
+            const animation = this.getCameraTween(pos, singleRotationTime);
+            rotate.chain(animation);
+            rotate = animation;
+        }
+
+        // Go to the end position and then back to the starting point
+        const endPos = [0, 0, -startPos[2]];
+        const end = this.getCameraTween(endPos, tweenDuration, TWEEN.Easing.Back.Out);
+        end.onComplete(() => {
+            const startClone = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Sinusoidal.In);
+            startClone.start();
+        });
+
+        start.chain(startXAxis);
+        startXAxis.chain(rotateStart);
+        rotate.chain(end);
+
+        start.start();
+    }
 }

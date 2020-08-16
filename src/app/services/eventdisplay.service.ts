@@ -447,4 +447,13 @@ export class EventdisplayService {
     this.ui.enableKeyboardControls();
     this.graphicsLibrary.enableKeyboardControls();
   }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   */
+  public animateThroughEvent(startPos: number[], tweenDuration: number) {
+    this.graphicsLibrary.animateThroughEvent(startPos, tweenDuration);
+  }
 }
