@@ -1,5 +1,6 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, BufferGeometry } from 'three';
 import { Cut } from '../extras/cut.model';
+import * as TWEEN from '@tweenjs/tween.js';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -40,7 +41,7 @@ export class SceneManager {
      */
     private setLights(useCameraLight: boolean = true) {
         this.useCameraLight = useCameraLight;
-        
+
         const ambientLight = new AmbientLight(0xffffff, 0.6);
         this.scene.add(ambientLight);
 
@@ -405,5 +406,27 @@ export class SceneManager {
                 objectChild.position.divideScalar(previousScale).multiplyScalar(value);
             }
         });
+        this.animateEvent();
+    }
+
+    public animateEvent() {
+        const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+        const tracks = eventData.getObjectByName("Tracks");
+        for (const tracksCollection of tracks.children) {
+            for (const trackGroup of tracksCollection.children) {
+                for (const track of trackGroup.children) {S
+                    if (track instanceof Mesh ||
+                        track instanceof Line) {
+                        const geometryCount = track.geometry['attributes']['position']['count'];
+                        if (track.geometry instanceof BufferGeometry) {
+                            track.geometry.setDrawRange(0, 0);
+                            new TWEEN.Tween(track.geometry.drawRange).to({
+                                count: geometryCount
+                            }, 1000).start();
+                        }
+                    }
+                }
+            }
+        }
     }
 }
