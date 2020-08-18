@@ -499,4 +499,13 @@ export class ThreeService {
     this.controlsManager
       .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
   }
+
+  /**
+   * Animate the propagation and generation of event data.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEvent(tweenDuration: number, onEnd?: () => void) {
+    this.getSceneManager().animateEvent(tweenDuration, onEnd);
+  }
 }

@@ -67,6 +67,7 @@ export class PhoenixObjects {
       linewidth: 2
     });
     const lineObject = new THREE.Line(lineGeometry, lineMaterial);
+    lineObject.name = 'Track';
 
     // Creating a group to add both the Tube curve and the Line
     const trackObject = new THREE.Object3D();
@@ -110,10 +111,11 @@ export class PhoenixObjects {
     quaternion.setFromUnitVectors(v1, v2);
 
     const geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false); // Cone
+    const bufferGeometry = new THREE.BufferGeometry().fromGeometry(geometry);
 
     const material = new THREE.MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
     material.opacity = 0.5;
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(bufferGeometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
@@ -175,10 +177,11 @@ export class PhoenixObjects {
     const length = clusterParams.energy * 0.003;
     // geometry
     const geometry = new THREE.BoxGeometry(30, 30, length);
+    const bufferGeometry = new THREE.BufferGeometry().fromGeometry(geometry);
     // material
     const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
     // object
-    const cube = new THREE.Mesh(geometry, material);
+    const cube = new THREE.Mesh(bufferGeometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
     const pos = new THREE.Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),

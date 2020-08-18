@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, BufferGeometry } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, BufferGeometry, TubeBufferGeometry } from 'three';
 import { Cut } from '../extras/cut.model';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -406,27 +406,69 @@ export class SceneManager {
                 objectChild.position.divideScalar(previousScale).multiplyScalar(value);
             }
         });
-        this.animateEvent();
     }
 
-    public animateEvent() {
+    /**
+     * Animate the propagation and generation of event data.
+     * @param tweenDuration Duration of the animation tween.
+     * @param onEnd Function to call when all animations have ended.
+     */
+    public animateEvent(tweenDuration: number, onEnd?: () => void) {
         const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-        const tracks = eventData.getObjectByName("Tracks");
-        for (const tracksCollection of tracks.children) {
-            for (const trackGroup of tracksCollection.children) {
-                for (const track of trackGroup.children) {S
-                    if (track instanceof Mesh ||
-                        track instanceof Line) {
-                        const geometryCount = track.geometry['attributes']['position']['count'];
-                        if (track.geometry instanceof BufferGeometry) {
-                            track.geometry.setDrawRange(0, 0);
-                            new TWEEN.Tween(track.geometry.drawRange).to({
-                                count: geometryCount
-                            }, 1000).start();
+
+        const allTweens = [];
+        // Traverse over all event data
+        eventData.traverse((eventObject: any) => {
+            if (eventObject.geometry) {
+                if (eventObject.name === 'Track') {
+                    // Check if geometry drawRange count exists
+                    let geometryPosCount = eventObject.geometry?.attributes?.position?.count;
+                    if (geometryPosCount) {
+                        // WORKAROUND
+                        // Changing position count for TubeBufferGeometry because
+                        // what we get is not the actual and it has Infinity drawRange count
+                        if (eventObject.geometry instanceof TubeBufferGeometry) {
+                            geometryPosCount *= 6;
+                        }
+                        if (eventObject.geometry instanceof BufferGeometry) {
+                            const oldDrawRangeCount = eventObject.geometry.drawRange.count;
+                            eventObject.geometry.setDrawRange(0, 0);
+                            const eventObjectTween = new TWEEN.Tween(eventObject.geometry.drawRange).to({
+                                count: geometryPosCount
+                            }, tweenDuration);
+                            eventObjectTween.onComplete(() => {
+                                eventObject.geometry.drawRange.count = oldDrawRangeCount;
+                            });
+                            allTweens.push(eventObjectTween);
                         }
                     }
+                } else if (eventObject.name === 'Jet') {
+                    const jetTween = new TWEEN.Tween({
+                        x: 0.01,
+                        y: 0.01,
+                        z: 0.01
+                    }).to({
+                        x: eventObject.scale.x,
+                        y: eventObject.scale.y,
+                        z: eventObject.scale.z
+                    }, tweenDuration);
+                    // Manually updating scale since we need to change position
+                    jetTween.onUpdate((updatedJetScale: Vector3) => {
+                        const previousScale = eventObject.scale.x;
+                        eventObject.scale.setScalar(updatedJetScale.x);
+                        eventObject.position.divideScalar(previousScale).multiplyScalar(updatedJetScale.x);
+                    });
+                    allTweens.push(jetTween);
                 }
             }
+        });
+
+        // Start all tweens
+        for (const tween of allTweens) {
+            tween.easing(TWEEN.Easing.Quartic.Out).start();
         }
+
+        // Call onEnd when the last tween completes
+        allTweens[allTweens.length - 1].onComplete(onEnd);
     }
 }
