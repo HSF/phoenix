@@ -52,50 +52,62 @@ export class PhoenixLoader implements EventDataLoader {
       Tracks[tracksCollection + '-rk'] = [];
       for (const track of tracksCollections[tracksCollection]) {
         const dparams = track.dparams;
+        // ATLAS uses mm, MeV
         let   d0    = dparams[0],
               z0    = dparams[1],
               phi   = dparams[2],
               theta = dparams[3],
-              qop   = dparams[4] * .1;
-        
-        phi += Math.PI;
-
-        // localToGlobal
-        
+              qop   = dparams[4];
+      
+        console.log('Params', dparams)
         let p;
         if (qop !== 0) {
-          p = Math.abs(1 / qop);
+          p = Math.abs(1 / qop) ;
         } else {
           p = 0;
         }
+        const q = Math.round(p * qop);
 
+        // FIXME Override for the moment. Should point along the x axis
+        // phi=0; theta=Math.PI/2.0; p =10000;
+
+        // ATLAS definition of momentum, so probably so move this calc there.
         let globalMomentum = new Vector3(
-          p * Math.cos(phi) * Math.sin(theta),
-          p * Math.sin(phi) * Math.sin(theta),
-          p * Math.cos(theta)
-        );
-        const globalPosition = new Vector3(
+            p * Math.cos(phi) * Math.sin(theta),
+            p * Math.sin(phi) * Math.sin(theta),
+            p * Math.cos(theta)
+          );
+
+        // Cannot use setFromSphericalCoordinates since ATLAS and threejs use different phi & theta definitions (though both are right-handed)
+        let startPos = new Vector3(
           -d0 * Math.sin(phi),
           d0 * Math.cos(phi),
           z0
         );
 
-        const startPos = globalPosition;
-
-        // const startDir = new Vector3(
-        //   Math.sin(phi) * Math.sin(theta),
-        //   Math.cos(phi),
-        //   Math.sin(phi) * Math.cos(theta)
-        // );
-
-        const startDir = new Vector3().setFromSphericalCoords(1, phi, theta);
+        // Override for the moment, to keep it simple.
+        // startPos = new Vector3(0,0,0)
+        let track_rk = {...track};
+        track_rk.pos = []
+        track_rk.pos.push([startPos.x,startPos.y,startPos.z])
+        let startDir = globalMomentum.clone();
         startDir.normalize();
-        const q = Math.round(p * qop);
 
+        // console.log('startPos = ',startPos.x,startPos.y,startPos.z)
+        // console.log('startDir = ',startDir.x,startDir.y,startDir.z)
+        // console.log('p = '+globalMomentum.length())
         const traj = RungeKutta.propagate(startPos, startDir, p, q);
-        track.pos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
+        
+        let newpos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z])
+        track_rk.pos = track_rk.pos.concat( newpos );
+        Tracks[tracksCollection + '-rk'].push(track_rk);
+        console.log('Original:',track)
+        console.log('RK:',track_rk)
+        // let track2 = track
+        // const traj2 = RungeKutta.propagate(startPos, startDir, p*10, q);
+        // track2.pos = traj2.map(val => [val.pos.x, val.pos.y, val.pos.z]);
+        // Tracks[tracksCollection + '-rk2'].push(track2);
 
-        Tracks[tracksCollection + '-rk'].push(track);
         break;
       }
     }
@@ -277,7 +289,7 @@ export class PhoenixLoader implements EventDataLoader {
       if (object) {
         collscene.add(object);
       }
-      console.log(objectParams);
+      // console.log(objectParams);
       break;
     }
 

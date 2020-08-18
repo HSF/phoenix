@@ -32,14 +32,14 @@ export class PhoenixObjects {
       objectColor = parseInt(trackParams.color, 16);
     }
 
-    // Apply pT cut TODO - make this configurable.
-    const momentum = trackParams.mom;
-    if (momentum) {
-      if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] < 0.25) {
-        // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
-        return;
-      }
-    }
+    // // Apply pT cut TODO - make this configurable.
+    // const momentum = trackParams.mom;
+    // if (momentum) {
+    //   if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] < 0.25) {
+    //     // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
+    //     return;
+    //   }
+    // }
 
     const points = [];
 

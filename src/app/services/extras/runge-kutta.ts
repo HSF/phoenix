@@ -136,11 +136,11 @@ class State {
 }
 
 /**
- * @ignore
+ *  Default class to define the field. 
  */
 class Field {
     /**
-     * @ignore
+     * Returns field as a Vector3 in Tesla
      */
     static get(field: Vector3): Vector3 {
         return new Vector3(0, 0, 2);
