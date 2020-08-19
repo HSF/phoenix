@@ -436,6 +436,7 @@ export class SceneManager {
         // Traverse over all event data
         eventData.traverse((eventObject: any) => {
             if (eventObject.geometry) {
+                // Animation for extrapolating tracks without changing scale
                 if (eventObject.name === 'Track') {
                     // Check if geometry drawRange count exists
                     let geometryPosCount = eventObject.geometry?.attributes?.position?.count;
@@ -449,7 +450,9 @@ export class SceneManager {
                         if (eventObject.geometry instanceof BufferGeometry) {
                             const oldDrawRangeCount = eventObject.geometry.drawRange.count;
                             eventObject.geometry.setDrawRange(0, 0);
-                            const eventObjectTween = new TWEEN.Tween(eventObject.geometry.drawRange).to({
+                            const eventObjectTween = new TWEEN.Tween(
+                                eventObject.geometry.drawRange
+                            ).to({
                                 count: geometryPosCount
                             }, tweenDuration);
                             eventObjectTween.onComplete(() => {
@@ -458,8 +461,12 @@ export class SceneManager {
                             allTweens.push(eventObjectTween);
                         }
                     }
-                } else if (eventObject.name === 'Jet') {
-                    const jetTween = new TWEEN.Tween({
+                }
+                // Animation for scaling out objects with or without position
+                else {
+                    const hasPosition = !eventObject.position.equals(new Vector3(0, 0, 0));
+
+                    const scaleTween = new TWEEN.Tween({
                         x: 0.01,
                         y: 0.01,
                         z: 0.01
@@ -469,13 +476,28 @@ export class SceneManager {
                         z: eventObject.scale.z
                     }, tweenDuration);
                     // Manually updating scale since we need to change position
-                    jetTween.onUpdate((updatedJetScale: Vector3) => {
+                    scaleTween.onUpdate((updatedScale: Vector3) => {
                         const previousScale = eventObject.scale.x;
-                        eventObject.scale.setScalar(updatedJetScale.x);
-                        eventObject.position.divideScalar(previousScale).multiplyScalar(updatedJetScale.x);
+                        eventObject.scale.setScalar(updatedScale.x);
+                        if (hasPosition) {
+                            // Restoring to original position and then moving again with the current value
+                            eventObject.position.divideScalar(previousScale)
+                                .multiplyScalar(updatedScale.x);
+                        }
                     });
-                    allTweens.push(jetTween);
+                    allTweens.push(scaleTween);
                 }
+                // // Animation for moving objects outward with no position
+                // else if (eventObject.position.equals(new Vector3(0, 0, 0))) {
+                //     console.log(eventObject);
+                // }
+                // // Animation for moving objects outward
+                // else if (eventObject.position) {
+                //     const oldPosition = eventObject.position.clone();
+                //     eventObject.position.setScalar(0);
+                //     allTweens.push(new TWEEN.Tween(eventObject.position)
+                //         .to(oldPosition, tweenDuration));
+                // }
             }
         });
 
