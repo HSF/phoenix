@@ -166,9 +166,14 @@ export class SceneManager {
      * Changes objects visibility.
      * @param name Name of the object to change its visibility.
      * @param visible If the object will be visible (true) or hidden (false).
+     * @param parentName Name of the parent object to look inside for object
+     * whose visibility is to be toggled.
      */
-    public objectVisibility(name: string, visible: boolean) {
-        const object = this.scene.getObjectByName(name);
+    public objectVisibility(name: string, visible: boolean, parentName?: string) {
+        const parent = parentName
+            ? this.scene.getObjectByName(parentName)
+            : this.scene;
+        const object = parent.getObjectByName(name);
         if (object) {
             object.traverse((child) => {
                 child.visible = visible;
@@ -237,12 +242,16 @@ export class SceneManager {
      * @param color Hex value representing the color.
      */
     public collectionColor(collectionName: string, color: any) {
-        const collection = this.getScene().getObjectByName(collectionName);
+        const collection = this.getScene()
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName);
 
         for (const child of Object.values(collection.children)) {
             child.traverse((object: THREE.Object3D) => {
                 // For jets and tracks
-                if (object instanceof Line || object instanceof Mesh || object instanceof Points) {
+                if (object instanceof Line ||
+                    object instanceof Mesh ||
+                    object instanceof Points) {
                     if (
                         object.material instanceof LineBasicMaterial ||
                         object.material instanceof MeshBasicMaterial ||
@@ -265,7 +274,9 @@ export class SceneManager {
      * @param filter Cut used to filter the objects in the collection.
      */
     public collectionFilter(collectionName: string, filter: Cut) {
-        const collection = this.getScene().getObjectByName(collectionName);
+        const collection = this.getScene()
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName);
         for (const child of Object.values(collection.children)) {
             if (child.userData) {
                 const value = child.userData[filter.field];
@@ -284,9 +295,14 @@ export class SceneManager {
      * Changes the visibility of all elements in a group.
      * @param name Name of the group.
      * @param visible If the group will be visible (true) or hidden (false).
+     * @param parentName Name of the parent object to look inside for object
+     * whose visibility is to be toggled.
      */
-    public groupVisibility(name: string, visible: boolean) {
-        const collection = this.scene.getObjectByName(name);
+    public groupVisibility(name: string, visible: boolean, parentName?: string) {
+        const parent = parentName
+            ? this.scene.getObjectByName(parentName)
+            : this.scene;
+        const collection = parent.getObjectByName(name);
         for (const child of Object.values(collection.children)) {
             child.visible = visible;
         }

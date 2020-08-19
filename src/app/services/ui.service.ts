@@ -372,12 +372,14 @@ export class UIService {
       // A new folder for the collection is added to the 'Event Data' folder
       this.guiParameters[collectionName] = {
         show: true, color: 0x000000,
-        resetCut: () => this.three.getSceneManager().groupVisibility(collectionName, true)
+        resetCut: () => this.three.getSceneManager()
+          .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID)
       };
       const collFolder = typeFolder.addFolder(collectionName);
       // A boolean toggle for showing/hiding the collection is added to its folder
       const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
-      showMenu.onChange((value) => this.three.getSceneManager().objectVisibility(collectionName, value));
+      showMenu.onChange((value) => this.three.getSceneManager()
+        .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID));
       // A color picker is added to the collection's folder
       const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
       colorMenu.onChange((value) => this.three.getSceneManager().collectionColor(collectionName, value));
@@ -409,21 +411,25 @@ export class UIService {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
       const collectionNode = typeFolderPM.addChild(collectionName, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(collectionName, value);
+        this.three.getSceneManager()
+          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID);
+      });
+
+      collectionNode.addConfig('color', {
+        label: 'Color',
+        onChange: (value: any) => {
+          this.three.getSceneManager().collectionColor(collectionName, value)
+        }
       });
 
       if (cuts) {
-        collectionNode.addConfig('color', {
-          label: 'Color',
-          onChange: (value: any) => {
-            this.three.getSceneManager().collectionColor(collectionName, value)
-          }
-        }).addConfig('label', {
+        collectionNode.addConfig('label', {
           label: 'Cuts'
         }).addConfig('button', {
           label: 'Reset cuts',
           onClick: () => {
-            this.three.getSceneManager().groupVisibility(collectionName, true);
+            this.three.getSceneManager()
+              .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID);
           }
         });
         for (const cut of cuts) {
