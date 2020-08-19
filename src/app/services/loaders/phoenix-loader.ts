@@ -34,8 +34,10 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui = ui;
     this.eventData = eventData;
 
+
     // Replacing tracks with tracks through Runge-Kutta
-    Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
+    // TODO - make this configurable? Or possibluy automatic if tracks have <2 positions to draw?
+    // Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
 
     // initiate load
     this.loadObjectTypes(eventData);
@@ -49,7 +51,6 @@ export class PhoenixLoader implements EventDataLoader {
     const tracksCollections = JSON.parse(JSON.stringify(tracksCollectionsEvent));
     let Tracks = {};
     for (const tracksCollection of Object.keys(tracksCollections)) {
-      Tracks[tracksCollection + '-rk'] = [];
       for (const track of tracksCollections[tracksCollection]) {
         const dparams = track.dparams;
         // ATLAS uses mm, MeV
@@ -59,7 +60,7 @@ export class PhoenixLoader implements EventDataLoader {
               theta = dparams[3],
               qop   = dparams[4];
       
-        console.log('Params', dparams)
+        // console.log('Params', dparams)
         let p;
         if (qop !== 0) {
           p = Math.abs(1 / qop) ;
@@ -67,9 +68,6 @@ export class PhoenixLoader implements EventDataLoader {
           p = 0;
         }
         const q = Math.round(p * qop);
-
-        // FIXME Override for the moment. Should point along the x axis
-        // phi=0; theta=Math.PI/2.0; p =10000;
 
         // ATLAS definition of momentum, so probably so move this calc there.
         let globalMomentum = new Vector3(
@@ -85,29 +83,19 @@ export class PhoenixLoader implements EventDataLoader {
           z0
         );
 
-        // Override for the moment, to keep it simple.
-        // startPos = new Vector3(0,0,0)
-        let track_rk = {...track};
-        track_rk.pos = []
-        track_rk.pos.push([startPos.x,startPos.y,startPos.z])
+        // Wipe existing positions
+        track.pos = []
+        track.pos.push([startPos.x,startPos.y,startPos.z])
         let startDir = globalMomentum.clone();
         startDir.normalize();
 
         // console.log('startPos = ',startPos.x,startPos.y,startPos.z)
         // console.log('startDir = ',startDir.x,startDir.y,startDir.z)
         // console.log('p = '+globalMomentum.length())
-        const traj = RungeKutta.propagate(startPos, startDir, p, q);
+        const traj = RungeKutta.propagate(startPos, startDir, p, q, 10, 10000);
         
         let newpos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z])
-        track_rk.pos = track_rk.pos.concat( newpos );
-        Tracks[tracksCollection + '-rk'].push(track_rk);
-        console.log('Original:',track)
-        console.log('RK:',track_rk)
-        // let track2 = track
-        // const traj2 = RungeKutta.propagate(startPos, startDir, p*10, q);
-        // track2.pos = traj2.map(val => [val.pos.x, val.pos.y, val.pos.z]);
-        // Tracks[tracksCollection + '-rk2'].push(track2);
-
+        track.pos = track.pos.concat( newpos );
         break;
       }
     }
