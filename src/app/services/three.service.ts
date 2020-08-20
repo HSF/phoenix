@@ -18,6 +18,7 @@ import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
+import { AnimationsManager } from './three/animations-manager';
 import { InfoLoggerService } from './infologger.service';
 
 /**
@@ -40,6 +41,8 @@ export class ThreeService {
   private importManager: ImportManager;
   /** Manager for selection of 3D objects and event data */
   private selectionManager: SelectionManager;
+  /** Manager for managing animation related operations using three.js and tween.js */
+  private animationsManager: AnimationsManager;
   /** Service for logging data to the information panel */
   private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
@@ -70,6 +73,8 @@ export class ThreeService {
     this.rendererManager = new RendererManager();
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
+    // Animations manager
+    this.animationsManager = new AnimationsManager(this.sceneManager, this.controlsManager);
     // Logger
     this.infoLogger = infoLogger;
     // Selection manager
@@ -496,7 +501,7 @@ export class ThreeService {
   public animateThroughEvent(startPos: number[],
     tweenDuration: number,
     onAnimationEnd?: () => void) {
-    this.controlsManager
+    this.animationsManager
       .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
   }
 
@@ -506,6 +511,6 @@ export class ThreeService {
    * @param onEnd Function to call when all animations have ended.
    */
   public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
-    this.getSceneManager().animateEventWithCollision(tweenDuration, onEnd);
+    this.animationsManager.animateEventWithCollision(tweenDuration, onEnd);
   }
 }
