@@ -1,4 +1,4 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, BufferGeometry, TubeBufferGeometry } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, BufferGeometry, TubeBufferGeometry, SphereGeometry } from 'three';
 import { Cut } from '../extras/cut.model';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -508,5 +508,75 @@ export class SceneManager {
 
         // Call onEnd when the last tween completes
         allTweens[allTweens.length - 1].onComplete(onEnd);
+    }
+
+    /**
+     * Animate the collision of two particles.
+     * @param tweenDuration Duration of the particle collision animation tween.
+     * @param particleSize Size of the particles.
+     * @param distanceFromOrigin Distance of the particles (along z-axes) from origin.
+     * @param particleColor Color of the particles.
+     * @param onEnd Callback to call when the particle collision ends.
+     */
+    public collideParticles(
+        tweenDuration: number,
+        particleSize: number = 10,
+        distanceFromOrigin: number = 5000,
+        particleColor: Color = new Color(0xffffff),
+        onEnd?: () => void
+    ) {
+        const particleGeometry = new BufferGeometry().fromGeometry(
+            new SphereGeometry(particleSize, 32, 32)
+        );
+        const particleMaterial = new MeshBasicMaterial({
+            color: particleColor,
+            transparent: true,
+            opacity: 0
+        });
+        const particle1 = new Mesh(particleGeometry, particleMaterial);
+        const particle2 = particle1.clone();
+        particle1.position.setZ(distanceFromOrigin);
+        particle2.position.setZ(-distanceFromOrigin);
+
+        this.getScene().add(particle1, particle2);
+
+        const particles = [particle1, particle2];
+        const particleTweens = [];
+
+        const allEventData = this.getScene().getObjectByName(SceneManager.EVENT_DATA_ID);
+        allEventData.visible = false;
+
+        for (const particle of particles) {
+            new TWEEN.Tween(particle.material).to({
+                opacity: 1
+            }, 300).start();
+
+            const particleToOrigin = new TWEEN.Tween(particle.position).to({
+                z: 0
+            }, tweenDuration).start();
+
+            particleTweens.push(particleToOrigin);
+        }
+
+        particleTweens[0].onComplete(() => {
+            this.getScene().remove(particle1, particle2);
+            setTimeout(() => {
+                allEventData.visible = true;
+            }, 200);
+            onEnd?.();
+        });
+    }
+
+    /**
+     * Animate the propagation and generation of event data with particle collison.
+     * @param tweenDuration Duration of the animation tween.
+     * @param onEnd Function to call when all animations have ended.
+     */
+    public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+        const trackColor = this.getScene()
+            .getObjectByName('Track')['material']['color'];
+        this.collideParticles(1500, 10, 5000, trackColor, () => {
+            this.animateEvent(tweenDuration, onEnd);
+        });
     }
 }

@@ -462,11 +462,11 @@ export class EventdisplayService {
   }
 
   /**
-   * Animate the propagation and generation of event data.
+   * Animate the propagation and generation of event data with particle collison.
    * @param tweenDuration Duration of the animation tween.
    * @param onEnd Function to call when all animations have ended.
    */
-  public animateEvent(tweenDuration: number, onEnd?: () => void) {
-    this.graphicsLibrary.animateEvent(tweenDuration, onEnd);
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.graphicsLibrary.animateEventWithCollision(tweenDuration, onEnd);
   }
 }
