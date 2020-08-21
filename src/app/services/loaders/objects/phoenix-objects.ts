@@ -110,12 +110,11 @@ export class PhoenixObjects {
     const quaternion = new THREE.Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry = new THREE.CylinderGeometry(width, 1, length, 50, 50, false); // Cone
-    const bufferGeometry = new THREE.BufferGeometry().fromGeometry(geometry);
+    const geometry = new THREE.CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
 
     const material = new THREE.MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
     material.opacity = 0.5;
-    const mesh = new THREE.Mesh(bufferGeometry, material);
+    const mesh = new THREE.Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
@@ -132,12 +131,15 @@ export class PhoenixObjects {
    */
   public static getHits(hitsParams: any): Object3D {
     let positions: any[];
+    let hitsParamsClone: any;
 
     // If the parameters is an object then take out 'pos' for hits positions
     if (typeof hitsParams === 'object' && !isArray(hitsParams)) {
       positions = [hitsParams.pos];
+      hitsParamsClone = hitsParams;
     } else {
       positions = hitsParams;
+      hitsParamsClone = { pos: hitsParams };
     }
 
     // attributes
@@ -159,8 +161,9 @@ export class PhoenixObjects {
     material.color.set('#ff0000');
     // object
     const pointsObj = new THREE.Points(geometry, material);
-    pointsObj.userData = hitsParams;
+    pointsObj.userData = hitsParamsClone;
     pointsObj.userData.uuid = pointsObj.uuid;
+    hitsParams.uuid = pointsObj.uuid;
     pointsObj.name = 'Hit';
 
     return pointsObj;
@@ -176,12 +179,11 @@ export class PhoenixObjects {
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.003;
     // geometry
-    const geometry = new THREE.BoxGeometry(30, 30, length);
-    const bufferGeometry = new THREE.BufferGeometry().fromGeometry(geometry);
+    const geometry = new THREE.BoxBufferGeometry(30, 30, length);
     // material
     const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
     // object
-    const cube = new THREE.Mesh(bufferGeometry, material);
+    const cube = new THREE.Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
     const pos = new THREE.Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
