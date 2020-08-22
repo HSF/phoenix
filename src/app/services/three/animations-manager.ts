@@ -1,5 +1,4 @@
 import { SceneManager } from "./scene-manager";
-import { ControlsManager } from "./controls-manager";
 import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { EffectsManager } from "./effects-manager";
@@ -18,8 +17,7 @@ export class AnimationsManager {
    */
   constructor(
     private scene: Scene,
-    private activeCamera: Camera,
-    private effectsManager: EffectsManager
+    private activeCamera: Camera
   ) { }
 
   /**
@@ -145,7 +143,7 @@ export class AnimationsManager {
               eventObjectTween.onComplete(() => {
                 eventObject.geometry.drawRange.count = oldDrawRangeCount;
               });
-              allTweens.push(eventObjectTween.easing(TWEEN.Easing.Quartic.Out));
+              allTweens.push(eventObjectTween);
             }
           }
         }
@@ -168,7 +166,7 @@ export class AnimationsManager {
             eventObject.position.divideScalar(previousScale)
               .multiplyScalar(updatedScale.x);
           });
-          allTweens.push(scaleTween.easing(TWEEN.Easing.Quartic.Out));
+          allTweens.push(scaleTween);
         } else {
           const hasPosition = !eventObject.position.equals(new Vector3(0, 0, 0));
           let position = hasPosition
@@ -232,18 +230,22 @@ export class AnimationsManager {
 
     animationSphereTween.chain(animationSphereTweenClone);
 
-    allTweens.push(animationSphereTween.easing(TWEEN.Easing.Quartic.Out));
+    allTweens.push(animationSphereTween);
 
     // Call onAnimationStart when the first tween starts
     allTweens[0].onStart(onAnimationStart);
 
     // Start all tweens
     for (const tween of allTweens) {
-      tween.start();
+      tween.easing(TWEEN.Easing.Quartic.Out).start();
     }
 
     // Call onEnd when the last tween completes
-    animationSphereTweenClone.onComplete(onEnd);
+    animationSphereTweenClone.onComplete(() => {
+      // Restore all remaining event data items
+      onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
+      onEnd?.();
+    });
   }
 
   /**
@@ -274,9 +276,10 @@ export class AnimationsManager {
     particle1.position.setZ(distanceFromOrigin);
     particle2.position.setZ(-distanceFromOrigin);
 
-    this.scene.add(particle1, particle2);
-
     const particles = [particle1, particle2];
+
+    this.scene.add(...particles);
+
     const particleTweens = [];
 
     for (const particle of particles) {
@@ -292,7 +295,7 @@ export class AnimationsManager {
     }
 
     particleTweens[0].onComplete(() => {
-      this.scene.remove(particle1, particle2);
+      this.scene.remove(...particles);
       onEnd?.();
     });
   }
@@ -309,7 +312,7 @@ export class AnimationsManager {
     // Hide event data to show particles collision
     allEventData.visible = false;
 
-    this.collideParticles(1500, 20, 5000, trackColor, () => {
+    this.collideParticles(1500, 30, 5000, trackColor, () => {
       this.animateEvent(tweenDuration, onEnd, () => {
         allEventData.visible = true;
       });

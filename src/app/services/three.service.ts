@@ -71,7 +71,11 @@ export class ThreeService {
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
     this.exportManager = new ExportManager();
-    this.importManager = new ImportManager(this.clipPlanes, SceneManager.EVENT_DATA_ID, SceneManager.GEOMETRIES_ID);
+    this.importManager = new ImportManager(
+      this.clipPlanes,
+      SceneManager.EVENT_DATA_ID,
+      SceneManager.GEOMETRIES_ID
+    );
     // Renderer manager
     this.rendererManager = new RendererManager();
     // Controls manager
@@ -114,8 +118,7 @@ export class ThreeService {
    * Renders three service.
    */
   public render() {
-    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
-    this.effectsManager.render();
+    this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 

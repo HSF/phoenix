@@ -1,5 +1,5 @@
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from "three";
+import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending, Clock } from "three";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";
@@ -34,30 +34,22 @@ export class EffectsManager {
 
   /**
    * Render the effects composer.
+   * @param camera The camera inside the scene.
+   * @param scene The default scene used for event display.
    */
-  public render() {
+  public render(camera: Camera, scene: Scene) {
     if (this.composer) {
+      this.defaultRenderPass.camera = camera;
+      this.defaultRenderPass.scene = scene;
       this.composer.render();
     }
-  }
-
-  /**
-   * Add custom pass with a custom scene.
-   * @param scene Custom scene.
-   * @param pass Custom pass to be added to the effect composer.
-   */
-  addPassWithCustomScene(scene: Scene, pass: Pass) {
-    const renderPass = new RenderPass(scene, this.camera);
-    this.composer.addPass(renderPass);
-
-    this.composer.addPass(pass);
   }
 
   /**
    * Initialize the outline pass for highlighting hovered over event display elements.
    * @returns OutlinePass for highlighting hovered over event display elements.
    */
-  addOutlinePassForSelection(): OutlinePass {
+  public addOutlinePassForSelection(): OutlinePass {
     const outlinePass = new OutlinePass(
       new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera
     );
@@ -74,7 +66,7 @@ export class EffectsManager {
    * Remove a pass from the effect composer.
    * @param pass Effect pass to be removed from the effect composer.
    */
-  removePass(pass: Pass) {
+  public removePass(pass: Pass) {
     const passIndex = this.composer.passes.indexOf(pass);
     this.composer.passes.splice(passIndex, 1);
   }
