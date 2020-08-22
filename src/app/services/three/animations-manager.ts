@@ -1,7 +1,8 @@
 import { SceneManager } from "./scene-manager";
 import { ControlsManager } from "./controls-manager";
-import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute } from "three";
+import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
+import { EffectsManager } from "./effects-manager";
 
 /**
  * Manager for managing animation related operations using three.js and tween.js.
@@ -10,10 +11,16 @@ export class AnimationsManager {
 
   /**
    * Constructor for the animation manager.
-   * @param sceneManager Manager for managing functions of the three.js scene.
-   * @param controlsManager Manager for managing event display controls.
+   * @param scene Three.js scene containing all the objects and event data.
+   * @param activeCamera Currently active camera.
+   * @param effectsManager Manager for managing three.js event display
+   * effects like outline pass and unreal bloom.
    */
-  constructor(private sceneManager: SceneManager, private controlsManager: ControlsManager) { }
+  constructor(
+    private scene: Scene,
+    private activeCamera: Camera,
+    private effectsManager: EffectsManager
+  ) { }
 
   /**
    * Get the camera tween for animating camera to a position.
@@ -26,7 +33,7 @@ export class AnimationsManager {
     duration: number = 1000,
     easing?: any): any {
     const tween = new TWEEN.Tween(
-      this.controlsManager.getActiveCamera().position
+      this.activeCamera.position
     ).to({ x: pos[0], y: pos[1], z: pos[2] }, duration);
 
     if (easing) {
@@ -107,8 +114,7 @@ export class AnimationsManager {
     const extraAnimationSphereDuration = tweenDuration * 0.25;
     tweenDuration *= 0.75;
 
-    const eventData = this.sceneManager.getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     const animationSphere = new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: { eventObject: Object3D, position: any }[] = [];
@@ -268,7 +274,7 @@ export class AnimationsManager {
     particle1.position.setZ(distanceFromOrigin);
     particle2.position.setZ(-distanceFromOrigin);
 
-    this.sceneManager.getScene().add(particle1, particle2);
+    this.scene.add(particle1, particle2);
 
     const particles = [particle1, particle2];
     const particleTweens = [];
@@ -286,7 +292,7 @@ export class AnimationsManager {
     }
 
     particleTweens[0].onComplete(() => {
-      this.sceneManager.getScene().remove(particle1, particle2);
+      this.scene.remove(particle1, particle2);
       onEnd?.();
     });
   }
@@ -297,10 +303,8 @@ export class AnimationsManager {
    * @param onEnd Function to call when all animations have ended.
    */
   public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
-    const allEventData = this.sceneManager.getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID);
-    const trackColor = (this.sceneManager.getScene()
-      .getObjectByName('Track') as any)?.material?.color;
+    const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+    const trackColor = (this.scene.getObjectByName('Track') as any)?.material?.color;
 
     // Hide event data to show particles collision
     allEventData.visible = false;

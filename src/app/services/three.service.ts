@@ -20,6 +20,7 @@ import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
 import { AnimationsManager } from './three/animations-manager';
 import { InfoLoggerService } from './infologger.service';
+import { EffectsManager } from './three/effects-manager';
 
 /**
  * Service for all three.js related functions.
@@ -43,6 +44,8 @@ export class ThreeService {
   private selectionManager: SelectionManager;
   /** Manager for managing animation related operations using three.js and tween.js */
   private animationsManager: AnimationsManager;
+  /** Manager for managing effects using EffectComposer */
+  private effectsManager: EffectsManager;
   /** Service for logging data to the information panel */
   private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
@@ -73,16 +76,27 @@ export class ThreeService {
     this.rendererManager = new RendererManager();
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
+    // Effects manager
+    this.effectsManager = new EffectsManager(
+      this.controlsManager.getMainCamera(),
+      this.sceneManager.getScene(),
+      this.rendererManager.getMainRenderer()
+    );
     // Animations manager
-    this.animationsManager = new AnimationsManager(this.sceneManager, this.controlsManager);
+    this.animationsManager = new AnimationsManager(
+      this.sceneManager.getScene(),
+      this.controlsManager.getActiveCamera(),
+      this.effectsManager
+    );
     // Logger
     this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
-      this.rendererManager.getMainRenderer(),
-      this.infoLogger);
+      this.effectsManager,
+      this.infoLogger
+    );
     // Customizing with configuration
     this.setConfiguration(configuration);
   }
@@ -101,7 +115,7 @@ export class ThreeService {
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
-    this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.effectsManager.render();
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 

@@ -2,14 +2,12 @@ import {
   Vector2,
   Raycaster,
   Camera,
-  Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper, NormalBlending, WebGLRenderer
+  Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper, WebGLRenderer
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ControlsManager } from './controls-manager';
 import { InfoLoggerService } from '../infologger.service';
 import { BehaviorSubject } from 'rxjs';
+import { EffectsManager } from './effects-manager';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -30,12 +28,11 @@ export class SelectionManager {
   private ignoreList: string[];
 
   // Post processing
-  /** Effect composer for outline pass. */
-  private composer: EffectComposer;
   /** Outline pass for highlighting the hovered over event display elements. */
   private outlinePass: OutlinePass;
-  /** Render pass. */
-  private renderPass: RenderPass;
+  /** Manager for managing three.js event display effects like outline pass and unreal bloom. */
+  private effectsManager: EffectsManager;
+
   /** Service for logging data to the information panel. */
   private infoLogger: InfoLoggerService;
 
@@ -55,28 +52,21 @@ export class SelectionManager {
    * Initialize the selection manager.
    * @param camera The camera inside the scene.
    * @param scene The scene used for event display.
-   * @param renderer The renderer used for event display.
+   * @param effectsManager Manager for managing three.js event display effects
+   * like outline pass and unreal bloom.
    * @param infoLogger Service for logging data to the information panel.
    */
-  public init(camera: Camera, scene: Scene, renderer: WebGLRenderer, infoLogger: InfoLoggerService) {
+  public init(
+    camera: Camera, scene: Scene,
+    effectsManager: EffectsManager,
+    infoLogger: InfoLoggerService
+  ) {
     this.camera = camera;
     this.scene = scene;
     this.isInit = true;
     this.infoLogger = infoLogger;
-    this.initOutlinePass(camera, scene, renderer);
-  }
-
-  /**
-   * Render the services of selection manager.
-   * @param scene The scene used for event display.
-   * @param controlsManager Manager responsible for managing three.js controls.
-   */
-  public render(scene: Scene, controlsManager: ControlsManager) {
-    if (this.composer) {
-      this.renderPass.scene = scene;
-      this.renderPass.camera = controlsManager.getMainCamera();
-      this.composer.render();
-    }
+    this.effectsManager = effectsManager;
+    this.outlinePass = this.effectsManager.addOutlinePassForSelection();
   }
 
   /**
@@ -107,23 +97,6 @@ export class SelectionManager {
         this.disableSelecting();
       }
     }
-  }
-
-  /**
-   * Initialize the outline pass for highlighting hovered over event display elements.
-   * @param camera The camera inside the scene.
-   * @param scene The scene used for event display.
-   * @param renderer The renderer used for event display.
-   */
-  private initOutlinePass(camera: Camera, scene: Scene, renderer: WebGLRenderer) {
-    this.composer = new EffectComposer(renderer);
-    this.renderPass = new RenderPass(scene, camera);
-    this.composer.addPass(this.renderPass);
-    this.outlinePass = new OutlinePass(new Vector2(window.innerWidth, window.innerHeight), scene, camera);
-    this.outlinePass.overlayMaterial.blending = NormalBlending;
-    this.composer.addPass(this.outlinePass);
-    this.outlinePass.visibleEdgeColor.set(0xffff66);
-    this.outlinePass.visibleEdgeColor.set(0xdf5330);
   }
 
   /**
@@ -210,8 +183,9 @@ export class SelectionManager {
   private intersectObject(event: any): Object3D {
     event.preventDefault?.();
     const mouse = new Vector2();
-    mouse.x = (event.clientX / this.composer.renderer.domElement.clientWidth) * 2 - 1;
-    mouse.y = -(event.clientY / this.composer.renderer.domElement.clientHeight) * 2 + 1;
+    const rendererElement = this.effectsManager.composer.renderer.domElement;
+    mouse.x = (event.clientX / rendererElement.clientWidth) * 2 - 1;
+    mouse.y = -(event.clientY / rendererElement.clientHeight) * 2 + 1;
     const raycaster = new Raycaster();
     raycaster.setFromCamera(mouse, this.camera);
     raycaster.params.Line.threshold = 3;
