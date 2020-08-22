@@ -104,11 +104,14 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void
   ) {
+    const extraAnimationSphereDuration = tweenDuration * 0.25;
+    tweenDuration *= 0.75;
+
     const eventData = this.sceneManager.getScene()
       .getObjectByName(SceneManager.EVENT_DATA_ID);
 
     const animationSphere = new Sphere(new Vector3(), 0);
-    const objectsToAnimateWithSphere: { object: Object3D, position: any }[] = [];
+    const objectsToAnimateWithSphere: { eventObject: Object3D, position: any }[] = [];
 
     const allTweens = [];
     // Traverse over all event data
@@ -136,7 +139,7 @@ export class AnimationsManager {
               eventObjectTween.onComplete(() => {
                 eventObject.geometry.drawRange.count = oldDrawRangeCount;
               });
-              allTweens.push(eventObjectTween);
+              allTweens.push(eventObjectTween.easing(TWEEN.Easing.Quartic.Out));
             }
           }
         }
@@ -159,7 +162,7 @@ export class AnimationsManager {
             eventObject.position.divideScalar(previousScale)
               .multiplyScalar(updatedScale.x);
           });
-          allTweens.push(scaleTween);
+          allTweens.push(scaleTween.easing(TWEEN.Easing.Quartic.Out));
         } else {
           const hasPosition = !eventObject.position.equals(new Vector3(0, 0, 0));
           let position = hasPosition
@@ -169,7 +172,7 @@ export class AnimationsManager {
           // Edit geometry for hits
           if (eventObject.name === 'Hit') {
             position = Array.from(eventObject.geometry.attributes['position'].array);
-            eventObject.geometry.removeAttribute('position');
+            eventObject.geometry.deleteAttribute('position');
             eventObject.geometry.computeBoundingSphere();
           } else {
             // Making the object invisible and will make visible
@@ -178,7 +181,7 @@ export class AnimationsManager {
           }
 
           objectsToAnimateWithSphere.push({
-            object: eventObject,
+            eventObject: eventObject,
             position: position
           });
         }
@@ -187,43 +190,54 @@ export class AnimationsManager {
 
     // Tween for the animation sphere
     const animationSphereTween = new TWEEN.Tween(animationSphere)
-      .to({ radius: 1500 }, tweenDuration);
+      .to({ radius: 3000 }, tweenDuration);
 
-    animationSphereTween.onUpdate(() => {
+    const onAnimationSphereUpdate = (updateAnimationSphere: Sphere) => {
       objectsToAnimateWithSphere.forEach((obj) => {
-        if (obj.object.name === 'Hit') {
+        if (obj.eventObject.name === 'Hit') {
 
-          const geometry = (obj.object as any).geometry;
+          const geometry = (obj.eventObject as any).geometry;
 
           const hitsPositions = this.getHitsPositions(obj.position);
           const reachedHits = hitsPositions
-            .filter(hitPosition => animationSphere
+            .filter(hitPosition => updateAnimationSphere
               .containsPoint(new Vector3().fromArray(hitPosition))
             );
 
           if (reachedHits.length > 0) {
-            geometry.setAttribute('position', new BufferAttribute(new Float32Array([].concat(...reachedHits)), 3));
+            geometry.setAttribute('position', new BufferAttribute(
+              new Float32Array([].concat(...reachedHits)), 3
+            ));
             geometry.computeBoundingSphere();
           }
 
-        } else if (animationSphere.containsPoint(obj.position)) {
-          obj.object.visible = true;
+        } else if (updateAnimationSphere.containsPoint(obj.position)) {
+          obj.eventObject.visible = true;
         }
       });
-    });
+    };
 
-    allTweens.push(animationSphereTween);
+    animationSphereTween.onUpdate(onAnimationSphereUpdate);
+
+    // Animation sphere tween after covering the tracks
+    const animationSphereTweenClone = new TWEEN.Tween(animationSphere)
+      .to({ radius: 10000 }, extraAnimationSphereDuration);
+    animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
+
+    animationSphereTween.chain(animationSphereTweenClone);
+
+    allTweens.push(animationSphereTween.easing(TWEEN.Easing.Quartic.Out));
 
     // Call onAnimationStart when the first tween starts
     allTweens[0].onStart(onAnimationStart);
 
     // Start all tweens
     for (const tween of allTweens) {
-      tween.easing(TWEEN.Easing.Quartic.Out).start();
+      tween.start();
     }
 
     // Call onEnd when the last tween completes
-    allTweens[allTweens.length - 1].onComplete(onEnd);
+    animationSphereTweenClone.onComplete(onEnd);
   }
 
   /**
@@ -285,8 +299,8 @@ export class AnimationsManager {
   public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
     const allEventData = this.sceneManager.getScene()
       .getObjectByName(SceneManager.EVENT_DATA_ID);
-    const trackColor = this.sceneManager.getScene()
-      .getObjectByName('Track')['material']['color'];
+    const trackColor = (this.sceneManager.getScene()
+      .getObjectByName('Track') as any)?.material?.color;
 
     // Hide event data to show particles collision
     allEventData.visible = false;
