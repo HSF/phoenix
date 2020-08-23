@@ -268,7 +268,7 @@ export class AnimationsManager {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     // Sphere to get spherical set of clipping planes from
-    const sphere = new SphereGeometry(1, 5, 5);
+    const sphere = new SphereGeometry(1, 8, 8);
     // Clipping planes for animation
     const animationClipPlanes: Plane[] = [];
 
@@ -293,6 +293,7 @@ export class AnimationsManager {
     const allTweens = [];
     // Create tweens for the animation clipping planes
     for (const animationClipPlane of animationClipPlanes) {
+      animationClipPlane.constant = 0;
       const tween = new TWEEN.Tween(animationClipPlane)
         .to({ constant: clippingConstant }, tweenDuration);
       allTweens.push(tween);
