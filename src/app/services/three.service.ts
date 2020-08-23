@@ -90,7 +90,7 @@ export class ThreeService {
     this.animationsManager = new AnimationsManager(
       this.sceneManager.getScene(),
       this.controlsManager.getActiveCamera(),
-      this.effectsManager
+      this.rendererManager
     );
     // Logger
     this.infoLogger = infoLogger;
@@ -529,5 +529,15 @@ export class ThreeService {
    */
   public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.animationsManager.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
   }
 }

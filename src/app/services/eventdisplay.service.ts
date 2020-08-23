@@ -469,4 +469,14 @@ export class EventdisplayService {
   public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.graphicsLibrary.animateEventWithCollision(tweenDuration, onEnd);
   }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
+  }
 }

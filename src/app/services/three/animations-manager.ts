@@ -1,7 +1,7 @@
 import { SceneManager } from "./scene-manager";
-import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera } from "three";
+import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera, SphereGeometry, Plane } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import { EffectsManager } from "./effects-manager";
+import { RendererManager } from "./renderer-manager";
 
 /**
  * Manager for managing animation related operations using three.js and tween.js.
@@ -12,12 +12,12 @@ export class AnimationsManager {
    * Constructor for the animation manager.
    * @param scene Three.js scene containing all the objects and event data.
    * @param activeCamera Currently active camera.
-   * @param effectsManager Manager for managing three.js event display
-   * effects like outline pass and unreal bloom.
+   * @param rendererManager Manager for managing event display's renderer related functions.
    */
   constructor(
     private scene: Scene,
-    private activeCamera: Camera
+    private activeCamera: Camera,
+    private rendererManager: RendererManager
   ) { }
 
   /**
@@ -27,9 +27,11 @@ export class AnimationsManager {
    * @param easing Animation easing of the tween if any.
    * @returns Tween object of the camera animation.
    */
-  public getCameraTween(pos: number[],
+  public getCameraTween(
+    pos: number[],
     duration: number = 1000,
-    easing?: any): any {
+    easing?: any
+  ): any {
     const tween = new TWEEN.Tween(
       this.activeCamera.position
     ).to({ x: pos[0], y: pos[1], z: pos[2] }, duration);
@@ -47,9 +49,11 @@ export class AnimationsManager {
    * @param tweenDuration Duration of each tween in the translation animation.
    * @param onAnimationEnd Callback when the last animation ends.
    */
-  public animateThroughEvent(startPos: number[],
+  public animateThroughEvent(
+    startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void) {
+    onAnimationEnd?: () => void
+  ) {
     // Move to start
     const start = this.getCameraTween(startPos, 1000, TWEEN.Easing.Cubic.Out);
     // Move to position along the detector axis
@@ -87,7 +91,7 @@ export class AnimationsManager {
     const endPos = [0, 0, -startPos[2]];
     const end = this.getCameraTween(endPos, tweenDuration, TWEEN.Easing.Cubic.In);
     const startClone = this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Cubic.Out);
-    startClone.onComplete(onAnimationEnd);
+    startClone.onComplete(() => onAnimationEnd?.());
     startClone.delay(500);
 
     start.chain(startXAxis);
@@ -233,7 +237,7 @@ export class AnimationsManager {
     allTweens.push(animationSphereTween);
 
     // Call onAnimationStart when the first tween starts
-    allTweens[0].onStart(onAnimationStart);
+    allTweens[0].onStart(() => onAnimationStart?.());
 
     // Start all tweens
     for (const tween of allTweens) {
@@ -249,10 +253,78 @@ export class AnimationsManager {
   }
 
   /**
+   * Animate the propagation and generation of event data using clipping planes.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   * @param onAnimationStart Callback when the first animation starts.
+   * @param clippingConstant Constant for the clipping planes for distance from the origin.
+   */
+  public animateEventWithClipping(
+    tweenDuration: number,
+    onEnd?: () => void,
+    onAnimationStart?: () => void,
+    clippingConstant: number = 11000
+  ) {
+    const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+
+    // Sphere to get spherical set of clipping planes from
+    const sphere = new SphereGeometry(1, 5, 5);
+    // Clipping planes for animation
+    const animationClipPlanes: Plane[] = [];
+
+    // Get clipping planes from the verticies of sphere
+    for (const vertice of sphere.vertices) {
+      animationClipPlanes.push(new Plane(vertice, 0));
+    }
+
+    // Save the previous clipping setting of the renderer
+    const prevLocalClipping = this.rendererManager.getMainRenderer().localClippingEnabled;
+    if (!prevLocalClipping) {
+      this.rendererManager.setLocalClippingEnabled(true);
+    }
+
+    // Apply clipping planes to all the event data objects' material
+    allEventData.traverse((eventObject: any) => {
+      if (eventObject.geometry && eventObject.material) {
+        eventObject.material.clippingPlanes = animationClipPlanes;
+      }
+    });
+
+    const allTweens = [];
+    // Create tweens for the animation clipping planes
+    for (const animationClipPlane of animationClipPlanes) {
+      const tween = new TWEEN.Tween(animationClipPlane)
+        .to({ constant: clippingConstant }, tweenDuration);
+      allTweens.push(tween);
+    }
+
+    allTweens[0].onStart(() => onAnimationStart?.());
+
+    // Start all the tweens
+    for (const tween of allTweens) {
+      tween.start();
+    }
+
+    allTweens[allTweens.length - 1].onComplete(() => {
+      // Revert local clipping of the renderer
+      if (!prevLocalClipping) {
+        this.rendererManager.getMainRenderer().localClippingEnabled = prevLocalClipping /* false */;
+      }
+      // Remove the applied clipping planes from the event data objects
+      allEventData.traverse((eventObject: any) => {
+        if (eventObject.geometry && eventObject.material) {
+          eventObject.material.clippingPlanes = null;
+        }
+      });
+      onEnd?.();
+    });
+  }
+
+  /**
    * Animate the collision of two particles.
    * @param tweenDuration Duration of the particle collision animation tween.
    * @param particleSize Size of the particles.
-   * @param distanceFromOrigin Distance of the particles (along z-axes) from origin.
+   * @param distanceFromOrigin Distance of the particles (along z-axes) from the origin.
    * @param particleColor Color of the particles.
    * @param onEnd Callback to call when the particle collision ends.
    */
@@ -302,10 +374,15 @@ export class AnimationsManager {
 
   /**
    * Animate the propagation and generation of event data with particle collison.
+   * @param animationFunction Animation function to call after collision.
    * @param tweenDuration Duration of the animation tween.
    * @param onEnd Function to call when all animations have ended.
    */
-  public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+  public animateWithCollision(
+    animationFunction: (...params: any) => void,
+    tweenDuration: number,
+    onEnd?: () => void
+  ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
     const trackColor = (this.scene.getObjectByName('Track') as any)?.material?.color;
 
@@ -313,10 +390,29 @@ export class AnimationsManager {
     allEventData.visible = false;
 
     this.collideParticles(1500, 30, 5000, trackColor, () => {
-      this.animateEvent(tweenDuration, onEnd, () => {
+      animationFunction.apply(this, [tweenDuration, onEnd, () => {
         allEventData.visible = true;
-      });
+      }]);
     });
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.animateWithCollision(this.animateEvent, tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.animateWithCollision(this.animateEventWithClipping, tweenDuration, onEnd);
   }
 
   /**
