@@ -74,15 +74,13 @@ export class UIService {
     this.showStats();
     // Shows the menu that contains the options to interact with the scene.
     if (configuration.enableDatGUIMenu) {
-      this.hasDatGUIMenu = true;
       this.showDatGUIMenu();
     }
     // Detect UI color scheme
     this.detectColorScheme();
     // Set root node of phoenix menu
     if (configuration.phoenixMenuRoot) {
-      this.hasPhoenixMenu = true;
-      this.setPhoenixMenu(configuration.getPhoenixMenuRoot());
+      this.showPhoenixMenu(configuration.getPhoenixMenuRoot());
     }
   }
 
@@ -112,6 +110,7 @@ export class UIService {
    * Show dat.GUI menu with different controls related to detector geometry and event data.
    */
   private showDatGUIMenu() {
+    this.hasDatGUIMenu = true;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
     this.canvas = document.getElementById('eventDisplay');
@@ -124,11 +123,45 @@ export class UIService {
   }
 
   /**
-   * Clear the UI by removing the dat.GUI menu.
+   * Show phoenix menu with different controls related to detector geometry and event data.
+   * @param phoenixMenuRoot Root node of the phoenix menu.
+   */
+  private showPhoenixMenu(phoenixMenuRoot: PhoenixMenuNode) {
+    this.hasPhoenixMenu = true;
+    this.setPhoenixMenu(phoenixMenuRoot);
+    this.geomFolderPM = null;
+    this.eventFolderPM = null;
+  }
+
+  /**
+   * Clear the UI by removing the dat.GUI and phoenix menu(s).
    */
   public clearUI() {
-    document.getElementById('gui')?.remove();
+    this.clearDatGUI();
+    this.clearPhoenixMenu();
+  }
+
+  /**
+   * Clear the dat.GUI menu.
+   */
+  private clearDatGUI() {
+    const gui = document.getElementById('gui');
+    if (gui != null) {
+      gui.remove();
+    }
     this.geomFolder = null;
+  }
+
+  /**
+   * Clear the phoenix menu.
+   */
+  private clearPhoenixMenu() {
+    if (this.phoenixMenu) {
+      this.phoenixMenu.truncate();
+      this.phoenixMenu = undefined;
+    }
+    this.geomFolderPM = null;
+    this.eventFolderPM = null;
   }
 
   /**
@@ -154,9 +187,11 @@ export class UIService {
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
-        this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
-      }, 'perspective');
+      if (this.geomFolderPM == null) {
+        this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
+          this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
+        }, 'perspective');
+      }
       this.geomFolderPM.addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
@@ -189,10 +224,11 @@ export class UIService {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public addGeometry(name: string, colour: any, initiallyVisible: boolean = true) {
+    if (this.geomFolder == null || this.geomFolderPM == null) {
+      this.addGeomFolder();
+    }
+
     if (this.hasDatGUIMenu) {
-      if (this.geomFolder == null) {
-        this.addGeomFolder();
-      }
       // A new folder for the object is added to the 'Geometry' folder
       this.guiParameters[name] = {
         show: initiallyVisible, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
@@ -227,9 +263,6 @@ export class UIService {
     }
 
     if (this.hasPhoenixMenu) {
-      if (!this.geomFolderPM) {
-        this.addGeomFolder();
-      }
       // Phoenix menu
       const objFolderPM = this.geomFolderPM.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
@@ -293,7 +326,7 @@ export class UIService {
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      if (this.eventFolderPM) {
+      if (this.eventFolderPM != null) {
         this.eventFolderPM.remove();
       }
       this.eventFolderPM = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
@@ -562,6 +595,10 @@ export class UIService {
    * @param phoenixMenu The root node of phoenix menu.
    */
   public setPhoenixMenu(phoenixMenu: PhoenixMenuNode) {
+    if (this.phoenixMenu) {
+      this.phoenixMenu.truncate();
+      this.phoenixMenu = undefined;
+    }
     this.phoenixMenu = phoenixMenu;
   }
 
