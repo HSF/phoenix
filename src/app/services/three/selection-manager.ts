@@ -169,6 +169,10 @@ export class SelectionManager {
     }
   }
 
+  /**
+   * Function to call on touch when object selection is enabled.
+   * @param event Event containing touch data.
+   */
   private onTouchDown = (event: TouchEvent) => {
     event.preventDefault();
     this.onTouchMove(event.targetTouches[0]);
