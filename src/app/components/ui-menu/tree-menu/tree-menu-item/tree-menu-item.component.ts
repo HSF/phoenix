@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, ViewChildren, QueryList } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { UIService } from 'src/app/services/ui.service';
   templateUrl: './tree-menu-item.component.html',
   styleUrls: ['./tree-menu-item.component.scss']
 })
-export class TreeMenuItemComponent implements AfterViewInit {
+export class TreeMenuItemComponent {
 
   @ViewChildren(TreeMenuItemComponent) children!: QueryList<TreeMenuItemComponent>;
   @Input() node: { name: string, geometryId: string, children: [] };
@@ -14,9 +14,6 @@ export class TreeMenuItemComponent implements AfterViewInit {
   visible = true;
 
   constructor(private uiService: UIService) { }
-
-  ngAfterViewInit(): void {
-  }
 
   public toggleVisibility(visible: boolean) {
     console.log('hi! it\'s ' + this.node.name);

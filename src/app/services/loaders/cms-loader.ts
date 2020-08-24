@@ -96,14 +96,6 @@ export class CMSLoader extends PhoenixLoader {
     }
 
     /**
-     * Put event data into the loader.
-     * @param data Event data to be used by the loader.
-     */
-    public putEventData(data: any) {
-        this.data = data;
-    }
-
-    /**
      * Get all event data.
      * @returns Event data with Hits, Tracks, Jets and CaloClusters.
      */

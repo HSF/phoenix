@@ -303,14 +303,6 @@ export class EventdisplayService {
     for (const geom of sceneConfiguration.geometries) {
       this.ui.addGeometry(geom, '#ffffff');
     }
-
-    const eventNumber = sceneConfiguration.eventData['event number']
-      ? sceneConfiguration.eventData['event number']
-      : sceneConfiguration.eventData['eventNumber'];
-    const runNumber = sceneConfiguration.eventData['run number']
-      ? sceneConfiguration.eventData['run number']
-      : sceneConfiguration.eventData['runNumber'];
-    this.infoLogger.add('Scene with event#' + eventNumber + ' and run#' + runNumber, 'Loaded');
   }
 
   /**

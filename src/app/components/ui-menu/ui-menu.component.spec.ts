@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiMenuComponent } from './ui-menu.component';
-import { AppModule } from 'src/app/app.module';
+import { AppModule } from '../../app.module';
 
 describe('UiMenuComponent', () => {
   let component: UiMenuComponent;

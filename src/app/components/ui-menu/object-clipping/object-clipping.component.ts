@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { UIService } from 'src/app/services/ui.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -8,14 +8,11 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   templateUrl: './object-clipping.component.html',
   styleUrls: ['./object-clipping.component.scss']
 })
-export class ObjectClippingComponent implements OnInit {
+export class ObjectClippingComponent {
 
   clippingEnabled: boolean;
 
   constructor(private uiService: UIService) { }
-
-  ngOnInit(): void {
-  }
 
   changeClippingAngle(change: MatSliderChange) {
     const angle = change.value;

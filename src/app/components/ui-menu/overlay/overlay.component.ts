@@ -24,9 +24,9 @@ export class OverlayComponent implements AfterViewInit {
   /** If the overlay body is visible or not. */
   showBody: boolean = true;
 
-  // *********************************************************
-  // * Below code is specific to the overlay resize feature. *
-  // *********************************************************
+  // ********************************************************************************
+  // * Below code is specific to the overlay resize feature. (LOOK INTO CSS RESIZE) *
+  // ********************************************************************************
 
   /** Complete overlay card containing both header and body. */
   @ViewChild('overlayCard') overlayCard: ElementRef;

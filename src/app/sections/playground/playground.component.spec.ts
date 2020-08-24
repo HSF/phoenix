@@ -1,7 +1,5 @@
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PlaygroundComponent } from './playground.component';
-import { AttributePipe } from '../../services/extras/attribute.pipe';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppModule } from 'src/app/app.module';
 
 describe('PlaygroundComponent', () => {
@@ -10,7 +8,7 @@ describe('PlaygroundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, HttpClientModule]
+      imports: [AppModule]
     })
       .compileComponents();
   }));

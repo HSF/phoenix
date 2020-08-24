@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
@@ -6,14 +6,11 @@ import { UIService } from 'src/app/services/ui.service';
   templateUrl: './auto-rotate.component.html',
   styleUrls: ['./auto-rotate.component.scss']
 })
-export class AutoRotateComponent implements OnInit {
+export class AutoRotateComponent {
 
   autoRotate = false;
 
   constructor(private ui: UIService) { }
-
-  ngOnInit(): void {
-  }
 
   toggleAutoRotate() {
     this.autoRotate = !this.autoRotate;
