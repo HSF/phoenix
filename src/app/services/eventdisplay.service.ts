@@ -144,7 +144,7 @@ export class EventdisplayService {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadOBJGeometry(filename: string, name: string, color: any,
-    doubleSided: boolean = false, initiallyVisible: boolean = true) {
+    doubleSided?: boolean, initiallyVisible: boolean = true) {
     this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
     this.ui.addGeometry(name, color, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
@@ -225,13 +225,53 @@ export class EventdisplayService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadJSONGeometry(json: string | object, name: string,
-    scale?: number, initiallyVisible: boolean = true) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale, initiallyVisible);
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
     this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
+  }
+
+  /**
+   * Load JSON geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot geometry file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
+      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+        name, scale, doubleSided, initiallyVisible);
+    }).send();
+  }
+
+  /**
+   * Load ROOT geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot file.
+   * @param objectName Name of the object inside the ".root" file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootGeometry(JSROOT: any, url: string, objectName: string,
+    name: string, scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    if (url.indexOf('.root') > 0) {
+      JSROOT.OpenFile(url, (file: any) => {
+        file.ReadObject(objectName, (obj: any) => {
+          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            name, scale, doubleSided, initiallyVisible);
+        })
+      });
+    }
   }
 
   /**

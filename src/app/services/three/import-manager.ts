@@ -171,22 +171,22 @@ export class ImportManager {
      * Loads geometries from JSON.
      * @param json JSON or URL to JSON file of the geometry.
      * @param name Name of the geometry or group of geometries.
-     * @param callback Callback called after the geometries are
-     * processed and loaded.
+     * @param callback Callback called after the geometries are processed and loaded.
      * @param scale Scale of the geometry.
+     * @param doubleSided Renders both sides of the material.
      */
     public loadJSONGeometry(json: string | object, name: string,
         callback: (Geometry: Object3D) => any,
-        scale?: number) {
+        scale?: number, doubleSided?: boolean) {
         const loader = new ObjectLoader();
         if (typeof json === 'string') {
             loader.load(json, (geometry: Object3D) => {
-                this.processGeometry(geometry, name, scale);
+                this.processGeometry(geometry, name, scale, doubleSided);
                 callback(geometry);
             });
         } else if (typeof json === 'object') {
             const geometry = loader.parse(json);
-            this.processGeometry(geometry, name, scale);
+            this.processGeometry(geometry, name, scale, doubleSided);
             callback(geometry);
         }
     }
@@ -196,8 +196,9 @@ export class ImportManager {
      * @param geometry Geometry to be processed.
      * @param name Name of the geometry.
      * @param scale Scale of the geometry.
+     * @param doubleSided Renders both sides of the material.
      */
-    private processGeometry(geometry: Object3D, name: string, scale?: number) {
+    private processGeometry(geometry: Object3D, name: string, scale?: number, doubleSided?: boolean) {
         geometry.name = name;
         // Set a custom scale if provided
         if (scale) {
@@ -205,10 +206,10 @@ export class ImportManager {
         }
         geometry.traverse((child) => {
             if (child instanceof Mesh) {
-                child.name = child.userData.name = name;
+                child.name ? child.userData.name = child.name : child.name = child.userData.name = name;
                 if (child.material instanceof Material) {
                     const color = child.material['color'] ? child.material['color'] : 0x2fd691;
-                    const side = child.material['side'] ? child.material['side'] : undefined;
+                    const side = doubleSided ? DoubleSide : child.material['side'];
                     // Disposing of the default material
                     child.material.dispose();
                     // Changing to a material with 0 shininess

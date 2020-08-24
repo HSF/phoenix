@@ -212,7 +212,7 @@ export class ThreeService {
     filename: string,
     name: string,
     color: any,
-    doubleSided: boolean = false,
+    doubleSided?: boolean,
     initiallyVisible: boolean = true
   ): void {
     const geometries = this.sceneManager.getGeometries();
@@ -270,16 +270,17 @@ export class ThreeService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadJSONGeometry(json: string | object, name: string,
-    scale?: number, initiallyVisible: boolean = true) {
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    this.importManager.loadJSONGeometry(json, name, callback, scale);
+    this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
 
   /**

@@ -4,6 +4,7 @@ import { PresetView } from '../../services/extras/preset-view.model';
 import { EventdisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
 import { CMSLoader } from '../../services/loaders/cms-loader';
+import { ScriptLoader } from '../../services/loaders/script-loader';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 @Component({
@@ -32,7 +33,9 @@ export class CMSComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/CMS/cms.gltf', 'CMS detector', 400);
+    ScriptLoader.loadJSRootScripts((JSROOT) => {
+      this.eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', 10, true);
+    });
 
     cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
