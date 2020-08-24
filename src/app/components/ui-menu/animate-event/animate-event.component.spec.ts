@@ -1,16 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateEventComponent } from './animate-event.component';
+import { EventdisplayService } from '../../../services/eventdisplay.service';
 
 describe('AnimateEventComponent', () => {
   let component: AnimateEventComponent;
   let fixture: ComponentFixture<AnimateEventComponent>;
 
+  const mockEventDisplay = jasmine.createSpyObj('EventdisplayService',
+    ['animateClippingWithCollision', 'animateEventWithCollision']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnimateEventComponent ]
+      providers: [{
+        provide: EventdisplayService,
+        useValue: mockEventDisplay
+      }],
+      declarations: [AnimateEventComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +29,10 @@ describe('AnimateEventComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should animate event', () => {
+    component.toggleAnimateEvent();
+    expect(mockEventDisplay.animateClippingWithCollision).toHaveBeenCalled();
   });
 });

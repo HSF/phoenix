@@ -118,6 +118,7 @@ export class ThreeService {
    * Renders three service.
    */
   public render() {
+    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
