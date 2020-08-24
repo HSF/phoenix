@@ -67,6 +67,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  #optionsPanel {
+    justify-content: inherit;
+  }
+
   .preset-views-ul {
     display: none;
   }
