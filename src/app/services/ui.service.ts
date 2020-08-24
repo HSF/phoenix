@@ -533,6 +533,8 @@ export class UIService {
       localStorage.setItem('theme', 'light');
       document.documentElement.setAttribute('data-theme', 'light');
     }
+
+    this.darkTheme = dark;
     this.three.getSceneManager().darkBackground(dark);
   }
 
@@ -586,10 +588,6 @@ export class UIService {
     this.three.setOverlayRenderer(overlayCanvas);
   }
 
-  // ****************
-  // * PHOENIX MENU *
-  // ****************
-
   /**
    * Set the phoenix menu to be used by the UI service.
    * @param phoenixMenu The root node of phoenix menu.
@@ -602,4 +600,26 @@ export class UIService {
     this.phoenixMenu = phoenixMenu;
   }
 
+  /**
+   * Enable keyboard controls for some UI service operations.
+   */
+  public enableKeyboardControls() {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.shiftKey) {
+        switch (e.keyCode) {
+          case 84: // shift + "t"
+            this.setDarkTheme(!this.getDarkTheme());
+            break;
+        }
+
+        // Shortcut keys for preset views (shift + 1...9)
+        if (e.keyCode > 48 && e.keyCode < 57) {
+          const indexFromKeyCode = Math.abs(49 - e.keyCode);
+          if (this.configuration.presetViews[indexFromKeyCode]) {
+            this.displayView(this.configuration.presetViews[indexFromKeyCode]);
+          }
+        }
+      }
+    });
+  }
 }
