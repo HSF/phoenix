@@ -1,7 +1,10 @@
 [![DOI](https://zenodo.org/badge/135442382.svg)](https://zenodo.org/badge/latestdoi/135442382)
 
-[![Build Status][build-img]][build-link] [![License][license-img]][license-url] [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
+[![Build Status][build-img]][build-link]
+[![License][license-img]][license-url]
+[![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
+[![Documentation Coverage](docs/api-docs/images/coverage-badge-documentation.svg)](http://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
@@ -25,11 +28,11 @@ This is an [Angular](https://angular.io) application, so you will need to have [
 
 You can follow [this guide](https://angular.io/guide/setup-local) to set up your local environment.
 
-Once everything is set up, run `ng serve` from the command line in the project directory for a dev server. Then navigate to `http://localhost:4200/` from your browser. 
+Once everything is set up, run `ng serve` from the command line in the project directory for a dev server. Then navigate to `http://localhost:4200/` from your browser.
 The app will automatically reload if you change any of the source files.
 
-
 ## Documentation
+
 * [User manual.](./src/assets/docs/users.md)
 * [How to contribute.](./CONTRIBUTING.md)
 * [Developer guide.](./src/assets/docs/developers.md)
