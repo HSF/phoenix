@@ -447,4 +447,36 @@ export class EventdisplayService {
     this.ui.enableKeyboardControls();
     this.graphicsLibrary.enableKeyboardControls();
   }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () => void) {
+    this.graphicsLibrary
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.graphicsLibrary.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
+  }
 }

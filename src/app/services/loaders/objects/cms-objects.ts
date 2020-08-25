@@ -1,4 +1,4 @@
-import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments } from "three";
+import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
@@ -29,34 +29,36 @@ export class CMSObjects {
         let box = new Geometry();
         box.vertices = faces.concat(backs);
 
-        // front                                                                                                                                           
+        // front
         box.faces.push(new Face3(0, 1, 2));
         box.faces.push(new Face3(2, 3, 0));
 
-        // back                                                                                                                                            
+        // back
         box.faces.push(new Face3(4, 5, 6));
         box.faces.push(new Face3(6, 7, 4));
 
-        // top                                                                                                                                             
+        // top
         box.faces.push(new Face3(4, 5, 1));
         box.faces.push(new Face3(1, 0, 4));
 
-        // bottom                                                                                                                                          
+        // bottom
         box.faces.push(new Face3(7, 6, 2));
         box.faces.push(new Face3(2, 3, 7));
 
-        // left                                                                                                                                            
+        // left
         box.faces.push(new Face3(0, 3, 7));
         box.faces.push(new Face3(7, 4, 0));
 
-        // right                                                                                                                                          
+        // right
         box.faces.push(new Face3(1, 5, 6));
         box.faces.push(new Face3(6, 2, 1));
 
         box.computeFaceNormals();
         box.computeVertexNormals();
 
-        const boxObject = new Mesh(box, new MeshBasicMaterial({
+        const boxBuffer = new BufferGeometry().fromGeometry(box);
+
+        const boxObject = new Mesh(boxBuffer, new MeshBasicMaterial({
             color: 0xff0000,
             transparent: true,
             opacity: 0.1,
@@ -68,7 +70,7 @@ export class CMSObjects {
 
         // These are the lines along the box edges
 
-        const boxEdges = new EdgesGeometry(box);
+        const boxEdges = new EdgesGeometry(boxBuffer);
         const lineBoxObject = new LineSegments(boxEdges, new LineBasicMaterial({
             color: 0xffffff,
             transparent: true,

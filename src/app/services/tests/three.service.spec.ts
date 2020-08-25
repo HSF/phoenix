@@ -46,10 +46,10 @@ describe('ThreeService', () => {
 
     it('should render', () => {
       spyOn(threePrivate.rendererManager, 'render').and.callThrough();
-      spyOn(threePrivate.selectionManager, 'render').and.callThrough();
+      spyOn(threePrivate.effectsManager, 'render').and.callThrough();
       three.render();
       expect(threePrivate.rendererManager.render).toHaveBeenCalled();
-      expect(threePrivate.selectionManager.render).toHaveBeenCalled();
+      expect(threePrivate.effectsManager.render).toHaveBeenCalled();
     });
 
     it('get scene manager', () => {

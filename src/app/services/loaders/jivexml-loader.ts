@@ -78,8 +78,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
       const tmp = trackColl.getElementsByTagName('numPolyline')
-      if (tmp.length === 0 ) { 
-        console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey")+ " has no line information. Skipping.");
+      if (tmp.length === 0) {
+        console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey") + " has no line information. Skipping.");
         continue;
       }
       const numPolyline = trackColl.getElementsByTagName('numPolyline')[0].innerHTML

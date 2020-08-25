@@ -18,7 +18,9 @@ import { ExportManager } from './three/export-manager';
 import { ImportManager } from './three/import-manager';
 import { SelectionManager } from './three/selection-manager';
 import { SceneManager } from './three/scene-manager';
+import { AnimationsManager } from './three/animations-manager';
 import { InfoLoggerService } from './infologger.service';
+import { EffectsManager } from './three/effects-manager';
 
 /**
  * Service for all three.js related functions.
@@ -40,6 +42,10 @@ export class ThreeService {
   private importManager: ImportManager;
   /** Manager for selection of 3D objects and event data */
   private selectionManager: SelectionManager;
+  /** Manager for managing animation related operations using three.js and tween.js */
+  private animationsManager: AnimationsManager;
+  /** Manager for managing effects using EffectComposer */
+  private effectsManager: EffectsManager;
   /** Service for logging data to the information panel */
   private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
@@ -65,19 +71,36 @@ export class ThreeService {
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
     this.exportManager = new ExportManager();
-    this.importManager = new ImportManager(this.clipPlanes, SceneManager.EVENT_DATA_ID, SceneManager.GEOMETRIES_ID);
+    this.importManager = new ImportManager(
+      this.clipPlanes,
+      SceneManager.EVENT_DATA_ID,
+      SceneManager.GEOMETRIES_ID
+    );
     // Renderer manager
     this.rendererManager = new RendererManager();
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
+    // Effects manager
+    this.effectsManager = new EffectsManager(
+      this.controlsManager.getMainCamera(),
+      this.sceneManager.getScene(),
+      this.rendererManager.getMainRenderer()
+    );
+    // Animations manager
+    this.animationsManager = new AnimationsManager(
+      this.sceneManager.getScene(),
+      this.controlsManager.getActiveCamera(),
+      this.rendererManager
+    );
     // Logger
     this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
-      this.rendererManager.getMainRenderer(),
-      this.infoLogger);
+      this.effectsManager,
+      this.infoLogger
+    );
     // Customizing with configuration
     this.setConfiguration(configuration);
   }
@@ -96,7 +119,7 @@ export class ThreeService {
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
-    this.selectionManager.render(this.sceneManager.getScene(), this.controlsManager);
+    this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
@@ -485,5 +508,37 @@ export class ThreeService {
         }
       }
     });
+  }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () => void) {
+    this.animationsManager
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.animationsManager.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+    this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
   }
 }
