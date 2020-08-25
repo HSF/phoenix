@@ -53,6 +53,7 @@ import { PhoenixMenuItemComponent } from './components/phoenix-menu/pheonix-menu
 import { ConfigSliderComponent } from './components/phoenix-menu/config/config-slider/config-slider.component';
 import { AnimateCameraComponent } from './components/ui-menu/animate-camera/animate-camera.component';
 import { AnimateEventComponent } from './components/ui-menu/animate-event/animate-event.component';
+import { VrToggleComponent } from './components/ui-menu/vr-toggle/vr-toggle.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -106,7 +107,8 @@ const routes: Routes = [
     PhoenixMenuItemComponent,
     ConfigSliderComponent,
     AnimateCameraComponent,
-    AnimateEventComponent
+    AnimateEventComponent,
+    VrToggleComponent
   ],
   imports: [
     BrowserModule,

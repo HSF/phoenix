@@ -9,7 +9,8 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  WebGLRenderer
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -203,19 +204,6 @@ export class ThreeService {
   public setAnimationLoop(animate: () => void) {
     this.rendererManager.getMainRenderer().xr.enabled = true;
     this.rendererManager.getMainRenderer().setAnimationLoop(animate);
-  }
-
-  /**
-   * Displays a button to toggle VR.
-   */
-  public setVRButton() {
-    let canvas = document.getElementById('eventDisplay');
-    if (canvas == null) {
-      canvas = document.body;
-    }
-    canvas.appendChild(
-      VRButton.createButton(this.rendererManager.getMainRenderer())
-    );
   }
 
   // *************************************
@@ -540,5 +528,13 @@ export class ThreeService {
    */
   public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Get the active WebGL renderer.
+   * @returns The active renderer.
+   */
+  public getActiveRenderer(): WebGLRenderer {
+    return this.effectsManager.composer.renderer;
   }
 }

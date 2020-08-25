@@ -64,30 +64,12 @@ export class EventdisplayService {
       this.graphicsLibrary.render();
     };
     animate();
+    this.graphicsLibrary.setAnimationLoop(animate);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
-  }
-
-  /**
-   * Initialize the event display with virtual reality environment and controls.
-   * @param configuration Configuration for preset views and event data loader.
-   */
-  public initVR(configuration: Configuration) {
-    this.configuration = configuration;
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
-    // Animate loop
-    const animate = () => {
-      this.graphicsLibrary.updateControls();
-      this.ui.updateUI();
-      this.graphicsLibrary.render();
-    };
-    this.graphicsLibrary.setVRButton();
-    this.graphicsLibrary.setAnimationLoop(animate);
   }
 
   /**
