@@ -36,6 +36,8 @@ export class UIService {
   private geomFolderPM: PhoenixMenuNode;
   /** Phoenix menu node containing event related data */
   private eventFolderPM: PhoenixMenuNode;
+  /** If the geometry folder is added or not */
+  private geomFolderAdded: boolean = false;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -168,6 +170,8 @@ export class UIService {
    * Add geometry (detector geometry) folder to the dat.GUI menu.
    */
   public addGeomFolder() {
+    this.geomFolderAdded = true;
+
     if (this.hasDatGUIMenu) {
       if (this.geomFolder == null) {
         this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
@@ -224,7 +228,7 @@ export class UIService {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public addGeometry(name: string, colour: any, initiallyVisible: boolean = true) {
-    if (this.geomFolder == null || this.geomFolderPM == null) {
+    if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
