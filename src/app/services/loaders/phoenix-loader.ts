@@ -1,5 +1,5 @@
 import { EventDataLoader } from '../event-data-loader';
-import { Group, Object3D } from 'three';
+import { Group, Object3D, Vector3 } from 'three';
 import * as THREE from 'three';
 import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
@@ -7,6 +7,7 @@ import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLoggerService } from '../infologger.service';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
+import { RungeKutta } from '../extras/runge-kutta';
 
 /**
  * Loader for processing and loading an event.
@@ -33,12 +34,73 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui = ui;
     this.eventData = eventData;
 
+
+    // Replacing tracks with tracks through Runge-Kutta
+    // TODO - make this configurable? Or possibluy automatic if tracks have <2 positions to draw?
+    // Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
+
     // initiate load
     this.loadObjectTypes(eventData);
 
     const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
     const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
+  }
+
+  getTracksWithRungeKutta(tracksCollectionsEvent: any) {
+    const tracksCollections = JSON.parse(JSON.stringify(tracksCollectionsEvent));
+    let Tracks = {};
+    for (const tracksCollection of Object.keys(tracksCollections)) {
+      for (const track of tracksCollections[tracksCollection]) {
+        const dparams = track.dparams;
+        // ATLAS uses mm, MeV
+        let   d0    = dparams[0],
+              z0    = dparams[1],
+              phi   = dparams[2],
+              theta = dparams[3],
+              qop   = dparams[4];
+      
+        // console.log('Params', dparams)
+        let p;
+        if (qop !== 0) {
+          p = Math.abs(1 / qop) ;
+        } else {
+          p = 0;
+        }
+        const q = Math.round(p * qop);
+
+        // ATLAS definition of momentum, so probably so move this calc there.
+        let globalMomentum = new Vector3(
+            p * Math.cos(phi) * Math.sin(theta),
+            p * Math.sin(phi) * Math.sin(theta),
+            p * Math.cos(theta)
+          );
+
+        // Cannot use setFromSphericalCoordinates since ATLAS and threejs use different phi & theta definitions (though both are right-handed)
+        let startPos = new Vector3(
+          -d0 * Math.sin(phi),
+          d0 * Math.cos(phi),
+          z0
+        );
+
+        // Wipe existing positions
+        track.pos = []
+        track.pos.push([startPos.x,startPos.y,startPos.z])
+        let startDir = globalMomentum.clone();
+        startDir.normalize();
+
+        // console.log('startPos = ',startPos.x,startPos.y,startPos.z)
+        // console.log('startDir = ',startDir.x,startDir.y,startDir.z)
+        // console.log('p = '+globalMomentum.length())
+        const traj = RungeKutta.propagate(startPos, startDir, p, q, 10, 10000);
+        
+        let newpos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z])
+        track.pos = track.pos.concat( newpos );
+        break;
+      }
+    }
+    console.log(Tracks);
+    return Tracks;
   }
 
   /**
@@ -215,6 +277,8 @@ export class PhoenixLoader implements EventDataLoader {
       if (object) {
         collscene.add(object);
       }
+      // console.log(objectParams);
+      break;
     }
 
     objectGroup.add(collscene);

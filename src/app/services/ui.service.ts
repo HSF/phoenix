@@ -559,6 +559,14 @@ export class UIService {
     this.three.autoRotate(rotate);
   }
 
+    /**
+   * Set whether to show the axis or not
+   * @param show If the axis is to be shown or not.
+   */
+  public setShowAxis(show: boolean) {
+    this.three.getSceneManager().setAxis(show)
+  }
+
   /**
    * Get preset views from the configuration.
    * @returns Available preset views.

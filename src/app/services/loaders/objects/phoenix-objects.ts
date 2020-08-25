@@ -32,14 +32,14 @@ export class PhoenixObjects {
       objectColor = parseInt(trackParams.color, 16);
     }
 
-    // Apply pT cut TODO - make this configurable.
-    const momentum = trackParams.mom;
-    if (momentum) {
-      if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] < 0.25) {
-        // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
-        return;
-      }
-    }
+    // // Apply pT cut TODO - make this configurable.
+    // const momentum = trackParams.mom;
+    // if (momentum) {
+    //   if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] < 0.25) {
+    //     // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
+    //     return;
+    //   }
+    // }
 
     const points = [];
 
@@ -54,10 +54,6 @@ export class PhoenixObjects {
     const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
     const material = new THREE.MeshToonMaterial({ color: objectColor });
     const tubeObject = new THREE.Mesh(geometry, material);
-    // Setting info to the tubeObject since it will be used for selection
-    tubeObject.userData = trackParams;
-    tubeObject.userData.uuid = tubeObject.uuid;
-    tubeObject.name = 'Track';
 
     // Line - Creating a Line to put inside the tube to show tracks even on zoom out
     const vertices = curve.getPoints(50);
@@ -70,9 +66,18 @@ export class PhoenixObjects {
     lineObject.name = 'Track';
 
     // Creating a group to add both the Tube curve and the Line
-    const trackObject = new THREE.Object3D();
+    const trackObject = new THREE.Group();
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
+
+    // Setting info to the tubeObject and trackObject for selection and cuts
+    for (let object of [tubeObject, trackObject]) {
+      object.userData = trackParams;
+      object.name = 'Track';
+    }
+
+    // Setting uuid for selection from collections info
+    trackParams.uuid = tubeObject.uuid;
 
     return trackObject;
   }
@@ -118,8 +123,9 @@ export class PhoenixObjects {
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
-    mesh.userData.uuid = mesh.uuid;
     mesh.name = 'Jet';
+    // Setting uuid for selection from collections info
+    jetParams.uuid = mesh.uuid;
 
     return mesh;
   }
@@ -163,8 +169,9 @@ export class PhoenixObjects {
     const pointsObj = new THREE.Points(geometry, material);
     pointsObj.userData = hitsParamsClone;
     pointsObj.userData.uuid = pointsObj.uuid;
-    hitsParams.uuid = pointsObj.uuid;
     pointsObj.name = 'Hit';
+    // Setting uuid for selection from collections info
+    hitsParams.uuid = pointsObj.uuid;
 
     return pointsObj;
   }
@@ -197,8 +204,9 @@ export class PhoenixObjects {
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new THREE.Vector3(0, 0, 0));
     cube.userData = clusterParams;
-    cube.userData.uuid = cube.uuid;
     cube.name = 'Cluster';
+    // Setting uuid for selection from collections info
+    clusterParams.uuid = cube.uuid;
 
     return cube;
   }
