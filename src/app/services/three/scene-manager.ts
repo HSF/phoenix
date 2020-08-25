@@ -372,14 +372,13 @@ export class SceneManager {
         object.children.forEach((objectChild: any) => {
             if (objectChild.children.length === 0) {
                 if (objectChild.material) {
-                    // Changing renderOrder to make event data render on top of geometry
-                    // Arbitrarily setting a high value of 999
-                    value ? objectChild.renderOrder = 0 : objectChild.renderOrder = 999;
-                    // Applying depthTest
                     objectChild.material.depthTest = value;
                 }
-            });
-        }
+            } else {
+                // Calling the function again if the object is a group
+                this.updateChildrenDepthTest(objectChild, value);
+            }
+        });
     }
 
     /**
