@@ -57,6 +57,7 @@ export class IOOptionsDialogComponent {
     } else {
       console.log('Error : ¡ Invalid file format !');
     }
+    this.onNoClick();
   }
 
   processEventData(content: any, name: string, evDisplay: EventdisplayService) {

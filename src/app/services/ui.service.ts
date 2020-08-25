@@ -36,6 +36,8 @@ export class UIService {
   private geomFolderPM: PhoenixMenuNode;
   /** Phoenix menu node containing event related data */
   private eventFolderPM: PhoenixMenuNode;
+  /** If the geometry folder is added or not */
+  private geomFolderAdded: boolean = false;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -168,6 +170,8 @@ export class UIService {
    * Add geometry (detector geometry) folder to the dat.GUI menu.
    */
   public addGeomFolder() {
+    this.geomFolderAdded = true;
+
     if (this.hasDatGUIMenu) {
       if (this.geomFolder == null) {
         this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
@@ -195,6 +199,7 @@ export class UIService {
       this.geomFolderPM.addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
+        allowCustomValue: true,
         onChange: (value: number) => {
           this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
         }
@@ -224,7 +229,7 @@ export class UIService {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public addGeometry(name: string, colour: any, initiallyVisible: boolean = true) {
-    if (this.geomFolder == null || this.geomFolderPM == null) {
+    if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
@@ -276,15 +281,9 @@ export class UIService {
       }).addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.05,
+        allowCustomValue: true,
         onChange: (opacity: number) => {
           this.three.getSceneManager().setGeometryOpacity(name, opacity);
-        }
-      }).addConfig('slider', {
-        label: 'Scale',
-        min: 0, max: 1000,
-        allowCustomValue: true,
-        onChange: (scale: number) => {
-          this.three.getSceneManager().scaleObject(name, scale);
         }
       });
     }
@@ -405,12 +404,14 @@ export class UIService {
       // A new folder for the collection is added to the 'Event Data' folder
       this.guiParameters[collectionName] = {
         show: true, color: 0x000000,
-        resetCut: () => this.three.getSceneManager().groupVisibility(collectionName, true)
+        resetCut: () => this.three.getSceneManager()
+          .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID)
       };
       const collFolder = typeFolder.addFolder(collectionName);
       // A boolean toggle for showing/hiding the collection is added to its folder
       const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
-      showMenu.onChange((value) => this.three.getSceneManager().objectVisibility(collectionName, value));
+      showMenu.onChange((value) => this.three.getSceneManager()
+        .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID));
       // A color picker is added to the collection's folder
       const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
       colorMenu.onChange((value) => this.three.getSceneManager().collectionColor(collectionName, value));
@@ -442,21 +443,25 @@ export class UIService {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
       const collectionNode = typeFolderPM.addChild(collectionName, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(collectionName, value);
+        this.three.getSceneManager()
+          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID);
+      });
+
+      collectionNode.addConfig('color', {
+        label: 'Color',
+        onChange: (value: any) => {
+          this.three.getSceneManager().collectionColor(collectionName, value)
+        }
       });
 
       if (cuts) {
-        collectionNode.addConfig('color', {
-          label: 'Color',
-          onChange: (value: any) => {
-            this.three.getSceneManager().collectionColor(collectionName, value)
-          }
-        }).addConfig('label', {
+        collectionNode.addConfig('label', {
           label: 'Cuts'
         }).addConfig('button', {
           label: 'Reset cuts',
           onClick: () => {
-            this.three.getSceneManager().groupVisibility(collectionName, true);
+            this.three.getSceneManager()
+              .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID);
           }
         });
         for (const cut of cuts) {
