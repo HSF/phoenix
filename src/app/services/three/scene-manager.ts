@@ -154,7 +154,7 @@ export class SceneManager {
             child.material instanceof MeshBasicMaterial ||
             child.material instanceof LineBasicMaterial
           ) {
-            child.material.color.set(value);
+            (child.material.color as Color).set(value);
           }
         }
       });
@@ -259,8 +259,7 @@ export class SceneManager {
             object.material instanceof MeshPhongMaterial ||
             object.material instanceof MeshToonMaterial
           ) {
-            object.material.color.set(color);
-
+            (object.material.color as Color).set(color);
           }
         }
       });
