@@ -77,9 +77,7 @@ export class EventdisplayService {
    */
   public initVR(onSessionEnded?: () => void) {
     const animate = () => {
-      this.graphicsLibrary.updateControls();
-      this.ui.updateUI();
-      this.graphicsLibrary.render();
+      this.graphicsLibrary.minimalRender();
     };
     this.graphicsLibrary.setAnimationLoop(animate);
     this.graphicsLibrary.initVRSession(() => {

@@ -121,11 +121,21 @@ export class ThreeService {
   }
 
   /**
-   * Renders three service.
+   * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Minimally render without any post-processing.
+   */
+  public minimalRender() {
+    this.rendererManager.getMainRenderer().render(
+      this.sceneManager.getScene(), this.controlsManager.getMainCamera()
+    );
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
