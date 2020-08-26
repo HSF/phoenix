@@ -22,6 +22,7 @@ import { SceneManager } from './three/scene-manager';
 import { AnimationsManager } from './three/animations-manager';
 import { InfoLoggerService } from './infologger.service';
 import { EffectsManager } from './three/effects-manager';
+import { VRManager } from './three/vr-manager';
 
 /**
  * Service for all three.js related functions.
@@ -47,6 +48,8 @@ export class ThreeService {
   private animationsManager: AnimationsManager;
   /** Manager for managing effects using EffectComposer */
   private effectsManager: EffectsManager;
+  /** VR manager for VR related operations */
+  private vrManager: VRManager;
   /** Service for logging data to the information panel */
   private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
@@ -93,6 +96,8 @@ export class ThreeService {
       this.controlsManager.getActiveCamera(),
       this.rendererManager
     );
+    // VR manager
+    this.vrManager = new VRManager();
     // Logger
     this.infoLogger = infoLogger;
     // Selection manager
@@ -198,12 +203,20 @@ export class ThreeService {
   }
 
   /**
-   * Sets animation loop for vr playground.
-   * @param animate Function to render the loop.
+   * Sets the animation loop for vr.
+   * @param animate Animation loop function.
    */
   public setAnimationLoop(animate: () => void) {
     this.rendererManager.getMainRenderer().xr.enabled = true;
     this.rendererManager.getMainRenderer().setAnimationLoop(animate);
+  }
+
+  /**
+   * Removes animation loop when closing vr.
+   */
+  public removeAnimationLoop() {
+    this.rendererManager.getMainRenderer().xr.enabled = false;
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
   // *************************************
@@ -226,7 +239,7 @@ export class ThreeService {
     initiallyVisible: boolean = true
   ): void {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (object: Group) => {
+    const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
@@ -531,10 +544,21 @@ export class ThreeService {
   }
 
   /**
-   * Get the active WebGL renderer.
-   * @returns The active renderer.
+   * Initialize the VR session.
+   * @param onSessionEnded Callback when the VR session ends.
    */
-  public getActiveRenderer(): WebGLRenderer {
-    return this.effectsManager.composer.renderer;
+  public initVRSession(onSessionEnded?: () => void) {
+    this.vrManager.setVRSession(
+      this.rendererManager.getMainRenderer(),
+      onSessionEnded
+    );
+  }
+
+  /**
+   * Get the current VR session if any.
+   * @returns The active VR session.
+   */
+  public getVRSession(): any {
+    this.vrManager.getVRSession();
   }
 }

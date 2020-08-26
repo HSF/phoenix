@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ThreeService } from '../../../services/three.service';
-import { WebGLRenderer } from 'three';
+import { EventdisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-vr-toggle',
@@ -12,9 +11,7 @@ export class VrToggleComponent {
   vrSupported: boolean = false;
   vrActive: boolean = false;
 
-  private currentVRSession: any;
-
-  constructor(private three: ThreeService) {
+  constructor(private eventDisplay: EventdisplayService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
       (navigator as any)?.xr.isSessionSupported('immersive-vr')
@@ -28,24 +25,12 @@ export class VrToggleComponent {
 
   toggleVr() {
     // If toggling VR on
-    if (!this.vrActive && !this.currentVRSession) {
-      const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor'] };
-      (navigator as any)?.xr.requestSession('immersive-vr', sessionInit)
-        .then(this.onSessionStarted);
+    if (!this.vrActive) {
+      this.eventDisplay.initVR(() => {
+        this.vrActive = false;
+      });
     }
 
     this.vrActive = !this.vrActive;
-  }
-
-  private onSessionStarted = (session: any) => {
-    session.addEventListener('end', this.onSessionEnded);
-    this.three.getActiveRenderer().xr.setSession(session);
-    this.currentVRSession = session;
-  }
-
-  private onSessionEnded = () => {
-    this.currentVRSession.removeEventListener('end', this.onSessionEnded);
-    this.currentVRSession = null;
-    this.vrActive = false;
   }
 }

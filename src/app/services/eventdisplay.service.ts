@@ -64,12 +64,35 @@ export class EventdisplayService {
       this.graphicsLibrary.render();
     };
     animate();
-    this.graphicsLibrary.setAnimationLoop(animate);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
+  }
+
+  /**
+   * Initialize VR.
+   * @param onSessionEnded Callback when the VR session ends.
+   */
+  public initVR(onSessionEnded?: () => void) {
+    const animate = () => {
+      this.graphicsLibrary.updateControls();
+      this.ui.updateUI();
+      this.graphicsLibrary.render();
+    };
+    this.graphicsLibrary.setAnimationLoop(animate);
+    this.graphicsLibrary.initVRSession(() => {
+      onSessionEnded?.();
+      this.exitVR();
+    });
+  }
+
+  /**
+   * Exit VR and remove VR settings.
+   */
+  public exitVR() {
+    this.graphicsLibrary.removeAnimationLoop();
   }
 
   /**
