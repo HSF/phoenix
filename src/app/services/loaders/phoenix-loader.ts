@@ -354,7 +354,8 @@ export class PhoenixLoader implements EventDataLoader {
       [
         { keys: ['runNumber', 'run number'], label: 'Run' },
         { keys: ['eventNumber', 'event number'], label: 'Event' },
-        { keys: ['ls'], label: 'LS' }
+        { keys: ['ls'], label: 'LS' },
+        { keys: ['lumiBlock'], label: 'LumiBlock' }
       ],
       [
         { keys: ['time'], label: 'Data recorded' }

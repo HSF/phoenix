@@ -39,6 +39,8 @@ export class JiveXMLLoader extends PhoenixLoader {
     const eventData = {
       eventNumber: firstEvent.getAttribute('eventNumber'),
       runNumber: firstEvent.getAttribute('runNumber'),
+      lumiBlock: firstEvent.getAttribute('lumiBlock'),
+      time: firstEvent.getAttribute('dateTime'),
       Hits: undefined,
       Tracks: {},
       Jets: {},
