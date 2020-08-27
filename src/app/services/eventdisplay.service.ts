@@ -274,7 +274,7 @@ export class EventdisplayService {
         file.ReadObject(objectName, (obj: any) => {
           this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
             name, scale, doubleSided, initiallyVisible);
-        })
+        });
       });
     }
   }
@@ -364,6 +364,10 @@ export class EventdisplayService {
       },
       loadOBJGeometry: (filename: string, name: string, colour: any, doubleSided: boolean) => {
         this.loadOBJGeometry(filename, name, colour, doubleSided);
+      },
+      loadJSONGeometry: (json: string | object, name: string,
+        scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
+        this.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
       },
       parseOBJGeometry: (content: string, name: string) => {
         this.parseOBJGeometry(content, name);
