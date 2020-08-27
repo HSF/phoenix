@@ -12,7 +12,6 @@ import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
-import { PlaygroundVrComponent } from './sections/playground-vr/playground-vr.component';
 import { AttributePipe } from './services/extras/attribute.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
@@ -63,8 +62,7 @@ const routes: Routes = [
   { path: 'lhcb', component: LHCbComponent },
   { path: 'cms', component: CMSComponent },
   { path: 'trackml', component: TrackmlComponent },
-  { path: 'playground', component: PlaygroundComponent },
-  { path: 'playgroundVR', component: PlaygroundVrComponent }
+  { path: 'playground', component: PlaygroundComponent }
 ];
 
 @NgModule({
@@ -78,7 +76,6 @@ const routes: Routes = [
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,
-    PlaygroundVrComponent,
     AttributePipe,
     UiMenuComponent,
     CollectionsInfoComponent,
@@ -134,5 +131,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
