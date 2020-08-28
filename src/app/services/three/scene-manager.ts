@@ -68,11 +68,7 @@ export class SceneManager {
    */
   public updateLights(camera: Camera) {
     if (this.useCameraLight) {
-      this.cameraLight.position.set(
-        camera.position.x,
-        camera.position.y,
-        camera.position.z
-      );
+      this.cameraLight.position.copy(camera.position);
     }
   }
 

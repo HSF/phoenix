@@ -1,4 +1,7 @@
-import { WebGLRenderer, Group, Camera, Vector3, Matrix4 } from "three";
+import { WebGLRenderer, Group, Camera } from "three";
+
+// NOTE: This was created on 29/08/2020
+// It might get outdated given how WebXR is still a work in progress
 
 /**
  * VR manager for VR related operations.
@@ -14,6 +17,8 @@ export class VRManager {
   private onSessionEnded: () => void;
   /** Group containing the the camera for VR. */
   public cameraGroup: Group;
+  /** The camera used by VR. */
+  public vrCamera: Camera;
 
   /**
    * Set and configure the VR session.
@@ -56,7 +61,7 @@ export class VRManager {
 
   /**
    * Get the group containing the camera for VR.
-   * @param camera Camera to be added in the group.
+   * @param camera Camera which is to be cloned for VR use.
    */
   public getCameraGroup(camera?: Camera) {
     // Set up the camera position in the VR - Adding a group with camera does it
@@ -64,9 +69,19 @@ export class VRManager {
       this.cameraGroup = new Group();
     }
     if (camera) {
-      this.cameraGroup.position.copy(camera.position);
-      this.cameraGroup.add(camera);
+      this.vrCamera = camera.clone();
+      this.vrCamera.name = 'VR_CAMERA';
+      this.cameraGroup.position.copy(this.vrCamera.position);
+      this.cameraGroup.add(this.vrCamera);
     }
     return this.cameraGroup;
+  }
+
+  /**
+   * Get the camera used by VR.
+   * @returns The camera used by VR.
+   */
+  public getVRCamera() {
+    return this.vrCamera;
   }
 }

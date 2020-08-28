@@ -131,8 +131,9 @@ export class ThreeService {
    * Minimally render without any post-processing.
    */
   public minimalRender() {
+    // Use the VR camera for rendering
     this.rendererManager.getMainRenderer().render(
-      this.sceneManager.getScene(), this.controlsManager.getMainCamera()
+      this.sceneManager.getScene(), this.vrManager.getVRCamera()
     );
   }
 
@@ -538,24 +539,23 @@ export class ThreeService {
    * @param onSessionEnded Callback when the VR session ends.
    */
   public initVRSession(onSessionEnded?: () => void) {
-    // Set up the animation loop
-    const animate = () => {
-      this.minimalRender();
-    };
-
-    this.rendererManager.getMainRenderer().xr.enabled = true;
-    this.rendererManager.getMainRenderer().setAnimationLoop(animate);
-
     // Set up the camera position in the VR - Adding a group with camera does it
     const cameraGroup = this.vrManager
       .getCameraGroup(this.controlsManager.getMainCamera());
     this.sceneManager.getScene().add(cameraGroup);
 
+    // Set up main renderer for VR
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled = true;
+
+    // Set up the animation loop
+    const animate = () => {
+      this.minimalRender();
+    };
+    mainRenderer.setAnimationLoop(animate);
+
     // Set and initialize the VR session
-    this.vrManager.setVRSession(
-      this.rendererManager.getMainRenderer(),
-      onSessionEnded
-    );
+    this.vrManager.setVRSession(mainRenderer, onSessionEnded);
   }
 
   /**
@@ -564,9 +564,10 @@ export class ThreeService {
   public endVRSession() {
     this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
 
-    this.rendererManager.getMainRenderer().xr.enabled = false;
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled = false;
     // Remove the animation loop
-    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+    mainRenderer.setAnimationLoop(null);
     this.vrManager.endVRSession();
   }
 }
