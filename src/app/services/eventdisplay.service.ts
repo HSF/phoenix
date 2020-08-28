@@ -41,8 +41,12 @@ export class EventdisplayService {
    * @param http HttpClient for making http requests.
    * @param infoLogger Service for logging data to the information panel.
    */
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient, private infoLogger: InfoLoggerService) {
-  }
+  constructor(
+    public graphicsLibrary: ThreeService,
+    private ui: UIService,
+    private http: HttpClient,
+    private infoLogger: InfoLoggerService
+  ) { }
 
   /**
    * Initializes the components needed to later represent the geometries.
@@ -76,21 +80,14 @@ export class EventdisplayService {
    * @param onSessionEnded Callback when the VR session ends.
    */
   public initVR(onSessionEnded?: () => void) {
-    const animate = () => {
-      this.graphicsLibrary.minimalRender();
-    };
-    this.graphicsLibrary.setAnimationLoop(animate);
-    this.graphicsLibrary.initVRSession(() => {
-      onSessionEnded?.();
-      this.exitVR();
-    });
+    this.graphicsLibrary.initVRSession(onSessionEnded);
   }
 
   /**
-   * Exit VR and remove VR settings.
+   * End VR and remove VR settings.
    */
-  public exitVR() {
-    this.graphicsLibrary.removeAnimationLoop();
+  public endVR() {
+    this.graphicsLibrary.endVRSession();
   }
 
   /**

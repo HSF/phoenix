@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as TWEEN from '@tweenjs/tween.js';
-import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import {
   Group,
   Object3D,
@@ -9,8 +8,7 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper,
-  WebGLRenderer
+  AxesHelper
 } from 'three';
 import { Configuration } from './extras/configuration.model';
 import { ControlsManager } from './three/controls-manager';
@@ -136,7 +134,6 @@ export class ThreeService {
     this.rendererManager.getMainRenderer().render(
       this.sceneManager.getScene(), this.controlsManager.getMainCamera()
     );
-    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
@@ -210,23 +207,6 @@ export class ThreeService {
     if (this.controlsManager.getMainCamera().type !== cameraType) {
       this.controlsManager.swapControls();
     }
-  }
-
-  /**
-   * Sets the animation loop for vr.
-   * @param animate Animation loop function.
-   */
-  public setAnimationLoop(animate: () => void) {
-    this.rendererManager.getMainRenderer().xr.enabled = true;
-    this.rendererManager.getMainRenderer().setAnimationLoop(animate);
-  }
-
-  /**
-   * Removes animation loop when closing vr.
-   */
-  public removeAnimationLoop() {
-    this.rendererManager.getMainRenderer().xr.enabled = false;
-    this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
   // *************************************
@@ -558,6 +538,20 @@ export class ThreeService {
    * @param onSessionEnded Callback when the VR session ends.
    */
   public initVRSession(onSessionEnded?: () => void) {
+    // Set up the animation loop
+    const animate = () => {
+      this.minimalRender();
+    };
+
+    this.rendererManager.getMainRenderer().xr.enabled = true;
+    this.rendererManager.getMainRenderer().setAnimationLoop(animate);
+
+    // Set up the camera position in the VR - Adding a group with camera does it
+    const cameraGroup = this.vrManager
+      .getCameraGroup(this.controlsManager.getMainCamera());
+    this.sceneManager.getScene().add(cameraGroup);
+
+    // Set and initialize the VR session
     this.vrManager.setVRSession(
       this.rendererManager.getMainRenderer(),
       onSessionEnded
@@ -565,10 +559,14 @@ export class ThreeService {
   }
 
   /**
-   * Get the current VR session if any.
-   * @returns The active VR session.
+   * End the current VR session.
    */
-  public getVRSession(): any {
-    this.vrManager.getVRSession();
+  public endVRSession() {
+    this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
+
+    this.rendererManager.getMainRenderer().xr.enabled = false;
+    // Remove the animation loop
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+    this.vrManager.endVRSession();
   }
 }

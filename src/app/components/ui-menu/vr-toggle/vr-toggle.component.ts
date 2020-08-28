@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { ThreeService } from '../../../services/three.service';
+import { VRManager } from '../../../services/three/vr-manager';
 
 @Component({
   selector: 'app-vr-toggle',
@@ -11,10 +13,10 @@ export class VrToggleComponent {
   vrSupported: boolean = false;
   vrActive: boolean = false;
 
-  constructor(private eventDisplay: EventdisplayService) {
+  constructor(private eventDisplay: EventdisplayService, private three: ThreeService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
-      (navigator as any)?.xr.isSessionSupported('immersive-vr')
+      (navigator as any)?.xr?.isSessionSupported?.(VRManager.SESSION_TYPE)
         .then((supported: boolean) => {
           if (supported) {
             this.vrSupported = true;
@@ -28,9 +30,13 @@ export class VrToggleComponent {
     if (!this.vrActive) {
       this.eventDisplay.initVR(() => {
         this.vrActive = false;
+        // Disable renderer XR and remove animation loop
+        this.eventDisplay.endVR();
       });
+      this.vrActive = true;
+    } else {
+      this.eventDisplay.endVR();
+      this.vrActive = false;
     }
-
-    this.vrActive = !this.vrActive;
   }
 }

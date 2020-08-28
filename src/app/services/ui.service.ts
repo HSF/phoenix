@@ -63,8 +63,7 @@ export class UIService {
    * Constructor for the UI service.
    * @param three Three service to perform three.js related operations.
    */
-  constructor(private three: ThreeService) {
-  }
+  constructor(private three: ThreeService) { }
 
   /**
    * Show/load the UI including stats, the dat.GUI menu and theme.
