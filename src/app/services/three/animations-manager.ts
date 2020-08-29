@@ -18,7 +18,10 @@ export class AnimationsManager {
     private scene: Scene,
     private activeCamera: Camera,
     private rendererManager: RendererManager
-  ) { }
+  ) {
+    this.animateEvent = this.animateEvent.bind(this);
+    this.animateEventWithClipping = this.animateEventWithClipping.bind(this);
+  }
 
   /**
    * Get the camera tween for animating camera to a position.
@@ -391,9 +394,9 @@ export class AnimationsManager {
     allEventData.visible = false;
 
     this.collideParticles(1500, 30, 5000, trackColor, () => {
-      animationFunction.apply(this, [tweenDuration, onEnd, () => {
+      animationFunction(tweenDuration, onEnd, () => {
         allEventData.visible = true;
-      }]);
+      });
     });
   }
 
