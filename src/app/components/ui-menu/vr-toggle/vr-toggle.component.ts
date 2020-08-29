@@ -13,7 +13,7 @@ export class VrToggleComponent {
   vrSupported: boolean = false;
   vrActive: boolean = false;
 
-  constructor(private eventDisplay: EventdisplayService, private three: ThreeService) {
+  constructor(private eventDisplay: EventdisplayService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
       (navigator as any)?.xr?.isSessionSupported?.(VRManager.SESSION_TYPE)

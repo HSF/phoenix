@@ -1,16 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VrToggleComponent } from './vr-toggle.component';
+import { EventdisplayService } from '../../../services/eventdisplay.service';
 
 describe('VrToggleComponent', () => {
   let component: VrToggleComponent;
   let fixture: ComponentFixture<VrToggleComponent>;
 
+  const mockEventDisplay = jasmine.createSpyObj('EventdisplayService', ['initVR', 'endVR']);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VrToggleComponent ]
+      providers: [{
+        provide: EventdisplayService,
+        useValue: mockEventDisplay
+      }],
+      declarations: [VrToggleComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +28,15 @@ describe('VrToggleComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should toggle VR', () => {
+    component.toggleVr();
+    expect(component.vrActive).toBeTrue();
+    expect(mockEventDisplay.initVR).toHaveBeenCalled();
+
+    component.toggleVr();
+    expect(component.vrActive).toBeFalse();
+    expect(mockEventDisplay.endVR).toHaveBeenCalled();
   });
 });
