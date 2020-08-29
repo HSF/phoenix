@@ -31,13 +31,15 @@ export class VRManager {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
 
-    const sessionInit = {
-      optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
-    };
-    (navigator as any)?.xr.requestSession(VRManager.SESSION_TYPE, sessionInit)
-      .then(this.onVRSessionStarted);
+    if ((navigator as any)?.xr) {
+      const sessionInit = {
+        optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
+      };
+      (navigator as any)?.xr?.requestSession(VRManager.SESSION_TYPE, sessionInit)
+        .then(this.onVRSessionStarted);
 
-    this.setupVRControls();
+      this.setupVRControls();
+    }
   }
 
   /**
@@ -54,7 +56,7 @@ export class VRManager {
    * Callback when the VR session ends.
    */
   private onVRSessionEnded = () => {
-    this.currentVRSession.removeEventListener('end', this.onVRSessionEnded);
+    this.currentVRSession?.removeEventListener('end', this.onVRSessionEnded);
     this.currentVRSession = null;
     this.onSessionEnded?.();
   }
@@ -130,7 +132,7 @@ export class VRManager {
     //! this.controller.getWorldDirection(direction);
 
     // Get direction the camera is facing
-    this.renderer.xr.getCamera(new Camera()).getWorldDirection(direction);
+    this.renderer.xr.getCamera(new Camera())?.getWorldDirection(direction);
 
     // Move the camera in the given direction
     this.cameraGroup.position.addScaledVector(direction, stepDistance);
