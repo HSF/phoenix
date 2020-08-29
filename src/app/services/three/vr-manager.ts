@@ -1,4 +1,4 @@
-import { WebGLRenderer, Group, Camera } from "three";
+import { WebGLRenderer, Group, Camera, Vector3, PerspectiveCamera } from "three";
 
 // NOTE: This was created on 29/08/2020
 // It might get outdated given how WebXR is still a work in progress
@@ -19,6 +19,8 @@ export class VRManager {
   public cameraGroup: Group;
   /** The camera used by VR. */
   public vrCamera: Camera;
+  /** The VR controller for movement. */
+  private controller: any;
 
   /**
    * Set and configure the VR session.
@@ -28,9 +30,14 @@ export class VRManager {
   public setVRSession(renderer: WebGLRenderer, onSessionEnded?: () => void) {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
-    const sessionInit = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] };
+
+    const sessionInit = {
+      optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
+    };
     (navigator as any)?.xr.requestSession(VRManager.SESSION_TYPE, sessionInit)
       .then(this.onVRSessionStarted);
+
+    this.setupVRControls();
   }
 
   /**
@@ -61,6 +68,7 @@ export class VRManager {
 
   /**
    * Get the group containing the camera for VR.
+   * VR camera works by adding a Group with Camera to the scene.
    * @param camera Camera which is to be cloned for VR use.
    */
   public getCameraGroup(camera?: Camera) {
@@ -69,8 +77,10 @@ export class VRManager {
       this.cameraGroup = new Group();
     }
     if (camera) {
-      this.vrCamera = camera.clone();
+      this.vrCamera = new Camera().copy(camera);
       this.vrCamera.name = 'VR_CAMERA';
+      (this.vrCamera as PerspectiveCamera).far = 1000000;
+
       this.cameraGroup.position.copy(this.vrCamera.position);
       this.cameraGroup.add(this.vrCamera);
     }
@@ -83,5 +93,47 @@ export class VRManager {
    */
   public getVRCamera() {
     return this.vrCamera;
+  }
+
+  /**
+   * Set up VR controls for moving around the event display.
+   */
+  private setupVRControls() {
+    // Distance for a single step
+    const stepDistance = 30;
+    // Unit vector in camera direction
+    const direction = new Vector3();
+    // Interval ID for the movement interval
+    let intervalId: NodeJS.Timeout;
+
+    // Get the controller
+    this.controller = this.renderer.xr.getController(0);
+    this.controller.addEventListener('selectstart', () => {
+      // Start movement in camera direction
+      intervalId = setInterval(() => {
+        this.moveInDirection(direction, stepDistance);
+      }, 20);
+    });
+    this.controller.addEventListener('selectend', () => {
+      // Stop the movement
+      clearInterval(intervalId);
+    });
+  }
+
+  /**
+   * Move the camera in the given direction.
+   * @param direction Direction to move towards.
+   * @param stepDistance Distance to move by.
+   */
+  private moveInDirection(direction: Vector3, stepDistance: number) {
+    // Get the direction the controller is facing
+    //! this.controller.getWorldDirection(direction);
+
+    // Get direction the camera is facing
+    this.renderer.xr.getCamera(new Camera()).getWorldDirection(direction);
+
+    // Move the camera in the given direction
+    this.cameraGroup.position.addScaledVector(direction, stepDistance);
+    this.vrCamera.position.addScaledVector(direction, stepDistance);
   }
 }
