@@ -1,0 +1,12 @@
+{
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.component.ts",
+    "**/*test.ts",
+    "**/*.prod.ts",
+    "**/*environment.ts"
+  ]
+}

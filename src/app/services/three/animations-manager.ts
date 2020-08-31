@@ -383,7 +383,11 @@ export class AnimationsManager {
    * @param onEnd Function to call when all animations have ended.
    */
   public animateWithCollision(
-    animationFunction: (...params: any) => void,
+    animationFunction: (
+      tweenDuration: number,
+      onEnd?: () => void,
+      onAnimationStart?: () => void
+    ) => void,
     tweenDuration: number,
     onEnd?: () => void
   ) {
@@ -391,11 +395,15 @@ export class AnimationsManager {
     const trackColor = (this.scene.getObjectByName('Track') as any)?.material?.color;
 
     // Hide event data to show particles collision
-    allEventData.visible = false;
+    if (allEventData) {
+      allEventData.visible = false;
+    }
 
     this.collideParticles(1500, 30, 5000, trackColor, () => {
       animationFunction(tweenDuration, onEnd, () => {
-        allEventData.visible = true;
+        if (allEventData) {
+          allEventData.visible = true;
+        }
       });
     });
   }

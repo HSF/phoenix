@@ -27,8 +27,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "allowedCommonJsDependencies": [
+              "css-element-queries",
+              "@tweenjs/tween.js"
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
