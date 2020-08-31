@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
-import { isArray } from 'util';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -134,7 +133,7 @@ export class PhoenixObjects {
     let hitsParamsClone: any;
 
     // If the parameters is an object then take out 'pos' for hits positions
-    if (typeof hitsParams === 'object' && !isArray(hitsParams)) {
+    if (typeof hitsParams === 'object' && !Array.isArray(hitsParams)) {
       positions = [hitsParams.pos];
       hitsParamsClone = hitsParams;
     } else {
