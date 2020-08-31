@@ -18,7 +18,7 @@ export class ScriptLoader {
         'JSRootGeoBase.js', 'JSRootGeoPainter.js'
       ];
       for (const script of allScripts) {
-        await this.loadScript('assets/jsroot/' + script, 'JSROOT');
+        await ScriptLoader.loadScript('assets/jsroot/' + script, 'JSROOT');
       }
       onScriptsLoaded(JSROOT);
     })();

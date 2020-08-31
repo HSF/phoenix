@@ -247,10 +247,24 @@ describe('EventdisplayService', () => {
       window.EventDisplay.parseGLTFGeometry('test/path.gltf');
     });
 
+    it('should initialize VR', () => {
+      spyOn(three, 'initVRSession').and.callThrough();
+      eventDisplay.initVR();
+      expect(three.initVRSession).toHaveBeenCalled();
+    });
+
+    it('should end VR', () => {
+      eventDisplay.initVR();
+
+      spyOn(three, 'endVRSession').and.callThrough();
+      eventDisplay.endVR();
+      expect(three.endVRSession).toHaveBeenCalled();
+    });
+
     it('should call three service functions', () => {
-      spyOn(three, 'setVRButton').and.callThrough();
-      eventDisplay.initVR(new Configuration());
-      expect(three.setVRButton).toHaveBeenCalled();
+      spyOn(three, 'initVRSession').and.callThrough();
+      eventDisplay.initVR();
+      expect(three.initVRSession).toHaveBeenCalled();
 
       spyOn(three, 'exportSceneToOBJ').and.stub();
       eventDisplay.exportToOBJ();

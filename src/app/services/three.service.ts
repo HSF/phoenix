@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as TWEEN from '@tweenjs/tween.js';
-import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 import {
   Group,
   Object3D,
@@ -21,6 +20,7 @@ import { SceneManager } from './three/scene-manager';
 import { AnimationsManager } from './three/animations-manager';
 import { InfoLoggerService } from './infologger.service';
 import { EffectsManager } from './three/effects-manager';
+import { VRManager } from './three/vr-manager';
 
 /**
  * Service for all three.js related functions.
@@ -46,6 +46,8 @@ export class ThreeService {
   private animationsManager: AnimationsManager;
   /** Manager for managing effects using EffectComposer */
   private effectsManager: EffectsManager;
+  /** VR manager for VR related operations */
+  private vrManager: VRManager;
   /** Service for logging data to the information panel */
   private infoLogger: InfoLoggerService;
   /** Scene export ignore list */
@@ -92,6 +94,8 @@ export class ThreeService {
       this.controlsManager.getActiveCamera(),
       this.rendererManager
     );
+    // VR manager
+    this.vrManager = new VRManager();
     // Logger
     this.infoLogger = infoLogger;
     // Selection manager
@@ -115,12 +119,22 @@ export class ThreeService {
   }
 
   /**
-   * Renders three service.
+   * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
     this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Minimally render without any post-processing.
+   */
+  public minimalRender() {
+    // Use the VR camera for rendering
+    this.rendererManager.getMainRenderer().render(
+      this.sceneManager.getScene(), this.vrManager.getVRCamera()
+    );
   }
 
   /**
@@ -196,28 +210,6 @@ export class ThreeService {
     }
   }
 
-  /**
-   * Sets animation loop for vr playground.
-   * @param animate Function to render the loop.
-   */
-  public setAnimationLoop(animate: () => void) {
-    this.rendererManager.getMainRenderer().xr.enabled = true;
-    this.rendererManager.getMainRenderer().setAnimationLoop(animate);
-  }
-
-  /**
-   * Displays a button to toggle VR.
-   */
-  public setVRButton() {
-    let canvas = document.getElementById('eventDisplay');
-    if (canvas == null) {
-      canvas = document.body;
-    }
-    canvas.appendChild(
-      VRButton.createButton(this.rendererManager.getMainRenderer())
-    );
-  }
-
   // *************************************
   // * Functions for loading geometries. *
   // *************************************
@@ -238,7 +230,7 @@ export class ThreeService {
     initiallyVisible: boolean = true
   ): void {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (object: Group) => {
+    const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
@@ -540,5 +532,42 @@ export class ThreeService {
    */
   public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Initialize the VR session.
+   * @param onSessionEnded Callback when the VR session ends.
+   */
+  public initVRSession(onSessionEnded?: () => void) {
+    // Set up the camera position in the VR - Adding a group with camera does it
+    const cameraGroup = this.vrManager
+      .getCameraGroup(this.controlsManager.getMainCamera());
+    this.sceneManager.getScene().add(cameraGroup);
+
+    // Set up main renderer for VR
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled = true;
+
+    // Set up the animation loop
+    const animate = () => {
+      this.minimalRender();
+    };
+    mainRenderer.setAnimationLoop(animate);
+
+    // Set and initialize the VR session
+    this.vrManager.setVRSession(mainRenderer, onSessionEnded);
+  }
+
+  /**
+   * End the current VR session.
+   */
+  public endVRSession() {
+    this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
+
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled = false;
+    // Remove the animation loop
+    mainRenderer.setAnimationLoop(null);
+    this.vrManager.endVRSession();
   }
 }

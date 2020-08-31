@@ -9,7 +9,10 @@ import { UIService } from '../../services/ui.service';
 })
 export class HomeComponent implements AfterViewInit {
 
+  year: number;
+
   constructor(private ui: UIService) {
+    this.year = new Date().getFullYear();
   }
 
   ngAfterViewInit() {

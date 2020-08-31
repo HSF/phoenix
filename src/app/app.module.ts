@@ -12,7 +12,6 @@ import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { NavComponent } from './components/nav/nav.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
-import { PlaygroundVrComponent } from './sections/playground-vr/playground-vr.component';
 import { AttributePipe } from './services/extras/attribute.pipe';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { UiMenuComponent } from './components/ui-menu/ui-menu.component';
@@ -53,6 +52,7 @@ import { PhoenixMenuItemComponent } from './components/phoenix-menu/pheonix-menu
 import { ConfigSliderComponent } from './components/phoenix-menu/config/config-slider/config-slider.component';
 import { AnimateCameraComponent } from './components/ui-menu/animate-camera/animate-camera.component';
 import { AnimateEventComponent } from './components/ui-menu/animate-event/animate-event.component';
+import { VrToggleComponent } from './components/ui-menu/vr-toggle/vr-toggle.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -62,8 +62,7 @@ const routes: Routes = [
   { path: 'lhcb', component: LHCbComponent },
   { path: 'cms', component: CMSComponent },
   { path: 'trackml', component: TrackmlComponent },
-  { path: 'playground', component: PlaygroundComponent },
-  { path: 'playgroundVR', component: PlaygroundVrComponent }
+  { path: 'playground', component: PlaygroundComponent }
 ];
 
 @NgModule({
@@ -77,7 +76,6 @@ const routes: Routes = [
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,
-    PlaygroundVrComponent,
     AttributePipe,
     UiMenuComponent,
     CollectionsInfoComponent,
@@ -106,7 +104,8 @@ const routes: Routes = [
     PhoenixMenuItemComponent,
     ConfigSliderComponent,
     AnimateCameraComponent,
-    AnimateEventComponent
+    AnimateEventComponent,
+    VrToggleComponent
   ],
   imports: [
     BrowserModule,
@@ -132,5 +131,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

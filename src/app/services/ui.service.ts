@@ -63,14 +63,16 @@ export class UIService {
    * Constructor for the UI service.
    * @param three Three service to perform three.js related operations.
    */
-  constructor(private three: ThreeService) {
-  }
+  constructor(private three: ThreeService) { }
 
   /**
    * Show/load the UI including stats, the dat.GUI menu and theme.
    * @param configuration Configuration options for preset views and event data loader.
    */
   public showUI(configuration: Configuration) {
+    // Clear the existing UI
+    this.clearUI();
+    // Set the configuration
     this.configuration = configuration;
     // Shows a panel on screen with information about the performance (fps).
     this.showStats();
@@ -129,8 +131,8 @@ export class UIService {
    * @param phoenixMenuRoot Root node of the phoenix menu.
    */
   private showPhoenixMenu(phoenixMenuRoot: PhoenixMenuNode) {
-    this.hasPhoenixMenu = true;
     this.setPhoenixMenu(phoenixMenuRoot);
+    this.hasPhoenixMenu = true;
     this.geomFolderPM = null;
     this.eventFolderPM = null;
   }
@@ -152,6 +154,8 @@ export class UIService {
       gui.remove();
     }
     this.geomFolder = null;
+    this.geomFolderAdded = false;
+    this.hasDatGUIMenu = false;
   }
 
   /**
@@ -164,6 +168,8 @@ export class UIService {
     }
     this.geomFolderPM = null;
     this.eventFolderPM = null;
+    this.geomFolderAdded = false;
+    this.hasPhoenixMenu = false;
   }
 
   /**

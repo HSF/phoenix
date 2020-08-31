@@ -101,29 +101,6 @@ describe('ThreeService', () => {
       expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(0);
     });
 
-    it('should set animation loop', () => {
-      spyOn(threePrivate.rendererManager.getMainRenderer(), 'setAnimationLoop').and.callThrough();
-
-      const mockAnimLoop = () => { };
-      three.setAnimationLoop(mockAnimLoop);
-
-      expect(threePrivate.rendererManager.getMainRenderer().setAnimationLoop)
-        .toHaveBeenCalledWith(mockAnimLoop);
-    });
-
-    it('should set VR button', () => {
-      const canvas = document.createElement('canvas');
-      canvas.setAttribute('id', 'eventDisplay');
-      const canvasSpy = spyOn(document, 'getElementById').and.returnValue(canvas);
-
-      three.setVRButton();
-      expect(canvas.children.length).toBeGreaterThan(0);
-
-      canvasSpy.and.returnValue(null);
-      three.setVRButton();
-      expect(document.body.children.length).toBeGreaterThan(0);
-    });
-
     const OBJ_FILE = 'assets/geometry/ATLAS/TRT.obj';
     const GLTF_FILE = 'assets/geometry/CMS/cms.gltf';
 

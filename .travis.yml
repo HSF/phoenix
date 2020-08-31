@@ -3,7 +3,7 @@ sudo: false
 
 language: node_js
 node_js:
-  - "10"
+  - "12"
 
 addons:
   chrome: stable
@@ -18,7 +18,8 @@ install:
 script:
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
-  - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+  # Bug with Angular 10 (https://github.com/angular/protractor/issues/5460)
+  #- npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
 
 after_success:
   - npm run coveralls

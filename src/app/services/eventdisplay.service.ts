@@ -41,8 +41,12 @@ export class EventdisplayService {
    * @param http HttpClient for making http requests.
    * @param infoLogger Service for logging data to the information panel.
    */
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient, private infoLogger: InfoLoggerService) {
-  }
+  constructor(
+    public graphicsLibrary: ThreeService,
+    private ui: UIService,
+    private http: HttpClient,
+    private infoLogger: InfoLoggerService
+  ) { }
 
   /**
    * Initializes the components needed to later represent the geometries.
@@ -72,22 +76,18 @@ export class EventdisplayService {
   }
 
   /**
-   * Initialize the event display with virtual reality environment and controls.
-   * @param configuration Configuration for preset views and event data loader.
+   * Initialize VR.
+   * @param onSessionEnded Callback when the VR session ends.
    */
-  public initVR(configuration: Configuration) {
-    this.configuration = configuration;
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
-    // Animate loop
-    const animate = () => {
-      this.graphicsLibrary.updateControls();
-      this.ui.updateUI();
-      this.graphicsLibrary.render();
-    };
-    this.graphicsLibrary.setVRButton();
-    this.graphicsLibrary.setAnimationLoop(animate);
+  public initVR(onSessionEnded?: () => void) {
+    this.graphicsLibrary.initVRSession(onSessionEnded);
+  }
+
+  /**
+   * End VR and remove VR settings.
+   */
+  public endVR() {
+    this.graphicsLibrary.endVRSession();
   }
 
   /**
@@ -271,7 +271,7 @@ export class EventdisplayService {
         file.ReadObject(objectName, (obj: any) => {
           this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
             name, scale, doubleSided, initiallyVisible);
-        })
+        });
       });
     }
   }
@@ -361,6 +361,10 @@ export class EventdisplayService {
       },
       loadOBJGeometry: (filename: string, name: string, colour: any, doubleSided: boolean) => {
         this.loadOBJGeometry(filename, name, colour, doubleSided);
+      },
+      loadJSONGeometry: (json: string | object, name: string,
+        scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
+        this.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
       },
       parseOBJGeometry: (content: string, name: string) => {
         this.parseOBJGeometry(content, name);
