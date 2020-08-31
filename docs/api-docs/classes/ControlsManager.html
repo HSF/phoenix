@@ -633,8 +633,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="348"
-                            class="link-to-prism">src/app/services/three/controls-manager.ts:348</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="351"
+                            class="link-to-prism">src/app/services/three/controls-manager.ts:351</a></div>
                 </td>
             </tr>
 
@@ -1058,8 +1058,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="307"
-                            class="link-to-prism">src/app/services/three/controls-manager.ts:307</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">src/app/services/three/controls-manager.ts:310</a></div>
                 </td>
             </tr>
 
@@ -1197,8 +1197,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">src/app/services/three/controls-manager.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="367"
+                            class="link-to-prism">src/app/services/three/controls-manager.ts:367</a></div>
                 </td>
             </tr>
 
@@ -1293,8 +1293,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="325"
-                            class="link-to-prism">src/app/services/three/controls-manager.ts:325</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">src/app/services/three/controls-manager.ts:328</a></div>
                 </td>
             </tr>
 
@@ -1451,8 +1451,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="337"
-                            class="link-to-prism">src/app/services/three/controls-manager.ts:337</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/app/services/three/controls-manager.ts:340</a></div>
                 </td>
             </tr>
 
@@ -2148,7 +2148,7 @@ The factor may either be greater or smaller.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3 } from &#x27;three&#x27;;
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group } from &#x27;three&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
 import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
 
@@ -2156,369 +2156,372 @@ import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
  * Manager for managing event display controls.
  */
 export class ControlsManager {
-    /** Currently active orbit controls. */
-    private activeControls: OrbitControls;
-    /** The main orbit controls. */
-    private mainControls: OrbitControls;
-    /** Orbit controls for overlay view. */
-    private overlayControls: OrbitControls;
-    /** All orbit controls. */
-    private controls: OrbitControls[];
-    /** Orbit controls for the perspective view. */
-    private perspectiveControls: OrbitControls;
-    /** Orbit controls for the orthographic view. */
-    private orthographicControls: OrbitControls;
-    /** Pairs of camera and their animation for zoom controls. */
-    private zoomCameraAnimPairs: { camera: Camera, anim: any }[];
+  /** Currently active orbit controls. */
+  private activeControls: OrbitControls;
+  /** The main orbit controls. */
+  private mainControls: OrbitControls;
+  /** Orbit controls for overlay view. */
+  private overlayControls: OrbitControls;
+  /** All orbit controls. */
+  private controls: OrbitControls[];
+  /** Orbit controls for the perspective view. */
+  private perspectiveControls: OrbitControls;
+  /** Orbit controls for the orthographic view. */
+  private orthographicControls: OrbitControls;
+  /** Pairs of camera and their animation for zoom controls. */
+  private zoomCameraAnimPairs: { camera: Camera, anim: any }[];
 
-    /**
-     * Constructor for setting up all the controls.
-     * @param rendererManager The renderer manager to get the main renderer.
-     */
-    constructor(rendererManager: RendererManager) {
-        this.controls &#x3D; [];
-        this.mainControls &#x3D; null;
-        this.overlayControls &#x3D; null;
-        // Arguments: FOV, aspect ratio, near and far distances
-        const perspectiveCamera &#x3D; new PerspectiveCamera(
-            75,
-            window.innerWidth / window.innerHeight,
-            10,
-            100000
+  /**
+   * Constructor for setting up all the controls.
+   * @param rendererManager The renderer manager to get the main renderer.
+   */
+  constructor(rendererManager: RendererManager) {
+    this.controls &#x3D; [];
+    this.mainControls &#x3D; null;
+    this.overlayControls &#x3D; null;
+    // Arguments: FOV, aspect ratio, near and far distances
+    const perspectiveCamera &#x3D; new PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      10,
+      100000
+    );
+    // Arguments: left, right, top, bottom, near and far distances
+    const orthographicCamera &#x3D; new OrthographicCamera(
+      -window.innerWidth / 2,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      -window.innerHeight / 2,
+      10,
+      100000
+    );
+    // Orbit controls allow to move around
+    this.perspectiveControls &#x3D; this.setOrbitControls(
+      perspectiveCamera,
+      rendererManager.getMainRenderer().domElement
+    );
+    this.orthographicControls &#x3D; this.setOrbitControls(
+      orthographicCamera,
+      rendererManager.getMainRenderer().domElement
+    );
+    perspectiveCamera.position.z &#x3D; orthographicCamera.position.z &#x3D; 200;
+    // Set active orbit controls
+    this.addControls(this.perspectiveControls);
+    this.addControls(this.orthographicControls);
+    this.setActiveControls(this.perspectiveControls);
+    this.setMainControls(this.perspectiveControls);
+    this.setOverlayControls(this.orthographicControls);
+    // Add listener
+    this.getActiveControls().addEventListener(
+      &#x27;change&#x27;, () &#x3D;&gt; {
+        this.transformSync();
+        this.updateSync();
+      }
+    );
+    // Initialize the zoom controls
+    this.initializeZoomControls();
+  }
+
+  /**
+   * Set orbit controls for the camera.
+   * @param camera The camera with which to create the orbit controls.
+   * @param domElement DOM element of the renderer to associate the orbit controls with.
+   * @returns Configured orbit controls.
+   */
+  private setOrbitControls(
+    camera: PerspectiveCamera | OrthographicCamera,
+    domElement?: HTMLElement
+  ): OrbitControls {
+    const controls: OrbitControls &#x3D; new OrbitControls(camera, domElement);
+    controls.enableDamping &#x3D; true;
+    controls.dampingFactor &#x3D; 0.25;
+    controls.enableZoom &#x3D; true;
+    controls.autoRotate &#x3D; false;
+
+    return controls;
+  }
+
+  // SET/GET
+
+  /**
+   * Set the currently active orbit controls.
+   * @param controls Orbit controls to be set as active.
+   */
+  setActiveControls(controls: OrbitControls) {
+    this.activeControls &#x3D; controls;
+  }
+  /**
+   * Set the main orbit controls.
+   * @param controls Orbit controls to be set as main.
+   */
+  setMainControls(controls: OrbitControls) {
+    this.mainControls &#x3D; controls;
+  }
+  /**
+   * Set orbit controls for overlay.
+   * @param controls Orbit controls to be set for overlay.
+   */
+  setOverlayControls(controls: OrbitControls) {
+    this.overlayControls &#x3D; controls;
+  }
+  /**
+   * Get currently active orbit controls.
+   * @returns Currently active orbit controls.
+   */
+  getActiveControls(): OrbitControls {
+    return this.activeControls;
+  }
+  /**
+   * Get the main orbit controls.
+   * @returns Main orbit controls.
+   */
+  getMainControls(): OrbitControls {
+    return this.mainControls;
+  }
+  /**
+   * Get orbit controls for overlay.
+   * @returns Orbit controls for overlay.
+   */
+  getOverlayControls(): OrbitControls {
+    return this.overlayControls;
+  }
+  /**
+   * Get the currently active camera.
+   * @returns Currently active camera.
+   */
+  getActiveCamera(): Camera {
+    return this.activeControls.object;
+  }
+  /**
+   * Get the main camera.
+   * @returns Main camera.
+   */
+  getMainCamera(): Camera {
+    return this.mainControls.object;
+  }
+  /**
+   * Get the camera for overlay.
+   * @returns The camera for overlay.
+   */
+  getOverlayCamera(): Camera {
+    return this.overlayControls.object;
+  }
+  /**
+   * Get the main and overlay cameras.
+   * @returns An array containing the main and overlay cameras.
+   */
+  getAllCameras(): Camera[] {
+    return [this.getMainCamera(), this.getOverlayCamera()];
+  }
+
+
+  // FUNCTIONS
+
+  /**
+   * Add orbit controls to the controls list.
+   * @param controls Orbit controls to be added.
+   */
+  public addControls(controls: OrbitControls): void {
+    if (!this.containsObject(controls, this.controls)) { this.controls.push(controls); }
+  }
+
+  /**
+   * Remove orbit controls from the controls list.
+   * @param controls Orbit controls to be removed.
+   */
+  public removeControls(controls: OrbitControls): void {
+    const index: number &#x3D; this.controls.indexOf(controls);
+    if (index &gt; -1) {
+      this.controls.splice(index, 1);
+    }
+  }
+
+  /**
+   * Swap the main and overlay orbit controls.
+   */
+  public swapControls(): void {
+    const temp: OrbitControls &#x3D; this.mainControls;
+    this.mainControls &#x3D; this.overlayControls;
+    // this._mainControls.autoRotate &#x3D; temp.autoRotate;
+    this.overlayControls &#x3D; temp;
+  }
+
+  /**
+   * Synchronously update all controls.
+   */
+  public updateSync(): void {
+    for (const control of this.controls) {
+      if (control &#x3D;&#x3D;&#x3D; this.activeControls) { continue; }
+      this.update(control);
+    }
+  }
+
+  /**
+   * Update orbit controls.
+   * @param controls Orbit controls to be updated.
+   */
+  public update(controls: OrbitControls): void {
+    controls.update();
+  }
+
+  /**
+   * Synchronously transform the controls by updating the position and rotation.
+   */
+  public transformSync(): void {
+    for (const control of this.controls) {
+      if (control &#x3D;&#x3D;&#x3D; this.activeControls) { continue; }
+      this.positionSync(control);
+      this.rotationSync(control);
+    }
+  }
+
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater or smaller.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    for (const zoomCameraAnimPair of this.zoomCameraAnimPairs) {
+      const camera: any &#x3D; zoomCameraAnimPair.camera;
+      const anim &#x3D; zoomCameraAnimPair.anim;
+      if (camera.isOrthographicCamera) {
+        anim.to({
+          zoom: camera.zoom * (1 / zoomFactor)
+        }, zoomTime);
+        camera.updateProjectionMatrix();
+      } else {
+        const cameraPosition &#x3D; camera.position;
+        anim.to(
+          {
+            x: cameraPosition.x * zoomFactor,
+            y: cameraPosition.y * zoomFactor,
+            z: cameraPosition.z * zoomFactor
+          },
+          zoomTime
         );
-        // Arguments: left, right, top, bottom, near and far distances
-        const orthographicCamera &#x3D; new OrthographicCamera(
-            -window.innerWidth / 2,
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            -window.innerHeight / 2,
-            10,
-            100000
-        );
-        // Orbit controls allow to move around
-        this.perspectiveControls &#x3D; this.setOrbitControls(
-            perspectiveCamera,
-            rendererManager.getMainRenderer().domElement
-        );
-        this.orthographicControls &#x3D; this.setOrbitControls(
-            orthographicCamera,
-            rendererManager.getMainRenderer().domElement
-        );
-        perspectiveCamera.position.z &#x3D; orthographicCamera.position.z &#x3D; 200;
-        // Set active orbit controls
-        this.addControls(this.perspectiveControls);
-        this.addControls(this.orthographicControls);
-        this.setActiveControls(this.perspectiveControls);
-        this.setMainControls(this.perspectiveControls);
-        this.setOverlayControls(this.orthographicControls);
-        // Add listener
-        this.getActiveControls().addEventListener(
-            &#x27;change&#x27;, () &#x3D;&gt; {
-                this.transformSync();
-                this.updateSync();
-            }
-        );
-        // Initialize the zoom controls
-        this.initializeZoomControls();
+      }
+      anim.start();
     }
+  }
 
-    /**
-     * Set orbit controls for the camera.
-     * @param camera The camera with which to create the orbit controls.
-     * @param domElement DOM element of the renderer to associate the orbit controls with.
-     * @returns Configured orbit controls.
-     */
-    private setOrbitControls(
-        camera: PerspectiveCamera | OrthographicCamera,
-        domElement?: HTMLElement
-    ): OrbitControls {
-        const controls: OrbitControls &#x3D; new OrbitControls(camera, domElement);
-        controls.enableDamping &#x3D; true;
-        controls.dampingFactor &#x3D; 0.25;
-        controls.enableZoom &#x3D; true;
-        controls.autoRotate &#x3D; false;
-
-        return controls;
-    }
-
-    // SET/GET
-
-    /**
-     * Set the currently active orbit controls.
-     * @param controls Orbit controls to be set as active.
-     */
-    setActiveControls(controls: OrbitControls) {
-        this.activeControls &#x3D; controls;
-    }
-    /**
-     * Set the main orbit controls.
-     * @param controls Orbit controls to be set as main.
-     */
-    setMainControls(controls: OrbitControls) {
-        this.mainControls &#x3D; controls;
-    }
-    /**
-     * Set orbit controls for overlay.
-     * @param controls Orbit controls to be set for overlay.
-     */
-    setOverlayControls(controls: OrbitControls) {
-        this.overlayControls &#x3D; controls;
-    }
-    /**
-     * Get currently active orbit controls.
-     * @returns Currently active orbit controls.
-     */
-    getActiveControls(): OrbitControls {
-        return this.activeControls;
-    }
-    /**
-     * Get the main orbit controls.
-     * @returns Main orbit controls.
-     */
-    getMainControls(): OrbitControls {
-        return this.mainControls;
-    }
-    /**
-     * Get orbit controls for overlay.
-     * @returns Orbit controls for overlay.
-     */
-    getOverlayControls(): OrbitControls {
-        return this.overlayControls;
-    }
-    /**
-     * Get the currently active camera.
-     * @returns Currently active camera.
-     */
-    getActiveCamera(): Camera {
-        return this.activeControls.object;
-    }
-    /**
-     * Get the main camera.
-     * @returns Main camera.
-     */
-    getMainCamera(): Camera {
-        return this.mainControls.object;
-    }
-    /**
-     * Get the camera for overlay.
-     * @returns The camera for overlay.
-     */
-    getOverlayCamera(): Camera {
-        return this.overlayControls.object;
-    }
-    /**
-     * Get the main and overlay cameras.
-     * @returns An array containing the main and overlay cameras.
-     */
-    getAllCameras(): Camera[] {
-        return [this.getMainCamera(), this.getOverlayCamera()];
-    }
-
-
-    // FUNCTIONS
-
-    /**
-     * Add orbit controls to the controls list.
-     * @param controls Orbit controls to be added.
-     */
-    public addControls(controls: OrbitControls): void {
-        if (!this.containsObject(controls, this.controls)) { this.controls.push(controls); }
-    }
-
-    /**
-     * Remove orbit controls from the controls list.
-     * @param controls Orbit controls to be removed.
-     */
-    public removeControls(controls: OrbitControls): void {
-        const index: number &#x3D; this.controls.indexOf(controls);
-        if (index &gt; -1) {
-            this.controls.splice(index, 1);
-        }
-    }
-
-    /**
-     * Swap the main and overlay orbit controls.
-     */
-    public swapControls(): void {
-        const temp: OrbitControls &#x3D; this.mainControls;
-        this.mainControls &#x3D; this.overlayControls;
-        // this._mainControls.autoRotate &#x3D; temp.autoRotate;
-        this.overlayControls &#x3D; temp;
-    }
-
-    /**
-     * Synchronously update all controls.
-     */
-    public updateSync(): void {
-        for (const control of this.controls) {
-            if (control &#x3D;&#x3D;&#x3D; this.activeControls) { continue; }
-            this.update(control);
-        }
-    }
-
-    /**
-     * Update orbit controls.
-     * @param controls Orbit controls to be updated.
-     */
-    public update(controls: OrbitControls): void {
-        controls.update();
-    }
-
-    /**
-     * Synchronously transform the controls by updating the position and rotation.
-     */
-    public transformSync(): void {
-        for (const control of this.controls) {
-            if (control &#x3D;&#x3D;&#x3D; this.activeControls) { continue; }
-            this.positionSync(control);
-            this.rotationSync(control);
-        }
-    }
-
-    /**
-     * Zoom all the cameras by a specific zoom factor.
-     * The factor may either be greater or smaller.
-     * @param zoomFactor The factor to zoom by.
-     * @param zoomTime The time it takes for a zoom animation to complete.
-     */
-    public zoomTo(zoomFactor: number, zoomTime: number) {
-        for (const zoomCameraAnimPair of this.zoomCameraAnimPairs) {
-            const camera: any &#x3D; zoomCameraAnimPair.camera;
-            const anim &#x3D; zoomCameraAnimPair.anim;
-            if (camera.isOrthographicCamera) {
-                anim.to({
-                    zoom: camera.zoom * (1 / zoomFactor)
-                }, zoomTime);
-                camera.updateProjectionMatrix();
-            } else {
-                const cameraPosition &#x3D; camera.position;
-                anim.to(
-                    {
-                        x: cameraPosition.x * zoomFactor,
-                        y: cameraPosition.y * zoomFactor,
-                        z: cameraPosition.z * zoomFactor
-                    },
-                    zoomTime
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   * @param objectsGroup Group of objects to be traversed for finding the object
+   * with the given uuid.
+   */
+  public lookAtObject(uuid: string, objectsGroup: Object3D) {
+    const origin &#x3D; new Vector3(0, 0, 0);
+    objectsGroup.traverse((object: any) &#x3D;&gt; {
+      if (object.uuid &#x3D;&#x3D;&#x3D; uuid) {
+        let objectPosition &#x3D; new Vector3();
+        if (object instanceof Group) {
+          // If it is a group of other event data we traverse through it
+          object.traverse((childObject: any) &#x3D;&gt; {
+            // Make sure the child is not a group (e.g Track is a group)
+            if (childObject.children.length &#x3D;&#x3D;&#x3D; 0) {
+              if (childObject.position.equals(origin)) {
+                // Get the max vector from the bounding box to accumulate with the clusters
+                objectPosition.add(
+                  childObject.geometry.boundingSphere.getBoundingBox().max
                 );
+              } else {
+                objectPosition.add(childObject.position);
+              }
             }
-            anim.start();
+          });
+        } else if (object.position.equals(origin)) {
+          // Get the center of bounding sphere of objects with no position
+          objectPosition &#x3D; object.geometry.boundingSphere.center;
+        } else {
+          // Get the object position for all other elements
+          objectPosition &#x3D; object.position;
         }
-    }
-
-    /**
-     * Move the camera to look at the object with the given uuid.
-     * @param uuid uuid of the object.
-     * @param objectsGroup Group of objects to be traversed for finding the object
-     * with the given uuid.
-     */
-    public lookAtObject(uuid: string, objectsGroup: Object3D) {
-        const origin &#x3D; new Vector3(0, 0, 0);
-        objectsGroup.traverse((object: any) &#x3D;&gt; {
-            if (object.uuid &#x3D;&#x3D;&#x3D; uuid) {
-                let objectPosition &#x3D; new Vector3();
-                if ([&#x27;Track&#x27;, &#x27;Hit&#x27;].includes(object.name)) {
-                    // Get the center of bounding sphere for Tracks and Hits
-                    objectPosition &#x3D; object.geometry.boundingSphere.center;
-                } else if (object.name &#x3D;&#x3D;&#x3D; &#x27;Muon&#x27;) {
-                    // Muon is a group of other event data so we traverse through it
-                    object.traverse((muonObject: any) &#x3D;&gt; {
-                        if (muonObject.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27;) {
-                            // Get the max vector from the bounding box to accumulate with the clusters
-                            objectPosition.add(
-                                muonObject.geometry.boundingSphere.getBoundingBox().max
-                            );
-                        } else {
-                            objectPosition.add(muonObject.position);
-                        }
-                    });
-                } else {
-                    // Get the object position for all other elements
-                    objectPosition &#x3D; object.position;
-                }
-                // Check if the object is away from the origin
-                if (objectPosition.distanceTo(origin) &gt; 1) {
-                    for (const camera of this.getAllCameras()) {
-                        // Moving the camera to the object&#x27;s position and then zooming out
-                        new TWEEN.Tween(camera.position).to({
-                            x: objectPosition.x * 1.1,
-                            y: objectPosition.y * 1.1,
-                            z: objectPosition.z * 1.1
-                        }, 200).start();
-                    }
-                }
-            }
-        });
-    }
-
-    /**
-     * Initialize the zoom controls by setting up the camera and their animations as pairs.
-     */
-    private initializeZoomControls() {
-        const allCameras: any[] &#x3D; this.getAllCameras();
-        this.zoomCameraAnimPairs &#x3D; [];
-        for (const camera of allCameras) {
-            const animation &#x3D; camera.isOrthographicCamera
-                ? new TWEEN.Tween(camera)
-                : new TWEEN.Tween(camera.position);
-            this.zoomCameraAnimPairs.push({
-                camera: camera,
-                anim: animation
-            });
+        // Check if the object is away from the origin
+        if (objectPosition.distanceTo(origin) &gt; 1) {
+          for (const camera of this.getAllCameras()) {
+            // Moving the camera to the object&#x27;s position and then zooming out
+            new TWEEN.Tween(camera.position).to({
+              x: objectPosition.x * 1.1,
+              y: objectPosition.y * 1.1,
+              z: objectPosition.z * 1.1
+            }, 200).start();
+          }
         }
+      }
+    });
+  }
+
+  /**
+   * Initialize the zoom controls by setting up the camera and their animations as pairs.
+   */
+  private initializeZoomControls() {
+    const allCameras: any[] &#x3D; this.getAllCameras();
+    this.zoomCameraAnimPairs &#x3D; [];
+    for (const camera of allCameras) {
+      const animation &#x3D; camera.isOrthographicCamera
+        ? new TWEEN.Tween(camera)
+        : new TWEEN.Tween(camera.position);
+      this.zoomCameraAnimPairs.push({
+        camera: camera,
+        anim: animation
+      });
+    }
+  }
+
+  /**
+   * Synchronously update position of the orbit controls.
+   * @param controls Orbit controls whose position is to be updated.
+   */
+  private positionSync(controls: OrbitControls): void {
+    controls.object.position.set(
+      this.activeControls.object.position.x,
+      this.activeControls.object.position.y,
+      this.activeControls.object.position.z);
+    // controls.update();
+  }
+
+  /**
+   * Synchronously update rotation of the orbit controls.
+   * @param controls Controls whose rotation is to be updated.
+   */
+  private rotationSync(controls: OrbitControls): void {
+    controls.target &#x3D; this.activeControls.target;
+    // controls.update();
+  }
+
+  /**
+   * Check if the list of orbit controls contains a specific orbit controls.
+   * @param obj Orbit controls to be checked for containment.
+   * @param list List of orbit controls.
+   * @returns If the list contains the orbit controls.
+   */
+  private containsObject(obj: OrbitControls, list: OrbitControls[]): boolean {
+    for (const object of list) {
+      if (object &#x3D;&#x3D;&#x3D; obj) {
+        return true;
+      }
     }
 
-    /**
-     * Synchronously update position of the orbit controls.
-     * @param controls Orbit controls whose position is to be updated.
-     */
-    private positionSync(controls: OrbitControls): void {
-        controls.object.position.set(
-            this.activeControls.object.position.x,
-            this.activeControls.object.position.y,
-            this.activeControls.object.position.z);
-        // controls.update();
+    return false;
+  }
+
+  /**
+   * Get the index of orbit controls from a list of orbit controls.
+   * @param obj Orbit controls whose index is to be obtained.
+   * @param list List of orbit controls.
+   * @returns Index of the orbit controls in the given list. Returns -1 if not found.
+   */
+  private objectIndex(obj: OrbitControls, list: OrbitControls[]): number {
+    for (let i &#x3D; 0; i &lt; list.length; i++) {
+      if (list[i] &#x3D;&#x3D;&#x3D; obj) {
+        return i;
+      }
     }
 
-    /**
-     * Synchronously update rotation of the orbit controls.
-     * @param controls Controls whose rotation is to be updated.
-     */
-    private rotationSync(controls: OrbitControls): void {
-        controls.target &#x3D; this.activeControls.target;
-        // controls.update();
-    }
-
-    /**
-     * Check if the list of orbit controls contains a specific orbit controls.
-     * @param obj Orbit controls to be checked for containment.
-     * @param list List of orbit controls.
-     * @returns If the list contains the orbit controls.
-     */
-    private containsObject(obj: OrbitControls, list: OrbitControls[]): boolean {
-        for (const object of list) {
-            if (object &#x3D;&#x3D;&#x3D; obj) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Get the index of orbit controls from a list of orbit controls.
-     * @param obj Orbit controls whose index is to be obtained.
-     * @param list List of orbit controls.
-     * @returns Index of the orbit controls in the given list. Returns -1 if not found.
-     */
-    private objectIndex(obj: OrbitControls, list: OrbitControls[]): number {
-        for (let i &#x3D; 0; i &lt; list.length; i++) {
-            if (list[i] &#x3D;&#x3D;&#x3D; obj) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    return -1;
+  }
 }
 </code></pre>
     </div>

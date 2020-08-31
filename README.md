@@ -4,14 +4,14 @@
 [![License][license-img]][license-url]
 [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
-[![Documentation Coverage](https://hepsoftwarefoundation.org/phoenix/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
+[![Documentation Coverage](https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
 
-![Phoenix Logo](./src/assets/images/logo-text.svg)
+![Phoenix Logo](https://raw.github.com/HSF/phoenix/master/src/assets/images/logo-text.svg)
 
 # Phoenix Project
 
@@ -24,7 +24,7 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 ## Demo
 
-[![Phoenix demo](src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
+[![Phoenix demo](https://raw.github.com/HSF/phoenix/master/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
 
 ## Build and install
 
@@ -40,6 +40,7 @@ The app will automatically reload if you change any of the source files.
 * [User manual.](./src/assets/docs/users.md)
 * [How to contribute.](./CONTRIBUTING.md)
 * [Developer guide.](./src/assets/docs/developers.md)
+* [API docs.](https://hepsoftwarefoundation.org/phoenix/api-docs/)
 
 ## Contact
 

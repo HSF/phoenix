@@ -174,7 +174,6 @@ import { TrackmlComponent } from &#x27;./sections/trackml/trackml.component&#x27
 import { NavComponent } from &#x27;./components/nav/nav.component&#x27;;
 import { RouterModule, Routes } from &#x27;@angular/router&#x27;;
 import { PlaygroundComponent } from &#x27;./sections/playground/playground.component&#x27;;
-import { PlaygroundVrComponent } from &#x27;./sections/playground-vr/playground-vr.component&#x27;;
 import { AttributePipe } from &#x27;./services/extras/attribute.pipe&#x27;;
 import { DragDropModule } from &#x27;@angular/cdk/drag-drop&#x27;;
 import { UiMenuComponent } from &#x27;./components/ui-menu/ui-menu.component&#x27;;
@@ -184,6 +183,7 @@ import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
 import { MatTooltipModule } from &#x27;@angular/material/tooltip&#x27;;
 import { MatMenuModule } from &#x27;@angular/material/menu&#x27;;
 import { MatSliderModule } from &#x27;@angular/material/slider&#x27;;
+import { MatSlideToggleModule } from &#x27;@angular/material/slide-toggle&#x27;;
 import { CollectionsInfoComponent } from &#x27;./components/ui-menu/collections-info/collections-info.component&#x27;;
 import { OverlayModule } from &#x27;@angular/cdk/overlay&#x27;;
 import { MenuToggleComponent } from &#x27;./components/ui-menu/menu-toggle/menu-toggle.component&#x27;;
@@ -209,6 +209,12 @@ import { ZoomControlsComponent } from &#x27;./components/ui-menu/zoom-controls/z
 import { TreeMenuComponent } from &#x27;./components/ui-menu/tree-menu/tree-menu.component&#x27;;
 import { MatIconModule } from &#x27;@angular/material/icon&#x27;;
 import { TreeMenuItemComponent } from &#x27;./components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component&#x27;;
+import { PhoenixMenuComponent } from &#x27;./components/phoenix-menu/phoenix-menu.component&#x27;;
+import { PhoenixMenuItemComponent } from &#x27;./components/phoenix-menu/pheonix-menu-item/phoenix-menu-item.component&#x27;;
+import { ConfigSliderComponent } from &#x27;./components/phoenix-menu/config/config-slider/config-slider.component&#x27;;
+import { AnimateCameraComponent } from &#x27;./components/ui-menu/animate-camera/animate-camera.component&#x27;;
+import { AnimateEventComponent } from &#x27;./components/ui-menu/animate-event/animate-event.component&#x27;;
+import { VrToggleComponent } from &#x27;./components/ui-menu/vr-toggle/vr-toggle.component&#x27;;
 
 const routes: Routes &#x3D; [
   { path: &#x27;&#x27;, component: HomeComponent },
@@ -218,8 +224,7 @@ const routes: Routes &#x3D; [
   { path: &#x27;lhcb&#x27;, component: LHCbComponent },
   { path: &#x27;cms&#x27;, component: CMSComponent },
   { path: &#x27;trackml&#x27;, component: TrackmlComponent },
-  { path: &#x27;playground&#x27;, component: PlaygroundComponent },
-  { path: &#x27;playgroundVR&#x27;, component: PlaygroundVrComponent }
+  { path: &#x27;playground&#x27;, component: PlaygroundComponent }
 ];
 
 @NgModule({
@@ -233,7 +238,6 @@ const routes: Routes &#x3D; [
     TrackmlComponent,
     NavComponent,
     PlaygroundComponent,
-    PlaygroundVrComponent,
     AttributePipe,
     UiMenuComponent,
     CollectionsInfoComponent,
@@ -257,7 +261,13 @@ const routes: Routes &#x3D; [
     MainViewToggleComponent,
     ZoomControlsComponent,
     TreeMenuComponent,
-    TreeMenuItemComponent
+    TreeMenuItemComponent,
+    PhoenixMenuComponent,
+    PhoenixMenuItemComponent,
+    ConfigSliderComponent,
+    AnimateCameraComponent,
+    AnimateEventComponent,
+    VrToggleComponent
   ],
   imports: [
     BrowserModule,
@@ -271,6 +281,7 @@ const routes: Routes &#x3D; [
     OverlayModule,
     MatMenuModule,
     MatSliderModule,
+    MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule
   ],
@@ -282,8 +293,7 @@ const routes: Routes &#x3D; [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
 </code></pre>
     </div>
 </div>

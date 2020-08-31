@@ -145,7 +145,6 @@ import { InfoLoggerService } from &#x27;./infologger.service&#x27;;
 import { UIService } from &#x27;./ui.service&#x27;;
 import { Configuration } from &#x27;./extras/configuration.model&#x27;;
 import { HttpClient } from &#x27;@angular/common/http&#x27;;
-import { Camera } from &#x27;three&#x27;;
 
 declare global {
   /**
@@ -183,12 +182,16 @@ export class EventdisplayService {
    * @param http HttpClient for making http requests.
    * @param infoLogger Service for logging data to the information panel.
    */
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient, private infoLogger: InfoLoggerService) {
-  }
+  constructor(
+    public graphicsLibrary: ThreeService,
+    private ui: UIService,
+    private http: HttpClient,
+    private infoLogger: InfoLoggerService
+  ) { }
 
   /**
    * Initializes the components needed to later represent the geometries.
-   * @param configuration used to customize different aspects.
+   * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.configuration &#x3D; configuration;
@@ -209,25 +212,23 @@ export class EventdisplayService {
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
+    // Allow keyboard controls
+    this.enableKeyboardControls();
   }
 
   /**
-   * Initialize the event display with virtual reality environment and controls.
-   * @param configuration Configuration for preset views and event data loader.
+   * Initialize VR.
+   * @param onSessionEnded Callback when the VR session ends.
    */
-  public initVR(configuration: Configuration) {
-    this.configuration &#x3D; configuration;
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
-    // Animate loop
-    const animate &#x3D; () &#x3D;&gt; {
-      this.graphicsLibrary.updateControls();
-      this.ui.updateUI();
-      this.graphicsLibrary.render();
-    };
-    this.graphicsLibrary.setVRButton();
-    this.graphicsLibrary.setAnimationLoop(animate);
+  public initVR(onSessionEnded?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.initVRSession(onSessionEnded);
+  }
+
+  /**
+   * End VR and remove VR settings.
+   */
+  public endVR() {
+    this.graphicsLibrary.endVRSession();
   }
 
   /**
@@ -283,10 +284,12 @@ export class EventdisplayService {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadOBJGeometry(filename: string, name: string, color: any, doubleSided: boolean) {
-    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided);
-    this.ui.addGeometry(name, color);
+  public loadOBJGeometry(filename: string, name: string, color: any,
+    doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, color, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded OBJ geometry&#x27;);
   }
 
@@ -295,10 +298,11 @@ export class EventdisplayService {
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(content: string, name: string) {
-    this.graphicsLibrary.parseOBJGeometry(content, name);
-    this.ui.addGeometry(name, 0x000fff);
+  public parseOBJGeometry(content: string, name: string, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
+    this.ui.addGeometry(name, 0x000fff, initiallyVisible);
   }
 
   /**
@@ -350,10 +354,12 @@ export class EventdisplayService {
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadGLTFGeometry(url: any, name: string, scale?: number) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadGLTFGeometry(url: any, name: string,
+    scale?: number, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded GLTF geometry&#x27;);
   }
 
@@ -362,11 +368,53 @@ export class EventdisplayService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadJSONGeometry(json: string | object, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
+  }
+
+  /**
+   * Load JSON geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot geometry file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    JSROOT.NewHttpRequest(url, &#x27;object&#x27;, (obj: any) &#x3D;&gt; {
+      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+        name, scale, doubleSided, initiallyVisible);
+    }).send();
+  }
+
+  /**
+   * Load ROOT geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot file.
+   * @param objectName Name of the object inside the &quot;.root&quot; file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootGeometry(JSROOT: any, url: string, objectName: string,
+    name: string, scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    if (url.indexOf(&#x27;.root&#x27;) &gt; 0) {
+      JSROOT.OpenFile(url, (file: any) &#x3D;&gt; {
+        file.ReadObject(objectName, (obj: any) &#x3D;&gt; {
+          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            name, scale, doubleSided, initiallyVisible);
+        });
+      });
+    }
   }
 
   /**
@@ -398,14 +446,6 @@ export class EventdisplayService {
     for (const geom of sceneConfiguration.geometries) {
       this.ui.addGeometry(geom, &#x27;#ffffff&#x27;);
     }
-
-    const eventNumber &#x3D; sceneConfiguration.eventData[&#x27;event number&#x27;]
-      ? sceneConfiguration.eventData[&#x27;event number&#x27;]
-      : sceneConfiguration.eventData[&#x27;eventNumber&#x27;];
-    const runNumber &#x3D; sceneConfiguration.eventData[&#x27;run number&#x27;]
-      ? sceneConfiguration.eventData[&#x27;run number&#x27;]
-      : sceneConfiguration.eventData[&#x27;runNumber&#x27;];
-    this.infoLogger.add(&#x27;Scene with event#&#x27; + eventNumber + &#x27; and run#&#x27; + runNumber, &#x27;Loaded&#x27;);
   }
 
   /**
@@ -462,6 +502,10 @@ export class EventdisplayService {
       },
       loadOBJGeometry: (filename: string, name: string, colour: any, doubleSided: boolean) &#x3D;&gt; {
         this.loadOBJGeometry(filename, name, colour, doubleSided);
+      },
+      loadJSONGeometry: (json: string | object, name: string,
+        scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) &#x3D;&gt; {
+        this.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
       },
       parseOBJGeometry: (content: string, name: string) &#x3D;&gt; {
         this.parseOBJGeometry(content, name);
@@ -520,7 +564,7 @@ export class EventdisplayService {
    * @returns uuid of the currently selected object.
    */
   public getActiveObjectId(): any {
-      return this.graphicsLibrary.getActiveObjectId();
+    return this.graphicsLibrary.getActiveObjectId();
   }
 
   /**
@@ -539,6 +583,46 @@ export class EventdisplayService {
    */
   public highlightObject(uuid: string) {
     this.graphicsLibrary.highlightObject(uuid);
+  }
+
+  /**
+   * Enable keyboard controls for the event display.
+   */
+  public enableKeyboardControls() {
+    this.ui.enableKeyboardControls();
+    this.graphicsLibrary.enableKeyboardControls();
+  }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
   }
 }
 </code></pre>

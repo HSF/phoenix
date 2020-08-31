@@ -125,6 +125,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getAllEventsData">getAllEventsData</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#getCaloClusters">getCaloClusters</a>
                             </li>
@@ -165,10 +169,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#putEventData">putEventData</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
                                 <a href="#readIgArchive">readIgArchive</a>
                             </li>
                             <li>
@@ -205,6 +205,9 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#getObjectTypeCollections">getObjectTypeCollections</a>
+                            </li>
+                            <li>
+                                <a href="#getTracksWithRungeKutta">getTracksWithRungeKutta</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -383,7 +386,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:19</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:21</a></code>
 </div>
                             </td>
                         </tr>
@@ -424,7 +427,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:15</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:17</a></code>
 </div>
                             </td>
                         </tr>
@@ -465,7 +468,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:17</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:19</a></code>
 </div>
                             </td>
                         </tr>
@@ -490,6 +493,86 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getAllEventsData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getAllEventsData
+                        </b>
+                        <a href="#getAllEventsData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllEventsData(allEventsDataFromIg: any[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get event data of all events.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>allEventsDataFromIg</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>An array containing data of all events from &quot;.ig&quot; file.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An object containing event data for all events.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCaloClusters"></a>
                     <span class="name">
                         <b>
@@ -510,8 +593,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:182</a></div>
                 </td>
             </tr>
 
@@ -559,8 +642,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:102</a></div>
                 </td>
             </tr>
 
@@ -606,8 +689,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:447</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="456"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:456</a></div>
                 </td>
             </tr>
 
@@ -655,8 +738,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:207</a></div>
                 </td>
             </tr>
 
@@ -704,8 +787,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="225"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:225</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="234"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:234</a></div>
                 </td>
             </tr>
 
@@ -753,8 +836,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:258</a></div>
                 </td>
             </tr>
 
@@ -865,8 +948,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:157</a></div>
                 </td>
             </tr>
 
@@ -945,8 +1028,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="311"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:311</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="320"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:320</a></div>
                 </td>
             </tr>
 
@@ -994,8 +1077,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:88</a></div>
                 </td>
             </tr>
 
@@ -1165,85 +1248,6 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="putEventData"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            putEventData
-                        </b>
-                        <a href="#putEventData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>putEventData(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/app/services/loaders/cms-loader.ts:99</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Put event data into the loader.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Event data to be used by the loader.</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="readIgArchive"></a>
                     <span class="name">
                         <b>
@@ -1381,7 +1385,7 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:181</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:269</a></code>
 </div>
                 </td>
             </tr>
@@ -1501,7 +1505,7 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>)</code>
+                    <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>, extendEventDataTypeUI?: (typeFolder?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeFolderPM?: <a href="../classes/PhoenixMenuNode.html">PhoenixMenuNode</a>) => void)</code>
                 </td>
             </tr>
 
@@ -1514,7 +1518,7 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:156</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:241</a></code>
 </div>
                 </td>
             </tr>
@@ -1601,6 +1605,22 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>extendEventDataTypeUI</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>A callback to add more options to event data type UI folder.</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1647,7 +1667,7 @@ Overridden from <a href="../classes/PhoenixLoader.html">PhoenixLoader</a>.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:30</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:32</a></code>
 </div>
                 </td>
             </tr>
@@ -1781,7 +1801,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:85</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:148</a></code>
 </div>
                 </td>
             </tr>
@@ -1867,7 +1887,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:64</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:127</a></code>
 </div>
                 </td>
             </tr>
@@ -1920,7 +1940,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:258</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:348</a></code>
 </div>
                 </td>
             </tr>
@@ -1975,7 +1995,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:48</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:111</a></code>
 </div>
                 </td>
             </tr>
@@ -2061,7 +2081,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:219</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:309</a></code>
 </div>
                 </td>
             </tr>
@@ -2147,7 +2167,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:202</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:292</a></code>
 </div>
                 </td>
             </tr>
@@ -2207,6 +2227,82 @@ the different objects to the graphic library and the UI controls.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getTracksWithRungeKutta"></a>
+                    <span class="name">
+                        <b>
+                            getTracksWithRungeKutta
+                        </b>
+                        <a href="#getTracksWithRungeKutta"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTracksWithRungeKutta(tracksCollectionsEvent: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:50</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tracksCollectionsEvent</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadObjectTypes"></a>
                     <span class="name">
                         <b>
@@ -2233,7 +2329,7 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:106</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:169</a></code>
 </div>
                 </td>
             </tr>
@@ -2309,453 +2405,462 @@ import { HttpClient } from &#x27;@angular/common/http&#x27;;
  * PhoenixLoader for processing and loading a CMS event.
  */
 export class CMSLoader extends PhoenixLoader {
-    /** Event data to be processed. */
-    private data: any;
-    /** Scale factor for resizing geometry to fit Phoenix event display. */
-    private geometryScale: number &#x3D; 1000;
+  /** Event data to be processed. */
+  private data: any;
+  /** Scale factor for resizing geometry to fit Phoenix event display. */
+  private geometryScale: number &#x3D; 1000;
 
-    /**
-     * Constructor for the CMS loader.
-     * @param http HttpClient for reading &quot;.ig&quot; files.
-     */
-    constructor(private http: HttpClient) {
-        super();
-        this.data &#x3D; {};
+  /**
+   * Constructor for the CMS loader.
+   * @param http HttpClient for reading &quot;.ig&quot; files.
+   */
+  constructor(private http: HttpClient) {
+    super();
+    this.data &#x3D; {};
+  }
+
+  /**
+   * Loads all the object types and collections of event data.
+   * Overridden from {@link PhoenixLoader}.
+   * @param eventData Event data of a CMS event containing all collections.
+   */
+  protected loadObjectTypes(eventData: any) {
+    super.loadObjectTypes(eventData);
+    if (eventData.MuonChambers) {
+      this.addObjectType(eventData.MuonChambers, CMSObjects.getMuonChamber, &#x27;MuonChambers&#x27;);
     }
+  }
 
-    /**
-     * Loads all the object types and collections of event data.
-     * Overridden from {@link PhoenixLoader}.
-     * @param eventData Event data of a CMS event containing all collections.
-     */
-    protected loadObjectTypes(eventData: any) {
-        super.loadObjectTypes(eventData);
-        if (eventData.MuonChambers) {
-            this.addObjectType(eventData.MuonChambers, CMSObjects.getMuonChamber, &#x27;MuonChambers&#x27;);
+  /**
+   * Read an &quot;.ig&quot; archive file and access the event data through a callback.
+   * @param path Path to the &quot;.ig&quot; file.
+   * @param onFileRead Callback called with an array of event data when the file is read.
+   * @param eventPathName Complete event path or event number as in the &quot;.ig&quot; archive.
+   */
+  public readIgArchive(path: string, onFileRead: (allEvents: any[]) &#x3D;&gt; void, eventPathName?: string) {
+    const igArchive &#x3D; new JSZip();
+    let eventsDataInIg &#x3D; [];
+    this.http.get(path, { responseType: &#x27;arraybuffer&#x27; }).subscribe((res) &#x3D;&gt; {
+      igArchive.loadAsync(res).then(() &#x3D;&gt; {
+        let allFilesPath &#x3D; Object.keys(igArchive.files);
+        // If the event path or name is given then filter all data to get the required events
+        if (eventPathName) {
+          allFilesPath &#x3D; allFilesPath.filter(filePath &#x3D;&gt; filePath.includes(eventPathName));
         }
+        let i &#x3D; 1;
+        for (const filePathInIg of allFilesPath) {
+          // If the files are in the &quot;Events&quot; folder then process them.
+          if (filePathInIg.toLowerCase().startsWith(&#x27;events&#x27;)) {
+            igArchive.file(filePathInIg).async(&#x27;string&#x27;)
+              .then((singleEvent: string) &#x3D;&gt; {
+                // The data has some inconsistencies which need to be removed to properly parse JSON
+                singleEvent &#x3D; singleEvent
+                  .replace(/&#x27;/g, &#x27;&quot;&#x27;).replace(/\(/g, &#x27;[&#x27;)
+                  .replace(/\)/g, &#x27;]&#x27;).replace(/nan/g, &#x27;0&#x27;);
+                const eventJSON &#x3D; JSON.parse(singleEvent);
+                eventJSON.eventPath &#x3D; filePathInIg;
+                eventsDataInIg.push(eventJSON);
+                if (i &#x3D;&#x3D;&#x3D; allFilesPath.length) {
+                  onFileRead(eventsDataInIg);
+                }
+                i++;
+              });
+          } else {
+            if (i &#x3D;&#x3D;&#x3D; allFilesPath.length) {
+              onFileRead(eventsDataInIg);
+            }
+            i++;
+          }
+        }
+      });
+    });
+  }
+
+  /**
+   * Load event data from an &quot;.ig&quot; archive.
+   * @param filePath Path to the &quot;.ig&quot; archive file.
+   * @param eventPathName Complete event path or event number as in the &quot;.ig&quot; archive.
+   * @param onEventRead Callback called when the event data is read.
+   */
+  public loadEventDataFromIg(
+    filePath: string,
+    eventPathName: string,
+    onEventRead: (eventData: any) &#x3D;&gt; void
+  ) {
+    this.readIgArchive(filePath, (allEvents: any[]) &#x3D;&gt; {
+      onEventRead(allEvents[0]);
+    }, eventPathName);
+  }
+
+  /**
+   * Get all event data.
+   * @returns Event data with Hits, Tracks, Jets and CaloClusters.
+   */
+  public getEventData(): any {
+    const eventInfo &#x3D; this.data[&#x27;Collections&#x27;][&#x27;Event_V2&#x27;][0];
+
+    let eventData &#x3D; {
+      runNumber: eventInfo[0],
+      eventNumber: eventInfo[1],
+      ls: eventInfo[2],
+      time: eventInfo[5],
+      Hits: {},
+      Tracks: {},
+      Jets: {},
+      CaloClusters: {},
+      MuonChambers: {}
+    };
+
+    // Getting Hits
+    eventData.Hits &#x3D; this.getTrackingClusters(eventData.Hits);
+    // Getting Tracks
+    eventData.Tracks &#x3D; this.getTracks();
+    // Getting Jets
+    eventData.Jets &#x3D; this.getJets();
+    // Getting CaloClusters
+    eventData.CaloClusters &#x3D; this.getCaloClusters();
+    // Getting MuonChambers
+    eventData.MuonChambers &#x3D; this.getMuonChambers();
+
+    // Undefining object types if there is no event data
+    for (let objectType of [&#x27;Hits&#x27;, &#x27;Tracks&#x27;, &#x27;Jets&#x27;, &#x27;CaloClusters&#x27;, &#x27;MuonChambers&#x27;]) {
+      if (Object.keys(eventData[objectType]).length &#x3D;&#x3D;&#x3D; 0) {
+        eventData[objectType] &#x3D; undefined;
+      }
     }
 
-    /**
-     * Read an &quot;.ig&quot; archive file and access the event data through a callback.
-     * @param path Path to the &quot;.ig&quot; file.
-     * @param onFileRead Callback called with an array of event data when the file is read.
-     * @param eventPathName Complete event path or event number as in the &quot;.ig&quot; archive.
-     */
-    public readIgArchive(path: string, onFileRead: (allEvents: any[]) &#x3D;&gt; void, eventPathName?: string) {
-        const igArchive &#x3D; new JSZip();
-        let eventsDataInIg &#x3D; [];
-        this.http.get(path, { responseType: &#x27;arraybuffer&#x27; }).subscribe((res) &#x3D;&gt; {
-            igArchive.loadAsync(res).then(() &#x3D;&gt; {
-                let allFilesPath &#x3D; Object.keys(igArchive.files);
-                // If the event path or name is given then filter all data to get the required events
-                if (eventPathName) {
-                    allFilesPath &#x3D; allFilesPath.filter(filePath &#x3D;&gt; filePath.includes(eventPathName));
-                }
-                let i &#x3D; 1;
-                for (const filePathInIg of allFilesPath) {
-                    // If the files are in the &quot;Events&quot; folder then process them.
-                    if (filePathInIg.toLowerCase().startsWith(&#x27;events&#x27;)) {
-                        igArchive.file(filePathInIg).async(&#x27;string&#x27;)
-                            .then((singleEvent: string) &#x3D;&gt; {
-                                // The data has some inconsistencies which need to be removed to properly parse JSON
-                                singleEvent &#x3D; singleEvent
-                                    .replace(/&#x27;/g, &#x27;&quot;&#x27;).replace(/\(/g, &#x27;[&#x27;)
-                                    .replace(/\)/g, &#x27;]&#x27;).replace(/nan/g, &#x27;0&#x27;);
-                                const eventJSON &#x3D; JSON.parse(singleEvent);
-                                eventJSON.eventPath &#x3D; filePathInIg;
-                                eventsDataInIg.push(eventJSON);
-                                if (i &#x3D;&#x3D;&#x3D; allFilesPath.length) {
-                                    onFileRead(eventsDataInIg);
-                                }
-                                i++;
-                            });
-                    } else {
-                        i++;
-                    }
-                }
-            });
+    return eventData;
+  }
+
+  /**
+   * Get event data of all events.
+   * @param allEventsDataFromIg An array containing data of all events from &quot;.ig&quot; file.
+   * @returns An object containing event data for all events.
+   */
+  public getAllEventsData(allEventsDataFromIg: any[]): any {
+    let allEventsData &#x3D; {};
+    for (const eventData of allEventsDataFromIg) {
+      this.data &#x3D; eventData;
+      allEventsData[eventData.eventPath] &#x3D; this.getEventData();
+    }
+    return allEventsData;
+  }
+
+  /**
+   * Get all tracking clusters from the event data.
+   * @param Hits Hits object in which all cluster collections are to be put.
+   * @returns Hits object containing all Cluster collections.
+   */
+  private getTrackingClusters(Hits: any): any {
+    // These are the collections with point cloud geometries
+    let clusterCollections &#x3D; [
+      &#x27;TrackingRecHits_V1&#x27;,
+      &#x27;SiStripClusters_V1&#x27;,
+      &#x27;SiPixelClusters_V1&#x27;,
+      &#x27;CSCLCTDigis_V1&#x27;
+    ];
+    const newHits &#x3D; this.getObjectCollections(clusterCollections, (objectParams) &#x3D;&gt; {
+      if (objectParams[&#x27;pos&#x27;]) {
+        // Increasing the scale to fit Phoenix&#x27;s event display
+        objectParams[&#x27;pos&#x27;] &#x3D; objectParams[&#x27;pos&#x27;]
+          .map((point: number) &#x3D;&gt; point * this.geometryScale);
+      }
+    });
+
+    Object.assign(Hits, newHits);
+
+    return Hits;
+  }
+
+  /**
+   * Get all CaloClusters from the event data.
+   * @returns CaloClusters object containing all CaloClusters collections.
+   */
+  private getCaloClusters(): any {
+    let caloClustersCollections &#x3D; [
+      &#x27;SuperClusters_V1&#x27;
+    ];
+    const CaloClusters &#x3D; this.getObjectCollections(caloClustersCollections, (objectParams) &#x3D;&gt; {
+      if (objectParams[&#x27;energy&#x27;]) {
+        // If the attribute of Calo Cluster is energy then scale it to a higher value
+        objectParams[&#x27;energy&#x27;] *&#x3D; this.geometryScale;
+      }
+    });
+
+    //! TO BE REVIEWED - Not using extras and assocs - output might be different
+    // let ri &#x3D; 0;
+    // for (let i &#x3D; 0; i &lt; assocs.length; i++) {
+    //     ri &#x3D; assocs[ri][1][1];
+    //     CaloClusters[caloClusterCollection].push(extras[ri]);
+    // }
+
+    return CaloClusters;
+  }
+
+  /**
+   * Get all Jets from the event data.
+   * @returns Jets object containing all Jets collections.
+   */
+  private getJets(): any {
+    let Jets &#x3D; {};
+
+    // Filtering collections to get all Jets collections
+    const jetsCollections &#x3D; Object.keys(this.data[&#x27;Collections&#x27;])
+      .filter(key &#x3D;&gt; key.toLowerCase().includes(&#x27;jets&#x27;));
+    const cuts &#x3D; [
+      { attribute: &#x27;et&#x27;, min: 10 },
+      { attribute: &#x27;energy&#x27;, min: 10 }
+    ];
+
+    Jets &#x3D; this.getObjectCollections(jetsCollections, (objectParams) &#x3D;&gt; {
+      for (const energyAttribute of [&#x27;et&#x27;, &#x27;energy&#x27;]) {
+        if (objectParams[energyAttribute]) {
+          objectParams[energyAttribute] *&#x3D; this.geometryScale;
+          break;
+        }
+      }
+    }, cuts);
+
+    return Jets;
+  }
+
+  /**
+   * Get all Muon Chambers from the event data.
+   * @returns MuonChambers object containing all Muon Chambers collections.
+   */
+  private getMuonChambers(): any {
+    let muonChambersCollections &#x3D; [
+      &#x27;MatchingCSCs_V1&#x27;,
+      &#x27;MuonChambers_V1&#x27;
+    ];
+    const MuonChambers &#x3D; this.getObjectCollections(muonChambersCollections,
+      (muonChamberParams) &#x3D;&gt; {
+        for (const muonChamberParam of Object.keys(muonChamberParams)) {
+          if (muonChamberParam.startsWith(&#x27;front&#x27;) || muonChamberParam.startsWith(&#x27;back&#x27;)) {
+            muonChamberParams[muonChamberParam] &#x3D; muonChamberParams[muonChamberParam]
+              .map(val &#x3D;&gt; val * this.geometryScale);
+          }
+        }
+      });
+    return MuonChambers;
+  }
+
+  /**
+   * Common function for linearly getting event data of collections of an object type.
+   * @param collections Keys for collections to be iterated.
+   * @param processObject Callback for applying a custom logic to object params.
+   * @param cuts Cuts for defining a minimum and maximum value of an attribute.
+   * @returns An object containing all event data from the given collections.
+   */
+  private getObjectCollections(
+    collections: string[],
+    processObject?: (objectParams: any) &#x3D;&gt; void,
+    cuts?: { attribute: string, min?: number, max?: number }[]
+  ): any {
+    let ObjectType &#x3D; {};
+
+    // Filter to check if the provided collections are indeed inside the data
+    collections &#x3D; collections.filter(key &#x3D;&gt; this.data[&#x27;Collections&#x27;][key]);
+
+    // Iterating all collections
+    for (const collection of collections) {
+      ObjectType[collection] &#x3D; [];
+      const objectAttributes &#x3D; this.data[&#x27;Types&#x27;][collection];
+      // Iterating a single object collection to process all objects
+      for (const physicsObject of this.data[&#x27;Collections&#x27;][collection]) {
+        let objectParams &#x3D; {};
+        // Filling object params using the given types
+        objectAttributes.forEach((attribute, attributeIndex) &#x3D;&gt; {
+          objectParams[attribute[0]] &#x3D; physicsObject[attributeIndex];
         });
-    }
 
-    /**
-     * Load event data from an &quot;.ig&quot; archive.
-     * @param filePath Path to the &quot;.ig&quot; archive file.
-     * @param eventPathName Complete event path or event number as in the &quot;.ig&quot; archive.
-     * @param onEventRead Callback called when the event data is read.
-     */
-    public loadEventDataFromIg(
-        filePath: string,
-        eventPathName: string,
-        onEventRead: (eventData: any) &#x3D;&gt; void
-    ) {
-        this.readIgArchive(filePath, (allEvents: any[]) &#x3D;&gt; {
-            onEventRead(allEvents[0]);
-        }, eventPathName);
-    }
-
-    /**
-     * Put event data into the loader.
-     * @param data Event data to be used by the loader.
-     */
-    public putEventData(data: any) {
-        this.data &#x3D; data;
-    }
-
-    /**
-     * Get all event data.
-     * @returns Event data with Hits, Tracks, Jets and CaloClusters.
-     */
-    public getEventData(): any {
-        const eventInfo &#x3D; this.data[&#x27;Collections&#x27;][&#x27;Event_V2&#x27;][0];
-
-        let eventData &#x3D; {
-            runNumber: eventInfo[0],
-            eventNumber: eventInfo[1],
-            ls: eventInfo[2],
-            time: eventInfo[5],
-            Hits: {},
-            Tracks: {},
-            Jets: {},
-            CaloClusters: {},
-            MuonChambers: {}
-        };
-
-        // Getting Hits
-        eventData.Hits &#x3D; this.getTrackingClusters(eventData.Hits);
-        // Getting Tracks
-        eventData.Tracks &#x3D; this.getTracks();
-        // Getting Jets
-        eventData.Jets &#x3D; this.getJets();
-        // Getting CaloClusters
-        eventData.CaloClusters &#x3D; this.getCaloClusters();
-        // Getting MuonChambers
-        eventData.MuonChambers &#x3D; this.getMuonChambers();
-
-        // Undefining object types if there is no event data
-        for (let objectType of [&#x27;Hits&#x27;, &#x27;Tracks&#x27;, &#x27;Jets&#x27;, &#x27;CaloClusters&#x27;, &#x27;MuonChambers&#x27;]) {
-            if (Object.keys(eventData[objectType]).length &#x3D;&#x3D;&#x3D; 0) {
-                eventData[objectType] &#x3D; undefined;
+        // Applying cuts to object (if any)
+        if (cuts) {
+          let maxPass &#x3D; true;
+          let minPass &#x3D; true;
+          for (const cut of cuts) {
+            // Check if the attribute actually exists
+            if (objectParams[cut.attribute]) {
+              if (cut.max &amp;&amp; objectParams[cut.attribute] &gt; cut.max) {
+                maxPass &#x3D; false;
+                break;
+              }
+              if (cut.min &amp;&amp; objectParams[cut.attribute] &lt; cut.min) {
+                minPass &#x3D; false;
+                break;
+              }
             }
+          }
+          if (maxPass &amp;&amp; minPass) {
+            // Custom processing of object (if any)
+            processObject?.(objectParams);
+            ObjectType[collection].push(objectParams);
+          }
+        } else {
+          // Custom processing of object (if any)
+          processObject?.(objectParams);
+          ObjectType[collection].push(objectParams);
         }
-
-        return eventData;
+      }
+      // If the object collection has no data then remove it
+      if (ObjectType[collection].length &#x3D;&#x3D;&#x3D; 0) {
+        delete ObjectType[collection];
+      }
     }
+    return ObjectType;
+  }
 
-    /**
-     * Get all tracking clusters from the event data.
-     * @param Hits Hits object in which all cluster collections are to be put.
-     * @returns Hits object containing all Cluster collections.
-     */
-    private getTrackingClusters(Hits: any): any {
-        // These are the collections with point cloud geometries
-        let clusterCollections &#x3D; [
-            &#x27;TrackingRecHits_V1&#x27;,
-            &#x27;SiStripClusters_V1&#x27;,
-            &#x27;SiPixelClusters_V1&#x27;,
-            &#x27;CSCLCTDigis_V1&#x27;
-        ];
-        const newHits &#x3D; this.getObjectCollections(clusterCollections, (objectParams) &#x3D;&gt; {
-            if (objectParams[&#x27;pos&#x27;]) {
-                // Increasing the scale to fit Phoenix&#x27;s event display
-                objectParams[&#x27;pos&#x27;] &#x3D; objectParams[&#x27;pos&#x27;]
-                    .map((point: number) &#x3D;&gt; point * this.geometryScale);
-            }
+  /**
+   * Get all Tracks from the event data.
+   * @returns Tracks object containing all Tracks collections.
+   */
+  private getTracks(): any {
+    let Tracks &#x3D; {};
+
+    // All collections with tracks
+    let tracksCollections &#x3D; [
+      {
+        collection: &#x27;Tracks_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
+      },
+      {
+        collection: &#x27;Tracks_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
+      },
+      {
+        collection: &#x27;Tracks_V3&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
+      },
+      {
+        collection: &#x27;StandaloneMuons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;MuonTrackExtras_V1&#x27;, color: &#x27;0xf57842&#x27;, min_pt: 1
+      },
+      {
+        collection: &#x27;PATStandaloneMuons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;PATMuonTrackExtras_V1&#x27;, color: &#x27;0xf5aa42&#x27;, min_pt: 1
+      },
+      {
+        collection: &#x27;TrackerMuons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;MuonTrackerExtras_V1&#x27;, color: &#x27;0xe8d546&#x27;, min_pt: 2
+      },
+      {
+        collection: &#x27;GsfElectrons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1CFF1A&#x27;, min_pt: 10
+      },
+      {
+        collection: &#x27;GsfElectrons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1bcf9f&#x27;, min_pt: 10
+      },
+      {
+        collection: &#x27;GsfElectrons_V3&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1ad9ff&#x27;, min_pt: 10
+      },
+      {
+        collection: &#x27;PATElectrons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
+        assocs: &#x27;PATElectronExtras_V1&#x27;, color: &#x27;0x1a40ff&#x27;, min_pt: 1
+      }
+    ];
+    // Filtering to check if data actually exists in collections
+    tracksCollections &#x3D; tracksCollections
+      .filter(obj &#x3D;&gt; this.data[&#x27;Collections&#x27;][obj.collection]);
+
+    for (const tracksCollection of tracksCollections) {
+      Tracks[tracksCollection.collection] &#x3D; [];
+
+      // Processing tracks using associations and extras
+      const tracks &#x3D; this.data[&#x27;Collections&#x27;][tracksCollection.collection];
+      const extras &#x3D; this.data[&#x27;Collections&#x27;][tracksCollection.extras];
+      const assocs &#x3D; this.data[&#x27;Associations&#x27;][tracksCollection.assocs];
+      // Properties/attributes of tracks
+      const trackTypes &#x3D; this.data[&#x27;Types&#x27;][tracksCollection.collection];
+
+      // Variables to be used inside the loop
+      let ti, ei,
+        p1, d1,
+        p2, d2,
+        distance, scale, cp1, cp2, curve,
+        trackParams;
+
+      for (let i &#x3D; 0; i &lt; assocs.length; i++) {
+        // Current track info
+        trackParams &#x3D; {};
+
+        // Set properties/attributes of track
+        trackTypes.forEach((attribute, attributeIndex) &#x3D;&gt; {
+          trackParams[attribute[0]] &#x3D; tracks[i][attributeIndex];
         });
 
-        Object.assign(Hits, newHits);
-
-        return Hits;
-    }
-
-    /**
-     * Get all CaloClusters from the event data.
-     * @returns CaloClusters object containing all CaloClusters collections.
-     */
-    private getCaloClusters(): any {
-        let caloClustersCollections &#x3D; [
-            &#x27;SuperClusters_V1&#x27;
-        ];
-        const CaloClusters &#x3D; this.getObjectCollections(caloClustersCollections, (objectParams) &#x3D;&gt; {
-            if (objectParams[&#x27;energy&#x27;]) {
-                // If the attribute of Calo Cluster is energy then scale it to a higher value
-                objectParams[&#x27;energy&#x27;] *&#x3D; this.geometryScale;
-            }
-        });
-
-        //! TO BE REVIEWED - Not using extras and assocs - output might be different
-        // let ri &#x3D; 0;
-        // for (let i &#x3D; 0; i &lt; assocs.length; i++) {
-        //     ri &#x3D; assocs[ri][1][1];
-        //     CaloClusters[caloClusterCollection].push(extras[ri]);
-        // }
-
-        return CaloClusters;
-    }
-
-    /**
-     * Get all Jets from the event data.
-     * @returns Jets object containing all Jets collections.
-     */
-    private getJets(): any {
-        let Jets &#x3D; {};
-
-        // Filtering collections to get all Jets collections
-        const jetsCollections &#x3D; Object.keys(this.data[&#x27;Collections&#x27;])
-            .filter(key &#x3D;&gt; key.toLowerCase().includes(&#x27;jets&#x27;));
-        const cuts &#x3D; [
-            { attribute: &#x27;et&#x27;, min: 10 },
-            { attribute: &#x27;energy&#x27;, min: 10 }
-        ];
-
-        Jets &#x3D; this.getObjectCollections(jetsCollections, (objectParams) &#x3D;&gt; {
-            for (const energyAttribute of [&#x27;et&#x27;, &#x27;energy&#x27;]) {
-                if (objectParams[energyAttribute]) {
-                    objectParams[energyAttribute] *&#x3D; this.geometryScale;
-                    break;
-                }
-            }
-        }, cuts);
-
-        return Jets;
-    }
-
-    /**
-     * Get all Muon Chambers from the event data.
-     * @returns MuonChambers object containing all Muon Chambers collections.
-     */
-    private getMuonChambers(): any {
-        let muonChambersCollections &#x3D; [
-            &#x27;MatchingCSCs_V1&#x27;,
-            &#x27;MuonChambers_V1&#x27;
-        ];
-        const MuonChambers &#x3D; this.getObjectCollections(muonChambersCollections,
-            (muonChamberParams) &#x3D;&gt; {
-                for (const muonChamberParam of Object.keys(muonChamberParams)) {
-                    if (muonChamberParam.startsWith(&#x27;front&#x27;) || muonChamberParam.startsWith(&#x27;back&#x27;)) {
-                        muonChamberParams[muonChamberParam] &#x3D; muonChamberParams[muonChamberParam]
-                            .map(val &#x3D;&gt; val * this.geometryScale);
-                    }
-                }
-            });
-        return MuonChambers;
-    }
-
-    /**
-     * Common function for linearly getting event data of collections of an object type.
-     * @param collections Keys for collections to be iterated.
-     * @param processObject Callback for applying a custom logic to object params.
-     * @param cuts Cuts for defining a minimum and maximum value of an attribute.
-     * @returns An object containing all event data from the given collections.
-     */
-    private getObjectCollections(
-        collections: string[],
-        processObject?: (objectParams: any) &#x3D;&gt; void,
-        cuts?: { attribute: string, min?: number, max?: number }[]
-    ): any {
-        let ObjectType &#x3D; {};
-
-        // Filter to check if the provided collections are indeed inside the data
-        collections &#x3D; collections.filter(key &#x3D;&gt; this.data[&#x27;Collections&#x27;][key]);
-
-        // Iterating all collections
-        for (const collection of collections) {
-            ObjectType[collection] &#x3D; [];
-            const objectAttributes &#x3D; this.data[&#x27;Types&#x27;][collection];
-            // Iterating a single object collection to process all objects
-            for (const physicsObject of this.data[&#x27;Collections&#x27;][collection]) {
-                let objectParams &#x3D; {};
-                // Filling object params using the given types
-                objectAttributes.forEach((attribute, attributeIndex) &#x3D;&gt; {
-                    objectParams[attribute[0]] &#x3D; physicsObject[attributeIndex];
-                });
-
-                // Applying cuts to object (if any)
-                if (cuts) {
-                    let maxPass &#x3D; true;
-                    let minPass &#x3D; true;
-                    for (const cut of cuts) {
-                        // Check if the attribute actually exists
-                        if (objectParams[cut.attribute]) {
-                            if (cut.max &amp;&amp; objectParams[cut.attribute] &gt; cut.max) {
-                                maxPass &#x3D; false;
-                                break;
-                            }
-                            if (cut.min &amp;&amp; objectParams[cut.attribute] &lt; cut.min) {
-                                minPass &#x3D; false;
-                                break;
-                            }
-                        }
-                    }
-                    if (maxPass &amp;&amp; minPass) {
-                        // Custom processing of object (if any)
-                        processObject?.(objectParams);
-                        ObjectType[collection].push(objectParams);
-                    }
-                } else {
-                    // Custom processing of object (if any)
-                    processObject?.(objectParams);
-                    ObjectType[collection].push(objectParams);
-                }
-            }
-            // If the object collection has no data then remove it
-            if (ObjectType[collection].length &#x3D;&#x3D;&#x3D; 0) {
-                delete ObjectType[collection];
-            }
-        }
-        return ObjectType;
-    }
-
-    /**
-     * Get all Tracks from the event data.
-     * @returns Tracks object containing all Tracks collections.
-     */
-    private getTracks(): any {
-        let Tracks &#x3D; {};
-
-        // All collections with tracks
-        let tracksCollections &#x3D; [
-            {
-                collection: &#x27;Tracks_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
-            },
-            {
-                collection: &#x27;Tracks_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
-            },
-            {
-                collection: &#x27;Tracks_V3&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;TrackExtras_V1&#x27;, color: &#x27;0xff0000&#x27;, min_pt: 1
-            },
-            {
-                collection: &#x27;StandaloneMuons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;MuonTrackExtras_V1&#x27;, color: &#x27;0xf57842&#x27;, min_pt: 1
-            },
-            {
-                collection: &#x27;PATStandaloneMuons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;PATMuonTrackExtras_V1&#x27;, color: &#x27;0xf5aa42&#x27;, min_pt: 1
-            },
-            {
-                collection: &#x27;TrackerMuons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;MuonTrackerExtras_V1&#x27;, color: &#x27;0xe8d546&#x27;, min_pt: 2
-            },
-            {
-                collection: &#x27;GsfElectrons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1CFF1A&#x27;, min_pt: 10
-            },
-            {
-                collection: &#x27;GsfElectrons_V2&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1bcf9f&#x27;, min_pt: 10
-            },
-            {
-                collection: &#x27;GsfElectrons_V3&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;GsfElectronExtras_V1&#x27;, color: &#x27;0x1ad9ff&#x27;, min_pt: 10
-            },
-            {
-                collection: &#x27;PATElectrons_V1&#x27;, extras: &#x27;Extras_V1&#x27;,
-                assocs: &#x27;PATElectronExtras_V1&#x27;, color: &#x27;0x1a40ff&#x27;, min_pt: 1
-            }
-        ];
-        // Filtering to check if data actually exists in collections
-        tracksCollections &#x3D; tracksCollections
-            .filter(obj &#x3D;&gt; this.data[&#x27;Collections&#x27;][obj.collection]);
-
-        for (const tracksCollection of tracksCollections) {
-            Tracks[tracksCollection.collection] &#x3D; [];
-
-            // Processing tracks using associations and extras
-            const tracks &#x3D; this.data[&#x27;Collections&#x27;][tracksCollection.collection];
-            const extras &#x3D; this.data[&#x27;Collections&#x27;][tracksCollection.extras];
-            const assocs &#x3D; this.data[&#x27;Associations&#x27;][tracksCollection.assocs];
-            // Properties/attributes of tracks
-            const trackTypes &#x3D; this.data[&#x27;Types&#x27;][tracksCollection.collection];
-
-            // Variables to be used inside the loop
-            let ti, ei,
-                p1, d1,
-                p2, d2,
-                distance, scale, cp1, cp2, curve,
-                trackParams;
-
-            for (let i &#x3D; 0; i &lt; assocs.length; i++) {
-                // Current track info
-                trackParams &#x3D; {};
-
-                // Set properties/attributes of track
-                trackTypes.forEach((attribute, attributeIndex) &#x3D;&gt; {
-                    trackParams[attribute[0]] &#x3D; tracks[i][attributeIndex];
-                });
-
-                // SKIPPING TRACKS WITH pt &lt; min_pt
-                if (trackParams.pt &lt; tracksCollection.min_pt) {
-                    continue;
-                }
-
-                trackParams.color &#x3D; tracksCollection.color;
-
-                // Track i - location in assocs
-                ti &#x3D; assocs[i][0][1];
-                // Extras i - location in assocs
-                ei &#x3D; assocs[i][1][1];
-
-                // Position 1 of current track
-                p1 &#x3D; new Vector3(extras[ei][0][0], extras[ei][0][1], extras[ei][0][2]);
-                // Direction of position 1 of current track
-                d1 &#x3D; new Vector3(extras[ei][1][0], extras[ei][1][1], extras[ei][1][2]);
-                d1.normalize();
-
-                // Position 2 of current track
-                p2 &#x3D; new Vector3(extras[ei][2][0], extras[ei][2][1], extras[ei][2][2]);
-                // Direction of position 2 of current track
-                d2 &#x3D; new Vector3(extras[ei][3][0], extras[ei][3][1], extras[ei][3][2]);
-                d2.normalize();
-
-                // Calculate the distance from position 1 to position 2
-                distance &#x3D; p1.distanceTo(p2);
-                scale &#x3D; distance * 0.25;
-
-                // Calculating the control points to generate a bezier curve
-                cp1 &#x3D; new Vector3(p1.x + scale * d1.x, p1.y + scale * d1.y, p1.z + scale * d1.z);
-                cp2 &#x3D; new Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
-
-                // Create the track curve
-                curve &#x3D; new QuadraticBezierCurve3(p1, cp1, p2);
-
-                let positions &#x3D; [];
-                // Divide the curve into points to put into positions array
-                for (const position of curve.getPoints(24)) {
-                    // Increasing the scale to fit Phoenix&#x27;s event display
-                    position.multiplyScalar(this.geometryScale);
-                    positions.push([position.x, position.y, position.z]);
-                }
-
-                trackParams.pos &#x3D; positions;
-                Tracks[tracksCollection.collection].push(trackParams);
-
-            }
-
-            if (Tracks[tracksCollection.collection].length &#x3D;&#x3D;&#x3D; 0) {
-                delete Tracks[tracksCollection.collection];
-            }
+        // SKIPPING TRACKS WITH pt &lt; min_pt
+        if (trackParams.pt &lt; tracksCollection.min_pt) {
+          continue;
         }
 
-        return Tracks;
+        trackParams.color &#x3D; tracksCollection.color;
+
+        // Track i - location in assocs
+        ti &#x3D; assocs[i][0][1];
+        // Extras i - location in assocs
+        ei &#x3D; assocs[i][1][1];
+
+        // Position 1 of current track
+        p1 &#x3D; new Vector3(extras[ei][0][0], extras[ei][0][1], extras[ei][0][2]);
+        // Direction of position 1 of current track
+        d1 &#x3D; new Vector3(extras[ei][1][0], extras[ei][1][1], extras[ei][1][2]);
+        d1.normalize();
+
+        // Position 2 of current track
+        p2 &#x3D; new Vector3(extras[ei][2][0], extras[ei][2][1], extras[ei][2][2]);
+        // Direction of position 2 of current track
+        d2 &#x3D; new Vector3(extras[ei][3][0], extras[ei][3][1], extras[ei][3][2]);
+        d2.normalize();
+
+        // Calculate the distance from position 1 to position 2
+        distance &#x3D; p1.distanceTo(p2);
+        scale &#x3D; distance * 0.25;
+
+        // Calculating the control points to generate a bezier curve
+        cp1 &#x3D; new Vector3(p1.x + scale * d1.x, p1.y + scale * d1.y, p1.z + scale * d1.z);
+        cp2 &#x3D; new Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
+
+        // Create the track curve
+        curve &#x3D; new QuadraticBezierCurve3(p1, cp1, p2);
+
+        let positions &#x3D; [];
+        // Divide the curve into points to put into positions array
+        for (const position of curve.getPoints(24)) {
+          // Increasing the scale to fit Phoenix&#x27;s event display
+          position.multiplyScalar(this.geometryScale);
+          positions.push([position.x, position.y, position.z]);
+        }
+
+        trackParams.pos &#x3D; positions;
+        Tracks[tracksCollection.collection].push(trackParams);
+
+      }
+
+      if (Tracks[tracksCollection.collection].length &#x3D;&#x3D;&#x3D; 0) {
+        delete Tracks[tracksCollection.collection];
+      }
     }
 
-    /**
-     * Get CMS specific metadata associated to the event.
-     * @returns Metadata of the event.
-     */
-    getEventMetadata(): any[] {
-        let metadata &#x3D; super.getEventMetadata();
-        const eventInfo &#x3D; this.data[&#x27;Collections&#x27;][&#x27;Event_V2&#x27;][0];
-        if (eventInfo[3]) {
-            metadata.push({
-                label: &#x27;Orbit&#x27;,
-                value: eventInfo[3]
-            });
-        }
-        return metadata;
+    return Tracks;
+  }
+
+  /**
+   * Get CMS specific metadata associated to the event.
+   * @returns Metadata of the event.
+   */
+  getEventMetadata(): any[] {
+    let metadata &#x3D; super.getEventMetadata();
+    const eventInfo &#x3D; this.data[&#x27;Collections&#x27;][&#x27;Event_V2&#x27;][0];
+    if (eventInfo[3]) {
+      metadata.push({
+        label: &#x27;Orbit&#x27;,
+        value: eventInfo[3]
+      });
     }
+    return metadata;
+  }
 }
 </code></pre>
     </div>

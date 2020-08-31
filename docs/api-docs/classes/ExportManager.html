@@ -810,112 +810,112 @@ import { GLTFExporter } from &#x27;three/examples/jsm/exporters/GLTFExporter&#x2
  */
 export class ExportManager {
 
-    /**
-     * Constructor for the export manager.
-     */
-    constructor() {
-    }
+  /**
+   * Constructor for the export manager.
+   */
+  constructor() {
+  }
 
-    /**
-     * Exports scene to OBJ file format.
-     * @param scene The scene to be exported.
-     */
-    public exportSceneToOBJ(scene: Scene) {
-        // Instantiate a exporter
-        const exporter &#x3D; new OBJExporter();
-        const result &#x3D; exporter.parse(scene);
-        this.saveString(result, &#x27;phoenix-obj.obj&#x27;);
-    }
+  /**
+   * Exports scene to OBJ file format.
+   * @param scene The scene to be exported.
+   */
+  public exportSceneToOBJ(scene: Scene) {
+    // Instantiate a exporter
+    const exporter &#x3D; new OBJExporter();
+    const result &#x3D; exporter.parse(scene);
+    this.saveString(result, &#x27;phoenix-obj.obj&#x27;);
+  }
 
-    /**
-     * Exports scene as phoenix format, allowing to load it later and recover the saved configuration.
-     * @param scene The scene to be exported.
-     * @param eventData Currently loaded event data.
-     * @param geometries Currently loaded geometries.
-     */
-    public exportPhoenixScene(scene: Scene, eventData: Object3D, geometries: Object3D) {
-        const exporter &#x3D; new GLTFExporter();
+  /**
+   * Exports scene as phoenix format, allowing to load it later and recover the saved configuration.
+   * @param scene The scene to be exported.
+   * @param eventData Currently loaded event data.
+   * @param geometries Currently loaded geometries.
+   */
+  public exportPhoenixScene(scene: Scene, eventData: Object3D, geometries: Object3D) {
+    const exporter &#x3D; new GLTFExporter();
 
-        const sceneConfig &#x3D; this.saveSceneConfig(eventData, geometries);
-        // Parse the input and generate the glTF output
-        exporter.parse(
-            scene,
-            result &#x3D;&gt; {
-                const jsonResult &#x3D; { sceneConfiguration: sceneConfig, scene: result };
-                const output &#x3D; JSON.stringify(jsonResult, null, 2);
-                this.saveString(output, &#x27;phoenix-scene.phnx&#x27;);
-            },
-            null
-        );
-    }
+    const sceneConfig &#x3D; this.saveSceneConfig(eventData, geometries);
+    // Parse the input and generate the glTF output
+    exporter.parse(
+      scene,
+      result &#x3D;&gt; {
+        const jsonResult &#x3D; { sceneConfiguration: sceneConfig, scene: result };
+        const output &#x3D; JSON.stringify(jsonResult, null, 2);
+        this.saveString(output, &#x27;phoenix-scene.phnx&#x27;);
+      },
+      null
+    );
+  }
 
-    /**
-     * Save the configuration of the currently loaded scene including event data and geometries.
-     * @param eventData Curently loaded event data.
-     * @param geometries Currently loaded geometries.
-     */
-    private saveSceneConfig(eventData: Object3D, geometries: Object3D) {
-        const eventDataConfig &#x3D; this.saveEventDataConfiguration(eventData);
-        const geometriesConfig &#x3D; this.saveGeometriesConfiguration(geometries);
-        const sceneConfig &#x3D; { eventData: eventDataConfig, geometries: geometriesConfig };
-        return sceneConfig;
-    }
+  /**
+   * Save the configuration of the currently loaded scene including event data and geometries.
+   * @param eventData Curently loaded event data.
+   * @param geometries Currently loaded geometries.
+   */
+  private saveSceneConfig(eventData: Object3D, geometries: Object3D) {
+    const eventDataConfig &#x3D; this.saveEventDataConfiguration(eventData);
+    const geometriesConfig &#x3D; this.saveGeometriesConfiguration(geometries);
+    const sceneConfig &#x3D; { eventData: eventDataConfig, geometries: geometriesConfig };
+    return sceneConfig;
+  }
 
-    /**
-     * Save the configuration of the currently loaded event data.
-     * @param eventData Currently loaded event data.
-     */
-    private saveEventDataConfiguration(eventData: any) {
-        const eventDataConfig &#x3D; {};
-        for (const objectType of eventData.children) {
-            if (objectType.name) {
-                eventDataConfig[objectType.name] &#x3D; [];
-                for (const collection of objectType.children) {
-                    if (collection.name) {
-                        eventDataConfig[objectType.name].push(collection.name);
-                    }
-                }
-            }
+  /**
+   * Save the configuration of the currently loaded event data.
+   * @param eventData Currently loaded event data.
+   */
+  private saveEventDataConfiguration(eventData: any) {
+    const eventDataConfig &#x3D; {};
+    for (const objectType of eventData.children) {
+      if (objectType.name) {
+        eventDataConfig[objectType.name] &#x3D; [];
+        for (const collection of objectType.children) {
+          if (collection.name) {
+            eventDataConfig[objectType.name].push(collection.name);
+          }
         }
-        return eventDataConfig;
+      }
     }
+    return eventDataConfig;
+  }
 
-    /**
-     * Save the configuration of the currently loaded geometries.
-     * @param geometries Currently loaded geometries.
-     */
-    private saveGeometriesConfiguration(geometries: Object3D) {
-        const geometriesConfig &#x3D; [];
-        geometries.children.forEach((object) &#x3D;&gt; {
-            if (object.name !&#x3D;&#x3D; &#x27;EventData&#x27;) {
-                geometriesConfig.push(object.name);
-            }
-        });
-        return geometriesConfig;
-    }
+  /**
+   * Save the configuration of the currently loaded geometries.
+   * @param geometries Currently loaded geometries.
+   */
+  private saveGeometriesConfiguration(geometries: Object3D) {
+    const geometriesConfig &#x3D; [];
+    geometries.children.forEach((object) &#x3D;&gt; {
+      if (object.name !&#x3D;&#x3D; &#x27;EventData&#x27;) {
+        geometriesConfig.push(object.name);
+      }
+    });
+    return geometriesConfig;
+  }
 
-    /**
-     * Save string in the file and download it.
-     * @param text Text to be stored.
-     * @param filename Name of the file.
-     */
-    private saveString(text: string, filename: string) {
-        this.save(new Blob([text], { type: &#x27;text/plain&#x27; }), filename);
-    }
+  /**
+   * Save string in the file and download it.
+   * @param text Text to be stored.
+   * @param filename Name of the file.
+   */
+  private saveString(text: string, filename: string) {
+    this.save(new Blob([text], { type: &#x27;text/plain&#x27; }), filename);
+  }
 
-    /**
-     * Create a temporary link and download/save the data (blob) in a file.
-     * @param blob Blob containing exported data.
-     * @param filename Name of the export file.
-     */
-    private save(blob: Blob, filename: string) {
-        const link &#x3D; document.createElement(&#x27;a&#x27;);
-        link.style.display &#x3D; &#x27;none&#x27;;
-        document.body.appendChild(link);
-        link.href &#x3D; URL.createObjectURL(blob);
-        link.download &#x3D; filename;
-        link.click();
-    }
+  /**
+   * Create a temporary link and download/save the data (blob) in a file.
+   * @param blob Blob containing exported data.
+   * @param filename Name of the export file.
+   */
+  private save(blob: Blob, filename: string) {
+    const link &#x3D; document.createElement(&#x27;a&#x27;);
+    link.style.display &#x3D; &#x27;none&#x27;;
+    document.body.appendChild(link);
+    link.href &#x3D; URL.createObjectURL(blob);
+    link.download &#x3D; filename;
+    link.click();
+  }
 
 }
 </code></pre>
