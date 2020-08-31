@@ -4,7 +4,7 @@
 [![License][license-img]][license-url]
 [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
-[![Documentation Coverage](docs/api-docs/images/coverage-badge-documentation.svg)](http://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
+[![Documentation Coverage](https://hepsoftwarefoundation.org/phoenix/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
@@ -21,6 +21,10 @@ Technically the 3D is done with [three.js](https://threejs.org), the menu (at th
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
 You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](https://hepsoftwarefoundation.org/phoenix/)
+
+## Demo
+
+[![Phoenix demo](src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
 
 ## Build and install
 
