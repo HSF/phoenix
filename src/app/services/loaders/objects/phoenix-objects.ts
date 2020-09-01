@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { Object3D } from 'three';
+import { RKHelper } from '../../helpers/rk-helper';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -13,16 +14,19 @@ export class PhoenixObjects {
    * @returns Track object.
    */
   public static getTrack(trackParams: any): Object3D {
-    const positions = trackParams.pos;
+    let positions = trackParams.pos;
     // Track with no points
     if (!positions) {
       return;
     }
 
-    const numPoints = positions.length;
-    // Track with too few points
-    if (numPoints < 3) {
-      return;
+    // Track with too few points are extrapolated with RungeKutta
+    if (positions.length < 3) {
+      if (trackParams?.dparams) {
+        positions = RKHelper.extrapolateTrackPositions(trackParams);
+      } else {
+        return;
+      }
     }
 
     // const length = 100;
@@ -42,7 +46,7 @@ export class PhoenixObjects {
 
     const points = [];
 
-    for (let i = 0; i < numPoints; i++) {
+    for (let i = 0; i < positions.length; i++) {
       points.push(new THREE.Vector3(positions[i][0], positions[i][1], positions[i][2]));
     }
 
