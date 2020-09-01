@@ -1,5 +1,5 @@
 import { SceneManager } from "./scene-manager";
-import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera, SphereGeometry, Plane } from "three";
+import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera, SphereGeometry, Plane, Group } from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 import { RendererManager } from "./renderer-manager";
 
@@ -392,7 +392,15 @@ export class AnimationsManager {
     onEnd?: () => void
   ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-    const trackColor = (this.scene.getObjectByName('Track') as any)?.material?.color;
+
+    // Get the color of the first track to use for colliding particles
+    const track = allEventData.getObjectByName('Track');
+    let trackColor: Color;
+    if (track instanceof Group) {
+      trackColor = (track.children[0] as any)?.material?.color;
+    } else {
+      trackColor = (track as any)?.material.color;
+    }
 
     // Hide event data to show particles collision
     if (allEventData) {

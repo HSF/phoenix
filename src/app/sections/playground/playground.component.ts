@@ -25,45 +25,4 @@ export class PlaygroundComponent implements OnInit {
     this.eventDisplay.init(configuration);
   }
 
-  runRungeKutta() {
-
-    // Testing Runge-Kutta
-
-    let start = new Vector3(0, 0, 0);
-    let dir = new Vector3(1, 1, 1);
-    dir.normalize();
-
-    let q = 1; // charge
-    let p = 500; // momentum
-
-    console.log('----------- Propagation Test -----------');
-    let traj = RungeKutta.propagate(start, dir, p, q, -1, 1000);
-    console.log(' - yielded ', traj.length, 'steps');
-    console.log('----------------------------------------');
-
-    let resultStr: string = '';
-    for (const step of traj) {
-      resultStr += 'v ' + step.pos.x
-                  + ' ' + step.pos.y
-                  + ' ' + step.pos.z
-                  + '\n';
-    }
-
-    for (let iv = 2; iv <= traj.length; ++iv) {
-      resultStr += 'l ' + (iv - 1) + ' ' + iv + '\n';
-    }
-
-    this.saveFile(resultStr, 'Track.obj');
-
-  }
-
-  saveFile(text, filename) {
-    let blob = new Blob([text], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-  }
 }

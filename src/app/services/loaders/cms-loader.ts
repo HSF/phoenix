@@ -241,7 +241,7 @@ export class CMSLoader extends PhoenixLoader {
         for (const muonChamberParam of Object.keys(muonChamberParams)) {
           if (muonChamberParam.startsWith('front') || muonChamberParam.startsWith('back')) {
             muonChamberParams[muonChamberParam] = muonChamberParams[muonChamberParam]
-              .map(val => val * this.geometryScale);
+              .map((val: number) => val * this.geometryScale);
           }
         }
       });
