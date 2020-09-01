@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Group, Plane, Material, ObjectLoader } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -35,7 +35,7 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    */
   public loadOBJGeometry(
-    callback: (object: Group) => any,
+    callback: (object: Object3D) => any,
     filename: string,
     name: string,
     color: any,
@@ -57,7 +57,7 @@ export class ImportManager {
    * @param name Name given to the geometry.
    * @returns The processed object.
    */
-  public parseOBJGeometry(geometry: string, name: string): Group {
+  public parseOBJGeometry(geometry: string, name: string): Object3D {
     const objLoader = new OBJLoader();
     const object = objLoader.parse(geometry);
     return this.processOBJ(
@@ -83,7 +83,7 @@ export class ImportManager {
     color: any,
     doubleSided: boolean,
     data?: string
-  ): Group {
+  ): Object3D {
     object.name = name;
     object.userData = { info: data };
     return this.setObjFlat(object, color, doubleSided);
@@ -96,21 +96,18 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @returns The processed object.
    */
-  private setObjFlat(object3d: any, color: any, doubleSided: boolean): Group {
+  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean): Object3D {
     const material2 = new MeshPhongMaterial({
       color: color,
       shininess: 0,
       wireframe: false,
       clippingPlanes: this.clipPlanes,
       clipIntersection: true,
-      clipShadows: false
-
+      clipShadows: false,
+      side: doubleSided ? DoubleSide : FrontSide
     });
-    if (doubleSided) {
-      material2.side = DoubleSide;
-    }
 
-    object3d.traverse(child => {
+    object3d.traverse((child: Object3D) => {
       if (child instanceof Mesh) {
         child.name = object3d.name;
         child.userData = object3d.userData;
@@ -127,7 +124,7 @@ export class ImportManager {
           child instanceof LineSegments &&
           child.material instanceof LineBasicMaterial
         ) {
-          child.material.color.set(color);
+          (child.material.color as Color).set(color);
         }
       }
     });
@@ -142,7 +139,6 @@ export class ImportManager {
   public parseGLTFGeometry(geometry: any, callback: (geometries: Object3D, eventData: Object3D) => any) {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(geometry, null, 2);
-    // @ts-ignore
     loader.parse(sceneString, '', gltf => {
       const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
       const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
@@ -159,7 +155,6 @@ export class ImportManager {
    */
   public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any, scale?: number) {
     const loader = new GLTFLoader();
-    // @ts-ignore
     loader.load(sceneUrl, gltf => {
       const geometry = gltf.scene;
       this.processGeometry(geometry, name, scale);

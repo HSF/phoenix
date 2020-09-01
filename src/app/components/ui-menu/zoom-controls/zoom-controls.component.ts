@@ -41,6 +41,7 @@ export class ZoomControlsComponent {
 
   /**
    * Zoom the camera in.
+   * @param leftClick Whether the mouse click is left or not.
    */
   zoomIn(leftClick: boolean) {
     if (leftClick) {
@@ -50,6 +51,7 @@ export class ZoomControlsComponent {
 
   /**
    * Zoom the camera out.
+   * @param leftClick Whether the mouse click is left or not.s
    */
   zoomOut(leftClick: boolean) {
     if (leftClick) {

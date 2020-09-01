@@ -68,11 +68,7 @@ export class SceneManager {
    */
   public updateLights(camera: Camera) {
     if (this.useCameraLight) {
-      this.cameraLight.position.set(
-        camera.position.x,
-        camera.position.y,
-        camera.position.z
-      );
+      this.cameraLight.position.copy(camera.position);
     }
   }
 
@@ -154,7 +150,7 @@ export class SceneManager {
             child.material instanceof MeshBasicMaterial ||
             child.material instanceof LineBasicMaterial
           ) {
-            child.material.color.set(value);
+            (child.material.color as Color).set(value);
           }
         }
       });
@@ -259,8 +255,7 @@ export class SceneManager {
             object.material instanceof MeshPhongMaterial ||
             object.material instanceof MeshToonMaterial
           ) {
-            object.material.color.set(color);
-
+            (object.material.color as Color).set(color);
           }
         }
       });

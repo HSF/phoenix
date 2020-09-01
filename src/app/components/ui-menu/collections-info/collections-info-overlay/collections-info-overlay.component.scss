@@ -4,13 +4,12 @@
   .collectionSelector {
     height: 15%;
     min-height: 2rem;
-  
+
     span {
       color: var(--phoenix-text-color-secondary);
       margin-right: 1rem;
     }
   }
-
 }
 
 .boxBody {
@@ -46,18 +45,17 @@
     background: var(--phoenix-text-color);
     box-shadow: 0 0 15px var(--phoenix-text-color);
 
-    div.object-select {
+    div.object-select-wrapper {
       --phoenix-options-icon-path: var(--phoenix-background-color);
       --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
     }
   }
 
   td {
-
-    .object-select > div {
-      max-width: 2em;
-      max-height: 2em;
-      padding: 0.5em;
+    .object-select {
+      position: relative;
+      width: 1.6rem;
+      height: 1.6rem;
       margin-right: 0.4em;
       text-align: center;
       background-color: var(--phoenix-options-icon-bg);
@@ -67,12 +65,16 @@
       &:last-child {
         margin-right: 0;
       }
-  
+
       &:hover {
         border: 1px solid var(--phoenix-options-icon-path);
       }
-  
+
       svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0.4rem;
         width: 100%;
         height: 100%;
         vertical-align: top;

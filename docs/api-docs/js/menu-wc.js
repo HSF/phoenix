@@ -16,7 +16,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
         <nav>
             <ul class="list">
                 <li class="title">
-                    <a href="index.html" data-type="index-link">Phoenix API Docs</a>
+                    <a href="index.html" data-type="index-link"><img data-src="images/logo-text.svg" class='img-responsive' data-type="compodoc-logo"></a>
                 </li>
 
                 <li class="divider"></li>
@@ -65,13 +65,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AppModule.html" data-type="entity-link">AppModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#pipes-links-module-AppModule-f38eb0d53155bd859f9d82fa28958178"' : 'data-target="#xs-pipes-links-module-AppModule-f38eb0d53155bd859f9d82fa28958178"' }>
+                                            'data-target="#pipes-links-module-AppModule-b08fbce18ab2d3cfde98ad4b8ed17466"' : 'data-target="#xs-pipes-links-module-AppModule-b08fbce18ab2d3cfde98ad4b8ed17466"' }>
                                             <span class="icon ion-md-add"></span>
                                             <span>Pipes</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-AppModule-f38eb0d53155bd859f9d82fa28958178"' :
-                                            'id="xs-pipes-links-module-AppModule-f38eb0d53155bd859f9d82fa28958178"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-AppModule-b08fbce18ab2d3cfde98ad4b8ed17466"' :
+                                            'id="xs-pipes-links-module-AppModule-b08fbce18ab2d3cfde98ad4b8ed17466"' }>
                                             <li class="link">
                                                 <a href="pipes/AttributePipe.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">AttributePipe</a>
@@ -90,6 +90,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
+                                <a href="classes/AnimationsManager.html" data-type="entity-link">AnimationsManager</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/CMSLoader.html" data-type="entity-link">CMSLoader</a>
                             </li>
                             <li class="link">
@@ -105,7 +108,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/Cut.html" data-type="entity-link">Cut</a>
                             </li>
                             <li class="link">
+                                <a href="classes/EffectsManager.html" data-type="entity-link">EffectsManager</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/ExportManager.html" data-type="entity-link">ExportManager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Field.html" data-type="entity-link">Field</a>
                             </li>
                             <li class="link">
                                 <a href="classes/ImportManager.html" data-type="entity-link">ImportManager</a>
@@ -114,10 +123,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/JiveXMLLoader.html" data-type="entity-link">JiveXMLLoader</a>
                             </li>
                             <li class="link">
+                                <a href="classes/JSRootEventLoader.html" data-type="entity-link">JSRootEventLoader</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/LHCbLoader.html" data-type="entity-link">LHCbLoader</a>
                             </li>
                             <li class="link">
                                 <a href="classes/PhoenixLoader.html" data-type="entity-link">PhoenixLoader</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/PhoenixMenuNode.html" data-type="entity-link">PhoenixMenuNode</a>
                             </li>
                             <li class="link">
                                 <a href="classes/PhoenixObjects.html" data-type="entity-link">PhoenixObjects</a>
@@ -129,13 +144,25 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/RendererManager.html" data-type="entity-link">RendererManager</a>
                             </li>
                             <li class="link">
+                                <a href="classes/RungeKutta.html" data-type="entity-link">RungeKutta</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/SceneManager.html" data-type="entity-link">SceneManager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ScriptLoader.html" data-type="entity-link">ScriptLoader</a>
                             </li>
                             <li class="link">
                                 <a href="classes/SelectionManager.html" data-type="entity-link">SelectionManager</a>
                             </li>
                             <li class="link">
+                                <a href="classes/State.html" data-type="entity-link">State</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/TrackmlLoader.html" data-type="entity-link">TrackmlLoader</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/VRManager.html" data-type="entity-link">VRManager</a>
                             </li>
                         </ul>
                     </li>
@@ -174,6 +201,19 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Window.html" data-type="entity-link">Window</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ? 'data-target="#miscellaneous-links"'
+                            : 'data-target="#xs-miscellaneous-links"' }>
+                            <span class="icon ion-ios-cube"></span>
+                            <span>Miscellaneous</span>
+                            <span class="icon ion-ios-arrow-down"></span>
+                        </div>
+                        <ul class="links collapse " ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
+                            <li class="link">
+                                <a href="miscellaneous/variables.html" data-type="entity-link">Variables</a>
                             </li>
                         </ul>
                     </li>

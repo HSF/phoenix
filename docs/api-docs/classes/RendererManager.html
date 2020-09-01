@@ -123,6 +123,10 @@
                                 <a href="#containsObject">containsObject</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getLocalClipping">getLocalClipping</a>
+                            </li>
+                            <li>
                                 <a href="#getMainRenderer">getMainRenderer</a>
                             </li>
                             <li>
@@ -546,6 +550,55 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getLocalClipping"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getLocalClipping
+                        </b>
+                        <a href="#getLocalClipping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getLocalClipping()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">src/app/services/three/renderer-manager.ts:192</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get if the local clipping for the first renderer is enabled or disabled.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>If the renderer local clipping is enabled or disabled.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getMainRenderer"></a>
                     <span class="name">
                         <b>
@@ -705,8 +758,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/app/services/three/renderer-manager.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/app/services/three/renderer-manager.ts:202</a></div>
                 </td>
             </tr>
 
@@ -926,8 +979,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/app/services/three/renderer-manager.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/app/services/three/renderer-manager.ts:210</a></div>
                 </td>
             </tr>
 
@@ -1625,6 +1678,16 @@ export class RendererManager {
   public setLocalClippingEnabled(value: boolean) {
     for (const renderer of this.renderers) {
       renderer.localClippingEnabled &#x3D; value;
+    }
+  }
+
+  /**
+   * Get if the local clipping for the first renderer is enabled or disabled.
+   * @returns If the renderer local clipping is enabled or disabled.
+   */
+  public getLocalClipping() {
+    if (this.renderers.length &gt; 0) {
+      return this.renderers[0].localClippingEnabled;
     }
   }
 

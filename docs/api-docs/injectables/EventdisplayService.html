@@ -123,6 +123,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#animateClippingWithCollision">animateClippingWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateEventWithCollision">animateEventWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateThroughEvent">animateThroughEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#buildEventDataFromJSON">buildEventDataFromJSON</a>
                             </li>
                             <li>
@@ -131,7 +143,15 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#enableKeyboardControls">enableKeyboardControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#enableSelecting">enableSelecting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#endVR">endVR</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -198,6 +218,14 @@
                                 <a href="#loadOBJGeometry">loadOBJGeometry</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadRootGeometry">loadRootGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadRootJSONGeometry">loadRootJSONGeometry</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#loadSceneConfiguration">loadSceneConfiguration</a>
                             </li>
@@ -252,7 +280,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/eventdisplay.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/eventdisplay.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -374,8 +402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="357"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:357</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="401"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:401</a></div>
                 </td>
             </tr>
 
@@ -433,6 +461,308 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="animateClippingWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateClippingWithCollision
+                        </b>
+                        <a href="#animateClippingWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateClippingWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="483"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:483</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data
+using clipping planes after particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateEventWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateEventWithCollision
+                        </b>
+                        <a href="#animateEventWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateEventWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="473"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:473</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data with particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateThroughEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateThroughEvent
+                        </b>
+                        <a href="#animateThroughEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateThroughEvent(startPos: number[], tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onAnimationEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="461"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:461</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the camera through the event scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>startPos</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Start position of the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of each tween in the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onAnimationEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when the last animation ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="buildEventDataFromJSON"></a>
                     <span class="name">
                         <b>
@@ -453,8 +783,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:112</a></div>
                 </td>
             </tr>
 
@@ -533,8 +863,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:356</a></div>
                 </td>
             </tr>
 
@@ -542,6 +872,49 @@ of physics objects.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Enables calling specified event display methods in console.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableKeyboardControls"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            enableKeyboardControls
+                        </b>
+                        <a href="#enableKeyboardControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enableKeyboardControls()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:450</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enable keyboard controls for the event display.</p>
 </div>
 
                     <div class="io-description">
@@ -576,8 +949,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="365"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:365</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:409</a></div>
                 </td>
             </tr>
 
@@ -635,6 +1008,49 @@ of physics objects.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="endVR"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            endVR
+                        </b>
+                        <a href="#endVR"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>endVR()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>End VR and remove VR settings.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="exportPhoenixDisplay"></a>
                     <span class="name">
                         <b>
@@ -655,8 +1071,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:197</a></div>
                 </td>
             </tr>
 
@@ -698,8 +1114,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:170</a></div>
                 </td>
             </tr>
 
@@ -741,8 +1157,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="373"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:373</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="417"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:417</a></div>
                 </td>
             </tr>
 
@@ -820,8 +1236,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="381"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:381</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="425"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:425</a></div>
                 </td>
             </tr>
 
@@ -869,8 +1285,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="275"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:275</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:315</a></div>
                 </td>
             </tr>
 
@@ -949,8 +1365,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="283"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:283</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="323"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:323</a></div>
                 </td>
             </tr>
 
@@ -998,8 +1414,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="309"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:309</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="349"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:349</a></div>
                 </td>
             </tr>
 
@@ -1047,8 +1463,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="399"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:399</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="443"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:443</a></div>
                 </td>
             </tr>
 
@@ -1126,8 +1542,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -1161,7 +1577,7 @@ of physics objects.</p>
 
 
                                     <td>
-                                        <p>used to customize different aspects.</p>
+                                        <p>Configuration used to customize different aspects.</p>
 
                                     </td>
                                 </tr>
@@ -1198,22 +1614,22 @@ of physics objects.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initVR(configuration: <a href="../classes/Configuration.html">Configuration</a>)</code>
+                    <code>initVR(onSessionEnded?: () => void)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:82</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Initialize the event display with virtual reality environment and controls.</p>
+                    <div class="io-description"><p>Initialize VR.</p>
 </div>
 
                     <div class="io-description">
@@ -1229,18 +1645,18 @@ of physics objects.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>configuration</td>
+                                    <td>onSessionEnded</td>
                                     <td>
-                                                <code><a href="../classes/Configuration.html" target="_self" >Configuration</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
                                     <td>
-                                        <p>Configuration for preset views and event data loader.</p>
+                                        <p>Callback when the VR session ends.</p>
 
                                     </td>
                                 </tr>
@@ -1284,8 +1700,8 @@ of physics objects.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="292"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:292</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="332"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:332</a></div>
                 </td>
             </tr>
 
@@ -1364,8 +1780,8 @@ the callback on changes to the displayed event.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="341"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:341</a></div>
                 </td>
             </tr>
 
@@ -1444,8 +1860,8 @@ the callback on changes to the events.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -1517,15 +1933,15 @@ the event associated with that key.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(url: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>loadGLTFGeometry(url: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="213"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:213</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:218</a></div>
                 </td>
             </tr>
 
@@ -1544,6 +1960,7 @@ and adds it to the dat.GUI menu.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -1558,6 +1975,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>URL to the GLTF (.gltf) file.</p>
@@ -1574,6 +1993,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Name of the loaded scene/geometry.</p>
@@ -1590,9 +2011,30 @@ and adds it to the dat.GUI menu.</p>
                                         Yes
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
 
                                     </td>
                                 </tr>
@@ -1629,15 +2071,15 @@ and adds it to the dat.GUI menu.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadJSONGeometry(json: string | object, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>loadJSONGeometry(json: string | object, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="225"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:225</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:233</a></div>
                 </td>
             </tr>
 
@@ -1655,6 +2097,7 @@ and adds it to the dat.GUI menu.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -1669,6 +2112,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>JSON or URL to JSON file of the geometry.</p>
@@ -1685,6 +2130,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Name of the geometry or group of geometries.</p>
@@ -1701,9 +2148,48 @@ and adds it to the dat.GUI menu.</p>
                                         Yes
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doubleSided</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
 
                                     </td>
                                 </tr>
@@ -1740,15 +2226,15 @@ and adds it to the dat.GUI menu.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:148</a></div>
                 </td>
             </tr>
 
@@ -1767,6 +2253,7 @@ and adds it to the dat.GUI menu.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -1781,6 +2268,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Path to the geometry.</p>
@@ -1797,6 +2286,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Name given to the geometry.</p>
@@ -1813,6 +2304,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Color to initialize the geometry.</p>
@@ -1826,12 +2319,397 @@ and adds it to the dat.GUI menu.</p>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadRootGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadRootGeometry
+                        </b>
+                        <a href="#loadRootGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadRootGeometry(JSROOT: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:267</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Load ROOT geometry from JSRoot.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JSROOT</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>JSRoot object containing all the JSROOT functions.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>URL of the JSRoot file.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>objectName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the object inside the &quot;.root&quot; file.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doubleSided</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadRootJSONGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadRootJSONGeometry
+                        </b>
+                        <a href="#loadRootJSONGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadRootJSONGeometry(JSROOT: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:249</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Load JSON geometry from JSRoot.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JSROOT</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>JSRoot object containing all the JSROOT functions.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>URL of the JSRoot geometry file.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doubleSided</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
 
                                     </td>
                                 </tr>
@@ -1875,8 +2753,8 @@ and adds it to the dat.GUI menu.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="248"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:248</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="296"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:296</a></div>
                 </td>
             </tr>
 
@@ -1955,8 +2833,8 @@ from Phoenix file format (.phnx).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="434"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:434</a></div>
                 </td>
             </tr>
 
@@ -2035,8 +2913,8 @@ and highlight it.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="201"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:201</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:205</a></div>
                 </td>
             </tr>
 
@@ -2107,15 +2985,15 @@ and highlight it.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseOBJGeometry(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>parseOBJGeometry(content: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -2134,6 +3012,7 @@ and adds it to the dat.GUI menu.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -2148,6 +3027,8 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Content of the OBJ geometry.</p>
@@ -2164,9 +3045,30 @@ and adds it to the dat.GUI menu.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Name given to the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
 
                                     </td>
                                 </tr>
@@ -2210,8 +3112,8 @@ and adds it to the dat.GUI menu.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:180</a></div>
                 </td>
             </tr>
 
@@ -2290,8 +3192,8 @@ and other configuration.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -2371,8 +3273,8 @@ Then it loads by default the first event.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="349"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:349</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="393"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:393</a></div>
                 </td>
             </tr>
 
@@ -2450,8 +3352,8 @@ Then it loads by default the first event.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="237"
-                            class="link-to-prism">src/app/services/eventdisplay.service.ts:237</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">src/app/services/eventdisplay.service.ts:285</a></div>
                 </td>
             </tr>
 
@@ -2549,7 +3451,7 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/services/eventdisplay.service.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/services/eventdisplay.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -2583,7 +3485,7 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/services/eventdisplay.service.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/services/eventdisplay.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -2617,7 +3519,7 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/services/eventdisplay.service.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/services/eventdisplay.service.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -2689,7 +3591,7 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/services/eventdisplay.service.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/services/eventdisplay.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -2728,7 +3630,7 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/services/eventdisplay.service.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/services/eventdisplay.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -2753,7 +3655,6 @@ import { InfoLoggerService } from &#x27;./infologger.service&#x27;;
 import { UIService } from &#x27;./ui.service&#x27;;
 import { Configuration } from &#x27;./extras/configuration.model&#x27;;
 import { HttpClient } from &#x27;@angular/common/http&#x27;;
-import { Camera } from &#x27;three&#x27;;
 
 declare global {
   /**
@@ -2791,12 +3692,16 @@ export class EventdisplayService {
    * @param http HttpClient for making http requests.
    * @param infoLogger Service for logging data to the information panel.
    */
-  constructor(public graphicsLibrary: ThreeService, private ui: UIService, private http: HttpClient, private infoLogger: InfoLoggerService) {
-  }
+  constructor(
+    public graphicsLibrary: ThreeService,
+    private ui: UIService,
+    private http: HttpClient,
+    private infoLogger: InfoLoggerService
+  ) { }
 
   /**
    * Initializes the components needed to later represent the geometries.
-   * @param configuration used to customize different aspects.
+   * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
     this.configuration &#x3D; configuration;
@@ -2817,25 +3722,23 @@ export class EventdisplayService {
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
+    // Allow keyboard controls
+    this.enableKeyboardControls();
   }
 
   /**
-   * Initialize the event display with virtual reality environment and controls.
-   * @param configuration Configuration for preset views and event data loader.
+   * Initialize VR.
+   * @param onSessionEnded Callback when the VR session ends.
    */
-  public initVR(configuration: Configuration) {
-    this.configuration &#x3D; configuration;
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
-    // Animate loop
-    const animate &#x3D; () &#x3D;&gt; {
-      this.graphicsLibrary.updateControls();
-      this.ui.updateUI();
-      this.graphicsLibrary.render();
-    };
-    this.graphicsLibrary.setVRButton();
-    this.graphicsLibrary.setAnimationLoop(animate);
+  public initVR(onSessionEnded?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.initVRSession(onSessionEnded);
+  }
+
+  /**
+   * End VR and remove VR settings.
+   */
+  public endVR() {
+    this.graphicsLibrary.endVRSession();
   }
 
   /**
@@ -2891,10 +3794,12 @@ export class EventdisplayService {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadOBJGeometry(filename: string, name: string, color: any, doubleSided: boolean) {
-    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided);
-    this.ui.addGeometry(name, color);
+  public loadOBJGeometry(filename: string, name: string, color: any,
+    doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, color, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded OBJ geometry&#x27;);
   }
 
@@ -2903,10 +3808,11 @@ export class EventdisplayService {
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(content: string, name: string) {
-    this.graphicsLibrary.parseOBJGeometry(content, name);
-    this.ui.addGeometry(name, 0x000fff);
+  public parseOBJGeometry(content: string, name: string, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
+    this.ui.addGeometry(name, 0x000fff, initiallyVisible);
   }
 
   /**
@@ -2958,10 +3864,12 @@ export class EventdisplayService {
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadGLTFGeometry(url: any, name: string, scale?: number) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadGLTFGeometry(url: any, name: string,
+    scale?: number, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded GLTF geometry&#x27;);
   }
 
@@ -2970,11 +3878,53 @@ export class EventdisplayService {
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
    * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale);
-    this.ui.addGeometry(name, 0xff0000);
+  public loadJSONGeometry(json: string | object, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
+    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
+  }
+
+  /**
+   * Load JSON geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot geometry file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootJSONGeometry(JSROOT: any, url: string, name: string,
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    JSROOT.NewHttpRequest(url, &#x27;object&#x27;, (obj: any) &#x3D;&gt; {
+      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+        name, scale, doubleSided, initiallyVisible);
+    }).send();
+  }
+
+  /**
+   * Load ROOT geometry from JSRoot.
+   * @param JSROOT JSRoot object containing all the JSROOT functions.
+   * @param url URL of the JSRoot file.
+   * @param objectName Name of the object inside the &quot;.root&quot; file.
+   * @param name Name of the geometry.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public loadRootGeometry(JSROOT: any, url: string, objectName: string,
+    name: string, scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
+    if (url.indexOf(&#x27;.root&#x27;) &gt; 0) {
+      JSROOT.OpenFile(url, (file: any) &#x3D;&gt; {
+        file.ReadObject(objectName, (obj: any) &#x3D;&gt; {
+          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            name, scale, doubleSided, initiallyVisible);
+        });
+      });
+    }
   }
 
   /**
@@ -3006,14 +3956,6 @@ export class EventdisplayService {
     for (const geom of sceneConfiguration.geometries) {
       this.ui.addGeometry(geom, &#x27;#ffffff&#x27;);
     }
-
-    const eventNumber &#x3D; sceneConfiguration.eventData[&#x27;event number&#x27;]
-      ? sceneConfiguration.eventData[&#x27;event number&#x27;]
-      : sceneConfiguration.eventData[&#x27;eventNumber&#x27;];
-    const runNumber &#x3D; sceneConfiguration.eventData[&#x27;run number&#x27;]
-      ? sceneConfiguration.eventData[&#x27;run number&#x27;]
-      : sceneConfiguration.eventData[&#x27;runNumber&#x27;];
-    this.infoLogger.add(&#x27;Scene with event#&#x27; + eventNumber + &#x27; and run#&#x27; + runNumber, &#x27;Loaded&#x27;);
   }
 
   /**
@@ -3070,6 +4012,10 @@ export class EventdisplayService {
       },
       loadOBJGeometry: (filename: string, name: string, colour: any, doubleSided: boolean) &#x3D;&gt; {
         this.loadOBJGeometry(filename, name, colour, doubleSided);
+      },
+      loadJSONGeometry: (json: string | object, name: string,
+        scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) &#x3D;&gt; {
+        this.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
       },
       parseOBJGeometry: (content: string, name: string) &#x3D;&gt; {
         this.parseOBJGeometry(content, name);
@@ -3128,7 +4074,7 @@ export class EventdisplayService {
    * @returns uuid of the currently selected object.
    */
   public getActiveObjectId(): any {
-      return this.graphicsLibrary.getActiveObjectId();
+    return this.graphicsLibrary.getActiveObjectId();
   }
 
   /**
@@ -3147,6 +4093,46 @@ export class EventdisplayService {
    */
   public highlightObject(uuid: string) {
     this.graphicsLibrary.highlightObject(uuid);
+  }
+
+  /**
+   * Enable keyboard controls for the event display.
+   */
+  public enableKeyboardControls() {
+    this.ui.enableKeyboardControls();
+    this.graphicsLibrary.enableKeyboardControls();
+  }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
   }
 }
 </code></pre>
