@@ -37,7 +37,7 @@
 <a href="https://coveralls.io/github/HSF/phoenix?branch=master"><img src="https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master" alt="Coverage Status" class="img-responsive"></a>
 <a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a>
 <a href="https://gitter.im/phoenix-developers/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/phoenix-developers/community.svg" alt="Gitter" class="img-responsive"></a></p>
-
+<p><img src="https://raw.github.com/HSF/phoenix/master/src/assets/images/logo-text.svg" alt="Phoenix Logo" class="img-responsive"></p>
 <h1 id="phoenix-project">Phoenix Project</h1>
 <p>The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The design should be as detector-agnostic as possible.
 Technically the 3D is implemented with <a href="https://threejs.org">three.js</a> and the native data format is just plain JSON (though we have many loaders to convert from other formats).</p>
