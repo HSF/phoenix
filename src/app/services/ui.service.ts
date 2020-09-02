@@ -202,18 +202,25 @@ export class UIService {
           this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
         }, 'perspective');
       }
-      this.geomFolderPM.addConfig('slider', {
+      this.geomFolderPM.addConfig('checkbox', {
+        label: 'Wireframe',
+        isChecked: false,
+        onChange: (value: boolean) => {
+          this.three.getSceneManager().wireframeGeometries(value);
+        }
+      }).addConfig('slider', {
         label: 'Opacity',
         min: 0, max: 1, step: 0.01,
         allowCustomValue: true,
         onChange: (value: number) => {
           this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
         }
-      }).addConfig('checkbox', {
-        label: 'Wireframe',
-        isChecked: false,
-        onChange: (value: boolean) => {
-          this.three.getSceneManager().wireframeGeometries(value);
+      }).addConfig('slider', {
+        label: 'Scale',
+        min: 0, max: 20, step: 0.01,
+        allowCustomValue: true,
+        onChange: (scale: number) => {
+          this.three.getSceneManager().scaleObject(name, scale);
         }
       });
     }
