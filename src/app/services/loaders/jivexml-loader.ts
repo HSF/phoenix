@@ -58,7 +58,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getJets(firstEvent, eventData);
     this.getCaloClusters(firstEvent, eventData);
 
-    console.log('Got this eventdata', eventData);
+    // console.log('Got this eventdata', eventData);
     return eventData;
   }
 
@@ -113,7 +113,12 @@ export class JiveXMLLoader extends PhoenixLoader {
         track.pos = pos;
         jsontracks.push(track);
       }
-      eventData.Tracks[trackColl.getAttribute('storeGateKey')] = jsontracks;
+      let trackCollectionName = trackColl.getAttribute('storeGateKey')
+      if (trackCollectionName === "Tracks") {
+        // Okay, this is not so nice, but right now this causes big problems because there is an object type called tracks
+        trackCollectionName = "Tracks.";
+      }
+      eventData.Tracks[trackCollectionName] = jsontracks;
       // }
     }
   }
