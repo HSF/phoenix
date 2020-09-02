@@ -66,7 +66,7 @@ export class IOOptionsDialogComponent {
   }
 
   processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
-    console.log('Got JiveXML.');
+    console.log('Got JiveXML from '+name);
     const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();

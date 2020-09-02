@@ -16,12 +16,14 @@ export class PhoenixObjects {
     const positions = trackParams.pos;
     // Track with no points
     if (!positions) {
+      console.log("Track with no positions.")
       return;
     }
 
     const numPoints = positions.length;
     // Track with too few points
     if (numPoints < 3) {
+      console.log("Track with too few positions.")
       return;
     }
 
@@ -77,7 +79,7 @@ export class PhoenixObjects {
 
     // Setting uuid for selection from collections info
     trackParams.uuid = tubeObject.uuid;
-
+    
     return trackObject;
   }
 
