@@ -5,6 +5,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json)](https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json)
 [![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
 [![Documentation Coverage](https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
+[![Gitter](https://badges.gitter.im/phoenix-developers/community.svg)](https://gitter.im/phoenix-developers/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 [build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
 [build-link]: https://travis-ci.com/HSF/phoenix
@@ -15,8 +16,8 @@
 
 # Phoenix Project
 
-The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The data should be as detector-agnostic as possible.
-Technically the 3D is done with [three.js](https://threejs.org), the menu (at the moment) uses [DAT.GUI](https://code.google.com/archive/p/dat-gui/) and the data format is just plain JSON.
+The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The design should be as detector-agnostic as possible.
+Technically the 3D is implemented with [three.js](https://threejs.org) and the native data format is just plain JSON (though we have many loaders to convert from other formats).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
@@ -44,6 +45,4 @@ The app will automatically reload if you change any of the source files.
 
 ## Contact
 
-This is still very much a work in progress, so let me know of any problems (and don't be too surprised if there are some).
-
-edward.moyse@cern.ch
+Best is to either open an Issue in github, or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community)

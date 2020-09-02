@@ -110,6 +110,9 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
   protected loadObjectTypes(eventData: any) {
+
+    console.log("loadObjectTypes is being passed :");
+    console.log(eventData);
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
@@ -119,6 +122,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
 
       this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', cuts);
+      // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
 
     if (eventData.Jets) {
@@ -193,6 +197,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
+      // console.log(typeName+" collection "+collectionName+" has "+objectCollection.length+" constituents.")
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
 
@@ -206,7 +211,7 @@ export class PhoenixLoader implements EventDataLoader {
    * Adds to the event display all the objects inside a collection.
    * @param objectCollection Contains the params for every object of the collection.
    * @param collectionName Label to UNIQUELY identify the collection.
-   * @param getObject Handles reconstructing the objects of the objects of the collection.
+   * @param getObject Handles reconstructing the objects of the collection.
    * @param objectGroup Group containing the collections of the same object type.
    */
   private addCollection(
@@ -223,6 +228,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     objectGroup.add(collscene);
+    // console.log("-> Adding a threejs group called "+collscene.name+" with "+collscene.children.length+" children to the group called "+objectGroup.name);
   }
 
   /**
@@ -295,7 +301,8 @@ export class PhoenixLoader implements EventDataLoader {
       [
         { keys: ['runNumber', 'run number'], label: 'Run' },
         { keys: ['eventNumber', 'event number'], label: 'Event' },
-        { keys: ['ls'], label: 'LS' }
+        { keys: ['ls'], label: 'LS' },
+        { keys: ['lumiBlock'], label: 'LumiBlock' }
       ],
       [
         { keys: ['time'], label: 'Data recorded' }

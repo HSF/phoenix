@@ -17,6 +17,7 @@ export class PhoenixObjects {
     let positions = trackParams.pos;
     // Track with no points
     if (!positions) {
+      console.log("Track with no positions.")
       return;
     }
 
@@ -81,7 +82,7 @@ export class PhoenixObjects {
 
     // Setting uuid for selection from collections info
     trackParams.uuid = tubeObject.uuid;
-
+    
     return trackObject;
   }
 
