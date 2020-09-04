@@ -476,23 +476,23 @@ export class ThreeService {
   public enableKeyboardControls() {
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.shiftKey) {
-        switch (e.keyCode) {
-          case 82: // shift + "r"
+        switch (e.code) {
+          case 'KeyR': // shift + "r"
             this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
             break;
-          case 187: // shift + "+"
+          case 'Equal': // shift + "+"
             this.zoomTo(1 / 1.2, 100);
             break;
-          case 189: // shift + "-"
+          case 'Minus': // shift + "-"
             this.zoomTo(1.2, 100);
             break;
-          case 67: // shift + "c"
+          case 'KeyC': // shift + "c"
             this.setClipping(!this.rendererManager.getLocalClipping());
             if (this.rendererManager.getLocalClipping()) {
               this.rotateClipping(180);
             }
             break;
-          case 86: // shift + "v"
+          case 'KeyV': // shift + "v"
             const isOrthographicView = this.controlsManager.getMainCamera()
               .type === 'OrthographicCamera';
             this.swapCameras(!isOrthographicView);

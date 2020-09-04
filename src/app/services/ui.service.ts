@@ -572,7 +572,7 @@ export class UIService {
     this.three.autoRotate(rotate);
   }
 
-    /**
+  /**
    * Set whether to show the axis or not
    * @param show If the axis is to be shown or not.
    */
@@ -632,17 +632,17 @@ export class UIService {
   public enableKeyboardControls() {
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.shiftKey) {
-        switch (e.keyCode) {
-          case 84: // shift + "t"
+        switch (e.code) {
+          case 'KeyT': // shift + "t"
             this.setDarkTheme(!this.getDarkTheme());
             break;
         }
 
         // Shortcut keys for preset views (shift + 1...9)
-        if (e.keyCode > 48 && e.keyCode < 57) {
-          const indexFromKeyCode = Math.abs(49 - e.keyCode);
-          if (this.configuration.presetViews[indexFromKeyCode]) {
-            this.displayView(this.configuration.presetViews[indexFromKeyCode]);
+        if (e.code.startsWith('Digit')) {
+          const index = parseInt(e.code.slice(-1)) - 1;
+          if (this.configuration.presetViews[index]) {
+            this.displayView(this.configuration.presetViews[index]);
           }
         }
       }
