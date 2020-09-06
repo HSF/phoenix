@@ -16,7 +16,7 @@ declare global {
 /**
  * Phoenix event display class for managing detector geometries and event data.
  */
-export default class EventDisplay {
+export class EventDisplay {
   /** Configuration for preset views and event data loader. */
   private configuration: Configuration;
   /** An object containing event data. */
