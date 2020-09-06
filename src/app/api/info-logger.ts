@@ -1,5 +1,5 @@
 /**
- * Service for logging data to the information panel
+ * Logger for logging event display data
  */
 export class InfoLogger {
 

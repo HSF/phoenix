@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
-import { UIService } from 'src/app/services/ui.service';
 import { EventdisplayService } from '../../../../services/eventdisplay.service';
 
 @Component({
@@ -14,11 +13,11 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   overlayViewFixed: boolean = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
-  constructor(private ui: UIService, private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventdisplayService) { }
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
-    this.ui.setOverlayRenderer(canvas);
+    this.eventDisplay.instance.getUIManager().setOverlayRenderer(canvas);
   }
 
   initializeCanvas(canvas: HTMLCanvasElement): HTMLCanvasElement {
@@ -33,12 +32,12 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   switchOverlayView() {
     this.orthographicView = !this.orthographicView;
-    this.ui.toggleOrthographicView(this.orthographicView);
+    this.eventDisplay.instance.getUIManager().toggleOrthographicView(this.orthographicView);
   }
 
   fixOverlayView() {
     this.overlayViewFixed = !this.overlayViewFixed;
-    this.eventDisplay.fixOverlayView(this.overlayViewFixed);
+    this.eventDisplay.instance.fixOverlayView(this.overlayViewFixed);
   }
 
 }

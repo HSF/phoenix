@@ -18,8 +18,8 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.getCollections());
-    this.eventDisplay.getActiveObjectId().subscribe((value) => {
+    this.eventDisplay.instance.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.instance.getCollections());
+    this.eventDisplay.instance.getActiveObjectId().subscribe((value) => {
       this.activeObjectId = value;
       if (document.getElementById(value)) {
         document.getElementById(value).scrollIntoView(false);
@@ -29,21 +29,21 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   changeCollection(selected: any) {
     const value = selected.target.value;
-    this.showingCollection = this.eventDisplay.getCollection(value);
+    this.showingCollection = this.eventDisplay.instance.getCollection(value);
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
 
   lookAtObject(uuid: string) {
     if (uuid) {
-      this.eventDisplay.getActiveObjectId().next(uuid);
-      this.eventDisplay.lookAtObject(uuid);
+      this.eventDisplay.instance.getActiveObjectId().next(uuid);
+      this.eventDisplay.instance.lookAtObject(uuid);
     }
   }
 
   highlightObject(uuid: string) {
     if (uuid) {
-      this.eventDisplay.getActiveObjectId().next(uuid);
-      this.eventDisplay.highlightObject(uuid);
+      this.eventDisplay.instance.getActiveObjectId().next(uuid);
+      this.eventDisplay.instance.highlightObject(uuid);
     }
   }
 

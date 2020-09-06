@@ -14,11 +14,11 @@ export class EventSelectorComponent implements OnInit {
   constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.listenToLoadedEventsChange((events) => this.events = events);
+    this.eventDisplay.instance.listenToLoadedEventsChange((events) => this.events = events);
   }
 
   changeEvent(selected: any) {
     const value = selected.target.value;
-    this.eventDisplay.loadEvent(value);
+    this.eventDisplay.instance.loadEvent(value);
   }
 }

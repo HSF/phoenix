@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { Configuration } from '../../services/extras/configuration.model';
+import { Configuration } from '../../api/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
-import { LHCbLoader } from '../../services/loaders/lhcb-loader';
+import { LHCbLoader } from '../../api/loaders/lhcb-loader';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 
@@ -29,8 +29,8 @@ export class LHCbComponent implements OnInit {
     ];
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
-    this.eventDisplay.init(configuration);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
+    this.eventDisplay.instance.init(configuration);
+    this.eventDisplay.instance.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
     this.loader = new LHCbLoader();
     configuration.eventDataLoader = this.loader;
     this.loadEventData(configuration);
@@ -41,7 +41,7 @@ export class LHCbComponent implements OnInit {
     this.http.get('assets/files/lhcb/00191749_0005296728.json').subscribe((data: any) => {
       this.loader.process(data);
       const eventData = this.loader.getEventData();
-      this.eventDisplay.buildEventDataFromJSON(eventData);
+      this.eventDisplay.instance.buildEventDataFromJSON(eventData);
     });
   }
 }

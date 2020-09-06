@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { JiveXMLLoader } from '../../../../services/loaders/jivexml-loader';
+import { JiveXMLLoader } from '../../../../api/loaders/jivexml-loader';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -62,7 +62,7 @@ export class IOOptionsDialogComponent {
 
   processEventData(content: any, name: string, evDisplay: EventdisplayService) {
     const json = JSON.parse(content);
-    evDisplay.parsePhoenixEvents(json);
+    evDisplay.instance.parsePhoenixEvents(json);
   }
 
   processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
@@ -70,32 +70,32 @@ export class IOOptionsDialogComponent {
     const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();
-    evDisplay.buildEventDataFromJSON(eventData);
+    evDisplay.instance.buildEventDataFromJSON(eventData);
   }
 
   processOBJ(content: any, name: any, evDisplay: EventdisplayService) {
-    evDisplay.parseOBJGeometry(content, name);
+    evDisplay.instance.parseOBJGeometry(content, name);
   }
 
   processScene(content: any, name: string, evDisplay: EventdisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
+    evDisplay.instance.parsePhoenixDisplay(content);
   }
 
   processGLTF(content: any, name: string, evDisplay: EventdisplayService) {
-    evDisplay.parseGLTFGeometry(content);
+    evDisplay.instance.parseGLTFGeometry(content);
   }
 
   processPhoenixScene(content: any, name: string, evDisplay: EventdisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
+    evDisplay.instance.parsePhoenixDisplay(content);
   }
 
   saveScene() {
     console.log('queloqueeee');
-    this.eventDisplay.exportPhoenixDisplay();
+    this.eventDisplay.instance.exportPhoenixDisplay();
   }
 
   exportOBJ() {
-    this.eventDisplay.exportToOBJ();
+    this.eventDisplay.instance.exportToOBJ();
   }
 
 }

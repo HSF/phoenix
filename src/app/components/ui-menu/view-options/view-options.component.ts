@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UIService } from 'src/app/services/ui.service';
 import { PresetView } from 'src/app/services/extras/preset-view.model';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { EventdisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-view-options',
@@ -12,20 +12,20 @@ export class ViewOptionsComponent implements OnInit {
 
   views: PresetView[];
 
-  constructor(private ui: UIService) { }
+  constructor(private eventDisplay: EventdisplayService) { }
 
   ngOnInit(): void {
-    this.views = this.ui.getPresetViews();
+    this.views = this.eventDisplay.instance.getUIManager().getPresetViews();
   }
 
   displayView($event: any, view: PresetView) {
     $event.stopPropagation();
-    this.ui.displayView(view);
+    this.eventDisplay.instance.getUIManager().displayView(view);
   }
 
   setAxis(change: MatCheckboxChange){
     const value = change.checked;
-    this.ui.setShowAxis(value)
+    this.eventDisplay.instance.getUIManager().setShowAxis(value)
   }
 
 }

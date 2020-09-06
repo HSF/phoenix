@@ -14,9 +14,9 @@ declare global {
 }
 
 /**
- * Service for all event display related functions.
+ * Phoenix event display class for managing detector geometries and event data.
  */
-export class EventDisplay {
+export default class EventDisplay {
   /** Configuration for preset views and event data loader. */
   private configuration: Configuration;
   /** An object containing event data. */
@@ -35,11 +35,7 @@ export class EventDisplay {
   private ui: UIManager;
 
   /**
-   * Constructor for the event display service.
-   * @param graphicsLibrary ThreeService for all three.js related functions.
-   * @param ui UIService for all UI related functions.
-   * @param http HttpClient for making http requests.
-   * @param infoLogger Service for logging data to the information panel.
+   * Constructor for the phoenix event display.
    */
   constructor() {
     this.graphicsLibrary = new ThreeManager();

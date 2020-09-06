@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { UIService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-home',
@@ -11,12 +10,12 @@ export class HomeComponent implements AfterViewInit {
 
   year: number;
 
-  constructor(private ui: UIService) {
+  constructor(private eventDisplay: EventdisplayService) {
     this.year = new Date().getFullYear();
   }
 
   ngAfterViewInit() {
-    this.ui.detectColorScheme();
+    this.eventDisplay.instance.getUIManager().detectColorScheme();
   }
 
 }

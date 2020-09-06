@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { Configuration } from '../../services/extras/configuration.model';
+import { Configuration } from '../../api/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
 import { HttpClient } from '@angular/common/http';
 import { Vector3 } from 'three';
@@ -22,7 +22,7 @@ export class PlaygroundComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
-    this.eventDisplay.init(configuration);
+    this.eventDisplay.instance.init(configuration);
   }
 
 }

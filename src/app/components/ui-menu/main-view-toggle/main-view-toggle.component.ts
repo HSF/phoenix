@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UIService } from 'src/app/services/ui.service';
+import { EventdisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-main-view-toggle',
@@ -10,11 +10,11 @@ export class MainViewToggleComponent {
 
   orthographicView: boolean = false;
 
-  constructor(private ui: UIService) { }
+  constructor(private eventDisplay: EventdisplayService) { }
 
   switchMainView() {
     this.orthographicView = !this.orthographicView;
-    this.ui.toggleOrthographicView(this.orthographicView);
+    this.eventDisplay.instance.getUIManager().toggleOrthographicView(this.orthographicView);
   }
 
 }

@@ -8,7 +8,7 @@ import { SceneManager } from './three/scene-manager';
 import { PhoenixMenuNode } from '../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
 /**
- * Service for UI related operations including the dat.GUI menu, stats-js and theme settings.
+ * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
  */
 export class UIManager {
 
@@ -56,8 +56,8 @@ export class UIManager {
   private hasPhoenixMenu: boolean;
 
   /**
-   * Constructor for the UI service.
-   * @param three Three service to perform three.js related operations.
+   * Constructor for the UI manager.
+   * @param three Three manager to perform three.js related operations.
    */
   constructor(private three: ThreeManager) { }
 
@@ -611,7 +611,7 @@ export class UIManager {
   }
 
   /**
-   * Set the phoenix menu to be used by the UI service.
+   * Set the phoenix menu to be used by the UI manager.
    * @param phoenixMenu The root node of phoenix menu.
    */
   public setPhoenixMenu(phoenixMenu: PhoenixMenuNode) {
@@ -623,7 +623,7 @@ export class UIManager {
   }
 
   /**
-   * Enable keyboard controls for some UI service operations.
+   * Enable keyboard controls for some UI manager operations.
    */
   public enableKeyboardControls() {
     document.addEventListener("keydown", (e: KeyboardEvent) => {

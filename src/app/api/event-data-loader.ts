@@ -3,7 +3,7 @@ import { UIManager } from './ui-manager';
 import { InfoLogger } from './info-logger';
 
 /**
- * Event data loader
+ * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
 
@@ -11,9 +11,9 @@ export interface EventDataLoader {
    * Takes an object that represents ONE event and takes care of adding
    * the different objects to the graphic library and the UI controls.
    * @param eventData Object representing the event.
-   * @param graphicsLibrary Service containing functionality to draw the 3D objects.
-   * @param ui Service for showing menus and controls to manipulate the geometries.
-   * @param infoLogger Service for logging data to the information panel.
+   * @param graphicsLibrary Manager containing functionality to draw the 3D objects.
+   * @param ui Manager for showing menus and controls to manipulate the geometries.
+   * @param infoLogger Logger for logging event display data..
    */
   buildEventData(eventData: any, graphicsLibrary: ThreeManager, ui: UIManager, infoLogger: InfoLogger): void;
 

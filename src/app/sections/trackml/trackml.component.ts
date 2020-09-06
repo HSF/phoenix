@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventdisplayService } from '../../services/eventdisplay.service';
-import { Configuration } from '../../services/extras/configuration.model';
+import { Configuration } from '../../api/extras/configuration.model';
 import { PresetView } from '../../services/extras/preset-view.model';
-import { TrackmlLoader } from '../../services/loaders/trackml-loader';
+import { TrackmlLoader } from '../../api/loaders/trackml-loader';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 
@@ -39,12 +39,12 @@ export class TrackmlComponent implements OnInit {
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
     this.trackMLLoader = new TrackmlLoader();
     configuration.eventDataLoader = this.trackMLLoader;
-    this.eventDisplay.init(configuration);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
+    this.eventDisplay.instance.init(configuration);
+    this.eventDisplay.instance.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
+    this.eventDisplay.instance.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
+    this.eventDisplay.instance.loadOBJGeometry('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
+    this.eventDisplay.instance.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
+    this.eventDisplay.instance.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
     this.loadTrackMLData();
   }
 
@@ -82,7 +82,7 @@ export class TrackmlComponent implements OnInit {
   private finishConversion() {
     if (this.filesProcessed === this.numFiles) {
       const eventData = this.trackMLLoader.getEventData('TrackMLEvent');
-      this.eventDisplay.buildEventDataFromJSON(eventData);
+      this.eventDisplay.instance.buildEventDataFromJSON(eventData);
     }
   }
 

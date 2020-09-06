@@ -28,14 +28,14 @@ export class VrToggleComponent {
   toggleVr() {
     // If toggling VR on
     if (!this.vrActive) {
-      this.eventDisplay.initVR(() => {
+      this.eventDisplay.instance.initVR(() => {
         this.vrActive = false;
         // Disable renderer XR and remove animation loop
-        this.eventDisplay.endVR();
+        this.eventDisplay.instance.endVR();
       });
       this.vrActive = true;
     } else {
-      this.eventDisplay.endVR();
+      this.eventDisplay.instance.endVR();
       this.vrActive = false;
     }
   }
