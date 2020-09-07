@@ -13,10 +13,10 @@ cache:
     - ./packages/phoenix-app/node_modules
 
 install:
+  - cd packages/phoenix-app
   - npm install
 
 script:
-  - cd packages/phoenix-app
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   # Bug with Angular 10 (https://github.com/angular/protractor/issues/5460)
