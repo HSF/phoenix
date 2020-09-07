@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ export class HomeComponent implements AfterViewInit {
 
   year: number;
 
-  constructor(private eventDisplay: EventdisplayService) {
+  constructor(private eventDisplay: EventDisplayService) {
     this.year = new Date().getFullYear();
   }
 

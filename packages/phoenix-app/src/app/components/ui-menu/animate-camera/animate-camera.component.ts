@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-animate-camera',
@@ -10,7 +10,7 @@ export class AnimateCameraComponent {
 
   isAnimating: boolean = false;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   toggleAnimateCamera() {
     if (!this.isAnimating) {

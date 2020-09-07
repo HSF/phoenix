@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader } from '@phoenix/event-display';
 
@@ -10,7 +10,7 @@ import { JiveXMLLoader } from '@phoenix/event-display';
 })
 export class IOOptionsDialogComponent {
 
-  constructor(private eventDisplay: EventdisplayService, public dialogRef: MatDialogRef<IOOptionsDialogComponent>) { }
+  constructor(private eventDisplay: EventDisplayService, public dialogRef: MatDialogRef<IOOptionsDialogComponent>) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -60,12 +60,12 @@ export class IOOptionsDialogComponent {
     this.onNoClick();
   }
 
-  processEventData(content: any, name: string, evDisplay: EventdisplayService) {
+  processEventData(content: any, name: string, evDisplay: EventDisplayService) {
     const json = JSON.parse(content);
     evDisplay.instance.parsePhoenixEvents(json);
   }
 
-  processJiveXML(content: any, name: string, evDisplay: EventdisplayService) {
+  processJiveXML(content: any, name: string, evDisplay: EventDisplayService) {
     console.log('Got JiveXML from '+name);
     const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
@@ -73,19 +73,19 @@ export class IOOptionsDialogComponent {
     evDisplay.instance.buildEventDataFromJSON(eventData);
   }
 
-  processOBJ(content: any, name: any, evDisplay: EventdisplayService) {
+  processOBJ(content: any, name: any, evDisplay: EventDisplayService) {
     evDisplay.instance.parseOBJGeometry(content, name);
   }
 
-  processScene(content: any, name: string, evDisplay: EventdisplayService) {
+  processScene(content: any, name: string, evDisplay: EventDisplayService) {
     evDisplay.instance.parsePhoenixDisplay(content);
   }
 
-  processGLTF(content: any, name: string, evDisplay: EventdisplayService) {
+  processGLTF(content: any, name: string, evDisplay: EventDisplayService) {
     evDisplay.instance.parseGLTFGeometry(content);
   }
 
-  processPhoenixScene(content: any, name: string, evDisplay: EventdisplayService) {
+  processPhoenixScene(content: any, name: string, evDisplay: EventDisplayService) {
     evDisplay.instance.parsePhoenixDisplay(content);
   }
 

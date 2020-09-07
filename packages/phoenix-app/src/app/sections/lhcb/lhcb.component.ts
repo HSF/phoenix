@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
 import { PhoenixMenuNode, LHCbLoader, Configuration, PresetView } from '@phoenix/event-display';
 
@@ -14,7 +14,7 @@ export class LHCbComponent implements OnInit {
   loader: LHCbLoader;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
-  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
+  constructor(private eventDisplay: EventDisplayService, private http: HttpClient) {
   }
 
   ngOnInit() {

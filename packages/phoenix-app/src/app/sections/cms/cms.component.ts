@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Configuration, PresetView, CMSLoader, ScriptLoader, PhoenixMenuNode } from '@phoenix/event-display';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,7 +12,7 @@ export class CMSComponent implements OnInit {
 
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
-  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) { }
+  constructor(private eventDisplay: EventDisplayService, private http: HttpClient) { }
 
   ngOnInit(): void {
 

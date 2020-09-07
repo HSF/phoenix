@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 /**
  * Component for displaying information from the logger
@@ -20,7 +20,7 @@ export class InfoPanelOverlayComponent implements OnInit {
    * Create the information panel overlay
    * @param infoLogger Service containing operations related to info logs
    */
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   /**
    * Get the list of logs from the info logger service

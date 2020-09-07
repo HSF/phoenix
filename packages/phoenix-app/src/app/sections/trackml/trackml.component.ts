@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PhoenixMenuNode, Configuration, TrackmlLoader, PresetView } from '@phoenix/event-display';
 
@@ -23,7 +23,7 @@ export class TrackmlComponent implements OnInit {
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
 
-  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) {
+  constructor(private eventDisplay: EventDisplayService, private http: HttpClient) {
   }
 
   ngOnInit() {

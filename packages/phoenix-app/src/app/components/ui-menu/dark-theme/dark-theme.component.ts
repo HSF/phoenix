@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-dark-theme',
@@ -10,7 +10,7 @@ export class DarkThemeComponent implements OnInit {
 
   darkTheme = false;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit(): void {
     this.darkTheme = this.eventDisplay.instance.getUIManager().getDarkTheme();

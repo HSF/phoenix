@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 /**
  * Component for adding zoom controls for the main and overlay cameras.
@@ -20,7 +20,7 @@ export class ZoomControlsComponent {
   /** The speed and time of zoom. */
   private zoomTime: number = 200;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   /**
    * Zoom all the cameras by a specific zoom factor.

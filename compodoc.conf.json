@@ -1,6 +1,6 @@
 {
   "include": [
-    "**/*.ts"
+    "./packages/phoenix-*/src/**/*.ts",
   ],
   "exclude": [
     "**/*.spec.ts",

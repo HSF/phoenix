@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 import { Configuration, PresetView } from '@phoenix/event-display';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlaygroundComponent implements OnInit {
 
-  constructor(protected eventDisplay: EventdisplayService, protected http: HttpClient) { }
+  constructor(protected eventDisplay: EventDisplayService, protected http: HttpClient) { }
 
   ngOnInit() {
     const configuration = new Configuration();

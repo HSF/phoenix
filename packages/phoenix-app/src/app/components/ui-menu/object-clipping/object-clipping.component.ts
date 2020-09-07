@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-object-clipping',
@@ -12,7 +12,7 @@ export class ObjectClippingComponent {
 
   clippingEnabled: boolean;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   changeClippingAngle(change: MatSliderChange) {
     const angle = change.value;

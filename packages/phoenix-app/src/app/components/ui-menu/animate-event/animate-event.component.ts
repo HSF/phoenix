@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-animate-event',
@@ -10,7 +10,7 @@ export class AnimateEventComponent {
 
   isAnimating: boolean = false;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   toggleAnimateEvent() {
     if (!this.isAnimating) {

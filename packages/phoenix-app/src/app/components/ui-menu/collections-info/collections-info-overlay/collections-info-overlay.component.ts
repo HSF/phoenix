@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-collections-info-overlay',
@@ -15,7 +15,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collectionColumns: string[];
   activeObjectId: string;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.instance.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.instance.getCollections());

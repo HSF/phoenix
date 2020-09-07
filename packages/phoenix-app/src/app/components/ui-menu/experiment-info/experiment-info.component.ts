@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-experiment-info',
@@ -12,7 +12,7 @@ export class ExperimentInfoComponent implements OnInit {
   @Input() experiment: string;
   @Input() experimentTagline: string;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit(): void {
     this.eventDisplay.instance.listenToDisplayedEventChange(() => {

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ObjectSelectionComponent } from './object-selection.component';
 import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
   let fixture: ComponentFixture<ObjectSelectionComponent>;
 
-  const mockEventdisplayService = jasmine.createSpyObj('EventdisplayService',
+  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService',
     ['enableSelecting', 'allowSelection']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [Overlay, {
-        provide: EventdisplayService,
-        useValue: mockEventdisplayService
+        provide: EventDisplayService,
+        useValue: mockEventDisplayService
       }],
       declarations: [ObjectSelectionComponent]
     })
@@ -47,7 +47,7 @@ describe('ObjectSelectionComponent', () => {
     // Expect the overlay window to be visible
     expect(component.overlayWindow.instance.hiddenSelectedInfo).toBe(false);
     // Expect enable selection to have been called
-    expect(mockEventdisplayService.enableSelecting).toHaveBeenCalled();
+    expect(mockEventDisplayService.enableSelecting).toHaveBeenCalled();
   });
 
   it('should destory object selection overlay', () => {

@@ -2,7 +2,7 @@ import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay/object-selection-overlay.component';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-object-selection',
@@ -15,7 +15,7 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
   hiddenSelectedInfo = true;
   overlayWindow: ComponentRef<ObjectSelectionOverlayComponent>;
 
-  constructor(private overlay: Overlay, private eventDisplay: EventdisplayService) { }
+  constructor(private overlay: Overlay, private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     const overlayRef = this.overlay.create();

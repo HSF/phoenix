@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EventdisplayService } from '../eventdisplay.service';
+import { EventDisplayService } from '../eventdisplay.service';
 import { AppModule } from '../../app.module';
 import { ThreeService } from '../three.service';
 import { UIService } from '../ui.service';
@@ -10,9 +10,9 @@ import { Configuration } from '../extras/configuration.model';
 import { ScriptLoader } from '../loaders/script-loader';
 import { of } from 'rxjs';
 
-describe('EventdisplayService', () => {
+describe('EventDisplayService', () => {
 
-  let eventDisplay: EventdisplayService;
+  let eventDisplay: EventDisplayService;
   let eventDisplayPrivate: any;
   let three: ThreeService;
   let ui: UIService;
@@ -42,7 +42,7 @@ describe('EventdisplayService', () => {
       providers: [ThreeService, UIService, HttpClient, InfoLoggerService]
     });
 
-    eventDisplay = TestBed.inject(EventdisplayService);
+    eventDisplay = TestBed.inject(EventDisplayService);
     eventDisplayPrivate = (eventDisplay as any);
     three = TestBed.get(ThreeService);
     ui = TestBed.get(UIService);

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-object-selection-overlay',
@@ -12,7 +12,7 @@ export class ObjectSelectionOverlayComponent implements OnInit {
   @Input() hiddenSelectedInfo: boolean;
   selectedObject = { name: 'Object', attributes: [] };
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.instance.allowSelection(this.selectedObject);

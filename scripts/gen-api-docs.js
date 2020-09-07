@@ -10,7 +10,7 @@ if (!fs.existsSync('package.json')) {
 const DOCS_NAME = 'Phoenix API Docs';
 
 // Run from project directory containing package.json
-const COMPODOC_GEN = 'compodoc -p src/compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ../../docs/api-docs';
+const COMPODOC_GEN = 'compodoc -p compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ./docs/api-docs';
 
 console.log('Running command: %s', COMPODOC_GEN);
 
@@ -39,7 +39,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
 
   // Copy icon and logo to API docs folder
   exec(
-    'cp ./src/favicon.ico ./docs/api-docs/images/favicon.ico',
+    'cp ./packages/phoenix-app/src/favicon.ico ./docs/api-docs/images/favicon.ico',
     (err) => {
       if (err) console.log(err);
       else {
@@ -48,7 +48,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
     }
   );
   exec(
-    'cp ./src/assets/images/logo-text.svg ./docs/api-docs/images/logo-text.svg',
+    'cp ./packages/phoenix-app/src/assets/images/logo-text.svg ./docs/api-docs/images/logo-text.svg',
     (err) => {
       if (err) console.log(err);
       else {

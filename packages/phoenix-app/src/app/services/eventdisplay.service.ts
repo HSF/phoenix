@@ -7,6 +7,7 @@ import { EventDisplay } from '@phoenix/event-display';
 @Injectable({
   providedIn: 'root'
 })
-export class EventdisplayService {
+export class EventDisplayService {
+  /** An event display object with all event display functionality. */
   instance: EventDisplay = new EventDisplay();
 }

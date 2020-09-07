@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 import { VRManager } from '@phoenix/event-display';
 
 @Component({
@@ -12,7 +12,7 @@ export class VrToggleComponent {
   vrSupported: boolean = false;
   vrActive: boolean = false;
 
-  constructor(private eventDisplay: EventdisplayService) {
+  constructor(private eventDisplay: EventDisplayService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
       (navigator as any)?.xr?.isSessionSupported?.(VRManager.SESSION_TYPE)

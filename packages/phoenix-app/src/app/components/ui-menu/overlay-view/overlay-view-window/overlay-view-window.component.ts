@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
-import { EventdisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-overlay-view-window',
@@ -13,7 +13,7 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   overlayViewFixed: boolean = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);

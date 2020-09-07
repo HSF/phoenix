@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EventdisplayService } from '../../services/eventdisplay.service';
+import { EventDisplayService } from '../../services/eventdisplay.service';
 import { Configuration, PresetView, PhoenixMenuNode } from '@phoenix/event-display';
 
 
@@ -13,7 +13,7 @@ export class AtlasComponent implements OnInit {
 
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
-  constructor(private eventDisplay: EventdisplayService, private http: HttpClient) { }
+  constructor(private eventDisplay: EventDisplayService, private http: HttpClient) { }
 
   ngOnInit() {
     // Define the configuration

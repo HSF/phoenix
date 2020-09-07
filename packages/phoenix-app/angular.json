@@ -28,7 +28,8 @@
               "src/styles.scss"
             ],
             "allowedCommonJsDependencies": [
-              "css-element-queries"
+              "css-element-queries",
+              "@tweenjs/tween.js"
             ],
             "scripts": []
           },

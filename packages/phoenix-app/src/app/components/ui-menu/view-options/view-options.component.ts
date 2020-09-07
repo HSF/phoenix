@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PresetView } from '@phoenix/event-display';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-view-options',
@@ -12,7 +12,7 @@ export class ViewOptionsComponent implements OnInit {
 
   views: PresetView[];
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit(): void {
     this.views = this.eventDisplay.instance.getUIManager().getPresetViews();

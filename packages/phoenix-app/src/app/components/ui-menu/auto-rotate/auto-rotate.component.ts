@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-auto-rotate',
@@ -10,7 +10,7 @@ export class AutoRotateComponent {
 
   autoRotate = false;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   toggleAutoRotate() {
     this.autoRotate = !this.autoRotate;

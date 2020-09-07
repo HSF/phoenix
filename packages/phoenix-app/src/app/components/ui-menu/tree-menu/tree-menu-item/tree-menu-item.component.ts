@@ -1,5 +1,5 @@
 import { Component, Input, ViewChildren, QueryList } from '@angular/core';
-import { EventdisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/eventdisplay.service';
 
 @Component({
   selector: 'app-tree-menu-item',
@@ -13,7 +13,7 @@ export class TreeMenuItemComponent {
   isExpanded = false;
   visible = true;
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   public toggleVisibility(visible: boolean) {
     console.log('hi! it\'s ' + this.node.name);

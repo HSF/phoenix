@@ -1,23 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
-import { EventdisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/eventdisplay.service';
 import { AppModule } from '../../../../app.module';
 import { of } from 'rxjs';
 
 describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
-  let eventDisplayService: EventdisplayService;
+  let eventDisplayService: EventDisplayService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [EventdisplayService],
+      providers: [EventDisplayService],
       declarations: [CollectionsInfoOverlayComponent]
     })
       .compileComponents();
-    eventDisplayService = TestBed.get(EventdisplayService);
+    eventDisplayService = TestBed.get(EventDisplayService);
   }));
 
   beforeEach(() => {

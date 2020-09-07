@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateEventComponent } from './animate-event.component';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 describe('AnimateEventComponent', () => {
   let component: AnimateEventComponent;
   let fixture: ComponentFixture<AnimateEventComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventdisplayService',
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService',
     ['animateClippingWithCollision', 'animateEventWithCollision']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [{
-        provide: EventdisplayService,
+        provide: EventDisplayService,
         useValue: mockEventDisplay
       }],
       declarations: [AnimateEventComponent]

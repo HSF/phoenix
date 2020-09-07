@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventdisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 @Component({
   selector: 'app-event-selector',
@@ -11,7 +11,7 @@ export class EventSelectorComponent implements OnInit {
   // Array containing the keys of the multiple loaded events
   events: string[];
 
-  constructor(private eventDisplay: EventdisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.instance.listenToLoadedEventsChange((events) => this.events = events);

@@ -2,22 +2,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZoomControlsComponent } from './zoom-controls.component';
 import { AppModule } from 'src/app/app.module';
-import { EventdisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 describe('ZoomControlsComponent', () => {
   let component: ZoomControlsComponent;
   let fixture: ComponentFixture<ZoomControlsComponent>;
 
-  let mockEventdisplayService: any;
+  let mockEventDisplayService: any;
 
   beforeEach(async(() => {
-    mockEventdisplayService = jasmine.createSpyObj('EventdisplayService', ['zoomTo']);
+    mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', ['zoomTo']);
 
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: EventdisplayService,
-        useValue: mockEventdisplayService
+        provide: EventDisplayService,
+        useValue: mockEventDisplayService
       }],
       declarations: [ZoomControlsComponent]
     })
@@ -36,22 +36,22 @@ describe('ZoomControlsComponent', () => {
 
   it('should zoom in event display', () => {
     component.zoomIn(true);
-    expect(mockEventdisplayService.zoomTo).toHaveBeenCalled();
+    expect(mockEventDisplayService.zoomTo).toHaveBeenCalled();
   });
 
   it('should not zoom in event display', () => {
     component.zoomIn(false);
-    expect(mockEventdisplayService.zoomTo).toHaveBeenCalledTimes(0);
+    expect(mockEventDisplayService.zoomTo).toHaveBeenCalledTimes(0);
   });
 
   it('should zoom out event display', () => {
     component.zoomOut(true);
-    expect(mockEventdisplayService.zoomTo).toHaveBeenCalled();
+    expect(mockEventDisplayService.zoomTo).toHaveBeenCalled();
   });
 
   it('should not zoom out event display', () => {
     component.zoomOut(false);
-    expect(mockEventdisplayService.zoomTo).toHaveBeenCalledTimes(0);
+    expect(mockEventDisplayService.zoomTo).toHaveBeenCalledTimes(0);
   });
 
   it('should clear zoom acceleration', () => {

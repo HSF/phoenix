@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayViewWindowComponent } from './overlay-view-window.component';
 import { AppModule } from 'src/app/app.module';
 import { UIService } from '../../../../services/ui.service';
-import { EventdisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/eventdisplay.service';
 import { ElementRef } from '@angular/core';
 import { ThreeService } from '../../../../services/three.service';
 
@@ -13,15 +13,15 @@ describe('OverlayViewWindowComponent', () => {
 
   const mockUIService = jasmine.createSpyObj('UIService',
     ['setOverlayRenderer', 'toggleOrthographicView']);
-  const mockEventdisplayService = jasmine.createSpyObj('EventdisplayDisplay',
+  const mockEventDisplayService = jasmine.createSpyObj('EventdisplayDisplay',
     ['fixOverlayView']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: EventdisplayService,
-        useValue: mockEventdisplayService
+        provide: EventDisplayService,
+        useValue: mockEventDisplayService
       }, {
         provide: UIService,
         useValue: mockUIService
