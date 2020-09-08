@@ -186,7 +186,7 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR = 1100.0;
+    const maxR = 1100.0; // This needs to be configurable. 
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.003;
     // geometry
@@ -213,6 +213,26 @@ export class PhoenixObjects {
     clusterParams.uuid = cube.uuid;
 
     return cube;
+  }
+
+  public static getVertex(vertexParams: any): Object3D {
+
+    // geometry
+    const geometry = new THREE.SphereBufferGeometry(3);
+    // material
+    const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
+    // object
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.x = vertexParams.x;
+    sphere.position.y = vertexParams.y;
+    sphere.position.z = vertexParams.y;
+
+    sphere.userData = vertexParams;
+    sphere.name = 'Vertex';
+    // Setting uuid for selection from collections info
+    vertexParams.uuid = sphere.uuid;
+
+    return sphere;
   }
 
 }

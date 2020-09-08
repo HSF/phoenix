@@ -44,7 +44,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       Hits: undefined,
       Tracks: {},
       Jets: {},
-      CaloClusters: {}
+      CaloClusters: {},
+      Vertices: {}
     };
 
     // Tracks
@@ -56,7 +57,12 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Jets
     this.getJets(firstEvent, eventData);
+
+    // Clusters
     this.getCaloClusters(firstEvent, eventData);
+
+    // Vertices
+    this.getVertices(firstEvent, eventData);
 
     // console.log('Got this eventdata', eventData);
     return eventData;
@@ -246,5 +252,44 @@ export class JiveXMLLoader extends PhoenixLoader {
       eventData.CaloClusters[clusterColl.getAttribute('storeGateKey')] = temp;
       // }
     }
+  }
+
+  public getVertices(firstEvent: Element, eventData: { Vertices: any }) {
+    const verticesHTML = firstEvent.getElementsByTagName('RVx');
+    const vertexCollections = Array.from(verticesHTML);
+    for (const vertexColl of vertexCollections) {
+      const numOfVertices = Number(vertexColl.getAttribute('count'));
+      const jsontracks = [];
+
+      // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
+      // then convert to array of numbers
+      const x = vertexColl.getElementsByTagName('x')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const y = vertexColl.getElementsByTagName('y')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const z = vertexColl.getElementsByTagName('z')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const chi2 = vertexColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const primVxCand = vertexColl.getElementsByTagName('primVxCand')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const vertexType = vertexColl.getElementsByTagName('vertexType')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const numTracks = vertexColl.getElementsByTagName('numTracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const sgkeyOfTracks = vertexColl.getElementsByTagName('sgkey')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(String);
+      const trackIndices = vertexColl.getElementsByTagName('tracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const temp = []; // Ugh
+      let trackIndex=0;
+      for (let i = 0; i < numOfVertices; i++) {
+        let maxIndex = trackIndex+numTracks[i];
+        let thisTrackIndices = [];
+        for ( ; trackIndex<maxIndex; trackIndex++){
+          if (trackIndex>trackIndices.length) {
+            console.log("Error! TrackIndex exceeds maximum number of track indices.");
+          }
+          thisTrackIndices.push(trackIndices[trackIndex]);
+        }
+        temp.push({ x: x[i], y: y[i], z: z[i], chi2: chi2[i], primVxCand: primVxCand[i], 
+          vertexType: vertexType[i], linkedTracks: thisTrackIndices, linkedTrackCollection: sgkeyOfTracks[i]});
+      }
+      eventData.Vertices[vertexColl.getAttribute('storeGateKey')] = temp;
+    }
+  }
+
+  public getMuons(firstEvent: Element, eventData: { Vertices: any }) {
   }
 }

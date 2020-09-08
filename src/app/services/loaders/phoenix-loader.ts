@@ -175,6 +175,10 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Muons) {
       this.addObjectType(eventData.Muons, this.getMuon, 'Muons');
     }
+
+    if (eventData.Vertices) {
+      this.addObjectType(eventData.Vertices, PhoenixObjects.getVertex, 'Vertices');
+    }
   }
 
   /**
