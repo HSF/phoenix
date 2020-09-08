@@ -12,8 +12,10 @@ cache:
   directories:
     - ./packages/phoenix-app/node_modules
 
-install:
+before_install:
   - cd packages/phoenix-app
+
+install:
   - npm install
 
 script:

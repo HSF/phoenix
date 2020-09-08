@@ -8,7 +8,7 @@ export * from './event-data-loader';
 export * from './info-logger';
 
 // Three
-export * from './three';
+export * from './three/index';
 export * from './three/animations-manager';
 export * from './three/controls-manager';
 export * from './three/effects-manager';
@@ -20,7 +20,7 @@ export * from './three/selection-manager';
 export * from './three/vr-manager';
 
 // UI
-export * from './ui';
+export * from './ui/index';
 export * from './ui/phoenix-menu/phoenix-menu-node';
 
 // Extras

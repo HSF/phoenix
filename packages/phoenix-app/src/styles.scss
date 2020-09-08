@@ -129,7 +129,7 @@ select {
 /* dat.gui styles */
 #gui {
   position: absolute;
-  top: 6rem;
+  top: 5rem !important;
   right: 0px;
 
   .folder {

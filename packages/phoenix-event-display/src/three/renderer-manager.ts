@@ -17,11 +17,11 @@ export class RendererManager {
 
   /**
    * Instantiate the renderer manager by setting up the main renderer.
-   * @param canvasId Canvas ID for the three.js renderer(s).
+   * @param elementId ID of the wrapper element.
    */
-  constructor(canvasId: string) {
+  constructor(elementId: string) {
     // Main renderer for current browsers
-    this.setRenderer(canvasId);
+    this.setRenderer(elementId);
   }
 
   /**
@@ -48,10 +48,10 @@ export class RendererManager {
 
   /**
    * Set the initial renderer.
-   * @param canvasId Canvas ID for the three.js renderer(s).
+   * @param elementId ID of the wrapper element.
    */
-  private setRenderer(canvasId: string) {
-    const renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
+  private setRenderer(elementId: string) {
+    const renderer: WebGLRenderer = new WebGLRenderer();
 
     this.addRenderer(renderer);
     this.setMainRenderer(renderer);
@@ -62,8 +62,8 @@ export class RendererManager {
     );
     this.getMainRenderer().setPixelRatio(window.devicePixelRatio)
     this.getMainRenderer().domElement.className = 'ui-element';
-    this.getMainRenderer().domElement.id = canvasId;
-    let canvas = document.getElementById('eventDisplay');
+    this.getMainRenderer().domElement.id = 'three-canvas';
+    let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;
     }

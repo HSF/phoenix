@@ -75,7 +75,7 @@ export class ThreeManager {
       SceneManager.GEOMETRIES_ID
     );
     // Renderer manager
-    this.rendererManager = new RendererManager(configuration.canvasId);
+    this.rendererManager = new RendererManager(configuration.elementId);
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager);
     // Effects manager

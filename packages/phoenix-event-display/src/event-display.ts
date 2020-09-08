@@ -1,5 +1,5 @@
-import { ThreeManager } from './three';
-import { UIManager } from './ui';
+import { ThreeManager } from './three/index';
+import { UIManager } from './ui/index';
 import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration.model';
 

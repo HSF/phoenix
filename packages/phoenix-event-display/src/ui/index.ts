@@ -71,10 +71,10 @@ export class UIManager {
     // Set the configuration
     this.configuration = configuration;
     // Shows a panel on screen with information about the performance (fps).
-    this.showStats();
+    this.showStats(configuration.elementId);
     // Shows the menu that contains the options to interact with the scene.
     if (configuration.enableDatGUIMenu) {
-      this.showDatGUIMenu();
+      this.showDatGUIMenu(configuration.elementId);
     }
     // Detect UI color scheme
     this.detectColorScheme();
@@ -86,13 +86,14 @@ export class UIManager {
 
   /**
    * Show stats including FPS, milliseconds to render a frame, allocated memory etc.
+   * @param elementId ID of the wrapper element.
    */
-  private showStats() {
+  private showStats(elementId: string) {
     this.stats = Stats();
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
     this.stats.domElement.style.cssText = 'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10; bottom: 0px;';
-    let canvas = document.getElementById('eventDisplay');
+    let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;
     }
@@ -108,12 +109,14 @@ export class UIManager {
 
   /**
    * Show dat.GUI menu with different controls related to detector geometry and event data.
+   * @param elementId ID of the wrapper element.
    */
-  private showDatGUIMenu() {
+  private showDatGUIMenu(elementId: string) {
     this.hasDatGUIMenu = true;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
-    this.canvas = document.getElementById('eventDisplay');
+    this.gui.domElement.style.cssText = 'position: absolute; right: 0; top: 2rem; z-index: 11;';
+    this.canvas = document.getElementById(elementId);
     if (this.canvas == null) {
       this.canvas = document.body;
     }

@@ -15,19 +15,19 @@ export class Configuration {
   phoenixMenuRoot: PhoenixMenuNode;
   /** Whether to enable dat.GUI menu or not. */
   enableDatGUIMenu: boolean;
-  /** Canvas ID for the three.js renderer(s). */
-  canvasId: string;
+  /** ID of the wrapper element. */
+  elementId: string;
 
   /**
    * Constructor for the Configuration.
-   * @param canvasId Canvas ID for the three.js renderer(s).
+   * @param elementId ID of the wrapper element.
    * @param enableDatGUIMenu Whether to enable dat.GUI menu or not.
    */
   constructor(
-    canvasId: string = 'three-canvas',
+    elementId: string = 'eventDisplay',
     enableDatGUIMenu: boolean = false
   ) {
-    this.canvasId = canvasId;
+    this.elementId = elementId;
     this.presetViews = [];
     this.eventDataLoader = new PhoenixLoader();
     this.enableDatGUIMenu = enableDatGUIMenu;

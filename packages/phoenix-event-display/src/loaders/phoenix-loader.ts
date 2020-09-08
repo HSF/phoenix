@@ -109,9 +109,6 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
   protected loadObjectTypes(eventData: any) {
-
-    console.log("loadObjectTypes is being passed :");
-    console.log(eventData);
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [

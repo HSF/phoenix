@@ -15,9 +15,9 @@ export class PhoenixObjects {
    */
   public static getTrack(trackParams: any): Object3D {
     let positions = trackParams.pos;
+    
     // Track with no points
     if (!positions) {
-      console.log("Track with no positions.")
       return;
     }
 
