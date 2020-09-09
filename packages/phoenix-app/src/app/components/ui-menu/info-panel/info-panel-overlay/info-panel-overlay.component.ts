@@ -26,7 +26,7 @@ export class InfoPanelOverlayComponent implements OnInit {
    * Get the list of logs from the info logger service
    */
   ngOnInit() {
-    this.actionsList = this.eventDisplay.instance.getInfoLogger().getInfoLoggerList();
+    this.actionsList = this.eventDisplay.getInfoLogger().getInfoLoggerList();
   }
 
 }

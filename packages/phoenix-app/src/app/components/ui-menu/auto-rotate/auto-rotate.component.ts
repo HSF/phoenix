@@ -14,7 +14,7 @@ export class AutoRotateComponent {
 
   toggleAutoRotate() {
     this.autoRotate = !this.autoRotate;
-    this.eventDisplay.instance.getUIManager().setAutoRotate(this.autoRotate);
+    this.eventDisplay.getUIManager().setAutoRotate(this.autoRotate);
   }
 
 }

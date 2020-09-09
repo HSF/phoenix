@@ -15,7 +15,7 @@ export class AnimateCameraComponent {
   toggleAnimateCamera() {
     if (!this.isAnimating) {
       this.isAnimating = true;
-      this.eventDisplay.instance.animateThroughEvent(
+      this.eventDisplay.animateThroughEvent(
         [11976, 7262, 11927],
         3000,
         () => {

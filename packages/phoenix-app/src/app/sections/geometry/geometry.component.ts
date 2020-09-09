@@ -13,7 +13,7 @@ export class GeometryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.eventDisplay.instance.init(new Configuration());
+    this.eventDisplay.init(new Configuration());
   }
 
 }

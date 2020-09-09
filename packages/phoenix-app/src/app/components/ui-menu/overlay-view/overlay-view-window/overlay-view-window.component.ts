@@ -17,7 +17,7 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
-    this.eventDisplay.instance.getUIManager().setOverlayRenderer(canvas);
+    this.eventDisplay.getUIManager().setOverlayRenderer(canvas);
   }
 
   initializeCanvas(canvas: HTMLCanvasElement): HTMLCanvasElement {
@@ -32,12 +32,12 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   switchOverlayView() {
     this.orthographicView = !this.orthographicView;
-    this.eventDisplay.instance.getUIManager().toggleOrthographicView(this.orthographicView);
+    this.eventDisplay.getUIManager().toggleOrthographicView(this.orthographicView);
   }
 
   fixOverlayView() {
     this.overlayViewFixed = !this.overlayViewFixed;
-    this.eventDisplay.instance.fixOverlayView(this.overlayViewFixed);
+    this.eventDisplay.fixOverlayView(this.overlayViewFixed);
   }
 
 }

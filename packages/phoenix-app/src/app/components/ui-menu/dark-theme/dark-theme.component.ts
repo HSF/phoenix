@@ -13,12 +13,12 @@ export class DarkThemeComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit(): void {
-    this.darkTheme = this.eventDisplay.instance.getUIManager().getDarkTheme();
+    this.darkTheme = this.eventDisplay.getUIManager().getDarkTheme();
   }
 
   setDarkTheme() {
     this.darkTheme = !this.darkTheme;
-    this.eventDisplay.instance.getUIManager().setDarkTheme(this.darkTheme);
+    this.eventDisplay.getUIManager().setDarkTheme(this.darkTheme);
   }
 
 }

@@ -19,7 +19,7 @@ export class PlaygroundComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
-    this.eventDisplay.instance.init(configuration);
+    this.eventDisplay.init(configuration);
   }
 
 }

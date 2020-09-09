@@ -31,7 +31,7 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
   toggleOverlay() {
     this.hiddenSelectedInfo = !this.hiddenSelectedInfo;
     this.overlayWindow.instance.hiddenSelectedInfo = this.hiddenSelectedInfo;
-    this.eventDisplay.instance.enableSelecting(!this.hiddenSelectedInfo);
+    this.eventDisplay.enableSelecting(!this.hiddenSelectedInfo);
   }
 
 }

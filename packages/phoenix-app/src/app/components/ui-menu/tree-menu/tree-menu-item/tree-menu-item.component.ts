@@ -17,7 +17,7 @@ export class TreeMenuItemComponent {
 
   public toggleVisibility(visible: boolean) {
     console.log('hi! it\'s ' + this.node.name);
-    this.eventDisplay.instance.getUIManager().geometryVisibility(this.node.geometryId, visible);
+    this.eventDisplay.getUIManager().geometryVisibility(this.node.geometryId, visible);
     this.visible = visible;
     this.children.forEach(child => child.toggleVisibility(visible));
   }

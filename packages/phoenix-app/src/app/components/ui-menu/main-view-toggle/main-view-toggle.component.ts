@@ -14,7 +14,7 @@ export class MainViewToggleComponent {
 
   switchMainView() {
     this.orthographicView = !this.orthographicView;
-    this.eventDisplay.instance.getUIManager().toggleOrthographicView(this.orthographicView);
+    this.eventDisplay.getUIManager().toggleOrthographicView(this.orthographicView);
   }
 
 }

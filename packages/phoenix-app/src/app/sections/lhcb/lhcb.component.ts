@@ -26,8 +26,8 @@ export class LHCbComponent implements OnInit {
     ];
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
-    this.eventDisplay.instance.init(configuration);
-    this.eventDisplay.instance.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
+    this.eventDisplay.init(configuration);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
     this.loader = new LHCbLoader();
     configuration.eventDataLoader = this.loader;
     this.loadEventData(configuration);
@@ -38,7 +38,7 @@ export class LHCbComponent implements OnInit {
     this.http.get('assets/files/lhcb/00191749_0005296728.json').subscribe((data: any) => {
       this.loader.process(data);
       const eventData = this.loader.getEventData();
-      this.eventDisplay.instance.buildEventDataFromJSON(eventData);
+      this.eventDisplay.buildEventDataFromJSON(eventData);
     });
   }
 }

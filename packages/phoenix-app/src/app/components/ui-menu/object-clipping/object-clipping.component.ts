@@ -16,12 +16,12 @@ export class ObjectClippingComponent {
 
   changeClippingAngle(change: MatSliderChange) {
     const angle = change.value;
-    this.eventDisplay.instance.getUIManager().rotateClipping(angle);
+    this.eventDisplay.getUIManager().rotateClipping(angle);
   }
 
   toggleClipping(change: MatCheckboxChange) {
     const value = change.checked;
-    this.eventDisplay.instance.getUIManager().setClipping(value);
+    this.eventDisplay.getUIManager().setClipping(value);
     this.clippingEnabled = value;
   }
 

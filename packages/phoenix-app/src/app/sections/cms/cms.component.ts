@@ -27,15 +27,15 @@ export class CMSComponent implements OnInit {
     const cmsLoader = new CMSLoader();
     configuration.eventDataLoader = cmsLoader;
 
-    this.eventDisplay.instance.init(configuration);
+    this.eventDisplay.init(configuration);
 
     ScriptLoader.loadJSRootScripts((JSROOT) => {
-      this.eventDisplay.instance.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', 10, true);
+      this.eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', 10, true);
     });
 
     cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
-      this.eventDisplay.instance.parsePhoenixEvents(allEventsData);
+      this.eventDisplay.parsePhoenixEvents(allEventsData);
     });
 
   }

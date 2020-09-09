@@ -15,17 +15,17 @@ export class ViewOptionsComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit(): void {
-    this.views = this.eventDisplay.instance.getUIManager().getPresetViews();
+    this.views = this.eventDisplay.getUIManager().getPresetViews();
   }
 
   displayView($event: any, view: PresetView) {
     $event.stopPropagation();
-    this.eventDisplay.instance.getUIManager().displayView(view);
+    this.eventDisplay.getUIManager().displayView(view);
   }
 
   setAxis(change: MatCheckboxChange){
     const value = change.checked;
-    this.eventDisplay.instance.getUIManager().setShowAxis(value)
+    this.eventDisplay.getUIManager().setShowAxis(value)
   }
 
 }

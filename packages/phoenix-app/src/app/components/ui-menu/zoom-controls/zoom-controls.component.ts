@@ -32,7 +32,7 @@ export class ZoomControlsComponent {
       ? Math.floor(this.zoomTime / 1.1)
       : this.zoomTime;
 
-    this.eventDisplay.instance.zoomTo(zoomFactor, this.zoomTime);
+    this.eventDisplay.zoomTo(zoomFactor, this.zoomTime);
 
     this.zoomTimeout = setTimeout(() => {
       this.zoomTo(zoomFactor);

@@ -27,31 +27,31 @@ export class AtlasComponent implements OnInit {
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
     // Initialize the event display
-    this.eventDisplay.instance.init(configuration);
+    this.eventDisplay.init(configuration);
 
     // Load the JSON file containing event data
     this.http.get('assets/files/event_data/atlaseventdump2.json')
       .subscribe((res: any) => {
         // Parse the JSON to extract events and their data
-        this.eventDisplay.instance.parsePhoenixEvents(res);
+        this.eventDisplay.parsePhoenixEvents(res);
       });
 
     // Load detector geometries
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0x8c8c8c, false, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TRT.obj', 'TRT', 0x356aa5, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/SCT.obj', 'SCT', 0xfff400, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/pixel.obj', 'Pixel', 0x356aa5, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_Bar.obj', 'LAr Barrel', 0x19CCD2, true, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, true, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true, false);
-    this.eventDisplay.instance
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, true, false);
   }
 }

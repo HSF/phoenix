@@ -62,7 +62,7 @@ export class IOOptionsDialogComponent {
 
   processEventData(content: any, name: string, evDisplay: EventDisplayService) {
     const json = JSON.parse(content);
-    evDisplay.instance.parsePhoenixEvents(json);
+    evDisplay.parsePhoenixEvents(json);
   }
 
   processJiveXML(content: any, name: string, evDisplay: EventDisplayService) {
@@ -70,32 +70,32 @@ export class IOOptionsDialogComponent {
     const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();
-    evDisplay.instance.buildEventDataFromJSON(eventData);
+    evDisplay.buildEventDataFromJSON(eventData);
   }
 
   processOBJ(content: any, name: any, evDisplay: EventDisplayService) {
-    evDisplay.instance.parseOBJGeometry(content, name);
+    evDisplay.parseOBJGeometry(content, name);
   }
 
   processScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.instance.parsePhoenixDisplay(content);
+    evDisplay.parsePhoenixDisplay(content);
   }
 
   processGLTF(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.instance.parseGLTFGeometry(content);
+    evDisplay.parseGLTFGeometry(content);
   }
 
   processPhoenixScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.instance.parsePhoenixDisplay(content);
+    evDisplay.parsePhoenixDisplay(content);
   }
 
   saveScene() {
     console.log('queloqueeee');
-    this.eventDisplay.instance.exportPhoenixDisplay();
+    this.eventDisplay.exportPhoenixDisplay();
   }
 
   exportOBJ() {
-    this.eventDisplay.instance.exportToOBJ();
+    this.eventDisplay.exportToOBJ();
   }
 
 }

@@ -15,7 +15,7 @@ export class ObjectSelectionOverlayComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.instance.allowSelection(this.selectedObject);
+    this.eventDisplay.allowSelection(this.selectedObject);
   }
 
 }

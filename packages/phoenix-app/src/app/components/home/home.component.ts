@@ -15,7 +15,7 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.eventDisplay.instance.getUIManager().detectColorScheme();
+    this.eventDisplay.getUIManager().detectColorScheme();
   }
 
 }
