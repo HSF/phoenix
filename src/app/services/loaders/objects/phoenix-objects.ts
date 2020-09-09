@@ -39,7 +39,7 @@ export class PhoenixObjects {
     }
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 3) {
-      console.log("Error in getTrack: Track with "+positions.length+" positions even after attempt at extrapolation.")
+      // console.log("Error in getTrack: Track with "+positions.length+" positions even after attempt at extrapolation.")
       return;
     }
    
