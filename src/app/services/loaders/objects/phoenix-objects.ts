@@ -16,19 +16,33 @@ export class PhoenixObjects {
   public static getTrack(trackParams: any): Object3D {
     let positions = trackParams.pos;
     // Track with no points
-    if (!positions) {
-      console.log("Track with no positions.")
-      return;
-    }
+    // if (positions.length==0) {
+    //   console.log("Track with no positions.")
+    //   return;
+    // }
+
+    // Test, for ATLAS. 
+    // FIXME - make configurable
+    let inBounds = function (pos: THREE.Vector3) {
+      if (pos.z>3000) return false;
+      if ( Math.sqrt(pos.x*pos.x + pos.y*pos.y) > 1100) return false;
+      return true
+    };
 
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length < 3) {
       if (trackParams?.dparams) {
-        positions = RKHelper.extrapolateTrackPositions(trackParams);
-      } else {
-        return;
+        // console.log("About to extrapolate track with "+trackParams);
+        positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
+        // console.log("After extrapolation, got back "+positions.length+".")
       }
     }
+    // Check again, in case there was an issue with the extrapolation.
+    if (positions.length < 3) {
+      console.log("Error in getTrack: Track with "+positions.length+" positions even after attempt at extrapolation.")
+      return;
+    }
+   
 
     // const length = 100;
     let objectColor = 0xff0000;

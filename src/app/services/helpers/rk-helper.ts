@@ -25,9 +25,11 @@ export class RKHelper {
   /**
    * Extrapolate tracks using RungeKutta propagator.
    * @param track Track which is to be extrapolated.
+   * @param inbounds Function which returns true until the passed position is out of bounds, when it returns false. Default just always returns true.
    * @returns An array of track positions.
+
    */
-  public static extrapolateTrackPositions(track: { dparams: any }): any {
+  public static extrapolateTrackPositions(track: { dparams: any },  inbounds: any=function() {return true;}): any {
     const dparams = track.dparams;
     // ATLAS uses mm, MeV
     let d0 = dparams[0],
@@ -66,7 +68,12 @@ export class RKHelper {
     const startDir = globalMomentum.clone();
     startDir.normalize();
 
-    const traj = RungeKutta.propagate(startPos, startDir, p, q, 10, 2500);
+    // if (p < 0.5 ){
+    //   console.log("Track with very low momentum - not going to try to extrapolate.")
+    //   return positions;
+    // }
+
+    const traj = RungeKutta.propagate(startPos, startDir, p, q, 10, 2500 , inbounds);
 
     const extrapolatedPos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
 

@@ -85,11 +85,12 @@ export class RungeKutta {
    * @param q Charge.
    * @param mss Max step size.
    * @param plength Path length.
+   * @param inbounds Function which returns true until the passed position is out of bounds, when it returns false.
    * @returns An array containing position and direction at that position calculated
    * through the Runge-Kutta steps.
    */
   static propagate(startPos: Vector3, startDir: Vector3, p: number, q: number,
-    mss: number = -1, plength: number = 1000): { pos: Vector3, dir: Vector3 }[] {
+    mss: number = -1, plength: number = 1000, inbounds: any): { pos: Vector3, dir: Vector3 }[] {
     let rkState: State = new State();
     rkState.pos = startPos;
     rkState.dir = startDir;
@@ -99,7 +100,7 @@ export class RungeKutta {
 
     let result: { pos: Vector3, dir: Vector3 }[] = [];
 
-    while (rkState.pathLength < plength) {
+    while (rkState.pathLength < plength ) {
       rkState.pathLength += RungeKutta.step(rkState);
       // Cloning state to avoid using the reference
       let copiedState = JSON.parse(JSON.stringify(rkState));
@@ -107,6 +108,12 @@ export class RungeKutta {
         pos: copiedState.pos,
         dir: copiedState.dir
       });
+      // Ugly
+      if ( inbounds(copiedState.pos) != true){
+        console.log("Truncating at position = "+copiedState.pos)
+        console.log(Math.sqrt(copiedState.pos.x*copiedState.pos.x + copiedState.pos.y*copiedState.pos.y))
+        break;
+      }
     }
 
     return result;
