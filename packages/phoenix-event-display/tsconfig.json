@@ -8,15 +8,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true,
-    "importHelpers": true,
-    "downlevelIteration": true,
-    "lib": [
-      "es2018",
-      "dom"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "resolveJsonModule": true,
     "esModuleInterop": true
   },

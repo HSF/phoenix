@@ -2,8 +2,8 @@
   "name": "@phoenix/event-display",
   "version": "1.0.0",
   "description": "API for web-based experiment independent event display.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/index",
+  "types": "dist/index",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
   "repository": {
@@ -14,6 +14,7 @@
     "dist"
   ],
   "scripts": {
+    "dev": "tsc --watch",
     "build": "rm -rf ./dist && npm run tsc",
     "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
     "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
