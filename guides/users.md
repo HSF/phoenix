@@ -9,9 +9,10 @@ Otherwise, here are some rough explanations:
 ### Event data
 
 #### Format
+
 Currently Phoenix supports loading `.JSON` files containing multiple events. The format is the following.
 
-```
+```json
 {
   "EVENT_KEY_1": event_object,
   "EVENT_KEY_2": event_object,
@@ -19,26 +20,36 @@ Currently Phoenix supports loading `.JSON` files containing multiple events. The
   "EVENT_KEY_N": event_object
 }
 ```
+
 `EVENT_KEY` is an identifier for each event, and the format of each `event_object` would be as follows: 
-```
-{ "event number":XXX, 
-  "run number":YYY, 
-  "OBJECT_TYPE_1": {  "COLLECTION_NAME_X" : [ OBJECTS ]}},
-  "OBJECT_TYPE_2": {  "COLLECTION_NAME_Y" : [ OBJECTS ]},
-                      "COLLECTION_NAME_Z" : [ OBJECTS ]}}
+
+```json
+{
+  "event number": XXX,
+  "run number": YYY,
+  "OBJECT_TYPE_1": {
+    "COLLECTION_NAME_X" : [ OBJECTS ]
+  },
+  "OBJECT_TYPE_2": {
+    "COLLECTION_NAME_Y" : [ OBJECTS ],
+    "COLLECTION_NAME_Z" : [ OBJECTS ]
+  }
 }
 ```
+
 Where:
+
 * `event number` and `run number` are hopefully obvious,
 * `OBJECT_TYPE` is one of the supported types that will be mentioned [below](#supported-object-types),
 * `COLLECTION_NAME` is an arbitrary name used to label this particular collection (you can have as many collections of each OBJECT_TYPE as you like).
 
-You can find various examples in the [files folder](../files):
-* [atlaseventdump2.json](../files/event_data/atlaseventdump2.json) is an small multiple event file containing the various objects.
-* [EventData.json](../files/event_data/EventData.json) is a bigger file containing more events and objects.
+You can find various examples in the [files folder](../packages/phoenix-app/src/assets/files):
 
+* [atlaseventdump2.json](../packages/phoenix-app/src/assets/files/event_data/atlaseventdump2.json) is an small multiple event file containing the various objects.
+* [EventData.json](../packages/phoenix-app/src/assets/files/event_data/EventData.json) is a bigger file containing more events and objects.
 
 #### Supported object types
+
 Currently Phoenix supports the following physics objects:
 
 * Tracks - the trajectory of a charged particle (usually in a magnetic field)
@@ -72,12 +83,12 @@ What follows in the list of objects depends on the type:
   
 Uniquely for clusters, you need to define the plane(s) on which to project the clusters as a property of the collection itself, using the following notation
   
-```
+```json
   'CYL':[30.2493,243.645,136.947,213.396,3.14159,2850]
 ```
 
-
 ### Geometry
-![sample geometry](../images/geometry.png)
 
-Phoenix currently supports loading .obj files containing 3D objects.
+![sample geometry](../packages/phoenix-app/src/assets/images/geometry.png)
+
+Phoenix currently supports loading `.obj`, `.gltf`, `.root`, `.json.gz` and `.json` files containing 3D objects.
