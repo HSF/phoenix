@@ -8,9 +8,9 @@ describe('MainViewToggleComponent', () => {
   let component: MainViewToggleComponent;
   let fixture: ComponentFixture<MainViewToggleComponent>;
 
-  let mockEventDisplay = {
-    getUIManager: () => jasmine.createSpyObj('UIManager', ['toggleOrthographicView'])
-  };
+  let mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
+    getUIManager: jasmine.createSpyObj('UIManager', ['toggleOrthographicView'])
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

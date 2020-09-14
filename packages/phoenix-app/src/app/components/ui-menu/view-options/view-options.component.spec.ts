@@ -9,9 +9,9 @@ describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
   let fixture: ComponentFixture<ViewOptionsComponent>;
 
-  const mockEventDisplay = {
-    getUIManager: () => jasmine.createSpyObj('UIServicie', ['getPresetViews', 'displayView'])
-  };
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
+    getUIManager: jasmine.createSpyObj('UIServicie', ['getPresetViews', 'displayView'])
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

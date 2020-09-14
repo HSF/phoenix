@@ -9,10 +9,10 @@ describe('OverlayViewWindowComponent', () => {
   let component: OverlayViewWindowComponent;
   let fixture: ComponentFixture<OverlayViewWindowComponent>;
 
-  const mockEventDisplay = {
-    getUIManager: () => jasmine.createSpyObj('UIService', ['setOverlayRenderer', 'toggleOrthographicView']),
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
+    getUIManager: jasmine.createSpyObj('UIService', ['setOverlayRenderer', 'toggleOrthographicView']),
     fixOverlayView: jasmine.createSpy('fixOverlayView')
-  };
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -10,9 +10,9 @@ describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
-  const mockEventDisplay = {
-    getUIManager: () => jasmine.createSpyObj('UIService', ['rotateClipping', 'setClipping'])
-  };
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
+    getUIManager: jasmine.createSpyObj('UIService', ['rotateClipping', 'setClipping'])
+  });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
