@@ -8,15 +8,23 @@ node_js:
 addons:
   chrome: stable
 
+before_cache:
+  - cd packages/phoenix-event-display
+  - npm link
+  - cd ../phoenix-app
+  - cd ../../
+
 cache:
   directories:
     - ./packages/phoenix-app/node_modules
 
 before_install:
   - cd packages/phoenix-app
+  - npm install install-subset
 
-install:
-  - npm install
+install: true
+  - npx subset install test
+  - npm link "@phoenix/event-display"
 
 script:
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI

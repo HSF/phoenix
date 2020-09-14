@@ -21,6 +21,11 @@
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "private": true,
+  "subsets": {
+    "test": {
+      "exclude": ["@phoenix/event-display"]
+    }
+  },
   "dependencies": {
     "@angular/animations": "^10.0.14",
     "@angular/cdk": "^10.1.3",
