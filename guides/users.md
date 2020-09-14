@@ -12,7 +12,7 @@ Otherwise, here are some rough explanations:
 
 Currently Phoenix supports loading `.JSON` files containing multiple events. The format is the following.
 
-```json
+```js
 {
   "EVENT_KEY_1": event_object,
   "EVENT_KEY_2": event_object,
@@ -23,7 +23,7 @@ Currently Phoenix supports loading `.JSON` files containing multiple events. The
 
 `EVENT_KEY` is an identifier for each event, and the format of each `event_object` would be as follows: 
 
-```json
+```js
 {
   "event number": XXX,
   "run number": YYY,

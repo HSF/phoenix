@@ -12,13 +12,13 @@ To create a simple event display.
 
 ```js
 // Import required classes
-import { EventDisplay, Configuration } from "@phoenix/event-display";
+import { EventDisplay, Configuration } from '@phoenix/event-display';
 
 // Create the event display
 const eventDisplay = new EventDisplay(configuration);
 
 // Create the configuration
-const configuration = new Configuration("wrapper_element_id");
+const configuration = new Configuration('wrapper_element_id');
 
 // ... other configuration options
 
@@ -26,7 +26,7 @@ const configuration = new Configuration("wrapper_element_id");
 eventDisplay.init(configuration);
 
 // Load and parse event data in Phoenix format and display it
-fetch("path/to/event-data.json")
+fetch('path/to/event-data.json')
   .then((res) => res.json())
   .then((res) => {
     eventDisplay.parsePhoenixEvents(res);
