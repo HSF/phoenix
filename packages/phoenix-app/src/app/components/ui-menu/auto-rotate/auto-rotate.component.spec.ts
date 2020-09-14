@@ -2,20 +2,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoRotateComponent } from './auto-rotate.component';
 import { AppModule } from '../../../app.module';
-import { UIService } from '../../../services/ui.service';
+import { EventDisplayService } from '../../../services/eventdisplay.service';
 
 describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;
   let fixture: ComponentFixture<AutoRotateComponent>;
 
-  let mockUIService = jasmine.createSpyObj('UIServicie', ['setAutoRotate']);
+  let mockEventDisplay = {
+    getUIManager: () => jasmine.createSpyObj('UIManager', ['setAutoRotate'])
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: UIService,
-        useValue: mockUIService
+        provide: EventDisplayService,
+        useValue: mockEventDisplay
       }],
       declarations: [AutoRotateComponent]
     })
@@ -36,6 +38,6 @@ describe('AutoRotateComponent', () => {
     expect(component.autoRotate).toBe(false);
     component.toggleAutoRotate();
     expect(component.autoRotate).toBe(true);
-    expect(mockUIService.setAutoRotate).toHaveBeenCalled();
+    expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalled();
   });
 });

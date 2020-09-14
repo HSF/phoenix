@@ -1,22 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeMenuItemComponent } from './tree-menu-item.component';
-import { UIService } from '../../../../services/ui.service';
-import { QueryList } from '@angular/core';
 import { AppModule } from '../../../../app.module';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 describe('TreeMenuItemComponent', () => {
   let component: TreeMenuItemComponent;
   let fixture: ComponentFixture<TreeMenuItemComponent>;
 
-  const mockUIService: UIService = jasmine.createSpyObj('UIService', ['geometryVisibility']);
+  const mockEventDisplay = {
+    getUIManager: () => jasmine.createSpyObj('UIManager', ['geometryVisibility'])
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: UIService,
-        useValue: mockUIService
+        provide: EventDisplayService,
+        useValue: mockEventDisplay
       }],
       declarations: [TreeMenuItemComponent]
     })

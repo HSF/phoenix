@@ -2,22 +2,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectClippingComponent } from './object-clipping.component';
 import { AppModule } from '../../../app.module';
-import { UIService } from '../../../services/ui.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSliderChange } from '@angular/material/slider';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
-  const mockUIService = jasmine.createSpyObj('UIService', ['rotateClipping', 'setClipping']);
+  const mockEventDisplay = {
+    getUIManager: () => jasmine.createSpyObj('UIService', ['rotateClipping', 'setClipping'])
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: UIService,
-        useValue: mockUIService
+        provide: EventDisplayService,
+        useValue: mockEventDisplay
       }],
       declarations: [ ObjectClippingComponent ]
     })
@@ -56,6 +58,6 @@ describe('ObjectClippingComponent', () => {
     matSliderChange.value = sliderValue;
 
     component.changeClippingAngle(matSliderChange);
-    expect(mockUIService.rotateClipping).toHaveBeenCalledWith(sliderValue);
+    expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(sliderValue);
   });
 });

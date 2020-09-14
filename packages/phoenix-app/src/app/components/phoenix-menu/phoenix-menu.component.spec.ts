@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuComponent } from './phoenix-menu.component';
 import { AppModule } from '../../app.module';
-import { PhoenixMenuNode } from './phoenix-menu-node/phoenix-menu-node';
+import { PhoenixMenuNode } from '@phoenix/event-display';
 
 describe('PhoenixMenuComponent', () => {
   let component: PhoenixMenuComponent;

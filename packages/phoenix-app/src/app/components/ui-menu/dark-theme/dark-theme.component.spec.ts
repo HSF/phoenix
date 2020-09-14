@@ -2,23 +2,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DarkThemeComponent } from './dark-theme.component';
 import { AppModule } from '../../../app.module';
-import { UIService } from '../../../services/ui.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
+import { UIManager } from '@phoenix/event-display';
 
 describe('DarkThemeComponent', () => {
   let component: DarkThemeComponent;
   let fixture: ComponentFixture<DarkThemeComponent>;
 
-  let uiService: UIService;
+  let eventDisplay: EventDisplayService;
+  let uiManager: UIManager;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [UIService],
+      providers: [EventDisplayService],
       declarations: [DarkThemeComponent]
     })
       .compileComponents();
 
-    uiService = TestBed.get(UIService);
+    eventDisplay = TestBed.get(EventDisplayService);
+    uiManager = eventDisplay.getUIManager();
   }));
 
   beforeEach(() => {
@@ -32,19 +35,19 @@ describe('DarkThemeComponent', () => {
   });
 
   it('should initially get dark theme', () => {
-    spyOn(uiService, 'getDarkTheme').and.callThrough();
+    spyOn(uiManager, 'getDarkTheme').and.callThrough();
 
     component.ngOnInit();
-    expect(uiService.getDarkTheme).toHaveBeenCalled();
+    expect(uiManager.getDarkTheme).toHaveBeenCalled();
   });
 
   it('should set/toggle dark theme', () => {
-    spyOn(uiService, 'setDarkTheme').and.callThrough();
+    spyOn(uiManager, 'setDarkTheme').and.callThrough();
 
     expect(component.darkTheme).toBeFalsy();
     component.setDarkTheme();
     expect(component.darkTheme).toBe(true);
 
-    expect(uiService.setDarkTheme).toHaveBeenCalled();
+    expect(uiManager.setDarkTheme).toHaveBeenCalled();
   });
 });

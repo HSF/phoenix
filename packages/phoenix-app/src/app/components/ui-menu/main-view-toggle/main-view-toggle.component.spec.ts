@@ -2,20 +2,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainViewToggleComponent } from './main-view-toggle.component';
 import { AppModule } from '../../../app.module';
-import { UIService } from '../../../services/ui.service';
+import { EventDisplayService } from 'src/app/services/eventdisplay.service';
 
 describe('MainViewToggleComponent', () => {
   let component: MainViewToggleComponent;
   let fixture: ComponentFixture<MainViewToggleComponent>;
 
-  let mockUIService = jasmine.createSpyObj('UIServicie', ['toggleOrthographicView']);
+  let mockEventDisplay = {
+    getUIManager: () => jasmine.createSpyObj('UIManager', ['toggleOrthographicView'])
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [{
-        provide: UIService,
-        useValue: mockUIService
+        provide: EventDisplayService,
+        useValue: mockEventDisplay
       }],
       declarations: [MainViewToggleComponent]
     })
@@ -36,6 +38,6 @@ describe('MainViewToggleComponent', () => {
     expect(component.orthographicView).toBe(false);
     component.switchMainView();
     expect(component.orthographicView).toBe(true);
-    expect(mockUIService.toggleOrthographicView).toHaveBeenCalled();
+    expect(mockEventDisplay.getUIManager().toggleOrthographicView).toHaveBeenCalled();
   });
 });
