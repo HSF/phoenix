@@ -6,7 +6,6 @@ import {
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { InfoLogger } from '../info-logger';
-import { BehaviorSubject } from 'rxjs';
 import { EffectsManager } from './effects-manager';
 
 /**
@@ -22,8 +21,20 @@ export class SelectionManager {
   private scene: Scene;
   /** Object used to display the information of the selected 3D object. */
   private selectedObject: { name: string; attributes: any[]; };
-  /** BehaviorSubject for the currently selected object. */
-  private activeObject = new BehaviorSubject<string>('');
+  /** The currently selected object which is observable for changes. */
+  private activeObject = {
+    uuid: '',
+    callbacks: [],
+    update: function (uuid: string) {
+      this.uuid = uuid;
+      for (const callback of this.callbacks) {
+        callback(uuid);
+      }
+    },
+    onUpdate: function (callback: (uuid: string) => void) {
+      this.callbacks.push(callback);
+    }
+  };
   /** Objects to be ignored on hovering over the scene. */
   private ignoreList: string[];
 
@@ -145,7 +156,7 @@ export class SelectionManager {
       this.selectedObject.name = intersectedObject.name;
       this.selectedObject.attributes.splice(0, this.selectedObject.attributes.length);
 
-      this.activeObject.next(intersectedObject.uuid);
+      this.activeObject.update(intersectedObject.uuid);
 
       for (const key of Object.keys(intersectedObject.userData)) {
         this.selectedObject.attributes.push({

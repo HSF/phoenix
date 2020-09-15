@@ -26,7 +26,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let object of showingCollection; index as i" [attr.id]="object.uuid"
-            [ngClass]="{'active-object': activeObjectId && activeObjectId === object.uuid}">
+            [ngClass]="{'active-object': activeObject && activeObject.uuid === object.uuid}">
             <td>#{{i}}</td>
             <td>
               <div *ngIf="object.uuid" class="row justify-content-center object-select-wrapper">

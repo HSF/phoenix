@@ -13,14 +13,14 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collections: string[];
   showingCollection: any;
   collectionColumns: string[];
-  activeObjectId: string;
+  activeObject: any;
 
   constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.getCollections());
-    this.eventDisplay.getActiveObjectId().subscribe((value) => {
-      this.activeObjectId = value;
+    this.activeObject = this.eventDisplay.getActiveObjectId();
+    this.activeObject.onUpdate((value: string) => {
       if (document.getElementById(value)) {
         document.getElementById(value).scrollIntoView(false);
       }
@@ -35,14 +35,14 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   lookAtObject(uuid: string) {
     if (uuid) {
-      this.eventDisplay.getActiveObjectId().next(uuid);
+      this.activeObject.update(uuid);
       this.eventDisplay.lookAtObject(uuid);
     }
   }
 
   highlightObject(uuid: string) {
     if (uuid) {
-      this.eventDisplay.getActiveObjectId().next(uuid);
+      this.activeObject.update(uuid);
       this.eventDisplay.highlightObject(uuid);
     }
   }
