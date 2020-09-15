@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { AppModule } from 'src/app/app.module';
 import { MatDialogRef } from '@angular/material/dialog';
-import { EventDisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;

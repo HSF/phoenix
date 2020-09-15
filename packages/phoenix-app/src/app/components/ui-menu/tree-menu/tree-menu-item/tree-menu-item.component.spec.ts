@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeMenuItemComponent } from './tree-menu-item.component';
 import { AppModule } from '../../../../app.module';
-import { EventDisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/event-display.service';
 
 describe('TreeMenuItemComponent', () => {
   let component: TreeMenuItemComponent;

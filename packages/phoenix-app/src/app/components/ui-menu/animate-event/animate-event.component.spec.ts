@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateEventComponent } from './animate-event.component';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('AnimateEventComponent', () => {
   let component: AnimateEventComponent;

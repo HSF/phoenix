@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventSelectorComponent } from './event-selector.component';
 import { AppModule } from 'src/app/app.module';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('EventSelectorComponent', () => {
   let component: EventSelectorComponent;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
   selector: 'app-animate-camera',

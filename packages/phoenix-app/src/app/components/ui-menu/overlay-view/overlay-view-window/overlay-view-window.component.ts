@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
-import { EventDisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   selector: 'app-overlay-view-window',

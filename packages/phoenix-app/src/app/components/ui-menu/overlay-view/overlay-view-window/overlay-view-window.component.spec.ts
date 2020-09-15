@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewWindowComponent } from './overlay-view-window.component';
 import { AppModule } from 'src/app/app.module';
-import { EventDisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 import { ElementRef } from '@angular/core';
 
 describe('OverlayViewWindowComponent', () => {

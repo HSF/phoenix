@@ -1,5 +1,5 @@
 import { Component, Input, ViewChildren, QueryList } from '@angular/core';
-import { EventDisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   selector: 'app-tree-menu-item',

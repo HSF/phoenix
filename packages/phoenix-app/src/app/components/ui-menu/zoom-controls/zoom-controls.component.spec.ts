@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZoomControlsComponent } from './zoom-controls.component';
 import { AppModule } from 'src/app/app.module';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('ZoomControlsComponent', () => {
   let component: ZoomControlsComponent;

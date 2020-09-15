@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ObjectSelectionComponent } from './object-selection.component';
 import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;

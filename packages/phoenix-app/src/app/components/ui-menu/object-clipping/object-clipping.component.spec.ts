@@ -4,7 +4,7 @@ import { ObjectClippingComponent } from './object-clipping.component';
 import { AppModule } from '../../../app.module';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSliderChange } from '@angular/material/slider';
-import { EventDisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/event-display.service';
 
 describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;

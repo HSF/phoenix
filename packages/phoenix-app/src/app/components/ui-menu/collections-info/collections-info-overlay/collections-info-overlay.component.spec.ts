@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
-import { EventDisplayService } from '../../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 import { AppModule } from '../../../../app.module';
 import { of } from 'rxjs';
 

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoRotateComponent } from './auto-rotate.component';
 import { AppModule } from '../../../app.module';
-import { EventDisplayService } from '../../../services/eventdisplay.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;

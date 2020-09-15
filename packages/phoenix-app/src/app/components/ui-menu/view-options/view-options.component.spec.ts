@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ViewOptionsComponent } from './view-options.component';
 import { AppModule } from '../../../app.module';
 import { PresetView } from '@phoenix/event-display';
-import { EventDisplayService } from 'src/app/services/eventdisplay.service';
+import { EventDisplayService } from 'src/app/services/event-display.service';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
