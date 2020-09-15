@@ -16,19 +16,33 @@ export class PhoenixObjects {
   public static getTrack(trackParams: any): Object3D {
     let positions = trackParams.pos;
     // Track with no points
-    if (!positions) {
-      console.log("Track with no positions.")
-      return;
-    }
+    // if (positions.length==0) {
+    //   console.log("Track with no positions.")
+    //   return;
+    // }
+
+    // Test, for ATLAS. 
+    // FIXME - make configurable
+    let inBounds = function (pos: THREE.Vector3) {
+      if (pos.z>3000) return false;
+      if ( Math.sqrt(pos.x*pos.x + pos.y*pos.y) > 1100) return false;
+      return true
+    };
 
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length < 3) {
       if (trackParams?.dparams) {
-        positions = RKHelper.extrapolateTrackPositions(trackParams);
-      } else {
-        return;
+        // console.log("About to extrapolate track with "+trackParams);
+        positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
+        // console.log("After extrapolation, got back "+positions.length+".")
       }
     }
+    // Check again, in case there was an issue with the extrapolation.
+    if (positions.length < 3) {
+      // console.log("Error in getTrack: Track with "+positions.length+" positions even after attempt at extrapolation.")
+      return;
+    }
+   
 
     // const length = 100;
     let objectColor = 0xff0000;
@@ -186,7 +200,7 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR = 1100.0;
+    const maxR = 1100.0; // This needs to be configurable. 
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.003;
     // geometry
@@ -213,6 +227,26 @@ export class PhoenixObjects {
     clusterParams.uuid = cube.uuid;
 
     return cube;
+  }
+
+  public static getVertex(vertexParams: any): Object3D {
+
+    // geometry
+    const geometry = new THREE.SphereBufferGeometry(3);
+    // material
+    const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
+    // object
+    const sphere = new THREE.Mesh(geometry, material);
+    sphere.position.x = vertexParams.x;
+    sphere.position.y = vertexParams.y;
+    sphere.position.z = vertexParams.y;
+
+    sphere.userData = vertexParams;
+    sphere.name = 'Vertex';
+    // Setting uuid for selection from collections info
+    vertexParams.uuid = sphere.uuid;
+
+    return sphere;
   }
 
 }
