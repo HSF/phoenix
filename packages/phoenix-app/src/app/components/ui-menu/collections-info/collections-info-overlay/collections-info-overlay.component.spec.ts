@@ -46,12 +46,12 @@ describe('CollectionsInfoOverlayComponent', () => {
     document.body.appendChild(activeObjectRow);
 
     // Return mocked row ID from the getActiveObjectId function same as the element we added above
-    spyOn(eventDisplayService, 'getActiveObjectId').and.returnValue(of(ROW_ID));
-    spyOn(document, 'getElementById').and.callThrough();
+    spyOn(eventDisplayService, 'getActiveObjectId').and.callThrough();
 
     component.ngOnInit();
+    component.activeObject.uuid = ROW_ID;
 
-    expect(document.getElementById).toHaveBeenCalledWith(ROW_ID);
+    expect(eventDisplayService.getActiveObjectId).toHaveBeenCalled();
   });
 
   it('should change collection', () => {
@@ -82,7 +82,7 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should highlight object through event display', () => {
-    const mockUuid = 'abcd1234';
+    const mockUuid = 'abcd123'; // Wrong uuid to cover else
 
     spyOn(eventDisplayService, 'highlightObject').and.stub();
     component.highlightObject(mockUuid);

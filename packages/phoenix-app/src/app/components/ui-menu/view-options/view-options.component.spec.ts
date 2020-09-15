@@ -4,13 +4,14 @@ import { ViewOptionsComponent } from './view-options.component';
 import { AppModule } from '../../../app.module';
 import { PresetView } from '@phoenix/event-display';
 import { EventDisplayService } from 'src/app/services/event-display.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
   let fixture: ComponentFixture<ViewOptionsComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIServicie', ['getPresetViews', 'displayView'])
+    getUIManager: jasmine.createSpyObj('UIServicie', ['getPresetViews', 'displayView', 'setShowAxis'])
   });
 
   beforeEach(async(() => {
@@ -46,5 +47,13 @@ describe('ViewOptionsComponent', () => {
     component.displayView(mockEvent, mockPresetView);
 
     expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(mockPresetView);
+  });
+
+  it('should set axis', () => {
+    const VALUE = false;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+    component.setAxis(event);
+    expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(VALUE);
   });
 });
