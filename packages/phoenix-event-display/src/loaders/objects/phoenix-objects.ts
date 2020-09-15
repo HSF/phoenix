@@ -1,5 +1,4 @@
-import * as THREE from 'three';
-import { Object3D } from 'three';
+import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from 'three';
 import { RKHelper } from '../../helpers/rk-helper';
 
 /**
@@ -26,7 +25,7 @@ export class PhoenixObjects {
       if (trackParams?.dparams) {
         // Test, for ATLAS. 
         // FIXME - make configurable
-        let inBounds = function (pos: THREE.Vector3) {
+        let inBounds = function (pos: Vector3) {
           if (pos.z > 3000)
             return false;
           if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100)
@@ -62,29 +61,29 @@ export class PhoenixObjects {
     const points = [];
 
     for (let i = 0; i < positions.length; i++) {
-      points.push(new THREE.Vector3(positions[i][0], positions[i][1], positions[i][2]));
+      points.push(new Vector3(positions[i][0], positions[i][1], positions[i][2]));
     }
 
     // attributes
-    const curve = new THREE.CatmullRomCurve3(points);
+    const curve = new CatmullRomCurve3(points);
 
     // TubeGeometry
-    const geometry = new THREE.TubeBufferGeometry(curve, undefined, 2);
-    const material = new THREE.MeshToonMaterial({ color: objectColor });
-    const tubeObject = new THREE.Mesh(geometry, material);
+    const geometry = new TubeBufferGeometry(curve, undefined, 2);
+    const material = new MeshToonMaterial({ color: objectColor });
+    const tubeObject = new Mesh(geometry, material);
 
     // Line - Creating a Line to put inside the tube to show tracks even on zoom out
     const vertices = curve.getPoints(50);
-    const lineGeometry = new THREE.BufferGeometry().setFromPoints(vertices);
-    const lineMaterial = new THREE.LineBasicMaterial({
+    const lineGeometry = new BufferGeometry().setFromPoints(vertices);
+    const lineMaterial = new LineBasicMaterial({
       color: objectColor,
       linewidth: 2
     });
-    const lineObject = new THREE.Line(lineGeometry, lineMaterial);
+    const lineObject = new Line(lineGeometry, lineMaterial);
     lineObject.name = 'Track';
 
     // Creating a group to add both the Tube curve and the Line
-    const trackObject = new THREE.Group();
+    const trackObject = new Group();
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 
@@ -123,21 +122,21 @@ export class PhoenixObjects {
     const stheta = Math.sin(theta);
     const ctheta = Math.cos(theta);
     //
-    const translation = new THREE.Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
+    const translation = new Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
 
     const x = cphi * stheta;
     const y = sphi * stheta;
     const z = ctheta;
-    const v1 = new THREE.Vector3(0, 1, 0);
-    const v2 = new THREE.Vector3(x, y, z);
-    const quaternion = new THREE.Quaternion();
+    const v1 = new Vector3(0, 1, 0);
+    const v2 = new Vector3(x, y, z);
+    const quaternion = new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry = new THREE.CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
+    const geometry = new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
 
-    const material = new THREE.MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
+    const material = new MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
     material.opacity = 0.5;
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
     mesh.userData = jetParams;
@@ -177,14 +176,14 @@ export class PhoenixObjects {
     }
 
     // geometry
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(pointPos, 3));
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material = new THREE.PointsMaterial({ size: 10 });
+    const material = new PointsMaterial({ size: 10 });
     material.color.set('#ff0000');
     // object
-    const pointsObj = new THREE.Points(geometry, material);
+    const pointsObj = new Points(geometry, material);
     pointsObj.userData = hitsParamsClone;
     pointsObj.userData.uuid = pointsObj.uuid;
     pointsObj.name = 'Hit';
@@ -204,13 +203,13 @@ export class PhoenixObjects {
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.003;
     // geometry
-    const geometry = new THREE.BoxBufferGeometry(30, 30, length);
+    const geometry = new BoxBufferGeometry(30, 30, length);
     // material
-    const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
+    const material = new MeshPhongMaterial({ color: 0xFFD166 });
     // object
-    const cube = new THREE.Mesh(geometry, material);
+    const cube = new Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
-    const pos = new THREE.Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
+    const pos = new Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.cos(theta));
     cube.position.x = pos.x;
@@ -220,7 +219,7 @@ export class PhoenixObjects {
       cube.position.y = maxR * Math.sin(clusterParams.phi);
     }
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
-    cube.lookAt(new THREE.Vector3(0, 0, 0));
+    cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = clusterParams;
     cube.name = 'Cluster';
     // Setting uuid for selection from collections info
@@ -236,11 +235,11 @@ export class PhoenixObjects {
    */
   public static getVertex(vertexParams: any): Object3D {
     // geometry
-    const geometry = new THREE.SphereBufferGeometry(3);
+    const geometry = new SphereBufferGeometry(3);
     // material
-    const material = new THREE.MeshPhongMaterial({ color: 0xFFD166 });
+    const material = new MeshPhongMaterial({ color: 0xFFD166 });
     // object
-    const sphere = new THREE.Mesh(geometry, material);
+    const sphere = new Mesh(geometry, material);
     sphere.position.x = vertexParams.x;
     sphere.position.y = vertexParams.y;
     sphere.position.z = vertexParams.y;
