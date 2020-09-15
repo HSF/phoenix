@@ -6,6 +6,7 @@
   "types": "dist/index",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
+  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display#phoenix-event-display",
   "repository": {
     "type": "git",
     "url": "git://github.com/HSF/phoenix.git"
@@ -22,7 +23,8 @@
     "build:umd": "npm run build && rollup -c rollup.conf.js",
     "tsc": "tsc",
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "docs": "node scripts/gen-api-docs.js"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",

@@ -1,16 +1,19 @@
 const fs = require('fs');
 const { exec } = require('child_process');
+const path = require('path');
 
 if (!fs.existsSync('package.json')) {
   console.log('Unable to run script.\nUse `npm run gen-api-docs` from directory containing package.json.');
   process.exit(1);
 }
 
+// IMPORTANT: The directory for exec commands is `./packages/phoenix-event-display` and for Node.js functions is `./packages/phoenix-event-display/scripts`
+
 // Constants
 const DOCS_NAME = 'Phoenix API Docs';
 
 // Run from project directory containing package.json
-const COMPODOC_GEN = 'compodoc -p compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ./docs/api-docs';
+const COMPODOC_GEN = 'compodoc -p compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ../../docs/api-docs';
 
 console.log('Running command: %s', COMPODOC_GEN);
 
@@ -25,21 +28,21 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
 
   // Remove logo from generated README in API docs index.html
   replaceInFile(
-    './docs/api-docs/index.html',
+    path.resolve(__dirname, '../../../docs/api-docs/index.html'),
     '<p.*logo-text.svg.*p>',
     ''
   );
 
   // Replace all text with logo
   replaceInFile(
-    './docs/api-docs/js/menu-wc.js',
+    path.resolve(__dirname, '../../../docs/api-docs/js/menu-wc.js'),
     DOCS_NAME,
     '<img data-src="images/logo-text.svg" class="img-responsive" data-type="compodoc-logo">'
   );
 
   // Copy icon and logo to API docs folder
   exec(
-    'cp ./packages/phoenix-app/src/favicon.ico ./docs/api-docs/images/favicon.ico',
+    'cp ../phoenix-app/src/favicon.ico ../../docs/api-docs/images/favicon.ico',
     (err) => {
       if (err) console.log(err);
       else {
@@ -48,7 +51,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
     }
   );
   exec(
-    'cp ./packages/phoenix-app/src/assets/images/logo-text.svg ./docs/api-docs/images/logo-text.svg',
+    'cp ../phoenix-app/src/assets/images/logo-text.svg ../../docs/api-docs/images/logo-text.svg',
     (err) => {
       if (err) console.log(err);
       else {

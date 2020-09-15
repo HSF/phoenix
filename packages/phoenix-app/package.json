@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
+  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-app#phoenix-application",
   "repository": {
     "type": "git",
     "url": "git://github.com/HSF/phoenix.git"
@@ -15,8 +16,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "docs": "node ../../scripts/gen-api-docs.js",
-    "deploy": "ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && npm run docs",
+    "deploy": "ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
