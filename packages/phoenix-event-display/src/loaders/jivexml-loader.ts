@@ -104,7 +104,6 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getTracks(firstEvent: Element, eventData: { Tracks: any }) {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
-
     const trackCollections = Array.from(tracksHTML);
     const nameOfCollection = 'Tracks';
     for (const trackColl of trackCollections) {

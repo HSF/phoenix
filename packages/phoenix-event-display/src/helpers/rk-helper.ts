@@ -28,6 +28,7 @@ export class RKHelper {
    * @param inbounds Function which returns true until the passed position
    * is out of bounds, when it returns false. Default just always returns true.
    * @returns An array of track positions.
+
    */
   public static extrapolateTrackPositions(
     track: { dparams: any },

@@ -206,7 +206,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
-      // console.log(typeName+" collection "+collectionName+" has "+objectCollection.length+" constituents.")
+      console.log(typeName+" collection "+collectionName+" has "+objectCollection.length+" constituents.")
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
 

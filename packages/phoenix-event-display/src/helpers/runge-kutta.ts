@@ -105,7 +105,7 @@ export class RungeKutta {
 
     let result: { pos: Vector3, dir: Vector3 }[] = [];
 
-    while (rkState.pathLength < plength) {
+    while (rkState.pathLength < plength ) {
       rkState.pathLength += RungeKutta.step(rkState);
       // Cloning state to avoid using the reference
       let copiedState = JSON.parse(JSON.stringify(rkState));
