@@ -44,7 +44,11 @@ export class JiveXMLLoader extends PhoenixLoader {
       Hits: undefined,
       Tracks: {},
       Jets: {},
-      CaloClusters: {}
+      CaloClusters: {},
+      Vertices: {},
+      Electrons: {},
+      Muons: {},
+      Photons: {}
     };
 
     // Tracks
@@ -56,10 +60,41 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Jets
     this.getJets(firstEvent, eventData);
+
+    // Clusters
     this.getCaloClusters(firstEvent, eventData);
+
+    // Vertices
+    this.getVertices(firstEvent, eventData);
+
+    // Compound objects
+    this.getElectrons(firstEvent, eventData);
+    this.getMuons(firstEvent, eventData);
+    this.getPhotons(firstEvent, eventData);
 
     // console.log('Got this eventdata', eventData);
     return eventData;
+  }
+
+  /**
+   * Get the number array from a collection in XML DOM.
+   * @param collection Collection in XML DOM of JiveXML format.
+   * @param key Tag name of the number array.
+   * @returns Number array.
+   */
+  private getNumberArrayFromHTML(collection: Element, key: any) {
+    // console.log(collection);
+    return collection.getElementsByTagName(key)[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+  }
+
+  /**
+   * Get the number array from a collection in XML DOM.
+   * @param collection Collection in XML DOM of JiveXML format.
+   * @param key Tag name of the string array.
+   * @returns String array.
+   */
+  private getStringArrayFromHTML(collection: Element, key: any) {
+    return collection.getElementsByTagName(key)[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(String);
   }
 
   /**
@@ -69,55 +104,74 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getTracks(firstEvent: Element, eventData: { Tracks: any }) {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
+
     const trackCollections = Array.from(tracksHTML);
     const nameOfCollection = 'Tracks';
     for (const trackColl of trackCollections) {
-      // Extract the only collection we (currently) care about
-      // if (trackColl.getAttribute("storeGateKey")==nameOfCollection){
+      let trackCollectionName = trackColl.getAttribute('storeGateKey')
+      if (trackCollectionName === "Tracks") {
+        // Okay, this is not so nice, but right now this causes big problems because there is an object type called tracks
+        trackCollectionName = "Tracks.";
+      }
       const numOfTracks = Number(trackColl.getAttribute('count'));
       const jsontracks = [];
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
       const tmp = trackColl.getElementsByTagName('numPolyline')
+
+      let numPolyline: number[];
+
       if (tmp.length === 0) {
         console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey") + " has no line information. Skipping.");
-        continue;
+        // continue;
+      } else {
+        numPolyline = trackColl.getElementsByTagName('numPolyline')[0].innerHTML
+          .replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+
+        const polyLineXHTML = trackColl.getElementsByTagName('polylineX');
+        if (polyLineXHTML.length) {
+          // This can happen with e.g. TrackParticles
+          var polylineX = polyLineXHTML[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+          var polylineY = trackColl.getElementsByTagName('polylineY')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+          var polylineZ = trackColl.getElementsByTagName('polylineZ')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+        } else {
+          // unset numPolyline so check later is simple (it will all be zeros anyway)
+          numPolyline = null
+        }
       }
-      const numPolyline = trackColl.getElementsByTagName('numPolyline')[0].innerHTML
-        .replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const chi2 = trackColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const numDoF = trackColl.getElementsByTagName('numDoF')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const polyLineXHTML = trackColl.getElementsByTagName('polylineX');
-      if (polyLineXHTML.length === 0) { continue; } // Probably a trackparticle.
-      const polylineX = polyLineXHTML[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const polylineY = trackColl.getElementsByTagName('polylineY')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const polylineZ = trackColl.getElementsByTagName('polylineZ')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+
+      let chi2 = [];
+      if (trackColl.getElementsByTagName('chi2').length) {
+        chi2 = trackColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      }
+      let numDoF = [];
+      if (trackColl.getElementsByTagName('numDoF').length) {
+        numDoF = trackColl.getElementsByTagName('numDoF')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      }
       const pT = trackColl.getElementsByTagName('pt')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const d0 = trackColl.getElementsByTagName('d0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const z0 = trackColl.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const phi0 = trackColl.getElementsByTagName('phi0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       const cotTheta = trackColl.getElementsByTagName('cotTheta')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const author = trackColl.getElementsByTagName('trackAuthor')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      if (trackColl.getElementsByTagName('numDoF').length) {
+        var author = trackColl.getElementsByTagName('trackAuthor')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      }
       let polylineCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
         const track = { chi2: 0.0, dof: 0.0, pos: [], dparams: [] };
-        track.chi2 = chi2[i];
-        track.dof = numDoF[i];
         track.dparams = [d0[i], z0[i], phi0[i], Math.tan(cotTheta[i]), 1 / pT[i]];
         const pos = [];
-        for (let p = 0; p < numPolyline[i]; p++) {
-          pos.push([polylineX[polylineCounter + p], polylineY[polylineCounter + p], polylineZ[polylineCounter + p]]);
+        if (numPolyline) {
+          for (let p = 0; p < numPolyline[i]; p++) {
+            pos.push([polylineX[polylineCounter + p], polylineY[polylineCounter + p], polylineZ[polylineCounter + p]]);
+          }
+          polylineCounter += numPolyline[i];
+          track.pos = pos;
         }
-        polylineCounter += numPolyline[i];
-        track.pos = pos;
         jsontracks.push(track);
       }
-      let trackCollectionName = trackColl.getAttribute('storeGateKey')
-      if (trackCollectionName === "Tracks") {
-        // Okay, this is not so nice, but right now this causes big problems because there is an object type called tracks
-        trackCollectionName = "Tracks.";
-      }
+
       eventData.Tracks[trackCollectionName] = jsontracks;
       // }
     }
@@ -161,11 +215,12 @@ export class JiveXMLLoader extends PhoenixLoader {
     const z0 = sctClustersHTML.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
     eventData.Hits.SCT = [];
     const temp = []; // Ugh
+
     for (let i = 0; i < numOfSCTClusters; i++) {
       temp.push([x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0]);
     }
+    
     eventData.Hits.SCT.push(temp);
-
   }
 
   /**
@@ -203,7 +258,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       // Extract the only collection we (currently) care about
       // if (jetColl.getAttribute("storeGateKey")==nameOfCollection){
       const numOfJets = Number(jetColl.getAttribute('count'));
-      const jsontracks = [];
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
@@ -232,7 +286,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       // Extract the only collection we (currently) care about
       // if (clusterColl.getAttribute("storeGateKey")==nameOfCollection){
       const numOfClusters = Number(clusterColl.getAttribute('count'));
-      const jsontracks = [];
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
@@ -245,6 +298,117 @@ export class JiveXMLLoader extends PhoenixLoader {
       }
       eventData.CaloClusters[clusterColl.getAttribute('storeGateKey')] = temp;
       // }
+    }
+  }
+
+  /**
+   * Extract Vertices from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Vertices.
+   */
+  public getVertices(firstEvent: Element, eventData: { Vertices: any }) {
+    const verticesHTML = firstEvent.getElementsByTagName('RVx');
+    const vertexCollections = Array.from(verticesHTML);
+    for (const vertexColl of vertexCollections) {
+      const numOfObjects = Number(vertexColl.getAttribute('count'));
+
+      // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
+      // then convert to array of numbers
+      const x = vertexColl.getElementsByTagName('x')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const y = vertexColl.getElementsByTagName('y')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const z = vertexColl.getElementsByTagName('z')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const chi2 = vertexColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const primVxCand = vertexColl.getElementsByTagName('primVxCand')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const vertexType = vertexColl.getElementsByTagName('vertexType')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const numTracks = vertexColl.getElementsByTagName('numTracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const sgkeyOfTracks = vertexColl.getElementsByTagName('sgkey')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(String);
+      const trackIndices = vertexColl.getElementsByTagName('tracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const temp = []; // Ugh
+      let trackIndex = 0;
+      for (let i = 0; i < numOfObjects; i++) {
+        let maxIndex = trackIndex + numTracks[i];
+        let thisTrackIndices = [];
+        for (; trackIndex < maxIndex; trackIndex++) {
+          if (trackIndex > trackIndices.length) {
+            console.log("Error! TrackIndex exceeds maximum number of track indices.");
+          }
+          thisTrackIndices.push(trackIndices[trackIndex]);
+        }
+        temp.push({
+          x: x[i], y: y[i], z: z[i], chi2: chi2[i], primVxCand: primVxCand[i],
+          vertexType: vertexType[i], linkedTracks: thisTrackIndices, linkedTrackCollection: sgkeyOfTracks[i]
+        });
+      }
+      eventData.Vertices[vertexColl.getAttribute('storeGateKey')] = temp;
+    }
+  }
+
+  /**
+   * Extract Muons from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Muons.
+   */
+  public getMuons(firstEvent: Element, eventData: { Muons: any }) {
+    const objHTML = firstEvent.getElementsByTagName('Muon');
+    const objCollections = Array.from(objHTML);
+    for (const collection of objCollections) {
+      const numOfObjects = Number(collection.getAttribute('count'));
+      const temp = []; // Ugh
+      for (let i = 0; i < numOfObjects; i++) {
+        const chi2 = this.getNumberArrayFromHTML(collection, 'chi2');
+        const energy = this.getNumberArrayFromHTML(collection, 'energy');
+        const eta = this.getNumberArrayFromHTML(collection, 'eta');
+        const phi = this.getNumberArrayFromHTML(collection, 'phi');
+        const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        temp.push({ chi2: chi2[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+      }
+      eventData.Muons[collection.getAttribute('storeGateKey')] = temp;
+    }
+  }
+
+  /**
+   * Extract Electrons from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Electrons.
+   */
+  public getElectrons(firstEvent: Element, eventData: { Electrons: any }) {
+    const objHTML = firstEvent.getElementsByTagName('Electron');
+    const objCollections = Array.from(objHTML);
+    for (const collection of objCollections) {
+      const numOfObjects = Number(collection.getAttribute('count'));
+      const temp = []; // Ugh
+      for (let i = 0; i < numOfObjects; i++) {
+        const author = this.getStringArrayFromHTML(collection, 'author');
+        const energy = this.getNumberArrayFromHTML(collection, 'energy');
+        const eta = this.getNumberArrayFromHTML(collection, 'eta');
+        const phi = this.getNumberArrayFromHTML(collection, 'phi');
+        const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        temp.push({ author: author[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+      }
+      eventData.Electrons[collection.getAttribute('storeGateKey')] = temp;
+    }
+  }
+
+  /**
+   * Extract Photons from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Photons.
+   */
+  public getPhotons(firstEvent: Element, eventData: { Photons: any }) {
+    const objHTML = firstEvent.getElementsByTagName('Photon');
+    const objCollections = Array.from(objHTML);
+    for (const collection of objCollections) {
+      const numOfObjects = Number(collection.getAttribute('count'));
+      const temp = []; // Ugh
+      for (let i = 0; i < numOfObjects; i++) {
+        const author = this.getStringArrayFromHTML(collection, 'author');
+        const energy = this.getNumberArrayFromHTML(collection, 'energy');
+        const eta = this.getNumberArrayFromHTML(collection, 'eta');
+        const phi = this.getNumberArrayFromHTML(collection, 'phi');
+        const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        temp.push({ author: author[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+      }
+      eventData.Photons[collection.getAttribute('storeGateKey')] = temp;
     }
   }
 }

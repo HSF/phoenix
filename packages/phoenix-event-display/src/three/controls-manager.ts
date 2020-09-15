@@ -274,9 +274,11 @@ export class ControlsManager {
             if (childObject.children.length === 0) {
               if (childObject.position.equals(origin)) {
                 // Get the max vector from the bounding box to accumulate with the clusters
-                objectPosition.add(
-                  childObject.geometry.boundingSphere.getBoundingBox().max
-                );
+                if (childObject.geometry?.boundingSphere) {
+                  objectPosition.add(
+                    childObject.geometry.boundingSphere.getBoundingBox().max
+                  );
+                }
               } else {
                 objectPosition.add(childObject.position);
               }
@@ -284,13 +286,13 @@ export class ControlsManager {
           });
         } else if (object.position.equals(origin)) {
           // Get the center of bounding sphere of objects with no position
-          objectPosition = object.geometry.boundingSphere.center;
+          objectPosition = object.geometry?.boundingSphere?.center;
         } else {
           // Get the object position for all other elements
           objectPosition = object.position;
         }
         // Check if the object is away from the origin
-        if (objectPosition.distanceTo(origin) > 1) {
+        if (objectPosition.distanceTo(origin) > 0.001) {
           for (const camera of this.getAllCameras()) {
             // Moving the camera to the object's position and then zooming out
             new TWEEN.Tween(camera.position).to({

@@ -85,11 +85,17 @@ export class RungeKutta {
    * @param q Charge.
    * @param mss Max step size.
    * @param plength Path length.
+   * @param inbounds Function which returns true until the passed position
+   * is out of bounds, when it returns false.
    * @returns An array containing position and direction at that position calculated
    * through the Runge-Kutta steps.
    */
-  static propagate(startPos: Vector3, startDir: Vector3, p: number, q: number,
-    mss: number = -1, plength: number = 1000): { pos: Vector3, dir: Vector3 }[] {
+  static propagate(
+    startPos: Vector3, startDir: Vector3,
+    p: number, q: number,
+    mss: number = -1, plength: number = 1000,
+    inbounds: (pos: Vector3) => boolean = () => true
+  ): { pos: Vector3, dir: Vector3 }[] {
     let rkState: State = new State();
     rkState.pos = startPos;
     rkState.dir = startDir;
@@ -107,6 +113,11 @@ export class RungeKutta {
         pos: copiedState.pos,
         dir: copiedState.dir
       });
+      // Check if the position is inbounds
+      if (!inbounds(copiedState.pos)) {
+        // Truncating at position copiedState.pos
+        break;
+      }
     }
 
     return result;

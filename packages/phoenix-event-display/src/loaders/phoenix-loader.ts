@@ -27,7 +27,8 @@ export class PhoenixLoader implements EventDataLoader {
    * @param ui Service for showing menus and controls to manipulate the geometries.
    * @param infoLogger Service for logging data to the information panel.
    */
-  public buildEventData(eventData: any, graphicsLibrary: ThreeManager, ui: UIManager, infoLogger: InfoLogger): void {
+  public buildEventData(eventData: any, graphicsLibrary: ThreeManager,
+    ui: UIManager, infoLogger: InfoLogger): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
@@ -171,6 +172,18 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Muons) {
       this.addObjectType(eventData.Muons, this.getMuon, 'Muons');
     }
+
+    // if (eventData.Photons) {
+    //   this.addObjectType(eventData.Photons, PhoenixObjects.getPhotons, 'Muons');
+    // }
+
+    // if (eventData.Electrons) {
+    //   this.addObjectType(eventData.Photons, PhoenixObjects.getElectrons, 'Muons');
+    // }
+
+    if (eventData.Vertices) {
+      this.addObjectType(eventData.Vertices, PhoenixObjects.getVertex, 'Vertices');
+    }
   }
 
   /**
@@ -251,29 +264,31 @@ export class PhoenixLoader implements EventDataLoader {
    */
   protected getMuon(muonParams: any): Object3D {
     const muonScene = new Group();
+    if ('LinkedClusters' in muonParams) {
+      for (const clusterID of muonParams.LinkedClusters) {
+        const clusterColl = clusterID.split(':')[0];
+        const clusterIndex = clusterID.split(':')[1];
 
-    for (const clusterID of muonParams.LinkedClusters) {
-      const clusterColl = clusterID.split(':')[0];
-      const clusterIndex = clusterID.split(':')[1];
-
-      if (clusterColl && clusterIndex && this.eventData.CaloClusters && this.eventData.CaloClusters[clusterColl]) {
-        const clusterParams = this.eventData.CaloClusters[clusterColl][clusterIndex];
-        if (clusterParams) {
-          const cluster = PhoenixObjects.getCluster(clusterParams);
-          muonScene.add(cluster);
+        if (clusterColl && clusterIndex && this.eventData.CaloClusters && this.eventData.CaloClusters[clusterColl]) {
+          const clusterParams = this.eventData.CaloClusters[clusterColl][clusterIndex];
+          if (clusterParams) {
+            const cluster = PhoenixObjects.getCluster(clusterParams);
+            muonScene.add(cluster);
+          }
         }
       }
     }
+    if ('LinkedTracks' in muonParams) {
+      for (const trackID of muonParams.LinkedTracks) {
+        const trackColl = trackID.split(':')[0];
+        const trackIndex = trackID.split(':')[1];
 
-    for (const trackID of muonParams.LinkedTracks) {
-      const trackColl = trackID.split(':')[0];
-      const trackIndex = trackID.split(':')[1];
-
-      if (trackColl && trackIndex && this.eventData.Tracks && this.eventData.Tracks[trackColl]) {
-        const trackParams = this.eventData.Tracks[trackColl][trackIndex];
-        if (trackParams) {
-          const track = PhoenixObjects.getTrack(trackParams);
-          muonScene.add(track);
+        if (trackColl && trackIndex && this.eventData.Tracks && this.eventData.Tracks[trackColl]) {
+          const trackParams = this.eventData.Tracks[trackColl][trackIndex];
+          if (trackParams) {
+            const track = PhoenixObjects.getTrack(trackParams);
+            muonScene.add(track);
+          }
         }
       }
     }
