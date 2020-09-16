@@ -10,10 +10,16 @@ addons:
 
 cache:
   directories:
-    - ./node_modules
+    - ./packages/phoenix-app/node_modules
+
+before_install:
+  - cd ./packages/phoenix-event-display
+  - npm link
+  - cd ../phoenix-app
 
 install:
   - npm install
+  - npm link "@phoenix/event-display"
 
 script:
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI

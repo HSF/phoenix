@@ -1,0 +1,72 @@
+h1 {
+  font-family: "Circular";
+}
+
+.logo {
+  margin-top: 2em;
+  max-width: 24em;
+}
+
+.row {
+  justify-content: center;
+}
+
+.card {
+  margin: 1.2em;
+  border: 1px solid rgba(88, 88, 88, 0.08);
+  box-shadow: var(--phoenix-box-shadow);
+  padding: 1em;
+  width: 20em;
+  background-color: var(--phoenix-background-color-secondary);
+  border-radius: 10px;
+  p {
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  .card-title {
+    font-family: Circular;
+    color: var(--phoenix-text-color);
+  }
+
+  .card-img-top {
+    width: 100%;
+    height: 10em;
+    object-fit: contain;
+    border-radius:10px;
+  }
+
+  .card-body {
+    justify-content: space-between;
+    a {
+      border-radius: 10px;
+    }
+  }
+}
+
+
+
+
+.lead {
+  color: var(--phoenix-text-color-secondary);
+}
+
+footer {
+  background-color: var(--phoenix-background-color);
+  margin: 5rem 1rem 3rem;
+  color: var(--phoenix-text-color-secondary);
+
+  p {
+    text-align: center;
+
+    a {
+      color: var(--phoenix-text-color-secondary);
+
+      &:hover {
+        color: var(--phoenix-text-color-secondary);
+      }
+    }
+  }
+}
+
+
+

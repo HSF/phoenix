@@ -1,0 +1,14 @@
+#phoenix-menu {
+  background: var(--phoenix-background-color-secondary);
+  position: absolute;
+  top: 5rem;
+  right: 1rem;
+  width: 15rem;
+  max-width: 45%;
+  box-shadow: var(--phoenix-box-shadow);
+  z-index: 100;
+
+  @media screen and (max-width: 768px) {
+    top: 4rem;
+  }
+}

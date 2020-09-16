@@ -1,0 +1,13 @@
+.config-slider-input {
+  background: transparent;
+  color: var(--phoenix-text-color);
+  border: none;
+  border-bottom: 1px solid var(--phoenix-text-color);
+  width: 25%;
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

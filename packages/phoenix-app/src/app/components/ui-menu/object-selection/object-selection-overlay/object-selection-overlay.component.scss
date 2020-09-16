@@ -1,0 +1,8 @@
+#selectedObjectPanelBody {
+  padding: 0 0.8em;
+  overflow: auto;
+  /* Using px because rem gives a buggy right margin */
+  max-width: 300px;
+  max-height: 16rem;
+  min-width: 7rem;
+}
