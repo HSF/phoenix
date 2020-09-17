@@ -2,6 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
+To install the package for reusing components.
+
+```sh
+npm install @phoenix/app
+```
+
 ## Event display
 
 This application uses the [@phoenix/event-display](../phoenix-event-display) package for all event display functionality. You can either use the npm package as is (through `npm install`).

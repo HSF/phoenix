@@ -15,7 +15,7 @@ To create a simple event display.
 import { EventDisplay, Configuration } from '@phoenix/event-display';
 
 // Create the event display
-const eventDisplay = new EventDisplay(configuration);
+const eventDisplay = new EventDisplay();
 
 // Create the configuration
 const configuration = new Configuration('wrapper_element_id');

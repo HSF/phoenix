@@ -23,7 +23,7 @@
     "build:umd": "npm run build && rollup -c rollup.conf.js",
     "tsc": "tsc",
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build && npm run docs",
     "docs": "node scripts/gen-api-docs.js"
   },
   "dependencies": {
