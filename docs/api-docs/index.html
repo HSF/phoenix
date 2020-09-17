@@ -30,35 +30,37 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<p><a href="https://zenodo.org/badge/latestdoi/135442382"><img src="https://zenodo.org/badge/135442382.svg" alt="DOI" class="img-responsive"></a></p>
-<p><a href="https://travis-ci.com/HSF/phoenix"><img src="https://travis-ci.com/HSF/phoenix.svg?branch=master" alt="Build Status" class="img-responsive"></a>
-<a href="https://github.com/hsf/phoenix/blob/master/LICENSE"><img src="https://img.shields.io/github/license/hsf/phoenix.svg" alt="License" class="img-responsive"></a>
-<a href="https://snyk.io/test/github/emiliocortina/phoenix?targetFile=package.json"><img src="https://snyk.io/test/github/hsf/phoenix/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" class="img-responsive"></a>
-<a href="https://coveralls.io/github/HSF/phoenix?branch=master"><img src="https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master" alt="Coverage Status" class="img-responsive"></a>
-<a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a>
-<a href="https://gitter.im/phoenix-developers/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/phoenix-developers/community.svg" alt="Gitter" class="img-responsive"></a></p>
+<h1 id="phoenix-event-display">Phoenix event display</h1>
+<p>A highly modular and API driven experiment independent event display that uses <a href="https://threejs.org">three.js</a> for processing and presenting detector geometry and event data.</p>
+<p>To use in your application. First, install the npm package.</p>
+<div><pre class="line-numbers"><code class="language-sh">npm install &#64;phoenix/event-display</code></pre></div><p>To create a simple event display.</p>
+<div><pre class="line-numbers"><code class="language-js">// Import required classes
+import { EventDisplay, Configuration } from &#39;&#64;phoenix/event-display&#39;;
 
-<h1 id="phoenix-project">Phoenix Project</h1>
-<p>The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The design should be as detector-agnostic as possible.
-Technically the 3D is implemented with <a href="https://threejs.org">three.js</a> and the native data format is just plain JSON (though we have many loaders to convert from other formats).</p>
-<p>This project was generated with <a href="https://github.com/angular/angular-cli">Angular CLI</a> version 7.3.4.</p>
-<p>You can see an online version at <a href="https://hepsoftwarefoundation.org/phoenix/">https://hepsoftwarefoundation.org/phoenix/</a></p>
-<h2 id="demo">Demo</h2>
-<p><a href="https://www.youtube.com/watch?v=75MWVRzVvoY"><img src="https://raw.github.com/HSF/phoenix/master/src/assets/images/video-cover.png" alt="Phoenix demo" class="img-responsive"></a></p>
-<h2 id="build-and-install">Build and install</h2>
-<p>This is an <a href="https://angular.io">Angular</a> application, so you will need to have <a href="https://nodejs.org/en/">Node js</a> and <a href="https://github.com/angular/angular-cli">Angular CLI</a> installed locally.</p>
-<p>You can follow <a href="https://angular.io/guide/setup-local">this guide</a> to set up your local environment.</p>
-<p>Once everything is set up, run <code>ng serve</code> from the command line in the project directory for a dev server. Then navigate to <code>http://localhost:4200/</code> from your browser.
-The app will automatically reload if you change any of the source files.</p>
-<h2 id="documentation">Documentation</h2>
+// Create the event display
+const eventDisplay = new EventDisplay();
+
+// Create the configuration
+const configuration = new Configuration(&#39;wrapper_element_id&#39;);
+
+// ... other configuration options
+
+// Initialize the event display with the configuration
+eventDisplay.init(configuration);
+
+// Load and parse event data in Phoenix format and display it
+fetch(&#39;path/to/event-data.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((res) =&gt; {
+    eventDisplay.parsePhoenixEvents(res);
+  });
+
+// Load detector geometry
+eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);</code></pre></div><h2 id="usage-examples">Usage examples</h2>
 <ul>
-<li><a href="./src/assets/docs/users.md">User manual.</a></li>
-<li><a href="./CONTRIBUTING.md">How to contribute.</a></li>
-<li><a href="./src/assets/docs/developers.md">Developer guide.</a></li>
-<li><a href="https://hepsoftwarefoundation.org/phoenix/api-docs/">API docs.</a></li>
+<li><a href="https://github.com/9inpachi/phoenix/blob/wip-eventdisplay/packages/phoenix-app/src/app/sections/atlas/atlas.component.ts#L16-L56">Usage in Angular (as a service)</a></li>
+<li><a href="https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31">Usage in React</a></li>
 </ul>
-<h2 id="contact">Contact</h2>
-<p>Best is to either open an Issue in github, or talk to us on our <a href="https://gitter.im/phoenix-developers/community">gitter channel</a></p>
 
 
 
