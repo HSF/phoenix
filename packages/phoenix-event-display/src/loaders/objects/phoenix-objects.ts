@@ -87,9 +87,25 @@ export class PhoenixObjects {
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 
+    // To make the output a bit cleaner, let's add some "prettyPrint" data
+    let prettyPrint = {};
+    if (trackParams?.dparams){
+      prettyPrint['θ']  = trackParams.dparams[3];
+      prettyPrint['ϕ']  = trackParams.dparams[2];
+      prettyPrint['|p|']= Math.abs(1/trackParams.dparams[4]);
+      if (trackParams?.pT)prettyPrint['pT']= trackParams.pT;
+      prettyPrint['q']  = Math.sign(1/trackParams.dparams[4]);
+      prettyPrint['d0'] = trackParams.dparams[0];
+      prettyPrint['z0' ]= trackParams.dparams[1];
+      if (trackParams?.chi2 ) prettyPrint['𝛘2']= trackParams.chi2;
+      if (trackParams?.dof) prettyPrint['DOF']= trackParams.dof;
+
+    }
+
     // Setting info to the tubeObject and trackObject for selection and cuts
     for (let object of [tubeObject, trackObject]) {
       object.userData = trackParams;
+      object.userData['prettyPrint']=prettyPrint;
       object.name = 'Track';
     }
 
