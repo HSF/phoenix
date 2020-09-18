@@ -1,0 +1,1772 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>AnimationsManager</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/three/animations-manager.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Manager for managing animation related operations using three.js and tween.js.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateClippingWithCollision">animateClippingWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateEvent">animateEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateEventWithClipping">animateEventWithClipping</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateEventWithCollision">animateEventWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateThroughEvent">animateThroughEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateWithCollision">animateWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#collideParticles">collideParticles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCameraTween">getCameraTween</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getHitsPositions">getHitsPositions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(scene: Scene, activeCamera: Camera, rendererManager: <a href="../classes/RendererManager.html">RendererManager</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/three/animations-manager.ts:9</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the animation manager.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>scene</td>
+                                                  
+                                                        <td>
+                                                                    <code>Scene</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>Three.js scene containing all the objects and event data.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>activeCamera</td>
+                                                  
+                                                        <td>
+                                                                    <code>Camera</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>Currently active camera.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>rendererManager</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/RendererManager.html" target="_self" >RendererManager</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>Manager for managing event display&#39;s renderer related functions.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateClippingWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateClippingWithCollision
+                        </b>
+                        <a href="#animateClippingWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateClippingWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="434"
+                            class="link-to-prism">src/three/animations-manager.ts:434</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data
+using clipping planes after particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateEvent
+                        </b>
+                        <a href="#animateEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateEvent(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void, onAnimationStart?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">src/three/animations-manager.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onAnimationStart</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when the first animation starts.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateEventWithClipping"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateEventWithClipping
+                        </b>
+                        <a href="#animateEventWithClipping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateEventWithClipping(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void, onAnimationStart?: () => void, clippingConstant: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">src/three/animations-manager.ts:265</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data using clipping planes.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onAnimationStart</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Callback when the first animation starts.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>clippingConstant</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>11000</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Constant for the clipping planes for distance from the origin.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateEventWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateEventWithCollision
+                        </b>
+                        <a href="#animateEventWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateEventWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="424"
+                            class="link-to-prism">src/three/animations-manager.ts:424</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data with particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateThroughEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateThroughEvent
+                        </b>
+                        <a href="#animateThroughEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateThroughEvent(startPos: number[], tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onAnimationEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/three/animations-manager.ts:55</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the camera through the event scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>startPos</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Start position of the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of each tween in the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onAnimationEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when the last animation ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateWithCollision
+                        </b>
+                        <a href="#animateWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateWithCollision(animationFunction: (tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,onEnd: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank">function</a>,onAnimationStart: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank">function</a>) => void, tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="385"
+                            class="link-to-prism">src/three/animations-manager.ts:385</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data with particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>animationFunction</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Animation function to call after collision.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collideParticles"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            collideParticles
+                        </b>
+                        <a href="#collideParticles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>collideParticles(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, particleSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, distanceFromOrigin: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, particleColor: Color, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="335"
+                            class="link-to-prism">src/three/animations-manager.ts:335</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the collision of two particles.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Duration of the particle collision animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>particleSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>10</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Size of the particles.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>distanceFromOrigin</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>5000</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Distance of the particles (along z-axes) from the origin.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>particleColor</td>
+                                    <td>
+                                            <code>Color</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>new Color(0xffffff)</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Color of the particles.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Callback to call when the particle collision ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCameraTween"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getCameraTween
+                        </b>
+                        <a href="#getCameraTween"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCameraTween(pos: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, easing?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/three/animations-manager.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the camera tween for animating camera to a position.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pos</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>End position of the camera tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>duration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>1000</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Duration of the tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>easing</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Animation easing of the tween if any.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Tween object of the camera animation.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHitsPositions"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getHitsPositions
+                        </b>
+                        <a href="#getHitsPositions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHitsPositions(positions: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="444"
+                            class="link-to-prism">src/three/animations-manager.ts:444</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the positions of hits in a multidimensional array
+from a single dimensional array.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>positions</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Positions of hits in a single dimensional array.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>[][]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Positions of hits in a multidimensional array.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SceneManager } from &quot;./scene-manager&quot;;
+import { TubeBufferGeometry, BufferGeometry, Vector3, Color, MeshBasicMaterial, Mesh, SphereBufferGeometry, Sphere, Object3D, BufferAttribute, Scene, Camera, SphereGeometry, Plane, Group } from &quot;three&quot;;
+import * as TWEEN from &quot;@tweenjs/tween.js&quot;;
+import { RendererManager } from &quot;./renderer-manager&quot;;
+
+/**
+ * Manager for managing animation related operations using three.js and tween.js.
+ */
+export class AnimationsManager {
+
+  /**
+   * Constructor for the animation manager.
+   * @param scene Three.js scene containing all the objects and event data.
+   * @param activeCamera Currently active camera.
+   * @param rendererManager Manager for managing event display&#x27;s renderer related functions.
+   */
+  constructor(
+    private scene: Scene,
+    private activeCamera: Camera,
+    private rendererManager: RendererManager
+  ) {
+    this.animateEvent &#x3D; this.animateEvent.bind(this);
+    this.animateEventWithClipping &#x3D; this.animateEventWithClipping.bind(this);
+  }
+
+  /**
+   * Get the camera tween for animating camera to a position.
+   * @param pos End position of the camera tween.
+   * @param duration Duration of the tween.
+   * @param easing Animation easing of the tween if any.
+   * @returns Tween object of the camera animation.
+   */
+  public getCameraTween(
+    pos: number[],
+    duration: number &#x3D; 1000,
+    easing?: any
+  ): any {
+    const tween &#x3D; new TWEEN.Tween(
+      this.activeCamera.position
+    ).to({ x: pos[0], y: pos[1], z: pos[2] }, duration);
+
+    if (easing) {
+      tween.easing(easing);
+    }
+
+    return tween;
+  }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(
+    startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () &#x3D;&gt; void
+  ) {
+    // Move to start
+    const start &#x3D; this.getCameraTween(startPos, 1000, TWEEN.Easing.Cubic.Out);
+    // Move to position along the detector axis
+    const alongAxisPosition &#x3D; [0, 0, startPos[2]];
+    const startXAxis &#x3D; this.getCameraTween(alongAxisPosition, tweenDuration);
+
+    const radius &#x3D; 500;
+    const numOfSteps &#x3D; 24;
+    const angle &#x3D; 3 * Math.PI;
+    const step &#x3D; angle / numOfSteps;
+
+    let rotationPositions &#x3D; [];
+    for (let i &#x3D; 1; i &lt;&#x3D; numOfSteps; i++) {
+      rotationPositions.push([
+        radius * Math.sin(step * i), // x
+        0, // y
+        radius * Math.cos(step * i) // z
+      ]);
+    }
+
+    // Go to origin
+    const rotateStart &#x3D; this.getCameraTween([0, 0, radius], tweenDuration, TWEEN.Easing.Cubic.Out);
+
+    let rotate &#x3D; rotateStart;
+    const rotationTime &#x3D; tweenDuration * 4;
+    const singleRotationTime &#x3D; rotationTime / numOfSteps;
+    // Rotating around the event
+    for (const pos of rotationPositions) {
+      const animation &#x3D; this.getCameraTween(pos, singleRotationTime);
+      rotate.chain(animation);
+      rotate &#x3D; animation;
+    }
+
+    // Go to the end position and then back to the starting point
+    const endPos &#x3D; [0, 0, -startPos[2]];
+    const end &#x3D; this.getCameraTween(endPos, tweenDuration, TWEEN.Easing.Cubic.In);
+    const startClone &#x3D; this.getCameraTween(startPos, tweenDuration, TWEEN.Easing.Cubic.Out);
+    startClone.onComplete(() &#x3D;&gt; onAnimationEnd?.());
+    startClone.delay(500);
+
+    start.chain(startXAxis);
+    startXAxis.chain(rotateStart);
+    rotate.chain(end);
+    end.chain(startClone);
+
+    start.start();
+  }
+
+  /**
+   * Animate the propagation and generation of event data.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Callback when all animations have ended.
+   * @param onAnimationStart Callback when the first animation starts.
+   */
+  public animateEvent(
+    tweenDuration: number,
+    onEnd?: () &#x3D;&gt; void,
+    onAnimationStart?: () &#x3D;&gt; void
+  ) {
+    const extraAnimationSphereDuration &#x3D; tweenDuration * 0.25;
+    tweenDuration *&#x3D; 0.75;
+
+    const eventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+
+    const animationSphere &#x3D; new Sphere(new Vector3(), 0);
+    const objectsToAnimateWithSphere: { eventObject: Object3D, position: any }[] &#x3D; [];
+
+    const allTweens &#x3D; [];
+    // Traverse over all event data
+    eventData.traverse((eventObject: any) &#x3D;&gt; {
+      if (eventObject.geometry) {
+        // Animation for extrapolating tracks without changing scale
+        if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27;) {
+          // Check if geometry drawRange count exists
+          let geometryPosCount &#x3D; eventObject.geometry?.attributes?.position?.count;
+          if (geometryPosCount) {
+            // WORKAROUND
+            // Changing position count for TubeBufferGeometry because
+            // what we get is not the actual and it has Infinity drawRange count
+            if (eventObject.geometry instanceof TubeBufferGeometry) {
+              geometryPosCount *&#x3D; 6;
+            }
+            if (eventObject.geometry instanceof BufferGeometry) {
+              const oldDrawRangeCount &#x3D; eventObject.geometry.drawRange.count;
+              eventObject.geometry.setDrawRange(0, 0);
+              const eventObjectTween &#x3D; new TWEEN.Tween(
+                eventObject.geometry.drawRange
+              ).to({
+                count: geometryPosCount
+              }, tweenDuration);
+              eventObjectTween.onComplete(() &#x3D;&gt; {
+                eventObject.geometry.drawRange.count &#x3D; oldDrawRangeCount;
+              });
+              allTweens.push(eventObjectTween);
+            }
+          }
+        }
+        // Animation for scaling out objects with or without position
+        else if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Jet&#x27;) {
+          const scaleTween &#x3D; new TWEEN.Tween({
+            x: 0.01,
+            y: 0.01,
+            z: 0.01
+          }).to({
+            x: eventObject.scale.x,
+            y: eventObject.scale.y,
+            z: eventObject.scale.z
+          }, tweenDuration);
+          // Manually updating scale since we need to change position
+          scaleTween.onUpdate((updatedScale: Vector3) &#x3D;&gt; {
+            const previousScale &#x3D; eventObject.scale.x;
+            eventObject.scale.setScalar(updatedScale.x);
+            // Restoring to original position and then moving again with the current value
+            eventObject.position.divideScalar(previousScale)
+              .multiplyScalar(updatedScale.x);
+          });
+          allTweens.push(scaleTween);
+        } else {
+          const hasPosition &#x3D; !eventObject.position.equals(new Vector3(0, 0, 0));
+          let position &#x3D; hasPosition
+            ? eventObject.position
+            : eventObject.geometry.boundingSphere.center;
+
+          // Edit geometry for hits
+          if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Hit&#x27;) {
+            position &#x3D; Array.from(eventObject.geometry.attributes[&#x27;position&#x27;].array);
+            eventObject.geometry.deleteAttribute(&#x27;position&#x27;);
+            eventObject.geometry.computeBoundingSphere();
+          } else {
+            // Making the object invisible and will make visible
+            // once the animation sphere reaches the object
+            eventObject.visible &#x3D; false;
+          }
+
+          objectsToAnimateWithSphere.push({
+            eventObject: eventObject,
+            position: position
+          });
+        }
+      }
+    });
+
+    // Tween for the animation sphere
+    const animationSphereTween &#x3D; new TWEEN.Tween(animationSphere)
+      .to({ radius: 3000 }, tweenDuration);
+
+    const onAnimationSphereUpdate &#x3D; (updateAnimationSphere: Sphere) &#x3D;&gt; {
+      objectsToAnimateWithSphere.forEach((obj) &#x3D;&gt; {
+        if (obj.eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Hit&#x27;) {
+
+          const geometry &#x3D; (obj.eventObject as any).geometry;
+
+          const hitsPositions &#x3D; this.getHitsPositions(obj.position);
+          const reachedHits &#x3D; hitsPositions
+            .filter(hitPosition &#x3D;&gt; updateAnimationSphere
+              .containsPoint(new Vector3().fromArray(hitPosition))
+            );
+
+          if (reachedHits.length &gt; 0) {
+            geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(
+              new Float32Array([].concat(...reachedHits)), 3
+            ));
+            geometry.computeBoundingSphere();
+          }
+
+        } else if (updateAnimationSphere.containsPoint(obj.position)) {
+          obj.eventObject.visible &#x3D; true;
+        }
+      });
+    };
+
+    animationSphereTween.onUpdate(onAnimationSphereUpdate);
+
+    // Animation sphere tween after covering the tracks
+    const animationSphereTweenClone &#x3D; new TWEEN.Tween(animationSphere)
+      .to({ radius: 10000 }, extraAnimationSphereDuration);
+    animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
+
+    animationSphereTween.chain(animationSphereTweenClone);
+
+    allTweens.push(animationSphereTween);
+
+    // Call onAnimationStart when the first tween starts
+    allTweens[0].onStart(() &#x3D;&gt; onAnimationStart?.());
+
+    // Start all tweens
+    for (const tween of allTweens) {
+      tween.easing(TWEEN.Easing.Quartic.Out).start();
+    }
+
+    // Call onEnd when the last tween completes
+    animationSphereTweenClone.onComplete(() &#x3D;&gt; {
+      // Restore all remaining event data items
+      onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
+      onEnd?.();
+    });
+  }
+
+  /**
+   * Animate the propagation and generation of event data using clipping planes.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   * @param onAnimationStart Callback when the first animation starts.
+   * @param clippingConstant Constant for the clipping planes for distance from the origin.
+   */
+  public animateEventWithClipping(
+    tweenDuration: number,
+    onEnd?: () &#x3D;&gt; void,
+    onAnimationStart?: () &#x3D;&gt; void,
+    clippingConstant: number &#x3D; 11000
+  ) {
+    const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+
+    // Sphere to get spherical set of clipping planes from
+    const sphere &#x3D; new SphereGeometry(1, 8, 8);
+    // Clipping planes for animation
+    const animationClipPlanes: Plane[] &#x3D; [];
+
+    // Get clipping planes from the verticies of sphere
+    for (const vertice of sphere.vertices) {
+      animationClipPlanes.push(new Plane(vertice, 0));
+    }
+
+    // Save the previous clipping setting of the renderer
+    const prevLocalClipping &#x3D; this.rendererManager.getMainRenderer().localClippingEnabled;
+    if (!prevLocalClipping) {
+      this.rendererManager.setLocalClippingEnabled(true);
+    }
+
+    // Apply clipping planes to all the event data objects&#x27; material
+    allEventData.traverse((eventObject: any) &#x3D;&gt; {
+      if (eventObject.geometry &amp;&amp; eventObject.material) {
+        eventObject.material.clippingPlanes &#x3D; animationClipPlanes;
+      }
+    });
+
+    const allTweens &#x3D; [];
+    // Create tweens for the animation clipping planes
+    for (const animationClipPlane of animationClipPlanes) {
+      animationClipPlane.constant &#x3D; 0;
+      const tween &#x3D; new TWEEN.Tween(animationClipPlane)
+        .to({ constant: clippingConstant }, tweenDuration);
+      allTweens.push(tween);
+    }
+
+    allTweens[0].onStart(() &#x3D;&gt; onAnimationStart?.());
+
+    // Start all the tweens
+    for (const tween of allTweens) {
+      tween.start();
+    }
+
+    allTweens[allTweens.length - 1].onComplete(() &#x3D;&gt; {
+      // Revert local clipping of the renderer
+      if (!prevLocalClipping) {
+        this.rendererManager.getMainRenderer().localClippingEnabled &#x3D; prevLocalClipping /* false */;
+      }
+      // Remove the applied clipping planes from the event data objects
+      allEventData.traverse((eventObject: any) &#x3D;&gt; {
+        if (eventObject.geometry &amp;&amp; eventObject.material) {
+          eventObject.material.clippingPlanes &#x3D; null;
+        }
+      });
+      onEnd?.();
+    });
+  }
+
+  /**
+   * Animate the collision of two particles.
+   * @param tweenDuration Duration of the particle collision animation tween.
+   * @param particleSize Size of the particles.
+   * @param distanceFromOrigin Distance of the particles (along z-axes) from the origin.
+   * @param particleColor Color of the particles.
+   * @param onEnd Callback to call when the particle collision ends.
+   */
+  public collideParticles(
+    tweenDuration: number,
+    particleSize: number &#x3D; 10,
+    distanceFromOrigin: number &#x3D; 5000,
+    particleColor: Color &#x3D; new Color(0xffffff),
+    onEnd?: () &#x3D;&gt; void
+  ) {
+    const particleGeometry &#x3D; new SphereBufferGeometry(particleSize, 32, 32);
+    const particleMaterial &#x3D; new MeshBasicMaterial({
+      color: particleColor,
+      transparent: true,
+      opacity: 0
+    });
+
+    const particle1 &#x3D; new Mesh(particleGeometry, particleMaterial);
+    const particle2 &#x3D; particle1.clone();
+
+    particle1.position.setZ(distanceFromOrigin);
+    particle2.position.setZ(-distanceFromOrigin);
+
+    const particles &#x3D; [particle1, particle2];
+
+    this.scene.add(...particles);
+
+    const particleTweens &#x3D; [];
+
+    for (const particle of particles) {
+      new TWEEN.Tween(particle.material).to({
+        opacity: 1
+      }, 300).start();
+
+      const particleToOrigin &#x3D; new TWEEN.Tween(particle.position).to({
+        z: 0
+      }, tweenDuration).start();
+
+      particleTweens.push(particleToOrigin);
+    }
+
+    particleTweens[0].onComplete(() &#x3D;&gt; {
+      this.scene.remove(...particles);
+      onEnd?.();
+    });
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param animationFunction Animation function to call after collision.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateWithCollision(
+    animationFunction: (
+      tweenDuration: number,
+      onEnd?: () &#x3D;&gt; void,
+      onAnimationStart?: () &#x3D;&gt; void
+    ) &#x3D;&gt; void,
+    tweenDuration: number,
+    onEnd?: () &#x3D;&gt; void
+  ) {
+    const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+
+    // Get the color of the first track to use for colliding particles
+    const track &#x3D; allEventData.getObjectByName(&#x27;Track&#x27;);
+    let trackColor: Color;
+    if (track instanceof Group) {
+      trackColor &#x3D; (track.children[0] as any)?.material?.color;
+    } else {
+      trackColor &#x3D; (track as any)?.material.color;
+    }
+
+    // Hide event data to show particles collision
+    if (allEventData) {
+      allEventData.visible &#x3D; false;
+    }
+
+    this.collideParticles(1500, 30, 5000, trackColor, () &#x3D;&gt; {
+      animationFunction(tweenDuration, onEnd, () &#x3D;&gt; {
+        if (allEventData) {
+          allEventData.visible &#x3D; true;
+        }
+      });
+    });
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.animateWithCollision(this.animateEvent, tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.animateWithCollision(this.animateEventWithClipping, tweenDuration, onEnd);
+  }
+
+  /**
+   * Get the positions of hits in a multidimensional array
+   * from a single dimensional array.
+   * @param positions Positions of hits in a single dimensional array.
+   * @returns Positions of hits in a multidimensional array.
+   */
+  private getHitsPositions(positions: number[]): number[][] {
+    const hitsPositions: number[][] &#x3D; [];
+    for (let i &#x3D; 0; i &lt; positions.length; i +&#x3D; 3) {
+      hitsPositions.push(positions.slice(i, i + 3))
+    }
+    return hitsPositions;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'AnimationsManager.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
