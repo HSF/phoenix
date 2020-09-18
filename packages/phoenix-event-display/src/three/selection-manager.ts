@@ -158,12 +158,21 @@ export class SelectionManager {
 
       this.activeObject.update(intersectedObject.uuid);
 
-      for (const key of Object.keys(intersectedObject.userData)) {
-        this.selectedObject.attributes.push({
-          attributeName: key,
-          attributeValue: intersectedObject.userData[key]
-        });
-      }
+      if (intersectedObject.userData.prettyPrint){
+        for (const key of Object.keys(intersectedObject.userData.prettyPrint)) {
+          this.selectedObject.attributes.push({
+            attributeName: key,
+            attributeValue: intersectedObject.userData.prettyPrint[key]
+          });
+        }
+      } else {
+        for (const key of Object.keys(intersectedObject.userData)) {
+          this.selectedObject.attributes.push({
+            attributeName: key,
+            attributeValue: intersectedObject.userData[key]
+          });
+        }
+      } 
 
       // Process properties of the selected object
       const props = Object.keys(intersectedObject.userData).map((key) => {

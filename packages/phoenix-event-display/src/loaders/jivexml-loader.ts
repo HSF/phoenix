@@ -84,7 +84,12 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   private getNumberArrayFromHTML(collection: Element, key: any) {
     // console.log(collection);
-    return collection.getElementsByTagName(key)[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+    let array=[];
+    let elements = collection.getElementsByTagName(key);
+    if (elements.length) {
+      array= elements[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+    }
+    return array;
   }
 
   /**
@@ -106,60 +111,63 @@ export class JiveXMLLoader extends PhoenixLoader {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
     const nameOfCollection = 'Tracks';
-    for (const trackColl of trackCollections) {
-      let trackCollectionName = trackColl.getAttribute('storeGateKey')
-      if (trackCollectionName === "Tracks") {
-        // Okay, this is not so nice, but right now this causes big problems because there is an object type called tracks
-        trackCollectionName = "Tracks.";
+    for (const collection of trackCollections) {
+      let trackCollectionName = collection.getAttribute('storeGateKey')
+      if (trackCollectionName === "Tracks" || trackCollectionName === "GSFTracks" || trackCollectionName === "GSFTrackParticles") {
+        // Tracks are duplicates of CombinedInDetTracks (though so maybe check that they're in the file before skipping?)
+        // GSF tracks cause problems at the moment.
+        continue;
       }
-      const numOfTracks = Number(trackColl.getAttribute('count'));
+      const numOfTracks = Number(collection.getAttribute('count'));
       const jsontracks = [];
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const tmp = trackColl.getElementsByTagName('numPolyline')
+      const tmp = collection.getElementsByTagName('numPolyline')
 
       let numPolyline: number[];
 
       if (tmp.length === 0) {
-        console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey") + " has no line information. Skipping.");
+        // console.log("WARNING the track collection " + trackColl.getAttribute("storeGateKey") + " has no line information. Skipping.");
         // continue;
       } else {
-        numPolyline = trackColl.getElementsByTagName('numPolyline')[0].innerHTML
-          .replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+        numPolyline = this.getNumberArrayFromHTML(collection, 'numPolyline');
 
-        const polyLineXHTML = trackColl.getElementsByTagName('polylineX');
+        const polyLineXHTML = collection.getElementsByTagName('polylineX');
         if (polyLineXHTML.length) {
           // This can happen with e.g. TrackParticles
           var polylineX = polyLineXHTML[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-          var polylineY = trackColl.getElementsByTagName('polylineY')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-          var polylineZ = trackColl.getElementsByTagName('polylineZ')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+          var polylineY = this.getNumberArrayFromHTML(collection, 'polylineY');
+          var polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
           numPolyline = null
         }
       }
 
-      let chi2 = [];
-      if (trackColl.getElementsByTagName('chi2').length) {
-        chi2 = trackColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const chi2 = this.getNumberArrayFromHTML(collection, 'chi2');
+      const numDoF = this.getNumberArrayFromHTML(collection, 'numDoF');
+      const pT = this.getNumberArrayFromHTML(collection, 'pt');
+      const d0 = this.getNumberArrayFromHTML(collection, 'd0');
+      const z0 = this.getNumberArrayFromHTML(collection, 'z0');
+      const phi0 = this.getNumberArrayFromHTML(collection, 'phi0');
+      const cotTheta = this.getNumberArrayFromHTML(collection, 'cotTheta');
+
+      if (collection.getElementsByTagName('numDoF').length) {
+        var author = collection.getElementsByTagName('numDoF')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
       }
-      let numDoF = [];
-      if (trackColl.getElementsByTagName('numDoF').length) {
-        numDoF = trackColl.getElementsByTagName('numDoF')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      }
-      const pT = trackColl.getElementsByTagName('pt')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const d0 = trackColl.getElementsByTagName('d0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const z0 = trackColl.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const phi0 = trackColl.getElementsByTagName('phi0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const cotTheta = trackColl.getElementsByTagName('cotTheta')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      if (trackColl.getElementsByTagName('numDoF').length) {
-        var author = trackColl.getElementsByTagName('trackAuthor')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      }
+
+      const numHits = this.getNumberArrayFromHTML(collection, 'numHits');
+
       let polylineCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
-        const track = { chi2: 0.0, dof: 0.0, pos: [], dparams: [] };
-        track.dparams = [d0[i], z0[i], phi0[i], Math.tan(cotTheta[i]), 1 / pT[i]];
+        const track = { chi2: 0.0, dof: 0.0, pT: 0.0, pos: [], dparams: [] };
+        if (chi2.length>0) track.chi2 = chi2[i]
+        if (numDoF.length>0) track.dof = numDoF[i]
+        const theta = Math.tan(cotTheta[i]);
+        track.pT = pT[i];
+        const momentum =  pT[i]/Math.sin(theta) * 1000 ; // JiveXML uses GeV 
+        track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
         const pos = [];
         if (numPolyline) {
           for (let p = 0; p < numPolyline[i]; p++) {
