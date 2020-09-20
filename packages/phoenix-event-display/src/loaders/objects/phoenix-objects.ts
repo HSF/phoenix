@@ -6,6 +6,48 @@ import { RKHelper } from '../../helpers/rk-helper';
  */
 export class PhoenixObjects {
 
+  /** Pretty symbols for object params. */
+  public static readonly prettySymbols: object = {
+    'θ': 'theta',
+    'ϕ': 'phi',
+    'pT': 'pt',
+    '𝛘2': 'chi2',
+    'η': 'eta',
+    'Q': 'charge',
+    'NDOF': 'ndof',
+    'DOF': 'dof',
+    'energy': ['et', 'energy']
+  };
+
+  /**
+   * Get pretty printed parameters of an object.
+   * @param params Object parameters to be pretty printed.
+   * @returns New pretty printed parameterss.
+   */
+  public static getPrettyParams(params: object): object {
+    const newParams: object = {};
+    // Go through all the symbols
+    for (const symbol of Object.keys(this.prettySymbols)) {
+      // Check if there are multiple representations of the symbol
+      if (Array.isArray(this.prettySymbols[symbol])) {
+        // Go through each representation of the symbol and check if any exists in params
+        for (const symbolChar of this.prettySymbols[symbol]) {
+          if (params[symbolChar]) {
+            newParams[symbol] = params[symbolChar];
+            break;
+          }
+        }
+      } else {
+        // Check if param indeed exists
+        if (params[this.prettySymbols[symbol]]) {
+          // Set new param according to the symbol
+          newParams[symbol] = params[this.prettySymbols[symbol]];
+        }
+      }
+    }
+    return newParams;
+  }
+
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -158,7 +200,7 @@ export class PhoenixObjects {
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
-    mesh.userData = jetParams;
+    mesh.userData = PhoenixObjects.getPrettyParams(jetParams);
     mesh.name = 'Jet';
     // Setting uuid for selection from collections info
     jetParams.uuid = mesh.uuid;
@@ -203,8 +245,7 @@ export class PhoenixObjects {
     material.color.set('#ff0000');
     // object
     const pointsObj = new Points(geometry, material);
-    pointsObj.userData = hitsParamsClone;
-    pointsObj.userData.uuid = pointsObj.uuid;
+    pointsObj.userData = PhoenixObjects.getPrettyParams(hitsParamsClone);
     pointsObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
@@ -239,7 +280,7 @@ export class PhoenixObjects {
     }
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new Vector3(0, 0, 0));
-    cube.userData = clusterParams;
+    cube.userData = PhoenixObjects.getPrettyParams(clusterParams);
     cube.name = 'Cluster';
     // Setting uuid for selection from collections info
     clusterParams.uuid = cube.uuid;
@@ -263,7 +304,7 @@ export class PhoenixObjects {
     sphere.position.y = vertexParams.y;
     sphere.position.z = vertexParams.y;
 
-    sphere.userData = vertexParams;
+    sphere.userData = PhoenixObjects.getPrettyParams(vertexParams);
     sphere.name = 'Vertex';
     // Setting uuid for selection from collections info
     vertexParams.uuid = sphere.uuid;
