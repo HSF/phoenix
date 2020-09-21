@@ -1,4 +1,5 @@
 import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
+import { PhoenixObjects } from "./phoenix-objects";
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
@@ -65,7 +66,7 @@ export class CMSObjects {
             side: DoubleSide
         }));
 
-        boxObject.userData = muonChamberParams;
+        boxObject.userData = PhoenixObjects.getPrettyParams(muonChamberParams);
         boxObject.name = 'MuonChamber';
 
         // These are the lines along the box edges

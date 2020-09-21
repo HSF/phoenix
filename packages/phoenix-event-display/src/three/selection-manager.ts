@@ -158,14 +158,10 @@ export class SelectionManager {
 
       this.activeObject.update(intersectedObject.uuid);
 
-      const userData = intersectedObject.userData.prettyPrint
-        ? intersectedObject.userData.prettyPrint
-        : intersectedObject.userData;
-
-      for (const key of Object.keys(userData)) {
+      for (const key of Object.keys(intersectedObject.userData)) {
         this.selectedObject.attributes.push({
           attributeName: key,
-          attributeValue: userData[key]
+          attributeValue: intersectedObject.userData[key]
         });
       }
 
