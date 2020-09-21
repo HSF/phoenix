@@ -8,23 +8,17 @@ export class PhoenixObjects {
 
   /** Pretty symbols for object params. */
   public static readonly prettySymbols: object = {
-    'θ': 'theta',
-    'ϕ': 'phi',
-    'pT': 'pt',
-    '𝛘2': 'chi2',
-    'η': 'eta',
-    'q': 'charge',
-    'NDOF': 'ndof',
-    'DOF': 'dof',
-    'Energy': 'energy',
-    'ET': 'et',
-    '|p|': ['momentum', 'mom'],
-    'LinkedClusters': 'linkedclusters',
-    'LinkedTracks': 'linkedtracks',
-    'PassedHighPt': 'passedhighpt',
-    'Quality': 'quality',
-    'Type': 'type',
-    'ConeR': 'coner'
+    'θ': ['theta'],
+    'ϕ': ['phi'],
+    'pT': ['pt'],
+    '𝛘2': ['chi2'],
+    'η': ['eta'],
+    'q': ['charge'],
+    'NDOF': ['ndof'],
+    'DOF': ['dof'],
+    'Energy': ['energy'],
+    'ET': ['et'],
+    '|p|': ['momentum', 'mom']
   };
 
   /**
@@ -33,47 +27,48 @@ export class PhoenixObjects {
    * @returns New pretty printed parameterss.
    */
   public static getPrettyParams(params: { [key: string]: any }): object {
-    const newParams: object = {};
-    // Convert param keys to lowercase
-    const paramsLowerKey: object = {};
-    for (const paramKey of Object.keys(params)) {
-      paramsLowerKey[paramKey.toLowerCase()] = params[paramKey];
-    }
-    // Go through all the symbols
-    for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
-      // Check if there are multiple representations of the symbol
-      if (Array.isArray(PhoenixObjects.prettySymbols[symbol])) {
-        // Go through each representation of the symbol and check if any exists in params
+    // Create a copy of the params so we don't override the original object
+    const paramsCopy = Object.assign({}, params);
+    // Go through all the parameters
+    for (const paramKey of Object.keys(paramsCopy)) {
+      // Go through all symbols
+      symbolLoop:
+      for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
+        // Go through each representations of the symbol
         for (const symbolChar of PhoenixObjects.prettySymbols[symbol]) {
-          if (paramsLowerKey[symbolChar]) {
-            newParams[symbol] = paramsLowerKey[symbolChar];
-            break;
+          // Check if the parameter is on of the representations of the symbol
+          if (paramKey.toLowerCase() === symbolChar) {
+            // Add a parameter with pretty printed symbol
+            paramsCopy[symbol] = paramsCopy[paramKey];
+            // Delete the previous parameter (we have the symbol one now)
+            delete paramsCopy[paramKey];
+            // Move on to the next parameter by breaking the symbol checking loop
+            break symbolLoop;
           }
-        }
-      } else {
-        // Check if param indeed exists
-        if (paramsLowerKey[PhoenixObjects.prettySymbols[symbol]]) {
-          // Set new param according to the symbol
-          newParams[symbol] = paramsLowerKey[PhoenixObjects.prettySymbols[symbol]];
         }
       }
     }
 
+    // Delete 'pos' since it's too long and not needed
+    delete paramsCopy['pos'];
+
     // Pretty print the dparams if any
-    if (params?.dparams) {
+    if (paramsCopy?.dparams) {
       const prettyDParams: object = {};
 
-      prettyDParams['θ'] = params.dparams[3];
-      prettyDParams['ϕ'] = params.dparams[2];
-      prettyDParams['|p|'] = Math.abs(1 / params.dparams[4]);
-      prettyDParams['q'] = Math.sign(1 / params.dparams[4]);
-      prettyDParams['d0'] = params.dparams[0];
-      prettyDParams['z0'] = params.dparams[1];
+      prettyDParams['θ'] = paramsCopy.dparams[3];
+      prettyDParams['ϕ'] = paramsCopy.dparams[2];
+      prettyDParams['|p|'] = Math.abs(1 / paramsCopy.dparams[4]);
+      prettyDParams['q'] = Math.sign(1 / paramsCopy.dparams[4]);
+      prettyDParams['d0'] = paramsCopy.dparams[0];
+      prettyDParams['z0'] = paramsCopy.dparams[1];
 
-      return { ...newParams, ...prettyDParams };
+      delete paramsCopy.dparams;
+
+      return { ...paramsCopy, ...prettyDParams };
     }
 
-    return newParams;
+    return paramsCopy;
   }
 
   /**
