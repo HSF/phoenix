@@ -18,7 +18,13 @@ export class PhoenixObjects {
     'DOF': 'dof',
     'Energy': 'energy',
     'ET': 'et',
-    '|p|': ['momentum', 'mom']
+    '|p|': ['momentum', 'mom'],
+    'LinkedClusters': 'linkedclusters',
+    'LinkedTracks': 'linkedtracks',
+    'PassedHighPt': 'passedhighpt',
+    'Quality': 'quality',
+    'Type': 'type',
+    'ConeR': 'coner'
   };
 
   /**
@@ -26,27 +32,47 @@ export class PhoenixObjects {
    * @param params Object parameters to be pretty printed.
    * @returns New pretty printed parameterss.
    */
-  public static getPrettyParams(params: object): object {
+  public static getPrettyParams(params: { [key: string]: any }): object {
     const newParams: object = {};
+    // Convert param keys to lowercase
+    const paramsLowerKey: object = {};
+    for (const paramKey of Object.keys(params)) {
+      paramsLowerKey[paramKey.toLowerCase()] = params[paramKey];
+    }
     // Go through all the symbols
-    for (const symbol of Object.keys(this.prettySymbols)) {
+    for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
       // Check if there are multiple representations of the symbol
-      if (Array.isArray(this.prettySymbols[symbol])) {
+      if (Array.isArray(PhoenixObjects.prettySymbols[symbol])) {
         // Go through each representation of the symbol and check if any exists in params
-        for (const symbolChar of this.prettySymbols[symbol]) {
-          if (params[symbolChar]) {
-            newParams[symbol] = params[symbolChar];
+        for (const symbolChar of PhoenixObjects.prettySymbols[symbol]) {
+          if (paramsLowerKey[symbolChar]) {
+            newParams[symbol] = paramsLowerKey[symbolChar];
             break;
           }
         }
       } else {
         // Check if param indeed exists
-        if (params[this.prettySymbols[symbol]]) {
+        if (paramsLowerKey[PhoenixObjects.prettySymbols[symbol]]) {
           // Set new param according to the symbol
-          newParams[symbol] = params[this.prettySymbols[symbol]];
+          newParams[symbol] = paramsLowerKey[PhoenixObjects.prettySymbols[symbol]];
         }
       }
     }
+
+    // Pretty print the dparams if any
+    if (params?.dparams) {
+      const prettyDParams: object = {};
+
+      prettyDParams['θ'] = params.dparams[3];
+      prettyDParams['ϕ'] = params.dparams[2];
+      prettyDParams['|p|'] = Math.abs(1 / params.dparams[4]);
+      prettyDParams['q'] = Math.sign(1 / params.dparams[4]);
+      prettyDParams['d0'] = params.dparams[0];
+      prettyDParams['z0'] = params.dparams[1];
+
+      return { ...newParams, ...prettyDParams };
+    }
+
     return newParams;
   }
 
@@ -131,29 +157,9 @@ export class PhoenixObjects {
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 
-    // To make the output a bit cleaner, let's add some "prettyPrint" data
-    let prettyPrintDParams: object;
-    if (trackParams?.dparams) {
-      prettyPrintDParams = {};
-      prettyPrintDParams['θ'] = trackParams.dparams[3];
-      prettyPrintDParams['ϕ'] = trackParams.dparams[2];
-      prettyPrintDParams['|p|'] = Math.abs(1 / trackParams.dparams[4]);
-      prettyPrintDParams['q'] = Math.sign(1 / trackParams.dparams[4]);
-      prettyPrintDParams['d0'] = trackParams.dparams[0];
-      prettyPrintDParams['z0'] = trackParams.dparams[1];
-
-    }
-
     // Setting info to the tubeObject and trackObject for selection and cuts
     for (let object of [tubeObject, trackObject]) {
-      if (prettyPrintDParams) {
-        object.userData = {
-          ...prettyPrintDParams,
-          ...PhoenixObjects.getPrettyParams(trackParams)
-        };
-      } else {
-        object.userData = PhoenixObjects.getPrettyParams(trackParams);
-      }
+      object.userData = PhoenixObjects.getPrettyParams(trackParams);
       object.name = 'Track';
     }
 

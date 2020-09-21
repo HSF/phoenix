@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PhoenixObjects } from '@phoenix/event-display';
 import { EventDisplayService } from 'src/app/services/event-display.service';
 
 @Component({
@@ -29,7 +30,9 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   changeCollection(selected: any) {
     const value = selected.target.value;
-    this.showingCollection = this.eventDisplay.getCollection(value);
+    this.showingCollection = this.eventDisplay.getCollection(value).map((objectParams: any) => {
+      return { uuid: objectParams.uuid, ...PhoenixObjects.getPrettyParams(objectParams) };
+    });
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
 
