@@ -27,7 +27,7 @@ export class PhoenixObjects {
    * @returns New pretty printed parameterss.
    */
   public static getPrettyParams(params: { [key: string]: any }): object {
-    // Create a copy of the params so we don't override the original object
+    // Create a copy of the params so we don't overwrite the original object
     const paramsCopy = Object.assign({}, params);
     // Go through all the parameters
     for (const paramKey of Object.keys(paramsCopy)) {
@@ -36,7 +36,7 @@ export class PhoenixObjects {
       for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
         // Go through each representations of the symbol
         for (const symbolChar of PhoenixObjects.prettySymbols[symbol]) {
-          // Check if the parameter is on of the representations of the symbol
+          // Check if the parameter is one of the representations of the symbol
           if (paramKey.toLowerCase() === symbolChar) {
             // Add a parameter with pretty printed symbol
             paramsCopy[symbol] = paramsCopy[paramKey];

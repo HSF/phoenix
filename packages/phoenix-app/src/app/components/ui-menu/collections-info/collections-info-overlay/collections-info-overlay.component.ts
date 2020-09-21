@@ -30,9 +30,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   changeCollection(selected: any) {
     const value = selected.target.value;
-    this.showingCollection = this.eventDisplay.getCollection(value).map((objectParams: any) => {
-      return { uuid: objectParams.uuid, ...PhoenixObjects.getPrettyParams(objectParams) };
-    });
+    this.showingCollection = this.eventDisplay.getCollection(value).map(PhoenixObjects.getPrettyParams);
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
 
