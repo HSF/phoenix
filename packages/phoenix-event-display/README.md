@@ -5,14 +5,14 @@ A highly modular and API driven experiment independent event display that uses [
 To use in your application. First, install the npm package.
 
 ```sh
-npm install @phoenix/event-display
+npm install phoenix-event-display
 ```
 
 To create a simple event display.
 
 ```js
 // Import required classes
-import { EventDisplay, Configuration } from '@phoenix/event-display';
+import { EventDisplay, Configuration } from 'phoenix-event-display';
 
 // Create the event display
 const eventDisplay = new EventDisplay();

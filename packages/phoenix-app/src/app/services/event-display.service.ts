@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EventDisplay } from '@phoenix/event-display';
+import { EventDisplay } from 'phoenix-event-display';
 
 /**
  * Service for all event display related functions.

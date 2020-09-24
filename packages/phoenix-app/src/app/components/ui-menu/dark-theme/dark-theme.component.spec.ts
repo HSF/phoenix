@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DarkThemeComponent } from './dark-theme.component';
 import { AppModule } from '../../../app.module';
 import { EventDisplayService } from 'src/app/services/event-display.service';
-import { UIManager } from '@phoenix/event-display';
+import { UIManager } from 'phoenix-event-display';
 
 describe('DarkThemeComponent', () => {
   let component: DarkThemeComponent;

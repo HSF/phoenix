@@ -1,5 +1,5 @@
 {
-  "name": "@phoenix/event-display",
+  "name": "phoenix-event-display",
   "version": "1.0.0",
   "description": "API for web-based experiment independent event display.",
   "main": "dist/index",

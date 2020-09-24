@@ -1,5 +1,5 @@
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending, Clock } from "three";
+import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from "three";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";

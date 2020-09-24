@@ -19,7 +19,7 @@ before_install:
 
 install:
   - npm install
-  - npm link "@phoenix/event-display"
+  - npm link "phoenix-event-display"
 
 script:
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI

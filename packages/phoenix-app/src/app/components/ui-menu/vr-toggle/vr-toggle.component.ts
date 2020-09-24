@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
-import { VRManager } from '@phoenix/event-display';
+import { VRManager } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-vr-toggle',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PhoenixObjects } from '@phoenix/event-display';
+import { PhoenixObjects } from 'phoenix-event-display';
 import { EventDisplayService } from 'src/app/services/event-display.service';
 
 @Component({

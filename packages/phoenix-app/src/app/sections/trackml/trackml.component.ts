@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from '../../services/event-display.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { PhoenixMenuNode, Configuration, TrackmlLoader, PresetView } from '@phoenix/event-display';
+import { PhoenixMenuNode, Configuration, TrackmlLoader, PresetView } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-trackml',

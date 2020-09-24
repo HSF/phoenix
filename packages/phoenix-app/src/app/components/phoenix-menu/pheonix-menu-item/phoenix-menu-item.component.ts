@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PhoenixMenuNode } from '@phoenix/event-display';
+import { PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-phoenix-menu-item',

@@ -1,5 +1,5 @@
 {
-  "name": "@phoenix/app",
+  "name": "phoenix-app",
   "description": "Application for web-based experiment independent event display.",
   "version": "1.0.0",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
@@ -20,7 +20,6 @@
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
-  "private": true,
   "dependencies": {
     "@angular/animations": "^10.0.14",
     "@angular/cdk": "^10.1.3",
@@ -32,10 +31,10 @@
     "@angular/platform-browser": "^10.0.14",
     "@angular/platform-browser-dynamic": "^10.0.14",
     "@angular/router": "^10.0.14",
-    "@phoenix/event-display": "file:../phoenix-event-display",
     "core-js": "^3.6.5",
     "coveralls": "^3.1.0",
     "css-element-queries": "^1.2.3",
+    "phoenix-event-display": "file:../phoenix-event-display",
     "rxjs": "^6.6.2",
     "three": "^0.120.0",
     "tslib": "^2.0.1",
