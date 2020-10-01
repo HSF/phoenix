@@ -22,6 +22,17 @@ export class PhoenixObjects {
   };
 
   /**
+   * Get pretty symbol of a parameter.
+   * @param param Parameter of a physics object.
+   */
+  public static getPrettySymbol(param: string) {
+    const prettySymbol = Object.keys(PhoenixObjects.prettySymbols)
+      .find(symbol => PhoenixObjects.prettySymbols[symbol].includes(param));
+
+    return prettySymbol ? prettySymbol : param;
+  }
+
+  /**
    * Get pretty printed parameters of an object.
    * @param params Object parameters to be pretty printed.
    * @returns New pretty printed parameterss.
@@ -31,21 +42,13 @@ export class PhoenixObjects {
     const paramsCopy = Object.assign({}, params);
     // Go through all the parameters
     for (const paramKey of Object.keys(paramsCopy)) {
-      // Go through all symbols
-      symbolLoop:
-      for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
-        // Go through each representations of the symbol
-        for (const symbolChar of PhoenixObjects.prettySymbols[symbol]) {
-          // Check if the parameter is one of the representations of the symbol
-          if (paramKey.toLowerCase() === symbolChar) {
-            // Add a parameter with pretty printed symbol
-            paramsCopy[symbol] = paramsCopy[paramKey];
-            // Delete the previous parameter (we have the symbol one now)
-            delete paramsCopy[paramKey];
-            // Move on to the next parameter by breaking the symbol checking loop
-            break symbolLoop;
-          }
-        }
+      // Get the pretty printed symbol
+      const symbol = PhoenixObjects.getPrettySymbol(paramKey);
+      // If we do get a symbol
+      if (symbol !== paramKey) {
+        // Add a parameter with pretty printed symbol
+        paramsCopy[symbol] = paramsCopy[paramKey];
+        delete paramsCopy[paramKey];
       }
     }
 
