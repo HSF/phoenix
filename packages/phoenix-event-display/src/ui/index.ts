@@ -476,21 +476,15 @@ export class UIManager {
               .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID);
           }
         });
+        
+        // Add range sliders for cuts
         for (const cut of cuts) {
-          collectionNode.addConfig('slider', {
-            label: 'Min ' + cut.field,
+          collectionNode.addConfig('rangeSlider', {
+            label: cut.field, step: cut.step,
             min: cut.minValue, max: cut.maxValue,
-            allowCustomValue: true,
-            onChange: (value: number) => {
-              cut.minValue = value;
-              this.three.getSceneManager().collectionFilter(collectionName, cut);
-            }
-          }).addConfig('slider', {
-            label: 'Max ' + cut.field,
-            min: cut.minValue, max: cut.maxValue,
-            allowCustomValue: true,
-            onChange: (value: number) => {
-              cut.maxValue = value;
+            onChange: (values: any) => {
+              cut.minValue = values?.value;
+              cut.maxValue = values?.highValue;
               this.three.getSceneManager().collectionFilter(collectionName, cut);
             }
           });

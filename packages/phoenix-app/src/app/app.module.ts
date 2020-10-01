@@ -53,6 +53,7 @@ import { ConfigSliderComponent } from './components/phoenix-menu/config/config-s
 import { AnimateCameraComponent } from './components/ui-menu/animate-camera/animate-camera.component';
 import { AnimateEventComponent } from './components/ui-menu/animate-event/animate-event.component';
 import { VrToggleComponent } from './components/ui-menu/vr-toggle/vr-toggle.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -121,7 +122,8 @@ const routes: Routes = [
     MatSliderModule,
     MatSlideToggleModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    Ng5SliderModule
   ],
   entryComponents: [
     IOOptionsDialogComponent,
