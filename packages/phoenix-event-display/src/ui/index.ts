@@ -6,7 +6,7 @@ import { PresetView } from '../extras/preset-view.model';
 import { Cut } from '../extras/cut.model';
 import { SceneManager } from '../three/scene-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
-import { PhoenixObjects } from '../loaders/objects/phoenix-objects';
+import { PrettySymbols } from '../helpers/pretty-symbols';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -485,7 +485,7 @@ export class UIManager {
         // Add range sliders for cuts
         for (const cut of cuts) {
           collectionNode.addConfig('rangeSlider', {
-            label: PhoenixObjects.getPrettySymbol(cut.field), step: cut.step,
+            label: PrettySymbols.getPrettySymbol(cut.field), step: cut.step,
             min: cut.minValue, max: cut.maxValue,
             onChange: (values: any) => {
               cut.minValue = values?.value;

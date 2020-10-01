@@ -1,4 +1,3 @@
-import { PhoenixObjects } from '../loaders/objects/phoenix-objects';
 import {
   Vector2,
   Raycaster,
@@ -8,6 +7,7 @@ import {
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
+import { PrettySymbols } from '../helpers/pretty-symbols';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -159,7 +159,7 @@ export class SelectionManager {
 
       this.activeObject.update(intersectedObject.uuid);
 
-      const prettyParams = PhoenixObjects.getPrettyParams(intersectedObject.userData);
+      const prettyParams = PrettySymbols.getPrettyParams(intersectedObject.userData);
 
       for (const key of Object.keys(prettyParams)) {
         this.selectedObject.attributes.push({
