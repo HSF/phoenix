@@ -154,7 +154,7 @@ export class PhoenixObjects {
 
     // Setting info to the tubeObject and trackObject for selection and cuts
     for (let object of [tubeObject, trackObject]) {
-      object.userData = PhoenixObjects.getPrettyParams(trackParams);
+      object.userData = Object.assign({}, trackParams);
       object.name = 'Track';
     }
 
@@ -204,7 +204,7 @@ export class PhoenixObjects {
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
-    mesh.userData = PhoenixObjects.getPrettyParams(jetParams);
+    mesh.userData = Object.assign({}, jetParams);
     mesh.name = 'Jet';
     // Setting uuid for selection from collections info
     jetParams.uuid = mesh.uuid;
@@ -249,7 +249,7 @@ export class PhoenixObjects {
     material.color.set('#ff0000');
     // object
     const pointsObj = new Points(geometry, material);
-    pointsObj.userData = PhoenixObjects.getPrettyParams(hitsParamsClone);
+    pointsObj.userData = Object.assign({}, hitsParamsClone);
     pointsObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
@@ -284,7 +284,7 @@ export class PhoenixObjects {
     }
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new Vector3(0, 0, 0));
-    cube.userData = PhoenixObjects.getPrettyParams(clusterParams);
+    cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
     // Setting uuid for selection from collections info
     clusterParams.uuid = cube.uuid;
@@ -308,7 +308,7 @@ export class PhoenixObjects {
     sphere.position.y = vertexParams.y;
     sphere.position.z = vertexParams.y;
 
-    sphere.userData = PhoenixObjects.getPrettyParams(vertexParams);
+    sphere.userData = Object.assign({}, vertexParams);
     sphere.name = 'Vertex';
     // Setting uuid for selection from collections info
     vertexParams.uuid = sphere.uuid;
