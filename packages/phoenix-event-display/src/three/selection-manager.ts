@@ -2,11 +2,12 @@ import {
   Vector2,
   Raycaster,
   Camera,
-  Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper, WebGLRenderer
+  Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
+import { PrettySymbols } from '../helpers/pretty-symbols';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -158,10 +159,12 @@ export class SelectionManager {
 
       this.activeObject.update(intersectedObject.uuid);
 
-      for (const key of Object.keys(intersectedObject.userData)) {
+      const prettyParams = PrettySymbols.getPrettyParams(intersectedObject.userData);
+
+      for (const key of Object.keys(prettyParams)) {
         this.selectedObject.attributes.push({
           attributeName: key,
-          attributeValue: intersectedObject.userData[key]
+          attributeValue: prettyParams[key]
         });
       }
 

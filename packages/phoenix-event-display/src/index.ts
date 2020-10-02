@@ -31,6 +31,7 @@ export * from './extras/preset-view.model';
 // Helpers
 export * from './helpers/rk-helper';
 export * from './helpers/runge-kutta';
+export * from './helpers/pretty-symbols';
 
 // Loaders
 export * from './loaders/cms-loader';

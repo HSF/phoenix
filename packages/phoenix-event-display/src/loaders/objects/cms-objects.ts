@@ -66,7 +66,7 @@ export class CMSObjects {
             side: DoubleSide
         }));
 
-        boxObject.userData = PhoenixObjects.getPrettyParams(muonChamberParams);
+        boxObject.userData = Object.assign({}, muonChamberParams);
         boxObject.name = 'MuonChamber';
 
         // These are the lines along the box edges

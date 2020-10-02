@@ -110,10 +110,13 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
   protected loadObjectTypes(eventData: any) {
+    // PI with 2 fraction digits
+    const pi = parseFloat(Math.PI.toFixed(2));
+
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
-        new Cut('chi2', 0, 50),
+        new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
         new Cut('mom', 0, 500)
       ];
@@ -125,9 +128,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Jets) {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
-        new Cut('phi', -Math.PI, Math.PI),
-        new Cut('eta', 0, 100),
-        new Cut('energy', 2000, 10000)
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -100, 100),
+        new Cut('energy', 0, 10000)
       ];
 
       const addJetsSizeOption = (typeFolder: any, typeFolderPM: PhoenixMenuNode) => {
@@ -161,9 +164,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.CaloClusters) {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
-        new Cut('phi', -Math.PI, Math.PI),
-        new Cut('eta', 0, 100),
-        new Cut('energy', 2000, 10000)
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -100, 100),
+        new Cut('energy', 0, 10000)
       ];
 
       this.addObjectType(eventData.CaloClusters, PhoenixObjects.getCluster, 'CaloClusters', cuts);

@@ -261,6 +261,39 @@ select {
   }
 }
 
+.range-slider.ng5-slider {
+
+  .ng5-slider-bar {
+    background: var(--phoenix-text-color-secondary);
+    height: 0.2rem;
+  }
+
+  .ng5-slider-selection {
+    background: var(--phoenix-accent);
+  }
+
+  .ng5-slider-pointer {
+    width: 1rem;
+    height: 1rem;
+    top: -0.45rem;
+    bottom: 0;
+    background-color: var(--phoenix-accent);
+
+    &:after {
+      display: none;
+    }
+  }
+
+  .ng5-slider-bubble {
+    color: var(--phoenix-text-color);
+    font-size: 0.8rem;
+
+    &.ng5-slider-limit {
+      color: var(--phoenix-text-color-secondary);
+    }
+  }
+}
+
 /* Additional fonts */
 @font-face {
   font-family: "Circular";

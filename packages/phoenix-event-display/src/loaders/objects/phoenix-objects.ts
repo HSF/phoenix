@@ -6,71 +6,6 @@ import { RKHelper } from '../../helpers/rk-helper';
  */
 export class PhoenixObjects {
 
-  /** Pretty symbols for object params. */
-  public static readonly prettySymbols: object = {
-    'θ': ['theta'],
-    'ϕ': ['phi'],
-    'pT': ['pt'],
-    '𝛘2': ['chi2'],
-    'η': ['eta'],
-    'q': ['charge'],
-    'NDOF': ['ndof'],
-    'DOF': ['dof'],
-    'Energy': ['energy'],
-    'ET': ['et'],
-    '|p|': ['momentum', 'mom']
-  };
-
-  /**
-   * Get pretty printed parameters of an object.
-   * @param params Object parameters to be pretty printed.
-   * @returns New pretty printed parameterss.
-   */
-  public static getPrettyParams(params: { [key: string]: any }): object {
-    // Create a copy of the params so we don't overwrite the original object
-    const paramsCopy = Object.assign({}, params);
-    // Go through all the parameters
-    for (const paramKey of Object.keys(paramsCopy)) {
-      // Go through all symbols
-      symbolLoop:
-      for (const symbol of Object.keys(PhoenixObjects.prettySymbols)) {
-        // Go through each representations of the symbol
-        for (const symbolChar of PhoenixObjects.prettySymbols[symbol]) {
-          // Check if the parameter is one of the representations of the symbol
-          if (paramKey.toLowerCase() === symbolChar) {
-            // Add a parameter with pretty printed symbol
-            paramsCopy[symbol] = paramsCopy[paramKey];
-            // Delete the previous parameter (we have the symbol one now)
-            delete paramsCopy[paramKey];
-            // Move on to the next parameter by breaking the symbol checking loop
-            break symbolLoop;
-          }
-        }
-      }
-    }
-
-    // Delete 'pos' since it's too long and not needed
-    delete paramsCopy['pos'];
-
-    // Pretty print the dparams if any
-    if (paramsCopy?.dparams) {
-      const prettyDParams: object = {};
-
-      prettyDParams['θ'] = paramsCopy.dparams[3];
-      prettyDParams['ϕ'] = paramsCopy.dparams[2];
-      prettyDParams['|p|'] = Math.abs(1 / paramsCopy.dparams[4]);
-      prettyDParams['q'] = Math.sign(1 / paramsCopy.dparams[4]);
-      prettyDParams['d0'] = paramsCopy.dparams[0];
-      prettyDParams['z0'] = paramsCopy.dparams[1];
-
-      delete paramsCopy.dparams;
-
-      return { ...paramsCopy, ...prettyDParams };
-    }
-
-    return paramsCopy;
-  }
-
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -154,7 +89,7 @@ export class PhoenixObjects {
 
     // Setting info to the tubeObject and trackObject for selection and cuts
     for (let object of [tubeObject, trackObject]) {
-      object.userData = PhoenixObjects.getPrettyParams(trackParams);
+      object.userData = Object.assign({}, trackParams);
       object.name = 'Track';
     }
 
@@ -204,7 +139,7 @@ export class PhoenixObjects {
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
     mesh.quaternion.copy(quaternion);
-    mesh.userData = PhoenixObjects.getPrettyParams(jetParams);
+    mesh.userData = Object.assign({}, jetParams);
     mesh.name = 'Jet';
     // Setting uuid for selection from collections info
     jetParams.uuid = mesh.uuid;
@@ -249,7 +184,7 @@ export class PhoenixObjects {
     material.color.set('#ff0000');
     // object
     const pointsObj = new Points(geometry, material);
-    pointsObj.userData = PhoenixObjects.getPrettyParams(hitsParamsClone);
+    pointsObj.userData = Object.assign({}, hitsParamsClone);
     pointsObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
@@ -284,7 +219,7 @@ export class PhoenixObjects {
     }
     cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new Vector3(0, 0, 0));
-    cube.userData = PhoenixObjects.getPrettyParams(clusterParams);
+    cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
     // Setting uuid for selection from collections info
     clusterParams.uuid = cube.uuid;
@@ -308,7 +243,7 @@ export class PhoenixObjects {
     sphere.position.y = vertexParams.y;
     sphere.position.z = vertexParams.y;
 
-    sphere.userData = PhoenixObjects.getPrettyParams(vertexParams);
+    sphere.userData = Object.assign({}, vertexParams);
     sphere.name = 'Vertex';
     // Setting uuid for selection from collections info
     vertexParams.uuid = sphere.uuid;
