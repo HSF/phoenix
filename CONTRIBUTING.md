@@ -10,17 +10,16 @@ Include a brief description and context of the issue, and optionally choose labe
 to give extra information to other developers.
 
 ## 2. Start coding
-Once you are decided to start contributing on the repository, 
-you may want to take a look at our developer guide that can be found [here](./src/assets/docs/developers.md).
 
+Once you are decided to start contributing on the repository, 
+you may want to take a look at our developer guide that can be found [here](./guides/developers.md).
 
 ## 3. Pull Requests
 
-When creating a `Pull Request` please include a short description explaining what has changed and why. 
+When creating a `Pull Request` please include a short description explaining what has changed and why. If applicable, screenshots or GIF capture about the fix or improvement will really help.
 This will help others reviewing your code so you may also reference any issues that you were working on fixing.
 
 Finally choose a meaningful title so your pull request can be easily identified.
-
 
 ## Thanks!
 
