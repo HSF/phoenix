@@ -1,5 +1,8 @@
 # Phoenix application
 
+[![Version](https://img.shields.io/npm/v/phoenix-app.svg)](https://www.npmjs.com/package/phoenix-app)
+[![Downloads](https://img.shields.io/npm/dt/phoenix-app.svg)](https://www.npmjs.com/package/phoenix-app)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
 To install the package for reusing components.

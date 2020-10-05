@@ -1,5 +1,9 @@
 # Phoenix event display
 
+[![Version](https://img.shields.io/npm/v/phoenix-event-display.svg)](https://www.npmjs.com/package/phoenix-event-display)
+[![Downloads](https://img.shields.io/npm/dt/phoenix-event-display.svg)](https://www.npmjs.com/package/phoenix-event-display)
+[![Documentation Coverage](https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
+
 A highly modular and API driven experiment independent event display that uses [three.js](https://threejs.org) for processing and presenting detector geometry and event data.
 
 To use in your application. First, install the npm package.
