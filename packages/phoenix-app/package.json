@@ -1,7 +1,7 @@
 {
   "name": "phoenix-app",
   "description": "Application for web-based experiment independent event display.",
-  "version": "1.0.2-alpha.4",
+  "version": "1.0.2",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
   "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-app#phoenix-application",
@@ -36,7 +36,7 @@
     "coveralls": "^3.1.0",
     "css-element-queries": "^1.2.3",
     "ng5-slider": "^1.2.4",
-    "phoenix-event-display": "^1.0.2-alpha.4",
+    "phoenix-event-display": "^1.0.2",
     "rxjs": "^6.6.2",
     "three": "^0.120.0",
     "tslib": "^2.0.1",

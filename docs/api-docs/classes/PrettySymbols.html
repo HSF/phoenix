@@ -1,0 +1,490 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>PrettySymbols</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/helpers/pretty-symbols.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Helper for pretty symbols functions.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#symbols">symbols</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getPrettyParams">getPrettyParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getPrettySymbol">getPrettySymbol</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="symbols"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                                <span class="modifier">Readonly</span>
+                            symbols</b>
+                            <a href="#symbols"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+    &#x27;θ&#x27;: [&#x27;theta&#x27;],
+    &#x27;ϕ&#x27;: [&#x27;phi&#x27;],
+    &#x27;pT&#x27;: [&#x27;pt&#x27;],
+    &#x27;𝛘2&#x27;: [&#x27;chi2&#x27;],
+    &#x27;η&#x27;: [&#x27;eta&#x27;],
+    &#x27;q&#x27;: [&#x27;charge&#x27;],
+    &#x27;NDOF&#x27;: [&#x27;ndof&#x27;],
+    &#x27;DOF&#x27;: [&#x27;dof&#x27;],
+    &#x27;Energy&#x27;: [&#x27;energy&#x27;],
+    &#x27;ET&#x27;: [&#x27;et&#x27;],
+    &#x27;|p|&#x27;: [&#x27;momentum&#x27;, &#x27;mom&#x27;]
+  }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/helpers/pretty-symbols.ts:8</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Pretty symbols for object params. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPrettyParams"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getPrettyParams
+                        </b>
+                        <a href="#getPrettyParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPrettyParams(params: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/helpers/pretty-symbols.ts:38</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get pretty printed parameters of an object.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object parameters to be pretty printed.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>New pretty printed parameterss.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPrettySymbol"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getPrettySymbol
+                        </b>
+                        <a href="#getPrettySymbol"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPrettySymbol(param: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/helpers/pretty-symbols.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get pretty symbol of a parameter.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>param</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameter of a physics object.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class PrettySymbols {
+
+  /** Pretty symbols for object params. */
+  public static readonly symbols: object &#x3D; {
+    &#x27;θ&#x27;: [&#x27;theta&#x27;],
+    &#x27;ϕ&#x27;: [&#x27;phi&#x27;],
+    &#x27;pT&#x27;: [&#x27;pt&#x27;],
+    &#x27;𝛘2&#x27;: [&#x27;chi2&#x27;],
+    &#x27;η&#x27;: [&#x27;eta&#x27;],
+    &#x27;q&#x27;: [&#x27;charge&#x27;],
+    &#x27;NDOF&#x27;: [&#x27;ndof&#x27;],
+    &#x27;DOF&#x27;: [&#x27;dof&#x27;],
+    &#x27;Energy&#x27;: [&#x27;energy&#x27;],
+    &#x27;ET&#x27;: [&#x27;et&#x27;],
+    &#x27;|p|&#x27;: [&#x27;momentum&#x27;, &#x27;mom&#x27;]
+  };
+
+  /**
+   * Get pretty symbol of a parameter.
+   * @param param Parameter of a physics object.
+   */
+  public static getPrettySymbol(param: string) {
+    const prettySymbol &#x3D; Object.keys(PrettySymbols.symbols)
+      .find(symbol &#x3D;&gt; PrettySymbols.symbols[symbol].includes(param));
+
+    return prettySymbol ? prettySymbol : param;
+  }
+
+  /**
+   * Get pretty printed parameters of an object.
+   * @param params Object parameters to be pretty printed.
+   * @returns New pretty printed parameterss.
+   */
+  public static getPrettyParams(params: { [key: string]: any }): object {
+    // Create a copy of the params so we don&#x27;t overwrite the original object
+    const paramsCopy &#x3D; Object.assign({}, params);
+    // Go through all the parameters
+    for (const paramKey of Object.keys(paramsCopy)) {
+      // Get the pretty printed symbol
+      const symbol &#x3D; PrettySymbols.getPrettySymbol(paramKey);
+      // If we do get a symbol
+      if (symbol !&#x3D;&#x3D; paramKey) {
+        // Add a parameter with pretty printed symbol
+        paramsCopy[symbol] &#x3D; paramsCopy[paramKey];
+        delete paramsCopy[paramKey];
+      }
+    }
+
+    // Delete &#x27;pos&#x27; since it&#x27;s too long and not needed
+    delete paramsCopy[&#x27;pos&#x27;];
+
+    // Pretty print the dparams if any
+    if (paramsCopy?.dparams) {
+      const prettyDParams: object &#x3D; {};
+
+      prettyDParams[&#x27;θ&#x27;] &#x3D; paramsCopy.dparams[3];
+      prettyDParams[&#x27;ϕ&#x27;] &#x3D; paramsCopy.dparams[2];
+      prettyDParams[&#x27;|p|&#x27;] &#x3D; Math.abs(1 / paramsCopy.dparams[4]);
+      prettyDParams[&#x27;q&#x27;] &#x3D; Math.sign(1 / paramsCopy.dparams[4]);
+      prettyDParams[&#x27;d0&#x27;] &#x3D; paramsCopy.dparams[0];
+      prettyDParams[&#x27;z0&#x27;] &#x3D; paramsCopy.dparams[1];
+
+      delete paramsCopy.dparams;
+
+      return { ...paramsCopy, ...prettyDParams };
+    }
+
+    return paramsCopy;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'PrettySymbols.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

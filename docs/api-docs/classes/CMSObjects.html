@@ -134,8 +134,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/loaders/objects/cms-objects.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/loaders/objects/cms-objects.ts:14</a></div>
                 </td>
             </tr>
 
@@ -202,6 +202,7 @@ and get it as a geometry.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from &quot;three&quot;;
+import { PhoenixObjects } from &quot;./phoenix-objects&quot;;
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
@@ -268,7 +269,7 @@ export class CMSObjects {
             side: DoubleSide
         }));
 
-        boxObject.userData &#x3D; muonChamberParams;
+        boxObject.userData &#x3D; Object.assign({}, muonChamberParams);
         boxObject.name &#x3D; &#x27;MuonChamber&#x27;;
 
         // These are the lines along the box edges

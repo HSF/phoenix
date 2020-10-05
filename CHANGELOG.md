@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.0.2 (2020-10-05)</small>
+
+* Complete deployment set up ([399ac77](https://github.com/9inpachi/phoenix/commit/399ac77))
+* Fix lerna prerelease command and add release grad command ([3e671ae](https://github.com/9inpachi/phoenix/commit/3e671ae))
+
+
+
+
+
+
 ## 1.0.1 (2020-10-05)
 
 

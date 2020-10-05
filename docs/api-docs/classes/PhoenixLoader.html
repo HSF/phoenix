@@ -306,8 +306,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="229"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:229</a></div>
                 </td>
             </tr>
 
@@ -433,8 +433,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="197"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:197</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:200</a></div>
                 </td>
             </tr>
 
@@ -831,8 +831,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="306"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:306</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:309</a></div>
                 </td>
             </tr>
 
@@ -960,8 +960,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:268</a></div>
                 </td>
             </tr>
 
@@ -1040,8 +1040,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="248"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:248</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="251"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:251</a></div>
                 </td>
             </tr>
 
@@ -1298,10 +1298,13 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventData Representing ONE event (expressed in the Phoenix format).
    */
   protected loadObjectTypes(eventData: any) {
+    // PI with 2 fraction digits
+    const pi &#x3D; parseFloat(Math.PI.toFixed(2));
+
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] &#x3D; [
-        new Cut(&#x27;chi2&#x27;, 0, 50),
+        new Cut(&#x27;chi2&#x27;, 0, 100),
         new Cut(&#x27;dof&#x27;, 0, 100),
         new Cut(&#x27;mom&#x27;, 0, 500)
       ];
@@ -1313,9 +1316,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Jets) {
       // (Optional) Cuts can be added to any physics object.
       const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -Math.PI, Math.PI),
-        new Cut(&#x27;eta&#x27;, 0, 100),
-        new Cut(&#x27;energy&#x27;, 2000, 10000)
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -100, 100),
+        new Cut(&#x27;energy&#x27;, 0, 10000)
       ];
 
       const addJetsSizeOption &#x3D; (typeFolder: any, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; {
@@ -1349,9 +1352,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.CaloClusters) {
       // (Optional) Cuts can be added to any physics object.
       const cuts &#x3D; [
-        new Cut(&#x27;phi&#x27;, -Math.PI, Math.PI),
-        new Cut(&#x27;eta&#x27;, 0, 100),
-        new Cut(&#x27;energy&#x27;, 2000, 10000)
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -100, 100),
+        new Cut(&#x27;energy&#x27;, 0, 10000)
       ];
 
       this.addObjectType(eventData.CaloClusters, PhoenixObjects.getCluster, &#x27;CaloClusters&#x27;, cuts);
