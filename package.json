@@ -3,8 +3,12 @@
   "private": true,
   "scripts": {
     "start": "lerna run start --parallel",
-    "publish": "lerna publish --git-remote upstream --conventional-commits --create-release github",
-    "install:dependencies": "lerna bootstrap"
+    "release": "lerna publish --git-remote upstream --create-release github",
+    "release:major": "lerna publish major --git-remote upstream --create-release github",
+    "release:minor": "lerna publish minor --git-remote upstream --create-release github", 
+    "prerelease": "lerna publish --conventional-prerelease",
+    "install:dependencies": "lerna bootstrap",
+    "version": "git add ."
   },
   "devDependencies": {
     "lerna": "^3.22.1"

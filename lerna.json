@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2-alpha.4",
   "packages": [
     "packages/*"
   ],
@@ -9,10 +9,13 @@
         "*.md",
         "*.txt",
         "*.obj"
-      ]
+      ],
+      "message": "Release %s",
+      "conventionalCommits": true,
+      "changelogPreset": "git-raw-commits"
     },
     "run": {
-      "parallel": ""
+      "parallel": true
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "phoenix-event-display",
-  "version": "1.0.1",
+  "version": "1.0.2-alpha.4",
   "description": "API for web-based experiment independent event display.",
   "main": "dist/index",
   "types": "dist/index",
@@ -24,7 +24,7 @@
     "build:umd": "npm run build && rollup -c rollup.conf.js",
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run docs",
+    "version": "npm run prepare && npm run docs",
     "docs": "node scripts/gen-api-docs.js"
   },
   "dependencies": {
