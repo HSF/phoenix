@@ -18,7 +18,8 @@
     "e2e": "ng e2e",
     "deploy": "mv ../../docs/api-docs ../../api-docs && ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
-    "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "prepublishOnly": "npm run deploy"
   },
   "dependencies": {
     "@angular/animations": "^10.0.14",
@@ -35,7 +36,7 @@
     "coveralls": "^3.1.0",
     "css-element-queries": "^1.2.3",
     "ng5-slider": "^1.2.4",
-    "phoenix-event-display": "file:../phoenix-event-display",
+    "phoenix-event-display": "^1.0.0",
     "rxjs": "^6.6.2",
     "three": "^0.120.0",
     "tslib": "^2.0.1",

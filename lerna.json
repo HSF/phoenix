@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "publish": {
+      "ignoreChanges": ["*.md", "*.txt", "*.obj"]
+    },
+    "run": {
+      "parallel": ""
+    }
+  }
+}
