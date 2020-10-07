@@ -1,4 +1,5 @@
 import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from 'three';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 
 /**
@@ -44,7 +45,7 @@ export class PhoenixObjects {
 
 
     // const length = 100;
-    let objectColor = 0xff0000;
+    let objectColor = EVENT_DATA_TYPE_COLORS['Tracks'].getHex();
     if (trackParams.color) {
       objectColor = parseInt(trackParams.color, 16);
     }
@@ -134,7 +135,7 @@ export class PhoenixObjects {
 
     const geometry = new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
 
-    const material = new MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
+    const material = new MeshBasicMaterial({ color: EVENT_DATA_TYPE_COLORS['Jets'], opacity: 0.3, transparent: true });
     material.opacity = 0.5;
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
@@ -180,8 +181,7 @@ export class PhoenixObjects {
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material = new PointsMaterial({ size: 10 });
-    material.color.set('#ff0000');
+    const material = new PointsMaterial({ size: 10, color: EVENT_DATA_TYPE_COLORS['Hits'] });
     // object
     const pointsObj = new Points(geometry, material);
     pointsObj.userData = Object.assign({}, hitsParamsClone);
@@ -204,7 +204,7 @@ export class PhoenixObjects {
     // geometry
     const geometry = new BoxBufferGeometry(30, 30, length);
     // material
-    const material = new MeshPhongMaterial({ color: 0xFFD166 });
+    const material = new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS['CaloClusters'] });
     // object
     const cube = new Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
@@ -236,7 +236,7 @@ export class PhoenixObjects {
     // geometry
     const geometry = new SphereBufferGeometry(3);
     // material
-    const material = new MeshPhongMaterial({ color: 0xFFD166 });
+    const material = new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS['Vertices'] });
     // object
     const sphere = new Mesh(geometry, material);
     sphere.position.x = vertexParams.x;

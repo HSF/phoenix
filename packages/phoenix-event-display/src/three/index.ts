@@ -566,4 +566,12 @@ export class ThreeManager {
     mainRenderer.setAnimationLoop(null);
     this.vrManager.endVRSession();
   }
+
+  /**
+   * Get an object from the scene by name.
+   * @param objectName Name of the object in scene.
+   */
+  public getObjectByName(objectName: string): Object3D {
+    return this.getSceneManager().getScene().getObjectByName(objectName);
+  }
 }
