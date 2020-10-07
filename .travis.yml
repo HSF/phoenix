@@ -11,17 +11,14 @@ addons:
 cache:
   directories:
     - ./packages/phoenix-app/node_modules
-
-before_install:
-  - cd ./packages/phoenix-event-display
-  - npm link
-  - cd ../phoenix-app
+    - ./packages/phoenix-event-display/node_modules
 
 install:
-  - npm install
-  - npm link "phoenix-event-display"
+  - npm install lerna --global
+  - npm run install:dependencies
 
 script:
+  - cd ./packages/phoenix-app
   - npm run test:coverage -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   # Bug with Angular 10 (https://github.com/angular/protractor/issues/5460)

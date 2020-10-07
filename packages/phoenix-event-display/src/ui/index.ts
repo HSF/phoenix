@@ -289,7 +289,7 @@ export class UIManager {
       objFolderPM.toggleState = initiallyVisible;
       objFolderPM.addConfig('color', {
         label: 'Color',
-        color,
+        color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value: any) => {
           this.three.getSceneManager().OBJGeometryColor(name, value)
         }
