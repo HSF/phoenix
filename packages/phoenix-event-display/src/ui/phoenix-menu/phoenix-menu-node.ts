@@ -2,6 +2,8 @@
  * A single node of phoenix menu item.
  */
 export class PhoenixMenuNode {
+  /** ID of the phoenix node. */
+  private nodeId: string;
   /** Name of the node. */
   name: string;
   /** Icon of the node. */
@@ -117,6 +119,63 @@ export class PhoenixMenuNode {
     this.toggleState = value;
     for (const child of this.children) {
       child.toggleSelfAndDescendants(value);
+    }
+  }
+
+  /**
+   * Get current state of the node as an object.
+   */
+  private getNodeState(): object {
+    const phoenixNodeJSON: object = {};
+
+    phoenixNodeJSON['toggleState'] = this.toggleState;
+    phoenixNodeJSON['childrenActive'] = this.childrenActive;
+    phoenixNodeJSON['configs'] = this.configs;
+    phoenixNodeJSON['children'] = [];
+
+    for (const child of this.children) {
+      phoenixNodeJSON['children'].push(child.getNodeState());
+    }
+
+    return phoenixNodeJSON;
+  }
+
+  /**
+   * Save the state of the phoenix menu node as JSON.
+   */
+  saveStateAsJSON() {
+    const blob = new Blob([JSON.stringify(this.getNodeState())], {
+      type: 'application/json'
+    });
+    const tempAnchor = document.createElement('a');
+    tempAnchor.href = URL.createObjectURL(blob);
+    tempAnchor.download = 'phoenix-menu-config.json';
+    tempAnchor.click();
+    tempAnchor.remove();
+  }
+
+  /**
+   * Load the state of the phoenix menu node from JSON.
+   */
+  loadStateFromJSON(json: string | object) {
+    let jsonObject: any;
+    if (typeof json === 'string') {
+      jsonObject = JSON.parse(json);
+    } else {
+      jsonObject = json;
+    }
+
+    this.toggleState = jsonObject['toggleState'];
+    this.childrenActive = jsonObject['childrenActive'];
+
+    for (const config of jsonObject['configs']) {
+      const nodeConfig = this.configs.find(nodeConfig => {
+        return nodeConfig.type === config['type']
+          && nodeConfig.label === config['label'];
+      });
+      for (const configProp in config) {
+        nodeConfig[configProp] = config[configProp];
+      }
     }
   }
 }
