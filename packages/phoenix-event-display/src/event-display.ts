@@ -237,7 +237,7 @@ export class EventDisplay {
   public loadGLTFGeometry(url: any, name: string,
     scale?: number, initiallyVisible: boolean = true) {
     this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
-    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
+    this.ui.addGeometry(name, undefined, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
   }
 
@@ -252,7 +252,7 @@ export class EventDisplay {
   public loadJSONGeometry(json: string | object, name: string,
     scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
     this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
-    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
+    this.ui.addGeometry(name, undefined, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 

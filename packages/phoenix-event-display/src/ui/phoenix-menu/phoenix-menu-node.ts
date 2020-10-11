@@ -178,11 +178,18 @@ export class PhoenixMenuNode {
         nodeConfig[prop] = configState[prop];
       }
 
-      // Apply configs of different config types
-      if (nodeConfig.type === 'color') {
+      // Apply configs of different config types - manual
+      if (nodeConfig.type === 'checkbox' && configState?.['isChecked']) {
+        nodeConfig.onChange?.(configState?.['isChecked']);
+      } else if (nodeConfig.type === 'color' && configState?.['color']) {
         nodeConfig.onChange?.(configState?.['color']);
-      } else if (nodeConfig.type === 'slider') {
+      } else if (nodeConfig.type === 'slider' && configState?.['value']) {
         nodeConfig.onChange?.(configState?.['value']);
+      } else if (nodeConfig.type === 'rangeSlider' && configState?.['value']) {
+        nodeConfig.onChange?.({
+          value: configState?.['value'],
+          highValue: configState?.['highValue']
+        });
       }
     }
 
@@ -215,6 +222,7 @@ export class PhoenixMenuNode {
         this.loadStateFromJSON(jsonData);
 
         inputFile.remove();
+        this.configActive = false;
       }
       reader.readAsText(configFile);
     }
