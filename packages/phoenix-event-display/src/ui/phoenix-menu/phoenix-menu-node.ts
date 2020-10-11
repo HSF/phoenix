@@ -175,22 +175,25 @@ export class PhoenixMenuNode {
       const nodeConfig = this.configs.filter(nodeConfig =>
         nodeConfig.type === configState['type'] && nodeConfig.label === configState['label']
       )[0];
-      for (const prop in configState) {
-        nodeConfig[prop] = configState[prop];
-      }
 
-      // Apply configs of different config types - manual
-      if (nodeConfig.type === 'checkbox' && configState?.['isChecked']) {
-        nodeConfig.onChange?.(configState?.['isChecked']);
-      } else if (nodeConfig.type === 'color' && configState?.['color']) {
-        nodeConfig.onChange?.(configState?.['color']);
-      } else if (nodeConfig.type === 'slider' && configState?.['value']) {
-        nodeConfig.onChange?.(configState?.['value']);
-      } else if (nodeConfig.type === 'rangeSlider' && configState?.['value']) {
-        nodeConfig.onChange?.({
-          value: configState?.['value'],
-          highValue: configState?.['highValue']
-        });
+      if (nodeConfig) {
+        for (const prop in configState) {
+          nodeConfig[prop] = configState[prop];
+        }
+
+        // Apply configs of different config types - manual
+        if (nodeConfig.type === 'checkbox' && configState?.['isChecked']) {
+          nodeConfig.onChange?.(configState?.['isChecked']);
+        } else if (nodeConfig.type === 'color' && configState?.['color']) {
+          nodeConfig.onChange?.(configState?.['color']);
+        } else if (nodeConfig.type === 'slider' && configState?.['value']) {
+          nodeConfig.onChange?.(configState?.['value']);
+        } else if (nodeConfig.type === 'rangeSlider' && configState?.['value']) {
+          nodeConfig.onChange?.({
+            value: configState?.['value'],
+            highValue: configState?.['highValue']
+          });
+        }
       }
     }
 
@@ -198,6 +201,7 @@ export class PhoenixMenuNode {
       const nodeChild = this.children.filter(nodeChild =>
         nodeChild.name === childState.name && nodeChild.nodeLevel === childState.nodeLevel
       )[0];
+
       if (nodeChild) {
         nodeChild.loadStateFromJSON(childState);
       }
