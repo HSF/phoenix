@@ -2,8 +2,6 @@
  * A single node of phoenix menu item.
  */
 export class PhoenixMenuNode {
-  /** ID of the phoenix node. */
-  private nodeId: string;
   /** Name of the node. */
   name: string;
   /** Icon of the node. */
@@ -128,6 +126,8 @@ export class PhoenixMenuNode {
   private getNodeState(): object {
     const phoenixNodeJSON: object = {};
 
+    phoenixNodeJSON['name'] = this.name;
+    phoenixNodeJSON['nodeLevel'] = this.nodeLevel;
     phoenixNodeJSON['toggleState'] = this.toggleState;
     phoenixNodeJSON['childrenActive'] = this.childrenActive;
     phoenixNodeJSON['configs'] = this.configs;
@@ -156,8 +156,9 @@ export class PhoenixMenuNode {
 
   /**
    * Load the state of the phoenix menu node from JSON.
+   * @param json JSON containing the phoenix menu node state.
    */
-  loadStateFromJSON(json: string | object) {
+  private loadStateFromJSON(json: string | object) {
     let jsonObject: any;
     if (typeof json === 'string') {
       jsonObject = JSON.parse(json);
@@ -165,17 +166,58 @@ export class PhoenixMenuNode {
       jsonObject = json;
     }
 
-    this.toggleState = jsonObject['toggleState'];
     this.childrenActive = jsonObject['childrenActive'];
+    this.toggleState = jsonObject['toggleState'];
+    this.onToggle?.(this.toggleState);
 
-    for (const config of jsonObject['configs']) {
-      const nodeConfig = this.configs.find(nodeConfig => {
-        return nodeConfig.type === config['type']
-          && nodeConfig.label === config['label'];
-      });
-      for (const configProp in config) {
-        nodeConfig[configProp] = config[configProp];
+    for (const configState of jsonObject['configs']) {
+      const nodeConfig = this.configs.filter(nodeConfig =>
+        nodeConfig.type === configState['type'] && nodeConfig.label === configState['label']
+      )[0];
+      for (const prop in configState) {
+        nodeConfig[prop] = configState[prop];
+      }
+
+      // Apply configs of different config types
+      if (nodeConfig.type === 'color') {
+        nodeConfig.onChange?.(configState?.['color']);
+      } else if (nodeConfig.type === 'slider') {
+        nodeConfig.onChange?.(configState?.['value']);
       }
     }
+
+    for (const childState of jsonObject['children']) {
+      const nodeChild = this.children.filter(nodeChild =>
+        nodeChild.name === childState.name && nodeChild.nodeLevel === childState.nodeLevel
+      )[0];
+      if (nodeChild) {
+        nodeChild.loadStateFromJSON(childState);
+      }
+    }
+  }
+
+  /**
+   * Load data from JSON file.
+   * @param onFileRead Callback with JSON file data when the file data is read.
+   */
+  loadStateFromFile(onFileRead?: (json: object) => void) {
+    // Create a fake input file element and use that to read the file
+    const inputFile = document.createElement('input');
+    inputFile.type = 'file';
+    inputFile.accept = 'application/json';
+    inputFile.onchange = (e: any) => {
+      const configFile = e.target?.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        const jsonData = JSON.parse(e.target.result.toString());
+
+        onFileRead?.(jsonData);
+        this.loadStateFromJSON(jsonData);
+
+        inputFile.remove();
+      }
+      reader.readAsText(configFile);
+    }
+    inputFile.click();
   }
 }
