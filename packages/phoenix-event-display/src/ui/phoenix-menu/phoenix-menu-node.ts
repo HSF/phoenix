@@ -122,6 +122,7 @@ export class PhoenixMenuNode {
 
   /**
    * Get current state of the node as an object.
+   * @returns State of the node as an object.
    */
   private getNodeState(): object {
     const phoenixNodeJSON: object = {};
@@ -208,7 +209,7 @@ export class PhoenixMenuNode {
    * @param onFileRead Callback with JSON file data when the file data is read.
    */
   loadStateFromFile(onFileRead?: (json: object) => void) {
-    // Create a fake input file element and use that to read the file
+    // Create a mock input file element and use that to read the file
     const inputFile = document.createElement('input');
     inputFile.type = 'file';
     inputFile.accept = 'application/json';
@@ -223,7 +224,7 @@ export class PhoenixMenuNode {
 
         inputFile.remove();
         this.configActive = false;
-      }
+      };
       reader.readAsText(configFile);
     }
     inputFile.click();
