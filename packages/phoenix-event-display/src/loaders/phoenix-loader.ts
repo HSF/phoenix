@@ -1,11 +1,12 @@
 import { EventDataLoader } from '../event-data-loader';
-import { Group, Object3D } from 'three';
+import { Color, Group, Object3D } from 'three';
 import { UIManager } from '../ui';
 import { ThreeManager } from '../three';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../info-logger';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { EVENT_DATA_TYPE_COLORS } from '../helpers/constants';
 
 /**
  * Loader for processing and loading an event.
@@ -206,16 +207,23 @@ export class PhoenixLoader implements EventDataLoader {
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
 
-
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
-      console.log(typeName+" collection "+collectionName+" has "+objectCollection.length+" constituents.")
+      console.log(`${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`)
 
       this.addCollection(objectCollection, collectionName, getObject, objectGroup);
 
+      let collectionColor: Color;
+      if (object[collectionName][0]?.color) {
+        collectionColor = new Color(parseInt(object[collectionName][0]?.color));
+      } else {
+        // If the color is not in event data use the default one
+        collectionColor = EVENT_DATA_TYPE_COLORS[typeName];
+      }
+
       cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
-      this.ui.addCollection(typeFolder, collectionName, cuts);
-      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts);
+      this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
+      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts, collectionColor);
     }
   }
 

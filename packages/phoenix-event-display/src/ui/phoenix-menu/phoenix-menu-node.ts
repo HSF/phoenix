@@ -119,4 +119,118 @@ export class PhoenixMenuNode {
       child.toggleSelfAndDescendants(value);
     }
   }
+
+  /**
+   * Get current state of the node as an object.
+   * @returns State of the node as an object.
+   */
+  private getNodeState(): object {
+    const phoenixNodeJSON: object = {};
+
+    phoenixNodeJSON['name'] = this.name;
+    phoenixNodeJSON['nodeLevel'] = this.nodeLevel;
+    phoenixNodeJSON['toggleState'] = this.toggleState;
+    phoenixNodeJSON['childrenActive'] = this.childrenActive;
+    phoenixNodeJSON['configs'] = this.configs;
+    phoenixNodeJSON['children'] = [];
+
+    for (const child of this.children) {
+      phoenixNodeJSON['children'].push(child.getNodeState());
+    }
+
+    return phoenixNodeJSON;
+  }
+
+  /**
+   * Save the state of the phoenix menu node as JSON.
+   */
+  saveStateAsJSON() {
+    const blob = new Blob([JSON.stringify(this.getNodeState())], {
+      type: 'application/json'
+    });
+    const tempAnchor = document.createElement('a');
+    tempAnchor.href = URL.createObjectURL(blob);
+    tempAnchor.download = 'phoenix-menu-config.json';
+    tempAnchor.click();
+    tempAnchor.remove();
+  }
+
+  /**
+   * Load the state of the phoenix menu node from JSON.
+   * @param json JSON containing the phoenix menu node state.
+   */
+  private loadStateFromJSON(json: string | object) {
+    let jsonObject: any;
+    if (typeof json === 'string') {
+      jsonObject = JSON.parse(json);
+    } else {
+      jsonObject = json;
+    }
+
+    this.childrenActive = jsonObject['childrenActive'];
+    this.toggleState = jsonObject['toggleState'];
+    this.onToggle?.(this.toggleState);
+
+    for (const configState of jsonObject['configs']) {
+      const nodeConfig = this.configs.filter(nodeConfig =>
+        nodeConfig.type === configState['type'] && nodeConfig.label === configState['label']
+      )[0];
+
+      if (nodeConfig) {
+        for (const prop in configState) {
+          nodeConfig[prop] = configState[prop];
+        }
+
+        // Apply configs of different config types - manual
+        if (nodeConfig.type === 'checkbox' && configState?.['isChecked']) {
+          nodeConfig.onChange?.(configState?.['isChecked']);
+        } else if (nodeConfig.type === 'color' && configState?.['color']) {
+          nodeConfig.onChange?.(configState?.['color']);
+        } else if (nodeConfig.type === 'slider' && configState?.['value']) {
+          nodeConfig.onChange?.(configState?.['value']);
+        } else if (nodeConfig.type === 'rangeSlider' && configState?.['value']) {
+          nodeConfig.onChange?.({
+            value: configState?.['value'],
+            highValue: configState?.['highValue']
+          });
+        }
+      }
+    }
+
+    for (const childState of jsonObject['children']) {
+      const nodeChild = this.children.filter(nodeChild =>
+        nodeChild.name === childState.name && nodeChild.nodeLevel === childState.nodeLevel
+      )[0];
+
+      if (nodeChild) {
+        nodeChild.loadStateFromJSON(childState);
+      }
+    }
+  }
+
+  /**
+   * Load data from JSON file.
+   * @param onFileRead Callback with JSON file data when the file data is read.
+   */
+  loadStateFromFile(onFileRead?: (json: object) => void) {
+    // Create a mock input file element and use that to read the file
+    const inputFile = document.createElement('input');
+    inputFile.type = 'file';
+    inputFile.accept = 'application/json';
+    inputFile.onchange = (e: any) => {
+      const configFile = e.target?.files[0];
+      const reader = new FileReader();
+      reader.onload = e => {
+        const jsonData = JSON.parse(e.target.result.toString());
+
+        onFileRead?.(jsonData);
+        this.loadStateFromJSON(jsonData);
+
+        inputFile.remove();
+        this.configActive = false;
+      };
+      reader.readAsText(configFile);
+    }
+    inputFile.click();
+  }
 }

@@ -53,8 +53,11 @@
               <input *ngSwitchCase="'color'" type="color" [value]="config.color"
                 (input)="config.onChange($event.target.value); config.color = $event.target.value" />
 
-              <ng5-slider *ngSwitchCase="'rangeSlider'" class="range-slider" [value]="config.min"
-                [highValue]="config.max" (userChange)="config.onChange($event)" [options]="{
+              <ng5-slider *ngSwitchCase="'rangeSlider'" class="range-slider"
+                [value]="config.value ? config.value : config.min"
+                [highValue]="config.highValue ? config.highValue : config.max"
+                (userChange)="config.onChange($event); config.value = $event.value; config.highValue = $event.highValue"
+                [options]="{
                   floor: config.min,
                   ceil: config.max,
                   step: config.step,

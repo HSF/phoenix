@@ -64,6 +64,19 @@ export class Configuration {
    */
   public setPhoenixMenuRoot(phoenixMenuNode: PhoenixMenuNode) {
     this.phoenixMenuRoot = phoenixMenuNode;
+
+    // Add save and load config buttons to the root node
+    this.phoenixMenuRoot.addConfig('button', {
+      label: 'Save state',
+      onClick: () => {
+        this.phoenixMenuRoot.saveStateAsJSON();
+      }
+    }).addConfig('button', {
+      label: 'Load state',
+      onClick: () => {
+        this.phoenixMenuRoot.loadStateFromFile();
+      }
+    });
   }
 
   /**

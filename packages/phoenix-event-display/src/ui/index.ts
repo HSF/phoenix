@@ -7,6 +7,7 @@ import { Cut } from '../extras/cut.model';
 import { SceneManager } from '../three/scene-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import { PrettySymbols } from '../helpers/pretty-symbols';
+import { Color } from 'three';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -238,10 +239,10 @@ export class UIManager {
   /**
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
-   * @param colour Color of the geometry.
+   * @param color Color of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public addGeometry(name: string, colour: any, initiallyVisible: boolean = true) {
+  public addGeometry(name: string, color: any, initiallyVisible: boolean = true) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
@@ -249,7 +250,7 @@ export class UIManager {
     if (this.hasDatGUIMenu) {
       // A new folder for the object is added to the 'Geometry' folder
       this.guiParameters[name] = {
-        show: initiallyVisible, color: colour, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
+        show: initiallyVisible, color, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
       };
       const objFolder = this.geomFolder.addFolder(name);
       // A color picker is added to the object's folder
@@ -288,6 +289,7 @@ export class UIManager {
       objFolderPM.toggleState = initiallyVisible;
       objFolderPM.addConfig('color', {
         label: 'Color',
+        color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value: any) => {
           this.three.getSceneManager().OBJGeometryColor(name, value)
         }
@@ -412,7 +414,8 @@ export class UIManager {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
-  public addCollection(typeFolder: any, collectionName: string, cuts?: Cut[]) {
+  public addCollection(typeFolder: any, collectionName: string,
+    cuts?: Cut[], collectionColor?: Color) {
     if (typeFolder && this.hasDatGUIMenu) {
       // A new folder for the collection is added to the 'Event Data' folder
       this.guiParameters[collectionName] = {
@@ -428,6 +431,7 @@ export class UIManager {
       // A color picker is added to the collection's folder
       const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
       colorMenu.onChange((value) => this.three.getSceneManager().collectionColor(collectionName, value));
+      colorMenu.setValue(collectionColor?.getHex());
       // Cuts menu
       if (cuts) {
         const cutsFolder = collFolder.addFolder('Cuts');
@@ -451,8 +455,10 @@ export class UIManager {
    * @param typeFolder Phoenix menu node of an event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor Default color of the collection.
    */
-  public addCollectionPM(typeFolderPM: PhoenixMenuNode, collectionName: string, cuts?: Cut[]) {
+  public addCollectionPM(typeFolderPM: PhoenixMenuNode, collectionName: string,
+    cuts?: Cut[], collectionColor?: Color) {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
       const collectionNode = typeFolderPM.addChild(collectionName, (value: boolean) => {
@@ -462,6 +468,7 @@ export class UIManager {
 
       collectionNode.addConfig('color', {
         label: 'Color',
+        color: collectionColor ? `#${collectionColor?.getHexString()}` : undefined,
         onChange: (value: any) => {
           this.three.getSceneManager().collectionColor(collectionName, value)
         }
