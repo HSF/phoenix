@@ -2,11 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "start": "lerna run start --parallel",
+    "start": "lerna run start",
     "release": "lerna publish --git-remote upstream --create-release github",
     "release:graduate": "lerna publish --git-remote upstream --create-release github --conventional-graduate",
     "release:major": "lerna publish major --git-remote upstream --create-release github",
-    "release:minor": "lerna publish minor --git-remote upstream --create-release github", 
+    "release:minor": "lerna publish minor --git-remote upstream --create-release github",
     "release:pre": "lerna publish --conventional-prerelease",
     "install:dependencies": "lerna bootstrap",
     "version": "git add ."

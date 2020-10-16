@@ -9,6 +9,8 @@ import { WebGLRenderer, Group, Camera, Vector3, PerspectiveCamera } from "three"
 export class VRManager {
   /** Session type to use for VR. */
   static readonly SESSION_TYPE: string = 'immersive-vr';
+  /** Whether the VR is currently active or not. */
+  private vrActive: boolean = false;
   /** Renderer to set the VR session for. */
   private renderer: WebGLRenderer;
   /** Currently active VR session. */
@@ -47,6 +49,7 @@ export class VRManager {
    * @param session The VR session.
    */
   private onVRSessionStarted = (session: any) => {
+    this.vrActive = true;
     session.addEventListener('end', this.onVRSessionEnded);
     this.renderer.xr.setSession(session);
     this.currentVRSession = session;
@@ -56,6 +59,7 @@ export class VRManager {
    * Callback when the VR session ends.
    */
   private onVRSessionEnded = () => {
+    this.vrActive = false;
     this.currentVRSession?.removeEventListener('end', this.onVRSessionEnded);
     this.currentVRSession = null;
     this.onSessionEnded?.();
@@ -66,6 +70,14 @@ export class VRManager {
    */
   public endVRSession() {
     this.currentVRSession?.end();
+  }
+
+  /**
+   * Is the VR currently active or not.
+   * @returns A boolean for whether the VR is active or not.
+   */
+  public isVRActive(): boolean {
+    return this.vrActive;
   }
 
   /**
@@ -81,7 +93,6 @@ export class VRManager {
     if (camera) {
       this.vrCamera = new Camera().copy(camera);
       this.vrCamera.name = 'VR_CAMERA';
-      (this.vrCamera as PerspectiveCamera).far = 1000000;
 
       this.cameraGroup.position.copy(this.vrCamera.position);
       this.cameraGroup.add(this.vrCamera);

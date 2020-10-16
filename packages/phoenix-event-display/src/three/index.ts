@@ -118,9 +118,19 @@ export class ThreeManager {
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager);
-    this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
-    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+    if (!this.vrManager.isVRActive()) {
+      this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
+      this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
+      this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+    } else {
+      // If VR is active don't use EffectComposer
+      this.rendererManager.getMainRenderer().render(
+        this.sceneManager.getScene(),
+        this.controlsManager.getMainCamera()
+      );
+      // The light directs towards origin
+      this.sceneManager.updateLights(this.vrManager.getVRCamera());
+    }
   }
 
   /**
