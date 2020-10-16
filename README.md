@@ -25,8 +25,30 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 ## Projects
 
-* [Phoenix event display API](./packages/phoenix-event-display/)
-* [Phoenix application (Angular)](./packages/phoenix-app/)
+* [Phoenix event display API - `phoenix-event-display`](./packages/phoenix-event-display/)
+* [Phoenix application (Angular) - `phoenix-app`](./packages/phoenix-app/)
+
+## Development
+
+For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and lerna.
+
+Once you have Node.js and npm installed (npm comes with Node.js), install lerna.
+
+```sh
+npm install --global lerna
+```
+
+Then run the following set of commands.
+
+```sh
+# Install all the required dependencies for both phoenix-event-display and phoenix-app and symlink the packages
+npm run install:dependencies
+
+# Run both packages in development (watch) mode
+npm run start
+```
+
+Now both the `phoenix-event-display` and `phoenix-app` will start in development / watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to `http://localhost:4200` on the browser.
 
 ## Documentation
 
