@@ -1,5 +1,4 @@
-import { WebGLRenderer, Scene, WebGLRendererParameters } from 'three';
-import { ControlsManager } from './controls-manager';
+import { WebGLRenderer, Scene, WebGLRendererParameters, Camera } from 'three';
 
 /**
  * Manager for managing event display's renderer related functions.
@@ -26,20 +25,17 @@ export class RendererManager {
 
   /**
    * Render the overlay.
-   * @param scene The event display scene.
-   * @param controlsManager Manager for managing controls.
+   * @param scene The event display scene to render.
+   * @param camera Camera for render.
    */
-  public render(scene: Scene, controlsManager: ControlsManager) {
+  public render(scene: Scene, camera: Camera) {
     if (this.getOverlayRenderer()) {
       if (!this.getOverlayRenderer().domElement.hidden) {
         const sceneColor = scene.background;
         scene.background = null;
 
         if (!this.isFixedOverlay()) {
-          this.getOverlayRenderer().render(
-            scene,
-            controlsManager.getOverlayCamera()
-          );
+          this.getOverlayRenderer().render(scene, camera);
         }
         scene.background = sceneColor;
       }

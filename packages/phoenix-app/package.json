@@ -12,6 +12,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:ssl": "ng serve --ssl",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
