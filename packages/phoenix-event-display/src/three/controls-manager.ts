@@ -26,7 +26,7 @@ export class ControlsManager {
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
    */
-  constructor(rendererManager: RendererManager, defaultView: number[]=[0,0,200]) {
+  constructor(rendererManager: RendererManager, defaultView: number[] = [0, 0, 200]) {
     this.controls = [];
     this.mainControls = null;
     this.overlayControls = null;
