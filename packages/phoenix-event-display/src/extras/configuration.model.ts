@@ -7,6 +7,8 @@ import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
  * Configuration for preset views and event data loader.
  */
 export class Configuration {
+  /** Default view [x,y,z] */
+  defaultView: number[];
   /** Preset views for switching event display camera. */
   presetViews: PresetView[];
   /** Event data loader responsible for processing and loading event data. */
