@@ -24,6 +24,12 @@ export class AtlasComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
+    let position: number[] = [1, 2, 3];    
+    position = [4000,4000,4000];
+    console.log(configuration.defaultView)
+    configuration.defaultView=[4000,4000,4000];    
+    console.log(configuration.defaultView)
+
     // Set the phoenix menu to be used (defined above)
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
