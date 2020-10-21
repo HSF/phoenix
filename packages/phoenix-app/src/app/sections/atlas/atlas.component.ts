@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EventDisplayService } from '../../services/event-display.service';
-import { Configuration, PresetView, PhoenixMenuNode } from 'phoenix-event-display';
+import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader } from 'phoenix-event-display';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { Configuration, PresetView, PhoenixMenuNode } from 'phoenix-event-displa
   styleUrls: ['./atlas.component.scss']
 })
 export class AtlasComponent implements OnInit {
+  loader: JiveXMLLoader;
 
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
@@ -29,11 +30,23 @@ export class AtlasComponent implements OnInit {
     // Initialize the event display
     this.eventDisplay.init(configuration);
 
-    // Load the JSON file containing event data
-    this.http.get('assets/files/event_data/atlaseventdump2.json')
+    this.loader = new JiveXMLLoader();
+
+    // // Load the JSON file containing event data
+    // this.http.get('assets/files/event_data/atlaseventdump2.json')
+    //   .subscribe((res: any) => {
+    //     // Parse the JSON to extract events and their data
+    //     this.eventDisplay.parsePhoenixEvents(res);
+    //   });
+
+    // Load the default JiveXML file
+    this.http.get('assets/files/JiveXML/JiveXML_336567_2327102923.xml', {responseType:'text'} )
       .subscribe((res: any) => {
         // Parse the JSON to extract events and their data
-        this.eventDisplay.parsePhoenixEvents(res);
+        this.loader.process(res);
+        const eventData = this.loader.getEventData();
+        this.eventDisplay.buildEventDataFromJSON(eventData);
+        
       });
 
     // Load detector geometries
