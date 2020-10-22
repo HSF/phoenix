@@ -1,10 +1,83 @@
 # User manual
 
-## Using this with your own data
+## Getting started
+### The demo grid
+When you first open the Phoenix [demo](https://hepsoftwarefoundation.org/phoenix) (see the developer [instructions](../guides/developers.md) for how to check it out and run locally) you will see a grid of Phoenix demos:
+   * **Playground** : a blank canvas where you can load 3D objects, move them around and generally experiment with Phoenix
+   * **Geometry display** : a simple demo of generating geometry procedurally/programmatically with Phoenix
+   * **ATLAS** : the ATLAS experiment demo. Here you can load `Phoenix JSON` or `JiveXML` event data files, and visualise physics objects such as Jets, Tracks, Calo cells etc within the ATLAS geometry.
+   * **LHCb** : the LHCb experiment demo shows a detailed view of the LHCb geometry, as well as tracks passing through it.
+   * **CMS** : the CMS experiment demo. Here you select from various event data files, and visualise physics objects such as Jets, Tracks, Calo cells etc within the CMS geometry. One special feature of the CMS demo is the visualisation of Muon Chambers.
+   * **TrackML** : this shows the imaginary detector created for the TrackML [challenges](https://www.kaggle.com/c/trackml-particle-identification).
+  
+### The phoenix standard UI
+Since Phoenix is configurable, it is not guaranteed that all demos/implementations will look the same, but a typical Phoenix view is shown below:
+
+![Main view of Phoenix](images/phoenix-main-view.png "Main View of Phoenix")
+
+In the centre, you see the 3D view of the experiment and event data.
+
+Around it, you have:
+1. The (configurable) experiment logo and event data
+2. The Phoenix logo (which is also a link back to the demo grid)
+3. The Phoenix menu (see below for more details)
+4. The Phoenix iconbar (see below for more details)
+5. The frames-per-second (FPS) graph
+
+In general the Phoenix menu is used to determine what geometry and event data is shown (and how), whilst the iconbar determines how you interact with the geometry and event data.
+
+### The Phoenix menu
+
+All items in the phoenix menu have the same basic layout:
+
+![Phoenix menu item](images/phoenix-menu-item.png "Phoenix menu item")
+
+From left-to-right:
+  * A slider, which determines if the item (or the sub-items beneath it) is visible
+  * The name of the item
+  * A gear icon, to open the options for this item
+  * And an arrow to open/collapse sub items.
+
+As an example of options, here is an expanded geometry view:
+
+![Phoenix geometry menu item](images/phoenix-menu-geometry.png "Phoenix geometry menu item")
+
+you can see that we can change the opacity and colour of the geometry item.
+
+Another example of options: here is an expanded event data view, showing how you can apply cuts to track collections:
+![Phoenix event menu item](images/phoenix-menu-item-event-options.png "Phoenix event menu item")
+
+Another important point: clicking on the gear icon at the very top allows you to save/load the menu configuration.
+
+![Phoenix menu options](images/phoenix-menu-main-options.png "Main options of the Phoenix menu")
+
+### The Phoenix iconbar
+
+At the bottom of the main view you have the phoenix iconbar (which can be shown/hidden by clicking on the arrow on top):
+
+![Phoenix iconbar](images/phoenix-icon-bar.png "Phoenix icon bar")
+
+From left to right, you can access the following functions:
+   * **Zoom** : the plus/minus icons allow you to zoom in and out, respectively
+   * **Pre-defined views** : clicking on this will allow you to access some preset views, and to view/hide the axes
+   * **Auto-rotate** : clicking on this will set the camera orbiting the origin
+   * **Dark/light theme** : switches between dark and light themes
+   * **Geometry clipping** : allows you to 'slice' away parts of the geometry in order to view the event data/geometry inside
+   * **Orthographic/perspective view** : allows you to switch between different view modes
+   * **Orthographic/perspective view** : allows you to switch between different view modes
+   * **Overlay** : enables/disable the view overlay (a separate overlaid view of the detector)
+   * **Object selection** : once enabled, a new window will pop up which will display information about selected objects
+   * **Info panel** : shows a window displaying relevant information from Phoenix (for example, about events opened)
+   * **Collision animation** : starts a simple animation, simulating a collision and subsequent event data appearing
+   * **Event animation** : starts a simple animation, flying through the detector
+   * **Collection information** : displays a panel showing textual information about the event data collections
+   * **Inport/export** : allows you to load new event data, or detector geometry (depending on configuration)
+
+## Using Phoenix with your own data
 
 The JSON format is pretty simple, but we're still in the process of documenting it (and it might evolve).
 
-Otherwise, here are some rough explanations:
+Caveats aside, here are some rough outlines:
 
 ### Event data
 

@@ -14,8 +14,13 @@
 
 # Phoenix
 
-The idea of this project is to have a simple way to visualise event and geometry data using nothing more than a web browser. The design should be as detector-agnostic as possible.
-Technically the 3D is implemented with [three.js](https://threejs.org) and the native data format is just plain JSON (though we have many loaders to convert from other formats).
+Phoenix is a TypeScript-based event display framework, using the popular [three.js](https://threejs.org) library for 3D. It focuses on being experiment agnostic by design, with common tools (such as custom menus, controls, propagators) and the possibility to add experiment specific extensions. 
+
+It consists of two packages: a plain TypeScript core library ([phoenix-event-display](../packages/phoenix-event-display)) and Angular example applications ([phoenix-app](../packages/phoenix-event-display)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps. 
+
+Phoenix is the official web event display of both the [HEP Software Foundation](https://hepsoftwarefoundation.org), and the [ATLAS experiment](https://atlas.cern).
+
+It was selected for Google Summer of Code support in 2019 and 2020.
 
 You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](https://hepsoftwarefoundation.org/phoenix/)
 
@@ -23,7 +28,7 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 [![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
 
-## Projects
+## Components
 
 * [Phoenix event display API - `phoenix-event-display`](./packages/phoenix-event-display/)
 * [Phoenix application (Angular) - `phoenix-app`](./packages/phoenix-app/)
