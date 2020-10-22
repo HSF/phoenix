@@ -70,10 +70,16 @@ From left to right, you can access the following functions:
    * **Info panel** : shows a window displaying relevant information from Phoenix (for example, about events opened)
    * **Collision animation** : starts a simple animation, simulating a collision and subsequent event data appearing
    * **Event animation** : starts a simple animation, flying through the detector
-   * **Collection information** : displays a panel showing textual information about the event data collections
+   * **Collection information** : displays a panel showing textual information about the event data collections (see below)
    * **Inport/export** : allows you to load new event data, or detector geometry (depending on configuration)
 
 And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the phoenix VR mode (see below)
+
+#### Collections info panel
+
+![Phoenix collections info](images/phoenix-collections-info-pane.png "Phoenix collections info")
+
+This displays some more details about the various collections. And under the **Selection** column are two icons, which allow you to either zoom the camera to the object, or to select (and highlight) it.
 
 ### Keyboard controls
 Phoenix support various keyboard controls:
