@@ -24,6 +24,12 @@ export class AtlasComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
+    let position: number[] = [1, 2, 3];
+    position = [4000, 4000, 4000];
+    console.log(configuration.defaultView)
+    configuration.defaultView = [4000, 4000, 4000];
+    console.log(configuration.defaultView)
+
     // Set the phoenix menu to be used (defined above)
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
 
@@ -40,13 +46,13 @@ export class AtlasComponent implements OnInit {
     //   });
 
     // Load the default JiveXML file
-    this.http.get('assets/files/JiveXML/JiveXML_336567_2327102923.xml', {responseType:'text'} )
+    this.http.get('assets/files/JiveXML/JiveXML_336567_2327102923.xml', { responseType: 'text' })
       .subscribe((res: any) => {
         // Parse the JSON to extract events and their data
         this.loader.process(res);
         const eventData = this.loader.getEventData();
         this.eventDisplay.buildEventDataFromJSON(eventData);
-        
+
       });
 
     // Load detector geometries

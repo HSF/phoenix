@@ -77,7 +77,7 @@ export class ThreeManager {
     // Renderer manager
     this.rendererManager = new RendererManager(configuration.elementId);
     // Controls manager
-    this.controlsManager = new ControlsManager(this.rendererManager);
+    this.controlsManager = new ControlsManager(this.rendererManager, configuration.defaultView);
     // Effects manager
     this.effectsManager = new EffectsManager(
       this.controlsManager.getMainCamera(),

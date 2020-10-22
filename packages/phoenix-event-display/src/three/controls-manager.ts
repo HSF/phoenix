@@ -26,7 +26,7 @@ export class ControlsManager {
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
    */
-  constructor(rendererManager: RendererManager) {
+  constructor(rendererManager: RendererManager, defaultView: number[] = [0, 0, 200]) {
     this.controls = [];
     this.mainControls = null;
     this.overlayControls = null;
@@ -55,7 +55,9 @@ export class ControlsManager {
       orthographicCamera,
       rendererManager.getMainRenderer().domElement
     );
-    perspectiveCamera.position.z = orthographicCamera.position.z = 200;
+    perspectiveCamera.position.z = orthographicCamera.position.z = defaultView[2];
+    perspectiveCamera.position.x = orthographicCamera.position.y = defaultView[1];
+    perspectiveCamera.position.x = orthographicCamera.position.y = defaultView[0];
     // Set active orbit controls
     this.addControls(this.perspectiveControls);
     this.addControls(this.orthographicControls);
