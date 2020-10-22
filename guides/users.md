@@ -73,6 +73,27 @@ From left to right, you can access the following functions:
    * **Collection information** : displays a panel showing textual information about the event data collections
    * **Inport/export** : allows you to load new event data, or detector geometry (depending on configuration)
 
+And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the phoenix VR mode (see below)
+
+### Keyboard controls
+Phoenix support various keyboard controls:
+   * **Shift-T** : change theme
+   * **Shift-Number** : switch to that numbered preset view
+   * **Shift-R** : rotate view
+   * **+/-** : zoom
+   * **Shift-C** : enable clipping
+   * **Shift-V** : switch between orthographic and perspective
+
+### VR mode
+Phoenix relies on the WebXR functionality of [three.js](https://threejs.org), so before trying it in Phoenix, it would be a good idea to test the VR/AR demos there.
+
+Currently it has been tested on the following devices:
+   * Android smartphones
+   * Oculus Quest (make sure you use the Oculus browser - Firefox reality is currently unusably slow)
+   * Oculus Rift S (as of writing, the best option seems to be to use google Chrome canary i.e. beta)
+
+The situation here is rapidly changing, so please let us know if this is out-of-date. Also please note that some features of Phoenix need to be disabled in VR, and it is currently very much a work in progress (help is very much welcomed!)
+
 ## Using Phoenix with your own data
 
 The JSON format is pretty simple, but we're still in the process of documenting it (and it might evolve).
