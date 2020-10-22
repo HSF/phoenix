@@ -70,8 +70,35 @@ From left to right, you can access the following functions:
    * **Info panel** : shows a window displaying relevant information from Phoenix (for example, about events opened)
    * **Collision animation** : starts a simple animation, simulating a collision and subsequent event data appearing
    * **Event animation** : starts a simple animation, flying through the detector
-   * **Collection information** : displays a panel showing textual information about the event data collections
+   * **Collection information** : displays a panel showing textual information about the event data collections (see below)
    * **Inport/export** : allows you to load new event data, or detector geometry (depending on configuration)
+
+And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the phoenix VR mode (see below)
+
+#### Collections info panel
+
+![Phoenix collections info](images/phoenix-collections-info-pane.png "Phoenix collections info")
+
+This displays some more details about the various collections. And under the **Selection** column are two icons, which allow you to either zoom the camera to the object, or to select (and highlight) it.
+
+### Keyboard controls
+Phoenix support various keyboard controls:
+   * **Shift-T** : change theme
+   * **Shift-Number** : switch to that numbered preset view
+   * **Shift-R** : rotate view
+   * **+/-** : zoom
+   * **Shift-C** : enable clipping
+   * **Shift-V** : switch between orthographic and perspective
+
+### VR mode
+Phoenix relies on the WebXR functionality of [three.js](https://threejs.org), so before trying it in Phoenix, it would be a good idea to test the VR/AR demos there.
+
+Currently it has been tested on the following devices:
+   * Android smartphones
+   * Oculus Quest (make sure you use the Oculus browser - Firefox reality is currently unusably slow)
+   * Oculus Rift S (as of writing, the best option seems to be to use google Chrome canary i.e. beta)
+
+The situation here is rapidly changing, so please let us know if this is out-of-date. Also please note that some features of Phoenix need to be disabled in VR, and it is currently very much a work in progress (help is very much welcomed!)
 
 ## Using Phoenix with your own data
 
