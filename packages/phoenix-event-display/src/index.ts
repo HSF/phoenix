@@ -43,3 +43,6 @@ export * from './loaders/script-loader';
 export * from './loaders/trackml-loader';
 export * from './loaders/objects/cms-objects';
 export * from './loaders/objects/phoenix-objects';
+
+// Managers
+export * from './managers/state-manager';

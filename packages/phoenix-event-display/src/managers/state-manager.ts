@@ -79,7 +79,7 @@ export class StateManager {
     });
     const tempAnchor = document.createElement('a');
     tempAnchor.href = URL.createObjectURL(blob);
-    tempAnchor.download = 'phoenix-menu-config.json';
+    tempAnchor.download = 'phoenix-config.json';
     tempAnchor.click();
     tempAnchor.remove();
   }
@@ -101,18 +101,7 @@ export class StateManager {
 
         onFileRead?.(jsonData);
 
-        if (jsonData['phoenixMenu']) {
-          this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);
-          this.phoenixMenuRoot.configActive = false;
-        }
-        
-        if (jsonData['eventDisplay']) {
-          this.activeCamera.position.fromArray(jsonData['eventDisplay']?.['cameraPosition']);
-          if (jsonData['eventDisplay']?.['clippingAngle']) {
-            this.eventDisplay.getUIManager().setClipping(true);
-            this.eventDisplay.getUIManager().rotateClipping(jsonData['eventDisplay']['clippingAngle']);
-          }
-        }
+        this.loadStateFromJSON(jsonData);
 
         inputFile.remove();
         inputFile = null;
@@ -120,6 +109,32 @@ export class StateManager {
       reader.readAsText(configFile);
     }
     inputFile.click();
+  }
+
+  /**
+   * Load the state from JSON.
+   * @param json JSON for state.
+   */
+  loadStateFromJSON(json: string | object) {
+    let jsonData: object;
+    if (typeof json === 'string') {
+      jsonData = JSON.parse(json);
+    } else {
+      jsonData = json;
+    }
+
+    if (jsonData['phoenixMenu']) {
+      this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);
+      this.phoenixMenuRoot.configActive = false;
+    }
+
+    if (jsonData['eventDisplay']) {
+      this.activeCamera.position.fromArray(jsonData['eventDisplay']?.['cameraPosition']);
+      if (jsonData['eventDisplay']?.['clippingAngle']) {
+        this.eventDisplay.getUIManager().setClipping(true);
+        this.eventDisplay.getUIManager().rotateClipping(jsonData['eventDisplay']['clippingAngle']);
+      }
+    }
   }
 
   /**
