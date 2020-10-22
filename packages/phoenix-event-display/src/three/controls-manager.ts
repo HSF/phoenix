@@ -39,10 +39,10 @@ export class ControlsManager {
     );
     // Arguments: left, right, top, bottom, near and far distances
     const orthographicCamera = new OrthographicCamera(
-      -window.innerWidth / 2,
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      -window.innerHeight / 2,
+      -window.innerWidth * 3,
+      window.innerWidth * 3,
+      window.innerHeight * 3,
+      -window.innerHeight * 3,
       10,
       100000
     );

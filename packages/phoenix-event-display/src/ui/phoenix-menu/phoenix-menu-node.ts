@@ -124,7 +124,7 @@ export class PhoenixMenuNode {
    * Get current state of the node as an object.
    * @returns State of the node as an object.
    */
-  private getNodeState(): object {
+  getNodeState(): object {
     const phoenixNodeJSON: object = {};
 
     phoenixNodeJSON['name'] = this.name;
@@ -142,24 +142,10 @@ export class PhoenixMenuNode {
   }
 
   /**
-   * Save the state of the phoenix menu node as JSON.
-   */
-  saveStateAsJSON() {
-    const blob = new Blob([JSON.stringify(this.getNodeState())], {
-      type: 'application/json'
-    });
-    const tempAnchor = document.createElement('a');
-    tempAnchor.href = URL.createObjectURL(blob);
-    tempAnchor.download = 'phoenix-menu-config.json';
-    tempAnchor.click();
-    tempAnchor.remove();
-  }
-
-  /**
    * Load the state of the phoenix menu node from JSON.
    * @param json JSON containing the phoenix menu node state.
    */
-  private loadStateFromJSON(json: string | object) {
+  loadStateFromJSON(json: string | object) {
     let jsonObject: any;
     if (typeof json === 'string') {
       jsonObject = JSON.parse(json);
@@ -206,31 +192,5 @@ export class PhoenixMenuNode {
         nodeChild.loadStateFromJSON(childState);
       }
     }
-  }
-
-  /**
-   * Load data from JSON file.
-   * @param onFileRead Callback with JSON file data when the file data is read.
-   */
-  loadStateFromFile(onFileRead?: (json: object) => void) {
-    // Create a mock input file element and use that to read the file
-    const inputFile = document.createElement('input');
-    inputFile.type = 'file';
-    inputFile.accept = 'application/json';
-    inputFile.onchange = (e: any) => {
-      const configFile = e.target?.files[0];
-      const reader = new FileReader();
-      reader.onload = e => {
-        const jsonData = JSON.parse(e.target.result.toString());
-
-        onFileRead?.(jsonData);
-        this.loadStateFromJSON(jsonData);
-
-        inputFile.remove();
-        this.configActive = false;
-      };
-      reader.readAsText(configFile);
-    }
-    inputFile.click();
   }
 }

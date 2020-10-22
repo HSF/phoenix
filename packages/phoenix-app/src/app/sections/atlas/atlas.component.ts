@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EventDisplayService } from '../../services/event-display.service';
-import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader } from 'phoenix-event-display';
+import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader, StateManager } from 'phoenix-event-display';
 import { ActivatedRoute } from '@angular/router';
 
 
@@ -90,6 +90,13 @@ export class AtlasComponent implements OnInit {
           this.eventDisplay.buildEventDataFromJSON(eventData);
         } else {
           this.eventDisplay.parsePhoenixEvents(res);
+        }
+
+        if (params['config']) {
+          this.http.get(params['config']).subscribe(jsonState => {
+            const stateManager = new StateManager();
+            stateManager.loadStateFromJSON(jsonState);
+          });
         }
       }, error => {
         this.eventDisplay.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
