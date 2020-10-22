@@ -20,9 +20,10 @@ import { AnimationsManager } from './animations-manager';
 import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
+import { StateManager } from '../managers/state-manager';
 
 /**
- * Service for all three.js related functions.
+ * Manager for all three.js related functions.
  */
 export class ThreeManager {
   // Managers
@@ -103,6 +104,8 @@ export class ThreeManager {
     );
     // Customizing with configuration
     this.setConfiguration(configuration);
+    // Set camera of the event display state
+    new StateManager().setCamera(this.controlsManager.getActiveCamera());
   }
 
   /**

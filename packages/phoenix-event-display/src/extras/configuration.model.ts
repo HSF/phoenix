@@ -2,6 +2,7 @@ import { PresetView } from './preset-view.model';
 import { EventDataLoader } from '../event-data-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { StateManager } from '../managers/state-manager';
 
 /**
  * Configuration for preset views and event data loader.
@@ -66,19 +67,7 @@ export class Configuration {
    */
   public setPhoenixMenuRoot(phoenixMenuNode: PhoenixMenuNode) {
     this.phoenixMenuRoot = phoenixMenuNode;
-
-    // Add save and load config buttons to the root node
-    this.phoenixMenuRoot.addConfig('button', {
-      label: 'Save state',
-      onClick: () => {
-        this.phoenixMenuRoot.saveStateAsJSON();
-      }
-    }).addConfig('button', {
-      label: 'Load state',
-      onClick: () => {
-        this.phoenixMenuRoot.loadStateFromFile();
-      }
-    });
+    new StateManager().setPhoenixMenuRoot(phoenixMenuNode);
   }
 
   /**

@@ -2,6 +2,7 @@ import { ThreeManager } from './three/index';
 import { UIManager } from './ui/index';
 import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration.model';
+import { StateManager } from './managers/state-manager';
 
 declare global {
   /**
@@ -41,6 +42,7 @@ export class EventDisplay {
     this.graphicsLibrary = new ThreeManager();
     this.infoLogger = new InfoLogger();
     this.ui = new UIManager(this.graphicsLibrary);
+    new StateManager().setEventDisplay(this);
   }
 
   /**
@@ -48,7 +50,9 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    // Configuration
     this.configuration = configuration;
+    // Init the three manager
     this.graphicsLibrary.init(configuration, this.infoLogger);
     // Showing the UI elements
     this.ui.showUI(configuration);

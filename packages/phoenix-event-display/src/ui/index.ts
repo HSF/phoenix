@@ -8,6 +8,7 @@ import { SceneManager } from '../three/scene-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import { PrettySymbols } from '../helpers/pretty-symbols';
 import { Color } from 'three';
+import { StateManager } from '../managers/state-manager';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -56,6 +57,9 @@ export class UIManager {
   private hasDatGUIMenu: boolean;
   /** Whether the phoenix menu is enabled or disabled. */
   private hasPhoenixMenu: boolean;
+  
+  /** State manager for managing the event display's state. */
+  private stateManager: StateManager;
 
   /**
    * Constructor for the UI manager.
@@ -84,6 +88,8 @@ export class UIManager {
     if (configuration.phoenixMenuRoot) {
       this.showPhoenixMenu(configuration.getPhoenixMenuRoot());
     }
+    // State manager
+    this.stateManager = new StateManager();
   }
 
   /**
@@ -511,6 +517,7 @@ export class UIManager {
    */
   public rotateClipping(angle: number) {
     this.three.rotateClipping(angle);
+    this.stateManager.setClippingAngle(angle);
   }
 
   /**
@@ -519,6 +526,7 @@ export class UIManager {
    */
   public setClipping(value: boolean) {
     this.three.setClipping(value);
+    this.stateManager.setClippingEnabled(value);
   }
 
   /**
