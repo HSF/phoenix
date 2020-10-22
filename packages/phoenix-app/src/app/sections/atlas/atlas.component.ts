@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EventDisplayService } from '../../services/event-display.service';
 import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader } from 'phoenix-event-display';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -10,11 +11,13 @@ import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader } from 'phoen
   styleUrls: ['./atlas.component.scss']
 })
 export class AtlasComponent implements OnInit {
-  loader: JiveXMLLoader;
-
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
-  constructor(private eventDisplay: EventDisplayService, private http: HttpClient) { }
+  constructor(
+    private eventDisplay: EventDisplayService,
+    private http: HttpClient,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
     // Define the configuration
@@ -36,8 +39,6 @@ export class AtlasComponent implements OnInit {
     // Initialize the event display
     this.eventDisplay.init(configuration);
 
-    this.loader = new JiveXMLLoader();
-
     // // Load the JSON file containing event data
     // this.http.get('assets/files/event_data/atlaseventdump2.json')
     //   .subscribe((res: any) => {
@@ -46,14 +47,7 @@ export class AtlasComponent implements OnInit {
     //   });
 
     // Load the default JiveXML file
-    this.http.get('assets/files/JiveXML/JiveXML_336567_2327102923.xml', { responseType: 'text' })
-      .subscribe((res: any) => {
-        // Parse the JSON to extract events and their data
-        this.loader.process(res);
-        const eventData = this.loader.getEventData();
-        this.eventDisplay.buildEventDataFromJSON(eventData);
-
-      });
+    this.loadEvent();
 
     // Load detector geometries
     this.eventDisplay
@@ -72,5 +66,36 @@ export class AtlasComponent implements OnInit {
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true, false);
     this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, true, false);
+  }
+
+  private loadEvent() {
+    this.route.queryParams.subscribe(params => {
+      let file: string, type: string;
+      if (!params['file'] || !params['type']) {
+        file = 'assets/files/JiveXML/JiveXML_336567_2327102923.xml';
+        type = 'jivexml';
+      } else {
+        file = params['file'];
+        type = params['type'].toLowerCase();
+      }
+
+      const resType: any = type === 'jivexml' ? 'text' : 'json';
+
+      this.http.get(file, { responseType: resType }).subscribe((res: any) => {
+        if (type === 'jivexml') {
+          const loader = new JiveXMLLoader();
+          // Parse the JSON to extract events and their data
+          loader.process(res);
+          const eventData = loader.getEventData();
+          this.eventDisplay.buildEventDataFromJSON(eventData);
+        } else {
+          this.eventDisplay.parsePhoenixEvents(res);
+        }
+      }, error => {
+        this.eventDisplay.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
+        console.error('Could not find the file specified in URL.', error);
+      });
+
+    });
   }
 }
