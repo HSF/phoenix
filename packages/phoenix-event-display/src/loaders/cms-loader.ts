@@ -453,8 +453,8 @@ export class CMSLoader extends PhoenixLoader {
    */
   getEventMetadata(): any[] {
     let metadata = super.getEventMetadata();
-    const eventInfo = this.data['Collections']['Event_V2'][0];
-    if (eventInfo[3]) {
+    const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
+    if (eventInfo?.[3]) {
       metadata.push({
         label: 'Orbit',
         value: eventInfo[3]
