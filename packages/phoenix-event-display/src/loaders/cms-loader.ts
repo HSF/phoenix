@@ -98,13 +98,13 @@ export class CMSLoader extends PhoenixLoader {
    * @returns Event data with Hits, Tracks, Jets and CaloClusters.
    */
   public getEventData(): any {
-    const eventInfo = this.data['Collections']['Event_V2'][0];
+    const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
 
     let eventData = {
-      runNumber: eventInfo[0],
-      eventNumber: eventInfo[1],
-      ls: eventInfo[2],
-      time: eventInfo[5],
+      runNumber: eventInfo?.[0],
+      eventNumber: eventInfo?.[1],
+      ls: eventInfo?.[2],
+      time: eventInfo?.[5],
       Hits: {},
       Tracks: {},
       Jets: {},
