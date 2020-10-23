@@ -10,9 +10,9 @@
         "*.txt",
         "*.obj"
       ],
-      "message": "Release %s",
+      "message": "release(): %s",
       "conventionalCommits": true,
-      "changelogPreset": "git-raw-commits"
+      "changelogPreset": "angular"
     },
     "run": {
       "parallel": true
