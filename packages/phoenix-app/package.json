@@ -11,8 +11,8 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "start:ssl": "ng serve --ssl",
+    "start": "ng serve --ssl --host=0.0.0.0",
+    "start:ssl": "ng serve --ssl --host=0.0.0.0",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -20,7 +20,8 @@
     "deploy": "mv ../../docs/api-docs ../../api-docs && ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "version": "npm run deploy"
+    "version": "npm run deploy",
+    "deploy:atlas": "ng build --prod --output-path ./atlas --base-href \"/hsf-phoenix/atlas/\" && cp ./docs/index.html ./docs/404.html"  
   },
   "dependencies": {
     "@angular/animations": "^10.0.14",

@@ -112,7 +112,7 @@ const routes: Routes = [
     BrowserModule,
     HttpClientModule,
     DragDropModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
