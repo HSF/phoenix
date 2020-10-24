@@ -14,12 +14,46 @@ to give extra information to other developers.
 Once you are decided to start contributing on the repository, 
 you may want to take a look at our developer guide that can be found [here](./guides/developers.md).
 
-## 3. Pull Requests
+## 3. Commit messages
+
+For commit messages, we follow a tweaked version of [angular commit convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit).
+
+Namely, every message should consist of:
+```
+<header>
+<body>
+```
+The `header` is mandatory and must conform to the `Commit Message Header` format (see below).
+
+The `body` is encouraged, and should describe in more detail what is being changed.
+
+
+#### Commit message header
+
+```
+<type>(<scope>): <short summary>
+  │       │             │
+  │       │             └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │       │
+  │       └─⫸ Commit Scope: app | event-display
+  │
+  └─⫸ Commit Type: feat | fix | docs | style | build
+```
+
+Here is an example of a documentation improvement for the `phoenix-app` package:
+
+```
+docs(app): Added some text about commit rules.
+Lets add some rules for our commit messages, 
+based on the angular commit conventions.
+```
+
+## 4. Pull Requests
 
 When creating a `Pull Request` please include a short description explaining what has changed and why. If applicable, screenshots or GIF capture about the fix or improvement will really help.
 This will help others reviewing your code so you may also reference any issues that you were working on fixing.
 
-Finally choose a meaningful title so your pull request can be easily identified.
+Finally choose a meaningful title so your pull request can be easily identified
 
 ## Thanks!
 
