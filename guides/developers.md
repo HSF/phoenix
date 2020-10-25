@@ -2,6 +2,7 @@
 
 * [Phoenix event display API](../packages/phoenix-event-display/)
 * [Phoenix application (Angular)](../packages/phoenix-app/)
+* [Contribution guidelines](../CONTRIBUTING.md)
 
 ## Application architecture
 

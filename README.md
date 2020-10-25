@@ -16,7 +16,7 @@
 
 Phoenix is a TypeScript-based event display framework, using the popular [three.js](https://threejs.org) library for 3D. It focuses on being experiment agnostic by design, with common tools (such as custom menus, controls, propagators) and the possibility to add experiment specific extensions. 
 
-It consists of two packages: a plain TypeScript core library ([phoenix-event-display](../packages/phoenix-event-display)) and Angular example applications ([phoenix-app](../packages/phoenix-event-display)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps. 
+It consists of two packages: a plain TypeScript core library ([phoenix-event-display](packages/phoenix-event-display/README.md)) and Angular example applications ([phoenix-app](packages/phoenix-app/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps. 
 
 Phoenix is the official web event display of both the [HEP Software Foundation](https://hepsoftwarefoundation.org), and the [ATLAS experiment](https://atlas.cern).
 
