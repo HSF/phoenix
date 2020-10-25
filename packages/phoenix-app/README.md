@@ -49,3 +49,9 @@ npm run start
 ```
 
 Now any changes in the [phoenix-event-display](https://www.npmjs.com/package/phoenix-event-display) package ([source](https://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display)) will build the package and the Angular app will pick up the changes made to the event display.
+
+### Deploy the application
+In order to make a version of Phoenix which can be deployed to your server, run the following command:
+```sh
+npm run deploy:web -- --base-href "/hsf-phoenix/atlas/"
+```
