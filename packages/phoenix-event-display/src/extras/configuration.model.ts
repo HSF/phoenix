@@ -20,6 +20,8 @@ export class Configuration {
   enableDatGUIMenu: boolean;
   /** ID of the wrapper element. */
   elementId: string;
+  /** Default event to load when none given in URL. */
+  defaultEventFile: { eventFile: string, eventType: string };
 
   /**
    * Constructor for the Configuration.

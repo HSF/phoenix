@@ -3,6 +3,7 @@ import { UIManager } from './ui/index';
 import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration.model';
 import { StateManager } from './managers/state-manager';
+import { JiveXMLLoader } from './loaders/jivexml-loader';
 
 declare global {
   /**
@@ -72,6 +73,11 @@ export class EventDisplay {
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
+    // Initialize event with data from URL if there is any
+    this.initEventFromURL(
+      configuration.defaultEventFile?.eventFile,
+      configuration.defaultEventFile?.eventType
+    );
   }
 
   /**
@@ -488,5 +494,54 @@ export class EventDisplay {
    */
   public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Initialize the event display with event data and configuration from URL.
+   * (Only JiveXML and JSON)
+   * @param defaultEventPath Default event path to fallback to if none in URL.
+   * @param defaultEventType Default event type to fallback to if none in URL.
+   */
+  public initEventFromURL(defaultEventPath?: string, defaultEventType?: string) {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    let file: string, type: string;
+
+    if (!urlParams.get('file') || !urlParams.get('type')) {
+      file = defaultEventPath;
+      type = defaultEventType;
+    } else {
+      file = urlParams.get('file');
+      type = urlParams.get('type').toLowerCase();
+    }
+
+    if (file && type && ('fetch' in window)) {
+      fetch(file)
+        .then(res => type === 'jivexml' ? res.text() : res.json())
+        .then((res: object | string) => {
+          if (type === 'jivexml') {
+            const loader = new JiveXMLLoader();
+            // Parse the JSON to extract events and their data
+            loader.process(res);
+            const eventData = loader.getEventData();
+            this.buildEventDataFromJSON(eventData);
+          } else {
+            this.parsePhoenixEvents(res);
+          }
+        }).catch((error) => {
+          this.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
+          console.error('Could not find the file specified in URL.', error);
+        }).finally(() => {
+          // Load config from URL after loading the event
+          if (urlParams.get('config')) {
+            fetch(urlParams.get('config'))
+              .then(res => res.json())
+              .then(jsonState => {
+                const stateManager = new StateManager();
+                stateManager.loadStateFromJSON(jsonState);
+              });
+          }
+        });
+    }
   }
 }

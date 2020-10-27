@@ -46,7 +46,8 @@ npm install --global lerna
 Then run the following set of commands.
 
 ```sh
-# Install all the required dependencies for both phoenix-event-display and phoenix-app and symlink the packages
+# Install all the required dependencies for both
+# phoenix-event-display and phoenix-app and symlink the packages
 npm run install:dependencies
 
 # Run both packages in development (watch) mode
