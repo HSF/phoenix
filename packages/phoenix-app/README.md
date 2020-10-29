@@ -49,3 +49,14 @@ npm run start
 ```
 
 Now any changes in the [phoenix-event-display](https://www.npmjs.com/package/phoenix-event-display) package ([source](https://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display)) will build the package and the Angular app will pick up the changes made to the event display.
+
+### Deploy the application
+In order to make a version of Phoenix which can be deployed to your server, from the `packages/phoenix-app` directory, run the following command:
+```sh
+npm run deploy:web
+```
+You can then copy it to your server e.g. with:
+```sh
+rsync -avz docs/ your-server.net:path/to/website
+```
+
