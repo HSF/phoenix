@@ -231,7 +231,7 @@ export class PhoenixLoader implements EventDataLoader {
         collectionColor = EVENT_DATA_TYPE_COLORS[typeName];
       }
 
-      cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
+      cuts = cuts?.filter(cut => cut.field in objectCollection[0]);
       this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
       this.ui.addCollectionPM(typeFolderPM, collectionName, cuts, collectionColor);
     }
