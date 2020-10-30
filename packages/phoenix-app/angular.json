@@ -144,6 +144,46 @@
           }
         }
       }
+    },
+    "phoenix-ui": {
+      "projectType": "library",
+      "root": "src/phoenix-ui",
+      "sourceRoot": "src/phoenix-ui",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "src/phoenix-ui/tsconfig.lib.json",
+            "project": "src/phoenix-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "src/phoenix-ui/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/phoenix-ui/test.ts",
+            "tsConfig": "src/phoenix-ui/tsconfig.spec.json",
+            "karmaConfig": "src/phoenix-ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/phoenix-ui/tsconfig.lib.json",
+              "src/phoenix-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "phoenix",

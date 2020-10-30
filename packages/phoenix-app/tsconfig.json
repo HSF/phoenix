@@ -20,6 +20,12 @@
       "dom"
     ],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "phoenix-ui": [
+        "dist/phoenix-ui/phoenix-ui",
+        "dist/phoenix-ui"
+      ]
+    }
   }
 }

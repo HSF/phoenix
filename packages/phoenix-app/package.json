@@ -21,7 +21,7 @@
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "version": "npm run deploy",
-    "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"  
+    "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular/animations": "^10.0.14",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1000.6",
+    "@angular-devkit/build-ng-packagr": "~0.1000.8",
     "@angular/cli": "^10.0.8",
     "@angular/compiler-cli": "^10.0.14",
     "@angular/language-service": "^10.0.14",
@@ -60,6 +61,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
+    "ng-packagr": "^10.0.0",
     "protractor": "^7.0.0",
     "ts-node": "~9.0.0",
     "tslint": "~6.1.3",
