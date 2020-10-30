@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 /**
  * Component for adding zoom controls for the main and overlay cameras.

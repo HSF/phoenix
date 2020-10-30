@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PrettySymbols } from 'phoenix-event-display';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   selector: 'app-collections-info-overlay',

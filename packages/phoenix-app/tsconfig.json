@@ -22,10 +22,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "phoenix-ui": [
-        "dist/phoenix-ui/phoenix-ui",
-        "dist/phoenix-ui"
-      ]
+      "phoenix-ui": ["./src/phoenix-ui"]
     }
   }
 }
