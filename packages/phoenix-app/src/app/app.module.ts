@@ -27,7 +27,14 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    GeometryComponent,
+    AtlasComponent,
+    LHCbComponent,
+    CMSComponent,
+    TrackmlComponent,
+    PlaygroundComponent
   ],
   imports: [
     BrowserModule,

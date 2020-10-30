@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Type } from '@angular/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng5SliderModule } from 'ng5-slider';
 import { AttributePipe } from '../services';
 import { NavComponent } from './nav/nav.component';
@@ -46,46 +45,46 @@ import {
   AnimateEventComponent,
   VrToggleComponent
 } from './ui-menu';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
-
+const phoenixUIComponents: Type<any>[] = [
+  NavComponent,
+  AttributePipe,
+  UiMenuComponent,
+  CollectionsInfoComponent,
+  MenuToggleComponent,
+  CollectionsInfoOverlayComponent,
+  IoOptionsComponent,
+  IOOptionsDialogComponent,
+  OverlayViewComponent,
+  ObjectSelectionComponent,
+  ObjectSelectionOverlayComponent,
+  EventSelectorComponent,
+  ObjectClippingComponent,
+  DarkThemeComponent,
+  AutoRotateComponent,
+  ViewOptionsComponent,
+  OverlayViewWindowComponent,
+  OverlayComponent,
+  ExperimentInfoComponent,
+  InfoPanelComponent,
+  InfoPanelOverlayComponent,
+  MainViewToggleComponent,
+  ZoomControlsComponent,
+  TreeMenuComponent,
+  TreeMenuItemComponent,
+  PhoenixMenuComponent,
+  PhoenixMenuItemComponent,
+  ConfigSliderComponent,
+  AnimateCameraComponent,
+  AnimateEventComponent,
+  VrToggleComponent
+];
 
 @NgModule({
-  declarations: [
-    NavComponent,
-    AttributePipe,
-    UiMenuComponent,
-    CollectionsInfoComponent,
-    MenuToggleComponent,
-    CollectionsInfoOverlayComponent,
-    IoOptionsComponent,
-    IOOptionsDialogComponent,
-    OverlayViewComponent,
-    ObjectSelectionComponent,
-    ObjectSelectionOverlayComponent,
-    EventSelectorComponent,
-    ObjectClippingComponent,
-    DarkThemeComponent,
-    AutoRotateComponent,
-    ViewOptionsComponent,
-    OverlayViewWindowComponent,
-    OverlayComponent,
-    ExperimentInfoComponent,
-    InfoPanelComponent,
-    InfoPanelOverlayComponent,
-    MainViewToggleComponent,
-    ZoomControlsComponent,
-    TreeMenuComponent,
-    TreeMenuItemComponent,
-    PhoenixMenuComponent,
-    PhoenixMenuItemComponent,
-    ConfigSliderComponent,
-    AnimateCameraComponent,
-    AnimateEventComponent,
-    VrToggleComponent
-  ],
+  declarations: [...phoenixUIComponents],
   imports: [
-    BrowserModule,
+    CommonModule,
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
@@ -103,6 +102,7 @@ import { BrowserModule } from '@angular/platform-browser';
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent
-  ]
+  ],
+  exports: [...phoenixUIComponents]
 })
 export class PhoenixUIModule { }
