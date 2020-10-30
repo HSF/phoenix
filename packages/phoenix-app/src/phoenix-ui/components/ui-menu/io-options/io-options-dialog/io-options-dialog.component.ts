@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader } from 'phoenix-event-display';
 

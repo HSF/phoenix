@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IoOptionsComponent } from './io-options.component';
-import { AppModule } from 'src/app/app.module';
 import { MatDialog } from '@angular/material/dialog';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('IoOptionsComponent', () => {
   let component: IoOptionsComponent;
@@ -12,7 +12,7 @@ describe('IoOptionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [MatDialog],
       declarations: [IoOptionsComponent]
     })

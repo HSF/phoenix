@@ -2,7 +2,7 @@ import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay/object-selection-overlay.component';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
   selector: 'app-object-selection',

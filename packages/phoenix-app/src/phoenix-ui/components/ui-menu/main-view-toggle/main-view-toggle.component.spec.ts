@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainViewToggleComponent } from './main-view-toggle.component';
-import { AppModule } from '../../../app.module';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('MainViewToggleComponent', () => {
   let component: MainViewToggleComponent;
@@ -14,7 +14,7 @@ describe('MainViewToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplay

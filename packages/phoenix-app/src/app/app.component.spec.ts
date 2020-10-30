@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {NavComponent} from './components/nav/nav.component';
-import {RouterTestingModule} from '@angular/router/testing';
+import { NavComponent } from 'phoenix-ui';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

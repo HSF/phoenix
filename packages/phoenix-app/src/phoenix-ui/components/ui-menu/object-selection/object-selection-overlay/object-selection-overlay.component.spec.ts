@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectSelectionOverlayComponent } from './object-selection-overlay.component';
-import { AppModule } from 'src/app/app.module';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 describe('ObjectSelectionOverlayComponent', () => {
   let component: ObjectSelectionOverlayComponent;
@@ -9,7 +9,7 @@ describe('ObjectSelectionOverlayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule]
+      imports: [PhoenixUIModule]
     })
       .compileComponents();
   }));

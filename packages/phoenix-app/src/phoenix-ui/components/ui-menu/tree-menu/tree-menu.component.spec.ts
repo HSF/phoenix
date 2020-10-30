@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeMenuComponent } from './tree-menu.component';
-import { AppModule } from '../../../app.module';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('TreeMenuComponent', () => {
   let component: TreeMenuComponent;
@@ -9,7 +9,7 @@ describe('TreeMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       declarations: [ TreeMenuComponent ]
     })
     .compileComponents();

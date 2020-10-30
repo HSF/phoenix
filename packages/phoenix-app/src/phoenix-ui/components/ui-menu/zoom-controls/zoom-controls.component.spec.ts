@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZoomControlsComponent } from './zoom-controls.component';
-import { AppModule } from 'src/app/app.module';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ZoomControlsComponent', () => {
   let component: ZoomControlsComponent;
@@ -14,7 +14,7 @@ describe('ZoomControlsComponent', () => {
     mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', ['zoomTo']);
 
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplayService

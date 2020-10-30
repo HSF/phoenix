@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoComponent } from './collections-info.component';
-import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('CollectionsInfoComponent', () => {
   let component: CollectionsInfoComponent;
@@ -10,7 +10,7 @@ describe('CollectionsInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [Overlay],
       declarations: [CollectionsInfoComponent]
     })

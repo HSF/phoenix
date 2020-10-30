@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectClippingComponent } from './object-clipping.component';
-import { AppModule } from '../../../app.module';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSliderChange } from '@angular/material/slider';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;
@@ -16,7 +16,7 @@ describe('ObjectClippingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplay

@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DarkThemeComponent } from './dark-theme.component';
-import { AppModule } from '../../../app.module';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 import { UIManager } from 'phoenix-event-display';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('DarkThemeComponent', () => {
   let component: DarkThemeComponent;
@@ -14,7 +14,7 @@ describe('DarkThemeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [EventDisplayService],
       declarations: [DarkThemeComponent]
     })

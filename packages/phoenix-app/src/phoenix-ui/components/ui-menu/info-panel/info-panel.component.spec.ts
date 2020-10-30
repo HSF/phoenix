@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfoPanelComponent } from './info-panel.component';
-import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('InfoPanelComponent', () => {
   let component: InfoPanelComponent;
@@ -10,7 +10,7 @@ describe('InfoPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [Overlay],
       declarations: [InfoPanelComponent]
     })

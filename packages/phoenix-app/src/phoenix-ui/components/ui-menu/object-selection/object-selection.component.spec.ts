@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectSelectionComponent } from './object-selection.component';
-import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
@@ -14,7 +14,7 @@ describe('ObjectSelectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [Overlay, {
         provide: EventDisplayService,
         useValue: mockEventDisplayService

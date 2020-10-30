@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuComponent } from './phoenix-menu.component';
-import { AppModule } from '../../app.module';
 import { PhoenixMenuNode } from 'phoenix-event-display';
+import { PhoenixUIModule } from '../phoenix-ui.module';
 
 describe('PhoenixMenuComponent', () => {
   let component: PhoenixMenuComponent;
@@ -10,7 +10,7 @@ describe('PhoenixMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       declarations: [PhoenixMenuComponent]
     })
     .compileComponents();

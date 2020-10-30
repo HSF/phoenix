@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CMSComponent } from './cms.component';
 import { AppModule } from '../../app.module';
-import { EventDisplayService } from '../../services/event-display.service';
+import { EventDisplayService } from 'phoenix-ui';
 import { HttpClient } from '@angular/common/http';
 
 describe('CMSComponent', () => {

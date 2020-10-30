@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
-import { AppModule } from 'src/app/app.module';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;
@@ -25,7 +25,7 @@ describe('IoOptionsDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,

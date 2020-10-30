@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EventSelectorComponent } from './event-selector.component';
-import { AppModule } from 'src/app/app.module';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('EventSelectorComponent', () => {
   let component: EventSelectorComponent;
@@ -13,7 +13,7 @@ describe('EventSelectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplayService

@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewOptionsComponent } from './view-options.component';
-import { AppModule } from '../../../app.module';
 import { PresetView } from 'phoenix-event-display';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
@@ -16,7 +16,7 @@ describe('ViewOptionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplay

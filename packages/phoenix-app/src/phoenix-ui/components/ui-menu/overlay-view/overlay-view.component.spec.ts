@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewComponent } from './overlay-view.component';
-import { AppModule } from 'src/app/app.module';
 import { Overlay } from '@angular/cdk/overlay';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('OverlayViewComponent', () => {
   let component: OverlayViewComponent;
@@ -10,7 +10,7 @@ describe('OverlayViewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [Overlay],
       declarations: [OverlayViewComponent]
     })

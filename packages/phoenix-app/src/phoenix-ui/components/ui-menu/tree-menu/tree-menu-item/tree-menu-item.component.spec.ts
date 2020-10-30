@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeMenuItemComponent } from './tree-menu-item.component';
-import { AppModule } from '../../../../app.module';
-import { EventDisplayService } from 'src/app/services/event-display.service';
+import { EventDisplayService } from '../../../../services/event-display.service';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 describe('TreeMenuItemComponent', () => {
   let component: TreeMenuItemComponent;
@@ -14,7 +14,7 @@ describe('TreeMenuItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [PhoenixUIModule],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplay
