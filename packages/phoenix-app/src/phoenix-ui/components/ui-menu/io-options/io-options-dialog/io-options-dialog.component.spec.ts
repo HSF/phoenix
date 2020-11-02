@@ -70,7 +70,7 @@ describe('IoOptionsDialogComponent', () => {
         component.handleJiveXMLDataInput(files);
         expect(component.handleFileInput).toHaveBeenCalled();
       });
-    });
+    }, 30000);
 
     describe('handleEventDataInput sync', () => {
       afterEach(() => {

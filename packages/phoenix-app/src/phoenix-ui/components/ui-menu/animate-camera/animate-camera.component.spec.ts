@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateCameraComponent } from './animate-camera.component';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('AnimateCameraComponent', () => {
   let component: AnimateCameraComponent;
@@ -11,6 +12,7 @@ describe('AnimateCameraComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       declarations: [AnimateCameraComponent],
       providers: [{
         provide: EventDisplayService,

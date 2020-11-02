@@ -4,8 +4,10 @@
   "lib": {
     "entryFile": "./index.ts",
     "umdModuleIds": {
-      "phoenix-ui": "phoenix-ui"
+      "phoenix-event-display": "phoenixEventDisplay",
+      "css-element-queries": "cssElementQueries",
+      "ng5-slider": "ng5Slider"
     }
-
-  }
+  },
+  "whitelistedNonPeerDependencies": ["."]
 }

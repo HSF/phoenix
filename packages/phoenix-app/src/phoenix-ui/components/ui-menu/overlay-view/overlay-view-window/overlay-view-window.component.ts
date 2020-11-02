@@ -1,4 +1,5 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({

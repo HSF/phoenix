@@ -155,8 +155,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "src/phoenix-ui/tsconfig.lib.json",
-            "project": "src/phoenix-ui/ng-package.json",
-            "styles": "src/styles.scss"
+            "project": "src/phoenix-ui/ng-package.json"
           },
           "configurations": {
             "production": {

@@ -1,4 +1,5 @@
-import { Component, Input, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, ViewChildren } from '@angular/core';
+import type { QueryList } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({

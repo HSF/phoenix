@@ -1,4 +1,5 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 import { ResizeSensor } from "css-element-queries";
 
 /**
