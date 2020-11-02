@@ -2,6 +2,7 @@
   color: var(--phoenix-text-color);
   background: none;
   max-width: 100vw;
+  font-size: 12px;
   /* Same min-width as overlay.component.ts MIN_RES_WIDTH */
   min-width: 300px;
   height: 100%;
@@ -19,6 +20,7 @@
     border-radius: 10px;
     border: none;
     cursor: move;
+    text-align: center;
     transition: all 0.2s;
 
     &.with-body {
@@ -60,7 +62,7 @@
   }
 
   .list-group {
-    color: var(--phoenix-text-color);
+    color: var(--phoenix-text-color-secondary);
     background: var(--phoenix-background-color-secondary);
     max-height: 40vh;
     overflow: auto;

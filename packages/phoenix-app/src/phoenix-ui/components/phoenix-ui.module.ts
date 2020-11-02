@@ -10,7 +10,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Ng5SliderModule } from 'ng5-slider';
-import { AttributePipe } from '../services';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
@@ -47,9 +46,8 @@ import {
 } from './ui-menu';
 import { CommonModule } from '@angular/common';
 
-const phoenixUIComponents: Type<any>[] = [
+const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
-  AttributePipe,
   UiMenuComponent,
   CollectionsInfoComponent,
   MenuToggleComponent,
@@ -82,7 +80,7 @@ const phoenixUIComponents: Type<any>[] = [
 ];
 
 @NgModule({
-  declarations: [...phoenixUIComponents],
+  declarations: [PHOENIX_COMPONENTS],
   imports: [
     CommonModule,
     DragDropModule,
@@ -103,6 +101,6 @@ const phoenixUIComponents: Type<any>[] = [
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent
   ],
-  exports: [...phoenixUIComponents]
+  exports: [PHOENIX_COMPONENTS]
 })
 export class PhoenixUIModule { }
