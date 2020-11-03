@@ -9,7 +9,7 @@ import { AtlasComponent } from './sections/atlas/atlas.component';
 import { LHCbComponent } from './sections/lhcb/lhcb.component';
 import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
-import { PhoenixUIModule } from 'phoenix-ui';
+import { PhoenixUIModule } from 'phoenix-ui-components';
 import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

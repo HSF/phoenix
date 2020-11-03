@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EventDisplayService } from 'phoenix-ui';
+import { EventDisplayService } from 'phoenix-ui-components';
 import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader, StateManager } from 'phoenix-event-display';
 import { ActivatedRoute } from '@angular/router';
 

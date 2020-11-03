@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService } from 'phoenix-ui';
+import { EventDisplayService } from 'phoenix-ui-components';
 import { Configuration, PresetView } from 'phoenix-event-display';
 import { HttpClient } from '@angular/common/http';
 

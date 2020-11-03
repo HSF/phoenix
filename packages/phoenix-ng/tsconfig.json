@@ -16,10 +16,8 @@
       "dom"
     ],
     "paths": {
-      "phoenix-ui": [
-        "dist/phoenix-ui/phoenix-ui",
-        "dist/phoenix-ui",
-        "projects/phoenix-ui/src"
+      "phoenix-ui-components": [
+        "projects/phoenix-ui-components/src"
       ]
     }
   }

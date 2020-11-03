@@ -1,8 +1,8 @@
 {
-  "name": "phoenix-ui",
+  "name": "phoenix-ui-components",
   "version": "1.0.2",
   "files": [
-    "../../dist/phoenix-ui"
+    "../../dist/phoenix-ui-components"
   ],
   "peerDependencies": {
     "@angular/cdk": "^10.1.3",
