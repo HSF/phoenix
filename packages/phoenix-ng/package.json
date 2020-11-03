@@ -1,15 +1,18 @@
 {
   "name": "phoenix-ng",
   "version": "0.0.0",
+  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "start:ssl": "ng serve --ssl --host=0.0.0.0",
     "build": "ng build",
+    "build:phoenix-ui": "ng build phoenix-ui",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "deploy": "mv ../../docs/api-docs ../../api-docs && ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
+    "deploy:phoenix-ui": "ng build phoenix-ui --prod",
     "test:coverage": "rm -rf ./coverage && ng test phoenix-ui --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "version": "npm run deploy",
