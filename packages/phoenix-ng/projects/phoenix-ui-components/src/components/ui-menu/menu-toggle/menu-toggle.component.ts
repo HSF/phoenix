@@ -16,5 +16,4 @@ export class MenuToggleComponent implements OnInit {
   ngOnInit() {
   }
 
-
 }

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { MenuToggleComponent } from './menu-toggle.component';
 
@@ -8,7 +9,7 @@ describe('MenuToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MenuToggleComponent]
+      imports: [PhoenixUIModule]
     })
       .compileComponents();
   }));
