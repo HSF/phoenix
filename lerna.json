@@ -17,6 +17,9 @@
     },
     "run": {
       "parallel": true
+    },
+    "bootstrap": {
+      "ignore": "./packages/phoenix-ng/projects/*"
     }
   }
 }
