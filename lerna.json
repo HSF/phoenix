@@ -19,7 +19,7 @@
       "parallel": true
     },
     "bootstrap": {
-      "ignore": "./packages/phoenix-ng/projects/*"
+      "ignore": "phoenix-ui-components"
     }
   }
 }

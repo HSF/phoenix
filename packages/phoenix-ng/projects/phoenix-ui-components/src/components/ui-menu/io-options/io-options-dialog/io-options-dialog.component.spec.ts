@@ -63,7 +63,7 @@ describe('IoOptionsDialogComponent', () => {
     });
 
     it('should handle JiveXML event data input', async () => {
-      await fetch('assets/files/JiveXML/JiveXML_336567_2327102923.xml')
+      await fetch('assets/test_data/JiveXML.xml')
       .then(res => res.text())
       .then(res => {
         const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];

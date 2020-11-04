@@ -13,8 +13,8 @@
     "e2e": "ng e2e",
     "deploy": "mv ../../docs/api-docs ../../api-docs && ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "deploy:phoenix-ui-components": "ng build phoenix-ui-components --prod",
-    "test:coverage": "rm -rf ./coverage && ng test phoenix-ui-components --no-watch --code-coverage",
-    "coveralls": "cat ./coverage/phoenix/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
+    "coveralls": "cat ./coverage/phoenix-ui-components/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "version": "npm run deploy",
     "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
