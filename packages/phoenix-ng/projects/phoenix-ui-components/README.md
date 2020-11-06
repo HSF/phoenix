@@ -13,6 +13,8 @@ npm install phoenix-ui-components
 
 ## Setup
 
+You can use [phoenix-app](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app) as a reference app that uses this package.
+
 Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](./src/assets) and put them in the `assets` directory of your application. All assets should be served through `/assets`.
 
 Import the `PhoenixUIModule` in your `NgModule`.
@@ -55,4 +57,15 @@ Next, you can use the Phoenix components in your component.
 export class TestComponent implements OnInit {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 }
+```
+
+## Theming
+
+For theming of components, you will also need to import some global styles into your app.  
+It can be done by importing the theming file into your app's global styles (`styles.scss`).
+
+`styles.scss`
+
+```scss
+@import '~phoenix-ui-components/theming';
 ```
