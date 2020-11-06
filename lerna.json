@@ -18,9 +18,6 @@
     },
     "run": {
       "parallel": true
-    },
-    "bootstrap": {
-      "ignore": "phoenix-ui-components"
     }
   }
 }
