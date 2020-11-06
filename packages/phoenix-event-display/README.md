@@ -12,6 +12,8 @@ To use in your application. First, install the npm package.
 npm install phoenix-event-display
 ```
 
+## Usage
+
 To create a simple event display.
 
 ```js
@@ -40,7 +42,7 @@ fetch('path/to/event-data.json')
 eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /* color */);
 ```
 
-## Usage examples
+### Examples
 
 * [Usage in Angular (as a service)](https://github.com/9inpachi/phoenix/blob/wip-eventdisplay/packages/phoenix-app/src/app/sections/atlas/atlas.component.ts#L16-L56)
 * [Usage in React](https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31)

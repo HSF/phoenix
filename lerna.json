@@ -12,7 +12,7 @@
         "*.txt",
         "*.obj"
       ],
-      "message": "release(): %s",
+      "message": "chore(release): %s",
       "conventionalCommits": true,
       "changelogPreset": "angular"
     },

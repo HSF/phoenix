@@ -1,6 +1,14 @@
 {
   "name": "phoenix-ui-components",
   "version": "1.0.2",
+  "description": "Reusable Angular components of the Phoenix event display application.",
+  "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
+  "license": "Apache-2.0",
+  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components#phoenix-ui",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSF/phoenix.git"
+  },
   "files": [
     "dist"
   ],
