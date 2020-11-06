@@ -1,5 +1,6 @@
 {
   "version": "1.0.2",
+  "granularPathspec": false,
   "packages": [
     "packages/*",
     "packages/phoenix-ng/projects/*"
