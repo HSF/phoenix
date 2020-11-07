@@ -8,6 +8,7 @@
     "start:ssl": "ng serve --ssl --host=0.0.0.0",
     "build": "ng build",
     "build:ui-components": "ng build phoenix-ui-components --prod",
+    "prepare": "npm run build:ui-components",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

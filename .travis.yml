@@ -15,7 +15,7 @@ cache:
 
 install:
   - npm install lerna --global
-  - npm run install:dependencies -- --ignore phoenix-ui-components
+  - npm run install:dependencies
 
 script:
   - cd ./packages/phoenix-ng
