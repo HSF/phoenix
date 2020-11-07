@@ -503,7 +503,8 @@ export class EventDisplay {
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
   public initEventFromURL(defaultEventPath?: string, defaultEventType?: string) {
-    const urlParams = new URLSearchParams(window.location.search);
+    const locationHref = window.location.href;
+    const urlParams = new URLSearchParams(locationHref.substr(locationHref.lastIndexOf('?')));
 
     let file: string, type: string;
 
@@ -513,6 +514,18 @@ export class EventDisplay {
     } else {
       file = urlParams.get('file');
       type = urlParams.get('type').toLowerCase();
+    }
+
+    // Load config from URL
+    const loadConfig = () => {
+      if (urlParams.get('config')) {
+        fetch(urlParams.get('config'))
+          .then(res => res.json())
+          .then(jsonState => {
+            const stateManager = new StateManager();
+            stateManager.loadStateFromJSON(jsonState);
+          });
+      }
     }
 
     if (file && type && ('fetch' in window)) {
@@ -533,15 +546,10 @@ export class EventDisplay {
           console.error('Could not find the file specified in URL.', error);
         }).finally(() => {
           // Load config from URL after loading the event
-          if (urlParams.get('config')) {
-            fetch(urlParams.get('config'))
-              .then(res => res.json())
-              .then(jsonState => {
-                const stateManager = new StateManager();
-                stateManager.loadStateFromJSON(jsonState);
-              });
-          }
+          loadConfig();
         });
+    } else {
+      loadConfig();
     }
   }
 }
