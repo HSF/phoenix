@@ -13,15 +13,14 @@ npm install phoenix-ui-components
 
 ## Setup
 
-You can use [phoenix-app](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app) as a reference app that uses this package.
+You can see [phoenix-app](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app) as a reference app that uses this package.
 
-Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) and put them in the `assets` directory of your application. All assets should be served through `/assets`.
+Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) and put them in the `src/assets` directory of your application. All assets should be served through `/assets`.
 
-Import the `PhoenixUIModule` in your `NgModule`.
+Once you have the assets set up, import the `PhoenixUIModule` in your `NgModule`.
 
 ```ts
 import { PhoenixUIModule } from 'phoenix-ui-components';
-/* and many more */
 
 @NgModule({
   imports: [
@@ -33,7 +32,7 @@ import { PhoenixUIModule } from 'phoenix-ui-components';
 export class MyModule {}
 ```
 
-Next, you can use the Phoenix components in your component.
+Next, you can use the Phoenix components in your module component(s).
 
 `component.html`
 
@@ -48,7 +47,6 @@ Next, you can use the Phoenix components in your component.
 `component.ts`
 
 ```ts
-...
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
@@ -68,4 +66,5 @@ It can be done by importing the theming file into your app's global styles (`sty
 
 ```scss
 @import '~phoenix-ui-components/theming';
+...
 ```
