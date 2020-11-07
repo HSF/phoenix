@@ -46,6 +46,7 @@ import {
 } from './ui-menu';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AttributePipe } from '../services/extras/attribute.pipe';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -56,6 +57,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   IoOptionsComponent,
   IOOptionsDialogComponent,
   OverlayViewComponent,
+  AttributePipe,
   ObjectSelectionComponent,
   ObjectSelectionOverlayComponent,
   EventSelectorComponent,

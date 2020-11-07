@@ -44,5 +44,5 @@ eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /*
 
 ### Examples
 
-* [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/master/packages/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
+* [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
 * [Usage in React](https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31)
