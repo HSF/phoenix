@@ -1102,6 +1102,11 @@ THE SOFTWARE.
 phoenix-event-display
 Apache-2.0
 
+phoenix-ng
+
+phoenix-ui-components
+Apache-2.0
+
 regenerator-runtime
 MIT
 MIT License

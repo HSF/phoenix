@@ -202,93 +202,93 @@ and get it as a geometry.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from &quot;three&quot;;
-import { PhoenixObjects } from &quot;./phoenix-objects&quot;;
+import { EVENT_DATA_TYPE_COLORS } from &quot;../../helpers/constants&quot;;
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
  */
 export class CMSObjects {
-    /**
-     * Process the Muon Chamber from the given parameters.
-     * and get it as a geometry.
-     * @param muonChamberParams Parameters of the Muon Chamber.
-     * @returns Muon Chamber object.
-     */
-    public static getMuonChamber(muonChamberParams: any): Object3D {
-        let faces &#x3D; [];
-        let backs &#x3D; [];
+  /**
+   * Process the Muon Chamber from the given parameters.
+   * and get it as a geometry.
+   * @param muonChamberParams Parameters of the Muon Chamber.
+   * @returns Muon Chamber object.
+   */
+  public static getMuonChamber(muonChamberParams: any): Object3D {
+    let faces &#x3D; [];
+    let backs &#x3D; [];
 
-        for (const param of Object.keys(muonChamberParams)) {
-            if (param.startsWith(&#x27;front&#x27;)) {
-                faces.push(
-                    new Vector3().fromArray(muonChamberParams[param])
-                );
-            } else if (param.startsWith(&#x27;back&#x27;)) {
-                backs.push(
-                    new Vector3().fromArray(muonChamberParams[param])
-                );
-            }
-        }
-
-        let box &#x3D; new Geometry();
-        box.vertices &#x3D; faces.concat(backs);
-
-        // front
-        box.faces.push(new Face3(0, 1, 2));
-        box.faces.push(new Face3(2, 3, 0));
-
-        // back
-        box.faces.push(new Face3(4, 5, 6));
-        box.faces.push(new Face3(6, 7, 4));
-
-        // top
-        box.faces.push(new Face3(4, 5, 1));
-        box.faces.push(new Face3(1, 0, 4));
-
-        // bottom
-        box.faces.push(new Face3(7, 6, 2));
-        box.faces.push(new Face3(2, 3, 7));
-
-        // left
-        box.faces.push(new Face3(0, 3, 7));
-        box.faces.push(new Face3(7, 4, 0));
-
-        // right
-        box.faces.push(new Face3(1, 5, 6));
-        box.faces.push(new Face3(6, 2, 1));
-
-        box.computeFaceNormals();
-        box.computeVertexNormals();
-
-        const boxBuffer &#x3D; new BufferGeometry().fromGeometry(box);
-
-        const boxObject &#x3D; new Mesh(boxBuffer, new MeshBasicMaterial({
-            color: 0xff0000,
-            transparent: true,
-            opacity: 0.1,
-            side: DoubleSide
-        }));
-
-        boxObject.userData &#x3D; Object.assign({}, muonChamberParams);
-        boxObject.name &#x3D; &#x27;MuonChamber&#x27;;
-
-        // These are the lines along the box edges
-
-        const boxEdges &#x3D; new EdgesGeometry(boxBuffer);
-        const lineBoxObject &#x3D; new LineSegments(boxEdges, new LineBasicMaterial({
-            color: 0xffffff,
-            transparent: true,
-            opacity: 0.7
-        }));
-
-        const muonChamber &#x3D; new Group();
-        muonChamber.add(boxObject);
-        muonChamber.add(lineBoxObject);
-
-        muonChamberParams.uuid &#x3D; boxObject.uuid;
-
-        return muonChamber;
+    for (const param of Object.keys(muonChamberParams)) {
+      if (param.startsWith(&#x27;front&#x27;)) {
+        faces.push(
+          new Vector3().fromArray(muonChamberParams[param])
+        );
+      } else if (param.startsWith(&#x27;back&#x27;)) {
+        backs.push(
+          new Vector3().fromArray(muonChamberParams[param])
+        );
+      }
     }
+
+    let box &#x3D; new Geometry();
+    box.vertices &#x3D; faces.concat(backs);
+
+    // front
+    box.faces.push(new Face3(0, 1, 2));
+    box.faces.push(new Face3(2, 3, 0));
+
+    // back
+    box.faces.push(new Face3(4, 5, 6));
+    box.faces.push(new Face3(6, 7, 4));
+
+    // top
+    box.faces.push(new Face3(4, 5, 1));
+    box.faces.push(new Face3(1, 0, 4));
+
+    // bottom
+    box.faces.push(new Face3(7, 6, 2));
+    box.faces.push(new Face3(2, 3, 7));
+
+    // left
+    box.faces.push(new Face3(0, 3, 7));
+    box.faces.push(new Face3(7, 4, 0));
+
+    // right
+    box.faces.push(new Face3(1, 5, 6));
+    box.faces.push(new Face3(6, 2, 1));
+
+    box.computeFaceNormals();
+    box.computeVertexNormals();
+
+    const boxBuffer &#x3D; new BufferGeometry().fromGeometry(box);
+
+    const boxObject &#x3D; new Mesh(boxBuffer, new MeshBasicMaterial({
+      color: EVENT_DATA_TYPE_COLORS[&#x27;MuonChambers&#x27;],
+      transparent: true,
+      opacity: 0.1,
+      side: DoubleSide
+    }));
+
+    boxObject.userData &#x3D; Object.assign({}, muonChamberParams);
+    boxObject.name &#x3D; &#x27;MuonChamber&#x27;;
+
+    // These are the lines along the box edges
+
+    const boxEdges &#x3D; new EdgesGeometry(boxBuffer);
+    const lineBoxObject &#x3D; new LineSegments(boxEdges, new LineBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.7
+    }));
+
+    const muonChamber &#x3D; new Group();
+    muonChamber.add(boxObject);
+    muonChamber.add(lineBoxObject);
+
+    muonChamberParams.uuid &#x3D; boxObject.uuid;
+
+    return muonChamber;
+  }
 }
 </code></pre>
     </div>

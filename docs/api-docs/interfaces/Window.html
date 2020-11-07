@@ -143,6 +143,8 @@
 import { UIManager } from &#x27;./ui/index&#x27;;
 import { InfoLogger } from &#x27;./info-logger&#x27;;
 import { Configuration } from &#x27;./extras/configuration.model&#x27;;
+import { StateManager } from &#x27;./managers/state-manager&#x27;;
+import { JiveXMLLoader } from &#x27;./loaders/jivexml-loader&#x27;;
 
 declare global {
   /**
@@ -182,6 +184,7 @@ export class EventDisplay {
     this.graphicsLibrary &#x3D; new ThreeManager();
     this.infoLogger &#x3D; new InfoLogger();
     this.ui &#x3D; new UIManager(this.graphicsLibrary);
+    new StateManager().setEventDisplay(this);
   }
 
   /**
@@ -189,7 +192,9 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    // Configuration
     this.configuration &#x3D; configuration;
+    // Init the three manager
     this.graphicsLibrary.init(configuration, this.infoLogger);
     // Showing the UI elements
     this.ui.showUI(configuration);
@@ -209,6 +214,11 @@ export class EventDisplay {
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
+    // Initialize event with data from URL if there is any
+    this.initEventFromURL(
+      configuration.defaultEventFile?.eventFile,
+      configuration.defaultEventFile?.eventType
+    );
   }
 
   /**
@@ -378,7 +388,7 @@ export class EventDisplay {
   public loadGLTFGeometry(url: any, name: string,
     scale?: number, initiallyVisible: boolean &#x3D; true) {
     this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
-    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
+    this.ui.addGeometry(name, undefined, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded GLTF geometry&#x27;);
   }
 
@@ -393,7 +403,7 @@ export class EventDisplay {
   public loadJSONGeometry(json: string | object, name: string,
     scale?: number, doubleSided?: boolean, initiallyVisible: boolean &#x3D; true) {
     this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
-    this.ui.addGeometry(name, 0xff0000, initiallyVisible);
+    this.ui.addGeometry(name, undefined, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
   }
 
@@ -625,6 +635,63 @@ export class EventDisplay {
    */
   public animateClippingWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Initialize the event display with event data and configuration from URL.
+   * (Only JiveXML and JSON)
+   * @param defaultEventPath Default event path to fallback to if none in URL.
+   * @param defaultEventType Default event type to fallback to if none in URL.
+   */
+  public initEventFromURL(defaultEventPath?: string, defaultEventType?: string) {
+    const locationHref &#x3D; window.location.href;
+    const urlParams &#x3D; new URLSearchParams(locationHref.substr(locationHref.lastIndexOf(&#x27;?&#x27;)));
+
+    let file: string, type: string;
+
+    if (!urlParams.get(&#x27;file&#x27;) || !urlParams.get(&#x27;type&#x27;)) {
+      file &#x3D; defaultEventPath;
+      type &#x3D; defaultEventType;
+    } else {
+      file &#x3D; urlParams.get(&#x27;file&#x27;);
+      type &#x3D; urlParams.get(&#x27;type&#x27;).toLowerCase();
+    }
+
+    // Load config from URL
+    const loadConfig &#x3D; () &#x3D;&gt; {
+      if (urlParams.get(&#x27;config&#x27;)) {
+        fetch(urlParams.get(&#x27;config&#x27;))
+          .then(res &#x3D;&gt; res.json())
+          .then(jsonState &#x3D;&gt; {
+            const stateManager &#x3D; new StateManager();
+            stateManager.loadStateFromJSON(jsonState);
+          });
+      }
+    }
+
+    if (file &amp;&amp; type &amp;&amp; (&#x27;fetch&#x27; in window)) {
+      fetch(file)
+        .then(res &#x3D;&gt; type &#x3D;&#x3D;&#x3D; &#x27;jivexml&#x27; ? res.text() : res.json())
+        .then((res: object | string) &#x3D;&gt; {
+          if (type &#x3D;&#x3D;&#x3D; &#x27;jivexml&#x27;) {
+            const loader &#x3D; new JiveXMLLoader();
+            // Parse the JSON to extract events and their data
+            loader.process(res);
+            const eventData &#x3D; loader.getEventData();
+            this.buildEventDataFromJSON(eventData);
+          } else {
+            this.parsePhoenixEvents(res);
+          }
+        }).catch((error) &#x3D;&gt; {
+          this.getInfoLogger().add(&#x27;Could not find the file specified in URL.&#x27;, &#x27;Error&#x27;);
+          console.error(&#x27;Could not find the file specified in URL.&#x27;, error);
+        }).finally(() &#x3D;&gt; {
+          // Load config from URL after loading the event
+          loadConfig();
+        });
+    } else {
+      loadConfig();
+    }
   }
 }
 </code></pre>

@@ -36,7 +36,8 @@
 <a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a></p>
 <p>A highly modular and API driven experiment independent event display that uses <a href="https://threejs.org">three.js</a> for processing and presenting detector geometry and event data.</p>
 <p>To use in your application. First, install the npm package.</p>
-<div><pre class="line-numbers"><code class="language-sh">npm install phoenix-event-display</code></pre></div><p>To create a simple event display.</p>
+<div><pre class="line-numbers"><code class="language-sh">npm install phoenix-event-display</code></pre></div><h2 id="usage">Usage</h2>
+<p>To create a simple event display.</p>
 <div><pre class="line-numbers"><code class="language-js">// Import required classes
 import { EventDisplay, Configuration } from &#39;phoenix-event-display&#39;;
 
@@ -59,9 +60,9 @@ fetch(&#39;path/to/event-data.json&#39;)
   });
 
 // Load detector geometry
-eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);</code></pre></div><h2 id="usage-examples">Usage examples</h2>
+eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);</code></pre></div><h3 id="examples">Examples</h3>
 <ul>
-<li><a href="https://github.com/9inpachi/phoenix/blob/wip-eventdisplay/packages/phoenix-app/src/app/sections/atlas/atlas.component.ts#L16-L56">Usage in Angular (as a service)</a></li>
+<li><a href="https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
 <li><a href="https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31">Usage in React</a></li>
 </ul>
 

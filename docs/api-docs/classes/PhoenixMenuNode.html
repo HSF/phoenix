@@ -136,6 +136,12 @@
                                 <a href="#addConfig">addConfig</a>
                             </li>
                             <li>
+                                <a href="#getNodeState">getNodeState</a>
+                            </li>
+                            <li>
+                                <a href="#loadStateFromJSON">loadStateFromJSON</a>
+                            </li>
+                            <li>
                                 <a href="#remove">remove</a>
                             </li>
                             <li>
@@ -874,6 +880,130 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getNodeState"></a>
+                    <span class="name">
+                        <b>
+                            getNodeState
+                        </b>
+                        <a href="#getNodeState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getNodeState()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">src/ui/phoenix-menu/phoenix-menu-node.ts:127</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get current state of the node as an object.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>State of the node as an object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadStateFromJSON"></a>
+                    <span class="name">
+                        <b>
+                            loadStateFromJSON
+                        </b>
+                        <a href="#loadStateFromJSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadStateFromJSON(json: string | object)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/ui/phoenix-menu/phoenix-menu-node.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Load the state of the phoenix menu node from JSON.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>json</td>
+                                    <td>
+                                            <code>string | object</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>JSON containing the phoenix menu node state.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="remove"></a>
                     <span class="name">
                         <b>
@@ -1233,6 +1363,80 @@
     this.toggleState &#x3D; value;
     for (const child of this.children) {
       child.toggleSelfAndDescendants(value);
+    }
+  }
+
+  /**
+   * Get current state of the node as an object.
+   * @returns State of the node as an object.
+   */
+  getNodeState(): object {
+    const phoenixNodeJSON: object &#x3D; {};
+
+    phoenixNodeJSON[&#x27;name&#x27;] &#x3D; this.name;
+    phoenixNodeJSON[&#x27;nodeLevel&#x27;] &#x3D; this.nodeLevel;
+    phoenixNodeJSON[&#x27;toggleState&#x27;] &#x3D; this.toggleState;
+    phoenixNodeJSON[&#x27;childrenActive&#x27;] &#x3D; this.childrenActive;
+    phoenixNodeJSON[&#x27;configs&#x27;] &#x3D; this.configs;
+    phoenixNodeJSON[&#x27;children&#x27;] &#x3D; [];
+
+    for (const child of this.children) {
+      phoenixNodeJSON[&#x27;children&#x27;].push(child.getNodeState());
+    }
+
+    return phoenixNodeJSON;
+  }
+
+  /**
+   * Load the state of the phoenix menu node from JSON.
+   * @param json JSON containing the phoenix menu node state.
+   */
+  loadStateFromJSON(json: string | object) {
+    let jsonObject: any;
+    if (typeof json &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+      jsonObject &#x3D; JSON.parse(json);
+    } else {
+      jsonObject &#x3D; json;
+    }
+
+    this.childrenActive &#x3D; jsonObject[&#x27;childrenActive&#x27;];
+    this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
+    this.onToggle?.(this.toggleState);
+
+    for (const configState of jsonObject[&#x27;configs&#x27;]) {
+      const nodeConfig &#x3D; this.configs.filter(nodeConfig &#x3D;&gt;
+        nodeConfig.type &#x3D;&#x3D;&#x3D; configState[&#x27;type&#x27;] &amp;&amp; nodeConfig.label &#x3D;&#x3D;&#x3D; configState[&#x27;label&#x27;]
+      )[0];
+
+      if (nodeConfig) {
+        for (const prop in configState) {
+          nodeConfig[prop] &#x3D; configState[prop];
+        }
+
+        // Apply configs of different config types - manual
+        if (nodeConfig.type &#x3D;&#x3D;&#x3D; &#x27;checkbox&#x27; &amp;&amp; configState?.[&#x27;isChecked&#x27;]) {
+          nodeConfig.onChange?.(configState?.[&#x27;isChecked&#x27;]);
+        } else if (nodeConfig.type &#x3D;&#x3D;&#x3D; &#x27;color&#x27; &amp;&amp; configState?.[&#x27;color&#x27;]) {
+          nodeConfig.onChange?.(configState?.[&#x27;color&#x27;]);
+        } else if (nodeConfig.type &#x3D;&#x3D;&#x3D; &#x27;slider&#x27; &amp;&amp; configState?.[&#x27;value&#x27;]) {
+          nodeConfig.onChange?.(configState?.[&#x27;value&#x27;]);
+        } else if (nodeConfig.type &#x3D;&#x3D;&#x3D; &#x27;rangeSlider&#x27; &amp;&amp; configState?.[&#x27;value&#x27;]) {
+          nodeConfig.onChange?.({
+            value: configState?.[&#x27;value&#x27;],
+            highValue: configState?.[&#x27;highValue&#x27;]
+          });
+        }
+      }
+    }
+
+    for (const childState of jsonObject[&#x27;children&#x27;]) {
+      const nodeChild &#x3D; this.children.filter(nodeChild &#x3D;&gt;
+        nodeChild.name &#x3D;&#x3D;&#x3D; childState.name &amp;&amp; nodeChild.nodeLevel &#x3D;&#x3D;&#x3D; childState.nodeLevel
+      )[0];
+
+      if (nodeChild) {
+        nodeChild.loadStateFromJSON(childState);
+      }
     }
   }
 }

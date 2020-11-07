@@ -230,8 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:156</a></div>
                 </td>
             </tr>
 
@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:108</a></div>
                 </td>
             </tr>
 
@@ -390,8 +390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:16</a></div>
                 </td>
             </tr>
 
@@ -538,6 +538,7 @@ and get it as a geometry.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from &#x27;three&#x27;;
+import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 
 /**
@@ -583,7 +584,7 @@ export class PhoenixObjects {
 
 
     // const length &#x3D; 100;
-    let objectColor &#x3D; 0xff0000;
+    let objectColor &#x3D; EVENT_DATA_TYPE_COLORS[&#x27;Tracks&#x27;].getHex();
     if (trackParams.color) {
       objectColor &#x3D; parseInt(trackParams.color, 16);
     }
@@ -673,7 +674,7 @@ export class PhoenixObjects {
 
     const geometry &#x3D; new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
 
-    const material &#x3D; new MeshBasicMaterial({ color: 0x2194CE, opacity: 0.3, transparent: true });
+    const material &#x3D; new MeshBasicMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Jets&#x27;], opacity: 0.3, transparent: true });
     material.opacity &#x3D; 0.5;
     const mesh &#x3D; new Mesh(geometry, material);
     mesh.position.copy(translation);
@@ -719,8 +720,7 @@ export class PhoenixObjects {
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material &#x3D; new PointsMaterial({ size: 10 });
-    material.color.set(&#x27;#ff0000&#x27;);
+    const material &#x3D; new PointsMaterial({ size: 10, color: EVENT_DATA_TYPE_COLORS[&#x27;Hits&#x27;] });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
     pointsObj.userData &#x3D; Object.assign({}, hitsParamsClone);
@@ -743,7 +743,7 @@ export class PhoenixObjects {
     // geometry
     const geometry &#x3D; new BoxBufferGeometry(30, 30, length);
     // material
-    const material &#x3D; new MeshPhongMaterial({ color: 0xFFD166 });
+    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;CaloClusters&#x27;] });
     // object
     const cube &#x3D; new Mesh(geometry, material);
     const theta &#x3D; 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
@@ -775,7 +775,7 @@ export class PhoenixObjects {
     // geometry
     const geometry &#x3D; new SphereBufferGeometry(3);
     // material
-    const material &#x3D; new MeshPhongMaterial({ color: 0xFFD166 });
+    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Vertices&#x27;] });
     // object
     const sphere &#x3D; new Mesh(geometry, material);
     sphere.position.x &#x3D; vertexParams.x;
