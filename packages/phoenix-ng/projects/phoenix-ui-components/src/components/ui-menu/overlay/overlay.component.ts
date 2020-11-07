@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import type { ElementRef } from '@angular/core';
 import { ResizeSensor } from "css-element-queries";
 
@@ -8,7 +8,8 @@ import { ResizeSensor } from "css-element-queries";
 @Component({
   selector: 'app-overlay',
   templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.scss']
+  styleUrls: ['./overlay.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class OverlayComponent implements AfterViewInit {
 
