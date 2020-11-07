@@ -42,7 +42,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
 
   // Copy icon and logo to API docs folder
   exec(
-    'cp ../phoenix-app/src/favicon.ico ../../docs/api-docs/images/favicon.ico',
+    'cp ../phoenix-ng/projects/phoenix-app/src/favicon.ico ../../docs/api-docs/images/favicon.ico',
     (err) => {
       if (err) console.log(err);
       else {
@@ -51,7 +51,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
     }
   );
   exec(
-    'cp ../phoenix-app/src/assets/images/logo-text.svg ../../docs/api-docs/images/logo-text.svg',
+    'cp ../phoenix-ng/projects/phoenix-app/src/assets/images/logo-text.svg ../../docs/api-docs/images/logo-text.svg',
     (err) => {
       if (err) console.log(err);
       else {

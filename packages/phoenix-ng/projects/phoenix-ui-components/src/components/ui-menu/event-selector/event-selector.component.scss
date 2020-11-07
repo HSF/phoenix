@@ -1,0 +1,21 @@
+.eventSelector {
+  display: flex;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-size: 0.9rem;
+
+  label {
+    display: none;
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  select {
+    width: 9rem;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 1px solid rgba(88, 88, 88, 0.08);
+    box-shadow: var(--phoenix-icon-shadow);
+    background-color: var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+  }
+}

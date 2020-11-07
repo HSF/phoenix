@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "lib": {
+    "entryFile": "./src/index.ts",
+    "umdModuleIds": {
+      "phoenix-event-display": "phoenixEventDisplay",
+      "css-element-queries": "cssElementQueries",
+      "ng5-slider": "ng5Slider"
+    }
+  },
+  "whitelistedNonPeerDependencies": ["."]
+}
