@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration, PresetView, PhoenixMenuNode, JiveXMLLoader, StateManager } from 'phoenix-event-display';
-import { ActivatedRoute } from '@angular/router';
-
+import { Configuration, PresetView, PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-atlas',
@@ -13,11 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AtlasComponent implements OnInit {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 
-  constructor(
-    private eventDisplay: EventDisplayService,
-    private http: HttpClient,
-    private route: ActivatedRoute
-  ) { }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     // Define the configuration
@@ -27,14 +20,18 @@ export class AtlasComponent implements OnInit {
       new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
       new PresetView('Right View', [0, 0, 12000], 'right-cube')
     ];
-    let position: number[] = [1, 2, 3];
-    position = [4000, 4000, 4000];
-    console.log(configuration.defaultView)
+
     configuration.defaultView = [4000, 4000, 4000];
-    console.log(configuration.defaultView)
 
     // Set the phoenix menu to be used (defined above)
     configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
+
+    // Default event data to fallback to if none given in URL
+    // Do not set if there should be no event loaded by default
+    configuration.defaultEventFile = {
+      eventFile: 'assets/files/JiveXML/JiveXML_336567_2327102923.xml',
+      eventType: 'jivexml'
+    };
 
     // Initialize the event display
     this.eventDisplay.init(configuration);
@@ -45,9 +42,6 @@ export class AtlasComponent implements OnInit {
     //     // Parse the JSON to extract events and their data
     //     this.eventDisplay.parsePhoenixEvents(res);
     //   });
-
-    // Load the default JiveXML file
-    this.loadEvent();
 
     // Load detector geometries
     this.eventDisplay
@@ -66,43 +60,5 @@ export class AtlasComponent implements OnInit {
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, true, false);
     this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, true, false);
-  }
-
-  private loadEvent() {
-    this.route.queryParams.subscribe(params => {
-      let file: string, type: string;
-      if (!params['file'] || !params['type']) {
-        file = 'assets/files/JiveXML/JiveXML_336567_2327102923.xml';
-        type = 'jivexml';
-      } else {
-        file = params['file'];
-        type = params['type'].toLowerCase();
-      }
-
-      const resType: any = type === 'jivexml' ? 'text' : 'json';
-
-      this.http.get(file, { responseType: resType }).subscribe((res: any) => {
-        if (type === 'jivexml') {
-          const loader = new JiveXMLLoader();
-          // Parse the JSON to extract events and their data
-          loader.process(res);
-          const eventData = loader.getEventData();
-          this.eventDisplay.buildEventDataFromJSON(eventData);
-        } else {
-          this.eventDisplay.parsePhoenixEvents(res);
-        }
-
-        if (params['config']) {
-          this.http.get(params['config']).subscribe(jsonState => {
-            const stateManager = new StateManager();
-            stateManager.loadStateFromJSON(jsonState);
-          });
-        }
-      }, error => {
-        this.eventDisplay.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
-        console.error('Could not find the file specified in URL.', error);
-      });
-
-    });
   }
 }
