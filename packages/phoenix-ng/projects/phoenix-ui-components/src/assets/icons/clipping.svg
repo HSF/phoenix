@@ -1,0 +1,6 @@
+<svg width="0" height="0" class="hidden">
+	<symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="clipping">
+		<path d="M12,11.9V1.4C6.2,1.4,1.6,6.1,1.6,11.9c0,5.8,4.7,10.4,10.4,10.4s10.4-4.7,10.4-10.4c0-0.8-0.1-1.5-0.2-2.2 L12,11.9z" fill="none" stroke="var(--phoenix-options-icon-path, #fff)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5">
+		</path>
+	</symbol>
+</svg>

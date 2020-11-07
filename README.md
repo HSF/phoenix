@@ -10,13 +10,13 @@
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
 
-![Phoenix Logo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-app/src/assets/images/logo-text.svg)
+![Phoenix Logo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/logo-text.svg)
 
 # Phoenix
 
 Phoenix is a TypeScript-based event display framework, using the popular [three.js](https://threejs.org) library for 3D. It focuses on being experiment agnostic by design, with common tools (such as custom menus, controls, propagators) and the possibility to add experiment specific extensions. 
 
-It consists of two packages: a plain TypeScript core library ([phoenix-event-display](packages/phoenix-event-display/README.md)) and Angular example applications ([phoenix-app](packages/phoenix-app/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps. 
+It consists of two packages: a plain TypeScript core library ([phoenix-event-display](packages/phoenix-event-display/README.md)) and Angular example applications ([phoenix-app](packages/phoenix-ng/projects/phoenix-app/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps. 
 
 Phoenix is the official web event display of both the [HEP Software Foundation](https://hepsoftwarefoundation.org), and the [ATLAS experiment](https://atlas.cern).
 
@@ -26,12 +26,12 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 ## Demo
 
-[![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
+[![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
 
 ## Components
 
 * [Phoenix event display API - `phoenix-event-display`](./packages/phoenix-event-display/)
-* [Phoenix application (Angular) - `phoenix-app`](./packages/phoenix-app/)
+* [Phoenix application (Angular) - `phoenix-app`](./packages/phoenix-ng/projects/phoenix-app/)
 
 ## Development
 

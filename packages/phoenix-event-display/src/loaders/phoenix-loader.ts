@@ -119,7 +119,7 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts: Cut[] = [
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
-        new Cut('mom', 0, 500)
+        new Cut('pT', 0, 50)
       ];
 
       this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', cuts);
@@ -159,6 +159,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.Hits) {
+      // Cannot currently cut on just a postion array.
       this.addObjectType(eventData.Hits, PhoenixObjects.getHits, 'Hits');
     }
 
@@ -174,7 +175,13 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.Muons) {
-      this.addObjectType(eventData.Muons, this.getMuon, 'Muons');
+      const cuts = [
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -100, 100),
+        new Cut('energy', 0, 10000),
+        new Cut('pT', 0, 50)
+      ];
+      this.addObjectType(eventData.Muons, this.getMuon, 'Muons', cuts);
     }
 
     // if (eventData.Photons) {
@@ -186,7 +193,10 @@ export class PhoenixLoader implements EventDataLoader {
     // }
 
     if (eventData.Vertices) {
-      this.addObjectType(eventData.Vertices, PhoenixObjects.getVertex, 'Vertices');
+      const cuts = [
+        new Cut('vertexType', 0, 5)
+      ];
+      this.addObjectType(eventData.Vertices, PhoenixObjects.getVertex, 'Vertices', cuts);
     }
   }
 
@@ -221,7 +231,7 @@ export class PhoenixLoader implements EventDataLoader {
         collectionColor = EVENT_DATA_TYPE_COLORS[typeName];
       }
 
-      cuts = cuts?.filter(cut => objectCollection[0][cut.field]);
+      cuts = cuts?.filter(cut => cut.field in objectCollection[0]);
       this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
       this.ui.addCollectionPM(typeFolderPM, collectionName, cuts, collectionColor);
     }

@@ -1,0 +1,48 @@
+{
+  "name": "phoenix-ui-components",
+  "version": "1.0.2",
+  "description": "Reusable Angular components of the Phoenix event display application.",
+  "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
+  "license": "Apache-2.0",
+  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components#phoenix-ui",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HSF/phoenix.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "@angular/cdk": "^10.1.3",
+    "@angular/common": "^10.0.14",
+    "@angular/compiler": "^10.0.14",
+    "@angular/core": "^10.0.14",
+    "@angular/material": "^10.1.3",
+    "@angular/platform-browser-dynamic": "^10.0.14",
+    "css-element-queries": "^1.2.3",
+    "ng5-slider": "^1.2.4",
+    "phoenix-event-display": "^1.0.2",
+    "three": "^0.120.0",
+    "tslib": "^2.0.0"
+  },
+  "main": "dist/bundles/phoenix-ui-components.umd.js",
+  "module_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
+  "module": "dist/fesm2015/phoenix-ui-components.js",
+  "es2015_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
+  "es2015": "dist/fesm2015/phoenix-ui-components.js",
+  "esm2015": "dist/esm2015/phoenix-ui-components.js",
+  "fesm2015_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
+  "fesm2015": "dist/fesm2015/phoenix-ui-components.js",
+  "typings": "dist/phoenix-ui-components.d.ts",
+  "metadata": "dist/phoenix-ui-components.metadata.json",
+  "sideEffects": false,
+  "__processed_by_ivy_ngcc__": {
+    "es2015": "10.0.14",
+    "fesm2015": "10.0.14",
+    "module": "10.0.14",
+    "typings": "10.0.14"
+  },
+  "scripts": {
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1"
+  }
+}
