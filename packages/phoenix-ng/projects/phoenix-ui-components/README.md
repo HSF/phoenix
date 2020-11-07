@@ -15,7 +15,7 @@ npm install phoenix-ui-components
 
 You can use [phoenix-app](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app) as a reference app that uses this package.
 
-Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](./src/assets) and put them in the `assets` directory of your application. All assets should be served through `/assets`.
+Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) and put them in the `assets` directory of your application. All assets should be served through `/assets`.
 
 Import the `PhoenixUIModule` in your `NgModule`.
 

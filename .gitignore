@@ -41,7 +41,7 @@ yarn-error.log
 testem.log
 typings/
 ssl/
-**/docs/
+packages/**/docs/
 
 # System Files
 .DS_Store

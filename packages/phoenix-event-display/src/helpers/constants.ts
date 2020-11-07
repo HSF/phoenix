@@ -1,5 +1,6 @@
 import { Color } from "three";
 
+/** Colors of different event data types. */
 export const EVENT_DATA_TYPE_COLORS = {
   Hits: new Color(0xff0000),
   Tracks: new Color(0xff0000),
