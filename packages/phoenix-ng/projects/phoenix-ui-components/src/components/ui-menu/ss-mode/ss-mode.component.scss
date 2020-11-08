@@ -1,0 +1,19 @@
+app-ui-menu .optionsWrapper,
+app-phoenix-menu #phoenix-menu,
+app-nav .main-logo,
+.ui-element {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
+.ss-mode {
+
+  app-ui-menu .optionsWrapper,
+  app-phoenix-menu #phoenix-menu,
+  app-nav .main-logo,
+  .ui-element {
+    visibility: hidden;
+    opacity: 0;
+  }
+}

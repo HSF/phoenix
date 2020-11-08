@@ -483,7 +483,7 @@ export class ThreeManager {
    * Enable keyboard controls for some Three service operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"

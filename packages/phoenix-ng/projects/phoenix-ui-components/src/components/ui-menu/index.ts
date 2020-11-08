@@ -23,4 +23,5 @@ export * from './tree-menu/tree-menu-item/tree-menu-item.component';
 export * from './view-options/view-options.component';
 export * from './vr-toggle/vr-toggle.component';
 export * from './zoom-controls/zoom-controls.component';
+export * from './ss-mode/ss-mode.component';
 export * from './ui-menu.component';
