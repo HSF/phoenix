@@ -168,7 +168,10 @@
           "options": {
             "main": "projects/phoenix-ui-components/src/test.ts",
             "tsConfig": "projects/phoenix-ui-components/tsconfig.spec.json",
-            "karmaConfig": "projects/phoenix-ui-components/karma.conf.js"
+            "karmaConfig": "projects/phoenix-ui-components/karma.conf.js",
+            "codeCoverageExclude": [
+              "projects/phoenix-ui-components/src/services/extras/**"
+            ]
           }
         },
         "lint": {

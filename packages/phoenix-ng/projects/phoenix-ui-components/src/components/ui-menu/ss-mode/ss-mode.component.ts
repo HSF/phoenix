@@ -16,21 +16,21 @@ export class SSModeComponent {
       document.addEventListener('keydown', this.onEscapePress);
       // WORKAROUND - Adding the event listener directly somehow calls it on the first click
       setTimeout(() => {
-        document.addEventListener('click', this.onDoubleClick);
+        document.addEventListener('click', this.onDocumentClick);
       }, 1);
     } else {
       document.removeEventListener('keydown', this.onEscapePress);
-      document.removeEventListener('click', this.onDoubleClick);
+      document.removeEventListener('click', this.onDocumentClick);
     }
   }
 
   private onEscapePress = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.code === 'Escape') {
       this.toggleSSMode();
     }
   }
 
-  private onDoubleClick = () => {
+  private onDocumentClick = () => {
     this.toggleSSMode();
   }
 
