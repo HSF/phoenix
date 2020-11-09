@@ -1,6 +1,7 @@
 app-ui-menu .optionsWrapper,
 app-phoenix-menu #phoenix-menu,
 app-nav .main-logo,
+.overlay-card,
 .ui-element {
   visibility: visible;
   opacity: 1;
@@ -12,6 +13,7 @@ app-nav .main-logo,
   app-ui-menu .optionsWrapper,
   app-phoenix-menu #phoenix-menu,
   app-nav .main-logo,
+  .overlay-card,
   .ui-element {
     visibility: hidden;
     opacity: 0;
