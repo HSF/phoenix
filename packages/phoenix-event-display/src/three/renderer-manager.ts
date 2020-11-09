@@ -56,8 +56,7 @@ export class RendererManager {
       window.innerHeight,
       false
     );
-    this.getMainRenderer().setPixelRatio(window.devicePixelRatio)
-    this.getMainRenderer().domElement.className = 'ui-element';
+    this.getMainRenderer().setPixelRatio(window.devicePixelRatio);
     this.getMainRenderer().domElement.id = 'three-canvas';
     let canvas = document.getElementById(elementId);
     if (canvas == null) {
