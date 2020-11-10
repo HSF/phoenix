@@ -27,15 +27,19 @@ export class TrackmlComponent implements OnInit {
   }
 
   ngOnInit() {
-    const configuration = new Configuration();
-    configuration.presetViews = [
-      new PresetView('Right View', [0, 0, 6000], 'right-cube'),
-      new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
-      new PresetView('Left View', [0, 0, -6000], 'left-cube')
-    ];
-    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
     this.trackMLLoader = new TrackmlLoader();
-    configuration.eventDataLoader = this.trackMLLoader;
+
+    const configuration: Configuration = {
+      eventDataLoader: this.trackMLLoader,
+      presetViews: [
+        new PresetView('Right View', [0, 0, 6000], 'right-cube'),
+        new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
+        new PresetView('Left View', [0, 0, -6000], 'left-cube')
+      ],
+      phoenixMenuRoot: this.phoenixMenuRoot,
+
+    };
+
     this.eventDisplay.init(configuration);
     this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);

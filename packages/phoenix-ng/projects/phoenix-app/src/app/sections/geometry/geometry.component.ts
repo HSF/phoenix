@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-geometry',
@@ -9,11 +8,10 @@ import { Configuration } from 'phoenix-event-display';
 })
 export class GeometryComponent implements OnInit {
 
-  constructor(private eventDisplay: EventDisplayService) {
-  }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.init(new Configuration());
+    this.eventDisplay.init({});
   }
 
 }

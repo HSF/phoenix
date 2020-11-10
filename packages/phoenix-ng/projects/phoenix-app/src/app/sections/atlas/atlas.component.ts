@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration, PresetView, PhoenixMenuNode } from 'phoenix-event-display';
+import { Configuration, PresetView, PhoenixMenuNode, PhoenixLoader } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-atlas',
@@ -14,23 +14,22 @@ export class AtlasComponent implements OnInit {
 
   ngOnInit() {
     // Define the configuration
-    const configuration = new Configuration();
-    configuration.presetViews = [
-      new PresetView('Left View', [0, 0, -12000], 'left-cube'),
-      new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
-      new PresetView('Right View', [0, 0, 12000], 'right-cube')
-    ];
-
-    configuration.defaultView = [4000, 4000, 4000];
-
-    // Set the phoenix menu to be used (defined above)
-    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
-
-    // Default event data to fallback to if none given in URL
-    // Do not set if there should be no event loaded by default
-    configuration.defaultEventFile = {
-      eventFile: 'assets/files/JiveXML/JiveXML_336567_2327102923.xml',
-      eventType: 'jivexml'
+    const configuration: Configuration = {
+      eventDataLoader: new PhoenixLoader(),
+      presetViews: [
+        new PresetView('Left View', [0, 0, -12000], 'left-cube'),
+        new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
+        new PresetView('Right View', [0, 0, 12000], 'right-cube')
+      ],
+      defaultView: [4000, 4000, 4000],
+      // Set the phoenix menu to be used (defined above)
+      phoenixMenuRoot: this.phoenixMenuRoot,
+      // Default event data to fallback to if none given in URL
+      // Do not set if there should be no event loaded by default
+      defaultEventFile: {
+        eventFile: 'assets/files/JiveXML/JiveXML_336567_2327102923.xml',
+        eventType: 'jivexml'
+      }
     };
 
     // Initialize the event display

@@ -1,7 +1,7 @@
 import { ThreeManager } from './three/index';
 import { UIManager } from './ui/index';
 import { InfoLogger } from './info-logger';
-import { Configuration } from './extras/configuration.model';
+import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { JiveXMLLoader } from './loaders/jivexml-loader';
 
@@ -103,7 +103,7 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
-    const eventKeys = this.configuration.getEventDataLoader().getEventsList(eventsData);
+    const eventKeys = this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach(callback => callback(eventKeys));
     return eventKeys;
@@ -120,7 +120,7 @@ export class EventDisplay {
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
-    this.configuration.getEventDataLoader().buildEventData(eventData, this.graphicsLibrary, this.ui, this.infoLogger);
+    this.configuration.eventDataLoader.buildEventData(eventData, this.graphicsLibrary, this.ui, this.infoLogger);
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
   }
 
@@ -342,7 +342,7 @@ export class EventDisplay {
    * @returns Object containing all physics objects from the desired collection.
    */
   public getCollection(collectionName: string) {
-    return this.configuration.getEventDataLoader().getCollection(collectionName);
+    return this.configuration.eventDataLoader.getCollection(collectionName);
   }
 
   /**
@@ -350,7 +350,7 @@ export class EventDisplay {
    * @returns List of strings, each representing a collection of the event displayed.
    */
   public getCollections(): string[] {
-    return this.configuration.getEventDataLoader().getCollections();
+    return this.configuration.eventDataLoader.getCollections();
   }
 
   /**
@@ -376,7 +376,7 @@ export class EventDisplay {
    * @returns Metadata of the displayed event.
    */
   public getEventMetadata(): any[] {
-    return this.configuration.getEventDataLoader().getEventMetadata();
+    return this.configuration.eventDataLoader.getEventMetadata();
   }
 
   /**

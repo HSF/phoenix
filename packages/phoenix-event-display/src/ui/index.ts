@@ -1,7 +1,7 @@
 import * as Stats from 'stats-js';
 import * as dat from 'dat.gui';
 import { ThreeManager } from '../three';
-import { Configuration } from '../extras/configuration.model';
+import { Configuration } from '../extras/configuration';
 import { PresetView } from '../extras/preset-view.model';
 import { Cut } from '../extras/cut.model';
 import { SceneManager } from '../three/scene-manager';
@@ -57,7 +57,7 @@ export class UIManager {
   private hasDatGUIMenu: boolean;
   /** Whether the phoenix menu is enabled or disabled. */
   private hasPhoenixMenu: boolean;
-  
+
   /** State manager for managing the event display's state. */
   private stateManager: StateManager;
 
@@ -82,21 +82,22 @@ export class UIManager {
     if (configuration.enableDatGUIMenu) {
       this.showDatGUIMenu(configuration.elementId);
     }
-    // Detect UI color scheme
-    this.detectColorScheme();
     // Set root node of phoenix menu
     if (configuration.phoenixMenuRoot) {
-      this.showPhoenixMenu(configuration.getPhoenixMenuRoot());
+      this.showPhoenixMenu(configuration.phoenixMenuRoot);
     }
+    // Detect UI color scheme
+    this.detectColorScheme();
     // State manager
     this.stateManager = new StateManager();
+    this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
   }
 
   /**
    * Show stats including FPS, milliseconds to render a frame, allocated memory etc.
    * @param elementId ID of the wrapper element.
    */
-  private showStats(elementId: string) {
+  private showStats(elementId: string = 'eventDisplay') {
     this.stats = Stats();
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
@@ -119,7 +120,7 @@ export class UIManager {
    * Show dat.GUI menu with different controls related to detector geometry and event data.
    * @param elementId ID of the wrapper element.
    */
-  private showDatGUIMenu(elementId: string) {
+  private showDatGUIMenu(elementId: string = 'eventDisplay') {
     this.hasDatGUIMenu = true;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
@@ -598,9 +599,7 @@ export class UIManager {
    * @returns Available preset views.
    */
   public getPresetViews(): PresetView[] {
-    if (this.configuration) {
-      return this.configuration.presetViews;
-    }
+    return this.configuration?.presetViews;
   }
 
   /**
@@ -652,10 +651,12 @@ export class UIManager {
         }
 
         // Shortcut keys for preset views (shift + 1...9)
-        if (e.code.startsWith('Digit')) {
-          const index = parseInt(e.code.slice(-1)) - 1;
-          if (this.configuration.presetViews[index]) {
-            this.displayView(this.configuration.presetViews[index]);
+        if (this.configuration?.presetViews) {
+          if (e.code.startsWith('Digit')) {
+            const index = parseInt(e.code.slice(-1)) - 1;
+            if (this.configuration.presetViews?.[index]) {
+              this.displayView(this.configuration.presetViews[index]);
+            }
           }
         }
       }

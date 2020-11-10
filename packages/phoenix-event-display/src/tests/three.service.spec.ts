@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { ThreeService } from '../three.service';
 import { InfoLoggerService } from '../infologger.service';
-import { Configuration } from '../extras/configuration.model';
 import { Group } from 'three';
 
 describe('ThreeService', () => {
@@ -24,7 +23,7 @@ describe('ThreeService', () => {
 
     beforeEach(() => {
       const infoLogger: InfoLoggerService = TestBed.inject(InfoLoggerService);
-      three.init(new Configuration(), infoLogger);
+      three.init({}, infoLogger);
 
       threePrivate = (three as any);
     });

@@ -18,7 +18,7 @@ export class RendererManager {
    * Instantiate the renderer manager by setting up the main renderer.
    * @param elementId ID of the wrapper element.
    */
-  constructor(elementId: string) {
+  constructor(elementId: string = 'eventDisplay') {
     // Main renderer for current browsers
     this.setRenderer(elementId);
   }

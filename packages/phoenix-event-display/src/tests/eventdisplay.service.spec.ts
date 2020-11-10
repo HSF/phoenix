@@ -6,7 +6,7 @@ import { ThreeService } from '../three.service';
 import { UIService } from '../ui.service';
 import { HttpClient } from '@angular/common/http';
 import { InfoLoggerService } from '../infologger.service';
-import { Configuration } from '../extras/configuration.model';
+import { Configuration } from '../extras/configuration';
 import { ScriptLoader } from '../loaders/script-loader';
 import { of } from 'rxjs';
 
@@ -57,7 +57,7 @@ describe('EventDisplayService', () => {
     spyOn(three, 'init').and.callThrough();
     spyOn(ui, 'showUI').and.callThrough();
 
-    eventDisplay.init(new Configuration(true));
+    eventDisplay.init({});
 
     expect(three.init).toHaveBeenCalled();
     expect(ui.showUI).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('EventDisplayService', () => {
 
   describe('after init', () => {
     beforeEach(() => {
-      eventDisplay.init(new Configuration(true));
+      eventDisplay.init({});
     });
 
     it('should parse event data in phoenix format and call on event change functions', () => {
@@ -81,12 +81,12 @@ describe('EventDisplayService', () => {
       const mockCallbackOnEventsChange = jasmine.createSpy('callback');
       eventDisplay.listenToDisplayedEventChange(mockCallbackOnEventsChange);
 
-      spyOn(eventDisplayPrivate.configuration.getEventDataLoader(), 'buildEventData')
+      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'buildEventData')
         .and.callThrough();
 
       eventDisplay.buildEventDataFromJSON(MOCK_EVENT_DATA[EVENT_KEY]);
 
-      expect(eventDisplayPrivate.configuration.getEventDataLoader().buildEventData)
+      expect(eventDisplayPrivate.configuration.eventDataLoader.buildEventData)
         .toHaveBeenCalled();
       expect(mockCallbackOnEventsChange).toHaveBeenCalled();
     });
@@ -194,15 +194,15 @@ describe('EventDisplayService', () => {
     });
 
     it('should get collection through collection name', () => {
-      spyOn(eventDisplayPrivate.configuration.getEventDataLoader(), 'getCollection').and.stub();
+      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollection').and.stub();
       eventDisplay.getCollection('TestCollection');
-      expect(eventDisplayPrivate.configuration.getEventDataLoader().getCollection).toHaveBeenCalled();
+      expect(eventDisplayPrivate.configuration.eventDataLoader.getCollection).toHaveBeenCalled();
     });
 
     it('should get collections', () => {
-      spyOn(eventDisplayPrivate.configuration.getEventDataLoader(), 'getCollections').and.stub();
+      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollections').and.stub();
       eventDisplay.getCollections();
-      expect(eventDisplayPrivate.configuration.getEventDataLoader().getCollections).toHaveBeenCalled();
+      expect(eventDisplayPrivate.configuration.eventDataLoader.getCollections).toHaveBeenCalled();
     });
 
     it('should listen to function when displayed event changes', () => {
@@ -213,11 +213,11 @@ describe('EventDisplayService', () => {
     });
 
     it('should get event metadata from event loader', () => {
-      spyOn(eventDisplayPrivate.configuration.getEventDataLoader(), 'getEventMetadata').and.stub();
+      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getEventMetadata').and.stub();
 
       eventDisplay.getEventMetadata();
 
-      expect(eventDisplayPrivate.configuration.getEventDataLoader().getEventMetadata).toHaveBeenCalled();
+      expect(eventDisplayPrivate.configuration.eventDataLoader.getEventMetadata).toHaveBeenCalled();
     });
 
     it('should enable and run event display functions through console', () => {
