@@ -18,15 +18,17 @@ To create a simple event display.
 
 ```js
 // Import required classes
-import { EventDisplay, Configuration } from 'phoenix-event-display';
+import { EventDisplay, Configurationm PhoenixLoader } from 'phoenix-event-display';
 
 // Create the event display
 const eventDisplay = new EventDisplay();
 
-// Create the configuration
-const configuration = new Configuration('wrapper_element_id');
-
-// ... other configuration options
+// Define the configuration
+const configuration = {
+  elementId: '<wrapper_element_id>',
+  eventDataLoader: new PhoenixLoader() // or some other event data loader
+  // ... other configuration options
+};
 
 // Initialize the event display with the configuration
 eventDisplay.init(configuration);
