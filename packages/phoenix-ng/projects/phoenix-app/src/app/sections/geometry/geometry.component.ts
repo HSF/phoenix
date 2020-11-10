@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-geometry',

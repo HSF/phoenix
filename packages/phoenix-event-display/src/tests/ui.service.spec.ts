@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { UIService } from '../ui.service';
 import { ThreeService } from '../three.service';
-import { Configuration } from '../extras/configuration.model';
+import { Configuration } from '../extras/configuration';
 import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
 import { PresetView } from '../extras/preset-view.model';
 
@@ -28,13 +28,15 @@ describe('UIService', () => {
 
   describe('after being shown', () => {
     beforeEach(() => {
-      const configuration = new Configuration(true);
-      configuration.setPhoenixMenuRoot(new PhoenixMenuNode('Root Phoenix Menu'));
+      const configuration: Configuration = {
+        enableDatGUIMenu: true,
+        phoenixMenuRoot: new PhoenixMenuNode('Root Phoenix Menu')
+      };
       ui.showUI(configuration);
     });
 
     it('should cover if no menu given', () => {
-      ui.showUI(new Configuration(false));
+      ui.showUI({});
     });
 
     it('should show stats and dat.GUI menu', () => {

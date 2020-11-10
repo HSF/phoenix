@@ -6,7 +6,7 @@ import { ThreeService } from '../three.service';
 import { UIService } from '../ui.service';
 import { HttpClient } from '@angular/common/http';
 import { InfoLoggerService } from '../infologger.service';
-import { Configuration } from '../extras/configuration.model';
+import { Configuration } from '../extras/configuration';
 import { ScriptLoader } from '../loaders/script-loader';
 import { of } from 'rxjs';
 
@@ -57,7 +57,7 @@ describe('EventDisplayService', () => {
     spyOn(three, 'init').and.callThrough();
     spyOn(ui, 'showUI').and.callThrough();
 
-    eventDisplay.init(new Configuration(true));
+    eventDisplay.init({});
 
     expect(three.init).toHaveBeenCalled();
     expect(ui.showUI).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('EventDisplayService', () => {
 
   describe('after init', () => {
     beforeEach(() => {
-      eventDisplay.init(new Configuration(true));
+      eventDisplay.init({});
     });
 
     it('should parse event data in phoenix format and call on event change functions', () => {

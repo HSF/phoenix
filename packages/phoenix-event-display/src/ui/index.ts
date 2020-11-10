@@ -82,12 +82,12 @@ export class UIManager {
     if (configuration.enableDatGUIMenu) {
       this.showDatGUIMenu(configuration.elementId);
     }
-    // Detect UI color scheme
-    this.detectColorScheme();
     // Set root node of phoenix menu
     if (configuration.phoenixMenuRoot) {
       this.showPhoenixMenu(configuration.phoenixMenuRoot);
     }
+    // Detect UI color scheme
+    this.detectColorScheme();
     // State manager
     this.stateManager = new StateManager();
     this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
