@@ -18,23 +18,26 @@ export class LHCbComponent implements OnInit {
   }
 
   ngOnInit() {
-    const configuration = new Configuration();
-    configuration.presetViews = [
-      new PresetView('Right View', [0, 0, 6000], 'right-cube'),
-      new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
-      new PresetView('Left View', [0, 0, -6000], 'left-cube')
-    ];
-    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
+    this.loader = new LHCbLoader();
+
+    const configuration: Configuration = {
+      eventDataLoader: this.loader,
+      presetViews: [
+        new PresetView('Right View', [0, 0, 6000], 'right-cube'),
+        new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
+        new PresetView('Left View', [0, 0, -6000], 'left-cube')
+      ],
+      phoenixMenuRoot: this.phoenixMenuRoot
+    };
 
     this.eventDisplay.init(configuration);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
-    this.loader = new LHCbLoader();
-    configuration.eventDataLoader = this.loader;
-    this.loadEventData(configuration);
 
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
+
+    this.loadEventData();
   }
 
-  private loadEventData(config: Configuration) {
+  private loadEventData() {
     this.http.get('assets/files/lhcb/00191749_0005296728.json').subscribe((data: any) => {
       this.loader.process(data);
       const eventData = this.loader.getEventData();

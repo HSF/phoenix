@@ -9,11 +9,10 @@ import { Configuration } from 'phoenix-event-display';
 })
 export class GeometryComponent implements OnInit {
 
-  constructor(private eventDisplay: EventDisplayService) {
-  }
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
-    this.eventDisplay.init(new Configuration());
+    this.eventDisplay.init({});
   }
 
 }

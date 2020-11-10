@@ -15,17 +15,17 @@ export class CMSComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService, private http: HttpClient) { }
 
   ngOnInit(): void {
-
-    const configuration = new Configuration();
-    configuration.presetViews = [
-      new PresetView('Left View', [0, 0, -12000], 'left-cube'),
-      new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
-      new PresetView('Right View', [0, 0, 12000], 'right-cube')
-    ];
-    configuration.setPhoenixMenuRoot(this.phoenixMenuRoot);
-
     const cmsLoader = new CMSLoader();
-    configuration.eventDataLoader = cmsLoader;
+
+    const configuration: Configuration = {
+      eventDataLoader: cmsLoader,
+      presetViews: [
+        new PresetView('Left View', [0, 0, -12000], 'left-cube'),
+        new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
+        new PresetView('Right View', [0, 0, 12000], 'right-cube')
+      ],
+      phoenixMenuRoot: this.phoenixMenuRoot,
+    }
 
     this.eventDisplay.init(configuration);
 
@@ -37,7 +37,6 @@ export class CMSComponent implements OnInit {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
       this.eventDisplay.parsePhoenixEvents(allEventsData);
     });
-
   }
 
 }

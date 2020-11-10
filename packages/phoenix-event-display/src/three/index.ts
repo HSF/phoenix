@@ -9,7 +9,7 @@ import {
   DirectionalLight,
   AxesHelper
 } from 'three';
-import { Configuration } from '../extras/configuration.model';
+import { Configuration } from '../extras/configuration';
 import { ControlsManager } from './controls-manager';
 import { RendererManager } from './renderer-manager';
 import { ExportManager } from './export-manager';
@@ -102,8 +102,6 @@ export class ThreeManager {
       this.effectsManager,
       this.infoLogger
     );
-    // Customizing with configuration
-    this.setConfiguration(configuration);
     // Set camera of the event display state
     new StateManager().setCamera(this.controlsManager.getActiveCamera());
   }
@@ -396,13 +394,6 @@ export class ThreeManager {
   // ********************************
   // * Private auxiliary functions. *
   // ********************************
-
-  /**
-   * Sets different parameters according to the configuration.
-   * @param configuration Configuration object.
-   */
-  private setConfiguration(configuration: Configuration) {
-  }
 
   /**
    * Get the selection manager.

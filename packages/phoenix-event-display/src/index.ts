@@ -24,7 +24,7 @@ export * from './ui/index';
 export * from './ui/phoenix-menu/phoenix-menu-node';
 
 // Extras
-export * from './extras/configuration.model';
+export * from './extras/configuration';
 export * from './extras/cut.model';
 export * from './extras/preset-view.model';
 
