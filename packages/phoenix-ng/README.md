@@ -1,8 +1,5 @@
 # Phoenix application
 
-[![Version](https://img.shields.io/npm/v/phoenix-app.svg)](https://www.npmjs.com/package/phoenix-app)
-[![Downloads](https://img.shields.io/npm/dt/phoenix-app.svg)](https://www.npmjs.com/package/phoenix-app)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
 ## Build and run
@@ -61,3 +58,13 @@ You can then copy the files generated in `./docs` to your server e.g. with:
 ```sh
 rsync -avz docs/ your-server.net:path/to/website
 ```
+
+#### Deploy with a specific event
+
+Phoenix can also be deployed as a single page application with a specific event. To do that.
+
+1. Copy the event data to [./projects/phoenix-app/src/assets](./projects/phoenix-app/src/assets) (or you can use a URL instead)
+1. Specify the event data type and file path (or URL) in [./projects/phoenix-app/event-config.json](./projects/phoenix-app/event-config.json)
+1. Lastly, in the `packages/phoenix-ng` directory, run the command: `npm run deploy:web:single`
+
+The deployed application will be in [./docs](./docs) which can be copied directly to a server.
