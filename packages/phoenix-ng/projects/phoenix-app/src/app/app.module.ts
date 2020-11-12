@@ -13,17 +13,26 @@ import { PhoenixUIModule } from 'phoenix-ui-components';
 import { RouterModule, Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from '../environments/environment';
 
-const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'geometry', component: GeometryComponent },
-  { path: 'atlas', component: AtlasComponent },
-  { path: 'lhcb', component: LHCbComponent },
-  { path: 'cms', component: CMSComponent },
-  { path: 'trackml', component: TrackmlComponent },
-  { path: 'playground', component: PlaygroundComponent }
-];
+let routes: Routes;
+
+if (environment?.singleEvent) {
+  routes = [
+    { path: '', component: AtlasComponent }
+  ];
+} else {
+  routes = [
+    { path: '', component: HomeComponent },
+    { path: 'home', component: HomeComponent },
+    { path: 'geometry', component: GeometryComponent },
+    { path: 'atlas', component: AtlasComponent },
+    { path: 'lhcb', component: LHCbComponent },
+    { path: 'cms', component: CMSComponent },
+    { path: 'trackml', component: TrackmlComponent },
+    { path: 'playground', component: PlaygroundComponent }
+  ];
+}
 
 @NgModule({
   declarations: [
@@ -39,7 +48,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes, { useHash: environment?.singleEvent ? false : true }),
     BrowserAnimationsModule,
     PhoenixUIModule
   ],

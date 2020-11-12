@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:ssl": "ng serve --ssl --host=0.0.0.0",
+    "start:single": "ng serve --configuration singleEvent",
     "build": "ng build",
     "build:ui-components": "ng build phoenix-ui-components --prod",
     "prepare": "npm run build:ui-components",
@@ -16,7 +17,8 @@
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage",
     "coveralls": "cat ./coverage/phoenix-ui-components/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "version": "npm run deploy",
-    "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
+    "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
+    "deploy:web:single": "ng build --configuration singleEvent --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular/animations": "^10.0.14",

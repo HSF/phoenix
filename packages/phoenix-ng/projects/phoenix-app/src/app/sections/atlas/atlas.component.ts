@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { Configuration, PresetView, PhoenixMenuNode, PhoenixLoader } from 'phoenix-event-display';
+import { environment } from '../../../environments/environment';
+import eventConfig from '../../../../event-config.json';
 
 @Component({
   selector: 'app-atlas',
@@ -13,6 +15,17 @@ export class AtlasComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
+    let defaultEvent: { eventFile: string, eventType: string };
+    // Get default event from configuration
+    if (environment?.singleEvent) {
+      defaultEvent = eventConfig;
+    } else {
+      defaultEvent = {
+        eventFile: 'assets/files/JiveXML/JiveXML_336567_2327102923.xml',
+        eventType: 'jivexml'
+      }
+    }
+
     // Define the configuration
     const configuration: Configuration = {
       eventDataLoader: new PhoenixLoader(),
@@ -26,10 +39,7 @@ export class AtlasComponent implements OnInit {
       phoenixMenuRoot: this.phoenixMenuRoot,
       // Default event data to fallback to if none given in URL
       // Do not set if there should be no event loaded by default
-      defaultEventFile: {
-        eventFile: 'assets/files/JiveXML/JiveXML_336567_2327102923.xml',
-        eventType: 'jivexml'
-      }
+      defaultEventFile: defaultEvent
     };
 
     // Initialize the event display

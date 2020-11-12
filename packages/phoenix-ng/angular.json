@@ -53,7 +53,35 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ]
+            },
+            "singleEvent": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/phoenix-app/src/environments/environment.ts",
+                  "with": "projects/phoenix-app/src/environments/environment.single.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
                   "maximumError": "5mb"
                 },
                 {
@@ -72,6 +100,9 @@
           "configurations": {
             "production": {
               "browserTarget": "phoenix-app:build:production"
+            },
+            "singleEvent": {
+              "browserTarget": "phoenix-app:build:singleEvent"
             }
           }
         },
