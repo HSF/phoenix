@@ -50,23 +50,48 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     // Load detector geometries
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0x8c8c8c, undefined, false, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/TRT.obj', 'TRT', 0x356aa5, undefined, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/SCT.obj', 'SCT', 0xfff400, undefined, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/pixel.obj', 'Pixel', 0x356aa5, undefined, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/LAR_Bar.obj', 'LAr Barrel', 0x19CCD2, undefined, true, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, undefined, true, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, undefined, true, false);
-    this.eventDisplay
-      .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, undefined, true, false);
+    
+    // Magnets + Support
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Barrel-Toroid.gltf', 'Barrel Toroid > Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/End-Cap-Toroid.gltf', 'Endcap > Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Feet.gltf', 'Feet > Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Forward-Shielding.gltf', 'Forward shielding > Misc', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tower-Turret.gltf', 'Tower turret > Misc', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Warm-Structure.gltf', 'Warm structure > Misc', 1000, false);
 
+    // LAr
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-Barrel.gltf', 'LAr Barrel > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-EMEC.gltf', 'LAr EC1 > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-FCAL.gltf', 'LAr FCAL > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-HEC.gltf', 'LAr HEC > Calorimeters', 1000, false);
+
+    // Tile
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-Barrel.gltf', 'Tile Cal > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-End-Cap.gltf', 'Tile Cal EC > Calorimeters', 1000, false);
+
+    // Inner Detector
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Beam.gltf', 'Beam > Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Pixel.gltf', 'Pixel > Inner Detector', 1000, true);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-BAR.gltf', 'SCT > Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-EC.gltf', 'SCT EC > Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-BAR.gltf', 'TRT > Inner Detector', 1000, false );
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-EC.gltf', 'TRT EC > Inner Detector', 1000, false);
+
+    // Muons
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Extra-Wheel.gltf', 'Extra wheel > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Big-Wheel.gltf', 'Big Wheel > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Outer-Wheel.gltf', 'Outer Wheel > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Muon-Barrel-Inner.gltf', 'Muon Barrel Inner > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Muon-Barrel-Middle.gltf', 'Muon Barrel Middle > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Muon-Barrel-Outer.gltf', 'Muon Barrel Outer> Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Muon-Big-Wheel-MDT.gltf', 'Big Wheel MDT > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Small-Wheel-Chambers.gltf', 'Small Wheel > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Small-Wheel-Hub.gltf', 'Small Wheel Hub > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Small-Wheel-NJD.gltf', 'Small Wheel Feet > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TGC2.gltf', 'TGC2 > Muon', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TGC3.gltf', 'TGC3 > Muon', 1000, false);
+  
+    // Load the default configuration
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
       const stateManager = new StateManager();
