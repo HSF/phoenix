@@ -30,7 +30,7 @@ export class CMSComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     ScriptLoader.loadJSRootScripts((JSROOT) => {
-      this.eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', 10, true);
+      this.eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', undefined, 10, true);
     });
 
     cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {

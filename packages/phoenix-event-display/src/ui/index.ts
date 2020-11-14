@@ -247,9 +247,10 @@ export class UIManager {
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param color Color of the geometry.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public addGeometry(name: string, color: any, initiallyVisible: boolean = true) {
+  public addGeometry(name: string, color: any, menuNodeName?: string, initiallyVisible: boolean = true) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
@@ -289,8 +290,12 @@ export class UIManager {
     }
 
     if (this.hasPhoenixMenu) {
+      let parentNode: PhoenixMenuNode = this.geomFolderPM;
+      if (menuNodeName) {
+        parentNode = this.geomFolderPM.findInTreeOrCreate(menuNodeName);
+      }
       // Phoenix menu
-      const objFolderPM = this.geomFolderPM.addChild(name, (value: boolean) => {
+      const objFolderPM = parentNode.addChild(name, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(name, value);
       });
       objFolderPM.toggleState = initiallyVisible;

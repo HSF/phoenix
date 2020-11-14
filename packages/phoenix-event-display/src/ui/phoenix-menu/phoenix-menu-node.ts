@@ -193,4 +193,34 @@ export class PhoenixMenuNode {
       }
     }
   }
+
+  /**
+   * Find a node in the tree by name.
+   * @param name Name of the node to find.
+   * @returns The found node.
+   */
+  findInTree(name: string): PhoenixMenuNode {
+    if (this.name === name) {
+      return this;
+    } else {
+      for (const child of this.children) {
+        return child.findInTree(name);
+      }
+    }
+  }
+
+  /**
+   * Find a node in the tree by name or create one.
+   * @param name Name of the node to find or create.
+   * @returns The found or created node.
+   */
+  findInTreeOrCreate(name: string): PhoenixMenuNode {
+    let prevNode: PhoenixMenuNode = this;
+    name.split('>').forEach(nodeName => {
+      nodeName = nodeName.trim();
+      const nodeFound = prevNode.findInTree(nodeName);
+      prevNode = nodeFound ? nodeFound : prevNode.addChild(nodeName, () => { });
+    });
+    return prevNode;
+  }
 }
