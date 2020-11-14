@@ -18,9 +18,11 @@ export class SSModeComponent {
       setTimeout(() => {
         document.addEventListener('click', this.onDocumentClick);
       }, 1);
+      document.documentElement.requestFullscreen();
     } else {
       document.removeEventListener('keydown', this.onEscapePress);
       document.removeEventListener('click', this.onDocumentClick);
+      document.exitFullscreen();
     }
   }
 
