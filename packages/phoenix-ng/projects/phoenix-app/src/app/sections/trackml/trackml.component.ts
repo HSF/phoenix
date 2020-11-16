@@ -41,11 +41,11 @@ export class TrackmlComponent implements OnInit {
     };
 
     this.eventDisplay.init(configuration);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, true);
-    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_long_simplified.obj', 'Long Strip', 0xe9a23b, undefined, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_simplified.obj', 'Pixel', 0xe2a9e8, undefined, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/strip_short_simplified.obj', 'Short Strip', 0x369f95, undefined, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, undefined, true);
+    this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, undefined, true);
     this.loadTrackMLData();
   }
 
