@@ -578,4 +578,12 @@ export class ThreeManager {
   public getObjectByName(objectName: string): Object3D {
     return this.getSceneManager().getScene().getObjectByName(objectName);
   }
+
+  /**
+   * Set the antialiasing.
+   * @param antialias Whether antialiasing is to enabled or disabled.
+   */
+  public setAntialiasing(antialias: boolean) {
+    this.effectsManager.setAntialiasing(antialias);
+  }
 }

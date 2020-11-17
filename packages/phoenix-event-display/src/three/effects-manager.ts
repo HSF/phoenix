@@ -16,6 +16,8 @@ export class EffectsManager {
   private scene: Scene;
   /** Render pass for rendering the default scene. */
   private defaultRenderPass: RenderPass;
+  /** Whether antialiasing is enabled or disabled. */
+  private antialiasing: boolean = false;
 
   /**
    * Constructor for the effects manager which manages effects and three.js passes.
@@ -38,10 +40,12 @@ export class EffectsManager {
    * @param scene The default scene used for event display.
    */
   public render(camera: Camera, scene: Scene) {
-    if (this.composer) {
+    if (this.composer && !this.antialiasing) {
       this.defaultRenderPass.camera = camera;
       this.defaultRenderPass.scene = scene;
       this.composer.render();
+    } else if (this.antialiasing) {
+      this.composer.renderer.render(scene, camera);
     }
   }
 
@@ -69,5 +73,13 @@ export class EffectsManager {
   public removePass(pass: Pass) {
     const passIndex = this.composer.passes.indexOf(pass);
     this.composer.passes.splice(passIndex, 1);
+  }
+
+  /**
+   * Set the antialiasing of renderer.
+   * @param antialias Whether antialiasing is to enabled or disabled.
+   */
+  public setAntialiasing(antialias: boolean) {
+    this.antialiasing = antialias;
   }
 }
