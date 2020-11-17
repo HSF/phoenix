@@ -234,14 +234,15 @@ export class ThreeManager {
     name: string,
     color: any,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
+    setFlat: boolean = true
   ): void {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
-    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
+    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
 
   /**
