@@ -16,4 +16,14 @@ export class GeometryComponent implements OnInit {
     this.eventDisplay.buildGeometryFromParameters(parameters);
   }
 
+  copyCode() {
+    const code = document.getElementById('geometryCode').textContent.trim();
+    const inputElement = document.createElement('input');
+    document.body.appendChild(inputElement);
+    inputElement.value = code;
+    inputElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(inputElement);
+  }
+
 }
