@@ -315,6 +315,14 @@ export class EventDisplay {
   }
 
   /**
+   * Build Geometry from thr passed parameters, where 
+   * @param parameters 
+   */
+  public buildGeometryFromParameters(parameters: any): void {
+    this.graphicsLibrary.addGeometryFromParameters(parameters);
+  }
+
+  /**
    * Zoom all the cameras by a specific zoom factor.
    * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
    * @param zoomFactor The factor to zoom by.
@@ -404,7 +412,8 @@ export class EventDisplay {
       loadJSONGeometry: (json: string | object, name: string, menuNodeName: string,
         scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
         this.loadJSONGeometry(json, name, menuNodeName, scale, doubleSided, initiallyVisible);
-      }
+      },
+      buildGeometryFromParameters: (parameters:object)=> this.buildGeometryFromParameters(parameters)
     };
   }
 
