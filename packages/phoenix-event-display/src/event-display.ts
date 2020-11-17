@@ -172,11 +172,12 @@ export class EventDisplay {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
-   * @param doubleSided Renders both sides of the material.
+   * @param doubleSided If true, render both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param setFlat Whether object should be flat-shaded or not.
    */
   public loadOBJGeometry(filename: string, name: string, color: any,
-    menuNodeName?: string, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    menuNodeName?: string, doubleSided?: boolean, initiallyVisible: boolean = true, setFlat: boolean = true) {
     this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');

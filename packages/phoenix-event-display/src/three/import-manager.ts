@@ -39,14 +39,15 @@ export class ImportManager {
     filename: string,
     name: string,
     color: any,
-    doubleSided: boolean
+    doubleSided: boolean,
+    setFlat: boolean
   ) {
     if (color == null) {
       color = 0x41a6f4;
     }
     const objLoader = new OBJLoader();
     objLoader.load(filename, object => {
-      const processed = this.processOBJ(object, name, color, doubleSided, 'OBJ file');
+      const processed = this.processOBJ(object, name, color, doubleSided, setFlat, 'OBJ file');
       callback(processed);
     });
   }
@@ -65,6 +66,7 @@ export class ImportManager {
       name,
       0x41a6f4,
       false,
+      false,
       'OBJ file loaded from the client.'
     );
   }
@@ -82,11 +84,12 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
+    setFlat: boolean,
     data?: string
   ): Object3D {
     object.name = name;
     object.userData = { info: data };
-    return this.setObjFlat(object, color, doubleSided);
+    return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
   /**
@@ -96,15 +99,16 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @returns The processed object.
    */
-  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean): Object3D {
-    const material2 = new MeshPhongMaterial({
+  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean, setFlat: boolean): Object3D {
+    var material2 = new MeshPhongMaterial({
       color: color,
       shininess: 0,
       wireframe: false,
       clippingPlanes: this.clipPlanes,
       clipIntersection: true,
       clipShadows: false,
-      side: doubleSided ? DoubleSide : FrontSide
+      side: doubleSided ? DoubleSide : FrontSide,
+      flatShading: setFlat
     });
 
     object3d.traverse((child: Object3D) => {
