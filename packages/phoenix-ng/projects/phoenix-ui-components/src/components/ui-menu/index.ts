@@ -24,5 +24,5 @@ export * from './view-options/view-options.component';
 export * from './vr-toggle/vr-toggle.component';
 export * from './zoom-controls/zoom-controls.component';
 export * from './ss-mode/ss-mode.component';
-export * from './antialias-toggle/antialias-toggle.component';
+export * from './performance-toggle/performance-toggle.component';
 export * from './ui-menu.component';

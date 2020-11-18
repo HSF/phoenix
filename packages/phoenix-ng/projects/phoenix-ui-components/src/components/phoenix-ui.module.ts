@@ -44,7 +44,7 @@ import {
   AnimateEventComponent,
   VrToggleComponent,
   SSModeComponent,
-  AntialiasToggleComponent
+  PerformanceToggleComponent
 } from './ui-menu';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -83,7 +83,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   AnimateEventComponent,
   VrToggleComponent,
   SSModeComponent,
-  AntialiasToggleComponent
+  PerformanceToggleComponent
 ];
 
 @NgModule({

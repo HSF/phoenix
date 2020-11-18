@@ -1,11 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDisplayService } from '../../../services/event-display.service';
 
-import { AntialiasToggleComponent } from './antialias-toggle.component';
+import { PerformanceToggleComponent } from './performance-toggle.component';
 
-describe('AntialiasToggleComponent', () => {
-  let component: AntialiasToggleComponent;
-  let fixture: ComponentFixture<AntialiasToggleComponent>;
+describe('PerformanceToggleComponent', () => {
+  let component: PerformanceToggleComponent;
+  let fixture: ComponentFixture<PerformanceToggleComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
     getThreeManager: jasmine.createSpyObj('ThreeManager', ['setAntialiasing'])
@@ -13,7 +13,7 @@ describe('AntialiasToggleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AntialiasToggleComponent],
+      declarations: [PerformanceToggleComponent],
       providers: [{
         provide: EventDisplayService,
         useValue: mockEventDisplay
@@ -23,7 +23,7 @@ describe('AntialiasToggleComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AntialiasToggleComponent);
+    fixture = TestBed.createComponent(PerformanceToggleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
