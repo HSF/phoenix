@@ -178,9 +178,9 @@ export class EventDisplay {
    */
   public loadOBJGeometry(filename: string, name: string, color: any,
     menuNodeName?: string, doubleSided?: boolean, initiallyVisible: boolean = true, setFlat: boolean = true) {
-    this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
+    return this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible, setFlat);
   }
 
   /**
@@ -209,8 +209,9 @@ export class EventDisplay {
    * Parse and load an event from the Phoenix file format (.phnx).
    * @param input Content containing the JSON with event data
    * and other configuration.
+   * @returns Promise for loading the geometry.
    */
-  public parsePhoenixDisplay(input: any) {
+  public parsePhoenixDisplay(input: any): Promise<unknown> {
     const phoenixScene = JSON.parse(input);
 
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
@@ -220,7 +221,7 @@ export class EventDisplay {
       this.graphicsLibrary.clearEventData();
       // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
-      this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);
+      return this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);
     }
   }
 
@@ -248,12 +249,13 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(url: any, name: string, menuNodeName?: string,
-    scale?: number, initiallyVisible: boolean = true) {
-    this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
+    return this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
   }
 
   /**
@@ -264,12 +266,13 @@ export class EventDisplay {
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(json: string | object, name: string, menuNodeName?: string,
-    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
-    this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
+    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
+    return this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
   }
 
   /**

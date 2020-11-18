@@ -228,6 +228,8 @@ export class ThreeManager {
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
     filename: string,
@@ -236,13 +238,13 @@ export class ThreeManager {
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
-  ): void {
+  ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
-    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
+    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
 
   /**
@@ -251,15 +253,16 @@ export class ThreeManager {
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(sceneUrl: any, name: string,
-    scale?: number, initiallyVisible: boolean = true) {
+    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
+    return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**
@@ -278,13 +281,14 @@ export class ThreeManager {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
+   * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any) {
+  public parseGLTFGeometry(geometry: any): Promise<unknown> {
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
     };
-    this.importManager.parseGLTFGeometry(geometry, callback);
+    return this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
   /**
@@ -294,15 +298,16 @@ export class ThreeManager {
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(json: string | object, name: string,
-    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+  public loadJSONGeometry(json: string | object, name: string, scale?: number,
+    doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
+    return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
 
   /**
