@@ -33,6 +33,7 @@ export class ImportManager {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
@@ -40,7 +41,8 @@ export class ImportManager {
     filename: string,
     name: string,
     color: any,
-    doubleSided: boolean
+    doubleSided: boolean,
+    setFlat: boolean
   ): Promise<unknown> {
     if (color == null) {
       color = 0x41a6f4;
@@ -48,7 +50,7 @@ export class ImportManager {
     const objLoader = new OBJLoader();
     return new Promise((resolve, reject) => {
       objLoader.load(filename, object => {
-        const processed = this.processOBJ(object, name, color, doubleSided, 'OBJ file');
+        const processed = this.processOBJ(object, name, color, doubleSided, setFlat, 'OBJ file');
         callback(processed);
         resolve();
       }, null, reject);
@@ -69,6 +71,7 @@ export class ImportManager {
       name,
       0x41a6f4,
       false,
+      false,
       'OBJ file loaded from the client.'
     );
   }
@@ -79,6 +82,7 @@ export class ImportManager {
    * @param name Name of the object.
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @param data Data/description to be associated with the object.
    */
   private processOBJ(
@@ -86,11 +90,12 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
+    setFlat: boolean,
     data?: string
   ): Object3D {
     object.name = name;
     object.userData = { info: data };
-    return this.setObjFlat(object, color, doubleSided);
+    return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
   /**
@@ -98,9 +103,10 @@ export class ImportManager {
    * @param object3d Group of geometries that make up the object.
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @returns The processed object.
    */
-  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean): Object3D {
+  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean, setFlat: boolean): Object3D {
     const material2 = new MeshPhongMaterial({
       color: color,
       shininess: 0,
@@ -108,7 +114,8 @@ export class ImportManager {
       clippingPlanes: this.clipPlanes,
       clipIntersection: true,
       clipShadows: false,
-      side: doubleSided ? DoubleSide : FrontSide
+      side: doubleSided ? DoubleSide : FrontSide,
+      flatShading: setFlat
     });
 
     object3d.traverse((child: Object3D) => {

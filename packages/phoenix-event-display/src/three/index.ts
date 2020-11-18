@@ -228,6 +228,7 @@ export class ThreeManager {
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
@@ -235,14 +236,15 @@ export class ThreeManager {
     name: string,
     color: any,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
+    setFlat: boolean = true
   ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
-    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
+    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
 
   /**
