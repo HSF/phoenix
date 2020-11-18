@@ -124,7 +124,7 @@ export class SceneManager {
   public setGeometryOpacity(name: string, value: number) {
     const object = this.scene.getObjectByName(name);
 
-    if (value) {
+    if (value && object) {
       object.traverse((o) => {
         if (o instanceof Mesh && o.material instanceof Material) {
           o.material.transparent = true;
