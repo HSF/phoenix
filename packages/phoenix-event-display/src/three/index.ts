@@ -584,6 +584,9 @@ export class ThreeManager {
     return this.getSceneManager().getScene().getObjectByName(objectName);
   }
 
+  /** Add parametrised geometry to the scene.
+   * @param parameters The name, dimensions, and radial values for this cylindrical volume.
+   */
   public addGeometryFromParameters(parameters: any): void {
     let scene = this.getSceneManager().getScene();
     let moduleName = parameters.ModuleName;
