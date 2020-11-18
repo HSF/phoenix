@@ -52,30 +52,28 @@ export class AtlasComponent implements OnInit {
     // Load detector geometries
     
     // Magnets + Support
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Barrel-Toroid.gltf', 'Barrel Toroid > Magnets', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/End-Cap-Toroid.gltf', 'Endcap > Magnets', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Feet.gltf', 'Feet > Magnets', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Forward-Shielding.gltf', 'Forward shielding > Misc', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tower-Turret.gltf', 'Tower turret > Misc', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Warm-Structure.gltf', 'Warm structure > Misc', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Barrel-Toroid.gltf', 'Barrel Toroid', 'Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/End-Cap-Toroid.gltf', 'Endcap', 'Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Feet.gltf', 'Feet', 'Magnets', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Warm-Structure.gltf', 'Warm structure', 'Magnets', 1000, false);
 
     // LAr
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-Barrel.gltf', 'LAr Barrel > Calorimeters', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-EMEC.gltf', 'LAr EC1 > Calorimeters', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-FCAL.gltf', 'LAr FCAL > Calorimeters', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-HEC.gltf', 'LAr HEC > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-Barrel.gltf', 'LAr Barrel', 'Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-EMEC.gltf', 'LAr EC1', 'Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-FCAL.gltf', 'LAr FCAL', 'Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Lar-HEC.gltf', 'LAr HEC', 'Calorimeters', 1000, false);
 
     // Tile
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-Barrel.gltf', 'Tile Cal > Calorimeters', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-End-Cap.gltf', 'Tile Cal EC > Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-Barrel.gltf', 'Tile Cal', 'Calorimeters', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Tile-End-Cap.gltf', 'Tile Cal EC', 'Calorimeters', 1000, false);
 
     // Inner Detector
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Beam.gltf', 'Beam > Inner Detector', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Pixel.gltf', 'Pixel > Inner Detector', 1000, true);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-BAR.gltf', 'SCT > Inner Detector', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-EC.gltf', 'SCT EC > Inner Detector', 1000, false);
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-BAR.gltf', 'TRT > Inner Detector', 1000, false );
-    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-EC.gltf', 'TRT EC > Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Beam.gltf', 'Beam', 'Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Pixel.gltf', 'Pixel', 'Inner Detector', 1000, true);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-BAR.gltf', 'SCT', 'Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/SCT-EC.gltf', 'SCT EC', 'Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-BAR.gltf', 'TRT', 'Inner Detector', 1000, false);
+    this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/TRT-EC.gltf', 'TRT EC', 'Inner Detector', 1000, false);
 
     // Muons
     this.eventDisplay.loadGLTFGeometry('assets/geometry/ATLAS/Extra-Wheel.gltf', 'Extra wheel > Muon', 1000, false);
