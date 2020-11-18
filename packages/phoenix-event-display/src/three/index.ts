@@ -7,7 +7,11 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  Euler
 } from 'three';
 import { Configuration } from '../extras/configuration';
 import { ControlsManager } from './controls-manager';
@@ -583,5 +587,56 @@ export class ThreeManager {
    */
   public getObjectByName(objectName: string): Object3D {
     return this.getSceneManager().getScene().getObjectByName(objectName);
+  }
+
+  /** Add parametrised geometry to the scene.
+   * @param parameters The name, dimensions, and radial values for this cylindrical volume.
+   */
+  public addGeometryFromParameters(parameters: any): void {
+    let scene = this.getSceneManager().getScene();
+    let moduleName = parameters.ModuleName;
+    let moduleXdim = parameters.Xdim;
+    let moduleYdim = parameters.Ydim;
+    let moduleZdim = parameters.Zdim;
+    let numPhiEl = parameters.NumPhiEl;
+    let numZEl = parameters.NumZEl;
+    let radius = parameters.Radius;
+
+    let minZ = parameters.MinZ;
+    let maxZ = parameters.MaxZ;
+    let tiltAngle = parameters.TiltAngle;
+    let ztiltAngle = parameters.ZTiltAngle;
+    let phiOffset = parameters.PhiOffset;
+    let colour = parameters.Colour;
+    let edgecolour = parameters.EdgeColour;
+    // Make the geometry and material
+    var geometry = new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
+    var material = new MeshBasicMaterial({ color: colour, opacity: 0.5, transparent: true });
+
+    var zstep = (maxZ - minZ) / numZEl;
+    var phistep = 2. * Math.PI / numPhiEl;
+
+    var z = minZ + zstep / 2.;
+
+    var halfPi = Math.PI / 2.0;
+    var modulecentre;
+    for (var elZ = 0; elZ < numZEl; elZ++) {
+      var phi = phiOffset;
+      for (var elPhi = 0; elPhi < numPhiEl; elPhi++) {
+        phi += phistep;
+        modulecentre = new Vector3(radius * Math.cos(phi), radius * Math.sin(phi), z);
+        var cube = new Mesh(geometry.clone(), material);
+
+        cube.matrix.makeRotationFromEuler(new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle));
+        cube.matrix.setPosition(modulecentre);
+        cube.matrixAutoUpdate = false;
+        scene.add(cube);
+
+        // var egh = new EdgesHelper(cube, edgecolour);
+        // egh.material.linewidth = 2;
+        // scene.add(egh);
+      }
+      z += zstep
+    }
   }
 }
