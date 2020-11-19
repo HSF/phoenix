@@ -33,21 +33,27 @@ export class ImportManager {
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
     callback: (object: Object3D) => any,
     filename: string,
     name: string,
     color: any,
-    doubleSided: boolean
-  ) {
+    doubleSided: boolean,
+    setFlat: boolean
+  ): Promise<unknown> {
     if (color == null) {
       color = 0x41a6f4;
     }
     const objLoader = new OBJLoader();
-    objLoader.load(filename, object => {
-      const processed = this.processOBJ(object, name, color, doubleSided, 'OBJ file');
-      callback(processed);
+    return new Promise((resolve, reject) => {
+      objLoader.load(filename, object => {
+        const processed = this.processOBJ(object, name, color, doubleSided, setFlat, 'OBJ file');
+        callback(processed);
+        resolve();
+      }, null, reject);
     });
   }
 
@@ -65,6 +71,7 @@ export class ImportManager {
       name,
       0x41a6f4,
       false,
+      false,
       'OBJ file loaded from the client.'
     );
   }
@@ -75,6 +82,7 @@ export class ImportManager {
    * @param name Name of the object.
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @param data Data/description to be associated with the object.
    */
   private processOBJ(
@@ -82,11 +90,12 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
+    setFlat: boolean,
     data?: string
   ): Object3D {
     object.name = name;
     object.userData = { info: data };
-    return this.setObjFlat(object, color, doubleSided);
+    return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
   /**
@@ -94,9 +103,10 @@ export class ImportManager {
    * @param object3d Group of geometries that make up the object.
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
+   * @param setFlat Whether object should be flat-shaded or not.
    * @returns The processed object.
    */
-  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean): Object3D {
+  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean, setFlat: boolean): Object3D {
     const material2 = new MeshPhongMaterial({
       color: color,
       shininess: 0,
@@ -104,7 +114,8 @@ export class ImportManager {
       clippingPlanes: this.clipPlanes,
       clipIntersection: true,
       clipShadows: false,
-      side: doubleSided ? DoubleSide : FrontSide
+      side: doubleSided ? DoubleSide : FrontSide,
+      flatShading: setFlat
     });
 
     object3d.traverse((child: Object3D) => {
@@ -135,14 +146,21 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param callback Callback called after the geometry is loaded.
+   * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any, callback: (geometries: Object3D, eventData: Object3D) => any) {
+  public parseGLTFGeometry(
+    geometry: any,
+    callback: (geometries: Object3D, eventData: Object3D) => any
+  ): Promise<unknown> {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(geometry, null, 2);
-    loader.parse(sceneString, '', gltf => {
-      const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
-      const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
-      callback(eventData, geometries);
+    return new Promise((resolve, reject) => {
+      loader.parse(sceneString, '', gltf => {
+        const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
+        const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
+        callback(eventData, geometries);
+        resolve();
+      }, reject);
     });
   }
 
@@ -152,13 +170,18 @@ export class ImportManager {
    * @param name Name of the loaded scene/geometry.
    * @param callback Callback called after the scene/geometry is loaded.
    * @param scale Scale of the geometry.
+   * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string, callback: (Geometry: Object3D) => any, scale?: number) {
+  public loadGLTFGeometry(sceneUrl: any, name: string,
+    callback: (Geometry: Object3D) => any, scale?: number): Promise<unknown> {
     const loader = new GLTFLoader();
-    loader.load(sceneUrl, gltf => {
-      const geometry = gltf.scene;
-      this.processGeometry(geometry, name, scale);
-      callback(geometry);
+    return new Promise((resolve, reject) => {
+      loader.load(sceneUrl, gltf => {
+        const geometry = gltf.scene;
+        this.processGeometry(geometry, name, scale);
+        callback(geometry);
+        resolve();
+      }, null, reject);
     });
   }
 
@@ -169,20 +192,28 @@ export class ImportManager {
    * @param callback Callback called after the geometries are processed and loaded.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(json: string | object, name: string,
     callback: (Geometry: Object3D) => any,
-    scale?: number, doubleSided?: boolean) {
+    scale?: number, doubleSided?: boolean): Promise<unknown> {
     const loader = new ObjectLoader();
     if (typeof json === 'string') {
-      loader.load(json, (geometry: Object3D) => {
+      return new Promise((resolve, reject) => {
+        loader.load(json, (geometry: Object3D) => {
+          this.processGeometry(geometry, name, scale, doubleSided);
+          callback(geometry);
+          resolve();
+        }, null, reject);
+      });
+    } else if (typeof json === 'object') {
+      return new Promise((resolve, reject) => {
+        const geometry = loader.parse(json, object => {
+          resolve();
+        });
         this.processGeometry(geometry, name, scale, doubleSided);
         callback(geometry);
       });
-    } else if (typeof json === 'object') {
-      const geometry = loader.parse(json);
-      this.processGeometry(geometry, name, scale, doubleSided);
-      callback(geometry);
     }
   }
 

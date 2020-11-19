@@ -7,7 +7,11 @@ import {
   Quaternion,
   AmbientLight,
   DirectionalLight,
-  AxesHelper
+  AxesHelper,
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  Euler
 } from 'three';
 import { Configuration } from '../extras/configuration';
 import { ControlsManager } from './controls-manager';
@@ -228,20 +232,23 @@ export class ThreeManager {
    * @param color Color to initialize the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
-  ): void {
+    initiallyVisible: boolean = true,
+    setFlat: boolean = true
+  ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
-    this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided);
+    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
 
   /**
@@ -250,15 +257,16 @@ export class ThreeManager {
    * @param name Name of the loaded scene/geometry.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(sceneUrl: any, name: string,
-    scale?: number, initiallyVisible: boolean = true) {
+    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
+    return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
 
   /**
@@ -277,13 +285,14 @@ export class ThreeManager {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
+   * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any) {
+  public parseGLTFGeometry(geometry: any): Promise<unknown> {
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
     };
-    this.importManager.parseGLTFGeometry(geometry, callback);
+    return this.importManager.parseGLTFGeometry(geometry, callback);
   }
 
   /**
@@ -293,15 +302,16 @@ export class ThreeManager {
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(json: string | object, name: string,
-    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+  public loadJSONGeometry(json: string | object, name: string, scale?: number,
+    doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
+    return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
 
   /**
@@ -585,5 +595,56 @@ export class ThreeManager {
    */
   public setAntialiasing(antialias: boolean) {
     this.effectsManager.setAntialiasing(antialias);
+  }
+
+  /** Add parametrised geometry to the scene.
+   * @param parameters The name, dimensions, and radial values for this cylindrical volume.
+   */
+  public addGeometryFromParameters(parameters: any): void {
+    let scene = this.getSceneManager().getScene();
+    let moduleName = parameters.ModuleName;
+    let moduleXdim = parameters.Xdim;
+    let moduleYdim = parameters.Ydim;
+    let moduleZdim = parameters.Zdim;
+    let numPhiEl = parameters.NumPhiEl;
+    let numZEl = parameters.NumZEl;
+    let radius = parameters.Radius;
+
+    let minZ = parameters.MinZ;
+    let maxZ = parameters.MaxZ;
+    let tiltAngle = parameters.TiltAngle;
+    let ztiltAngle = parameters.ZTiltAngle;
+    let phiOffset = parameters.PhiOffset;
+    let colour = parameters.Colour;
+    let edgecolour = parameters.EdgeColour;
+    // Make the geometry and material
+    var geometry = new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
+    var material = new MeshBasicMaterial({ color: colour, opacity: 0.5, transparent: true });
+
+    var zstep = (maxZ - minZ) / numZEl;
+    var phistep = 2. * Math.PI / numPhiEl;
+
+    var z = minZ + zstep / 2.;
+
+    var halfPi = Math.PI / 2.0;
+    var modulecentre;
+    for (var elZ = 0; elZ < numZEl; elZ++) {
+      var phi = phiOffset;
+      for (var elPhi = 0; elPhi < numPhiEl; elPhi++) {
+        phi += phistep;
+        modulecentre = new Vector3(radius * Math.cos(phi), radius * Math.sin(phi), z);
+        var cube = new Mesh(geometry.clone(), material);
+
+        cube.matrix.makeRotationFromEuler(new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle));
+        cube.matrix.setPosition(modulecentre);
+        cube.matrixAutoUpdate = false;
+        scene.add(cube);
+
+        // var egh = new EdgesHelper(cube, edgecolour);
+        // egh.material.linewidth = 2;
+        // scene.add(egh);
+      }
+      z += zstep
+    }
   }
 }
