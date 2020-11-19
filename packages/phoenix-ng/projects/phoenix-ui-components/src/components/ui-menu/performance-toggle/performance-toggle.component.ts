@@ -7,12 +7,12 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./performance-toggle.component.scss']
 })
 export class PerformanceToggleComponent {
-  antialiasing: boolean = false;
+  performanceMode: boolean = false;
 
   constructor(private eventDisplay: EventDisplayService) { }
 
-  toggleAntialiasing() {
-    this.antialiasing = !this.antialiasing;
-    this.eventDisplay.getThreeManager().setAntialiasing(this.antialiasing);
+  togglePerformance() {
+    this.performanceMode = !this.performanceMode;
+    this.eventDisplay.getThreeManager().setAntialiasing(!this.performanceMode);
   }
 }
