@@ -1,0 +1,18 @@
+.demo-info {
+  position: absolute;
+  top: 5rem;
+  left: 1rem;
+  font-size: 0.8rem;
+  color: var(--phoenix-text-color-secondary);
+  width: 20rem;
+  max-width: 40%;
+
+  code {
+    color: var(--phoenix-text-color-secondary);
+    cursor: text;
+  }
+
+  .copy-code {
+    cursor: pointer;
+  }
+}

@@ -12,6 +12,18 @@ export class GeometryComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.init({});
+    var parameters = { ModuleName: "Module 2", Xdim: 10., Ydim: 1., Zdim: 45, NumPhiEl: 64, NumZEl: 10, Radius: 75, MinZ: -250, MaxZ: 250, TiltAngle: 0.3, PhiOffset: 0.0, Colour: 0x00ff00, EdgeColour: 0x449458 };
+    this.eventDisplay.buildGeometryFromParameters(parameters);
+  }
+
+  copyCode() {
+    const code = document.getElementById('geometryCode').textContent.trim();
+    const inputElement = document.createElement('input');
+    document.body.appendChild(inputElement);
+    inputElement.value = code;
+    inputElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(inputElement);
   }
 
 }
