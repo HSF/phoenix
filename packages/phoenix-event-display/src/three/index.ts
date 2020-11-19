@@ -49,8 +49,6 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations */
   private vrManager: VRManager;
-  /** Service for logging data to the information panel */
-  private infoLogger: InfoLogger;
   /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
@@ -65,11 +63,17 @@ export class ThreeManager {
   ];
 
   /**
+   * Create the three manager for three.js operations.
+   * @param infoLogger Logger for logging data to the information panel.
+   */
+  constructor(private infoLogger: InfoLogger) { }
+
+  /**
    * Initializes the necessary three.js functionality.
    * @param configuration Configuration to customize different aspects.
    * @param infoLogger Service for logging data to the information panel.
    */
-  public init(configuration: Configuration, infoLogger: InfoLogger) {
+  public init(configuration: Configuration) {
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
@@ -97,8 +101,6 @@ export class ThreeManager {
     );
     // VR manager
     this.vrManager = new VRManager();
-    // Logger
-    this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),

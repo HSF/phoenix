@@ -37,26 +37,33 @@ export class EventDisplay {
   private ui: UIManager;
 
   /**
-   * Constructor for the phoenix event display.
+   * Create the Phoenix event display and intitialize all the elements.
+   * @param configuration Configuration used to customize different aspects.
    */
-  constructor() {
-    this.graphicsLibrary = new ThreeManager();
+  constructor(configuration?: Configuration) {
     this.infoLogger = new InfoLogger();
+    this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
-    new StateManager().setEventDisplay(this);
+    if (configuration) {
+      this.init(configuration);
+    }
   }
 
   /**
-   * Initializes the components needed to later represent the geometries.
+   * Initialize all the Phoenix event display elements.
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
-    // Configuration
     this.configuration = configuration;
-    // Init the three manager
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
+
+    // Initialize the three manager with configuration
+    this.graphicsLibrary.init(configuration);
+    // Initialize the UI with configuration
+    this.ui.init(configuration);
+    // Set up for the state manager
+    new StateManager().setEventDisplay(this);
+
+    // Set up animation loop
     if (this.frameID) {
       cancelAnimationFrame(this.frameID);
     }
@@ -416,7 +423,7 @@ export class EventDisplay {
         scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
         this.loadJSONGeometry(json, name, menuNodeName, scale, doubleSided, initiallyVisible);
       },
-      buildGeometryFromParameters: (parameters:object)=> this.buildGeometryFromParameters(parameters)
+      buildGeometryFromParameters: (parameters: object) => this.buildGeometryFromParameters(parameters)
     };
   }
 
