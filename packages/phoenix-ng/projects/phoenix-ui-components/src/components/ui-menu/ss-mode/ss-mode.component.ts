@@ -1,3 +1,4 @@
+import { OnInit } from '@angular/core';
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -6,34 +7,35 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./ss-mode.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class SSModeComponent {
+export class SSModeComponent implements OnInit {
   ssMode: boolean = false;
+
+  ngOnInit() {
+    document.addEventListener('fullscreenchange', e => {
+      if (!document.fullscreenElement) {
+        this.toggleSSMode();
+      }
+    });
+  }
 
   toggleSSMode() {
     this.ssMode = !this.ssMode;
     document.body.classList.toggle('ss-mode');
     if (this.ssMode) {
-      document.addEventListener('keydown', this.onEscapePress);
       // WORKAROUND - Adding the event listener directly somehow calls it on the first click
       setTimeout(() => {
         document.addEventListener('click', this.onDocumentClick);
+        document.addEventListener('touchstart', this.onDocumentClick);
       }, 1);
       document.documentElement.requestFullscreen?.();
     } else {
-      document.removeEventListener('keydown', this.onEscapePress);
       document.removeEventListener('click', this.onDocumentClick);
-      document.exitFullscreen?.();
-    }
-  }
-
-  private onEscapePress = (e: KeyboardEvent) => {
-    if (e.code === 'Escape') {
-      this.toggleSSMode();
+      document.removeEventListener('touchstart', this.onDocumentClick);
     }
   }
 
   private onDocumentClick = () => {
-    this.toggleSSMode();
+    document.exitFullscreen?.();
   }
 
 }
