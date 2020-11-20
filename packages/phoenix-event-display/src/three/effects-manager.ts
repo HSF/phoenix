@@ -17,7 +17,7 @@ export class EffectsManager {
   /** Render pass for rendering the default scene. */
   private defaultRenderPass: RenderPass;
   /** Whether antialiasing is enabled or disabled. */
-  public antialiasing: boolean = false;
+  public antialiasing: boolean = true;
 
   /**
    * Constructor for the effects manager which manages effects and three.js passes.

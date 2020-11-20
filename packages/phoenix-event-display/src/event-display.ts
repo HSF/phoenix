@@ -23,8 +23,6 @@ export class EventDisplay {
   private configuration: Configuration;
   /** An object containing event data. */
   private eventsData: any;
-  /** Frame ID of the current animation frame. */
-  private frameID: number;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -63,18 +61,11 @@ export class EventDisplay {
     // Set up for the state manager
     new StateManager().setEventDisplay(this);
 
-    // Set up animation loop
-    if (this.frameID) {
-      cancelAnimationFrame(this.frameID);
-    }
     // Animate loop
     const animate = () => {
-      this.frameID = requestAnimationFrame(animate);
-      this.graphicsLibrary.updateControls();
       this.ui.updateUI();
-      this.graphicsLibrary.render();
     };
-    animate();
+    this.graphicsLibrary.setupAnimationLoop(animate);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();

@@ -66,7 +66,9 @@ export class ThreeManager {
    * Create the three manager for three.js operations.
    * @param infoLogger Logger for logging data to the information panel.
    */
-  constructor(private infoLogger: InfoLogger) { }
+  constructor(private infoLogger: InfoLogger) {
+    this.rendererManager = new RendererManager();
+  }
 
   /**
    * Initializes the necessary three.js functionality.
@@ -84,7 +86,7 @@ export class ThreeManager {
       SceneManager.GEOMETRIES_ID
     );
     // Renderer manager
-    this.rendererManager = new RendererManager(configuration.elementId);
+    this.rendererManager.init(configuration.elementId);
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager, configuration.defaultView);
     // Effects manager
@@ -122,6 +124,18 @@ export class ThreeManager {
   }
 
   /**
+   * Set up the animation loop of the renderer.
+   * @param animate Function to run on render apart from three manager operations.
+   */
+  public setupAnimationLoop(animate: () => void) {
+    this.rendererManager.getMainRenderer().setAnimationLoop(() => {
+      animate();
+      this.updateControls();
+      this.render();
+    });
+  }
+
+  /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
@@ -131,12 +145,7 @@ export class ThreeManager {
       this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
     } else {
       // If VR is active don't use EffectComposer
-      this.rendererManager.getMainRenderer().render(
-        this.sceneManager.getScene(),
-        this.controlsManager.getMainCamera()
-      );
-      // The light directs towards origin
-      this.sceneManager.updateLights(this.vrManager.getVRCamera());
+      this.minimalRender();
     }
   }
 
@@ -144,10 +153,12 @@ export class ThreeManager {
    * Minimally render without any post-processing.
    */
   public minimalRender() {
-    // Use the VR camera for rendering
     this.rendererManager.getMainRenderer().render(
-      this.sceneManager.getScene(), this.vrManager.getVRCamera()
+      this.sceneManager.getScene(),
+      this.vrManager.getVRCamera()
     );
+    // The light directs towards origin
+    this.sceneManager.updateLights(this.vrManager.getVRCamera());
   }
 
   /**
@@ -560,12 +571,6 @@ export class ThreeManager {
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = true;
 
-    // Set up the animation loop
-    const animate = () => {
-      this.minimalRender();
-    };
-    mainRenderer.setAnimationLoop(animate);
-
     // Set and initialize the VR session
     this.vrManager.setVRSession(mainRenderer, onSessionEnded);
   }
@@ -578,8 +583,7 @@ export class ThreeManager {
 
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = false;
-    // Remove the animation loop
-    mainRenderer.setAnimationLoop(null);
+
     this.vrManager.endVRSession();
   }
 

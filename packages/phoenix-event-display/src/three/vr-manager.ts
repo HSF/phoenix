@@ -91,7 +91,10 @@ export class VRManager {
       this.cameraGroup = new Group();
     }
     if (camera) {
-      this.vrCamera = new Camera().copy(camera);
+      if (this.vrCamera) {
+        this.cameraGroup?.remove(this.vrCamera);
+      }
+      this.vrCamera = camera.clone();
       this.vrCamera.name = 'VR_CAMERA';
 
       this.cameraGroup.position.copy(this.vrCamera.position);
