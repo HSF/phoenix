@@ -18,7 +18,7 @@ To create a simple event display.
 
 ```js
 // Import required classes
-import { EventDisplay, Configurationm PhoenixLoader } from 'phoenix-event-display';
+import { EventDisplay, Configuration, PhoenixLoader } from 'phoenix-event-display';
 
 // Create the event display
 const eventDisplay = new EventDisplay();
@@ -42,6 +42,7 @@ fetch('path/to/event-data.json')
 
 // Load detector geometry
 eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /* color */);
+
 ```
 
 ### Examples
