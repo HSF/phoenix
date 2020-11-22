@@ -589,6 +589,14 @@ export class ThreeManager {
     return this.getSceneManager().getScene().getObjectByName(objectName);
   }
 
+  /**
+   * Set the antialiasing.
+   * @param antialias Whether antialiasing is to enabled or disabled.
+   */
+  public setAntialiasing(antialias: boolean) {
+    this.effectsManager.setAntialiasing(antialias);
+  }
+
   /** Add parametrised geometry to the scene.
    * @param parameters The name, dimensions, and radial values for this cylindrical volume.
    */

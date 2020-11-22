@@ -47,6 +47,8 @@ export class SelectionManager {
 
   /** Service for logging data to the information panel. */
   private infoLogger: InfoLogger;
+  /** Performance mode value before enabling selection. */
+  private preSelectionAntialias: boolean;
 
   /**
    * Constructor for the selection manager.
@@ -103,11 +105,7 @@ export class SelectionManager {
    */
   public setSelecting(enable: boolean) {
     if (this.isInit) {
-      if (enable) {
-        this.enableSelecting();
-      } else {
-        this.disableSelecting();
-      }
+      enable ? this.enableSelecting() : this.disableSelecting();
     }
   }
 
@@ -121,6 +119,8 @@ export class SelectionManager {
       this.onDocumentMouseDown, true);
     document.getElementById('three-canvas').addEventListener('touchstart',
       this.onTouchDown);
+    this.preSelectionAntialias = this.effectsManager.antialiasing;
+    this.effectsManager.antialiasing = false;
   }
 
   /**
@@ -134,6 +134,7 @@ export class SelectionManager {
     document.getElementById('three-canvas').removeEventListener('touchstart',
       this.onTouchDown);
     this.outlinePass.selectedObjects = [];
+    this.effectsManager.antialiasing = this.preSelectionAntialias;
   }
 
 

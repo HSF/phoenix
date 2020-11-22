@@ -47,7 +47,9 @@ export class RendererManager {
    * @param elementId ID of the wrapper element.
    */
   private setRenderer(elementId: string) {
-    const renderer: WebGLRenderer = new WebGLRenderer();
+    const renderer: WebGLRenderer = new WebGLRenderer({
+      antialias: true
+    });
 
     this.addRenderer(renderer);
     this.setMainRenderer(renderer);
