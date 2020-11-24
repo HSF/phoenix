@@ -139,6 +139,13 @@ export class ThreeManager {
   }
 
   /**
+   * Stop the animation loop from running.
+   */
+  public stopAnimationLoop() {
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+  }
+
+  /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {

@@ -7,11 +7,4 @@ import { EventDisplay } from 'phoenix-event-display';
 @Injectable({
   providedIn: 'root'
 })
-export class EventDisplayService extends EventDisplay {
-  /**
-   * Instantiate the event display by calling the parent constructor.
-   */
-  constructor() {
-    super();
-  }
-}
+export class EventDisplayService extends EventDisplay { }
