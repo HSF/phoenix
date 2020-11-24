@@ -49,6 +49,8 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations */
   private vrManager: VRManager;
+  /** Loop to run for each frame of animation. */
+  private animationLoop: () => void;
   /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
@@ -127,26 +129,22 @@ export class ThreeManager {
    * Set up the animation loop of the renderer.
    * @param animate Function to run on render apart from three manager operations.
    */
-  public setupAnimationLoop(animate: () => void) {
-    this.rendererManager.getMainRenderer().setAnimationLoop(() => {
+  public setAnimationLoop(animate: () => void) {
+    this.animationLoop = () => {
       animate();
       this.updateControls();
       this.render();
-    });
+    };
+    this.rendererManager.getMainRenderer().setAnimationLoop(this.animationLoop);
   }
 
   /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    if (!this.vrManager.isVRActive()) {
-      this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
-      this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
-      this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
-    } else {
-      // If VR is active don't use EffectComposer
-      this.minimalRender();
-    }
+    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
+    this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
@@ -563,6 +561,8 @@ export class ThreeManager {
    */
   public initVRSession(onSessionEnded?: () => void) {
     // Set up the camera position in the VR - Adding a group with camera does it
+    // For why we can't just move the camera directly, see e.g. 
+    // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
     const cameraGroup = this.vrManager
       .getCameraGroup(this.controlsManager.getMainCamera());
     this.sceneManager.getScene().add(cameraGroup);
@@ -570,6 +570,10 @@ export class ThreeManager {
     // Set up main renderer for VR
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = true;
+
+    // Set the VR animation loop
+    mainRenderer.setAnimationLoop(null);
+    mainRenderer.setAnimationLoop(this.minimalRender.bind(this));
 
     // Set and initialize the VR session
     this.vrManager.setVRSession(mainRenderer, onSessionEnded);
@@ -583,6 +587,9 @@ export class ThreeManager {
 
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = false;
+    
+    mainRenderer.setAnimationLoop(null);
+    mainRenderer.setAnimationLoop(this.animationLoop.bind(this));
 
     this.vrManager.endVRSession();
   }

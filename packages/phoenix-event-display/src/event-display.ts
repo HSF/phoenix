@@ -65,7 +65,7 @@ export class EventDisplay {
     const animate = () => {
       this.ui.updateUI();
     };
-    this.graphicsLibrary.setupAnimationLoop(animate);
+    this.graphicsLibrary.setAnimationLoop(animate);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
