@@ -4,6 +4,7 @@ import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { JiveXMLLoader } from './loaders/jivexml-loader';
+import { LoadingManager } from './managers/loading-manager';
 
 declare global {
   /**
@@ -33,6 +34,8 @@ export class EventDisplay {
   private infoLogger: InfoLogger;
   /** UI manager for UI menu. */
   private ui: UIManager;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -42,6 +45,7 @@ export class EventDisplay {
     this.infoLogger = new InfoLogger();
     this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
+    this.loadingManager = new LoadingManager();
     if (configuration) {
       this.init(configuration);
     }
@@ -128,11 +132,13 @@ export class EventDisplay {
    * @param eventKey String that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
+    this.loadingManager.addLoadableItem();
     const event = this.eventsData[eventKey];
 
     if (event) {
       this.buildEventDataFromJSON(event);
     }
+    this.loadingManager.itemLoaded();
   }
 
   /**

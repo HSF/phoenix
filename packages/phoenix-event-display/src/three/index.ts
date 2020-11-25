@@ -25,6 +25,7 @@ import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
 import { StateManager } from '../managers/state-manager';
+import { LoadingManager } from '../managers/loading-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -49,6 +50,8 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations */
   private vrManager: VRManager;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
   /** Loop to run for each frame of animation. */
   private animationLoop: () => void;
   /** Scene export ignore list */
@@ -70,6 +73,7 @@ export class ThreeManager {
    */
   constructor(private infoLogger: InfoLogger) {
     this.rendererManager = new RendererManager();
+    this.loadingManager = new LoadingManager();
   }
 
   /**
@@ -261,10 +265,13 @@ export class ThreeManager {
     initiallyVisible: boolean = true,
     setFlat: boolean = true
   ): Promise<unknown> {
+    this.loadingManager.addLoadableItem();
+
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
+      this.loadingManager.itemLoaded();
     };
     return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
@@ -277,12 +284,19 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string,
-    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
+  public loadGLTFGeometry(
+    sceneUrl: any,
+    name: string,
+    scale?: number,
+    initiallyVisible: boolean = true
+  ): Promise<unknown> {
+    this.loadingManager.addLoadableItem();
+
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
+      this.loadingManager.itemLoaded();
     };
     return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
@@ -294,10 +308,12 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public parseOBJGeometry(geometry: string, name: string, initiallyVisible: boolean = true) {
+    this.loadingManager.addLoadableItem();
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
     geometries.add(object);
+    this.loadingManager.itemLoaded();
   }
 
   /**
@@ -306,9 +322,11 @@ export class ThreeManager {
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(geometry: any): Promise<unknown> {
+    this.loadingManager.addLoadableItem();
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
+      this.loadingManager.itemLoaded();
     };
     return this.importManager.parseGLTFGeometry(geometry, callback);
   }
@@ -324,10 +342,12 @@ export class ThreeManager {
    */
   public loadJSONGeometry(json: string | object, name: string, scale?: number,
     doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
+    this.loadingManager.addLoadableItem();
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
+      this.loadingManager.itemLoaded();
     };
     return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
@@ -594,7 +614,7 @@ export class ThreeManager {
 
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = false;
-    
+
     mainRenderer.setAnimationLoop(null);
     mainRenderer.setAnimationLoop(this.animationLoop.bind(this));
 

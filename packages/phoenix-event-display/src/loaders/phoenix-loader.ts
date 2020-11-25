@@ -7,6 +7,7 @@ import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../info-logger';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
 import { EVENT_DATA_TYPE_COLORS } from '../helpers/constants';
+import { LoadingManager } from '../managers/loading-manager';
 
 /**
  * Loader for processing and loading an event.
@@ -18,7 +19,12 @@ export class PhoenixLoader implements EventDataLoader {
   private ui: UIManager;
   /** Event data processed by the loader. */
   private eventData: any;
+  /** Loading manager for loadable resources */
+  protected loadingManager: LoadingManager;
 
+  constructor() {
+    this.loadingManager = new LoadingManager();
+  }
 
   /**
    * Takes an object that represents ONE event and takes care of adding
@@ -34,6 +40,7 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui = ui;
     this.eventData = eventData;
 
+    this.loadingManager.addLoadableItem();
 
     // Replacing tracks with tracks through Runge-Kutta
     // TODO - make this configurable? Or possibly automatic if tracks have <2 positions to draw?
@@ -41,6 +48,8 @@ export class PhoenixLoader implements EventDataLoader {
 
     // initiate load
     this.loadObjectTypes(eventData);
+    
+    this.loadingManager.itemLoaded();
 
     const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
     const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];

@@ -39,6 +39,7 @@ export class CMSLoader extends PhoenixLoader {
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
    */
   public readIgArchive(path: string, onFileRead: (allEvents: any[]) => void, eventPathName?: string) {
+    this.loadingManager.addLoadableItem();
     const igArchive = new JSZip();
     let eventsDataInIg = [];
     fetch(path).then(res => res.arrayBuffer()).then((res) => {
@@ -63,12 +64,14 @@ export class CMSLoader extends PhoenixLoader {
                 eventsDataInIg.push(eventJSON);
                 if (i === allFilesPath.length) {
                   onFileRead(eventsDataInIg);
+                  this.loadingManager.itemLoaded();
                 }
                 i++;
               });
           } else {
             if (i === allFilesPath.length) {
               onFileRead(eventsDataInIg);
+              this.loadingManager.itemLoaded();
             }
             i++;
           }
@@ -100,6 +103,8 @@ export class CMSLoader extends PhoenixLoader {
   public getEventData(): any {
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
 
+    this.loadingManager.addLoadableItem();
+
     let eventData = {
       runNumber: eventInfo?.[0],
       eventNumber: eventInfo?.[1],
@@ -129,6 +134,8 @@ export class CMSLoader extends PhoenixLoader {
         eventData[objectType] = undefined;
       }
     }
+
+    this.loadingManager.itemLoaded();
 
     return eventData;
   }
