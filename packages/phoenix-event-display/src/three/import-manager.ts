@@ -92,6 +92,7 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @param setFlat Whether object should be flat-shaded or not.
    * @param data Data/description to be associated with the object.
+   * @returns The processed object.
    */
   private processOBJ(
     object: Object3D,

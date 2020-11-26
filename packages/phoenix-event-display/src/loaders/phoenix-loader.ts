@@ -22,6 +22,9 @@ export class PhoenixLoader implements EventDataLoader {
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
 
+  /**
+   * Create the Phoenix loader.
+   */
   constructor() {
     this.loadingManager = new LoadingManager();
   }

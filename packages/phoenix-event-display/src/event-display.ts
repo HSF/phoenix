@@ -186,6 +186,7 @@ export class EventDisplay {
    * @param doubleSided If true, render both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
     filename: string,
@@ -193,7 +194,7 @@ export class EventDisplay {
     menuNodeName?: string, doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
-  ) {
+  ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
@@ -255,11 +256,12 @@ export class EventDisplay {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param input JSON containing the scene as in GLTF (.gltf) format.
+   * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(input: any) {
+  public parseGLTFGeometry(input: any): Promise<unknown> {
     const scene = JSON.parse(input);
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
-    this.graphicsLibrary.parseGLTFGeometry(scene);
+    return this.graphicsLibrary.parseGLTFGeometry(scene);
   }
 
   /**
