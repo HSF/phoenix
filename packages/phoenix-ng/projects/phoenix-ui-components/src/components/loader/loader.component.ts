@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterContentInit, Component } from '@angular/core';
 import { EventDisplayService } from '../../services/event-display.service';
 
 @Component({
@@ -6,12 +6,22 @@ import { EventDisplayService } from '../../services/event-display.service';
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss']
 })
-export class LoaderComponent {
+export class LoaderComponent implements AfterContentInit {
   loaded = false;
 
-  constructor(private eventDisplay: EventDisplayService) {
-    this.eventDisplay.getLoadingManager().addLoadListener(() => {
+  constructor(private eventDisplay: EventDisplayService) { }
+
+  ngAfterContentInit() {
+    const loadingManager = this.eventDisplay.getLoadingManager();
+    if (
+      loadingManager.toLoad.length > 0 &&
+      loadingManager.toLoad.length !== loadingManager.loaded.length
+    ) {
+      this.eventDisplay.getLoadingManager().addLoadListener(() => {
+        this.loaded = true;
+      });
+    } else {
       this.loaded = true;
-    });
+    }
   }
 }

@@ -40,16 +40,12 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui = ui;
     this.eventData = eventData;
 
-    this.loadingManager.addLoadableItem();
-
     // Replacing tracks with tracks through Runge-Kutta
     // TODO - make this configurable? Or possibly automatic if tracks have <2 positions to draw?
     // Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
 
     // initiate load
     this.loadObjectTypes(eventData);
-    
-    this.loadingManager.itemLoaded();
 
     const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
     const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];

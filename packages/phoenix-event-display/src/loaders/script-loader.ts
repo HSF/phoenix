@@ -14,7 +14,7 @@ export class ScriptLoader {
    */
   public static loadJSRootScripts(onScriptsLoaded: (JSROOT: any) => void) {
     const loadingManager = new LoadingManager();
-    loadingManager.addLoadableItem();
+    loadingManager.addLoadableItem('jsroot_scripts');
     (async () => {
       const allScripts = [
         'JSRootCore.js', 'three.min.js', 'three.extra.min.js',
@@ -24,8 +24,8 @@ export class ScriptLoader {
       for (const script of allScripts) {
         await ScriptLoader.loadScript('assets/jsroot/' + script, 'JSROOT');
       }
-      loadingManager.itemLoaded();
       onScriptsLoaded(JSROOT);
+      loadingManager.itemLoaded('jsroot_scripts');
     })();
   }
 
@@ -40,7 +40,7 @@ export class ScriptLoader {
   public static loadScript(scriptURL: string, scriptFor?: string,
     parentElement: HTMLElement = document.getElementsByTagName('head')[0]): Promise<any> {
     const loadingManager = new LoadingManager();
-    loadingManager.addLoadableItem();
+    loadingManager.addLoadableItem('single_script');
     return new Promise<any>((resolve, reject) => {
       const scriptExists = document
         .querySelectorAll<HTMLScriptElement>('script[src="' + scriptURL + '"]');
@@ -55,23 +55,23 @@ export class ScriptLoader {
         scriptElement.addEventListener('load', () => {
           scriptElement.setAttribute('data-loaded', 'true');
           resolve();
-          loadingManager.itemLoaded();
+          loadingManager.itemLoaded('single_script');
         });
         scriptElement.onerror = (event) => {
           console.error('ERROR LOADING SCRIPT: ', event);
           reject();
-          loadingManager.itemLoaded();
+          loadingManager.itemLoaded('single_script');
         }
         parentElement.appendChild(scriptElement);
       } else {
         // If script has already loaded then resolve else wait for it to load
         if (scriptExists[0].dataset.loaded === 'true') {
           resolve();
-          loadingManager.itemLoaded();
+          loadingManager.itemLoaded('single_script');
         } else {
           scriptExists[0].addEventListener('load', () => {
             resolve();
-            loadingManager.itemLoaded();
+            loadingManager.itemLoaded('single_script');
           });
         }
       }

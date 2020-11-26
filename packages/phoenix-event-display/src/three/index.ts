@@ -265,13 +265,10 @@ export class ThreeManager {
     initiallyVisible: boolean = true,
     setFlat: boolean = true
   ): Promise<unknown> {
-    this.loadingManager.addLoadableItem(`obj_geom_${name}`);
-
     const geometries = this.sceneManager.getGeometries();
     const callback = (object: Object3D) => {
       object.visible = initiallyVisible;
       geometries.add(object);
-      this.loadingManager.itemLoaded(`obj_geom_${name}`);
     };
     return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
   }
@@ -290,8 +287,6 @@ export class ThreeManager {
     scale?: number,
     initiallyVisible: boolean = true
   ): Promise<unknown> {
-    this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
-
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
@@ -308,7 +303,6 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public parseOBJGeometry(geometry: string, name: string, initiallyVisible: boolean = true) {
-    this.loadingManager.addLoadableItem(`parse_obj_${name}`);
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
@@ -322,11 +316,9 @@ export class ThreeManager {
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(geometry: any): Promise<unknown> {
-    this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
-      this.loadingManager.itemLoaded(`parse_gltf_${name}`);
     };
     return this.importManager.parseGLTFGeometry(geometry, callback);
   }
@@ -342,12 +334,10 @@ export class ThreeManager {
    */
   public loadJSONGeometry(json: string | object, name: string, scale?: number,
     doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
-    this.loadingManager.addLoadableItem(`json_geom_${name}`);
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
-      this.loadingManager.itemLoaded(`json_geom_${name}`);
     };
     return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
   }
@@ -641,6 +631,7 @@ export class ThreeManager {
    * @param parameters The name, dimensions, and radial values for this cylindrical volume.
    */
   public addGeometryFromParameters(parameters: any): void {
+    this.loadingManager.addLoadableItem('geom_from_params');
     let scene = this.getSceneManager().getScene();
     let moduleName = parameters.ModuleName;
     let moduleXdim = parameters.Xdim;
@@ -686,5 +677,7 @@ export class ThreeManager {
       }
       z += zstep
     }
+
+    this.loadingManager.itemLoaded('geom_from_params');
   }
 }

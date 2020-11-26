@@ -103,8 +103,6 @@ export class CMSLoader extends PhoenixLoader {
   public getEventData(): any {
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
 
-    this.loadingManager.addLoadableItem('cms_event_data');
-
     let eventData = {
       runNumber: eventInfo?.[0],
       eventNumber: eventInfo?.[1],
@@ -134,8 +132,6 @@ export class CMSLoader extends PhoenixLoader {
         eventData[objectType] = undefined;
       }
     }
-
-    this.loadingManager.itemLoaded('cms_event_data');
 
     return eventData;
   }
