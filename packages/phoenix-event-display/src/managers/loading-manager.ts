@@ -5,10 +5,10 @@ export class LoadingManager {
   /** Instance of the loading manager */
   private static instance: LoadingManager;
 
-  /** Number of items to load. */
-  public toLoad: number = 0;
-  /** Number of items loaded */
-  public loaded: number = 0;
+  /** Items to load. */
+  public toLoad: string[] = [];
+  /** Items loaded */
+  public loaded: string[] = [];
 
   /** Callbacks to call on load. */
   private onLoadCallbacks: (() => void)[] = [];
@@ -20,6 +20,7 @@ export class LoadingManager {
 
   /**
    * Create the singleton Phoenix loading manager.
+   * @returns The loading manager instance.
    */
   constructor() {
     if (LoadingManager.instance === undefined) {
@@ -30,18 +31,24 @@ export class LoadingManager {
 
   /**
    * Add count for a loadable item.
+   * @param id ID of the item to be loaded.
    */
-  public addLoadableItem() {
-    this.toLoad++;
+  public addLoadableItem(id: string = '') {
+    this.toLoad.push(id);
   }
 
   /**
    * Add count for an item is loaded.
+   * @param id ID of the item loaded.
    */
-  public itemLoaded() {
-    this.loaded++;
-    if (this.toLoad === this.loaded) {
+  public itemLoaded(id: string = '') {
+    this.loaded.push(id);
+    if (
+      this.toLoad.length === this.loaded.length &&
+      this.toLoad.sort().join() === this.loaded.sort().join()
+    ) {
       this.onLoadCallbacks.forEach(callback => callback());
+      this.reset();
     }
   }
 
@@ -84,8 +91,8 @@ export class LoadingManager {
    * Reset the loading manager and its items.
    */
   public reset() {
-    this.toLoad = 0;
-    this.loaded = 0;
+    this.toLoad = [];
+    this.loaded = [];
     this.onLoadCallbacks = [];
     this.onProgressCallbacks = [];
     this.progressItems = {};

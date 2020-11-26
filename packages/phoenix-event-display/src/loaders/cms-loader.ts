@@ -39,7 +39,7 @@ export class CMSLoader extends PhoenixLoader {
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
    */
   public readIgArchive(path: string, onFileRead: (allEvents: any[]) => void, eventPathName?: string) {
-    this.loadingManager.addLoadableItem();
+    this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     let eventsDataInIg = [];
     fetch(path).then(res => res.arrayBuffer()).then((res) => {
@@ -64,14 +64,14 @@ export class CMSLoader extends PhoenixLoader {
                 eventsDataInIg.push(eventJSON);
                 if (i === allFilesPath.length) {
                   onFileRead(eventsDataInIg);
-                  this.loadingManager.itemLoaded();
+                  this.loadingManager.itemLoaded('ig_archive');
                 }
                 i++;
               });
           } else {
             if (i === allFilesPath.length) {
               onFileRead(eventsDataInIg);
-              this.loadingManager.itemLoaded();
+              this.loadingManager.itemLoaded('ig_archive');
             }
             i++;
           }
@@ -103,7 +103,7 @@ export class CMSLoader extends PhoenixLoader {
   public getEventData(): any {
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
 
-    this.loadingManager.addLoadableItem();
+    this.loadingManager.addLoadableItem('cms_event_data');
 
     let eventData = {
       runNumber: eventInfo?.[0],
@@ -135,7 +135,7 @@ export class CMSLoader extends PhoenixLoader {
       }
     }
 
-    this.loadingManager.itemLoaded();
+    this.loadingManager.itemLoaded('cms_event_data');
 
     return eventData;
   }

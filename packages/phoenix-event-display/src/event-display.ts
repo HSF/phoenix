@@ -42,10 +42,10 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   constructor(configuration?: Configuration) {
+    this.loadingManager = new LoadingManager();
     this.infoLogger = new InfoLogger();
     this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
-    this.loadingManager = new LoadingManager();
     if (configuration) {
       this.init(configuration);
     }
@@ -132,13 +132,13 @@ export class EventDisplay {
    * @param eventKey String that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
-    this.loadingManager.addLoadableItem();
+    this.loadingManager.addLoadableItem('event');
     const event = this.eventsData[eventKey];
 
     if (event) {
       this.buildEventDataFromJSON(event);
     }
-    this.loadingManager.itemLoaded();
+    this.loadingManager.itemLoaded('event');
   }
 
   /**
@@ -163,6 +163,14 @@ export class EventDisplay {
    */
   public getInfoLogger() {
     return this.infoLogger;
+  }
+
+  /**
+   * Get the loading manager for managing loadable items.
+   * @returns The loading manager.
+   */
+  public getLoadingManager() {
+    return this.loadingManager;
   }
 
   // **********************
@@ -291,9 +299,11 @@ export class EventDisplay {
    */
   public loadRootJSONGeometry(JSROOT: any, url: string, name: string, menuNodeName?: string,
     scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+    this.loadingManager.addLoadableItem('root_json_g');
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
       this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
         name, menuNodeName, scale, doubleSided, initiallyVisible);
+      this.loadingManager.itemLoaded('root_json_g');
     }).send();
   }
 
@@ -544,17 +554,21 @@ export class EventDisplay {
 
     // Load config from URL
     const loadConfig = () => {
-      if (urlParams.get('config')) {
+      if (urlParams.get('config') && ('fetch' in window)) {
+        this.loadingManager.addLoadableItem('url_config');
         fetch(urlParams.get('config'))
           .then(res => res.json())
           .then(jsonState => {
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
+          }).finally(() => {
+            this.loadingManager.itemLoaded('url_config');
           });
       }
     }
 
     if (file && type && ('fetch' in window)) {
+      this.loadingManager.addLoadableItem('url_event');
       fetch(file)
         .then(res => type === 'jivexml' ? res.text() : res.json())
         .then((res: object | string) => {
@@ -573,6 +587,7 @@ export class EventDisplay {
         }).finally(() => {
           // Load config from URL after loading the event
           loadConfig();
+          this.loadingManager.itemLoaded('url_event');
         });
     } else {
       loadConfig();

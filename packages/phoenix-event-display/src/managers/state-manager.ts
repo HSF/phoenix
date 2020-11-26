@@ -21,6 +21,7 @@ export class StateManager {
 
   /**
    * Create the state manager.
+   * @returns The state manager instance.
    */
   constructor() {
     if (StateManager.instance === undefined) {
