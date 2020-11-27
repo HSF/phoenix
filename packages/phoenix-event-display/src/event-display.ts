@@ -62,10 +62,10 @@ export class EventDisplay {
     new StateManager().setEventDisplay(this);
 
     // Animate loop
-    const animate = () => {
+    const uiLoop = () => {
       this.ui.updateUI();
     };
-    this.graphicsLibrary.setAnimationLoop(animate);
+    this.graphicsLibrary.setAnimationLoop(uiLoop);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
