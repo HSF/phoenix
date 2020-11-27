@@ -22,5 +22,10 @@
       border-radius: 40%;
       transition: all 0.4s;
     }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
   }
 }
