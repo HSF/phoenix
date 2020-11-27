@@ -34,23 +34,11 @@ describe('SSModeComponent', () => {
   it('should toggle screenshot mode on click', () => {
     component.toggleSSMode();
     expect(component.ssMode).toBe(true);
+
     (component as any).onDocumentClick();
-    expect(component.ssMode).toBe(false);
-  });
-
-  it('should toggle screenshot mode on escape', () => {
-    component.toggleSSMode();
-    expect(component.ssMode).toBe(true);
-
-    // Faking the event
-    const event = document.createEvent('Event');
-    (event as any).code = 'Escape';
-    (component as any).onEscapePress(event);
+    const event = new Event('fullscreenchange');
+    document.dispatchEvent(event);
 
     expect(component.ssMode).toBe(false);
-
-    // For branch coverage
-    (event as any).code = 'KeyA';
-    (component as any).onEscapePress(event);
   });
 });

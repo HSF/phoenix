@@ -37,5 +37,4 @@ export class SSModeComponent implements OnInit {
   private onDocumentClick = () => {
     document.exitFullscreen?.();
   }
-
 }
