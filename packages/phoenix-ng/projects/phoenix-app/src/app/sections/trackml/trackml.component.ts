@@ -36,6 +36,7 @@ export class TrackmlComponent implements OnInit {
         new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
         new PresetView('Left View', [0, 0, -6000], 'left-cube')
       ],
+      defaultView: [4000, 0, 4000],
       phoenixMenuRoot: this.phoenixMenuRoot,
 
     };

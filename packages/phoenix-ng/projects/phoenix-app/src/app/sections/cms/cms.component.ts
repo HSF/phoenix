@@ -24,6 +24,7 @@ export class CMSComponent implements OnInit {
         new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
         new PresetView('Right View', [0, 0, 12000], 'right-cube')
       ],
+      defaultView: [4000, 0, 4000],
       phoenixMenuRoot: this.phoenixMenuRoot
     }
 

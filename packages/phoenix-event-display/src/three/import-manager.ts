@@ -194,10 +194,10 @@ export class ImportManager {
         this.processGeometry(geometry, name, scale);
         callback(geometry);
         resolve();
-        this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
+        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
       }, null, (error) => {
         reject(error);
-        this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
+        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
       });
     });
   }

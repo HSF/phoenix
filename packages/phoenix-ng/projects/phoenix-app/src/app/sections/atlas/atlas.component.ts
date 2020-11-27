@@ -34,7 +34,7 @@ export class AtlasComponent implements OnInit {
         new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
         new PresetView('Right View', [0, 0, 12000], 'right-cube')
       ],
-      defaultView: [4000, 4000, 4000],
+      defaultView: [4000, 0, 4000],
       // Set the phoenix menu to be used (defined above)
       phoenixMenuRoot: this.phoenixMenuRoot,
       // Default event data to fallback to if none given in URL

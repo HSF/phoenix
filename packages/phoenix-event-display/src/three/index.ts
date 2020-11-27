@@ -291,7 +291,6 @@ export class ThreeManager {
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
-      this.loadingManager.itemLoaded(`gltf_geom_${name}`);
     };
     return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
   }
@@ -632,6 +631,7 @@ export class ThreeManager {
    */
   public addGeometryFromParameters(parameters: any): void {
     this.loadingManager.addLoadableItem('geom_from_params');
+
     let scene = this.getSceneManager().getScene();
     let moduleName = parameters.ModuleName;
     let moduleXdim = parameters.Xdim;
