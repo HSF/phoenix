@@ -150,7 +150,7 @@ export class ThreeManager {
    */
   public render() {
     this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
-    this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
+    this.effectsManager.render(this.sceneManager.getScene(), this.controlsManager.getMainCamera());
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 

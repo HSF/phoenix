@@ -31,6 +31,7 @@ export class VRManager {
   private controllerGrip1: any;
   /** The VR controller representation */
   private controllerGrip2: any;
+
   /**
    * Set and configure the VR session.
    * @param renderer Renderer to set the VR session for.
@@ -95,8 +96,9 @@ export class VRManager {
    * Get the group containing the camera for VR.
    * VR camera works by adding a Group with Camera to the scene.
    * @param camera Camera which is to be cloned for VR use.
+   * @returns The camera group used in VR mode.
    */
-  public getCameraGroup(camera?: Camera) {
+  public getCameraGroup(camera?: Camera): Group {
     // Set up the camera position in the VR - Adding a group with camera does it
     if (!this.cameraGroup) {
       this.cameraGroup = new Group();
