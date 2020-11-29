@@ -1,19 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-menu-toggle',
   templateUrl: './menu-toggle.component.html',
   styleUrls: ['./menu-toggle.component.scss']
 })
-export class MenuToggleComponent implements OnInit {
+export class MenuToggleComponent {
 
   @Input() icon: string;
   @Input() active: boolean;
   @Input() tooltip: string;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  @Input() disabled: boolean = false;
 
 }

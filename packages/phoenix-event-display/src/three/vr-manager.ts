@@ -4,6 +4,8 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 // NOTE: This was created on 29/08/2020
 // It might get outdated given how WebXR is still a work in progress
 
+// LAST UPDATED ON 28/11/2020
+
 /**
  * VR manager for VR related operations.
  */
@@ -31,12 +33,21 @@ export class VRManager {
   private controllerGrip1: any;
   /** The VR controller representation */
   private controllerGrip2: any;
+
+  private onControllerSelectStart: () => void;
+  private onControllerSelectEnd: () => void;
+
   /**
    * Set and configure the VR session.
    * @param renderer Renderer to set the VR session for.
+   * @param onSessionStarted Callback to call when the VR session starts.
    * @param onSessionEnded Callback to call when the VR session ends.
    */
-  public setVRSession(renderer: WebGLRenderer, onSessionEnded?: () => void) {
+  public setVRSession(
+    renderer: WebGLRenderer,
+    onSessionStarted?: () => void,
+    onSessionEnded?: () => void
+  ) {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
 
@@ -45,7 +56,10 @@ export class VRManager {
         optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
       };
       (navigator as any)?.xr?.requestSession(VRManager.SESSION_TYPE, sessionInit)
-        .then(this.onVRSessionStarted);
+        .then((session: any) => {
+          this.onVRSessionStarted(session);
+          onSessionStarted?.();
+        });
 
       this.setupVRControls();
     }
@@ -66,10 +80,16 @@ export class VRManager {
    * Callback when the VR session ends.
    */
   private onVRSessionEnded = () => {
+    this.onSessionEnded?.();
+
     this.vrActive = false;
     this.currentVRSession?.removeEventListener('end', this.onVRSessionEnded);
     this.currentVRSession = null;
-    this.onSessionEnded?.();
+
+    this.controller1?.removeEventListener('selectstart', this.onControllerSelectStart);
+    this.controller1?.removeEventListener('selectend', this.onControllerSelectEnd);
+
+    this.cameraGroup = undefined;
   }
 
   /**
@@ -77,10 +97,6 @@ export class VRManager {
    */
   public endVRSession() {
     this.currentVRSession?.end();
-    this.getCameraGroup()?.remove(this.controller1);
-    this.getCameraGroup()?.remove(this.controller2);
-    this.getCameraGroup()?.remove(this.controllerGrip1);
-    this.getCameraGroup()?.remove(this.controllerGrip2);
   }
 
   /**
@@ -95,14 +111,15 @@ export class VRManager {
    * Get the group containing the camera for VR.
    * VR camera works by adding a Group with Camera to the scene.
    * @param camera Camera which is to be cloned for VR use.
+   * @returns The camera group used in VR mode.
    */
-  public getCameraGroup(camera?: Camera) {
+  public getCameraGroup(camera?: Camera): Group {
     // Set up the camera position in the VR - Adding a group with camera does it
     if (!this.cameraGroup) {
       this.cameraGroup = new Group();
     }
-    if (camera) {
-      this.vrCamera = camera.clone();
+    if (camera && this.vrActive) {
+      this.vrCamera = this.renderer.xr.getCamera(new Camera()).copy(camera.clone());
       this.vrCamera.name = 'VR_CAMERA';
 
       this.cameraGroup.position.copy(this.vrCamera.position);
@@ -124,27 +141,20 @@ export class VRManager {
    * Set up VR controls for moving around the event display.
    */
   private setupVRControls() {
-    // Distance for a single step
-    const stepDistance = 30;
-    // Unit vector in camera direction
-    const direction = new Vector3();
-    // Interval ID for the movement interval
-    let intervalId: NodeJS.Timeout;
-
     // Get the controllers
     this.controller1 = this.renderer.xr.getController(0);
-    this.getCameraGroup()?.add(this.controller1);
+    this.getCameraGroup().add(this.controller1);
     this.controller2 = this.renderer.xr.getController(1);
-    this.getCameraGroup()?.add(this.controller2);
+    this.getCameraGroup().add(this.controller2);
 
     const controllerModelFactory = new XRControllerModelFactory();
-    let controllerGrip1 = this.renderer.xr.getControllerGrip(0);
-    controllerGrip1.add(controllerModelFactory.createControllerModel(controllerGrip1));
-    this.getCameraGroup()?.add(controllerGrip1);
+    this.controllerGrip1 = this.renderer.xr.getControllerGrip(0);
+    this.controllerGrip1.add(controllerModelFactory.createControllerModel(this.controllerGrip1));
+    this.getCameraGroup().add(this.controllerGrip1);
 
-    let controllerGrip2 = this.renderer.xr.getControllerGrip(1);
-    controllerGrip2.add(controllerModelFactory.createControllerModel(controllerGrip2));
-    this.getCameraGroup()?.add(controllerGrip2);
+    this.controllerGrip2 = this.renderer.xr.getControllerGrip(1);
+    this.controllerGrip2.add(controllerModelFactory.createControllerModel(this.controllerGrip2));
+    this.getCameraGroup().add(this.controllerGrip2);
 
     const geometry = new BufferGeometry().setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, - 1)]);
 
@@ -155,7 +165,16 @@ export class VRManager {
     this.controller1.add(line.clone());
     this.controller2.add(line.clone());
 
-    this.controller1.addEventListener('selectstart', () => {
+    // Set up movement
+    
+    // Distance for a single step
+    const stepDistance = 30;
+    // Unit vector in camera direction
+    const direction = new Vector3();
+    // Interval ID for the movement interval
+    let intervalId: NodeJS.Timeout;
+
+    this.onControllerSelectStart = () => {
       console.log('Select: c1 position ' + this.controller1.position.toArray().join(', '));
       console.log('Select: CG position ' + this.cameraGroup.position.toArray().join(', '));
 
@@ -163,11 +182,15 @@ export class VRManager {
       intervalId = setInterval(() => {
         this.moveInDirection(direction, stepDistance);
       }, 20);
-    });
-    this.controller1.addEventListener('selectend', () => {
+    };
+
+    this.onControllerSelectEnd = () => {
       // Stop the movement
       clearInterval(intervalId);
-    });
+    };
+
+    this.controller1.addEventListener('selectstart', this.onControllerSelectStart);
+    this.controller1.addEventListener('selectend', this.onControllerSelectEnd);
   }
 
   /**
@@ -180,10 +203,10 @@ export class VRManager {
     //! this.controller.getWorldDirection(direction);
 
     // Get direction the camera is facing
-    this.renderer.xr.getCamera(new Camera())?.getWorldDirection(direction);
+    this.vrCamera?.getWorldDirection(direction);
 
     // Move the camera in the given direction
     this.cameraGroup.position.addScaledVector(direction, stepDistance);
-    // this.vrCamera.position.addScaledVector(direction, stepDistance);
+    this.vrCamera.position.addScaledVector(direction, stepDistance);
   }
 }

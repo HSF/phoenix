@@ -21,14 +21,6 @@ export class RendererManager {
       antialias: true
     });
 
-    renderer.setSize(
-      window.innerWidth,
-      window.innerHeight,
-      false
-    );
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.domElement.id = 'three-canvas';
-
     this.addRenderer(renderer);
     this.setMainRenderer(renderer);
   }
@@ -68,6 +60,15 @@ export class RendererManager {
    * @param elementId ID of the wrapper element.
    */
   private initRenderer(elementId: string) {
+    const mainRenderer = this.getMainRenderer();
+    mainRenderer.setSize(
+      window.innerWidth,
+      window.innerHeight,
+      false
+    );
+    mainRenderer.setPixelRatio(window.devicePixelRatio);
+    mainRenderer.domElement.id = 'three-canvas';
+
     let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;

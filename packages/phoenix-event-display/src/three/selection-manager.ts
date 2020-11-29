@@ -120,7 +120,7 @@ export class SelectionManager {
     document.getElementById('three-canvas').addEventListener('touchstart',
       this.onTouchDown);
     this.preSelectionAntialias = this.effectsManager.antialiasing;
-    this.effectsManager.antialiasing = false;
+    this.effectsManager.setAntialiasing(false);
   }
 
   /**
@@ -134,7 +134,7 @@ export class SelectionManager {
     document.getElementById('three-canvas').removeEventListener('touchstart',
       this.onTouchDown);
     this.outlinePass.selectedObjects = [];
-    this.effectsManager.antialiasing = this.preSelectionAntialias;
+    this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
 
 
