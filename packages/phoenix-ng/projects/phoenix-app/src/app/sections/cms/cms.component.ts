@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class CMSComponent implements OnInit {
 
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
+  loaded = false;
 
   constructor(private eventDisplay: EventDisplayService, private http: HttpClient) { }
 
@@ -37,6 +38,10 @@ export class CMSComponent implements OnInit {
     cmsLoader.readIgArchive('assets/files/cms/Hto4l_120-130GeV.ig', (allEvents: any[]) => {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
       this.eventDisplay.parsePhoenixEvents(allEventsData);
+    });
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      this.loaded = true;
     });
   }
 

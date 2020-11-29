@@ -45,7 +45,7 @@ export class LoadingManager {
     this.loaded.push(id);
     if (
       this.toLoad.length === this.loaded.length &&
-      this.toLoad.sort().join() === this.loaded.sort().join()
+      this.toLoad.sort().join(',') === this.loaded.sort().join(',')
     ) {
       this.onLoadCallbacks.forEach(callback => callback());
       this.reset();
@@ -77,6 +77,22 @@ export class LoadingManager {
    */
   public addLoadListener(callback: () => void) {
     this.onLoadCallbacks.push(callback);
+  }
+
+  /**
+   * Add a listener for when all items have loaded and check if there 
+   * are any items to load when the listener is added.
+   * @param callback Callback to call when all items have loaded.
+   */
+  public addLoadListenerWithCheck(callback: () => void) {
+    if (
+      this.toLoad.length > 0 &&
+      this.toLoad.length !== this.loaded.length
+    ) {
+      this.onLoadCallbacks.push(callback);
+    } else {
+      callback();
+    }
   }
 
   /**

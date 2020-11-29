@@ -11,11 +11,11 @@ export class SSModeComponent implements OnInit {
   ssMode: boolean = false;
 
   ngOnInit() {
-    document.addEventListener('fullscreenchange', e => {
+    document.onfullscreenchange = () => {
       if (!document.fullscreenElement) {
         this.toggleSSMode();
       }
-    });
+    };
   }
 
   toggleSSMode() {

@@ -13,6 +13,7 @@ export class LHCbComponent implements OnInit {
   events: any;
   loader: LHCbLoader;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
+  loaded = false;
 
   constructor(private eventDisplay: EventDisplayService, private http: HttpClient) {
   }
@@ -36,6 +37,10 @@ export class LHCbComponent implements OnInit {
     this.eventDisplay.loadGLTFGeometry('assets/geometry/LHCb/lhcb.gltf', 'LHCb detector');
 
     this.loadEventData();
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      this.loaded = true;
+    });
   }
 
   private loadEventData() {

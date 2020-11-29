@@ -1,6 +1,9 @@
-<div class="loader-wrapper d-flex justify-content-center align-items-center" [ngClass]="{ 'load-complete': loaded }">
+<div class="loader-wrapper d-flex justify-content-center align-items-center text-center" [ngClass]="{ 'load-complete': loaded }">
   <div>
     <img src="assets/images/logo-small.svg" alt="Loader" />
-    <p class="text-center mt-5">Loading...</p>
+    <p class="mt-5">
+      Loading...<br />
+      <small class="text-muted">(This may take a while)</small>
+    </p>
   </div>
 </div>
