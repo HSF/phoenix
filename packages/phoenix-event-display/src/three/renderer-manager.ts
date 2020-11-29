@@ -13,14 +13,27 @@ export class RendererManager {
   /** If the overlay is fixed or not. */
   private fixedOverlay: boolean;
 
+  /**
+   * Create the renderer manager by initializing the main renderer.
+   */
+  constructor() {
+    const renderer: WebGLRenderer = new WebGLRenderer({
+      antialias: true
+    });
+
+    this.addRenderer(renderer);
+    this.setMainRenderer(renderer);
+  }
 
   /**
-   * Instantiate the renderer manager by setting up the main renderer.
+   * Initialize the renderer manager by setting up the main renderer.
    * @param elementId ID of the wrapper element.
    */
-  constructor(elementId: string = 'eventDisplay') {
+  public init(elementId: string = 'eventDisplay') {
+    // Reset the animation loop
+    this.getMainRenderer().setAnimationLoop(null);
     // Main renderer for current browsers
-    this.setRenderer(elementId);
+    this.initRenderer(elementId);
   }
 
   /**
@@ -43,23 +56,19 @@ export class RendererManager {
   }
 
   /**
-   * Set the initial renderer.
+   * Set up the renderer with the DOM.
    * @param elementId ID of the wrapper element.
    */
-  private setRenderer(elementId: string) {
-    const renderer: WebGLRenderer = new WebGLRenderer({
-      antialias: true
-    });
-
-    this.addRenderer(renderer);
-    this.setMainRenderer(renderer);
-    this.getMainRenderer().setSize(
+  private initRenderer(elementId: string) {
+    const mainRenderer = this.getMainRenderer();
+    mainRenderer.setSize(
       window.innerWidth,
       window.innerHeight,
       false
     );
-    this.getMainRenderer().setPixelRatio(window.devicePixelRatio);
-    this.getMainRenderer().domElement.id = 'three-canvas';
+    mainRenderer.setPixelRatio(window.devicePixelRatio);
+    mainRenderer.domElement.id = 'three-canvas';
+
     let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;

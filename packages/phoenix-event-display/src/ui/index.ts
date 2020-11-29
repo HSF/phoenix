@@ -71,7 +71,7 @@ export class UIManager {
    * Show/load the UI including stats, the dat.GUI menu and theme.
    * @param configuration Configuration options for preset views and event data loader.
    */
-  public showUI(configuration: Configuration) {
+  public init(configuration: Configuration) {
     // Clear the existing UI
     this.clearUI();
     // Set the configuration

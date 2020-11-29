@@ -23,8 +23,6 @@ export class EventDisplay {
   private configuration: Configuration;
   /** An object containing event data. */
   private eventsData: any;
-  /** Frame ID of the current animation frame. */
-  private frameID: number;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -37,37 +35,37 @@ export class EventDisplay {
   private ui: UIManager;
 
   /**
-   * Constructor for the phoenix event display.
+   * Create the Phoenix event display and intitialize all the elements.
+   * @param configuration Configuration used to customize different aspects.
    */
-  constructor() {
-    this.graphicsLibrary = new ThreeManager();
+  constructor(configuration?: Configuration) {
     this.infoLogger = new InfoLogger();
+    this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
-    new StateManager().setEventDisplay(this);
+    if (configuration) {
+      this.init(configuration);
+    }
   }
 
   /**
-   * Initializes the components needed to later represent the geometries.
+   * Initialize all the Phoenix event display elements.
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
-    // Configuration
     this.configuration = configuration;
-    // Init the three manager
-    this.graphicsLibrary.init(configuration, this.infoLogger);
-    // Showing the UI elements
-    this.ui.showUI(configuration);
-    if (this.frameID) {
-      cancelAnimationFrame(this.frameID);
-    }
+
+    // Initialize the three manager with configuration
+    this.graphicsLibrary.init(configuration);
+    // Initialize the UI with configuration
+    this.ui.init(configuration);
+    // Set up for the state manager
+    new StateManager().setEventDisplay(this);
+
     // Animate loop
-    const animate = () => {
-      this.frameID = requestAnimationFrame(animate);
-      this.graphicsLibrary.updateControls();
+    const uiLoop = () => {
       this.ui.updateUI();
-      this.graphicsLibrary.render();
     };
-    animate();
+    this.graphicsLibrary.setAnimationLoop(uiLoop);
 
     // Allow adding elements through console
     this.enableEventDisplayConsole();
@@ -416,7 +414,7 @@ export class EventDisplay {
         scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
         this.loadJSONGeometry(json, name, menuNodeName, scale, doubleSided, initiallyVisible);
       },
-      buildGeometryFromParameters: (parameters:object)=> this.buildGeometryFromParameters(parameters)
+      buildGeometryFromParameters: (parameters: object) => this.buildGeometryFromParameters(parameters)
     };
   }
 

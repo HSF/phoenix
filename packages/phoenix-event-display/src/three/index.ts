@@ -49,8 +49,10 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations */
   private vrManager: VRManager;
-  /** Service for logging data to the information panel */
-  private infoLogger: InfoLogger;
+  /** Loop to run for each frame of animation. */
+  private animationLoop: () => void;
+  /** Loop to run for each frame to update stats. */
+  private uiLoop: () => void;
   /** Scene export ignore list */
   private ignoreList = [
     new AmbientLight().type,
@@ -65,11 +67,19 @@ export class ThreeManager {
   ];
 
   /**
+   * Create the three manager for three.js operations.
+   * @param infoLogger Logger for logging data to the information panel.
+   */
+  constructor(private infoLogger: InfoLogger) {
+    this.rendererManager = new RendererManager();
+  }
+
+  /**
    * Initializes the necessary three.js functionality.
    * @param configuration Configuration to customize different aspects.
    * @param infoLogger Service for logging data to the information panel.
    */
-  public init(configuration: Configuration, infoLogger: InfoLogger) {
+  public init(configuration: Configuration) {
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
@@ -80,7 +90,7 @@ export class ThreeManager {
       SceneManager.GEOMETRIES_ID
     );
     // Renderer manager
-    this.rendererManager = new RendererManager(configuration.elementId);
+    this.rendererManager.init(configuration.elementId);
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager, configuration.defaultView);
     // Effects manager
@@ -97,8 +107,6 @@ export class ThreeManager {
     );
     // VR manager
     this.vrManager = new VRManager();
-    // Logger
-    this.infoLogger = infoLogger;
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
@@ -120,32 +128,46 @@ export class ThreeManager {
   }
 
   /**
+   * Set up the animation loop of the renderer.
+   * @param uiLoop Function to run on render for UI (stats) apart from three manager operations.
+   */
+  public setAnimationLoop(uiLoop: () => void) {
+    this.uiLoop = uiLoop;
+    this.animationLoop = () => {
+      this.uiLoop();
+      this.updateControls();
+      this.render();
+    };
+    this.rendererManager.getMainRenderer().setAnimationLoop(this.animationLoop);
+  }
+
+  /**
+   * Stop the animation loop from running.
+   */
+  public stopAnimationLoop() {
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+  }
+
+  /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    if (!this.vrManager.isVRActive()) {
-      this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
-      this.effectsManager.render(this.controlsManager.getMainCamera(), this.sceneManager.getScene());
-      this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
-    } else {
-      // If VR is active don't use EffectComposer
-      this.rendererManager.getMainRenderer().render(
-        this.sceneManager.getScene(),
-        this.controlsManager.getMainCamera()
-      );
-      // The light directs towards origin
-      this.sceneManager.updateLights(this.vrManager.getVRCamera());
-    }
+    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
+    this.effectsManager.render(this.sceneManager.getScene(), this.controlsManager.getMainCamera());
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
    * Minimally render without any post-processing.
    */
-  public minimalRender() {
-    // Use the VR camera for rendering
+  public vrRender() {
+    this.uiLoop();
     this.rendererManager.getMainRenderer().render(
-      this.sceneManager.getScene(), this.vrManager.getVRCamera()
+      this.sceneManager.getScene(),
+      this.vrManager.getVRCamera()
     );
+    // The light directs towards origin
+    this.sceneManager.updateLights(this.vrManager.getVRCamera());
   }
 
   /**
@@ -549,23 +571,25 @@ export class ThreeManager {
    * @param onSessionEnded Callback when the VR session ends.
    */
   public initVRSession(onSessionEnded?: () => void) {
-    // Set up the camera position in the VR - Adding a group with camera does it
-    const cameraGroup = this.vrManager
-      .getCameraGroup(this.controlsManager.getMainCamera());
-    this.sceneManager.getScene().add(cameraGroup);
-
     // Set up main renderer for VR
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = true;
 
-    // Set up the animation loop
-    const animate = () => {
-      this.minimalRender();
+    // Set the VR animation loop
+    mainRenderer.xr.setAnimationLoop(this.vrRender.bind(this));
+
+    // Set up the camera position in the VR - Adding a group with camera does it
+    // The VR camera is only available AFTER the session starts
+    // For why we can't just move the camera directly, see e.g. 
+    // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
+    const onSessionStarted = () => {
+      const cameraGroup = this.vrManager
+        .getCameraGroup(this.controlsManager.getMainCamera());
+      this.sceneManager.getScene().add(cameraGroup);
     };
-    mainRenderer.setAnimationLoop(animate);
 
     // Set and initialize the VR session
-    this.vrManager.setVRSession(mainRenderer, onSessionEnded);
+    this.vrManager.setVRSession(mainRenderer, onSessionStarted, onSessionEnded);
   }
 
   /**
@@ -575,9 +599,9 @@ export class ThreeManager {
     this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
 
     const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.setAnimationLoop(null);
     mainRenderer.xr.enabled = false;
-    // Remove the animation loop
-    mainRenderer.setAnimationLoop(null);
+
     this.vrManager.endVRSession();
   }
 

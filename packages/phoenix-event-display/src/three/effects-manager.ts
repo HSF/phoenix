@@ -19,6 +19,9 @@ export class EffectsManager {
   /** Whether antialiasing is enabled or disabled. */
   public antialiasing: boolean = true;
 
+  /** Render function with (normal render) or without antialias (effects render). */
+  public render: (scene: Scene, camera: Camera) => void;
+
   /**
    * Constructor for the effects manager which manages effects and three.js passes.
    * @param camera The camera inside the scene.
@@ -32,21 +35,31 @@ export class EffectsManager {
 
     this.defaultRenderPass = new RenderPass(this.scene, this.camera);
     this.composer.addPass(this.defaultRenderPass);
+
+    // Set the starting render function
+    this.render = this.antialiasing ? this.antialiasRender : this.effectsRender;
   }
 
   /**
    * Render the effects composer.
-   * @param camera The camera inside the scene.
    * @param scene The default scene used for event display.
+   * @param camera The camera inside the scene.
    */
-  public render(camera: Camera, scene: Scene) {
-    if (this.composer && !this.antialiasing) {
+  private effectsRender(scene: Scene, camera: Camera) {
+    if (this.composer) {
       this.defaultRenderPass.camera = camera;
       this.defaultRenderPass.scene = scene;
       this.composer.render();
-    } else if (this.antialiasing) {
-      this.composer.renderer.render(scene, camera);
     }
+  }
+
+  /**
+   * Render for antialias without the effects composer.
+   * @param scene The default scene used for event display.
+   * @param camera The camera inside the scene.
+   */
+  private antialiasRender(scene: Scene, camera: Camera) {
+    this.composer.renderer.render(scene, camera);
   }
 
   /**
@@ -81,5 +94,6 @@ export class EffectsManager {
    */
   public setAntialiasing(antialias: boolean) {
     this.antialiasing = antialias;
+    this.render = this.antialiasing ? this.antialiasRender : this.effectsRender;
   }
 }

@@ -12,6 +12,7 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(private eventDisplay: EventDisplayService) {
     this.year = new Date().getFullYear();
+    this.eventDisplay.getThreeManager().stopAnimationLoop();
   }
 
   ngAfterViewInit() {

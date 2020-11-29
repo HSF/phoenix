@@ -18,7 +18,7 @@ To create a simple event display.
 
 ```js
 // Import required classes
-import { EventDisplay, Configuration, PhoenixLoader } from 'phoenix-event-display';
+import { EventDisplay, PhoenixLoader } from 'phoenix-event-display';
 
 // Create the event display
 const eventDisplay = new EventDisplay();
