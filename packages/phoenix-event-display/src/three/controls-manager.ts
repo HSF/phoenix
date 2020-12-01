@@ -56,8 +56,8 @@ export class ControlsManager {
       rendererManager.getMainRenderer().domElement
     );
     perspectiveCamera.position.z = orthographicCamera.position.z = defaultView[2];
-    perspectiveCamera.position.x = orthographicCamera.position.y = defaultView[1];
-    perspectiveCamera.position.x = orthographicCamera.position.y = defaultView[0];
+    perspectiveCamera.position.y = orthographicCamera.position.y = defaultView[1];
+    perspectiveCamera.position.x = orthographicCamera.position.x = defaultView[0];
     // Set active orbit controls
     this.addControls(this.perspectiveControls);
     this.addControls(this.orthographicControls);

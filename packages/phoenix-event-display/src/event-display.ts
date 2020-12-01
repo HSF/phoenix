@@ -4,6 +4,8 @@ import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { JiveXMLLoader } from './loaders/jivexml-loader';
+import { LoadingManager } from './managers/loading-manager';
+import { PhoenixLoader } from './loaders/phoenix-loader';
 
 declare global {
   /**
@@ -33,12 +35,15 @@ export class EventDisplay {
   private infoLogger: InfoLogger;
   /** UI manager for UI menu. */
   private ui: UIManager;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
    * @param configuration Configuration used to customize different aspects.
    */
   constructor(configuration?: Configuration) {
+    this.loadingManager = new LoadingManager();
     this.infoLogger = new InfoLogger();
     this.graphicsLibrary = new ThreeManager(this.infoLogger);
     this.ui = new UIManager(this.graphicsLibrary);
@@ -159,6 +164,14 @@ export class EventDisplay {
     return this.infoLogger;
   }
 
+  /**
+   * Get the loading manager for managing loadable items.
+   * @returns The loading manager.
+   */
+  public getLoadingManager() {
+    return this.loadingManager;
+  }
+
   // **********************
   // * LOADING GEOMETRIES *
   // **********************
@@ -173,9 +186,16 @@ export class EventDisplay {
    * @param doubleSided If true, render both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(filename: string, name: string, color: any,
-    menuNodeName?: string, doubleSided?: boolean, initiallyVisible: boolean = true, setFlat: boolean = true) {
+  public loadOBJGeometry(
+    filename: string,
+    name: string, color: any,
+    menuNodeName?: string, doubleSided?: boolean,
+    initiallyVisible: boolean = true,
+    setFlat: boolean = true
+  ): Promise<unknown> {
+    this.loadingManager.addLoadableItem(`obj_geom_${name}`);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
     return this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible, setFlat);
@@ -191,6 +211,7 @@ export class EventDisplay {
    */
   public parseOBJGeometry(content: string, name: string,
     menuNodeName?: string, initiallyVisible: boolean = true) {
+    this.loadingManager.addLoadableItem(`parse_obj_${name}`);
     this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
     this.ui.addGeometry(name, 0x000fff, menuNodeName, initiallyVisible);
   }
@@ -219,6 +240,8 @@ export class EventDisplay {
       this.graphicsLibrary.clearEventData();
       // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
+
+      this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
       return this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);
     }
   }
@@ -233,10 +256,12 @@ export class EventDisplay {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param input JSON containing the scene as in GLTF (.gltf) format.
+   * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(input: any) {
+  public parseGLTFGeometry(input: any): Promise<unknown> {
     const scene = JSON.parse(input);
-    this.graphicsLibrary.parseGLTFGeometry(scene);
+    this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
+    return this.graphicsLibrary.parseGLTFGeometry(scene);
   }
 
   /**
@@ -249,8 +274,13 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(url: any, name: string, menuNodeName?: string,
-    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
+  public loadGLTFGeometry(
+    url: any, name: string,
+    menuNodeName?: string,
+    scale?: number,
+    initiallyVisible: boolean = true
+  ): Promise<unknown> {
+    this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
     return this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
@@ -266,8 +296,13 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(json: string | object, name: string, menuNodeName?: string,
-    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
+  public loadJSONGeometry(
+    json: string | object, name: string,
+    menuNodeName?: string,
+    scale?: number, doubleSided?: boolean,
+    initiallyVisible: boolean = true
+  ): Promise<unknown> {
+    this.loadingManager.addLoadableItem(`json_geom_${name}`);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
     return this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
@@ -283,11 +318,17 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadRootJSONGeometry(JSROOT: any, url: string, name: string, menuNodeName?: string,
-    scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) {
+  public loadRootJSONGeometry(
+    JSROOT: any, url: string,
+    name: string, menuNodeName?: string,
+    scale?: number, doubleSided?: boolean,
+    initiallyVisible: boolean = true
+  ) {
+    this.loadingManager.addLoadableItem('root_json_geom');
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
       this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
         name, menuNodeName, scale, doubleSided, initiallyVisible);
+      this.loadingManager.itemLoaded('root_json_geom');
     }).send();
   }
 
@@ -538,27 +579,33 @@ export class EventDisplay {
 
     // Load config from URL
     const loadConfig = () => {
-      if (urlParams.get('config')) {
+      if (urlParams.get('config') && ('fetch' in window)) {
+        this.loadingManager.addLoadableItem('url_config');
         fetch(urlParams.get('config'))
           .then(res => res.json())
           .then(jsonState => {
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
+          }).finally(() => {
+            this.loadingManager.itemLoaded('url_config');
           });
       }
     }
 
     if (file && type && ('fetch' in window)) {
+      this.loadingManager.addLoadableItem('url_event');
       fetch(file)
         .then(res => type === 'jivexml' ? res.text() : res.json())
         .then((res: object | string) => {
           if (type === 'jivexml') {
             const loader = new JiveXMLLoader();
+            this.configuration.eventDataLoader = loader;
             // Parse the JSON to extract events and their data
             loader.process(res);
             const eventData = loader.getEventData();
             this.buildEventDataFromJSON(eventData);
           } else {
+            this.configuration.eventDataLoader = new PhoenixLoader();
             this.parsePhoenixEvents(res);
           }
         }).catch((error) => {
@@ -567,6 +614,7 @@ export class EventDisplay {
         }).finally(() => {
           // Load config from URL after loading the event
           loadConfig();
+          this.loadingManager.itemLoaded('url_event');
         });
     } else {
       loadConfig();

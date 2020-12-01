@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./playground.component.scss']
 })
 export class PlaygroundComponent implements OnInit {
+  loaded = false;
 
   constructor(protected eventDisplay: EventDisplayService, protected http: HttpClient) { }
 
@@ -21,6 +22,10 @@ export class PlaygroundComponent implements OnInit {
       ]
     };
     this.eventDisplay.init(configuration);
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      this.loaded = true;
+    });
   }
 
 }

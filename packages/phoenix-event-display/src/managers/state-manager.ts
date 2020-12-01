@@ -21,14 +21,13 @@ export class StateManager {
 
   /**
    * Create the state manager.
+   * @returns The state manager instance.
    */
   constructor() {
-    if (StateManager.instance) {
-      return StateManager.instance;
-    } else {
+    if (StateManager.instance === undefined) {
       StateManager.instance = this;
-      return StateManager.instance;
     }
+    return StateManager.instance;
   }
 
   /**

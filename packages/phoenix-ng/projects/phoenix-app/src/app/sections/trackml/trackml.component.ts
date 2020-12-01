@@ -21,6 +21,7 @@ export class TrackmlComponent implements OnInit {
     responseType: 'text' as 'json'
   };
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
+  loaded = false;
 
 
   constructor(private eventDisplay: EventDisplayService, private http: HttpClient) {
@@ -36,6 +37,7 @@ export class TrackmlComponent implements OnInit {
         new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
         new PresetView('Left View', [0, 0, -6000], 'left-cube')
       ],
+      defaultView: [4000, 0, 4000],
       phoenixMenuRoot: this.phoenixMenuRoot,
 
     };
@@ -47,6 +49,10 @@ export class TrackmlComponent implements OnInit {
     this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/beampipe_simplified.obj', 'Beampipe', 0x7f7f7f, undefined, true);
     this.eventDisplay.loadOBJGeometry('assets/geometry/TrackML/pixel_support_tube_simplified.obj', 'PST', 0x7bb3ff, undefined, true);
     this.loadTrackMLData();
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      this.loaded = true;
+    });
   }
 
   private loadTrackMLData() {

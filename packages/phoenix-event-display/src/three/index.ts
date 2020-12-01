@@ -25,6 +25,7 @@ import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
 import { StateManager } from '../managers/state-manager';
+import { LoadingManager } from '../managers/loading-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -49,6 +50,8 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations */
   private vrManager: VRManager;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
   /** Loop to run for each frame of animation. */
   private animationLoop: () => void;
   /** Loop to run for each frame to update stats. */
@@ -72,6 +75,7 @@ export class ThreeManager {
    */
   constructor(private infoLogger: InfoLogger) {
     this.rendererManager = new RendererManager();
+    this.loadingManager = new LoadingManager();
   }
 
   /**
@@ -281,8 +285,12 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string,
-    scale?: number, initiallyVisible: boolean = true): Promise<unknown> {
+  public loadGLTFGeometry(
+    sceneUrl: any,
+    name: string,
+    scale?: number,
+    initiallyVisible: boolean = true
+  ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
@@ -302,6 +310,7 @@ export class ThreeManager {
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
     geometries.add(object);
+    this.loadingManager.itemLoaded(`parse_obj_${name}`);
   }
 
   /**
@@ -625,6 +634,8 @@ export class ThreeManager {
    * @param parameters The name, dimensions, and radial values for this cylindrical volume.
    */
   public addGeometryFromParameters(parameters: any): void {
+    this.loadingManager.addLoadableItem('geom_from_params');
+
     let scene = this.getSceneManager().getScene();
     let moduleName = parameters.ModuleName;
     let moduleXdim = parameters.Xdim;
@@ -670,5 +681,7 @@ export class ThreeManager {
       }
       z += zstep
     }
+
+    this.loadingManager.itemLoaded('geom_from_params');
   }
 }

@@ -11,6 +11,7 @@ import eventConfig from '../../../../event-config.json';
 })
 export class AtlasComponent implements OnInit {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
+  loaded = false;
 
   constructor(private eventDisplay: EventDisplayService) { }
 
@@ -34,7 +35,7 @@ export class AtlasComponent implements OnInit {
         new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
         new PresetView('Right View', [0, 0, 12000], 'right-cube')
       ],
-      defaultView: [4000, 4000, 4000],
+      defaultView: [4000, 0, 4000],
       // Set the phoenix menu to be used (defined above)
       phoenixMenuRoot: this.phoenixMenuRoot,
       // Default event data to fallback to if none given in URL
@@ -69,5 +70,9 @@ export class AtlasComponent implements OnInit {
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, undefined, true, false);
     this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, undefined, true, false);
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      this.loaded = true;
+    });
   }
 }

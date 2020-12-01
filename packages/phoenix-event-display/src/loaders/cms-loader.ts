@@ -39,6 +39,7 @@ export class CMSLoader extends PhoenixLoader {
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
    */
   public readIgArchive(path: string, onFileRead: (allEvents: any[]) => void, eventPathName?: string) {
+    this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     let eventsDataInIg = [];
     fetch(path).then(res => res.arrayBuffer()).then((res) => {
@@ -63,12 +64,14 @@ export class CMSLoader extends PhoenixLoader {
                 eventsDataInIg.push(eventJSON);
                 if (i === allFilesPath.length) {
                   onFileRead(eventsDataInIg);
+                  this.loadingManager.itemLoaded('ig_archive');
                 }
                 i++;
               });
           } else {
             if (i === allFilesPath.length) {
               onFileRead(eventsDataInIg);
+              this.loadingManager.itemLoaded('ig_archive');
             }
             i++;
           }

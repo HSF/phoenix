@@ -1,6 +1,7 @@
 import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { LoadingManager } from '../managers/loading-manager';
 
 /**
  * Manager for managing event display's import related functionality.
@@ -13,6 +14,8 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
 
   /**
    * Constructor for the import manager.
@@ -24,6 +27,7 @@ export class ImportManager {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
+    this.loadingManager = new LoadingManager();
   }
 
   /**
@@ -53,7 +57,11 @@ export class ImportManager {
         const processed = this.processOBJ(object, name, color, doubleSided, setFlat, 'OBJ file');
         callback(processed);
         resolve();
-      }, null, reject);
+        this.loadingManager.itemLoaded(`obj_geom_${name}`);
+      }, null, (error) => {
+        reject(error);
+        this.loadingManager.itemLoaded(`obj_geom_${name}`);
+      });
     });
   }
 
@@ -84,6 +92,7 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @param setFlat Whether object should be flat-shaded or not.
    * @param data Data/description to be associated with the object.
+   * @returns The processed object.
    */
   private processOBJ(
     object: Object3D,
@@ -160,7 +169,11 @@ export class ImportManager {
         const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
         callback(eventData, geometries);
         resolve();
-      }, reject);
+        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+      }, (error) => {
+        reject(error);
+        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+      });
     });
   }
 
@@ -181,7 +194,11 @@ export class ImportManager {
         this.processGeometry(geometry, name, scale);
         callback(geometry);
         resolve();
-      }, null, reject);
+        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+      }, null, (error) => {
+        reject(error);
+        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+      });
     });
   }
 
@@ -204,12 +221,17 @@ export class ImportManager {
           this.processGeometry(geometry, name, scale, doubleSided);
           callback(geometry);
           resolve();
-        }, null, reject);
+          this.loadingManager.itemLoaded(`json_geom_${name}`);
+        }, null, (error) => {
+          reject(error);
+          this.loadingManager.itemLoaded(`json_geom_${name}`);
+        });
       });
     } else if (typeof json === 'object') {
       return new Promise((resolve, reject) => {
         const geometry = loader.parse(json, object => {
           resolve();
+          this.loadingManager.itemLoaded(`json_geom_${name}`);
         });
         this.processGeometry(geometry, name, scale, doubleSided);
         callback(geometry);
