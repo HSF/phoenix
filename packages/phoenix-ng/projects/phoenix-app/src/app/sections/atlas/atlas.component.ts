@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration, PresetView, PhoenixMenuNode, PhoenixLoader } from 'phoenix-event-display';
+import { Configuration, PresetView, PhoenixMenuNode, PhoenixLoader, StateManager } from 'phoenix-event-display';
 import { environment } from '../../../environments/environment';
 import eventConfig from '../../../../event-config.json';
+
+// import the downloaded configuration from assets
+import phoenixMenuConfig from '../../../assets/files/config/atlas-config.json';
 
 @Component({
   selector: 'app-atlas',
@@ -46,13 +49,6 @@ export class AtlasComponent implements OnInit {
     // Initialize the event display
     this.eventDisplay.init(configuration);
 
-    // // Load the JSON file containing event data
-    // this.http.get('assets/files/event_data/atlaseventdump2.json')
-    //   .subscribe((res: any) => {
-    //     // Parse the JSON to extract events and their data
-    //     this.eventDisplay.parsePhoenixEvents(res);
-    //   });
-
     // Load detector geometries
     this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0x8c8c8c, undefined, false, false);
@@ -74,5 +70,8 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
     });
+
+    const stateManager = new StateManager();
+    stateManager.loadStateFromJSON(phoenixMenuConfig);
   }
 }
