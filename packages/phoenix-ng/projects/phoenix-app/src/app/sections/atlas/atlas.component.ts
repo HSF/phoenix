@@ -18,7 +18,7 @@ export class AtlasComponent implements OnInit {
 
   constructor(private eventDisplay: EventDisplayService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     let defaultEvent: { eventFile: string, eventType: string };
     // Get default event from configuration
     if (environment?.singleEvent) {
@@ -50,28 +50,27 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     // Load detector geometries
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/toroids.obj', 'Toroids', 0x8c8c8c, undefined, false, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TRT.obj', 'TRT', 0x356aa5, undefined, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/SCT.obj', 'SCT', 0xfff400, undefined, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/pixel.obj', 'Pixel', 0x356aa5, undefined, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_Bar.obj', 'LAr Barrel', 0x19CCD2, undefined, true, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC1.obj', 'LAr EC1', 0x19CCD2, undefined, true, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/LAR_EC2.obj', 'LAr EC2', 0x19CCD2, undefined, true, false);
-    await this.eventDisplay
+    this.eventDisplay
       .loadOBJGeometry('assets/geometry/ATLAS/TileCal.obj', 'Tile Cal', 0xc14343, undefined, true, false);
 
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
+      const stateManager = new StateManager();
+      stateManager.loadStateFromJSON(phoenixMenuConfig);
     });
-
-    const stateManager = new StateManager();
-    stateManager.loadStateFromJSON(phoenixMenuConfig);
   }
 }
