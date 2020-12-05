@@ -379,18 +379,14 @@ export class UIManager {
   /**
    * Add folder for event data type like tracks or hits to the dat.GUI menu.
    * @param typeName Name of the type of event data.
-   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    * @returns dat.GUI menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string,
-    extendEventDataTypeUI?: (typeFolder: any) => void): any {
+  public addEventDataTypeFolder(typeName: string): any {
     if (this.hasDatGUIMenu) {
       const typeFolder = this.eventFolder.addFolder(typeName);
       this.guiParameters.eventData[typeName] = true;
       const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
       menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
-
-      extendEventDataTypeUI?.(typeFolder);
 
       return typeFolder;
     }
@@ -401,18 +397,14 @@ export class UIManager {
   /**
    * Add child for event data type like tracks or hits to the phoenix menu.
    * @param typeName Name of the type of event data.
-   * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    * @returns Phoenix menu node for event data type.
    */
-  public addEventDataTypeFolderPM(typeName: string,
-    extendEventDataTypeUI?: (typeFolder: any, typeFolderPM: PhoenixMenuNode) => void): PhoenixMenuNode {
+  public addEventDataTypeFolderPM(typeName: string): PhoenixMenuNode {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
       const typeFolderPM = this.eventFolderPM.addChild(typeName, (value: boolean) => {
         this.three.getSceneManager().objectVisibility(typeName, value);
       });
-
-      extendEventDataTypeUI?.(undefined, typeFolderPM);
 
       return typeFolderPM;
     }
@@ -451,11 +443,11 @@ export class UIManager {
         for (const cut of cuts) {
           const minCut = cutsFolder.add(cut, 'minValue', cut.minValue, cut.maxValue).name('min ' + cut.field);
           minCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cut);
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
           });
           const maxCut = cutsFolder.add(cut, 'maxValue', cut.minValue, cut.maxValue).name('max ' + cut.field);
           maxCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cut);
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
           });
         }
       }
@@ -504,12 +496,12 @@ export class UIManager {
         // Add range sliders for cuts
         for (const cut of cuts) {
           collectionNode.addConfig('rangeSlider', {
-            label: PrettySymbols.getPrettySymbol(cut.field), step: cut.step,
-            min: cut.minValue, max: cut.maxValue,
+            label: PrettySymbols.getPrettySymbol(cut.field),
+            min: cut.minValue, max: cut.maxValue, step: cut.step,
             onChange: (values: any) => {
               cut.minValue = values?.value;
               cut.maxValue = values?.highValue;
-              this.three.getSceneManager().collectionFilter(collectionName, cut);
+              this.three.getSceneManager().collectionFilter(collectionName, cuts);
             }
           });
         }
