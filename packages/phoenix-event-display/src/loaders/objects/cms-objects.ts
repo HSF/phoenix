@@ -1,4 +1,4 @@
-import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, Line, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
+import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
 import { EVENT_DATA_TYPE_COLORS } from "../../helpers/constants";
 
 /**
