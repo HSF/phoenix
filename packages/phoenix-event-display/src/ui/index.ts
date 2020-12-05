@@ -498,6 +498,7 @@ export class UIManager {
           collectionNode.addConfig('rangeSlider', {
             label: PrettySymbols.getPrettySymbol(cut.field),
             min: cut.minValue, max: cut.maxValue, step: cut.step,
+            value: cut.minValue, highValue: cut.maxValue,
             onChange: (values: any) => {
               cut.minValue = values?.value;
               cut.maxValue = values?.highValue;

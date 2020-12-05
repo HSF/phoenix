@@ -134,7 +134,7 @@ export class PhoenixMenuNode {
       config.onChange?.(config?.['color']);
     } else if (config.type === 'slider' && config?.['value']) {
       config.onChange?.(config?.['value']);
-    } else if (config.type === 'rangeSlider' && config?.['value']) {
+    } else if (config.type === 'rangeSlider' && config?.['value'] !== undefined) {
       config.onChange?.({
         value: config?.['value'],
         highValue: config?.['highValue']
