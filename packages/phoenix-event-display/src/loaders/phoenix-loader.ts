@@ -139,7 +139,7 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -100, 100),
-        new Cut('energy', 0, 10000)
+        new Cut('energy', 0, 100000, 100)
       ];
 
       const addJetsSizeOption = (typeFolder: any, typeFolderPM: PhoenixMenuNode) => {
@@ -154,6 +154,7 @@ export class PhoenixLoader implements EventDataLoader {
         if (typeFolderPM) {
           typeFolderPM.addConfig('slider', {
             label: 'Jets Size (%)',
+            value: 100,
             min: 1, max: 200,
             allowCustomValue: true,
             onChange: (value: number) => {
@@ -219,8 +220,8 @@ export class PhoenixLoader implements EventDataLoader {
   protected addObjectType(object: any, getObject: any, typeName: string,
     cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderPM?: PhoenixMenuNode) => void) {
 
-    const typeFolder = this.ui.addEventDataTypeFolder(typeName, extendEventDataTypeUI);
-    const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName, extendEventDataTypeUI);
+    const typeFolder = this.ui.addEventDataTypeFolder(typeName);
+    const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -243,6 +244,8 @@ export class PhoenixLoader implements EventDataLoader {
       this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
       this.ui.addCollectionPM(typeFolderPM, collectionName, cuts, collectionColor);
     }
+
+    extendEventDataTypeUI?.(typeFolder, typeFolderPM);
   }
 
   /**

@@ -265,20 +265,24 @@ export class SceneManager {
   /**
    * Applies a cut to all objects inside a collection, filtering them given a parameter.
    * @param collectionName Name of the collection.
-   * @param filter Cut used to filter the objects in the collection.
+   * @param filters Cuts used to filter the objects in the collection.
    */
-  public collectionFilter(collectionName: string, filter: Cut) {
+  public collectionFilter(collectionName: string, filters: Cut[]) {
     const collection = this.getScene()
       .getObjectByName(SceneManager.EVENT_DATA_ID)
       .getObjectByName(collectionName);
     for (const child of Object.values(collection.children)) {
       if (child.userData) {
-        const value = child.userData[filter.field];
-        if (value) {
-          if (value <= filter.maxValue && value >= filter.minValue) {
-            child.visible = true;
-          } else {
-            child.visible = false;
+        for (const filter of filters) {
+          const value = child.userData[filter.field];
+          if (value) {
+            if (value <= filter.maxValue && value >= filter.minValue) {
+              child.visible = true;
+            } else {
+              child.visible = false;
+              // Break even if one filter hides the object
+              break;
+            }
           }
         }
       }

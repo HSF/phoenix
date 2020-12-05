@@ -102,9 +102,11 @@ export class PhoenixMenuNode {
    * @returns The current node.
    */
   addConfig(type: string, options: any): PhoenixMenuNode {
-    let configOptions = { type: type };
+    let configOptions = { type };
     Object.assign(configOptions, options);
-    this.configs.push(configOptions);
+    const configsLength = this.configs.push(configOptions);
+    // Apply the values of config
+    this.applyConfigState(this.configs[configsLength - 1]);
     return this;
   }
 
@@ -117,6 +119,26 @@ export class PhoenixMenuNode {
     this.toggleState = value;
     for (const child of this.children) {
       child.toggleSelfAndDescendants(value);
+    }
+  }
+
+  /**
+   * Apply the current values of config by calling the change function.
+   * @param config Config whose values are to be applied.
+   */
+  applyConfigState(config: any) {
+    // Apply configs of different config types - manual
+    if (config.type === 'checkbox' && config?.['isChecked']) {
+      config.onChange?.(config?.['isChecked']);
+    } else if (config.type === 'color' && config?.['color']) {
+      config.onChange?.(config?.['color']);
+    } else if (config.type === 'slider' && config?.['value']) {
+      config.onChange?.(config?.['value']);
+    } else if (config.type === 'rangeSlider' && config?.['value'] !== undefined) {
+      config.onChange?.({
+        value: config?.['value'],
+        highValue: config?.['highValue']
+      });
     }
   }
 
@@ -158,28 +180,16 @@ export class PhoenixMenuNode {
     this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject['configs']) {
-      const nodeConfig = this.configs.filter(nodeConfig =>
+      const nodeConfig = this.configs.find(nodeConfig =>
         nodeConfig.type === configState['type'] && nodeConfig.label === configState['label']
-      )[0];
+      );
 
       if (nodeConfig) {
         for (const prop in configState) {
           nodeConfig[prop] = configState[prop];
         }
 
-        // Apply configs of different config types - manual
-        if (nodeConfig.type === 'checkbox' && configState?.['isChecked']) {
-          nodeConfig.onChange?.(configState?.['isChecked']);
-        } else if (nodeConfig.type === 'color' && configState?.['color']) {
-          nodeConfig.onChange?.(configState?.['color']);
-        } else if (nodeConfig.type === 'slider' && configState?.['value']) {
-          nodeConfig.onChange?.(configState?.['value']);
-        } else if (nodeConfig.type === 'rangeSlider' && configState?.['value']) {
-          nodeConfig.onChange?.({
-            value: configState?.['value'],
-            highValue: configState?.['highValue']
-          });
-        }
+        this.applyConfigState(nodeConfig);
       }
     }
 

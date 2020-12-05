@@ -63,11 +63,7 @@ export class ThreeManager {
     new AxesHelper().type
   ];
   /** Clipping planes for clipping geometry */
-  private clipPlanes: Plane[] = [
-    new Plane(new Vector3(0, 1, 0), 0),
-    new Plane(new Vector3(0, -1, 0), 0),
-    new Plane(new Vector3(0, 0, 1), -15000)
-  ];
+  private clipPlanes: Plane[];
 
   /**
    * Create the three manager for three.js operations.
@@ -84,6 +80,12 @@ export class ThreeManager {
    * @param infoLogger Service for logging data to the information panel.
    */
   public init(configuration: Configuration) {
+    // Set the clipping planes
+    this.clipPlanes = [
+      new Plane(new Vector3(0, 1, 0), 0),
+      new Plane(new Vector3(0, -1, 0), 0),
+      new Plane(new Vector3(0, 0, 1), -15000)
+    ];
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
     // IO Managers
