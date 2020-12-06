@@ -1,0 +1,2169 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>JSRootEventLoader</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/jsroot-event-loader.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>PhoenixLoader for processing and loading an event from &quot;.root&quot;.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#fileEventData">fileEventData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#JSROOT">JSROOT</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rootFileURL">rootFileURL</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#eventData">eventData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#graphicsLibrary">graphicsLibrary</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#loadingManager">loadingManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ui">ui</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEventData">getEventData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getHit">getHit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getTEveTrack">getTEveTrack</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getTGeoTrack">getTGeoTrack</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processItemsList">processItemsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#addCollection">addCollection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#addObjectType">addObjectType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#buildEventData">buildEventData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCollection">getCollection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCollections">getCollections</a>
+                            </li>
+                            <li>
+                                <a href="#getEventMetadata">getEventMetadata</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEventsList">getEventsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getMuon">getMuon</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getObjectTypeCollections">getObjectTypeCollections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#loadObjectTypes">loadObjectTypes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(JSROOT: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, rootFileURL: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/loaders/jsroot-event-loader.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the JSRoot event loader.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>JSROOT</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>JSROOT object containing all JSROOT functions.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>rootFileURL</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>URL of the &quot;.root&quot; file to be processed.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fileEventData"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            fileEventData</b>
+                            <a href="#fileEventData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/loaders/jsroot-event-loader.ts:11</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event data inside the file. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="JSROOT"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            JSROOT</b>
+                            <a href="#JSROOT"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/loaders/jsroot-event-loader.ts:9</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>JSROOT object containing all JSROOT functions. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rootFileURL"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            rootFileURL</b>
+                            <a href="#rootFileURL"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/loaders/jsroot-event-loader.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>URL of the &quot;.root&quot; file to be processed. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="eventData"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            eventData</b>
+                            <a href="#eventData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:21</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event data processed by the loader. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="graphicsLibrary"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            graphicsLibrary</b>
+                            <a href="#graphicsLibrary"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ThreeManager.html" target="_self" >ThreeManager</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:17</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>ThreeService to perform three.js related functions. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadingManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            loadingManager</b>
+                            <a href="#loadingManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/LoadingManager.html" target="_self" >LoadingManager</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Loading manager for loadable resources </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ui"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            ui</b>
+                            <a href="#ui"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/UIManager.html" target="_self" >UIManager</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:19</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>UIService to perform UI related functions. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getEventData
+                        </b>
+                        <a href="#getEventData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEventData(objects: string[], onEventData: (eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/loaders/jsroot-event-loader.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get event data of the given objects (e.g [&#39;tracks;1&#39;, &#39;hits;1&#39;])
+from the currently loaded &quot;.root&quot; file.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>objects</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>An array identifying objects inside the &quot;.root&quot; file.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEventData</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when event data is extracted and available for use.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getHit
+                        </b>
+                        <a href="#getHit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHit(hit: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/loaders/jsroot-event-loader.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process and get the Hit in phoenix format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>hit</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hit object containing the hit information.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Hit in phoenix format.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTEveTrack"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getTEveTrack
+                        </b>
+                        <a href="#getTEveTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTEveTrack(track: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">src/loaders/jsroot-event-loader.ts:132</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process and get the TEveTrack in phoenix format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>track</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Track object containing the track information.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Track object in the phoenix format.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTGeoTrack"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getTGeoTrack
+                        </b>
+                        <a href="#getTGeoTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTGeoTrack(track: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">src/loaders/jsroot-event-loader.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process and get the TGeoTrack in phoenix format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>track</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Track object containing the track information.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Track object in the phoenix format.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processItemsList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            processItemsList
+                        </b>
+                        <a href="#processItemsList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processItemsList(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/loaders/jsroot-event-loader.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the list of items inside the JSROOT files for relevant event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>obj</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object containing the event data in the form of JSROOT classes.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCollection"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            addCollection
+                        </b>
+                        <a href="#addCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, objectGroup: Group)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:258</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds to the event display all the objects inside a collection.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>objectCollection</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Contains the params for every object of the collection.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Label to UNIQUELY identify the collection.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>getObject</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Handles reconstructing the objects of the collection.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>objectGroup</td>
+                                    <td>
+                                            <code>Group</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Group containing the collections of the same object type.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addObjectType"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            addObjectType
+                        </b>
+                        <a href="#addObjectType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>, extendEventDataTypeUI?: (typeFolder?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeFolderPM?: <a href="../classes/PhoenixMenuNode.html">PhoenixMenuNode</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:220</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds to the event display all collections of a given object type.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Contains all collections of a given type (Tracks, Jets, CaloClusters...).</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>getObject</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function that handles of reconstructing objects of the given type.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>typeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Label for naming the object type.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cuts</td>
+                                    <td>
+                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Filters that can be applied to the objects.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>extendEventDataTypeUI</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>A callback to add more options to event data type UI folder.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildEventData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            buildEventData
+                        </b>
+                        <a href="#buildEventData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html">ThreeManager</a>, ui: <a href="../classes/UIManager.html">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html">InfoLogger</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:40</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Takes an object that represents ONE event and takes care of adding
+the different objects to the graphic library and the UI controls.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object representing the event.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>graphicsLibrary</td>
+                                    <td>
+                                                <code><a href="../classes/ThreeManager.html" target="_self" >ThreeManager</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Service containing functionality to draw the 3D objects.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ui</td>
+                                    <td>
+                                                <code><a href="../classes/UIManager.html" target="_self" >UIManager</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Service for showing menus and controls to manipulate the geometries.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>infoLogger</td>
+                                    <td>
+                                                <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Service for logging data to the information panel.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCollection"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getCollection
+                        </b>
+                        <a href="#getCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCollection(collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:100</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the collection with the given collection name from the event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the collection to get.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An object containing the collection.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCollections"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getCollections
+                        </b>
+                        <a href="#getCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCollections()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:79</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get list of collections in the event data.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>List of all collection names.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventMetadata"></a>
+                    <span class="name">
+                        <b>
+                            getEventMetadata
+                        </b>
+                        <a href="#getEventMetadata"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEventMetadata()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:338</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get metadata associated to the event (experiment info, time, run, event...).</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>any[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Metadata of the event.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventsList"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getEventsList
+                        </b>
+                        <a href="#getEventsList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:63</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of event names from the event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventsData</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object containing all event data.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>List of event names.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMuon"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            getMuon
+                        </b>
+                        <a href="#getMuon"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMuon(muonParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:297</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Muon from the given parameters and get it as a group.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>muonParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Muon.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Muon group containing Clusters and Tracks.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getObjectTypeCollections"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getObjectTypeCollections
+                        </b>
+                        <a href="#getObjectTypeCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getObjectTypeCollections(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:280</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get collection names of a given object type.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Contains all collections of a given type (Tracks, Jets, CaloClusters etc.).</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>List of collection names of an object type (Tracks, Jets, CaloClusters etc.).</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadObjectTypes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            loadObjectTypes
+                        </b>
+                        <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadObjectTypes(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:121</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Receives an object containing the data from an event and parses it
+to reconstruct the different collections of physics objects.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Representing ONE event (expressed in the Phoenix format).</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixLoader } from &quot;./phoenix-loader&quot;;
+
+/**
+ * PhoenixLoader for processing and loading an event from &quot;.root&quot;.
+ */
+export class JSRootEventLoader extends PhoenixLoader {
+
+  /** JSROOT object containing all JSROOT functions. */
+  private JSROOT: any;
+  /** Event data inside the file. */
+  private fileEventData: any;
+  /** URL of the &quot;.root&quot; file to be processed. */
+  private rootFileURL: any;
+
+  /**
+   * Constructor for the JSRoot event loader.
+   * @param JSROOT JSROOT object containing all JSROOT functions.
+   * @param rootFileURL URL of the &quot;.root&quot; file to be processed.
+   */
+  constructor(JSROOT: any, rootFileURL: string) {
+    super();
+
+    this.JSROOT &#x3D; JSROOT;
+    this.rootFileURL &#x3D; rootFileURL;
+
+    this.fileEventData &#x3D; {
+      Hits: {},
+      Tracks: {},
+      Jets: {},
+      CaloClusters: {}
+    };
+  }
+
+  /**
+   * Get event data of the given objects (e.g [&#x27;tracks;1&#x27;, &#x27;hits;1&#x27;])
+   * from the currently loaded &quot;.root&quot; file.
+   * @param objects An array identifying objects inside the &quot;.root&quot; file.
+   * @param onEventData Callback when event data is extracted and available for use.
+   */
+  public getEventData(objects: string[], onEventData: (eventData: any) &#x3D;&gt; void) {
+    this.JSROOT.OpenFile(this.rootFileURL, (file: any) &#x3D;&gt; {
+      let i &#x3D; 0;
+      for (const objectName of objects) {
+        file.ReadObject(objectName, (object: any) &#x3D;&gt; {
+          i++;
+          if (object) {
+            this.processItemsList(object);
+          }
+          if (i &#x3D;&#x3D;&#x3D; objects.length) {
+            for (let objectType of [&#x27;Hits&#x27;, &#x27;Tracks&#x27;, &#x27;Jets&#x27;, &#x27;CaloClusters&#x27;]) {
+              if (Object.keys(this.fileEventData[objectType]).length &#x3D;&#x3D;&#x3D; 0) {
+                this.fileEventData[objectType] &#x3D; undefined;
+              }
+            }
+            onEventData(this.fileEventData);
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Process the list of items inside the JSROOT files for relevant event data.
+   * @param obj Object containing the event data in the form of JSROOT classes.
+   */
+  private processItemsList(obj: any) {
+    if ((obj._typename &#x3D;&#x3D;&#x3D; &#x27;TObjArray&#x27;) || obj._typename &#x3D;&#x3D;&#x3D; &#x27;TList&#x27;) {
+      if (!obj.arr) return;
+      for (let n &#x3D; 0; n &lt; obj.arr.length; ++n) {
+        let sobj &#x3D; obj.arr[n];
+        this.processItemsList(sobj);
+      }
+    } else if (obj._typename &#x3D;&#x3D;&#x3D; &#x27;THREE.Mesh&#x27;) {
+      // Three.js object - we only want event data
+    } else if (obj._typename &#x3D;&#x3D;&#x3D; &#x27;TGeoTrack&#x27;) {
+      if (!this.fileEventData.Tracks[&#x27;TGeoTracks&#x27;]) {
+        this.fileEventData.Tracks[&#x27;TGeoTracks&#x27;] &#x3D; [];
+      }
+      const tGeoTrack &#x3D; this.getTGeoTrack(obj);
+      if (tGeoTrack) {
+        this.fileEventData.Tracks[&#x27;TGeoTracks&#x27;].push(tGeoTrack)
+      }
+    } else if ((obj._typename &#x3D;&#x3D;&#x3D; &#x27;TEveTrack&#x27;) || (obj._typename &#x3D;&#x3D;&#x3D; &#x27;ROOT::Experimental::TEveTrack&#x27;)) {
+      if (!this.fileEventData.Tracks[obj._typename + &#x27;(s)&#x27;]) {
+        this.fileEventData.Tracks[obj._typename + &#x27;(s)&#x27;] &#x3D; [];
+      }
+      const tEveTrack &#x3D; this.getTEveTrack(obj);
+      if (tEveTrack) {
+        this.fileEventData.Tracks[obj._typename + &#x27;(s)&#x27;].push(tEveTrack)
+      }
+    } else if ((obj._typename &#x3D;&#x3D;&#x3D; &#x27;TEvePointSet&#x27;) || (obj._typename &#x3D;&#x3D;&#x3D; &#x27;ROOT::Experimental::TEvePointSet&#x27;) || (obj._typename &#x3D;&#x3D;&#x3D; &#x27;TPolyMarker3D&#x27;)) {
+      if (!this.fileEventData.Hits[obj._typename + &#x27;(s)&#x27;]) {
+        this.fileEventData.Hits[obj._typename + &#x27;(s)&#x27;] &#x3D; [];
+      }
+      const hit &#x3D; this.getHit(obj);
+      if (hit) {
+        this.fileEventData.Hits[obj._typename + &#x27;(s)&#x27;].push(hit)
+      }
+    } else if ((obj._typename &#x3D;&#x3D;&#x3D; &#x27;TEveGeoShapeExtract&#x27;) || (obj._typename &#x3D;&#x3D;&#x3D; &#x27;ROOT::Experimental::TEveGeoShapeExtract&#x27;)) {
+      // Some extra shape - we only want event data
+    }
+  }
+
+  /**
+   * Process and get the TGeoTrack in phoenix format.
+   * @param track Track object containing the track information.
+   * @returns Track object in the phoenix format.
+   */
+  private getTGeoTrack(track: any): any {
+    if (!track || !track.fNpoints) return false;
+
+    const npoints &#x3D; Math.round(track.fNpoints / 4);
+    const positions &#x3D; [];
+    for (let k &#x3D; 0; k &lt; npoints - 1; ++k) {
+      positions.push([
+        track.fPoints[k * 4],
+        track.fPoints[k * 4 + 1],
+        track.fPoints[k * 4 + 2]
+      ]);
+    }
+
+    return {
+      pos: positions
+    };
+  }
+
+  /**
+   * Process and get the TEveTrack in phoenix format.
+   * @param track Track object containing the track information.
+   * @returns Track object in the phoenix format.
+   */
+  private getTEveTrack(track: any): any {
+    if (!track || (track.fN &lt;&#x3D; 0)) return false;
+
+    const trackObj &#x3D; {};
+
+    const positions &#x3D; [];
+    for (let i &#x3D; 0; i &lt; track.fN - 1; i++) {
+      positions.push([
+        track.fP[i * 3],
+        track.fP[i * 3 + 1],
+        track.fP[i * 3 + 2]
+      ]);
+    }
+
+    for (const trackParamLine of track.fTitle.split(&#x27;\n&#x27;)) {
+      for (const trackParam of trackParamLine.split(/(?!\(.*), (?!.*\))/g)) {
+        const trackParamData &#x3D; trackParam.split(&#x27;&#x3D;&#x27;);
+        trackObj[trackParamData[0]] &#x3D; trackParamData[1];
+      }
+    }
+
+    trackObj[&#x27;pos&#x27;] &#x3D; positions;
+
+    return trackObj;
+  }
+
+  /**
+   * Process and get the Hit in phoenix format.
+   * @param hit Hit object containing the hit information.
+   * @returns Hit in phoenix format.
+   */
+  private getHit(hit: any): any {
+    if (!hit || !hit.fN || (hit.fN &lt; 0)) return false;
+
+    const hitArray &#x3D; [];
+
+    for (var i &#x3D; 0; i &lt; hit.fN; i +&#x3D; 3) {
+      hitArray.push([hit.fP[i * 3], hit.fP[i * 3 + 1], hit.fP[i * 3 + 2]]);
+    }
+
+    return hitArray;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'JSRootEventLoader.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

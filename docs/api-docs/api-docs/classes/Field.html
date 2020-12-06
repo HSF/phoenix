@@ -1,0 +1,416 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>Field</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/helpers/runge-kutta.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Default class to define the field.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#get">get</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            get
+                        </b>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>get(field: Vector3)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/helpers/runge-kutta.ts:156</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns field as a Vector3 in Tesla.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                            <code>Vector3</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Vector3</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Vector3 } from &#x27;three&#x27;;
+
+/**
+ * Class for performing Runge-Kutta operations.
+ */
+export class RungeKutta {
+
+  /**
+   * Perform a Runge-Kutta step for the given state.
+   * @param state State at which the step is to be performed.
+   * @returns The computed step size.
+   */
+  static step(state: State): number {
+    // Charge (q) to momentum (p) ratio in SI units
+    const qop: number &#x3D; state.q / (state.unitC * state.p);
+
+    // Runge-Kutta integrator state
+    let h2: number,
+      half_h: number,
+      B_middle: Vector3,
+      B_last: Vector3,
+      k2: Vector3,
+      k3: Vector3,
+      k4: Vector3;
+
+    // First Runge-Kutta point (at current position)
+    const B_first: Vector3 &#x3D; Field.get(state.pos);
+    // state.dir.cross(B_first) * qop
+    const k1: Vector3 &#x3D; state.dir.clone().cross(B_first).multiplyScalar(qop);
+
+    // Try Runge-Kutta step with h as the step size
+    const tryRungeKuttaStep &#x3D; (h: number) &#x3D;&gt; {
+      h2 &#x3D; h * h;
+      half_h &#x3D; h / 2;
+
+      // Second Runge-Kutta point
+      // state.pos + state.dir * half_h + k1 * (h2 / 8)
+      const pos1: Vector3 &#x3D; state.pos.clone().add(state.dir.clone().multiplyScalar(half_h)).add(k1.clone().multiplyScalar(h2 / 8));
+      B_middle &#x3D; Field.get(pos1);
+      // (state.dir + k1 * half_h).cross(B_middle) * qop
+      k2 &#x3D; state.dir.clone().add(k1.clone().multiplyScalar(half_h)).cross(B_middle).multiplyScalar(qop);
+
+      // Third Runge-Kutta point
+      // (state.dir + k2 * half_h).cross(B_middle) * qop
+      k3 &#x3D; state.dir.clone().add(k2.clone().multiplyScalar(half_h)).cross(B_middle).multiplyScalar(qop);
+
+      // Last Runge-Kutta point
+      // state.pos + state.dir * h + k3 * (h2 / 2)
+      const pos2: Vector3 &#x3D; state.pos.clone().add(state.dir.clone().multiplyScalar(h)).add(k3.clone().multiplyScalar(h2 / 2));
+      B_last &#x3D; Field.get(pos2);
+      // (state.dir + k3 * h).cross(B_last) * qop
+      k4 &#x3D; state.dir.clone().add(k3.clone().multiplyScalar(h)).cross(B_last).multiplyScalar(qop);
+
+      // (k1 - k2 - k3 + k4)
+      const returnVec &#x3D; k1.clone().sub(k2).sub(k3).add(k4);
+      // h * (k1 - k2 - k3 + k4).lpNorm()
+      return h * (Math.abs(returnVec.x) + Math.abs(returnVec.y) + Math.abs(returnVec.z));
+    };
+
+    // Checking the error estimate
+    let error_estimate: number &#x3D; tryRungeKuttaStep(state.stepSize);
+    while (error_estimate &gt; 0.0002) {
+      state.stepSize *&#x3D; 0.5;
+      error_estimate &#x3D; tryRungeKuttaStep(state.stepSize);
+    }
+
+    let fh: number &#x3D; state.stepSize;
+    let fh2: number &#x3D; Math.pow(fh, 2);
+
+    // Update position and momentum
+    // state.pos +&#x3D; state.dir * fh + (k1 + k2 + k3) * (fh2 /6)
+    state.pos.add(state.dir.clone().multiplyScalar(fh)).add(k1.clone().add(k2).add(k3).multiplyScalar(fh2 / 6));
+    // state.dir +&#x3D; (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
+    state.dir.add(k1.clone().add(k2.clone().multiplyScalar(2)).add(k3.clone().multiplyScalar(2)).add(k4).multiplyScalar(fh / 6));
+    state.dir.normalize();
+
+    return state.stepSize;
+  }
+
+  /**
+   * Propagate using the given properties by performing the Runge-Kutta steps.
+   * @param startPos Starting position in 3D space.
+   * @param startDir Starting direction in 3D space.
+   * @param p Momentum.
+   * @param q Charge.
+   * @param mss Max step size.
+   * @param plength Path length.
+   * @param inbounds Function which returns true until the passed position
+   * is out of bounds, when it returns false.
+   * @returns An array containing position and direction at that position calculated
+   * through the Runge-Kutta steps.
+   */
+  static propagate(
+    startPos: Vector3, startDir: Vector3,
+    p: number, q: number,
+    mss: number &#x3D; -1, plength: number &#x3D; 1000,
+    inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; () &#x3D;&gt; true
+  ): { pos: Vector3, dir: Vector3 }[] {
+    let rkState: State &#x3D; new State();
+    rkState.pos &#x3D; startPos;
+    rkState.dir &#x3D; startDir;
+    rkState.p &#x3D; p;
+    rkState.q &#x3D; q;
+    rkState.maxStepSize &#x3D; mss;
+
+    let result: { pos: Vector3, dir: Vector3 }[] &#x3D; [];
+
+    while (rkState.pathLength &lt; plength ) {
+      rkState.pathLength +&#x3D; RungeKutta.step(rkState);
+      // Cloning state to avoid using the reference
+      let copiedState &#x3D; JSON.parse(JSON.stringify(rkState));
+      result.push({
+        pos: copiedState.pos,
+        dir: copiedState.dir
+      });
+      // Check if the position is inbounds
+      if (!inbounds(copiedState.pos)) {
+        // Truncating at position copiedState.pos
+        break;
+      }
+    }
+
+    return result;
+  }
+}
+
+/**
+ * State of the particle.
+ */
+export class State {
+  /** Position. */
+  pos: Vector3 &#x3D; new Vector3(0, 0, 0);
+  /** Direction. */
+  dir: Vector3 &#x3D; new Vector3(0, 0, 0);
+  /** Momentum. */
+  p: number &#x3D; 0;
+  /** Charge. */
+  q: number &#x3D; 1;
+  /** Unit. */
+  unitC: number &#x3D; 3.3333;
+  /** Step size. */
+  stepSize: number &#x3D; 1000;
+  /** Max step size. */
+  maxStepSize: number &#x3D; 10;
+  /** Path length.. */
+  pathLength: number &#x3D; 0;
+}
+
+/**
+ *  Default class to define the field.
+ */
+class Field {
+  /**
+   * Returns field as a Vector3 in Tesla.
+   */
+  static get(field: Vector3): Vector3 {
+    return new Vector3(0, 0, 2);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'Field.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

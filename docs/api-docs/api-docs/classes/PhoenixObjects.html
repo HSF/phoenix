@@ -1,0 +1,854 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>PhoenixObjects</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/objects/phoenix-objects.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Physics objects that make up an event in Phoenix.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getCluster">getCluster</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getHits">getHits</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getJet">getJet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getTrack">getTrack</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getVertex">getVertex</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCluster"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getCluster
+                        </b>
+                        <a href="#getCluster"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCluster(clusterParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:200</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the CLuster from the given parameters and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>clusterParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters for the Cluster.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Cluster object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHits"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getHits
+                        </b>
+                        <a href="#getHits"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHits(hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:156</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Hits from the given parameters and get them as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters for the Hits.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Hits object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getJet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getJet
+                        </b>
+                        <a href="#getJet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getJet(jetParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Jet from the given parameters and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jetParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters for the Jet.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Jet object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTrack"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getTrack
+                        </b>
+                        <a href="#getTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getTrack(trackParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:16</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Track from the given parameters (and positions)
+and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>trackParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Track.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Track object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVertex"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getVertex
+                        </b>
+                        <a href="#getVertex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVertex(vertexParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:235</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Vertex from the given parameters and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>vertexParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters for the Vertex.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Vertex object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from &#x27;three&#x27;;
+import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
+import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
+
+/**
+ * Physics objects that make up an event in Phoenix.
+ */
+export class PhoenixObjects {
+
+  /**
+   * Process the Track from the given parameters (and positions)
+   * and get it as a geometry.
+   * @param trackParams Parameters of the Track.
+   * @returns Track object.
+   */
+  public static getTrack(trackParams: any): Object3D {
+    let positions &#x3D; trackParams.pos;
+    // Track with no points
+    // if (positions.length&#x3D;&#x3D;0) {
+    //   console.log(&quot;Track with no positions.&quot;)
+    //   return;
+    // }
+
+    // Track with too few points are extrapolated with RungeKutta
+    if (positions.length &lt; 3) {
+      if (trackParams?.dparams) {
+        // Test, for ATLAS. 
+        // FIXME - make configurable
+        let inBounds &#x3D; function (pos: Vector3) {
+          if (pos.z &gt; 3000)
+            return false;
+          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) &gt; 1100)
+            return false;
+
+          return true
+        };
+
+        positions &#x3D; RKHelper.extrapolateTrackPositions(trackParams, inBounds);
+      }
+    }
+    // Check again, in case there was an issue with the extrapolation.
+    if (positions.length &lt; 3) {
+      return;
+    }
+
+
+    // const length &#x3D; 100;
+    let objectColor &#x3D; EVENT_DATA_TYPE_COLORS[&#x27;Tracks&#x27;].getHex();
+    if (trackParams.color) {
+      objectColor &#x3D; parseInt(trackParams.color, 16);
+    }
+
+    // // Apply pT cut TODO - make this configurable.
+    // const momentum &#x3D; trackParams.mom;
+    // if (momentum) {
+    //   if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] &lt; 0.25) {
+    //     // console.log(&#x27;Track mom&lt;0.5 GeV. Skipping. Positions are: &#x27; + positions + &#x27; particle_id: &#x27; + track.particle_id);
+    //     return;
+    //   }
+    // }
+
+    const points &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; positions.length; i++) {
+      points.push(new Vector3(positions[i][0], positions[i][1], positions[i][2]));
+    }
+
+    // attributes
+    const curve &#x3D; new CatmullRomCurve3(points);
+
+    // TubeGeometry
+    const geometry &#x3D; new TubeBufferGeometry(curve, undefined, 2);
+    const material &#x3D; new MeshToonMaterial({ color: objectColor });
+    const tubeObject &#x3D; new Mesh(geometry, material);
+
+    // Line - Creating a Line to put inside the tube to show tracks even on zoom out
+    const vertices &#x3D; curve.getPoints(50);
+    const lineGeometry &#x3D; new BufferGeometry().setFromPoints(vertices);
+    const lineMaterial &#x3D; new LineBasicMaterial({
+      color: objectColor,
+      linewidth: 2
+    });
+    const lineObject &#x3D; new Line(lineGeometry, lineMaterial);
+    lineObject.name &#x3D; &#x27;Track&#x27;;
+
+    // Creating a group to add both the Tube curve and the Line
+    const trackObject &#x3D; new Group();
+    trackObject.add(tubeObject);
+    trackObject.add(lineObject);
+
+    // Setting info to the tubeObject and trackObject for selection and cuts
+    for (let object of [tubeObject, trackObject]) {
+      object.userData &#x3D; Object.assign({}, trackParams);
+      object.name &#x3D; &#x27;Track&#x27;;
+    }
+
+    // Setting uuid for selection from collections info
+    trackParams.uuid &#x3D; tubeObject.uuid;
+
+    return trackObject;
+  }
+
+  /**
+   * Process the Jet from the given parameters and get it as a geometry.
+   * @param jetParams Parameters for the Jet.
+   * @returns Jet object.
+   */
+  public static getJet(jetParams: any): Object3D {
+    const eta &#x3D; jetParams.eta;
+    const phi &#x3D; jetParams.phi;
+    // If theta is given then use that else calculate from eta
+    const theta &#x3D; jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
+    // Jet energy parameter can either be &#x27;energy&#x27; or &#x27;et&#x27;
+    let length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    // Ugh - We don&#x27;t want the Jets to go out of the event display
+    if (length &gt; 3000) {
+      length &#x3D; 3000;
+    }
+    const width &#x3D; length * 0.1;
+
+    const sphi &#x3D; Math.sin(phi);
+    const cphi &#x3D; Math.cos(phi);
+    const stheta &#x3D; Math.sin(theta);
+    const ctheta &#x3D; Math.cos(theta);
+    //
+    const translation &#x3D; new Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
+
+    const x &#x3D; cphi * stheta;
+    const y &#x3D; sphi * stheta;
+    const z &#x3D; ctheta;
+    const v1 &#x3D; new Vector3(0, 1, 0);
+    const v2 &#x3D; new Vector3(x, y, z);
+    const quaternion &#x3D; new Quaternion();
+    quaternion.setFromUnitVectors(v1, v2);
+
+    const geometry &#x3D; new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
+
+    const material &#x3D; new MeshBasicMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Jets&#x27;], opacity: 0.3, transparent: true });
+    material.opacity &#x3D; 0.5;
+    const mesh &#x3D; new Mesh(geometry, material);
+    mesh.position.copy(translation);
+    mesh.quaternion.copy(quaternion);
+    mesh.userData &#x3D; Object.assign({}, jetParams);
+    mesh.name &#x3D; &#x27;Jet&#x27;;
+    // Setting uuid for selection from collections info
+    jetParams.uuid &#x3D; mesh.uuid;
+
+    return mesh;
+  }
+
+  /**
+   * Process the Hits from the given parameters and get them as a geometry.
+   * @param hitsParams Parameters for the Hits.
+   * @returns Hits object.
+   */
+  public static getHits(hitsParams: any): Object3D {
+    let positions: any[];
+    let hitsParamsClone: any;
+
+    // If the parameters is an object then take out &#x27;pos&#x27; for hits positions
+    if (typeof hitsParams &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; !Array.isArray(hitsParams)) {
+      positions &#x3D; [hitsParams.pos];
+      hitsParamsClone &#x3D; hitsParams;
+    } else {
+      positions &#x3D; hitsParams;
+      hitsParamsClone &#x3D; { pos: hitsParams };
+    }
+
+    // attributes
+    const pointPos &#x3D; new Float32Array(positions.length * 3);
+    let i &#x3D; 0;
+    for (const hit of positions) {
+      pointPos[i] &#x3D; hit[0];
+      pointPos[i + 1] &#x3D; hit[1];
+      pointPos[i + 2] &#x3D; hit[2];
+      i +&#x3D; 3;
+    }
+
+    // geometry
+    const geometry &#x3D; new BufferGeometry();
+    geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    // material
+    const material &#x3D; new PointsMaterial({ size: 10, color: EVENT_DATA_TYPE_COLORS[&#x27;Hits&#x27;] });
+    // object
+    const pointsObj &#x3D; new Points(geometry, material);
+    pointsObj.userData &#x3D; Object.assign({}, hitsParamsClone);
+    pointsObj.name &#x3D; &#x27;Hit&#x27;;
+    // Setting uuid for selection from collections info
+    hitsParams.uuid &#x3D; pointsObj.uuid;
+
+    return pointsObj;
+  }
+
+  /**
+   * Process the CLuster from the given parameters and get it as a geometry.
+   * @param clusterParams Parameters for the Cluster.
+   * @returns Cluster object.
+   */
+  public static getCluster(clusterParams: any): Object3D {
+    const maxR &#x3D; 1100.0; // This needs to be configurable. 
+    const maxZ &#x3D; 3200.0;
+    const length &#x3D; clusterParams.energy * 0.003;
+    // geometry
+    const geometry &#x3D; new BoxBufferGeometry(30, 30, length);
+    // material
+    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;CaloClusters&#x27;] });
+    // object
+    const cube &#x3D; new Mesh(geometry, material);
+    const theta &#x3D; 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
+    const pos &#x3D; new Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
+      4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
+      4000.0 * Math.cos(theta));
+    cube.position.x &#x3D; pos.x;
+    cube.position.y &#x3D; pos.y;
+    if (pos.x * pos.x + pos.y * pos.y &gt; maxR * maxR) {
+      cube.position.x &#x3D; maxR * Math.cos(clusterParams.phi);
+      cube.position.y &#x3D; maxR * Math.sin(clusterParams.phi);
+    }
+    cube.position.z &#x3D; Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+    cube.lookAt(new Vector3(0, 0, 0));
+    cube.userData &#x3D; Object.assign({}, clusterParams);
+    cube.name &#x3D; &#x27;Cluster&#x27;;
+    // Setting uuid for selection from collections info
+    clusterParams.uuid &#x3D; cube.uuid;
+
+    return cube;
+  }
+
+  /**
+   * Process the Vertex from the given parameters and get it as a geometry.
+   * @param vertexParams Parameters for the Vertex.
+   * @returns Vertex object.
+   */
+  public static getVertex(vertexParams: any): Object3D {
+    // geometry
+    const geometry &#x3D; new SphereBufferGeometry(3);
+    // material
+    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Vertices&#x27;] });
+    // object
+    const sphere &#x3D; new Mesh(geometry, material);
+    sphere.position.x &#x3D; vertexParams.x;
+    sphere.position.y &#x3D; vertexParams.y;
+    sphere.position.z &#x3D; vertexParams.y;
+
+    sphere.userData &#x3D; Object.assign({}, vertexParams);
+    sphere.name &#x3D; &#x27;Vertex&#x27;;
+    // Setting uuid for selection from collections info
+    vertexParams.uuid &#x3D; sphere.uuid;
+
+    return sphere;
+  }
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'PhoenixObjects.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

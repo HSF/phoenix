@@ -1,0 +1,4971 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>ThreeManager</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/three/index.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Manager for all three.js related functions.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animationLoop">animationLoop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animationsManager">animationsManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#clipPlanes">clipPlanes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#controlsManager">controlsManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#effectsManager">effectsManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#exportManager">exportManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ignoreList">ignoreList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#importManager">importManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadingManager">loadingManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#rendererManager">rendererManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sceneManager">sceneManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#selectionManager">selectionManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#uiLoop">uiLoop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#vrManager">vrManager</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addEventDataTypeGroup">addEventDataTypeGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addGeometryFromParameters">addGeometryFromParameters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animateCameraPosition">animateCameraPosition</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#animateCameraTarget">animateCameraTarget</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateCameraTransform">animateCameraTransform</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateClippingWithCollision">animateClippingWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateEventWithCollision">animateEventWithCollision</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#animateThroughEvent">animateThroughEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#autoRotate">autoRotate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clearEventData">clearEventData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#enableKeyboardControls">enableKeyboardControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#enableSelecting">enableSelecting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#endVRSession">endVRSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#eventDataDepthTest">eventDataDepthTest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#exportPhoenixScene">exportPhoenixScene</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#exportSceneToOBJ">exportSceneToOBJ</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fixOverlayView">fixOverlayView</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getActiveObjectId">getActiveObjectId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getObjectByName">getObjectByName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getSceneManager">getSceneManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getSelectionManager">getSelectionManager</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#highlightObject">highlightObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#init">init</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initVRSession">initVRSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadGLTFGeometry">loadGLTFGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadJSONGeometry">loadJSONGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadOBJGeometry">loadOBJGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#lookAtObject">lookAtObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#parseGLTFGeometry">parseGLTFGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#parseOBJGeometry">parseOBJGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#render">render</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#rotateClipping">rotateClipping</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setAnimationLoop">setAnimationLoop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setAntialiasing">setAntialiasing</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setClipping">setClipping</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setOverlayRenderer">setOverlayRenderer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setSelectedObjectDisplay">setSelectedObjectDisplay</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#stopAnimationLoop">stopAnimationLoop</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#swapCameras">swapCameras</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateControls">updateControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#vrRender">vrRender</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#zoomTo">zoomTo</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(infoLogger: <a href="../classes/InfoLogger.html">InfoLogger</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/three/index.ts:66</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Create the three manager for three.js operations.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>infoLogger</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>Logger for logging data to the information panel.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationLoop"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            animationLoop</b>
+                            <a href="#animationLoop"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/three/index.ts:56</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Loop to run for each frame of animation. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationsManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            animationsManager</b>
+                            <a href="#animationsManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/AnimationsManager.html" target="_self" >AnimationsManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/three/index.ts:48</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for managing animation related operations using three.js and tween.js </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="clipPlanes"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            clipPlanes</b>
+                            <a href="#clipPlanes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Plane[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/three/index.ts:66</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Clipping planes for clipping geometry </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controlsManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            controlsManager</b>
+                            <a href="#controlsManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ControlsManager.html" target="_self" >ControlsManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/three/index.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for three.js controls </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="effectsManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            effectsManager</b>
+                            <a href="#effectsManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/EffectsManager.html" target="_self" >EffectsManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/three/index.ts:50</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for managing effects using EffectComposer </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            exportManager</b>
+                            <a href="#exportManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ExportManager.html" target="_self" >ExportManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/three/index.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for export operations </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ignoreList"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            ignoreList</b>
+                            <a href="#ignoreList"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[
+    new AmbientLight().type,
+    new DirectionalLight().type,
+    new AxesHelper().type
+  ]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/three/index.ts:60</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Scene export ignore list </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="importManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            importManager</b>
+                            <a href="#importManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/ImportManager.html" target="_self" >ImportManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/three/index.ts:44</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for import operations </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadingManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            loadingManager</b>
+                            <a href="#loadingManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/LoadingManager.html" target="_self" >LoadingManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/three/index.ts:54</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Loading manager for loadable resources </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rendererManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            rendererManager</b>
+                            <a href="#rendererManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/RendererManager.html" target="_self" >RendererManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/three/index.ts:38</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for three.js renderers </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sceneManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            sceneManager</b>
+                            <a href="#sceneManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SceneManager.html" target="_self" >SceneManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/three/index.ts:36</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for three.js scene </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            selectionManager</b>
+                            <a href="#selectionManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SelectionManager.html" target="_self" >SelectionManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/three/index.ts:46</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Manager for selection of 3D objects and event data </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="uiLoop"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            uiLoop</b>
+                            <a href="#uiLoop"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/three/index.ts:58</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Loop to run for each frame to update stats. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="vrManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            vrManager</b>
+                            <a href="#vrManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/VRManager.html" target="_self" >VRManager</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/three/index.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>VR manager for VR related operations </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEventDataTypeGroup"></a>
+                    <span class="name">
+                        <b>
+                            addEventDataTypeGroup
+                        </b>
+                        <a href="#addEventDataTypeGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEventDataTypeGroup(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">src/three/index.ts:413</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds group of an event data type to the main group containing event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Type of event data.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Group</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Three.js group containing the type of event data.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addGeometryFromParameters"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addGeometryFromParameters
+                        </b>
+                        <a href="#addGeometryFromParameters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addGeometryFromParameters(parameters: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="638"
+                            class="link-to-prism">src/three/index.ts:638</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add parametrised geometry to the scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The name, dimensions, and radial values for this cylindrical volume.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateCameraPosition"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            animateCameraPosition
+                        </b>
+                        <a href="#animateCameraPosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateCameraPosition(cameraPosition: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="457"
+                            class="link-to-prism">src/three/index.ts:457</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animates camera position.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cameraPosition</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>End position.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>duration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of an animation in seconds.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateCameraTarget"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            animateCameraTarget
+                        </b>
+                        <a href="#animateCameraTarget"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateCameraTarget(cameraTarget: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">src/three/index.ts:477</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animates camera target.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cameraTarget</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>End target.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>duration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of an animation in seconds.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateCameraTransform"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateCameraTransform
+                        </b>
+                        <a href="#animateCameraTransform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateCameraTransform(cameraPosition: number[], cameraTarget: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">src/three/index.ts:223</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animates camera transform.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cameraPosition</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>End position.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cameraTarget</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>End target.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>duration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of an animation in seconds.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateClippingWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateClippingWithCollision
+                        </b>
+                        <a href="#animateClippingWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateClippingWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="576"
+                            class="link-to-prism">src/three/index.ts:576</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data
+using clipping planes after particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateEventWithCollision"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateEventWithCollision
+                        </b>
+                        <a href="#animateEventWithCollision"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateEventWithCollision(tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="566"
+                            class="link-to-prism">src/three/index.ts:566</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the propagation and generation of event data with particle collison.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of the animation tween.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when all animations have ended.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animateThroughEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animateThroughEvent
+                        </b>
+                        <a href="#animateThroughEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animateThroughEvent(startPos: number[], tweenDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, onAnimationEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="554"
+                            class="link-to-prism">src/three/index.ts:554</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate the camera through the event scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>startPos</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Start position of the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tweenDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Duration of each tween in the translation animation.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onAnimationEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when the last animation ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoRotate"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            autoRotate
+                        </b>
+                        <a href="#autoRotate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>autoRotate(autoRotate: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">src/three/index.ts:194</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets controls to auto rotate.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>autoRotate</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>If the controls are to be automatically rotated or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearEventData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            clearEventData
+                        </b>
+                        <a href="#clearEventData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearEventData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">src/three/index.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clears event data of the scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableKeyboardControls"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            enableKeyboardControls
+                        </b>
+                        <a href="#enableKeyboardControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enableKeyboardControls()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="519"
+                            class="link-to-prism">src/three/index.ts:519</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enable keyboard controls for some Three service operations.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableSelecting"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            enableSelecting
+                        </b>
+                        <a href="#enableSelecting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>enableSelecting(enable: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="397"
+                            class="link-to-prism">src/three/index.ts:397</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Toggles the ability of selecting geometries/event data by clicking on the screen.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>enable</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value to enable or disable the functionality.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endVRSession"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            endVRSession
+                        </b>
+                        <a href="#endVRSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>endVRSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="609"
+                            class="link-to-prism">src/three/index.ts:609</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>End the current VR session.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventDataDepthTest"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            eventDataDepthTest
+                        </b>
+                        <a href="#eventDataDepthTest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>eventDataDepthTest(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="389"
+                            class="link-to-prism">src/three/index.ts:389</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set event data depthTest to enable or disable if event data should show on top of geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A boolean to specify if depthTest is to be enabled or disabled.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exportPhoenixScene"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            exportPhoenixScene
+                        </b>
+                        <a href="#exportPhoenixScene"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>exportPhoenixScene()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">src/three/index.ts:362</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Exports scene as phoenix format, allowing to
+load it later and recover the saved configuration.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exportSceneToOBJ"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            exportSceneToOBJ
+                        </b>
+                        <a href="#exportSceneToOBJ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>exportSceneToOBJ()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="353"
+                            class="link-to-prism">src/three/index.ts:353</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Exports scene to OBJ file format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fixOverlayView"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            fixOverlayView
+                        </b>
+                        <a href="#fixOverlayView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>fixOverlayView(fixed: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="373"
+                            class="link-to-prism">src/three/index.ts:373</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fixes the camera position of the overlay view.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>fixed</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether the overlay view is to be fixed or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getActiveObjectId"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getActiveObjectId
+                        </b>
+                        <a href="#getActiveObjectId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getActiveObjectId()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="496"
+                            class="link-to-prism">src/three/index.ts:496</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the uuid of the currently selected object.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>uuid of the currently selected object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getObjectByName"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getObjectByName
+                        </b>
+                        <a href="#getObjectByName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getObjectByName(objectName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="623"
+                            class="link-to-prism">src/three/index.ts:623</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get an object from the scene by name.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>objectName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the object in scene.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSceneManager"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getSceneManager
+                        </b>
+                        <a href="#getSceneManager"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSceneManager()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">src/three/index.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the scene manager and create if it doesn&#39;t exist.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/SceneManager.html" target="_self" >SceneManager</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The scene manager for managing different aspects and elements of the scene.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSelectionManager"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getSelectionManager
+                        </b>
+                        <a href="#getSelectionManager"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSelectionManager()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="445"
+                            class="link-to-prism">src/three/index.ts:445</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the selection manager.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/SelectionManager.html" target="_self" >SelectionManager</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Selection manager responsible for managing selection of 3D objects.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="highlightObject"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            highlightObject
+                        </b>
+                        <a href="#highlightObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>highlightObject(uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="512"
+                            class="link-to-prism">src/three/index.ts:512</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Highlight the object with the given uuid by giving it an outline.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>uuid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>uuid of the object.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            init
+                        </b>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>init(configuration: <a href="../interfaces/Configuration.html">Configuration</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">src/three/index.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initializes the necessary three.js functionality.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>configuration</td>
+                                    <td>
+                                                <code><a href="../interfaces/Configuration.html" target="_self" >Configuration</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Configuration to customize different aspects.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initVRSession"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            initVRSession
+                        </b>
+                        <a href="#initVRSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initVRSession(onSessionEnded?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="584"
+                            class="link-to-prism">src/three/index.ts:584</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initialize the VR session.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>onSessionEnded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when the VR session ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadGLTFGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadGLTFGeometry
+                        </b>
+                        <a href="#loadGLTFGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadGLTFGeometry(sceneUrl: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="290"
+                            class="link-to-prism">src/three/index.ts:290</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads a GLTF (.gltf) scene/geometry from the given URL.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sceneUrl</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>URL to the GLTF (.gltf) file.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the loaded scene/geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;unknown&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for loading the geometry.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadJSONGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadJSONGeometry
+                        </b>
+                        <a href="#loadJSONGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadJSONGeometry(json: string | object, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/three/index.ts:340</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads geometries from JSON.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>json</td>
+                                    <td>
+                                            <code>string | object</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>JSON or URL to JSON file of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the geometry or group of geometries.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doubleSided</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;unknown&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for loading the geometry.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadOBJGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadOBJGeometry
+                        </b>
+                        <a href="#loadOBJGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="266"
+                            class="link-to-prism">src/three/index.ts:266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads an OBJ (.obj) geometry from the given filename.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filename</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Path to the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name given to the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>color</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Color to initialize the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doubleSided</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>setFlat</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether object should be flat-shaded or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;unknown&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for loading the geometry.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lookAtObject"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            lookAtObject
+                        </b>
+                        <a href="#lookAtObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>lookAtObject(uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="504"
+                            class="link-to-prism">src/three/index.ts:504</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Move the camera to look at the object with the given uuid.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>uuid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>uuid of the object.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseGLTFGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            parseGLTFGeometry
+                        </b>
+                        <a href="#parseGLTFGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parseGLTFGeometry(geometry: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="323"
+                            class="link-to-prism">src/three/index.ts:323</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Parses and loads a geometry in GLTF (.gltf) format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>geometry</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Geometry in GLTF (.gltf) format.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;unknown&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for loading the geometry.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseOBJGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            parseOBJGeometry
+                        </b>
+                        <a href="#parseOBJGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parseOBJGeometry(geometry: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">src/three/index.ts:310</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Parses and loads a geometry in OBJ (.obj) format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>geometry</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Geometry in OBJ (.obj) format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name given to the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="render"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            render
+                        </b>
+                        <a href="#render"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>render()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">src/three/index.ts:160</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Render overlay renderer and effect composer, and update lights.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rotateClipping"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            rotateClipping
+                        </b>
+                        <a href="#rotateClipping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>rotateClipping(angle: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/three/index.ts:210</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Rotates clipping planes.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>angle</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Angle to rotate the clipping planes.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAnimationLoop"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setAnimationLoop
+                        </b>
+                        <a href="#setAnimationLoop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setAnimationLoop(uiLoop: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">src/three/index.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set up the animation loop of the renderer.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>uiLoop</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to run on render for UI (stats) apart from three manager operations.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAntialiasing"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setAntialiasing
+                        </b>
+                        <a href="#setAntialiasing"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setAntialiasing(antialias: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="631"
+                            class="link-to-prism">src/three/index.ts:631</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set the antialiasing.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>antialias</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether antialiasing is to enabled or disabled.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setClipping"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setClipping
+                        </b>
+                        <a href="#setClipping"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setClipping(clippingEnabled: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">src/three/index.ts:202</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Enables geometries to be clipped with clipping planes.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>clippingEnabled</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>If the the geometry clipping is to be enabled or disabled.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setOverlayRenderer"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setOverlayRenderer
+                        </b>
+                        <a href="#setOverlayRenderer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setOverlayRenderer(overlayCanvas: HTMLCanvasElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="421"
+                            class="link-to-prism">src/three/index.ts:421</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the renderer to be used to render the event display on the overlayed canvas.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>overlayCanvas</td>
+                                    <td>
+                                            <code>HTMLCanvasElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>An HTML canvas on which the overlay renderer is to be set.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSelectedObjectDisplay"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setSelectedObjectDisplay
+                        </b>
+                        <a href="#setSelectedObjectDisplay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setSelectedObjectDisplay(selectedObject: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="381"
+                            class="link-to-prism">src/three/index.ts:381</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initializes the object which will show information of the selected geometry/event data.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selectedObject</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object to display the data.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stopAnimationLoop"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            stopAnimationLoop
+                        </b>
+                        <a href="#stopAnimationLoop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>stopAnimationLoop()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="153"
+                            class="link-to-prism">src/three/index.ts:153</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Stop the animation loop from running.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="swapCameras"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            swapCameras
+                        </b>
+                        <a href="#swapCameras"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>swapCameras(useOrthographic: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="236"
+                            class="link-to-prism">src/three/index.ts:236</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Swaps cameras.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>useOrthographic</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether to use orthographic or perspective camera.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateControls"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            updateControls
+                        </b>
+                        <a href="#updateControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateControls()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">src/three/index.ts:130</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Updates controls</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vrRender"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            vrRender
+                        </b>
+                        <a href="#vrRender"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>vrRender()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">src/three/index.ts:169</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Minimally render without any post-processing.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zoomTo"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            zoomTo
+                        </b>
+                        <a href="#zoomTo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>zoomTo(zoomFactor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, zoomTime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="433"
+                            class="link-to-prism">src/three/index.ts:433</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Zoom all the cameras by a specific zoom factor.
+The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>zoomFactor</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The factor to zoom by.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>zoomTime</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The time it takes for a zoom animation to complete.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
+import {
+  Group,
+  Object3D,
+  Vector3,
+  Plane,
+  Quaternion,
+  AmbientLight,
+  DirectionalLight,
+  AxesHelper,
+  BoxGeometry,
+  Mesh,
+  MeshBasicMaterial,
+  Euler
+} from &#x27;three&#x27;;
+import { Configuration } from &#x27;../extras/configuration&#x27;;
+import { ControlsManager } from &#x27;./controls-manager&#x27;;
+import { RendererManager } from &#x27;./renderer-manager&#x27;;
+import { ExportManager } from &#x27;./export-manager&#x27;;
+import { ImportManager } from &#x27;./import-manager&#x27;;
+import { SelectionManager } from &#x27;./selection-manager&#x27;;
+import { SceneManager } from &#x27;./scene-manager&#x27;;
+import { AnimationsManager } from &#x27;./animations-manager&#x27;;
+import { InfoLogger } from &#x27;../info-logger&#x27;;
+import { EffectsManager } from &#x27;./effects-manager&#x27;;
+import { VRManager } from &#x27;./vr-manager&#x27;;
+import { StateManager } from &#x27;../managers/state-manager&#x27;;
+import { LoadingManager } from &#x27;../managers/loading-manager&#x27;;
+
+/**
+ * Manager for all three.js related functions.
+ */
+export class ThreeManager {
+  // Managers
+  /** Manager for three.js scene */
+  private sceneManager: SceneManager;
+  /** Manager for three.js renderers */
+  private rendererManager: RendererManager;
+  /** Manager for three.js controls */
+  private controlsManager: ControlsManager;
+  /** Manager for export operations */
+  private exportManager: ExportManager;
+  /** Manager for import operations */
+  private importManager: ImportManager;
+  /** Manager for selection of 3D objects and event data */
+  private selectionManager: SelectionManager;
+  /** Manager for managing animation related operations using three.js and tween.js */
+  private animationsManager: AnimationsManager;
+  /** Manager for managing effects using EffectComposer */
+  private effectsManager: EffectsManager;
+  /** VR manager for VR related operations */
+  private vrManager: VRManager;
+  /** Loading manager for loadable resources */
+  private loadingManager: LoadingManager;
+  /** Loop to run for each frame of animation. */
+  private animationLoop: () &#x3D;&gt; void;
+  /** Loop to run for each frame to update stats. */
+  private uiLoop: () &#x3D;&gt; void;
+  /** Scene export ignore list */
+  private ignoreList &#x3D; [
+    new AmbientLight().type,
+    new DirectionalLight().type,
+    new AxesHelper().type
+  ];
+  /** Clipping planes for clipping geometry */
+  private clipPlanes: Plane[];
+
+  /**
+   * Create the three manager for three.js operations.
+   * @param infoLogger Logger for logging data to the information panel.
+   */
+  constructor(private infoLogger: InfoLogger) {
+    this.rendererManager &#x3D; new RendererManager();
+    this.loadingManager &#x3D; new LoadingManager();
+  }
+
+  /**
+   * Initializes the necessary three.js functionality.
+   * @param configuration Configuration to customize different aspects.
+   * @param infoLogger Service for logging data to the information panel.
+   */
+  public init(configuration: Configuration) {
+    // Set the clipping planes
+    this.clipPlanes &#x3D; [
+      new Plane(new Vector3(0, 1, 0), 0),
+      new Plane(new Vector3(0, -1, 0), 0),
+      new Plane(new Vector3(0, 0, 1), -15000)
+    ];
+    // Scene manager
+    this.sceneManager &#x3D; new SceneManager(this.ignoreList);
+    // IO Managers
+    this.exportManager &#x3D; new ExportManager();
+    this.importManager &#x3D; new ImportManager(
+      this.clipPlanes,
+      SceneManager.EVENT_DATA_ID,
+      SceneManager.GEOMETRIES_ID
+    );
+    // Renderer manager
+    this.rendererManager.init(configuration.elementId);
+    // Controls manager
+    this.controlsManager &#x3D; new ControlsManager(this.rendererManager, configuration.defaultView);
+    // Effects manager
+    this.effectsManager &#x3D; new EffectsManager(
+      this.controlsManager.getMainCamera(),
+      this.sceneManager.getScene(),
+      this.rendererManager.getMainRenderer()
+    );
+    // Animations manager
+    this.animationsManager &#x3D; new AnimationsManager(
+      this.sceneManager.getScene(),
+      this.controlsManager.getActiveCamera(),
+      this.rendererManager
+    );
+    // VR manager
+    this.vrManager &#x3D; new VRManager();
+    // Selection manager
+    this.getSelectionManager().init(
+      this.controlsManager.getMainCamera(),
+      this.sceneManager.getScene(),
+      this.effectsManager,
+      this.infoLogger
+    );
+    // Set camera of the event display state
+    new StateManager().setCamera(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Updates controls
+   */
+  public updateControls() {
+    this.controlsManager.getActiveControls().update();
+    this.controlsManager.updateSync();
+    TWEEN.update();
+  }
+
+  /**
+   * Set up the animation loop of the renderer.
+   * @param uiLoop Function to run on render for UI (stats) apart from three manager operations.
+   */
+  public setAnimationLoop(uiLoop: () &#x3D;&gt; void) {
+    this.uiLoop &#x3D; uiLoop;
+    this.animationLoop &#x3D; () &#x3D;&gt; {
+      this.uiLoop();
+      this.updateControls();
+      this.render();
+    };
+    this.rendererManager.getMainRenderer().setAnimationLoop(this.animationLoop);
+  }
+
+  /**
+   * Stop the animation loop from running.
+   */
+  public stopAnimationLoop() {
+    this.rendererManager.getMainRenderer().setAnimationLoop(null);
+  }
+
+  /**
+   * Render overlay renderer and effect composer, and update lights.
+   */
+  public render() {
+    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
+    this.effectsManager.render(this.sceneManager.getScene(), this.controlsManager.getMainCamera());
+    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Minimally render without any post-processing.
+   */
+  public vrRender() {
+    this.uiLoop();
+    this.rendererManager.getMainRenderer().render(
+      this.sceneManager.getScene(),
+      this.vrManager.getVRCamera()
+    );
+    // The light directs towards origin
+    this.sceneManager.updateLights(this.vrManager.getVRCamera());
+  }
+
+  /**
+   * Get the scene manager and create if it doesn&#x27;t exist.
+   * @returns The scene manager for managing different aspects and elements of the scene.
+   */
+  public getSceneManager(): SceneManager {
+    if (!this.sceneManager) {
+      this.sceneManager &#x3D; new SceneManager(this.ignoreList);
+    }
+    return this.sceneManager;
+  }
+
+  /**
+   * Sets controls to auto rotate.
+   * @param autoRotate If the controls are to be automatically rotated or not.
+   */
+  public autoRotate(autoRotate: boolean) {
+    this.controlsManager.getActiveControls().autoRotate &#x3D; autoRotate;
+  }
+
+  /**
+   * Enables geometries to be clipped with clipping planes.
+   * @param clippingEnabled If the the geometry clipping is to be enabled or disabled.
+   */
+  public setClipping(clippingEnabled: boolean) {
+    this.rendererManager.setLocalClippingEnabled(clippingEnabled);
+  }
+
+  /**
+   * Rotates clipping planes.
+   * @param angle Angle to rotate the clipping planes.
+   */
+  public rotateClipping(angle: number) {
+    const q &#x3D; new Quaternion();
+    q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
+    this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
+  }
+
+
+  /**
+   * Animates camera transform.
+   * @param cameraPosition End position.
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
+   */
+  public animateCameraTransform(
+    cameraPosition: number[],
+    cameraTarget: number[],
+    duration: number
+  ) {
+    this.animateCameraPosition(cameraPosition, duration);
+    this.animateCameraTarget(cameraTarget, duration);
+  }
+
+  /**
+   * Swaps cameras.
+   * @param useOrthographic Whether to use orthographic or perspective camera.
+   */
+  public swapCameras(useOrthographic: boolean) {
+    let cameraType: string;
+
+    if (useOrthographic) {
+      // perspective -&gt; ortho
+      cameraType &#x3D; &#x27;OrthographicCamera&#x27;;
+    } else {
+      // ortho -&gt; perspective
+      cameraType &#x3D; &#x27;PerspectiveCamera&#x27;;
+    }
+
+    if (this.controlsManager.getMainCamera().type !&#x3D;&#x3D; cameraType) {
+      this.controlsManager.swapControls();
+    }
+  }
+
+  // *************************************
+  // * Functions for loading geometries. *
+  // *************************************
+
+  /**
+   * Loads an OBJ (.obj) geometry from the given filename.
+   * @param filename Path to the geometry.
+   * @param name Name given to the geometry.
+   * @param color Color to initialize the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param setFlat Whether object should be flat-shaded or not.
+   * @returns Promise for loading the geometry.
+   */
+  public loadOBJGeometry(
+    filename: string,
+    name: string,
+    color: any,
+    doubleSided?: boolean,
+    initiallyVisible: boolean &#x3D; true,
+    setFlat: boolean &#x3D; true
+  ): Promise&lt;unknown&gt; {
+    const geometries &#x3D; this.sceneManager.getGeometries();
+    const callback &#x3D; (object: Object3D) &#x3D;&gt; {
+      object.visible &#x3D; initiallyVisible;
+      geometries.add(object);
+    };
+    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
+  }
+
+  /**
+   * Loads a GLTF (.gltf) scene/geometry from the given URL.
+   * @param sceneUrl URL to the GLTF (.gltf) file.
+   * @param name Name of the loaded scene/geometry.
+   * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
+   */
+  public loadGLTFGeometry(
+    sceneUrl: any,
+    name: string,
+    scale?: number,
+    initiallyVisible: boolean &#x3D; true
+  ): Promise&lt;unknown&gt; {
+    const geometries &#x3D; this.sceneManager.getGeometries();
+    const callback &#x3D; (geometry: Object3D) &#x3D;&gt; {
+      geometry.visible &#x3D; initiallyVisible;
+      geometries.add(geometry);
+    };
+    return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
+  }
+
+  /**
+   * Parses and loads a geometry in OBJ (.obj) format.
+   * @param geometry Geometry in OBJ (.obj) format.
+   * @param name Name given to the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public parseOBJGeometry(geometry: string, name: string, initiallyVisible: boolean &#x3D; true) {
+    const geometries &#x3D; this.sceneManager.getGeometries();
+    const object &#x3D; this.importManager.parseOBJGeometry(geometry, name);
+    object.visible &#x3D; initiallyVisible;
+    geometries.add(object);
+    this.loadingManager.itemLoaded(&#x60;parse_obj_${name}&#x60;);
+  }
+
+  /**
+   * Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry Geometry in GLTF (.gltf) format.
+   * @returns Promise for loading the geometry.
+   */
+  public parseGLTFGeometry(geometry: any): Promise&lt;unknown&gt; {
+    const callback &#x3D; (geometries: Object3D, eventData: Object3D) &#x3D;&gt; {
+      this.sceneManager.getScene().add(geometries);
+      this.sceneManager.getScene().add(eventData);
+    };
+    return this.importManager.parseGLTFGeometry(geometry, callback);
+  }
+
+  /**
+   * Loads geometries from JSON.
+   * @param json JSON or URL to JSON file of the geometry.
+   * @param name Name of the geometry or group of geometries.
+   * @param scale Scale of the geometry.
+   * @param doubleSided Renders both sides of the material.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
+   */
+  public loadJSONGeometry(json: string | object, name: string, scale?: number,
+    doubleSided?: boolean, initiallyVisible: boolean &#x3D; true): Promise&lt;unknown&gt; {
+    const geometries &#x3D; this.sceneManager.getGeometries();
+    const callback &#x3D; (geometry: Object3D) &#x3D;&gt; {
+      geometry.visible &#x3D; initiallyVisible;
+      geometries.add(geometry);
+    };
+    return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
+  }
+
+  /**
+   * Exports scene to OBJ file format.
+   */
+  public exportSceneToOBJ() {
+    const scene &#x3D; this.sceneManager.getCleanScene();
+    this.exportManager.exportSceneToOBJ(scene);
+  }
+
+  /**
+   * Exports scene as phoenix format, allowing to
+   * load it later and recover the saved configuration.
+   */
+  public exportPhoenixScene() {
+    const scene &#x3D; this.sceneManager.getCleanScene();
+    this.exportManager.exportPhoenixScene(
+      scene, this.sceneManager.getEventData(),
+      this.sceneManager.getGeometries());
+  }
+
+  /**
+   * Fixes the camera position of the overlay view.
+   * @param fixed Whether the overlay view is to be fixed or not.
+   */
+  public fixOverlayView(fixed: boolean) {
+    this.rendererManager.setFixOverlay(fixed);
+  }
+
+  /**
+   * Initializes the object which will show information of the selected geometry/event data.
+   * @param selectedObject Object to display the data.
+   */
+  public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
+    this.getSelectionManager().setSelectedObject(selectedObject);
+  }
+
+  /**
+   * Set event data depthTest to enable or disable if event data should show on top of geometry.
+   * @param value A boolean to specify if depthTest is to be enabled or disabled.
+   */
+  public eventDataDepthTest(value: boolean) {
+    this.sceneManager.eventDataDepthTest(value);
+  }
+
+  /**
+   * Toggles the ability of selecting geometries/event data by clicking on the screen.
+   * @param enable Value to enable or disable the functionality.
+   */
+  public enableSelecting(enable: boolean) {
+    this.getSelectionManager().setSelecting(enable);
+  }
+
+  /**
+   * Clears event data of the scene.
+   */
+  public clearEventData() {
+    this.sceneManager.clearEventData();
+  }
+
+  /**
+   * Adds group of an event data type to the main group containing event data.
+   * @param typeName Type of event data.
+   * @returns Three.js group containing the type of event data.
+   */
+  addEventDataTypeGroup(typeName: string): Group {
+    return this.sceneManager.addEventDataTypeGroup(typeName);
+  }
+
+  /**
+   * Sets the renderer to be used to render the event display on the overlayed canvas.
+   * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
+   */
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
+    if (this.rendererManager) {
+      this.rendererManager.setOverlayRenderer(overlayCanvas);
+    }
+  }
+
+  /**
+   * Zoom all the cameras by a specific zoom factor.
+   * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
+   * @param zoomFactor The factor to zoom by.
+   * @param zoomTime The time it takes for a zoom animation to complete.
+   */
+  public zoomTo(zoomFactor: number, zoomTime: number) {
+    this.controlsManager.zoomTo(zoomFactor, zoomTime);
+  }
+
+  // ********************************
+  // * Private auxiliary functions. *
+  // ********************************
+
+  /**
+   * Get the selection manager.
+   * @returns Selection manager responsible for managing selection of 3D objects.
+   */
+  private getSelectionManager(): SelectionManager {
+    if (!this.selectionManager) {
+      this.selectionManager &#x3D; new SelectionManager();
+    }
+    return this.selectionManager;
+  }
+
+  /**
+   * Animates camera position.
+   * @param cameraPosition End position.
+   * @param duration Duration of an animation in seconds.
+   */
+  private animateCameraPosition(cameraPosition: number[], duration: number) {
+    const posAnimation &#x3D; new TWEEN.Tween(
+      this.controlsManager.getActiveCamera().position
+    );
+    posAnimation.to(
+      {
+        x: cameraPosition[0],
+        y: cameraPosition[1],
+        z: cameraPosition[2]
+      },
+      duration
+    );
+    posAnimation.start();
+  }
+
+  /**
+   * Animates camera target.
+   * @param cameraTarget End target.
+   * @param duration Duration of an animation in seconds.
+   */
+  private animateCameraTarget(cameraTarget: number[], duration: number) {
+    const rotAnimation &#x3D; new TWEEN.Tween(
+      this.controlsManager.getActiveControls().target
+    );
+    rotAnimation.to(
+      {
+        x: cameraTarget[0],
+        y: cameraTarget[1],
+        z: cameraTarget[2]
+      },
+      duration
+    );
+    rotAnimation.start();
+  }
+
+  /**
+   * Get the uuid of the currently selected object.
+   * @returns uuid of the currently selected object.
+   */
+  public getActiveObjectId(): any {
+    return this.getSelectionManager().getActiveObjectId();
+  }
+
+  /**
+   * Move the camera to look at the object with the given uuid.
+   * @param uuid uuid of the object.
+   */
+  public lookAtObject(uuid: string) {
+    this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
+  }
+
+  /**
+   * Highlight the object with the given uuid by giving it an outline.
+   * @param uuid uuid of the object.
+   */
+  public highlightObject(uuid: string) {
+    this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
+  }
+
+  /**
+   * Enable keyboard controls for some Three service operations.
+   */
+  public enableKeyboardControls() {
+    document.addEventListener(&#x27;keydown&#x27;, (e: KeyboardEvent) &#x3D;&gt; {
+      if (e.shiftKey) {
+        switch (e.code) {
+          case &#x27;KeyR&#x27;: // shift + &quot;r&quot;
+            this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
+            break;
+          case &#x27;Equal&#x27;: // shift + &quot;+&quot;
+            this.zoomTo(1 / 1.2, 100);
+            break;
+          case &#x27;Minus&#x27;: // shift + &quot;-&quot;
+            this.zoomTo(1.2, 100);
+            break;
+          case &#x27;KeyC&#x27;: // shift + &quot;c&quot;
+            this.setClipping(!this.rendererManager.getLocalClipping());
+            if (this.rendererManager.getLocalClipping()) {
+              this.rotateClipping(180);
+            }
+            break;
+          case &#x27;KeyV&#x27;: // shift + &quot;v&quot;
+            const isOrthographicView &#x3D; this.controlsManager.getMainCamera()
+              .type &#x3D;&#x3D;&#x3D; &#x27;OrthographicCamera&#x27;;
+            this.swapCameras(!isOrthographicView);
+            break;
+        }
+      }
+    });
+  }
+
+  /**
+   * Animate the camera through the event scene.
+   * @param startPos Start position of the translation animation.
+   * @param tweenDuration Duration of each tween in the translation animation.
+   * @param onAnimationEnd Callback when the last animation ends.
+   */
+  public animateThroughEvent(startPos: number[],
+    tweenDuration: number,
+    onAnimationEnd?: () &#x3D;&gt; void) {
+    this.animationsManager
+      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data with particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateEventWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.animationsManager.animateEventWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Animate the propagation and generation of event data
+   * using clipping planes after particle collison.
+   * @param tweenDuration Duration of the animation tween.
+   * @param onEnd Function to call when all animations have ended.
+   */
+  public animateClippingWithCollision(tweenDuration: number, onEnd?: () &#x3D;&gt; void) {
+    this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  /**
+   * Initialize the VR session.
+   * @param onSessionEnded Callback when the VR session ends.
+   */
+  public initVRSession(onSessionEnded?: () &#x3D;&gt; void) {
+    // Set up main renderer for VR
+    const mainRenderer &#x3D; this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled &#x3D; true;
+
+    // Set the VR animation loop
+    mainRenderer.xr.setAnimationLoop(this.vrRender.bind(this));
+
+    // Set up the camera position in the VR - Adding a group with camera does it
+    // The VR camera is only available AFTER the session starts
+    // For why we can&#x27;t just move the camera directly, see e.g. 
+    // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
+    const onSessionStarted &#x3D; () &#x3D;&gt; {
+      const cameraGroup &#x3D; this.vrManager
+        .getCameraGroup(this.controlsManager.getMainCamera());
+      this.sceneManager.getScene().add(cameraGroup);
+    };
+
+    // Set and initialize the VR session
+    this.vrManager.setVRSession(mainRenderer, onSessionStarted, onSessionEnded);
+  }
+
+  /**
+   * End the current VR session.
+   */
+  public endVRSession() {
+    this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
+
+    const mainRenderer &#x3D; this.rendererManager.getMainRenderer();
+    mainRenderer.xr.setAnimationLoop(null);
+    mainRenderer.xr.enabled &#x3D; false;
+
+    this.vrManager.endVRSession();
+  }
+
+  /**
+   * Get an object from the scene by name.
+   * @param objectName Name of the object in scene.
+   */
+  public getObjectByName(objectName: string): Object3D {
+    return this.getSceneManager().getScene().getObjectByName(objectName);
+  }
+
+  /**
+   * Set the antialiasing.
+   * @param antialias Whether antialiasing is to enabled or disabled.
+   */
+  public setAntialiasing(antialias: boolean) {
+    this.effectsManager.setAntialiasing(antialias);
+  }
+
+  /** Add parametrised geometry to the scene.
+   * @param parameters The name, dimensions, and radial values for this cylindrical volume.
+   */
+  public addGeometryFromParameters(parameters: any): void {
+    this.loadingManager.addLoadableItem(&#x27;geom_from_params&#x27;);
+
+    let scene &#x3D; this.getSceneManager().getScene();
+    let moduleName &#x3D; parameters.ModuleName;
+    let moduleXdim &#x3D; parameters.Xdim;
+    let moduleYdim &#x3D; parameters.Ydim;
+    let moduleZdim &#x3D; parameters.Zdim;
+    let numPhiEl &#x3D; parameters.NumPhiEl;
+    let numZEl &#x3D; parameters.NumZEl;
+    let radius &#x3D; parameters.Radius;
+
+    let minZ &#x3D; parameters.MinZ;
+    let maxZ &#x3D; parameters.MaxZ;
+    let tiltAngle &#x3D; parameters.TiltAngle;
+    let ztiltAngle &#x3D; parameters.ZTiltAngle;
+    let phiOffset &#x3D; parameters.PhiOffset;
+    let colour &#x3D; parameters.Colour;
+    let edgecolour &#x3D; parameters.EdgeColour;
+    // Make the geometry and material
+    var geometry &#x3D; new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
+    var material &#x3D; new MeshBasicMaterial({ color: colour, opacity: 0.5, transparent: true });
+
+    var zstep &#x3D; (maxZ - minZ) / numZEl;
+    var phistep &#x3D; 2. * Math.PI / numPhiEl;
+
+    var z &#x3D; minZ + zstep / 2.;
+
+    var halfPi &#x3D; Math.PI / 2.0;
+    var modulecentre;
+    for (var elZ &#x3D; 0; elZ &lt; numZEl; elZ++) {
+      var phi &#x3D; phiOffset;
+      for (var elPhi &#x3D; 0; elPhi &lt; numPhiEl; elPhi++) {
+        phi +&#x3D; phistep;
+        modulecentre &#x3D; new Vector3(radius * Math.cos(phi), radius * Math.sin(phi), z);
+        var cube &#x3D; new Mesh(geometry.clone(), material);
+
+        cube.matrix.makeRotationFromEuler(new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle));
+        cube.matrix.setPosition(modulecentre);
+        cube.matrixAutoUpdate &#x3D; false;
+        scene.add(cube);
+
+        // var egh &#x3D; new EdgesHelper(cube, edgecolour);
+        // egh.material.linewidth &#x3D; 2;
+        // scene.add(egh);
+      }
+      z +&#x3D; zstep
+    }
+
+    this.loadingManager.itemLoaded(&#x27;geom_from_params&#x27;);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'ThreeManager.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

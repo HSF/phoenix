@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ui-components",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Reusable Angular components of the Phoenix event display application.",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^10.0.14",
     "css-element-queries": "^1.2.3",
     "ng5-slider": "^1.2.4",
-    "phoenix-event-display": "^1.0.2",
+    "phoenix-event-display": "^1.2.0",
     "three": "^0.122.0",
     "tslib": "^2.0.0"
   },

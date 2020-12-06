@@ -3,6 +3,47 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/HSF/phoenix/compare/v1.1.0...v1.2.0) (2020-12-06)
+
+
+### Bug Fixes
+
+* **event-display:** add Edward's controller set up ([a6a1c19](https://github.com/HSF/phoenix/commit/a6a1c19d696aff6e6c239fef76dcd3c24f4897a1))
+* **event-display:** changes to animation loop for VR ([37df19f](https://github.com/HSF/phoenix/commit/37df19f17b0f6d37229e95dacf295e388dcefbd1))
+* **event-display:** finally fix VR completely ([4764196](https://github.com/HSF/phoenix/commit/4764196e4b64ee3a7d4ff0654373b893018e6e53))
+* **event-display:** fix applying multiple cuts at the same time ([8f3e8e1](https://github.com/HSF/phoenix/commit/8f3e8e18f42c3f6092e7e89e73da4414e648879f))
+* **event-display:** fix applying state for range slider ([c36a222](https://github.com/HSF/phoenix/commit/c36a222779a278f9aba6c774f3793e8fc44e0490))
+* **event-display:** fix loading and add default view to experiments ([ab8feb4](https://github.com/HSF/phoenix/commit/ab8feb45ecd0fba4ae2eb32deb528763f166b5d3))
+* **event-display:** initialize cuts with correct values ([e297c98](https://github.com/HSF/phoenix/commit/e297c984ecca0a8e0d1ac84389f8c3160b443bec))
+* **event-display:** make it possible to flat shade ([dcf6cec](https://github.com/HSF/phoenix/commit/dcf6cec2556c4fb880682ac1a3559bfd44050822))
+* **event-display:** optimal animation loop set up ([da3ead5](https://github.com/HSF/phoenix/commit/da3ead53b2b36e67a7d5604db5428b60ce93bffa))
+* **event-display:** optimal render for effects manager ([1975d70](https://github.com/HSF/phoenix/commit/1975d701763acfe770a08ca9eba92bf46ae9e035))
+* **event-display:** reset clipping on init ([029d526](https://github.com/HSF/phoenix/commit/029d526d9ae0bc6933fb6bc07e48efe6dcba2667))
+* **event-display:** stop animation loop on home ([c39ecd3](https://github.com/HSF/phoenix/commit/c39ecd3d57744e5ad117de6cd0aafc2c81b5c58d))
+* **event-display:** update configuration in tests ([18f8db2](https://github.com/HSF/phoenix/commit/18f8db2e7d9cf5ccbcf1111112d4fec0449fa087))
+
+
+### Features
+
+* **app:** add toggle for screenshot mode ([22a1ec8](https://github.com/HSF/phoenix/commit/22a1ec8903ac80d72f564eca29e49d15cbd411ce))
+* **app:** make loader generic ([ff10477](https://github.com/HSF/phoenix/commit/ff10477b40fae8554813b283a644c6aeb421f88a))
+* **app:** set up performance mode with selection ([947f6bf](https://github.com/HSF/phoenix/commit/947f6bf2f4da25528de3ab3eeb44c579c084d9a6))
+* **app:** use event display loader in Angular component ([25b2a9d](https://github.com/HSF/phoenix/commit/25b2a9df57b48b0b372358f5350648e3b1b7e846))
+* **event-display:** ability to add geometry to a menu folder ([30b0383](https://github.com/HSF/phoenix/commit/30b0383664419581a76457ab11189aa559fd911b))
+* **event-display:** ability to initialize event display without init ([69d3f75](https://github.com/HSF/phoenix/commit/69d3f75360575c2202701e0ef28b1bdf0dec5e8a))
+* **event-display:** add ability to add parametrised geometry ([04dc545](https://github.com/HSF/phoenix/commit/04dc545b3a65d990215ea0980b93ec01d8347a7c))
+* **event-display:** add and set up loading manager ([5f0f942](https://github.com/HSF/phoenix/commit/5f0f9422156344c5e162cf882872ae9708d6c0bb))
+* **event-display:** handle loading better ([9474565](https://github.com/HSF/phoenix/commit/9474565a2bc9b3764cb0970df14ed79a1d943a03))
+* **event-display:** make loading functions return Promise for async await ([4262a1b](https://github.com/HSF/phoenix/commit/4262a1b42a8960e5e81df6bef304388e9d4ac26e))
+* **event-display:** performance mode and antialias support ([d3920c4](https://github.com/HSF/phoenix/commit/d3920c4ecf8176e2918c1ac4b8d7f2d636c503e3))
+* **event-display:** support for toggling antialiasing ([48130b2](https://github.com/HSF/phoenix/commit/48130b2c53a1c0a8d105f1e81ecf4f0146eb3763))
+* **event-display:** use object to simplify configuration ([4b10452](https://github.com/HSF/phoenix/commit/4b10452a80aed8e67ddac5d550cc9fd15383bad3))
+
+
+
+
+
+
 # [1.1.0](https://github.com/HSF/phoenix/compare/v1.0.2...v1.1.0) (2020-11-07)
 
 
