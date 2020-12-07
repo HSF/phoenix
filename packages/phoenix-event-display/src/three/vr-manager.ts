@@ -34,7 +34,9 @@ export class VRManager {
   /** The VR controller representation */
   private controllerGrip2: any;
 
+  /** Listener for when the "Select Start" button is pushed. */
   private onControllerSelectStart: () => void;
+  /** Listener for when the "Select Start" button is released. */
   private onControllerSelectEnd: () => void;
 
   /**
