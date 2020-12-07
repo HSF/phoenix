@@ -186,8 +186,7 @@
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
             "tsConfig": "projects/phoenix-ui-components/tsconfig.lib.json",
-            "project": "projects/phoenix-ui-components/ng-package.json",
-            "aot": true
+            "project": "projects/phoenix-ui-components/ng-package.json"
           },
           "configurations": {
             "production": {

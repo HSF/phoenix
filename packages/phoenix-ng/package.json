@@ -9,7 +9,6 @@
     "start:single": "ng serve --configuration singleEvent",
     "build": "ng build",
     "build:ui-components": "ng build phoenix-ui-components --prod",
-    "prepare": "npm run build:ui-components",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
