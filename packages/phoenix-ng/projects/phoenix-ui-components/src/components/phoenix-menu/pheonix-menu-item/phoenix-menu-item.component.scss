@@ -152,18 +152,18 @@
   border-left: 1px solid var(--phoenix-accent);
 }
 
-.range-slider.ng5-slider {
+.range-slider.ngx-slider {
 
-  .ng5-slider-bar {
+  .ngx-slider-bar {
     background: var(--phoenix-text-color-secondary);
     height: 0.2rem;
   }
 
-  .ng5-slider-selection {
+  .ngx-slider-selection {
     background: var(--phoenix-accent);
   }
 
-  .ng5-slider-pointer {
+  .ngx-slider-pointer {
     width: 1rem;
     height: 1rem;
     top: -0.45rem;
@@ -175,11 +175,11 @@
     }
   }
 
-  .ng5-slider-bubble {
+  .ngx-slider-bubble {
     color: var(--phoenix-text-color);
     font-size: 0.8rem;
 
-    &.ng5-slider-limit {
+    &.ngx-slider-limit {
       color: var(--phoenix-text-color-secondary);
     }
   }

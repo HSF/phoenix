@@ -5,8 +5,7 @@
     "entryFile": "./src/index.ts",
     "umdModuleIds": {
       "phoenix-event-display": "phoenixEventDisplay",
-      "css-element-queries": "cssElementQueries",
-      "ng5-slider": "ng5Slider"
+      "css-element-queries": "cssElementQueries"
     }
   },
   "whitelistedNonPeerDependencies": ["."]

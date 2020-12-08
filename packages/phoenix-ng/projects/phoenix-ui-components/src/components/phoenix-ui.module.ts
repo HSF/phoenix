@@ -9,7 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Ng5SliderModule } from 'ng5-slider';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
@@ -103,7 +103,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule,
-    Ng5SliderModule
+    NgxSliderModule
   ],
   entryComponents: [
     OverlayComponent,
