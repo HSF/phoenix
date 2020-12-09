@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group } from 'three';
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group, Scene, Mesh, TubeBufferGeometry } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -304,6 +304,37 @@ export class ControlsManager {
             }, 200).start();
           }
         }
+      }
+    });
+  }
+
+  /**
+   * Hide tube geometry of tracks on zoom if the camera is too close.
+   * (For visibility of vertices)
+   * @param scene Scene to look in for tracks.
+   * @param minRadius Radius after which the tube tracks should be invisible.
+   */
+  public hideTubeTracksOnZoom(scene: Scene, minRadius: number) {
+    let tracksHidden = false;
+    this.activeControls.addEventListener('change', (event) => {
+      const isCameraClose = (event.target.object.position as Vector3)
+        .toArray().every((val) => val < minRadius);
+      if (isCameraClose && !tracksHidden) {
+        const tracks = scene.getObjectByName('Tracks');
+        tracks.traverse(track => {
+          if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
+            track.visible = false;
+          }
+        });
+        tracksHidden = true;
+      } else if (!isCameraClose && tracksHidden) {
+        const tracks = scene.getObjectByName('Tracks');
+        tracks.traverse(track => {
+          if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
+            track.visible = true;
+          }
+        });
+        tracksHidden = false;
       }
     });
   }

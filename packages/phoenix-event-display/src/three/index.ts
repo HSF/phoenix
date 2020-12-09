@@ -99,6 +99,7 @@ export class ThreeManager {
     this.rendererManager.init(configuration.elementId);
     // Controls manager
     this.controlsManager = new ControlsManager(this.rendererManager, configuration.defaultView);
+    this.controlsManager.hideTubeTracksOnZoom(this.sceneManager.getScene(), 200);
     // Effects manager
     this.effectsManager = new EffectsManager(
       this.controlsManager.getMainCamera(),
