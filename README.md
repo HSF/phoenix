@@ -68,4 +68,4 @@ Phoenix was presented at the [HSF/WLCG virtual workshop](https://indico.cern.ch/
 
 ## Contact
 
-Best is to either open an issue in GitHub, or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community).
+Best is to either open an issue in GitHub, start a [discussion](https://github.com/HSF/phoenix/discussions) or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community).
