@@ -18,7 +18,7 @@ Phoenix is a TypeScript-based event display framework, using the popular [three.
 
 It consists of two packages: a plain TypeScript core library ([phoenix-event-display](./packages/phoenix-event-display/README.md)) and Angular example application ([phoenix-app](./packages/phoenix-ng/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps.
 
-Phoenix is the official web event display of both the [HEP Software Foundation](https://hepsoftwarefoundation.org), and the [ATLAS experiment](https://atlas.cern).
+Phoenix is supported by the [HEP Software Foundation](https://hepsoftwarefoundation.org) and is the official web event display of the [ATLAS experiment](https://atlas.cern).
 
 It was selected for Google Summer of Code support in 2019 and 2020.
 
@@ -62,6 +62,9 @@ Now both the `phoenix-event-display` and `phoenix-app` will start in development
 * [Developer guide](./guides/developers.md)
 * [How to contribute](./CONTRIBUTING.md)
 * [API docs](https://hepsoftwarefoundation.org/phoenix/api-docs/)
+
+## Phoenix presentations
+Phoenix was presented at the [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
 
 ## Contact
 
