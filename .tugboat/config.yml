@@ -11,9 +11,7 @@ services:
 
         - npm install lerna --global
         - npm run install:dependencies
-        - echo "TUGBOAT_ROOT" && pwd "${TUGBOAT_ROOT}"
 
       build:
-        - cd ./packages/phoenix-ng
-        - npm run build -- --prod --output-path ${TUGBOAT_ROOT}/pr-build --base-href "./" && cp ${TUGBOAT_ROOT}/pr-build/index.html ${TUGBOAT_ROOT}/pr-build/404.html
+        - npm run -C "${TUGBOAT_ROOT}/packages/phoenix-ng" build -- --prod --output-path ${TUGBOAT_ROOT}/pr-build --base-href "./" && cp ${TUGBOAT_ROOT}/pr-build/index.html ${TUGBOAT_ROOT}/pr-build/404.html
         - ln -snf "${TUGBOAT_ROOT}/pr-build" "${DOCROOT}"
