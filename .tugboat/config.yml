@@ -15,4 +15,5 @@ services:
 
       build:
         - cd ./packages/phoenix-ng
-        - ng build --prod --output-path ${TUGBOAT_ROOT}/pr-build --base-href "./" && cp ${TUGBOAT_ROOT}/pr-build/index.html ${TUGBOAT_ROOT}/pr-build/404.html
+        - npm run build -- --prod --output-path ${TUGBOAT_ROOT}/pr-build --base-href "./" && cp ${TUGBOAT_ROOT}/pr-build/index.html ${TUGBOAT_ROOT}/pr-build/404.html
+        - ln -snf "${TUGBOAT_ROOT}/pr-build" "${DOCROOT}"
