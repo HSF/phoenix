@@ -1,0 +1,18 @@
+services:
+  nginx:
+    image: tugboatqa/nginx:latest
+    default: true
+
+    commands:
+      init:
+        # Install node 15
+        - curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+        - apt-get install -y nodejs
+
+        - npm install lerna --global
+        - npm run install:dependencies
+        - echo "TUGBOAT_ROOT" && pwd "${TUGBOAT_ROOT}"
+
+      build:
+        - cd ./packages/phoenix-ng
+        - ng build --prod --output-path ${TUGBOAT_ROOT}/pr-build --base-href "./" && cp ${TUGBOAT_ROOT}/pr-build/index.html ${TUGBOAT_ROOT}/pr-build/404.html
