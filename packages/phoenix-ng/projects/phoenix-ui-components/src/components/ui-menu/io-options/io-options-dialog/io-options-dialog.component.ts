@@ -17,32 +17,54 @@ export class IOOptionsDialogComponent {
   }
 
   handleEventDataInput(files: any) {
-    this.handleFileInput(files, 'json', this.processEventData.bind(this));
+    const callback = (content: any) => {
+      const json = JSON.parse(content);
+      this.eventDisplay.parsePhoenixEvents(json);
+    };
+    this.handleFileInput(files, 'json', callback);
   }
 
   handleJiveXMLDataInput(files: any) {
-    this.handleFileInput(files, 'xml', this.processJiveXML.bind(this));
+    const callback = (content: any) => {
+      const jiveloader = new JiveXMLLoader();
+      jiveloader.process(content);
+      const eventData = jiveloader.getEventData();
+      this.eventDisplay.buildEventDataFromJSON(eventData);
+    };
+    this.handleFileInput(files, 'xml', callback);
   }
 
   handleOBJInput(files: any) {
-    this.handleFileInput(files, 'obj', this.processOBJ.bind(this));
+    const callback = (content: any, name: string) => {
+      this.eventDisplay.parseOBJGeometry(content, name);
+    };
+    this.handleFileInput(files, 'obj', callback);
   }
 
   handleSceneInput(files: any) {
-    this.handleFileInput(files, 'phnx', this.processScene.bind(this));
+    const callback = (content: any) => {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
+    this.handleFileInput(files, 'phnx', callback);
   }
 
   handleGLTFInput(files: any) {
-    this.handleFileInput(files, 'gltf', this.processGLTF.bind(this));
+    const callback = (content: any, name: string) => {
+      this.eventDisplay.parseGLTFGeometry(content, name);
+    };
+    this.handleFileInput(files, 'gltf', callback);
   }
 
   handlePhoenixInput(files: any) {
-    this.handleFileInput(files, 'phnx', this.processPhoenixScene.bind(this));
+    const callback = (content: any) => {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
+    this.handleFileInput(files, 'phnx', callback);
   }
 
   handleFileInput(
     files: any, extension: string,
-    callback: (result: string, fileName: string) => void
+    callback: (result: string, fileName?: string) => void
   ) {
     const file = files[0];
     const reader = new FileReader();
@@ -55,35 +77,6 @@ export class IOOptionsDialogComponent {
       console.log('Error : ¡ Invalid file format !');
     }
     this.onNoClick();
-  }
-
-  processEventData(content: any, name: string) {
-    const json = JSON.parse(content);
-    this.eventDisplay.parsePhoenixEvents(json);
-  }
-
-  processJiveXML(content: any, name: string) {
-    console.log('Got JiveXML from ' + name);
-    const jiveloader = new JiveXMLLoader();
-    jiveloader.process(content);
-    const eventData = jiveloader.getEventData();
-    this.eventDisplay.buildEventDataFromJSON(eventData);
-  }
-
-  processOBJ(content: any, name: any) {
-    this.eventDisplay.parseOBJGeometry(content, name);
-  }
-
-  processScene(content: any, name: string) {
-    this.eventDisplay.parsePhoenixDisplay(content);
-  }
-
-  processGLTF(content: any, name: string) {
-    this.eventDisplay.parseGLTFGeometry(content, name);
-  }
-
-  processPhoenixScene(content: any, name: string) {
-    this.eventDisplay.parsePhoenixDisplay(content);
   }
 
   saveScene() {
