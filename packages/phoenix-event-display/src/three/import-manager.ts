@@ -152,27 +152,27 @@ export class ImportManager {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
-   * @param callback Callback called after the geometry is loaded.
-   * @returns Promise for loading the geometry.
+   * Parses and loads a scene in Phoenix (.phnx) format.
+   * @param scene Geometry in Phoenix (.phnx) format.
+   * @param callback Callback called after the scene is loaded.
+   * @returns Promise for loading the scene.
    */
-  public parseGLTFGeometry(
-    geometry: any,
-    callback: (geometries: Object3D, eventData: Object3D) => any
+  public parsePhnxScene(
+    scene: any,
+    callback: (geometries: Object3D, eventData: Object3D) => void
   ): Promise<unknown> {
     const loader = new GLTFLoader();
-    const sceneString = JSON.stringify(geometry, null, 2);
+    const sceneString = JSON.stringify(scene, null, 2);
     return new Promise((resolve, reject) => {
       loader.parse(sceneString, '', gltf => {
         const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
         const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
         callback(eventData, geometries);
         resolve();
-        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+        this.loadingManager.itemLoaded(`parse_phnx_${name}`);
       }, (error) => {
         reject(error);
-        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+        this.loadingManager.itemLoaded(`parse_phnx_${name}`);
       });
     });
   }
@@ -185,7 +185,7 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string,
+  public loadGLTFGeometry(sceneUrl: string, name: string,
     callback: (Geometry: Object3D) => any, scale?: number): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
@@ -198,6 +198,32 @@ export class ImportManager {
       }, null, (error) => {
         reject(error);
         this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+      });
+    });
+  }
+
+  /**
+   * Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry Geometry in GLTF (.gltf) format.
+   * @param name Name given to the geometry.
+   * @param callback Callback called after the geometry is loaded.
+   * @returns Promise for loading the geometry.
+   */
+  public parseGLTFGeometry(
+    geometry: string | ArrayBuffer, name: string,
+    callback: (scene: Object3D) => any
+  ): Promise<unknown> {
+    const loader = new GLTFLoader();
+    return new Promise((resolve, reject) => {
+      loader.parse(geometry, '', gltf => {
+        const geometry = gltf.scene;
+        this.processGeometry(geometry, name);
+        callback(geometry);
+        resolve();
+        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+      }, (error) => {
+        reject(error);
+        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
       });
     });
   }

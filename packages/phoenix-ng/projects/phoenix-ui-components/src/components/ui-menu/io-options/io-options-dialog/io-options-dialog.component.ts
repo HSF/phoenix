@@ -17,41 +17,38 @@ export class IOOptionsDialogComponent {
   }
 
   handleEventDataInput(files: any) {
-    const callback = this.processEventData;
-    this.handleFileInput(files, 'json', callback);
+    this.handleFileInput(files, 'json', this.processEventData.bind(this));
   }
 
   handleJiveXMLDataInput(files: any) {
-    const callback = this.processJiveXML;
-    this.handleFileInput(files, 'xml', callback);
+    this.handleFileInput(files, 'xml', this.processJiveXML.bind(this));
   }
 
   handleOBJInput(files: any) {
-    const callback = this.processOBJ;
-    this.handleFileInput(files, 'obj', callback);
+    this.handleFileInput(files, 'obj', this.processOBJ.bind(this));
   }
 
   handleSceneInput(files: any) {
-    const callback = this.processScene;
-    this.handleFileInput(files, 'phnx', callback);
+    this.handleFileInput(files, 'phnx', this.processScene.bind(this));
   }
 
   handleGLTFInput(files: any) {
-    const callback = this.processGLTF;
-    this.handleFileInput(files, 'gltf', callback);
+    this.handleFileInput(files, 'gltf', this.processGLTF.bind(this));
   }
 
   handlePhoenixInput(files: any) {
-    const callback = this.processPhoenixScene;
-    this.handleFileInput(files, 'phnx', callback);
+    this.handleFileInput(files, 'phnx', this.processPhoenixScene.bind(this));
   }
 
-  handleFileInput(files: any, extension: string, callback) {
+  handleFileInput(
+    files: any, extension: string,
+    callback: (result: string, fileName: string) => void
+  ) {
     const file = files[0];
     const reader = new FileReader();
     if (file.name.split('.').pop() === extension) {
       reader.onload = () => {
-        callback(reader.result.toString(), file.name.split('.')[0], this.eventDisplay);
+        callback(reader.result.toString(), file.name.split('.')[0]);
       };
       reader.readAsText(file);
     } else {
@@ -60,37 +57,36 @@ export class IOOptionsDialogComponent {
     this.onNoClick();
   }
 
-  processEventData(content: any, name: string, evDisplay: EventDisplayService) {
+  processEventData(content: any, name: string) {
     const json = JSON.parse(content);
-    evDisplay.parsePhoenixEvents(json);
+    this.eventDisplay.parsePhoenixEvents(json);
   }
 
-  processJiveXML(content: any, name: string, evDisplay: EventDisplayService) {
-    console.log('Got JiveXML from '+name);
+  processJiveXML(content: any, name: string) {
+    console.log('Got JiveXML from ' + name);
     const jiveloader = new JiveXMLLoader();
     jiveloader.process(content);
     const eventData = jiveloader.getEventData();
-    evDisplay.buildEventDataFromJSON(eventData);
+    this.eventDisplay.buildEventDataFromJSON(eventData);
   }
 
-  processOBJ(content: any, name: any, evDisplay: EventDisplayService) {
-    evDisplay.parseOBJGeometry(content, name);
+  processOBJ(content: any, name: any) {
+    this.eventDisplay.parseOBJGeometry(content, name);
   }
 
-  processScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
+  processScene(content: any, name: string) {
+    this.eventDisplay.parsePhoenixDisplay(content);
   }
 
-  processGLTF(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parseGLTFGeometry(content);
+  processGLTF(content: any, name: string) {
+    this.eventDisplay.parseGLTFGeometry(content, name);
   }
 
-  processPhoenixScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
+  processPhoenixScene(content: any, name: string) {
+    this.eventDisplay.parsePhoenixDisplay(content);
   }
 
   saveScene() {
-    console.log('queloqueeee');
     this.eventDisplay.exportPhoenixDisplay();
   }
 
