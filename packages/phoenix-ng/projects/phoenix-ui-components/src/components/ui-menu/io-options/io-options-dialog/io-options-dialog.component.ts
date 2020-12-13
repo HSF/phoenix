@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { JiveXMLLoader } from 'phoenix-event-display';
+import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -10,7 +10,10 @@ import { JiveXMLLoader } from 'phoenix-event-display';
 })
 export class IOOptionsDialogComponent {
 
-  constructor(private eventDisplay: EventDisplayService, public dialogRef: MatDialogRef<IOOptionsDialogComponent>) { }
+  constructor(
+    private eventDisplay: EventDisplayService,
+    public dialogRef: MatDialogRef<IOOptionsDialogComponent>
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -60,6 +63,31 @@ export class IOOptionsDialogComponent {
       this.eventDisplay.parsePhoenixDisplay(content);
     };
     this.handleFileInput(files, 'phnx', callback);
+  }
+
+  handleROOTInput(files: any) {
+    ScriptLoader.loadJSRootScripts((JSROOT: any) => {
+      JSROOT.OpenFile(files[0], (file: any) => {
+        file.ReadObject('simple1;1', (obj: any) => {
+          this.eventDisplay.loadJSONGeometry(
+            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            files[0].name.split('.')[0]
+          );
+        });
+      });
+    });
+    this.onNoClick();
+  }
+
+  handleRootJSONInput(files: any) {
+    ScriptLoader.loadJSRootScripts((JSROOT: any) => {
+      const callback = (content: any, name: string) => {
+        this.eventDisplay.loadJSONGeometry(
+          JSROOT.GEO.build(JSON.parse(content), { dflt_colors: true }).toJSON(), name
+        );
+      };
+      this.handleFileInput(files, 'gz', callback);
+    });
   }
 
   handleFileInput(

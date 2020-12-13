@@ -8,18 +8,27 @@
         (change)="handleJiveXMLDataInput($event.target.files)" />
       <label for="eventJiveXMLDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg"
           alt="Event data icon">Load JiveXML event data</label>
+
       <input type="file" id="eventDataFile" class="inputfile" accept="application/json" name="image"
         (change)="handleEventDataInput($event.target.files)" />
       <label for="eventDataFile" class="imageLabel"> <img src="assets/icons/eventData.svg" alt="Event data icon">Load
         JSON event data</label>
+
       <input type="file" id="objFile" class="inputfile" accept=".obj" name="image"
         (change)="handleOBJInput($event.target.files)" />
-      <label for="objFile" class="imageLabel"> <img src="assets/icons/obj.svg"
-          alt="Icon made by Pixel Buddha from www.flaticons.com">Load .obj</label>
+      <label for="objFile" class="imageLabel"> <img src="assets/icons/obj.svg" alt="">Load .obj</label>
+
       <input type="file" id="gltfFile" class="inputfile" accept=".gltf" name="image"
         (change)="handleGLTFInput($event.target.files)" />
-      <label for="gltfFile" class="imageLabel"> <img src="assets/icons/gltf.svg"
-          alt="Icon made by Pixel Buddha from www.flaticons.com">Load .gltf</label>
+      <label for="gltfFile" class="imageLabel"> <img src="assets/icons/gltf.svg" alt="">Load .gltf</label>
+
+      <input type="file" id="rootFile" class="inputfile" accept=".root, .json.gz"
+        (change)="handleROOTInput($event.target.files)" />
+      <label for="rootFile" class="imageLabel"> <img src="assets/icons/gltf.svg" alt="">Load .root</label>
+
+      <input type="file" id="rootJSONFile" class="inputfile" accept=".root, .json.gz"
+        (change)="handleRootJSONInput($event.target.files)" />
+      <label for="rootJSONFile" class="imageLabel"> <img src="assets/icons/gltf.svg" alt="">Load .json.gz</label>
     </div>
     <p>Currently supported event data files written in JiveXML, JSON and OBJ files. Supported file formats:
       .json,
@@ -40,7 +49,7 @@
       <input type="file" id="loadScene" class="inputfile" accept=".phnx" name="image"
         (change)="handlePhoenixInput($event.target.files)" />
       <label for="loadScene" class="imageLabel loadExport" id="importScene"> <img src="assets/icons/upload.svg"
-          alt="Icon made by Pixel Buddha from www.flaticons.com">Load
+          alt="">Load
         scene</label>
     </div>
   </div>
