@@ -67,8 +67,9 @@ export class IOOptionsDialogComponent {
 
   handleROOTInput(files: any) {
     ScriptLoader.loadJSRootScripts((JSROOT: any) => {
+      const objectName = prompt('Enter object name in ROOT file');
       JSROOT.OpenFile(files[0], (file: any) => {
-        file.ReadObject('simple1;1', (obj: any) => {
+        file.ReadObject(objectName, (obj: any) => {
           this.eventDisplay.loadJSONGeometry(
             JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
             files[0].name.split('.')[0]
@@ -83,7 +84,7 @@ export class IOOptionsDialogComponent {
     ScriptLoader.loadJSRootScripts((JSROOT: any) => {
       const callback = (content: any, name: string) => {
         this.eventDisplay.loadJSONGeometry(
-          JSROOT.GEO.build(JSON.parse(content), { dflt_colors: true }).toJSON(), name
+          JSROOT.GEO.build(JSROOT.parse(content), { dflt_colors: true }).toJSON(), name
         );
       };
       this.handleFileInput(files, 'gz', callback);
