@@ -37,13 +37,13 @@
         <img src="assets/icons/gltf.svg" alt=""> Load .gltf
       </label>
 
-      <input type="file" id="rootFile" class="inputfile" accept=".root, .json.gz"
+      <input type="file" id="rootFile" class="inputfile" accept=".root"
         (change)="handleROOTInput($event.target.files)" />
       <label for="rootFile" class="imageLabel">
         <img src="assets/icons/file-import.svg" alt=""> Load .root
       </label>
 
-      <input type="file" id="rootJSONFile" class="inputfile" accept=".root, .json.gz"
+      <input type="file" id="rootJSONFile" class="inputfile" accept=".json.gz"
         (change)="handleRootJSONInput($event.target.files)" />
       <label for="rootJSONFile" class="imageLabel">
         <img src="assets/icons/file-import.svg" alt=""> Load .json.gz
