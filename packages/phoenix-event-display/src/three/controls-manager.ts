@@ -316,18 +316,19 @@ export class ControlsManager {
    */
   public hideTubeTracksOnZoom(scene: Scene, minRadius: number) {
     let tracksHidden = false;
+    const origin = new Vector3();
     this.activeControls.addEventListener('change', (event) => {
       const isCameraClose = (event?.target?.object?.position as Vector3)
-        .distanceTo(new Vector3()) < 200;
+        .distanceTo(origin) < minRadius;
       if (isCameraClose && !tracksHidden) {
-        scene.getObjectByName('Tracks').traverse(track => {
+        scene.getObjectByName('Tracks')?.traverse(track => {
           if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
             track.visible = false;
           }
         });
         tracksHidden = true;
       } else if (!isCameraClose && tracksHidden) {
-        scene.getObjectByName('Tracks').traverse(track => {
+        scene.getObjectByName('Tracks')?.traverse(track => {
           if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
             track.visible = true;
           }

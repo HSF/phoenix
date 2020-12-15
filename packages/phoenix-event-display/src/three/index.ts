@@ -319,14 +319,27 @@ export class ThreeManager {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
+   * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any): Promise<unknown> {
+  public parseGLTFGeometry(geometry: any, name: string): Promise<unknown> {
+    const callback = (scene: Object3D) => {
+      this.sceneManager.getScene().add(scene);
+    };
+    return this.importManager.parseGLTFGeometry(geometry, name, callback);
+  }
+
+  /**
+   * Parses and loads a scene in Phoenix (.phnx) format.
+   * @param scene Geometry in Phoenix (.phnx) format.
+   * @returns Promise for loading the scene.
+   */
+  public parsePhnxScene(scene: any): Promise<unknown> {
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
     };
-    return this.importManager.parseGLTFGeometry(geometry, callback);
+    return this.importManager.parsePhnxScene(scene, callback);
   }
 
   /**

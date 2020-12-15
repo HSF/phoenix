@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { JiveXMLLoader } from 'phoenix-event-display';
+import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -10,48 +10,96 @@ import { JiveXMLLoader } from 'phoenix-event-display';
 })
 export class IOOptionsDialogComponent {
 
-  constructor(private eventDisplay: EventDisplayService, public dialogRef: MatDialogRef<IOOptionsDialogComponent>) { }
+  constructor(
+    private eventDisplay: EventDisplayService,
+    public dialogRef: MatDialogRef<IOOptionsDialogComponent>
+  ) { }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   handleEventDataInput(files: any) {
-    const callback = this.processEventData;
+    const callback = (content: any) => {
+      const json = JSON.parse(content);
+      this.eventDisplay.parsePhoenixEvents(json);
+    };
     this.handleFileInput(files, 'json', callback);
   }
 
   handleJiveXMLDataInput(files: any) {
-    const callback = this.processJiveXML;
+    const callback = (content: any) => {
+      const jiveloader = new JiveXMLLoader();
+      jiveloader.process(content);
+      const eventData = jiveloader.getEventData();
+      this.eventDisplay.buildEventDataFromJSON(eventData);
+    };
     this.handleFileInput(files, 'xml', callback);
   }
 
   handleOBJInput(files: any) {
-    const callback = this.processOBJ;
+    const callback = (content: any, name: string) => {
+      this.eventDisplay.parseOBJGeometry(content, name);
+    };
     this.handleFileInput(files, 'obj', callback);
   }
 
   handleSceneInput(files: any) {
-    const callback = this.processScene;
+    const callback = (content: any) => {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
     this.handleFileInput(files, 'phnx', callback);
   }
 
   handleGLTFInput(files: any) {
-    const callback = this.processGLTF;
+    const callback = (content: any, name: string) => {
+      this.eventDisplay.parseGLTFGeometry(content, name);
+    };
     this.handleFileInput(files, 'gltf', callback);
   }
 
   handlePhoenixInput(files: any) {
-    const callback = this.processPhoenixScene;
+    const callback = (content: any) => {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
     this.handleFileInput(files, 'phnx', callback);
   }
 
-  handleFileInput(files: any, extension: string, callback) {
+  handleROOTInput(files: any) {
+    ScriptLoader.loadJSRootScripts((JSROOT: any) => {
+      const objectName = prompt('Enter object name in ROOT file');
+      JSROOT.OpenFile(files[0], (file: any) => {
+        file.ReadObject(objectName, (obj: any) => {
+          this.eventDisplay.loadJSONGeometry(
+            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            files[0].name.split('.')[0]
+          );
+        });
+      });
+    });
+    this.onNoClick();
+  }
+
+  handleRootJSONInput(files: any) {
+    ScriptLoader.loadJSRootScripts((JSROOT: any) => {
+      const callback = (content: any, name: string) => {
+        this.eventDisplay.loadJSONGeometry(
+          JSROOT.GEO.build(JSROOT.parse(content), { dflt_colors: true }).toJSON(), name
+        );
+      };
+      this.handleFileInput(files, 'gz', callback);
+    });
+  }
+
+  handleFileInput(
+    files: any, extension: string,
+    callback: (result: string, fileName?: string) => void
+  ) {
     const file = files[0];
     const reader = new FileReader();
     if (file.name.split('.').pop() === extension) {
       reader.onload = () => {
-        callback(reader.result.toString(), file.name.split('.')[0], this.eventDisplay);
+        callback(reader.result.toString(), file.name.split('.')[0]);
       };
       reader.readAsText(file);
     } else {
@@ -60,37 +108,7 @@ export class IOOptionsDialogComponent {
     this.onNoClick();
   }
 
-  processEventData(content: any, name: string, evDisplay: EventDisplayService) {
-    const json = JSON.parse(content);
-    evDisplay.parsePhoenixEvents(json);
-  }
-
-  processJiveXML(content: any, name: string, evDisplay: EventDisplayService) {
-    console.log('Got JiveXML from '+name);
-    const jiveloader = new JiveXMLLoader();
-    jiveloader.process(content);
-    const eventData = jiveloader.getEventData();
-    evDisplay.buildEventDataFromJSON(eventData);
-  }
-
-  processOBJ(content: any, name: any, evDisplay: EventDisplayService) {
-    evDisplay.parseOBJGeometry(content, name);
-  }
-
-  processScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
-  }
-
-  processGLTF(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parseGLTFGeometry(content);
-  }
-
-  processPhoenixScene(content: any, name: string, evDisplay: EventDisplayService) {
-    evDisplay.parsePhoenixDisplay(content);
-  }
-
   saveScene() {
-    console.log('queloqueeee');
     this.eventDisplay.exportPhoenixDisplay();
   }
 
