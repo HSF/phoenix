@@ -231,7 +231,7 @@ export class PhoenixMenuNode {
     let prevNode: PhoenixMenuNode = this;
     name.split('>').forEach(nodeName => {
       nodeName = nodeName.trim();
-      const nodeFound = prevNode.children.find(child => child.name === name);
+      const nodeFound = prevNode.children.find(child => child.name === nodeName);
       prevNode = nodeFound ? nodeFound : prevNode.addChild(nodeName, () => { });
     });
     return prevNode;
