@@ -216,7 +216,7 @@ export class PhoenixMenuNode {
       for (const child of this.children) {
         const nodeFound = child.findInTree(name);
         if (nodeFound) {
-          return child.findInTree(name);
+          return nodeFound;
         }
       }
     }
