@@ -94,7 +94,7 @@ export class ImportManager {
     setFlat: boolean
   ): Object3D {
     object.name = name;
-    object.userData = { name, color };
+    object.userData = { name };
     return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
@@ -297,7 +297,7 @@ export class ImportManager {
   /**
    * Get the size of object.
    * @param object Object to get the size of.
-   * @returns The size of object as a vector string.
+   * @returns The size (vector) of object as a string.
    */
   private getObjectSize(object: Mesh): string {
     const size = new Vector3();
