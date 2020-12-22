@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide, Vector3, Box3 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { LoadingManager } from '../managers/loading-manager';
@@ -94,7 +94,7 @@ export class ImportManager {
     setFlat: boolean
   ): Object3D {
     object.name = name;
-    object.userData = { name };
+    object.userData = { name, color };
     return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
@@ -122,6 +122,7 @@ export class ImportManager {
       if (child instanceof Mesh) {
         child.name = object3d.name;
         child.userData = object3d.userData;
+        child.userData.size = this.getObjectSize(child);
         // Use the new material
         if (child.material instanceof Material) {
           child.material.dispose();
@@ -272,6 +273,7 @@ export class ImportManager {
     geometry.traverse((child) => {
       if (child instanceof Mesh) {
         child.name = child.userData.name = name;
+        child.userData.size = this.getObjectSize(child);
         if (child.material instanceof Material) {
           const color = child.material['color'] ? child.material['color'] : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
@@ -290,5 +292,17 @@ export class ImportManager {
         }
       }
     });
+  }
+
+  /**
+   * Get the size of object.
+   * @param object Object to get the size of.
+   * @returns The size of object as a vector string.
+   */
+  private getObjectSize(object: Mesh): string {
+    const size = new Vector3();
+    object.geometry.computeBoundingBox();
+    object.geometry?.boundingBox?.getSize(size);
+    return JSON.stringify(size, null, 2);
   }
 }
