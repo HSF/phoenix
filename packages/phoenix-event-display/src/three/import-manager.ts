@@ -1,4 +1,4 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide } from 'three';
+import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide, Vector3, Box3 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { LoadingManager } from '../managers/loading-manager';
@@ -54,7 +54,7 @@ export class ImportManager {
     const objLoader = new OBJLoader();
     return new Promise((resolve, reject) => {
       objLoader.load(filename, object => {
-        const processed = this.processOBJ(object, name, color, doubleSided, setFlat, 'OBJ file');
+        const processed = this.processOBJ(object, name, color, doubleSided, setFlat);
         callback(processed);
         resolve();
         this.loadingManager.itemLoaded(`obj_geom_${name}`);
@@ -74,14 +74,7 @@ export class ImportManager {
   public parseOBJGeometry(geometry: string, name: string): Object3D {
     const objLoader = new OBJLoader();
     const object = objLoader.parse(geometry);
-    return this.processOBJ(
-      object,
-      name,
-      0x41a6f4,
-      false,
-      false,
-      'OBJ file loaded from the client.'
-    );
+    return this.processOBJ(object, name, 0x41a6f4, false, false);
   }
 
   /**
@@ -91,7 +84,6 @@ export class ImportManager {
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
    * @param setFlat Whether object should be flat-shaded or not.
-   * @param data Data/description to be associated with the object.
    * @returns The processed object.
    */
   private processOBJ(
@@ -99,11 +91,10 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
-    setFlat: boolean,
-    data?: string
+    setFlat: boolean
   ): Object3D {
     object.name = name;
-    object.userData = { info: data };
+    object.userData = { name };
     return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
@@ -131,6 +122,7 @@ export class ImportManager {
       if (child instanceof Mesh) {
         child.name = object3d.name;
         child.userData = object3d.userData;
+        child.userData.size = this.getObjectSize(child);
         // Use the new material
         if (child.material instanceof Material) {
           child.material.dispose();
@@ -280,7 +272,8 @@ export class ImportManager {
     }
     geometry.traverse((child) => {
       if (child instanceof Mesh) {
-        child.name ? child.userData.name = child.name : child.name = child.userData.name = name;
+        child.name = child.userData.name = name;
+        child.userData.size = this.getObjectSize(child);
         if (child.material instanceof Material) {
           const color = child.material['color'] ? child.material['color'] : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
@@ -299,5 +292,17 @@ export class ImportManager {
         }
       }
     });
+  }
+
+  /**
+   * Get the size of object.
+   * @param object Object to get the size of.
+   * @returns The size (vector) of object as a string.
+   */
+  private getObjectSize(object: Mesh): string {
+    const size = new Vector3();
+    object.geometry.computeBoundingBox();
+    object.geometry?.boundingBox?.getSize(size);
+    return JSON.stringify(size, null, 2);
   }
 }
