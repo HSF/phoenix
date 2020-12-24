@@ -12,6 +12,6 @@ surge --project ./packages/phoenix-ng/docs/ --domain ${PR_DOMAIN};
 
 echo "Updating PR status"
 
-curl -H "Authorization: token ${GH_TOKEN}" --request POST ${GH_API_PR} --data '{"state": "success", "target_url": "'${PR_DOMAIN}'", "description": "Pull request deployed", "context": "CollectiveDynamicDeploy"}'
+curl -H "Authorization: token ${GH_TOKEN}" --request POST ${GH_API_PR} --data '{"state": "success", "target_url": "'${PR_DOMAIN}'", "description": "Pull request deployed", "context": "Phoenix PR Deployment"}'
 
 fi
