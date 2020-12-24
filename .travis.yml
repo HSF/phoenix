@@ -22,7 +22,7 @@ script:
   - npm run test:coverage -- --no-progress --browsers=ChromeHeadlessCI
   # Set up surge and deploy for PR
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then npm install surge --global; fi
-  - if [ "$TRAVIS_PULL_REQUEST" != false ]; then lerna run deploy:web --scope phoenix-ng; fi
+  - if [ "$TRAVIS_PULL_REQUEST" != false ]; then npm run deploy:web; fi
 
 after_success:
   - npm run coveralls
