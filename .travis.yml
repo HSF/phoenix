@@ -20,11 +20,13 @@ install:
 script:
   - cd ./packages/phoenix-ng
   - npm run test:coverage -- --no-progress --browsers=ChromeHeadlessCI
+  - cd ../..
   # Set up surge and deploy for PR
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then npm install surge --global; fi
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then npm run deploy:web; fi
-
-after_success:
-  - npm run coveralls
   # Deploy the PR to surge
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then chmod +x ./scripts/pr_deploy.sh; ./scripts/pr_deploy.sh; fi
+
+after_success:
+  - cd ./packages/phoenix-ng
+  - npm run coveralls
