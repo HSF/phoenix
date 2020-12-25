@@ -9,7 +9,8 @@
     "release:major": "lerna publish major --git-remote upstream --create-release github",
     "release:minor": "lerna publish minor --git-remote upstream --create-release github",
     "release:pre": "lerna publish prerelease --conventional-prerelease",
-    "version": "lerna run docs --scope phoenix-event-display && git add ."
+    "version": "lerna run docs --scope phoenix-event-display && git add .",
+    "deploy:web": "lerna run deploy:web --scope phoenix-ng"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
