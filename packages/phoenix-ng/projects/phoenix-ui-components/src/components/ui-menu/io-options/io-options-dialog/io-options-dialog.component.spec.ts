@@ -64,12 +64,12 @@ describe('IoOptionsDialogComponent', () => {
 
     it('should handle JiveXML event data input', async () => {
       await fetch('assets/test_data/JiveXML.xml')
-      .then(res => res.text())
-      .then(res => {
-        const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];
-        component.handleJiveXMLDataInput(files);
-        expect(component.handleFileInput).toHaveBeenCalled();
-      });
+        .then(res => res.text())
+        .then(res => {
+          const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];
+          component.handleJiveXMLDataInput(files);
+          expect(component.handleFileInput).toHaveBeenCalled();
+        });
     }, 30000);
 
     describe('handleEventDataInput sync', () => {
