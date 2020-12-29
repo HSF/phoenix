@@ -25,7 +25,7 @@
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "npm run build",
     "docs": "node scripts/gen-api-docs.js",
-    "test": "jasmine-ts --config=jasmine.json"
+    "test": "jasmine-ts --config=configs/jasmine.json"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
