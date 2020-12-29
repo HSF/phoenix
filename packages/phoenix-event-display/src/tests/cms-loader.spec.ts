@@ -1,41 +1,21 @@
+import "jasmine";
 import { CMSLoader } from '../loaders/cms-loader';
-import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
-import { AppModule } from '../../app.module';
 
 describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;
-
-  let http: HttpClient;
-  const TEST_IG_ARCHIVE = 'assets/files/cms/EventData_test.ig';
+  const TEST_IG_ARCHIVE = 'https://raw.githubusercontent.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/files/cms/EventData_test.ig';
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppModule],
-      providers: [HttpClient]
-    });
-
-    http = TestBed.get(HttpClient);
-  });
-
   it('should create CMS loader', () => {
-    cmsLoader = new CMSLoader(http);
+    cmsLoader = new CMSLoader();
     expect(cmsLoader).toBeTruthy();
   });
 
   describe('methods depending upon event data', () => {
-    beforeAll(async () => {
-      await fetch(TEST_IG_ARCHIVE).then(res => res.arrayBuffer()).then(res => {
-        spyOn(http, 'get').and.returnValue(of(res));
-      });
-    }, 30000);
-
     beforeEach(() => {
-      cmsLoader = new CMSLoader(http);
+      cmsLoader = new CMSLoader();
     });
 
     it('should read .ig archive without event path', (done) => {
