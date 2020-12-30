@@ -8,6 +8,6 @@
     }
   ],
   "spec_dir": "./src/tests",
-  "spec_files": ["**/*cms-loader.[sS]pec.ts"],
+  "spec_files": ["**/*[sS]pec.ts"],
   "random": false
 }

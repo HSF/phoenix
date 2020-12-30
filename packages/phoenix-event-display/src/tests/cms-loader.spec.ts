@@ -1,4 +1,3 @@
-import "jasmine";
 import { CMSLoader } from '../loaders/cms-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 
