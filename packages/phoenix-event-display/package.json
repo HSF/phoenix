@@ -25,7 +25,7 @@
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "npm run build",
     "docs": "node scripts/gen-api-docs.js",
-    "test": "jasmine-ts --config=configs/jasmine.json"
+    "test": "karma start"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
@@ -37,12 +37,13 @@
   "devDependencies": {
     "@types/jasmine": "^3.6.2",
     "@types/node": "^14.6.2",
-    "codelyzer": "^6.0.0",
-    "jasmine": "^3.6.3",
-    "jasmine-spec-reporter": "^6.0.0",
-    "jasmine-ts": "^0.3.0",
+    "jasmine-core": "^3.6.0",
+    "karma": "^5.2.3",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-cli": "^2.0.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-typescript": "^5.2.0",
     "rollup": "^2.26.10",
-    "ts-node": "^8.10.2",
     "tslint": "~6.1.3",
     "typescript": "^4.0.2"
   }
