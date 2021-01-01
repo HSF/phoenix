@@ -1,15 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { InfoLogger } from "../info-logger";
 
-import { InfoLoggerService } from '../infologger.service';
-import { AppModule } from '../../app.module';
 
 describe('InfoLoggerService', () => {
 
-  let infoLogger: InfoLoggerService;
+  let infoLogger: InfoLogger;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [AppModule] });
-    infoLogger = TestBed.inject(InfoLoggerService);
+    infoLogger = new InfoLogger();
   });
 
   it('should be created', () => {
