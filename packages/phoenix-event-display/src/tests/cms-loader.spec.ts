@@ -13,23 +13,30 @@ describe('CMSLoader', () => {
   });
 
   describe('methods depending upon event data', () => {
-    beforeEach(() => {
-      cmsLoader = new CMSLoader();
-    });
-
-    it('should read .ig archive without event path', (done) => {
-      cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
-        expect(allEvents).toBeTruthy();
+    beforeAll((done) => {
+      fetch(TEST_IG_ARCHIVE).then(res => {
+        const arrayBufferData = res.arrayBuffer();
+        spyOn(res, 'arrayBuffer').and.returnValue(Promise.resolve(arrayBufferData));
+        spyOn(window, 'fetch').and.returnValue(Promise.resolve(res));
         done();
       });
     }, TEST_IG_ARCHIVE_TIMEOUT);
 
-    it('should read .ig archive with event path', (done) => {
+    beforeEach(() => {
+      cmsLoader = new CMSLoader();
+    });
+
+    it('should read .ig archive without event path', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         expect(allEvents).toBeTruthy();
-        done();
+      });
+    });
+
+    it('should read .ig archive with event path', () => {
+      cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
+        expect(allEvents).toBeTruthy();
       }, TEST_EVENT_PATH);
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
     it('should load event data from .ig', () => {
       spyOn(cmsLoader, 'readIgArchive').and.callThrough();
@@ -37,26 +44,24 @@ describe('CMSLoader', () => {
       expect(cmsLoader.readIgArchive).toHaveBeenCalled();
     });
 
-    it('should get all events data', (done) => {
+    it('should get all events data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         const allEventsInPhnx = cmsLoader.getAllEventsData(allEvents);
         expect(allEventsInPhnx).toBeDefined();
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should apply max cut to event data', (done) => {
+    it('should apply max cut to event data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         const objectCollections = (cmsLoader as any).getObjectCollections(['PFJets_V1'], (object: any) => { }, [
           { attribute: 'et', max: 1 }
         ]);
         expect(objectCollections).toBeDefined();
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should load object types specific to CMS (MuonChambers)', (done) => {
+    it('should load object types specific to CMS (MuonChambers)', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         const eventData = cmsLoader.getEventData();
@@ -69,11 +74,10 @@ describe('CMSLoader', () => {
 
         eventData.MuonChambers = undefined;
         (cmsLoader as any).loadObjectTypes(eventData);
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should get event metadata', (done) => {
+    it('should get event metadata', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         (PhoenixLoader.prototype as any).eventData = cmsLoader.getEventData();
@@ -82,10 +86,8 @@ describe('CMSLoader', () => {
         // Removing "Orbit" metadata - this.data['Collections']['Event_V2'][0][3]
         (cmsLoader as any).data['Collections']['Event_V2'][0][3] = undefined;
         expect(cmsLoader.getEventMetadata().length).toBeGreaterThan(0);
-
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
   });
 
 });
