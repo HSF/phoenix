@@ -133,21 +133,21 @@ describe('EventDisplay', () => {
 
       spyOn(three, 'clearEventData').and.stub();
       spyOn(eventDisplayPrivate, 'loadSceneConfiguration').and.callThrough();
-      const parseGLTFGeomSpy = spyOn(three, 'parseGLTFGeometry').and.stub();
+      const parsePhnxSceneSpy = spyOn(three, 'parsePhnxScene').and.stub();
 
       eventDisplay.parsePhoenixDisplay(TEST_PHNX_INPUT);
 
       expect(three.clearEventData).toHaveBeenCalled();
       expect(eventDisplayPrivate.loadSceneConfiguration).toHaveBeenCalled();
-      expect(three.parseGLTFGeometry).toHaveBeenCalled();
+      expect(three.parsePhnxScene).toHaveBeenCalled();
 
-      parseGLTFGeomSpy.calls.reset();
+      parsePhnxSceneSpy.calls.reset();
 
       eventDisplay.parsePhoenixDisplay(JSON.stringify({
         "sceneConfiguration": undefined
       }));
 
-      expect(three.parseGLTFGeometry).toHaveBeenCalledTimes(0);
+      expect(three.parsePhnxScene).toHaveBeenCalledTimes(0);
     });
 
     it('should load glTF geometry through three and ui service', () => {
@@ -170,7 +170,8 @@ describe('EventDisplay', () => {
       expect(ui.addGeometry).toHaveBeenCalled();
     });
 
-    it('should load ROOT geometries', (done) => {
+    // Skipping this spec because we are not currently serving JSROOT files in tests
+    xit('should load ROOT geometries', (done) => {
       ScriptLoader.loadJSRootScripts((JSROOT) => {
 
         // Calling JSROOT functions through does not cover their code for some reason so not using a spy
