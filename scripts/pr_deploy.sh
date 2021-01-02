@@ -25,6 +25,11 @@ else
 PR_DOMAIN=http://phoenix-pr-${TRAVIS_PULL_REQUEST}.surge.sh
 GH_API_PR=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/statuses/${TRAVIS_PULL_REQUEST_SHA}
 
+echo "Setting up surge"
+
+npm install surge --global
+npm run deploy:web
+
 echo "Deploying PR to surge"
 
 surge --project ./packages/phoenix-ng/docs/ --domain ${PR_DOMAIN};

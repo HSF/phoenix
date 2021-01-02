@@ -7,11 +7,6 @@ describe('CMSLoader', () => {
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
-  it('should create CMS loader', () => {
-    cmsLoader = new CMSLoader();
-    expect(cmsLoader).toBeTruthy();
-  });
-
   describe('methods depending upon event data', () => {
     beforeAll((done) => {
       fetch(TEST_IG_ARCHIVE).then(res => {
