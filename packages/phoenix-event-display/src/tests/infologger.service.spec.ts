@@ -1,8 +1,7 @@
 import { InfoLogger } from "../info-logger";
 
 
-describe('InfoLoggerService', () => {
-
+describe('InfoLogger', () => {
   let infoLogger: InfoLogger;
 
   beforeEach(() => {

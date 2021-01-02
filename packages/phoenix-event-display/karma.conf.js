@@ -2,8 +2,12 @@ module.exports = function (config) {
   config.set({
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
-      { pattern: 'src/**/*.ts' }
+      { pattern: 'src/**/*.ts' },
+      { pattern: 'src/assets/**/*', watched: false, included: false, served: true }
     ],
+    proxies: {
+      '/assets/': '/base/src/assets/'
+    },
     preprocessors: {
       '**/*.ts': ['karma-typescript']
     },
