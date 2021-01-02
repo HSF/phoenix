@@ -18,7 +18,7 @@ install:
   - npm run install:dependencies
 
 script:
-  - npm run test:coverage -- --no-progress --browsers=ChromeHeadlessCI
+  - npm run test:coverage
   # Set up surge and deploy for PR
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then chmod +x ./scripts/pr_deploy.sh; ./scripts/pr_deploy.sh; fi
 
