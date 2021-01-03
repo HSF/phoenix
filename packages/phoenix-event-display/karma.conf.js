@@ -16,6 +16,12 @@ module.exports = function (config) {
     singleRun: true,
     karmaTypescriptConfig: {
       include: ['src'],
+      reports: {
+        html: {
+          directory: 'coverage',
+          subdirectory: 'phoenix-event-display'
+        }
+      },
       compilerOptions: {
         module: 'commonjs',
         esModuleInterop: true
