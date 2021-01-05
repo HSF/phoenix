@@ -1,25 +1,20 @@
-import { TestBed } from '@angular/core/testing';
-
-import { UIService } from '../ui.service';
-import { ThreeService } from '../three.service';
+import { UIManager } from '../ui';
+import { ThreeManager } from '../three';
 import { Configuration } from '../extras/configuration';
-import { PhoenixMenuNode } from '../../components/phoenix-menu/phoenix-menu-node/phoenix-menu-node';
+import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
 import { PresetView } from '../extras/preset-view.model';
+import { InfoLogger } from '../info-logger';
 
-describe('UIService', () => {
+describe('UIManager', () => {
 
-  let ui: UIService;
+  let ui: UIManager;
   let uiPrivate: any;
-  let three: ThreeService;
+  let three: ThreeManager;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [ThreeService]
-    });
-
-    ui = TestBed.inject(UIService);
+    three = new ThreeManager(new InfoLogger());
+    ui = new UIManager(three);
     uiPrivate = (ui as any);
-    three = TestBed.get(ThreeService);
   });
 
   it('should be created', () => {
@@ -32,11 +27,11 @@ describe('UIService', () => {
         enableDatGUIMenu: true,
         phoenixMenuRoot: new PhoenixMenuNode('Root Phoenix Menu')
       };
-      ui.showUI(configuration);
+      ui.init(configuration);
     });
 
     it('should cover if no menu given', () => {
-      ui.showUI({});
+      ui.init({});
     });
 
     it('should show stats and dat.GUI menu', () => {
