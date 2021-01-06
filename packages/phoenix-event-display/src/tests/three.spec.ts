@@ -29,7 +29,10 @@ describe('ThreeManager', () => {
       expect(threePrivate.exportManager).toBeDefined();
       expect(threePrivate.importManager).toBeDefined();
       expect(threePrivate.rendererManager).toBeDefined();
-      expect(threePrivate.controlsManager).toBeDefined();
+      expect(threePrivate.effectsManager).toBeDefined();
+      expect(threePrivate.animationsManager).toBeDefined();
+      expect(threePrivate.vrManager).toBeDefined();
+      expect(threePrivate.selectionManager).toBeDefined();
       expect(threePrivate.infoLogger).toBeDefined();
     });
 
@@ -138,9 +141,9 @@ describe('ThreeManager', () => {
 
       await fetch(OBJ_FILE).then(res => res.text())
         .then(res => {
-          const goemetry = threePrivate.importManager.parseOBJGeometry(res, 'Test JSON');
+          const geometry = threePrivate.importManager.parseOBJGeometry(res, 'Test JSON');
 
-          three.loadJSONGeometry(goemetry.toJSON(), 'Test JSON', 1, true);
+          three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
           expect(threePrivate.importManager.loadJSONGeometry).toHaveBeenCalled();
         });
     });
