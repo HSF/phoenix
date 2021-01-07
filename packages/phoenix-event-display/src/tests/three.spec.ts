@@ -117,35 +117,32 @@ describe('ThreeManager', () => {
     });
 
     it('should parse OBJ geometry', async () => {
-      await fetch(OBJ_FILE).then(res => res.text())
-        .then(res => {
-          spyOn(threePrivate.importManager, 'parseOBJGeometry').and.callThrough();
+      (await fetch(OBJ_FILE)).text().then(res => {
+        spyOn(threePrivate.importManager, 'parseOBJGeometry').and.callThrough();
 
-          three.parseOBJGeometry(res, 'Test OBJ');
-          expect(threePrivate.importManager.parseOBJGeometry).toHaveBeenCalled();
-        });
+        three.parseOBJGeometry(res, 'Test OBJ');
+        expect(threePrivate.importManager.parseOBJGeometry).toHaveBeenCalled();
+      });
     });
 
     it('should parse glTF geometry', async () => {
-      await fetch(GLTF_FILE).then(res => res.json())
-        .then(res => {
-          spyOn(threePrivate.importManager, 'parseGLTFGeometry').and.callThrough();
+      (await fetch(GLTF_FILE)).json().then(res => {
+        spyOn(threePrivate.importManager, 'parseGLTFGeometry').and.callThrough();
 
-          three.parseGLTFGeometry(res, 'TEST_GLTF_FILE');
-          expect(threePrivate.importManager.parseGLTFGeometry).toHaveBeenCalled();
-        });
+        three.parseGLTFGeometry(res, 'TEST_GLTF_FILE');
+        expect(threePrivate.importManager.parseGLTFGeometry).toHaveBeenCalled();
+      });
     });
 
     it('should load JSON geometry', async () => {
       spyOn(threePrivate.importManager, 'loadJSONGeometry').and.callThrough();
 
-      await fetch(OBJ_FILE).then(res => res.text())
-        .then(res => {
-          const geometry = threePrivate.importManager.parseOBJGeometry(res, 'Test JSON');
+      (await fetch(OBJ_FILE)).text().then(res => {
+        const geometry = threePrivate.importManager.parseOBJGeometry(res, 'Test JSON');
 
-          three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
-          expect(threePrivate.importManager.loadJSONGeometry).toHaveBeenCalled();
-        });
+        three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
+        expect(threePrivate.importManager.loadJSONGeometry).toHaveBeenCalled();
+      });
     });
 
     it('should export scene', () => {
