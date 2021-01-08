@@ -13,7 +13,7 @@ if (!fs.existsSync('package.json')) {
 const DOCS_NAME = 'Phoenix API Docs';
 
 // Run from project directory containing package.json
-const COMPODOC_GEN = 'compodoc -p compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ../../docs/api-docs';
+const COMPODOC_GEN = 'compodoc -p configs/compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ../../docs/api-docs';
 
 console.log('Running command: %s', COMPODOC_GEN);
 

@@ -5,7 +5,7 @@ declare const JSROOT: any;
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
-  const TEST_ROOT_FILE = 'assets/files/root/tracks_hits.root';
+  const TEST_ROOT_FILE = 'assets/test_files/tracks_hits.root';
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
   beforeAll((done) => {

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "lerna run start",
+    "test:coverage": "lerna run test:coverage",
     "install:dependencies": "lerna bootstrap",
     "release": "lerna publish --git-remote upstream --create-release github",
     "release:graduate": "lerna publish --git-remote upstream --create-release github --conventional-graduate",

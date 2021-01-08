@@ -1,7 +1,6 @@
 import { AnimationsManager } from "../../three/animations-manager";
 import { Scene, Camera, Object3D } from "three";
 import { RendererManager } from "../../three/renderer-manager";
-import { fakeAsync } from "@angular/core/testing";
 import { SceneManager } from "../../three/scene-manager";
 
 describe('AnimationsManager', () => {
@@ -45,9 +44,7 @@ describe('AnimationsManager', () => {
 
     it('should animate clipping with collision', () => {
       spyOn(animationsManager, 'collideParticles').and.callThrough();
-
       animationsManager.animateClippingWithCollision(5000, () => {});
-
       expect(animationsManager.collideParticles).toHaveBeenCalled();
     });
   });
