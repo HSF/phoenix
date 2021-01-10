@@ -25,7 +25,7 @@
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "npm run build",
     "docs": "node scripts/gen-api-docs.js",
-    "test": "karma start",
+    "test": "karma start configs/karma.conf.js",
     "test:coverage": "npm run test"
   },
   "dependencies": {
