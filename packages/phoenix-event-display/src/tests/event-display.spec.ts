@@ -297,5 +297,21 @@ describe('EventDisplay', () => {
       eventDisplay.highlightObject('test_uuid');
       expect(three.highlightObject).toHaveBeenCalled();
     });
+
+    it('should animate through the event', () => {
+      spyOn(eventDisplay.getThreeManager(), 'animateThroughEvent').and.callThrough();
+
+      eventDisplay.animateThroughEvent([0, 0, 0], 100, () => { });
+      eventDisplay.animateThroughEvent([0, 0, 0], 100);
+      expect(eventDisplay.getThreeManager().animateThroughEvent).toHaveBeenCalledTimes(2);
+    });
+
+    it('should animate event with collision', () => {
+      spyOn(eventDisplay.getThreeManager(), 'animateEventWithCollision').and.stub();
+
+      eventDisplay.animateEventWithCollision(100, () => { });
+      eventDisplay.animateEventWithCollision(100);
+      expect(eventDisplay.getThreeManager().animateEventWithCollision).toHaveBeenCalledTimes(2);
+    });
   });
 });
