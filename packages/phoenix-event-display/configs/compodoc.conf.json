@@ -1,10 +1,10 @@
 {
   "include": [
-    "./src/**/*.ts"
+    "../src/**/*.ts"
   ],
   "exclude": [
-    "**/*.spec.ts",
-    "**/*test.ts",
-    "**/*.d.ts"
+    "../**/*.spec.ts",
+    "../**/*test.ts",
+    "../**/*.d.ts"
   ]
 }
