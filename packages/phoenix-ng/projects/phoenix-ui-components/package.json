@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ui-components",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Reusable Angular components of the Phoenix event display application.",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",

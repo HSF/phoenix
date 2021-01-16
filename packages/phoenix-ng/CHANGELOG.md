@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/HSF/phoenix/compare/v1.2.0...v1.3.0) (2021-01-16)
+
+
+### Bug Fixes
+
+* **app:** improve IO code ([a09be14](https://github.com/HSF/phoenix/commit/a09be1491f1357bd3c5925d6f6bba7d101dd6e94))
+* **app:** make import words consistent ([08e771d](https://github.com/HSF/phoenix/commit/08e771d4bb76873ed6931f8aee485925c7f34889))
+* **app:** minor test improvements ([8a0d5cf](https://github.com/HSF/phoenix/commit/8a0d5cf26ad06302ae7d6879863aad8dcd17e0ba))
+* **app:** upgrade to ngx-slider ([6c9b928](https://github.com/HSF/phoenix/commit/6c9b9282fbb1832105dbbd1b54255b9f542ce859))
+* **event-display:** code improvements ([f94c0e4](https://github.com/HSF/phoenix/commit/f94c0e40384ee95f22ba1a92938cf124a6d89a31))
+* **event-display:** fix parsing of GLTF geometry ([dc5d489](https://github.com/HSF/phoenix/commit/dc5d489fd2b2730b9d235851c09baf86d88325d3))
+
+
+### Features
+
+* **app:** restyle IO options ([1542808](https://github.com/HSF/phoenix/commit/15428081d748d8e8f548c6d76ef46358d28c82be))
+* **app:** support for importing ROOT geometry ([89adb25](https://github.com/HSF/phoenix/commit/89adb258182bf27a22748ddd14a3880de9a89af3))
+
+
+
+
+
+
 # [1.2.0](https://github.com/9inpachi/phoenix/compare/v1.1.0...v1.2.0) (2020-12-06)
 
 
