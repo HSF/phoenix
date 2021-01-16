@@ -1,0 +1,353 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>CMSObjects</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/objects/cms-objects.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Physics objects that make up an event in CMS that are not a part of <a href="../classes/PhoenixObjects.html">PhoenixObjects</a>.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#getMuonChamber">getMuonChamber</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMuonChamber"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getMuonChamber
+                        </b>
+                        <a href="#getMuonChamber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMuonChamber(muonChamberParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/loaders/objects/cms-objects.ts:14</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Muon Chamber from the given parameters.
+and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>muonChamberParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Muon Chamber.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Muon Chamber object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from &quot;three&quot;;
+import { EVENT_DATA_TYPE_COLORS } from &quot;../../helpers/constants&quot;;
+
+/**
+ * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
+ */
+export class CMSObjects {
+  /**
+   * Process the Muon Chamber from the given parameters.
+   * and get it as a geometry.
+   * @param muonChamberParams Parameters of the Muon Chamber.
+   * @returns Muon Chamber object.
+   */
+  public static getMuonChamber(muonChamberParams: any): Object3D {
+    let faces &#x3D; [];
+    let backs &#x3D; [];
+
+    for (const param of Object.keys(muonChamberParams)) {
+      if (param.startsWith(&#x27;front&#x27;)) {
+        faces.push(
+          new Vector3().fromArray(muonChamberParams[param])
+        );
+      } else if (param.startsWith(&#x27;back&#x27;)) {
+        backs.push(
+          new Vector3().fromArray(muonChamberParams[param])
+        );
+      }
+    }
+
+    let box &#x3D; new Geometry();
+    box.vertices &#x3D; faces.concat(backs);
+
+    // front
+    box.faces.push(new Face3(0, 1, 2));
+    box.faces.push(new Face3(2, 3, 0));
+
+    // back
+    box.faces.push(new Face3(4, 5, 6));
+    box.faces.push(new Face3(6, 7, 4));
+
+    // top
+    box.faces.push(new Face3(4, 5, 1));
+    box.faces.push(new Face3(1, 0, 4));
+
+    // bottom
+    box.faces.push(new Face3(7, 6, 2));
+    box.faces.push(new Face3(2, 3, 7));
+
+    // left
+    box.faces.push(new Face3(0, 3, 7));
+    box.faces.push(new Face3(7, 4, 0));
+
+    // right
+    box.faces.push(new Face3(1, 5, 6));
+    box.faces.push(new Face3(6, 2, 1));
+
+    box.computeFaceNormals();
+    box.computeVertexNormals();
+
+    const boxBuffer &#x3D; new BufferGeometry().fromGeometry(box);
+
+    const boxObject &#x3D; new Mesh(boxBuffer, new MeshBasicMaterial({
+      color: EVENT_DATA_TYPE_COLORS[&#x27;MuonChambers&#x27;],
+      transparent: true,
+      opacity: 0.1,
+      side: DoubleSide
+    }));
+
+    boxObject.userData &#x3D; Object.assign({}, muonChamberParams);
+    boxObject.name &#x3D; &#x27;MuonChamber&#x27;;
+
+    // These are the lines along the box edges
+
+    const boxEdges &#x3D; new EdgesGeometry(boxBuffer);
+    const lineBoxObject &#x3D; new LineSegments(boxEdges, new LineBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.7
+    }));
+
+    const muonChamber &#x3D; new Group();
+    muonChamber.add(boxObject);
+    muonChamber.add(lineBoxObject);
+
+    muonChamberParams.uuid &#x3D; boxObject.uuid;
+
+    return muonChamber;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'CMSObjects.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

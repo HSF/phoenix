@@ -1,0 +1,468 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>ScriptLoader</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/loaders/script-loader.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Script loader for dynamically loading external scripts.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#loadJSRootScripts">loadJSRootScripts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#loadScript">loadScript</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadJSRootScripts"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            loadJSRootScripts
+                        </b>
+                        <a href="#loadJSRootScripts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadJSRootScripts(onScriptsLoaded: (JSROOT: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">src/loaders/script-loader.ts:15</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Synchronously load all JSRoot scripts. ONLY CALL ONCE.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>onScriptsLoaded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback when all the JSRoot scripts have loaded.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadScript"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            loadScript
+                        </b>
+                        <a href="#loadScript"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadScript(scriptURL: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scriptFor?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, parentElement: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">src/loaders/script-loader.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Load a script dynamically from a URL.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scriptURL</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>URL of the script to be loaded.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scriptFor</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Optional data attribute to identify what the script is for. <code>[data-scriptFor]</code></p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parentElement</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>document.getElementsByTagName(&#x27;head&#x27;)[0]</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Parent element to which the script is to be appended.
+Defaults to <code>&lt;head&gt;</code> tag.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for the script load.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoadingManager } from &quot;../managers/loading-manager&quot;;
+
+/** Global JSROOT variable for accessing functions after loading JSRoot scripts. */
+declare const JSROOT: any;
+
+/**
+ * Script loader for dynamically loading external scripts.
+ */
+export class ScriptLoader {
+
+  /**
+   * Synchronously load all JSRoot scripts. ONLY CALL ONCE.
+   * @param onScriptsLoaded Callback when all the JSRoot scripts have loaded.
+   */
+  public static loadJSRootScripts(onScriptsLoaded: (JSROOT: any) &#x3D;&gt; void) {
+    const loadingManager &#x3D; new LoadingManager();
+    loadingManager.addLoadableItem(&#x27;jsroot_scripts&#x27;);
+    (async () &#x3D;&gt; {
+      const allScripts &#x3D; [
+        &#x27;JSRootCore.js&#x27;, &#x27;three.min.js&#x27;, &#x27;three.extra.min.js&#x27;,
+        &#x27;ThreeCSG.js&#x27;, &#x27;d3.min.js&#x27;, &#x27;JSRootPainter.js&#x27;, &#x27;JSRoot3DPainter.js&#x27;,
+        &#x27;JSRootGeoBase.js&#x27;, &#x27;JSRootGeoPainter.js&#x27;
+      ];
+      for (const script of allScripts) {
+        await ScriptLoader.loadScript(&#x27;assets/jsroot/&#x27; + script, &#x27;JSROOT&#x27;);
+      }
+      onScriptsLoaded(JSROOT);
+      loadingManager.itemLoaded(&#x27;jsroot_scripts&#x27;);
+    })();
+  }
+
+  /**
+   * Load a script dynamically from a URL.
+   * @param scriptURL URL of the script to be loaded.
+   * @param scriptFor Optional data attribute to identify what the script is for. &#x60;[data-scriptFor]&#x60;
+   * @param parentElement Parent element to which the script is to be appended.
+   * Defaults to &#x60;&lt;head&gt;&#x60; tag.
+   * @returns Promise for the script load.
+   */
+  public static loadScript(scriptURL: string, scriptFor?: string,
+    parentElement: HTMLElement &#x3D; document.getElementsByTagName(&#x27;head&#x27;)[0]): Promise&lt;any&gt; {
+    const loadingManager &#x3D; new LoadingManager();
+    loadingManager.addLoadableItem(&#x27;single_script&#x27;);
+    return new Promise&lt;any&gt;((resolve, reject) &#x3D;&gt; {
+      const scriptExists &#x3D; document
+        .querySelectorAll&lt;HTMLScriptElement&gt;(&#x27;script[src&#x3D;&quot;&#x27; + scriptURL + &#x27;&quot;]&#x27;);
+      // If no script exists - add one
+      if (scriptExists.length &#x3D;&#x3D;&#x3D; 0) {
+        const scriptElement &#x3D; document.createElement(&#x27;script&#x27;);
+        scriptElement.type &#x3D; &#x27;text/javascript&#x27;;
+        scriptElement.src &#x3D; scriptURL;
+        if (scriptFor) {
+          scriptElement.setAttribute(&#x27;data-scriptfor&#x27;, scriptFor);
+        }
+        scriptElement.addEventListener(&#x27;load&#x27;, () &#x3D;&gt; {
+          scriptElement.setAttribute(&#x27;data-loaded&#x27;, &#x27;true&#x27;);
+          resolve();
+          loadingManager.itemLoaded(&#x27;single_script&#x27;);
+        });
+        scriptElement.onerror &#x3D; (event) &#x3D;&gt; {
+          console.error(&#x27;ERROR LOADING SCRIPT: &#x27;, event);
+          reject();
+          loadingManager.itemLoaded(&#x27;single_script&#x27;);
+        }
+        parentElement.appendChild(scriptElement);
+      } else {
+        // If script has already loaded then resolve else wait for it to load
+        if (scriptExists[0].dataset.loaded &#x3D;&#x3D;&#x3D; &#x27;true&#x27;) {
+          resolve();
+          loadingManager.itemLoaded(&#x27;single_script&#x27;);
+        } else {
+          scriptExists[0].addEventListener(&#x27;load&#x27;, () &#x3D;&gt; {
+            resolve();
+            loadingManager.itemLoaded(&#x27;single_script&#x27;);
+          });
+        }
+      }
+    });
+  }
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'ScriptLoader.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
