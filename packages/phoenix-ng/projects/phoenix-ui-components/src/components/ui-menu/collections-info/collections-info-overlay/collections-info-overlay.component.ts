@@ -48,4 +48,9 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     }
   }
 
+  addLabel(index: number) {
+    const value = (document.getElementById(`label${index}`) as HTMLInputElement)?.value;
+    console.log(`Added label ${value}`);
+  }
+
 }

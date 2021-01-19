@@ -21,6 +21,7 @@
           <tr>
             <th>No.</th>
             <th>Selection</th>
+            <th>Label</th>
             <th *ngFor="let column of collectionColumns">{{column}}</th>
           </tr>
         </thead>
@@ -30,17 +31,29 @@
             <td>#{{i}}</td>
             <td>
               <div *ngIf="object.uuid" class="row justify-content-center object-select-wrapper">
-                <div class="object-select" matTooltip="Move camera to object"
-                  (click)="lookAtObject(object.uuid)">
+                <div class="object-select" matTooltip="Move camera to object" (click)="lookAtObject(object.uuid)">
                   <svg>
                     <use href="assets/icons/views.svg#views"></use>
                   </svg>
                 </div>
-                <div class="object-select" matTooltip="Highlight object"
-                  (click)="highlightObject(object.uuid)">
+                <div class="object-select" matTooltip="Highlight object" (click)="highlightObject(object.uuid)">
                   <svg>
                     <use href="assets/icons/cursor.svg#cursor"></use>
                   </svg>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row add-label">
+                <div class="col-10">
+                  <input class="form-control form-control-sm" type="text" [id]="'label' + i" />
+                </div>
+                <div class="col-2">
+                  <div class="object-select" matTooltip="Highlight object" (click)="highlightObject(object.uuid)">
+                    <svg>
+                      <use href="assets/icons/add.svg"></use>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </td>
