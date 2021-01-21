@@ -532,7 +532,11 @@ export class ThreeManager {
    */
   public enableKeyboardControls() {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.shiftKey) {
+      const isTyping = ['input', 'textarea'].includes(
+        (e.target as HTMLElement)?.tagName.toLowerCase()
+      );
+
+      if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
             this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
