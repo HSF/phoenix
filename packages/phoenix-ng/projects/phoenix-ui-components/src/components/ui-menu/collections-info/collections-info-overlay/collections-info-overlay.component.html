@@ -44,14 +44,14 @@
               </div>
             </td>
             <td>
-              <div class="row add-label">
-                <div class="col-10">
+              <div class="row m-0 add-label">
+                <div class="p-0 col-10">
                   <input class="form-control form-control-sm" type="text" [id]="'label' + i" />
                 </div>
-                <div class="col-2">
-                  <div class="object-select" matTooltip="Highlight object" (click)="highlightObject(object.uuid)">
+                <div class="p-0 pl-2 text-center col-2">
+                  <div class="object-select" matTooltip="Add label to object" (click)="addLabel(i)">
                     <svg>
-                      <use href="assets/icons/add.svg"></use>
+                      <use href="assets/icons/add-icon.svg#add-icon"></use>
                     </svg>
                   </div>
                 </div>

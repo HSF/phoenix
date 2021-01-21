@@ -21,7 +21,12 @@
   }
 
   .add-label {
-    width: 100px;
+    min-width: 8rem;
+
+    input {
+      padding: 0.1rem 0.3rem;
+      font-size: 0.75rem;
+    }
   }
 }
 
