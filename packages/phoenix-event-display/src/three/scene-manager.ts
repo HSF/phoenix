@@ -421,4 +421,8 @@ export class SceneManager {
       }
     });
   }
+
+  public addLabelToObject(uuid: string) {
+    this.scene.getObjectByProperty('uuid', uuid);
+  }
 }

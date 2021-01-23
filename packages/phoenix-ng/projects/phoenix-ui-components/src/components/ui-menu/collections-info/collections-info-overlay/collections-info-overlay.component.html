@@ -30,7 +30,7 @@
             [ngClass]="{'active-object': activeObject && activeObject.uuid === object.uuid}">
             <td>#{{i}}</td>
             <td>
-              <div *ngIf="object.uuid" class="row justify-content-center object-select-wrapper">
+              <div *ngIf="object.uuid" class="row justify-content-center icon-wrapper">
                 <div class="object-select" matTooltip="Move camera to object" (click)="lookAtObject(object.uuid)">
                   <svg>
                     <use href="assets/icons/views.svg#views"></use>
@@ -45,10 +45,10 @@
             </td>
             <td>
               <div class="row m-0 add-label">
-                <div class="p-0 col-10">
+                <div class="col-10 p-0">
                   <input class="form-control form-control-sm" type="text" [id]="'label' + i" />
                 </div>
-                <div class="p-0 pl-2 text-center col-2">
+                <div class="col-2 p-0 pl-2 text-center icon-wrapper">
                   <div class="object-select" matTooltip="Add label to object" (click)="addLabel(i)">
                     <svg>
                       <use href="assets/icons/add-icon.svg#add-icon"></use>
