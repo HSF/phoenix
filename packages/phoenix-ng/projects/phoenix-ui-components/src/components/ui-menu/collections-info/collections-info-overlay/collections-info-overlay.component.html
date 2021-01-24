@@ -49,7 +49,7 @@
                   <input class="form-control form-control-sm" type="text" [id]="'label' + i" />
                 </div>
                 <div class="col-2 p-0 pl-2 text-center icon-wrapper">
-                  <div class="object-select" matTooltip="Add label to object" (click)="addLabel(i)">
+                  <div class="object-select" matTooltip="Add label to object" (click)="addLabel(i, object.uuid)">
                     <svg>
                       <use href="assets/icons/add-icon.svg#add-icon"></use>
                     </svg>

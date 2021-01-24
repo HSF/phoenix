@@ -267,7 +267,7 @@ export class ControlsManager {
   public lookAtObject(uuid: string, objectsGroup: Object3D) {
     const origin = new Vector3(0, 0, 0);
 
-    const object = objectsGroup.getObjectByProperty('uuid', uuid);
+    const object = objectsGroup.getObjectByProperty('uuid', uuid) as any;
     if (object) {
       let objectPosition = new Vector3();
       if (object instanceof Group) {

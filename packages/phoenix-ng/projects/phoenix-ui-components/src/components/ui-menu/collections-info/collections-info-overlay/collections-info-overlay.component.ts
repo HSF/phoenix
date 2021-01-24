@@ -49,10 +49,10 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     }
   }
 
-  addLabel(index: number) {
-    const value = this.elementRef.nativeElement.querySelector(`#label${index}`).value;
-    if (value && this.selectedCollection) {
-      console.log(`Added label: ${this.selectedCollection} ${index} ${value}`);
+  addLabel(index: number, uuid: string) {
+    const labelValue = this.elementRef.nativeElement.querySelector(`#label${index}`).value;
+    if (labelValue && this.selectedCollection) {
+      this.eventDisplay.addLabelToObject(labelValue, this.selectedCollection, index, uuid);
     }
   }
 

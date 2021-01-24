@@ -422,7 +422,12 @@ export class SceneManager {
     });
   }
 
-  public addLabelToObject(uuid: string) {
+  /**
+   * Add label to the three.js object.
+   * @param label Label to add to the event object.
+   * @param uuid UUID of the three.js object.
+   */
+  public addLabelToObject(label: string, uuid: string) {
     this.scene.getObjectByProperty('uuid', uuid);
   }
 }

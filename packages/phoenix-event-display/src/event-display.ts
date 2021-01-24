@@ -624,4 +624,16 @@ export class EventDisplay {
       loadConfig();
     }
   }
+
+  /**
+   * Add label to object and save the configuration.
+   * @param label Label to add to the event object.
+   * @param collection Collection the event object is a part of.
+   * @param indexInCollection Event object's index in collection.
+   * @param uuid UUID of the three.js object.
+   */
+  public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
+    this.configuration.eventDataLoader.addLabelOfEventObject(label, collection, indexInCollection);
+    this.graphicsLibrary.getSceneManager().addLabelToObject(label, uuid);
+  }
 }
