@@ -428,6 +428,7 @@ export class SceneManager {
    * @param uuid UUID of the three.js object.
    */
   public addLabelToObject(label: string, uuid: string) {
-    this.scene.getObjectByProperty('uuid', uuid);
+    const object = this.scene.getObjectByProperty('uuid', uuid);
+    object.userData.label = label;
   }
 }

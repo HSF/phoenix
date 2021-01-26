@@ -22,7 +22,7 @@ export class PhoenixLoader implements EventDataLoader {
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
   /** Object containing event object labels. */
-  protected labelsObject: { [key: string]: string } = {};
+  protected labelsObject: { [key: string]: any } = {};
 
   /**
    * Create the Phoenix loader.
@@ -395,7 +395,7 @@ export class PhoenixLoader implements EventDataLoader {
       }
     }
     
-    this.labelsObject[`${objectType}/${collection}/${indexInCollection}`] = label;
+    this.labelsObject[objectType][collection][indexInCollection] = label;
     console.log(this.labelsObject);
   }
 
