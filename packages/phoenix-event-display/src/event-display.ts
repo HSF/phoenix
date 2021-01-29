@@ -634,6 +634,7 @@ export class EventDisplay {
    */
   public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
     this.configuration.eventDataLoader.addLabelOfEventObject(label, collection, indexInCollection);
-    this.graphicsLibrary.getSceneManager().addLabelToObject(label, uuid);
+    const objectPosition = this.graphicsLibrary.getObjectPosition(uuid);
+    this.graphicsLibrary.getSceneManager().addLabelToObject(label, uuid, objectPosition);
   }
 }

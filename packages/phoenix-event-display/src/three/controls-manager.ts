@@ -267,9 +267,35 @@ export class ControlsManager {
   public lookAtObject(uuid: string, objectsGroup: Object3D) {
     const origin = new Vector3(0, 0, 0);
 
+    const objectPosition = this.getObjectPosition(uuid, objectsGroup);
+    if (objectPosition) {
+      // Check if the object is away from the origin
+      if (objectPosition.distanceTo(origin) > 0.001) {
+        for (const camera of this.getAllCameras()) {
+          // Moving the camera to the object's position and then zooming out
+          new TWEEN.Tween(camera.position).to({
+            x: objectPosition.x * 1.1,
+            y: objectPosition.y * 1.1,
+            z: objectPosition.z * 1.1
+          }, 200).start();
+        }
+      }
+    }
+  }
+
+  /**
+   * Get position of object from UUID.
+   * @param uuid UUID of the object.
+   * @param objectsGroup Objects group to look into for the object.
+   * @returns Position of the 3D object.
+   */
+  public getObjectPosition(uuid: string, objectsGroup: Object3D): Vector3 {
     const object = objectsGroup.getObjectByProperty('uuid', uuid) as any;
+
     if (object) {
+      const origin = new Vector3(0, 0, 0);
       let objectPosition = new Vector3();
+
       if (object instanceof Group) {
         // If it is a group of other event data we traverse through it
         object.traverse((childObject: any) => {
@@ -294,17 +320,10 @@ export class ControlsManager {
         // Get the object position for all other elements
         objectPosition = object.position;
       }
-      // Check if the object is away from the origin
-      if (objectPosition.distanceTo(origin) > 0.001) {
-        for (const camera of this.getAllCameras()) {
-          // Moving the camera to the object's position and then zooming out
-          new TWEEN.Tween(camera.position).to({
-            x: objectPosition.x * 1.1,
-            y: objectPosition.y * 1.1,
-            z: objectPosition.z * 1.1
-          }, 200).start();
-        }
-      }
+
+      return objectPosition;
+    } else {
+      return undefined;
     }
   }
 
