@@ -388,18 +388,13 @@ export class PhoenixLoader implements EventDataLoader {
    * @param indexInCollection Event object's index in collection.
    */
   public addLabelOfEventObject(label: string, collection: string, indexInCollection: number) {
-    let objectType: string;
     for (const eventDataType of Object.keys(this.eventData)) {
-      if (Object.keys(this.eventData[eventDataType]).includes(collection)) {
+      if (this.eventData[eventDataType] && Object.keys(this.eventData[eventDataType]).includes(collection)) {
         this.labelsObject[eventDataType] = this.labelsObject[eventDataType] || {};
         this.labelsObject[eventDataType][collection] = this.labelsObject[eventDataType][collection] || {};
-        objectType = eventDataType;
-      }
-    }
 
-    if (objectType) {
-      this.labelsObject[objectType][collection][indexInCollection] = label;
-      console.log(this.labelsObject);
+        this.labelsObject[eventDataType][collection][indexInCollection] = label;
+      }
     }
   }
 

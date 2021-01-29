@@ -1,5 +1,6 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, TextGeometry, FontLoader, Font } from 'three';
 import { Cut } from '../extras/cut.model';
+import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -9,6 +10,8 @@ export class SceneManager {
   public static EVENT_DATA_ID = 'EventData';
   /** Object group ID containing detector geometries. */
   public static GEOMETRIES_ID = 'Geometries';
+  /** Object group ID containing label texts. */
+  public static LABELS_ID = 'Labels';
 
   /** Three.js scene containing all the objects and event data. */
   private scene: Scene;
@@ -20,6 +23,8 @@ export class SceneManager {
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
   public cameraLight: DirectionalLight;
+  /** Font for text geometry. */
+  private textFont: Font = new Font(HelvetikerFont);
 
   /**
    * Create the scene manager.
@@ -427,8 +432,28 @@ export class SceneManager {
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
    */
-  public addLabelToObject(label: string, uuid: string) {
+  public addLabelToObject(label: string, uuid: string, objectPosition: Vector3) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
     object.userData.label = label;
+    
+    const labelObjectName = 'label_object_' + uuid;
+    const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
+    const labelObject = this.scene.getObjectByName(labelObjectName);
+
+    if (labelObject) {
+      labelsGroup.remove(labelObject);
+    }
+
+    const textGeometry = new TextGeometry(label, {
+      font: this.textFont,
+      size: 20
+    });
+    const textMesh = new Mesh(textGeometry, new MeshBasicMaterial({
+      color: new Color('#a8a8a8')
+    }));
+    textMesh.position.fromArray(objectPosition.toArray());
+    textMesh.name = labelObjectName;
+
+    labelsGroup.add(textMesh);
   }
 }

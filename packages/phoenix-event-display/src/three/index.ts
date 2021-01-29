@@ -520,6 +520,15 @@ export class ThreeManager {
   }
 
   /**
+   * Get position of object from UUID.
+   * @param uuid UUID of the object.
+   * @returns Position of the 3D object.
+   */
+  public getObjectPosition(uuid: string): Vector3 {
+    return this.controlsManager.getObjectPosition(uuid, this.getSceneManager().getScene());
+  }
+
+  /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
    */
