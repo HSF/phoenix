@@ -25,7 +25,8 @@ module.exports = function (config) {
       },
       compilerOptions: {
         module: 'commonjs',
-        esModuleInterop: true
+        esModuleInterop: true,
+        resolveJsonModule: true
       },
       bundlerOptions: {
         transforms: [
