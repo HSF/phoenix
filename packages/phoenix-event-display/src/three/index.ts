@@ -713,4 +713,15 @@ export class ThreeManager {
 
     this.loadingManager.itemLoaded('geom_from_params');
   }
+
+  /**
+   * Add a 3D text label to label an event data object.
+   * @param label Label to add to the event object.
+   * @param uuid UUID of the three.js object.
+   */
+  public addLabelToObject(label: string, uuid: string) {
+    const cameraControls = this.controlsManager.getActiveControls();
+    const objectPosition = this.getObjectPosition(uuid);
+    this.getSceneManager().addLabelToObject(label, uuid, objectPosition, cameraControls);
+  }
 }

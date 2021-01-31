@@ -1,4 +1,5 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, TextGeometry, FontLoader, Font } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, TextGeometry, Font } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../extras/cut.model';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
@@ -25,6 +26,8 @@ export class SceneManager {
   public cameraLight: DirectionalLight;
   /** Font for text geometry. */
   private textFont: Font = new Font(HelvetikerFont);
+  /** An object containing look at camera change callbacks for labels. */
+  private labelTextLookCallbacks: { [key: string]: () => void } = {};
 
   /**
    * Create the scene manager.
@@ -431,8 +434,10 @@ export class SceneManager {
    * Add label to the three.js object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
+   * @param objectPosition Position of the object to place the label.
+   * @param cameraControls Camera controls for making the text face the camera.
    */
-  public addLabelToObject(label: string, uuid: string, objectPosition: Vector3) {
+  public addLabelToObject(label: string, uuid: string, objectPosition: Vector3, cameraControls: OrbitControls) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
     object.userData.label = label;
     
@@ -446,14 +451,24 @@ export class SceneManager {
 
     const textGeometry = new TextGeometry(label, {
       font: this.textFont,
-      size: 20
+      size: 20,
+      curveSegments: 1,
+      height: 1
     });
     const textMesh = new Mesh(textGeometry, new MeshBasicMaterial({
-      color: new Color('#a8a8a8')
+      color: new Color('#a8a8a8'),
+      flatShading: true
     }));
     textMesh.position.fromArray(objectPosition.toArray());
     textMesh.name = labelObjectName;
 
     labelsGroup.add(textMesh);
+
+    cameraControls.removeEventListener('change', this.labelTextLookCallbacks[uuid]);
+    this.labelTextLookCallbacks[uuid] = () => {
+      textMesh.lookAt(cameraControls.object.position);
+    };
+    this.labelTextLookCallbacks[uuid]();
+    cameraControls.addEventListener('change', this.labelTextLookCallbacks[uuid]);
   }
 }
