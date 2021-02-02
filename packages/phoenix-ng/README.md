@@ -30,17 +30,17 @@ From the project repository directory.
 ```sh
 ## Symlink the event display which will let us use the local version of the phoenix-event-display package
 cd packages/phoenix-event-display
-npm link
+yarn link
 cd ../phoenix-ng
-npm link "phoenix-event-display"
+yarn link "phoenix-event-display"
 
 ## Run the event display in development mode
 cd ../phoenix-event-display
-npm run start
+yarn start
 
 ## Run the Angular app
 cd ../phoenix-ng
-npm run start
+yarn start
 ```
 
 Now any changes in the [phoenix-event-display](https://www.npmjs.com/package/phoenix-event-display) package ([source](https://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display)) will build the package and the Angular app will pick up the changes made to the event display.
@@ -50,7 +50,7 @@ Now any changes in the [phoenix-event-display](https://www.npmjs.com/package/pho
 In order to make a version of Phoenix which can be deployed to your server, from the `packages/phoenix-ng` directory, run the following command:
 
 ```sh
-npm run deploy:web
+yarn deploy:web
 ```
 
 You can then copy the files generated in `./docs` to your server e.g. with:

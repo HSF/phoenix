@@ -27,8 +27,8 @@ GH_API_PR=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/statuses/${TRAVIS_PUL
 
 echo "Setting up surge"
 
-npm install surge --global
-npm run deploy:web
+yarn global add surge
+yarn deploy:web
 
 echo "Deploying PR to surge"
 
