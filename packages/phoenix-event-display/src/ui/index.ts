@@ -228,7 +228,7 @@ export class UIManager {
         min: 0, max: 20, step: 0.01,
         allowCustomValue: true,
         onChange: (scale: number) => {
-          this.three.getSceneManager().scaleObject(name, scale);
+          this.three.getSceneManager().scaleObject(SceneManager.GEOMETRIES_ID, scale);
         }
       });
     }

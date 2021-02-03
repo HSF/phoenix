@@ -52,7 +52,7 @@ export class ImportManager {
       color = 0x41a6f4;
     }
     const objLoader = new OBJLoader();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       objLoader.load(filename, object => {
         const processed = this.processOBJ(object, name, color, doubleSided, setFlat);
         callback(processed);
@@ -155,7 +155,7 @@ export class ImportManager {
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       loader.parse(sceneString, '', gltf => {
         const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
         const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
@@ -180,7 +180,7 @@ export class ImportManager {
   public loadGLTFGeometry(sceneUrl: string, name: string,
     callback: (Geometry: Object3D) => any, scale?: number): Promise<unknown> {
     const loader = new GLTFLoader();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       loader.load(sceneUrl, gltf => {
         const geometry = gltf.scene;
         this.processGeometry(geometry, name, scale);
@@ -206,7 +206,7 @@ export class ImportManager {
     callback: (scene: Object3D) => any
   ): Promise<unknown> {
     const loader = new GLTFLoader();
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       loader.parse(geometry, '', gltf => {
         const geometry = gltf.scene;
         this.processGeometry(geometry, name);
@@ -234,7 +234,7 @@ export class ImportManager {
     scale?: number, doubleSided?: boolean): Promise<unknown> {
     const loader = new ObjectLoader();
     if (typeof json === 'string') {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         loader.load(json, (geometry: Object3D) => {
           this.processGeometry(geometry, name, scale, doubleSided);
           callback(geometry);
@@ -246,7 +246,7 @@ export class ImportManager {
         });
       });
     } else if (typeof json === 'object') {
-      return new Promise((resolve, reject) => {
+      return new Promise<void>((resolve, reject) => {
         const geometry = loader.parse(json, object => {
           resolve();
           this.loadingManager.itemLoaded(`json_geom_${name}`);

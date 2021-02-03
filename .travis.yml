@@ -14,14 +14,14 @@ cache:
     - ./packages/phoenix-event-display/node_modules
 
 install:
-  - npm install lerna --global
-  - npm run install:dependencies
+  - npm install --global yarn lerna
+  - yarn install:dependencies
 
 script:
-  - npm run test:coverage
+  - yarn test:coverage
   # Set up surge and deploy for PR
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then chmod +x ./scripts/pr_deploy.sh; ./scripts/pr_deploy.sh; fi
 
 after_success:
   - cd ./packages/phoenix-ng
-  - npm run coveralls
+  - yarn coveralls

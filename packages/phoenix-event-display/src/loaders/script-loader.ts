@@ -38,10 +38,10 @@ export class ScriptLoader {
    * @returns Promise for the script load.
    */
   public static loadScript(scriptURL: string, scriptFor?: string,
-    parentElement: HTMLElement = document.getElementsByTagName('head')[0]): Promise<any> {
+    parentElement: HTMLElement = document.getElementsByTagName('head')[0]): Promise<void> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('single_script');
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const scriptExists = document
         .querySelectorAll<HTMLScriptElement>('script[src="' + scriptURL + '"]');
       // If no script exists - add one
