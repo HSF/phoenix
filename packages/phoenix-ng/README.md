@@ -65,6 +65,6 @@ Phoenix can also be deployed as a single page application with a specific event.
 
 1. Copy the event data to [./projects/phoenix-app/src/assets](./projects/phoenix-app/src/assets) (or you can use a URL instead)
 1. Specify the event data type and file path (or URL) in [./projects/phoenix-app/event-config.json](./projects/phoenix-app/event-config.json)
-1. Lastly, in the `packages/phoenix-ng` directory, run the command: `npm run deploy:web:single`
+1. Lastly, in the `packages/phoenix-ng` directory, run the command: `yarn deploy:web:single`
 
 The deployed application will be in [./docs](./docs) which can be copied directly to a server.

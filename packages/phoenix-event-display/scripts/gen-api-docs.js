@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 const path = require('path');
 
 if (!fs.existsSync('package.json')) {
-  console.log('Unable to run script.\nUse `npm run gen-api-docs` from directory containing package.json.');
+  console.log('Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.');
   process.exit(1);
 }
 
