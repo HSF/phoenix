@@ -49,11 +49,11 @@ describe('SceneManager', () => {
 
     it('should change object geometry color', () => {
       const color = new Color(0xffffff);
-      sceneManager.OBJGeometryColor(OBJECT_NAME, 0xffffff);
+      sceneManager.changeObjectColor(OBJECT_NAME, 0xffffff);
       const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
       expect(obj.material.color).toEqual(color);
 
-      sceneManager.OBJGeometryColor('NonExistentObject', color);
+      sceneManager.changeObjectColor('NonExistentObject', color);
     });
 
     it('should change object visibility', () => {

@@ -386,14 +386,17 @@ export class PhoenixLoader implements EventDataLoader {
    * @param label Label to be saved.
    * @param collection Collection the event object is a part of.
    * @param indexInCollection Event object's index in collection.
+   * @returns A unique label ID string.
    */
-  public addLabelOfEventObject(label: string, collection: string, indexInCollection: number) {
+  public addLabelOfEventObject(label: string, collection: string, indexInCollection: number): string {
     for (const eventDataType of Object.keys(this.eventData)) {
       if (this.eventData[eventDataType] && Object.keys(this.eventData[eventDataType]).includes(collection)) {
         this.labelsObject[eventDataType] = this.labelsObject[eventDataType] || {};
         this.labelsObject[eventDataType][collection] = this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] = label;
+
+        return `${eventDataType} > ${collection} > ${indexInCollection}`;
       }
     }
   }

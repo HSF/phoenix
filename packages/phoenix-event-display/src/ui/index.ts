@@ -15,6 +15,8 @@ import { StateManager } from '../managers/state-manager';
  */
 export class UIManager {
 
+  // Functions ending in PM are for Phoenix Menu
+
   /** Stats object from stats-js. */
   private stats: any;
   /** dat.GUI menu. */
@@ -31,12 +33,18 @@ export class UIManager {
   private geomFolder: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
+  /** dat.GUI menu folder containing labels. */
+  private labelsFolder: any;
   /** Phoenix menu node containing geometries data */
   private geomFolderPM: PhoenixMenuNode;
-  /** Phoenix menu node containing event related data */
+  /** Phoenix menu node containing event related data. */
   private eventFolderPM: PhoenixMenuNode;
+  /** Phoenix menu node containing labels. */
+  private labelsFolderPM: PhoenixMenuNode;
   /** If the geometry folder is added or not */
   private geomFolderAdded: boolean = false;
+  /** If the labels folder is added or not */
+  private labelsFolderAdded: boolean = false;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -132,6 +140,7 @@ export class UIManager {
     this.canvas.appendChild(this.gui.domElement);
     this.geomFolder = null;
     this.eventFolder = null;
+    this.labelsFolder = null;
   }
 
   /**
@@ -143,6 +152,7 @@ export class UIManager {
     this.hasPhoenixMenu = true;
     this.geomFolderPM = null;
     this.eventFolderPM = null;
+    this.labelsFolderPM = null;
   }
 
   /**
@@ -151,6 +161,8 @@ export class UIManager {
   public clearUI() {
     this.clearDatGUI();
     this.clearPhoenixMenu();
+    this.geomFolderAdded = false;
+    this.labelsFolderAdded = false;
   }
 
   /**
@@ -162,7 +174,6 @@ export class UIManager {
       gui.remove();
     }
     this.geomFolder = null;
-    this.geomFolderAdded = false;
     this.hasDatGUIMenu = false;
   }
 
@@ -176,18 +187,18 @@ export class UIManager {
     }
     this.geomFolderPM = null;
     this.eventFolderPM = null;
-    this.geomFolderAdded = false;
+    this.labelsFolderPM = null;
     this.hasPhoenixMenu = false;
   }
 
   /**
-   * Add geometry (detector geometry) folder to the dat.GUI menu.
+   * Add geometry (detector geometry) folder to the dat.GUI and Phoenix menu.
    */
   public addGeomFolder() {
     this.geomFolderAdded = true;
 
     if (this.hasDatGUIMenu) {
-      if (this.geomFolder == null) {
+      if (this.geomFolder === null) {
         this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
       }
       this.guiParameters.geometries = { show: true, wireframe: false };
@@ -205,7 +216,7 @@ export class UIManager {
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      if (this.geomFolderPM == null) {
+      if (this.geomFolderPM === null) {
         this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
           this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
         }, 'perspective');
@@ -263,7 +274,7 @@ export class UIManager {
       const objFolder = this.geomFolder.addFolder(name);
       // A color picker is added to the object's folder
       const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
-      colorMenu.onChange((value) => this.three.getSceneManager().OBJGeometryColor(name, value));
+      colorMenu.onChange((value) => this.three.getSceneManager().changeObjectColor(name, value));
 
       const opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
       opacity.onFinishChange((newValue) => this.three.getSceneManager().setGeometryOpacity(name, newValue));
@@ -303,7 +314,7 @@ export class UIManager {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value: any) => {
-          this.three.getSceneManager().OBJGeometryColor(name, value)
+          this.three.getSceneManager().changeObjectColor(name, value)
         }
       }).addConfig('slider', {
         label: 'Opacity',
@@ -335,8 +346,8 @@ export class UIManager {
    */
   public addEventDataFolder() {
     if (this.hasDatGUIMenu) {
-      // If there is already an event data folder it is deleted and creates a new one.
-      if (this.eventFolder != null) {
+      // If there is already an event data folder it is deleted and we create a new one.
+      if (this.eventFolder !== null) {
         this.gui.removeFolder(this.eventFolder);
       }
       // A new folder for the Event Data is added to the GUI.
@@ -352,7 +363,7 @@ export class UIManager {
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      if (this.eventFolderPM != null) {
+      if (this.eventFolderPM !== null) {
         this.eventFolderPM.remove();
       }
       this.eventFolderPM = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
@@ -506,6 +517,72 @@ export class UIManager {
             }
           });
         }
+      }
+    }
+  }
+
+  /**
+   * Add labels folder to dat.GUI and Phoenix menu.
+   */
+  public addLabelsFolder() {
+    this.labelsFolderAdded = true;
+
+    if (this.hasDatGUIMenu && this.labelsFolder === null) {
+      this.labelsFolder = this.gui.addFolder(SceneManager.LABELS_ID);
+    }
+
+    if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
+      this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, () => {}, 'info');
+    }
+  }
+
+  /**
+   * Add configuration UI for label.
+   * @param labelName Name of the label object.
+   */
+  public addLabel(labelName: string) {
+    if (!this.labelsFolderAdded) {
+      this.addLabelsFolder();
+    }
+
+    if (this.hasDatGUIMenu) {
+      this.guiParameters[labelName] = {
+        show: true,
+        color: 0xafafaf
+      };
+
+      const labelItem = this.labelsFolder.addFolder(labelName);
+
+      const visibilityToggle = labelItem.add(this.guiParameters[labelName], 'show').name('Show').listen();
+      visibilityToggle.onChange((value) => {
+        this.three.getSceneManager().objectVisibility(labelName, value, SceneManager.LABELS_ID)
+      });
+
+      const colorMenu = labelItem.addColor(this.guiParameters[labelName], 'color').name('Çolor');
+      colorMenu.onChange((color) => this.three.getSceneManager().changeObjectColor(labelName, color));
+    }
+
+    if (this.hasPhoenixMenu) {
+      let labelNode = this.labelsFolderPM.children.find((phoenixMenuNode) => phoenixMenuNode.name === labelName);
+      if (!labelNode) {
+        labelNode = this.labelsFolderPM.addChild(labelName, (value) => {
+          this.three.getSceneManager().objectVisibility(labelName, value)
+        });
+
+        labelNode.addConfig('color', {
+          label: 'Color',
+          onChange: (value: any) => {
+            this.three.getSceneManager().changeObjectColor(labelName, value)
+          }
+        });
+  
+        labelNode.addConfig('button', {
+          label: 'Remove',
+          onClick: () => {
+            labelNode.remove();
+            this.three.getSceneManager().removeGeometry(labelName);
+          }
+        });
       }
     }
   }

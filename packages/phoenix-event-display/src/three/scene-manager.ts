@@ -148,7 +148,7 @@ export class SceneManager {
    * @param name Name of the geometry.
    * @param value Value representing the color in hex format.
    */
-  public OBJGeometryColor(name: string, value: any) {
+  public changeObjectColor(name: string, value: any) {
     const object = this.scene.getObjectByName(name);
     if (object) {
       object.traverse(child => {
@@ -434,16 +434,20 @@ export class SceneManager {
    * Add label to the three.js object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
+   * @param labelId Unique ID of the label.
    * @param objectPosition Position of the object to place the label.
    * @param cameraControls Camera controls for making the text face the camera.
    */
-  public addLabelToObject(label: string, uuid: string, objectPosition: Vector3, cameraControls: OrbitControls) {
+  public addLabelToObject(
+    label: string, uuid: string,
+    labelId: string, objectPosition: Vector3,
+    cameraControls: OrbitControls
+  ) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
     object.userData.label = label;
-    
-    const labelObjectName = 'label_object_' + uuid;
+
     const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
-    const labelObject = this.scene.getObjectByName(labelObjectName);
+    const labelObject = this.scene.getObjectByName(labelId);
 
     if (labelObject) {
       labelsGroup.remove(labelObject);
@@ -460,7 +464,7 @@ export class SceneManager {
       flatShading: true
     }));
     textMesh.position.fromArray(objectPosition.toArray());
-    textMesh.name = labelObjectName;
+    textMesh.name = labelId;
 
     labelsGroup.add(textMesh);
 

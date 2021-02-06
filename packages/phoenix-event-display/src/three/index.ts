@@ -718,10 +718,11 @@ export class ThreeManager {
    * Add a 3D text label to label an event data object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
+   * @param labelId Unique ID of the label.
    */
-  public addLabelToObject(label: string, uuid: string) {
+  public addLabelToObject(label: string, uuid: string, labelId: string) {
     const cameraControls = this.controlsManager.getActiveControls();
     const objectPosition = this.getObjectPosition(uuid);
-    this.getSceneManager().addLabelToObject(label, uuid, objectPosition, cameraControls);
+    this.getSceneManager().addLabelToObject(label, uuid, labelId, objectPosition, cameraControls);
   }
 }

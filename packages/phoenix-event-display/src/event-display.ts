@@ -633,7 +633,8 @@ export class EventDisplay {
    * @param uuid UUID of the three.js object.
    */
   public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
-    this.configuration.eventDataLoader.addLabelOfEventObject(label, collection, indexInCollection);
-    this.graphicsLibrary.addLabelToObject(label, uuid);
+    const labelId = this.configuration.eventDataLoader.addLabelOfEventObject(label, collection, indexInCollection);
+    this.ui.addLabel(label, labelId);
+    this.graphicsLibrary.addLabelToObject(label, uuid, labelId);
   }
 }
