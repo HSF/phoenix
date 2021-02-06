@@ -120,6 +120,7 @@ export class EventDisplay {
   public buildEventDataFromJSON(eventData: any) {
     // Creating UI folder
     this.ui.addEventDataFolder();
+    this.ui.addLabelsFolder();
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
@@ -236,6 +237,7 @@ export class EventDisplay {
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
       // Creating UI folder
       this.ui.addEventDataFolder();
+      this.ui.addLabelsFolder();
       // Clearing existing event data
       this.graphicsLibrary.clearEventData();
       // Add to scene
@@ -633,8 +635,8 @@ export class EventDisplay {
    * @param uuid UUID of the three.js object.
    */
   public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
-    const labelId = this.configuration.eventDataLoader.addLabelOfEventObject(label, collection, indexInCollection);
-    this.ui.addLabel(label, labelId);
+    const labelId = this.configuration.eventDataLoader.addLabelToEventObject(label, collection, indexInCollection);
+    this.ui.addLabel(labelId);
     this.graphicsLibrary.addLabelToObject(label, uuid, labelId);
   }
 }

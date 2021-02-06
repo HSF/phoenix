@@ -50,6 +50,12 @@ export interface EventDataLoader {
    * @param indexInCollection Event object's index in collection.
    * @returns A unique label ID string.
    */
-  addLabelOfEventObject(label: string, collection: string, indexInCollection: number): string;
+  addLabelToEventObject(label: string, collection: string, indexInCollection: number): string;
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  getLabelsObject(): object;
 
 }

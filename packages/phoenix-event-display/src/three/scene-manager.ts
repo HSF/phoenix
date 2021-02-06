@@ -204,13 +204,22 @@ export class SceneManager {
   }
 
   /**
-   * Removes an object from the scene.
+   * Removes a geometry from the scene.
    * @param name Name of the object to be removed.
    */
   public removeGeometry(name: string) {
     const object = this.scene.getObjectByName(name);
     const geometries = this.getGeometries() as Group;
     geometries.remove(object);
+  }
+
+  /**
+   * Remove label from the scene.
+   * @param name Name of the label to remove.
+   */
+  public removeLabel(name: string) {
+    const object = this.scene.getObjectByName(name);
+    this.getObjectsGroup(SceneManager.LABELS_ID).remove(object);
   }
 
   /**

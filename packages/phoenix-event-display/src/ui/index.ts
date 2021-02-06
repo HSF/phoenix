@@ -9,6 +9,7 @@ import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import { PrettySymbols } from '../helpers/pretty-symbols';
 import { Color } from 'three';
 import { StateManager } from '../managers/state-manager';
+import { loadFile, saveFile } from '../helpers/file';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -532,55 +533,77 @@ export class UIManager {
     }
 
     if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
-      this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, () => {}, 'info');
+      this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, () => { }, 'info');
+
+      this.labelsFolderPM.addConfig('button', {
+        label: 'Save Labels',
+        onClick: () => {
+          const labelsObject = this.configuration?.eventDataLoader?.getLabelsObject();
+          if (labelsObject) {
+            saveFile(JSON.stringify(labelsObject), 'phoenix-labels.json');
+          }
+        }
+      });
+
+      this.labelsFolderPM.addConfig('button', {
+        label: 'Load Labels',
+        onClick: () => {
+          this.loadLabelsFile();
+        }
+      });
     }
   }
 
   /**
    * Add configuration UI for label.
-   * @param labelName Name of the label object.
+   * @param labelId Unique ID of the label.
    */
-  public addLabel(labelName: string) {
+  public addLabel(labelId: string) {
     if (!this.labelsFolderAdded) {
       this.addLabelsFolder();
     }
 
     if (this.hasDatGUIMenu) {
-      this.guiParameters[labelName] = {
+      this.guiParameters[labelId] = {
         show: true,
         color: 0xafafaf
       };
 
-      const labelItem = this.labelsFolder.addFolder(labelName);
+      const labelItem = this.labelsFolder.addFolder(labelId);
 
-      const visibilityToggle = labelItem.add(this.guiParameters[labelName], 'show').name('Show').listen();
+      const visibilityToggle = labelItem.add(this.guiParameters[labelId], 'show').name('Show').listen();
       visibilityToggle.onChange((value) => {
-        this.three.getSceneManager().objectVisibility(labelName, value, SceneManager.LABELS_ID)
+        this.three.getSceneManager().objectVisibility(labelId, value, SceneManager.LABELS_ID)
       });
 
-      const colorMenu = labelItem.addColor(this.guiParameters[labelName], 'color').name('Çolor');
-      colorMenu.onChange((color) => this.three.getSceneManager().changeObjectColor(labelName, color));
+      const colorMenu = labelItem.addColor(this.guiParameters[labelId], 'color').name('Çolor');
+      colorMenu.onChange((color) => this.three.getSceneManager().changeObjectColor(labelId, color));
     }
 
     if (this.hasPhoenixMenu) {
-      let labelNode = this.labelsFolderPM.children.find((phoenixMenuNode) => phoenixMenuNode.name === labelName);
+      let labelNode = this.labelsFolderPM.children.find((phoenixMenuNode) => phoenixMenuNode.name === labelId);
       if (!labelNode) {
-        labelNode = this.labelsFolderPM.addChild(labelName, (value) => {
-          this.three.getSceneManager().objectVisibility(labelName, value)
+        labelNode = this.labelsFolderPM.addChild(labelId, (value) => {
+          this.three.getSceneManager().objectVisibility(labelId, value)
         });
 
         labelNode.addConfig('color', {
           label: 'Color',
+          color: '#a8a8a8',
           onChange: (value: any) => {
-            this.three.getSceneManager().changeObjectColor(labelName, value)
+            this.three.getSceneManager().changeObjectColor(labelId, value)
           }
         });
-  
+
         labelNode.addConfig('button', {
           label: 'Remove',
           onClick: () => {
             labelNode.remove();
-            this.three.getSceneManager().removeGeometry(labelName);
+            this.three.getSceneManager().removeLabel(labelId);
+            const objectKeys = labelId.split(' > ');
+            // this.labelsObject[EventDataType][Collection][Index]
+            const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
+            delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
           }
         });
       }
@@ -740,5 +763,30 @@ export class UIManager {
         }
       }
     });
+  }
+
+  /**
+   * Load labels from a file.
+   */
+  private loadLabelsFile() {
+    const eventDataLoader = this.configuration?.eventDataLoader;
+    const labelsObject = eventDataLoader?.getLabelsObject();
+    if (eventDataLoader && labelsObject) {
+      loadFile((data) => {
+        const labelsObject = JSON.parse(data);
+        for (const eventDataType of Object.keys(labelsObject)) {
+          for (const collection of Object.keys(labelsObject[eventDataType])) {
+            const collectionObject = eventDataLoader.getCollection(collection);
+            for (const labelIndex of Object.keys(labelsObject[eventDataType][collection])) {
+              const label = labelsObject[eventDataType][collection][labelIndex];
+              const objectUuid = collectionObject[labelIndex].uuid;
+              const labelId = eventDataLoader.addLabelToEventObject(label, collection, Number(labelIndex));
+              this.addLabel(labelId);
+              this.three.addLabelToObject(label, objectUuid, labelId);
+            }
+          }
+        }
+      });
+    }
   }
 }

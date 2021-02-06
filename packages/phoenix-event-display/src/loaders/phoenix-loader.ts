@@ -388,7 +388,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param indexInCollection Event object's index in collection.
    * @returns A unique label ID string.
    */
-  public addLabelOfEventObject(label: string, collection: string, indexInCollection: number): string {
+  public addLabelToEventObject(label: string, collection: string, indexInCollection: number): string {
     for (const eventDataType of Object.keys(this.eventData)) {
       if (this.eventData[eventDataType] && Object.keys(this.eventData[eventDataType]).includes(collection)) {
         this.labelsObject[eventDataType] = this.labelsObject[eventDataType] || {};
@@ -399,6 +399,14 @@ export class PhoenixLoader implements EventDataLoader {
         return `${eventDataType} > ${collection} > ${indexInCollection}`;
       }
     }
+  }
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  public getLabelsObject(): object {
+    return this.labelsObject;
   }
 
 }
