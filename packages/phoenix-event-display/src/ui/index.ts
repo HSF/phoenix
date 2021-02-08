@@ -598,15 +598,31 @@ export class UIManager {
         labelNode.addConfig('button', {
           label: 'Remove',
           onClick: () => {
-            labelNode.remove();
-            this.three.getSceneManager().removeLabel(labelId);
-            const objectKeys = labelId.split(' > ');
-            // this.labelsObject[EventDataType][Collection][Index]
-            const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
-            delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
+            this.removeLabel(labelId, labelNode);
           }
         });
       }
+    }
+  }
+
+  /**
+   * Remove label from UI, scene and event data loader if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelNode Phoenix menu node of the label if any.
+   */
+  public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
+    if (!labelNode) {
+      labelNode = this.labelsFolderPM?.children.find((singleLabelNode) => singleLabelNode.name === labelId);
+    }
+
+    if (labelNode) {
+      this.three.getSceneManager().removeLabel(labelId);
+      const objectKeys = labelId.split(' > ');
+      // labelsObject[EventDataType][Collection][Index]
+      const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
+      delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
+
+      labelNode.remove();
     }
   }
 

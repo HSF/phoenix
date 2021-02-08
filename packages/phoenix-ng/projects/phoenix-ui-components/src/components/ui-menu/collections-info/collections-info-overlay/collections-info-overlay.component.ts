@@ -51,7 +51,8 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   addLabel(index: number, uuid: string) {
     const labelValue = this.elementRef.nativeElement.querySelector(`#label${index}`).value;
-    if (labelValue && this.selectedCollection) {
+    if (this.selectedCollection) {
+      // Empty labelValue will remove the label object
       this.eventDisplay.addLabelToObject(labelValue, this.selectedCollection, index, uuid);
     }
   }

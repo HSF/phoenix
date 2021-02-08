@@ -636,6 +636,13 @@ export class EventDisplay {
    */
   public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
     const labelId = this.configuration.eventDataLoader.addLabelToEventObject(label, collection, indexInCollection);
+
+    // Remove the label if the string is empty
+    if (!label) {
+      this.ui.removeLabel(labelId);
+      return;
+    }
+
     this.ui.addLabel(labelId);
     this.graphicsLibrary.addLabelToObject(label, uuid, labelId);
   }
