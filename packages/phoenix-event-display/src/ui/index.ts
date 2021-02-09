@@ -535,6 +535,29 @@ export class UIManager {
     if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
       this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, () => { }, 'info');
 
+      this.labelsFolderPM.addConfig('slider', {
+        label: 'Size',
+        min: 0, max: 10, step: 0.01,
+        allowCustomValue: true,
+        onChange: (scale: number) => {
+          const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
+          labels.children.forEach((singleLabel) => {
+            this.three.getSceneManager().scaleObject(singleLabel.name, scale);
+          });
+        }
+      });
+
+      this.labelsFolderPM.addConfig('color', {
+        label: 'Color',
+        color: '#a8a8a8',
+        onChange: (value: any) => {
+          const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
+          labels.children.forEach((singleLabel) => {
+            this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
+          });
+        }
+      });
+
       this.labelsFolderPM.addConfig('button', {
         label: 'Save Labels',
         onClick: () => {

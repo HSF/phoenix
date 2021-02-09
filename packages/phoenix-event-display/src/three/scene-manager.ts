@@ -464,7 +464,7 @@ export class SceneManager {
 
     const textGeometry = new TextGeometry(label, {
       font: this.textFont,
-      size: 20,
+      size: 60,
       curveSegments: 1,
       height: 1
     });
