@@ -1,7 +1,7 @@
 import { ThreeManager } from '../three';
 import { InfoLogger } from '../info-logger';
 import { Group } from 'three';
-import * as Helpers from '../helpers/save-file';
+import * as Helpers from '../helpers/file';
 
 describe('ThreeManager', () => {
 
