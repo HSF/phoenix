@@ -28,7 +28,8 @@ export class UIManager {
     axis: undefined,
     lowRes: undefined,
     eventData: undefined,
-    geometries: undefined
+    geometries: undefined,
+    labels: undefined
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
@@ -270,8 +271,14 @@ export class UIManager {
     if (this.hasDatGUIMenu) {
       // A new folder for the object is added to the 'Geometry' folder
       this.guiParameters[name] = {
-        show: initiallyVisible, color, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
+        show: initiallyVisible,
+        color: color ?? '#000000',
+        x: 0, y: 0, z: 0,
+        detectorOpacity: 1.0,
+        remove: this.removeOBJ(name),
+        scale: 1
       };
+
       const objFolder = this.geomFolder.addFolder(name);
       // A color picker is added to the object's folder
       const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
@@ -528,51 +535,80 @@ export class UIManager {
   public addLabelsFolder() {
     this.labelsFolderAdded = true;
 
+    // Common functions for Phoenix and dat.GUI menus
+    const onToggle = (toggleValue: boolean) => {
+      this.three.getSceneManager().objectVisibility(SceneManager.LABELS_ID, toggleValue);
+    }
+    const onSizeChange = (scale: number) => {
+      const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
+      labels.children.forEach((singleLabel) => {
+        this.three.getSceneManager().scaleObject(singleLabel.name, scale);
+      });
+    };
+    const onColorChange = (value: any) => {
+      const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
+      labels.children.forEach((singleLabel) => {
+        this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
+      });
+    };
+    const onSaveLabels = () => {
+      const labelsObject = this.configuration?.eventDataLoader?.getLabelsObject();
+      if (labelsObject) {
+        saveFile(JSON.stringify(labelsObject), 'phoenix-labels.json');
+      }
+    };
+    const onLoadLabels = () => {
+      this.loadLabelsFile();
+    };
+
     if (this.hasDatGUIMenu && this.labelsFolder === null) {
       this.labelsFolder = this.gui.addFolder(SceneManager.LABELS_ID);
+
+      this.guiParameters.labels = {
+        show: true,
+        size: 1,
+        color: '#a8a8a8',
+        saveLabels: onSaveLabels,
+        loadLabels: onLoadLabels
+      };
+
+      const showMenu = this.labelsFolder.add(this.guiParameters.labels, 'show').name('Show').listen();
+      showMenu.onChange(onToggle);
+
+      const labelsSizeMenu = this.labelsFolder.add(this.guiParameters.labels, 'size', 0, 10).name('Size');
+      labelsSizeMenu.onFinishChange(onSizeChange);
+
+      const colorMenu = this.labelsFolder.addColor(this.guiParameters.labels, 'color').name('Color');
+      colorMenu.onChange(onColorChange);
+
+      this.labelsFolder.add(this.guiParameters.labels, 'saveLabels').name('Save Labels');
+      this.labelsFolder.add(this.guiParameters.labels, 'loadLabels').name('Load Labels');
     }
 
     if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
-      this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, () => { }, 'info');
+      this.labelsFolderPM = this.phoenixMenu.addChild(SceneManager.LABELS_ID, onToggle, 'info');
 
       this.labelsFolderPM.addConfig('slider', {
         label: 'Size',
         min: 0, max: 10, step: 0.01,
         allowCustomValue: true,
-        onChange: (scale: number) => {
-          const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
-          labels.children.forEach((singleLabel) => {
-            this.three.getSceneManager().scaleObject(singleLabel.name, scale);
-          });
-        }
+        onChange: onSizeChange
       });
 
       this.labelsFolderPM.addConfig('color', {
         label: 'Color',
         color: '#a8a8a8',
-        onChange: (value: any) => {
-          const labels = this.three.getSceneManager().getObjectsGroup(SceneManager.LABELS_ID);
-          labels.children.forEach((singleLabel) => {
-            this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
-          });
-        }
+        onChange: onColorChange
       });
 
       this.labelsFolderPM.addConfig('button', {
         label: 'Save Labels',
-        onClick: () => {
-          const labelsObject = this.configuration?.eventDataLoader?.getLabelsObject();
-          if (labelsObject) {
-            saveFile(JSON.stringify(labelsObject), 'phoenix-labels.json');
-          }
-        }
+        onClick: onSaveLabels
       });
 
       this.labelsFolderPM.addConfig('button', {
         label: 'Load Labels',
-        onClick: () => {
-          this.loadLabelsFile();
-        }
+        onClick: onLoadLabels
       });
     }
   }
