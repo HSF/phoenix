@@ -3,9 +3,8 @@ import { UIManager } from './ui/index';
 import { InfoLogger } from './info-logger';
 import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
-import { JiveXMLLoader } from './loaders/jivexml-loader';
 import { LoadingManager } from './managers/loading-manager';
-import { PhoenixLoader } from './loaders/phoenix-loader';
+import { URLOptionsManager } from './managers/url-options-manager';
 
 declare global {
   /**
@@ -76,11 +75,9 @@ export class EventDisplay {
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
-    // Initialize event with data from URL if there is any
-    this.initEventFromURL(
-      configuration.defaultEventFile?.eventFile,
-      configuration.defaultEventFile?.eventType
-    );
+    // Process and apply URL options
+    const urlOptionsManager = new URLOptionsManager(this, configuration);
+    urlOptionsManager.applyOptions();
   }
 
   /**
@@ -561,70 +558,6 @@ export class EventDisplay {
    */
   public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
-  }
-
-  /**
-   * Initialize the event display with event data and configuration from URL.
-   * (Only JiveXML and JSON)
-   * @param defaultEventPath Default event path to fallback to if none in URL.
-   * @param defaultEventType Default event type to fallback to if none in URL.
-   */
-  public initEventFromURL(defaultEventPath?: string, defaultEventType?: string) {
-    const locationHref = window.location.href;
-    const urlParams = new URLSearchParams(locationHref.substr(locationHref.lastIndexOf('?')));
-
-    let file: string, type: string;
-
-    if (!urlParams.get('file') || !urlParams.get('type')) {
-      file = defaultEventPath;
-      type = defaultEventType;
-    } else {
-      file = urlParams.get('file');
-      type = urlParams.get('type').toLowerCase();
-    }
-
-    // Load config from URL
-    const loadConfig = () => {
-      if (urlParams.get('config') && ('fetch' in window)) {
-        this.loadingManager.addLoadableItem('url_config');
-        fetch(urlParams.get('config'))
-          .then(res => res.json())
-          .then(jsonState => {
-            const stateManager = new StateManager();
-            stateManager.loadStateFromJSON(jsonState);
-          }).finally(() => {
-            this.loadingManager.itemLoaded('url_config');
-          });
-      }
-    }
-
-    if (file && type && ('fetch' in window)) {
-      this.loadingManager.addLoadableItem('url_event');
-      fetch(file)
-        .then(res => type === 'jivexml' ? res.text() : res.json())
-        .then((res: object | string) => {
-          if (type === 'jivexml') {
-            const loader = new JiveXMLLoader();
-            this.configuration.eventDataLoader = loader;
-            // Parse the JSON to extract events and their data
-            loader.process(res);
-            const eventData = loader.getEventData();
-            this.buildEventDataFromJSON(eventData);
-          } else {
-            this.configuration.eventDataLoader = new PhoenixLoader();
-            this.parsePhoenixEvents(res);
-          }
-        }).catch((error) => {
-          this.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
-          console.error('Could not find the file specified in URL.', error);
-        }).finally(() => {
-          // Load config from URL after loading the event
-          loadConfig();
-          this.loadingManager.itemLoaded('url_event');
-        });
-    } else {
-      loadConfig();
-    }
   }
 
   /**
