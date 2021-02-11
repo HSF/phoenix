@@ -1,7 +1,8 @@
-import { JiveXMLLoader, PhoenixLoader } from "src";
-import { Configuration } from "src/extras/configuration";
-import { EventDisplay } from "../event-display";
-import { StateManager } from "./state-manager";
+import { JiveXMLLoader } from '../loaders/jivexml-loader';
+import { PhoenixLoader } from '../loaders/phoenix-loader';
+import { Configuration } from '../extras/configuration';
+import { EventDisplay } from '../event-display';
+import { StateManager } from './state-manager';
 
 /**
  * A manager for managing options given through URL.
@@ -21,14 +22,15 @@ export class URLOptionsManager {
   }
 
   /**
-   * Initialize and process all URL options on page load.
+   * Initialize and apply all URL options on page load.
    */
   public applyOptions() {
     // Initialize event with data from URL if there is any
-    this.initEventFromURL(
+    this.applyEventOptions(
       this.configuration.defaultEventFile?.eventFile,
       this.configuration.defaultEventFile?.eventType
     );
+    this.applyHideWidgetsOption();
   }
 
   /**
@@ -37,7 +39,7 @@ export class URLOptionsManager {
    * @param defaultEventPath Default event path to fallback to if none in URL.
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
-  public initEventFromURL(defaultEventPath?: string, defaultEventType?: string) {
+  public applyEventOptions(defaultEventPath?: string, defaultEventType?: string) {
     if (!('fetch' in window)) {
       return;
     }
@@ -94,6 +96,20 @@ export class URLOptionsManager {
         });
     } else {
       loadConfig();
+    }
+  }
+
+  /**
+   * Hide all overlay widgets if "hideWidgets" option from the URL is true.
+   */
+  public applyHideWidgetsOption() {
+    if (Boolean(this.urlOptions.get('hideWidgets')) === true) {
+      // Hide overlay widgets
+      document.getElementById('overlayWidgets').style.display = 'none';
+      // Hide stats
+      (document.getElementsByClassName('ui-element')[0] as HTMLElement).style.display = 'none';
+      // Hide dat.GUI menu
+      document.getElementById('gui').style.display = 'none';
     }
   }
 }

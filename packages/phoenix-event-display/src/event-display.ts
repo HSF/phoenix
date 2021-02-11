@@ -71,13 +71,16 @@ export class EventDisplay {
     };
     this.graphicsLibrary.setAnimationLoop(uiLoop);
 
+    // Process and apply URL options
+    if (configuration.allowUrlOptions !== false) {
+      const urlOptionsManager = new URLOptionsManager(this, configuration);
+      urlOptionsManager.applyOptions();
+    }
+
     // Allow adding elements through console
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
-    // Process and apply URL options
-    const urlOptionsManager = new URLOptionsManager(this, configuration);
-    urlOptionsManager.applyOptions();
   }
 
   /**

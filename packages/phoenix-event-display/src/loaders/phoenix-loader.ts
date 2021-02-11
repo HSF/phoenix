@@ -33,7 +33,7 @@ export class PhoenixLoader implements EventDataLoader {
 
   /**
    * Takes an object that represents ONE event and takes care of adding
-   * the different objects to the graphic library and the UI controls.
+   * the different objects to the graphics library and the UI controls.
    * @param eventData Object representing the event.
    * @param graphicsLibrary Service containing functionality to draw the 3D objects.
    * @param ui Service for showing menus and controls to manipulate the geometries.

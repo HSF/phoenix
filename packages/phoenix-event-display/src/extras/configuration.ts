@@ -6,7 +6,7 @@ import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
  * Configuration of the event display.
  */
 export interface Configuration {
-  /** Default view [x,y,z] */
+  /** Default view [x,y,z]. */
   defaultView?: number[];
   /** Preset views for switching event display camera. */
   presetViews?: PresetView[];
@@ -20,4 +20,6 @@ export interface Configuration {
   elementId?: string;
   /** Default event to load when none given in URL. */
   defaultEventFile?: { eventFile: string, eventType: string };
+  /** Whether to allow URL options or not (true by default). */
+  allowUrlOptions?: boolean;
 }
