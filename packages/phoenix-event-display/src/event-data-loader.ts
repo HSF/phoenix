@@ -43,4 +43,19 @@ export interface EventDataLoader {
    */
   getEventMetadata(): any[];
 
+  /**
+   * Add label of event object to the labels object.
+   * @param label Label to add to the event object.
+   * @param collection Collection the event object is a part of.
+   * @param indexInCollection Event object's index in collection.
+   * @returns A unique label ID string.
+   */
+  addLabelToEventObject(label: string, collection: string, indexInCollection: number): string;
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  getLabelsObject(): object;
+
 }

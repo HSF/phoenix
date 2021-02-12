@@ -1,4 +1,9 @@
 /**
+ * Configuration types for PhoenixMenuNode.
+ */
+export type PhoenixMenuConfig = 'checkbox' | 'slider' | 'button' | 'label' | 'color' | 'rangeSlider';
+
+/**
  * A single node of phoenix menu item.
  */
 export class PhoenixMenuNode {
@@ -98,10 +103,11 @@ export class PhoenixMenuNode {
 
   /**
    * Add a config to the phoenix menu item.
+   * @param type Type of configuration.
    * @param options Options for the config.
    * @returns The current node.
    */
-  addConfig(type: string, options: any): PhoenixMenuNode {
+  addConfig(type: PhoenixMenuConfig, options: any): PhoenixMenuNode {
     let configOptions = { type };
     Object.assign(configOptions, options);
     const configsLength = this.configs.push(configOptions);

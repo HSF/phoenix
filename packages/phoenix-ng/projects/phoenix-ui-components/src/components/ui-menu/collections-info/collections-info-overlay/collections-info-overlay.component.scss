@@ -19,6 +19,18 @@
   p.emptyBox {
     max-width: 21em;
   }
+
+  .add-label {
+    min-width: 8rem;
+
+    input {
+      padding: 0.1rem 0.3rem;
+      font-size: 0.75rem;
+      color: var(--phoenix-text-color);
+      background-color: var(--phoenix-background-color-tertiary);
+      border: 1px solid var(--phoenix-border);
+    }
+  }
 }
 
 #collectionTable {
@@ -45,9 +57,18 @@
     background: var(--phoenix-text-color);
     box-shadow: 0 0 15px var(--phoenix-text-color);
 
-    div.object-select-wrapper {
+    div.icon-wrapper {
       --phoenix-options-icon-path: var(--phoenix-background-color);
       --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
+    }
+
+    .add-label {
+
+      input {
+        --phoenix-text-color: var(--phoenix-background-color);
+        --phoenix-background-color-tertiary: var(--phoenix-text-color-secondary);
+        --phoenix-border: var(--phoenix-background-color);
+      }
     }
   }
 

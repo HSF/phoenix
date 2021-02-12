@@ -21,6 +21,8 @@ export class PhoenixLoader implements EventDataLoader {
   private eventData: any;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
+  /** Object containing event object labels. */
+  protected labelsObject: { [key: string]: any } = {};
 
   /**
    * Create the Phoenix loader.
@@ -377,6 +379,34 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     return metadata;
+  }
+
+  /**
+   * Add label of event object to the labels object.
+   * @param label Label to be saved.
+   * @param collection Collection the event object is a part of.
+   * @param indexInCollection Event object's index in collection.
+   * @returns A unique label ID string.
+   */
+  public addLabelToEventObject(label: string, collection: string, indexInCollection: number): string {
+    for (const eventDataType of Object.keys(this.eventData)) {
+      if (this.eventData[eventDataType] && Object.keys(this.eventData[eventDataType]).includes(collection)) {
+        this.labelsObject[eventDataType] = this.labelsObject[eventDataType] || {};
+        this.labelsObject[eventDataType][collection] = this.labelsObject[eventDataType][collection] || {};
+
+        this.labelsObject[eventDataType][collection][indexInCollection] = label;
+
+        return `${eventDataType} > ${collection} > ${indexInCollection}`;
+      }
+    }
+  }
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  public getLabelsObject(): object {
+    return this.labelsObject;
   }
 
 }

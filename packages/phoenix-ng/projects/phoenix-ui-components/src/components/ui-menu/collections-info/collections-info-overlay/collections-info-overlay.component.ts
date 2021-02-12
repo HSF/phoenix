@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { PrettySymbols } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
@@ -10,13 +10,13 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 export class CollectionsInfoOverlayComponent implements OnInit {
 
   @Input() showObjectsInfo: boolean;
-  // showObjectsInfo = true;
   collections: string[];
+  selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
   activeObject: any;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private elementRef: ElementRef, private eventDisplay: EventDisplayService) { }
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.getCollections());
@@ -30,6 +30,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   changeCollection(selected: any) {
     const value = selected.target.value;
+    this.selectedCollection = value;
     this.showingCollection = this.eventDisplay.getCollection(value).map(PrettySymbols.getPrettyParams);
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
   }
@@ -45,6 +46,14 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     if (uuid) {
       this.activeObject.update(uuid);
       this.eventDisplay.highlightObject(uuid);
+    }
+  }
+
+  addLabel(index: number, uuid: string) {
+    const labelValue = this.elementRef.nativeElement.querySelector(`#label${index}`).value;
+    if (this.selectedCollection) {
+      // Empty labelValue will remove the label object
+      this.eventDisplay.addLabelToObject(labelValue, this.selectedCollection, index, uuid);
     }
   }
 

@@ -520,6 +520,15 @@ export class ThreeManager {
   }
 
   /**
+   * Get position of object from UUID.
+   * @param uuid UUID of the object.
+   * @returns Position of the 3D object.
+   */
+  public getObjectPosition(uuid: string): Vector3 {
+    return this.controlsManager.getObjectPosition(uuid, this.getSceneManager().getScene());
+  }
+
+  /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
    */
@@ -532,7 +541,11 @@ export class ThreeManager {
    */
   public enableKeyboardControls() {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.shiftKey) {
+      const isTyping = ['input', 'textarea'].includes(
+        (e.target as HTMLElement)?.tagName.toLowerCase()
+      );
+
+      if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
             this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
@@ -699,5 +712,17 @@ export class ThreeManager {
     }
 
     this.loadingManager.itemLoaded('geom_from_params');
+  }
+
+  /**
+   * Add a 3D text label to label an event data object.
+   * @param label Label to add to the event object.
+   * @param uuid UUID of the three.js object.
+   * @param labelId Unique ID of the label.
+   */
+  public addLabelToObject(label: string, uuid: string, labelId: string) {
+    const cameraControls = this.controlsManager.getActiveControls();
+    const objectPosition = this.getObjectPosition(uuid);
+    this.getSceneManager().addLabelToObject(label, uuid, labelId, objectPosition, cameraControls);
   }
 }

@@ -1,5 +1,7 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera } from 'three';
+import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, TextGeometry, Font } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../extras/cut.model';
+import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -9,6 +11,8 @@ export class SceneManager {
   public static EVENT_DATA_ID = 'EventData';
   /** Object group ID containing detector geometries. */
   public static GEOMETRIES_ID = 'Geometries';
+  /** Object group ID containing label texts. */
+  public static LABELS_ID = 'Labels';
 
   /** Three.js scene containing all the objects and event data. */
   private scene: Scene;
@@ -20,6 +24,10 @@ export class SceneManager {
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
   public cameraLight: DirectionalLight;
+  /** Font for text geometry. */
+  private textFont: Font = new Font(HelvetikerFont);
+  /** An object containing look at camera change callbacks for labels. */
+  private labelTextLookCallbacks: { [key: string]: () => void } = {};
 
   /**
    * Create the scene manager.
@@ -140,7 +148,7 @@ export class SceneManager {
    * @param name Name of the geometry.
    * @param value Value representing the color in hex format.
    */
-  public OBJGeometryColor(name: string, value: any) {
+  public changeObjectColor(name: string, value: any) {
     const object = this.scene.getObjectByName(name);
     if (object) {
       object.traverse(child => {
@@ -196,13 +204,22 @@ export class SceneManager {
   }
 
   /**
-   * Removes an object from the scene.
+   * Removes a geometry from the scene.
    * @param name Name of the object to be removed.
    */
   public removeGeometry(name: string) {
     const object = this.scene.getObjectByName(name);
     const geometries = this.getGeometries() as Group;
     geometries.remove(object);
+  }
+
+  /**
+   * Remove label from the scene.
+   * @param name Name of the label to remove.
+   */
+  public removeLabel(name: string) {
+    const object = this.scene.getObjectByName(name);
+    this.getObjectsGroup(SceneManager.LABELS_ID).remove(object);
   }
 
   /**
@@ -420,5 +437,51 @@ export class SceneManager {
         objectChild.position.divideScalar(previousScale).multiplyScalar(value);
       }
     });
+  }
+
+  /**
+   * Add label to the three.js object.
+   * @param label Label to add to the event object.
+   * @param uuid UUID of the three.js object.
+   * @param labelId Unique ID of the label.
+   * @param objectPosition Position of the object to place the label.
+   * @param cameraControls Camera controls for making the text face the camera.
+   */
+  public addLabelToObject(
+    label: string, uuid: string,
+    labelId: string, objectPosition: Vector3,
+    cameraControls: OrbitControls
+  ) {
+    const object = this.scene.getObjectByProperty('uuid', uuid);
+    object.userData.label = label;
+
+    const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
+    const labelObject = this.scene.getObjectByName(labelId);
+
+    if (labelObject) {
+      labelsGroup.remove(labelObject);
+    }
+
+    const textGeometry = new TextGeometry(label, {
+      font: this.textFont,
+      size: 60,
+      curveSegments: 1,
+      height: 1
+    });
+    const textMesh = new Mesh(textGeometry, new MeshBasicMaterial({
+      color: new Color('#a8a8a8'),
+      flatShading: true
+    }));
+    textMesh.position.fromArray(objectPosition.toArray());
+    textMesh.name = labelId;
+
+    labelsGroup.add(textMesh);
+
+    cameraControls.removeEventListener('change', this.labelTextLookCallbacks[uuid]);
+    this.labelTextLookCallbacks[uuid] = () => {
+      textMesh.lookAt(cameraControls.object.position);
+    };
+    this.labelTextLookCallbacks[uuid]();
+    cameraControls.addEventListener('change', this.labelTextLookCallbacks[uuid]);
   }
 }

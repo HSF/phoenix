@@ -1,6 +1,7 @@
 import { ThreeManager } from '../three';
 import { InfoLogger } from '../info-logger';
 import { Group } from 'three';
+import * as Helpers from '../helpers/file';
 
 describe('ThreeManager', () => {
 
@@ -149,8 +150,8 @@ describe('ThreeManager', () => {
     });
 
     it('should export scene', () => {
-      threePrivate.exportManager.saveString = (text: string, filename: string) => { }
-
+      spyOn(Helpers, 'saveFile').and.stub();
+      
       spyOn(threePrivate.exportManager, 'exportSceneToOBJ').and.callThrough();
       three.exportSceneToOBJ();
       expect(threePrivate.exportManager.exportSceneToOBJ).toHaveBeenCalled();
