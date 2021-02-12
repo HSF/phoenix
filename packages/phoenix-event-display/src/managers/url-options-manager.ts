@@ -105,11 +105,11 @@ export class URLOptionsManager {
   public applyHideWidgetsOption() {
     if (Boolean(this.urlOptions.get('hideWidgets')) === true) {
       // Hide overlay widgets
-      document.getElementById('overlayWidgets').style.display = 'none';
+      document.getElementById('overlayWidgets')?.style.setProperty('display', 'none');
       // Hide stats
-      (document.getElementsByClassName('ui-element')[0] as HTMLElement).style.display = 'none';
+      (document.getElementsByClassName('ui-element')[0] as HTMLElement)?.style.setProperty('display', 'none');
       // Hide dat.GUI menu
-      document.getElementById('gui').style.display = 'none';
+      document.getElementById('gui')?.style.setProperty('display', 'none');
     }
   }
 }
