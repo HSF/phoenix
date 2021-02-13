@@ -21,36 +21,40 @@ import { ThreeManager } from './three';
 import { UIManager } from './ui';
 import { PhoenixMenuNode } from './ui/phoenix-menu/phoenix-menu-node';
 
-globalThis.Phoenix = {
-  // Event display
-  EventDisplay,
-  // Misc
-  InfoLogger,
-  // Three
-  ThreeManager,
-  // UI
-  UIManager,
-  PhoenixMenuNode,
-  // Extras
-  Cut,
-  PresetView,
-  // Helpers
-  RKHelper,
-  RungeKutta,
-  PrettySymbols,
-  // Loaders
-  CMSLoader,
-  JiveXMLLoader,
-  JSRootEventLoader,
-  LHCbLoader,
-  PhoenixLoader,
-  ScriptLoader,
-  TrackmlLoader,
-  // Physics objects
-  CMSObjects,
-  PhoenixObjects,
-  // Managers
-  StateManager,
-  LoadingManager,
-  URLOptionsManager
-};
+if (globalThis) {
+  // `globalThis` makes `Phoenix` available as an object in the browser
+  // e.g. `const eventDisplay = new Phoenix.EventDisplay();`
+  globalThis.Phoenix = {
+    // Event display
+    EventDisplay,
+    // Misc
+    InfoLogger,
+    // Three
+    ThreeManager,
+    // UI
+    UIManager,
+    PhoenixMenuNode,
+    // Extras
+    Cut,
+    PresetView,
+    // Helpers
+    RKHelper,
+    RungeKutta,
+    PrettySymbols,
+    // Loaders
+    CMSLoader,
+    JiveXMLLoader,
+    JSRootEventLoader,
+    LHCbLoader,
+    PhoenixLoader,
+    ScriptLoader,
+    TrackmlLoader,
+    // Physics objects
+    CMSObjects,
+    PhoenixObjects,
+    // Managers
+    StateManager,
+    LoadingManager,
+    URLOptionsManager
+  };
+}
