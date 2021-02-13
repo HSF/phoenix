@@ -583,5 +583,3 @@ export class EventDisplay {
     this.graphicsLibrary.addLabelToObject(label, uuid, labelId);
   }
 }
-
-(global as any).EventDisplay = EventDisplay;

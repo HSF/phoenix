@@ -1,7 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/browser.ts',
+  mode: 'production',
   module: {
     rules: [
       {
