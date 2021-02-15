@@ -23,6 +23,11 @@ export class PhoenixMenuNode {
   nodeLevel: number = 0;
   /** Parent of the node. */
   private parent: PhoenixMenuNode;
+  /**
+   * Previous toggle state of child nodes. This is so that the
+   * previous state of child can be restored if we toggle the parent back on.
+   * */
+  private childrenToggleState = {};
 
   /** If the node children are active or not. */
   childrenActive: boolean = false;
@@ -124,7 +129,15 @@ export class PhoenixMenuNode {
     this.onToggle?.(value);
     this.toggleState = value;
     for (const child of this.children) {
-      child.toggleSelfAndDescendants(value);
+      if (!value) {
+        // Save previous toggle state of children and toggle them false
+        this.childrenToggleState[child.name] = child.toggleState;
+        child.toggleSelfAndDescendants(value);
+      } else {
+        // Restore previous toggle state of children
+        child.toggleState = this.childrenToggleState[child.name];
+        child.toggleSelfAndDescendants(child.toggleState);
+      }
     }
   }
 
