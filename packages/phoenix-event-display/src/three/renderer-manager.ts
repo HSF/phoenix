@@ -60,16 +60,19 @@ export class RendererManager {
    * @param elementId ID of the wrapper element.
    */
   private initRenderer(elementId: string) {
+    let canvas = document.getElementById(elementId);
+    const rendererWidth = canvas?.offsetWidth ?? window.innerWidth;
+    const rendererHeight = canvas?.offsetHeight ?? window.innerHeight;
+
     const mainRenderer = this.getMainRenderer();
     mainRenderer.setSize(
-      window.innerWidth,
-      window.innerHeight,
+      rendererWidth,
+      rendererHeight,
       false
     );
     mainRenderer.setPixelRatio(window.devicePixelRatio);
     mainRenderer.domElement.id = 'three-canvas';
 
-    let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;
     }

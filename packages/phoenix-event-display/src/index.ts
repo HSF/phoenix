@@ -47,3 +47,4 @@ export * from './loaders/objects/phoenix-objects';
 // Managers
 export * from './managers/state-manager';
 export * from './managers/loading-manager';
+export * from './managers/url-options-manager';
