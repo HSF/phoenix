@@ -6,6 +6,7 @@ module.exports = function (config) {
       { pattern: 'src/**/*.ts' },
       { pattern: 'src/assets/**/*', watched: false, included: false, served: true }
     ],
+    exclude: ['src/browser.ts'],
     proxies: {
       '/assets/': '/base/src/assets/'
     },

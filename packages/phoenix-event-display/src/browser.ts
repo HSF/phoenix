@@ -21,7 +21,7 @@ import { ThreeManager } from './three';
 import { UIManager } from './ui';
 import { PhoenixMenuNode } from './ui/phoenix-menu/phoenix-menu-node';
 
-if (globalThis) {
+if (typeof globalThis !== 'undefined') {
   // `globalThis` makes `Phoenix` available as an object in the browser
   // e.g. `const eventDisplay = new Phoenix.EventDisplay();`
   globalThis.Phoenix = {

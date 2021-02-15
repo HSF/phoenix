@@ -21,7 +21,7 @@
     "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
     "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
-    "build:umd": "webpack -c configs/webpack.conf.js",
+    "build:bundle": "webpack -c configs/webpack.conf.js",
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "yarn build",
     "docs": "node scripts/gen-api-docs.js",
