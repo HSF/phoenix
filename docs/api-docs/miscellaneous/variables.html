@@ -63,6 +63,12 @@
                         <li>
                             <a href="#JSROOT" title="src/loaders/script-loader.ts"><b>JSROOT</b>&nbsp;&nbsp;&nbsp;(src/.../script-loader.ts)</a>
                         </li>
+                        <li>
+                            <a href="#loadFile" title="src/helpers/file.ts"><b>loadFile</b>&nbsp;&nbsp;&nbsp;(src/.../file.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#saveFile" title="src/helpers/file.ts"><b>saveFile</b>&nbsp;&nbsp;&nbsp;(src/.../file.ts)</a>
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -137,6 +143,91 @@
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>Global JSROOT variable for accessing functions after loading JSRoot scripts. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/helpers/file.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadFile"></a>
+                        <span class="name">
+                            <b>
+                            loadFile</b>
+                            <a href="#loadFile"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>(
+  onFileRead: (data: string) &#x3D;&gt; void,
+  contentType: string &#x3D; &#x27;application/json&#x27;
+) &#x3D;&gt; {
+  // Create a mock input file element and use that to read the file
+  let inputFile &#x3D; document.createElement(&#x27;input&#x27;);
+  inputFile.type &#x3D; &#x27;file&#x27;;
+  inputFile.accept &#x3D; contentType;
+  inputFile.onchange &#x3D; (e: any) &#x3D;&gt; {
+    const configFile &#x3D; e.target?.files[0];
+    const reader &#x3D; new FileReader();
+    reader.onload &#x3D; e &#x3D;&gt; {
+      onFileRead?.(e.target.result.toString());
+
+      inputFile.remove();
+      inputFile &#x3D; null;
+    };
+    reader.readAsText(configFile);
+  }
+  inputFile.click();
+}</code>
+                        </td>
+                    </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Load a file from user by mocking an input element.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="saveFile"></a>
+                        <span class="name">
+                            <b>
+                            saveFile</b>
+                            <a href="#saveFile"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>(data: string, fileName: string, contentType: string &#x3D; &#x27;application/json&#x27;) &#x3D;&gt; {
+  const blob &#x3D; new Blob([data], { type: contentType });
+  const tempAnchor &#x3D; document.createElement(&#x27;a&#x27;);
+  tempAnchor.style.display &#x3D; &#x27;none&#x27;;
+  tempAnchor.href &#x3D; URL.createObjectURL(blob);
+  tempAnchor.download &#x3D; fileName;
+  tempAnchor.click();
+  tempAnchor.remove();
+}</code>
+                        </td>
+                    </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Save and download file with the given data.</p>
 </div>
                     </td>
                 </tr>

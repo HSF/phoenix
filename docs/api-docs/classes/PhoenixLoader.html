@@ -102,6 +102,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#labelsObject">labelsObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#loadingManager">loadingManager</a>
                             </li>
                             <li>
@@ -125,6 +129,10 @@
                                 <a href="#addCollection">addCollection</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addLabelToEventObject">addLabelToEventObject</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#addObjectType">addObjectType</a>
                             </li>
@@ -146,6 +154,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getEventsList">getEventsList</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getLabelsObject">getLabelsObject</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -182,7 +194,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/loaders/phoenix-loader.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/loaders/phoenix-loader.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -263,6 +275,45 @@
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>ThreeService to perform three.js related functions. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="labelsObject"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            labelsObject</b>
+                            <a href="#labelsObject"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/loaders/phoenix-loader.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Object containing event object labels. </p>
 </div>
                     </td>
                 </tr>
@@ -368,8 +419,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="258"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:258</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="260"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:260</a></div>
                 </td>
             </tr>
 
@@ -475,6 +526,118 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="addLabelToEventObject"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addLabelToEventObject
+                        </b>
+                        <a href="#addLabelToEventObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addLabelToEventObject(label: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, collection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, indexInCollection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="391"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:391</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add label of event object to the labels object.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>label</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Label to be saved.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collection</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Collection the event object is a part of.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>indexInCollection</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Event object&#39;s index in collection.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A unique label ID string.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="addObjectType"></a>
                     <span class="name">
                         <b>
@@ -495,8 +658,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:222</a></div>
                 </td>
             </tr>
 
@@ -638,8 +801,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:42</a></div>
                 </td>
             </tr>
 
@@ -647,7 +810,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Takes an object that represents ONE event and takes care of adding
-the different objects to the graphic library and the UI controls.</p>
+the different objects to the graphics library and the UI controls.</p>
 </div>
 
                     <div class="io-description">
@@ -766,8 +929,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:102</a></div>
                 </td>
             </tr>
 
@@ -846,8 +1009,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:81</a></div>
                 </td>
             </tr>
 
@@ -893,8 +1056,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:340</a></div>
                 </td>
             </tr>
 
@@ -942,8 +1105,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:65</a></div>
                 </td>
             </tr>
 
@@ -1002,6 +1165,55 @@ the different objects to the graphic library and the UI controls.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getLabelsObject"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getLabelsObject
+                        </b>
+                        <a href="#getLabelsObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getLabelsObject()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="408"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:408</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the object containing labels.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The labels object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getMuon"></a>
                     <span class="name">
                         <b>
@@ -1022,8 +1234,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="297"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:297</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="299"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:299</a></div>
                 </td>
             </tr>
 
@@ -1102,8 +1314,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="280"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:280</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="282"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:282</a></div>
                 </td>
             </tr>
 
@@ -1182,8 +1394,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:123</a></div>
                 </td>
             </tr>
 
@@ -1271,6 +1483,8 @@ export class PhoenixLoader implements EventDataLoader {
   private eventData: any;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
+  /** Object containing event object labels. */
+  protected labelsObject: { [key: string]: any } &#x3D; {};
 
   /**
    * Create the Phoenix loader.
@@ -1281,7 +1495,7 @@ export class PhoenixLoader implements EventDataLoader {
 
   /**
    * Takes an object that represents ONE event and takes care of adding
-   * the different objects to the graphic library and the UI controls.
+   * the different objects to the graphics library and the UI controls.
    * @param eventData Object representing the event.
    * @param graphicsLibrary Service containing functionality to draw the 3D objects.
    * @param ui Service for showing menus and controls to manipulate the geometries.
@@ -1627,6 +1841,34 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     return metadata;
+  }
+
+  /**
+   * Add label of event object to the labels object.
+   * @param label Label to be saved.
+   * @param collection Collection the event object is a part of.
+   * @param indexInCollection Event object&#x27;s index in collection.
+   * @returns A unique label ID string.
+   */
+  public addLabelToEventObject(label: string, collection: string, indexInCollection: number): string {
+    for (const eventDataType of Object.keys(this.eventData)) {
+      if (this.eventData[eventDataType] &amp;&amp; Object.keys(this.eventData[eventDataType]).includes(collection)) {
+        this.labelsObject[eventDataType] &#x3D; this.labelsObject[eventDataType] || {};
+        this.labelsObject[eventDataType][collection] &#x3D; this.labelsObject[eventDataType][collection] || {};
+
+        this.labelsObject[eventDataType][collection][indexInCollection] &#x3D; label;
+
+        return &#x60;${eventDataType} &gt; ${collection} &gt; ${indexInCollection}&#x60;;
+      }
+    }
+  }
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  public getLabelsObject(): object {
+    return this.labelsObject;
   }
 
 }

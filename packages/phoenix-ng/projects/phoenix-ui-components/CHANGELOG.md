@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/HSF/phoenix/compare/v1.3.0...v1.4.0) (2021-02-16)
+
+
+### Bug Fixes
+
+* **event-display:** improve object selection from uuid and label input ([3475836](https://github.com/HSF/phoenix/commit/3475836eacca1485f6dddab8dc049bbb605a5e27))
+
+
+### Features
+
+* **app:** ability to add label ([cccd3ed](https://github.com/HSF/phoenix/commit/cccd3ed22583dd9061e09a1c8cf455ee60db7a22))
+* **app:** add label icon and form ([a65a83e](https://github.com/HSF/phoenix/commit/a65a83ece414ae86e5ed66bbb1f97a97a0bd09e7))
+* **event-display:** delete label on empty value and change add label icon ([3756330](https://github.com/HSF/phoenix/commit/3756330d06c459662a0e99d447e5984ebea87e27))
+* **event-display:** set up add label to object functions ([db261a6](https://github.com/HSF/phoenix/commit/db261a6fe5b770f912bef080f1ceec6374a81d08))
+* Update Angular and all packages to latest ([f4c2e31](https://github.com/HSF/phoenix/commit/f4c2e31207e890436a6387e2e34ef31e3d0c48a6))
+
+
+
+
+
 # [1.3.0](https://github.com/HSF/phoenix/compare/v1.2.0...v1.3.0) (2021-01-16)
 
 

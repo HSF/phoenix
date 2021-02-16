@@ -1543,11 +1543,10 @@ export class SelectionManager {
    * with the given uuid.
    */
   public highlightObject(uuid: string, objectsGroup: Object3D) {
-    objectsGroup.traverse((object: any) &#x3D;&gt; {
-      if (object.uuid &#x3D;&#x3D;&#x3D; uuid) {
-        this.outlinePass.selectedObjects &#x3D; [object];
-      }
-    });
+    const object &#x3D; objectsGroup.getObjectByProperty(&#x27;uuid&#x27;, uuid);
+    if (object) {
+      this.outlinePass.selectedObjects &#x3D; [object];
+    }
   }
 }
 </code></pre>
