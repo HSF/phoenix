@@ -1,56 +1,37 @@
 import { CMSLoader } from '../loaders/cms-loader';
-import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
-import { AppModule } from '../../app.module';
 
 describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;
-
-  let http: HttpClient;
-  const TEST_IG_ARCHIVE = 'assets/files/cms/EventData_test.ig';
+  const TEST_IG_ARCHIVE = 'assets/test_files/EventData_test.ig';
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [AppModule],
-      providers: [HttpClient]
-    });
-
-    http = TestBed.get(HttpClient);
-  });
-
-  it('should create CMS loader', () => {
-    cmsLoader = new CMSLoader(http);
-    expect(cmsLoader).toBeTruthy();
-  });
-
   describe('methods depending upon event data', () => {
-    beforeAll(async () => {
-      await fetch(TEST_IG_ARCHIVE).then(res => res.arrayBuffer()).then(res => {
-        spyOn(http, 'get').and.returnValue(of(res));
+    beforeAll((done) => {
+      fetch(TEST_IG_ARCHIVE).then(res => {
+        const arrayBufferData = res.arrayBuffer();
+        spyOn(res, 'arrayBuffer').and.returnValue(Promise.resolve(arrayBufferData));
+        spyOn(window, 'fetch').and.returnValue(Promise.resolve(res));
+        done();
       });
-    }, 30000);
+    }, TEST_IG_ARCHIVE_TIMEOUT);
 
     beforeEach(() => {
-      cmsLoader = new CMSLoader(http);
+      cmsLoader = new CMSLoader();
     });
 
-    it('should read .ig archive without event path', (done) => {
+    it('should read .ig archive without event path', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         expect(allEvents).toBeTruthy();
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should read .ig archive with event path', (done) => {
+    it('should read .ig archive with event path', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         expect(allEvents).toBeTruthy();
-        done();
       }, TEST_EVENT_PATH);
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
     it('should load event data from .ig', () => {
       spyOn(cmsLoader, 'readIgArchive').and.callThrough();
@@ -58,26 +39,24 @@ describe('CMSLoader', () => {
       expect(cmsLoader.readIgArchive).toHaveBeenCalled();
     });
 
-    it('should get all events data', (done) => {
+    it('should get all events data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         const allEventsInPhnx = cmsLoader.getAllEventsData(allEvents);
         expect(allEventsInPhnx).toBeDefined();
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should apply max cut to event data', (done) => {
+    it('should apply max cut to event data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         const objectCollections = (cmsLoader as any).getObjectCollections(['PFJets_V1'], (object: any) => { }, [
           { attribute: 'et', max: 1 }
         ]);
         expect(objectCollections).toBeDefined();
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should load object types specific to CMS (MuonChambers)', (done) => {
+    it('should load object types specific to CMS (MuonChambers)', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         const eventData = cmsLoader.getEventData();
@@ -90,11 +69,10 @@ describe('CMSLoader', () => {
 
         eventData.MuonChambers = undefined;
         (cmsLoader as any).loadObjectTypes(eventData);
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
 
-    it('should get event metadata', (done) => {
+    it('should get event metadata', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
         (PhoenixLoader.prototype as any).eventData = cmsLoader.getEventData();
@@ -103,10 +81,8 @@ describe('CMSLoader', () => {
         // Removing "Orbit" metadata - this.data['Collections']['Event_V2'][0][3]
         (cmsLoader as any).data['Collections']['Event_V2'][0][3] = undefined;
         expect(cmsLoader.getEventMetadata().length).toBeGreaterThan(0);
-
-        done();
       });
-    }, TEST_IG_ARCHIVE_TIMEOUT);
+    });
   });
 
 });

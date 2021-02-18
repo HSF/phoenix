@@ -9,6 +9,8 @@ To install the package for reusing components.
 
 ```sh
 npm install phoenix-ui-components
+# or
+yarn add phoenix-ui-components
 ```
 
 ## Setup

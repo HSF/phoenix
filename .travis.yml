@@ -14,14 +14,14 @@ cache:
     - ./packages/phoenix-event-display/node_modules
 
 install:
-  - npm install lerna --global
-  - npm run install:dependencies
+  - npm install --global yarn lerna
+  - yarn install:dependencies
 
 script:
-  - cd ./packages/phoenix-ng
-  - npm run test:coverage -- --no-progress --browsers=ChromeHeadlessCI
-  # Bug with Angular 10 (https://github.com/angular/protractor/issues/5460)
-  #- npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
+  - yarn test:coverage
+  # Set up surge and deploy for PR
+  - if [ "$TRAVIS_PULL_REQUEST" != false ]; then chmod +x ./scripts/pr_deploy.sh; ./scripts/pr_deploy.sh; fi
 
 after_success:
-  - npm run coveralls
+  - cd ./packages/phoenix-ng
+  - yarn coveralls

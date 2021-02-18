@@ -382,8 +382,8 @@ export class EventDisplay {
       // Add to scene
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
 
-      this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
-      return this.graphicsLibrary.parseGLTFGeometry(phoenixScene.scene);
+      this.loadingManager.addLoadableItem(&#x60;parse_phnx_${name}&#x60;);
+      return this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
     }
   }
 
@@ -396,13 +396,15 @@ export class EventDisplay {
 
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param input JSON containing the scene as in GLTF (.gltf) format.
+   * @param input Data of the GLTF (.gltf) file.
+   * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(input: any): Promise&lt;unknown&gt; {
-    const scene &#x3D; JSON.parse(input);
+  public parseGLTFGeometry(input: string | ArrayBuffer, name: string): Promise&lt;unknown&gt; {
     this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
-    return this.graphicsLibrary.parseGLTFGeometry(scene);
+    this.ui.addGeometry(name, undefined);
+    this.infoLogger.add(name, &#x27;Parsed GLTF geometry&#x27;);
+    return this.graphicsLibrary.parseGLTFGeometry(input, name);
   }
 
   /**
@@ -525,9 +527,11 @@ export class EventDisplay {
   private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: [] }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
       const typeFolder &#x3D; this.ui.addEventDataTypeFolder(objectType);
+      const typeFolderPM &#x3D; this.ui.addEventDataTypeFolderPM(objectType);
       const collections &#x3D; sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
         this.ui.addCollection(typeFolder, collection);
+        this.ui.addCollectionPM(typeFolderPM, collection);
       }
     }
 

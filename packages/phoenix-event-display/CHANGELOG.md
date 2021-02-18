@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/HSF/phoenix/compare/v1.2.0...v1.3.0) (2021-01-16)
+
+
+### Bug Fixes
+
+* **event-display:** assign the right name to geometry ([b7e8da0](https://github.com/HSF/phoenix/commit/b7e8da002548255b0c996ebc91a06918b5819281))
+* **event-display:** code improvements ([f94c0e4](https://github.com/HSF/phoenix/commit/f94c0e40384ee95f22ba1a92938cf124a6d89a31))
+* **event-display:** fix parsing of GLTF geometry ([dc5d489](https://github.com/HSF/phoenix/commit/dc5d489fd2b2730b9d235851c09baf86d88325d3))
+* **event-display:** improve code for hiding tube tracks ([e9f1bc9](https://github.com/HSF/phoenix/commit/e9f1bc9ef454791e567cf83c886f055c4215423c))
+* **event-display:** minor script fix ([5139c6e](https://github.com/HSF/phoenix/commit/5139c6e9e9a5a3029cf1e4a6b454c0f4d8cfb42a))
+* **event-display:** remove color from obj file userdata ([8ba94e7](https://github.com/HSF/phoenix/commit/8ba94e76955b9d65688ee5aaabb6d4f2d0e854f2))
+* **event-display:** revert jasmine spec files ([dc140dd](https://github.com/HSF/phoenix/commit/dc140ddf33b083577782f55f4c2a8187c9501d44))
+* **event-display:** try fixing CMSLoader tests ([789da8b](https://github.com/HSF/phoenix/commit/789da8b352620d485e80271283f2a133cf7d3323))
+
+
+### Features
+
+* **event-display:** display size on selection ([6943f79](https://github.com/HSF/phoenix/commit/6943f792b2eb037dd4ab19b9dc806d75820b2249))
+* **event-display:** hide tube tracks on zoom ([7d606b2](https://github.com/HSF/phoenix/commit/7d606b29214e9f080266ad13502fa1092605a00f))
+
+
+
+
+
+
 # [1.2.0](https://github.com/HSF/phoenix/compare/v1.1.0...v1.2.0) (2020-12-06)
 
 

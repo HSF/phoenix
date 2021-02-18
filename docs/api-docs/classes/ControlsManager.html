@@ -156,6 +156,10 @@
                                 <a href="#getOverlayControls">getOverlayControls</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#hideTubeTracksOnZoom">hideTubeTracksOnZoom</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#initializeZoomControls">initializeZoomControls</a>
                             </li>
@@ -647,8 +651,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="355"
-                            class="link-to-prism">src/three/controls-manager.ts:355</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="385"
+                            class="link-to-prism">src/three/controls-manager.ts:385</a></div>
                 </td>
             </tr>
 
@@ -1052,6 +1056,102 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hideTubeTracksOnZoom"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            hideTubeTracksOnZoom
+                        </b>
+                        <a href="#hideTubeTracksOnZoom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hideTubeTracksOnZoom(scene: Scene, minRadius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="317"
+                            class="link-to-prism">src/three/controls-manager.ts:317</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Hide tube geometry of tracks on zoom if the camera is too close.
+(For visibility of vertices)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scene</td>
+                                    <td>
+                                            <code>Scene</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Scene to look in for tracks.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>minRadius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Radius after which the tube tracks should be invisible.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="initializeZoomControls"></a>
                     <span class="name">
                         <b>
@@ -1072,8 +1172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">src/three/controls-manager.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="344"
+                            class="link-to-prism">src/three/controls-manager.ts:344</a></div>
                 </td>
             </tr>
 
@@ -1211,8 +1311,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="371"
-                            class="link-to-prism">src/three/controls-manager.ts:371</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="401"
+                            class="link-to-prism">src/three/controls-manager.ts:401</a></div>
                 </td>
             </tr>
 
@@ -1307,8 +1407,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="332"
-                            class="link-to-prism">src/three/controls-manager.ts:332</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">src/three/controls-manager.ts:362</a></div>
                 </td>
             </tr>
 
@@ -1465,8 +1565,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="344"
-                            class="link-to-prism">src/three/controls-manager.ts:344</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">src/three/controls-manager.ts:374</a></div>
                 </td>
             </tr>
 
@@ -2162,7 +2262,7 @@ The factor may either be greater or smaller.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group } from &#x27;three&#x27;;
+import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group, Scene, Mesh, TubeBufferGeometry } from &#x27;three&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
 import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
 
@@ -2467,6 +2567,36 @@ export class ControlsManager {
             }, 200).start();
           }
         }
+      }
+    });
+  }
+
+  /**
+   * Hide tube geometry of tracks on zoom if the camera is too close.
+   * (For visibility of vertices)
+   * @param scene Scene to look in for tracks.
+   * @param minRadius Radius after which the tube tracks should be invisible.
+   */
+  public hideTubeTracksOnZoom(scene: Scene, minRadius: number) {
+    let tracksHidden &#x3D; false;
+    const origin &#x3D; new Vector3();
+    this.activeControls.addEventListener(&#x27;change&#x27;, (event) &#x3D;&gt; {
+      const isCameraClose &#x3D; (event?.target?.object?.position as Vector3)
+        .distanceTo(origin) &lt; minRadius;
+      if (isCameraClose &amp;&amp; !tracksHidden) {
+        scene.getObjectByName(&#x27;Tracks&#x27;)?.traverse(track &#x3D;&gt; {
+          if (track.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; &amp;&amp; (track as Mesh).geometry instanceof TubeBufferGeometry) {
+            track.visible &#x3D; false;
+          }
+        });
+        tracksHidden &#x3D; true;
+      } else if (!isCameraClose &amp;&amp; tracksHidden) {
+        scene.getObjectByName(&#x27;Tracks&#x27;)?.traverse(track &#x3D;&gt; {
+          if (track.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; &amp;&amp; (track as Mesh).geometry instanceof TubeBufferGeometry) {
+            track.visible &#x3D; true;
+          }
+        });
+        tracksHidden &#x3D; false;
       }
     });
   }

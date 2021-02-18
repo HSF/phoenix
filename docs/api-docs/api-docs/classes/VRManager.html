@@ -1,0 +1,1504 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>VRManager</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/three/vr-manager.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>VR manager for VR related operations.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cameraGroup">cameraGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#controller1">controller1</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#controller2">controller2</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#controllerGrip1">controllerGrip1</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#controllerGrip2">controllerGrip2</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentVRSession">currentVRSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onControllerSelectEnd">onControllerSelectEnd</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onControllerSelectStart">onControllerSelectStart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onSessionEnded">onSessionEnded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onVRSessionEnded">onVRSessionEnded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onVRSessionStarted">onVRSessionStarted</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#renderer">renderer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#SESSION_TYPE">SESSION_TYPE</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#vrActive">vrActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#vrCamera">vrCamera</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#endVRSession">endVRSession</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCameraGroup">getCameraGroup</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getVRCamera">getVRCamera</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isVRActive">isVRActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#moveInDirection">moveInDirection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setupVRControls">setupVRControls</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setVRSession">setVRSession</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cameraGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cameraGroup</b>
+                            <a href="#cameraGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Group</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/three/vr-manager.ts:24</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Group containing the the camera for VR. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controller1"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            controller1</b>
+                            <a href="#controller1"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/three/vr-manager.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The VR controller for movement. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controller2"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            controller2</b>
+                            <a href="#controller2"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/three/vr-manager.ts:31</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The VR controller for movement. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controllerGrip1"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            controllerGrip1</b>
+                            <a href="#controllerGrip1"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/three/vr-manager.ts:33</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The VR controller representation </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="controllerGrip2"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            controllerGrip2</b>
+                            <a href="#controllerGrip2"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/three/vr-manager.ts:35</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The VR controller representation </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentVRSession"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            currentVRSession</b>
+                            <a href="#currentVRSession"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/three/vr-manager.ts:20</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Currently active VR session. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onControllerSelectEnd"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onControllerSelectEnd</b>
+                            <a href="#onControllerSelectEnd"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/three/vr-manager.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onControllerSelectStart"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onControllerSelectStart</b>
+                            <a href="#onControllerSelectStart"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/three/vr-manager.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onSessionEnded"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onSessionEnded</b>
+                            <a href="#onSessionEnded"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/three/vr-manager.ts:22</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback to call when the VR session ends. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onVRSessionEnded"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onVRSessionEnded</b>
+                            <a href="#onVRSessionEnded"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/three/vr-manager.ts:82</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback when the VR session ends.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onVRSessionStarted"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            onVRSessionStarted</b>
+                            <a href="#onVRSessionStarted"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/three/vr-manager.ts:72</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Callback for when the VR session is started.</p>
+</div>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                          <div class="io-description">
+                                  <b>Parameters :</b>
+                                  <table class="params">
+                                      <thead>
+                                          <tr>
+                                                <td>Name</td>
+                                                    <td>Description</td>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                                <tr>
+                                                        <td>session</td>
+                                                        <td>
+                                                                <code><p>The VR session.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                      </tbody>
+                                  </table>
+                          </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="renderer"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            renderer</b>
+                            <a href="#renderer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>WebGLRenderer</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/three/vr-manager.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Renderer to set the VR session for. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="SESSION_TYPE"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                                <span class="modifier">Readonly</span>
+                            SESSION_TYPE</b>
+                            <a href="#SESSION_TYPE"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;immersive-vr&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/three/vr-manager.ts:14</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Session type to use for VR. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="vrActive"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            vrActive</b>
+                            <a href="#vrActive"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/three/vr-manager.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Whether the VR is currently active or not. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="vrCamera"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            vrCamera</b>
+                            <a href="#vrCamera"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Camera</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/three/vr-manager.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The camera used by VR. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endVRSession"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            endVRSession
+                        </b>
+                        <a href="#endVRSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>endVRSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">src/three/vr-manager.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>End the current VR session.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCameraGroup"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getCameraGroup
+                        </b>
+                        <a href="#getCameraGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCameraGroup(camera?: Camera)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">src/three/vr-manager.ts:116</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the group containing the camera for VR.
+VR camera works by adding a Group with Camera to the scene.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>camera</td>
+                                    <td>
+                                            <code>Camera</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Camera which is to be cloned for VR use.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Group</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The camera group used in VR mode.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVRCamera"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getVRCamera
+                        </b>
+                        <a href="#getVRCamera"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVRCamera()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">src/three/vr-manager.ts:136</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the camera used by VR.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The camera used by VR.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isVRActive"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isVRActive
+                        </b>
+                        <a href="#isVRActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isVRActive()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">src/three/vr-manager.ts:106</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Is the VR currently active or not.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A boolean for whether the VR is active or not.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="moveInDirection"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            moveInDirection
+                        </b>
+                        <a href="#moveInDirection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>moveInDirection(direction: Vector3, stepDistance: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/three/vr-manager.ts:201</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Move the camera in the given direction.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>direction</td>
+                                    <td>
+                                            <code>Vector3</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Direction to move towards.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>stepDistance</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Distance to move by.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setupVRControls"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            setupVRControls
+                        </b>
+                        <a href="#setupVRControls"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setupVRControls()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/three/vr-manager.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set up VR controls for moving around the event display.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setVRSession"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setVRSession
+                        </b>
+                        <a href="#setVRSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setVRSession(renderer: WebGLRenderer, onSessionStarted?: () => void, onSessionEnded?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/three/vr-manager.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set and configure the VR session.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>renderer</td>
+                                    <td>
+                                            <code>WebGLRenderer</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Renderer to set the VR session for.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onSessionStarted</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback to call when the VR session starts.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onSessionEnded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback to call when the VR session ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { WebGLRenderer, Group, Camera, Vector3, BufferGeometry, Line, Scene } from &quot;three&quot;;
+import { XRControllerModelFactory } from &#x27;three/examples/jsm/webxr/XRControllerModelFactory&#x27;
+
+// NOTE: This was created on 29/08/2020
+// It might get outdated given how WebXR is still a work in progress
+
+// LAST UPDATED ON 28/11/2020
+
+/**
+ * VR manager for VR related operations.
+ */
+export class VRManager {
+  /** Session type to use for VR. */
+  static readonly SESSION_TYPE: string &#x3D; &#x27;immersive-vr&#x27;;
+  /** Whether the VR is currently active or not. */
+  private vrActive: boolean &#x3D; false;
+  /** Renderer to set the VR session for. */
+  private renderer: WebGLRenderer;
+  /** Currently active VR session. */
+  private currentVRSession: any &#x3D; null;
+  /** Callback to call when the VR session ends. */
+  private onSessionEnded: () &#x3D;&gt; void;
+  /** Group containing the the camera for VR. */
+  public cameraGroup: Group;
+  /** The camera used by VR. */
+  public vrCamera: Camera;
+
+  /** The VR controller for movement. */
+  private controller1: any;
+  /** The VR controller for movement. */
+  private controller2: any;
+  /** The VR controller representation */
+  private controllerGrip1: any;
+  /** The VR controller representation */
+  private controllerGrip2: any;
+
+  private onControllerSelectStart: () &#x3D;&gt; void;
+  private onControllerSelectEnd: () &#x3D;&gt; void;
+
+  /**
+   * Set and configure the VR session.
+   * @param renderer Renderer to set the VR session for.
+   * @param onSessionStarted Callback to call when the VR session starts.
+   * @param onSessionEnded Callback to call when the VR session ends.
+   */
+  public setVRSession(
+    renderer: WebGLRenderer,
+    onSessionStarted?: () &#x3D;&gt; void,
+    onSessionEnded?: () &#x3D;&gt; void
+  ) {
+    this.renderer &#x3D; renderer;
+    this.onSessionEnded &#x3D; onSessionEnded;
+
+    if ((navigator as any)?.xr) {
+      const sessionInit &#x3D; {
+        optionalFeatures: [&#x27;local-floor&#x27;, &#x27;bounded-floor&#x27;, &#x27;hand-tracking&#x27;]
+      };
+      (navigator as any)?.xr?.requestSession(VRManager.SESSION_TYPE, sessionInit)
+        .then((session: any) &#x3D;&gt; {
+          this.onVRSessionStarted(session);
+          onSessionStarted?.();
+        });
+
+      this.setupVRControls();
+    }
+  }
+
+  /**
+   * Callback for when the VR session is started.
+   * @param session The VR session.
+   */
+  private onVRSessionStarted &#x3D; (session: any) &#x3D;&gt; {
+    this.vrActive &#x3D; true;
+    session.addEventListener(&#x27;end&#x27;, this.onVRSessionEnded);
+    this.renderer.xr.setSession(session);
+    this.currentVRSession &#x3D; session;
+  }
+
+  /**
+   * Callback when the VR session ends.
+   */
+  private onVRSessionEnded &#x3D; () &#x3D;&gt; {
+    this.onSessionEnded?.();
+
+    this.vrActive &#x3D; false;
+    this.currentVRSession?.removeEventListener(&#x27;end&#x27;, this.onVRSessionEnded);
+    this.currentVRSession &#x3D; null;
+
+    this.controller1?.removeEventListener(&#x27;selectstart&#x27;, this.onControllerSelectStart);
+    this.controller1?.removeEventListener(&#x27;selectend&#x27;, this.onControllerSelectEnd);
+
+    this.cameraGroup &#x3D; undefined;
+  }
+
+  /**
+   * End the current VR session.
+   */
+  public endVRSession() {
+    this.currentVRSession?.end();
+  }
+
+  /**
+   * Is the VR currently active or not.
+   * @returns A boolean for whether the VR is active or not.
+   */
+  public isVRActive(): boolean {
+    return this.vrActive;
+  }
+
+  /**
+   * Get the group containing the camera for VR.
+   * VR camera works by adding a Group with Camera to the scene.
+   * @param camera Camera which is to be cloned for VR use.
+   * @returns The camera group used in VR mode.
+   */
+  public getCameraGroup(camera?: Camera): Group {
+    // Set up the camera position in the VR - Adding a group with camera does it
+    if (!this.cameraGroup) {
+      this.cameraGroup &#x3D; new Group();
+    }
+    if (camera &amp;&amp; this.vrActive) {
+      this.vrCamera &#x3D; this.renderer.xr.getCamera(new Camera()).copy(camera.clone());
+      this.vrCamera.name &#x3D; &#x27;VR_CAMERA&#x27;;
+
+      this.cameraGroup.position.copy(this.vrCamera.position);
+      this.cameraGroup.add(this.vrCamera);
+    }
+
+    return this.cameraGroup;
+  }
+
+  /**
+   * Get the camera used by VR.
+   * @returns The camera used by VR.
+   */
+  public getVRCamera() {
+    return this.vrCamera;
+  }
+
+  /**
+   * Set up VR controls for moving around the event display.
+   */
+  private setupVRControls() {
+    // Get the controllers
+    this.controller1 &#x3D; this.renderer.xr.getController(0);
+    this.getCameraGroup().add(this.controller1);
+    this.controller2 &#x3D; this.renderer.xr.getController(1);
+    this.getCameraGroup().add(this.controller2);
+
+    const controllerModelFactory &#x3D; new XRControllerModelFactory();
+    this.controllerGrip1 &#x3D; this.renderer.xr.getControllerGrip(0);
+    this.controllerGrip1.add(controllerModelFactory.createControllerModel(this.controllerGrip1));
+    this.getCameraGroup().add(this.controllerGrip1);
+
+    this.controllerGrip2 &#x3D; this.renderer.xr.getControllerGrip(1);
+    this.controllerGrip2.add(controllerModelFactory.createControllerModel(this.controllerGrip2));
+    this.getCameraGroup().add(this.controllerGrip2);
+
+    const geometry &#x3D; new BufferGeometry().setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, - 1)]);
+
+    const line &#x3D; new Line(geometry);
+    line.name &#x3D; &#x27;line&#x27;;
+    line.scale.z &#x3D; 50;
+
+    this.controller1.add(line.clone());
+    this.controller2.add(line.clone());
+
+    // Set up movement
+    
+    // Distance for a single step
+    const stepDistance &#x3D; 30;
+    // Unit vector in camera direction
+    const direction &#x3D; new Vector3();
+    // Interval ID for the movement interval
+    let intervalId: NodeJS.Timeout;
+
+    this.onControllerSelectStart &#x3D; () &#x3D;&gt; {
+      console.log(&#x27;Select: c1 position &#x27; + this.controller1.position.toArray().join(&#x27;, &#x27;));
+      console.log(&#x27;Select: CG position &#x27; + this.cameraGroup.position.toArray().join(&#x27;, &#x27;));
+
+      // Start movement in camera direction
+      intervalId &#x3D; setInterval(() &#x3D;&gt; {
+        this.moveInDirection(direction, stepDistance);
+      }, 20);
+    };
+
+    this.onControllerSelectEnd &#x3D; () &#x3D;&gt; {
+      // Stop the movement
+      clearInterval(intervalId);
+    };
+
+    this.controller1.addEventListener(&#x27;selectstart&#x27;, this.onControllerSelectStart);
+    this.controller1.addEventListener(&#x27;selectend&#x27;, this.onControllerSelectEnd);
+  }
+
+  /**
+   * Move the camera in the given direction.
+   * @param direction Direction to move towards.
+   * @param stepDistance Distance to move by.
+   */
+  private moveInDirection(direction: Vector3, stepDistance: number) {
+    // Get the direction the controller is facing
+    //! this.controller.getWorldDirection(direction);
+
+    // Get direction the camera is facing
+    this.vrCamera?.getWorldDirection(direction);
+
+    // Move the camera in the given direction
+    this.cameraGroup.position.addScaledVector(direction, stepDistance);
+    this.vrCamera.position.addScaledVector(direction, stepDistance);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'VRManager.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -115,6 +115,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getObjectSize">getObjectSize</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#loadGLTFGeometry">loadGLTFGeometry</a>
                             </li>
@@ -133,6 +137,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#parseOBJGeometry">parseOBJGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#parsePhnxScene">parsePhnxScene</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -398,6 +406,86 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getObjectSize"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getObjectSize
+                        </b>
+                        <a href="#getObjectSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getObjectSize(object: Mesh)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">src/three/import-manager.ts:302</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the size of object.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                            <code>Mesh</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Object to get the size of.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The size (vector) of object as a string.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadGLTFGeometry"></a>
                     <span class="name">
                         <b>
@@ -411,15 +499,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(sceneUrl: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (Geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>loadGLTFGeometry(sceneUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (Geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">src/three/import-manager.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/three/import-manager.ts:180</a></div>
                 </td>
             </tr>
 
@@ -444,7 +532,7 @@
                                 <tr>
                                     <td>sceneUrl</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -546,8 +634,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="214"
-                            class="link-to-prism">src/three/import-manager.ts:214</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">src/three/import-manager.ts:232</a></div>
                 </td>
             </tr>
 
@@ -843,15 +931,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseGLTFGeometry(geometry: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, callback: (geometries: Object3D,eventData: Object3D) => void)</code>
+                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (scene: Object3D) => void)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">src/three/import-manager.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">src/three/import-manager.ts:204</a></div>
                 </td>
             </tr>
 
@@ -876,7 +964,7 @@
                                 <tr>
                                     <td>geometry</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>string | ArrayBuffer</code>
                                     </td>
 
                                     <td>
@@ -886,6 +974,22 @@
 
                                     <td>
                                         <p>Geometry in GLTF (.gltf) format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name given to the geometry.</p>
 
                                     </td>
                                 </tr>
@@ -1022,6 +1126,102 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="parsePhnxScene"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            parsePhnxScene
+                        </b>
+                        <a href="#parsePhnxScene"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parsePhnxScene(scene: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, callback: (geometries: Object3D,eventData: Object3D) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/three/import-manager.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Parses and loads a scene in Phoenix (.phnx) format.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scene</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Geometry in Phoenix (.phnx) format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>callback</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback called after the scene is loaded.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;unknown&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise for loading the scene.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="processGeometry"></a>
                     <span class="name">
                         <b>
@@ -1042,8 +1242,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">src/three/import-manager.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">src/three/import-manager.ts:267</a></div>
                 </td>
             </tr>
 
@@ -1162,15 +1362,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>processOBJ(object: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, data?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>processOBJ(object: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">src/three/import-manager.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/three/import-manager.ts:89</a></div>
                 </td>
             </tr>
 
@@ -1272,22 +1472,6 @@
 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>Data/description to be associated with the object.</p>
-
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1329,8 +1513,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/three/import-manager.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">src/three/import-manager.ts:109</a></div>
                 </td>
             </tr>
 
@@ -1443,7 +1627,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide } from &#x27;three&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide, Vector3, Box3 } from &#x27;three&#x27;;
 import { OBJLoader } from &#x27;three/examples/jsm/loaders/OBJLoader&#x27;;
 import { GLTFLoader } from &#x27;three/examples/jsm/loaders/GLTFLoader&#x27;;
 import { LoadingManager } from &#x27;../managers/loading-manager&#x27;;
@@ -1499,7 +1683,7 @@ export class ImportManager {
     const objLoader &#x3D; new OBJLoader();
     return new Promise((resolve, reject) &#x3D;&gt; {
       objLoader.load(filename, object &#x3D;&gt; {
-        const processed &#x3D; this.processOBJ(object, name, color, doubleSided, setFlat, &#x27;OBJ file&#x27;);
+        const processed &#x3D; this.processOBJ(object, name, color, doubleSided, setFlat);
         callback(processed);
         resolve();
         this.loadingManager.itemLoaded(&#x60;obj_geom_${name}&#x60;);
@@ -1519,14 +1703,7 @@ export class ImportManager {
   public parseOBJGeometry(geometry: string, name: string): Object3D {
     const objLoader &#x3D; new OBJLoader();
     const object &#x3D; objLoader.parse(geometry);
-    return this.processOBJ(
-      object,
-      name,
-      0x41a6f4,
-      false,
-      false,
-      &#x27;OBJ file loaded from the client.&#x27;
-    );
+    return this.processOBJ(object, name, 0x41a6f4, false, false);
   }
 
   /**
@@ -1536,7 +1713,6 @@ export class ImportManager {
    * @param color Color of the object.
    * @param doubleSided Renders both sides of the material.
    * @param setFlat Whether object should be flat-shaded or not.
-   * @param data Data/description to be associated with the object.
    * @returns The processed object.
    */
   private processOBJ(
@@ -1544,11 +1720,10 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
-    setFlat: boolean,
-    data?: string
+    setFlat: boolean
   ): Object3D {
     object.name &#x3D; name;
-    object.userData &#x3D; { info: data };
+    object.userData &#x3D; { name };
     return this.setObjFlat(object, color, doubleSided, setFlat);
   }
 
@@ -1576,6 +1751,7 @@ export class ImportManager {
       if (child instanceof Mesh) {
         child.name &#x3D; object3d.name;
         child.userData &#x3D; object3d.userData;
+        child.userData.size &#x3D; this.getObjectSize(child);
         // Use the new material
         if (child.material instanceof Material) {
           child.material.dispose();
@@ -1597,27 +1773,27 @@ export class ImportManager {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
-   * @param callback Callback called after the geometry is loaded.
-   * @returns Promise for loading the geometry.
+   * Parses and loads a scene in Phoenix (.phnx) format.
+   * @param scene Geometry in Phoenix (.phnx) format.
+   * @param callback Callback called after the scene is loaded.
+   * @returns Promise for loading the scene.
    */
-  public parseGLTFGeometry(
-    geometry: any,
-    callback: (geometries: Object3D, eventData: Object3D) &#x3D;&gt; any
+  public parsePhnxScene(
+    scene: any,
+    callback: (geometries: Object3D, eventData: Object3D) &#x3D;&gt; void
   ): Promise&lt;unknown&gt; {
     const loader &#x3D; new GLTFLoader();
-    const sceneString &#x3D; JSON.stringify(geometry, null, 2);
+    const sceneString &#x3D; JSON.stringify(scene, null, 2);
     return new Promise((resolve, reject) &#x3D;&gt; {
       loader.parse(sceneString, &#x27;&#x27;, gltf &#x3D;&gt; {
         const eventData &#x3D; gltf.scene.getObjectByName(this.EVENT_DATA_ID);
         const geometries &#x3D; gltf.scene.getObjectByName(this.GEOMETRIES_ID);
         callback(eventData, geometries);
         resolve();
-        this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
+        this.loadingManager.itemLoaded(&#x60;parse_phnx_${name}&#x60;);
       }, (error) &#x3D;&gt; {
         reject(error);
-        this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
+        this.loadingManager.itemLoaded(&#x60;parse_phnx_${name}&#x60;);
       });
     });
   }
@@ -1630,7 +1806,7 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: any, name: string,
+  public loadGLTFGeometry(sceneUrl: string, name: string,
     callback: (Geometry: Object3D) &#x3D;&gt; any, scale?: number): Promise&lt;unknown&gt; {
     const loader &#x3D; new GLTFLoader();
     return new Promise((resolve, reject) &#x3D;&gt; {
@@ -1643,6 +1819,32 @@ export class ImportManager {
       }, null, (error) &#x3D;&gt; {
         reject(error);
         this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
+      });
+    });
+  }
+
+  /**
+   * Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry Geometry in GLTF (.gltf) format.
+   * @param name Name given to the geometry.
+   * @param callback Callback called after the geometry is loaded.
+   * @returns Promise for loading the geometry.
+   */
+  public parseGLTFGeometry(
+    geometry: string | ArrayBuffer, name: string,
+    callback: (scene: Object3D) &#x3D;&gt; any
+  ): Promise&lt;unknown&gt; {
+    const loader &#x3D; new GLTFLoader();
+    return new Promise((resolve, reject) &#x3D;&gt; {
+      loader.parse(geometry, &#x27;&#x27;, gltf &#x3D;&gt; {
+        const geometry &#x3D; gltf.scene;
+        this.processGeometry(geometry, name);
+        callback(geometry);
+        resolve();
+        this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
+      }, (error) &#x3D;&gt; {
+        reject(error);
+        this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
       });
     });
   }
@@ -1699,7 +1901,8 @@ export class ImportManager {
     }
     geometry.traverse((child) &#x3D;&gt; {
       if (child instanceof Mesh) {
-        child.name ? child.userData.name &#x3D; child.name : child.name &#x3D; child.userData.name &#x3D; name;
+        child.name &#x3D; child.userData.name &#x3D; name;
+        child.userData.size &#x3D; this.getObjectSize(child);
         if (child.material instanceof Material) {
           const color &#x3D; child.material[&#x27;color&#x27;] ? child.material[&#x27;color&#x27;] : 0x2fd691;
           const side &#x3D; doubleSided ? DoubleSide : child.material[&#x27;side&#x27;];
@@ -1718,6 +1921,18 @@ export class ImportManager {
         }
       }
     });
+  }
+
+  /**
+   * Get the size of object.
+   * @param object Object to get the size of.
+   * @returns The size (vector) of object as a string.
+   */
+  private getObjectSize(object: Mesh): string {
+    const size &#x3D; new Vector3();
+    object.geometry.computeBoundingBox();
+    object.geometry?.boundingBox?.getSize(size);
+    return JSON.stringify(size, null, 2);
   }
 }
 </code></pre>

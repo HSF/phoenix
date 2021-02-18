@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="phoenix-event-display">Phoenix event display</h1>
+<p><a href="https://www.npmjs.com/package/phoenix-event-display"><img src="https://img.shields.io/npm/v/phoenix-event-display.svg" alt="Version" class="img-responsive"></a>
+<a href="https://www.npmjs.com/package/phoenix-event-display"><img src="https://img.shields.io/npm/dt/phoenix-event-display.svg" alt="Downloads" class="img-responsive"></a>
+<a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a></p>
+<p>A highly modular and API driven experiment independent event display that uses <a href="https://threejs.org">three.js</a> for processing and presenting detector geometry and event data.</p>
+<p>To use in your application. First, install the npm package.</p>
+<div><pre class="line-numbers"><code class="language-sh">npm install phoenix-event-display</code></pre></div><h2 id="usage">Usage</h2>
+<p>To create a simple event display.</p>
+<div><pre class="line-numbers"><code class="language-js">// Import required classes
+import { EventDisplay, PhoenixLoader } from &#39;phoenix-event-display&#39;;
+
+// Create the event display
+const eventDisplay = new EventDisplay();
+
+// Define the configuration
+const configuration = {
+  elementId: &#39;&lt;wrapper_element_id&gt;&#39;,
+  eventDataLoader: new PhoenixLoader() // or some other event data loader
+  // ... other configuration options
+};
+
+// Initialize the event display with the configuration
+eventDisplay.init(configuration);
+
+// Load and parse event data in Phoenix format and display it
+fetch(&#39;path/to/event-data.json&#39;)
+  .then((res) =&gt; res.json())
+  .then((res) =&gt; {
+    eventDisplay.parsePhoenixEvents(res);
+  });
+
+// Load detector geometry
+eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);
+</code></pre></div><h3 id="examples">Examples</h3>
+<ul>
+<li><a href="https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
+<li><a href="https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31">Usage in React</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -6,10 +6,12 @@
 
 A highly modular and API driven experiment independent event display that uses [three.js](https://threejs.org) for processing and presenting detector geometry and event data.
 
-To use in your application. First, install the npm package.
+To use in your application, install the package.
 
 ```sh
 npm install phoenix-event-display
+# or
+yarn add phoenix-event-display
 ```
 
 ## Usage
