@@ -77,7 +77,7 @@ This will generate a file `phoenix-<version>.min.js` (e.g. `phoenix-1.3.0.min.js
 
     <script>
       // Create the event display
-      const eventDisplay = new Phoenix.EventDisplay(configuration);
+      const eventDisplay = new Phoenix.EventDisplay();
 
       // Define the configuration
       const configuration = {
