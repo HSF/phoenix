@@ -113,19 +113,46 @@ The situation here is rapidly changing, so please let us know if this is out-of-
 
 ### Event display state
 
-Phoenix keeps track of the event display state which can be saved as a JSON and loaded later. The state includes:
+Phoenix keeps track of the event display state which can be saved as a JSON file and loaded later either from the Phoenix menu or through the URL.
 
+The state includes:
+
+   * Phoenix menu configuration
    * Geometry clipping
    * Camera position
-   * Phoenix menu configuration
 
-The "Save state" and "Load state" options are available in the configuration of top level Phoenix menu node.
+The "Save state" and "Load state" buttons are in the options of top level Phoenix menu node.
 
 ![Event display state](images/phoenix-event-display-state.png "Event display state")
 
-### Event object labels
+### Labels
 
-You can attach labels to individual physics objects from the collections info panel.
+Labels can be added to individual physics objects from the collections info panel. The configurable options for each label are in the Phoenix menu.
+
+You can also save the added labels in a JSON file from the options of "Labels" Phoenix menu node and load them later.
+
+![Phoenix labels](images/phoenix-labels.png "Phoenix labels")
+
+### URL options
+
+Some options can be passed to the event display through the URL parameters. They are passed through the URL like this:
+
+```
+http://localhost:4200/#/atlas?<option_1>=<option_1_value>&<option_2>=<option_2_value>
+```
+
+Available options are:
+
+   * **file** : path or URL to the event data file you want to load (requires `type` option)
+   * **type** : type of the event data file (for example, `jivexml` or `json`)
+   * **config** : path or URL to the config or state file (this is the JSON file you get when you save state from the Phoenix menu)
+   * **hideWidgets** : hide all overlay widgets including Phoenix menu and iconbar
+
+For example, event from a JSON event data file served through `/assets/event_data/data.json` can be loaded through the following URL:
+
+```
+http://localhost:4200/#/atlas?file=assets/event_data/data.json&type=json
+```
 
 ## Using Phoenix with your own data
 
