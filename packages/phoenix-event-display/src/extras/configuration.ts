@@ -1,5 +1,5 @@
 import { PresetView } from './preset-view.model';
-import { EventDataLoader } from '../event-data-loader';
+import { EventDataLoader } from '../loaders/event-data-loader';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
 
 /**
