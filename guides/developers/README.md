@@ -1,8 +1,12 @@
 # Developer guide
 
-* [Phoenix event display API](../../packages/phoenix-event-display/)
-* [Phoenix application (Angular)](../../packages/phoenix-ng/)
+* [Phoenix event display API](../../packages/phoenix-event-display#readme)
+* [Phoenix application (Angular)](../../packages/phoenix-ng#readme)
 * [Contribution guidelines](../../CONTRIBUTING.md)
+
+## Coding guides
+
+* [Custom event data loader](./custom-event-data-loader.md)
 
 ## Application architecture
 

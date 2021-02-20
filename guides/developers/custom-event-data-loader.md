@@ -8,35 +8,55 @@ The [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-d
 
 ## Examples
 
-* [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
-* Extended from `PhoenixLoader`
-  * [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
-  * [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
+- [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
+- Extended from `PhoenixLoader`
+  - [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
+  - [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
 
 ## Creating a custom event data loader
 
 An event data loader can be created from ground up but if there are objects (for example Tracks and Hits) that can be used from an already existing loader, then the new loader is extended from that loader. This also takes care of linking the event data to UI elements like the Phoenix menu and collections info panel etc.
 
-Extending the new loader from an already existing one can take care of the 3D construction of supported physics objects but the event format still has to be converted to a Phoenix friendly format (which is the Phoenix format for now).
+Extending the new loader from an already existing one can take care of the 3D construction of supported physics objects but the event format still has to be converted to a Phoenix friendly format (which is the [Phoenix format](../users.md#format) for now).
+
+### Handling new physics objects
 
 For constructing physics object(s) currently not a part of [`PhoenixObjects`](../../packages/phoenix-event-display/src/loaders/objects/phoenix-objects.ts), their construction can be custom coded and included in the loader. Like the `MuonChambers` constructed through [`CMSObjects`](../../packages/phoenix-event-display/src/loaders/objects/cms-objects.ts) and loaded through the [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts#L31).
 
-Depending on the type of your event data, you made need to process it to a JavaScript object so you can read the data. For example, in the [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts), the ".ig" archive is read and the events inside are converted to a JavaScript array of objects which is then processed to get the properties of the different physics objects and convert them to the Phoenix format.
+Currently supported physics objects are:
 
-### Sample code for a custom loader
+1. `PhoenixObjects` (processed and loaded through `PhoenixLoader`)
+    1. Tracks
+    1. Jets
+    1. Hits
+    1. CaloClusters
+    1. Muons
+    1. Vertices
+1. `CMSObjects` (processed and loaded through `CMSLoader`)
+    1. MuonChambers
 
-Now let's get to the code.
+### Coding a custom loader
+
+> **NOTE**: The code given here is just for explanation and will not work independently.
+
+Depending on the type of your event data, you made need to process it to a JavaScript code friendly object so you can read the data in code. For example, in the [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts), the ".ig" archive is read and the events inside are converted to a JavaScript array of objects which is then processed to get the properties of the different physics objects from collections.
 
 We will need to create a new event data loader class extended from the `PhoenixLoader`. For simplicity, we are assuming that the new event data format which the loader is for is a text file and contains data for a single event.
+
+`custom-loader.ts`
 
 ```ts
 import PhoenixLoader from 'phoenix-event-display';
 
-export class CustomLoader extends PhoenixLoader {
+// Your custom physics objects
+import CustomObjects from 'custom-objects.ts';
 
-  constructor(eventData: any) {
-    // `eventData` is inherited from `PhoenixLoader`
-    this.eventData = eventData;
+export class CustomLoader extends PhoenixLoader {
+  /** The event data in your format. */
+  private data: any;
+
+  setRawEventData(eventData: any) {
+    this.data = eventData;
   }
 
   /**
@@ -46,7 +66,7 @@ export class CustomLoader extends PhoenixLoader {
     const processedEventData = {
       Tracks: {},
       Hits: {},
-      CustomPhysicsObject: {}
+      CustomPhysicsObject: {},
     };
 
     // These get functions are a part of the laoder and will convert
@@ -59,25 +79,93 @@ export class CustomLoader extends PhoenixLoader {
   }
 
   /**
+   * If you have introduced a new physics object. Then you need to override this method add your object type.
+   * @param eventData This is the processed event data in Phoenix format handled by the `PhoenixLoader`.
+   */
+  protected loadObjectTypes(eventData: any) {
+    // Call the PhoenixLoader method to load the supported physics objects
+    super.loadObjectTypes(eventData);
+    // Process the custom physics object
+    if (eventData.CustomPhysicsObject) {
+      this.addObjectType(
+        eventData.CustomPhysicsObject,
+        CustomObjects.getCustomPhysicsObject,
+        'CustomPhysicsObject'
+      );
+    }
+  }
+
+  /**
    * Get Tracks properties from your event data format.
    */
   private getTracks() {
-    // Logic to process Tracks from your event data format to Phoenix format
+    // Logic to process Tracks from your event data format (this.data) to Phoenix format
   }
 
   /**
    * Get Hits properties from your event data format.
    */
   private getHits() {
-    // Logic to process Hits from your event data format to Phoenix format
+    // Logic to process Hits from your event data format (this.data) to Phoenix format
   }
 
   /**
    * Get CustomPhysicsObject properties from your event data format.
    */
   private getCustomPhysicsObject() {
-    // Logic to process CustomPhysicsObject from your event data format to Phoenix format
+    // Logic to process CustomPhysicsObject from your event data format (this.data) to Phoenix format
   }
-
 }
+```
+
+`custom-objects.ts`
+
+```ts
+import { Object3D } from 'three';
+
+export class CustomObjects {
+  /**
+   * Get the 3D custom object contructed from given parameters.
+   */
+  public static getCustomPhysicsObject(customPhysicsObjectParams: any): Object3D {
+    const customObject: Object3D;
+
+    // Logic to construct the 3D object from the given parameters
+
+    return customObject;
+  }
+}
+```
+
+### Using the new custom loader
+
+```ts
+import EventDisplay from 'phoenix-event-display';
+import CustomLoader from 'custom-loader.ts';
+
+// Instantiate the new custom laoder
+const customLoader = new CustomLoader();
+
+// Specify the configuration and use your custom loader as the event data loader
+const configuration = {
+  elementId: '<wrapper_element_id>',
+  eventDataLoader: customLoader
+}
+
+// Create the event display
+const eventDisplay = new EventDisplay(configuration);
+
+// Fetch data of your event file
+fetch('path/to/your/event/file.custom')
+  .then((res) => res.text())
+  .then((rawEventData) => {
+
+    // Process the event data through the custom loader
+    customLoader.setRawEventData(rawEventData);
+    // Get the event data in Phoenix format through the custom loader
+    const eventData = customLoader.getEventData();
+    // Build it through the event display
+    eventDisplay.buildEventDataFromJSON(eventData);
+
+  });
 ```
