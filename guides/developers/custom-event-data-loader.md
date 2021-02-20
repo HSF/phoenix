@@ -3,11 +3,11 @@
 ## Contents
 
 * [Description](#description)
-* [Examples](#examples)
+* [Example loaders](#example-loaders)
 * [Creating a custom event data loader](#creating-a-custom-event-data-loader)
   * [Handling new physics objects](#handling-new-physics-objects)
   * [Coding a custom loader](#coding-a-custom-loader)
-  * [Using the new custom loader](#using-the-new-custom-loader)
+  * [Using the custom loader](#using-the-custom-loader)
 
 ## Description
 
@@ -17,7 +17,7 @@ Under the hood, the event data loader processes the event data and constructs th
 
 The [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-data-loader.ts) interface works as a base for implementing all the loaders including the `PhoenixLoader`.
 
-## Example Loaders
+## Example loaders
 
 * [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
 * Extended from `PhoenixLoader`

@@ -59,7 +59,7 @@ Now both the `phoenix-event-display` and `phoenix-app` will start in development
 ## Documentation
 
 * [User manual](./guides/users.md)
-* [Developer guide](./guides/developers.md)
+* [Developer guide](./guides/developers#readme)
 * [How to contribute](./CONTRIBUTING.md)
 * [API docs](https://hepsoftwarefoundation.org/phoenix/api-docs/)
 
