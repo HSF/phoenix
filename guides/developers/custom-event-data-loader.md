@@ -1,17 +1,28 @@
 # Event data loader
 
+## Contents
+
+* [Description](#description)
+* [Examples](#examples)
+* [Creating a custom event data loader](#creating-a-custom-event-data-loader)
+  * [Handling new physics objects](#handling-new-physics-objects)
+  * [Coding a custom loader](#coding-a-custom-loader)
+  * [Using the new custom loader](#using-the-new-custom-loader)
+
+## Description
+
 An event data loader in Phoenix is used to convert an event data format into something conceivable by Phoenix. In most cases, the loader reads the data from an unfamiliar format and converts it to the intermediate [Phoenix format](../users.md#format) which can then be used to create physics objects like Tracks and Hits.
 
 Under the hood, the event data loader processes the event data and constructs three.js objects out of it which are then added to the scene along with some configurable options.
 
 The [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-data-loader.ts) interface works as a base for implementing all the loaders including the `PhoenixLoader`.
 
-## Examples
+## Example Loaders
 
-- [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
-- Extended from `PhoenixLoader`
-  - [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
-  - [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
+* [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
+* Extended from `PhoenixLoader`
+  * [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
+  * [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
 
 ## Creating a custom event data loader
 
@@ -137,7 +148,7 @@ export class CustomObjects {
 }
 ```
 
-### Using the new custom loader
+### Using the custom loader
 
 ```ts
 import EventDisplay from 'phoenix-event-display';

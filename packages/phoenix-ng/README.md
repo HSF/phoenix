@@ -2,6 +2,15 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
+## Contents
+
+* [Build and run](#build-and-run)
+* [Components](#components)
+* [Event display](#event-display)
+  * [Development flow](#development-flow-with-phoenix-event-display) (with `phoenix-event-display`)
+  * [Deploy the application](#deploy-the-application)
+    * [Deploy with a specific event](#deploy-with-a-specific-event)
+
 ## Build and run
 
 This is an [Angular](https://angular.io) application, so you will need to have [Node.js](https://nodejs.org/en/) and [Angular CLI](https://github.com/angular/angular-cli) installed locally.

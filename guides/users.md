@@ -1,5 +1,24 @@
 # User manual
 
+## Contents
+
+* [Getting started](#getting-started)
+  * [The demo grid](#the-demo-grid)
+  * [The Phoenix standard UI](#the-phoenix-standard-ui)
+  * [The Phoenix menu](#the-phoenix-menu)
+  * [The Phoenix iconbar](#the-phoenix-iconbar)
+    * [Collections info panel](#collections-info-panel)
+  * [Keyboard controls](#keyboard-controls)
+  * [VR mode](#vr-mode)
+  * [Event display state](#event-display-state)
+  * [Labels](#labels)
+  * [URL options](#url-options)
+* [Using Phoenix with your own data](#using-phoenix-with-your-own-data)
+  * [Event data](#event-data)
+    * [Format](#format)
+    * [Supported object types](#supported-object-types)
+  * [Geometry](#geometry)
+
 ## Getting started
 
 ### The demo grid
