@@ -46,7 +46,7 @@ Currently supported physics objects are:
 1. [`CMSObjects`](../../packages/phoenix-event-display/src/loaders/objects/cms-objects.ts) (processed and loaded through `CMSLoader`)
     1. MuonChambers
 
-A function can be defined to construct an object from some parameters which can then be added to the scene through a loader. The following code defines a mechanism to contruct a custom object which is later sent to the event display by the custom loader in the next section.
+The following code defines a mechanism to contruct a custom object which is later sent to the event display by the custom loader in the next section.
 
 `custom-objects.ts`
 

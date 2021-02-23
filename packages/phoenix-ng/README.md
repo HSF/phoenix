@@ -8,8 +8,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 * [Components](#components)
 * [Event display](#event-display)
   * [Development flow](#development-flow-with-phoenix-event-display) (with `phoenix-event-display`)
-  * [Deploy the application](#deploy-the-application)
-    * [Deploy with a specific event](#deploy-with-a-specific-event)
+* [Deploy the application](#deploy-the-application)
+  * [Deploy with a specific event](#deploy-with-a-specific-event)
 
 ## Build and run
 
@@ -54,7 +54,7 @@ yarn start
 
 Now any changes in the [phoenix-event-display](https://www.npmjs.com/package/phoenix-event-display) package ([source](https://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display)) will build the package and the Angular app will pick up the changes made to the event display.
 
-### Deploy the application
+## Deploy the application
 
 In order to make a version of Phoenix which can be deployed to your server, from the `packages/phoenix-ng` directory, run the following command:
 
@@ -68,7 +68,7 @@ You can then copy the files generated in `./docs` to your server e.g. with:
 rsync -avz docs/ your-server.net:path/to/website
 ```
 
-#### Deploy with a specific event
+### Deploy with a specific event
 
 Phoenix can also be deployed as a single page application with a specific event. To do that.
 
