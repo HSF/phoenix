@@ -6,6 +6,7 @@
 
 ## Coding guides
 
+* [Getting started](./getting-started.md)
 * [Custom event data loader](./custom-event-data-loader.md)
 
 ## Application architecture
