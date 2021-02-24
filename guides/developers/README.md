@@ -7,6 +7,7 @@
 ## Coding guides
 
 * [Getting started](./getting-started.md)
+* [Phoenix event display](./event-display.md)
 * [Custom event data loader](./custom-event-data-loader.md)
 
 ## Application architecture
