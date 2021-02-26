@@ -1,4 +1,4 @@
-# Getting started
+# Set up Phoenix for an experiment
 
 * [Introduction](#introduction)
 * [Setting up an Angular app](#setting-up-an-angular-app)

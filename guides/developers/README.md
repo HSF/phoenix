@@ -1,12 +1,14 @@
 # Developer guide
 
+## Packages
+
 * [Phoenix event display API](../../packages/phoenix-event-display#readme)
 * [Phoenix application (Angular)](../../packages/phoenix-ng#readme)
+
+## Guides
+
 * [Contribution guidelines](../../CONTRIBUTING.md)
-
-## Detailed guides
-
-* [Getting started](./getting-started.md)
+* [Set up Phoenix for an experiment](./set-up-phoenix.md)
 * [Phoenix event display](./event-display.md)
 * [Event data loader](./event-data-loader.md)
 * [Running with VR support](./running-with-vr-support.md)
