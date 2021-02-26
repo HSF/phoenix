@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -35,7 +35,7 @@
     "coveralls": "^3.1.0",
     "css-element-queries": "^1.2.3",
     "phoenix-event-display": "^1.4.0",
-    "phoenix-ui-components": "^1.4.0",
+    "phoenix-ui-components": "^1.4.1",
     "rxjs": "^6.6.2",
     "three": "^0.124.0",
     "tslib": "^2.0.1",
