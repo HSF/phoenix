@@ -9,9 +9,10 @@
 * [Getting started](./getting-started.md)
 * [Phoenix event display](./event-display.md)
 * [Event data loader](./event-data-loader.md)
+* [Running with VR support](./running-with-vr-support.md)
 
-## Application architecture
+## Phoenix architecture
 
-This is an overall model of the architecture of the application (we will try to keep it up to date, but beware that some things may not be completely up to date).
+This is an overall model of the architecture of Phoenix. We will try to keep it up to date, but beware that some things may not be completely up to date.
 
 ![Architecture model](../images/architecture.svg "Phoenix architecture")

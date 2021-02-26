@@ -1,7 +1,5 @@
 # Event data loader
 
-## Contents
-
 * [Introduction](#introduction)
 * [Example loaders](#example-loaders)
 * [Creating a custom event data loader](#creating-a-custom-event-data-loader)

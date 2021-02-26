@@ -1,7 +1,5 @@
 # User manual
 
-## Contents
-
 * [Getting started](#getting-started)
   * [The demo grid](#the-demo-grid)
   * [The Phoenix standard UI](#the-phoenix-standard-ui)
