@@ -4,7 +4,7 @@
   "scripts": {
     "start": "lerna run start",
     "test:coverage": "lerna run test:coverage",
-    "install:dependencies": "lerna bootstrap",
+    "install:dependencies": "lerna bootstrap --ignore phoenix-ui-components && lerna link",
     "release": "lerna publish --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
     "release:major": "lerna publish major --create-release github",
