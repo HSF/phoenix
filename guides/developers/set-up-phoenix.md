@@ -4,6 +4,9 @@
 * [Setting up an Angular app](#setting-up-an-angular-app)
   * [Create the Angular app](#create-the-angular-app)
   * [Set up `phoenix-ui-components`](#set-up-phoenix-ui-components)
+    * [Import `PhoenixUIModule`](#import-phoenixuimodule)
+    * [Import required styles](#import-required-styles)
+    * [Set up assets](#set-up-assets)
 * [Setting up the event display](#setting-up-the-event-display)
   * [Create an experiment component](#create-an-experiment-component)
 
@@ -47,20 +50,37 @@ Now that you have an app set up. Install the `phoenix-ui-components` package to 
 npm install phoenix-ui-components
 ```
 
-Next, open the `src/app/app.module.ts` file in your app and include the `PhoenixUIModule` in your module imports.
+#### Import `PhoenixUIModule`
+
+After installing the package, open the `src/app/app.module.ts` file in your app and add `BrowserAnimationsModule` and `PhoenixUIModule` in your module imports.
 
 ```ts
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PhoenixUIModule } from 'phoenix-ui-components';
 
 @NgModule({
   ...
   imports: [
+    ...
+    BrowserAnimationsModule,
     PhoenixUIModule,
     ...
   ],
   ...
 })
 export class AppModule { }
+```
+
+#### Import required styles
+
+Since some Phoenix components use Bootstrap, you will need to add the the Bootstrap stylesheet in the `src/index.html` file of your app.
+
+```html
+<head>
+  ...
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
 ```
 
 After this, go to the `src/styles.scss` file of your app and import the global Phoenix styles.
@@ -71,7 +91,9 @@ After this, go to the `src/styles.scss` file of your app and import the global P
 ...
 ```
 
-Lastly, download [these assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) and put them in the `src/assets` directory of your app.
+#### Set up assets
+
+And lastly, download [these assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) (icons and images used by the Phoenix UI components) and put them in the `src/assets` directory of your app.
 
 With this, the app is ready and we can move onto setting up the event display in this app.
 
