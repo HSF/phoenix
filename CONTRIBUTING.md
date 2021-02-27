@@ -2,7 +2,7 @@
 
 ## 1. Issue tracking
 
-The best way to start contributing is to explore the GitHub issue tracker for the repository. 
+The best way to start contributing is to explore the GitHub issue tracker for the repository.
 
 If you have already tried the application feel free to open an issue if you notice any bug or feature that could be improved.
 
@@ -11,24 +11,24 @@ to give extra information to other developers.
 
 ## 2. Start coding
 
-Once you are decided to start contributing on the repository, 
-you may want to take a look at our developer guide that can be found [here](./guides/developers.md).
+Once you are decided to start contributing on the repository, take a look at the [Developer guide](./guides/developers#readme) to get a more detailed understanding.
 
 ## 3. Commit messages
 
 For commit messages, we follow a tweaked version of [angular commit convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit).
 
 Namely, every message should consist of:
+
 ```
 <header>
 <body>
 ```
+
 The `header` is mandatory and must conform to the `Commit Message Header` format (see below).
 
 The `body` is encouraged, and should describe in more detail what is being changed.
 
-
-#### Commit message header
+### Commit message header
 
 ```
 <type>(<scope>): <short summary>

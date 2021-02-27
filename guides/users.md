@@ -1,5 +1,22 @@
 # User manual
 
+* [Getting started](#getting-started)
+  * [The demo grid](#the-demo-grid)
+  * [The Phoenix standard UI](#the-phoenix-standard-ui)
+  * [The Phoenix menu](#the-phoenix-menu)
+  * [The Phoenix iconbar](#the-phoenix-iconbar)
+    * [Collections info panel](#collections-info-panel)
+  * [Keyboard controls](#keyboard-controls)
+  * [VR mode](#vr-mode)
+  * [Event display state](#event-display-state)
+  * [Labels](#labels)
+  * [URL options](#url-options)
+* [Using Phoenix with your own data](#using-phoenix-with-your-own-data)
+  * [Event data](#event-data)
+    * [Format](#format)
+    * [Supported object types](#supported-object-types)
+  * [Geometry](#geometry)
+
 ## Getting started
 
 ### The demo grid
@@ -13,7 +30,7 @@ When you first open the Phoenix [demo](https://hepsoftwarefoundation.org/phoenix
   * **CMS** : the CMS experiment demo. Here you select from various event data files, and visualise physics objects such as Jets, Tracks, Calo cells etc within the CMS geometry. One special feature of the CMS demo is the visualisation of Muon Chambers.
   * **TrackML** : this shows the imaginary detector created for the TrackML [challenges](https://www.kaggle.com/c/trackml-particle-identification).
   
-### The phoenix standard UI
+### The Phoenix standard UI
 
 Since Phoenix is configurable, it is not guaranteed that all demos/implementations will look the same, but a typical Phoenix view is shown below:
 
@@ -33,7 +50,7 @@ In general the Phoenix menu is used to determine what geometry and event data is
 
 ### The Phoenix menu
 
-All items in the phoenix menu have the same basic layout:
+All items in the Phoenix menu have the same basic layout:
 
 ![Phoenix menu item](images/phoenix-menu-item.png "Phoenix menu item")
 
@@ -51,6 +68,7 @@ As an example of options, here is an expanded geometry view:
 you can see that we can change the opacity and colour of the geometry item.
 
 Another example of options: here is an expanded event data view, showing how you can apply cuts to track collections:
+
 ![Phoenix event menu item](images/phoenix-menu-item-event-options.png "Phoenix event menu item")
 
 Another important point: clicking on the gear icon at the very top allows you to save/load the menu configuration.
@@ -59,7 +77,7 @@ Another important point: clicking on the gear icon at the very top allows you to
 
 ### The Phoenix iconbar
 
-At the bottom of the main view you have the phoenix iconbar (which can be shown/hidden by clicking on the arrow on top):
+At the bottom of the main view you have the Phoenix iconbar (which can be shown/hidden by clicking on the arrow on top):
 
 ![Phoenix iconbar](images/phoenix-icon-bar.png "Phoenix icon bar")
 
@@ -79,7 +97,7 @@ From left to right, you can access the following functions:
    * **Collection information** : displays a panel showing textual information about the event data collections (see below)
    * **Import/export** : allows you to load new event data, or detector geometry (depending on configuration)
 
-And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the phoenix VR mode (see below)
+And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the Phoenix VR mode (see below)
 
 #### Collections info panel
 
@@ -109,6 +127,49 @@ Currently it has been tested on the following devices:
    * Oculus Rift S (as of writing, the best option seems to be to use google Chrome canary i.e. beta)
 
 The situation here is rapidly changing, so please let us know if this is out-of-date. Also please note that some features of Phoenix need to be disabled in VR, and it is currently very much a work in progress (help is very much welcomed!).
+
+### Event display state
+
+Phoenix keeps track of the event display state which can be saved as a JSON file and loaded later either from the Phoenix menu or through the URL.
+
+The state includes:
+
+   * Phoenix menu configuration
+   * Geometry clipping
+   * Camera position
+
+The "Save state" and "Load state" buttons are in the options of top level Phoenix menu node.
+
+![Event display state](images/phoenix-event-display-state.png "Event display state")
+
+### Labels
+
+Labels can be added to individual physics objects from the collections info panel. The configurable options for each label are in the Phoenix menu.
+
+You can also save the added labels in a JSON file from the options of "Labels" Phoenix menu node and load them later.
+
+![Phoenix labels](images/phoenix-labels.png "Phoenix labels")
+
+### URL options
+
+Some options can be passed to the event display through the URL parameters. They are passed through the URL like this:
+
+```
+http://localhost:4200/#/atlas?<option_1>=<option_1_value>&<option_2>=<option_2_value>
+```
+
+Available options are:
+
+   * **file** : path or URL to the event data file you want to load (requires `type` option)
+   * **type** : type of the event data file (for example, `jivexml` or `json`)
+   * **config** : path or URL to the config or state file (this is the JSON file you get when you save state from the Phoenix menu)
+   * **hideWidgets** : hide all overlay widgets including Phoenix menu and iconbar
+
+For example, event from a JSON event data file served through `/assets/event_data/data.json` can be loaded through the following URL:
+
+```
+http://localhost:4200/#/atlas?file=assets/event_data/data.json&type=json
+```
 
 ## Using Phoenix with your own data
 
