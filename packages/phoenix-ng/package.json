@@ -37,7 +37,7 @@
     "phoenix-event-display": "^1.4.0",
     "phoenix-ui-components": "^1.4.1",
     "rxjs": "^6.6.2",
-    "three": "^0.124.0",
+    "three": "^0.125.0",
     "tslib": "^2.0.1",
     "zone.js": "^0.11.1"
   },
