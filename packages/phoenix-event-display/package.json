@@ -33,7 +33,7 @@
     "dat.gui": "^0.7.7",
     "jszip": "^3.5.0",
     "stats-js": "^1.0.1",
-    "three": "^0.124.0"
+    "three": "^0.125.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.6.3",
