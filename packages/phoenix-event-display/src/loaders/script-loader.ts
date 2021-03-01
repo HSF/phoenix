@@ -18,15 +18,18 @@ export class ScriptLoader {
   ): Promise<typeof JSROOT> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('jsroot_scripts');
+
     const JSROOT_CDN_URL = `https://cdn.jsdelivr.net/npm/jsroot@${jsrootVersion}/scripts/`;
     const allScripts = [
-      'JSRoot.core.js', 'three.min.js', 'three.extra.min.js', 'JSRoot.csg.js',
-      'd3.min.js', 'JSRoot.painter.js', 'JSRoot.geom.js', 'JSRoot.geobase.js'
+      'JSRoot.core.js', 'three.extra.min.js', 'JSRoot.csg.js',
+      'JSRoot.painter.js', 'JSRoot.geom.js'
     ];
     for (const script of allScripts) {
       await ScriptLoader.loadScript(JSROOT_CDN_URL + script, 'JSROOT');
     }
+
     loadingManager.itemLoaded('jsroot_scripts');
+
     return JSROOT;
   }
 
@@ -45,9 +48,11 @@ export class ScriptLoader {
   ): Promise<void> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('single_script');
+
     return new Promise<void>((resolve, reject) => {
       const scriptExists = document
         .querySelectorAll<HTMLScriptElement>('script[src="' + scriptURL + '"]');
+
       // If no script exists - add one
       if (scriptExists.length === 0) {
         const scriptElement = document.createElement('script');
@@ -56,6 +61,7 @@ export class ScriptLoader {
         if (scriptFor) {
           scriptElement.setAttribute('data-scriptfor', scriptFor);
         }
+
         scriptElement.addEventListener('load', () => {
           scriptElement.setAttribute('data-loaded', 'true');
           resolve();
@@ -66,6 +72,7 @@ export class ScriptLoader {
           reject();
           loadingManager.itemLoaded('single_script');
         }
+
         parentElement.appendChild(scriptElement);
       } else {
         // If script has already loaded then resolve else wait for it to load
