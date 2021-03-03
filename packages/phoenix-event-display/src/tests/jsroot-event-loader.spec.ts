@@ -8,10 +8,8 @@ describe('JSRootEventLoader', () => {
   const TEST_ROOT_FILE = 'assets/tracks_hits.root';
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
-  beforeAll((done) => {
-    ScriptLoader.loadJSRootScripts().then((JSROOT) => {
-      done();
-    });
+  beforeAll(async () => {
+    await ScriptLoader.loadJSRootScripts();
   }, JSROOT_TIMEOUT);
 
   beforeEach(() => {

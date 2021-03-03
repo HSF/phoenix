@@ -170,18 +170,17 @@ describe('EventDisplay', () => {
       expect(ui.addGeometry).toHaveBeenCalled();
     });
 
-    it('should load ROOT geometries', (done) => {
-      ScriptLoader.loadJSRootScripts().then((JSROOT) => {
-        // Calling JSROOT functions through does not cover their code for some reason so not using a spy
-        eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
-        eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
-        setTimeout(done, 4000);
+    it('should load ROOT geometries', async () => {
+      const JSROOT = await ScriptLoader.loadJSRootScripts();
 
-        const spy = spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
-        eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
-        expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
-      });
-    }, 30000);
+      // Calling JSROOT functions through does not cover their code for some reason so not using a spy
+      eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
+      eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
+
+      spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
+      eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
+      expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
+    }, 40000);
 
     it('should get collection through collection name', () => {
       spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollection').and.stub();
