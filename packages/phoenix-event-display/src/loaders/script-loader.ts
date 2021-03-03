@@ -10,11 +10,11 @@ export class ScriptLoader {
 
   /**
    * Synchronously load all JSRoot scripts. ONLY CALL ONCE.
-   * @param jsrootVersion Version of JSROOT to use. Defaults to 6.0.0.
+   * @param jsrootVersion Version of JSROOT to use. Defaults to latest.
    * @returns Promise resolved with JSROOT global varilable.
    */
   public static async loadJSRootScripts(
-    jsrootVersion: string = '6.0.0'
+    jsrootVersion: string = 'latest'
   ): Promise<typeof JSROOT> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('jsroot_scripts');

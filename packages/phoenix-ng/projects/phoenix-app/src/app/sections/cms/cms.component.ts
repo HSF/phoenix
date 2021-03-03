@@ -31,7 +31,7 @@ export class CMSComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
-    ScriptLoader.loadJSRootScripts((JSROOT) => {
+    ScriptLoader.loadJSRootScripts().then((JSROOT) => {
       this.eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'CMS Detector', undefined, 10, true);
     });
 
