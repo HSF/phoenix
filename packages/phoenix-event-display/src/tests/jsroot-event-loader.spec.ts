@@ -5,11 +5,11 @@ declare const JSROOT: any;
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
-  const TEST_ROOT_FILE = 'assets/test_files/tracks_hits.root';
+  const TEST_ROOT_FILE = 'assets/tracks_hits.root';
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
   beforeAll((done) => {
-    ScriptLoader.loadJSRootScripts((JSROOT) => {
+    ScriptLoader.loadJSRootScripts().then((JSROOT) => {
       done();
     });
   }, JSROOT_TIMEOUT);
@@ -29,7 +29,7 @@ describe('JSRootEventLoader', () => {
   it('should get event data', (done) => {
     spyOn((jsrootLoader as any), 'processItemsList').and.callThrough();
 
-    jsrootLoader.getEventData(['tracks;1', 'hits;1', 'invalidObject;1'], (eventData: any) => {
+    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (eventData: any) => {
       expect((jsrootLoader as any).processItemsList).toHaveBeenCalled();
       expect(eventData).toBeDefined();
       done();

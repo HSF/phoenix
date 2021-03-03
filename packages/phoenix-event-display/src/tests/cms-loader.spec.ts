@@ -3,7 +3,7 @@ import { PhoenixLoader } from '../loaders/phoenix-loader';
 
 describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;
-  const TEST_IG_ARCHIVE = 'assets/test_files/EventData_test.ig';
+  const TEST_IG_ARCHIVE = 'assets/EventData_test.ig';
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 

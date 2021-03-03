@@ -171,8 +171,7 @@ describe('EventDisplay', () => {
     });
 
     it('should load ROOT geometries', (done) => {
-      ScriptLoader.loadJSRootScripts((JSROOT) => {
-
+      ScriptLoader.loadJSRootScripts().then((JSROOT) => {
         // Calling JSROOT functions through does not cover their code for some reason so not using a spy
         eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
         eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
