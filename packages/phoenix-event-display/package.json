@@ -23,7 +23,7 @@
     "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
     "build:bundle": "webpack -c configs/webpack.conf.js",
     "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
-    "prepare": "yarn build --sourceMap false",
+    "prepare": "yarn build",
     "docs": "node scripts/gen-api-docs.js",
     "test": "karma start configs/karma.conf.js",
     "test:coverage": "yarn test"

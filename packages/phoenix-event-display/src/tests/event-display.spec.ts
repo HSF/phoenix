@@ -171,6 +171,12 @@ describe('EventDisplay', () => {
     });
 
     it('should load ROOT geometries', async () => {
+      const JSRootSpy = {
+        openFile: (url: any) => ({ then: (file) => {} }),
+        NewHttpRequest: (url: any, callback: any) => ({ send: () => {} })
+      };
+      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(JSRootSpy));
+
       const JSROOT = await ScriptLoader.loadJSRootScripts();
 
       // Calling JSROOT functions through does not cover their code for some reason so not using a spy
