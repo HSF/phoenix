@@ -469,7 +469,7 @@ export class EventDisplay {
    * Sets the renderer to be used to render the event display on the overlayed canvas.
    * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
-  public renderOverlay(overlayCanvas: HTMLCanvasElement) {
+  public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     this.graphicsLibrary.setOverlayRenderer(overlayCanvas);
   }
 

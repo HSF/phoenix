@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, WebGLRendererParameters, Camera } from 'three';
+import { WebGLRenderer, Scene, Camera } from 'three';
 
 /**
  * Manager for managing event display's renderer related functions.
@@ -61,13 +61,13 @@ export class RendererManager {
    */
   private initRenderer(elementId: string) {
     let canvas = document.getElementById(elementId);
-    const rendererWidth = canvas?.offsetWidth ?? window.innerWidth;
-    const rendererHeight = canvas?.offsetHeight ?? window.innerHeight;
+    const rendererWidth = () => canvas?.offsetWidth ?? window.innerWidth;
+    const rendererHeight = () => canvas?.offsetHeight ?? window.innerHeight;
 
     const mainRenderer = this.getMainRenderer();
     mainRenderer.setSize(
-      rendererWidth,
-      rendererHeight,
+      rendererWidth(),
+      rendererHeight(),
       false
     );
     mainRenderer.setPixelRatio(window.devicePixelRatio);
@@ -77,6 +77,10 @@ export class RendererManager {
       canvas = document.body;
     }
     canvas.appendChild(this.getMainRenderer().domElement);
+
+    window.addEventListener('resize', () => {
+      mainRenderer.setSize(rendererWidth(), rendererHeight());
+    });
   }
 
   // SET/GET
@@ -94,12 +98,11 @@ export class RendererManager {
    * @param overlayCanvas Canvas on which the overlay is to be rendered.
    */
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement): void {
-    const parameters: WebGLRendererParameters = {
+    const overlayRenderer: WebGLRenderer = new WebGLRenderer({
       canvas: overlayCanvas,
       antialias: false,
       alpha: true
-    };
-    const overlayRenderer: WebGLRenderer = new WebGLRenderer(parameters);
+    });
     this.addRenderer(overlayRenderer);
     this.overlayRenderer = overlayRenderer;
   }
