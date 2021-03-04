@@ -2,9 +2,9 @@ import { JSRootEventLoader } from '../loaders/jsroot-event-loader';
 import { ScriptLoader } from '../loaders/script-loader';
 
 describe('JSRootEventLoader', () => {
-  const JSRootMock = {
-    openFile: (url: any) => ({ then: (file) => {} }),
-  };
+  const JSRootMock = jasmine.createSpyObj('JSROOT', ['openFile']);
+  JSRootMock.openFile.and.callFake((_file: any) => jasmine.createSpyObj('returnValue', ['then']));
+
   let JSROOT: any;
 
   let jsrootLoader: JSRootEventLoader;
@@ -29,10 +29,7 @@ describe('JSRootEventLoader', () => {
   });
 
   it('should get event data', () => {
-    spyOn(JSRootMock, 'openFile').and.callThrough();
-
-    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (eventData: any) => {});
-
+    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (_eventData: any) => { });
     expect(JSRootMock.openFile).toHaveBeenCalled();
   }, JSROOT_TIMEOUT);
 
