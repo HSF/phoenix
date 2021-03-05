@@ -2,8 +2,8 @@ import { JSRootEventLoader } from '../loaders/jsroot-event-loader';
 import { ScriptLoader } from '../loaders/script-loader';
 
 describe('JSRootEventLoader', () => {
-  const JSRootMock = jasmine.createSpyObj('JSROOT', ['openFile']);
-  JSRootMock.openFile.and.callFake((_file: any) => jasmine.createSpyObj('returnValue', ['then']));
+  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile']);
+  mockJSROOT.openFile.and.callFake(() => jasmine.createSpyObj('returnValue', ['then']));
 
   let JSROOT: any;
 
@@ -12,7 +12,7 @@ describe('JSRootEventLoader', () => {
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
   beforeAll(async () => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(JSRootMock));
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
     JSROOT = await ScriptLoader.loadJSRootScripts();
   }, JSROOT_TIMEOUT);
 
@@ -30,7 +30,7 @@ describe('JSRootEventLoader', () => {
 
   it('should get event data', () => {
     jsrootLoader.getEventData(['tracks;1', 'hits;1'], (_eventData: any) => { });
-    expect(JSRootMock.openFile).toHaveBeenCalled();
+    expect(mockJSROOT.openFile).toHaveBeenCalled();
   }, JSROOT_TIMEOUT);
 
   it('should not process empty event data object', () => {

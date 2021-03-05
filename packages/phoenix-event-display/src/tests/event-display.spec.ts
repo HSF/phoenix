@@ -171,11 +171,11 @@ describe('EventDisplay', () => {
     });
 
     it('should load ROOT geometries', async () => {
-      const JSRootMock = jasmine.createSpyObj('JSROOT', ['openFile', 'NewHttpRequest']);
-      JSRootMock.openFile.and.callFake((_file: any) => jasmine.createSpyObj('returnValue', ['then']));
-      JSRootMock.NewHttpRequest.and.callFake((_url: any, _callback: any) => jasmine.createSpyObj('returnValue', ['send']));
+      const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile', 'NewHttpRequest']);
+      mockJSROOT.openFile.and.callFake(() => jasmine.createSpyObj('returnValue', ['then']));
+      mockJSROOT.NewHttpRequest.and.callFake(() => jasmine.createSpyObj('returnValue', ['send']));
 
-      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(JSRootMock));
+      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
 
       const JSROOT = await ScriptLoader.loadJSRootScripts();
 
@@ -183,8 +183,8 @@ describe('EventDisplay', () => {
       eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
       eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
 
-      expect(JSRootMock.openFile).toHaveBeenCalled();
-      expect(JSRootMock.NewHttpRequest).toHaveBeenCalled();
+      expect(mockJSROOT.openFile).toHaveBeenCalled();
+      expect(mockJSROOT.NewHttpRequest).toHaveBeenCalled();
 
       spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
       eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
