@@ -351,8 +351,8 @@ export class EventDisplay {
     name: string, menuNodeName?: string, scale?: number, doubleSided?: boolean,
     initiallyVisible: boolean = true) {
     if (url.indexOf('.root') > 0) {
-      JSROOT.OpenFile(url, (file: any) => {
-        file.ReadObject(objectName, (obj: any) => {
+      JSROOT.openFile(url).then((file: any) => {
+        file.readObject(objectName).then((obj: any) => {
           this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
             name, menuNodeName, scale, doubleSided, initiallyVisible);
         });

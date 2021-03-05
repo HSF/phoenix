@@ -23,5 +23,4 @@ script:
   - if [ "$TRAVIS_PULL_REQUEST" != false ]; then chmod +x ./scripts/pr_deploy.sh; ./scripts/pr_deploy.sh; fi
 
 after_success:
-  - cd ./packages/phoenix-ng
-  - yarn coveralls
+  - lerna run coveralls --scope phoenix-event-display

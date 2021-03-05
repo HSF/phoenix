@@ -38,10 +38,10 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @param onEventData Callback when event data is extracted and available for use.
    */
   public getEventData(objects: string[], onEventData: (eventData: any) => void) {
-    this.JSROOT.OpenFile(this.rootFileURL, (file: any) => {
+    this.JSROOT.openFile(this.rootFileURL).then((file: any) => {
       let i = 0;
       for (const objectName of objects) {
-        file.ReadObject(objectName, (object: any) => {
+        file.readObject(objectName).then((object: any) => {
           i++;
           if (object) {
             this.processItemsList(object);

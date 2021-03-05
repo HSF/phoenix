@@ -100,8 +100,8 @@ describe('ThreeManager', () => {
       expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(0);
     });
 
-    const OBJ_FILE = 'assets/test_files/geometries/test.obj';
-    const GLTF_FILE = 'assets/test_files/geometries/test.gltf';
+    const OBJ_FILE = 'assets/geometries/test.obj';
+    const GLTF_FILE = 'assets/geometries/test.gltf';
 
     it('should load OBJ geometry', () => {
       spyOn(threePrivate.importManager, 'loadOBJGeometry').and.callThrough();

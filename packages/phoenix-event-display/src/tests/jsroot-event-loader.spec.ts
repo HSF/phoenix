@@ -1,17 +1,19 @@
 import { JSRootEventLoader } from '../loaders/jsroot-event-loader';
 import { ScriptLoader } from '../loaders/script-loader';
 
-declare const JSROOT: any;
-
 describe('JSRootEventLoader', () => {
+  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile']);
+  mockJSROOT.openFile.and.callFake(() => jasmine.createSpyObj('returnValue', ['then']));
+
+  let JSROOT: any;
+
   let jsrootLoader: JSRootEventLoader;
-  const TEST_ROOT_FILE = 'assets/test_files/tracks_hits.root';
+  const TEST_ROOT_FILE = 'assets/tracks_hits.root';
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
-  beforeAll((done) => {
-    ScriptLoader.loadJSRootScripts((JSROOT) => {
-      done();
-    });
+  beforeAll(async () => {
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
+    JSROOT = await ScriptLoader.loadJSRootScripts();
   }, JSROOT_TIMEOUT);
 
   beforeEach(() => {
@@ -26,14 +28,9 @@ describe('JSRootEventLoader', () => {
     expect(jsrootLoader).toBeTruthy();
   });
 
-  it('should get event data', (done) => {
-    spyOn((jsrootLoader as any), 'processItemsList').and.callThrough();
-
-    jsrootLoader.getEventData(['tracks;1', 'hits;1', 'invalidObject;1'], (eventData: any) => {
-      expect((jsrootLoader as any).processItemsList).toHaveBeenCalled();
-      expect(eventData).toBeDefined();
-      done();
-    });
+  it('should get event data', () => {
+    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (_eventData: any) => { });
+    expect(mockJSROOT.openFile).toHaveBeenCalled();
   }, JSROOT_TIMEOUT);
 
   it('should not process empty event data object', () => {

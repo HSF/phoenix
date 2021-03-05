@@ -170,19 +170,26 @@ describe('EventDisplay', () => {
       expect(ui.addGeometry).toHaveBeenCalled();
     });
 
-    it('should load ROOT geometries', (done) => {
-      ScriptLoader.loadJSRootScripts((JSROOT) => {
+    it('should load ROOT geometries', async () => {
+      const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile', 'NewHttpRequest']);
+      mockJSROOT.openFile.and.callFake(() => jasmine.createSpyObj('returnValue', ['then']));
+      mockJSROOT.NewHttpRequest.and.callFake(() => jasmine.createSpyObj('returnValue', ['send']));
 
-        // Calling JSROOT functions through does not cover their code for some reason so not using a spy
-        eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
-        eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
-        setTimeout(done, 4000);
+      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
 
-        const spy = spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
-        eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
-        expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
-      });
-    }, 30000);
+      const JSROOT = await ScriptLoader.loadJSRootScripts();
+
+      // Calling JSROOT functions through does not cover their code for some reason so not using a spy
+      eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
+      eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
+
+      expect(mockJSROOT.openFile).toHaveBeenCalled();
+      expect(mockJSROOT.NewHttpRequest).toHaveBeenCalled();
+
+      spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
+      eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
+      expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
+    }, 40000);
 
     it('should get collection through collection name', () => {
       spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollection').and.stub();

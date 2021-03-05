@@ -4,11 +4,11 @@ module.exports = function (config) {
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
       { pattern: 'src/**/*.ts' },
-      { pattern: 'src/assets/**/*', watched: false, included: false, served: true }
+      { pattern: 'src/tests/files/**/*', watched: false, included: false, served: true }
     ],
     exclude: ['src/browser.ts'],
     proxies: {
-      '/assets/': '/base/src/assets/'
+      '/assets/': '/base/src/tests/files/'
     },
     preprocessors: {
       '**/*.ts': ['karma-typescript']
