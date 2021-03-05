@@ -1,5 +1,5 @@
-import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
-import { EVENT_DATA_TYPE_COLORS } from "../../helpers/constants";
+import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from 'three';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.

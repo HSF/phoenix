@@ -564,7 +564,7 @@ export class EventDisplay {
   }
 
   /**
-   * Add label to object and save the configuration.
+   * Add label to a 3D object.
    * @param label Label to add to the event object.
    * @param collection Collection the event object is a part of.
    * @param indexInCollection Event object's index in collection.

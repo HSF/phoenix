@@ -1,4 +1,4 @@
-import { EventDataLoader } from '../event-data-loader';
+import { EventDataLoader } from './event-data-loader';
 import { Color, Group, Object3D } from 'three';
 import { UIManager } from '../ui';
 import { ThreeManager } from '../three';
@@ -18,7 +18,7 @@ export class PhoenixLoader implements EventDataLoader {
   /** UIService to perform UI related functions. */
   private ui: UIManager;
   /** Event data processed by the loader. */
-  private eventData: any;
+  protected eventData: any;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
   /** Object containing event object labels. */
