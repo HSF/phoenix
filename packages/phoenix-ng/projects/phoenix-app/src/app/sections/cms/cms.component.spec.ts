@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CMSComponent } from './cms.component';
 import { AppModule } from '../../app.module';
@@ -10,9 +10,16 @@ describe('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
+  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['NewHttpRequest']);
+  mockJSROOT.NewHttpRequest.and.callFake(() => jasmine.createSpyObj('returnValue', ['send']));
+
   let eventDisplayService: EventDisplayService;
 
-  beforeEach(async(() => {
+  beforeAll(() => {
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
+  });
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [HttpClient, EventDisplayService]
@@ -33,17 +40,9 @@ describe('CMSComponent', () => {
   });
 
   // Test if three.js is initialized
-  it('should initialize three.js canvas', (done) => {
-    const mockJSROOT = jasmine.createSpyObj('JSROOT', ['NewHttpRequest']);
-    mockJSROOT.NewHttpRequest.and.callFake(() => jasmine.createSpyObj('returnValue', ['send']));
-
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
+  it('should initialize three.js canvas', () => {
     spyOn(eventDisplayService, 'parsePhoenixEvents').and.stub();
-
     component.ngOnInit();
-
-    // Wait for JSRoot scripts to load and geometry to load
-    setTimeout(done, 5000);
     expect(document.getElementById('three-canvas')).toBeTruthy();
-  }, 6000);
+  });
 });
