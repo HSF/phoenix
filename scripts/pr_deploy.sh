@@ -2,17 +2,17 @@
 
 # Environment variables
 
-# Default from Travis
-# TRAVIS_PULL_REQUEST       - The pull request number if the pipeline runs on a pull request
-# TRAVIS_REPO_SLUG          - User and repository name as in GitHub URL `HSF/phoenix`
-# TRAVIS_PULL_REQUEST_SHA   - SHA of the commit associated with the pull request
+# From GitHub actions
+# PULL_REQUEST_NUMBER       - The pull request number if the pipeline runs on a pull request
+# GITHUB_REPOSITORY         - User and repository name as in GitHub URL `HSF/phoenix`
+# GITHUB_SHA                - SHA of the commit associated with the pull request
 
-# Set in Travis settings
+# Set in GitHub settings
 # SURGE_LOGIN               - Surge email account for deploying to surge
 # GH_TOKEN                  - GitHub token to update the pull request status
 # SURGE_TOKEN               - Token for deploying to surge (isn't use in the code but required in Travis settings)
 
-if [ "$TRAVIS_PULL_REQUEST" != false ]
+if [ "$PULL_REQUEST_NUMBER" != false ]
 then
 
 if [ -z ${SURGE_LOGIN+x} ]
@@ -22,8 +22,8 @@ echo "Cannot deploy PR from a fork"
 
 else
 
-PR_DOMAIN=http://phoenix-pr-${TRAVIS_PULL_REQUEST}.surge.sh
-GH_API_PR=https://api.github.com/repos/${TRAVIS_REPO_SLUG}/statuses/${TRAVIS_PULL_REQUEST_SHA}
+PR_DOMAIN=http://phoenix-pr-${PULL_REQUEST_NUMBER}.surge.sh
+GH_API_PR=https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}
 
 echo "Setting up surge"
 

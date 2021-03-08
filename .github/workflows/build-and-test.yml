@@ -1,0 +1,41 @@
+name: Phoenix Test
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 15.x]
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@main
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup Phoenix
+        run: |
+          npm install --global yarn lerna
+          yarn install:dependencies
+
+      - name: Run Tests
+        run: yarn test:coverage
+
+      - name: Deploy Pull Request
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: bash
+        env:
+          PULL_REQUEST_NUMBER: ${{ github.event.number }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          chmod +x ./scripts/pr_deploy.sh
+          ./scripts/pr_deploy.sh
+
+      - name: Upload Coverage
+        run: lerna run coveralls --scope phoenix-event-display
