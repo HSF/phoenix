@@ -24,7 +24,6 @@
     "build:cjs": "yarn tsc:build --module commonjs --target es5 --outDir dist/cjs",
     "build:bundle": "webpack -c configs/webpack.conf.js",
     "tsc-d": "yarn tsc:build --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
-    "coveralls": "cat ./coverage/phoenix-event-display/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "prepare": "yarn build",
     "docs": "node scripts/gen-api-docs.js",
     "test": "karma start configs/karma.conf.js",
@@ -40,7 +39,6 @@
   "devDependencies": {
     "@types/jasmine": "^3.6.3",
     "@types/node": "^14.14.22",
-    "coveralls": "^3.1.0",
     "jasmine-core": "^3.6.0",
     "karma": "^6.0.4",
     "karma-chrome-launcher": "^3.1.0",

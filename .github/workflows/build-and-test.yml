@@ -26,7 +26,10 @@ jobs:
         run: yarn test:coverage
 
       - name: Upload Coverage
-        run: lerna run coveralls --scope phoenix-event-display
+        uses: coverallsapp/github-action@master
+        with:
+          path-to-lcov: './packages/phoenix-event-display/coverage/lcov.info'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy Pull Request
         if: ${{ github.event_name == 'pull_request' }}
@@ -34,7 +37,7 @@ jobs:
         env:
           PULL_REQUEST_NUMBER: ${{ github.event.number }}
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
           chmod +x ./scripts/pr_deploy.sh
