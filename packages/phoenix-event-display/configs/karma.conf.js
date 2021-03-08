@@ -22,6 +22,10 @@ module.exports = function (config) {
         html: {
           directory: 'coverage',
           subdirectory: 'phoenix-event-display'
+        },
+        lcovonly: {
+          directory: 'coverage',
+          subdirectory: 'phoenix-event-display'
         }
       },
       compilerOptions: {

@@ -1,9 +1,9 @@
-name: Phoenix Test
+name: Phoenix
 
 on: push
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,6 +25,9 @@ jobs:
       - name: Run Tests
         run: yarn test:coverage
 
+      - name: Upload Coverage
+        run: lerna run coveralls --scope phoenix-event-display
+
       - name: Deploy Pull Request
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash
@@ -36,6 +39,3 @@ jobs:
         run: |
           chmod +x ./scripts/pr_deploy.sh
           ./scripts/pr_deploy.sh
-
-      - name: Upload Coverage
-        run: lerna run coveralls --scope phoenix-event-display
