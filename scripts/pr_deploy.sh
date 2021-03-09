@@ -15,29 +15,29 @@
 if [ "$PULL_REQUEST_NUMBER" != false ]
 then
 
-if [ -z ${SURGE_LOGIN+x} ]
-then
+  if [ -z ${SURGE_LOGIN+x} ]
+  then
 
-echo "Cannot deploy PR from a fork"
+    echo "Cannot deploy PR from a fork"
 
-else
+  else
 
-PR_DOMAIN=http://phoenix-pr-${PULL_REQUEST_NUMBER}.surge.sh
-GH_API_PR=https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}
+    PR_DOMAIN=http://phoenix-pr-${PULL_REQUEST_NUMBER}.surge.sh
+    GH_API_PR=https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}
 
-echo "Setting up surge"
+    echo "Setting up surge"
 
-yarn global add surge
-yarn deploy:web
+    npm install --global surge
+    yarn deploy:web
 
-echo "Deploying PR to surge"
+    echo "Deploying PR to surge"
 
-surge --project ./packages/phoenix-ng/docs/ --domain ${PR_DOMAIN};
+    surge --project ./packages/phoenix-ng/docs/ --domain ${PR_DOMAIN};
 
-echo "Updating PR status"
+    echo "Updating PR status"
 
-curl -H "Authorization: token ${GH_TOKEN}" --request POST ${GH_API_PR} --data '{"state": "success", "target_url": "'${PR_DOMAIN}'", "description": "Pull request deployed", "context": "Phoenix PR Deployment"}'
+    curl -H "Authorization: token ${GH_TOKEN}" --request POST ${GH_API_PR} --data '{"state": "success", "target_url": "'${PR_DOMAIN}'", "description": "Pull request deployed", "context": "Phoenix PR Deployment"}'
 
-fi
+  fi
 
 fi

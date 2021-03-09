@@ -31,11 +31,18 @@ jobs:
           path-to-lcov: './packages/phoenix-event-display/coverage/lcov.info'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Pre Deploy Pull Request
+        uses: 8BitJonny/gh-get-current-pr@master
+        id: if_pr
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          filterOutClosed: true
+
       - name: Deploy Pull Request
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ success() }}
         shell: bash
         env:
-          PULL_REQUEST_NUMBER: ${{ github.event.number }}
+          PULL_REQUEST_NUMBER: ${{ steps.if_pr.outputs.number }}
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
