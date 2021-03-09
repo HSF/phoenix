@@ -32,14 +32,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pre Deploy Pull Request
-        uses: 8BitJonny/gh-get-current-pr@master
+        uses: jwalton/gh-find-current-pr@master
         id: if_pr
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          filterOutClosed: true
 
       - name: Deploy Pull Request
-        if: ${{ success() }}
+        if: ${{ success() && steps.if_pr.outputs.number }}
         shell: bash
         env:
           PULL_REQUEST_NUMBER: ${{ steps.if_pr.outputs.number }}
