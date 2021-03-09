@@ -53,14 +53,20 @@ export class VRManager {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
 
-    if ((navigator as any)?.xr) {
+    const webXR = (navigator as any)?.xr;
+
+    if (webXR) {
       const sessionInit = {
         optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
       };
-      (navigator as any)?.xr?.requestSession(VRManager.SESSION_TYPE, sessionInit)
+
+      (webXR.requestSession(VRManager.SESSION_TYPE, sessionInit) as Promise<any>)
         .then((session: any) => {
           this.onVRSessionStarted(session);
           onSessionStarted?.();
+        })
+        .catch((error: any) => {
+          console.log('VR Error:', error);
         });
 
       this.setupVRControls();
@@ -168,7 +174,7 @@ export class VRManager {
     this.controller2.add(line.clone());
 
     // Set up movement
-    
+
     // Distance for a single step
     const stepDistance = 30;
     // Unit vector in camera direction
