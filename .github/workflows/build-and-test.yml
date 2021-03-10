@@ -1,6 +1,6 @@
 name: Phoenix
 
-on: push
+on: [push, pull_request]
 
 jobs:
   build-and-test:
@@ -28,7 +28,8 @@ jobs:
       - name: Upload Coverage
         uses: coverallsapp/github-action@master
         with:
-          path-to-lcov: './packages/phoenix-event-display/coverage/lcov.info'
+          path-to-lcov: ./packages/phoenix-event-display/coverage/lcov.info
+          base-path: ./packages/phoenix-event-display
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pre Deploy Pull Request
