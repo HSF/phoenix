@@ -5,7 +5,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: 'app-ss-mode',
   templateUrl: './ss-mode.component.html',
   styleUrls: ['./ss-mode.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SSModeComponent implements OnInit {
   ssMode: boolean = false;
@@ -36,5 +36,5 @@ export class SSModeComponent implements OnInit {
 
   private onDocumentClick = () => {
     document.exitFullscreen?.();
-  }
+  };
 }

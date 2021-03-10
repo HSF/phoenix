@@ -11,19 +11,24 @@ describe('ViewOptionsComponent', () => {
   let fixture: ComponentFixture<ViewOptionsComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIServicie', ['getPresetViews', 'displayView', 'setShowAxis'])
+    getUIManager: jasmine.createSpyObj('UIServicie', [
+      'getPresetViews',
+      'displayView',
+      'setShowAxis',
+    ]),
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [ViewOptionsComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [ViewOptionsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -43,10 +48,16 @@ describe('ViewOptionsComponent', () => {
 
   it('should display the chosen preset view', () => {
     const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
-    const mockPresetView = new PresetView('Test View', [0, 0, -12000], 'left-cube');
+    const mockPresetView = new PresetView(
+      'Test View',
+      [0, 0, -12000],
+      'left-cube'
+    );
     component.displayView(mockEvent, mockPresetView);
 
-    expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(mockPresetView);
+    expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(
+      mockPresetView
+    );
   });
 
   it('should set axis', () => {
@@ -54,6 +65,8 @@ describe('ViewOptionsComponent', () => {
     const event = new MatCheckboxChange();
     event.checked = VALUE;
     component.setAxis(event);
-    expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(VALUE);
+    expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
+      VALUE
+    );
   });
 });

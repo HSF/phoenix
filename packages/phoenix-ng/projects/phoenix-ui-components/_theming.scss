@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 @include mat-core();
 
 // Define an alternate dark theme.
@@ -35,7 +35,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
 }
 
 //dark theme
-[data-theme="dark"] {
+[data-theme='dark'] {
   --phoenix-background-color: #000000;
   --phoenix-background-color-secondary: #181818;
   --phoenix-background-color-tertiary: #2a2a2a;
@@ -171,17 +171,24 @@ select {
     background: none;
 
     .slider-fg {
-      background-image: linear-gradient(to right, #1e8bb0, #00acb9, #00ca9d, #81df69, #f1e833);
+      background-image: linear-gradient(
+        to right,
+        #1e8bb0,
+        #00acb9,
+        #00ca9d,
+        #81df69,
+        #f1e833
+      );
     }
   }
 
-  .dg .cr.number input[type="text"] {
+  .dg .cr.number input[type='text'] {
     color: var(--phoenix-text-color);
     margin-top: -0.5em;
     background: none;
   }
 
-  .dg .cr.color .c input[type="text"] {
+  .dg .cr.color .c input[type='text'] {
     max-height: 2em;
   }
 }

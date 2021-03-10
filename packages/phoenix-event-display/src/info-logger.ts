@@ -2,7 +2,6 @@
  * Logger for logging event display data
  */
 export class InfoLogger {
-
   /** List that contains all the info logs */
   private infoLoggerList: any[] = [];
   /** Max entries to be shown inside the information panel */
@@ -17,7 +16,7 @@ export class InfoLogger {
     if (this.infoLoggerList.length > this.maxEntries) {
       this.infoLoggerList.pop();
     }
-    this.infoLoggerList.unshift(label ? (label + ': ' + data) : data);
+    this.infoLoggerList.unshift(label ? label + ': ' + data : data);
   }
 
   /**

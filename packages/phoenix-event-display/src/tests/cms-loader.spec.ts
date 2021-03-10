@@ -9,9 +9,11 @@ describe('CMSLoader', () => {
 
   describe('methods depending upon event data', () => {
     beforeAll((done) => {
-      fetch(TEST_IG_ARCHIVE).then(res => {
+      fetch(TEST_IG_ARCHIVE).then((res) => {
         const arrayBufferData = res.arrayBuffer();
-        spyOn(res, 'arrayBuffer').and.returnValue(Promise.resolve(arrayBufferData));
+        spyOn(res, 'arrayBuffer').and.returnValue(
+          Promise.resolve(arrayBufferData)
+        );
         spyOn(window, 'fetch').and.returnValue(Promise.resolve(res));
         done();
       });
@@ -28,14 +30,22 @@ describe('CMSLoader', () => {
     });
 
     it('should read .ig archive with event path', () => {
-      cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
-        expect(allEvents).toBeTruthy();
-      }, TEST_EVENT_PATH);
+      cmsLoader.readIgArchive(
+        TEST_IG_ARCHIVE,
+        (allEvents) => {
+          expect(allEvents).toBeTruthy();
+        },
+        TEST_EVENT_PATH
+      );
     });
 
     it('should load event data from .ig', () => {
       spyOn(cmsLoader, 'readIgArchive').and.callThrough();
-      cmsLoader.loadEventDataFromIg(TEST_IG_ARCHIVE, TEST_EVENT_PATH, (eventData) => { });
+      cmsLoader.loadEventDataFromIg(
+        TEST_IG_ARCHIVE,
+        TEST_EVENT_PATH,
+        (eventData) => {}
+      );
       expect(cmsLoader.readIgArchive).toHaveBeenCalled();
     });
 
@@ -49,9 +59,11 @@ describe('CMSLoader', () => {
     it('should apply max cut to event data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         (cmsLoader as any).data = allEvents[0];
-        const objectCollections = (cmsLoader as any).getObjectCollections(['PFJets_V1'], (object: any) => { }, [
-          { attribute: 'et', max: 1 }
-        ]);
+        const objectCollections = (cmsLoader as any).getObjectCollections(
+          ['PFJets_V1'],
+          (object: any) => {},
+          [{ attribute: 'et', max: 1 }]
+        );
         expect(objectCollections).toBeDefined();
       });
     });
@@ -62,10 +74,12 @@ describe('CMSLoader', () => {
         const eventData = cmsLoader.getEventData();
 
         // Mock call to parent PhoenixLoader method
-        spyOn((PhoenixLoader.prototype as any), 'addObjectType').and.stub();
+        spyOn(PhoenixLoader.prototype as any, 'addObjectType').and.stub();
 
         (cmsLoader as any).loadObjectTypes(eventData);
-        expect((PhoenixLoader.prototype as any).addObjectType).toHaveBeenCalled();
+        expect(
+          (PhoenixLoader.prototype as any).addObjectType
+        ).toHaveBeenCalled();
 
         eventData.MuonChambers = undefined;
         (cmsLoader as any).loadObjectTypes(eventData);
@@ -84,5 +98,4 @@ describe('CMSLoader', () => {
       });
     });
   });
-
 });

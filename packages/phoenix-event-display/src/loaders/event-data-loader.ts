@@ -6,7 +6,6 @@ import { InfoLogger } from '../info-logger';
  * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
-
   /**
    * Takes an object that represents ONE event and takes care of adding
    * the different objects to the graphic library and the UI controls.
@@ -15,7 +14,12 @@ export interface EventDataLoader {
    * @param ui Manager for showing menus and controls to manipulate the geometries.
    * @param infoLogger Logger for logging event display data..
    */
-  buildEventData(eventData: any, graphicsLibrary: ThreeManager, ui: UIManager, infoLogger: InfoLogger): void;
+  buildEventData(
+    eventData: any,
+    graphicsLibrary: ThreeManager,
+    ui: UIManager,
+    infoLogger: InfoLogger
+  ): void;
 
   /**
    * Takes an object containing multiple events and returns the keys of these events.
@@ -50,12 +54,15 @@ export interface EventDataLoader {
    * @param indexInCollection Event object's index in collection.
    * @returns A unique label ID string.
    */
-  addLabelToEventObject(label: string, collection: string, indexInCollection: number): string;
+  addLabelToEventObject(
+    label: string,
+    collection: string,
+    indexInCollection: number
+  ): string;
 
   /**
    * Get the object containing labels.
    * @returns The labels object.
    */
   getLabelsObject(): object;
-
 }

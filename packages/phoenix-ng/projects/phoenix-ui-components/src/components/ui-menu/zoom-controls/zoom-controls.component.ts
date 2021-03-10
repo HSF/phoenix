@@ -7,10 +7,9 @@ import { EventDisplayService } from '../../../services/event-display.service';
 @Component({
   selector: 'app-zoom-controls',
   templateUrl: './zoom-controls.component.html',
-  styleUrls: ['./zoom-controls.component.scss']
+  styleUrls: ['./zoom-controls.component.scss'],
 })
 export class ZoomControlsComponent {
-
   /** All camera being used by the scene. */
   allCameras: any[];
   /** Factor to zoom by. */
@@ -20,7 +19,7 @@ export class ZoomControlsComponent {
   /** The speed and time of zoom. */
   private zoomTime: number = 200;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   /**
    * Zoom all the cameras by a specific zoom factor.
@@ -28,9 +27,8 @@ export class ZoomControlsComponent {
    * @param zoomFactor The factor to zoom by.
    */
   zoomTo(zoomFactor: number) {
-    this.zoomTime = this.zoomTime > 30
-      ? Math.floor(this.zoomTime / 1.1)
-      : this.zoomTime;
+    this.zoomTime =
+      this.zoomTime > 30 ? Math.floor(this.zoomTime / 1.1) : this.zoomTime;
 
     this.eventDisplay.zoomTo(zoomFactor, this.zoomTime);
 
@@ -66,5 +64,4 @@ export class ZoomControlsComponent {
     this.zoomTime = 200;
     clearTimeout(this.zoomTimeout);
   }
-
 }

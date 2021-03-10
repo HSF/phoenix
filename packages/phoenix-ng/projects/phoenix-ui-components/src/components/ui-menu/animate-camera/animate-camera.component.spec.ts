@@ -8,18 +8,21 @@ describe('AnimateCameraComponent', () => {
   let component: AnimateCameraComponent;
   let fixture: ComponentFixture<AnimateCameraComponent>;
 
-  let mockEventDisplay = jasmine.createSpyObj('EventDisplayService', ['animateThroughEvent']);
+  let mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+    'animateThroughEvent',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       declarations: [AnimateCameraComponent],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

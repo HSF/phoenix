@@ -10,7 +10,7 @@ describe('IoOptionsDialogComponent', () => {
   let fixture: ComponentFixture<IOOptionsDialogComponent>;
 
   const mockDialogRef = {
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
 
   const mockEventDisplayService = {
@@ -20,7 +20,7 @@ describe('IoOptionsDialogComponent', () => {
     parsePhoenixDisplay: jasmine.createSpy('parsePhoenixDisplay'),
     parseGLTFGeometry: jasmine.createSpy('parseGLTFGeometry'),
     exportPhoenixDisplay: jasmine.createSpy('exportPhoenixDisplay'),
-    exportToOBJ: jasmine.createSpy('exportToOBJ')
+    exportToOBJ: jasmine.createSpy('exportToOBJ'),
   };
 
   beforeEach(async(() => {
@@ -29,16 +29,15 @@ describe('IoOptionsDialogComponent', () => {
       providers: [
         {
           provide: EventDisplayService,
-          useValue: mockEventDisplayService
+          useValue: mockEventDisplayService,
         },
         {
           provide: MatDialogRef,
-          useValue: mockDialogRef
-        }
+          useValue: mockDialogRef,
+        },
       ],
-      declarations: [IOOptionsDialogComponent]
-    })
-      .compileComponents();
+      declarations: [IOOptionsDialogComponent],
+    }).compileComponents();
     fixture = TestBed.createComponent(IOOptionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -64,8 +63,8 @@ describe('IoOptionsDialogComponent', () => {
 
     it('should handle JiveXML event data input', async () => {
       await fetch('assets/test_data/JiveXML.xml')
-        .then(res => res.text())
-        .then(res => {
+        .then((res) => res.text())
+        .then((res) => {
           const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];
           component.handleJiveXMLDataInput(files);
           expect(component.handleFileInput).toHaveBeenCalled();
@@ -78,32 +77,44 @@ describe('IoOptionsDialogComponent', () => {
       });
 
       it('should log error for wrong file', () => {
-        const filesWrong = [new File(['test data'], 'testfile.xml', { type: 'text/xml' })];
+        const filesWrong = [
+          new File(['test data'], 'testfile.xml', { type: 'text/xml' }),
+        ];
         component.handleEventDataInput(filesWrong);
       });
 
       it('should handle JSON event data input', () => {
-        const files = [new File(['{}'], 'testfile.json', { type: 'application/json' })];
+        const files = [
+          new File(['{}'], 'testfile.json', { type: 'application/json' }),
+        ];
         component.handleEventDataInput(files);
       });
 
       it('should handle OBJ file input', () => {
-        const files = [new File(['test data'], 'testfile.obj', { type: 'text/plain' })];
+        const files = [
+          new File(['test data'], 'testfile.obj', { type: 'text/plain' }),
+        ];
         component.handleOBJInput(files);
       });
 
       it('should handle scene file input', () => {
-        const files = [new File(['test data'], 'testfile.phnx', { type: 'text/plain' })];
+        const files = [
+          new File(['test data'], 'testfile.phnx', { type: 'text/plain' }),
+        ];
         component.handleSceneInput(files);
       });
 
       it('should handle glTF file input', () => {
-        const files = [new File(['{}'], 'testfile.gltf', { type: 'application/json' })];
+        const files = [
+          new File(['{}'], 'testfile.gltf', { type: 'application/json' }),
+        ];
         component.handleGLTFInput(files);
       });
 
       it('should handle phoenix file input', () => {
-        const files = [new File(['{}'], 'testfile.phnx', { type: 'application/json' })];
+        const files = [
+          new File(['{}'], 'testfile.phnx', { type: 'application/json' }),
+        ];
         component.handlePhoenixInput(files);
       });
     });

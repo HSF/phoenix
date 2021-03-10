@@ -11,23 +11,28 @@ describe('CMSComponent', () => {
   let fixture: ComponentFixture<CMSComponent>;
 
   const mockJSROOT = jasmine.createSpyObj('JSROOT', ['NewHttpRequest']);
-  mockJSROOT.NewHttpRequest.and.callFake(() => jasmine.createSpyObj('returnValue', ['send']));
+  mockJSROOT.NewHttpRequest.and.callFake(() =>
+    jasmine.createSpyObj('returnValue', ['send'])
+  );
 
   let eventDisplayService: EventDisplayService;
 
   beforeAll(() => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(Promise.resolve(mockJSROOT));
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(
+      Promise.resolve(mockJSROOT)
+    );
   });
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [AppModule],
-      providers: [HttpClient, EventDisplayService]
-    })
-      .compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [AppModule],
+        providers: [HttpClient, EventDisplayService],
+      }).compileComponents();
 
-    eventDisplayService = TestBed.get(EventDisplayService);
-  }));
+      eventDisplayService = TestBed.get(EventDisplayService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CMSComponent);

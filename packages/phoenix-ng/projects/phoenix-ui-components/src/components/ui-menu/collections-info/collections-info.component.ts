@@ -6,14 +6,13 @@ import { CollectionsInfoOverlayComponent } from './collections-info-overlay/coll
 @Component({
   selector: 'app-collections-info',
   templateUrl: './collections-info.component.html',
-  styleUrls: ['./collections-info.component.scss']
+  styleUrls: ['./collections-info.component.scss'],
 })
 export class CollectionsInfoComponent implements OnInit, OnDestroy {
-
   showObjectsInfo = false;
   overlayWindow: ComponentRef<CollectionsInfoOverlayComponent>;
 
-  constructor(private overlay: Overlay) { }
+  constructor(private overlay: Overlay) {}
 
   ngOnInit() {
     const overlayRef = this.overlay.create();

@@ -14,7 +14,7 @@ import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
   PhoenixMenuItemComponent,
-  ConfigSliderComponent
+  ConfigSliderComponent,
 } from './phoenix-menu';
 import {
   UiMenuComponent,
@@ -44,7 +44,7 @@ import {
   AnimateEventComponent,
   VrToggleComponent,
   SSModeComponent,
-  PerformanceToggleComponent
+  PerformanceToggleComponent,
 } from './ui-menu';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -85,7 +85,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   VrToggleComponent,
   SSModeComponent,
   PerformanceToggleComponent,
-  LoaderComponent
+  LoaderComponent,
 ];
 
 @NgModule({
@@ -103,7 +103,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule,
-    NgxSliderModule
+    NgxSliderModule,
   ],
   entryComponents: [
     OverlayComponent,
@@ -111,8 +111,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     IOOptionsDialogComponent,
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
-    InfoPanelOverlayComponent
+    InfoPanelOverlayComponent,
   ],
-  exports: [PHOENIX_COMPONENTS]
+  exports: [PHOENIX_COMPONENTS],
 })
-export class PhoenixUIModule { }
+export class PhoenixUIModule {}

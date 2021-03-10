@@ -1,6 +1,11 @@
-<div class="buttonWrapper" [ngClass]="{ 'disabled': disabled }" [matTooltip]="tooltip" matTooltipPosition="above"
-  matTooltipTouchGestures="off">
-  <svg class="optionsButton" [ngClass]="{'activeIcon': active}">
-    <use attr.href="assets/icons/{{icon}}.svg#{{icon}}"></use>
+<div
+  class="buttonWrapper"
+  [ngClass]="{ disabled: disabled }"
+  [matTooltip]="tooltip"
+  matTooltipPosition="above"
+  matTooltipTouchGestures="off"
+>
+  <svg class="optionsButton" [ngClass]="{ activeIcon: active }">
+    <use attr.href="assets/icons/{{ icon }}.svg#{{ icon }}"></use>
   </svg>
 </div>

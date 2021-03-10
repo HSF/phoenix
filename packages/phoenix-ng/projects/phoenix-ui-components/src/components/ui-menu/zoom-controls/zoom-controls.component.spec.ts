@@ -11,17 +11,20 @@ describe('ZoomControlsComponent', () => {
   let mockEventDisplayService: any;
 
   beforeEach(async(() => {
-    mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', ['zoomTo']);
+    mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
+      'zoomTo',
+    ]);
 
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplayService
-      }],
-      declarations: [ZoomControlsComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplayService,
+        },
+      ],
+      declarations: [ZoomControlsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

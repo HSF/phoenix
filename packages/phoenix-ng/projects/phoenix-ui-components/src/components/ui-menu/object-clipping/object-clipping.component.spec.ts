@@ -11,19 +11,23 @@ describe('ObjectClippingComponent', () => {
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIService', ['rotateClipping', 'setClipping'])
+    getUIManager: jasmine.createSpyObj('UIService', [
+      'rotateClipping',
+      'setClipping',
+    ]),
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [ ObjectClippingComponent ]
-    })
-    .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [ObjectClippingComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -58,6 +62,8 @@ describe('ObjectClippingComponent', () => {
     matSliderChange.value = sliderValue;
 
     component.changeClippingAngle(matSliderChange);
-    expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(sliderValue);
+    expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(
+      sliderValue
+    );
   });
 });

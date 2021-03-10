@@ -6,7 +6,6 @@ import { PresetView } from '../extras/preset-view.model';
 import { InfoLogger } from '../info-logger';
 
 describe('UIManager', () => {
-
   let ui: UIManager;
   let uiPrivate: any;
   let three: ThreeManager;
@@ -14,7 +13,7 @@ describe('UIManager', () => {
   beforeEach(() => {
     three = new ThreeManager(new InfoLogger());
     ui = new UIManager(three);
-    uiPrivate = (ui as any);
+    uiPrivate = ui as any;
   });
 
   it('should be created', () => {
@@ -25,7 +24,7 @@ describe('UIManager', () => {
     beforeEach(() => {
       const configuration: Configuration = {
         enableDatGUIMenu: true,
-        phoenixMenuRoot: new PhoenixMenuNode('Root Phoenix Menu')
+        phoenixMenuRoot: new PhoenixMenuNode('Root Phoenix Menu'),
       };
       ui.init(configuration);
     });
@@ -100,7 +99,9 @@ describe('UIManager', () => {
     });
 
     it('should get preset views', () => {
-      uiPrivate.configuration.presetViews = [new PresetView('Test', [10, 10, 10], 'none')];
+      uiPrivate.configuration.presetViews = [
+        new PresetView('Test', [10, 10, 10], 'none'),
+      ];
       expect(ui.getPresetViews().length).toBeGreaterThan(0);
       uiPrivate.configuration = undefined;
       expect(ui.getPresetViews()).toBeUndefined();
