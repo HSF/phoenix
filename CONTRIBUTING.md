@@ -9,9 +9,25 @@ If you have already tried the application feel free to open an issue if you noti
 Include a brief description and context of the issue, and optionally choose labels to mark the issue as `bug`, `enhancement`, `question`...
 to give extra information to other developers.
 
-## 2. Start coding
+## 2. Coding
 
 Once you are decided to start contributing on the repository, take a look at the [Developer guide](./guides/developers#readme) to get a more detailed understanding.
+
+### Code formatting
+
+We use [Prettier](http://github.com/prettier/prettier) as a tool for code formatting which you can set up with your editor with [these instructions](https://prettier.io/docs/en/editors.html). We also have scripts to check and update code with Prettier.
+
+To check if the code is formatted:
+
+```sh
+yarn prettier:check
+```
+
+To automatically format the code:
+
+```sh
+yarn prettier:write
+```
 
 ## 3. Commit messages
 
