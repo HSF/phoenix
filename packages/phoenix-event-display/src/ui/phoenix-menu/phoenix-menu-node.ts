@@ -1,7 +1,13 @@
 /**
  * Configuration types for PhoenixMenuNode.
  */
-export type PhoenixMenuConfig = 'checkbox' | 'slider' | 'button' | 'label' | 'color' | 'rangeSlider';
+export type PhoenixMenuConfig =
+  | 'checkbox'
+  | 'slider'
+  | 'button'
+  | 'label'
+  | 'color'
+  | 'rangeSlider';
 
 /**
  * A single node of phoenix menu item.
@@ -54,12 +60,9 @@ export class PhoenixMenuNode {
     this.name = name;
     this.icon = icon;
     this.onToggle = onToggle;
-    if (children)
-      this.children = children;
-    if (configs)
-      this.configs = configs;
-    if (parent)
-      this.parent = parent;
+    if (children) this.children = children;
+    if (configs) this.configs = configs;
+    if (parent) this.parent = parent;
   }
 
   /**
@@ -69,7 +72,11 @@ export class PhoenixMenuNode {
    * @param icon Icon of the child.
    * @returns The child node.
    */
-  addChild(name: string, onToggle?: (value: boolean) => void, icon?: string): PhoenixMenuNode {
+  addChild(
+    name: string,
+    onToggle?: (value: boolean) => void,
+    icon?: string
+  ): PhoenixMenuNode {
     const child = new PhoenixMenuNode(name, icon, onToggle);
     child.parent = this;
     child.nodeLevel = this.nodeLevel + 1;
@@ -95,7 +102,9 @@ export class PhoenixMenuNode {
     if (this.parent) {
       this.parent.removeChild(this);
     } else {
-      console.error('Cannot delete root node of phoenix menu. Set it to undefined/null instead.');
+      console.error(
+        'Cannot delete root node of phoenix menu. Set it to undefined/null instead.'
+      );
     }
   }
 
@@ -153,10 +162,13 @@ export class PhoenixMenuNode {
       config.onChange?.(config?.['color']);
     } else if (config.type === 'slider' && config?.['value']) {
       config.onChange?.(config?.['value']);
-    } else if (config.type === 'rangeSlider' && config?.['value'] !== undefined) {
+    } else if (
+      config.type === 'rangeSlider' &&
+      config?.['value'] !== undefined
+    ) {
       config.onChange?.({
         value: config?.['value'],
-        highValue: config?.['highValue']
+        highValue: config?.['highValue'],
       });
     }
   }
@@ -199,8 +211,10 @@ export class PhoenixMenuNode {
     this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject['configs']) {
-      const nodeConfig = this.configs.find(nodeConfig =>
-        nodeConfig.type === configState['type'] && nodeConfig.label === configState['label']
+      const nodeConfig = this.configs.find(
+        (nodeConfig) =>
+          nodeConfig.type === configState['type'] &&
+          nodeConfig.label === configState['label']
       );
 
       if (nodeConfig) {
@@ -213,8 +227,10 @@ export class PhoenixMenuNode {
     }
 
     for (const childState of jsonObject['children']) {
-      const nodeChild = this.children.filter(nodeChild =>
-        nodeChild.name === childState.name && nodeChild.nodeLevel === childState.nodeLevel
+      const nodeChild = this.children.filter(
+        (nodeChild) =>
+          nodeChild.name === childState.name &&
+          nodeChild.nodeLevel === childState.nodeLevel
       )[0];
 
       if (nodeChild) {
@@ -245,10 +261,10 @@ export class PhoenixMenuNode {
    */
   findInTreeOrCreate(name: string): PhoenixMenuNode {
     let prevNode: PhoenixMenuNode = this;
-    name.split('>').forEach(nodeName => {
+    name.split('>').forEach((nodeName) => {
       nodeName = nodeName.trim();
       const nodeFound = prevNode.findInTree(nodeName);
-      prevNode = nodeFound ? nodeFound : prevNode.addChild(nodeName, () => { });
+      prevNode = nodeFound ? nodeFound : prevNode.addChild(nodeName, () => {});
     });
     return prevNode;
   }

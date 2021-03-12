@@ -11,7 +11,7 @@ import {
   BoxGeometry,
   Mesh,
   MeshBasicMaterial,
-  Euler
+  Euler,
 } from 'three';
 import { Configuration } from '../extras/configuration';
 import { ControlsManager } from './controls-manager';
@@ -60,7 +60,7 @@ export class ThreeManager {
   private ignoreList = [
     new AmbientLight().type,
     new DirectionalLight().type,
-    new AxesHelper().type
+    new AxesHelper().type,
   ];
   /** Clipping planes for clipping geometry */
   private clipPlanes: Plane[];
@@ -84,7 +84,7 @@ export class ThreeManager {
     this.clipPlanes = [
       new Plane(new Vector3(0, 1, 0), 0),
       new Plane(new Vector3(0, -1, 0), 0),
-      new Plane(new Vector3(0, 0, 1), -15000)
+      new Plane(new Vector3(0, 0, 1), -15000),
     ];
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
@@ -98,8 +98,14 @@ export class ThreeManager {
     // Renderer manager
     this.rendererManager.init(configuration.elementId);
     // Controls manager
-    this.controlsManager = new ControlsManager(this.rendererManager, configuration.defaultView);
-    this.controlsManager.hideTubeTracksOnZoom(this.sceneManager.getScene(), 200);
+    this.controlsManager = new ControlsManager(
+      this.rendererManager,
+      configuration.defaultView
+    );
+    this.controlsManager.hideTubeTracksOnZoom(
+      this.sceneManager.getScene(),
+      200
+    );
     // Effects manager
     this.effectsManager = new EffectsManager(
       this.controlsManager.getMainCamera(),
@@ -159,8 +165,14 @@ export class ThreeManager {
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    this.rendererManager.render(this.sceneManager.getScene(), this.controlsManager.getOverlayCamera());
-    this.effectsManager.render(this.sceneManager.getScene(), this.controlsManager.getMainCamera());
+    this.rendererManager.render(
+      this.sceneManager.getScene(),
+      this.controlsManager.getOverlayCamera()
+    );
+    this.effectsManager.render(
+      this.sceneManager.getScene(),
+      this.controlsManager.getMainCamera()
+    );
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
@@ -169,10 +181,9 @@ export class ThreeManager {
    */
   public vrRender() {
     this.uiLoop();
-    this.rendererManager.getMainRenderer().render(
-      this.sceneManager.getScene(),
-      this.vrManager.getVRCamera()
-    );
+    this.rendererManager
+      .getMainRenderer()
+      .render(this.sceneManager.getScene(), this.vrManager.getVRCamera());
     // The light directs towards origin
     this.sceneManager.updateLights(this.vrManager.getVRCamera());
   }
@@ -213,7 +224,6 @@ export class ThreeManager {
     q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
     this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
   }
-
 
   /**
    * Animates camera transform.
@@ -277,7 +287,14 @@ export class ThreeManager {
       object.visible = initiallyVisible;
       geometries.add(object);
     };
-    return this.importManager.loadOBJGeometry(callback, filename, name, color, doubleSided, setFlat);
+    return this.importManager.loadOBJGeometry(
+      callback,
+      filename,
+      name,
+      color,
+      doubleSided,
+      setFlat
+    );
   }
 
   /**
@@ -308,7 +325,11 @@ export class ThreeManager {
    * @param name Name given to the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(geometry: string, name: string, initiallyVisible: boolean = true) {
+  public parseOBJGeometry(
+    geometry: string,
+    name: string,
+    initiallyVisible: boolean = true
+  ) {
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
@@ -351,14 +372,25 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(json: string | object, name: string, scale?: number,
-    doubleSided?: boolean, initiallyVisible: boolean = true): Promise<unknown> {
+  public loadJSONGeometry(
+    json: string | object,
+    name: string,
+    scale?: number,
+    doubleSided?: boolean,
+    initiallyVisible: boolean = true
+  ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (geometry: Object3D) => {
       geometry.visible = initiallyVisible;
       geometries.add(geometry);
     };
-    return this.importManager.loadJSONGeometry(json, name, callback, scale, doubleSided);
+    return this.importManager.loadJSONGeometry(
+      json,
+      name,
+      callback,
+      scale,
+      doubleSided
+    );
   }
 
   /**
@@ -376,8 +408,10 @@ export class ThreeManager {
   public exportPhoenixScene() {
     const scene = this.sceneManager.getCleanScene();
     this.exportManager.exportPhoenixScene(
-      scene, this.sceneManager.getEventData(),
-      this.sceneManager.getGeometries());
+      scene,
+      this.sceneManager.getEventData(),
+      this.sceneManager.getGeometries()
+    );
   }
 
   /**
@@ -392,7 +426,10 @@ export class ThreeManager {
    * Initializes the object which will show information of the selected geometry/event data.
    * @param selectedObject Object to display the data.
    */
-  public setSelectedObjectDisplay(selectedObject: { name: string, attributes: any[] }) {
+  public setSelectedObjectDisplay(selectedObject: {
+    name: string;
+    attributes: any[];
+  }) {
     this.getSelectionManager().setSelectedObject(selectedObject);
   }
 
@@ -476,7 +513,7 @@ export class ThreeManager {
       {
         x: cameraPosition[0],
         y: cameraPosition[1],
-        z: cameraPosition[2]
+        z: cameraPosition[2],
       },
       duration
     );
@@ -496,7 +533,7 @@ export class ThreeManager {
       {
         x: cameraTarget[0],
         y: cameraTarget[1],
-        z: cameraTarget[2]
+        z: cameraTarget[2],
       },
       duration
     );
@@ -516,7 +553,10 @@ export class ThreeManager {
    * @param uuid uuid of the object.
    */
   public lookAtObject(uuid: string) {
-    this.controlsManager.lookAtObject(uuid, this.getSceneManager().getEventData());
+    this.controlsManager.lookAtObject(
+      uuid,
+      this.getSceneManager().getEventData()
+    );
   }
 
   /**
@@ -525,7 +565,10 @@ export class ThreeManager {
    * @returns Position of the 3D object.
    */
   public getObjectPosition(uuid: string): Vector3 {
-    return this.controlsManager.getObjectPosition(uuid, this.getSceneManager().getScene());
+    return this.controlsManager.getObjectPosition(
+      uuid,
+      this.getSceneManager().getScene()
+    );
   }
 
   /**
@@ -533,7 +576,10 @@ export class ThreeManager {
    * @param uuid uuid of the object.
    */
   public highlightObject(uuid: string) {
-    this.selectionManager.highlightObject(uuid, this.getSceneManager().getEventData());
+    this.selectionManager.highlightObject(
+      uuid,
+      this.getSceneManager().getEventData()
+    );
   }
 
   /**
@@ -548,7 +594,9 @@ export class ThreeManager {
       if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
-            this.autoRotate(!this.controlsManager.getActiveControls().autoRotate);
+            this.autoRotate(
+              !this.controlsManager.getActiveControls().autoRotate
+            );
             break;
           case 'Equal': // shift + "+"
             this.zoomTo(1 / 1.2, 100);
@@ -563,8 +611,9 @@ export class ThreeManager {
             }
             break;
           case 'KeyV': // shift + "v"
-            const isOrthographicView = this.controlsManager.getMainCamera()
-              .type === 'OrthographicCamera';
+            const isOrthographicView =
+              this.controlsManager.getMainCamera().type ===
+              'OrthographicCamera';
             this.swapCameras(!isOrthographicView);
             break;
         }
@@ -578,11 +627,16 @@ export class ThreeManager {
    * @param tweenDuration Duration of each tween in the translation animation.
    * @param onAnimationEnd Callback when the last animation ends.
    */
-  public animateThroughEvent(startPos: number[],
+  public animateThroughEvent(
+    startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void) {
-    this.animationsManager
-      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+    onAnimationEnd?: () => void
+  ) {
+    this.animationsManager.animateThroughEvent(
+      startPos,
+      tweenDuration,
+      onAnimationEnd
+    );
   }
 
   /**
@@ -600,7 +654,10 @@ export class ThreeManager {
    * @param tweenDuration Duration of the animation tween.
    * @param onEnd Function to call when all animations have ended.
    */
-  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+  public animateClippingWithCollision(
+    tweenDuration: number,
+    onEnd?: () => void
+  ) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
   }
 
@@ -618,11 +675,12 @@ export class ThreeManager {
 
     // Set up the camera position in the VR - Adding a group with camera does it
     // The VR camera is only available AFTER the session starts
-    // For why we can't just move the camera directly, see e.g. 
+    // For why we can't just move the camera directly, see e.g.
     // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
     const onSessionStarted = () => {
-      const cameraGroup = this.vrManager
-        .getCameraGroup(this.controlsManager.getMainCamera());
+      const cameraGroup = this.vrManager.getCameraGroup(
+        this.controlsManager.getMainCamera()
+      );
       this.sceneManager.getScene().add(cameraGroup);
     };
 
@@ -683,12 +741,16 @@ export class ThreeManager {
     let edgecolour = parameters.EdgeColour;
     // Make the geometry and material
     var geometry = new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
-    var material = new MeshBasicMaterial({ color: colour, opacity: 0.5, transparent: true });
+    var material = new MeshBasicMaterial({
+      color: colour,
+      opacity: 0.5,
+      transparent: true,
+    });
 
     var zstep = (maxZ - minZ) / numZEl;
-    var phistep = 2. * Math.PI / numPhiEl;
+    var phistep = (2 * Math.PI) / numPhiEl;
 
-    var z = minZ + zstep / 2.;
+    var z = minZ + zstep / 2;
 
     var halfPi = Math.PI / 2.0;
     var modulecentre;
@@ -696,10 +758,16 @@ export class ThreeManager {
       var phi = phiOffset;
       for (var elPhi = 0; elPhi < numPhiEl; elPhi++) {
         phi += phistep;
-        modulecentre = new Vector3(radius * Math.cos(phi), radius * Math.sin(phi), z);
+        modulecentre = new Vector3(
+          radius * Math.cos(phi),
+          radius * Math.sin(phi),
+          z
+        );
         var cube = new Mesh(geometry.clone(), material);
 
-        cube.matrix.makeRotationFromEuler(new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle));
+        cube.matrix.makeRotationFromEuler(
+          new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle)
+        );
         cube.matrix.setPosition(modulecentre);
         cube.matrixAutoUpdate = false;
         scene.add(cube);
@@ -708,7 +776,7 @@ export class ThreeManager {
         // egh.material.linewidth = 2;
         // scene.add(egh);
       }
-      z += zstep
+      z += zstep;
     }
 
     this.loadingManager.itemLoaded('geom_from_params');
@@ -723,6 +791,12 @@ export class ThreeManager {
   public addLabelToObject(label: string, uuid: string, labelId: string) {
     const cameraControls = this.controlsManager.getActiveControls();
     const objectPosition = this.getObjectPosition(uuid);
-    this.getSceneManager().addLabelToObject(label, uuid, labelId, objectPosition, cameraControls);
+    this.getSceneManager().addLabelToObject(
+      label,
+      uuid,
+      labelId,
+      objectPosition,
+      cameraControls
+    );
   }
 }

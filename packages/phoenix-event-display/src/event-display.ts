@@ -106,9 +106,11 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
-    const eventKeys = this.configuration.eventDataLoader.getEventsList(eventsData);
+    const eventKeys = this.configuration.eventDataLoader.getEventsList(
+      eventsData
+    );
     this.loadEvent(eventKeys[0]);
-    this.onEventsChange.forEach(callback => callback(eventKeys));
+    this.onEventsChange.forEach((callback) => callback(eventKeys));
     return eventKeys;
   }
 
@@ -124,7 +126,12 @@ export class EventDisplay {
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
-    this.configuration.eventDataLoader.buildEventData(eventData, this.graphicsLibrary, this.ui, this.infoLogger);
+    this.configuration.eventDataLoader.buildEventData(
+      eventData,
+      this.graphicsLibrary,
+      this.ui,
+      this.infoLogger
+    );
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
   }
 
@@ -191,15 +198,24 @@ export class EventDisplay {
    */
   public loadOBJGeometry(
     filename: string,
-    name: string, color: any,
-    menuNodeName?: string, doubleSided?: boolean,
+    name: string,
+    color: any,
+    menuNodeName?: string,
+    doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
   ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
-    return this.graphicsLibrary.loadOBJGeometry(filename, name, color, doubleSided, initiallyVisible, setFlat);
+    return this.graphicsLibrary.loadOBJGeometry(
+      filename,
+      name,
+      color,
+      doubleSided,
+      initiallyVisible,
+      setFlat
+    );
   }
 
   /**
@@ -210,8 +226,12 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public parseOBJGeometry(content: string, name: string,
-    menuNodeName?: string, initiallyVisible: boolean = true) {
+  public parseOBJGeometry(
+    content: string,
+    name: string,
+    menuNodeName?: string,
+    initiallyVisible: boolean = true
+  ) {
     this.loadingManager.addLoadableItem(`parse_obj_${name}`);
     this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
     this.ui.addGeometry(name, 0x000fff, menuNodeName, initiallyVisible);
@@ -261,7 +281,10 @@ export class EventDisplay {
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(input: string | ArrayBuffer, name: string): Promise<unknown> {
+  public parseGLTFGeometry(
+    input: string | ArrayBuffer,
+    name: string
+  ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
     this.ui.addGeometry(name, undefined);
     this.infoLogger.add(name, 'Parsed GLTF geometry');
@@ -279,7 +302,8 @@ export class EventDisplay {
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
-    url: any, name: string,
+    url: any,
+    name: string,
     menuNodeName?: string,
     scale?: number,
     initiallyVisible: boolean = true
@@ -287,7 +311,12 @@ export class EventDisplay {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded GLTF geometry');
-    return this.graphicsLibrary.loadGLTFGeometry(url, name, scale, initiallyVisible);
+    return this.graphicsLibrary.loadGLTFGeometry(
+      url,
+      name,
+      scale,
+      initiallyVisible
+    );
   }
 
   /**
@@ -301,15 +330,23 @@ export class EventDisplay {
    * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(
-    json: string | object, name: string,
+    json: string | object,
+    name: string,
     menuNodeName?: string,
-    scale?: number, doubleSided?: boolean,
+    scale?: number,
+    doubleSided?: boolean,
     initiallyVisible: boolean = true
   ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`json_geom_${name}`);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, 'Loaded JSON geometry');
-    return this.graphicsLibrary.loadJSONGeometry(json, name, scale, doubleSided, initiallyVisible);
+    return this.graphicsLibrary.loadJSONGeometry(
+      json,
+      name,
+      scale,
+      doubleSided,
+      initiallyVisible
+    );
   }
 
   /**
@@ -323,15 +360,24 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public loadRootJSONGeometry(
-    JSROOT: any, url: string,
-    name: string, menuNodeName?: string,
-    scale?: number, doubleSided?: boolean,
+    JSROOT: any,
+    url: string,
+    name: string,
+    menuNodeName?: string,
+    scale?: number,
+    doubleSided?: boolean,
     initiallyVisible: boolean = true
   ) {
     this.loadingManager.addLoadableItem('root_json_geom');
     JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-      this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-        name, menuNodeName, scale, doubleSided, initiallyVisible);
+      this.loadJSONGeometry(
+        JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+        name,
+        menuNodeName,
+        scale,
+        doubleSided,
+        initiallyVisible
+      );
       this.loadingManager.itemLoaded('root_json_geom');
     }).send();
   }
@@ -347,22 +393,35 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public loadRootGeometry(JSROOT: any, url: string, objectName: string,
-    name: string, menuNodeName?: string, scale?: number, doubleSided?: boolean,
-    initiallyVisible: boolean = true) {
+  public loadRootGeometry(
+    JSROOT: any,
+    url: string,
+    objectName: string,
+    name: string,
+    menuNodeName?: string,
+    scale?: number,
+    doubleSided?: boolean,
+    initiallyVisible: boolean = true
+  ) {
     if (url.indexOf('.root') > 0) {
-      JSROOT.OpenFile(url, (file: any) => {
-        file.ReadObject(objectName, (obj: any) => {
-          this.loadJSONGeometry(JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-            name, menuNodeName, scale, doubleSided, initiallyVisible);
+      JSROOT.openFile(url).then((file: any) => {
+        file.readObject(objectName).then((obj: any) => {
+          this.loadJSONGeometry(
+            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
+            name,
+            menuNodeName,
+            scale,
+            doubleSided,
+            initiallyVisible
+          );
         });
       });
     }
   }
 
   /**
-   * Build Geometry from thr passed parameters, where 
-   * @param parameters 
+   * Build Geometry from thr passed parameters, where
+   * @param parameters
    */
   public buildGeometryFromParameters(parameters: any): void {
     this.graphicsLibrary.addGeometryFromParameters(parameters);
@@ -378,14 +437,15 @@ export class EventDisplay {
     this.graphicsLibrary.zoomTo(zoomFactor, zoomTime);
   }
 
-
-
   /**
    * Processes event data and geometry for Loading the scene
    * from Phoenix file format (.phnx).
    * @param sceneConfiguration Scene configuration containingevent data and detector geometry.
    */
-  private loadSceneConfiguration(sceneConfiguration: { eventData: {}; geometries: [] }) {
+  private loadSceneConfiguration(sceneConfiguration: {
+    eventData: {};
+    geometries: [];
+  }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
       const typeFolder = this.ui.addEventDataTypeFolder(objectType);
       const typeFolderPM = this.ui.addEventDataTypeFolderPM(objectType);
@@ -453,15 +513,34 @@ export class EventDisplay {
       loadGLTFGeometry: (sceneUrl: string, name: string) => {
         this.loadGLTFGeometry(sceneUrl, name);
       },
-      loadOBJGeometry: (filename: string, name: string, colour: any,
-        menuNodeName: string, doubleSided: boolean) => {
+      loadOBJGeometry: (
+        filename: string,
+        name: string,
+        colour: any,
+        menuNodeName: string,
+        doubleSided: boolean
+      ) => {
         this.loadOBJGeometry(filename, name, colour, menuNodeName, doubleSided);
       },
-      loadJSONGeometry: (json: string | object, name: string, menuNodeName: string,
-        scale?: number, doubleSided?: boolean, initiallyVisible: boolean = true) => {
-        this.loadJSONGeometry(json, name, menuNodeName, scale, doubleSided, initiallyVisible);
+      loadJSONGeometry: (
+        json: string | object,
+        name: string,
+        menuNodeName: string,
+        scale?: number,
+        doubleSided?: boolean,
+        initiallyVisible: boolean = true
+      ) => {
+        this.loadJSONGeometry(
+          json,
+          name,
+          menuNodeName,
+          scale,
+          doubleSided,
+          initiallyVisible
+        );
       },
-      buildGeometryFromParameters: (parameters: object) => this.buildGeometryFromParameters(parameters)
+      buildGeometryFromParameters: (parameters: object) =>
+        this.buildGeometryFromParameters(parameters),
     };
   }
 
@@ -477,7 +556,7 @@ export class EventDisplay {
    * Initializes the object which will show information of the selected geometry/event data.
    * @param selectedObject Object to display the data.
    */
-  public allowSelection(selectedObject: { name: string, attributes: any[] }) {
+  public allowSelection(selectedObject: { name: string; attributes: any[] }) {
     this.graphicsLibrary.setSelectedObjectDisplay(selectedObject);
   }
 
@@ -537,11 +616,16 @@ export class EventDisplay {
    * @param tweenDuration Duration of each tween in the translation animation.
    * @param onAnimationEnd Callback when the last animation ends.
    */
-  public animateThroughEvent(startPos: number[],
+  public animateThroughEvent(
+    startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void) {
-    this.graphicsLibrary
-      .animateThroughEvent(startPos, tweenDuration, onAnimationEnd);
+    onAnimationEnd?: () => void
+  ) {
+    this.graphicsLibrary.animateThroughEvent(
+      startPos,
+      tweenDuration,
+      onAnimationEnd
+    );
   }
 
   /**
@@ -559,7 +643,10 @@ export class EventDisplay {
    * @param tweenDuration Duration of the animation tween.
    * @param onEnd Function to call when all animations have ended.
    */
-  public animateClippingWithCollision(tweenDuration: number, onEnd?: () => void) {
+  public animateClippingWithCollision(
+    tweenDuration: number,
+    onEnd?: () => void
+  ) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
   }
 
@@ -570,8 +657,17 @@ export class EventDisplay {
    * @param indexInCollection Event object's index in collection.
    * @param uuid UUID of the three.js object.
    */
-  public addLabelToObject(label: string, collection: string, indexInCollection: number, uuid: string) {
-    const labelId = this.configuration.eventDataLoader.addLabelToEventObject(label, collection, indexInCollection);
+  public addLabelToObject(
+    label: string,
+    collection: string,
+    indexInCollection: number,
+    uuid: string
+  ) {
+    const labelId = this.configuration.eventDataLoader.addLabelToEventObject(
+      label,
+      collection,
+      indexInCollection
+    );
 
     // Remove the label if the string is empty
     if (!label) {

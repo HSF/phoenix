@@ -1,5 +1,13 @@
-import { WebGLRenderer, Group, Camera, Vector3, BufferGeometry, Line, Scene } from "three";
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory'
+import {
+  WebGLRenderer,
+  Group,
+  Camera,
+  Vector3,
+  BufferGeometry,
+  Line,
+  Scene,
+} from 'three';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
 
 // NOTE: This was created on 29/08/2020
 // It might get outdated given how WebXR is still a work in progress
@@ -53,14 +61,23 @@ export class VRManager {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
 
-    if ((navigator as any)?.xr) {
+    const webXR = (navigator as any)?.xr;
+
+    if (webXR) {
       const sessionInit = {
-        optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']
+        optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
       };
-      (navigator as any)?.xr?.requestSession(VRManager.SESSION_TYPE, sessionInit)
+
+      (webXR.requestSession(
+        VRManager.SESSION_TYPE,
+        sessionInit
+      ) as Promise<any>)
         .then((session: any) => {
           this.onVRSessionStarted(session);
           onSessionStarted?.();
+        })
+        .catch((error: any) => {
+          console.log('VR Error:', error);
         });
 
       this.setupVRControls();
@@ -76,7 +93,7 @@ export class VRManager {
     session.addEventListener('end', this.onVRSessionEnded);
     this.renderer.xr.setSession(session);
     this.currentVRSession = session;
-  }
+  };
 
   /**
    * Callback when the VR session ends.
@@ -88,11 +105,17 @@ export class VRManager {
     this.currentVRSession?.removeEventListener('end', this.onVRSessionEnded);
     this.currentVRSession = null;
 
-    this.controller1?.removeEventListener('selectstart', this.onControllerSelectStart);
-    this.controller1?.removeEventListener('selectend', this.onControllerSelectEnd);
+    this.controller1?.removeEventListener(
+      'selectstart',
+      this.onControllerSelectStart
+    );
+    this.controller1?.removeEventListener(
+      'selectend',
+      this.onControllerSelectEnd
+    );
 
     this.cameraGroup = undefined;
-  }
+  };
 
   /**
    * End the current VR session.
@@ -121,7 +144,9 @@ export class VRManager {
       this.cameraGroup = new Group();
     }
     if (camera && this.vrActive) {
-      this.vrCamera = this.renderer.xr.getCamera(new Camera()).copy(camera.clone());
+      this.vrCamera = this.renderer.xr
+        .getCamera(new Camera())
+        .copy(camera.clone());
       this.vrCamera.name = 'VR_CAMERA';
 
       this.cameraGroup.position.copy(this.vrCamera.position);
@@ -151,14 +176,21 @@ export class VRManager {
 
     const controllerModelFactory = new XRControllerModelFactory();
     this.controllerGrip1 = this.renderer.xr.getControllerGrip(0);
-    this.controllerGrip1.add(controllerModelFactory.createControllerModel(this.controllerGrip1));
+    this.controllerGrip1.add(
+      controllerModelFactory.createControllerModel(this.controllerGrip1)
+    );
     this.getCameraGroup().add(this.controllerGrip1);
 
     this.controllerGrip2 = this.renderer.xr.getControllerGrip(1);
-    this.controllerGrip2.add(controllerModelFactory.createControllerModel(this.controllerGrip2));
+    this.controllerGrip2.add(
+      controllerModelFactory.createControllerModel(this.controllerGrip2)
+    );
     this.getCameraGroup().add(this.controllerGrip2);
 
-    const geometry = new BufferGeometry().setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, - 1)]);
+    const geometry = new BufferGeometry().setFromPoints([
+      new Vector3(0, 0, 0),
+      new Vector3(0, 0, -1),
+    ]);
 
     const line = new Line(geometry);
     line.name = 'line';
@@ -168,7 +200,7 @@ export class VRManager {
     this.controller2.add(line.clone());
 
     // Set up movement
-    
+
     // Distance for a single step
     const stepDistance = 30;
     // Unit vector in camera direction
@@ -177,8 +209,12 @@ export class VRManager {
     let intervalId: NodeJS.Timeout;
 
     this.onControllerSelectStart = () => {
-      console.log('Select: c1 position ' + this.controller1.position.toArray().join(', '));
-      console.log('Select: CG position ' + this.cameraGroup.position.toArray().join(', '));
+      console.log(
+        'Select: c1 position ' + this.controller1.position.toArray().join(', ')
+      );
+      console.log(
+        'Select: CG position ' + this.cameraGroup.position.toArray().join(', ')
+      );
 
       // Start movement in camera direction
       intervalId = setInterval(() => {
@@ -191,7 +227,10 @@ export class VRManager {
       clearInterval(intervalId);
     };
 
-    this.controller1.addEventListener('selectstart', this.onControllerSelectStart);
+    this.controller1.addEventListener(
+      'selectstart',
+      this.onControllerSelectStart
+    );
     this.controller1.addEventListener('selectend', this.onControllerSelectEnd);
   }
 

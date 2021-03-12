@@ -1,10 +1,9 @@
-import { PhoenixLoader } from "./phoenix-loader";
+import { PhoenixLoader } from './phoenix-loader';
 
 /**
  * PhoenixLoader for processing and loading an event from ".root".
  */
 export class JSRootEventLoader extends PhoenixLoader {
-
   /** JSROOT object containing all JSROOT functions. */
   private JSROOT: any;
   /** Event data inside the file. */
@@ -27,7 +26,7 @@ export class JSRootEventLoader extends PhoenixLoader {
       Hits: {},
       Tracks: {},
       Jets: {},
-      CaloClusters: {}
+      CaloClusters: {},
     };
   }
 
@@ -37,11 +36,14 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @param objects An array identifying objects inside the ".root" file.
    * @param onEventData Callback when event data is extracted and available for use.
    */
-  public getEventData(objects: string[], onEventData: (eventData: any) => void) {
-    this.JSROOT.OpenFile(this.rootFileURL, (file: any) => {
+  public getEventData(
+    objects: string[],
+    onEventData: (eventData: any) => void
+  ) {
+    this.JSROOT.openFile(this.rootFileURL).then((file: any) => {
       let i = 0;
       for (const objectName of objects) {
-        file.ReadObject(objectName, (object: any) => {
+        file.readObject(objectName).then((object: any) => {
           i++;
           if (object) {
             this.processItemsList(object);
@@ -64,7 +66,7 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @param obj Object containing the event data in the form of JSROOT classes.
    */
   private processItemsList(obj: any) {
-    if ((obj._typename === 'TObjArray') || obj._typename === 'TList') {
+    if (obj._typename === 'TObjArray' || obj._typename === 'TList') {
       if (!obj.arr) return;
       for (let n = 0; n < obj.arr.length; ++n) {
         let sobj = obj.arr[n];
@@ -78,25 +80,35 @@ export class JSRootEventLoader extends PhoenixLoader {
       }
       const tGeoTrack = this.getTGeoTrack(obj);
       if (tGeoTrack) {
-        this.fileEventData.Tracks['TGeoTracks'].push(tGeoTrack)
+        this.fileEventData.Tracks['TGeoTracks'].push(tGeoTrack);
       }
-    } else if ((obj._typename === 'TEveTrack') || (obj._typename === 'ROOT::Experimental::TEveTrack')) {
+    } else if (
+      obj._typename === 'TEveTrack' ||
+      obj._typename === 'ROOT::Experimental::TEveTrack'
+    ) {
       if (!this.fileEventData.Tracks[obj._typename + '(s)']) {
         this.fileEventData.Tracks[obj._typename + '(s)'] = [];
       }
       const tEveTrack = this.getTEveTrack(obj);
       if (tEveTrack) {
-        this.fileEventData.Tracks[obj._typename + '(s)'].push(tEveTrack)
+        this.fileEventData.Tracks[obj._typename + '(s)'].push(tEveTrack);
       }
-    } else if ((obj._typename === 'TEvePointSet') || (obj._typename === 'ROOT::Experimental::TEvePointSet') || (obj._typename === 'TPolyMarker3D')) {
+    } else if (
+      obj._typename === 'TEvePointSet' ||
+      obj._typename === 'ROOT::Experimental::TEvePointSet' ||
+      obj._typename === 'TPolyMarker3D'
+    ) {
       if (!this.fileEventData.Hits[obj._typename + '(s)']) {
         this.fileEventData.Hits[obj._typename + '(s)'] = [];
       }
       const hit = this.getHit(obj);
       if (hit) {
-        this.fileEventData.Hits[obj._typename + '(s)'].push(hit)
+        this.fileEventData.Hits[obj._typename + '(s)'].push(hit);
       }
-    } else if ((obj._typename === 'TEveGeoShapeExtract') || (obj._typename === 'ROOT::Experimental::TEveGeoShapeExtract')) {
+    } else if (
+      obj._typename === 'TEveGeoShapeExtract' ||
+      obj._typename === 'ROOT::Experimental::TEveGeoShapeExtract'
+    ) {
       // Some extra shape - we only want event data
     }
   }
@@ -115,12 +127,12 @@ export class JSRootEventLoader extends PhoenixLoader {
       positions.push([
         track.fPoints[k * 4],
         track.fPoints[k * 4 + 1],
-        track.fPoints[k * 4 + 2]
+        track.fPoints[k * 4 + 2],
       ]);
     }
 
     return {
-      pos: positions
+      pos: positions,
     };
   }
 
@@ -130,7 +142,7 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @returns Track object in the phoenix format.
    */
   private getTEveTrack(track: any): any {
-    if (!track || (track.fN <= 0)) return false;
+    if (!track || track.fN <= 0) return false;
 
     const trackObj = {};
 
@@ -139,7 +151,7 @@ export class JSRootEventLoader extends PhoenixLoader {
       positions.push([
         track.fP[i * 3],
         track.fP[i * 3 + 1],
-        track.fP[i * 3 + 2]
+        track.fP[i * 3 + 2],
       ]);
     }
 
@@ -161,7 +173,7 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @returns Hit in phoenix format.
    */
   private getHit(hit: any): any {
-    if (!hit || !hit.fN || (hit.fN < 0)) return false;
+    if (!hit || !hit.fN || hit.fN < 0) return false;
 
     const hitArray = [];
 

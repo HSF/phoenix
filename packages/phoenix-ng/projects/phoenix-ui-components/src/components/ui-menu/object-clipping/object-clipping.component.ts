@@ -6,13 +6,12 @@ import { EventDisplayService } from '../../../services/event-display.service';
 @Component({
   selector: 'app-object-clipping',
   templateUrl: './object-clipping.component.html',
-  styleUrls: ['./object-clipping.component.scss']
+  styleUrls: ['./object-clipping.component.scss'],
 })
 export class ObjectClippingComponent {
-
   clippingEnabled: boolean;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   changeClippingAngle(change: MatSliderChange) {
     const angle = change.value;
@@ -24,5 +23,4 @@ export class ObjectClippingComponent {
     this.eventDisplay.getUIManager().setClipping(value);
     this.clippingEnabled = value;
   }
-
 }

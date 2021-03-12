@@ -11,9 +11,8 @@ describe('OverlayComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      declarations: [ OverlayComponent ]
-    })
-    .compileComponents();
+      declarations: [OverlayComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -37,7 +36,9 @@ describe('OverlayComponent', () => {
     component.showBody = true;
 
     // Creating a mock resize handle corner
-    component.resizeHandleCorner = new ElementRef(document.createElement('span'));
+    component.resizeHandleCorner = new ElementRef(
+      document.createElement('span')
+    );
     component.ngAfterViewInit();
 
     expect(component.resizeHandleCorner.nativeElement.style.bottom).toBe('0px');
@@ -49,12 +50,14 @@ describe('OverlayComponent', () => {
       // Creating mock elements
       component.resizable = true;
       component.showBody = true;
-      component.resizeHandleCorner = new ElementRef(document.createElement('span'));
+      component.resizeHandleCorner = new ElementRef(
+        document.createElement('span')
+      );
       component.overlayCard = new ElementRef(document.createElement('div'));
     });
 
     it('should resize', () => {
-      spyOn((component as any), 'setHandleTransform').and.callThrough();
+      spyOn(component as any, 'setHandleTransform').and.callThrough();
       component.onResize();
 
       expect((component as any).setHandleTransform).toHaveBeenCalled();

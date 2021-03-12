@@ -8,9 +8,8 @@ describe('SSModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SSModeComponent]
-    })
-      .compileComponents();
+      declarations: [SSModeComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

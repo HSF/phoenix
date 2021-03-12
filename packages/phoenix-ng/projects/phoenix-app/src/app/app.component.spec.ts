@@ -6,11 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent,
-        NavComponent
-      ],
-      imports: [RouterTestingModule]
+      declarations: [AppComponent, NavComponent],
+      imports: [RouterTestingModule],
     }).compileComponents();
   }));
 
@@ -19,5 +16,4 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });

@@ -63,10 +63,11 @@
     }
 
     .add-label {
-
       input {
         --phoenix-text-color: var(--phoenix-background-color);
-        --phoenix-background-color-tertiary: var(--phoenix-text-color-secondary);
+        --phoenix-background-color-tertiary: var(
+          --phoenix-text-color-secondary
+        );
         --phoenix-border: var(--phoenix-background-color);
       }
     }

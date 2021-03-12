@@ -55,6 +55,6 @@ if (typeof globalThis !== 'undefined') {
     // Managers
     StateManager,
     LoadingManager,
-    URLOptionsManager
+    URLOptionsManager,
   };
 }

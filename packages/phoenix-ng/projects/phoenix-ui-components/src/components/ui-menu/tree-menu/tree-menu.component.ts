@@ -4,10 +4,9 @@ import { TreeMenuItemComponent } from './tree-menu-item/tree-menu-item.component
 @Component({
   selector: 'app-tree-menu',
   templateUrl: './tree-menu.component.html',
-  styleUrls: ['./tree-menu.component.scss']
+  styleUrls: ['./tree-menu.component.scss'],
 })
 export class TreeMenuComponent implements OnInit {
-
   rootNode = {
     name: 'Atlas Detector',
     geometryId: 'AtlasDetector',
@@ -18,9 +17,9 @@ export class TreeMenuComponent implements OnInit {
         children: [
           {
             name: 'Toroids',
-            geometryId: 'Toroids'
-          }
-        ]
+            geometryId: 'Toroids',
+          },
+        ],
       },
       {
         name: 'Calorimeters',
@@ -28,21 +27,21 @@ export class TreeMenuComponent implements OnInit {
         children: [
           {
             name: 'LAr Barrel',
-            geometryId: 'LAr Barrel'
+            geometryId: 'LAr Barrel',
           },
           {
             name: 'LAr EC1',
-            geometryId: 'LAr EC1'
+            geometryId: 'LAr EC1',
           },
           {
             name: 'LAr EC2',
-            geometryId: 'LAr EC2'
+            geometryId: 'LAr EC2',
           },
           {
             name: 'Tile Cal',
-            geometryId: 'Tile Cal'
-          }
-        ]
+            geometryId: 'Tile Cal',
+          },
+        ],
       },
       {
         name: 'Inner detector',
@@ -54,20 +53,18 @@ export class TreeMenuComponent implements OnInit {
           },
           {
             name: 'SCT',
-            geometryId: 'SCT'
+            geometryId: 'SCT',
           },
           {
             name: 'TRT',
-            geometryId: 'TRT'
-          }
-        ]
-      }
-    ]
+            geometryId: 'TRT',
+          },
+        ],
+      },
+    ],
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

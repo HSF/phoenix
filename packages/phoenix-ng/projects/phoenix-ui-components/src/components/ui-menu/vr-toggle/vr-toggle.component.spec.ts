@@ -8,18 +8,22 @@ describe('VrToggleComponent', () => {
   let component: VrToggleComponent;
   let fixture: ComponentFixture<VrToggleComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', ['initVR', 'endVR']);
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+    'initVR',
+    'endVR',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [VrToggleComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [VrToggleComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,7 +2,11 @@ import {
   Vector2,
   Raycaster,
   Camera,
-  Scene, Object3D, DirectionalLight, AmbientLight, AxesHelper
+  Scene,
+  Object3D,
+  DirectionalLight,
+  AmbientLight,
+  AxesHelper,
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { InfoLogger } from '../info-logger';
@@ -13,7 +17,6 @@ import { PrettySymbols } from '../helpers/pretty-symbols';
  * Manager for managing event display's selection related functions.
  */
 export class SelectionManager {
-
   /** Is initialized. */
   private isInit: boolean;
   /** The camera inside the scene. */
@@ -21,7 +24,7 @@ export class SelectionManager {
   /** The scene used for event display. */
   private scene: Scene;
   /** Object used to display the information of the selected 3D object. */
-  private selectedObject: { name: string; attributes: any[]; };
+  private selectedObject: { name: string; attributes: any[] };
   /** The currently selected object which is observable for changes. */
   private activeObject = {
     uuid: '',
@@ -34,7 +37,7 @@ export class SelectionManager {
     },
     onUpdate: function (callback: (uuid: string) => void) {
       this.callbacks.push(callback);
-    }
+    },
   };
   /** Objects to be ignored on hovering over the scene. */
   private ignoreList: string[];
@@ -58,7 +61,7 @@ export class SelectionManager {
     this.ignoreList = [
       new AmbientLight().type,
       new DirectionalLight().type,
-      new AxesHelper().type
+      new AxesHelper().type,
     ];
   }
 
@@ -71,7 +74,8 @@ export class SelectionManager {
    * @param infoLogger Service for logging data to the information panel.
    */
   public init(
-    camera: Camera, scene: Scene,
+    camera: Camera,
+    scene: Scene,
     effectsManager: EffectsManager,
     infoLogger: InfoLogger
   ) {
@@ -87,7 +91,10 @@ export class SelectionManager {
    * Set the currently selected object.
    * @param selectedObject The currently selected object.
    */
-  public setSelectedObject(selectedObject: { name: string, attributes: any[] }) {
+  public setSelectedObject(selectedObject: {
+    name: string;
+    attributes: any[];
+  }) {
     this.selectedObject = selectedObject;
   }
 
@@ -113,12 +120,15 @@ export class SelectionManager {
    * Enable selecting of event display elements and set mouse move and click events.
    */
   private enableSelecting() {
-    document.getElementById('three-canvas').addEventListener('mousemove',
-      this.onTouchMove, true);
-    document.getElementById('three-canvas').addEventListener('click',
-      this.onDocumentMouseDown, true);
-    document.getElementById('three-canvas').addEventListener('touchstart',
-      this.onTouchDown);
+    document
+      .getElementById('three-canvas')
+      .addEventListener('mousemove', this.onTouchMove, true);
+    document
+      .getElementById('three-canvas')
+      .addEventListener('click', this.onDocumentMouseDown, true);
+    document
+      .getElementById('three-canvas')
+      .addEventListener('touchstart', this.onTouchDown);
     this.preSelectionAntialias = this.effectsManager.antialiasing;
     this.effectsManager.setAntialiasing(false);
   }
@@ -127,16 +137,18 @@ export class SelectionManager {
    * Disable selecting of event display elements and remove mouse move and click events.
    */
   private disableSelecting() {
-    document.getElementById('three-canvas').removeEventListener('mousemove',
-      this.onTouchMove, true);
-    document.getElementById('three-canvas').removeEventListener('click',
-      this.onDocumentMouseDown, true);
-    document.getElementById('three-canvas').removeEventListener('touchstart',
-      this.onTouchDown);
+    document
+      .getElementById('three-canvas')
+      .removeEventListener('mousemove', this.onTouchMove, true);
+    document
+      .getElementById('three-canvas')
+      .removeEventListener('click', this.onDocumentMouseDown, true);
+    document
+      .getElementById('three-canvas')
+      .removeEventListener('touchstart', this.onTouchDown);
     this.outlinePass.selectedObjects = [];
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
-
 
   /**
    * Function to call on mouse move when object selection is enabled.
@@ -144,10 +156,12 @@ export class SelectionManager {
   private onTouchMove = (event: any) => {
     const intersectedObject = this.intersectObject(event);
     if (intersectedObject) {
-      if (this.ignoreList.includes(intersectedObject.type)) { return; }
+      if (this.ignoreList.includes(intersectedObject.type)) {
+        return;
+      }
       this.outlinePass.selectedObjects = [intersectedObject];
     }
-  }
+  };
 
   /**
    * Function to call on mouse click when object selection is enabled.
@@ -156,33 +170,46 @@ export class SelectionManager {
     const intersectedObject = this.outlinePass.selectedObjects[0];
     if (intersectedObject) {
       this.selectedObject.name = intersectedObject.name;
-      this.selectedObject.attributes.splice(0, this.selectedObject.attributes.length);
+      this.selectedObject.attributes.splice(
+        0,
+        this.selectedObject.attributes.length
+      );
 
       this.activeObject.update(intersectedObject.uuid);
 
-      const prettyParams = PrettySymbols.getPrettyParams(intersectedObject.userData);
+      const prettyParams = PrettySymbols.getPrettyParams(
+        intersectedObject.userData
+      );
 
       for (const key of Object.keys(prettyParams)) {
         this.selectedObject.attributes.push({
           attributeName: key,
-          attributeValue: prettyParams[key]
+          attributeValue: prettyParams[key],
         });
       }
 
       // Process properties of the selected object
-      const props = Object.keys(intersectedObject.userData).map((key) => {
-        // Only take properties that are a string or number (no arrays or objects)
-        if (['string', 'number'].includes(typeof (intersectedObject.userData[key]))) {
-          return key + '=' + intersectedObject.userData[key];
-        }
-      }).filter(val => val);
+      const props = Object.keys(intersectedObject.userData)
+        .map((key) => {
+          // Only take properties that are a string or number (no arrays or objects)
+          if (
+            ['string', 'number'].includes(
+              typeof intersectedObject.userData[key]
+            )
+          ) {
+            return key + '=' + intersectedObject.userData[key];
+          }
+        })
+        .filter((val) => val);
       // Build the log text and add to the logger
-      const log = intersectedObject.name + (props.length > 0 ? ' with ' + props.join(', ') : '');
+      const log =
+        intersectedObject.name +
+        (props.length > 0 ? ' with ' + props.join(', ') : '');
       if (log) {
         this.infoLogger.add(log, 'Clicked');
       }
     }
-  }
+  };
 
   /**
    * Function to call on touch when object selection is enabled.
@@ -192,7 +219,7 @@ export class SelectionManager {
     event.preventDefault();
     this.onTouchMove(event.targetTouches[0]);
     this.onDocumentMouseDown();
-  }
+  };
 
   /**
    * Check if any object intersects on mouse move.

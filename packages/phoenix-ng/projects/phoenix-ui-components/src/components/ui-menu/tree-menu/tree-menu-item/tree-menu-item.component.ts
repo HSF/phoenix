@@ -5,22 +5,23 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 @Component({
   selector: 'app-tree-menu-item',
   templateUrl: './tree-menu-item.component.html',
-  styleUrls: ['./tree-menu-item.component.scss']
+  styleUrls: ['./tree-menu-item.component.scss'],
 })
 export class TreeMenuItemComponent {
-
-  @ViewChildren(TreeMenuItemComponent) children!: QueryList<TreeMenuItemComponent>;
-  @Input() node: { name: string, geometryId: string, children: [] };
+  @ViewChildren(TreeMenuItemComponent)
+  children!: QueryList<TreeMenuItemComponent>;
+  @Input() node: { name: string; geometryId: string; children: [] };
   isExpanded = false;
   visible = true;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   public toggleVisibility(visible: boolean) {
-    console.log('hi! it\'s ' + this.node.name);
-    this.eventDisplay.getUIManager().geometryVisibility(this.node.geometryId, visible);
+    console.log("hi! it's " + this.node.name);
+    this.eventDisplay
+      .getUIManager()
+      .geometryVisibility(this.node.geometryId, visible);
     this.visible = visible;
-    this.children.forEach(child => child.toggleVisibility(visible));
+    this.children.forEach((child) => child.toggleVisibility(visible));
   }
-
 }

@@ -19,7 +19,7 @@ export interface Configuration {
   /** ID of the wrapper element. */
   elementId?: string;
   /** Default event to load when none given in URL. */
-  defaultEventFile?: { eventFile: string, eventType: string };
+  defaultEventFile?: { eventFile: string; eventType: string };
   /** Whether to allow URL options or not (true by default). */
   allowUrlOptions?: boolean;
 }

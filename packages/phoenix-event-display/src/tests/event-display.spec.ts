@@ -5,33 +5,33 @@ import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 
 describe('EventDisplay', () => {
-
   let eventDisplay: EventDisplay;
   let eventDisplayPrivate: any;
   let three: ThreeManager;
   let ui: UIManager;
 
-  const EVENT_KEY = "Event Key";
+  const EVENT_KEY = 'Event Key';
   const MOCK_EVENT_DATA = {
-    "Event Key": {
-      "eventNumber": 111,
-      "runNumber": 111,
-      "Tracks": {
-        "TracksCollection": [{
-          "chi2": 34.0819,
-          "dof": 60,
-          "dparams": [0.455548, -5.65437, -2.52317, 0.280894, -2.3769e-05],
-          "color": "0x0000ff",
-          "pos": [[-21.8387, -16.2481, 68.9534]
-          ]
-        }]
-      }
-    }
+    'Event Key': {
+      eventNumber: 111,
+      runNumber: 111,
+      Tracks: {
+        TracksCollection: [
+          {
+            chi2: 34.0819,
+            dof: 60,
+            dparams: [0.455548, -5.65437, -2.52317, 0.280894, -2.3769e-5],
+            color: '0x0000ff',
+            pos: [[-21.8387, -16.2481, 68.9534]],
+          },
+        ],
+      },
+    },
   };
 
   beforeEach(() => {
     eventDisplay = new EventDisplay();
-    eventDisplayPrivate = (eventDisplay as any);
+    eventDisplayPrivate = eventDisplay as any;
     three = eventDisplay.getThreeManager();
     ui = eventDisplay.getUIManager();
   });
@@ -45,7 +45,7 @@ describe('EventDisplay', () => {
     spyOn(ui, 'init').and.callThrough();
 
     eventDisplay.init({
-      eventDataLoader: new PhoenixLoader()
+      eventDataLoader: new PhoenixLoader(),
     });
 
     expect(three.init).toHaveBeenCalled();
@@ -55,7 +55,7 @@ describe('EventDisplay', () => {
   describe('after init', () => {
     beforeEach(() => {
       eventDisplay.init({
-        eventDataLoader: new PhoenixLoader()
+        eventDataLoader: new PhoenixLoader(),
       });
     });
 
@@ -63,7 +63,9 @@ describe('EventDisplay', () => {
       const mockCallbackOnEventsChange = jasmine.createSpy('callback');
       eventDisplay.listenToLoadedEventsChange(mockCallbackOnEventsChange);
 
-      expect(eventDisplay.parsePhoenixEvents(MOCK_EVENT_DATA)[0]).toBe(EVENT_KEY);
+      expect(eventDisplay.parsePhoenixEvents(MOCK_EVENT_DATA)[0]).toBe(
+        EVENT_KEY
+      );
 
       expect(mockCallbackOnEventsChange).toHaveBeenCalled();
     });
@@ -72,13 +74,16 @@ describe('EventDisplay', () => {
       const mockCallbackOnEventsChange = jasmine.createSpy('callback');
       eventDisplay.listenToDisplayedEventChange(mockCallbackOnEventsChange);
 
-      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'buildEventData')
-        .and.callThrough();
+      spyOn(
+        eventDisplayPrivate.configuration.eventDataLoader,
+        'buildEventData'
+      ).and.callThrough();
 
       eventDisplay.buildEventDataFromJSON(MOCK_EVENT_DATA[EVENT_KEY]);
 
-      expect(eventDisplayPrivate.configuration.eventDataLoader.buildEventData)
-        .toHaveBeenCalled();
+      expect(
+        eventDisplayPrivate.configuration.eventDataLoader.buildEventData
+      ).toHaveBeenCalled();
       expect(mockCallbackOnEventsChange).toHaveBeenCalled();
     });
 
@@ -119,15 +124,15 @@ describe('EventDisplay', () => {
 
     it('should parse phoenix format for detector geometry and event data', () => {
       const phnxScene = {
-        "sceneConfiguration": {
-          "eventData": {
-            "Tracks": ["TestCollection"]
+        sceneConfiguration: {
+          eventData: {
+            Tracks: ['TestCollection'],
           },
-          "geometries": ["TestGeom"]
+          geometries: ['TestGeom'],
         },
-        "scene": {
-          "TestData": "TestValue"
-        }
+        scene: {
+          TestData: 'TestValue',
+        },
       };
       const TEST_PHNX_INPUT = JSON.stringify(phnxScene);
 
@@ -143,9 +148,11 @@ describe('EventDisplay', () => {
 
       parsePhnxSceneSpy.calls.reset();
 
-      eventDisplay.parsePhoenixDisplay(JSON.stringify({
-        "sceneConfiguration": undefined
-      }));
+      eventDisplay.parsePhoenixDisplay(
+        JSON.stringify({
+          sceneConfiguration: undefined,
+        })
+      );
 
       expect(three.parsePhnxScene).toHaveBeenCalledTimes(0);
     });
@@ -170,45 +177,92 @@ describe('EventDisplay', () => {
       expect(ui.addGeometry).toHaveBeenCalled();
     });
 
-    it('should load ROOT geometries', (done) => {
-      ScriptLoader.loadJSRootScripts((JSROOT) => {
+    it('should load ROOT geometries', async () => {
+      const mockJSROOT = jasmine.createSpyObj('JSROOT', [
+        'openFile',
+        'NewHttpRequest',
+      ]);
+      mockJSROOT.openFile.and.callFake(() =>
+        jasmine.createSpyObj('returnValue', ['then'])
+      );
+      mockJSROOT.NewHttpRequest.and.callFake(() =>
+        jasmine.createSpyObj('returnValue', ['send'])
+      );
 
-        // Calling JSROOT functions through does not cover their code for some reason so not using a spy
-        eventDisplay.loadRootJSONGeometry(JSROOT, 'https://root.cern/js/files/geom/cms.json.gz', 'Test JSON');
-        eventDisplay.loadRootGeometry(JSROOT, 'https://root.cern/js/files/geom/rootgeom.root', 'simple1;1', 'Test ROOT');
-        setTimeout(done, 4000);
+      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(
+        Promise.resolve(mockJSROOT)
+      );
 
-        const spy = spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
-        eventDisplay.loadRootGeometry(JSROOT, 'not/a/root.file', 'object', 'Test ROOT');
-        expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
-      });
-    }, 30000);
+      const JSROOT = await ScriptLoader.loadJSRootScripts();
+
+      // Calling JSROOT functions through does not cover their code for some reason so not using a spy
+      eventDisplay.loadRootJSONGeometry(
+        JSROOT,
+        'https://root.cern/js/files/geom/cms.json.gz',
+        'Test JSON'
+      );
+      eventDisplay.loadRootGeometry(
+        JSROOT,
+        'https://root.cern/js/files/geom/rootgeom.root',
+        'simple1;1',
+        'Test ROOT'
+      );
+
+      expect(mockJSROOT.openFile).toHaveBeenCalled();
+      expect(mockJSROOT.NewHttpRequest).toHaveBeenCalled();
+
+      spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
+      eventDisplay.loadRootGeometry(
+        JSROOT,
+        'not/a/root.file',
+        'object',
+        'Test ROOT'
+      );
+      expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
+    }, 40000);
 
     it('should get collection through collection name', () => {
-      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollection').and.stub();
+      spyOn(
+        eventDisplayPrivate.configuration.eventDataLoader,
+        'getCollection'
+      ).and.stub();
       eventDisplay.getCollection('TestCollection');
-      expect(eventDisplayPrivate.configuration.eventDataLoader.getCollection).toHaveBeenCalled();
+      expect(
+        eventDisplayPrivate.configuration.eventDataLoader.getCollection
+      ).toHaveBeenCalled();
     });
 
     it('should get collections', () => {
-      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getCollections').and.stub();
+      spyOn(
+        eventDisplayPrivate.configuration.eventDataLoader,
+        'getCollections'
+      ).and.stub();
       eventDisplay.getCollections();
-      expect(eventDisplayPrivate.configuration.eventDataLoader.getCollections).toHaveBeenCalled();
+      expect(
+        eventDisplayPrivate.configuration.eventDataLoader.getCollections
+      ).toHaveBeenCalled();
     });
 
     it('should listen to function when displayed event changes', () => {
       const prevEventsChangeLength = eventDisplayPrivate.onEventsChange.length;
-      eventDisplay.listenToLoadedEventsChange((events) => { });
+      eventDisplay.listenToLoadedEventsChange((events) => {});
 
-      expect(eventDisplayPrivate.onEventsChange.length).toBe(prevEventsChangeLength + 1);
+      expect(eventDisplayPrivate.onEventsChange.length).toBe(
+        prevEventsChangeLength + 1
+      );
     });
 
     it('should get event metadata from event loader', () => {
-      spyOn(eventDisplayPrivate.configuration.eventDataLoader, 'getEventMetadata').and.stub();
+      spyOn(
+        eventDisplayPrivate.configuration.eventDataLoader,
+        'getEventMetadata'
+      ).and.stub();
 
       eventDisplay.getEventMetadata();
 
-      expect(eventDisplayPrivate.configuration.eventDataLoader.getEventMetadata).toHaveBeenCalled();
+      expect(
+        eventDisplayPrivate.configuration.eventDataLoader.getEventMetadata
+      ).toHaveBeenCalled();
     });
 
     it('should enable and run event display functions through console', () => {
@@ -262,7 +316,10 @@ describe('EventDisplay', () => {
       expect(three.exportPhoenixScene).toHaveBeenCalled();
 
       spyOn(three, 'parseGLTFGeometry').and.stub();
-      eventDisplay.parseGLTFGeometry('{ "TestInput": "TestValue" }', 'GLTF_Geometry');
+      eventDisplay.parseGLTFGeometry(
+        '{ "TestInput": "TestValue" }',
+        'GLTF_Geometry'
+      );
       expect(three.parseGLTFGeometry).toHaveBeenCalled();
 
       spyOn(three, 'zoomTo').and.callThrough();
@@ -299,19 +356,29 @@ describe('EventDisplay', () => {
     });
 
     it('should animate through the event', () => {
-      spyOn(eventDisplay.getThreeManager(), 'animateThroughEvent').and.callThrough();
+      spyOn(
+        eventDisplay.getThreeManager(),
+        'animateThroughEvent'
+      ).and.callThrough();
 
-      eventDisplay.animateThroughEvent([0, 0, 0], 100, () => { });
+      eventDisplay.animateThroughEvent([0, 0, 0], 100, () => {});
       eventDisplay.animateThroughEvent([0, 0, 0], 100);
-      expect(eventDisplay.getThreeManager().animateThroughEvent).toHaveBeenCalledTimes(2);
+      expect(
+        eventDisplay.getThreeManager().animateThroughEvent
+      ).toHaveBeenCalledTimes(2);
     });
 
     it('should animate event with collision', () => {
-      spyOn(eventDisplay.getThreeManager(), 'animateEventWithCollision').and.stub();
+      spyOn(
+        eventDisplay.getThreeManager(),
+        'animateEventWithCollision'
+      ).and.stub();
 
-      eventDisplay.animateEventWithCollision(100, () => { });
+      eventDisplay.animateEventWithCollision(100, () => {});
       eventDisplay.animateEventWithCollision(100);
-      expect(eventDisplay.getThreeManager().animateEventWithCollision).toHaveBeenCalledTimes(2);
+      expect(
+        eventDisplay.getThreeManager().animateEventWithCollision
+      ).toHaveBeenCalledTimes(2);
     });
   });
 });

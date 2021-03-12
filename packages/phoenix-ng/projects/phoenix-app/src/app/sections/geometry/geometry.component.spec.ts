@@ -9,9 +9,8 @@ describe('GeometryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule]
-    })
-      .compileComponents();
+      imports: [AppModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

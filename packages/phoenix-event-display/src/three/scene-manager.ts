@@ -1,4 +1,26 @@
-import { Scene, Object3D, Color, LineSegments, Mesh, MeshPhongMaterial, LineBasicMaterial, Vector3, Group, AxesHelper, AmbientLight, DirectionalLight, Line, MeshBasicMaterial, Material, Points, PointsMaterial, MeshToonMaterial, Camera, TextGeometry, Font } from 'three';
+import {
+  Scene,
+  Object3D,
+  Color,
+  LineSegments,
+  Mesh,
+  MeshPhongMaterial,
+  LineBasicMaterial,
+  Vector3,
+  Group,
+  AxesHelper,
+  AmbientLight,
+  DirectionalLight,
+  Line,
+  MeshBasicMaterial,
+  Material,
+  Points,
+  PointsMaterial,
+  MeshToonMaterial,
+  Camera,
+  TextGeometry,
+  Font,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../extras/cut.model';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
@@ -58,10 +80,10 @@ export class SceneManager {
       this.scene.add(this.cameraLight);
     } else {
       [
-        [-100, -50, 100],   // Bottom left
-        [100, 50, -100],    // Top right
-        [-100, 50, -100],   // Top left
-        [100, -50, 100]     // Bottom right
+        [-100, -50, 100], // Bottom left
+        [100, 50, -100], // Top right
+        [-100, 50, -100], // Top left
+        [100, -50, 100], // Bottom right
       ].forEach((position) => {
         const directionalLight = new DirectionalLight(0xffffff, 0.2);
         directionalLight.position.set(position[0], position[1], position[2]);
@@ -142,7 +164,6 @@ export class SceneManager {
     }
   }
 
-
   /**
    * Changes color of an OBJ geometry.
    * @param name Name of the geometry.
@@ -151,7 +172,7 @@ export class SceneManager {
   public changeObjectColor(name: string, value: any) {
     const object = this.scene.getObjectByName(name);
     if (object) {
-      object.traverse(child => {
+      object.traverse((child) => {
         if (child instanceof Mesh || child instanceof LineSegments) {
           if (
             child.material instanceof MeshPhongMaterial ||
@@ -261,9 +282,11 @@ export class SceneManager {
     for (const child of Object.values(collection.children)) {
       child.traverse((object: THREE.Object3D) => {
         // For jets and tracks
-        if (object instanceof Line ||
+        if (
+          object instanceof Line ||
           object instanceof Mesh ||
-          object instanceof Points) {
+          object instanceof Points
+        ) {
           if (
             object.material instanceof LineBasicMaterial ||
             object.material instanceof MeshBasicMaterial ||
@@ -322,7 +345,6 @@ export class SceneManager {
       child.visible = visible;
     }
   }
-
 
   /**
    * Gets a group of objects from the scene.
@@ -391,7 +413,9 @@ export class SceneManager {
         if (objectChild.material) {
           // Changing renderOrder to make event data render on top of geometry
           // Arbitrarily setting a high value of 999
-          value ? objectChild.renderOrder = 0 : objectChild.renderOrder = 999;
+          value
+            ? (objectChild.renderOrder = 0)
+            : (objectChild.renderOrder = 999);
           // Applying depthTest
           objectChild.material.depthTest = value;
         }
@@ -448,8 +472,10 @@ export class SceneManager {
    * @param cameraControls Camera controls for making the text face the camera.
    */
   public addLabelToObject(
-    label: string, uuid: string,
-    labelId: string, objectPosition: Vector3,
+    label: string,
+    uuid: string,
+    labelId: string,
+    objectPosition: Vector3,
     cameraControls: OrbitControls
   ) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
@@ -466,22 +492,31 @@ export class SceneManager {
       font: this.textFont,
       size: 60,
       curveSegments: 1,
-      height: 1
+      height: 1,
     });
-    const textMesh = new Mesh(textGeometry, new MeshBasicMaterial({
-      color: new Color('#a8a8a8'),
-      flatShading: true
-    }));
+    const textMesh = new Mesh(
+      textGeometry,
+      new MeshBasicMaterial({
+        color: new Color('#a8a8a8'),
+        flatShading: true,
+      })
+    );
     textMesh.position.fromArray(objectPosition.toArray());
     textMesh.name = labelId;
 
     labelsGroup.add(textMesh);
 
-    cameraControls.removeEventListener('change', this.labelTextLookCallbacks[uuid]);
+    cameraControls.removeEventListener(
+      'change',
+      this.labelTextLookCallbacks[uuid]
+    );
     this.labelTextLookCallbacks[uuid] = () => {
       textMesh.lookAt(cameraControls.object.position);
     };
     this.labelTextLookCallbacks[uuid]();
-    cameraControls.addEventListener('change', this.labelTextLookCallbacks[uuid]);
+    cameraControls.addEventListener(
+      'change',
+      this.labelTextLookCallbacks[uuid]
+    );
   }
 }

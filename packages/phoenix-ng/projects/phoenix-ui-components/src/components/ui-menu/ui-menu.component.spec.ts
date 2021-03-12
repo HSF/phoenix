@@ -9,9 +9,8 @@ describe('UiMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [PhoenixUIModule]
-    })
-      .compileComponents();
+      imports: [PhoenixUIModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,6 +11,7 @@
 * [Set up Phoenix for an experiment](./set-up-phoenix.md)
 * [Phoenix event display](./event-display.md)
 * [Event data loader](./event-data-loader.md)
+* [Using JSROOT](./using-jsroot.md)
 * [Running with VR support](./running-with-vr-support.md)
 
 ## Phoenix architecture

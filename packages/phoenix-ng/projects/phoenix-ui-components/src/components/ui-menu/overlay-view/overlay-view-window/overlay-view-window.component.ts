@@ -5,16 +5,15 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 @Component({
   selector: 'app-overlay-view-window',
   templateUrl: './overlay-view-window.component.html',
-  styleUrls: ['./overlay-view-window.component.scss']
+  styleUrls: ['./overlay-view-window.component.scss'],
 })
 export class OverlayViewWindowComponent implements AfterViewInit {
-
   @Input() showOverlay = true;
   orthographicView: boolean = false;
   overlayViewFixed: boolean = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
@@ -33,12 +32,13 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   switchOverlayView() {
     this.orthographicView = !this.orthographicView;
-    this.eventDisplay.getUIManager().toggleOrthographicView(this.orthographicView);
+    this.eventDisplay
+      .getUIManager()
+      .toggleOrthographicView(this.orthographicView);
   }
 
   fixOverlayView() {
     this.overlayViewFixed = !this.overlayViewFixed;
     this.eventDisplay.fixOverlayView(this.overlayViewFixed);
   }
-
 }

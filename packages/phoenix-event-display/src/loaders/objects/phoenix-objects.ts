@@ -1,4 +1,24 @@
-import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from 'three';
+import {
+  Vector3,
+  Object3D,
+  CatmullRomCurve3,
+  TubeBufferGeometry,
+  MeshToonMaterial,
+  Mesh,
+  BufferGeometry,
+  LineBasicMaterial,
+  Line,
+  Group,
+  Quaternion,
+  CylinderBufferGeometry,
+  MeshBasicMaterial,
+  BufferAttribute,
+  PointsMaterial,
+  Points,
+  BoxBufferGeometry,
+  MeshPhongMaterial,
+  SphereBufferGeometry,
+} from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 
@@ -6,7 +26,6 @@ import { RKHelper } from '../../helpers/rk-helper';
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
-
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -24,15 +43,13 @@ export class PhoenixObjects {
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length < 3) {
       if (trackParams?.dparams) {
-        // Test, for ATLAS. 
+        // Test, for ATLAS.
         // FIXME - make configurable
         let inBounds = function (pos: Vector3) {
-          if (pos.z > 3000)
-            return false;
-          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100)
-            return false;
+          if (pos.z > 3000) return false;
+          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100) return false;
 
-          return true
+          return true;
         };
 
         positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
@@ -42,7 +59,6 @@ export class PhoenixObjects {
     if (positions.length < 3) {
       return;
     }
-
 
     // const length = 100;
     let objectColor = EVENT_DATA_TYPE_COLORS['Tracks'].getHex();
@@ -62,7 +78,9 @@ export class PhoenixObjects {
     const points = [];
 
     for (let i = 0; i < positions.length; i++) {
-      points.push(new Vector3(positions[i][0], positions[i][1], positions[i][2]));
+      points.push(
+        new Vector3(positions[i][0], positions[i][1], positions[i][2])
+      );
     }
 
     // attributes
@@ -78,7 +96,7 @@ export class PhoenixObjects {
     const lineGeometry = new BufferGeometry().setFromPoints(vertices);
     const lineMaterial = new LineBasicMaterial({
       color: objectColor,
-      linewidth: 2
+      linewidth: 2,
     });
     const lineObject = new Line(lineGeometry, lineMaterial);
     lineObject.name = 'Track';
@@ -109,7 +127,9 @@ export class PhoenixObjects {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
     // If theta is given then use that else calculate from eta
-    const theta = jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
+    const theta = jetParams.theta
+      ? jetParams.theta
+      : 2 * Math.atan(Math.pow(Math.E, eta));
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don't want the Jets to go out of the event display
@@ -123,7 +143,11 @@ export class PhoenixObjects {
     const stheta = Math.sin(theta);
     const ctheta = Math.cos(theta);
     //
-    const translation = new Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
+    const translation = new Vector3(
+      0.5 * length * cphi * stheta,
+      0.5 * length * sphi * stheta,
+      0.5 * length * ctheta
+    );
 
     const x = cphi * stheta;
     const y = sphi * stheta;
@@ -133,9 +157,20 @@ export class PhoenixObjects {
     const quaternion = new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry = new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
+    const geometry = new CylinderBufferGeometry(
+      width,
+      1,
+      length,
+      50,
+      50,
+      false
+    ); // Cone
 
-    const material = new MeshBasicMaterial({ color: EVENT_DATA_TYPE_COLORS['Jets'], opacity: 0.3, transparent: true });
+    const material = new MeshBasicMaterial({
+      color: EVENT_DATA_TYPE_COLORS['Jets'],
+      opacity: 0.3,
+      transparent: true,
+    });
     material.opacity = 0.5;
     const mesh = new Mesh(geometry, material);
     mesh.position.copy(translation);
@@ -181,7 +216,10 @@ export class PhoenixObjects {
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material = new PointsMaterial({ size: 10, color: EVENT_DATA_TYPE_COLORS['Hits'] });
+    const material = new PointsMaterial({
+      size: 10,
+      color: EVENT_DATA_TYPE_COLORS['Hits'],
+    });
     // object
     const pointsObj = new Points(geometry, material);
     pointsObj.userData = Object.assign({}, hitsParamsClone);
@@ -198,19 +236,23 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR = 1100.0; // This needs to be configurable. 
+    const maxR = 1100.0; // This needs to be configurable.
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.003;
     // geometry
     const geometry = new BoxBufferGeometry(30, 30, length);
     // material
-    const material = new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS['CaloClusters'] });
+    const material = new MeshPhongMaterial({
+      color: EVENT_DATA_TYPE_COLORS['CaloClusters'],
+    });
     // object
     const cube = new Mesh(geometry, material);
     const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
-    const pos = new Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
+    const pos = new Vector3(
+      4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.cos(theta));
+      4000.0 * Math.cos(theta)
+    );
     cube.position.x = pos.x;
     cube.position.y = pos.y;
     if (pos.x * pos.x + pos.y * pos.y > maxR * maxR) {
@@ -236,7 +278,9 @@ export class PhoenixObjects {
     // geometry
     const geometry = new SphereBufferGeometry(3);
     // material
-    const material = new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS['Vertices'] });
+    const material = new MeshPhongMaterial({
+      color: EVENT_DATA_TYPE_COLORS['Vertices'],
+    });
     // object
     const sphere = new Mesh(geometry, material);
     sphere.position.x = vertexParams.x;
@@ -250,5 +294,4 @@ export class PhoenixObjects {
 
     return sphere;
   }
-
 }

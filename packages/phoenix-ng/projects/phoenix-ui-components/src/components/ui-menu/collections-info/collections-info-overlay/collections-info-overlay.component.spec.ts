@@ -13,9 +13,8 @@ describe('CollectionsInfoOverlayComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [EventDisplayService],
-      declarations: [CollectionsInfoOverlayComponent]
-    })
-      .compileComponents();
+      declarations: [CollectionsInfoOverlayComponent],
+    }).compileComponents();
     eventDisplayService = TestBed.get(EventDisplayService);
   }));
 
@@ -30,7 +29,10 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should initially get collections', () => {
-    spyOn(eventDisplayService, 'listenToDisplayedEventChange').and.callThrough();
+    spyOn(
+      eventDisplayService,
+      'listenToDisplayedEventChange'
+    ).and.callThrough();
     component.ngOnInit();
 
     // Expect to start listening to changes in the currently displayed event
@@ -55,13 +57,15 @@ describe('CollectionsInfoOverlayComponent', () => {
 
   it('should change collection', () => {
     spyOn(eventDisplayService, 'getCollection').and.callFake(() => {
-      return [{ 'uuid': 'abcd1234', 'otherProp': 'testPropValue' }];
+      return [{ uuid: 'abcd1234', otherProp: 'testPropValue' }];
     });
     const mockSelectedValue = { target: { value: 'TestCollection' } };
 
     component.changeCollection(mockSelectedValue);
 
-    expect(eventDisplayService.getCollection).toHaveBeenCalledWith(mockSelectedValue.target.value);
+    expect(eventDisplayService.getCollection).toHaveBeenCalledWith(
+      mockSelectedValue.target.value
+    );
   });
 
   it('should look at object through event display', () => {

@@ -1,11 +1,10 @@
-import { RungeKutta } from "./runge-kutta";
-import { Vector3 } from "three";
+import { RungeKutta } from './runge-kutta';
+import { Vector3 } from 'three';
 
 /**
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
-
   /**
    * Get extrapolated tracks using RungeKutta.
    * @param tracksCollectionsEvent Event containing tracks collections.
@@ -59,14 +58,10 @@ export class RKHelper {
 
     // Cannot use setFromSphericalCoordinates since ATLAS and threejs use
     // different phi & theta definitions (though both are right-handed)
-    let startPos = new Vector3(
-      -d0 * Math.sin(phi),
-      d0 * Math.cos(phi),
-      z0
-    );
+    let startPos = new Vector3(-d0 * Math.sin(phi), d0 * Math.cos(phi), z0);
 
     // Wipe existing positions
-    let positions: number[][] = []
+    let positions: number[][] = [];
     positions.push([startPos.x, startPos.y, startPos.z]);
 
     const startDir = globalMomentum.clone();
@@ -77,9 +72,21 @@ export class RKHelper {
     //   return positions;
     // }
 
-    const traj = RungeKutta.propagate(startPos, startDir, p, q, 10, 1500, inbounds);
+    const traj = RungeKutta.propagate(
+      startPos,
+      startDir,
+      p,
+      q,
+      10,
+      1500,
+      inbounds
+    );
 
-    const extrapolatedPos = traj.map(val => [val.pos.x, val.pos.y, val.pos.z]);
+    const extrapolatedPos = traj.map((val) => [
+      val.pos.x,
+      val.pos.y,
+      val.pos.z,
+    ]);
 
     return positions.concat(extrapolatedPos);
   }

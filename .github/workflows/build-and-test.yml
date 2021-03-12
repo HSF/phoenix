@@ -1,0 +1,52 @@
+name: Phoenix
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+
+    steps:
+      - uses: actions/checkout@main
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@main
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup Phoenix
+        run: |
+          npm install --global yarn lerna
+          yarn install:dependencies
+
+      - name: Check Prettier
+        run: yarn prettier:check
+
+      - name: Run Tests
+        run: yarn test:coverage
+
+      - name: Upload Coverage
+        uses: coverallsapp/github-action@master
+        with:
+          path-to-lcov: ./packages/phoenix-ng/coverage/phoenix-ui-components/lcov.info
+          base-path: ./packages/phoenix-ng
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pre Deploy Pull Request
+        uses: jwalton/gh-find-current-pr@master
+        id: if_pr
+
+      - name: Deploy Pull Request
+        if: ${{ success() && steps.if_pr.outputs.number }}
+        shell: bash
+        env:
+          PULL_REQUEST_NUMBER: ${{ steps.if_pr.outputs.number }}
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        run: |
+          chmod +x ./scripts/pr_deploy.sh
+          ./scripts/pr_deploy.sh

@@ -18,9 +18,7 @@ import { environment } from '../environments/environment';
 let routes: Routes;
 
 if (environment?.singleEvent) {
-  routes = [
-    { path: '', component: AtlasComponent }
-  ];
+  routes = [{ path: '', component: AtlasComponent }];
 } else {
   routes = [
     { path: '', component: HomeComponent },
@@ -30,7 +28,7 @@ if (environment?.singleEvent) {
     { path: 'lhcb', component: LHCbComponent },
     { path: 'cms', component: CMSComponent },
     { path: 'trackml', component: TrackmlComponent },
-    { path: 'playground', component: PlaygroundComponent }
+    { path: 'playground', component: PlaygroundComponent },
   ];
 }
 
@@ -43,15 +41,17 @@ if (environment?.singleEvent) {
     LHCbComponent,
     CMSComponent,
     TrackmlComponent,
-    PlaygroundComponent
+    PlaygroundComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, { useHash: environment?.singleEvent ? false : true }),
+    RouterModule.forRoot(routes, {
+      useHash: environment?.singleEvent ? false : true,
+    }),
     BrowserAnimationsModule,
-    PhoenixUIModule
+    PhoenixUIModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

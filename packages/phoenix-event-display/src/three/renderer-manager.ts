@@ -18,7 +18,7 @@ export class RendererManager {
    */
   constructor() {
     const renderer: WebGLRenderer = new WebGLRenderer({
-      antialias: true
+      antialias: true,
     });
 
     this.addRenderer(renderer);
@@ -138,7 +138,6 @@ export class RendererManager {
   getRenderers(): WebGLRenderer[] {
     return this.renderers;
   }
-
 
   // FUNCTIONS
 

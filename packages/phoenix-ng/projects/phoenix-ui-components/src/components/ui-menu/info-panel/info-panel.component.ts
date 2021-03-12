@@ -9,10 +9,9 @@ import { InfoPanelOverlayComponent } from './info-panel-overlay/info-panel-overl
 @Component({
   selector: 'app-info-panel',
   templateUrl: './info-panel.component.html',
-  styleUrls: ['./info-panel.component.scss']
+  styleUrls: ['./info-panel.component.scss'],
 })
 export class InfoPanelComponent implements OnInit, OnDestroy {
-
   /** @ignore */
   showInfoPanel = false;
   /** Information panel overlay window */
@@ -22,7 +21,7 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
    * Create the info panel toggle
    * @param overlay Info panel overlay containing logger data
    */
-  constructor(private overlay: Overlay) { }
+  constructor(private overlay: Overlay) {}
 
   /**
    * Create the info panel overlay
@@ -48,5 +47,4 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
     this.showInfoPanel = !this.showInfoPanel;
     this.overlayWindow.instance.showInfoPanel = this.showInfoPanel;
   }
-
 }

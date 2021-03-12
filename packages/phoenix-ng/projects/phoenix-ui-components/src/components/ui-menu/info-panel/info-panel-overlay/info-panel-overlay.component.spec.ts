@@ -10,9 +10,8 @@ describe('InfoPanelOverlayComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      declarations: [ InfoPanelOverlayComponent ]
-    })
-    .compileComponents();
+      declarations: [InfoPanelOverlayComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

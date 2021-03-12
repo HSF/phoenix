@@ -1,6 +1,12 @@
-import { Component, Input, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import type { ElementRef } from '@angular/core';
-import { ResizeSensor } from "css-element-queries";
+import { ResizeSensor } from 'css-element-queries';
 
 /**
  * Component for overlay panel.
@@ -9,10 +15,9 @@ import { ResizeSensor } from "css-element-queries";
   selector: 'app-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class OverlayComponent implements AfterViewInit {
-
   /** Title of the overlay. */
   @Input() overlayTitle: string;
   /** If the overlay is open or not. */
@@ -87,7 +92,8 @@ export class OverlayComponent implements AfterViewInit {
 
     this.setHandleTransform(
       this.overlayCard.nativeElement.getBoundingClientRect(),
-      resizeHandleElement.getBoundingClientRect());
+      resizeHandleElement.getBoundingClientRect()
+    );
 
     resizeHandleElement.style.bottom = null;
     resizeHandleElement.style.right = null;
@@ -103,5 +109,4 @@ export class OverlayComponent implements AfterViewInit {
     const translateY = overlayRect.height - dragRect.height;
     this.resizeHandleCorner.nativeElement.style.transform = `translate3d(${translateX}px, ${translateY}px, 0)`;
   }
-
 }

@@ -1,4 +1,4 @@
-import { LoadingManager } from "../managers/loading-manager";
+import { LoadingManager } from '../managers/loading-manager';
 
 /** Global JSROOT variable for accessing functions after loading JSRoot scripts. */
 declare const JSROOT: any;
@@ -7,26 +7,32 @@ declare const JSROOT: any;
  * Script loader for dynamically loading external scripts.
  */
 export class ScriptLoader {
-
   /**
    * Synchronously load all JSRoot scripts. ONLY CALL ONCE.
-   * @param onScriptsLoaded Callback when all the JSRoot scripts have loaded.
+   * @param jsrootVersion Version of JSROOT to use. Defaults to latest.
+   * @returns Promise resolved with JSROOT global varilable.
    */
-  public static loadJSRootScripts(onScriptsLoaded: (JSROOT: any) => void) {
+  public static async loadJSRootScripts(
+    jsrootVersion: string = 'latest'
+  ): Promise<typeof JSROOT> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('jsroot_scripts');
-    (async () => {
-      const allScripts = [
-        'JSRootCore.js', 'three.min.js', 'three.extra.min.js',
-        'ThreeCSG.js', 'd3.min.js', 'JSRootPainter.js', 'JSRoot3DPainter.js',
-        'JSRootGeoBase.js', 'JSRootGeoPainter.js'
-      ];
-      for (const script of allScripts) {
-        await ScriptLoader.loadScript('assets/jsroot/' + script, 'JSROOT');
-      }
-      onScriptsLoaded(JSROOT);
-      loadingManager.itemLoaded('jsroot_scripts');
-    })();
+
+    const JSROOT_CDN_URL = `https://cdn.jsdelivr.net/npm/jsroot@${jsrootVersion}/scripts/`;
+    const allScripts = [
+      'JSRoot.core.js',
+      'three.extra.min.js',
+      'JSRoot.csg.js',
+      'JSRoot.painter.js',
+      'JSRoot.geom.js',
+    ];
+    for (const script of allScripts) {
+      await ScriptLoader.loadScript(JSROOT_CDN_URL + script, 'JSROOT');
+    }
+
+    loadingManager.itemLoaded('jsroot_scripts');
+
+    return JSROOT;
   }
 
   /**
@@ -37,13 +43,19 @@ export class ScriptLoader {
    * Defaults to `<head>` tag.
    * @returns Promise for the script load.
    */
-  public static loadScript(scriptURL: string, scriptFor?: string,
-    parentElement: HTMLElement = document.getElementsByTagName('head')[0]): Promise<void> {
+  public static loadScript(
+    scriptURL: string,
+    scriptFor?: string,
+    parentElement: HTMLElement = document.getElementsByTagName('head')[0]
+  ): Promise<void> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('single_script');
+
     return new Promise<void>((resolve, reject) => {
-      const scriptExists = document
-        .querySelectorAll<HTMLScriptElement>('script[src="' + scriptURL + '"]');
+      const scriptExists = document.querySelectorAll<HTMLScriptElement>(
+        'script[src="' + scriptURL + '"]'
+      );
+
       // If no script exists - add one
       if (scriptExists.length === 0) {
         const scriptElement = document.createElement('script');
@@ -52,6 +64,7 @@ export class ScriptLoader {
         if (scriptFor) {
           scriptElement.setAttribute('data-scriptfor', scriptFor);
         }
+
         scriptElement.addEventListener('load', () => {
           scriptElement.setAttribute('data-loaded', 'true');
           resolve();
@@ -61,7 +74,8 @@ export class ScriptLoader {
           console.error('ERROR LOADING SCRIPT: ', event);
           reject();
           loadingManager.itemLoaded('single_script');
-        }
+        };
+
         parentElement.appendChild(scriptElement);
       } else {
         // If script has already loaded then resolve else wait for it to load
@@ -77,5 +91,4 @@ export class ScriptLoader {
       }
     });
   }
-
 }
