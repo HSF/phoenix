@@ -22,14 +22,17 @@ jobs:
           npm install --global yarn lerna
           yarn install:dependencies
 
+      - name: Check Prettier
+        run: yarn prettier:check
+
       - name: Run Tests
         run: yarn test:coverage
 
       - name: Upload Coverage
         uses: coverallsapp/github-action@master
         with:
-          path-to-lcov: ./packages/phoenix-event-display/coverage/lcov.info
-          base-path: ./packages/phoenix-event-display
+          path-to-lcov: ./packages/phoenix-ng/coverage/phoenix-ui-components/lcov.info
+          base-path: ./packages/phoenix-ng
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pre Deploy Pull Request

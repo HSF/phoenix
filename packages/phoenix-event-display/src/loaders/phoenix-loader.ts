@@ -39,8 +39,12 @@ export class PhoenixLoader implements EventDataLoader {
    * @param ui Service for showing menus and controls to manipulate the geometries.
    * @param infoLogger Service for logging data to the information panel.
    */
-  public buildEventData(eventData: any, graphicsLibrary: ThreeManager,
-    ui: UIManager, infoLogger: InfoLogger): void {
+  public buildEventData(
+    eventData: any,
+    graphicsLibrary: ThreeManager,
+    ui: UIManager,
+    infoLogger: InfoLogger
+  ): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
@@ -52,8 +56,12 @@ export class PhoenixLoader implements EventDataLoader {
     // initiate load
     this.loadObjectTypes(eventData);
 
-    const eventNumber = eventData['event number'] ? eventData['event number'] : eventData['eventNumber'];
-    const runNumber = eventData['run number'] ? eventData['run number'] : eventData['runNumber'];
+    const eventNumber = eventData['event number']
+      ? eventData['event number']
+      : eventData['eventNumber'];
+    const runNumber = eventData['run number']
+      ? eventData['run number']
+      : eventData['runNumber'];
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
   }
 
@@ -85,7 +93,10 @@ export class PhoenixLoader implements EventDataLoader {
 
     const collections = [];
     for (const objectType of Object.keys(this.eventData)) {
-      if (this.eventData[objectType] && typeof this.eventData[objectType] === 'object') {
+      if (
+        this.eventData[objectType] &&
+        typeof this.eventData[objectType] === 'object'
+      ) {
         for (const collection of Object.keys(this.eventData[objectType])) {
           collections.push(collection);
         }
@@ -129,10 +140,15 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts: Cut[] = [
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
-        new Cut('pT', 0, 50)
+        new Cut('pT', 0, 50),
       ];
 
-      this.addObjectType(eventData.Tracks, PhoenixObjects.getTrack, 'Tracks', cuts);
+      this.addObjectType(
+        eventData.Tracks,
+        PhoenixObjects.getTrack,
+        'Tracks',
+        cuts
+      );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
 
@@ -141,12 +157,16 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -100, 100),
-        new Cut('energy', 0, 100000, 100)
+        new Cut('energy', 0, 100000, 100),
       ];
 
-      const addJetsSizeOption = (typeFolder: any, typeFolderPM: PhoenixMenuNode) => {
+      const addJetsSizeOption = (
+        typeFolder: any,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
         if (typeFolder) {
-          const sizeMenu = typeFolder.add({ jetsScale: 100 }, 'jetsScale', 1, 200)
+          const sizeMenu = typeFolder
+            .add({ jetsScale: 100 }, 'jetsScale', 1, 200)
             .name('Jets Size (%)');
           sizeMenu.onChange((value: number) => {
             this.graphicsLibrary.getSceneManager().scaleJets(value);
@@ -157,16 +177,23 @@ export class PhoenixLoader implements EventDataLoader {
           typeFolderPM.addConfig('slider', {
             label: 'Jets Size (%)',
             value: 100,
-            min: 1, max: 200,
+            min: 1,
+            max: 200,
             allowCustomValue: true,
             onChange: (value: number) => {
               this.graphicsLibrary.getSceneManager().scaleJets(value);
-            }
+            },
           });
         }
       };
 
-      this.addObjectType(eventData.Jets, PhoenixObjects.getJet, 'Jets', cuts, addJetsSizeOption);
+      this.addObjectType(
+        eventData.Jets,
+        PhoenixObjects.getJet,
+        'Jets',
+        cuts,
+        addJetsSizeOption
+      );
     }
 
     if (eventData.Hits) {
@@ -179,10 +206,15 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -100, 100),
-        new Cut('energy', 0, 10000)
+        new Cut('energy', 0, 10000),
       ];
 
-      this.addObjectType(eventData.CaloClusters, PhoenixObjects.getCluster, 'CaloClusters', cuts);
+      this.addObjectType(
+        eventData.CaloClusters,
+        PhoenixObjects.getCluster,
+        'CaloClusters',
+        cuts
+      );
     }
 
     if (eventData.Muons) {
@@ -190,7 +222,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -100, 100),
         new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50)
+        new Cut('pT', 0, 50),
       ];
       this.addObjectType(eventData.Muons, this.getMuon, 'Muons', cuts);
     }
@@ -204,10 +236,13 @@ export class PhoenixLoader implements EventDataLoader {
     // }
 
     if (eventData.Vertices) {
-      const cuts = [
-        new Cut('vertexType', 0, 5)
-      ];
-      this.addObjectType(eventData.Vertices, PhoenixObjects.getVertex, 'Vertices', cuts);
+      const cuts = [new Cut('vertexType', 0, 5)];
+      this.addObjectType(
+        eventData.Vertices,
+        PhoenixObjects.getVertex,
+        'Vertices',
+        cuts
+      );
     }
   }
 
@@ -219,9 +254,16 @@ export class PhoenixLoader implements EventDataLoader {
    * @param cuts Filters that can be applied to the objects.
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
-  protected addObjectType(object: any, getObject: any, typeName: string,
-    cuts?: Cut[], extendEventDataTypeUI?: (typeFolder: any, typeFolderPM?: PhoenixMenuNode) => void) {
-
+  protected addObjectType(
+    object: any,
+    getObject: any,
+    typeName: string,
+    cuts?: Cut[],
+    extendEventDataTypeUI?: (
+      typeFolder: any,
+      typeFolderPM?: PhoenixMenuNode
+    ) => void
+  ) {
     const typeFolder = this.ui.addEventDataTypeFolder(typeName);
     const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
@@ -230,9 +272,16 @@ export class PhoenixLoader implements EventDataLoader {
 
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
-      console.log(`${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`)
+      console.log(
+        `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`
+      );
 
-      this.addCollection(objectCollection, collectionName, getObject, objectGroup);
+      this.addCollection(
+        objectCollection,
+        collectionName,
+        getObject,
+        objectGroup
+      );
 
       let collectionColor: Color;
       if (object[collectionName][0]?.color) {
@@ -242,9 +291,14 @@ export class PhoenixLoader implements EventDataLoader {
         collectionColor = EVENT_DATA_TYPE_COLORS[typeName];
       }
 
-      cuts = cuts?.filter(cut => cut.field in objectCollection[0]);
+      cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
       this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
-      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts, collectionColor);
+      this.ui.addCollectionPM(
+        typeFolderPM,
+        collectionName,
+        cuts,
+        collectionColor
+      );
     }
 
     extendEventDataTypeUI?.(typeFolder, typeFolderPM);
@@ -258,8 +312,11 @@ export class PhoenixLoader implements EventDataLoader {
    * @param objectGroup Group containing the collections of the same object type.
    */
   private addCollection(
-    objectCollection: any, collectionName: string,
-    getObject: (object: any) => Object3D, objectGroup: Group) {
+    objectCollection: any,
+    collectionName: string,
+    getObject: (object: any) => Object3D,
+    objectGroup: Group
+  ) {
     const collscene = new Group();
     collscene.name = collectionName;
 
@@ -303,8 +360,15 @@ export class PhoenixLoader implements EventDataLoader {
         const clusterColl = clusterID.split(':')[0];
         const clusterIndex = clusterID.split(':')[1];
 
-        if (clusterColl && clusterIndex && this.eventData.CaloClusters && this.eventData.CaloClusters[clusterColl]) {
-          const clusterParams = this.eventData.CaloClusters[clusterColl][clusterIndex];
+        if (
+          clusterColl &&
+          clusterIndex &&
+          this.eventData.CaloClusters &&
+          this.eventData.CaloClusters[clusterColl]
+        ) {
+          const clusterParams = this.eventData.CaloClusters[clusterColl][
+            clusterIndex
+          ];
           if (clusterParams) {
             const cluster = PhoenixObjects.getCluster(clusterParams);
             muonScene.add(cluster);
@@ -317,7 +381,12 @@ export class PhoenixLoader implements EventDataLoader {
         const trackColl = trackID.split(':')[0];
         const trackIndex = trackID.split(':')[1];
 
-        if (trackColl && trackIndex && this.eventData.Tracks && this.eventData.Tracks[trackColl]) {
+        if (
+          trackColl &&
+          trackIndex &&
+          this.eventData.Tracks &&
+          this.eventData.Tracks[trackColl]
+        ) {
           const trackParams = this.eventData.Tracks[trackColl][trackIndex];
           if (trackParams) {
             const track = PhoenixObjects.getTrack(trackParams);
@@ -347,11 +416,9 @@ export class PhoenixLoader implements EventDataLoader {
         { keys: ['runNumber', 'run number'], label: 'Run' },
         { keys: ['eventNumber', 'event number'], label: 'Event' },
         { keys: ['ls'], label: 'LS' },
-        { keys: ['lumiBlock'], label: 'LumiBlock' }
+        { keys: ['lumiBlock'], label: 'LumiBlock' },
       ],
-      [
-        { keys: ['time'], label: 'Data recorded' }
-      ]
+      [{ keys: ['time'], label: 'Data recorded' }],
     ];
 
     const eventDataKeys = Object.keys(this.eventData);
@@ -363,8 +430,13 @@ export class PhoenixLoader implements EventDataLoader {
       for (const eventDataProp of eventDataPropGroup) {
         // Iterating each possible key of a prop
         for (const eventDataPropKey of eventDataProp.keys) {
-          if (eventDataKeys.includes(eventDataPropKey) && this.eventData[eventDataPropKey]) {
-            combinedProps[eventDataProp.label] = this.eventData[eventDataPropKey];
+          if (
+            eventDataKeys.includes(eventDataPropKey) &&
+            this.eventData[eventDataPropKey]
+          ) {
+            combinedProps[eventDataProp.label] = this.eventData[
+              eventDataPropKey
+            ];
             break;
           }
         }
@@ -373,7 +445,7 @@ export class PhoenixLoader implements EventDataLoader {
         // Joining and pushing the collected combined properties to the actual metadata
         metadata.push({
           label: Object.keys(combinedProps).join(' / '),
-          value: Object.values(combinedProps).join(' / ')
+          value: Object.values(combinedProps).join(' / '),
         });
       }
     }
@@ -388,11 +460,20 @@ export class PhoenixLoader implements EventDataLoader {
    * @param indexInCollection Event object's index in collection.
    * @returns A unique label ID string.
    */
-  public addLabelToEventObject(label: string, collection: string, indexInCollection: number): string {
+  public addLabelToEventObject(
+    label: string,
+    collection: string,
+    indexInCollection: number
+  ): string {
     for (const eventDataType of Object.keys(this.eventData)) {
-      if (this.eventData[eventDataType] && Object.keys(this.eventData[eventDataType]).includes(collection)) {
-        this.labelsObject[eventDataType] = this.labelsObject[eventDataType] || {};
-        this.labelsObject[eventDataType][collection] = this.labelsObject[eventDataType][collection] || {};
+      if (
+        this.eventData[eventDataType] &&
+        Object.keys(this.eventData[eventDataType]).includes(collection)
+      ) {
+        this.labelsObject[eventDataType] =
+          this.labelsObject[eventDataType] || {};
+        this.labelsObject[eventDataType][collection] =
+          this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] = label;
 
@@ -408,5 +489,4 @@ export class PhoenixLoader implements EventDataLoader {
   public getLabelsObject(): object {
     return this.labelsObject;
   }
-
 }

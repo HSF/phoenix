@@ -28,7 +28,11 @@ export class CMSLoader extends PhoenixLoader {
   protected loadObjectTypes(eventData: any) {
     super.loadObjectTypes(eventData);
     if (eventData.MuonChambers) {
-      this.addObjectType(eventData.MuonChambers, CMSObjects.getMuonChamber, 'MuonChambers');
+      this.addObjectType(
+        eventData.MuonChambers,
+        CMSObjects.getMuonChamber,
+        'MuonChambers'
+      );
     }
   }
 
@@ -38,46 +42,58 @@ export class CMSLoader extends PhoenixLoader {
    * @param onFileRead Callback called with an array of event data when the file is read.
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
    */
-  public readIgArchive(path: string, onFileRead: (allEvents: any[]) => void, eventPathName?: string) {
+  public readIgArchive(
+    path: string,
+    onFileRead: (allEvents: any[]) => void,
+    eventPathName?: string
+  ) {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     let eventsDataInIg = [];
-    fetch(path).then(res => res.arrayBuffer()).then((res) => {
-      igArchive.loadAsync(res).then(() => {
-        let allFilesPath = Object.keys(igArchive.files);
-        // If the event path or name is given then filter all data to get the required events
-        if (eventPathName) {
-          allFilesPath = allFilesPath.filter(filePath => filePath.includes(eventPathName));
-        }
-        let i = 1;
-        for (const filePathInIg of allFilesPath) {
-          // If the files are in the "Events" folder then process them.
-          if (filePathInIg.toLowerCase().startsWith('events')) {
-            igArchive.file(filePathInIg).async('string')
-              .then((singleEvent: string) => {
-                // The data has some inconsistencies which need to be removed to properly parse JSON
-                singleEvent = singleEvent
-                  .replace(/'/g, '"').replace(/\(/g, '[')
-                  .replace(/\)/g, ']').replace(/nan/g, '0');
-                const eventJSON = JSON.parse(singleEvent);
-                eventJSON.eventPath = filePathInIg;
-                eventsDataInIg.push(eventJSON);
-                if (i === allFilesPath.length) {
-                  onFileRead(eventsDataInIg);
-                  this.loadingManager.itemLoaded('ig_archive');
-                }
-                i++;
-              });
-          } else {
-            if (i === allFilesPath.length) {
-              onFileRead(eventsDataInIg);
-              this.loadingManager.itemLoaded('ig_archive');
-            }
-            i++;
+    fetch(path)
+      .then((res) => res.arrayBuffer())
+      .then((res) => {
+        igArchive.loadAsync(res).then(() => {
+          let allFilesPath = Object.keys(igArchive.files);
+          // If the event path or name is given then filter all data to get the required events
+          if (eventPathName) {
+            allFilesPath = allFilesPath.filter((filePath) =>
+              filePath.includes(eventPathName)
+            );
           }
-        }
+          let i = 1;
+          for (const filePathInIg of allFilesPath) {
+            // If the files are in the "Events" folder then process them.
+            if (filePathInIg.toLowerCase().startsWith('events')) {
+              igArchive
+                .file(filePathInIg)
+                .async('string')
+                .then((singleEvent: string) => {
+                  // The data has some inconsistencies which need to be removed to properly parse JSON
+                  singleEvent = singleEvent
+                    .replace(/'/g, '"')
+                    .replace(/\(/g, '[')
+                    .replace(/\)/g, ']')
+                    .replace(/nan/g, '0');
+                  const eventJSON = JSON.parse(singleEvent);
+                  eventJSON.eventPath = filePathInIg;
+                  eventsDataInIg.push(eventJSON);
+                  if (i === allFilesPath.length) {
+                    onFileRead(eventsDataInIg);
+                    this.loadingManager.itemLoaded('ig_archive');
+                  }
+                  i++;
+                });
+            } else {
+              if (i === allFilesPath.length) {
+                onFileRead(eventsDataInIg);
+                this.loadingManager.itemLoaded('ig_archive');
+              }
+              i++;
+            }
+          }
+        });
       });
-    });
   }
 
   /**
@@ -91,9 +107,13 @@ export class CMSLoader extends PhoenixLoader {
     eventPathName: string,
     onEventRead: (eventData: any) => void
   ) {
-    this.readIgArchive(filePath, (allEvents: any[]) => {
-      onEventRead(allEvents[0]);
-    }, eventPathName);
+    this.readIgArchive(
+      filePath,
+      (allEvents: any[]) => {
+        onEventRead(allEvents[0]);
+      },
+      eventPathName
+    );
   }
 
   /**
@@ -112,7 +132,7 @@ export class CMSLoader extends PhoenixLoader {
       Tracks: {},
       Jets: {},
       CaloClusters: {},
-      MuonChambers: {}
+      MuonChambers: {},
     };
 
     // Getting Hits
@@ -127,7 +147,13 @@ export class CMSLoader extends PhoenixLoader {
     eventData.MuonChambers = this.getMuonChambers();
 
     // Undefining object types if there is no event data
-    for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters', 'MuonChambers']) {
+    for (let objectType of [
+      'Hits',
+      'Tracks',
+      'Jets',
+      'CaloClusters',
+      'MuonChambers',
+    ]) {
       if (Object.keys(eventData[objectType]).length === 0) {
         eventData[objectType] = undefined;
       }
@@ -161,15 +187,19 @@ export class CMSLoader extends PhoenixLoader {
       'TrackingRecHits_V1',
       'SiStripClusters_V1',
       'SiPixelClusters_V1',
-      'CSCLCTDigis_V1'
+      'CSCLCTDigis_V1',
     ];
-    const newHits = this.getObjectCollections(clusterCollections, (objectParams) => {
-      if (objectParams['pos']) {
-        // Increasing the scale to fit Phoenix's event display
-        objectParams['pos'] = objectParams['pos']
-          .map((point: number) => point * this.geometryScale);
+    const newHits = this.getObjectCollections(
+      clusterCollections,
+      (objectParams) => {
+        if (objectParams['pos']) {
+          // Increasing the scale to fit Phoenix's event display
+          objectParams['pos'] = objectParams['pos'].map(
+            (point: number) => point * this.geometryScale
+          );
+        }
       }
-    });
+    );
 
     Object.assign(Hits, newHits);
 
@@ -181,15 +211,16 @@ export class CMSLoader extends PhoenixLoader {
    * @returns CaloClusters object containing all CaloClusters collections.
    */
   private getCaloClusters(): any {
-    let caloClustersCollections = [
-      'SuperClusters_V1'
-    ];
-    const CaloClusters = this.getObjectCollections(caloClustersCollections, (objectParams) => {
-      if (objectParams['energy']) {
-        // If the attribute of Calo Cluster is energy then scale it to a higher value
-        objectParams['energy'] *= this.geometryScale;
+    let caloClustersCollections = ['SuperClusters_V1'];
+    const CaloClusters = this.getObjectCollections(
+      caloClustersCollections,
+      (objectParams) => {
+        if (objectParams['energy']) {
+          // If the attribute of Calo Cluster is energy then scale it to a higher value
+          objectParams['energy'] *= this.geometryScale;
+        }
       }
-    });
+    );
 
     //! TO BE REVIEWED - Not using extras and assocs - output might be different
     // let ri = 0;
@@ -209,21 +240,26 @@ export class CMSLoader extends PhoenixLoader {
     let Jets = {};
 
     // Filtering collections to get all Jets collections
-    const jetsCollections = Object.keys(this.data['Collections'])
-      .filter(key => key.toLowerCase().includes('jets'));
+    const jetsCollections = Object.keys(
+      this.data['Collections']
+    ).filter((key) => key.toLowerCase().includes('jets'));
     const cuts = [
       { attribute: 'et', min: 10 },
-      { attribute: 'energy', min: 10 }
+      { attribute: 'energy', min: 10 },
     ];
 
-    Jets = this.getObjectCollections(jetsCollections, (objectParams) => {
-      for (const energyAttribute of ['et', 'energy']) {
-        if (objectParams[energyAttribute]) {
-          objectParams[energyAttribute] *= this.geometryScale;
-          break;
+    Jets = this.getObjectCollections(
+      jetsCollections,
+      (objectParams) => {
+        for (const energyAttribute of ['et', 'energy']) {
+          if (objectParams[energyAttribute]) {
+            objectParams[energyAttribute] *= this.geometryScale;
+            break;
+          }
         }
-      }
-    }, cuts);
+      },
+      cuts
+    );
 
     return Jets;
   }
@@ -233,19 +269,22 @@ export class CMSLoader extends PhoenixLoader {
    * @returns MuonChambers object containing all Muon Chambers collections.
    */
   private getMuonChambers(): any {
-    let muonChambersCollections = [
-      'MatchingCSCs_V1',
-      'MuonChambers_V1'
-    ];
-    const MuonChambers = this.getObjectCollections(muonChambersCollections,
+    let muonChambersCollections = ['MatchingCSCs_V1', 'MuonChambers_V1'];
+    const MuonChambers = this.getObjectCollections(
+      muonChambersCollections,
       (muonChamberParams) => {
         for (const muonChamberParam of Object.keys(muonChamberParams)) {
-          if (muonChamberParam.startsWith('front') || muonChamberParam.startsWith('back')) {
-            muonChamberParams[muonChamberParam] = muonChamberParams[muonChamberParam]
-              .map((val: number) => val * this.geometryScale);
+          if (
+            muonChamberParam.startsWith('front') ||
+            muonChamberParam.startsWith('back')
+          ) {
+            muonChamberParams[muonChamberParam] = muonChamberParams[
+              muonChamberParam
+            ].map((val: number) => val * this.geometryScale);
           }
         }
-      });
+      }
+    );
     return MuonChambers;
   }
 
@@ -259,12 +298,12 @@ export class CMSLoader extends PhoenixLoader {
   private getObjectCollections(
     collections: string[],
     processObject?: (objectParams: any) => void,
-    cuts?: { attribute: string, min?: number, max?: number }[]
+    cuts?: { attribute: string; min?: number; max?: number }[]
   ): any {
     let ObjectType = {};
 
     // Filter to check if the provided collections are indeed inside the data
-    collections = collections.filter(key => this.data['Collections'][key]);
+    collections = collections.filter((key) => this.data['Collections'][key]);
 
     // Iterating all collections
     for (const collection of collections) {
@@ -324,49 +363,80 @@ export class CMSLoader extends PhoenixLoader {
     // All collections with tracks
     let tracksCollections = [
       {
-        collection: 'Tracks_V1', extras: 'Extras_V1',
-        assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+        collection: 'Tracks_V1',
+        extras: 'Extras_V1',
+        assocs: 'TrackExtras_V1',
+        color: '0xff0000',
+        min_pt: 1,
       },
       {
-        collection: 'Tracks_V2', extras: 'Extras_V1',
-        assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+        collection: 'Tracks_V2',
+        extras: 'Extras_V1',
+        assocs: 'TrackExtras_V1',
+        color: '0xff0000',
+        min_pt: 1,
       },
       {
-        collection: 'Tracks_V3', extras: 'Extras_V1',
-        assocs: 'TrackExtras_V1', color: '0xff0000', min_pt: 1
+        collection: 'Tracks_V3',
+        extras: 'Extras_V1',
+        assocs: 'TrackExtras_V1',
+        color: '0xff0000',
+        min_pt: 1,
       },
       {
-        collection: 'StandaloneMuons_V2', extras: 'Extras_V1',
-        assocs: 'MuonTrackExtras_V1', color: '0xf57842', min_pt: 1
+        collection: 'StandaloneMuons_V2',
+        extras: 'Extras_V1',
+        assocs: 'MuonTrackExtras_V1',
+        color: '0xf57842',
+        min_pt: 1,
       },
       {
-        collection: 'PATStandaloneMuons_V1', extras: 'Extras_V1',
-        assocs: 'PATMuonTrackExtras_V1', color: '0xf5aa42', min_pt: 1
+        collection: 'PATStandaloneMuons_V1',
+        extras: 'Extras_V1',
+        assocs: 'PATMuonTrackExtras_V1',
+        color: '0xf5aa42',
+        min_pt: 1,
       },
       {
-        collection: 'TrackerMuons_V2', extras: 'Extras_V1',
-        assocs: 'MuonTrackerExtras_V1', color: '0xe8d546', min_pt: 2
+        collection: 'TrackerMuons_V2',
+        extras: 'Extras_V1',
+        assocs: 'MuonTrackerExtras_V1',
+        color: '0xe8d546',
+        min_pt: 2,
       },
       {
-        collection: 'GsfElectrons_V1', extras: 'Extras_V1',
-        assocs: 'GsfElectronExtras_V1', color: '0x1CFF1A', min_pt: 10
+        collection: 'GsfElectrons_V1',
+        extras: 'Extras_V1',
+        assocs: 'GsfElectronExtras_V1',
+        color: '0x1CFF1A',
+        min_pt: 10,
       },
       {
-        collection: 'GsfElectrons_V2', extras: 'Extras_V1',
-        assocs: 'GsfElectronExtras_V1', color: '0x1bcf9f', min_pt: 10
+        collection: 'GsfElectrons_V2',
+        extras: 'Extras_V1',
+        assocs: 'GsfElectronExtras_V1',
+        color: '0x1bcf9f',
+        min_pt: 10,
       },
       {
-        collection: 'GsfElectrons_V3', extras: 'Extras_V1',
-        assocs: 'GsfElectronExtras_V1', color: '0x1ad9ff', min_pt: 10
+        collection: 'GsfElectrons_V3',
+        extras: 'Extras_V1',
+        assocs: 'GsfElectronExtras_V1',
+        color: '0x1ad9ff',
+        min_pt: 10,
       },
       {
-        collection: 'PATElectrons_V1', extras: 'Extras_V1',
-        assocs: 'PATElectronExtras_V1', color: '0x1a40ff', min_pt: 1
-      }
+        collection: 'PATElectrons_V1',
+        extras: 'Extras_V1',
+        assocs: 'PATElectronExtras_V1',
+        color: '0x1a40ff',
+        min_pt: 1,
+      },
     ];
     // Filtering to check if data actually exists in collections
-    tracksCollections = tracksCollections
-      .filter(obj => this.data['Collections'][obj.collection]);
+    tracksCollections = tracksCollections.filter(
+      (obj) => this.data['Collections'][obj.collection]
+    );
 
     for (const tracksCollection of tracksCollections) {
       Tracks[tracksCollection.collection] = [];
@@ -379,11 +449,7 @@ export class CMSLoader extends PhoenixLoader {
       const trackTypes = this.data['Types'][tracksCollection.collection];
 
       // Variables to be used inside the loop
-      let ti, ei,
-        p1, d1,
-        p2, d2,
-        distance, scale, cp1, cp2, curve,
-        trackParams;
+      let ti, ei, p1, d1, p2, d2, distance, scale, cp1, cp2, curve, trackParams;
 
       for (let i = 0; i < assocs.length; i++) {
         // Current track info
@@ -423,8 +489,16 @@ export class CMSLoader extends PhoenixLoader {
         scale = distance * 0.25;
 
         // Calculating the control points to generate a bezier curve
-        cp1 = new Vector3(p1.x + scale * d1.x, p1.y + scale * d1.y, p1.z + scale * d1.z);
-        cp2 = new Vector3(p2.x + scale * d2.x, p2.y + scale * d2.y, p2.z + scale * d2.z);
+        cp1 = new Vector3(
+          p1.x + scale * d1.x,
+          p1.y + scale * d1.y,
+          p1.z + scale * d1.z
+        );
+        cp2 = new Vector3(
+          p2.x + scale * d2.x,
+          p2.y + scale * d2.y,
+          p2.z + scale * d2.z
+        );
 
         // Create the track curve
         curve = new QuadraticBezierCurve3(p1, cp1, p2);
@@ -439,7 +513,6 @@ export class CMSLoader extends PhoenixLoader {
 
         trackParams.pos = positions;
         Tracks[tracksCollection.collection].push(trackParams);
-
       }
 
       if (Tracks[tracksCollection.collection].length === 0) {
@@ -460,7 +533,7 @@ export class CMSLoader extends PhoenixLoader {
     if (eventInfo?.[3]) {
       metadata.push({
         label: 'Orbit',
-        value: eventInfo[3]
+        value: eventInfo[3],
       });
     }
     return metadata;

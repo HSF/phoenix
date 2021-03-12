@@ -6,13 +6,12 @@ import { EventDisplayService } from '../../../services/event-display.service';
 @Component({
   selector: 'app-view-options',
   templateUrl: './view-options.component.html',
-  styleUrls: ['./view-options.component.scss']
+  styleUrls: ['./view-options.component.scss'],
 })
 export class ViewOptionsComponent implements OnInit {
-
   views: PresetView[];
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit(): void {
     this.views = this.eventDisplay.getUIManager().getPresetViews();
@@ -23,9 +22,8 @@ export class ViewOptionsComponent implements OnInit {
     this.eventDisplay.getUIManager().displayView(view);
   }
 
-  setAxis(change: MatCheckboxChange){
+  setAxis(change: MatCheckboxChange) {
     const value = change.checked;
-    this.eventDisplay.getUIManager().setShowAxis(value)
+    this.eventDisplay.getUIManager().setShowAxis(value);
   }
-
 }

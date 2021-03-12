@@ -9,19 +9,21 @@ describe('TreeMenuItemComponent', () => {
   let fixture: ComponentFixture<TreeMenuItemComponent>;
 
   const mockEventDisplay = {
-    getUIManager: () => jasmine.createSpyObj('UIManager', ['geometryVisibility'])
+    getUIManager: () =>
+      jasmine.createSpyObj('UIManager', ['geometryVisibility']),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [TreeMenuItemComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [TreeMenuItemComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -44,7 +46,10 @@ describe('TreeMenuItemComponent', () => {
 
   it('should toggle children visibility', () => {
     // Creating a mock child tree menu item
-    const mockChildTreeMenuItem = jasmine.createSpyObj('TreeMenuItemComponent', ['toggleVisibility']);
+    const mockChildTreeMenuItem = jasmine.createSpyObj(
+      'TreeMenuItemComponent',
+      ['toggleVisibility']
+    );
     (component as any).children = [mockChildTreeMenuItem];
 
     component.toggleVisibility(true);

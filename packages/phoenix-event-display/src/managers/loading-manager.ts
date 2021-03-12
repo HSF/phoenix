@@ -47,7 +47,7 @@ export class LoadingManager {
       this.toLoad.length === this.loaded.length &&
       this.toLoad.sort().join(',') === this.loaded.sort().join(',')
     ) {
-      this.onLoadCallbacks.forEach(callback => callback());
+      this.onLoadCallbacks.forEach((callback) => callback());
       this.reset();
     }
   }
@@ -60,8 +60,10 @@ export class LoadingManager {
   public onProgress(itemName: string, progress: number) {
     this.progressItems[itemName] = progress;
 
-    let totalProgress = Object.values(this.progressItems)
-      .reduce((acc, val) => acc + val, 0);
+    let totalProgress = Object.values(this.progressItems).reduce(
+      (acc, val) => acc + val,
+      0
+    );
     let totalItems = Object.keys(this.progressItems).length;
 
     const averageProgress = totalProgress / totalItems;
@@ -80,15 +82,12 @@ export class LoadingManager {
   }
 
   /**
-   * Add a listener for when all items have loaded and check if there 
+   * Add a listener for when all items have loaded and check if there
    * are any items to load when the listener is added.
    * @param callback Callback to call when all items have loaded.
    */
   public addLoadListenerWithCheck(callback: () => void) {
-    if (
-      this.toLoad.length > 0 &&
-      this.toLoad.length !== this.loaded.length
-    ) {
+    if (this.toLoad.length > 0 && this.toLoad.length !== this.loaded.length) {
       this.onLoadCallbacks.push(callback);
     } else {
       callback();

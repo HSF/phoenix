@@ -9,19 +9,20 @@ describe('AutoRotateComponent', () => {
   let fixture: ComponentFixture<AutoRotateComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIManager', ['setAutoRotate'])
+    getUIManager: jasmine.createSpyObj('UIManager', ['setAutoRotate']),
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [AutoRotateComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [AutoRotateComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

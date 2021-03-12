@@ -16,9 +16,14 @@ export class URLOptionsManager {
    * @param eventDisplay The Phoenix event display.
    * @param configuration Configuration of the event display.
    */
-  constructor(private eventDisplay: EventDisplay, private configuration: Configuration) {
+  constructor(
+    private eventDisplay: EventDisplay,
+    private configuration: Configuration
+  ) {
     const locationHref = window.location.href;
-    this.urlOptions = new URLSearchParams(locationHref.substr(locationHref.lastIndexOf('?')));
+    this.urlOptions = new URLSearchParams(
+      locationHref.substr(locationHref.lastIndexOf('?'))
+    );
   }
 
   /**
@@ -39,7 +44,10 @@ export class URLOptionsManager {
    * @param defaultEventPath Default event path to fallback to if none in URL.
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
-  public applyEventOptions(defaultEventPath?: string, defaultEventType?: string) {
+  public applyEventOptions(
+    defaultEventPath?: string,
+    defaultEventType?: string
+  ) {
     if (!('fetch' in window)) {
       return;
     }
@@ -59,21 +67,22 @@ export class URLOptionsManager {
       if (this.urlOptions.get('config')) {
         this.eventDisplay.getLoadingManager().addLoadableItem('url_config');
         fetch(this.urlOptions.get('config'))
-          .then(res => res.json())
-          .then(jsonState => {
+          .then((res) => res.json())
+          .then((jsonState) => {
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
-          }).finally(() => {
+          })
+          .finally(() => {
             this.eventDisplay.getLoadingManager().itemLoaded('url_config');
           });
       }
-    }
+    };
 
     // Load event file from URL
     if (file && type) {
       this.eventDisplay.getLoadingManager().addLoadableItem('url_event');
       fetch(file)
-        .then(res => type === 'jivexml' ? res.text() : res.json())
+        .then((res) => (type === 'jivexml' ? res.text() : res.json()))
         .then((res: object | string) => {
           if (type === 'jivexml') {
             const loader = new JiveXMLLoader();
@@ -86,10 +95,14 @@ export class URLOptionsManager {
             this.configuration.eventDataLoader = new PhoenixLoader();
             this.eventDisplay.parsePhoenixEvents(res);
           }
-        }).catch((error) => {
-          this.eventDisplay.getInfoLogger().add('Could not find the file specified in URL.', 'Error');
+        })
+        .catch((error) => {
+          this.eventDisplay
+            .getInfoLogger()
+            .add('Could not find the file specified in URL.', 'Error');
           console.error('Could not find the file specified in URL.', error);
-        }).finally(() => {
+        })
+        .finally(() => {
           // Load config from URL after loading the event
           loadConfig();
           this.eventDisplay.getLoadingManager().itemLoaded('url_event');
@@ -105,9 +118,13 @@ export class URLOptionsManager {
   public applyHideWidgetsOption() {
     if (Boolean(this.urlOptions.get('hideWidgets')) === true) {
       // Hide overlay widgets
-      document.getElementById('overlayWidgets')?.style.setProperty('display', 'none');
+      document
+        .getElementById('overlayWidgets')
+        ?.style.setProperty('display', 'none');
       // Hide stats
-      (document.getElementsByClassName('ui-element')[0] as HTMLElement)?.style.setProperty('display', 'none');
+      (document.getElementsByClassName(
+        'ui-element'
+      )[0] as HTMLElement)?.style.setProperty('display', 'none');
       // Hide dat.GUI menu
       document.getElementById('gui')?.style.setProperty('display', 'none');
     }

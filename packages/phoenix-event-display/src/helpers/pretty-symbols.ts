@@ -1,22 +1,20 @@
-
 /**
  * Helper for pretty symbols functions.
  */
 export class PrettySymbols {
-
   /** Pretty symbols for object params. */
   public static readonly symbols: object = {
-    'θ': ['theta'],
-    'ϕ': ['phi'],
-    'pT': ['pt'],
+    θ: ['theta'],
+    ϕ: ['phi'],
+    pT: ['pt'],
     '𝛘2': ['chi2'],
-    'η': ['eta'],
-    'q': ['charge'],
-    'NDOF': ['ndof'],
-    'DOF': ['dof'],
-    'Energy': ['energy'],
-    'ET': ['et'],
-    '|p|': ['momentum', 'mom']
+    η: ['eta'],
+    q: ['charge'],
+    NDOF: ['ndof'],
+    DOF: ['dof'],
+    Energy: ['energy'],
+    ET: ['et'],
+    '|p|': ['momentum', 'mom'],
   };
 
   /**
@@ -24,8 +22,9 @@ export class PrettySymbols {
    * @param param Parameter of a physics object.
    */
   public static getPrettySymbol(param: string) {
-    const prettySymbol = Object.keys(PrettySymbols.symbols)
-      .find(symbol => PrettySymbols.symbols[symbol].includes(param));
+    const prettySymbol = Object.keys(PrettySymbols.symbols).find((symbol) =>
+      PrettySymbols.symbols[symbol].includes(param)
+    );
 
     return prettySymbol ? prettySymbol : param;
   }

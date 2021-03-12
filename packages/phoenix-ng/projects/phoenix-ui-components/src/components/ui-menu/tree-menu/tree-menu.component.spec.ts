@@ -10,9 +10,8 @@ describe('TreeMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      declarations: [ TreeMenuComponent ]
-    })
-    .compileComponents();
+      declarations: [TreeMenuComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

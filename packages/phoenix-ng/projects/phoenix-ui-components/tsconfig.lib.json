@@ -7,10 +7,7 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
-    "lib": [
-      "dom",
-      "es2018"
-    ]
+    "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
@@ -18,8 +15,5 @@
     "enableResourceInlining": true,
     "enableIvy": false
   },
-  "exclude": [
-    "./test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["./test.ts", "**/*.spec.ts"]
 }

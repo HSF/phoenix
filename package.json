@@ -11,7 +11,9 @@
     "release:minor": "lerna publish minor --create-release github",
     "release:pre": "lerna publish prerelease --conventional-prerelease",
     "version": "lerna run docs --scope phoenix-event-display && git add .",
-    "deploy:web": "lerna run deploy:web --scope phoenix-ng"
+    "deploy:web": "lerna run deploy:web --scope phoenix-ng",
+    "prettier:check": "lerna run prettier:check",
+    "prettier:write": "lerna run prettier:write"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

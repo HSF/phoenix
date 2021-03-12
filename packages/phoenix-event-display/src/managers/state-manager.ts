@@ -1,7 +1,7 @@
-import { EventDisplay } from "../event-display";
-import { Camera } from "three";
-import { PhoenixMenuNode } from "../ui/phoenix-menu/phoenix-menu-node";
-import { loadFile, saveFile } from "../helpers/file";
+import { EventDisplay } from '../event-display';
+import { Camera } from 'three';
+import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { loadFile, saveFile } from '../helpers/file';
 
 /**
  * A singleton manager for managing the scene's state.
@@ -48,19 +48,21 @@ export class StateManager {
 
     if (this.phoenixMenuRoot) {
       // Add save and load config buttons to the root node
-      this.phoenixMenuRoot.addConfig('button', {
-        label: 'Save state',
-        onClick: () => {
-          this.saveStateAsJSON();
-        }
-      }).addConfig('button', {
-        label: 'Load state',
-        onClick: () => {
-          loadFile((data) => {
-            this.loadStateFromJSON(JSON.parse(data));
-          });
-        }
-      });
+      this.phoenixMenuRoot
+        .addConfig('button', {
+          label: 'Save state',
+          onClick: () => {
+            this.saveStateAsJSON();
+          },
+        })
+        .addConfig('button', {
+          label: 'Load state',
+          onClick: () => {
+            loadFile((data) => {
+              this.loadStateFromJSON(JSON.parse(data));
+            });
+          },
+        });
     }
   }
 
@@ -72,8 +74,8 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled ? this.clippingAngle : null
-      }
+        clippingAngle: this.clippingEnabled ? this.clippingAngle : null,
+      },
     };
 
     saveFile(JSON.stringify(state), 'phoenix-config.json');
@@ -97,10 +99,14 @@ export class StateManager {
     }
 
     if (jsonData['eventDisplay']) {
-      this.activeCamera.position.fromArray(jsonData['eventDisplay']?.['cameraPosition']);
+      this.activeCamera.position.fromArray(
+        jsonData['eventDisplay']?.['cameraPosition']
+      );
       if (jsonData['eventDisplay']?.['clippingAngle']) {
         this.eventDisplay.getUIManager().setClipping(true);
-        this.eventDisplay.getUIManager().rotateClipping(jsonData['eventDisplay']['clippingAngle']);
+        this.eventDisplay
+          .getUIManager()
+          .rotateClipping(jsonData['eventDisplay']['clippingAngle']);
       }
     }
   }

@@ -29,12 +29,11 @@ export class LHCbLoader extends PhoenixLoader {
    * @returns The processed event data.
    */
   public getEventData(): any {
-
     const eventData = {
       eventNumber: this.data.eventNumber,
       runNumber: this.data.runNumber,
       Hits: {},
-      Tracks: {}
+      Tracks: {},
     };
 
     let part_list = [];
@@ -42,11 +41,12 @@ export class LHCbLoader extends PhoenixLoader {
     if (pdata_list) {
       for (let j = 0; j < pdata_list.length; j++) {
         let pdata = pdata_list[j];
-        let mom = Math.pow(pdata.px, 2) + Math.pow(pdata.py, 2) + Math.pow(pdata.pz, 2);
+        let mom =
+          Math.pow(pdata.px, 2) + Math.pow(pdata.py, 2) + Math.pow(pdata.pz, 2);
         let part = {
           particle_id: pdata.name,
           pos: pdata.track,
-          mom
+          mom,
         };
         part_list.push(part);
       }
@@ -64,7 +64,7 @@ export class LHCbLoader extends PhoenixLoader {
     if (this.data['time']) {
       metadata.push({
         label: 'Data recorded',
-        value: this.data['time']
+        value: this.data['time'],
       });
     }
     return metadata;

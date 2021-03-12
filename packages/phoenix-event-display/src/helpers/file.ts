@@ -4,7 +4,11 @@
  * @param fileName Name of the downloaded file.
  * @param contentType Content type of the file.
  */
-export const saveFile = (data: string, fileName: string, contentType: string = 'application/json') => {
+export const saveFile = (
+  data: string,
+  fileName: string,
+  contentType: string = 'application/json'
+) => {
   const blob = new Blob([data], { type: contentType });
   const tempAnchor = document.createElement('a');
   tempAnchor.style.display = 'none';
@@ -30,13 +34,13 @@ export const loadFile = (
   inputFile.onchange = (e: any) => {
     const configFile = e.target?.files[0];
     const reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = (e) => {
       onFileRead?.(e.target.result.toString());
 
       inputFile.remove();
       inputFile = null;
     };
     reader.readAsText(configFile);
-  }
+  };
   inputFile.click();
 };

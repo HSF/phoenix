@@ -9,9 +9,8 @@ describe('PhoenixMenuItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhoenixMenuItemComponent ]
-    })
-    .compileComponents();
+      declarations: [PhoenixMenuItemComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

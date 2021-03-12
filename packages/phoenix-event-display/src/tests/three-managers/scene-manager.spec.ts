@@ -1,13 +1,22 @@
-import { AmbientLight, DirectionalLight, AxesHelper, Camera, BoxGeometry, MeshBasicMaterial, Mesh, Color, Group } from "three";
-import { SceneManager } from "../../three/scene-manager";
+import {
+  AmbientLight,
+  DirectionalLight,
+  AxesHelper,
+  Camera,
+  BoxGeometry,
+  MeshBasicMaterial,
+  Mesh,
+  Color,
+  Group,
+} from 'three';
+import { SceneManager } from '../../three/scene-manager';
 
 describe('SceneManager', () => {
-
   let sceneManager: SceneManager;
   const ignoreList = [
     new AmbientLight().type,
     new DirectionalLight().type,
-    new AxesHelper().type
+    new AxesHelper().type,
   ];
 
   beforeEach(() => {
@@ -25,7 +34,6 @@ describe('SceneManager', () => {
   });
 
   describe('with object in scene', () => {
-
     const OBJECT_NAME = 'TestCube';
 
     beforeEach(() => {
@@ -76,7 +84,10 @@ describe('SceneManager', () => {
 
     it('should change group visibility', () => {
       const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      const childObj = new Mesh(new BoxGeometry(1, 1, 1), new MeshBasicMaterial());
+      const childObj = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial()
+      );
       obj.add(childObj);
       sceneManager.groupVisibility(OBJECT_NAME, false);
       expect(childObj.visible).toBe(false);
@@ -90,7 +101,10 @@ describe('SceneManager', () => {
     });
 
     it('should wireframe geometries', () => {
-      const testObj = new Mesh(new BoxGeometry(1, 1, 1), new MeshBasicMaterial({ wireframe: false }));
+      const testObj = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial({ wireframe: false })
+      );
       const geometryGroup = new Group();
       geometryGroup.name = SceneManager.GEOMETRIES_ID;
       geometryGroup.add(testObj);
@@ -101,7 +115,10 @@ describe('SceneManager', () => {
     });
 
     it('should scale Jets', () => {
-      const testJet = new Mesh(new BoxGeometry(1, 1, 1), new MeshBasicMaterial());
+      const testJet = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial()
+      );
       testJet.name = 'Jet';
       const jetsGroup = new Group();
       jetsGroup.name = 'Jets';

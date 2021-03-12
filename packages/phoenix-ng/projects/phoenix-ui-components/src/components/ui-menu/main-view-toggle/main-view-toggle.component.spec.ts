@@ -9,19 +9,20 @@ describe('MainViewToggleComponent', () => {
   let fixture: ComponentFixture<MainViewToggleComponent>;
 
   let mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIManager', ['toggleOrthographicView'])
+    getUIManager: jasmine.createSpyObj('UIManager', ['toggleOrthographicView']),
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [MainViewToggleComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [MainViewToggleComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,6 +39,8 @@ describe('MainViewToggleComponent', () => {
     expect(component.orthographicView).toBe(false);
     component.switchMainView();
     expect(component.orthographicView).toBe(true);
-    expect(mockEventDisplay.getUIManager().toggleOrthographicView).toHaveBeenCalled();
+    expect(
+      mockEventDisplay.getUIManager().toggleOrthographicView
+    ).toHaveBeenCalled();
   });
 });

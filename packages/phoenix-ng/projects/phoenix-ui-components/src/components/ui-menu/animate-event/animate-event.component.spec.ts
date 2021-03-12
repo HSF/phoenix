@@ -8,19 +8,22 @@ describe('AnimateEventComponent', () => {
   let component: AnimateEventComponent;
   let fixture: ComponentFixture<AnimateEventComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService',
-    ['animateClippingWithCollision', 'animateEventWithCollision']);
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+    'animateClippingWithCollision',
+    'animateEventWithCollision',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }],
-      declarations: [AnimateEventComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+      declarations: [AnimateEventComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

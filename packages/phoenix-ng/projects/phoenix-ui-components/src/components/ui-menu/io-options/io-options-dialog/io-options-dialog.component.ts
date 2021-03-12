@@ -6,14 +6,13 @@ import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
 @Component({
   selector: 'app-io-options-dialog',
   templateUrl: './io-options-dialog.component.html',
-  styleUrls: ['./io-options-dialog.component.scss']
+  styleUrls: ['./io-options-dialog.component.scss'],
 })
 export class IOOptionsDialogComponent {
-
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>
-  ) { }
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -84,7 +83,10 @@ export class IOOptionsDialogComponent {
     ScriptLoader.loadJSRootScripts().then((JSROOT: any) => {
       const callback = (content: any, name: string) => {
         this.eventDisplay.loadJSONGeometry(
-          JSROOT.GEO.build(JSROOT.parse(content), { dflt_colors: true }).toJSON(), name
+          JSROOT.GEO.build(JSROOT.parse(content), {
+            dflt_colors: true,
+          }).toJSON(),
+          name
         );
       };
       this.handleFileInput(files, 'gz', callback);
@@ -92,7 +94,8 @@ export class IOOptionsDialogComponent {
   }
 
   handleFileInput(
-    files: any, extension: string,
+    files: any,
+    extension: string,
     callback: (result: string, fileName?: string) => void
   ) {
     const file = files[0];
@@ -115,5 +118,4 @@ export class IOOptionsDialogComponent {
   exportOBJ() {
     this.eventDisplay.exportToOBJ();
   }
-
 }

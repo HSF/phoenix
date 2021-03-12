@@ -9,19 +9,23 @@ describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
   let fixture: ComponentFixture<ObjectSelectionComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService',
-    ['enableSelecting', 'allowSelection']);
+  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
+    'enableSelecting',
+    'allowSelection',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [Overlay, {
-        provide: EventDisplayService,
-        useValue: mockEventDisplayService
-      }],
-      declarations: [ObjectSelectionComponent]
-    })
-      .compileComponents();
+      providers: [
+        Overlay,
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplayService,
+        },
+      ],
+      declarations: [ObjectSelectionComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

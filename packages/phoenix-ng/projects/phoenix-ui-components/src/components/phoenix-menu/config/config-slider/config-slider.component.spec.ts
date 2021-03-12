@@ -10,9 +10,8 @@ describe('ConfigSliderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatSliderModule],
-      declarations: [ ConfigSliderComponent ]
-    })
-    .compileComponents();
+      declarations: [ConfigSliderComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

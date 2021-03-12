@@ -5,10 +5,8 @@ import type { PhoenixMenuNode } from 'phoenix-event-display';
   selector: 'app-phoenix-menu-item',
   templateUrl: './phoenix-menu-item.component.html',
   styleUrls: ['./phoenix-menu-item.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PhoenixMenuItemComponent {
-
   @Input() currentNode: PhoenixMenuNode;
-
 }

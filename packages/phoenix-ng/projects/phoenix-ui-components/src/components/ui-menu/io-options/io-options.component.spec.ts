@@ -14,9 +14,8 @@ describe('IoOptionsComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [MatDialog],
-      declarations: [IoOptionsComponent]
-    })
-      .compileComponents();
+      declarations: [IoOptionsComponent],
+    }).compileComponents();
     dialog = TestBed.get(MatDialog);
   }));
 

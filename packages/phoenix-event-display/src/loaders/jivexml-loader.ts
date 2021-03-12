@@ -29,7 +29,6 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @returns An object containing all the event data.
    */
   public getEventData(): any {
-
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(this.data, 'text/xml');
 
@@ -48,7 +47,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       Vertices: {},
       Electrons: {},
       Muons: {},
-      Photons: {}
+      Photons: {},
     };
 
     // Tracks
@@ -84,10 +83,14 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   private getNumberArrayFromHTML(collection: Element, key: any) {
     // console.log(collection);
-    let array=[];
+    let array = [];
     let elements = collection.getElementsByTagName(key);
     if (elements.length) {
-      array= elements[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      array = elements[0].innerHTML
+        .replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
     }
     return array;
   }
@@ -99,7 +102,12 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @returns String array.
    */
   private getStringArrayFromHTML(collection: Element, key: any) {
-    return collection.getElementsByTagName(key)[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(String);
+    return collection
+      .getElementsByTagName(key)[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(String);
   }
 
   /**
@@ -112,8 +120,12 @@ export class JiveXMLLoader extends PhoenixLoader {
     const trackCollections = Array.from(tracksHTML);
     const nameOfCollection = 'Tracks';
     for (const collection of trackCollections) {
-      let trackCollectionName = collection.getAttribute('storeGateKey')
-      if (trackCollectionName === "Tracks" || trackCollectionName === "GSFTracks" || trackCollectionName === "GSFTrackParticles") {
+      let trackCollectionName = collection.getAttribute('storeGateKey');
+      if (
+        trackCollectionName === 'Tracks' ||
+        trackCollectionName === 'GSFTracks' ||
+        trackCollectionName === 'GSFTrackParticles'
+      ) {
         // Tracks are duplicates of CombinedInDetTracks (though so maybe check that they're in the file before skipping?)
         // GSF tracks cause problems at the moment.
         continue;
@@ -123,7 +135,7 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const tmp = collection.getElementsByTagName('numPolyline')
+      const tmp = collection.getElementsByTagName('numPolyline');
 
       let numPolyline: number[];
 
@@ -136,12 +148,16 @@ export class JiveXMLLoader extends PhoenixLoader {
         const polyLineXHTML = collection.getElementsByTagName('polylineX');
         if (polyLineXHTML.length) {
           // This can happen with e.g. TrackParticles
-          var polylineX = polyLineXHTML[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+          var polylineX = polyLineXHTML[0].innerHTML
+            .replace(/\r\n|\n|\r/gm, ' ')
+            .trim()
+            .split(' ')
+            .map(Number);
           var polylineY = this.getNumberArrayFromHTML(collection, 'polylineY');
           var polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
-          numPolyline = null
+          numPolyline = null;
         }
       }
 
@@ -154,7 +170,12 @@ export class JiveXMLLoader extends PhoenixLoader {
       const cotTheta = this.getNumberArrayFromHTML(collection, 'cotTheta');
 
       if (collection.getElementsByTagName('numDoF').length) {
-        var author = collection.getElementsByTagName('numDoF')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+        var author = collection
+          .getElementsByTagName('numDoF')[0]
+          .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+          .trim()
+          .split(' ')
+          .map(Number);
       }
 
       const numHits = this.getNumberArrayFromHTML(collection, 'numHits');
@@ -162,16 +183,20 @@ export class JiveXMLLoader extends PhoenixLoader {
       let polylineCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
         const track = { chi2: 0.0, dof: 0.0, pT: 0.0, pos: [], dparams: [] };
-        if (chi2.length>0) track.chi2 = chi2[i]
-        if (numDoF.length>0) track.dof = numDoF[i]
+        if (chi2.length > 0) track.chi2 = chi2[i];
+        if (numDoF.length > 0) track.dof = numDoF[i];
         const theta = Math.tan(cotTheta[i]);
         track.pT = Math.abs(pT[i]);
-        const momentum =  pT[i]/Math.sin(theta) * 1000 ; // JiveXML uses GeV 
+        const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
         const pos = [];
         if (numPolyline) {
           for (let p = 0; p < numPolyline[i]; p++) {
-            pos.push([polylineX[polylineCounter + p], polylineY[polylineCounter + p], polylineZ[polylineCounter + p]]);
+            pos.push([
+              polylineX[polylineCounter + p],
+              polylineY[polylineCounter + p],
+              polylineZ[polylineCounter + p],
+            ]);
           }
           polylineCounter += numPolyline[i];
           track.pos = pos;
@@ -191,13 +216,30 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getPixelClusters(firstEvent: Element, eventData: { Hits: any }) {
     eventData.Hits = {};
-    if (firstEvent.getElementsByTagName('PixCluster').length === 0) { return; }
+    if (firstEvent.getElementsByTagName('PixCluster').length === 0) {
+      return;
+    }
     const pixClustersHTML = firstEvent.getElementsByTagName('PixCluster')[0];
     const numOfClusters = Number(pixClustersHTML.getAttribute('count'));
 
-    const x0 = pixClustersHTML.getElementsByTagName('x0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-    const y0 = pixClustersHTML.getElementsByTagName('y0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-    const z0 = pixClustersHTML.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+    const x0 = pixClustersHTML
+      .getElementsByTagName('x0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
+    const y0 = pixClustersHTML
+      .getElementsByTagName('y0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
+    const z0 = pixClustersHTML
+      .getElementsByTagName('z0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
 
     eventData.Hits.Pixel = [];
     const temp = []; // Ugh
@@ -213,20 +255,37 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param eventData Event data object to be updated with SCT Clusters.
    */
   public getSCTClusters(firstEvent: Element, eventData: { Hits: any }) {
-    if (firstEvent.getElementsByTagName('STC').length === 0) { return; }
+    if (firstEvent.getElementsByTagName('STC').length === 0) {
+      return;
+    }
 
     const sctClustersHTML = firstEvent.getElementsByTagName('STC')[0]; // No idea why this is not SCT!
     const numOfSCTClusters = Number(sctClustersHTML.getAttribute('count'));
-    const x0 = sctClustersHTML.getElementsByTagName('x0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-    const y0 = sctClustersHTML.getElementsByTagName('y0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-    const z0 = sctClustersHTML.getElementsByTagName('z0')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+    const x0 = sctClustersHTML
+      .getElementsByTagName('x0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
+    const y0 = sctClustersHTML
+      .getElementsByTagName('y0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
+    const z0 = sctClustersHTML
+      .getElementsByTagName('z0')[0]
+      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+      .trim()
+      .split(' ')
+      .map(Number);
     eventData.Hits.SCT = [];
     const temp = []; // Ugh
 
     for (let i = 0; i < numOfSCTClusters; i++) {
       temp.push([x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0]);
     }
-    
+
     eventData.Hits.SCT.push(temp);
   }
 
@@ -236,7 +295,9 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param eventData Event data object to be updated with TRT Drift Circles.
    */
   public getTRT_DriftCircles(firstEvent: Element, eventData: { Hits: any }) {
-    if (firstEvent.getElementsByTagName('TRT').length === 0) { return; }
+    if (firstEvent.getElementsByTagName('TRT').length === 0) {
+      return;
+    }
 
     // const dcHTML = firstEvent.getElementsByTagName("TRT")[0];
     // const numOfDC  = Number(dcHTML.getAttribute("count"));
@@ -248,7 +309,6 @@ export class JiveXMLLoader extends PhoenixLoader {
     //   temp.push ( [ Math.cos(phi[i])*r[i]*10.0, Math.sin(phi[i])*r[i]*10.0, z0[i]*10.0 ] );
     // }
     // eventData.Hits.SCT.push (temp);
-
   }
 
   /**
@@ -257,7 +317,6 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param eventData Event data object to be updated with Jets.
    */
   public getJets(firstEvent: Element, eventData: { Jets: any }) {
-
     const jetsHTML = firstEvent.getElementsByTagName('Jet');
     const jetCollections = Array.from(jetsHTML);
     const nameOfCollection = 'AntiKt4TopoJets';
@@ -268,12 +327,32 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const phi = jetColl.getElementsByTagName('phi')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const eta = jetColl.getElementsByTagName('eta')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const energy = jetColl.getElementsByTagName('et')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const phi = jetColl
+        .getElementsByTagName('phi')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const eta = jetColl
+        .getElementsByTagName('eta')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const energy = jetColl
+        .getElementsByTagName('et')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
       const temp = []; // Ugh
       for (let i = 0; i < numOfJets; i++) {
-        temp.push({ coneR: 0.4, phi: phi[i], eta: eta[i], energy: energy[i] * 1000.0 });
+        temp.push({
+          coneR: 0.4,
+          phi: phi[i],
+          eta: eta[i],
+          energy: energy[i] * 1000.0,
+        });
       }
       eventData.Jets[jetColl.getAttribute('storeGateKey')] = temp;
       // }
@@ -285,7 +364,10 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
    * @param eventData Event data object to be updated with Calo Clusters.
    */
-  public getCaloClusters(firstEvent: Element, eventData: { CaloClusters: any }) {
+  public getCaloClusters(
+    firstEvent: Element,
+    eventData: { CaloClusters: any }
+  ) {
     const clustersHTML = firstEvent.getElementsByTagName('Cluster');
     const clusterCollections = Array.from(clustersHTML);
     const nameOfCollection = 'CaloTopoCluster_ESD';
@@ -296,9 +378,24 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const phi = clusterColl.getElementsByTagName('phi')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const eta = clusterColl.getElementsByTagName('eta')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const energy = clusterColl.getElementsByTagName('et')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const phi = clusterColl
+        .getElementsByTagName('phi')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const eta = clusterColl
+        .getElementsByTagName('eta')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const energy = clusterColl
+        .getElementsByTagName('et')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
       const temp = []; // Ugh
       for (let i = 0; i < numOfClusters; i++) {
         temp.push({ phi: phi[i], eta: eta[i], energy: energy[i] * 1000.0 });
@@ -321,15 +418,60 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const x = vertexColl.getElementsByTagName('x')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const y = vertexColl.getElementsByTagName('y')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const z = vertexColl.getElementsByTagName('z')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const chi2 = vertexColl.getElementsByTagName('chi2')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const primVxCand = vertexColl.getElementsByTagName('primVxCand')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const vertexType = vertexColl.getElementsByTagName('vertexType')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const numTracks = vertexColl.getElementsByTagName('numTracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
-      const sgkeyOfTracks = vertexColl.getElementsByTagName('sgkey')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(String);
-      const trackIndices = vertexColl.getElementsByTagName('tracks')[0].innerHTML.replace(/\r\n|\n|\r/gm, ' ').trim().split(' ').map(Number);
+      const x = vertexColl
+        .getElementsByTagName('x')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const y = vertexColl
+        .getElementsByTagName('y')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const z = vertexColl
+        .getElementsByTagName('z')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const chi2 = vertexColl
+        .getElementsByTagName('chi2')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const primVxCand = vertexColl
+        .getElementsByTagName('primVxCand')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const vertexType = vertexColl
+        .getElementsByTagName('vertexType')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const numTracks = vertexColl
+        .getElementsByTagName('numTracks')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
+      const sgkeyOfTracks = vertexColl
+        .getElementsByTagName('sgkey')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(String);
+      const trackIndices = vertexColl
+        .getElementsByTagName('tracks')[0]
+        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(Number);
       const temp = []; // Ugh
       let trackIndex = 0;
       for (let i = 0; i < numOfObjects; i++) {
@@ -337,13 +479,21 @@ export class JiveXMLLoader extends PhoenixLoader {
         let thisTrackIndices = [];
         for (; trackIndex < maxIndex; trackIndex++) {
           if (trackIndex > trackIndices.length) {
-            console.log("Error! TrackIndex exceeds maximum number of track indices.");
+            console.log(
+              'Error! TrackIndex exceeds maximum number of track indices.'
+            );
           }
           thisTrackIndices.push(trackIndices[trackIndex]);
         }
         temp.push({
-          x: x[i], y: y[i], z: z[i], chi2: chi2[i], primVxCand: primVxCand[i],
-          vertexType: vertexType[i], linkedTracks: thisTrackIndices, linkedTrackCollection: sgkeyOfTracks[i]
+          x: x[i],
+          y: y[i],
+          z: z[i],
+          chi2: chi2[i],
+          primVxCand: primVxCand[i],
+          vertexType: vertexType[i],
+          linkedTracks: thisTrackIndices,
+          linkedTrackCollection: sgkeyOfTracks[i],
         });
       }
       eventData.Vertices[vertexColl.getAttribute('storeGateKey')] = temp;
@@ -367,7 +517,13 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
-        temp.push({ chi2: chi2[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+        temp.push({
+          chi2: chi2[i],
+          energy: energy[i],
+          eta: eta[i],
+          phi: phi[i],
+          pt: pt[i],
+        });
       }
       eventData.Muons[collection.getAttribute('storeGateKey')] = temp;
     }
@@ -390,7 +546,13 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
-        temp.push({ author: author[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+        temp.push({
+          author: author[i],
+          energy: energy[i],
+          eta: eta[i],
+          phi: phi[i],
+          pt: pt[i],
+        });
       }
       eventData.Electrons[collection.getAttribute('storeGateKey')] = temp;
     }
@@ -413,7 +575,13 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
-        temp.push({ author: author[i], energy: energy[i], eta: eta[i], phi: phi[i], pt: pt[i] });
+        temp.push({
+          author: author[i],
+          energy: energy[i],
+          eta: eta[i],
+          phi: phi[i],
+          pt: pt[i],
+        });
       }
       eventData.Photons[collection.getAttribute('storeGateKey')] = temp;
     }
