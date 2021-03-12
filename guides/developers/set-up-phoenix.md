@@ -9,6 +9,7 @@
     * [Set up assets](#set-up-assets)
 * [Setting up the event display](#setting-up-the-event-display)
   * [Create an experiment component](#create-an-experiment-component)
+  * [Set up the route](#set-up-the-route)
 
 ## Introduction
 
@@ -111,12 +112,12 @@ The next step would be to create an Angular component so that we can use the eve
 For this, navigate to the `src/app` directory of your app in the terminal and use the Angular CLI to generate a component.
 
 ```sh
-ng generate component phoenix
+ng generate component test-experiment
 ```
 
-This will create a `phoenix` folder with the component source files.
+This will create a `test-experiment` folder with the component source files.
 
-Now, open the `phoenix.component.html` file and use the Phoenix UI components to set up the UI.
+Now, open the `test-experiment.component.html` file and use the Phoenix UI components to set up the UI.
 
 ```html
 <div id="overlayWidgets">
@@ -130,9 +131,9 @@ Now, open the `phoenix.component.html` file and use the Phoenix UI components to
 <div id="eventDisplay"></div>
 ```
 
-The `[rootNode]="phoenixMenuRoot"` specified here for the Phoenix menu will be a defined in `phoenix.component.ts`.
+The `[rootNode]="phoenixMenuRoot"` specified here for the Phoenix menu will be a defined in `test-experiment.component.ts`.
 
-Finally, open the `phoenix.component.ts` file and initialize the Phoenix event display using the intermediate Angular `EventDisplayService`.
+Finally, open the `test-experiment.component.ts` file and initialize the Phoenix event display using the intermediate Angular `EventDisplayService`.
 
 ```ts
 import { Component, OnInit } from '@angular/core';
@@ -140,11 +141,11 @@ import { EventDisplayService } from 'phoenix-ui-components';
 import { Configuration, PhoenixLoader, PresetView } from 'phoenix-event-display';
 
 @Component({
-  selector: 'app-phoenix',
-  templateUrl: './phoenix.component.html',
-  styleUrls: ['./phoenix.component.scss']
+  selector: 'app-test-experiment',
+  templateUrl: './test-experiment.component.html',
+  styleUrls: ['./test-experiment.component.scss']
 })
-export class PhoenixComponent implements OnInit {
+export class TestExperimentComponent implements OnInit {
 
   /** The root Phoenix menu node. */
   phoenixMenuRoot = new PhoenixMenuNode("Phoenix Menu");
@@ -179,3 +180,32 @@ export class PhoenixComponent implements OnInit {
 
 }
 ```
+
+### Set up the route
+
+Once the experiment component is created, you will need to set up a route so it can be served through a URL.
+
+The app we generated already has some data. So delete the existing app content and replace it with a router outlet.\
+Go to `src/app/app.component.html` and replace all content with this code:
+
+```html
+<router-outlet></router-outlet>
+```
+
+Now, navigate to `src/app/app.module.ts` and add the routing for the experiment component we created.
+
+```ts
+@NgModule({
+  ...
+  imports: [
+    ...
+    RouterModule.forRoot([{ path: '', component: PhoenixComponent }])
+  ],
+  ...
+})
+export class AppModule { }
+```
+
+This will serve the experiment component through the base URL `/` of the server.
+
+Finally, you can start the app with `npm start` and navigate to `http://localhost:4200` where you will see the experiment component in action.
