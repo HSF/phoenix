@@ -195,11 +195,14 @@ Go to `src/app/app.component.html` and replace all content with this code:
 Now, navigate to `src/app/app.module.ts` and add the routing for the experiment component we created.
 
 ```ts
+import { RouterModule } from '@angular/router';
+import { TestExperimentComponent } from './test-component/test-experiment.component';
+
 @NgModule({
   ...
   imports: [
     ...
-    RouterModule.forRoot([{ path: '', component: PhoenixComponent }])
+    RouterModule.forRoot([{ path: '', component: TestExperimentComponent }])
   ],
   ...
 })
