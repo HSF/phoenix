@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import JSZip from 'jszip';
 
 @Component({
   selector: 'app-io-options-dialog',
@@ -24,45 +25,55 @@ export class IOOptionsDialogComponent {
       const json = JSON.parse(content);
       this.eventDisplay.parsePhoenixEvents(json);
     };
-    this.handleFileInput(files, 'json', callback);
+    this.handleFileInput(files, ['json'], callback);
   }
 
   handleJiveXMLDataInput(files: any) {
-    const callback = (content: any) => {
-      const jiveloader = new JiveXMLLoader();
-      jiveloader.process(content);
-      const eventData = jiveloader.getEventData();
-      this.eventDisplay.buildEventDataFromJSON(eventData);
+    const callback = (content: any, name: string, type: string) => {
+      console.log(name, type)
+      if (type==='zip') {
+        const zip = new JSZip();
+        zip.loadAsync(content).then(() => {
+          let allFilesPath = Object.keys(zip.files);
+          // Doesn't work. Zip file allegedly corrupted, so I did something wrong.
+          console.log(allFilesPath);
+        });
+      } else {
+        const jiveloader = new JiveXMLLoader();
+        jiveloader.process(content);
+        const eventData = jiveloader.getEventData();
+        this.eventDisplay.buildEventDataFromJSON(eventData);
+      }
     };
-    this.handleFileInput(files, 'xml', callback);
+    this.handleFileInput(files, ['xml', 'zip'], callback);
   }
 
   handleOBJInput(files: any) {
     const callback = (content: any, name: string) => {
       this.eventDisplay.parseOBJGeometry(content, name);
     };
-    this.handleFileInput(files, 'obj', callback);
+    this.handleFileInput(files, ['obj'], callback);
   }
 
   handleSceneInput(files: any) {
     const callback = (content: any) => {
       this.eventDisplay.parsePhoenixDisplay(content);
     };
-    this.handleFileInput(files, 'phnx', callback);
+    this.handleFileInput(files, ['phnx'], callback);
   }
 
   handleGLTFInput(files: any) {
     const callback = (content: any, name: string) => {
       this.eventDisplay.parseGLTFGeometry(content, name);
     };
-    this.handleFileInput(files, 'gltf', callback);
+    this.handleFileInput(files, ['gltf'], callback);
   }
 
   handlePhoenixInput(files: any) {
     const callback = (content: any) => {
       this.eventDisplay.parsePhoenixDisplay(content);
     };
-    this.handleFileInput(files, 'phnx', callback);
+    this.handleFileInput(files, ['phnx'], callback);
   }
 
   handleROOTInput(files: any) {
@@ -87,23 +98,25 @@ export class IOOptionsDialogComponent {
           JSROOT.GEO.build(JSROOT.parse(content), { dflt_colors: true }).toJSON(), name
         );
       };
-      this.handleFileInput(files, 'gz', callback);
+      this.handleFileInput(files, ['gz'], callback);
     });
   }
 
   handleFileInput(
-    files: any, extension: string,
-    callback: (result: string, fileName?: string) => void
+    files: any, extension: string[],
+    callback: (result: string, fileName?: string, fileExtension?: string) => void
   ) {
     const file = files[0];
     const reader = new FileReader();
-    if (file.name.split('.').pop() === extension) {
+    let fileExtension = file.name.split('.').pop();
+    console.log('Loading file of type: '+fileExtension);
+    if (extension.includes(fileExtension)) {
       reader.onload = () => {
-        callback(reader.result.toString(), file.name.split('.')[0]);
+        callback(reader.result.toString(), file.name.split('.')[0], fileExtension);
       };
       reader.readAsText(file);
     } else {
-      console.log('Error : ¡ Invalid file format !');
+      console.log('Error : Invalid file format for '+file.name);
     }
     this.onNoClick();
   }
