@@ -60,23 +60,26 @@ export class RendererManager {
    * @param elementId ID of the wrapper element.
    */
   private initRenderer(elementId: string) {
-    let canvas = document.getElementById(elementId);
-    const rendererWidth = () => canvas?.offsetWidth ?? window.innerWidth;
-    const rendererHeight = () => canvas?.offsetHeight ?? window.innerHeight;
+    let canvasWrapper = document.getElementById(elementId);
+    if (!canvasWrapper) {
+      canvasWrapper = document.body;
+    }
+
+    const rendererWidth = () =>
+      canvasWrapper.offsetWidth > 0
+        ? canvasWrapper.offsetWidth
+        : window.innerWidth;
+    const rendererHeight = () =>
+      canvasWrapper.offsetHeight > 0
+        ? canvasWrapper.offsetHeight
+        : window.innerHeight;
 
     const mainRenderer = this.getMainRenderer();
-    mainRenderer.setSize(
-      rendererWidth(),
-      rendererHeight(),
-      false
-    );
+    mainRenderer.setSize(rendererWidth(), rendererHeight(), false);
     mainRenderer.setPixelRatio(window.devicePixelRatio);
     mainRenderer.domElement.id = 'three-canvas';
 
-    if (canvas == null) {
-      canvas = document.body;
-    }
-    canvas.appendChild(this.getMainRenderer().domElement);
+    canvasWrapper.appendChild(this.getMainRenderer().domElement);
 
     window.addEventListener('resize', () => {
       mainRenderer.setSize(rendererWidth(), rendererHeight());
@@ -101,7 +104,7 @@ export class RendererManager {
     const overlayRenderer: WebGLRenderer = new WebGLRenderer({
       canvas: overlayCanvas,
       antialias: false,
-      alpha: true
+      alpha: true,
     });
     this.addRenderer(overlayRenderer);
     this.overlayRenderer = overlayRenderer;
