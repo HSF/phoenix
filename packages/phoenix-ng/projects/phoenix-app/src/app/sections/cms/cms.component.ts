@@ -7,7 +7,6 @@ import {
   PhoenixMenuNode,
 } from 'phoenix-event-display';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cms',
@@ -21,10 +20,7 @@ export class CMSComponent implements OnInit {
   );
   loaded = false;
 
-  constructor(
-    private eventDisplay: EventDisplayService,
-    private http: HttpClient
-  ) {}
+  constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit(): void {
     const cmsLoader = new CMSLoader();

@@ -327,7 +327,7 @@ describe('EventDisplay', () => {
       expect(three.zoomTo).toHaveBeenCalled();
 
       spyOn(three, 'setOverlayRenderer').and.stub();
-      eventDisplay.renderOverlay(document.createElement('canvas'));
+      eventDisplay.setOverlayRenderer(document.createElement('canvas'));
       expect(three.setOverlayRenderer).toHaveBeenCalled();
 
       spyOn(three, 'setSelectedObjectDisplay').and.stub();
