@@ -9,6 +9,7 @@ import {
   Scene,
   Mesh,
   TubeBufferGeometry,
+  WebGLRenderer,
 } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
@@ -470,6 +471,37 @@ export class ControlsManager {
         mainCamera.aspect =
           rendererElement.offsetWidth / rendererElement.offsetHeight;
         mainCamera.updateProjectionMatrix();
+      }
+    });
+  }
+
+  /**
+   * Optimize the animation by suspending the animation loop on no camera movement.
+   * @param renderer The renderer to set the animation loop for.
+   * @param animationLoop The main animation loop.
+   */
+  public optimizeControlsAnimation(
+    renderer: WebGLRenderer,
+    animationLoop: () => void
+  ) {
+    let stopped = false;
+    let timeout: NodeJS.Timeout;
+
+    this.getMainControls().addEventListener('end', () => {
+      timeout = setTimeout(() => {
+        stopped = true;
+        renderer.setAnimationLoop(null);
+      }, 1000);
+    });
+
+    this.getMainControls().addEventListener('start', () => {
+      if (timeout) {
+        clearInterval(timeout);
+        timeout = null;
+      }
+      if (stopped) {
+        renderer.setAnimationLoop(animationLoop);
+        stopped = false;
       }
     });
   }

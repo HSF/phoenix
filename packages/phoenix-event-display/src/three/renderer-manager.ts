@@ -19,6 +19,7 @@ export class RendererManager {
   constructor() {
     const renderer: WebGLRenderer = new WebGLRenderer({
       antialias: true,
+      powerPreference: 'high-performance',
     });
 
     this.addRenderer(renderer);
