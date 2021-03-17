@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoComponent } from './collections-info.component';
 import { Overlay } from '@angular/cdk/overlay';
@@ -8,13 +8,13 @@ describe('CollectionsInfoComponent', () => {
   let component: CollectionsInfoComponent;
   let fixture: ComponentFixture<CollectionsInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [Overlay],
       declarations: [CollectionsInfoComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsInfoComponent);

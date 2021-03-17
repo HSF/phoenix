@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VrToggleComponent } from './vr-toggle.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -13,7 +13,7 @@ describe('VrToggleComponent', () => {
     'endVR',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -24,7 +24,7 @@ describe('VrToggleComponent', () => {
       ],
       declarations: [VrToggleComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VrToggleComponent);

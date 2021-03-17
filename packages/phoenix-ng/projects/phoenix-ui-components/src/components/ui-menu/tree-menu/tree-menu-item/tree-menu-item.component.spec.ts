@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TreeMenuItemComponent } from './tree-menu-item.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -13,7 +13,7 @@ describe('TreeMenuItemComponent', () => {
       jasmine.createSpyObj('UIManager', ['geometryVisibility']),
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -24,7 +24,7 @@ describe('TreeMenuItemComponent', () => {
       ],
       declarations: [TreeMenuItemComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TreeMenuItemComponent);

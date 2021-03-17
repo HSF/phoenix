@@ -8,12 +8,12 @@ describe('PhoenixMenuComponent', () => {
   let component: PhoenixMenuComponent;
   let fixture: ComponentFixture<PhoenixMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       declarations: [PhoenixMenuComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PhoenixMenuComponent);

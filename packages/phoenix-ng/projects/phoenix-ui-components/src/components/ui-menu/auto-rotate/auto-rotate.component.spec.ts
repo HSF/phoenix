@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoRotateComponent } from './auto-rotate.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -12,7 +12,7 @@ describe('AutoRotateComponent', () => {
     getUIManager: jasmine.createSpyObj('UIManager', ['setAutoRotate']),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -23,7 +23,7 @@ describe('AutoRotateComponent', () => {
       ],
       declarations: [AutoRotateComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AutoRotateComponent);

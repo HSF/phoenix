@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExperimentInfoComponent } from './experiment-info.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -13,7 +13,7 @@ describe('ExperimentInfoComponent', () => {
     'listenToDisplayedEventChange',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -23,7 +23,7 @@ describe('ExperimentInfoComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExperimentInfoComponent);

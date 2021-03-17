@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectClippingComponent } from './object-clipping.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -17,7 +17,7 @@ describe('ObjectClippingComponent', () => {
     ]),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -28,7 +28,7 @@ describe('ObjectClippingComponent', () => {
       ],
       declarations: [ObjectClippingComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ObjectClippingComponent);

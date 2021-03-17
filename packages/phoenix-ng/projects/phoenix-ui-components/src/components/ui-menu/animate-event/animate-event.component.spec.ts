@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateEventComponent } from './animate-event.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -13,7 +13,7 @@ describe('AnimateEventComponent', () => {
     'animateEventWithCollision',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -24,7 +24,7 @@ describe('AnimateEventComponent', () => {
       ],
       declarations: [AnimateEventComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnimateEventComponent);

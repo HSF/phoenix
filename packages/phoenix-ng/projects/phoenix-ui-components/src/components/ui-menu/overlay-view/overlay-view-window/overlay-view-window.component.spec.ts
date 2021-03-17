@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewWindowComponent } from './overlay-view-window.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -15,7 +15,7 @@ describe('OverlayViewWindowComponent', () => {
     setOverlayRenderer: jasmine.createSpy('setOverlayRenderer'),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -26,7 +26,7 @@ describe('OverlayViewWindowComponent', () => {
       ],
       declarations: [OverlayViewWindowComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OverlayViewWindowComponent);

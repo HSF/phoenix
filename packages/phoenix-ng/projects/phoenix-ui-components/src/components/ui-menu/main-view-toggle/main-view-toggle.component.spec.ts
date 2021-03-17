@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainViewToggleComponent } from './main-view-toggle.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -12,7 +12,7 @@ describe('MainViewToggleComponent', () => {
     getUIManager: jasmine.createSpyObj('UIManager', ['toggleOrthographicView']),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -23,7 +23,7 @@ describe('MainViewToggleComponent', () => {
       ],
       declarations: [MainViewToggleComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MainViewToggleComponent);

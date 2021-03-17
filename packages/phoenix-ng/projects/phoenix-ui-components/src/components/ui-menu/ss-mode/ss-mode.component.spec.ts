@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SSModeComponent } from './ss-mode.component';
 
@@ -6,11 +6,11 @@ describe('SSModeComponent', () => {
   let component: SSModeComponent;
   let fixture: ComponentFixture<SSModeComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SSModeComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SSModeComponent);

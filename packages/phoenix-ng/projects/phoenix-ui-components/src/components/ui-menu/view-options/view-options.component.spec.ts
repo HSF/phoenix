@@ -18,7 +18,7 @@ describe('ViewOptionsComponent', () => {
     ]),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -29,7 +29,7 @@ describe('ViewOptionsComponent', () => {
       ],
       declarations: [ViewOptionsComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewOptionsComponent);

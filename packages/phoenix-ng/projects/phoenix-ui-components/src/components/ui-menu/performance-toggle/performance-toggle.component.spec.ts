@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 import { PerformanceToggleComponent } from './performance-toggle.component';
@@ -11,7 +11,7 @@ describe('PerformanceToggleComponent', () => {
     getThreeManager: jasmine.createSpyObj('ThreeManager', ['setAntialiasing']),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PerformanceToggleComponent],
       providers: [
@@ -21,7 +21,7 @@ describe('PerformanceToggleComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PerformanceToggleComponent);

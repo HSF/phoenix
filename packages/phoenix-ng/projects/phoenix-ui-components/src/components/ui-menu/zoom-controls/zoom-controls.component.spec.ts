@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ZoomControlsComponent } from './zoom-controls.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -10,7 +10,7 @@ describe('ZoomControlsComponent', () => {
 
   let mockEventDisplayService: any;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
       'zoomTo',
     ]);
@@ -25,7 +25,7 @@ describe('ZoomControlsComponent', () => {
       ],
       declarations: [ZoomControlsComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ZoomControlsComponent);

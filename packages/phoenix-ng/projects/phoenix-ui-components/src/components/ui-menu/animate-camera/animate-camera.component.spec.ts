@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnimateCameraComponent } from './animate-camera.component';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -12,7 +12,7 @@ describe('AnimateCameraComponent', () => {
     'animateThroughEvent',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       declarations: [AnimateCameraComponent],
@@ -23,7 +23,7 @@ describe('AnimateCameraComponent', () => {
         },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnimateCameraComponent);
