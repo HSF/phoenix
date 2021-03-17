@@ -10,11 +10,9 @@ describe('OverlayViewWindowComponent', () => {
   let fixture: ComponentFixture<OverlayViewWindowComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIService', [
-      'setOverlayRenderer',
-      'toggleOrthographicView',
-    ]),
+    getUIManager: jasmine.createSpyObj('UIService', ['toggleOrthographicView']),
     fixOverlayView: jasmine.createSpy('fixOverlayView'),
+    setOverlayRenderer: jasmine.createSpy('setOverlayRenderer'),
   });
 
   beforeEach(async(() => {
@@ -51,9 +49,9 @@ describe('OverlayViewWindowComponent', () => {
     expect(component.initializeCanvas).toHaveBeenCalledWith(
       mockCanvasElement.nativeElement
     );
-    expect(
-      mockEventDisplay.getUIManager().setOverlayRenderer
-    ).toHaveBeenCalledWith(mockCanvasElement.nativeElement);
+    expect(mockEventDisplay.setOverlayRenderer).toHaveBeenCalledWith(
+      mockCanvasElement.nativeElement
+    );
   });
 
   it('should switch view of overlay view window', () => {
