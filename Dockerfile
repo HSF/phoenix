@@ -1,6 +1,11 @@
-FROM node:14-alpine
+FROM node:14-alpine AS build
 WORKDIR /phoenix
 COPY . .
 RUN npm install --global lerna
 RUN yarn install:dependencies
-CMD ["yarn", "start", "--", "--scope", "phoenix-ng", "--", "--host=0.0.0.0"]
+RUN yarn deploy:web
+# Delete all node_modules folders
+RUN find . -name "node_modules" -type d -exec rm -rf "{}" +
+
+FROM nginx:alpine
+COPY --from=build /phoenix/packages/phoenix-ng/docs /usr/share/nginx/html
