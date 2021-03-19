@@ -4,7 +4,6 @@ import { Vector3 } from 'three';
  * Class for performing Runge-Kutta operations.
  */
 export class RungeKutta {
-
   /**
    * Perform a Runge-Kutta step for the given state.
    * @param state State at which the step is to be performed.
@@ -35,26 +34,47 @@ export class RungeKutta {
 
       // Second Runge-Kutta point
       // state.pos + state.dir * half_h + k1 * (h2 / 8)
-      const pos1: Vector3 = state.pos.clone().add(state.dir.clone().multiplyScalar(half_h)).add(k1.clone().multiplyScalar(h2 / 8));
+      const pos1: Vector3 = state.pos
+        .clone()
+        .add(state.dir.clone().multiplyScalar(half_h))
+        .add(k1.clone().multiplyScalar(h2 / 8));
       B_middle = Field.get(pos1);
       // (state.dir + k1 * half_h).cross(B_middle) * qop
-      k2 = state.dir.clone().add(k1.clone().multiplyScalar(half_h)).cross(B_middle).multiplyScalar(qop);
+      k2 = state.dir
+        .clone()
+        .add(k1.clone().multiplyScalar(half_h))
+        .cross(B_middle)
+        .multiplyScalar(qop);
 
       // Third Runge-Kutta point
       // (state.dir + k2 * half_h).cross(B_middle) * qop
-      k3 = state.dir.clone().add(k2.clone().multiplyScalar(half_h)).cross(B_middle).multiplyScalar(qop);
+      k3 = state.dir
+        .clone()
+        .add(k2.clone().multiplyScalar(half_h))
+        .cross(B_middle)
+        .multiplyScalar(qop);
 
       // Last Runge-Kutta point
       // state.pos + state.dir * h + k3 * (h2 / 2)
-      const pos2: Vector3 = state.pos.clone().add(state.dir.clone().multiplyScalar(h)).add(k3.clone().multiplyScalar(h2 / 2));
+      const pos2: Vector3 = state.pos
+        .clone()
+        .add(state.dir.clone().multiplyScalar(h))
+        .add(k3.clone().multiplyScalar(h2 / 2));
       B_last = Field.get(pos2);
       // (state.dir + k3 * h).cross(B_last) * qop
-      k4 = state.dir.clone().add(k3.clone().multiplyScalar(h)).cross(B_last).multiplyScalar(qop);
+      k4 = state.dir
+        .clone()
+        .add(k3.clone().multiplyScalar(h))
+        .cross(B_last)
+        .multiplyScalar(qop);
 
       // (k1 - k2 - k3 + k4)
       const returnVec = k1.clone().sub(k2).sub(k3).add(k4);
       // h * (k1 - k2 - k3 + k4).lpNorm()
-      return h * (Math.abs(returnVec.x) + Math.abs(returnVec.y) + Math.abs(returnVec.z));
+      return (
+        h *
+        (Math.abs(returnVec.x) + Math.abs(returnVec.y) + Math.abs(returnVec.z))
+      );
     };
 
     // Checking the error estimate
@@ -69,9 +89,22 @@ export class RungeKutta {
 
     // Update position and momentum
     // state.pos += state.dir * fh + (k1 + k2 + k3) * (fh2 /6)
-    state.pos.add(state.dir.clone().multiplyScalar(fh)).add(k1.clone().add(k2).add(k3).multiplyScalar(fh2 / 6));
+    state.pos.add(state.dir.clone().multiplyScalar(fh)).add(
+      k1
+        .clone()
+        .add(k2)
+        .add(k3)
+        .multiplyScalar(fh2 / 6)
+    );
     // state.dir += (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
-    state.dir.add(k1.clone().add(k2.clone().multiplyScalar(2)).add(k3.clone().multiplyScalar(2)).add(k4).multiplyScalar(fh / 6));
+    state.dir.add(
+      k1
+        .clone()
+        .add(k2.clone().multiplyScalar(2))
+        .add(k3.clone().multiplyScalar(2))
+        .add(k4)
+        .multiplyScalar(fh / 6)
+    );
     state.dir.normalize();
 
     return state.stepSize;
@@ -91,11 +124,14 @@ export class RungeKutta {
    * through the Runge-Kutta steps.
    */
   static propagate(
-    startPos: Vector3, startDir: Vector3,
-    p: number, q: number,
-    mss: number = -1, plength: number = 1000,
+    startPos: Vector3,
+    startDir: Vector3,
+    p: number,
+    q: number,
+    mss: number = -1,
+    plength: number = 1000,
     inbounds: (pos: Vector3) => boolean = () => true
-  ): { pos: Vector3, dir: Vector3 }[] {
+  ): { pos: Vector3; dir: Vector3 }[] {
     let rkState: State = new State();
     rkState.pos = startPos;
     rkState.dir = startDir;
@@ -103,15 +139,15 @@ export class RungeKutta {
     rkState.q = q;
     rkState.maxStepSize = mss;
 
-    let result: { pos: Vector3, dir: Vector3 }[] = [];
+    let result: { pos: Vector3; dir: Vector3 }[] = [];
 
-    while (rkState.pathLength < plength ) {
+    while (rkState.pathLength < plength) {
       rkState.pathLength += RungeKutta.step(rkState);
       // Cloning state to avoid using the reference
       let copiedState = JSON.parse(JSON.stringify(rkState));
       result.push({
         pos: copiedState.pos,
-        dir: copiedState.dir
+        dir: copiedState.dir,
       });
       // Check if the position is inbounds
       if (!inbounds(copiedState.pos)) {

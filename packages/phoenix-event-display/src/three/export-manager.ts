@@ -1,18 +1,12 @@
 import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
-import { Scene, Object3D, Group } from 'three';
+import { Scene, Object3D } from 'three';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import { saveFile } from '../helpers/file';
 
 /**
  * Manager for managing event display's export related functionality.
  */
 export class ExportManager {
-
-  /**
-   * Constructor for the export manager.
-   */
-  constructor() {
-  }
-
   /**
    * Exports scene to OBJ file format.
    * @param scene The scene to be exported.
@@ -21,7 +15,7 @@ export class ExportManager {
     // Instantiate a exporter
     const exporter = new OBJExporter();
     const result = exporter.parse(scene);
-    this.saveString(result, 'phoenix-obj.obj');
+    saveFile(result, 'phoenix-obj.obj', 'text/plain');
   }
 
   /**
@@ -30,17 +24,21 @@ export class ExportManager {
    * @param eventData Currently loaded event data.
    * @param geometries Currently loaded geometries.
    */
-  public exportPhoenixScene(scene: Scene, eventData: Object3D, geometries: Object3D) {
+  public exportPhoenixScene(
+    scene: Scene,
+    eventData: Object3D,
+    geometries: Object3D
+  ) {
     const exporter = new GLTFExporter();
 
     const sceneConfig = this.saveSceneConfig(eventData, geometries);
     // Parse the input and generate the glTF output
     exporter.parse(
       scene,
-      result => {
+      (result) => {
         const jsonResult = { sceneConfiguration: sceneConfig, scene: result };
         const output = JSON.stringify(jsonResult, null, 2);
-        this.saveString(output, 'phoenix-scene.phnx');
+        saveFile(output, 'phoenix-scene.phnx', 'text/plain');
       },
       null
     );
@@ -54,7 +52,10 @@ export class ExportManager {
   private saveSceneConfig(eventData: Object3D, geometries: Object3D) {
     const eventDataConfig = this.saveEventDataConfiguration(eventData);
     const geometriesConfig = this.saveGeometriesConfiguration(geometries);
-    const sceneConfig = { eventData: eventDataConfig, geometries: geometriesConfig };
+    const sceneConfig = {
+      eventData: eventDataConfig,
+      geometries: geometriesConfig,
+    };
     return sceneConfig;
   }
 
@@ -90,28 +91,4 @@ export class ExportManager {
     });
     return geometriesConfig;
   }
-
-  /**
-   * Save string in the file and download it.
-   * @param text Text to be stored.
-   * @param filename Name of the file.
-   */
-  private saveString(text: string, filename: string) {
-    this.save(new Blob([text], { type: 'text/plain' }), filename);
-  }
-
-  /**
-   * Create a temporary link and download/save the data (blob) in a file.
-   * @param blob Blob containing exported data.
-   * @param filename Name of the export file.
-   */
-  private save(blob: Blob, filename: string) {
-    const link = document.createElement('a');
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    link.click();
-  }
-
 }

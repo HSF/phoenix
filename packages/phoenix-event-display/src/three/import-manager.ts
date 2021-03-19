@@ -1,4 +1,18 @@
-import { DoubleSide, Mesh, LineSegments, LineBasicMaterial, MeshPhongMaterial, Object3D, Plane, Material, ObjectLoader, Color, FrontSide, Vector3, Box3 } from 'three';
+import {
+  DoubleSide,
+  Mesh,
+  LineSegments,
+  LineBasicMaterial,
+  MeshPhongMaterial,
+  Object3D,
+  Plane,
+  Material,
+  ObjectLoader,
+  Color,
+  FrontSide,
+  Vector3,
+  Box3,
+} from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { LoadingManager } from '../managers/loading-manager';
@@ -7,7 +21,6 @@ import { LoadingManager } from '../managers/loading-manager';
  * Manager for managing event display's import related functionality.
  */
 export class ImportManager {
-
   /** Planes for clipping geometry. */
   private clipPlanes: Plane[];
   /** Object group ID containing event data. */
@@ -23,7 +36,11 @@ export class ImportManager {
    * @param EVENT_DATA_ID Object group ID containing event data.
    * @param GEOMETRIES_ID Object group ID containing detector geometries.
    */
-  constructor(clipPlanes: Plane[], EVENT_DATA_ID: string, GEOMETRIES_ID: string) {
+  constructor(
+    clipPlanes: Plane[],
+    EVENT_DATA_ID: string,
+    GEOMETRIES_ID: string
+  ) {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
@@ -53,15 +70,26 @@ export class ImportManager {
     }
     const objLoader = new OBJLoader();
     return new Promise<void>((resolve, reject) => {
-      objLoader.load(filename, object => {
-        const processed = this.processOBJ(object, name, color, doubleSided, setFlat);
-        callback(processed);
-        resolve();
-        this.loadingManager.itemLoaded(`obj_geom_${name}`);
-      }, null, (error) => {
-        reject(error);
-        this.loadingManager.itemLoaded(`obj_geom_${name}`);
-      });
+      objLoader.load(
+        filename,
+        (object) => {
+          const processed = this.processOBJ(
+            object,
+            name,
+            color,
+            doubleSided,
+            setFlat
+          );
+          callback(processed);
+          resolve();
+          this.loadingManager.itemLoaded(`obj_geom_${name}`);
+        },
+        null,
+        (error) => {
+          reject(error);
+          this.loadingManager.itemLoaded(`obj_geom_${name}`);
+        }
+      );
     });
   }
 
@@ -106,7 +134,12 @@ export class ImportManager {
    * @param setFlat Whether object should be flat-shaded or not.
    * @returns The processed object.
    */
-  private setObjFlat(object3d: Object3D, color: any, doubleSided: boolean, setFlat: boolean): Object3D {
+  private setObjFlat(
+    object3d: Object3D,
+    color: any,
+    doubleSided: boolean,
+    setFlat: boolean
+  ): Object3D {
     const material2 = new MeshPhongMaterial({
       color: color,
       shininess: 0,
@@ -115,7 +148,7 @@ export class ImportManager {
       clipIntersection: true,
       clipShadows: false,
       side: doubleSided ? DoubleSide : FrontSide,
-      flatShading: setFlat
+      flatShading: setFlat,
     });
 
     object3d.traverse((child: Object3D) => {
@@ -156,16 +189,21 @@ export class ImportManager {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
     return new Promise<void>((resolve, reject) => {
-      loader.parse(sceneString, '', gltf => {
-        const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
-        const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
-        callback(eventData, geometries);
-        resolve();
-        this.loadingManager.itemLoaded(`parse_phnx_${name}`);
-      }, (error) => {
-        reject(error);
-        this.loadingManager.itemLoaded(`parse_phnx_${name}`);
-      });
+      loader.parse(
+        sceneString,
+        '',
+        (gltf) => {
+          const eventData = gltf.scene.getObjectByName(this.EVENT_DATA_ID);
+          const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
+          callback(eventData, geometries);
+          resolve();
+          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
+        },
+        (error) => {
+          reject(error);
+          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
+        }
+      );
     });
   }
 
@@ -177,20 +215,29 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(sceneUrl: string, name: string,
-    callback: (Geometry: Object3D) => any, scale?: number): Promise<unknown> {
+  public loadGLTFGeometry(
+    sceneUrl: string,
+    name: string,
+    callback: (Geometry: Object3D) => any,
+    scale?: number
+  ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
-      loader.load(sceneUrl, gltf => {
-        const geometry = gltf.scene;
-        this.processGeometry(geometry, name, scale);
-        callback(geometry);
-        resolve();
-        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
-      }, null, (error) => {
-        reject(error);
-        this.loadingManager.itemLoaded(`gltf_geom_${name}`);
-      });
+      loader.load(
+        sceneUrl,
+        (gltf) => {
+          const geometry = gltf.scene;
+          this.processGeometry(geometry, name, scale);
+          callback(geometry);
+          resolve();
+          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+        },
+        null,
+        (error) => {
+          reject(error);
+          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+        }
+      );
     });
   }
 
@@ -202,21 +249,27 @@ export class ImportManager {
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
-    geometry: string | ArrayBuffer, name: string,
+    geometry: string | ArrayBuffer,
+    name: string,
     callback: (scene: Object3D) => any
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
-      loader.parse(geometry, '', gltf => {
-        const geometry = gltf.scene;
-        this.processGeometry(geometry, name);
-        callback(geometry);
-        resolve();
-        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
-      }, (error) => {
-        reject(error);
-        this.loadingManager.itemLoaded(`parse_gltf_${name}`);
-      });
+      loader.parse(
+        geometry,
+        '',
+        (gltf) => {
+          const geometry = gltf.scene;
+          this.processGeometry(geometry, name);
+          callback(geometry);
+          resolve();
+          this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+        },
+        (error) => {
+          reject(error);
+          this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+        }
+      );
     });
   }
 
@@ -229,25 +282,34 @@ export class ImportManager {
    * @param doubleSided Renders both sides of the material.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(json: string | object, name: string,
+  public loadJSONGeometry(
+    json: string | object,
+    name: string,
     callback: (Geometry: Object3D) => any,
-    scale?: number, doubleSided?: boolean): Promise<unknown> {
+    scale?: number,
+    doubleSided?: boolean
+  ): Promise<unknown> {
     const loader = new ObjectLoader();
     if (typeof json === 'string') {
       return new Promise<void>((resolve, reject) => {
-        loader.load(json, (geometry: Object3D) => {
-          this.processGeometry(geometry, name, scale, doubleSided);
-          callback(geometry);
-          resolve();
-          this.loadingManager.itemLoaded(`json_geom_${name}`);
-        }, null, (error) => {
-          reject(error);
-          this.loadingManager.itemLoaded(`json_geom_${name}`);
-        });
+        loader.load(
+          json,
+          (geometry: Object3D) => {
+            this.processGeometry(geometry, name, scale, doubleSided);
+            callback(geometry);
+            resolve();
+            this.loadingManager.itemLoaded(`json_geom_${name}`);
+          },
+          null,
+          (error) => {
+            reject(error);
+            this.loadingManager.itemLoaded(`json_geom_${name}`);
+          }
+        );
       });
     } else if (typeof json === 'object') {
       return new Promise<void>((resolve, reject) => {
-        const geometry = loader.parse(json, object => {
+        const geometry = loader.parse(json, (object) => {
           resolve();
           this.loadingManager.itemLoaded(`json_geom_${name}`);
         });
@@ -264,7 +326,12 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    */
-  private processGeometry(geometry: Object3D, name: string, scale?: number, doubleSided?: boolean) {
+  private processGeometry(
+    geometry: Object3D,
+    name: string,
+    scale?: number,
+    doubleSided?: boolean
+  ) {
     geometry.name = name;
     // Set a custom scale if provided
     if (scale) {
@@ -275,7 +342,9 @@ export class ImportManager {
         child.name = child.userData.name = name;
         child.userData.size = this.getObjectSize(child);
         if (child.material instanceof Material) {
-          const color = child.material['color'] ? child.material['color'] : 0x2fd691;
+          const color = child.material['color']
+            ? child.material['color']
+            : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
           // Disposing of the default material
           child.material.dispose();
@@ -283,7 +352,7 @@ export class ImportManager {
           child.material = new MeshPhongMaterial({
             color: color,
             shininess: 0,
-            side: side
+            side: side,
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;

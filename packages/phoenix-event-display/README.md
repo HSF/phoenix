@@ -16,6 +16,8 @@ yarn add phoenix-event-display
 
 ## Usage
 
+### As a module
+
 To create a simple event display.
 
 ```js
@@ -45,6 +47,53 @@ fetch('path/to/event-data.json')
 // Load detector geometry
 eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /* color */);
 
+```
+
+### As a standalone bundle
+
+Phoenix can be bundled and used directly in the HTML as a script.
+
+To build Phoenix as a bundle.
+
+```sh
+npm run build:bundle
+# or
+yarn build:bundle
+```
+
+This will generate a file `phoenix-<version>.min.js` (e.g. `phoenix-1.3.0.min.js`) in the [./dist/bundle](./dist/bundle) directory which can be included in your HTML code.
+
+```html
+<html lang="en">
+  <head>
+    ...
+  </head>
+
+  <body>
+
+    <div id="eventDisplay"></div>
+
+    <script src="phoenix.min.js"></script>
+
+    <script>
+      // Create the event display
+      const eventDisplay = new Phoenix.EventDisplay();
+
+      // Define the configuration
+      const configuration = {
+        elementId: 'eventDisplay',
+        eventDataLoader: new Phoenix.PhoenixLoader() // or some other event data loader
+        // ... other configuration options
+      };
+
+      // Initialize the event display with the configuration
+      eventDisplay.init(configuration);
+
+      // ... other event display functions
+    </script>
+
+  </body>
+</html>
 ```
 
 ### Examples

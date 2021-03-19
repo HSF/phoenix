@@ -5,17 +5,17 @@ import { VRManager } from 'phoenix-event-display';
 @Component({
   selector: 'app-vr-toggle',
   templateUrl: './vr-toggle.component.html',
-  styleUrls: ['./vr-toggle.component.scss']
+  styleUrls: ['./vr-toggle.component.scss'],
 })
 export class VrToggleComponent {
-
   vrSupported: boolean = false;
   vrActive: boolean = false;
 
   constructor(private eventDisplay: EventDisplayService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
-      (navigator as any)?.xr?.isSessionSupported?.(VRManager.SESSION_TYPE)
+      (navigator as any)?.xr
+        ?.isSessionSupported?.(VRManager.SESSION_TYPE)
         .then((supported: boolean) => {
           if (supported) {
             this.vrSupported = true;

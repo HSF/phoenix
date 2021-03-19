@@ -4,13 +4,19 @@ module.exports = function (config) {
     frameworks: ['jasmine', 'karma-typescript'],
     files: [
       { pattern: 'src/**/*.ts' },
-      { pattern: 'src/assets/**/*', watched: false, included: false, served: true }
+      {
+        pattern: 'src/tests/files/**/*',
+        watched: false,
+        included: false,
+        served: true,
+      },
     ],
+    exclude: ['src/browser.ts'],
     proxies: {
-      '/assets/': '/base/src/assets/'
+      '/assets/': '/base/src/tests/files/',
     },
     preprocessors: {
-      '**/*.ts': ['karma-typescript']
+      '**/*.ts': ['karma-typescript'],
     },
     reporters: ['dots', 'karma-typescript'],
     browsers: ['ChromeHeadless'],
@@ -20,18 +26,21 @@ module.exports = function (config) {
       reports: {
         html: {
           directory: 'coverage',
-          subdirectory: 'phoenix-event-display'
-        }
+          subdirectory: '.',
+        },
+        lcovonly: {
+          directory: 'coverage',
+          subdirectory: '.',
+        },
       },
       compilerOptions: {
         module: 'commonjs',
-        esModuleInterop: true
+        esModuleInterop: true,
+        resolveJsonModule: true,
       },
       bundlerOptions: {
-        transforms: [
-          require('karma-typescript-es6-transform')()
-        ]
-      }
-    }
+        transforms: [require('karma-typescript-es6-transform')()],
+      },
+    },
   });
 };

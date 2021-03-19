@@ -4,14 +4,16 @@
   "scripts": {
     "start": "lerna run start",
     "test:coverage": "lerna run test:coverage",
-    "install:dependencies": "lerna bootstrap",
+    "install:dependencies": "lerna bootstrap --ignore phoenix-ui-components && lerna link",
     "release": "lerna publish --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
     "release:major": "lerna publish major --create-release github",
     "release:minor": "lerna publish minor --create-release github",
     "release:pre": "lerna publish prerelease --conventional-prerelease",
     "version": "lerna run docs --scope phoenix-event-display && git add .",
-    "deploy:web": "lerna run deploy:web --scope phoenix-ng"
+    "deploy:web": "lerna run deploy:web --scope phoenix-ng",
+    "prettier:check": "lerna run prettier:check",
+    "prettier:write": "lerna run prettier:write"
   },
   "devDependencies": {
     "lerna": "^3.22.1"

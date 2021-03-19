@@ -1,9 +1,6 @@
 // Event display
 export * from './event-display';
 
-// Event data loader
-export * from './event-data-loader';
-
 // Misc
 export * from './info-logger';
 
@@ -34,6 +31,7 @@ export * from './helpers/runge-kutta';
 export * from './helpers/pretty-symbols';
 
 // Loaders
+export * from './loaders/event-data-loader';
 export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
@@ -47,3 +45,4 @@ export * from './loaders/objects/phoenix-objects';
 // Managers
 export * from './managers/state-manager';
 export * from './managers/loading-manager';
+export * from './managers/url-options-manager';

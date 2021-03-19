@@ -1,8 +1,8 @@
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
-import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from "three";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
-import { Pass } from "three/examples/jsm/postprocessing/Pass";
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from 'three';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
+import { Pass } from 'three/examples/jsm/postprocessing/Pass';
 
 /**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.
@@ -68,7 +68,9 @@ export class EffectsManager {
    */
   public addOutlinePassForSelection(): OutlinePass {
     const outlinePass = new OutlinePass(
-      new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera
+      new Vector2(window.innerWidth, window.innerHeight),
+      this.scene,
+      this.camera
     );
     outlinePass.overlayMaterial.blending = NormalBlending;
     outlinePass.visibleEdgeColor.set(0xffff66);

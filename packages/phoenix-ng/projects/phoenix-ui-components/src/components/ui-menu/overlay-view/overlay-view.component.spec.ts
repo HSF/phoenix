@@ -12,9 +12,8 @@ describe('OverlayViewComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [Overlay],
-      declarations: [OverlayViewComponent]
-    })
-      .compileComponents();
+      declarations: [OverlayViewComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,10 +4,9 @@ import { EventDisplayService } from 'phoenix-ui-components';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements AfterViewInit {
-
   year: number;
 
   constructor(private eventDisplay: EventDisplayService) {
@@ -18,5 +17,4 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.eventDisplay.getUIManager().detectColorScheme();
   }
-
 }

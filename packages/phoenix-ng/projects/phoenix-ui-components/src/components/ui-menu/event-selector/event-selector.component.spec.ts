@@ -8,19 +8,22 @@ describe('EventSelectorComponent', () => {
   let component: EventSelectorComponent;
   let fixture: ComponentFixture<EventSelectorComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService',
-    ['listenToLoadedEventsChange', 'loadEvent']);
+  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
+    'listenToLoadedEventsChange',
+    'loadEvent',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplayService
-      }],
-      declarations: [EventSelectorComponent]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplayService,
+        },
+      ],
+      declarations: [EventSelectorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -35,12 +38,16 @@ describe('EventSelectorComponent', () => {
 
   it('should initialize to listen to loaded events change', () => {
     component.ngOnInit();
-    expect(mockEventDisplayService.listenToLoadedEventsChange).toHaveBeenCalled();
+    expect(
+      mockEventDisplayService.listenToLoadedEventsChange
+    ).toHaveBeenCalled();
   });
 
   it('should change event through event display', () => {
     const mockSelectEvent = { target: { value: 'TestEvent' } };
     component.changeEvent(mockSelectEvent);
-    expect(mockEventDisplayService.loadEvent).toHaveBeenCalledWith(mockSelectEvent.target.value);
+    expect(mockEventDisplayService.loadEvent).toHaveBeenCalledWith(
+      mockSelectEvent.target.value
+    );
   });
 });

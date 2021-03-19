@@ -1,10 +1,9 @@
-import { AnimationsManager } from "../../three/animations-manager";
-import { Scene, Camera, Object3D } from "three";
-import { RendererManager } from "../../three/renderer-manager";
-import { SceneManager } from "../../three/scene-manager";
+import { AnimationsManager } from '../../three/animations-manager';
+import { Scene, Camera, Object3D } from 'three';
+import { RendererManager } from '../../three/renderer-manager';
+import { SceneManager } from '../../three/scene-manager';
 
 describe('AnimationsManager', () => {
-
   let animationsManager: AnimationsManager;
   let scene: Scene;
   let camera: Camera;

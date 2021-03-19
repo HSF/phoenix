@@ -3,10 +3,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-config-slider',
   templateUrl: './config-slider.component.html',
-  styleUrls: ['./config-slider.component.scss']
+  styleUrls: ['./config-slider.component.scss'],
 })
 export class ConfigSliderComponent {
-
   @Input() value: number = 0;
   @Input() min: number = 0;
   @Input() max: number = 100;
@@ -19,5 +18,4 @@ export class ConfigSliderComponent {
       this.onChange.emit(value);
     }
   }
-
 }

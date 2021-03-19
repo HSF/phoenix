@@ -1,6 +1,6 @@
 {
   "name": "phoenix-event-display",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "API for web-based experiment independent event display.",
   "main": "dist/index",
   "types": "dist/index",
@@ -16,17 +16,21 @@
   ],
   "scripts": {
     "tsc": "tsc",
-    "start": "tsc --watch",
-    "build": "rm -rf ./dist && yarn tsc",
-    "build:es2015": "tsc --module es2015 --target es2015 --outDir dist/es2015",
-    "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
-    "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
-    "build:umd": "yarn build && rollup -c configs/rollup.conf.js",
-    "tsc-d": "tsc --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
+    "tsc:build": "tsc -p tsconfig.build.json",
+    "start": "yarn tsc:build --watch",
+    "build": "rm -rf ./dist && yarn tsc:build",
+    "build:es2015": "yarn tsc:build --module es2015 --target es2015 --outDir dist/es2015",
+    "build:esm": "yarn tsc:build --module es2015 --target es5 --outDir dist/esm",
+    "build:cjs": "yarn tsc:build --module commonjs --target es5 --outDir dist/cjs",
+    "build:bundle": "webpack -c configs/webpack.conf.js",
+    "tsc-d": "yarn tsc:build --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "yarn build",
     "docs": "node scripts/gen-api-docs.js",
     "test": "karma start configs/karma.conf.js",
-    "test:coverage": "yarn test"
+    "test:coverage": "yarn test",
+    "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
+    "prettier:check": "yarn prettier --check .",
+    "prettier:write": "yarn prettier --write ."
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
@@ -45,8 +49,11 @@
     "karma-jasmine": "^4.0.1",
     "karma-typescript": "^5.2.0",
     "karma-typescript-es6-transform": "^5.2.0",
-    "rollup": "^2.26.10",
+    "prettier": "2.2.1",
+    "ts-loader": "^8.0.17",
     "tslint": "~6.1.3",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
   }
 }

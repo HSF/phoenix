@@ -9,11 +9,13 @@ import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import { PrettySymbols } from '../helpers/pretty-symbols';
 import { Color } from 'three';
 import { StateManager } from '../managers/state-manager';
+import { loadFile, saveFile } from '../helpers/file';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
  */
 export class UIManager {
+  // Functions ending in PM are for Phoenix Menu
 
   /** Stats object from stats-js. */
   private stats: any;
@@ -25,18 +27,25 @@ export class UIManager {
     axis: undefined,
     lowRes: undefined,
     eventData: undefined,
-    geometries: undefined
+    geometries: undefined,
+    labels: undefined,
   };
   /** dat.GUI menu folder containing geometries data. */
   private geomFolder: any;
   /** dat.GUI menu folder containing event related data. */
   private eventFolder: any;
+  /** dat.GUI menu folder containing labels. */
+  private labelsFolder: any;
   /** Phoenix menu node containing geometries data */
   private geomFolderPM: PhoenixMenuNode;
-  /** Phoenix menu node containing event related data */
+  /** Phoenix menu node containing event related data. */
   private eventFolderPM: PhoenixMenuNode;
+  /** Phoenix menu node containing labels. */
+  private labelsFolderPM: PhoenixMenuNode;
   /** If the geometry folder is added or not */
   private geomFolderAdded: boolean = false;
+  /** If the labels folder is added or not */
+  private labelsFolderAdded: boolean = false;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
   /** Canvas in which event display is rendered. */
@@ -65,7 +74,7 @@ export class UIManager {
    * Constructor for the UI manager.
    * @param three Three manager to perform three.js related operations.
    */
-  constructor(private three: ThreeManager) { }
+  constructor(private three: ThreeManager) {}
 
   /**
    * Show/load the UI including stats, the dat.GUI menu and theme.
@@ -101,7 +110,8 @@ export class UIManager {
     this.stats = Stats();
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
-    this.stats.domElement.style.cssText = 'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10; bottom: 0px;';
+    this.stats.domElement.style.cssText =
+      'position: absolute; left: 0px; cursor: pointer; opacity: 0.9; z-index: 10; bottom: 0px;';
     let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;
@@ -124,7 +134,8 @@ export class UIManager {
     this.hasDatGUIMenu = true;
     this.gui = new dat.GUI();
     this.gui.domElement.id = 'gui';
-    this.gui.domElement.style.cssText = 'position: absolute; right: 0; top: 2rem; z-index: 11;';
+    this.gui.domElement.style.cssText =
+      'position: absolute; right: 0; top: 2rem; z-index: 11;';
     this.canvas = document.getElementById(elementId);
     if (this.canvas == null) {
       this.canvas = document.body;
@@ -132,6 +143,7 @@ export class UIManager {
     this.canvas.appendChild(this.gui.domElement);
     this.geomFolder = null;
     this.eventFolder = null;
+    this.labelsFolder = null;
   }
 
   /**
@@ -143,6 +155,7 @@ export class UIManager {
     this.hasPhoenixMenu = true;
     this.geomFolderPM = null;
     this.eventFolderPM = null;
+    this.labelsFolderPM = null;
   }
 
   /**
@@ -151,6 +164,8 @@ export class UIManager {
   public clearUI() {
     this.clearDatGUI();
     this.clearPhoenixMenu();
+    this.geomFolderAdded = false;
+    this.labelsFolderAdded = false;
   }
 
   /**
@@ -162,7 +177,6 @@ export class UIManager {
       gui.remove();
     }
     this.geomFolder = null;
-    this.geomFolderAdded = false;
     this.hasDatGUIMenu = false;
   }
 
@@ -176,28 +190,36 @@ export class UIManager {
     }
     this.geomFolderPM = null;
     this.eventFolderPM = null;
-    this.geomFolderAdded = false;
+    this.labelsFolderPM = null;
     this.hasPhoenixMenu = false;
   }
 
   /**
-   * Add geometry (detector geometry) folder to the dat.GUI menu.
+   * Add geometry (detector geometry) folder to the dat.GUI and Phoenix menu.
    */
   public addGeomFolder() {
     this.geomFolderAdded = true;
 
     if (this.hasDatGUIMenu) {
-      if (this.geomFolder == null) {
+      if (this.geomFolder === null) {
         this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
       }
       this.guiParameters.geometries = { show: true, wireframe: false };
       // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
-      const showGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'show').name('Show').listen();
+      const showGeometriesMenu = this.geomFolder
+        .add(this.guiParameters.geometries, 'show')
+        .name('Show')
+        .listen();
       showGeometriesMenu.onChange((value) => {
-        this.three.getSceneManager().objectVisibility(SceneManager.GEOMETRIES_ID, value);
+        this.three
+          .getSceneManager()
+          .objectVisibility(SceneManager.GEOMETRIES_ID, value);
       });
       // A boolean toggle for enabling/disabling the geometries' wireframing.
-      const wireframeGeometriesMenu = this.geomFolder.add(this.guiParameters.geometries, 'wireframe').name('Wireframe').listen();
+      const wireframeGeometriesMenu = this.geomFolder
+        .add(this.guiParameters.geometries, 'wireframe')
+        .name('Wireframe')
+        .listen();
       wireframeGeometriesMenu.onChange((value) => {
         this.three.getSceneManager().wireframeGeometries(value);
       });
@@ -205,32 +227,49 @@ export class UIManager {
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      if (this.geomFolderPM == null) {
-        this.geomFolderPM = this.phoenixMenu.addChild('Detector', (value: boolean) => {
-          this.three.getSceneManager().groupVisibility(SceneManager.GEOMETRIES_ID, value);
-        }, 'perspective');
+      if (this.geomFolderPM === null) {
+        this.geomFolderPM = this.phoenixMenu.addChild(
+          'Detector',
+          (value: boolean) => {
+            this.three
+              .getSceneManager()
+              .groupVisibility(SceneManager.GEOMETRIES_ID, value);
+          },
+          'perspective'
+        );
       }
-      this.geomFolderPM.addConfig('checkbox', {
-        label: 'Wireframe',
-        isChecked: false,
-        onChange: (value: boolean) => {
-          this.three.getSceneManager().wireframeGeometries(value);
-        }
-      }).addConfig('slider', {
-        label: 'Opacity',
-        min: 0, max: 1, step: 0.01,
-        allowCustomValue: true,
-        onChange: (value: number) => {
-          this.three.getSceneManager().setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
-        }
-      }).addConfig('slider', {
-        label: 'Scale',
-        min: 0, max: 20, step: 0.01,
-        allowCustomValue: true,
-        onChange: (scale: number) => {
-          this.three.getSceneManager().scaleObject(SceneManager.GEOMETRIES_ID, scale);
-        }
-      });
+      this.geomFolderPM
+        .addConfig('checkbox', {
+          label: 'Wireframe',
+          isChecked: false,
+          onChange: (value: boolean) => {
+            this.three.getSceneManager().wireframeGeometries(value);
+          },
+        })
+        .addConfig('slider', {
+          label: 'Opacity',
+          min: 0,
+          max: 1,
+          step: 0.01,
+          allowCustomValue: true,
+          onChange: (value: number) => {
+            this.three
+              .getSceneManager()
+              .setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
+          },
+        })
+        .addConfig('slider', {
+          label: 'Scale',
+          min: 0,
+          max: 20,
+          step: 0.01,
+          allowCustomValue: true,
+          onChange: (scale: number) => {
+            this.three
+              .getSceneManager()
+              .scaleObject(SceneManager.GEOMETRIES_ID, scale);
+          },
+        });
     }
   }
 
@@ -250,7 +289,12 @@ export class UIManager {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
-  public addGeometry(name: string, color: any, menuNodeName?: string, initiallyVisible: boolean = true) {
+  public addGeometry(
+    name: string,
+    color: any,
+    menuNodeName?: string,
+    initiallyVisible: boolean = true
+  ) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
@@ -258,33 +302,82 @@ export class UIManager {
     if (this.hasDatGUIMenu) {
       // A new folder for the object is added to the 'Geometry' folder
       this.guiParameters[name] = {
-        show: initiallyVisible, color, x: 0, y: 0, z: 0, detectorOpacity: 1.0, remove: this.removeOBJ(name), scale: 1
+        show: initiallyVisible,
+        color: color ?? '#000000',
+        x: 0,
+        y: 0,
+        z: 0,
+        detectorOpacity: 1.0,
+        remove: this.removeOBJ(name),
+        scale: 1,
       };
+
       const objFolder = this.geomFolder.addFolder(name);
       // A color picker is added to the object's folder
-      const colorMenu = objFolder.addColor(this.guiParameters[name], 'color').name('Color');
-      colorMenu.onChange((value) => this.three.getSceneManager().OBJGeometryColor(name, value));
+      const colorMenu = objFolder
+        .addColor(this.guiParameters[name], 'color')
+        .name('Color');
+      colorMenu.onChange((value) =>
+        this.three.getSceneManager().changeObjectColor(name, value)
+      );
 
-      const opacity = objFolder.add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0).name('Opacity');
-      opacity.onFinishChange((newValue) => this.three.getSceneManager().setGeometryOpacity(name, newValue));
-
+      const opacity = objFolder
+        .add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0)
+        .name('Opacity');
+      opacity.onFinishChange((newValue) =>
+        this.three.getSceneManager().setGeometryOpacity(name, newValue)
+      );
 
       // A boolean toggle for showing/hiding the object is added to its folder
-      const showMenu = objFolder.add(this.guiParameters[name], 'show').name('Show').listen();
-      showMenu.onChange((value) => this.three.getSceneManager().objectVisibility(name, value));
+      const showMenu = objFolder
+        .add(this.guiParameters[name], 'show')
+        .name('Show')
+        .listen();
+      showMenu.onChange((value) =>
+        this.three.getSceneManager().objectVisibility(name, value)
+      );
       // Scale slider
-      const scaleMenu = objFolder.add(this.guiParameters[name], 'scale', 0, 1000).name('Scale');
+      const scaleMenu = objFolder
+        .add(this.guiParameters[name], 'scale', 0, 1000)
+        .name('Scale');
       scaleMenu.onChange((value) => {
         this.three.getSceneManager().scaleObject(name, value);
       });
       // Controls for positioning.
       // const position = this.three.getObjectPosition(name);
-      objFolder.add(this.guiParameters[name], 'x', -this.maxPositionX, this.maxPositionX)
-        .name('X').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setX(value));
-      objFolder.add(this.guiParameters[name], 'y', -this.maxPositionY, this.maxPositionY)
-        .name('Y').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setY(value));
-      objFolder.add(this.guiParameters[name], 'z', -this.maxPositionZ, this.maxPositionZ)
-        .name('Z').onChange((value) => this.three.getSceneManager().getObjectPosition(name).setZ(value));
+      objFolder
+        .add(
+          this.guiParameters[name],
+          'x',
+          -this.maxPositionX,
+          this.maxPositionX
+        )
+        .name('X')
+        .onChange((value) =>
+          this.three.getSceneManager().getObjectPosition(name).setX(value)
+        );
+      objFolder
+        .add(
+          this.guiParameters[name],
+          'y',
+          -this.maxPositionY,
+          this.maxPositionY
+        )
+        .name('Y')
+        .onChange((value) =>
+          this.three.getSceneManager().getObjectPosition(name).setY(value)
+        );
+      objFolder
+        .add(
+          this.guiParameters[name],
+          'z',
+          -this.maxPositionZ,
+          this.maxPositionZ
+        )
+        .name('Z')
+        .onChange((value) =>
+          this.three.getSceneManager().getObjectPosition(name).setZ(value)
+        );
       // Controls for deleting the obj
       objFolder.add(this.guiParameters[name], 'remove').name('Remove');
     }
@@ -299,20 +392,24 @@ export class UIManager {
         this.three.getSceneManager().objectVisibility(name, value);
       });
       objFolderPM.toggleState = initiallyVisible;
-      objFolderPM.addConfig('color', {
-        label: 'Color',
-        color: color ? `#${new Color(color).getHexString()}` : undefined,
-        onChange: (value: any) => {
-          this.three.getSceneManager().OBJGeometryColor(name, value)
-        }
-      }).addConfig('slider', {
-        label: 'Opacity',
-        min: 0, max: 1, step: 0.05,
-        allowCustomValue: true,
-        onChange: (opacity: number) => {
-          this.three.getSceneManager().setGeometryOpacity(name, opacity);
-        }
-      });
+      objFolderPM
+        .addConfig('color', {
+          label: 'Color',
+          color: color ? `#${new Color(color).getHexString()}` : undefined,
+          onChange: (value: any) => {
+            this.three.getSceneManager().changeObjectColor(name, value);
+          },
+        })
+        .addConfig('slider', {
+          label: 'Opacity',
+          min: 0,
+          max: 1,
+          step: 0.05,
+          allowCustomValue: true,
+          onChange: (opacity: number) => {
+            this.three.getSceneManager().setGeometryOpacity(name, opacity);
+          },
+        });
     }
   }
 
@@ -335,35 +432,51 @@ export class UIManager {
    */
   public addEventDataFolder() {
     if (this.hasDatGUIMenu) {
-      // If there is already an event data folder it is deleted and creates a new one.
-      if (this.eventFolder != null) {
+      // If there is already an event data folder it is deleted and we create a new one.
+      if (this.eventFolder !== null) {
         this.gui.removeFolder(this.eventFolder);
       }
       // A new folder for the Event Data is added to the GUI.
       this.eventFolder = this.gui.addFolder('Event Data');
       this.guiParameters.eventData = { show: true, depthTest: true };
       // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
-      const menu = this.eventFolder.add(this.guiParameters.eventData, 'show').name('Show').listen();
-      menu.onChange((value) => this.three.getSceneManager().objectVisibility(SceneManager.EVENT_DATA_ID, value));
+      const menu = this.eventFolder
+        .add(this.guiParameters.eventData, 'show')
+        .name('Show')
+        .listen();
+      menu.onChange((value) =>
+        this.three
+          .getSceneManager()
+          .objectVisibility(SceneManager.EVENT_DATA_ID, value)
+      );
       // A boolean toggle for enabling/disabling depthTest of event data.
-      const depthTestMenu = this.eventFolder.add(this.guiParameters.eventData, 'depthTest').name('Depth Test').listen();
+      const depthTestMenu = this.eventFolder
+        .add(this.guiParameters.eventData, 'depthTest')
+        .name('Depth Test')
+        .listen();
       depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
     }
 
     if (this.hasPhoenixMenu) {
       // Phoenix menu
-      if (this.eventFolderPM != null) {
+      if (this.eventFolderPM !== null) {
         this.eventFolderPM.remove();
       }
-      this.eventFolderPM = this.phoenixMenu.addChild('Event Data', (value: boolean) => {
-        this.three.getSceneManager().groupVisibility(SceneManager.EVENT_DATA_ID, value);
-      }, 'event-folder');
+      this.eventFolderPM = this.phoenixMenu.addChild(
+        'Event Data',
+        (value: boolean) => {
+          this.three
+            .getSceneManager()
+            .groupVisibility(SceneManager.EVENT_DATA_ID, value);
+        },
+        'event-folder'
+      );
       this.eventFolderPM.addConfig('checkbox', {
         label: 'Depth Test',
         isChecked: true,
         onChange: (value: boolean) => {
           this.three.eventDataDepthTest(value);
-        }
+        },
       });
     }
   }
@@ -385,8 +498,13 @@ export class UIManager {
     if (this.hasDatGUIMenu) {
       const typeFolder = this.eventFolder.addFolder(typeName);
       this.guiParameters.eventData[typeName] = true;
-      const menu = typeFolder.add(this.guiParameters.eventData, typeName).name('Show').listen();
-      menu.onChange((value) => this.three.getSceneManager().objectVisibility(typeName, value));
+      const menu = typeFolder
+        .add(this.guiParameters.eventData, typeName)
+        .name('Show')
+        .listen();
+      menu.onChange((value) =>
+        this.three.getSceneManager().objectVisibility(typeName, value)
+      );
 
       return typeFolder;
     }
@@ -402,9 +520,12 @@ export class UIManager {
   public addEventDataTypeFolderPM(typeName: string): PhoenixMenuNode {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      const typeFolderPM = this.eventFolderPM.addChild(typeName, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(typeName, value);
-      });
+      const typeFolderPM = this.eventFolderPM.addChild(
+        typeName,
+        (value: boolean) => {
+          this.three.getSceneManager().objectVisibility(typeName, value);
+        }
+      );
 
       return typeFolderPM;
     }
@@ -418,34 +539,57 @@ export class UIManager {
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
-  public addCollection(typeFolder: any, collectionName: string,
-    cuts?: Cut[], collectionColor?: Color) {
+  public addCollection(
+    typeFolder: any,
+    collectionName: string,
+    cuts?: Cut[],
+    collectionColor?: Color
+  ) {
     if (typeFolder && this.hasDatGUIMenu) {
       // A new folder for the collection is added to the 'Event Data' folder
       this.guiParameters[collectionName] = {
-        show: true, color: 0x000000,
-        resetCut: () => this.three.getSceneManager()
-          .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID)
+        show: true,
+        color: 0x000000,
+        resetCut: () =>
+          this.three
+            .getSceneManager()
+            .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
       };
       const collFolder = typeFolder.addFolder(collectionName);
       // A boolean toggle for showing/hiding the collection is added to its folder
-      const showMenu = collFolder.add(this.guiParameters[collectionName], 'show').name('Show').listen();
-      showMenu.onChange((value) => this.three.getSceneManager()
-        .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID));
+      const showMenu = collFolder
+        .add(this.guiParameters[collectionName], 'show')
+        .name('Show')
+        .listen();
+      showMenu.onChange((value) =>
+        this.three
+          .getSceneManager()
+          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
+      );
       // A color picker is added to the collection's folder
-      const colorMenu = collFolder.addColor(this.guiParameters[collectionName], 'color').name('Color');
-      colorMenu.onChange((value) => this.three.getSceneManager().collectionColor(collectionName, value));
+      const colorMenu = collFolder
+        .addColor(this.guiParameters[collectionName], 'color')
+        .name('Color');
+      colorMenu.onChange((value) =>
+        this.three.getSceneManager().collectionColor(collectionName, value)
+      );
       colorMenu.setValue(collectionColor?.getHex());
       // Cuts menu
       if (cuts) {
         const cutsFolder = collFolder.addFolder('Cuts');
-        cutsFolder.add(this.guiParameters[collectionName], 'resetCut').name('Reset cuts');
+        cutsFolder
+          .add(this.guiParameters[collectionName], 'resetCut')
+          .name('Reset cuts');
         for (const cut of cuts) {
-          const minCut = cutsFolder.add(cut, 'minValue', cut.minValue, cut.maxValue).name('min ' + cut.field);
+          const minCut = cutsFolder
+            .add(cut, 'minValue', cut.minValue, cut.maxValue)
+            .name('min ' + cut.field);
           minCut.onChange((value) => {
             this.three.getSceneManager().collectionFilter(collectionName, cuts);
           });
-          const maxCut = cutsFolder.add(cut, 'maxValue', cut.minValue, cut.maxValue).name('max ' + cut.field);
+          const maxCut = cutsFolder
+            .add(cut, 'maxValue', cut.minValue, cut.maxValue)
+            .name('max ' + cut.field);
           maxCut.onChange((value) => {
             this.three.getSceneManager().collectionFilter(collectionName, cuts);
           });
@@ -461,52 +605,270 @@ export class UIManager {
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor Default color of the collection.
    */
-  public addCollectionPM(typeFolderPM: PhoenixMenuNode, collectionName: string,
-    cuts?: Cut[], collectionColor?: Color) {
+  public addCollectionPM(
+    typeFolderPM: PhoenixMenuNode,
+    collectionName: string,
+    cuts?: Cut[],
+    collectionColor?: Color
+  ) {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      const collectionNode = typeFolderPM.addChild(collectionName, (value: boolean) => {
-        this.three.getSceneManager()
-          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID);
-      });
+      const collectionNode = typeFolderPM.addChild(
+        collectionName,
+        (value: boolean) => {
+          this.three
+            .getSceneManager()
+            .objectVisibility(
+              collectionName,
+              value,
+              SceneManager.EVENT_DATA_ID
+            );
+        }
+      );
 
       collectionNode.addConfig('color', {
         label: 'Color',
-        color: collectionColor ? `#${collectionColor?.getHexString()}` : undefined,
+        color: collectionColor
+          ? `#${collectionColor?.getHexString()}`
+          : undefined,
         onChange: (value: any) => {
-          this.three.getSceneManager().collectionColor(collectionName, value)
-        }
+          this.three.getSceneManager().collectionColor(collectionName, value);
+        },
       });
 
       if (cuts) {
-        collectionNode.addConfig('label', {
-          label: 'Cuts'
-        }).addConfig('button', {
-          label: 'Reset cuts',
-          onClick: () => {
-            this.three.getSceneManager()
-              .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID);
+        collectionNode
+          .addConfig('label', {
+            label: 'Cuts',
+          })
+          .addConfig('button', {
+            label: 'Reset cuts',
+            onClick: () => {
+              this.three
+                .getSceneManager()
+                .groupVisibility(
+                  collectionName,
+                  true,
+                  SceneManager.EVENT_DATA_ID
+                );
 
-            for (const cut of cuts) {
-              cut.reset();
-            }
-          }
-        });
+              for (const cut of cuts) {
+                cut.reset();
+              }
+            },
+          });
 
         // Add range sliders for cuts
         for (const cut of cuts) {
           collectionNode.addConfig('rangeSlider', {
             label: PrettySymbols.getPrettySymbol(cut.field),
-            min: cut.minValue, max: cut.maxValue, step: cut.step,
-            value: cut.minValue, highValue: cut.maxValue,
+            min: cut.minValue,
+            max: cut.maxValue,
+            step: cut.step,
+            value: cut.minValue,
+            highValue: cut.maxValue,
             onChange: (values: any) => {
               cut.minValue = values?.value;
               cut.maxValue = values?.highValue;
-              this.three.getSceneManager().collectionFilter(collectionName, cuts);
-            }
+              this.three
+                .getSceneManager()
+                .collectionFilter(collectionName, cuts);
+            },
           });
         }
       }
+    }
+  }
+
+  /**
+   * Add labels folder to dat.GUI and Phoenix menu.
+   */
+  public addLabelsFolder() {
+    this.labelsFolderAdded = true;
+
+    // Common functions for Phoenix and dat.GUI menus
+    const onToggle = (toggleValue: boolean) => {
+      this.three
+        .getSceneManager()
+        .objectVisibility(SceneManager.LABELS_ID, toggleValue);
+    };
+    const onSizeChange = (scale: number) => {
+      const labels = this.three
+        .getSceneManager()
+        .getObjectsGroup(SceneManager.LABELS_ID);
+      labels.children.forEach((singleLabel) => {
+        this.three.getSceneManager().scaleObject(singleLabel.name, scale);
+      });
+    };
+    const onColorChange = (value: any) => {
+      const labels = this.three
+        .getSceneManager()
+        .getObjectsGroup(SceneManager.LABELS_ID);
+      labels.children.forEach((singleLabel) => {
+        this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
+      });
+    };
+    const onSaveLabels = () => {
+      const labelsObject = this.configuration?.eventDataLoader?.getLabelsObject();
+      if (labelsObject) {
+        saveFile(JSON.stringify(labelsObject), 'phoenix-labels.json');
+      }
+    };
+    const onLoadLabels = () => {
+      this.loadLabelsFile();
+    };
+
+    if (this.hasDatGUIMenu && this.labelsFolder === null) {
+      this.labelsFolder = this.gui.addFolder(SceneManager.LABELS_ID);
+
+      this.guiParameters.labels = {
+        show: true,
+        size: 1,
+        color: '#a8a8a8',
+        saveLabels: onSaveLabels,
+        loadLabels: onLoadLabels,
+      };
+
+      const showMenu = this.labelsFolder
+        .add(this.guiParameters.labels, 'show')
+        .name('Show')
+        .listen();
+      showMenu.onChange(onToggle);
+
+      const labelsSizeMenu = this.labelsFolder
+        .add(this.guiParameters.labels, 'size', 0, 10)
+        .name('Size');
+      labelsSizeMenu.onFinishChange(onSizeChange);
+
+      const colorMenu = this.labelsFolder
+        .addColor(this.guiParameters.labels, 'color')
+        .name('Color');
+      colorMenu.onChange(onColorChange);
+
+      this.labelsFolder
+        .add(this.guiParameters.labels, 'saveLabels')
+        .name('Save Labels');
+      this.labelsFolder
+        .add(this.guiParameters.labels, 'loadLabels')
+        .name('Load Labels');
+    }
+
+    if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
+      this.labelsFolderPM = this.phoenixMenu.addChild(
+        SceneManager.LABELS_ID,
+        onToggle,
+        'info'
+      );
+
+      this.labelsFolderPM.addConfig('slider', {
+        label: 'Size',
+        min: 0,
+        max: 10,
+        step: 0.01,
+        allowCustomValue: true,
+        onChange: onSizeChange,
+      });
+
+      this.labelsFolderPM.addConfig('color', {
+        label: 'Color',
+        color: '#a8a8a8',
+        onChange: onColorChange,
+      });
+
+      this.labelsFolderPM.addConfig('button', {
+        label: 'Save Labels',
+        onClick: onSaveLabels,
+      });
+
+      this.labelsFolderPM.addConfig('button', {
+        label: 'Load Labels',
+        onClick: onLoadLabels,
+      });
+    }
+  }
+
+  /**
+   * Add configuration UI for label.
+   * @param labelId Unique ID of the label.
+   */
+  public addLabel(labelId: string) {
+    if (!this.labelsFolderAdded) {
+      this.addLabelsFolder();
+    }
+
+    if (this.hasDatGUIMenu) {
+      this.guiParameters[labelId] = {
+        show: true,
+        color: 0xafafaf,
+      };
+
+      const labelItem = this.labelsFolder.addFolder(labelId);
+
+      const visibilityToggle = labelItem
+        .add(this.guiParameters[labelId], 'show')
+        .name('Show')
+        .listen();
+      visibilityToggle.onChange((value) => {
+        this.three
+          .getSceneManager()
+          .objectVisibility(labelId, value, SceneManager.LABELS_ID);
+      });
+
+      const colorMenu = labelItem
+        .addColor(this.guiParameters[labelId], 'color')
+        .name('Çolor');
+      colorMenu.onChange((color) =>
+        this.three.getSceneManager().changeObjectColor(labelId, color)
+      );
+    }
+
+    if (this.hasPhoenixMenu) {
+      let labelNode = this.labelsFolderPM.children.find(
+        (phoenixMenuNode) => phoenixMenuNode.name === labelId
+      );
+      if (!labelNode) {
+        labelNode = this.labelsFolderPM.addChild(labelId, (value) => {
+          this.three.getSceneManager().objectVisibility(labelId, value);
+        });
+
+        labelNode.addConfig('color', {
+          label: 'Color',
+          color: '#a8a8a8',
+          onChange: (value: any) => {
+            this.three.getSceneManager().changeObjectColor(labelId, value);
+          },
+        });
+
+        labelNode.addConfig('button', {
+          label: 'Remove',
+          onClick: () => {
+            this.removeLabel(labelId, labelNode);
+          },
+        });
+      }
+    }
+  }
+
+  /**
+   * Remove label from UI, scene and event data loader if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelNode Phoenix menu node of the label if any.
+   */
+  public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
+    if (!labelNode) {
+      labelNode = this.labelsFolderPM?.children.find(
+        (singleLabelNode) => singleLabelNode.name === labelId
+      );
+    }
+
+    if (labelNode) {
+      this.three.getSceneManager().removeLabel(labelId);
+      const objectKeys = labelId.split(' > ');
+      // labelsObject[EventDataType][Collection][Index]
+      const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
+      delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
+
+      labelNode.remove();
     }
   }
 
@@ -532,7 +894,7 @@ export class UIManager {
    * Detect the current theme and set it.
    */
   public detectColorScheme() {
-    let dark = false;    // default to light
+    let dark = false; // default to light
 
     // local storage is used to override OS theme settings
     if (localStorage.getItem('theme')) {
@@ -589,7 +951,7 @@ export class UIManager {
    * @param show If the axis is to be shown or not.
    */
   public setShowAxis(show: boolean) {
-    this.three.getSceneManager().setAxis(show)
+    this.three.getSceneManager().setAxis(show);
   }
 
   /**
@@ -640,8 +1002,12 @@ export class UIManager {
    * Enable keyboard controls for some UI manager operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.shiftKey) {
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      const isTyping = ['input', 'textarea'].includes(
+        (e.target as HTMLElement)?.tagName.toLowerCase()
+      );
+
+      if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyT': // shift + "t"
             this.setDarkTheme(!this.getDarkTheme());
@@ -659,5 +1025,36 @@ export class UIManager {
         }
       }
     });
+  }
+
+  /**
+   * Load labels from a file.
+   */
+  private loadLabelsFile() {
+    const eventDataLoader = this.configuration?.eventDataLoader;
+    const labelsObject = eventDataLoader?.getLabelsObject();
+    if (eventDataLoader && labelsObject) {
+      loadFile((data) => {
+        const labelsObject = JSON.parse(data);
+        for (const eventDataType of Object.keys(labelsObject)) {
+          for (const collection of Object.keys(labelsObject[eventDataType])) {
+            const collectionObject = eventDataLoader.getCollection(collection);
+            for (const labelIndex of Object.keys(
+              labelsObject[eventDataType][collection]
+            )) {
+              const label = labelsObject[eventDataType][collection][labelIndex];
+              const objectUuid = collectionObject[labelIndex].uuid;
+              const labelId = eventDataLoader.addLabelToEventObject(
+                label,
+                collection,
+                Number(labelIndex)
+              );
+              this.addLabel(labelId);
+              this.three.addLabelToObject(label, objectUuid, labelId);
+            }
+          }
+        }
+      });
+    }
   }
 }

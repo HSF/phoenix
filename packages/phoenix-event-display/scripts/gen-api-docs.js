@@ -3,7 +3,9 @@ const { exec } = require('child_process');
 const path = require('path');
 
 if (!fs.existsSync('package.json')) {
-  console.log('Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.');
+  console.log(
+    'Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.'
+  );
   process.exit(1);
 }
 
@@ -13,7 +15,10 @@ if (!fs.existsSync('package.json')) {
 const DOCS_NAME = 'Phoenix API Docs';
 
 // Run from project directory containing package.json
-const COMPODOC_GEN = 'compodoc -p configs/compodoc.conf.json -n \"' + DOCS_NAME + '\" -d ../../docs/api-docs';
+const COMPODOC_GEN =
+  'compodoc -p configs/compodoc.conf.json -n "' +
+  DOCS_NAME +
+  '" -d ../../docs/api-docs';
 
 console.log('Running command: %s', COMPODOC_GEN);
 
@@ -68,7 +73,10 @@ function replaceInFile(filePath, toReplace, replaceWith) {
   fs.readFile(filePath, 'utf-8', (err, fileData) => {
     if (err) console.log('Error reading file %s', filePath);
     else {
-      const replaceData = fileData.replace(new RegExp(toReplace, 'g'), replaceWith);
+      const replaceData = fileData.replace(
+        new RegExp(toReplace, 'g'),
+        replaceWith
+      );
       fs.writeFile(filePath, replaceData, 'utf-8', (err) => {
         if (err) console.log('Could not write to file ' + filePath);
         else {

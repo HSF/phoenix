@@ -86,6 +86,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#addLabelToEventObject">addLabelToEventObject</a>
+                                </li>
+                                <li>
                                     <a href="#buildEventData">buildEventData</a>
                                 </li>
                                 <li>
@@ -100,6 +103,9 @@
                                 <li>
                                     <a href="#getEventsList">getEventsList</a>
                                 </li>
+                                <li>
+                                    <a href="#getLabelsObject">getLabelsObject</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -112,6 +118,116 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addLabelToEventObject"></a>
+                    <span class="name">
+                        <b>
+                            addLabelToEventObject
+                        </b>
+                        <a href="#addLabelToEventObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addLabelToEventObject(label: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, collection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, indexInCollection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">src/event-data-loader.ts:53</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add label of event object to the labels object.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>label</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Label to add to the event object.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collection</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Collection the event object is a part of.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>indexInCollection</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Event object&#39;s index in collection.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A unique label ID string.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -488,6 +604,53 @@ the different objects to the graphic library and the UI controls.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLabelsObject"></a>
+                    <span class="name">
+                        <b>
+                            getLabelsObject
+                        </b>
+                        <a href="#getLabelsObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLabelsObject()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/event-data-loader.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the object containing labels.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The labels object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -538,6 +701,21 @@ export interface EventDataLoader {
    * @returns Metadata of the displayed event.
    */
   getEventMetadata(): any[];
+
+  /**
+   * Add label of event object to the labels object.
+   * @param label Label to add to the event object.
+   * @param collection Collection the event object is a part of.
+   * @param indexInCollection Event object&#x27;s index in collection.
+   * @returns A unique label ID string.
+   */
+  addLabelToEventObject(label: string, collection: string, indexInCollection: number): string;
+
+  /**
+   * Get the object containing labels.
+   * @returns The labels object.
+   */
+  getLabelsObject(): object;
 
 }
 </code></pre>

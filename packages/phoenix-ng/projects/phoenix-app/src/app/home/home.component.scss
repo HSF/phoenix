@@ -1,5 +1,5 @@
 h1 {
-  font-family: "Circular";
+  font-family: 'Circular';
 }
 
 .logo {
@@ -32,7 +32,7 @@ h1 {
     width: 100%;
     height: 10em;
     object-fit: contain;
-    border-radius:10px;
+    border-radius: 10px;
   }
 
   .card-body {
@@ -42,9 +42,6 @@ h1 {
     }
   }
 }
-
-
-
 
 .lead {
   color: var(--phoenix-text-color-secondary);
@@ -67,6 +64,3 @@ footer {
     }
   }
 }
-
-
-

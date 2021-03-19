@@ -1,5 +1,15 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Camera, PerspectiveCamera, OrthographicCamera, Object3D, Vector3, Group, Scene, Mesh, TubeBufferGeometry } from 'three';
+import {
+  Camera,
+  PerspectiveCamera,
+  OrthographicCamera,
+  Object3D,
+  Vector3,
+  Group,
+  Scene,
+  Mesh,
+  TubeBufferGeometry,
+} from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 
@@ -20,13 +30,16 @@ export class ControlsManager {
   /** Orbit controls for the orthographic view. */
   private orthographicControls: OrbitControls;
   /** Pairs of camera and their animation for zoom controls. */
-  private zoomCameraAnimPairs: { camera: Camera, anim: any }[];
+  private zoomCameraAnimPairs: { camera: Camera; anim: any }[];
 
   /**
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
    */
-  constructor(rendererManager: RendererManager, defaultView: number[] = [0, 0, 200]) {
+  constructor(
+    rendererManager: RendererManager,
+    defaultView: number[] = [0, 0, 200]
+  ) {
     this.controls = [];
     this.mainControls = null;
     this.overlayControls = null;
@@ -39,10 +52,10 @@ export class ControlsManager {
     );
     // Arguments: left, right, top, bottom, near and far distances
     const orthographicCamera = new OrthographicCamera(
-      (window.innerWidth / - 2),
-      (window.innerWidth / 2),
-      (window.innerHeight / 2),
-      (window.innerHeight / - 2),
+      window.innerWidth / -2,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      window.innerHeight / -2,
       10,
       100000
     );
@@ -55,9 +68,12 @@ export class ControlsManager {
       orthographicCamera,
       rendererManager.getMainRenderer().domElement
     );
-    perspectiveCamera.position.z = orthographicCamera.position.z = defaultView[2];
-    perspectiveCamera.position.y = orthographicCamera.position.y = defaultView[1];
-    perspectiveCamera.position.x = orthographicCamera.position.x = defaultView[0];
+    perspectiveCamera.position.z = orthographicCamera.position.z =
+      defaultView[2];
+    perspectiveCamera.position.y = orthographicCamera.position.y =
+      defaultView[1];
+    perspectiveCamera.position.x = orthographicCamera.position.x =
+      defaultView[0];
     // Set active orbit controls
     this.addControls(this.perspectiveControls);
     this.addControls(this.orthographicControls);
@@ -65,12 +81,10 @@ export class ControlsManager {
     this.setMainControls(this.perspectiveControls);
     this.setOverlayControls(this.orthographicControls);
     // Add listener
-    this.getActiveControls().addEventListener(
-      'change', () => {
-        this.transformSync();
-        this.updateSync();
-      }
-    );
+    this.getActiveControls().addEventListener('change', () => {
+      this.transformSync();
+      this.updateSync();
+    });
     // Initialize the zoom controls
     this.initializeZoomControls();
   }
@@ -167,7 +181,6 @@ export class ControlsManager {
     return [this.getMainCamera(), this.getOverlayCamera()];
   }
 
-
   // FUNCTIONS
 
   /**
@@ -175,7 +188,9 @@ export class ControlsManager {
    * @param controls Orbit controls to be added.
    */
   public addControls(controls: OrbitControls): void {
-    if (!this.containsObject(controls, this.controls)) { this.controls.push(controls); }
+    if (!this.containsObject(controls, this.controls)) {
+      this.controls.push(controls);
+    }
   }
 
   /**
@@ -204,7 +219,9 @@ export class ControlsManager {
    */
   public updateSync(): void {
     for (const control of this.controls) {
-      if (control === this.activeControls) { continue; }
+      if (control === this.activeControls) {
+        continue;
+      }
       this.update(control);
     }
   }
@@ -222,7 +239,9 @@ export class ControlsManager {
    */
   public transformSync(): void {
     for (const control of this.controls) {
-      if (control === this.activeControls) { continue; }
+      if (control === this.activeControls) {
+        continue;
+      }
       this.positionSync(control);
       this.rotationSync(control);
     }
@@ -239,9 +258,12 @@ export class ControlsManager {
       const camera: any = zoomCameraAnimPair.camera;
       const anim = zoomCameraAnimPair.anim;
       if (camera.isOrthographicCamera) {
-        anim.to({
-          zoom: camera.zoom * (1 / zoomFactor)
-        }, zoomTime);
+        anim.to(
+          {
+            zoom: camera.zoom * (1 / zoomFactor),
+          },
+          zoomTime
+        );
         camera.updateProjectionMatrix();
       } else {
         const cameraPosition = camera.position;
@@ -249,7 +271,7 @@ export class ControlsManager {
           {
             x: cameraPosition.x * zoomFactor,
             y: cameraPosition.y * zoomFactor,
-            z: cameraPosition.z * zoomFactor
+            z: cameraPosition.z * zoomFactor,
           },
           zoomTime
         );
@@ -266,46 +288,70 @@ export class ControlsManager {
    */
   public lookAtObject(uuid: string, objectsGroup: Object3D) {
     const origin = new Vector3(0, 0, 0);
-    objectsGroup.traverse((object: any) => {
-      if (object.uuid === uuid) {
-        let objectPosition = new Vector3();
-        if (object instanceof Group) {
-          // If it is a group of other event data we traverse through it
-          object.traverse((childObject: any) => {
-            // Make sure the child is not a group (e.g Track is a group)
-            if (childObject.children.length === 0) {
-              if (childObject.position.equals(origin)) {
-                // Get the max vector from the bounding box to accumulate with the clusters
-                if (childObject.geometry?.boundingSphere) {
-                  objectPosition.add(
-                    childObject.geometry.boundingSphere.getBoundingBox().max
-                  );
-                }
-              } else {
-                objectPosition.add(childObject.position);
-              }
-            }
-          });
-        } else if (object.position.equals(origin)) {
-          // Get the center of bounding sphere of objects with no position
-          objectPosition = object.geometry?.boundingSphere?.center;
-        } else {
-          // Get the object position for all other elements
-          objectPosition = object.position;
-        }
-        // Check if the object is away from the origin
-        if (objectPosition.distanceTo(origin) > 0.001) {
-          for (const camera of this.getAllCameras()) {
-            // Moving the camera to the object's position and then zooming out
-            new TWEEN.Tween(camera.position).to({
-              x: objectPosition.x * 1.1,
-              y: objectPosition.y * 1.1,
-              z: objectPosition.z * 1.1
-            }, 200).start();
-          }
+
+    const objectPosition = this.getObjectPosition(uuid, objectsGroup);
+    if (objectPosition) {
+      // Check if the object is away from the origin
+      if (objectPosition.distanceTo(origin) > 0.001) {
+        for (const camera of this.getAllCameras()) {
+          // Moving the camera to the object's position and then zooming out
+          new TWEEN.Tween(camera.position)
+            .to(
+              {
+                x: objectPosition.x * 1.1,
+                y: objectPosition.y * 1.1,
+                z: objectPosition.z * 1.1,
+              },
+              200
+            )
+            .start();
         }
       }
-    });
+    }
+  }
+
+  /**
+   * Get position of object from UUID.
+   * @param uuid UUID of the object.
+   * @param objectsGroup Objects group to look into for the object.
+   * @returns Position of the 3D object.
+   */
+  public getObjectPosition(uuid: string, objectsGroup: Object3D): Vector3 {
+    const object = objectsGroup.getObjectByProperty('uuid', uuid) as any;
+
+    if (object) {
+      const origin = new Vector3(0, 0, 0);
+      let objectPosition = new Vector3();
+
+      if (object instanceof Group) {
+        // If it is a group of other event data we traverse through it
+        object.traverse((childObject: any) => {
+          // Make sure the child is not a group (e.g Track is a group)
+          if (childObject.children.length === 0) {
+            if (childObject.position.equals(origin)) {
+              // Get the max vector from the bounding box to accumulate with the clusters
+              if (childObject.geometry?.boundingSphere) {
+                objectPosition.add(
+                  childObject.geometry.boundingSphere.getBoundingBox().max
+                );
+              }
+            } else {
+              objectPosition.add(childObject.position);
+            }
+          }
+        });
+      } else if (object.position.equals(origin)) {
+        // Get the center of bounding sphere of objects with no position
+        objectPosition = object.geometry?.boundingSphere?.center;
+      } else {
+        // Get the object position for all other elements
+        objectPosition = object.position;
+      }
+
+      return objectPosition;
+    } else {
+      return undefined;
+    }
   }
 
   /**
@@ -318,18 +364,25 @@ export class ControlsManager {
     let tracksHidden = false;
     const origin = new Vector3();
     this.activeControls.addEventListener('change', (event) => {
-      const isCameraClose = (event?.target?.object?.position as Vector3)
-        .distanceTo(origin) < minRadius;
+      const isCameraClose =
+        (event?.target?.object?.position as Vector3).distanceTo(origin) <
+        minRadius;
       if (isCameraClose && !tracksHidden) {
-        scene.getObjectByName('Tracks')?.traverse(track => {
-          if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
+        scene.getObjectByName('Tracks')?.traverse((track) => {
+          if (
+            track.name === 'Track' &&
+            (track as Mesh).geometry instanceof TubeBufferGeometry
+          ) {
             track.visible = false;
           }
         });
         tracksHidden = true;
       } else if (!isCameraClose && tracksHidden) {
-        scene.getObjectByName('Tracks')?.traverse(track => {
-          if (track.name === 'Track' && (track as Mesh).geometry instanceof TubeBufferGeometry) {
+        scene.getObjectByName('Tracks')?.traverse((track) => {
+          if (
+            track.name === 'Track' &&
+            (track as Mesh).geometry instanceof TubeBufferGeometry
+          ) {
             track.visible = true;
           }
         });
@@ -350,7 +403,7 @@ export class ControlsManager {
         : new TWEEN.Tween(camera.position);
       this.zoomCameraAnimPairs.push({
         camera: camera,
-        anim: animation
+        anim: animation,
       });
     }
   }
@@ -363,7 +416,8 @@ export class ControlsManager {
     controls.object.position.set(
       this.activeControls.object.position.x,
       this.activeControls.object.position.y,
-      this.activeControls.object.position.z);
+      this.activeControls.object.position.z
+    );
     // controls.update();
   }
 

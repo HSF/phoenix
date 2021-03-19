@@ -1,6 +1,7 @@
-import { EventDisplay } from "../event-display";
-import { Camera } from "three";
-import { PhoenixMenuNode } from "../ui/phoenix-menu/phoenix-menu-node";
+import { EventDisplay } from '../event-display';
+import { Camera } from 'three';
+import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { loadFile, saveFile } from '../helpers/file';
 
 /**
  * A singleton manager for managing the scene's state.
@@ -47,17 +48,21 @@ export class StateManager {
 
     if (this.phoenixMenuRoot) {
       // Add save and load config buttons to the root node
-      this.phoenixMenuRoot.addConfig('button', {
-        label: 'Save state',
-        onClick: () => {
-          this.saveStateAsJSON();
-        }
-      }).addConfig('button', {
-        label: 'Load state',
-        onClick: () => {
-          this.loadStateFromFile();
-        }
-      });
+      this.phoenixMenuRoot
+        .addConfig('button', {
+          label: 'Save state',
+          onClick: () => {
+            this.saveStateAsJSON();
+          },
+        })
+        .addConfig('button', {
+          label: 'Load state',
+          onClick: () => {
+            loadFile((data) => {
+              this.loadStateFromJSON(JSON.parse(data));
+            });
+          },
+        });
     }
   }
 
@@ -69,45 +74,11 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled ? this.clippingAngle : null
-      }
+        clippingAngle: this.clippingEnabled ? this.clippingAngle : null,
+      },
     };
 
-    const blob = new Blob([JSON.stringify(state)], {
-      type: 'application/json'
-    });
-    const tempAnchor = document.createElement('a');
-    tempAnchor.href = URL.createObjectURL(blob);
-    tempAnchor.download = 'phoenix-config.json';
-    tempAnchor.click();
-    tempAnchor.remove();
-  }
-
-  /**
-   * Load data from JSON file.
-   * @param onFileRead Callback with JSON file data when the file data is read.
-   */
-  loadStateFromFile(onFileRead?: (json: object) => void) {
-    // Create a mock input file element and use that to read the file
-    let inputFile = document.createElement('input');
-    inputFile.type = 'file';
-    inputFile.accept = 'application/json';
-    inputFile.onchange = (e: any) => {
-      const configFile = e.target?.files[0];
-      const reader = new FileReader();
-      reader.onload = e => {
-        const jsonData = JSON.parse(e.target.result.toString());
-
-        onFileRead?.(jsonData);
-
-        this.loadStateFromJSON(jsonData);
-
-        inputFile.remove();
-        inputFile = null;
-      };
-      reader.readAsText(configFile);
-    }
-    inputFile.click();
+    saveFile(JSON.stringify(state), 'phoenix-config.json');
   }
 
   /**
@@ -128,10 +99,14 @@ export class StateManager {
     }
 
     if (jsonData['eventDisplay']) {
-      this.activeCamera.position.fromArray(jsonData['eventDisplay']?.['cameraPosition']);
+      this.activeCamera.position.fromArray(
+        jsonData['eventDisplay']?.['cameraPosition']
+      );
       if (jsonData['eventDisplay']?.['clippingAngle']) {
         this.eventDisplay.getUIManager().setClipping(true);
-        this.eventDisplay.getUIManager().rotateClipping(jsonData['eventDisplay']['clippingAngle']);
+        this.eventDisplay
+          .getUIManager()
+          .rotateClipping(jsonData['eventDisplay']['clippingAngle']);
       }
     }
   }

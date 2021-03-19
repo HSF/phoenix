@@ -18,7 +18,7 @@ export class RendererManager {
    */
   constructor() {
     const renderer: WebGLRenderer = new WebGLRenderer({
-      antialias: true
+      antialias: true,
     });
 
     this.addRenderer(renderer);
@@ -60,16 +60,15 @@ export class RendererManager {
    * @param elementId ID of the wrapper element.
    */
   private initRenderer(elementId: string) {
+    let canvas = document.getElementById(elementId);
+    const rendererWidth = canvas?.offsetWidth ?? window.innerWidth;
+    const rendererHeight = canvas?.offsetHeight ?? window.innerHeight;
+
     const mainRenderer = this.getMainRenderer();
-    mainRenderer.setSize(
-      window.innerWidth,
-      window.innerHeight,
-      false
-    );
+    mainRenderer.setSize(rendererWidth, rendererHeight, false);
     mainRenderer.setPixelRatio(window.devicePixelRatio);
     mainRenderer.domElement.id = 'three-canvas';
 
-    let canvas = document.getElementById(elementId);
     if (canvas == null) {
       canvas = document.body;
     }
@@ -94,7 +93,7 @@ export class RendererManager {
     const parameters: WebGLRendererParameters = {
       canvas: overlayCanvas,
       antialias: false,
-      alpha: true
+      alpha: true,
     };
     const overlayRenderer: WebGLRenderer = new WebGLRenderer(parameters);
     this.addRenderer(overlayRenderer);
@@ -132,7 +131,6 @@ export class RendererManager {
   getRenderers(): WebGLRenderer[] {
     return this.renderers;
   }
-
 
   // FUNCTIONS
 

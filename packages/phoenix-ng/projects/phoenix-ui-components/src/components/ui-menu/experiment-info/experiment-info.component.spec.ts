@@ -8,17 +8,21 @@ describe('ExperimentInfoComponent', () => {
   let component: ExperimentInfoComponent;
   let fixture: ComponentFixture<ExperimentInfoComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', ['getEventMetadata', 'listenToDisplayedEventChange']);
+  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
+    'getEventMetadata',
+    'listenToDisplayedEventChange',
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplayService
-      }]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplayService,
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -33,6 +37,8 @@ describe('ExperimentInfoComponent', () => {
 
   it('should initialize experiment info', () => {
     component.ngOnInit();
-    expect(mockEventDisplayService.listenToDisplayedEventChange).toHaveBeenCalled();
+    expect(
+      mockEventDisplayService.listenToDisplayedEventChange
+    ).toHaveBeenCalled();
   });
 });

@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/HSF/phoenix/compare/v1.3.0...v1.4.0) (2021-02-16)
+
+
+### Bug Fixes
+
+* **event-display:** disable keyboard controls when typing ([4f80bd6](https://github.com/HSF/phoenix/commit/4f80bd6c972f2e1291bc62015870ac9b08c077ef))
+* **event-display:** improve object selection from uuid and label input ([3475836](https://github.com/HSF/phoenix/commit/3475836eacca1485f6dddab8dc049bbb605a5e27))
+* **event-display:** persist toggle state of phoenix menu node children ([e96136b](https://github.com/HSF/phoenix/commit/e96136b8bade393d336a74c607db18d19d139e96))
+* **event-display:** remove rollup config and fix globalThis usage ([e6f69a0](https://github.com/HSF/phoenix/commit/e6f69a0e47856dc38409eaea3030595fa5c3065d))
+
+
+### Features
+
+* **event-display:** ability to add 3D label text ([c9d4880](https://github.com/HSF/phoenix/commit/c9d4880c2ef97ee07f16a30ef17c80279c853de3))
+* **event-display:** add labels configuration to dat.GUI menu ([d677089](https://github.com/HSF/phoenix/commit/d677089d49a5fedee4b23bcc690690decef5f8a2))
+* **event-display:** add labels to UI configuration ([d90e3a6](https://github.com/HSF/phoenix/commit/d90e3a6435e869138417f2bff705f4fde4825d5a))
+* **event-display:** add size and color options for labels ([3ce675f](https://github.com/HSF/phoenix/commit/3ce675f3da5db67a40f32be7f011c393a98055c2))
+* **event-display:** better handling of labels object ([e10a68d](https://github.com/HSF/phoenix/commit/e10a68d91cb18e82debd470a2dff643b41031d85))
+* **event-display:** complete setup with webpack for browser ([3f6367f](https://github.com/HSF/phoenix/commit/3f6367fa52cdb0b116b93428b03a97e4b816f094))
+* **event-display:** complete support to save and load labels ([2219a3e](https://github.com/HSF/phoenix/commit/2219a3e60ef8bda46e4f1c6d1fa219a21e96451a))
+* **event-display:** create a url options manager for url options ([fe0b2e6](https://github.com/HSF/phoenix/commit/fe0b2e66ff5485821620d53870a394d52cc1a460))
+* **event-display:** create generic function for getting object position ([8d7b160](https://github.com/HSF/phoenix/commit/8d7b160b1e70df425f4626a5d3c89320d4571de4))
+* **event-display:** delete label on empty value and change add label icon ([3756330](https://github.com/HSF/phoenix/commit/3756330d06c459662a0e99d447e5984ebea87e27))
+* **event-display:** make label always look at camera ([0837334](https://github.com/HSF/phoenix/commit/08373349a7c5a47c10ec22a58bd6337823f02214))
+* **event-display:** set up add label to object functions ([db261a6](https://github.com/HSF/phoenix/commit/db261a6fe5b770f912bef080f1ceec6374a81d08))
+* **event-display:** setup webpack for browser bundle ([dc05ed9](https://github.com/HSF/phoenix/commit/dc05ed9cad08d99f2a2e8c27b97257a8d3ff11f1))
+* **event-display:** support to hide widgets through URL ([cb2ec40](https://github.com/HSF/phoenix/commit/cb2ec4096b7cba0c1516d14b6f32e294673818a6))
+* **event-display:** use optional chaining for hide widgets url option ([c991e54](https://github.com/HSF/phoenix/commit/c991e54dc4dbeb7a85228217317cda08835e5c16))
+* **event-display:** Use types for phoenix menu configuration ([79e6d7c](https://github.com/HSF/phoenix/commit/79e6d7c17e4a78f9a571c0eba98eacf76906c029))
+* **event-display:** working labels object ([60269f7](https://github.com/HSF/phoenix/commit/60269f78eb0c384bd628680c93ae94919b2d08d9))
+* Update Angular and all packages to latest ([f4c2e31](https://github.com/HSF/phoenix/commit/f4c2e31207e890436a6387e2e34ef31e3d0c48a6))
+
+
+
+
+
 # [1.3.0](https://github.com/HSF/phoenix/compare/v1.2.0...v1.3.0) (2021-01-16)
 
 

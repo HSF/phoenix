@@ -7,10 +7,9 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 @Component({
   selector: 'app-info-panel-overlay',
   templateUrl: './info-panel-overlay.component.html',
-  styleUrls: ['./info-panel-overlay.component.scss']
+  styleUrls: ['./info-panel-overlay.component.scss'],
 })
 export class InfoPanelOverlayComponent implements OnInit {
-
   /** @ignore */
   @Input() showInfoPanel: boolean;
   /** List of actions to be displayed in the info panel */
@@ -20,7 +19,7 @@ export class InfoPanelOverlayComponent implements OnInit {
    * Create the information panel overlay
    * @param infoLogger Service containing operations related to info logs
    */
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   /**
    * Get the list of logs from the info logger service
@@ -28,5 +27,4 @@ export class InfoPanelOverlayComponent implements OnInit {
   ngOnInit() {
     this.actionsList = this.eventDisplay.getInfoLogger().getInfoLoggerList();
   }
-
 }

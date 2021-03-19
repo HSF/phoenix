@@ -1,0 +1,6 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" id="add-icon">
+    <path fill="var(--phoenix-options-icon-path, #fff)" d="M37.1,18H24V4.9C24,2.2,23.7,0,21,0s-3,2.2-3,4.9V18H4.9C2.2,18,0,18.3,0,21s2.2,3,4.9,3H18v13.1
+    c0,2.7,0.3,4.9,3,4.9s3-2.2,3-4.9V24h13.1c2.7,0,4.9-0.3,4.9-3S39.8,18,37.1,18z" />
+  </symbol>
+</svg>

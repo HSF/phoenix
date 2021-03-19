@@ -7,15 +7,17 @@ import { EventDisplayService } from '../../../services/event-display.service';
 @Component({
   selector: 'app-object-selection',
   templateUrl: './object-selection.component.html',
-  styleUrls: ['./object-selection.component.scss']
+  styleUrls: ['./object-selection.component.scss'],
 })
 export class ObjectSelectionComponent implements OnInit, OnDestroy {
-
   // Attributes for displaying the information of selected objects
   hiddenSelectedInfo = true;
   overlayWindow: ComponentRef<ObjectSelectionOverlayComponent>;
 
-  constructor(private overlay: Overlay, private eventDisplay: EventDisplayService) { }
+  constructor(
+    private overlay: Overlay,
+    private eventDisplay: EventDisplayService
+  ) {}
 
   ngOnInit() {
     const overlayRef = this.overlay.create();
@@ -33,5 +35,4 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
     this.overlayWindow.instance.hiddenSelectedInfo = this.hiddenSelectedInfo;
     this.eventDisplay.enableSelecting(!this.hiddenSelectedInfo);
   }
-
 }

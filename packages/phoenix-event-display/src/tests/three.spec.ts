@@ -1,9 +1,9 @@
 import { ThreeManager } from '../three';
 import { InfoLogger } from '../info-logger';
 import { Group } from 'three';
+import * as Helpers from '../helpers/file';
 
 describe('ThreeManager', () => {
-
   let three: ThreeManager;
 
   beforeEach(() => {
@@ -15,13 +15,12 @@ describe('ThreeManager', () => {
   });
 
   describe('after init', () => {
-
     let threePrivate: any;
 
     beforeEach(() => {
       three.init({});
 
-      threePrivate = (three as any);
+      threePrivate = three as any;
     });
 
     it('should initialize three service with managers', () => {
@@ -58,12 +57,16 @@ describe('ThreeManager', () => {
 
     it('should toggle autorotate', () => {
       three.autoRotate(true);
-      expect(threePrivate.controlsManager.getActiveControls().autoRotate).toBe(true);
+      expect(threePrivate.controlsManager.getActiveControls().autoRotate).toBe(
+        true
+      );
     });
 
     it('should set clipping', () => {
       three.setClipping(true);
-      expect(threePrivate.rendererManager.renderers[0].localClippingEnabled).toBe(true);
+      expect(
+        threePrivate.rendererManager.renderers[0].localClippingEnabled
+      ).toBe(true);
     });
 
     it('should rotate clipping', () => {
@@ -80,27 +83,37 @@ describe('ThreeManager', () => {
       const animationDuration = 3000;
 
       three.animateCameraTransform(camPos, camTarget, animationDuration);
-      expect(threePrivate.animateCameraPosition)
-        .toHaveBeenCalledWith(camPos, animationDuration);
-      expect(threePrivate.animateCameraTarget)
-        .toHaveBeenCalledWith(camTarget, animationDuration);
+      expect(threePrivate.animateCameraPosition).toHaveBeenCalledWith(
+        camPos,
+        animationDuration
+      );
+      expect(threePrivate.animateCameraTarget).toHaveBeenCalledWith(
+        camTarget,
+        animationDuration
+      );
     });
 
     it('should swap cameras', () => {
-      const swapControlsSpy = spyOn(threePrivate.controlsManager, 'swapControls')
-        .and.callThrough();
+      const swapControlsSpy = spyOn(
+        threePrivate.controlsManager,
+        'swapControls'
+      ).and.callThrough();
 
       three.swapCameras(true);
       three.swapCameras(false);
-      expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(2);
+      expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(
+        2
+      );
 
       swapControlsSpy.calls.reset();
       three.swapCameras(false);
-      expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(0);
+      expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(
+        0
+      );
     });
 
-    const OBJ_FILE = 'assets/test_files/geometries/test.obj';
-    const GLTF_FILE = 'assets/test_files/geometries/test.gltf';
+    const OBJ_FILE = 'assets/geometries/test.obj';
+    const GLTF_FILE = 'assets/geometries/test.gltf';
 
     it('should load OBJ geometry', () => {
       spyOn(threePrivate.importManager, 'loadOBJGeometry').and.callThrough();
@@ -117,7 +130,7 @@ describe('ThreeManager', () => {
     });
 
     it('should parse OBJ geometry', async (done) => {
-      (await fetch(OBJ_FILE)).text().then(res => {
+      (await fetch(OBJ_FILE)).text().then((res) => {
         spyOn(threePrivate.importManager, 'parseOBJGeometry').and.callThrough();
 
         three.parseOBJGeometry(res, 'Test OBJ');
@@ -127,8 +140,11 @@ describe('ThreeManager', () => {
     });
 
     it('should parse glTF geometry', async (done) => {
-      (await fetch(GLTF_FILE)).arrayBuffer().then(res => {
-        spyOn(threePrivate.importManager, 'parseGLTFGeometry').and.callThrough();
+      (await fetch(GLTF_FILE)).arrayBuffer().then((res) => {
+        spyOn(
+          threePrivate.importManager,
+          'parseGLTFGeometry'
+        ).and.callThrough();
 
         three.parseGLTFGeometry(res, 'TEST_GLTF_FILE');
         expect(threePrivate.importManager.parseGLTFGeometry).toHaveBeenCalled();
@@ -139,8 +155,11 @@ describe('ThreeManager', () => {
     it('should load JSON geometry', async (done) => {
       spyOn(threePrivate.importManager, 'loadJSONGeometry').and.callThrough();
 
-      (await fetch(OBJ_FILE)).text().then(res => {
-        const geometry = threePrivate.importManager.parseOBJGeometry(res, 'Test JSON');
+      (await fetch(OBJ_FILE)).text().then((res) => {
+        const geometry = threePrivate.importManager.parseOBJGeometry(
+          res,
+          'Test JSON'
+        );
 
         three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
         expect(threePrivate.importManager.loadJSONGeometry).toHaveBeenCalled();
@@ -149,7 +168,7 @@ describe('ThreeManager', () => {
     });
 
     it('should export scene', () => {
-      threePrivate.exportManager.saveString = (text: string, filename: string) => { }
+      spyOn(Helpers, 'saveFile').and.stub();
 
       spyOn(threePrivate.exportManager, 'exportSceneToOBJ').and.callThrough();
       three.exportSceneToOBJ();
@@ -164,36 +183,54 @@ describe('ThreeManager', () => {
       spyOn(threePrivate.rendererManager, 'setFixOverlay').and.callThrough();
 
       three.fixOverlayView(true);
-      expect(threePrivate.rendererManager.setFixOverlay).toHaveBeenCalledWith(true);
+      expect(threePrivate.rendererManager.setFixOverlay).toHaveBeenCalledWith(
+        true
+      );
     });
 
     it('should set selected object', () => {
-      spyOn(threePrivate.getSelectionManager(), 'setSelectedObject').and.callThrough();
+      spyOn(
+        threePrivate.getSelectionManager(),
+        'setSelectedObject'
+      ).and.callThrough();
 
       three.setSelectedObjectDisplay({
         name: 'Test Object',
-        attributes: ['Attrib 1']
+        attributes: ['Attrib 1'],
       });
-      expect(threePrivate.getSelectionManager().setSelectedObject).toHaveBeenCalled();
+      expect(
+        threePrivate.getSelectionManager().setSelectedObject
+      ).toHaveBeenCalled();
     });
 
     it('should toggle event data depthTest', () => {
       spyOn(threePrivate.sceneManager, 'eventDataDepthTest').and.callThrough();
 
       three.eventDataDepthTest(true);
-      expect(threePrivate.sceneManager.eventDataDepthTest).toHaveBeenCalledWith(true);
+      expect(threePrivate.sceneManager.eventDataDepthTest).toHaveBeenCalledWith(
+        true
+      );
     });
 
     it('should enable selecting', () => {
-      spyOn(threePrivate.getSelectionManager(), 'setSelecting').and.callThrough();
+      spyOn(
+        threePrivate.getSelectionManager(),
+        'setSelecting'
+      ).and.callThrough();
 
       three.enableSelecting(true);
-      expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(true);
+      expect(
+        threePrivate.getSelectionManager().setSelecting
+      ).toHaveBeenCalledWith(true);
       three.enableSelecting(false);
-      expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(false);
+      expect(
+        threePrivate.getSelectionManager().setSelecting
+      ).toHaveBeenCalledWith(false);
       threePrivate.getSelectionManager().isInit = false;
       three.enableSelecting(false);
-      expect(threePrivate.getSelectionManager().setSelecting).toHaveBeenCalledWith(false);
+      expect(
+        threePrivate.getSelectionManager().setSelecting
+      ).toHaveBeenCalledWith(false);
     });
 
     it('should clear event data', () => {
@@ -208,12 +245,17 @@ describe('ThreeManager', () => {
     });
 
     it('should set overlay renderer', () => {
-      const spy = spyOn(threePrivate.rendererManager, 'setOverlayRenderer').and.callThrough();
+      const spy = spyOn(
+        threePrivate.rendererManager,
+        'setOverlayRenderer'
+      ).and.callThrough();
 
       const canvas = document.createElement('canvas');
       three.setOverlayRenderer(canvas);
 
-      expect(threePrivate.rendererManager.setOverlayRenderer).toHaveBeenCalledWith(canvas);
+      expect(
+        threePrivate.rendererManager.setOverlayRenderer
+      ).toHaveBeenCalledWith(canvas);
 
       spy.calls.reset();
       threePrivate.rendererManager = undefined;
@@ -229,10 +271,15 @@ describe('ThreeManager', () => {
     });
 
     it('should get ID of active object', () => {
-      spyOn(threePrivate.getSelectionManager(), 'getActiveObjectId').and.callThrough();
+      spyOn(
+        threePrivate.getSelectionManager(),
+        'getActiveObjectId'
+      ).and.callThrough();
 
       three.getActiveObjectId();
-      expect(threePrivate.getSelectionManager().getActiveObjectId).toHaveBeenCalled();
+      expect(
+        threePrivate.getSelectionManager().getActiveObjectId
+      ).toHaveBeenCalled();
     });
 
     it('should look at object', () => {

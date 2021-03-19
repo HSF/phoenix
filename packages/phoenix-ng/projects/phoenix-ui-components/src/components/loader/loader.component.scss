@@ -23,7 +23,8 @@
 }
 
 @keyframes loader {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(0.1) rotateZ(0deg);
   }
   95% {

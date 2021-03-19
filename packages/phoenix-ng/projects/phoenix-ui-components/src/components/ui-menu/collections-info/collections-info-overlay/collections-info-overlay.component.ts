@@ -1,25 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { PrettySymbols } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   selector: 'app-collections-info-overlay',
   templateUrl: './collections-info-overlay.component.html',
-  styleUrls: ['./collections-info-overlay.component.scss']
+  styleUrls: ['./collections-info-overlay.component.scss'],
 })
 export class CollectionsInfoOverlayComponent implements OnInit {
-
   @Input() showObjectsInfo: boolean;
-  // showObjectsInfo = true;
   collections: string[];
+  selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
   activeObject: any;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(
+    private elementRef: ElementRef,
+    private eventDisplay: EventDisplayService
+  ) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToDisplayedEventChange((event) => this.collections = this.eventDisplay.getCollections());
+    this.eventDisplay.listenToDisplayedEventChange(
+      (event) => (this.collections = this.eventDisplay.getCollections())
+    );
     this.activeObject = this.eventDisplay.getActiveObjectId();
     this.activeObject.onUpdate((value: string) => {
       if (document.getElementById(value)) {
@@ -30,8 +34,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   changeCollection(selected: any) {
     const value = selected.target.value;
-    this.showingCollection = this.eventDisplay.getCollection(value).map(PrettySymbols.getPrettyParams);
-    this.collectionColumns = Object.keys(this.showingCollection[0]).filter((column) => column !== 'uuid');
+    this.selectedCollection = value;
+    this.showingCollection = this.eventDisplay
+      .getCollection(value)
+      .map(PrettySymbols.getPrettyParams);
+    this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
+      (column) => column !== 'uuid'
+    );
   }
 
   lookAtObject(uuid: string) {
@@ -48,4 +57,18 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     }
   }
 
+  addLabel(index: number, uuid: string) {
+    const labelValue = this.elementRef.nativeElement.querySelector(
+      `#label${index}`
+    ).value;
+    if (this.selectedCollection) {
+      // Empty labelValue will remove the label object
+      this.eventDisplay.addLabelToObject(
+        labelValue,
+        this.selectedCollection,
+        index,
+        uuid
+      );
+    }
+  }
 }

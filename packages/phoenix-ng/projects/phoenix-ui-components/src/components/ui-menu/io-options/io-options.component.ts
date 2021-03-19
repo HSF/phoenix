@@ -5,11 +5,10 @@ import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.
 @Component({
   selector: 'app-io-options',
   templateUrl: './io-options.component.html',
-  styleUrls: ['./io-options.component.scss']
+  styleUrls: ['./io-options.component.scss'],
 })
 export class IoOptionsComponent {
-
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog) {}
 
   openIODialog() {
     this.dialog.open(IOOptionsDialogComponent, { panelClass: 'dialog' });

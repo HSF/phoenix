@@ -1,10 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# see http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
 dist/
 tmp/
 out-tsc/
-# Only exists if Bazel was run
+# only exists if Bazel was run
 bazel-out/
 
 # dependencies
@@ -43,8 +43,9 @@ typings/
 ssl/
 packages/**/docs/
 
-# System Files
+# angular compiler
+__ivy_ngcc__
+
+# system files
 .DS_Store
 Thumbs.db
-
-.vscode/

@@ -303,7 +303,7 @@ Defaults to <code>&lt;head&gt;</code> tag.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -364,10 +364,10 @@ export class ScriptLoader {
    * @returns Promise for the script load.
    */
   public static loadScript(scriptURL: string, scriptFor?: string,
-    parentElement: HTMLElement &#x3D; document.getElementsByTagName(&#x27;head&#x27;)[0]): Promise&lt;any&gt; {
+    parentElement: HTMLElement &#x3D; document.getElementsByTagName(&#x27;head&#x27;)[0]): Promise&lt;void&gt; {
     const loadingManager &#x3D; new LoadingManager();
     loadingManager.addLoadableItem(&#x27;single_script&#x27;);
-    return new Promise&lt;any&gt;((resolve, reject) &#x3D;&gt; {
+    return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
       const scriptExists &#x3D; document
         .querySelectorAll&lt;HTMLScriptElement&gt;(&#x27;script[src&#x3D;&quot;&#x27; + scriptURL + &#x27;&quot;]&#x27;);
       // If no script exists - add one

@@ -16,9 +16,8 @@ describe('DarkThemeComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [EventDisplayService],
-      declarations: [DarkThemeComponent]
-    })
-      .compileComponents();
+      declarations: [DarkThemeComponent],
+    }).compileComponents();
 
     eventDisplay = TestBed.get(EventDisplayService);
     uiManager = eventDisplay.getUIManager();

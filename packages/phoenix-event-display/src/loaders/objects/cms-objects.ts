@@ -1,5 +1,18 @@
-import { Object3D, Vector3, Geometry, Face3, Group, Mesh, MeshBasicMaterial, EdgesGeometry, LineBasicMaterial, DoubleSide, LineSegments, BufferGeometry } from "three";
-import { EVENT_DATA_TYPE_COLORS } from "../../helpers/constants";
+import {
+  Object3D,
+  Vector3,
+  Geometry,
+  Face3,
+  Group,
+  Mesh,
+  MeshBasicMaterial,
+  EdgesGeometry,
+  LineBasicMaterial,
+  DoubleSide,
+  LineSegments,
+  BufferGeometry,
+} from 'three';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.
@@ -17,13 +30,9 @@ export class CMSObjects {
 
     for (const param of Object.keys(muonChamberParams)) {
       if (param.startsWith('front')) {
-        faces.push(
-          new Vector3().fromArray(muonChamberParams[param])
-        );
+        faces.push(new Vector3().fromArray(muonChamberParams[param]));
       } else if (param.startsWith('back')) {
-        backs.push(
-          new Vector3().fromArray(muonChamberParams[param])
-        );
+        backs.push(new Vector3().fromArray(muonChamberParams[param]));
       }
     }
 
@@ -59,12 +68,15 @@ export class CMSObjects {
 
     const boxBuffer = new BufferGeometry().fromGeometry(box);
 
-    const boxObject = new Mesh(boxBuffer, new MeshBasicMaterial({
-      color: EVENT_DATA_TYPE_COLORS['MuonChambers'],
-      transparent: true,
-      opacity: 0.1,
-      side: DoubleSide
-    }));
+    const boxObject = new Mesh(
+      boxBuffer,
+      new MeshBasicMaterial({
+        color: EVENT_DATA_TYPE_COLORS['MuonChambers'],
+        transparent: true,
+        opacity: 0.1,
+        side: DoubleSide,
+      })
+    );
 
     boxObject.userData = Object.assign({}, muonChamberParams);
     boxObject.name = 'MuonChamber';
@@ -72,11 +84,14 @@ export class CMSObjects {
     // These are the lines along the box edges
 
     const boxEdges = new EdgesGeometry(boxBuffer);
-    const lineBoxObject = new LineSegments(boxEdges, new LineBasicMaterial({
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.7
-    }));
+    const lineBoxObject = new LineSegments(
+      boxEdges,
+      new LineBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.7,
+      })
+    );
 
     const muonChamber = new Group();
     muonChamber.add(boxObject);

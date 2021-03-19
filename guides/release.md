@@ -18,8 +18,7 @@ Then you need to set the `GH_TOKEN` environment variable in your terminal when r
 The release commands will then be structured like:
 
 ```sh
-GH_TOKEN=<your_gh_token> yarn <script>
-
+GH_TOKEN=<your_gh_token> yarn release:<version_priority>
 ```
 
 Here's a list of the release commands.

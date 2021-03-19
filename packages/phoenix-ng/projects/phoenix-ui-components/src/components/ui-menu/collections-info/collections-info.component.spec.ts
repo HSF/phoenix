@@ -12,9 +12,8 @@ describe('CollectionsInfoComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [Overlay],
-      declarations: [CollectionsInfoComponent]
-    })
-      .compileComponents();
+      declarations: [CollectionsInfoComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

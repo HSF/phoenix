@@ -19,13 +19,15 @@ You can see [phoenix-app](https://github.com/HSF/phoenix/tree/master/packages/ph
 
 Since the components use some icons and images, you will need to copy these assets to your application. Download these assets from [./src/assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) and put them in the `src/assets` directory of your application. All assets should be served through `/assets`.
 
-Once you have the assets set up, import the `PhoenixUIModule` in your `NgModule`.
+Once you have the assets set up, import the `PhoenixUIModule` and `BrowserAnimationsModule` in your `NgModule`.
 
 ```ts
 import { PhoenixUIModule } from 'phoenix-ui-components';
 
 @NgModule({
   imports: [
+    ...
+    BrowserAnimationsModule,
     PhoenixUIModule,
     ...
   ],
@@ -34,7 +36,32 @@ import { PhoenixUIModule } from 'phoenix-ui-components';
 export class MyModule {}
 ```
 
-Next, you can use the Phoenix components in your module component(s).
+## Styling
+
+Since some Phoenix components use Bootstrap, you will need to add the the Bootstrap stylesheet in the `src/index.html` file of your app.
+
+```html
+<head>
+  ...
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+```
+
+For theming of components, you will also need to import some global styles into your app.  
+It can be done by importing the theming file into your app's global styles (`styles.scss`).
+
+`styles.scss`
+
+```scss
+@import '~phoenix-ui-components/theming';
+
+...
+```
+
+## Usage
+
+With everything set up, you can use the Phoenix components in your module component(s).
 
 `component.html`
 
@@ -51,22 +78,10 @@ Next, you can use the Phoenix components in your module component(s).
 ```ts
 @Component({
   selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  templateUrl: './component.html',
+  styleUrls: ['./component.scss']
 })
 export class TestComponent {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
 }
-```
-
-## Theming
-
-For theming of components, you will also need to import some global styles into your app.  
-It can be done by importing the theming file into your app's global styles (`styles.scss`).
-
-`styles.scss`
-
-```scss
-@import '~phoenix-ui-components/theming';
-...
 ```

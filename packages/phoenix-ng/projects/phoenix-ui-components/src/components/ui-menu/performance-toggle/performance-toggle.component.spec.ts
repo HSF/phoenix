@@ -8,18 +8,19 @@ describe('PerformanceToggleComponent', () => {
   let fixture: ComponentFixture<PerformanceToggleComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getThreeManager: jasmine.createSpyObj('ThreeManager', ['setAntialiasing'])
+    getThreeManager: jasmine.createSpyObj('ThreeManager', ['setAntialiasing']),
   });
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [PerformanceToggleComponent],
-      providers: [{
-        provide: EventDisplayService,
-        useValue: mockEventDisplay
-      }]
-    })
-      .compileComponents();
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -12,9 +12,8 @@ describe('InfoPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [Overlay],
-      declarations: [InfoPanelComponent]
-    })
-      .compileComponents();
+      declarations: [InfoPanelComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
