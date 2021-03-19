@@ -190,7 +190,7 @@ export class EventDisplay {
    * @param filename Path to the geometry.
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param doubleSided If true, render both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param setFlat Whether object should be flat-shaded or not.
@@ -223,7 +223,7 @@ export class EventDisplay {
    * and adds it to the dat.GUI menu.
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public parseOBJGeometry(
@@ -296,7 +296,7 @@ export class EventDisplay {
    * and adds it to the dat.GUI menu.
    * @param url URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
@@ -323,7 +323,7 @@ export class EventDisplay {
    * Loads geometries from JSON.
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
@@ -354,7 +354,7 @@ export class EventDisplay {
    * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot geometry file.
    * @param name Name of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.
@@ -388,7 +388,7 @@ export class EventDisplay {
    * @param url URL of the JSRoot file.
    * @param objectName Name of the object inside the ".root" file.
    * @param name Name of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
+   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not.

@@ -249,7 +249,10 @@ export class PhoenixMenuNode {
       return this;
     } else {
       for (const child of this.children) {
-        return child.findInTree(name);
+        const nodeFound = child.findInTree(name);
+        if (nodeFound) {
+          return nodeFound;
+        }
       }
     }
   }
@@ -264,6 +267,8 @@ export class PhoenixMenuNode {
     name.split('>').forEach((nodeName) => {
       nodeName = nodeName.trim();
       const nodeFound = prevNode.findInTree(nodeName);
+      // const nodeFound = prevNode.children.find(child => child.name === nodeName);
+
       prevNode = nodeFound ? nodeFound : prevNode.addChild(nodeName, () => {});
     });
     return prevNode;

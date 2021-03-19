@@ -56,68 +56,214 @@ export class AtlasComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     // Load detector geometries
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/toroids.obj',
-      'Toroids',
-      0x8c8c8c,
-      undefined,
-      false,
+
+    // Magnets + Support
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Barrel-Toroid.gltf',
+      'Barrel Toroid',
+      'Magnets',
+      1000,
       false
     );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/TRT.obj',
-      'TRT',
-      0x356aa5,
-      undefined,
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/End-Cap-Toroid.gltf',
+      'Endcap',
+      'Magnets',
+      1000,
       false
     );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/SCT.obj',
-      'SCT',
-      0xfff400,
-      undefined,
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Feet.gltf',
+      'Feet',
+      'Magnets',
+      1000,
       false
     );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/pixel.obj',
-      'Pixel',
-      0x356aa5,
-      undefined,
-      false
-    );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/LAR_Bar.obj',
-      'LAr Barrel',
-      0x19ccd2,
-      undefined,
-      true,
-      false
-    );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/LAR_EC1.obj',
-      'LAr EC1',
-      0x19ccd2,
-      undefined,
-      true,
-      false
-    );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/LAR_EC2.obj',
-      'LAr EC2',
-      0x19ccd2,
-      undefined,
-      true,
-      false
-    );
-    this.eventDisplay.loadOBJGeometry(
-      'assets/geometry/ATLAS/TileCal.obj',
-      'Tile Cal',
-      0xc14343,
-      undefined,
-      true,
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Warm-Structure.gltf',
+      'Warm structure',
+      'Magnets',
+      1000,
       false
     );
 
+    // LAr
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Lar-Barrel.gltf',
+      'LAr Barrel',
+      'Calorimeters',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Lar-EMEC.gltf',
+      'LAr EC1',
+      'Calorimeters',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Lar-FCAL.gltf',
+      'LAr FCAL',
+      'Calorimeters',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Lar-HEC.gltf',
+      'LAr HEC',
+      'Calorimeters',
+      1000,
+      false
+    );
+
+    // Tile
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Tile-Barrel.gltf',
+      'Tile Cal',
+      'Calorimeters',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Tile-End-Cap.gltf',
+      'Tile Cal EC',
+      'Calorimeters',
+      1000,
+      false
+    );
+
+    // Inner Detector
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Beam.gltf',
+      'Beam',
+      'Inner Detector',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Pixel.gltf',
+      'Pixel',
+      'Inner Detector',
+      1000,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/SCT-BAR.gltf',
+      'SCT',
+      'Inner Detector',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/SCT-EC.gltf',
+      'SCT Endcaps',
+      'Inner Detector',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/TRT-BAR.gltf',
+      'TRT',
+      'Inner Detector',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/TRT-EC.gltf',
+      'TRT Endcaps',
+      'Inner Detector',
+      1000,
+      false
+    );
+
+    // Muons
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Extra-Wheel.gltf',
+      'Extra wheel',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Big-Wheel.gltf',
+      'Big wheel',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Outer-Wheel.gltf',
+      'Outer Wheel',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Muon-Barrel-Inner.gltf',
+      'Muon Barrel Inner',
+      'Muon Spectrometer > Barrel',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Muon-Barrel-Middle.gltf',
+      'Muon Barrel Middle',
+      'Muon Spectrometer > Barrel',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Muon-Barrel-Outer.gltf',
+      'Muon Barrel Outer',
+      'Muon Spectrometer > Barrel',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Muon-Big-Wheel-MDT.gltf',
+      'Big Wheel MDT ',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Small-Wheel-Chambers.gltf',
+      'Small Wheel',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Small-Wheel-Hub.gltf',
+      'Small Wheel Hub',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/Small-Wheel-NJD.gltf',
+      'Small Wheel Feet',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/TGC2.gltf',
+      'TGC2',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/ATLAS/TGC3.gltf',
+      'TGC3',
+      'Muon Spectrometer > Endcaps',
+      1000,
+      false
+    );
+
+    // Load the default configuration
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
       const stateManager = new StateManager();
