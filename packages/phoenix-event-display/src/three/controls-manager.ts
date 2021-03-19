@@ -9,7 +9,6 @@ import {
   Scene,
   Mesh,
   TubeBufferGeometry,
-  WebGLRenderer,
 } from 'three';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
