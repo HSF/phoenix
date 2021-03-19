@@ -4,7 +4,7 @@ COPY . .
 RUN npm install --global lerna
 RUN yarn install:dependencies
 RUN yarn deploy:web
-# Delete all node_modules folders
+# Remove all node_modules folders
 RUN find . -name "node_modules" -type d -exec rm -rf "{}" +
 
 FROM nginx:alpine

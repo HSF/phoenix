@@ -1,2 +1,7 @@
 **/node_modules
+**/docs
+**/dist
+**/ssl
+**/coverage
+**/__ivy_ngcc__
 .git
