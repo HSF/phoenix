@@ -283,22 +283,9 @@ export class PhoenixLoader implements EventDataLoader {
         objectGroup
       );
 
-      let collectionColor: Color;
-      if (object[collectionName][0]?.color) {
-        collectionColor = new Color(parseInt(object[collectionName][0]?.color));
-      } else {
-        // If the color is not in event data use the default one
-        collectionColor = EVENT_DATA_TYPE_COLORS[typeName];
-      }
-
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-      this.ui.addCollection(typeFolder, collectionName, cuts, collectionColor);
-      this.ui.addCollectionPM(
-        typeFolderPM,
-        collectionName,
-        cuts,
-        collectionColor
-      );
+      this.ui.addCollection(typeFolder, collectionName, cuts);
+      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts);
     }
 
     extendEventDataTypeUI?.(typeFolder, typeFolderPM);

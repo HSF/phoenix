@@ -61,10 +61,9 @@ export class PhoenixObjects {
     }
 
     // const length = 100;
-    let objectColor = EVENT_DATA_TYPE_COLORS['Tracks'].getHex();
-    if (trackParams.color) {
-      objectColor = parseInt(trackParams.color, 16);
-    }
+    let objectColor = trackParams.color
+      ? parseInt(trackParams.color, 16)
+      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     // // Apply pT cut TODO - make this configurable.
     // const momentum = trackParams.mom;
@@ -167,7 +166,7 @@ export class PhoenixObjects {
     ); // Cone
 
     const material = new MeshBasicMaterial({
-      color: EVENT_DATA_TYPE_COLORS['Jets'],
+      color: jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets,
       opacity: 0.3,
       transparent: true,
     });
@@ -218,7 +217,7 @@ export class PhoenixObjects {
     // material
     const material = new PointsMaterial({
       size: 10,
-      color: EVENT_DATA_TYPE_COLORS['Hits'],
+      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj = new Points(geometry, material);
@@ -243,7 +242,7 @@ export class PhoenixObjects {
     const geometry = new BoxBufferGeometry(30, 30, length);
     // material
     const material = new MeshPhongMaterial({
-      color: EVENT_DATA_TYPE_COLORS['CaloClusters'],
+      color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
     });
     // object
     const cube = new Mesh(geometry, material);
@@ -279,7 +278,7 @@ export class PhoenixObjects {
     const geometry = new SphereBufferGeometry(3);
     // material
     const material = new MeshPhongMaterial({
-      color: EVENT_DATA_TYPE_COLORS['Vertices'],
+      color: vertexParams.color ?? EVENT_DATA_TYPE_COLORS.Vertices,
     });
     // object
     const sphere = new Mesh(geometry, material);
