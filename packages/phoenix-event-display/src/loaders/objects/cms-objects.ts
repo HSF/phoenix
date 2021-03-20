@@ -71,7 +71,7 @@ export class CMSObjects {
     const boxObject = new Mesh(
       boxBuffer,
       new MeshBasicMaterial({
-        color: EVENT_DATA_TYPE_COLORS['MuonChambers'],
+        color: muonChamberParams.color ?? EVENT_DATA_TYPE_COLORS.MuonChambers,
         transparent: true,
         opacity: 0.1,
         side: DoubleSide,
