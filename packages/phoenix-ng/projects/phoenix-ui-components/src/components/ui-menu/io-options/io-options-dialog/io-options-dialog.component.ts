@@ -42,13 +42,32 @@ export class IOOptionsDialogComponent {
   }
 
   handleJiveXMLDataInput(files: FileList) {
-    const callback = (content: any) => {
+    const processEventData = (content: any) => {
       const jiveloader = new JiveXMLLoader();
       jiveloader.process(content);
-      const eventData = jiveloader.getEventData();
+      return jiveloader.getEventData();
+    };
+
+    const callback = (content: any) => {
+      const eventData = processEventData(content);
       this.eventDisplay.buildEventDataFromJSON(eventData);
     };
-    this.handleFileInput(files[0], 'xml', callback);
+
+    if (this.isFileOfExtension(files[0], 'zip')) {
+      this.handleZipInput(files[0], (allFilesWithData) => {
+        const allEventsObject = {};
+
+        Object.entries(allFilesWithData).forEach(([fileName, fileData]) => {
+          const eventData = processEventData(fileData);
+          Object.assign(allEventsObject, { [fileName]: eventData });
+        });
+
+        this.eventDisplay.parsePhoenixEvents(allEventsObject);
+        this.onNoClick();
+      });
+    } else {
+      this.handleFileInput(files[0], 'xml', callback);
+    }
   }
 
   handleOBJInput(files: FileList) {
