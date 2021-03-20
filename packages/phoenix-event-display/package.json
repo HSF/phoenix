@@ -25,6 +25,7 @@
     "build:bundle": "webpack -c configs/webpack.conf.js",
     "tsc-d": "yarn tsc:build --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
     "prepare": "yarn build",
+    "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "test": "karma start configs/karma.conf.js",
     "test:coverage": "yarn test",
