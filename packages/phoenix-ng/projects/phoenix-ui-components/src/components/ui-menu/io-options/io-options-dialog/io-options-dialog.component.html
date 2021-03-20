@@ -10,25 +10,26 @@
         type="file"
         id="eventJiveXMLDataFile"
         class="inputfile"
-        accept="text/xml"
+        accept="text/xml, application/zip"
         name="image"
         (change)="handleJiveXMLDataInput($event.target.files)"
       />
       <label for="eventJiveXMLDataFile" class="imageLabel">
-        <img src="assets/icons/eventData.svg" alt="Event data icon" /> Load .xml
+        <img src="assets/icons/eventData.svg" alt="Event data icon" />
+        Load .xml, .zip
       </label>
 
       <input
         type="file"
         id="eventDataFile"
         class="inputfile"
-        accept="application/json"
+        accept="application/json, application/zip"
         name="image"
-        (change)="handleEventDataInput($event.target.files)"
+        (change)="handleJSONEventDataInput($event.target.files)"
       />
       <label for="eventDataFile" class="imageLabel">
-        <img src="assets/icons/eventData.svg" alt="Event data icon" /> Load
-        .json
+        <img src="assets/icons/eventData.svg" alt="Event data icon" />
+        Load .json, .zip
       </label>
     </div>
 
