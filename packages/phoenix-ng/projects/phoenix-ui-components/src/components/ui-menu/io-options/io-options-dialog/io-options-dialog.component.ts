@@ -24,50 +24,17 @@ export class IOOptionsDialogComponent {
       const json = typeof content === 'string' ? JSON.parse(content) : content;
       this.eventDisplay.parsePhoenixEvents(json);
     };
-
-    if (this.isFileOfExtension(files[0], 'zip')) {
-      this.handleZipInput(files[0], (allFilesWithData) => {
-        const allEventsObject = {};
-
-        Object.values(allFilesWithData).forEach((fileData) => {
-          Object.assign(allEventsObject, JSON.parse(fileData));
-        });
-
-        callback(allEventsObject);
-        this.onNoClick();
-      });
-    } else {
-      this.handleFileInput(files[0], 'json', callback);
-    }
+    this.handleFileInput(files[0], 'json', callback);
   }
 
   handleJiveXMLDataInput(files: FileList) {
-    const processEventData = (content: any) => {
+    const callback = (content: any) => {
       const jiveloader = new JiveXMLLoader();
       jiveloader.process(content);
-      return jiveloader.getEventData();
-    };
-
-    const callback = (content: any) => {
-      const eventData = processEventData(content);
+      const eventData = jiveloader.getEventData();
       this.eventDisplay.buildEventDataFromJSON(eventData);
     };
-
-    if (this.isFileOfExtension(files[0], 'zip')) {
-      this.handleZipInput(files[0], (allFilesWithData) => {
-        const allEventsObject = {};
-
-        Object.entries(allFilesWithData).forEach(([fileName, fileData]) => {
-          const eventData = processEventData(fileData);
-          Object.assign(allEventsObject, { [fileName]: eventData });
-        });
-
-        this.eventDisplay.parsePhoenixEvents(allEventsObject);
-        this.onNoClick();
-      });
-    } else {
-      this.handleFileInput(files[0], 'xml', callback);
-    }
+    this.handleFileInput(files[0], 'xml', callback);
   }
 
   handleOBJInput(files: FileList) {
@@ -131,7 +98,6 @@ export class IOOptionsDialogComponent {
     if (this.isFileOfExtension(files[0], 'zip')) {
       this.handleZipInput(files[0], (allFilesWithData) => {
         const allEventsObject = {};
-        console.log(allFilesWithData);
 
         // JSON event data
         Object.keys(allFilesWithData)
