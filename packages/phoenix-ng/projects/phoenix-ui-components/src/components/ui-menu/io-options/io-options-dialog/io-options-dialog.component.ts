@@ -144,7 +144,7 @@ export class IOOptionsDialogComponent {
       callback(allFilesWithData);
     } catch (error) {
       console.error('Error while reading zip', error);
-      this.eventDisplay.getInfoLogger().add('Could not read zip', 'Error');
+      this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
     }
   }
 

@@ -5,6 +5,15 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
+const mockFileList = (files: File[]): FileList => {
+  const fileList: FileList = {
+    length: files.length,
+    item: (index) => files[index],
+  };
+  Object.assign(fileList, files);
+  return fileList;
+};
+
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;
   let fixture: ComponentFixture<IOOptionsDialogComponent>;
@@ -21,6 +30,7 @@ describe('IoOptionsDialogComponent', () => {
     parseGLTFGeometry: jasmine.createSpy('parseGLTFGeometry'),
     exportPhoenixDisplay: jasmine.createSpy('exportPhoenixDisplay'),
     exportToOBJ: jasmine.createSpy('exportToOBJ'),
+    getInfoLogger: () => jasmine.createSpyObj('InfoLogger', ['add']),
   };
 
   beforeEach(async(() => {
@@ -65,7 +75,9 @@ describe('IoOptionsDialogComponent', () => {
       await fetch('assets/test_data/JiveXML.xml')
         .then((res) => res.text())
         .then((res) => {
-          const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];
+          const files = mockFileList([
+            new File([res], 'testfile.xml', { type: 'text/xml' }),
+          ]);
           component.handleJiveXMLDataInput(files);
           expect(component.handleFileInput).toHaveBeenCalled();
         });
@@ -77,44 +89,56 @@ describe('IoOptionsDialogComponent', () => {
       });
 
       it('should log error for wrong file', () => {
-        const filesWrong = [
-          new File(['test data'], 'testfile.xml', { type: 'text/xml' }),
-        ];
-        component.handleEventDataInput(filesWrong);
+        const filesWrong = mockFileList([
+          new File(['test data'], 'testfile.xml', {
+            type: 'text/xml',
+          }),
+        ]);
+        component.handleJSONEventDataInput(filesWrong);
       });
 
       it('should handle JSON event data input', () => {
-        const files = [
-          new File(['{}'], 'testfile.json', { type: 'application/json' }),
-        ];
-        component.handleEventDataInput(files);
+        const files = mockFileList([
+          new File(['{}'], 'testfile.json', {
+            type: 'application/json',
+          }),
+        ]);
+        component.handleJSONEventDataInput(files);
       });
 
       it('should handle OBJ file input', () => {
-        const files = [
-          new File(['test data'], 'testfile.obj', { type: 'text/plain' }),
-        ];
+        const files = mockFileList([
+          new File(['test data'], 'testfile.obj', {
+            type: 'text/plain',
+          }),
+        ]);
         component.handleOBJInput(files);
       });
 
       it('should handle scene file input', () => {
-        const files = [
-          new File(['test data'], 'testfile.phnx', { type: 'text/plain' }),
-        ];
+        const files = mockFileList([
+          new File(['test data'], 'testfile.phnx', {
+            type: 'text/plain',
+          }),
+        ]);
         component.handleSceneInput(files);
       });
 
       it('should handle glTF file input', () => {
-        const files = [
-          new File(['{}'], 'testfile.gltf', { type: 'application/json' }),
-        ];
+        const files = mockFileList([
+          new File(['{}'], 'testfile.gltf', {
+            type: 'application/json',
+          }),
+        ]);
         component.handleGLTFInput(files);
       });
 
       it('should handle phoenix file input', () => {
-        const files = [
-          new File(['{}'], 'testfile.phnx', { type: 'application/json' }),
-        ];
+        const files = mockFileList([
+          new File(['{}'], 'testfile.phnx', {
+            type: 'application/json',
+          }),
+        ]);
         component.handlePhoenixInput(files);
       });
     });
