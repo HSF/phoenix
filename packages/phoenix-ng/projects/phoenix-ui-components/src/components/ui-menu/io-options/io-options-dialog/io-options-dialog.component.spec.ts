@@ -4,6 +4,7 @@ import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import JSZip from 'jszip';
 
 const mockFileList = (files: File[]): FileList => {
   const fileList: FileList = {
@@ -66,7 +67,7 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  describe('handleEventDataInput', () => {
+  describe('handleFileInput', () => {
     beforeEach(() => {
       spyOn(component, 'handleFileInput').and.callThrough();
     });
@@ -83,7 +84,7 @@ describe('IoOptionsDialogComponent', () => {
         });
     }, 30000);
 
-    describe('handleEventDataInput sync', () => {
+    describe('handleFileInput sync', () => {
       afterEach(() => {
         expect(component.handleFileInput).toHaveBeenCalled();
       });
@@ -140,6 +141,36 @@ describe('IoOptionsDialogComponent', () => {
           }),
         ]);
         component.handlePhoenixInput(files);
+      });
+    });
+
+    describe('handleZipFileInput', () => {
+      beforeEach(() => {
+        spyOn(component, 'handleZipInput').and.callThrough();
+      });
+
+      afterEach(() => {
+        expect(component.handleZipInput).toHaveBeenCalled();
+      });
+
+      it('should handle zipped JiveXML event data', async () => {
+        const zip = new JSZip();
+        zip.file('test_data.xml', '<test>test data</test>');
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const files = mockFileList([
+          new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
+        ]);
+        component.handleJiveXMLDataInput(files);
+      });
+
+      it('should handle zipped JSON event data', async () => {
+        const zip = new JSZip();
+        zip.file('test_data.json', '{ "event": null }');
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const files = mockFileList([
+          new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
+        ]);
+        component.handleJSONEventDataInput(files);
       });
     });
   });
