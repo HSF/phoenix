@@ -127,6 +127,42 @@ export class IOOptionsDialogComponent {
     });
   }
 
+  handleZipEventDataInput(files: FileList) {
+    if (this.isFileOfExtension(files[0], 'zip')) {
+      this.handleZipInput(files[0], (allFilesWithData) => {
+        const allEventsObject = {};
+        console.log(allFilesWithData);
+
+        // JSON event data
+        Object.keys(allFilesWithData)
+          .filter((fileName) => fileName.endsWith('.json'))
+          .forEach((fileName) => {
+            Object.assign(
+              allEventsObject,
+              JSON.parse(allFilesWithData[fileName])
+            );
+          });
+
+        // JiveXML event data
+        const jiveloader = new JiveXMLLoader();
+        Object.keys(allFilesWithData)
+          .filter((fileName) => fileName.endsWith('.xml'))
+          .forEach((fileName) => {
+            jiveloader.process(allFilesWithData[fileName]);
+            const eventData = jiveloader.getEventData();
+            Object.assign(allEventsObject, { [fileName]: eventData });
+          });
+
+        this.eventDisplay.parsePhoenixEvents(allEventsObject);
+
+        this.onNoClick();
+      });
+    } else {
+      console.error('Error: Invalid file format!');
+      this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
+    }
+  }
+
   async handleZipInput(
     file: File,
     callback: (allFilesWithData: { [key: string]: string }) => void

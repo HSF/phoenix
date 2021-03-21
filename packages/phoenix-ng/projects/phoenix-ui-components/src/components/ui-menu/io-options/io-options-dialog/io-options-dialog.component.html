@@ -8,28 +8,41 @@
     <div class="row centered">
       <input
         type="file"
-        id="eventJiveXMLDataFile"
+        id="eventDataJiveXMLFile"
         class="inputfile"
         accept="text/xml, application/zip"
         name="image"
         (change)="handleJiveXMLDataInput($event.target.files)"
       />
-      <label for="eventJiveXMLDataFile" class="imageLabel">
+      <label for="eventDataJiveXMLFile" class="imageLabel">
         <img src="assets/icons/eventData.svg" alt="Event data icon" />
         Load .xml, .zip
       </label>
 
       <input
         type="file"
-        id="eventDataFile"
+        id="eventDataJSONFile"
         class="inputfile"
         accept="application/json, application/zip"
         name="image"
         (change)="handleJSONEventDataInput($event.target.files)"
       />
-      <label for="eventDataFile" class="imageLabel">
+      <label for="eventDataJSONFile" class="imageLabel">
         <img src="assets/icons/eventData.svg" alt="Event data icon" />
         Load .json, .zip
+      </label>
+
+      <input
+        type="file"
+        id="eventDataZipFile"
+        class="inputfile"
+        accept="application/zip"
+        name="image"
+        (change)="handleZipEventDataInput($event.target.files)"
+      />
+      <label for="eventDataZipFile" class="imageLabel">
+        <img src="assets/icons/eventData.svg" alt="Event data icon" />
+        Load .zip
       </label>
     </div>
 
