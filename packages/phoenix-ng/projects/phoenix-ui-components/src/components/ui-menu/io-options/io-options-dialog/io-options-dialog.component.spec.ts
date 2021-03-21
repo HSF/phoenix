@@ -143,36 +143,17 @@ describe('IoOptionsDialogComponent', () => {
         component.handlePhoenixInput(files);
       });
     });
+  });
 
-    describe('handleZipFileInput', () => {
-      beforeEach(() => {
-        spyOn(component, 'handleZipInput').and.callThrough();
-      });
-
-      afterEach(() => {
-        expect(component.handleZipInput).toHaveBeenCalled();
-      });
-
-      it('should handle zipped JiveXML event data', async () => {
-        const zip = new JSZip();
-        zip.file('test_data.xml', '<test>test data</test>');
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const files = mockFileList([
-          new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
-        ]);
-        component.handleJiveXMLDataInput(files);
-      });
-
-      it('should handle zipped JSON event data', async () => {
-        const zip = new JSZip();
-        zip.file('test_data.json', '{ "event": null }');
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const files = mockFileList([
-          new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
-        ]);
-        component.handleJSONEventDataInput(files);
-      });
-    });
+  it('should handle zipped event data', async () => {
+    const zip = new JSZip();
+    zip.file('test_data.json', '{ "event": null }');
+    zip.file('test_data.xml', '<test>test data</test>');
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const files = mockFileList([
+      new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
+    ]);
+    component.handleZipEventDataInput(files);
   });
 
   it('should save scene', () => {
