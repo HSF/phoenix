@@ -1,6 +1,6 @@
 name: Phoenix
 
-on: [push, pull_request]
+on: push
 
 jobs:
   build-and-test:
@@ -40,13 +40,25 @@ jobs:
         id: if_pr
 
       - name: Deploy Pull Request
+        id: deploy_pr
         if: ${{ success() && steps.if_pr.outputs.number }}
-        shell: bash
         env:
-          PULL_REQUEST_NUMBER: ${{ steps.if_pr.outputs.number }}
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
         run: |
-          chmod +x ./scripts/pr_deploy.sh
-          ./scripts/pr_deploy.sh
+          yarn deploy:web
+          npx surge --project ./packages/phoenix-ng/docs/ --domain $PR_URL
+          echo "::set-output name=pr_url::${PR_URL}"
+
+      - name: Update Pull Request Status
+        if: ${{ success() }}
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/{repository}/statuses/{commit}
+          repository: ${{ github.repository }}
+          commit: ${{ github.sha }}
+          state: success
+          target_url: ${{ steps.deploy_pr.outputs.pr_url }}
+          description: Pull request deployed
+          context: Phoenix PR Deployment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
