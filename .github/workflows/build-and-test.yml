@@ -44,18 +44,20 @@ jobs:
         if: ${{ success() && steps.if_pr.outputs.number }}
         env:
           PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
           yarn deploy:web
           npx surge --project ./packages/phoenix-ng/docs/ --domain $PR_URL
-          echo "::set-output name=pr_url::${PR_URL}"
+          echo "::set-output name=pr_url::$PR_URL"
 
       - name: Update Pull Request Status
-        if: ${{ success() }}
+        if: ${{ success() && steps.if_pr.outputs.number }}
         uses: octokit/request-action@v2.x
         with:
-          route: POST /repos/{repository}/statuses/{commit}
+          route: POST /repos/{repository}/statuses/{sha}
           repository: ${{ github.repository }}
-          commit: ${{ github.sha }}
+          sha: ${{ github.sha }}
           state: success
           target_url: ${{ steps.deploy_pr.outputs.pr_url }}
           description: Pull request deployed
