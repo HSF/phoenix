@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayViewWindowComponent } from './overlay-view-window.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -10,14 +10,12 @@ describe('OverlayViewWindowComponent', () => {
   let fixture: ComponentFixture<OverlayViewWindowComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIService', [
-      'setOverlayRenderer',
-      'toggleOrthographicView',
-    ]),
+    getUIManager: jasmine.createSpyObj('UIService', ['toggleOrthographicView']),
     fixOverlayView: jasmine.createSpy('fixOverlayView'),
+    setOverlayRenderer: jasmine.createSpy('setOverlayRenderer'),
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -28,7 +26,7 @@ describe('OverlayViewWindowComponent', () => {
       ],
       declarations: [OverlayViewWindowComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OverlayViewWindowComponent);
@@ -51,9 +49,9 @@ describe('OverlayViewWindowComponent', () => {
     expect(component.initializeCanvas).toHaveBeenCalledWith(
       mockCanvasElement.nativeElement
     );
-    expect(
-      mockEventDisplay.getUIManager().setOverlayRenderer
-    ).toHaveBeenCalledWith(mockCanvasElement.nativeElement);
+    expect(mockEventDisplay.setOverlayRenderer).toHaveBeenCalledWith(
+      mockCanvasElement.nativeElement
+    );
   });
 
   it('should switch view of overlay view window', () => {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayComponent } from './overlay.component';
 import { ElementRef } from '@angular/core';
@@ -8,12 +8,12 @@ describe('OverlayComponent', () => {
   let component: OverlayComponent;
   let fixture: ComponentFixture<OverlayComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       declarations: [OverlayComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OverlayComponent);

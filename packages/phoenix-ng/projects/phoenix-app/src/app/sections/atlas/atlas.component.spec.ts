@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AtlasComponent } from './atlas.component';
 import { AppModule } from '../../../app/app.module';
@@ -7,11 +7,11 @@ describe('AtlasComponent', () => {
   let component: AtlasComponent;
   let fixture: ComponentFixture<AtlasComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
     });
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AtlasComponent);

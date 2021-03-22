@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -23,7 +23,7 @@ describe('IoOptionsDialogComponent', () => {
     exportToOBJ: jasmine.createSpy('exportToOBJ'),
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -41,7 +41,7 @@ describe('IoOptionsDialogComponent', () => {
     fixture = TestBed.createComponent(IOOptionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   afterEach(() => {
     fixture.destroy();

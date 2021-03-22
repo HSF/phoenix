@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectSelectionComponent } from './object-selection.component';
 import { Overlay } from '@angular/cdk/overlay';
@@ -14,7 +14,7 @@ describe('ObjectSelectionComponent', () => {
     'allowSelection',
   ]);
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
@@ -26,7 +26,7 @@ describe('ObjectSelectionComponent', () => {
       ],
       declarations: [ObjectSelectionComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ObjectSelectionComponent);

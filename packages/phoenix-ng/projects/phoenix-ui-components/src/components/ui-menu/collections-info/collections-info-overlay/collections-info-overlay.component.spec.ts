@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -9,14 +9,14 @@ describe('CollectionsInfoOverlayComponent', () => {
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
   let eventDisplayService: EventDisplayService;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [EventDisplayService],
       declarations: [CollectionsInfoOverlayComponent],
     }).compileComponents();
     eventDisplayService = TestBed.get(EventDisplayService);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsInfoOverlayComponent);

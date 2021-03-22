@@ -289,24 +289,21 @@ describe('EventDisplay', () => {
     });
 
     it('should initialize VR', () => {
-      spyOn(three, 'initVRSession').and.callThrough();
+      spyOn(three, 'initVRSession').and.stub();
       eventDisplay.initVR();
       expect(three.initVRSession).toHaveBeenCalled();
     });
 
     it('should end VR', () => {
+      spyOn(three, 'initVRSession').and.stub();
       eventDisplay.initVR();
 
-      spyOn(three, 'endVRSession').and.callThrough();
+      spyOn(three, 'endVRSession').and.stub();
       eventDisplay.endVR();
       expect(three.endVRSession).toHaveBeenCalled();
     });
 
     it('should call three service functions', () => {
-      spyOn(three, 'initVRSession').and.callThrough();
-      eventDisplay.initVR();
-      expect(three.initVRSession).toHaveBeenCalled();
-
       spyOn(three, 'exportSceneToOBJ').and.stub();
       eventDisplay.exportToOBJ();
       expect(three.exportSceneToOBJ).toHaveBeenCalled();
@@ -327,7 +324,7 @@ describe('EventDisplay', () => {
       expect(three.zoomTo).toHaveBeenCalled();
 
       spyOn(three, 'setOverlayRenderer').and.stub();
-      eventDisplay.renderOverlay(document.createElement('canvas'));
+      eventDisplay.setOverlayRenderer(document.createElement('canvas'));
       expect(three.setOverlayRenderer).toHaveBeenCalled();
 
       spyOn(three, 'setSelectedObjectDisplay').and.stub();

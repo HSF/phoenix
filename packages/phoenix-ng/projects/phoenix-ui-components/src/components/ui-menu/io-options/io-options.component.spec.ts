@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IoOptionsComponent } from './io-options.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,14 +10,14 @@ describe('IoOptionsComponent', () => {
 
   let dialog: MatDialog;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [MatDialog],
       declarations: [IoOptionsComponent],
     }).compileComponents();
     dialog = TestBed.get(MatDialog);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IoOptionsComponent);

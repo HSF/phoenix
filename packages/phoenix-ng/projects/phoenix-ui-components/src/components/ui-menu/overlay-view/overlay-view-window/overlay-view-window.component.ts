@@ -17,7 +17,7 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
-    this.eventDisplay.getUIManager().setOverlayRenderer(canvas);
+    this.eventDisplay.setOverlayRenderer(canvas);
   }
 
   initializeCanvas(canvas: HTMLCanvasElement): HTMLCanvasElement {

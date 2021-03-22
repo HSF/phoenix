@@ -16,14 +16,14 @@ describe('TrackmlComponent', () => {
   let http: HttpClient;
   let fixture: ComponentFixture<TrackmlComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
       providers: [EventDisplayService, HttpClient],
       declarations: [TrackmlComponent],
     }).compileComponents;
     http = TestBed.get(HttpClient);
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TrackmlComponent);

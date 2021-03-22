@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfigSliderComponent } from './config-slider.component';
 import { MatSliderModule } from '@angular/material/slider';
@@ -7,12 +7,12 @@ describe('ConfigSliderComponent', () => {
   let component: ConfigSliderComponent;
   let fixture: ComponentFixture<ConfigSliderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [MatSliderModule],
       declarations: [ConfigSliderComponent],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigSliderComponent);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { MenuToggleComponent } from './menu-toggle.component';
@@ -7,11 +7,11 @@ describe('MenuToggleComponent', () => {
   let component: MenuToggleComponent;
   let fixture: ComponentFixture<MenuToggleComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenuToggleComponent);

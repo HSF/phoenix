@@ -43,30 +43,33 @@ export class ControlsManager {
     this.controls = [];
     this.mainControls = null;
     this.overlayControls = null;
+
+    const rendererElement = rendererManager.getMainRenderer()?.domElement;
+
     // Arguments: FOV, aspect ratio, near and far distances
     const perspectiveCamera = new PerspectiveCamera(
       75,
-      window.innerWidth / window.innerHeight,
+      rendererElement.offsetWidth / rendererElement.offsetHeight,
       10,
       100000
     );
     // Arguments: left, right, top, bottom, near and far distances
     const orthographicCamera = new OrthographicCamera(
-      window.innerWidth / -2,
-      window.innerWidth / 2,
-      window.innerHeight / 2,
-      window.innerHeight / -2,
+      rendererElement.offsetWidth / -2,
+      rendererElement.offsetWidth / 2,
+      rendererElement.offsetHeight / 2,
+      rendererElement.offsetHeight / -2,
       10,
       100000
     );
     // Orbit controls allow to move around
     this.perspectiveControls = this.setOrbitControls(
       perspectiveCamera,
-      rendererManager.getMainRenderer().domElement
+      rendererElement
     );
     this.orthographicControls = this.setOrbitControls(
       orthographicCamera,
-      rendererManager.getMainRenderer().domElement
+      rendererElement
     );
     perspectiveCamera.position.z = orthographicCamera.position.z =
       defaultView[2];
@@ -87,6 +90,8 @@ export class ControlsManager {
     });
     // Initialize the zoom controls
     this.initializeZoomControls();
+    // Modify camera(s) on window resize
+    this.setupResize(rendererElement);
   }
 
   /**
@@ -444,6 +449,29 @@ export class ControlsManager {
     }
 
     return false;
+  }
+
+  /**
+   * Set up to make camera(s) adapt to window resize.
+   * @param rendererElement Canvas element of the main renderer.
+   */
+  private setupResize(rendererElement: HTMLCanvasElement) {
+    window.addEventListener('resize', () => {
+      let mainCamera = this.getMainCamera() as any;
+      if (mainCamera.isOrthographicCamera) {
+        mainCamera = mainCamera as OrthographicCamera;
+        mainCamera.left = rendererElement.offsetWidth / -2;
+        mainCamera.right = rendererElement.offsetWidth / 2;
+        mainCamera.top = rendererElement.offsetHeight / 2;
+        mainCamera.bottom = rendererElement.offsetHeight / -2;
+        mainCamera.updateProjectionMatrix();
+      } else {
+        mainCamera = mainCamera as PerspectiveCamera;
+        mainCamera.aspect =
+          rendererElement.offsetWidth / rendererElement.offsetHeight;
+        mainCamera.updateProjectionMatrix();
+      }
+    });
   }
 
   /**
