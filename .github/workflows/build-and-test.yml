@@ -40,13 +40,43 @@ jobs:
         id: if_pr
 
       - name: Deploy Pull Request
+        id: deploy_pr
         if: ${{ success() && steps.if_pr.outputs.number }}
-        shell: bash
         env:
-          PULL_REQUEST_NUMBER: ${{ steps.if_pr.outputs.number }}
+          PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
-          chmod +x ./scripts/pr_deploy.sh
-          ./scripts/pr_deploy.sh
+          yarn deploy:web
+          npx surge --project ./packages/phoenix-ng/docs/ --domain $PR_URL
+          echo "::set-output name=pr_url::$PR_URL"
+
+      - name: Create Pull Request Deployment
+        id: create_pr_deployment
+        if: ${{ success() && steps.if_pr.outputs.number }}
+        uses: octokit/request-action@v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          route: POST /repos/{repository}/deployments
+          repository: ${{ github.repository }}
+          ref: ${{ github.ref }}
+          environment: pull-request
+          required_contexts: '[]'
+          auto_merge: false
+
+      - name: Create Pull Request Deployment Status
+        if: ${{ success() && steps.if_pr.outputs.number }}
+        uses: octokit/request-action@v2.x
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          route: POST /repos/{repository}/deployments/{deployment_id}/statuses
+          repository: ${{ github.repository }}
+          deployment_id: ${{ fromJSON(steps.create_pr_deployment.outputs.data).id }}
+          state: success
+          target_url: ${{ steps.deploy_pr.outputs.pr_url }}
+          description: Pull request deployed
+          environment: pull-request
+          environment_url: ${{ steps.deploy_pr.outputs.pr_url }}
+          mediaType: '{"previews": ["flash", "ant-man"]}'
