@@ -50,7 +50,7 @@ export class CMSLoader extends PhoenixLoader {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     let eventsDataInIg = [];
-    const readArchive = (res: Blob) => {
+    const readArchive = (res: File | ArrayBuffer) => {
       igArchive.loadAsync(res).then(() => {
         let allFilesPath = Object.keys(igArchive.files);
         // If the event path or name is given then filter all data to get the required events
@@ -97,7 +97,7 @@ export class CMSLoader extends PhoenixLoader {
       readArchive(file);
     } else {
       fetch(file)
-        .then((res) => res.blob())
+        .then((res) => res.arrayBuffer())
         .then((res) => {
           readArchive(res);
         });

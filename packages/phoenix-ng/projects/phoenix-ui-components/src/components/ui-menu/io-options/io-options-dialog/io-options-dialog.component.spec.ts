@@ -156,6 +156,16 @@ describe('IoOptionsDialogComponent', () => {
     component.handleZipEventDataInput(files);
   });
 
+  it('should handle ig event data', async () => {
+    const ig = new JSZip();
+    ig.file('test_data', '{}');
+    const igBlob = await ig.generateAsync({ type: 'blob' });
+    const files = mockFileList([
+      new File([igBlob], 'test_data.ig'),
+    ]);
+    component.handleZipEventDataInput(files);
+  });
+
   it('should save scene', () => {
     component.saveScene();
     expect(mockEventDisplayService.exportPhoenixDisplay).toHaveBeenCalled();

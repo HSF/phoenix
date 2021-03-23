@@ -1,5 +1,4 @@
 const path = require('path');
-const packageJSON = require('../package.json');
 
 module.exports = {
   entry: './src/browser.ts',
@@ -17,7 +16,7 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: `phoenix-${packageJSON.version}.min.js`,
+    filename: `phoenix.min.js`,
     path: path.resolve(__dirname, '../dist/bundle'),
   },
 };
