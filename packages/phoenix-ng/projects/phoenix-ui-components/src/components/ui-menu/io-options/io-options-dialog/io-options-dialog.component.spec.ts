@@ -148,7 +148,8 @@ describe('IoOptionsDialogComponent', () => {
   it('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
-    zip.file('test_data.xml', '<test>test data</test>');
+    const jivexmlData = await fetch('assets/test_data/JiveXML.xml');
+    zip.file('test_data.xml', jivexmlData.text());
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const files = mockFileList([
       new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
@@ -160,9 +161,7 @@ describe('IoOptionsDialogComponent', () => {
     const ig = new JSZip();
     ig.file('test_data', '{}');
     const igBlob = await ig.generateAsync({ type: 'blob' });
-    const files = mockFileList([
-      new File([igBlob], 'test_data.ig'),
-    ]);
+    const files = mockFileList([new File([igBlob], 'test_data.ig')]);
     component.handleZipEventDataInput(files);
   });
 
