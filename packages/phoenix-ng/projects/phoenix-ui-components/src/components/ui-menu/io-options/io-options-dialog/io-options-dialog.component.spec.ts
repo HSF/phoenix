@@ -4,6 +4,16 @@ import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import JSZip from 'jszip';
+
+const mockFileList = (files: File[]): FileList => {
+  const fileList: FileList = {
+    length: files.length,
+    item: (index) => files[index],
+  };
+  Object.assign(fileList, files);
+  return fileList;
+};
 
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;
@@ -21,6 +31,7 @@ describe('IoOptionsDialogComponent', () => {
     parseGLTFGeometry: jasmine.createSpy('parseGLTFGeometry'),
     exportPhoenixDisplay: jasmine.createSpy('exportPhoenixDisplay'),
     exportToOBJ: jasmine.createSpy('exportToOBJ'),
+    getInfoLogger: () => jasmine.createSpyObj('InfoLogger', ['add']),
   };
 
   beforeEach(() => {
@@ -56,7 +67,7 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  describe('handleEventDataInput', () => {
+  describe('handleFileInput', () => {
     beforeEach(() => {
       spyOn(component, 'handleFileInput').and.callThrough();
     });
@@ -65,59 +76,84 @@ describe('IoOptionsDialogComponent', () => {
       await fetch('assets/test_data/JiveXML.xml')
         .then((res) => res.text())
         .then((res) => {
-          const files = [new File([res], 'testfile.xml', { type: 'text/xml' })];
+          const files = mockFileList([
+            new File([res], 'testfile.xml', { type: 'text/xml' }),
+          ]);
           component.handleJiveXMLDataInput(files);
           expect(component.handleFileInput).toHaveBeenCalled();
         });
     }, 30000);
 
-    describe('handleEventDataInput sync', () => {
+    describe('handleFileInput sync', () => {
       afterEach(() => {
         expect(component.handleFileInput).toHaveBeenCalled();
       });
 
       it('should log error for wrong file', () => {
-        const filesWrong = [
-          new File(['test data'], 'testfile.xml', { type: 'text/xml' }),
-        ];
-        component.handleEventDataInput(filesWrong);
+        const filesWrong = mockFileList([
+          new File(['test data'], 'testfile.xml', {
+            type: 'text/xml',
+          }),
+        ]);
+        component.handleJSONEventDataInput(filesWrong);
       });
 
       it('should handle JSON event data input', () => {
-        const files = [
-          new File(['{}'], 'testfile.json', { type: 'application/json' }),
-        ];
-        component.handleEventDataInput(files);
+        const files = mockFileList([
+          new File(['{}'], 'testfile.json', {
+            type: 'application/json',
+          }),
+        ]);
+        component.handleJSONEventDataInput(files);
       });
 
       it('should handle OBJ file input', () => {
-        const files = [
-          new File(['test data'], 'testfile.obj', { type: 'text/plain' }),
-        ];
+        const files = mockFileList([
+          new File(['test data'], 'testfile.obj', {
+            type: 'text/plain',
+          }),
+        ]);
         component.handleOBJInput(files);
       });
 
       it('should handle scene file input', () => {
-        const files = [
-          new File(['test data'], 'testfile.phnx', { type: 'text/plain' }),
-        ];
+        const files = mockFileList([
+          new File(['test data'], 'testfile.phnx', {
+            type: 'text/plain',
+          }),
+        ]);
         component.handleSceneInput(files);
       });
 
       it('should handle glTF file input', () => {
-        const files = [
-          new File(['{}'], 'testfile.gltf', { type: 'application/json' }),
-        ];
+        const files = mockFileList([
+          new File(['{}'], 'testfile.gltf', {
+            type: 'application/json',
+          }),
+        ]);
         component.handleGLTFInput(files);
       });
 
       it('should handle phoenix file input', () => {
-        const files = [
-          new File(['{}'], 'testfile.phnx', { type: 'application/json' }),
-        ];
+        const files = mockFileList([
+          new File(['{}'], 'testfile.phnx', {
+            type: 'application/json',
+          }),
+        ]);
         component.handlePhoenixInput(files);
       });
     });
+  });
+
+  it('should handle zipped event data', async () => {
+    const zip = new JSZip();
+    zip.file('test_data.json', '{ "event": null }');
+    zip.file('test_data.xml', '<test>test data</test>');
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    const files = mockFileList([
+      new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
+    ]);
+    component.handleZipEventDataInput(files);
   });
 
   it('should save scene', () => {

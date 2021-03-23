@@ -34,6 +34,9 @@ export class PhoenixObjects {
    */
   public static getTrack(trackParams: any): Object3D {
     let positions = trackParams.pos;
+    if (!positions) {
+      return;
+    }
     // Track with no points
     // if (positions.length==0) {
     //   console.log("Track with no positions.")
