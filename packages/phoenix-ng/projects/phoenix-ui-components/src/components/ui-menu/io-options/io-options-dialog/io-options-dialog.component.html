@@ -1,52 +1,36 @@
 <div class="dialog">
   <h1 mat-dialog-title>Import and export options</h1>
   <div mat-dialog-content class="dialog-content">
-    <h5>Import</h5>
+    <div *ngIf="eventDataFormats.length > 0">
+      <h5>Import</h5>
 
-    <h6 class="text-center">Event data</h6>
+      <h6 class="text-center">Event data</h6>
 
-    <div class="row centered">
-      <input
-        type="file"
-        id="eventDataJiveXMLFile"
-        class="inputfile"
-        accept="text/xml"
-        name="image"
-        (change)="handleJiveXMLDataInput($event.target.files)"
-      />
-      <label for="eventDataJiveXMLFile" class="imageLabel">
-        <img src="assets/icons/eventData.svg" alt="Event data icon" />
-        Load .xml
-      </label>
+      <div class="row centered">
+        <ng-container
+          *ngFor="let eventDataFormat of eventDataFormatsWithHandler"
+        >
+          <input
+            type="file"
+            [id]="'eventData' + eventDataFormat.format + 'File'"
+            class="inputfile"
+            [accept]="eventDataFormat.accept"
+            (change)="eventDataFormat.handler($event.target.files)"
+          />
+          <label
+            [for]="'eventData' + eventDataFormat.format + 'File'"
+            class="imageLabel"
+          >
+            <img src="assets/icons/eventData.svg" alt="Event data icon" />
+            Load {{ eventDataFormat.fileType }}
+          </label>
+        </ng-container>
+      </div>
 
-      <input
-        type="file"
-        id="eventDataJSONFile"
-        class="inputfile"
-        accept="application/json"
-        name="image"
-        (change)="handleJSONEventDataInput($event.target.files)"
-      />
-      <label for="eventDataJSONFile" class="imageLabel">
-        <img src="assets/icons/eventData.svg" alt="Event data icon" />
-        Load .json
-      </label>
-
-      <input
-        type="file"
-        id="eventDataZipFile"
-        class="inputfile"
-        accept="application/zip"
-        name="image"
-        (change)="handleZipEventDataInput($event.target.files)"
-      />
-      <label for="eventDataZipFile" class="imageLabel">
-        <img src="assets/icons/eventData.svg" alt="Event data icon" />
-        Load .zip
-      </label>
+      <p class="text-center">
+        Supported formats: {{ getSupportedEventDataFormats() }}.
+      </p>
     </div>
-
-    <p class="text-center">Supported formats: JiveXML, JSON.</p>
 
     <h6 class="text-center">Geometries</h6>
 

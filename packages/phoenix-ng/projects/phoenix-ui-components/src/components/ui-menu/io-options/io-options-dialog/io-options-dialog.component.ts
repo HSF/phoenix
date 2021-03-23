@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
@@ -10,45 +10,56 @@ import JSZip from 'jszip';
   templateUrl: './io-options-dialog.component.html',
   styleUrls: ['./io-options-dialog.component.scss'],
 })
-export class IOOptionsDialogComponent {
+export class IOOptionsDialogComponent implements OnInit {
   @Input()
-  eventDataFormats: EventDataFormat[] = [];
+  eventDataFormats: EventDataFormat[] = [EventDataFormat.JSON];
   eventDataFormatsWithHandler: {
     format: EventDataFormat;
     fileType: string;
+    accept?: string;
     handler: () => void;
   }[];
+  private supportedEventDataFormats = [
+    {
+      format: EventDataFormat.JSON,
+      fileType: '.json',
+      accept: 'application/json',
+      handler: this.handleJSONEventDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.JIVEXML,
+      fileType: '.xml',
+      accept: 'text/xml',
+      handler: this.handleJiveXMLDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.ZIP,
+      fileType: '.zip',
+      handler: this.handleZipEventDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.IG,
+      fileType: '.ig',
+      handler: () => {},
+    },
+  ];
 
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>
-  ) {
-    this.eventDataFormatsWithHandler = [
-      {
-        format: EventDataFormat.JSON,
-        fileType: '.json',
-        handler: this.handleJSONEventDataInput.bind(this),
-      },
-      {
-        format: EventDataFormat.JIVEXML,
-        fileType: '.xml',
-        handler: this.handleJiveXMLDataInput.bind(this),
-      },
-      {
-        format: EventDataFormat.ROOT,
-        fileType: '.root',
-        handler: () => {},
-      },
-      {
-        format: EventDataFormat.IG,
-        fileType: '.ig',
-        handler: () => {},
-      },
-    ];
+  ) {}
 
-    this.eventDataFormatsWithHandler.filter((eventDataFormat) =>
-      this.eventDataFormats.includes(eventDataFormat.format)
+  ngOnInit() {
+    this.eventDataFormatsWithHandler = this.supportedEventDataFormats.filter(
+      (eventDataFormat) =>
+        this.eventDataFormats.includes(eventDataFormat.format)
     );
+  }
+
+  getSupportedEventDataFormats() {
+    return this.eventDataFormats
+      .filter((format) => format !== 'ZIP')
+      .join(', ');
   }
 
   onNoClick(): void {
