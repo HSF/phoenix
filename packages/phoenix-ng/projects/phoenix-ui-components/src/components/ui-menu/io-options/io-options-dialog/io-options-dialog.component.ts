@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import { EventDataFormat } from '../../../../types';
 import JSZip from 'jszip';
 
 @Component({
@@ -10,10 +11,45 @@ import JSZip from 'jszip';
   styleUrls: ['./io-options-dialog.component.scss'],
 })
 export class IOOptionsDialogComponent {
+  @Input()
+  eventDataFormats: EventDataFormat[] = [];
+  eventDataFormatsWithHandler: {
+    format: EventDataFormat;
+    fileType: string;
+    handler: () => void;
+  }[];
+
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>
-  ) {}
+  ) {
+    this.eventDataFormatsWithHandler = [
+      {
+        format: EventDataFormat.JSON,
+        fileType: '.json',
+        handler: this.handleJSONEventDataInput.bind(this),
+      },
+      {
+        format: EventDataFormat.JIVEXML,
+        fileType: '.xml',
+        handler: this.handleJiveXMLDataInput.bind(this),
+      },
+      {
+        format: EventDataFormat.ROOT,
+        fileType: '.root',
+        handler: () => {},
+      },
+      {
+        format: EventDataFormat.IG,
+        fileType: '.ig',
+        handler: () => {},
+      },
+    ];
+
+    this.eventDataFormatsWithHandler.filter((eventDataFormat) =>
+      this.eventDataFormats.includes(eventDataFormat.format)
+    );
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
