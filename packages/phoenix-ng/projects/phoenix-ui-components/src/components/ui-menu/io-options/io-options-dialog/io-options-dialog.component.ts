@@ -1,7 +1,7 @@
 import { OnInit, Component, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import { CMSLoader, JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
 import { EventDataFormat } from '../../../../types';
 import JSZip from 'jszip';
 
@@ -40,7 +40,7 @@ export class IOOptionsDialogComponent implements OnInit {
     {
       format: EventDataFormat.IG,
       fileType: '.ig',
-      handler: () => {},
+      handler: this.handleIgEventDataInput.bind(this),
     },
   ];
 
@@ -138,6 +138,15 @@ export class IOOptionsDialogComponent implements OnInit {
         );
       };
       this.handleFileInput(files[0], 'gz', callback);
+    });
+  }
+
+  handleIgEventDataInput(files: FileList) {
+    const cmsLoader = new CMSLoader();
+    cmsLoader.readIgArchive(files[0], (allEvents: any[]) => {
+      const allEventsData = cmsLoader.getAllEventsData(allEvents);
+      this.eventDisplay.parsePhoenixEvents(allEventsData);
+      this.onNoClick();
     });
   }
 
