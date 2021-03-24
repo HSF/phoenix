@@ -150,8 +150,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:240</a></div>
                 </td>
             </tr>
 
@@ -230,8 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:193</a></div>
                 </td>
             </tr>
 
@@ -310,8 +310,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:128</a></div>
                 </td>
             </tr>
 
@@ -390,8 +390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:35</a></div>
                 </td>
             </tr>
 
@@ -471,8 +471,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="235"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:235</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="279"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:279</a></div>
                 </td>
             </tr>
 
@@ -537,7 +537,27 @@ and get it as a geometry.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Vector3, Object3D, CatmullRomCurve3, TubeBufferGeometry, MeshToonMaterial, Mesh, BufferGeometry, LineBasicMaterial, Line, Group, Quaternion, CylinderBufferGeometry, MeshBasicMaterial, BufferAttribute, PointsMaterial, Points, BoxBufferGeometry, MeshPhongMaterial, SphereBufferGeometry } from &#x27;three&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Vector3,
+  Object3D,
+  CatmullRomCurve3,
+  TubeBufferGeometry,
+  MeshToonMaterial,
+  Mesh,
+  BufferGeometry,
+  LineBasicMaterial,
+  Line,
+  Group,
+  Quaternion,
+  CylinderBufferGeometry,
+  MeshBasicMaterial,
+  BufferAttribute,
+  PointsMaterial,
+  Points,
+  BoxBufferGeometry,
+  MeshPhongMaterial,
+  SphereBufferGeometry,
+} from &#x27;three&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 
@@ -545,7 +565,6 @@ import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
-
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -554,6 +573,9 @@ export class PhoenixObjects {
    */
   public static getTrack(trackParams: any): Object3D {
     let positions &#x3D; trackParams.pos;
+    if (!positions) {
+      return;
+    }
     // Track with no points
     // if (positions.length&#x3D;&#x3D;0) {
     //   console.log(&quot;Track with no positions.&quot;)
@@ -563,15 +585,13 @@ export class PhoenixObjects {
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length &lt; 3) {
       if (trackParams?.dparams) {
-        // Test, for ATLAS. 
+        // Test, for ATLAS.
         // FIXME - make configurable
         let inBounds &#x3D; function (pos: Vector3) {
-          if (pos.z &gt; 3000)
-            return false;
-          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) &gt; 1100)
-            return false;
+          if (pos.z &gt; 3000) return false;
+          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) &gt; 1100) return false;
 
-          return true
+          return true;
         };
 
         positions &#x3D; RKHelper.extrapolateTrackPositions(trackParams, inBounds);
@@ -582,12 +602,10 @@ export class PhoenixObjects {
       return;
     }
 
-
     // const length &#x3D; 100;
-    let objectColor &#x3D; EVENT_DATA_TYPE_COLORS[&#x27;Tracks&#x27;].getHex();
-    if (trackParams.color) {
-      objectColor &#x3D; parseInt(trackParams.color, 16);
-    }
+    let objectColor &#x3D; trackParams.color
+      ? parseInt(trackParams.color, 16)
+      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
     // // Apply pT cut TODO - make this configurable.
     // const momentum &#x3D; trackParams.mom;
@@ -601,7 +619,9 @@ export class PhoenixObjects {
     const points &#x3D; [];
 
     for (let i &#x3D; 0; i &lt; positions.length; i++) {
-      points.push(new Vector3(positions[i][0], positions[i][1], positions[i][2]));
+      points.push(
+        new Vector3(positions[i][0], positions[i][1], positions[i][2])
+      );
     }
 
     // attributes
@@ -617,7 +637,7 @@ export class PhoenixObjects {
     const lineGeometry &#x3D; new BufferGeometry().setFromPoints(vertices);
     const lineMaterial &#x3D; new LineBasicMaterial({
       color: objectColor,
-      linewidth: 2
+      linewidth: 2,
     });
     const lineObject &#x3D; new Line(lineGeometry, lineMaterial);
     lineObject.name &#x3D; &#x27;Track&#x27;;
@@ -648,7 +668,9 @@ export class PhoenixObjects {
     const eta &#x3D; jetParams.eta;
     const phi &#x3D; jetParams.phi;
     // If theta is given then use that else calculate from eta
-    const theta &#x3D; jetParams.theta ? jetParams.theta : (2 * Math.atan(Math.pow(Math.E, eta)));
+    const theta &#x3D; jetParams.theta
+      ? jetParams.theta
+      : 2 * Math.atan(Math.pow(Math.E, eta));
     // Jet energy parameter can either be &#x27;energy&#x27; or &#x27;et&#x27;
     let length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don&#x27;t want the Jets to go out of the event display
@@ -662,7 +684,11 @@ export class PhoenixObjects {
     const stheta &#x3D; Math.sin(theta);
     const ctheta &#x3D; Math.cos(theta);
     //
-    const translation &#x3D; new Vector3(0.5 * length * cphi * stheta, 0.5 * length * sphi * stheta, 0.5 * length * ctheta);
+    const translation &#x3D; new Vector3(
+      0.5 * length * cphi * stheta,
+      0.5 * length * sphi * stheta,
+      0.5 * length * ctheta
+    );
 
     const x &#x3D; cphi * stheta;
     const y &#x3D; sphi * stheta;
@@ -672,9 +698,20 @@ export class PhoenixObjects {
     const quaternion &#x3D; new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry &#x3D; new CylinderBufferGeometry(width, 1, length, 50, 50, false); // Cone
+    const geometry &#x3D; new CylinderBufferGeometry(
+      width,
+      1,
+      length,
+      50,
+      50,
+      false
+    ); // Cone
 
-    const material &#x3D; new MeshBasicMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Jets&#x27;], opacity: 0.3, transparent: true });
+    const material &#x3D; new MeshBasicMaterial({
+      color: jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets,
+      opacity: 0.3,
+      transparent: true,
+    });
     material.opacity &#x3D; 0.5;
     const mesh &#x3D; new Mesh(geometry, material);
     mesh.position.copy(translation);
@@ -720,7 +757,10 @@ export class PhoenixObjects {
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const material &#x3D; new PointsMaterial({ size: 10, color: EVENT_DATA_TYPE_COLORS[&#x27;Hits&#x27;] });
+    const material &#x3D; new PointsMaterial({
+      size: 10,
+      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+    });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
     pointsObj.userData &#x3D; Object.assign({}, hitsParamsClone);
@@ -737,19 +777,23 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR &#x3D; 1100.0; // This needs to be configurable. 
+    const maxR &#x3D; 1100.0; // This needs to be configurable.
     const maxZ &#x3D; 3200.0;
     const length &#x3D; clusterParams.energy * 0.003;
     // geometry
     const geometry &#x3D; new BoxBufferGeometry(30, 30, length);
     // material
-    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;CaloClusters&#x27;] });
+    const material &#x3D; new MeshPhongMaterial({
+      color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+    });
     // object
     const cube &#x3D; new Mesh(geometry, material);
     const theta &#x3D; 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
-    const pos &#x3D; new Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
+    const pos &#x3D; new Vector3(
+      4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.cos(theta));
+      4000.0 * Math.cos(theta)
+    );
     cube.position.x &#x3D; pos.x;
     cube.position.y &#x3D; pos.y;
     if (pos.x * pos.x + pos.y * pos.y &gt; maxR * maxR) {
@@ -775,7 +819,9 @@ export class PhoenixObjects {
     // geometry
     const geometry &#x3D; new SphereBufferGeometry(3);
     // material
-    const material &#x3D; new MeshPhongMaterial({ color: EVENT_DATA_TYPE_COLORS[&#x27;Vertices&#x27;] });
+    const material &#x3D; new MeshPhongMaterial({
+      color: vertexParams.color ?? EVENT_DATA_TYPE_COLORS.Vertices,
+    });
     // object
     const sphere &#x3D; new Mesh(geometry, material);
     sphere.position.x &#x3D; vertexParams.x;
@@ -789,7 +835,6 @@ export class PhoenixObjects {
 
     return sphere;
   }
-
 }
 </code></pre>
     </div>

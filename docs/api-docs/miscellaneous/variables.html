@@ -101,10 +101,10 @@
                             <i>Default value : </i><code>{
   Hits: new Color(0xff0000),
   Tracks: new Color(0xff0000),
-  Jets: new Color(0x2194CE),
+  Jets: new Color(0x2194ce),
   CaloClusters: new Color(0xffd166),
   MuonChambers: new Color(0xff0000),
-  Vertices: new Color(0xFFD166)
+  Vertices: new Color(0xffd166),
 }</code>
                         </td>
                     </tr>
@@ -177,14 +177,14 @@
   inputFile.onchange &#x3D; (e: any) &#x3D;&gt; {
     const configFile &#x3D; e.target?.files[0];
     const reader &#x3D; new FileReader();
-    reader.onload &#x3D; e &#x3D;&gt; {
+    reader.onload &#x3D; (e) &#x3D;&gt; {
       onFileRead?.(e.target.result.toString());
 
       inputFile.remove();
       inputFile &#x3D; null;
     };
     reader.readAsText(configFile);
-  }
+  };
   inputFile.click();
 }</code>
                         </td>
@@ -213,7 +213,11 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>(data: string, fileName: string, contentType: string &#x3D; &#x27;application/json&#x27;) &#x3D;&gt; {
+                            <i>Default value : </i><code>(
+  data: string,
+  fileName: string,
+  contentType: string &#x3D; &#x27;application/json&#x27;
+) &#x3D;&gt; {
   const blob &#x3D; new Blob([data], { type: contentType });
   const tempAnchor &#x3D; document.createElement(&#x27;a&#x27;);
   tempAnchor.style.display &#x3D; &#x27;none&#x27;;

@@ -150,8 +150,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">src/three/export-manager.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/three/export-manager.ts:27</a></div>
                 </td>
             </tr>
 
@@ -261,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">src/three/export-manager.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/three/export-manager.ts:14</a></div>
                 </td>
             </tr>
 
@@ -340,8 +340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/three/export-manager.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">src/three/export-manager.ts:66</a></div>
                 </td>
             </tr>
 
@@ -419,8 +419,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">src/three/export-manager.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">src/three/export-manager.ts:85</a></div>
                 </td>
             </tr>
 
@@ -498,8 +498,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">src/three/export-manager.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">src/three/export-manager.ts:52</a></div>
                 </td>
             </tr>
 
@@ -588,7 +588,6 @@ import { saveFile } from &#x27;../helpers/file&#x27;;
  * Manager for managing event display&#x27;s export related functionality.
  */
 export class ExportManager {
-
   /**
    * Exports scene to OBJ file format.
    * @param scene The scene to be exported.
@@ -606,14 +605,18 @@ export class ExportManager {
    * @param eventData Currently loaded event data.
    * @param geometries Currently loaded geometries.
    */
-  public exportPhoenixScene(scene: Scene, eventData: Object3D, geometries: Object3D) {
+  public exportPhoenixScene(
+    scene: Scene,
+    eventData: Object3D,
+    geometries: Object3D
+  ) {
     const exporter &#x3D; new GLTFExporter();
 
     const sceneConfig &#x3D; this.saveSceneConfig(eventData, geometries);
     // Parse the input and generate the glTF output
     exporter.parse(
       scene,
-      result &#x3D;&gt; {
+      (result) &#x3D;&gt; {
         const jsonResult &#x3D; { sceneConfiguration: sceneConfig, scene: result };
         const output &#x3D; JSON.stringify(jsonResult, null, 2);
         saveFile(output, &#x27;phoenix-scene.phnx&#x27;, &#x27;text/plain&#x27;);
@@ -630,7 +633,10 @@ export class ExportManager {
   private saveSceneConfig(eventData: Object3D, geometries: Object3D) {
     const eventDataConfig &#x3D; this.saveEventDataConfiguration(eventData);
     const geometriesConfig &#x3D; this.saveGeometriesConfiguration(geometries);
-    const sceneConfig &#x3D; { eventData: eventDataConfig, geometries: geometriesConfig };
+    const sceneConfig &#x3D; {
+      eventData: eventDataConfig,
+      geometries: geometriesConfig,
+    };
     return sceneConfig;
   }
 
@@ -666,7 +672,6 @@ export class ExportManager {
     });
     return geometriesConfig;
   }
-
 }
 </code></pre>
     </div>

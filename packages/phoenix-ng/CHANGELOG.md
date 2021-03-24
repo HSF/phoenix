@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/HSF/phoenix/compare/v1.4.1...v1.5.0) (2021-03-24)
+
+
+### Bug Fixes
+
+* remove JSROOT source files from repo ([7bcd7ba](https://github.com/HSF/phoenix/commit/7bcd7bad7bca398242697828ae3189927ff37e89))
+* **app:** clean index.html ([ebb2324](https://github.com/HSF/phoenix/commit/ebb2324fc32625ed55492817036542a55d3f5481))
+* **event-display:** fix jsroot loading root file ([8cbcaa5](https://github.com/HSF/phoenix/commit/8cbcaa5d2e4ba89940d65d217e302e7500305641))
+
+
+### Features
+
+* **app:** ability to import ig archive in CMS ([9540af5](https://github.com/HSF/phoenix/commit/9540af5d08ab2867e6ef0496a1bd1e3215e91af7))
+* **app:** add ability to import zip with both jivexml and json ([5d62da8](https://github.com/HSF/phoenix/commit/5d62da8aed3621adfff3f8a712e27ff6978efb22))
+* **app:** Add more realistic geometry for ATLAS ([d207bad](https://github.com/HSF/phoenix/commit/d207bad4f72f9ae5e423c61fa7dc56eebc99c3b7))
+* **app:** allow loading compressed jivexml (multiple files) ([d4f3cc7](https://github.com/HSF/phoenix/commit/d4f3cc7a7a5f8e5f2f7e94ce0cc99165debd9952))
+* **app:** allow loading compressed json event data (multiple files) ([360fb20](https://github.com/HSF/phoenix/commit/360fb20d75f793131cf22471cf6a2db959f5c1f0))
+* **app:** dont process zip through json or jivexml import ([17b4e85](https://github.com/HSF/phoenix/commit/17b4e8587ac7743b9c556c73fa3a48862e9ad4ef))
+* **app:** dynamically define supported event formats for io import ([1449cbe](https://github.com/HSF/phoenix/commit/1449cbedec631f4c0d69ad35129c64a949e493e4))
+* **app:** make event data io options configurable ([989ac0e](https://github.com/HSF/phoenix/commit/989ac0ec0a50b9130fc01613735eb1f3c4b226e4))
+* **event-display:** allow resize and improve tests and drop improving CPU usage ([a474af2](https://github.com/HSF/phoenix/commit/a474af23b05766e2f5ae32850cf9338603ed1cc3))
+* **event-display:** resize canvas with window resize ([5ea04f1](https://github.com/HSF/phoenix/commit/5ea04f174b5adbe54af0aa4663466c5b6291c0a2))
+* **event-display:** update to use CDN for JSROOT ([2fa310f](https://github.com/HSF/phoenix/commit/2fa310fc0171bd19e0ec1b75322eba6b532e5bfe))
+* **event-display:** use latest version of JSROOT ([fbd584e](https://github.com/HSF/phoenix/commit/fbd584edb3dbfd436cdbe18a876c59ec05e43aa4))
+
+
+
+
+
+
 ## [1.4.1](https://github.com/HSF/phoenix/compare/v1.4.0...v1.4.1) (2021-02-26)
 
 **Note:** Version bump only for package phoenix-ng

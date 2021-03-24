@@ -537,8 +537,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/managers/loading-manager.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">src/managers/loading-manager.ts:80</a></div>
                 </td>
             </tr>
 
@@ -616,15 +616,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">src/managers/loading-manager.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">src/managers/loading-manager.ts:89</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add a listener for when all items have loaded and check if there 
+                    <div class="io-description"><p>Add a listener for when all items have loaded and check if there
 are any items to load when the listener is added.</p>
 </div>
 
@@ -696,8 +696,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/managers/loading-manager.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/managers/loading-manager.ts:101</a></div>
                 </td>
             </tr>
 
@@ -953,8 +953,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">src/managers/loading-manager.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/managers/loading-manager.ts:108</a></div>
                 </td>
             </tr>
 
@@ -1028,7 +1028,7 @@ are any items to load when the listener is added.</p>
       this.toLoad.length &#x3D;&#x3D;&#x3D; this.loaded.length &amp;&amp;
       this.toLoad.sort().join(&#x27;,&#x27;) &#x3D;&#x3D;&#x3D; this.loaded.sort().join(&#x27;,&#x27;)
     ) {
-      this.onLoadCallbacks.forEach(callback &#x3D;&gt; callback());
+      this.onLoadCallbacks.forEach((callback) &#x3D;&gt; callback());
       this.reset();
     }
   }
@@ -1041,8 +1041,10 @@ are any items to load when the listener is added.</p>
   public onProgress(itemName: string, progress: number) {
     this.progressItems[itemName] &#x3D; progress;
 
-    let totalProgress &#x3D; Object.values(this.progressItems)
-      .reduce((acc, val) &#x3D;&gt; acc + val, 0);
+    let totalProgress &#x3D; Object.values(this.progressItems).reduce(
+      (acc, val) &#x3D;&gt; acc + val,
+      0
+    );
     let totalItems &#x3D; Object.keys(this.progressItems).length;
 
     const averageProgress &#x3D; totalProgress / totalItems;
@@ -1061,15 +1063,12 @@ are any items to load when the listener is added.</p>
   }
 
   /**
-   * Add a listener for when all items have loaded and check if there 
+   * Add a listener for when all items have loaded and check if there
    * are any items to load when the listener is added.
    * @param callback Callback to call when all items have loaded.
    */
   public addLoadListenerWithCheck(callback: () &#x3D;&gt; void) {
-    if (
-      this.toLoad.length &gt; 0 &amp;&amp;
-      this.toLoad.length !&#x3D;&#x3D; this.loaded.length
-    ) {
+    if (this.toLoad.length &gt; 0 &amp;&amp; this.toLoad.length !&#x3D;&#x3D; this.loaded.length) {
       this.onLoadCallbacks.push(callback);
     } else {
       callback();

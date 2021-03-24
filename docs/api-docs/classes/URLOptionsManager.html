@@ -268,8 +268,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">src/managers/url-options-manager.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/managers/url-options-manager.ts:47</a></div>
                 </td>
             </tr>
 
@@ -364,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">src/managers/url-options-manager.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">src/managers/url-options-manager.ts:118</a></div>
                 </td>
             </tr>
 
@@ -407,8 +407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/managers/url-options-manager.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/managers/url-options-manager.ts:32</a></div>
                 </td>
             </tr>
 
@@ -454,9 +454,14 @@ export class URLOptionsManager {
    * @param eventDisplay The Phoenix event display.
    * @param configuration Configuration of the event display.
    */
-  constructor(private eventDisplay: EventDisplay, private configuration: Configuration) {
+  constructor(
+    private eventDisplay: EventDisplay,
+    private configuration: Configuration
+  ) {
     const locationHref &#x3D; window.location.href;
-    this.urlOptions &#x3D; new URLSearchParams(locationHref.substr(locationHref.lastIndexOf(&#x27;?&#x27;)));
+    this.urlOptions &#x3D; new URLSearchParams(
+      locationHref.substr(locationHref.lastIndexOf(&#x27;?&#x27;))
+    );
   }
 
   /**
@@ -477,7 +482,10 @@ export class URLOptionsManager {
    * @param defaultEventPath Default event path to fallback to if none in URL.
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
-  public applyEventOptions(defaultEventPath?: string, defaultEventType?: string) {
+  public applyEventOptions(
+    defaultEventPath?: string,
+    defaultEventType?: string
+  ) {
     if (!(&#x27;fetch&#x27; in window)) {
       return;
     }
@@ -497,21 +505,22 @@ export class URLOptionsManager {
       if (this.urlOptions.get(&#x27;config&#x27;)) {
         this.eventDisplay.getLoadingManager().addLoadableItem(&#x27;url_config&#x27;);
         fetch(this.urlOptions.get(&#x27;config&#x27;))
-          .then(res &#x3D;&gt; res.json())
-          .then(jsonState &#x3D;&gt; {
+          .then((res) &#x3D;&gt; res.json())
+          .then((jsonState) &#x3D;&gt; {
             const stateManager &#x3D; new StateManager();
             stateManager.loadStateFromJSON(jsonState);
-          }).finally(() &#x3D;&gt; {
+          })
+          .finally(() &#x3D;&gt; {
             this.eventDisplay.getLoadingManager().itemLoaded(&#x27;url_config&#x27;);
           });
       }
-    }
+    };
 
     // Load event file from URL
     if (file &amp;&amp; type) {
       this.eventDisplay.getLoadingManager().addLoadableItem(&#x27;url_event&#x27;);
       fetch(file)
-        .then(res &#x3D;&gt; type &#x3D;&#x3D;&#x3D; &#x27;jivexml&#x27; ? res.text() : res.json())
+        .then((res) &#x3D;&gt; (type &#x3D;&#x3D;&#x3D; &#x27;jivexml&#x27; ? res.text() : res.json()))
         .then((res: object | string) &#x3D;&gt; {
           if (type &#x3D;&#x3D;&#x3D; &#x27;jivexml&#x27;) {
             const loader &#x3D; new JiveXMLLoader();
@@ -524,10 +533,14 @@ export class URLOptionsManager {
             this.configuration.eventDataLoader &#x3D; new PhoenixLoader();
             this.eventDisplay.parsePhoenixEvents(res);
           }
-        }).catch((error) &#x3D;&gt; {
-          this.eventDisplay.getInfoLogger().add(&#x27;Could not find the file specified in URL.&#x27;, &#x27;Error&#x27;);
+        })
+        .catch((error) &#x3D;&gt; {
+          this.eventDisplay
+            .getInfoLogger()
+            .add(&#x27;Could not find the file specified in URL.&#x27;, &#x27;Error&#x27;);
           console.error(&#x27;Could not find the file specified in URL.&#x27;, error);
-        }).finally(() &#x3D;&gt; {
+        })
+        .finally(() &#x3D;&gt; {
           // Load config from URL after loading the event
           loadConfig();
           this.eventDisplay.getLoadingManager().itemLoaded(&#x27;url_event&#x27;);
@@ -543,9 +556,13 @@ export class URLOptionsManager {
   public applyHideWidgetsOption() {
     if (Boolean(this.urlOptions.get(&#x27;hideWidgets&#x27;)) &#x3D;&#x3D;&#x3D; true) {
       // Hide overlay widgets
-      document.getElementById(&#x27;overlayWidgets&#x27;)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
+      document
+        .getElementById(&#x27;overlayWidgets&#x27;)
+        ?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
       // Hide stats
-      (document.getElementsByClassName(&#x27;ui-element&#x27;)[0] as HTMLElement)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
+      (document.getElementsByClassName(
+        &#x27;ui-element&#x27;
+      )[0] as HTMLElement)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
       // Hide dat.GUI menu
       document.getElementById(&#x27;gui&#x27;)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
     }

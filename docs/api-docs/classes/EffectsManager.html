@@ -726,8 +726,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/three/effects-manager.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">src/three/effects-manager.ts:88</a></div>
                 </td>
             </tr>
 
@@ -805,8 +805,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/three/effects-manager.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">src/three/effects-manager.ts:97</a></div>
                 </td>
             </tr>
 
@@ -870,11 +870,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EffectComposer } from &quot;three/examples/jsm/postprocessing/EffectComposer&quot;;
-import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from &quot;three&quot;;
-import { RenderPass } from &quot;three/examples/jsm/postprocessing/RenderPass&quot;;
-import { OutlinePass } from &quot;three/examples/jsm/postprocessing/OutlinePass&quot;;
-import { Pass } from &quot;three/examples/jsm/postprocessing/Pass&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EffectComposer } from &#x27;three/examples/jsm/postprocessing/EffectComposer&#x27;;
+import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from &#x27;three&#x27;;
+import { RenderPass } from &#x27;three/examples/jsm/postprocessing/RenderPass&#x27;;
+import { OutlinePass } from &#x27;three/examples/jsm/postprocessing/OutlinePass&#x27;;
+import { Pass } from &#x27;three/examples/jsm/postprocessing/Pass&#x27;;
 
 /**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.
@@ -940,7 +940,9 @@ export class EffectsManager {
    */
   public addOutlinePassForSelection(): OutlinePass {
     const outlinePass &#x3D; new OutlinePass(
-      new Vector2(window.innerWidth, window.innerHeight), this.scene, this.camera
+      new Vector2(window.innerWidth, window.innerHeight),
+      this.scene,
+      this.camera
     );
     outlinePass.overlayMaterial.blending &#x3D; NormalBlending;
     outlinePass.visibleEdgeColor.set(0xffff66);

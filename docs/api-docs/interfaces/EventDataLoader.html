@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/event-data-loader.ts</code>
+            <code>src/loaders/event-data-loader.ts</code>
         </p>
 
             <p class="comment">
@@ -140,8 +140,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/event-data-loader.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:57</a></div>
                 </td>
             </tr>
 
@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/event-data-loader.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:17</a></div>
                 </td>
             </tr>
 
@@ -376,8 +376,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">src/event-data-loader.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:42</a></div>
                 </td>
             </tr>
 
@@ -454,8 +454,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/event-data-loader.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:35</a></div>
                 </td>
             </tr>
 
@@ -501,8 +501,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/event-data-loader.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:48</a></div>
                 </td>
             </tr>
 
@@ -548,8 +548,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">src/event-data-loader.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:29</a></div>
                 </td>
             </tr>
 
@@ -626,8 +626,8 @@ the different objects to the graphic library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/event-data-loader.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/loaders/event-data-loader.ts:67</a></div>
                 </td>
             </tr>
 
@@ -657,15 +657,14 @@ the different objects to the graphic library and the UI controls.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;./three/index&#x27;;
-import { UIManager } from &#x27;./ui/index&#x27;;
-import { InfoLogger } from &#x27;./info-logger&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;../three/index&#x27;;
+import { UIManager } from &#x27;../ui/index&#x27;;
+import { InfoLogger } from &#x27;../info-logger&#x27;;
 
 /**
  * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
-
   /**
    * Takes an object that represents ONE event and takes care of adding
    * the different objects to the graphic library and the UI controls.
@@ -674,7 +673,12 @@ export interface EventDataLoader {
    * @param ui Manager for showing menus and controls to manipulate the geometries.
    * @param infoLogger Logger for logging event display data..
    */
-  buildEventData(eventData: any, graphicsLibrary: ThreeManager, ui: UIManager, infoLogger: InfoLogger): void;
+  buildEventData(
+    eventData: any,
+    graphicsLibrary: ThreeManager,
+    ui: UIManager,
+    infoLogger: InfoLogger
+  ): void;
 
   /**
    * Takes an object containing multiple events and returns the keys of these events.
@@ -709,14 +713,17 @@ export interface EventDataLoader {
    * @param indexInCollection Event object&#x27;s index in collection.
    * @returns A unique label ID string.
    */
-  addLabelToEventObject(label: string, collection: string, indexInCollection: number): string;
+  addLabelToEventObject(
+    label: string,
+    collection: string,
+    indexInCollection: number
+  ): string;
 
   /**
    * Get the object containing labels.
    * @returns The labels object.
    */
   getLabelsObject(): object;
-
 }
 </code></pre>
     </div>

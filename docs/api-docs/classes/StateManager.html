@@ -463,8 +463,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/managers/state-manager.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">src/managers/state-manager.ts:88</a></div>
                 </td>
             </tr>
 
@@ -540,8 +540,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">src/managers/state-manager.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">src/managers/state-manager.ts:72</a></div>
                 </td>
             </tr>
 
@@ -581,8 +581,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">src/managers/state-manager.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">src/managers/state-manager.ts:134</a></div>
                 </td>
             </tr>
 
@@ -658,8 +658,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">src/managers/state-manager.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">src/managers/state-manager.ts:126</a></div>
                 </td>
             </tr>
 
@@ -735,8 +735,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">src/managers/state-manager.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">src/managers/state-manager.ts:118</a></div>
                 </td>
             </tr>
 
@@ -812,8 +812,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/managers/state-manager.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">src/managers/state-manager.ts:142</a></div>
                 </td>
             </tr>
 
@@ -954,10 +954,10 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventDisplay } from &quot;../event-display&quot;;
-import { Camera } from &quot;three&quot;;
-import { PhoenixMenuNode } from &quot;../ui/phoenix-menu/phoenix-menu-node&quot;;
-import { loadFile, saveFile } from &quot;../helpers/file&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventDisplay } from &#x27;../event-display&#x27;;
+import { Camera } from &#x27;three&#x27;;
+import { PhoenixMenuNode } from &#x27;../ui/phoenix-menu/phoenix-menu-node&#x27;;
+import { loadFile, saveFile } from &#x27;../helpers/file&#x27;;
 
 /**
  * A singleton manager for managing the scene&#x27;s state.
@@ -1004,19 +1004,21 @@ export class StateManager {
 
     if (this.phoenixMenuRoot) {
       // Add save and load config buttons to the root node
-      this.phoenixMenuRoot.addConfig(&#x27;button&#x27;, {
-        label: &#x27;Save state&#x27;,
-        onClick: () &#x3D;&gt; {
-          this.saveStateAsJSON();
-        }
-      }).addConfig(&#x27;button&#x27;, {
-        label: &#x27;Load state&#x27;,
-        onClick: () &#x3D;&gt; {
-          loadFile((data) &#x3D;&gt; {
-            this.loadStateFromJSON(JSON.parse(data));
-          });
-        }
-      });
+      this.phoenixMenuRoot
+        .addConfig(&#x27;button&#x27;, {
+          label: &#x27;Save state&#x27;,
+          onClick: () &#x3D;&gt; {
+            this.saveStateAsJSON();
+          },
+        })
+        .addConfig(&#x27;button&#x27;, {
+          label: &#x27;Load state&#x27;,
+          onClick: () &#x3D;&gt; {
+            loadFile((data) &#x3D;&gt; {
+              this.loadStateFromJSON(JSON.parse(data));
+            });
+          },
+        });
     }
   }
 
@@ -1028,8 +1030,8 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled ? this.clippingAngle : null
-      }
+        clippingAngle: this.clippingEnabled ? this.clippingAngle : null,
+      },
     };
 
     saveFile(JSON.stringify(state), &#x27;phoenix-config.json&#x27;);
@@ -1053,10 +1055,14 @@ export class StateManager {
     }
 
     if (jsonData[&#x27;eventDisplay&#x27;]) {
-      this.activeCamera.position.fromArray(jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraPosition&#x27;]);
+      this.activeCamera.position.fromArray(
+        jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraPosition&#x27;]
+      );
       if (jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;clippingAngle&#x27;]) {
         this.eventDisplay.getUIManager().setClipping(true);
-        this.eventDisplay.getUIManager().rotateClipping(jsonData[&#x27;eventDisplay&#x27;][&#x27;clippingAngle&#x27;]);
+        this.eventDisplay
+          .getUIManager()
+          .rotateClipping(jsonData[&#x27;eventDisplay&#x27;][&#x27;clippingAngle&#x27;]);
       }
     }
   }

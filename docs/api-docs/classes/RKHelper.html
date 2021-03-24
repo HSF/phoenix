@@ -138,8 +138,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/helpers/rk-helper.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/helpers/rk-helper.ts:32</a></div>
                 </td>
             </tr>
 
@@ -241,8 +241,8 @@ is out of bounds, when it returns false. Default just always returns true.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/helpers/rk-helper.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">src/helpers/rk-helper.ts:12</a></div>
                 </td>
             </tr>
 
@@ -306,14 +306,13 @@ is out of bounds, when it returns false. Default just always returns true.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { RungeKutta } from &quot;./runge-kutta&quot;;
-import { Vector3 } from &quot;three&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { RungeKutta } from &#x27;./runge-kutta&#x27;;
+import { Vector3 } from &#x27;three&#x27;;
 
 /**
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
-
   /**
    * Get extrapolated tracks using RungeKutta.
    * @param tracksCollectionsEvent Event containing tracks collections.
@@ -367,14 +366,10 @@ export class RKHelper {
 
     // Cannot use setFromSphericalCoordinates since ATLAS and threejs use
     // different phi &amp; theta definitions (though both are right-handed)
-    let startPos &#x3D; new Vector3(
-      -d0 * Math.sin(phi),
-      d0 * Math.cos(phi),
-      z0
-    );
+    let startPos &#x3D; new Vector3(-d0 * Math.sin(phi), d0 * Math.cos(phi), z0);
 
     // Wipe existing positions
-    let positions: number[][] &#x3D; []
+    let positions: number[][] &#x3D; [];
     positions.push([startPos.x, startPos.y, startPos.z]);
 
     const startDir &#x3D; globalMomentum.clone();
@@ -385,9 +380,21 @@ export class RKHelper {
     //   return positions;
     // }
 
-    const traj &#x3D; RungeKutta.propagate(startPos, startDir, p, q, 10, 1500, inbounds);
+    const traj &#x3D; RungeKutta.propagate(
+      startPos,
+      startDir,
+      p,
+      q,
+      10,
+      1500,
+      inbounds
+    );
 
-    const extrapolatedPos &#x3D; traj.map(val &#x3D;&gt; [val.pos.x, val.pos.y, val.pos.z]);
+    const extrapolatedPos &#x3D; traj.map((val) &#x3D;&gt; [
+      val.pos.x,
+      val.pos.y,
+      val.pos.z,
+    ]);
 
     return positions.concat(extrapolatedPos);
   }

@@ -89,6 +89,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
+                                    <span class="modifier">Async</span>
                                 <a href="#loadJSRootScripts">loadJSRootScripts</a>
                             </li>
                             <li>
@@ -122,6 +123,7 @@
                     <span class="name">
                         <b>
                             <span class="modifier">Static</span>
+                            <span class="modifier">Async</span>
                             loadJSRootScripts
                         </b>
                         <a href="#loadJSRootScripts"><span class="icon ion-ios-link"></span></a>
@@ -131,7 +133,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadJSRootScripts(onScriptsLoaded: (JSROOT: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void)</code>
+                    <code>loadJSRootScripts(jsrootVersion: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -157,23 +159,27 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>onScriptsLoaded</td>
+                                    <td>jsrootVersion</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
                                         No
                                     </td>
 
+                                    <td>
+                                        <code>&#x27;latest&#x27;</code>
+                                    </td>
 
                                     <td>
-                                        <p>Callback when all the JSRoot scripts have loaded.</p>
+                                        <p>Version of JSROOT to use. Defaults to latest.</p>
 
                                     </td>
                                 </tr>
@@ -183,11 +189,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Promise resolved with JSROOT global varilable.</p>
+
                     </div>
                 </td>
             </tr>
@@ -217,8 +224,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/loaders/script-loader.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/loaders/script-loader.ts:46</a></div>
                 </td>
             </tr>
 
@@ -324,7 +331,7 @@ Defaults to <code>&lt;head&gt;</code> tag.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoadingManager } from &quot;../managers/loading-manager&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoadingManager } from &#x27;../managers/loading-manager&#x27;;
 
 /** Global JSROOT variable for accessing functions after loading JSRoot scripts. */
 declare const JSROOT: any;
@@ -333,26 +340,32 @@ declare const JSROOT: any;
  * Script loader for dynamically loading external scripts.
  */
 export class ScriptLoader {
-
   /**
    * Synchronously load all JSRoot scripts. ONLY CALL ONCE.
-   * @param onScriptsLoaded Callback when all the JSRoot scripts have loaded.
+   * @param jsrootVersion Version of JSROOT to use. Defaults to latest.
+   * @returns Promise resolved with JSROOT global varilable.
    */
-  public static loadJSRootScripts(onScriptsLoaded: (JSROOT: any) &#x3D;&gt; void) {
+  public static async loadJSRootScripts(
+    jsrootVersion: string &#x3D; &#x27;latest&#x27;
+  ): Promise&lt;typeof JSROOT&gt; {
     const loadingManager &#x3D; new LoadingManager();
     loadingManager.addLoadableItem(&#x27;jsroot_scripts&#x27;);
-    (async () &#x3D;&gt; {
-      const allScripts &#x3D; [
-        &#x27;JSRootCore.js&#x27;, &#x27;three.min.js&#x27;, &#x27;three.extra.min.js&#x27;,
-        &#x27;ThreeCSG.js&#x27;, &#x27;d3.min.js&#x27;, &#x27;JSRootPainter.js&#x27;, &#x27;JSRoot3DPainter.js&#x27;,
-        &#x27;JSRootGeoBase.js&#x27;, &#x27;JSRootGeoPainter.js&#x27;
-      ];
-      for (const script of allScripts) {
-        await ScriptLoader.loadScript(&#x27;assets/jsroot/&#x27; + script, &#x27;JSROOT&#x27;);
-      }
-      onScriptsLoaded(JSROOT);
-      loadingManager.itemLoaded(&#x27;jsroot_scripts&#x27;);
-    })();
+
+    const JSROOT_CDN_URL &#x3D; &#x60;https://cdn.jsdelivr.net/npm/jsroot@${jsrootVersion}/scripts/&#x60;;
+    const allScripts &#x3D; [
+      &#x27;JSRoot.core.js&#x27;,
+      &#x27;three.extra.min.js&#x27;,
+      &#x27;JSRoot.csg.js&#x27;,
+      &#x27;JSRoot.painter.js&#x27;,
+      &#x27;JSRoot.geom.js&#x27;,
+    ];
+    for (const script of allScripts) {
+      await ScriptLoader.loadScript(JSROOT_CDN_URL + script, &#x27;JSROOT&#x27;);
+    }
+
+    loadingManager.itemLoaded(&#x27;jsroot_scripts&#x27;);
+
+    return JSROOT;
   }
 
   /**
@@ -363,13 +376,19 @@ export class ScriptLoader {
    * Defaults to &#x60;&lt;head&gt;&#x60; tag.
    * @returns Promise for the script load.
    */
-  public static loadScript(scriptURL: string, scriptFor?: string,
-    parentElement: HTMLElement &#x3D; document.getElementsByTagName(&#x27;head&#x27;)[0]): Promise&lt;void&gt; {
+  public static loadScript(
+    scriptURL: string,
+    scriptFor?: string,
+    parentElement: HTMLElement &#x3D; document.getElementsByTagName(&#x27;head&#x27;)[0]
+  ): Promise&lt;void&gt; {
     const loadingManager &#x3D; new LoadingManager();
     loadingManager.addLoadableItem(&#x27;single_script&#x27;);
+
     return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
-      const scriptExists &#x3D; document
-        .querySelectorAll&lt;HTMLScriptElement&gt;(&#x27;script[src&#x3D;&quot;&#x27; + scriptURL + &#x27;&quot;]&#x27;);
+      const scriptExists &#x3D; document.querySelectorAll&lt;HTMLScriptElement&gt;(
+        &#x27;script[src&#x3D;&quot;&#x27; + scriptURL + &#x27;&quot;]&#x27;
+      );
+
       // If no script exists - add one
       if (scriptExists.length &#x3D;&#x3D;&#x3D; 0) {
         const scriptElement &#x3D; document.createElement(&#x27;script&#x27;);
@@ -378,6 +397,7 @@ export class ScriptLoader {
         if (scriptFor) {
           scriptElement.setAttribute(&#x27;data-scriptfor&#x27;, scriptFor);
         }
+
         scriptElement.addEventListener(&#x27;load&#x27;, () &#x3D;&gt; {
           scriptElement.setAttribute(&#x27;data-loaded&#x27;, &#x27;true&#x27;);
           resolve();
@@ -387,7 +407,8 @@ export class ScriptLoader {
           console.error(&#x27;ERROR LOADING SCRIPT: &#x27;, event);
           reject();
           loadingManager.itemLoaded(&#x27;single_script&#x27;);
-        }
+        };
+
         parentElement.appendChild(scriptElement);
       } else {
         // If script has already loaded then resolve else wait for it to load
@@ -403,7 +424,6 @@ export class ScriptLoader {
       }
     });
   }
-
 }
 </code></pre>
     </div>

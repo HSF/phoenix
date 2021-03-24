@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/HSF/phoenix/compare/v1.4.1...v1.5.0) (2021-03-24)
+
+
+### Bug Fixes
+
+* **event-display:** catch VR request session error ([d2874b8](https://github.com/HSF/phoenix/commit/d2874b8aed6f0647f5ccb11bfade1f9c1bc1f29c))
+* **event-display:** fix jsroot loading root file ([8cbcaa5](https://github.com/HSF/phoenix/commit/8cbcaa5d2e4ba89940d65d217e302e7500305641))
+* **event-display:** handle tracks with no positions ([3b1991c](https://github.com/HSF/phoenix/commit/3b1991c9789607beb69374bf963b8d49eea310b6))
+* **event-display:** improve renderer init ([a8f8353](https://github.com/HSF/phoenix/commit/a8f83533970cfa9129ba015b5903eb7c832d7b94))
+* **event-display:** remove optimize controls function ([266af04](https://github.com/HSF/phoenix/commit/266af044e8d719732bb2dc197ec8a7b3cadc00cd))
+* **event-display:** remove redundant import ([359d353](https://github.com/HSF/phoenix/commit/359d3533d275f7871cc794a6c2ff13753618f9fa))
+* **event-display:** use per physics object color and not collection color ([ac0c4f1](https://github.com/HSF/phoenix/commit/ac0c4f149c36568b5f172d24656c7d754df7b635))
+* remove JSROOT source files from repo ([7bcd7ba](https://github.com/HSF/phoenix/commit/7bcd7bad7bca398242697828ae3189927ff37e89))
+
+
+### Features
+
+* **app:** ability to import ig archive in CMS ([9540af5](https://github.com/HSF/phoenix/commit/9540af5d08ab2867e6ef0496a1bd1e3215e91af7))
+* **app:** Add more realistic geometry for ATLAS ([d207bad](https://github.com/HSF/phoenix/commit/d207bad4f72f9ae5e423c61fa7dc56eebc99c3b7))
+* **event-display:** allow resize and improve tests and drop improving CPU usage ([a474af2](https://github.com/HSF/phoenix/commit/a474af23b05766e2f5ae32850cf9338603ed1cc3))
+* **event-display:** resize canvas with window resize ([5ea04f1](https://github.com/HSF/phoenix/commit/5ea04f174b5adbe54af0aa4663466c5b6291c0a2))
+* **event-display:** update to use CDN for JSROOT ([2fa310f](https://github.com/HSF/phoenix/commit/2fa310fc0171bd19e0ec1b75322eba6b532e5bfe))
+* **event-display:** use latest version of JSROOT ([fbd584e](https://github.com/HSF/phoenix/commit/fbd584edb3dbfd436cdbe18a876c59ec05e43aa4))
+
+
+
+
+
+
 # [1.4.0](https://github.com/HSF/phoenix/compare/v1.3.0...v1.4.0) (2021-02-16)
 
 
