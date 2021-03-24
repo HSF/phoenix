@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { EventDataFormat } from '../../types';
 
 @Component({
   selector: 'app-ui-menu',
@@ -6,7 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./ui-menu.component.scss'],
 })
 export class UiMenuComponent {
-  hideUIMenu: boolean = false;
+  @Input()
+  eventDataFormats: EventDataFormat[] = [];
 
-  constructor() {}
+  hideUIMenu: boolean = false;
 }

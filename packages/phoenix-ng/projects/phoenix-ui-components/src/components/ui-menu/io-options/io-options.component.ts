@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EventDataFormat } from '../../../types';
 import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.component';
 
 @Component({
@@ -8,9 +9,15 @@ import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.
   styleUrls: ['./io-options.component.scss'],
 })
 export class IoOptionsComponent {
+  @Input()
+  eventDataFormats: EventDataFormat[] = [];
+
   constructor(private dialog: MatDialog) {}
 
   openIODialog() {
-    this.dialog.open(IOOptionsDialogComponent, { panelClass: 'dialog' });
+    const dialogRef = this.dialog.open(IOOptionsDialogComponent, {
+      panelClass: 'dialog',
+    });
+    dialogRef.componentInstance.eventDataFormats = this.eventDataFormats;
   }
 }

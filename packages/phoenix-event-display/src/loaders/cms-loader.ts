@@ -38,62 +38,70 @@ export class CMSLoader extends PhoenixLoader {
 
   /**
    * Read an ".ig" archive file and access the event data through a callback.
-   * @param path Path to the ".ig" file.
+   * @param file Path to the ".ig" file or an object of type `File`.
    * @param onFileRead Callback called with an array of event data when the file is read.
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
    */
   public readIgArchive(
-    path: string,
+    file: string | File,
     onFileRead: (allEvents: any[]) => void,
     eventPathName?: string
   ) {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     let eventsDataInIg = [];
-    fetch(path)
-      .then((res) => res.arrayBuffer())
-      .then((res) => {
-        igArchive.loadAsync(res).then(() => {
-          let allFilesPath = Object.keys(igArchive.files);
-          // If the event path or name is given then filter all data to get the required events
-          if (eventPathName) {
-            allFilesPath = allFilesPath.filter((filePath) =>
-              filePath.includes(eventPathName)
-            );
-          }
-          let i = 1;
-          for (const filePathInIg of allFilesPath) {
-            // If the files are in the "Events" folder then process them.
-            if (filePathInIg.toLowerCase().startsWith('events')) {
-              igArchive
-                .file(filePathInIg)
-                .async('string')
-                .then((singleEvent: string) => {
-                  // The data has some inconsistencies which need to be removed to properly parse JSON
-                  singleEvent = singleEvent
-                    .replace(/'/g, '"')
-                    .replace(/\(/g, '[')
-                    .replace(/\)/g, ']')
-                    .replace(/nan/g, '0');
-                  const eventJSON = JSON.parse(singleEvent);
-                  eventJSON.eventPath = filePathInIg;
-                  eventsDataInIg.push(eventJSON);
-                  if (i === allFilesPath.length) {
-                    onFileRead(eventsDataInIg);
-                    this.loadingManager.itemLoaded('ig_archive');
-                  }
-                  i++;
-                });
-            } else {
-              if (i === allFilesPath.length) {
-                onFileRead(eventsDataInIg);
-                this.loadingManager.itemLoaded('ig_archive');
-              }
-              i++;
+    const readArchive = (res: File | ArrayBuffer) => {
+      igArchive.loadAsync(res).then(() => {
+        let allFilesPath = Object.keys(igArchive.files);
+        // If the event path or name is given then filter all data to get the required events
+        if (eventPathName) {
+          allFilesPath = allFilesPath.filter((filePath) =>
+            filePath.includes(eventPathName)
+          );
+        }
+        let i = 1;
+        for (const filePathInIg of allFilesPath) {
+          // If the files are in the "Events" folder then process them.
+          if (filePathInIg.toLowerCase().startsWith('events')) {
+            igArchive
+              .file(filePathInIg)
+              .async('string')
+              .then((singleEvent: string) => {
+                // The data has some inconsistencies which need to be removed to properly parse JSON
+                singleEvent = singleEvent
+                  .replace(/'/g, '"')
+                  .replace(/\(/g, '[')
+                  .replace(/\)/g, ']')
+                  .replace(/nan/g, '0');
+                const eventJSON = JSON.parse(singleEvent);
+                eventJSON.eventPath = filePathInIg;
+                eventsDataInIg.push(eventJSON);
+                if (i === allFilesPath.length) {
+                  onFileRead(eventsDataInIg);
+                  this.loadingManager.itemLoaded('ig_archive');
+                }
+                i++;
+              });
+          } else {
+            if (i === allFilesPath.length) {
+              onFileRead(eventsDataInIg);
+              this.loadingManager.itemLoaded('ig_archive');
             }
+            i++;
           }
-        });
+        }
       });
+    };
+
+    if (file instanceof File) {
+      readArchive(file);
+    } else {
+      fetch(file)
+        .then((res) => res.arrayBuffer())
+        .then((res) => {
+          readArchive(res);
+        });
+    }
   }
 
   /**

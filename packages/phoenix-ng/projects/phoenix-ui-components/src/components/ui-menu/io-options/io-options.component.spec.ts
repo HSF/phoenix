@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IoOptionsComponent } from './io-options.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('IoOptionsComponent', () => {
   let component: IoOptionsComponent;
@@ -12,11 +13,11 @@ describe('IoOptionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
+      imports: [BrowserAnimationsModule, PhoenixUIModule],
       providers: [MatDialog],
       declarations: [IoOptionsComponent],
     }).compileComponents();
-    dialog = TestBed.get(MatDialog);
+    dialog = TestBed.inject(MatDialog);
   });
 
   beforeEach(() => {
@@ -30,7 +31,7 @@ describe('IoOptionsComponent', () => {
   });
 
   it('should open IO dialog', () => {
-    spyOn(dialog, 'open');
+    spyOn(dialog, 'open').and.callThrough();
 
     component.openIODialog();
     expect(dialog.open).toHaveBeenCalled();

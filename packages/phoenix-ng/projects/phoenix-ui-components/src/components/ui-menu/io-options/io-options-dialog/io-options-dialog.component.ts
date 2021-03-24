@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit, Component, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import { CMSLoader, JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import { EventDataFormat } from '../../../../types';
 import JSZip from 'jszip';
 
 @Component({
@@ -9,11 +10,57 @@ import JSZip from 'jszip';
   templateUrl: './io-options-dialog.component.html',
   styleUrls: ['./io-options-dialog.component.scss'],
 })
-export class IOOptionsDialogComponent {
+export class IOOptionsDialogComponent implements OnInit {
+  @Input()
+  eventDataFormats: EventDataFormat[] = [EventDataFormat.JSON];
+  eventDataFormatsWithHandler: {
+    format: EventDataFormat;
+    fileType: string;
+    accept?: string;
+    handler: () => void;
+  }[];
+  private supportedEventDataFormats = [
+    {
+      format: EventDataFormat.JSON,
+      fileType: '.json',
+      accept: 'application/json',
+      handler: this.handleJSONEventDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.JIVEXML,
+      fileType: '.xml',
+      accept: 'text/xml',
+      handler: this.handleJiveXMLDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.ZIP,
+      fileType: '.zip',
+      handler: this.handleZipEventDataInput.bind(this),
+    },
+    {
+      format: EventDataFormat.IG,
+      fileType: '.ig',
+      handler: this.handleIgEventDataInput.bind(this),
+    },
+  ];
+
   constructor(
     private eventDisplay: EventDisplayService,
     public dialogRef: MatDialogRef<IOOptionsDialogComponent>
   ) {}
+
+  ngOnInit() {
+    this.eventDataFormatsWithHandler = this.supportedEventDataFormats.filter(
+      (eventDataFormat) =>
+        this.eventDataFormats.includes(eventDataFormat.format)
+    );
+  }
+
+  getSupportedEventDataFormats() {
+    return this.eventDataFormats
+      .filter((format) => format !== 'ZIP')
+      .join(', ');
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -91,6 +138,15 @@ export class IOOptionsDialogComponent {
         );
       };
       this.handleFileInput(files[0], 'gz', callback);
+    });
+  }
+
+  handleIgEventDataInput(files: FileList) {
+    const cmsLoader = new CMSLoader();
+    cmsLoader.readIgArchive(files[0], (allEvents: any[]) => {
+      const allEventsData = cmsLoader.getAllEventsData(allEvents);
+      this.eventDisplay.parsePhoenixEvents(allEventsData);
+      this.onNoClick();
     });
   }
 
