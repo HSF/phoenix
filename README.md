@@ -5,8 +5,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/HSF/phoenix/badge.svg?branch=master)](https://coveralls.io/github/HSF/phoenix?branch=master)
 [![Gitter](https://badges.gitter.im/phoenix-developers/community.svg)](https://gitter.im/phoenix-developers/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-[build-img]: https://travis-ci.com/HSF/phoenix.svg?branch=master
-[build-link]: https://travis-ci.com/HSF/phoenix
+[build-img]: https://github.com/HSF/phoenix/actions/workflows/main.yml/badge.svg?branch=master
+[build-link]: https://github.com/HSF/phoenix/actions/workflows/main.yml?query=branch%3Amaster
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
 [license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
 

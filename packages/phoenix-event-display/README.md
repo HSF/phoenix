@@ -51,17 +51,17 @@ eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /*
 
 ### As a standalone bundle
 
-Phoenix can be bundled and used directly in the HTML as a script.
+Phoenix can be bundled and used directly in the HTML as a script. You can either use the [CDN](https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js) or build from source.
 
 To build Phoenix as a bundle.
 
 ```sh
-npm run build:bundle
-# or
 yarn build:bundle
 ```
 
-This will generate a file `phoenix-<version>.min.js` (e.g. `phoenix-1.3.0.min.js`) in the [./dist/bundle](./dist/bundle) directory which can be included in your HTML code.
+This will generate a file `phoenix.min.js` in the [./dist/bundle](./dist/bundle) directory which can be included in your HTML code.
+
+Without building, you can include the bundle directly from [CDN](https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js).
 
 ```html
 <html lang="en">
@@ -73,7 +73,7 @@ This will generate a file `phoenix-<version>.min.js` (e.g. `phoenix-1.3.0.min.js
 
     <div id="eventDisplay"></div>
 
-    <script src="phoenix.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js"></script>
 
     <script>
       // Create the event display
