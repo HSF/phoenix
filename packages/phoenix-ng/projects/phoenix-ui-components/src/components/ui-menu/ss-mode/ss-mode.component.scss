@@ -1,19 +1,19 @@
-app-ui-menu .optionsWrapper,
-app-phoenix-menu #phoenix-menu,
-app-nav .main-logo,
+app-ui-menu #uiMenu,
+app-phoenix-menu #phoenixMenu,
+app-nav #mainLogo,
 .overlay-card,
-.ui-element {
+#statsElement {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.4s;
 }
 
 .ss-mode {
-  app-ui-menu .optionsWrapper,
-  app-phoenix-menu #phoenix-menu,
-  app-nav .main-logo,
+  app-ui-menu #uiMenu,
+  app-phoenix-menu #phoenixMenu,
+  app-nav #mainLogo,
   .overlay-card,
-  .ui-element {
+  #statsElement {
     visibility: hidden;
     opacity: 0;
   }
