@@ -26,6 +26,11 @@ import { RKHelper } from '../../helpers/rk-helper';
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+
+  public static etaToTheta(eta: number): number {
+    return 2 * Math.atan(Math.pow(Math.E, eta));
+  }
+
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -129,9 +134,7 @@ export class PhoenixObjects {
     const eta = jetParams.eta;
     const phi = jetParams.phi;
     // If theta is given then use that else calculate from eta
-    const theta = jetParams.theta
-      ? jetParams.theta
-      : 2 * Math.atan(Math.pow(Math.E, eta));
+    const theta = jetParams.theta ? jetParams.theta : PhoenixObjects.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don't want the Jets to go out of the event display
@@ -249,9 +252,8 @@ export class PhoenixObjects {
     });
     // object
     const cube = new Mesh(geometry, material);
-    const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
-    const pos = new Vector3(
-      4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
+    const theta = PhoenixObjects.etaToTheta(clusterParams.eta);
+    const pos = new Vector3(4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.cos(theta)
     );
