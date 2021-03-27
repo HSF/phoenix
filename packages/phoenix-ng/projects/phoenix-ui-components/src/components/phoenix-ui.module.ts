@@ -45,6 +45,8 @@ import {
   VrToggleComponent,
   SSModeComponent,
   PerformanceToggleComponent,
+  ShareLinkComponent,
+  ShareLinkDialogComponent,
 } from './ui-menu';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -86,10 +88,12 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   SSModeComponent,
   PerformanceToggleComponent,
   LoaderComponent,
+  ShareLinkComponent,
+  ShareLinkDialogComponent,
 ];
 
 @NgModule({
-  declarations: [PHOENIX_COMPONENTS],
+  declarations: [...PHOENIX_COMPONENTS],
   imports: [
     CommonModule,
     RouterModule,

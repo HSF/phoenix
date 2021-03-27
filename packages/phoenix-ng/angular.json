@@ -174,7 +174,7 @@
       "projectType": "library",
       "root": "projects/phoenix-ui-components",
       "sourceRoot": "projects/phoenix-ui-components/src",
-      "prefix": "lib",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
