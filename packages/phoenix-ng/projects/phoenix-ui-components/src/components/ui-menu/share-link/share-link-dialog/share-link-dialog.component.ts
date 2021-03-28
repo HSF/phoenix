@@ -9,7 +9,8 @@ import { phoenixURLOptions } from 'phoenix-event-display';
 })
 export class ShareLinkDialogComponent {
   baseLink: string;
-  shareableLink: string;
+  shareLink: string;
+  embedLink: string;
   urlOptions = Object.assign({}, phoenixURLOptions);
 
   constructor(private dialogRef: MatDialogRef<ShareLinkDialogComponent>) {
@@ -17,10 +18,16 @@ export class ShareLinkDialogComponent {
     const lastIndex =
       locationHref.lastIndexOf('?') === -1 ? 0 : locationHref.lastIndexOf('?');
     this.baseLink = locationHref.slice(0, lastIndex);
+    this.shareLink = this.baseLink;
+    this.embedLink = this.getEmbedLink();
   }
 
   onClose() {
     this.dialogRef.close();
+  }
+
+  getEmbedLink() {
+    return `<iframe src="${this.shareLink}"></iframe>`;
   }
 
   setOptionValue(option: string, value: string) {
@@ -29,18 +36,34 @@ export class ShareLinkDialogComponent {
   }
 
   onOptionsChange() {
-    this.shareableLink =
-      this.baseLink +
-      '?' +
-      Object.getOwnPropertyNames(this.urlOptions)
-        .reduce((filteredOptions: string[], option: string) => {
-          if (this.urlOptions[option]) {
-            filteredOptions.push(`${option}=${this.urlOptions[option]}`);
-          }
-          return filteredOptions;
-        }, [])
-        .join('&');
+    const urlParametersString = Object.getOwnPropertyNames(this.urlOptions)
+      .reduce((filteredOptions: string[], option: string) => {
+        if (this.urlOptions[option]) {
+          filteredOptions.push(
+            `${option}=${encodeURI(this.urlOptions[option])}`
+          );
+        }
+        return filteredOptions;
+      }, [])
+      .join('&');
 
-    console.log(this.shareableLink);
+    this.shareLink =
+      this.baseLink + (urlParametersString ? '?' : '') + urlParametersString;
+    this.embedLink = this.getEmbedLink();
+  }
+
+  copyText(text: string, element: HTMLElement) {
+    const inputElement = document.createElement('input');
+    document.body.appendChild(inputElement);
+    inputElement.value = text;
+    inputElement.select();
+    document.execCommand('copy');
+    document.body.removeChild(inputElement);
+
+    // Set text on copying
+    element.innerText = 'COPIED';
+    setTimeout(() => {
+      element.innerText = 'COPY';
+    }, 2000);
   }
 }

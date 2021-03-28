@@ -12,7 +12,7 @@ export const phoenixURLOptions = {
   type: '',
   config: '',
   hideWidgets: false,
-}
+};
 
 /**
  * A manager for managing options given through URL.
