@@ -7,12 +7,11 @@ import { StateManager } from './state-manager';
 /**
  * Model for Phoenix URL options.
  */
-export class PhoenixURLOptions {
-  constructor(
-    public file: string,
-    public type: string,
-    public hideWidgets: string
-  ) {}
+export const phoenixURLOptions = {
+  file: '',
+  type: '',
+  config: '',
+  hideWidgets: false,
 }
 
 /**
@@ -136,26 +135,15 @@ export class URLOptionsManager {
         'statsElement', // Stats at the bottom left
         'gui', // dat.GUI menu
       ],
-      hideUIMenu: 'uiMenu',
-      hideExperimentInfo: 'experimentInfo',
-      hidePhoenixMenu: 'phoenixMenu',
-      hideStats: 'statsElement',
-      hideDatGUIMenu: 'gui',
     };
 
     Object.entries(hideWidgetsOptions).forEach(([urlOption, idsToHide]) => {
       if (this.urlOptions.get(urlOption) === 'true') {
-        if (Array.isArray(idsToHide)) {
-          idsToHide.forEach((singleId) => {
-            document
-              .getElementById(singleId)
-              ?.style.setProperty('display', 'none');
-          });
-        } else {
+        idsToHide.forEach((singleId) => {
           document
-            .getElementById(idsToHide)
+            .getElementById(singleId)
             ?.style.setProperty('display', 'none');
-        }
+        });
       }
     });
   }

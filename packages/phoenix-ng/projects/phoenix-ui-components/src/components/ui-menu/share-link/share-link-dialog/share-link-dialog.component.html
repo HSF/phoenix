@@ -1,1 +1,47 @@
-<p>share-link-dialog works!</p>
+<div class="dialog">
+  <h1 mat-dialog-title>Create shareable link</h1>
+  <div mat-dialog-content class="dialog-content">
+    <h5>URL options</h5>
+    <div class="form-group">
+      <label for="eventDataFile">Event data file (URL or path)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="eventDataFile"
+        [value]="urlOptions.file"
+        (input)="setOptionValue('file', $event.target.value)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="eventDataType">Event data type</label>
+      <input
+        type="text"
+        class="form-control"
+        id="eventDataType"
+        [value]="urlOptions.type"
+        (input)="setOptionValue('type', $event.target.value)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="configuration">Configuration (URL or path)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="configuration"
+        [value]="urlOptions.config"
+        (input)="setOptionValue('config', $event.target.value)"
+      />
+    </div>
+    <div class="form-group">
+      <mat-checkbox
+        [checked]="urlOptions.hideWidgets"
+        (change)="setOptionValue('hideWidgets', $event.checked)"
+      >
+        Hide all widgets
+      </mat-checkbox>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+  </div>
+</div>

@@ -8,9 +8,8 @@ describe('ShareLinkDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShareLinkDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [ShareLinkDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
