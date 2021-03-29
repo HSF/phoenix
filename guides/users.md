@@ -164,11 +164,6 @@ Available options are:
    * **type** : type of the event data file (for example, `jivexml` or `json`)
    * **config** : path or URL to the config or state file (this is the JSON file you get when you save state from the Phoenix menu)
    * **hideWidgets** : hide all overlay widgets including Phoenix menu and iconbar
-   * **hideUIMenu** : hide UI menu
-   * **hideExperimentInfo** : hide experiment info at the top left
-   * **hidePhoenixMenu** : hide Phoenix menu
-   * **hideDatGUIMenu** : hide dat.GUI menu (if enabled)
-   * **hideStats** : hide stats at the bottom left
 
 For example, event from a JSON event data file served through `/assets/event_data/data.json` can be loaded through the following URL:
 
