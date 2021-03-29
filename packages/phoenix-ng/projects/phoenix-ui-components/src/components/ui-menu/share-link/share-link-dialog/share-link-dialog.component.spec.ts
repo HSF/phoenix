@@ -32,5 +32,28 @@ describe('ShareLinkDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component.baseLink).toBeDefined();
+    expect(component.shareLink).toBeDefined();
+    expect(component.embedLink).toBeDefined();
+  });
+
+  it('set options value and update share link', () => {
+    spyOn(component, 'onOptionsChange').and.callThrough();
+    component.setOptionValue('test_option', 'test_option_value');
+    expect(component.onOptionsChange).toHaveBeenCalled();
+    expect(component.shareLink).toContain('test_option=test_option_value');
+    // Else case
+    component.setOptionValue('type', undefined);
+  });
+
+  it('should update copy status', () => {
+    spyOn(document, 'execCommand').and.callThrough();
+
+    const element = document.createElement('div');
+    element.innerText = 'COPY';
+    component.copyText('textToCopy', element);
+
+    expect(element.innerText).toBe('COPIED');
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
   });
 });
