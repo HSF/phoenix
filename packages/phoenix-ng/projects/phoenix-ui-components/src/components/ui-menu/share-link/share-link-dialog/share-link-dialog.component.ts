@@ -16,7 +16,9 @@ export class ShareLinkDialogComponent {
   constructor(private dialogRef: MatDialogRef<ShareLinkDialogComponent>) {
     const locationHref = window.location.href;
     const lastIndex =
-      locationHref.lastIndexOf('?') === -1 ? 0 : locationHref.lastIndexOf('?');
+      locationHref.lastIndexOf('?') === -1
+        ? locationHref.length
+        : locationHref.lastIndexOf('?');
     this.baseLink = locationHref.slice(0, lastIndex);
     this.shareLink = this.baseLink;
     this.embedLink = this.getEmbedLink();
