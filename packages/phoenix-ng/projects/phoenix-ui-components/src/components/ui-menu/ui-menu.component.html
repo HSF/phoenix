@@ -1,4 +1,4 @@
-<div class="optionsWrapper">
+<div id="uiMenu" class="optionsWrapper">
   <button
     id="hide-ui-menu"
     [matTooltip]="hideUIMenu ? 'Show toolbar' : 'Hide toolbar'"
@@ -11,6 +11,9 @@
     </svg>
   </button>
   <div id="optionsPanel" [hidden]="hideUIMenu">
+    <!-- Toggle for shareable link constructor modal-->
+    <app-share-link></app-share-link>
+
     <!-- Toggle for loading geometries modal-->
     <app-io-options [eventDataFormats]="eventDataFormats"></app-io-options>
 

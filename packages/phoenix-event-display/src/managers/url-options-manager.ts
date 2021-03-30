@@ -5,6 +5,16 @@ import { EventDisplay } from '../event-display';
 import { StateManager } from './state-manager';
 
 /**
+ * Model for Phoenix URL options.
+ */
+export const phoenixURLOptions = {
+  file: '',
+  type: '',
+  config: '',
+  hideWidgets: false,
+};
+
+/**
  * A manager for managing options given through URL.
  */
 export class URLOptionsManager {
@@ -35,7 +45,7 @@ export class URLOptionsManager {
       this.configuration.defaultEventFile?.eventFile,
       this.configuration.defaultEventFile?.eventType
     );
-    this.applyHideWidgetsOption();
+    this.applyHideWidgetsOptions();
   }
 
   /**
@@ -115,18 +125,26 @@ export class URLOptionsManager {
   /**
    * Hide all overlay widgets if "hideWidgets" option from the URL is true.
    */
-  public applyHideWidgetsOption() {
-    if (Boolean(this.urlOptions.get('hideWidgets')) === true) {
-      // Hide overlay widgets
-      document
-        .getElementById('overlayWidgets')
-        ?.style.setProperty('display', 'none');
-      // Hide stats
-      (document.getElementsByClassName(
-        'ui-element'
-      )[0] as HTMLElement)?.style.setProperty('display', 'none');
-      // Hide dat.GUI menu
-      document.getElementById('gui')?.style.setProperty('display', 'none');
-    }
+  public applyHideWidgetsOptions() {
+    const hideWidgetsOptions = {
+      hideWidgets: [
+        'mainLogo', // Main logo
+        'uiMenu', // UI menu
+        'experimentInfo', // Experiment info
+        'phoenixMenu', // Phoenix menu
+        'statsElement', // Stats at the bottom left
+        'gui', // dat.GUI menu
+      ],
+    };
+
+    Object.entries(hideWidgetsOptions).forEach(([urlOption, idsToHide]) => {
+      if (this.urlOptions.get(urlOption) === 'true') {
+        idsToHide.forEach((singleId) => {
+          document
+            .getElementById(singleId)
+            ?.style.setProperty('display', 'none');
+        });
+      }
+    });
   }
 }

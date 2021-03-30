@@ -63,7 +63,7 @@ describe('IoOptionsDialogComponent', () => {
   });
 
   it('should close the IOOptionsDialog', () => {
-    component.onNoClick();
+    component.onClose();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 

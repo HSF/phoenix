@@ -120,14 +120,12 @@ This will create a `test-experiment` folder with the component source files.
 Now, open the `test-experiment.component.html` file and use the Phoenix UI components to set up the UI.
 
 ```html
-<div id="overlayWidgets">
-  <app-nav></app-nav>
-  <!-- UI menu at the bottom -->
-  <app-ui-menu></app-ui-menu>
-  <app-experiment-info experiment="atlas" experimentTagline="ATLAS Experiment at CERN"></app-experiment-info>
-  <!-- Phoenix menu at the top right -->
-  <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
-</div>
+<app-nav></app-nav>
+<!-- UI menu at the bottom -->
+<app-ui-menu></app-ui-menu>
+<app-experiment-info experiment="atlas" experimentTagline="ATLAS Experiment at CERN"></app-experiment-info>
+<!-- Phoenix menu at the top right -->
+<app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
 ```
 

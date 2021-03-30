@@ -28,10 +28,10 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 [![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
 
-## Components
+## Packages
 
 * [Phoenix event display API - `phoenix-event-display`](./packages/phoenix-event-display/)
-* [Phoenix application (Angular) - `phoenix-app`](./packages/phoenix-ng/)
+* [Phoenix application (Angular) - `phoenix-ng`](./packages/phoenix-ng/)
 
 ## Development
 

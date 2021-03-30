@@ -192,3 +192,10 @@ select {
     max-height: 2em;
   }
 }
+
+.form-control,
+.form-control:focus {
+  color: var(--phoenix-text-color);
+  background-color: var(--phoenix-background-color-tertiary);
+  border: 1px solid var(--phoenix-border);
+}

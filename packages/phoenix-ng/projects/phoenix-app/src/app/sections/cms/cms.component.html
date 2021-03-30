@@ -1,11 +1,9 @@
 <app-loader [loaded]="loaded"></app-loader>
-<div id="overlayWidgets">
-  <app-nav></app-nav>
-  <app-ui-menu [eventDataFormats]="['JSON', 'IG']"></app-ui-menu>
-  <app-experiment-info
-    experiment="cms"
-    experimentTagline="CMS Experiment at LHC, CERN"
-  ></app-experiment-info>
-  <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
-</div>
+<app-nav></app-nav>
+<app-ui-menu [eventDataFormats]="['JSON', 'IG']"></app-ui-menu>
+<app-experiment-info
+  experiment="cms"
+  experimentTagline="CMS Experiment at LHC, CERN"
+></app-experiment-info>
+<app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>

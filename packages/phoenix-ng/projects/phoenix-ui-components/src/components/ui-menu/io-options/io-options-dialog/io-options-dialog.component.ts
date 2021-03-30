@@ -62,7 +62,7 @@ export class IOOptionsDialogComponent implements OnInit {
       .join(', ');
   }
 
-  onNoClick(): void {
+  onClose(): void {
     this.dialogRef.close();
   }
 
@@ -124,7 +124,7 @@ export class IOOptionsDialogComponent implements OnInit {
         });
       });
     });
-    this.onNoClick();
+    this.onClose();
   }
 
   handleRootJSONInput(files: FileList) {
@@ -146,7 +146,7 @@ export class IOOptionsDialogComponent implements OnInit {
     cmsLoader.readIgArchive(files[0], (allEvents: any[]) => {
       const allEventsData = cmsLoader.getAllEventsData(allEvents);
       this.eventDisplay.parsePhoenixEvents(allEventsData);
-      this.onNoClick();
+      this.onClose();
     });
   }
 
@@ -177,7 +177,7 @@ export class IOOptionsDialogComponent implements OnInit {
 
         this.eventDisplay.parsePhoenixEvents(allEventsObject);
 
-        this.onNoClick();
+        this.onClose();
       });
     } else {
       console.error('Error: Invalid file format!');
@@ -221,7 +221,7 @@ export class IOOptionsDialogComponent implements OnInit {
       console.error('Error: Invalid file format!');
       this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
     }
-    this.onNoClick();
+    this.onClose();
   }
 
   private isFileOfExtension(file: File, extension: string) {
