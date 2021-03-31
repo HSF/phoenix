@@ -1,12 +1,11 @@
 import { EventDataLoader } from './event-data-loader';
-import { Color, Group, Object3D } from 'three';
+import { Group, Object3D } from 'three';
 import { UIManager } from '../ui';
 import { ThreeManager } from '../three';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../info-logger';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
-import { EVENT_DATA_TYPE_COLORS } from '../helpers/constants';
 import { LoadingManager } from '../managers/loading-manager';
 
 /**
@@ -138,6 +137,8 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Tracks) {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -100, 100),
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
         new Cut('pT', 0, 50),
