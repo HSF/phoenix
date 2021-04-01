@@ -266,7 +266,6 @@ export class PhoenixObjects {
     });
     // object
     const cube = new Mesh(geometry, material);
-    console.log('EJWM cluster eta=' + clusterParams.eta);
     const theta = PhoenixObjects.etaToTheta(clusterParams.eta);
     const pos = new Vector3(
       4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
@@ -277,11 +276,13 @@ export class PhoenixObjects {
       PhoenixObjects.sphericalToCartesian(4000, theta, clusterParams.phi)
     );
 
-    // if (cube.position.x * cube.position.x + cube.position.y * cube.position.y > maxR * maxR) {
-    //   cube.position.x = maxR * Math.cos(clusterParams.phi);
-    //   cube.position.y = maxR * Math.sin(clusterParams.phi);
-    // }
-    // cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+    // FIXME - more elegant way to do this? Maybe natively use cylindrical here?
+    // How to generalise? Pass in limit lambda?
+    if (cube.position.x * cube.position.x + cube.position.y * cube.position.y > maxR * maxR) {
+      cube.position.x = maxR * Math.cos(clusterParams.phi);
+      cube.position.y = maxR * Math.sin(clusterParams.phi);
+    }
+    cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
