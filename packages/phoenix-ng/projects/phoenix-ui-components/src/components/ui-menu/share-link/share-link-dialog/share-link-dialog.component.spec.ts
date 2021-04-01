@@ -32,9 +32,9 @@ describe('ShareLinkDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.baseLink).toBeDefined();
-    expect(component.shareLink).toBeDefined();
-    expect(component.embedLink).toBeDefined();
+    expect(component.baseLink).toBeTruthy();
+    expect(component.shareLink).toBeTruthy();
+    expect(component.embedLink).toBeTruthy();
   });
 
   it('set options value and update share link', () => {

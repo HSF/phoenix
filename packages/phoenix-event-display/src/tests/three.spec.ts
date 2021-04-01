@@ -24,15 +24,15 @@ describe('ThreeManager', () => {
     });
 
     it('should initialize three service with managers', () => {
-      expect(threePrivate.sceneManager).toBeDefined();
-      expect(threePrivate.exportManager).toBeDefined();
-      expect(threePrivate.importManager).toBeDefined();
-      expect(threePrivate.rendererManager).toBeDefined();
-      expect(threePrivate.effectsManager).toBeDefined();
-      expect(threePrivate.animationsManager).toBeDefined();
-      expect(threePrivate.vrManager).toBeDefined();
-      expect(threePrivate.selectionManager).toBeDefined();
-      expect(threePrivate.infoLogger).toBeDefined();
+      expect(threePrivate.sceneManager).toBeTruthy();
+      expect(threePrivate.exportManager).toBeTruthy();
+      expect(threePrivate.importManager).toBeTruthy();
+      expect(threePrivate.rendererManager).toBeTruthy();
+      expect(threePrivate.effectsManager).toBeTruthy();
+      expect(threePrivate.animationsManager).toBeTruthy();
+      expect(threePrivate.vrManager).toBeTruthy();
+      expect(threePrivate.selectionManager).toBeTruthy();
+      expect(threePrivate.infoLogger).toBeTruthy();
     });
 
     it('should update controls', () => {
@@ -52,7 +52,7 @@ describe('ThreeManager', () => {
     it('get scene manager', () => {
       expect(three.getSceneManager()).toBe(threePrivate.sceneManager);
       threePrivate.sceneManager = undefined;
-      expect(three.getSceneManager()).toBeDefined();
+      expect(three.getSceneManager()).toBeTruthy();
     });
 
     it('should toggle autorotate', () => {
@@ -71,7 +71,7 @@ describe('ThreeManager', () => {
 
     it('should rotate clipping', () => {
       three.rotateClipping(90);
-      expect(threePrivate.clipPlanes[0]).toBeDefined();
+      expect(threePrivate.clipPlanes[0]).toBeTruthy();
     });
 
     it('should animate camera transform', () => {
