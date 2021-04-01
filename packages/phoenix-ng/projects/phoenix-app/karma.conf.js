@@ -8,8 +8,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
+      require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
@@ -18,12 +17,12 @@ module.exports = function (config) {
         random: false,
       },
     },
-    coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../coverage/phoenix'),
-      reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true,
+    reporters: ['progress', 'coverage'],
+    coverageReporter: {
+      dir: require('path').join(__dirname, '../../coverage/phoenix-app'),
+      subdir: '.',
+      reporters: [{ type: 'lcov' }, { type: 'text-summary' }],
     },
-    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
