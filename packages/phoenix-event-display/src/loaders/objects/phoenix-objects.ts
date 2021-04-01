@@ -26,6 +26,23 @@ import { RKHelper } from '../../helpers/rk-helper';
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+  public static etaToTheta(eta: number): number {
+    return 2 * Math.atan(Math.pow(Math.E, eta));
+  }
+
+  /** This should NOT be necessary - should use native threejs methods such as Vector3.setFromSpherical */
+  public static sphericalToCartesian(
+    radius: number,
+    theta: number,
+    phi: number
+  ): Vector3 {
+    return new Vector3(
+      radius * Math.cos(phi) * Math.sin(theta),
+      radius * Math.sin(phi) * Math.sin(theta),
+      radius * Math.cos(theta)
+    );
+  }
+
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -131,7 +148,7 @@ export class PhoenixObjects {
     // If theta is given then use that else calculate from eta
     const theta = jetParams.theta
       ? jetParams.theta
-      : 2 * Math.atan(Math.pow(Math.E, eta));
+      : PhoenixObjects.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don't want the Jets to go out of the event display
@@ -249,19 +266,22 @@ export class PhoenixObjects {
     });
     // object
     const cube = new Mesh(geometry, material);
-    const theta = 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
+    console.log('EJWM cluster eta=' + clusterParams.eta);
+    const theta = PhoenixObjects.etaToTheta(clusterParams.eta);
     const pos = new Vector3(
       4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.cos(theta)
     );
-    cube.position.x = pos.x;
-    cube.position.y = pos.y;
-    if (pos.x * pos.x + pos.y * pos.y > maxR * maxR) {
-      cube.position.x = maxR * Math.cos(clusterParams.phi);
-      cube.position.y = maxR * Math.sin(clusterParams.phi);
-    }
-    cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+    cube.position.copy(
+      PhoenixObjects.sphericalToCartesian(4000, theta, clusterParams.phi)
+    );
+
+    // if (cube.position.x * cube.position.x + cube.position.y * cube.position.y > maxR * maxR) {
+    //   cube.position.x = maxR * Math.cos(clusterParams.phi);
+    //   cube.position.y = maxR * Math.sin(clusterParams.phi);
+    // }
+    // cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';
