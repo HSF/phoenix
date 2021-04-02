@@ -52,7 +52,7 @@ describe('CMSLoader', () => {
     it('should get all events data', () => {
       cmsLoader.readIgArchive(TEST_IG_ARCHIVE, (allEvents) => {
         const allEventsInPhnx = cmsLoader.getAllEventsData(allEvents);
-        expect(allEventsInPhnx).toBeDefined();
+        expect(allEventsInPhnx).toBeTruthy();
       });
     });
 
@@ -64,7 +64,7 @@ describe('CMSLoader', () => {
           (object: any) => {},
           [{ attribute: 'et', max: 1 }]
         );
-        expect(objectCollections).toBeDefined();
+        expect(objectCollections).toBeTruthy();
       });
     });
 

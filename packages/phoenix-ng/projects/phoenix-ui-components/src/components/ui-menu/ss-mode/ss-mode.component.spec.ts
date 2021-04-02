@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { SSModeComponent } from './ss-mode.component';
 
@@ -8,7 +9,7 @@ describe('SSModeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SSModeComponent],
+      imports: [PhoenixUIModule],
     }).compileComponents();
   });
 

@@ -36,17 +36,17 @@ describe('UIManager', () => {
     it('should show stats and dat.GUI menu', () => {
       document.getElementById('eventDisplay')?.remove();
       uiPrivate.showStats();
-      expect(document.querySelector('#statsElement')).toBeDefined();
+      expect(document.querySelector('#statsElement')).toBeTruthy();
       uiPrivate.showDatGUIMenu();
-      expect(document.querySelector('#gui')).toBeDefined();
+      expect(document.querySelector('#gui')).toBeTruthy();
 
       const eventDisplayCanvas = document.createElement('canvas');
       eventDisplayCanvas.id = 'eventDisplay';
       document.body.appendChild(eventDisplayCanvas);
       uiPrivate.showStats();
-      expect(document.querySelector('.statsElement')).toBeDefined();
+      expect(document.querySelector('#statsElement')).toBeTruthy();
       uiPrivate.showDatGUIMenu();
-      expect(document.querySelector('#gui')).toBeDefined();
+      expect(document.querySelector('#gui')).toBeTruthy();
     });
 
     it('update stats', () => {
@@ -71,7 +71,7 @@ describe('UIManager', () => {
       ui.addGeomFolder();
       const GEOM_NAME = 'Test Geometry';
       uiPrivate.geomFolder.addFolder(GEOM_NAME);
-      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeDefined();
+      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeTruthy();
       uiPrivate.removeOBJ(GEOM_NAME)();
       expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeUndefined();
       uiPrivate.removeOBJ(GEOM_NAME)();
@@ -110,7 +110,7 @@ describe('UIManager', () => {
     it('should get event data folder', () => {
       uiPrivate.eventFolder = uiPrivate.gui.addFolder('Event Data');
       ui.addEventDataFolder();
-      expect(ui.getEventDataFolder()).toBeDefined();
+      expect(ui.getEventDataFolder()).toBeTruthy();
     });
 
     it('should call three service functions', () => {
