@@ -12,7 +12,6 @@ import {
   BufferAttribute,
   Scene,
   Camera,
-  SphereGeometry,
   Plane,
   Group,
 } from 'three';
@@ -321,13 +320,16 @@ export class AnimationsManager {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     // Sphere to get spherical set of clipping planes from
-    const sphere = new SphereGeometry(1, 8, 8);
+    const sphere = new SphereBufferGeometry(1, 8, 8);
     // Clipping planes for animation
     const animationClipPlanes: Plane[] = [];
 
-    // Get clipping planes from the verticies of sphere
-    for (const vertice of sphere.vertices) {
-      animationClipPlanes.push(new Plane(vertice, 0));
+    // Get clipping planes from the vertices of sphere
+    const position = sphere.attributes.position;
+    const vertex = new Vector3();
+    for (let i = 0; i < position.count; i++) {
+      vertex.fromBufferAttribute(position, i);
+      animationClipPlanes.push(new Plane(vertex.clone(), 0));
     }
 
     // Save the previous clipping setting of the renderer
@@ -400,7 +402,7 @@ export class AnimationsManager {
     });
 
     const particle1 = new Mesh(particleGeometry, particleMaterial);
-    const particle2 = particle1.clone();
+    const particle2 = particle1.clone() as Mesh;
 
     particle1.position.setZ(distanceFromOrigin);
     particle2.position.setZ(-distanceFromOrigin);

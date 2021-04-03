@@ -266,7 +266,6 @@ export class PhoenixObjects {
     });
     // object
     const cube = new Mesh(geometry, material);
-    console.log('EJWM cluster eta=' + clusterParams.eta);
     const theta = PhoenixObjects.etaToTheta(clusterParams.eta);
     const pos = new Vector3(
       4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
