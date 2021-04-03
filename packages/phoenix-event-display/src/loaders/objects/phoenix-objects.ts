@@ -26,11 +26,21 @@ import { RKHelper } from '../../helpers/rk-helper';
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+  /**
+   * Convert eta angle to theta.
+   * @param eta Angle in eta to convert to theta.
+   */
   public static etaToTheta(eta: number): number {
     return 2 * Math.atan(Math.pow(Math.E, eta));
   }
 
-  /** This should NOT be necessary - should use native threejs methods such as Vector3.setFromSpherical */
+  /**
+   * Get cartesian from spherical parameters.
+   * This should NOT be necessary - should use native threejs methods such as Vector3.setFromSpherical
+   * @param radius The radius.
+   * @param theta Theta angle.
+   * @param phi Phi angle.
+   */
   public static sphericalToCartesian(
     radius: number,
     theta: number,

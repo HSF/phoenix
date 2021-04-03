@@ -6,7 +6,7 @@
   "types": "dist/index",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
-  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display#phoenix-event-display",
+  "homepage": "http://github.com/HSF/phoenix/tree/master/packages/phoenix-event-display#readme",
   "repository": {
     "type": "git",
     "url": "git://github.com/HSF/phoenix.git"
@@ -41,6 +41,7 @@
     "three": "^0.127.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.13.10",
     "@types/jasmine": "^3.6.9",
     "@types/node": "^14.14.37",
     "@types/three": "^0.126.2",
