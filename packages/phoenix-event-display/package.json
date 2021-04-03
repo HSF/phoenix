@@ -27,6 +27,7 @@
     "prepare": "yarn build",
     "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
+    "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
     "test": "karma start configs/karma.conf.js",
     "test:coverage": "yarn test",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.13.10",
+    "@compodoc/compodoc": "^1.1.11",
     "@types/jasmine": "^3.6.9",
     "@types/node": "^14.14.37",
     "@types/three": "^0.126.2",

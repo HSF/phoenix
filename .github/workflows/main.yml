@@ -25,6 +25,9 @@ jobs:
       - name: Check Prettier
         run: yarn prettier:check
 
+      - name: Check Documentation Coverage
+        run: yarn docs:coverage
+
       - name: Run Tests
         run: yarn test:coverage
 
@@ -62,7 +65,7 @@ jobs:
           repository: ${{ github.repository }}
           ref: ${{ github.ref }}
           environment: pull-request
-          required_contexts: '[]'
+          required_contexts: "[]"
           auto_merge: false
 
       - name: Create Pull Request Deployment Status

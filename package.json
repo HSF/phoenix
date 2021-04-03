@@ -13,7 +13,8 @@
     "version": "lerna run docs --scope phoenix-event-display && git add .",
     "deploy:web": "lerna run deploy:web --scope phoenix-ng",
     "prettier:check": "lerna run prettier:check",
-    "prettier:write": "lerna run prettier:write"
+    "prettier:write": "lerna run prettier:write",
+    "docs:coverage": "lerna run docs:coverage --scope phoenix-event-display"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
