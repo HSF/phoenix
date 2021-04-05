@@ -118,7 +118,7 @@ export class SceneManager {
    * @returns A clear scene with no objects from the ignoreList.
    */
   public getCleanScene(): Scene {
-    const clearScene: Scene = this.scene.clone();
+    const clearScene = this.scene.clone() as Scene;
     const removeList = [];
 
     clearScene.traverse((object: Object3D) => {
@@ -498,7 +498,6 @@ export class SceneManager {
       textGeometry,
       new MeshBasicMaterial({
         color: new Color('#a8a8a8'),
-        flatShading: true,
       })
     );
     textMesh.position.fromArray(objectPosition.toArray());
