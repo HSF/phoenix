@@ -464,6 +464,21 @@ export class SceneManager {
   }
 
   /**
+   * Scale lowest level objects in a group.
+   * @param groupName Name of the group to scale objects of.
+   * @param value Value of the scale. Default is 1.
+   */
+  public scaleChildrenObjects(groupName: string, value: number) {
+    const object = this.scene.getObjectByName(groupName);
+
+    object.traverse((objectChild: Object3D) => {
+      if (objectChild.children.length === 0) {
+        objectChild.scale.setScalar(value);
+      }
+    });
+  }
+
+  /**
    * Add label to the three.js object.
    * @param label Label to add to the event object.
    * @param uuid UUID of the three.js object.
