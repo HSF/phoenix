@@ -18,6 +18,7 @@ import {
   BoxBufferGeometry,
   MeshPhongMaterial,
   SphereBufferGeometry,
+  LineSegments,
 } from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
@@ -250,6 +251,53 @@ export class PhoenixObjects {
   }
 
   /**
+   * Process the Line from the given parameters and get them as a geometry.
+   * @param params Parameters for the Line.
+   * @returns Line object.
+   */
+  public static getLines(params: any): Object3D {
+    let positions: any[];
+    let hitsParamsClone: any;
+
+    // If the parameters is an object then take out 'pos' for hits positions
+    if (typeof params === 'object' && !Array.isArray(params)) {
+      positions = [params.pos];
+      hitsParamsClone = params;
+    } else {
+      positions = params;
+      hitsParamsClone = { pos: params };
+    }
+
+    // attributes
+    const pointPos = new Float32Array(positions.length * 3);
+    let i = 0;
+    for (const hit of positions) {
+      pointPos[i] = hit[0];
+      pointPos[i + 1] = hit[1];
+      pointPos[i + 2] = hit[2];
+      i += 3;
+    }
+
+    // geometry
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    // material
+    const material = new LineBasicMaterial({
+      linewidth: 2,
+      color: params.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+    });
+    // object
+    const linesObj = new LineSegments(geometry, material);
+    linesObj.userData = Object.assign({}, hitsParamsClone);
+    linesObj.name = 'Hit';
+    // Setting uuid for selection from collections info
+    params.uuid = linesObj.uuid;
+
+    return linesObj;
+  }
+
+  /**
    * Process the CLuster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
    * @returns Cluster object.
@@ -278,7 +326,10 @@ export class PhoenixObjects {
 
     // FIXME - more elegant way to do this? Maybe natively use cylindrical here?
     // How to generalise? Pass in limit lambda?
-    if (cube.position.x * cube.position.x + cube.position.y * cube.position.y > maxR * maxR) {
+    if (
+      cube.position.x * cube.position.x + cube.position.y * cube.position.y >
+      maxR * maxR
+    ) {
       cube.position.x = maxR * Math.cos(clusterParams.phi);
       cube.position.y = maxR * Math.sin(clusterParams.phi);
     }

@@ -198,8 +198,17 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.Hits) {
-      // Cannot currently cut on just a postion array.
+      // Cannot currently cut on just a position array.
       this.addObjectType(eventData.Hits, PhoenixObjects.getHits, 'Hits');
+    }
+
+    if (eventData.HitLines) {
+      // Cannot currently cut on just a line array.
+      this.addObjectType(
+        eventData.HitLines,
+        PhoenixObjects.getLines,
+        'Line Hits'
+      );
     }
 
     if (eventData.CaloClusters) {
