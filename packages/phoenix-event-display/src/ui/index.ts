@@ -637,6 +637,18 @@ export class UIManager {
         },
       });
 
+      collectionNode.addConfig('slider', {
+        label: 'Opacity',
+        value: 1,
+        min: 0.1,
+        max: 1,
+        onChange: (value: number) => {
+          this.three
+            .getSceneManager()
+            .setGeometryOpacity(collectionName, value);
+        },
+      });
+
       if (cuts) {
         collectionNode
           .addConfig('label', {

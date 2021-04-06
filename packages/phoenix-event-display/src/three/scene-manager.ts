@@ -425,8 +425,7 @@ export class SceneManager {
 
   /**
    * Wireframe geometries and decrease their opacity.
-   * @param value A boolean to specify if geometries are to be wireframed
-   * or not.
+   * @param value A boolean to specify if geometries are to be wireframed or not.
    */
   public wireframeGeometries(value: boolean) {
     const allGeoms = this.getGeometries();
@@ -441,6 +440,20 @@ export class SceneManager {
           object.material.transparent = false;
           object.material.opacity = 1;
         }
+      }
+    });
+  }
+
+  /**
+   * Wireframe a group of objects.
+   * @param groupName Group name of the objects group to be wireframed.
+   * @param value A boolean to specify if objects are to be wireframed or not.
+   */
+  public wireframeObjects(groupName: string, value: boolean) {
+    const objects = this.scene.getObjectByName(groupName);
+    objects.traverse((object: any) => {
+      if (object.material) {
+        object.material.wireframe = value;
       }
     });
   }
@@ -468,7 +481,7 @@ export class SceneManager {
    * @param groupName Name of the group to scale objects of.
    * @param value Value of the scale. Default is 1.
    */
-  public scaleChildrenObjects(groupName: string, value: number) {
+  public scaleChildObjects(groupName: string, value: number) {
     const object = this.scene.getObjectByName(groupName);
 
     object.traverse((objectChild: Object3D) => {

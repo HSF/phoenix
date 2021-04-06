@@ -216,8 +216,14 @@ export class PhoenixLoader implements EventDataLoader {
         const scaleCaloClusters = (value: number) => {
           this.graphicsLibrary
             .getSceneManager()
-            .scaleChildrenObjects('CaloClusters', value / 100);
+            .scaleChildObjects('CaloClusters', value / 100);
         };
+        const wireframeCaloClusters = (value: boolean) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .wireframeObjects('CaloClusters', value);
+        };
+
         if (typeFolder) {
           const sizeMenu = typeFolder
             .add({ caloClustersScale: 100 }, 'caloClustersScale', 1, 400)
@@ -233,6 +239,10 @@ export class PhoenixLoader implements EventDataLoader {
             max: 400,
             allowCustomValue: true,
             onChange: scaleCaloClusters,
+          });
+          typeFolderPM.addConfig('checkbox', {
+            label: 'Wireframe',
+            onChange: wireframeCaloClusters,
           });
         }
       };
