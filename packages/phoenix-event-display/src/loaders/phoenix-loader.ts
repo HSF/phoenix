@@ -218,11 +218,6 @@ export class PhoenixLoader implements EventDataLoader {
             .getSceneManager()
             .scaleChildObjects('CaloClusters', value / 100);
         };
-        const wireframeCaloClusters = (value: boolean) => {
-          this.graphicsLibrary
-            .getSceneManager()
-            .wireframeObjects('CaloClusters', value);
-        };
 
         if (typeFolder) {
           const sizeMenu = typeFolder
@@ -239,10 +234,6 @@ export class PhoenixLoader implements EventDataLoader {
             max: 400,
             allowCustomValue: true,
             onChange: scaleCaloClusters,
-          });
-          typeFolderPM.addConfig('checkbox', {
-            label: 'Wireframe',
-            onChange: wireframeCaloClusters,
           });
         }
       };
