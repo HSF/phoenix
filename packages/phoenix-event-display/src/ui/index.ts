@@ -637,6 +637,24 @@ export class UIManager {
         },
       });
 
+      collectionNode.addConfig('slider', {
+        label: 'Opacity',
+        min: 0.1,
+        step: 0.1,
+        max: 1,
+        onChange: (value: number) => {
+          this.three
+            .getSceneManager()
+            .setGeometryOpacity(collectionName, value);
+        },
+      });
+
+      collectionNode.addConfig('checkbox', {
+        label: 'Wireframe',
+        onChange: (value: boolean) =>
+          this.three.getSceneManager().wireframeObjects(collectionName, value),
+      });
+
       if (cuts) {
         collectionNode
           .addConfig('label', {

@@ -165,13 +165,14 @@ export class PhoenixLoader implements EventDataLoader {
         typeFolder: any,
         typeFolderPM: PhoenixMenuNode
       ) => {
+        const scaleJets = (value: number) => {
+          this.graphicsLibrary.getSceneManager().scaleJets(value);
+        };
         if (typeFolder) {
           const sizeMenu = typeFolder
             .add({ jetsScale: 100 }, 'jetsScale', 1, 200)
             .name('Jets Size (%)');
-          sizeMenu.onChange((value: number) => {
-            this.graphicsLibrary.getSceneManager().scaleJets(value);
-          });
+          sizeMenu.onChange(scaleJets);
         }
         // Phoenix menu
         if (typeFolderPM) {
@@ -181,9 +182,7 @@ export class PhoenixLoader implements EventDataLoader {
             min: 1,
             max: 200,
             allowCustomValue: true,
-            onChange: (value: number) => {
-              this.graphicsLibrary.getSceneManager().scaleJets(value);
-            },
+            onChange: scaleJets,
           });
         }
       };
@@ -219,11 +218,41 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
       ];
 
+      const addCaloClusterOptions = (
+        typeFolder: any,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
+        const scaleCaloClusters = (value: number) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('CaloClusters', value / 100);
+        };
+
+        if (typeFolder) {
+          const sizeMenu = typeFolder
+            .add({ caloClustersScale: 100 }, 'caloClustersScale', 1, 400)
+            .name('CaloClusters Size (%)');
+          sizeMenu.onChange(scaleCaloClusters);
+        }
+        // Phoenix menu
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
+            label: 'CaloClusters Size (%)',
+            value: 100,
+            min: 1,
+            max: 400,
+            allowCustomValue: true,
+            onChange: scaleCaloClusters,
+          });
+        }
+      };
+
       this.addObjectType(
         eventData.CaloClusters,
         PhoenixObjects.getCluster,
         'CaloClusters',
-        cuts
+        cuts,
+        addCaloClusterOptions
       );
     }
 
