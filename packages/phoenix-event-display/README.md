@@ -77,12 +77,12 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
 
     <script>
       // Create the event display
-      const eventDisplay = new Phoenix.EventDisplay();
+      const eventDisplay = new EventDisplay();
 
       // Define the configuration
       const configuration = {
         elementId: 'eventDisplay',
-        eventDataLoader: new Phoenix.PhoenixLoader() // or some other event data loader
+        eventDataLoader: new PhoenixLoader() // or some other event data loader
         // ... other configuration options
       };
 
