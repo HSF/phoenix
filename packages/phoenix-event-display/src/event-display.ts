@@ -5,6 +5,7 @@ import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
+import { ActiveVariable } from './helpers/active-variable';
 
 declare global {
   /**
@@ -580,7 +581,7 @@ export class EventDisplay {
    * Get the uuid of the currently selected object.
    * @returns uuid of the currently selected object.
    */
-  public getActiveObjectId(): any {
+  public getActiveObjectId(): ActiveVariable<string> {
     return this.graphicsLibrary.getActiveObjectId();
   }
 
