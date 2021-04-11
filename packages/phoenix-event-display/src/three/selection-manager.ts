@@ -12,6 +12,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import { InfoLogger } from '../info-logger';
 import { EffectsManager } from './effects-manager';
 import { PrettySymbols } from '../helpers/pretty-symbols';
+import { ActiveVariable } from '../helpers/active-variable';
 
 /**
  * Manager for managing event display's selection related functions.
@@ -26,19 +27,7 @@ export class SelectionManager {
   /** Object used to display the information of the selected 3D object. */
   private selectedObject: { name: string; attributes: any[] };
   /** The currently selected object which is observable for changes. */
-  private activeObject = {
-    uuid: '',
-    callbacks: [],
-    update: function (uuid: string) {
-      this.uuid = uuid;
-      for (const callback of this.callbacks) {
-        callback(uuid);
-      }
-    },
-    onUpdate: function (callback: (uuid: string) => void) {
-      this.callbacks.push(callback);
-    },
-  };
+  private activeObject = new ActiveVariable<string>('');
   /** Objects to be ignored on hovering over the scene. */
   private ignoreList: string[];
 
@@ -102,7 +91,7 @@ export class SelectionManager {
    * Get the uuid of the currently selected object.
    * @returns uuid of the currently selected object.
    */
-  public getActiveObjectId(): any {
+  public getActiveObjectId(): ActiveVariable<string> {
     return this.activeObject;
   }
 

@@ -5,6 +5,7 @@ import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
+import { ActiveVariable } from './helpers/active-variable';
 
 declare global {
   /**
@@ -36,6 +37,8 @@ export class EventDisplay {
   private ui: UIManager;
   /** Loading manager for loadable resources */
   private loadingManager: LoadingManager;
+  /** State manager for managing event display state. */
+  private stateManager: StateManager;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -63,7 +66,7 @@ export class EventDisplay {
     // Initialize the UI with configuration
     this.ui.init(configuration);
     // Set up for the state manager
-    new StateManager().setEventDisplay(this);
+    this.getStateManager().setEventDisplay(this);
 
     // Animate loop
     const uiLoop = () => {
@@ -178,6 +181,17 @@ export class EventDisplay {
    */
   public getLoadingManager() {
     return this.loadingManager;
+  }
+
+  /**
+   * Get the state manager that manages event display's state.
+   * @returns The state manager.
+   */
+  public getStateManager() {
+    if (!this.stateManager) {
+      this.stateManager = new StateManager();
+    }
+    return this.stateManager;
   }
 
   // **********************
@@ -580,7 +594,7 @@ export class EventDisplay {
    * Get the uuid of the currently selected object.
    * @returns uuid of the currently selected object.
    */
-  public getActiveObjectId(): any {
+  public getActiveObjectId(): ActiveVariable<string> {
     return this.graphicsLibrary.getActiveObjectId();
   }
 
