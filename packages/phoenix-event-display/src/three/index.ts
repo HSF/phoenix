@@ -26,6 +26,7 @@ import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
 import { StateManager } from '../managers/state-manager';
 import { LoadingManager } from '../managers/loading-manager';
+import { ActiveVariable } from '../helpers/active-variable';
 
 /**
  * Manager for all three.js related functions.
@@ -544,7 +545,7 @@ export class ThreeManager {
    * Get the uuid of the currently selected object.
    * @returns uuid of the currently selected object.
    */
-  public getActiveObjectId(): any {
+  public getActiveObjectId(): ActiveVariable<string> {
     return this.getSelectionManager().getActiveObjectId();
   }
 

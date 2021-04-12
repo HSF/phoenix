@@ -50,7 +50,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     spyOn(eventDisplayService, 'getActiveObjectId').and.callThrough();
 
     component.ngOnInit();
-    component.activeObject.uuid = ROW_ID;
+    component.activeObject.value = ROW_ID;
 
     expect(eventDisplayService.getActiveObjectId).toHaveBeenCalled();
   });

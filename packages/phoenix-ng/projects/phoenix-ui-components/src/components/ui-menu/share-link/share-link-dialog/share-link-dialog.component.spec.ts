@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PhoenixUIModule } from 'phoenix-ui-components';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 import { ShareLinkDialogComponent } from './share-link-dialog.component';
 
@@ -32,9 +32,9 @@ describe('ShareLinkDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.baseLink).toBeDefined();
-    expect(component.shareLink).toBeDefined();
-    expect(component.embedLink).toBeDefined();
+    expect(component.baseLink).toBeTruthy();
+    expect(component.shareLink).toBeTruthy();
+    expect(component.embedLink).toBeTruthy();
   });
 
   it('set options value and update share link', () => {

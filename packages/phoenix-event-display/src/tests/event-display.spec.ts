@@ -267,7 +267,7 @@ describe('EventDisplay', () => {
 
     it('should enable and run event display functions through console', () => {
       eventDisplayPrivate.enableEventDisplayConsole();
-      expect(window.EventDisplay).toBeDefined();
+      expect(window.EventDisplay).toBeTruthy();
 
       // Try running window EventDisplay functions
 

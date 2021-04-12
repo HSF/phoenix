@@ -22,9 +22,9 @@ import { UIManager } from './ui';
 import { PhoenixMenuNode } from './ui/phoenix-menu/phoenix-menu-node';
 
 if (typeof globalThis !== 'undefined') {
-  // `globalThis` makes `Phoenix` available as an object in the browser
-  // e.g. `const eventDisplay = new Phoenix.EventDisplay();`
-  globalThis.Phoenix = {
+  // `globalThis` makes Phoenix modules available in the browser
+  // e.g. `const eventDisplay = new EventDisplay();`
+  Object.assign(globalThis, {
     // Event display
     EventDisplay,
     // Misc
@@ -56,5 +56,5 @@ if (typeof globalThis !== 'undefined') {
     StateManager,
     LoadingManager,
     URLOptionsManager,
-  };
+  });
 }

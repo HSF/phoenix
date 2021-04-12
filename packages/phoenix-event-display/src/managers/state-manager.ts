@@ -2,6 +2,7 @@ import { EventDisplay } from '../event-display';
 import { Camera } from 'three';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
 import { loadFile, saveFile } from '../helpers/file';
+import { ActiveVariable } from '../helpers/active-variable';
 
 /**
  * A singleton manager for managing the scene's state.
@@ -12,9 +13,9 @@ export class StateManager {
   /** Root node of the phoenix menu. */
   phoenixMenuRoot: PhoenixMenuNode;
   /** Whether the clipping is enabled or not. */
-  clippingEnabled: boolean;
+  clippingEnabled = new ActiveVariable(false);
   /** Angle of the clipping. */
-  clippingAngle: number;
+  clippingAngle = new ActiveVariable(0);
   /** The active camera. */
   activeCamera: Camera;
   /** The event display. */
@@ -103,6 +104,7 @@ export class StateManager {
         jsonData['eventDisplay']?.['cameraPosition']
       );
       if (jsonData['eventDisplay']?.['clippingAngle']) {
+        this.setClippingEnabled(true);
         this.eventDisplay.getUIManager().setClipping(true);
         this.eventDisplay
           .getUIManager()
@@ -116,7 +118,7 @@ export class StateManager {
    * @param clipping Whether the clipping is enabled or not.
    */
   setClippingEnabled(clipping: boolean) {
-    this.clippingEnabled = clipping;
+    this.clippingEnabled.update(clipping);
   }
 
   /**
@@ -124,7 +126,7 @@ export class StateManager {
    * @param angle Angle fo clipping.
    */
   setClippingAngle(angle: number) {
-    this.clippingAngle = angle;
+    this.clippingAngle.update(angle);
   }
 
   /**

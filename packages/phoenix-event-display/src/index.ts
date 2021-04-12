@@ -29,6 +29,7 @@ export * from './extras/preset-view.model';
 export * from './helpers/rk-helper';
 export * from './helpers/runge-kutta';
 export * from './helpers/pretty-symbols';
+export * from './helpers/active-variable';
 
 // Loaders
 export * from './loaders/event-data-loader';

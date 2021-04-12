@@ -146,7 +146,7 @@ export class VRManager {
     if (camera && this.vrActive) {
       this.vrCamera = this.renderer.xr
         .getCamera(new Camera())
-        .copy(camera.clone());
+        .copy(camera.clone() as Camera);
       this.vrCamera.name = 'VR_CAMERA';
 
       this.cameraGroup.position.copy(this.vrCamera.position);

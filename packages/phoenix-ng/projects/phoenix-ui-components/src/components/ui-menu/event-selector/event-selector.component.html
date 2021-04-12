@@ -6,7 +6,6 @@
 >
   <label for="event">Event</label>
   <select id="event" name="event" (change)="changeEvent($event)">
-    <option value="" selected disabled hidden>Choose Event</option>
     <option *ngFor="let event of events" [value]="event">
       {{ event }}
     </option>

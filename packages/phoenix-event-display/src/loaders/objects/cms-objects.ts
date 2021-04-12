@@ -1,8 +1,5 @@
 import {
   Object3D,
-  Vector3,
-  Geometry,
-  Face3,
   Group,
   Mesh,
   MeshBasicMaterial,
@@ -11,6 +8,7 @@ import {
   DoubleSide,
   LineSegments,
   BufferGeometry,
+  BufferAttribute,
 } from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 
@@ -25,48 +23,44 @@ export class CMSObjects {
    * @returns Muon Chamber object.
    */
   public static getMuonChamber(muonChamberParams: any): Object3D {
-    let faces = [];
-    let backs = [];
+    let allFacePositions: number[] = [];
 
-    for (const param of Object.keys(muonChamberParams)) {
-      if (param.startsWith('front')) {
-        faces.push(new Vector3().fromArray(muonChamberParams[param]));
-      } else if (param.startsWith('back')) {
-        backs.push(new Vector3().fromArray(muonChamberParams[param]));
-      }
-    }
-
-    let box = new Geometry();
-    box.vertices = faces.concat(backs);
+    const addFace3 = (...faces: string[]) => {
+      allFacePositions = allFacePositions.concat(
+        ...faces.map((face) => muonChamberParams[face])
+      );
+    };
 
     // front
-    box.faces.push(new Face3(0, 1, 2));
-    box.faces.push(new Face3(2, 3, 0));
+    addFace3('front_1', 'front_2', 'front_3');
+    addFace3('front_3', 'front_4', 'front_1');
 
     // back
-    box.faces.push(new Face3(4, 5, 6));
-    box.faces.push(new Face3(6, 7, 4));
+    addFace3('back_1', 'back_2', 'back_3');
+    addFace3('back_3', 'back_4', 'back_1');
 
     // top
-    box.faces.push(new Face3(4, 5, 1));
-    box.faces.push(new Face3(1, 0, 4));
+    addFace3('back_1', 'back_2', 'front_2');
+    addFace3('front_2', 'front_1', 'back_1');
 
     // bottom
-    box.faces.push(new Face3(7, 6, 2));
-    box.faces.push(new Face3(2, 3, 7));
+    addFace3('back_4', 'back_3', 'front_3');
+    addFace3('front_3', 'front_4', 'back_4');
 
     // left
-    box.faces.push(new Face3(0, 3, 7));
-    box.faces.push(new Face3(7, 4, 0));
+    addFace3('front_1', 'front_4', 'back_4');
+    addFace3('back_4', 'back_1', 'front_1');
 
     // right
-    box.faces.push(new Face3(1, 5, 6));
-    box.faces.push(new Face3(6, 2, 1));
+    addFace3('front_2', 'back_2', 'back_3');
+    addFace3('back_3', 'front_3', 'front_2');
 
-    box.computeFaceNormals();
-    box.computeVertexNormals();
-
-    const boxBuffer = new BufferGeometry().fromGeometry(box);
+    let boxBuffer = new BufferGeometry();
+    boxBuffer.attributes.position = new BufferAttribute(
+      new Float32Array(allFacePositions),
+      3
+    );
+    boxBuffer.computeVertexNormals();
 
     const boxObject = new Mesh(
       boxBuffer,

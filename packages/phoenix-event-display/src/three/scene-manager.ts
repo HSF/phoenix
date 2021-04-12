@@ -118,7 +118,7 @@ export class SceneManager {
    * @returns A clear scene with no objects from the ignoreList.
    */
   public getCleanScene(): Scene {
-    const clearScene: Scene = this.scene.clone();
+    const clearScene = this.scene.clone() as Scene;
     const removeList = [];
 
     clearScene.traverse((object: Object3D) => {
@@ -425,8 +425,7 @@ export class SceneManager {
 
   /**
    * Wireframe geometries and decrease their opacity.
-   * @param value A boolean to specify if geometries are to be wireframed
-   * or not.
+   * @param value A boolean to specify if geometries are to be wireframed or not.
    */
   public wireframeGeometries(value: boolean) {
     const allGeoms = this.getGeometries();
@@ -446,6 +445,20 @@ export class SceneManager {
   }
 
   /**
+   * Wireframe a group of objects.
+   * @param groupName Group name of the objects group to be wireframed.
+   * @param value A boolean to specify if objects are to be wireframed or not.
+   */
+  public wireframeObjects(groupName: string, value: boolean) {
+    const objects = this.scene.getObjectByName(groupName);
+    objects.traverse((object: any) => {
+      if (object.material) {
+        object.material.wireframe = value;
+      }
+    });
+  }
+
+  /**
    * Change the scale of Jets.
    * @param value Percentage factor by which the Jets are to be scaled.
    */
@@ -459,6 +472,21 @@ export class SceneManager {
         objectChild.scale.setScalar(value);
         // Restoring to original position and then moving again with the current value.
         objectChild.position.divideScalar(previousScale).multiplyScalar(value);
+      }
+    });
+  }
+
+  /**
+   * Scale lowest level objects in a group.
+   * @param groupName Name of the group to scale objects of.
+   * @param value Value of the scale. Default is 1.
+   */
+  public scaleChildObjects(groupName: string, value: number) {
+    const object = this.scene.getObjectByName(groupName);
+
+    object.traverse((objectChild: Object3D) => {
+      if (objectChild.children.length === 0) {
+        objectChild.scale.setScalar(value);
       }
     });
   }
@@ -498,7 +526,6 @@ export class SceneManager {
       textGeometry,
       new MeshBasicMaterial({
         color: new Color('#a8a8a8'),
-        flatShading: true,
       })
     );
     textMesh.position.fromArray(objectPosition.toArray());
