@@ -24,11 +24,7 @@ module.exports = function (config) {
     karmaTypescriptConfig: {
       include: ['src'],
       reports: {
-        html: {
-          directory: 'coverage',
-          subdirectory: '.',
-        },
-        lcovonly: {
+        lcov: {
           directory: 'coverage',
           subdirectory: '.',
         },
@@ -39,7 +35,18 @@ module.exports = function (config) {
         resolveJsonModule: true,
       },
       bundlerOptions: {
-        transforms: [require('karma-typescript-es6-transform')()],
+        transforms: [
+          require('karma-typescript-es6-transform')({
+            plugins: [
+              [
+                '@babel/plugin-transform-runtime',
+                {
+                  regenerator: true,
+                },
+              ],
+            ],
+          }),
+        ],
       },
     },
   });

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { PerformanceToggleComponent } from './performance-toggle.component';
 
@@ -13,7 +14,7 @@ describe('PerformanceToggleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PerformanceToggleComponent],
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,

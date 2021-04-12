@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { PrettySymbols } from 'phoenix-event-display';
+import { PrettySymbols, ActiveVariable } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
-  activeObject: any;
+  activeObject: ActiveVariable<string>;
 
   constructor(
     private elementRef: ElementRef,

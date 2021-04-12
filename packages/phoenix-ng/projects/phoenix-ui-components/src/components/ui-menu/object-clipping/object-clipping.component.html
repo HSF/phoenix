@@ -1,6 +1,7 @@
 <mat-menu #menu>
   <mat-checkbox
     class="mat-menu-item"
+    [checked]="clippingEnabled"
     (click)="$event.stopPropagation()"
     (change)="toggleClipping($event)"
     >Clipping
@@ -10,6 +11,7 @@
     max="180"
     step="1"
     thumbLabel
+    [value]="clippingAngle"
     (click)="$event.stopPropagation()"
     (input)="changeClippingAngle($event)"
   >

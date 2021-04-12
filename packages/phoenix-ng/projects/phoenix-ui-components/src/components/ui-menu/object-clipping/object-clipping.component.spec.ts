@@ -10,12 +10,22 @@ describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIService', [
-      'rotateClipping',
-      'setClipping',
-    ]),
-  });
+  const mockUIManager = jasmine.createSpyObj('UIManager', [
+    'rotateClipping',
+    'setClipping',
+  ]);
+
+  const mockEventDisplay = {
+    getUIManager: jasmine.createSpy().and.returnValue(mockUIManager),
+    getStateManager: () => ({
+      clippingEnabled: {
+        onUpdate: jasmine.createSpy('onUpdate'),
+      },
+      clippingAngle: {
+        onUpdate: jasmine.createSpy('onUpdate'),
+      },
+    }),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
