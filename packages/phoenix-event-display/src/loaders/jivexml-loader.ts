@@ -409,6 +409,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   /**
    * Extract Muon PRDs (type of Hits) from the JiveXML data format and process them.
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param name Event data collection name.
    * @param eventData Event data object to be updated with TRT Drift Circles.
    */
   public getMuonPRD(

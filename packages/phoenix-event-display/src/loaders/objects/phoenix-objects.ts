@@ -202,8 +202,9 @@ export class PhoenixObjects {
 
   /**
    * Process the Hits from the given parameters and get them as a geometry.
-   * @param hitsParams Hit object. Must contain 'pos', the array of [x,y,z] positions, Can optionally contain extraInfo, which will be added to the resultant hit.
-   * @param type Tells Phoenix how to draw this - currently can be Point (default), or Line.
+   * @param hitsParams Hit object. Must contain 'pos', the array of [x,y,z] positions,
+   * Can optionally contain extraInfo, which will be added to the resultant hit.
+   * `type` tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
   public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
@@ -248,6 +249,13 @@ export class PhoenixObjects {
     }
   }
 
+  /**
+   * Get a Points object from Hits parameters.
+   * @param pointPos Position of the point.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `Points`.
+   */
   private static hitsToPoints(
     pointPos: any,
     hitsParams: any,
@@ -271,6 +279,13 @@ export class PhoenixObjects {
     return pointsObj;
   }
 
+  /**
+   * Get a Lines object from Hits parameters.
+   * @param pointPos Position of the HIt.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `LineSegments`.
+   */
   private static hitsToLines(
     pointPos: any,
     hitsParams: any,
