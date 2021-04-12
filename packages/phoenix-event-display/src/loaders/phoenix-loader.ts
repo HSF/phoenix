@@ -245,7 +245,7 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getCluster,
         'CaloClusters',
         false,
-        cuts
+        cuts,
         addCaloClusterOptions
       );
     }
