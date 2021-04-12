@@ -70,7 +70,7 @@ export class PhoenixObjects {
 
         positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
       }
-    } 
+    }
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 3) {
@@ -196,42 +196,53 @@ export class PhoenixObjects {
    * @param type Tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
-  public static getHits(hitsParams: [ { pos:[], type?: string }]): Object3D {
+  public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
     let hitsParamsClone = hitsParams;
-    let type:string = 'Point'; // Default is point and 3 coordinates per hit
+    let type: string = 'Point'; // Default is point and 3 coordinates per hit
     let coordlength = 3;
-    if (hitsParams.length>1){
+    if (hitsParams.length > 1) {
       // Peek at first one. Would be better to make these properties of the collections.
       if ('type' in hitsParams[0]) {
         type = hitsParams[0].type;
-        coordlength=6;
+        coordlength = 6;
       }
     }
     // attributes
-    const pointPos = new Float32Array(hitsParams.length*coordlength);
+    const pointPos = new Float32Array(hitsParams.length * coordlength);
     let i = 0;
     let imax = 0;
     for (const hit of hitsParams) {
-      imax = i+coordlength;
-      for (let j=0 ; j<coordlength; ++j, ++i){
+      imax = i + coordlength;
+      for (let j = 0; j < coordlength; ++j, ++i) {
         pointPos[i] = hit.pos[j];
       }
     }
 
     // geometry
-    switch (type){
-    case 'Point':
-      return PhoenixObjects.hitsToPoints(pointPos, hitsParams, hitsParamsClone);
-    case 'Line':
-      return PhoenixObjects.hitsToLines(pointPos, hitsParams, hitsParamsClone);
-    default:
-      console.log('ERROR: Unknown hit type!')
-      return;
+    switch (type) {
+      case 'Point':
+        return PhoenixObjects.hitsToPoints(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      case 'Line':
+        return PhoenixObjects.hitsToLines(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      default:
+        console.log('ERROR: Unknown hit type!');
+        return;
     }
   }
 
-private static hitsToPoints(pointPos: any, hitsParams: any, hitParamsClone: any): Object3D {
-
+  private static hitsToPoints(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
@@ -250,10 +261,11 @@ private static hitsToPoints(pointPos: any, hitsParams: any, hitParamsClone: any)
     return pointsObj;
   }
 
-
-
-  private static hitsToLines(pointPos: any, hitsParams: any, hitParamsClone: any): Object3D {
-
+  private static hitsToLines(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
     // geometry
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));

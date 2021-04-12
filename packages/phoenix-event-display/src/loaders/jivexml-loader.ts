@@ -243,7 +243,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.pos = pos;
         }
         // Now loop over hits, and if possible, see if we can extend the track
-        if (numHits.length>0) {
+        if (numHits.length > 0) {
           let hitIdentifier = 0;
           let distance = 0.0;
           let found = false;
@@ -324,7 +324,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.SCT = [];
 
     for (let i = 0; i < numOfSCTClusters; i++) {
-      let sct = { pos: [], id: 0, phiModule:0, side:0 };
+      let sct = { pos: [], id: 0, phiModule: 0, side: 0 };
       sct.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       sct.id = id[i];
       sct.phiModule = phiModule[i];
@@ -353,7 +353,10 @@ export class JiveXMLLoader extends PhoenixLoader {
     const rhoz = this.getNumberArrayFromHTML(dcHTML, 'rhoz');
     const sub = this.getNumberArrayFromHTML(dcHTML, 'sub');
     const threshold = this.getNumberArrayFromHTML(dcHTML, 'threshold');
-    const timeOverThreshold = this.getNumberArrayFromHTML(dcHTML, 'timeOverThreshold');
+    const timeOverThreshold = this.getNumberArrayFromHTML(
+      dcHTML,
+      'timeOverThreshold'
+    );
 
     eventData.Hits.TRT = [];
 
@@ -366,7 +369,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         driftR: 0.0,
         threshold: 0.0,
         timeOverThreshold: 0.0,
-        noise: false
+        noise: false,
       };
 
       if (sub[i] == 1 || sub[i] == 2) {
@@ -376,7 +379,8 @@ export class JiveXMLLoader extends PhoenixLoader {
         trt.pos = [
           Math.cos(phi[i]) * rhoz[i] * 10.0,
           Math.sin(phi[i]) * rhoz[i] * 10.0,
-          z1, Math.cos(phi[i]) * rhoz[i] * 10.0,
+          z1,
+          Math.cos(phi[i]) * rhoz[i] * 10.0,
           Math.sin(phi[i]) * rhoz[i] * 10.0,
           z2,
         ];
@@ -419,8 +423,8 @@ export class JiveXMLLoader extends PhoenixLoader {
     const dcHTML = firstEvent.getElementsByTagName(name)[0];
 
     // Bit of a nasty hack, but JiveXML stores CSCs as CSCD for some reason.
-    if (name=='CSCD') name = 'CSC';
-    
+    if (name == 'CSCD') name = 'CSC';
+
     const numOfDC = Number(dcHTML.getAttribute('count'));
     const x = this.getNumberArrayFromHTML(dcHTML, 'x');
     const y = this.getNumberArrayFromHTML(dcHTML, 'y');
