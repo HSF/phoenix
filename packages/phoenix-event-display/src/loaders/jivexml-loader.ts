@@ -284,24 +284,9 @@ export class JiveXMLLoader extends PhoenixLoader {
     const pixClustersHTML = firstEvent.getElementsByTagName('PixCluster')[0];
     const numOfClusters = Number(pixClustersHTML.getAttribute('count'));
     const id = this.getNumberArrayFromHTML(pixClustersHTML, 'id');
-    const x0 = pixClustersHTML
-      .getElementsByTagName('x0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y0 = pixClustersHTML
-      .getElementsByTagName('y0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z0 = pixClustersHTML
-      .getElementsByTagName('z0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const x0 = this.getNumberArrayFromHTML(pixClustersHTML, 'x0');
+    const y0 = this.getNumberArrayFromHTML(pixClustersHTML, 'y0');
+    const z0 = this.getNumberArrayFromHTML(pixClustersHTML, 'z0');
 
     eventData.Hits.Pixel = [];
 
@@ -325,72 +310,25 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     const sctClustersHTML = firstEvent.getElementsByTagName('STC')[0]; // No idea why this is not SCT!
     const numOfSCTClusters = Number(sctClustersHTML.getAttribute('count'));
-    const id = sctClustersHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const phiModule = sctClustersHTML
-      .getElementsByTagName('phiModule')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const side = sctClustersHTML
-      .getElementsByTagName('side')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const width = sctClustersHTML
-      .getElementsByTagName('width')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const x0 = sctClustersHTML
-      .getElementsByTagName('x0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const x1 = sctClustersHTML
-      .getElementsByTagName('x1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y0 = sctClustersHTML
-      .getElementsByTagName('y0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y1 = sctClustersHTML
-      .getElementsByTagName('y1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z0 = sctClustersHTML
-      .getElementsByTagName('z0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z1 = sctClustersHTML
-      .getElementsByTagName('z1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const id = this.getNumberArrayFromHTML(sctClustersHTML, 'id');
+    const phiModule = this.getNumberArrayFromHTML(sctClustersHTML, 'phiModule');
+    const side = this.getNumberArrayFromHTML(sctClustersHTML, 'side');
+    // Commenting out some variables we don't yet use.
+    // const width = this.getNumberArrayFromHTML(sctClustersHTML, 'width');
+    const x0 = this.getNumberArrayFromHTML(sctClustersHTML, 'x0');
+    // const x1 = this.getNumberArrayFromHTML(sctClustersHTML, 'x1');
+    const y0 = this.getNumberArrayFromHTML(sctClustersHTML, 'y0');
+    // const y1 = this.getNumberArrayFromHTML(sctClustersHTML, 'y1');
+    const z0 = this.getNumberArrayFromHTML(sctClustersHTML, 'z0');
+    // const z1 = this.getNumberArrayFromHTML(sctClustersHTML, 'z1');
     eventData.Hits.SCT = [];
 
     for (let i = 0; i < numOfSCTClusters; i++) {
-      let sct = { pos: [], id: 0 };
+      let sct = { pos: [], id: 0, phiModule:0, side:0 };
       sct.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       sct.id = id[i];
+      sct.phiModule = phiModule[i];
+      sct.side = side[i];
       eventData.Hits.SCT.push(sct);
     }
   }
@@ -408,54 +346,14 @@ export class JiveXMLLoader extends PhoenixLoader {
     const dcHTML = firstEvent.getElementsByTagName('TRT')[0];
     const numOfDC = Number(dcHTML.getAttribute('count'));
     // Ignoring bitpattern
-    const driftR = dcHTML
-      .getElementsByTagName('driftR')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const id = dcHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const noise = dcHTML
-      .getElementsByTagName('noise')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const phi = dcHTML
-      .getElementsByTagName('phi')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const rhoz = dcHTML
-      .getElementsByTagName('rhoz')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const sub = dcHTML
-      .getElementsByTagName('sub')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const threshold = dcHTML
-      .getElementsByTagName('threshold')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const timeOverThreshold = dcHTML
-      .getElementsByTagName('timeOverThreshold')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const noise = this.getNumberArrayFromHTML(dcHTML, 'noise');
+    const phi = this.getNumberArrayFromHTML(dcHTML, 'phi');
+    const rhoz = this.getNumberArrayFromHTML(dcHTML, 'rhoz');
+    const sub = this.getNumberArrayFromHTML(dcHTML, 'sub');
+    const threshold = this.getNumberArrayFromHTML(dcHTML, 'threshold');
+    const timeOverThreshold = this.getNumberArrayFromHTML(dcHTML, 'timeOverThreshold');
 
     eventData.Hits.TRT = [];
 
@@ -468,6 +366,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         driftR: 0.0,
         threshold: 0.0,
         timeOverThreshold: 0.0,
+        noise: false
       };
 
       if (sub[i] == 1 || sub[i] == 2) {
@@ -496,6 +395,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       }
       trt.id = id[i];
       trt.driftR = driftR[i];
+      trt.noise = noise[i];
       trt.threshold = threshold[i];
       trt.timeOverThreshold = timeOverThreshold[i];
       eventData.Hits.TRT.push(trt);
@@ -517,58 +417,28 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
 
     const dcHTML = firstEvent.getElementsByTagName(name)[0];
+
+    // Bit of a nasty hack, but JiveXML stores CSCs as CSCD for some reason.
+    if (name=='CSCD') name = 'CSC';
+    
     const numOfDC = Number(dcHTML.getAttribute('count'));
-    const x = dcHTML
-      .getElementsByTagName('x')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y = dcHTML
-      .getElementsByTagName('y')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z = dcHTML
-      .getElementsByTagName('z')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const length = dcHTML
-      .getElementsByTagName('length')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const x = this.getNumberArrayFromHTML(dcHTML, 'x');
+    const y = this.getNumberArrayFromHTML(dcHTML, 'y');
+    const z = this.getNumberArrayFromHTML(dcHTML, 'z');
+    const length = this.getNumberArrayFromHTML(dcHTML, 'length');
+
     if (dcHTML.getElementsByTagName('driftR').length > 0) {
-      const driftR = dcHTML
-        .getElementsByTagName('driftR')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
+      const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
     }
-    const id = dcHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const identifier = dcHTML
-      .getElementsByTagName('identifier')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const identifier = this.getStringArrayFromHTML(dcHTML, 'identifier');
 
     eventData.Hits[name] = [];
 
     let radius = 0.0,
       scaling = 0.0;
     for (let i = 0; i < numOfDC; i++) {
-      let muonHit = { pos: [], id: 0, type: 'Line', identifier: 0 };
+      let muonHit = { pos: [], id: 0, type: 'Line', identifier: '' };
 
       radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
       scaling = length[i] / radius;
