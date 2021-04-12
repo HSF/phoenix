@@ -148,6 +148,7 @@ export class PhoenixLoader implements EventDataLoader {
         eventData.Tracks,
         PhoenixObjects.getTrack,
         'Tracks',
+        false,
         cuts
       );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
@@ -192,6 +193,7 @@ export class PhoenixLoader implements EventDataLoader {
         eventData.Jets,
         PhoenixObjects.getJet,
         'Jets',
+        false,
         cuts,
         addJetsSizeOption
       );
@@ -199,16 +201,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.Hits) {
       // Cannot currently cut on just a position array.
-      this.addObjectType(eventData.Hits, PhoenixObjects.getHits, 'Hits');
-    }
-
-    if (eventData.HitLines) {
-      // Cannot currently cut on just a line array.
-      this.addObjectType(
-        eventData.HitLines,
-        PhoenixObjects.getLines,
-        'Line Hits'
-      );
+      this.addObjectType(eventData.Hits, PhoenixObjects.getHits, 'Hits', true);
     }
 
     if (eventData.CaloClusters) {
@@ -223,6 +216,7 @@ export class PhoenixLoader implements EventDataLoader {
         eventData.CaloClusters,
         PhoenixObjects.getCluster,
         'CaloClusters',
+        false,
         cuts
       );
     }
@@ -234,7 +228,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50),
       ];
-      this.addObjectType(eventData.Muons, this.getMuon, 'Muons', cuts);
+      this.addObjectType(eventData.Muons, this.getMuon, 'Muons', false, cuts);
     }
 
     // if (eventData.Photons) {
@@ -251,6 +245,7 @@ export class PhoenixLoader implements EventDataLoader {
         eventData.Vertices,
         PhoenixObjects.getVertex,
         'Vertices',
+        false,
         cuts
       );
     }
@@ -261,6 +256,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param object Contains all collections of a given type (Tracks, Jets, CaloClusters...).
    * @param getObject Function that handles of reconstructing objects of the given type.
    * @param typeName Label for naming the object type.
+   * @param concatonateObjs If true, don't process objects individually, but process as a group (e.g. for point hits). Default is false.
    * @param cuts Filters that can be applied to the objects.
    * @param extendEventDataTypeUI A callback to add more options to event data type UI folder.
    */
@@ -268,6 +264,7 @@ export class PhoenixLoader implements EventDataLoader {
     object: any,
     getObject: any,
     typeName: string,
+    concatonateObjs: boolean = false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
       typeFolder: any,
@@ -290,7 +287,8 @@ export class PhoenixLoader implements EventDataLoader {
         objectCollection,
         collectionName,
         getObject,
-        objectGroup
+        objectGroup,
+        concatonateObjs
       );
 
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
@@ -307,20 +305,30 @@ export class PhoenixLoader implements EventDataLoader {
    * @param collectionName Label to UNIQUELY identify the collection.
    * @param getObject Handles reconstructing the objects of the collection.
    * @param objectGroup Group containing the collections of the same object type.
+   * @param concatonateObjs If true, don't process objects individually, but process as a group (e.g. for point hits).
    */
   private addCollection(
     objectCollection: any,
     collectionName: string,
     getObject: (object: any) => Object3D,
-    objectGroup: Group
+    objectGroup: Group,
+    concatonateObjs: Boolean
   ) {
     const collscene = new Group();
     collscene.name = collectionName;
 
-    for (const objectParams of objectCollection) {
-      const object = getObject.bind(this)(objectParams);
+    if (concatonateObjs) {
+      //in this case, we just pass the entire collection in
+      const object = getObject.bind(this)(objectCollection);
       if (object) {
         collscene.add(object);
+      }
+    } else {
+      for (const objectParams of objectCollection) {
+        const object = getObject.bind(this)(objectParams);
+        if (object) {
+          collscene.add(object);
+        }
       }
     }
 
