@@ -41,7 +41,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       lumiBlock: firstEvent.getAttribute('lumiBlock'),
       time: firstEvent.getAttribute('dateTime'),
       Hits: undefined,
-      HitLines: {},
       Tracks: {},
       Jets: {},
       CaloClusters: {},
@@ -51,9 +50,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       Photons: {},
     };
 
-    // Tracks
-    this.getTracks(firstEvent, eventData);
-
     // Hits
     this.getPixelClusters(firstEvent, eventData);
     this.getSCTClusters(firstEvent, eventData);
@@ -62,6 +58,10 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getMuonPRD(firstEvent, 'RPC', eventData);
     this.getMuonPRD(firstEvent, 'TGC', eventData);
     this.getMuonPRD(firstEvent, 'CSCD', eventData);
+
+    // Tracks
+    // (must be filled after hits because it might use them)
+    this.getTracks(firstEvent, eventData);
 
     // Jets
     this.getJets(firstEvent, eventData);
@@ -115,13 +115,35 @@ export class JiveXMLLoader extends PhoenixLoader {
       .split(' ')
       .map(String);
   }
+  /**
+   * Try to get the position of a hit (i.e. linked from a track)
+   * @param hitIdentifier The unique identifier of this hit.
+   * @param eventData The complete eventData, which must contain hits.
+   * @returns [found, x, y, z].
+   */
+  private getPositionOfHit(
+    hitIdentifier,
+    eventData: { Hits: [[{ id: number; pos: any }]] }
+  ) {
+    for (const hitcollection in eventData.Hits) {
+      for (const hit of eventData.Hits[hitcollection]) {
+        if (hit == null) {
+          console.log('Empty hit');
+        } else {
+          if ('id' in hit && hit.id == hitIdentifier)
+            return [true, hit.pos[0], hit.pos[1], hit.pos[2]];
+        }
+      }
+    }
+    return [false, 0, 0, 0];
+  }
 
   /**
    * Extract Tracks from the JiveXML data format and process them.
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
    * @param eventData Event data object to be updated with Tracks.
    */
-  public getTracks(firstEvent: Element, eventData: { Tracks: any }) {
+  public getTracks(firstEvent: Element, eventData: { Tracks: any; Hits: any }) {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
     const nameOfCollection = 'Tracks';
@@ -174,39 +196,73 @@ export class JiveXMLLoader extends PhoenixLoader {
       const z0 = this.getNumberArrayFromHTML(collection, 'z0');
       const phi0 = this.getNumberArrayFromHTML(collection, 'phi0');
       const cotTheta = this.getNumberArrayFromHTML(collection, 'cotTheta');
-
-      if (collection.getElementsByTagName('numDoF').length) {
-        var author = collection
-          .getElementsByTagName('numDoF')[0]
-          .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-          .trim()
-          .split(' ')
-          .map(Number);
-      }
-
+      const hits = this.getNumberArrayFromHTML(collection, 'hits');
       const numHits = this.getNumberArrayFromHTML(collection, 'numHits');
 
-      let polylineCounter = 0;
+      if (collection.getElementsByTagName('trackAuthor').length) {
+        var trackAuthor = this.getNumberArrayFromHTML(
+          collection,
+          'trackAuthor'
+        );
+      }
+
+      let polylineCounter = 0,
+        hitsCounter = 0;
       for (let i = 0; i < numOfTracks; i++) {
-        const track = { chi2: 0.0, dof: 0.0, pT: 0.0, pos: [], dparams: [] };
-        if (chi2.length > 0) track.chi2 = chi2[i];
-        if (numDoF.length > 0) track.dof = numDoF[i];
+        const track = {
+          chi2: 0.0,
+          dof: 0.0,
+          pT: 0.0,
+          pos: [],
+          dparams: [],
+          hits: {},
+          author: {},
+        };
+        if (chi2.length >= i) track.chi2 = chi2[i];
+        if (numDoF.length >= i) track.dof = numDoF[i];
+        if (trackAuthor.length >= i) track.author = trackAuthor[i];
         const theta = Math.tan(cotTheta[i]);
         track.pT = Math.abs(pT[i]);
         const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
-        const pos = [];
+        const pos = [],
+          listOfHits = [];
+        let maxR = 0.0,
+          x = 0.0,
+          y = 0.0,
+          z = 0.0;
         if (numPolyline) {
           for (let p = 0; p < numPolyline[i]; p++) {
-            pos.push([
-              polylineX[polylineCounter + p],
-              polylineY[polylineCounter + p],
-              polylineZ[polylineCounter + p],
-            ]);
+            x = polylineX[polylineCounter + p];
+            y = polylineY[polylineCounter + p];
+            z = polylineZ[polylineCounter + p];
+            pos.push([x, y, z]);
+            maxR = Math.sqrt(x * x + y * y + z * z);
           }
           polylineCounter += numPolyline[i];
           track.pos = pos;
         }
+        // Now loop over hits, and if possible, see if we can extend the track
+        if (numHits.length > 0) {
+          let hitIdentifier = 0;
+          let distance = 0.0;
+          let found = false;
+          for (let p = 0; p < numHits[i]; p++) {
+            hitIdentifier = hits[hitsCounter + p];
+            listOfHits.push(hitIdentifier);
+            // Now try to find matching hit
+            [found, x, y, z] = this.getPositionOfHit(hitIdentifier, eventData);
+            if (found) {
+              distance = Math.sqrt(x * x + y * y + z * z);
+              if (distance > maxR) {
+                track.pos.push([x, y, z]);
+              }
+            }
+          }
+          hitsCounter += numHits[i];
+          track.hits = listOfHits;
+        }
+
         jsontracks.push(track);
       }
 
@@ -227,32 +283,19 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
     const pixClustersHTML = firstEvent.getElementsByTagName('PixCluster')[0];
     const numOfClusters = Number(pixClustersHTML.getAttribute('count'));
-
-    const x0 = pixClustersHTML
-      .getElementsByTagName('x0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y0 = pixClustersHTML
-      .getElementsByTagName('y0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z0 = pixClustersHTML
-      .getElementsByTagName('z0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const id = this.getNumberArrayFromHTML(pixClustersHTML, 'id');
+    const x0 = this.getNumberArrayFromHTML(pixClustersHTML, 'x0');
+    const y0 = this.getNumberArrayFromHTML(pixClustersHTML, 'y0');
+    const z0 = this.getNumberArrayFromHTML(pixClustersHTML, 'z0');
 
     eventData.Hits.Pixel = [];
-    const temp = []; // Ugh
+
     for (let i = 0; i < numOfClusters; i++) {
-      temp.push([x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0]);
+      let pixel = { pos: [], id: 0 };
+      pixel.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
+      pixel.id = id[i];
+      eventData.Hits.Pixel.push(pixel);
     }
-    eventData.Hits.Pixel.push(temp);
   }
 
   /**
@@ -267,74 +310,27 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     const sctClustersHTML = firstEvent.getElementsByTagName('STC')[0]; // No idea why this is not SCT!
     const numOfSCTClusters = Number(sctClustersHTML.getAttribute('count'));
-    const id = sctClustersHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const phiModule = sctClustersHTML
-      .getElementsByTagName('phiModule')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const side = sctClustersHTML
-      .getElementsByTagName('side')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const width = sctClustersHTML
-      .getElementsByTagName('width')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const x0 = sctClustersHTML
-      .getElementsByTagName('x0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const x1 = sctClustersHTML
-      .getElementsByTagName('x1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y0 = sctClustersHTML
-      .getElementsByTagName('y0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y1 = sctClustersHTML
-      .getElementsByTagName('y1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z0 = sctClustersHTML
-      .getElementsByTagName('z0')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z1 = sctClustersHTML
-      .getElementsByTagName('z1')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const id = this.getNumberArrayFromHTML(sctClustersHTML, 'id');
+    const phiModule = this.getNumberArrayFromHTML(sctClustersHTML, 'phiModule');
+    const side = this.getNumberArrayFromHTML(sctClustersHTML, 'side');
+    // Commenting out some variables we don't yet use.
+    // const width = this.getNumberArrayFromHTML(sctClustersHTML, 'width');
+    const x0 = this.getNumberArrayFromHTML(sctClustersHTML, 'x0');
+    // const x1 = this.getNumberArrayFromHTML(sctClustersHTML, 'x1');
+    const y0 = this.getNumberArrayFromHTML(sctClustersHTML, 'y0');
+    // const y1 = this.getNumberArrayFromHTML(sctClustersHTML, 'y1');
+    const z0 = this.getNumberArrayFromHTML(sctClustersHTML, 'z0');
+    // const z1 = this.getNumberArrayFromHTML(sctClustersHTML, 'z1');
     eventData.Hits.SCT = [];
-    const temp = []; // Ugh
 
     for (let i = 0; i < numOfSCTClusters; i++) {
-      temp.push([x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0]);
+      let sct = { pos: [], id: 0, phiModule: 0, side: 0 };
+      sct.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
+      sct.id = id[i];
+      sct.phiModule = phiModule[i];
+      sct.side = side[i];
+      eventData.Hits.SCT.push(sct);
     }
-
-    eventData.Hits.SCT.push(temp);
   }
 
   /**
@@ -342,10 +338,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
    * @param eventData Event data object to be updated with TRT Drift Circles.
    */
-  public getTRT_DriftCircles(
-    firstEvent: Element,
-    eventData: { HitLines: any }
-  ) {
+  public getTRT_DriftCircles(firstEvent: Element, eventData: { Hits: any }) {
     if (firstEvent.getElementsByTagName('TRT').length === 0) {
       return;
     }
@@ -353,173 +346,120 @@ export class JiveXMLLoader extends PhoenixLoader {
     const dcHTML = firstEvent.getElementsByTagName('TRT')[0];
     const numOfDC = Number(dcHTML.getAttribute('count'));
     // Ignoring bitpattern
-    const driftR = dcHTML
-      .getElementsByTagName('driftR')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const id = dcHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const noise = dcHTML
-      .getElementsByTagName('noise')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const phi = dcHTML
-      .getElementsByTagName('phi')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const rhoz = dcHTML
-      .getElementsByTagName('rhoz')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const sub = dcHTML
-      .getElementsByTagName('sub')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const threshold = dcHTML
-      .getElementsByTagName('threshold')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const timeOverThreshold = dcHTML
-      .getElementsByTagName('timeOverThreshold')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
+    const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const noise = this.getNumberArrayFromHTML(dcHTML, 'noise');
+    const phi = this.getNumberArrayFromHTML(dcHTML, 'phi');
+    const rhoz = this.getNumberArrayFromHTML(dcHTML, 'rhoz');
+    const sub = this.getNumberArrayFromHTML(dcHTML, 'sub');
+    const threshold = this.getNumberArrayFromHTML(dcHTML, 'threshold');
+    const timeOverThreshold = this.getNumberArrayFromHTML(
+      dcHTML,
+      'timeOverThreshold'
+    );
 
-    eventData.HitLines.TRT = [];
-    let temp = []; // Ugh
+    eventData.Hits.TRT = [];
+
     // Hardcoding TRT size here. Could maybe think of generalising this?
     for (let i = 0; i < numOfDC; i++) {
+      let trt = {
+        pos: [],
+        id: 0,
+        type: 'Line',
+        driftR: 0.0,
+        threshold: 0.0,
+        timeOverThreshold: 0.0,
+        noise: false,
+      };
+
       if (sub[i] == 1 || sub[i] == 2) {
         // Barrel - rhoz = radial position
         const z1 = sub[i] == 1 ? -3.5 : 3.5;
         const z2 = sub[i] == 1 ? -742 : 742;
-        temp.push([
+        trt.pos = [
           Math.cos(phi[i]) * rhoz[i] * 10.0,
           Math.sin(phi[i]) * rhoz[i] * 10.0,
           z1,
-        ]);
-        temp.push([
           Math.cos(phi[i]) * rhoz[i] * 10.0,
           Math.sin(phi[i]) * rhoz[i] * 10.0,
           z2,
-        ]);
+        ];
       } else {
         // endcap - rhoz = z position
         const r1 = Math.abs(rhoz[i]) > 280 ? 480 : 640;
         const r2 = 1030;
-        temp.push([
+        trt.pos = [
           Math.cos(phi[i]) * r1,
           Math.sin(phi[i]) * r1,
           rhoz[i] * 10.0,
-        ]);
-        temp.push([
           Math.cos(phi[i]) * r2,
           Math.sin(phi[i]) * r2,
           rhoz[i] * 10.0,
-        ]);
+        ];
       }
+      trt.id = id[i];
+      trt.driftR = driftR[i];
+      trt.noise = noise[i];
+      trt.threshold = threshold[i];
+      trt.timeOverThreshold = timeOverThreshold[i];
+      eventData.Hits.TRT.push(trt);
     }
-    eventData.HitLines.TRT.push(temp);
   }
 
   /**
    * Extract Muon PRDs (type of Hits) from the JiveXML data format and process them.
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param name Event data collection name.
    * @param eventData Event data object to be updated with TRT Drift Circles.
    */
   public getMuonPRD(
     firstEvent: Element,
     name: string,
-    eventData: { HitLines: any }
+    eventData: { Hits: any }
   ) {
     if (firstEvent.getElementsByTagName(name).length === 0) {
       return;
     }
 
     const dcHTML = firstEvent.getElementsByTagName(name)[0];
-    const numOfDC = Number(dcHTML.getAttribute('count'));
-    const x = dcHTML
-      .getElementsByTagName('x')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const y = dcHTML
-      .getElementsByTagName('y')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const z = dcHTML
-      .getElementsByTagName('z')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const length = dcHTML
-      .getElementsByTagName('length')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    if (dcHTML.getElementsByTagName('driftR').length > 0) {
-      const driftR = dcHTML
-        .getElementsByTagName('driftR')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-    }
-    const id = dcHTML
-      .getElementsByTagName('id')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
-    const identifier = dcHTML
-      .getElementsByTagName('identifier')[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(Number);
 
-    eventData.HitLines[name] = [];
-    let temp = []; // Ugh
+    // Bit of a nasty hack, but JiveXML stores CSCs as CSCD for some reason.
+    if (name == 'CSCD') name = 'CSC';
+
+    const numOfDC = Number(dcHTML.getAttribute('count'));
+    const x = this.getNumberArrayFromHTML(dcHTML, 'x');
+    const y = this.getNumberArrayFromHTML(dcHTML, 'y');
+    const z = this.getNumberArrayFromHTML(dcHTML, 'z');
+    const length = this.getNumberArrayFromHTML(dcHTML, 'length');
+
+    if (dcHTML.getElementsByTagName('driftR').length > 0) {
+      const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
+    }
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const identifier = this.getStringArrayFromHTML(dcHTML, 'identifier');
+
+    eventData.Hits[name] = [];
+
     let radius = 0.0,
       scaling = 0.0;
     for (let i = 0; i < numOfDC; i++) {
+      let muonHit = { pos: [], id: 0, type: 'Line', identifier: '' };
+
       radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
       scaling = length[i] / radius;
 
-      temp.push([
+      muonHit.pos = [
         x[i] * 10.0 - y[i] * scaling,
         y[i] * 10.0 + x[i] * scaling,
         z[i] * 10.0,
-      ]);
-      temp.push([
         x[i] * 10.0 + y[i] * scaling,
         y[i] * 10.0 - x[i] * scaling,
         z[i] * 10.0,
-      ]);
+      ];
+      muonHit.id = id[i];
+      muonHit.identifier = identifier[i];
+      eventData.Hits[name].push(muonHit);
     }
-    eventData.HitLines[name].push(temp);
   }
 
   /**

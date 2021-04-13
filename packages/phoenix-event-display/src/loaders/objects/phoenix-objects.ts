@@ -65,11 +65,6 @@ export class PhoenixObjects {
     if (!positions) {
       return;
     }
-    // Track with no points
-    // if (positions.length==0) {
-    //   console.log("Track with no positions.")
-    //   return;
-    // }
 
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length < 3) {
@@ -86,6 +81,7 @@ export class PhoenixObjects {
         positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
       }
     }
+
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 3) {
       return;
@@ -95,15 +91,6 @@ export class PhoenixObjects {
     let objectColor = trackParams.color
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
-
-    // // Apply pT cut TODO - make this configurable.
-    // const momentum = trackParams.mom;
-    // if (momentum) {
-    //   if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] < 0.25) {
-    //     // console.log('Track mom<0.5 GeV. Skipping. Positions are: ' + positions + ' particle_id: ' + track.particle_id);
-    //     return;
-    //   }
-    // }
 
     const points = [];
 
@@ -215,33 +202,65 @@ export class PhoenixObjects {
 
   /**
    * Process the Hits from the given parameters and get them as a geometry.
-   * @param hitsParams Parameters for the Hits.
+   * @param hitsParams Hit object. Must contain 'pos', the array of [x,y,z] positions,
+   * Can optionally contain extraInfo, which will be added to the resultant hit.
+   * `type` tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
-  public static getHits(hitsParams: any): Object3D {
-    let positions: any[];
-    let hitsParamsClone: any;
-
-    // If the parameters is an object then take out 'pos' for hits positions
-    if (typeof hitsParams === 'object' && !Array.isArray(hitsParams)) {
-      positions = [hitsParams.pos];
-      hitsParamsClone = hitsParams;
-    } else {
-      positions = hitsParams;
-      hitsParamsClone = { pos: hitsParams };
+  public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
+    let hitsParamsClone = hitsParams;
+    let type: string = 'Point'; // Default is point and 3 coordinates per hit
+    let coordlength = 3;
+    if (hitsParams.length > 1) {
+      // Peek at first one. Would be better to make these properties of the collections.
+      if ('type' in hitsParams[0]) {
+        type = hitsParams[0].type;
+        coordlength = 6;
+      }
     }
-
     // attributes
-    const pointPos = new Float32Array(positions.length * 3);
+    const pointPos = new Float32Array(hitsParams.length * coordlength);
     let i = 0;
-    for (const hit of positions) {
-      pointPos[i] = hit[0];
-      pointPos[i + 1] = hit[1];
-      pointPos[i + 2] = hit[2];
-      i += 3;
+    let imax = 0;
+    for (const hit of hitsParams) {
+      imax = i + coordlength;
+      for (let j = 0; j < coordlength; ++j, ++i) {
+        pointPos[i] = hit.pos[j];
+      }
     }
 
     // geometry
+    switch (type) {
+      case 'Point':
+        return PhoenixObjects.hitsToPoints(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      case 'Line':
+        return PhoenixObjects.hitsToLines(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      default:
+        console.log('ERROR: Unknown hit type!');
+        return;
+    }
+  }
+
+  /**
+   * Get a Points object from Hits parameters.
+   * @param pointPos Position of the point.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `Points`.
+   */
+  private static hitsToPoints(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
@@ -252,7 +271,7 @@ export class PhoenixObjects {
     });
     // object
     const pointsObj = new Points(geometry, material);
-    pointsObj.userData = Object.assign({}, hitsParamsClone);
+    pointsObj.userData = Object.assign({}, hitParamsClone);
     pointsObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
@@ -261,33 +280,17 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Line from the given parameters and get them as a geometry.
-   * @param params Parameters for the Line.
-   * @returns Line object.
+   * Get a Lines object from Hits parameters.
+   * @param pointPos Position of the HIt.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `LineSegments`.
    */
-  public static getLines(params: any): Object3D {
-    let positions: any[];
-    let hitsParamsClone: any;
-
-    // If the parameters is an object then take out 'pos' for hits positions
-    if (typeof params === 'object' && !Array.isArray(params)) {
-      positions = [params.pos];
-      hitsParamsClone = params;
-    } else {
-      positions = params;
-      hitsParamsClone = { pos: params };
-    }
-
-    // attributes
-    const pointPos = new Float32Array(positions.length * 3);
-    let i = 0;
-    for (const hit of positions) {
-      pointPos[i] = hit[0];
-      pointPos[i + 1] = hit[1];
-      pointPos[i + 2] = hit[2];
-      i += 3;
-    }
-
+  private static hitsToLines(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
     // geometry
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
@@ -295,14 +298,14 @@ export class PhoenixObjects {
     // material
     const material = new LineBasicMaterial({
       linewidth: 2,
-      color: params.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const linesObj = new LineSegments(geometry, material);
-    linesObj.userData = Object.assign({}, hitsParamsClone);
+    linesObj.userData = Object.assign({}, hitParamsClone);
     linesObj.name = 'Hit';
     // Setting uuid for selection from collections info
-    params.uuid = linesObj.uuid;
+    hitsParams.uuid = linesObj.uuid;
 
     return linesObj;
   }
