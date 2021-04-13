@@ -138,7 +138,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -100, 100),
+        new Cut('eta', -4, 4),
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
         new Cut('pT', 0, 50),
@@ -158,7 +158,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -100, 100),
+        new Cut('eta', -5, 5),
         new Cut('energy', 0, 100000, 100),
       ];
 
@@ -207,7 +207,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -100, 100),
+        new Cut('eta', -5, 5),
         new Cut('energy', 0, 10000),
       ];
 
@@ -253,7 +253,7 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Muons) {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -100, 100),
+        new Cut('eta', -4, 4),
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50),
       ];
@@ -261,11 +261,11 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     // if (eventData.Photons) {
-    //   this.addObjectType(eventData.Photons, PhoenixObjects.getPhotons, 'Muons');
+    //   this.addObjectType(eventData.Photons, PhoenixObjects.getPhotons, 'Photons');
     // }
 
     // if (eventData.Electrons) {
-    //   this.addObjectType(eventData.Photons, PhoenixObjects.getElectrons, 'Muons');
+    //   this.addObjectType(eventData.Photons, PhoenixObjects.getElectrons, 'Electrons');
     // }
 
     if (eventData.Vertices) {
@@ -276,6 +276,44 @@ export class PhoenixLoader implements EventDataLoader {
         'Vertices',
         false,
         cuts
+      );
+    }
+
+    if (eventData.MissingEnergy) {
+      const addMETSizeOption = (
+        typeFolder: any,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
+        const scaleMET = (value: number) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('MissingEnergy', value);
+        };
+        if (typeFolder) {
+          const sizeMenu = typeFolder
+            .add({ jetsScale: 100 }, 'Scale', 1, 200)
+            .name('Size (%)');
+          sizeMenu.onChange(scaleMET);
+        }
+        // Phoenix menu
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
+            label: 'Size (%)',
+            value: 100,
+            min: 1,
+            max: 200,
+            allowCustomValue: true,
+            onChange: scaleMET,
+          });
+        }
+      };
+      this.addObjectType(
+        eventData.MissingEnergy,
+        PhoenixObjects.getMissingEnergy,
+        'MissingEnergy',
+        false,
+        [],
+        addMETSizeOption
       );
     }
   }

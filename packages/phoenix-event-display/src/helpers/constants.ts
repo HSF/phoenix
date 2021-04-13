@@ -8,4 +8,5 @@ export const EVENT_DATA_TYPE_COLORS = {
   CaloClusters: new Color(0xffd166),
   MuonChambers: new Color(0xff0000),
   Vertices: new Color(0xffd166),
+  MissingEnergy: new Color(0xffffff),
 };

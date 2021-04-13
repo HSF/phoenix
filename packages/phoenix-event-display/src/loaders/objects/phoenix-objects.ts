@@ -19,6 +19,7 @@ import {
   MeshPhongMaterial,
   SphereBufferGeometry,
   LineSegments,
+  LineDashedMaterial,
 } from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
@@ -380,5 +381,35 @@ export class PhoenixObjects {
     vertexParams.uuid = sphere.uuid;
 
     return sphere;
+  }
+
+  /**
+   * Process the Vertex from the given parameters and get it as a geometry.
+   * @param metParams Parameters for the Vertex.
+   * @returns MET object.
+   */
+  public static getMissingEnergy(metParams: any): Object3D {
+    // geometry
+    const points = [];
+    points.push(new Vector3(0, 0, 0));
+    points.push(new Vector3(metParams.etx, metParams.ety, 0));
+
+    const geometry = new BufferGeometry().setFromPoints(points);
+
+    // material
+    const material = new LineDashedMaterial({
+      linewidth: 2,
+      dashSize: 2,
+      color: metParams.color ?? EVENT_DATA_TYPE_COLORS.MissingEnergy,
+    });
+    // object
+    const object = new Line(geometry, material);
+    object.computeLineDistances();
+    object.userData = Object.assign({}, metParams);
+    object.name = 'Missing Energy';
+    // Setting uuid for selection from collections info
+    metParams.uuid = object.uuid;
+
+    return object;
   }
 }
