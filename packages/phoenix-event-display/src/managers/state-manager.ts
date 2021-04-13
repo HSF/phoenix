@@ -20,6 +20,11 @@ export class StateManager {
   activeCamera: Camera;
   /** The event display. */
   eventDisplay: EventDisplay;
+  /** Current loaded event's metadata. */
+  eventMetadata: { runNumber: string; eventNumber: string } = {
+    runNumber: '000',
+    eventNumber: '000',
+  };
 
   /**
    * Create the state manager.
@@ -79,7 +84,10 @@ export class StateManager {
       },
     };
 
-    saveFile(JSON.stringify(state), 'phoenix-config.json');
+    saveFile(
+      JSON.stringify(state),
+      `run${this.eventMetadata.runNumber}_evt${this.eventMetadata.eventNumber}.json`
+    );
   }
 
   /**

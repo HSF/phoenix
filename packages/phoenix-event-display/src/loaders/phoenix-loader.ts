@@ -7,6 +7,7 @@ import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../info-logger';
 import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
+import { StateManager } from '../managers/state-manager';
 
 /**
  * Loader for processing and loading an event.
@@ -20,6 +21,8 @@ export class PhoenixLoader implements EventDataLoader {
   protected eventData: any;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
+  /** Loading manager for loadable resources */
+  protected stateManager: StateManager;
   /** Object containing event object labels. */
   protected labelsObject: { [key: string]: any } = {};
 
@@ -28,6 +31,7 @@ export class PhoenixLoader implements EventDataLoader {
    */
   constructor() {
     this.loadingManager = new LoadingManager();
+    this.stateManager = new StateManager();
   }
 
   /**
@@ -62,6 +66,11 @@ export class PhoenixLoader implements EventDataLoader {
       ? eventData['run number']
       : eventData['runNumber'];
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
+
+    this.stateManager.eventMetadata = {
+      runNumber,
+      eventNumber,
+    };
   }
 
   /**
@@ -475,6 +484,7 @@ export class PhoenixLoader implements EventDataLoader {
           }
         }
       }
+
       if (Object.keys(combinedProps).length > 0) {
         // Joining and pushing the collected combined properties to the actual metadata
         metadata.push({
