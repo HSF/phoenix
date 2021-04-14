@@ -318,7 +318,7 @@ export class PhoenixObjects {
   public static getCluster(clusterParams: any): Object3D {
     const maxR = 1100.0; // This needs to be configurable.
     const maxZ = 3200.0;
-    const length = clusterParams.energy * 0.003;
+    const length = clusterParams.energy * 0.03;
     // geometry
     const geometry = new BoxBufferGeometry(30, 30, length);
     // material

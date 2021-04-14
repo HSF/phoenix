@@ -227,7 +227,7 @@ export class PhoenixLoader implements EventDataLoader {
         const scaleCaloClusters = (value: number) => {
           this.graphicsLibrary
             .getSceneManager()
-            .scaleChildObjects('CaloClusters', value / 100);
+            .scaleChildObjects('CaloClusters', value / 100, 'z');
         };
 
         if (typeFolder) {
