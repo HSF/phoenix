@@ -39,7 +39,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       .getCollection(value)
       .map(PrettySymbols.getPrettyParams);
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => column !== 'uuid'
+      (column) => column !== 'uuid' && column !== 'hits' // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
 
