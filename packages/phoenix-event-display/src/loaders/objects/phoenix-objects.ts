@@ -64,15 +64,14 @@ export class PhoenixObjects {
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
-    if ( trackParams?.dparams ) {
-      if (!trackParams?.phi ){
+    if (trackParams?.dparams) {
+      if (!trackParams?.phi) {
         trackParams.phi = trackParams.dparams[2];
       }
-      if (!trackParams?.eta ){
+      if (!trackParams?.eta) {
         trackParams.eta = CoordinateHelper.thetaToEta(trackParams.dparams[3]);
       }
     }
-
 
     // const length = 100;
     let objectColor = trackParams.color

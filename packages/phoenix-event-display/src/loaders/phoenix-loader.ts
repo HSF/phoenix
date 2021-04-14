@@ -285,7 +285,9 @@ export class PhoenixLoader implements EventDataLoader {
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleMET = (value: number) => {
-          this.graphicsLibrary.getSceneManager().scaleChildObjects('MissingEnergy', value);
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('MissingEnergy', value);
         };
         if (typeFolder) {
           const sizeMenu = typeFolder
@@ -305,7 +307,14 @@ export class PhoenixLoader implements EventDataLoader {
           });
         }
       };
-      this.addObjectType(eventData.MissingEnergy, PhoenixObjects.getMissingEnergy, 'MissingEnergy', false, [], addMETSizeOption);
+      this.addObjectType(
+        eventData.MissingEnergy,
+        PhoenixObjects.getMissingEnergy,
+        'MissingEnergy',
+        false,
+        [],
+        addMETSizeOption
+      );
     }
   }
 

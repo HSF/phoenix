@@ -218,7 +218,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           chi2: 0.0,
           dof: 0.0,
           pT: 0.0,
-          phi:0.0,
+          phi: 0.0,
           eta: 0.0,
           pos: [],
           dparams: [],
@@ -232,12 +232,12 @@ export class JiveXMLLoader extends PhoenixLoader {
         track.pT = Math.abs(pT[i]);
         const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
-        track.phi =  phi0[i];
-        
+        track.phi = phi0[i];
+
         // FIXME - should probably handle this better ... what if phi = 4PI for example?
-        if (track.phi>Math.PI) {
+        if (track.phi > Math.PI) {
           track.phi -= 2.0 * Math.PI;
-        } else if (track.phi<-Math.PI) {
+        } else if (track.phi < -Math.PI) {
           track.phi += 2.0 * Math.PI;
         }
 

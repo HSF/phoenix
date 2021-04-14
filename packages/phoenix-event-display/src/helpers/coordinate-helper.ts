@@ -4,7 +4,7 @@ import { Vector3 } from 'three';
  * Helper methods for coordinate conversions.
  */
 export class CoordinateHelper {
-   /**
+  /**
    * Convert pseudorapidity eta to spherical coordinate theta.
    * See definition here: https://en.wikipedia.org/wiki/Pseudorapidity
    * @param eta Pseudorapidity eta to convert to theta.
@@ -14,15 +14,15 @@ export class CoordinateHelper {
     return 2 * Math.atan(Math.pow(Math.E, -eta));
   }
 
-   /**
+  /**
    * Convert spherical theta to pseudorapidity eta.
    * See definition here: https://en.wikipedia.org/wiki/Pseudorapidity
    * @param theta Angle in radians to convert to pseudorapidity eta.
    * @returns pseudorapidity eta
    */
-    public static thetaToEta(theta: number): number {
-      return -Math.log(Math.tan(theta/2.0));
-    }
+  public static thetaToEta(theta: number): number {
+    return -Math.log(Math.tan(theta / 2.0));
+  }
 
   /**
    * Get cartesian from spherical parameters.
