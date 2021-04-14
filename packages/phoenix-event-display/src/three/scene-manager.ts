@@ -395,7 +395,11 @@ export class SceneManager {
    * Sets scene axis visibility.
    * @param visible If the axes will be visible (true) osr hidden (false).
    */
-  public setAxis(visible: boolean, scale: number = 2000, labels: boolean = true) {
+  public setAxis(
+    visible: boolean,
+    scale: number = 2000,
+    labels: boolean = true
+  ) {
     if (this.axis == null) {
       this.axis = new AxesHelper(scale);
       this.scene.add(this.axis);
@@ -406,7 +410,7 @@ export class SceneManager {
       this.axisLabels = new Group();
 
       const labels = ['X', 'Y', 'Z'];
-      const colours = [0xff0000, 0x00ff00, 0x0000ff]
+      const colours = [0xff0000, 0x00ff00, 0x0000ff];
       let colourIndex = 0;
       for (let label of labels) {
         const textGeometry = new TextGeometry(label, {
