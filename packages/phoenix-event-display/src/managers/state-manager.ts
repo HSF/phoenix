@@ -95,12 +95,7 @@ export class StateManager {
    * @param json JSON for state.
    */
   loadStateFromJSON(json: string | object) {
-    let jsonData: object;
-    if (typeof json === 'string') {
-      jsonData = JSON.parse(json);
-    } else {
-      jsonData = json;
-    }
+    const jsonData: object = typeof json === 'string' ? JSON.parse(json) : json;
 
     if (jsonData['phoenixMenu']) {
       this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);

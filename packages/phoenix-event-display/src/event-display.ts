@@ -136,6 +136,8 @@ export class EventDisplay {
       this.infoLogger
     );
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
+    // Reload the event data state in Phoenix menu
+    this.ui.loadEventFolderPMState();
   }
 
   /**
