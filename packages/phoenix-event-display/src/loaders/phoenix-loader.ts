@@ -138,10 +138,10 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts: Cut[] = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4),
+        new Cut('eta', -4, 4, 0.1),
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
-        new Cut('pT', 0, 50),
+        new Cut('pT', 0, 50, 0.1),
       ];
 
       this.addObjectType(
@@ -285,9 +285,7 @@ export class PhoenixLoader implements EventDataLoader {
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleMET = (value: number) => {
-          this.graphicsLibrary
-            .getSceneManager()
-            .scaleChildObjects('MissingEnergy', value);
+          this.graphicsLibrary.getSceneManager().scaleChildObjects('MissingEnergy', value);
         };
         if (typeFolder) {
           const sizeMenu = typeFolder
@@ -307,14 +305,7 @@ export class PhoenixLoader implements EventDataLoader {
           });
         }
       };
-      this.addObjectType(
-        eventData.MissingEnergy,
-        PhoenixObjects.getMissingEnergy,
-        'MissingEnergy',
-        false,
-        [],
-        addMETSizeOption
-      );
+      this.addObjectType(eventData.MissingEnergy, PhoenixObjects.getMissingEnergy, 'MissingEnergy', false, [], addMETSizeOption);
     }
   }
 
