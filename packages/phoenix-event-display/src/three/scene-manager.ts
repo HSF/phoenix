@@ -480,13 +480,18 @@ export class SceneManager {
    * Scale lowest level objects in a group.
    * @param groupName Name of the group to scale objects of.
    * @param value Value of the scale. Default is 1.
+   * @param axis If passed, the local axis to scale.
    */
-  public scaleChildObjects(groupName: string, value: number) {
+  public scaleChildObjects(groupName: string, value: number, axis?: string) {
     const object = this.scene.getObjectByName(groupName);
 
     object.traverse((objectChild: Object3D) => {
       if (objectChild.children.length === 0) {
-        objectChild.scale.setScalar(value);
+        if (!axis) {
+          objectChild.scale.setScalar(value);
+        } else {
+          objectChild.scale[axis] = value;
+        }
       }
     });
   }
