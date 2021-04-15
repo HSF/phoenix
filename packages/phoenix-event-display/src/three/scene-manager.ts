@@ -20,6 +20,7 @@ import {
   Camera,
   TextGeometry,
   Font,
+  MeshStandardMaterial,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../extras/cut.model';
@@ -42,6 +43,8 @@ export class SceneManager {
   private ignoreList: string[];
   /** An axes helper for visualizing the x, y and z-axis. */
   private axis: AxesHelper;
+  /** Labels for the x, y and z-axis. */
+  private axisLabels: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
@@ -390,14 +393,48 @@ export class SceneManager {
 
   /**
    * Sets scene axis visibility.
-   * @param visible If the axes will be visible (true) or hidden (false).
+   * @param visible If the axes will be visible (true) osr hidden (false).
    */
-  public setAxis(visible: boolean) {
+  public setAxis(
+    visible: boolean,
+    scale: number = 2000,
+    labels: boolean = true
+  ) {
     if (this.axis == null) {
-      this.axis = new AxesHelper(2000);
+      this.axis = new AxesHelper(scale);
       this.scene.add(this.axis);
     }
     this.axis.visible = visible;
+
+    if (labels && this.axisLabels == null) {
+      this.axisLabels = new Group();
+
+      const labels = ['X', 'Y', 'Z'];
+      const colours = [0xff0000, 0x00ff00, 0x0000ff];
+      let colourIndex = 0;
+      for (let label of labels) {
+        const textGeometry = new TextGeometry(label, {
+          font: this.textFont,
+          size: 60,
+          curveSegments: 1,
+          height: 1,
+        });
+
+        const mesh = new Mesh(
+          textGeometry,
+          new MeshBasicMaterial({
+            color: new Color(colours[colourIndex++]),
+          })
+        );
+        this.axisLabels.add(mesh);
+      }
+      this.axisLabels.children[0].position.set(scale + 20, 0, 0);
+      this.axisLabels.children[1].position.set(0, scale + 20, 0);
+      this.axisLabels.children[2].position.set(0, 0, scale + 20);
+
+      this.scene.add(this.axisLabels);
+    }
+    this.axisLabels.visible = visible;
   }
 
   /**
