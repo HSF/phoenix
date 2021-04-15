@@ -2,6 +2,12 @@
   <mat-checkbox
     class="mat-menu-item"
     (click)="$event.stopPropagation()"
+    (change)="setGrid($event)"
+    >Show Grid
+  </mat-checkbox>
+  <mat-checkbox
+    class="mat-menu-item"
+    (click)="$event.stopPropagation()"
     (change)="setAxis($event)"
     >Show axis
   </mat-checkbox>

@@ -977,6 +977,14 @@ export class UIManager {
   }
 
   /**
+   * Set whether to show the eta/phi or not
+   * @param show If the grid is to be shown or not.
+   */
+  public setShowGrid(show: boolean) {
+    this.three.getSceneManager().setEtaPhiGrid(show);
+  }
+
+  /**
    * Get preset views from the configuration.
    * @returns Available preset views.
    */
