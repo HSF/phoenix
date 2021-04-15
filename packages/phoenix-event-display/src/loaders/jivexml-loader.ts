@@ -1,4 +1,5 @@
 import { PhoenixLoader } from './phoenix-loader';
+import { CoordinateHelper } from '../helpers/coordinate-helper';
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.
@@ -48,6 +49,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       Electrons: {},
       Muons: {},
       Photons: {},
+      MissingEnergy: {},
     };
 
     // Hits
@@ -71,6 +73,9 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Vertices
     this.getVertices(firstEvent, eventData);
+
+    // MET
+    this.getMissingEnergy(firstEvent, eventData);
 
     // Compound objects
     this.getElectrons(firstEvent, eventData);
@@ -213,6 +218,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           chi2: 0.0,
           dof: 0.0,
           pT: 0.0,
+          phi: 0.0,
+          eta: 0.0,
           pos: [],
           dparams: [],
           hits: {},
@@ -225,6 +232,16 @@ export class JiveXMLLoader extends PhoenixLoader {
         track.pT = Math.abs(pT[i]);
         const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
+        track.phi = phi0[i];
+
+        // FIXME - should probably handle this better ... what if phi = 4PI for example?
+        if (track.phi > Math.PI) {
+          track.phi -= 2.0 * Math.PI;
+        } else if (track.phi < -Math.PI) {
+          track.phi += 2.0 * Math.PI;
+        }
+
+        track.eta = CoordinateHelper.thetaToEta(theta);
         const pos = [],
           listOfHits = [];
         let maxR = 0.0,
@@ -287,13 +304,15 @@ export class JiveXMLLoader extends PhoenixLoader {
     const x0 = this.getNumberArrayFromHTML(pixClustersHTML, 'x0');
     const y0 = this.getNumberArrayFromHTML(pixClustersHTML, 'y0');
     const z0 = this.getNumberArrayFromHTML(pixClustersHTML, 'z0');
+    const eloss = this.getNumberArrayFromHTML(pixClustersHTML, 'eloss');
 
     eventData.Hits.Pixel = [];
 
     for (let i = 0; i < numOfClusters; i++) {
-      let pixel = { pos: [], id: 0 };
+      let pixel = { pos: [], id: 0, energyLoss: 0 };
       pixel.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       pixel.id = id[i];
+      pixel.energyLoss = eloss[i];
       eventData.Hits.Pixel.push(pixel);
     }
   }
@@ -478,24 +497,10 @@ export class JiveXMLLoader extends PhoenixLoader {
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
       // then convert to array of numbers
-      const phi = jetColl
-        .getElementsByTagName('phi')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const eta = jetColl
-        .getElementsByTagName('eta')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const energy = jetColl
-        .getElementsByTagName('et')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
+      const phi = this.getNumberArrayFromHTML(jetColl, 'phi');
+      const eta = this.getNumberArrayFromHTML(jetColl, 'eta');
+      const energy = this.getNumberArrayFromHTML(jetColl, 'energy');
+
       const temp = []; // Ugh
       for (let i = 0; i < numOfJets; i++) {
         temp.push({
@@ -523,30 +528,12 @@ export class JiveXMLLoader extends PhoenixLoader {
     const clusterCollections = Array.from(clustersHTML);
     const nameOfCollection = 'CaloTopoCluster_ESD';
     for (const clusterColl of clusterCollections) {
-      // Extract the only collection we (currently) care about
-      // if (clusterColl.getAttribute("storeGateKey")==nameOfCollection){
       const numOfClusters = Number(clusterColl.getAttribute('count'));
 
-      // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
-      // then convert to array of numbers
-      const phi = clusterColl
-        .getElementsByTagName('phi')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const eta = clusterColl
-        .getElementsByTagName('eta')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const energy = clusterColl
-        .getElementsByTagName('et')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
+      const phi = this.getNumberArrayFromHTML(clusterColl, 'phi');
+      const eta = this.getNumberArrayFromHTML(clusterColl, 'eta');
+      const energy = this.getNumberArrayFromHTML(clusterColl, 'et');
+
       const temp = []; // Ugh
       for (let i = 0; i < numOfClusters; i++) {
         temp.push({ phi: phi[i], eta: eta[i], energy: energy[i] * 1000.0 });
@@ -735,6 +722,35 @@ export class JiveXMLLoader extends PhoenixLoader {
         });
       }
       eventData.Photons[collection.getAttribute('storeGateKey')] = temp;
+    }
+  }
+
+  /**
+   * Extract MET from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Photons.
+   */
+  public getMissingEnergy(
+    firstEvent: Element,
+    eventData: { MissingEnergy: any }
+  ) {
+    const objHTML = firstEvent.getElementsByTagName('ETMis');
+    const objCollections = Array.from(objHTML);
+    for (const collection of objCollections) {
+      const numOfObjects = Number(collection.getAttribute('count'));
+      const temp = []; // Ugh
+      for (let i = 0; i < numOfObjects; i++) {
+        const et = this.getStringArrayFromHTML(collection, 'et');
+        const etx = this.getNumberArrayFromHTML(collection, 'etx');
+        const ety = this.getNumberArrayFromHTML(collection, 'ety');
+
+        temp.push({
+          et: et[i],
+          etx: etx[i],
+          ety: ety[i],
+        });
+      }
+      eventData.MissingEnergy[collection.getAttribute('storeGateKey')] = temp;
     }
   }
 }

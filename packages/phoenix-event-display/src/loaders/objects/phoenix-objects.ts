@@ -19,41 +19,17 @@ import {
   MeshPhongMaterial,
   SphereBufferGeometry,
   LineSegments,
+  LineDashedMaterial,
+  Spherical,
 } from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
+import { CoordinateHelper } from '../../helpers/coordinate-helper';
 
 /**
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
-  /**
-   * Convert eta angle to theta.
-   * @param eta Angle in eta to convert to theta.
-   */
-  public static etaToTheta(eta: number): number {
-    return 2 * Math.atan(Math.pow(Math.E, eta));
-  }
-
-  /**
-   * Get cartesian from spherical parameters.
-   * This should NOT be necessary - should use native threejs methods such as Vector3.setFromSpherical
-   * @param radius The radius.
-   * @param theta Theta angle.
-   * @param phi Phi angle.
-   */
-  public static sphericalToCartesian(
-    radius: number,
-    theta: number,
-    phi: number
-  ): Vector3 {
-    return new Vector3(
-      radius * Math.cos(phi) * Math.sin(theta),
-      radius * Math.sin(phi) * Math.sin(theta),
-      radius * Math.cos(theta)
-    );
-  }
-
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -85,6 +61,16 @@ export class PhoenixObjects {
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 3) {
       return;
+    }
+
+    // For cuts etc we currently need to have the cut parameters on the track
+    if (trackParams?.dparams) {
+      if (!trackParams?.phi) {
+        trackParams.phi = trackParams.dparams[2];
+      }
+      if (!trackParams?.eta) {
+        trackParams.eta = CoordinateHelper.thetaToEta(trackParams.dparams[3]);
+      }
     }
 
     // const length = 100;
@@ -146,7 +132,7 @@ export class PhoenixObjects {
     // If theta is given then use that else calculate from eta
     const theta = jetParams.theta
       ? jetParams.theta
-      : PhoenixObjects.etaToTheta(eta);
+      : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don't want the Jets to go out of the event display
@@ -327,14 +313,17 @@ export class PhoenixObjects {
     });
     // object
     const cube = new Mesh(geometry, material);
-    const theta = PhoenixObjects.etaToTheta(clusterParams.eta);
+    const theta = CoordinateHelper.etaToTheta(clusterParams.eta);
+    clusterParams.theta = theta;
+
     const pos = new Vector3(
       4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
       4000.0 * Math.cos(theta)
     );
+
     cube.position.copy(
-      PhoenixObjects.sphericalToCartesian(4000, theta, clusterParams.phi)
+      CoordinateHelper.sphericalToCartesian(4000, theta, clusterParams.phi)
     );
 
     // FIXME - more elegant way to do this? Maybe natively use cylindrical here?
@@ -380,5 +369,35 @@ export class PhoenixObjects {
     vertexParams.uuid = sphere.uuid;
 
     return sphere;
+  }
+
+  /**
+   * Process the Vertex from the given parameters and get it as a geometry.
+   * @param metParams Parameters for the Vertex.
+   * @returns MET object.
+   */
+  public static getMissingEnergy(metParams: any): Object3D {
+    // geometry
+    const points = [];
+    points.push(new Vector3(0, 0, 0));
+    points.push(new Vector3(metParams.etx, metParams.ety, 0));
+
+    const geometry = new BufferGeometry().setFromPoints(points);
+
+    // material
+    const material = new LineDashedMaterial({
+      linewidth: 2,
+      dashSize: 2,
+      color: metParams.color ?? EVENT_DATA_TYPE_COLORS.MissingEnergy,
+    });
+    // object
+    const object = new Line(geometry, material);
+    object.computeLineDistances();
+    object.userData = Object.assign({}, metParams);
+    object.name = 'Missing Energy';
+    // Setting uuid for selection from collections info
+    metParams.uuid = object.uuid;
+
+    return object;
   }
 }
