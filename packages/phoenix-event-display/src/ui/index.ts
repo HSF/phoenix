@@ -40,6 +40,8 @@ export class UIManager {
   private geomFolderPM: PhoenixMenuNode;
   /** Phoenix menu node containing event related data. */
   private eventFolderPM: PhoenixMenuNode;
+  /** State of the Phoenix menu node containing event related data. */
+  private eventFolderPMState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolderPM: PhoenixMenuNode;
   /** If the geometry folder is added or not */
@@ -461,6 +463,7 @@ export class UIManager {
     if (this.hasPhoenixMenu) {
       // Phoenix menu
       if (this.eventFolderPM !== null) {
+        this.eventFolderPMState = this.eventFolderPM.getNodeState();
         this.eventFolderPM.remove();
       }
       this.eventFolderPM = this.phoenixMenu.addChild(
@@ -1074,6 +1077,15 @@ export class UIManager {
           }
         }
       });
+    }
+  }
+
+  /**
+   * Load previous state of the event data folder in Phoenix menu if any.
+   */
+  public loadEventFolderPMState() {
+    if (this.eventFolderPMState) {
+      this.eventFolderPM.loadStateFromJSON(this.eventFolderPMState);
     }
   }
 }
