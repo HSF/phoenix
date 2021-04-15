@@ -1,5 +1,4 @@
 import * as Stats from 'stats-js';
-import * as dat from 'dat.gui';
 import { ThreeManager } from '../three';
 import { Configuration } from '../extras/configuration';
 import { PresetView } from '../extras/preset-view.model';
@@ -19,23 +18,6 @@ export class UIManager {
 
   /** Stats object from stats-js. */
   private stats: any;
-  /** dat.GUI menu. */
-  private gui: any;
-  /** Options for the dat.GUI menu. */
-  private guiParameters = {
-    rotate: undefined,
-    axis: undefined,
-    lowRes: undefined,
-    eventData: undefined,
-    geometries: undefined,
-    labels: undefined,
-  };
-  /** dat.GUI menu folder containing geometries data. */
-  private geomFolder: any;
-  /** dat.GUI menu folder containing event related data. */
-  private eventFolder: any;
-  /** dat.GUI menu folder containing labels. */
-  private labelsFolder: any;
   /** Phoenix menu node containing geometries data */
   private geomFolderPM: PhoenixMenuNode;
   /** Phoenix menu node containing event related data. */
@@ -135,18 +117,6 @@ export class UIManager {
    */
   private showDatGUIMenu(elementId: string = 'eventDisplay') {
     this.hasDatGUIMenu = true;
-    this.gui = new dat.GUI();
-    this.gui.domElement.id = 'gui';
-    this.gui.domElement.style.cssText =
-      'position: absolute; right: 0; top: 2rem; z-index: 11;';
-    this.canvas = document.getElementById(elementId);
-    if (this.canvas == null) {
-      this.canvas = document.body;
-    }
-    this.canvas.appendChild(this.gui.domElement);
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
   }
 
   /**
