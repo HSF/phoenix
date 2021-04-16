@@ -398,7 +398,8 @@ export class SceneManager {
     this.getEventData();
   }
 
-  public getText(text: string, colour: Color) {
+  /** Returns a mesh representing the passed text. It will use this.textFont. */
+  public getText(text: string, colour: Color): Mesh {
     const textGeometry = new TextGeometry(text, {
       font: this.textFont,
       size: 60,
