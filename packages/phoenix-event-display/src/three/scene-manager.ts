@@ -605,8 +605,7 @@ export class SceneManager {
       // Currently hardcoding some of this
       let points = [];
       const radius = scale;
-      let step = Math.PI / 4;
-
+      const etaColour = new Color(0x0000ff);
       for (let eta = -3.0; eta <= 3.0; eta += 1.0) {
         points.push(new Vector3(0, 0, 0));
         let etaVec = CoordinateHelper.etaPhiToCartesian(
@@ -615,29 +614,45 @@ export class SceneManager {
           Math.PI / 2.0
         );
         const text = this.getText(
-          'eta=' + eta.toPrecision(2),
-          new Color(0xffffff)
+          'η=' + eta.toPrecision(2),
+          etaColour
         );
         text.position.set(etaVec.x, etaVec.y, etaVec.z);
+        text.rotateOnWorldAxis( new Vector3(0,1,0), Math.PI/2.0 );
         this.grid.add(text);
         points.push(etaVec);
       }
 
+      const etaGeometry = new BufferGeometry().setFromPoints(points);
+      const etaMaterial = new LineDashedMaterial({ color: etaColour ,  dashSize: 2 , gapSize: 1, scale: 0.01 });
+      const etaLines = new LineSegments(etaGeometry, etaMaterial);
+      etaLines.computeLineDistances(); // Needed for dashed lines
+
+      const step = 2 * Math.PI / 8; // 8 steps
+      const phiLabels = ['-π', '-3π/4','-π/2,', '-π/4', '0', 'π/4','π/2,', '3π/4']
+      let labelIndex = 0;
+      const phiColor = new Color(0xff0000);
+      points = [];
+      const phiradius = radius * 0.9;
       for (let phi = -Math.PI; phi < Math.PI; phi += step) {
         points.push(new Vector3(0, 0, 0));
-        let phiVec = CoordinateHelper.etaPhiToCartesian(radius, 0.0, phi);
+        let phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
         const text = this.getText(
-          'phi=' + phi.toPrecision(2),
-          new Color(0xffffff)
+          'φ=' + phiLabels[labelIndex++],
+          phiColor
         );
         text.position.set(phiVec.x, phiVec.y, phiVec.z);
         this.grid.add(text);
         points.push(phiVec);
       }
-      const geometry = new BufferGeometry().setFromPoints(points);
-      const material = new LineDashedMaterial({ color: 0x0000ff });
-      const lines = new LineSegments(geometry, material);
-      this.grid.add(lines);
+      const phiGeometry = new BufferGeometry().setFromPoints(points);
+      const phiMaterial = new LineDashedMaterial({ color: phiColor, dashSize: 1 , gapSize: 1, scale: 0.01 });
+      const phiLines = new LineSegments(phiGeometry, phiMaterial);
+      phiLines.computeLineDistances(); // Needed for dashed lines
+      
+      // Add to group and scene
+      this.grid.add(etaLines);
+      this.grid.add(phiLines);
       this.scene.add(this.grid);
 
       // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
