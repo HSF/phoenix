@@ -463,12 +463,12 @@ export class EventDisplay {
     geometries: [];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const typeFolder = this.ui.addEventDataTypeFolder(objectType);
-      const typeFolderPM = this.ui.addEventDataTypeFolderPM(objectType);
+      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+        objectType
+      );
       const collections = sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
-        this.ui.addCollection(typeFolder, collection);
-        this.ui.addCollectionPM(typeFolderPM, collection);
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
       }
     }
 

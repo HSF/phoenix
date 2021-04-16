@@ -347,8 +347,9 @@ export class PhoenixLoader implements EventDataLoader {
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
-    const typeFolder = this.ui.addEventDataTypeFolder(typeName);
-    const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName);
+    const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+      typeName
+    );
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -368,8 +369,7 @@ export class PhoenixLoader implements EventDataLoader {
       );
 
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-      this.ui.addCollection(typeFolder, collectionName, cuts);
-      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts);
+      this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
     }
 
     extendEventDataTypeUI?.(typeFolder, typeFolderPM);

@@ -9,6 +9,7 @@ import { PrettySymbols } from '../helpers/pretty-symbols';
 import { Color } from 'three';
 import { StateManager } from '../managers/state-manager';
 import { loadFile, saveFile } from '../helpers/file';
+import { DatGUIMenuUI } from './dat-gui-ui';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -16,6 +17,8 @@ import { loadFile, saveFile } from '../helpers/file';
 export class UIManager {
   // Functions ending in PM are for Phoenix Menu
 
+  /** The dat.GUI menu. */
+  private datGUIMenu: DatGUIMenuUI;
   /** Stats object from stats-js. */
   private stats: any;
   /** Phoenix menu node containing geometries data */
@@ -32,8 +35,6 @@ export class UIManager {
   private labelsFolderAdded: boolean = false;
   /** Configuration options for preset views and event data loader. */
   private configuration: Configuration;
-  /** Canvas in which event display is rendered. */
-  private canvas: HTMLElement;
   /** If dark theme is enabled or disabled. */
   private darkTheme: boolean;
   /** Root node of the phoenix menu. */
@@ -110,6 +111,7 @@ export class UIManager {
    */
   private showDatGUIMenu(elementId: string = 'eventDisplay') {
     this.hasDatGUIMenu = true;
+    this.datGUIMenu = new DatGUIMenuUI(elementId, this.three);
   }
 
   /**
@@ -128,22 +130,10 @@ export class UIManager {
    * Clear the UI by removing the dat.GUI and phoenix menu(s).
    */
   public clearUI() {
-    this.clearDatGUI();
+    this.datGUIMenu?.clearDatGUI();
     this.clearPhoenixMenu();
     this.geomFolderAdded = false;
     this.labelsFolderAdded = false;
-  }
-
-  /**
-   * Clear the dat.GUI menu.
-   */
-  private clearDatGUI() {
-    const gui = document.getElementById('gui');
-    if (gui != null) {
-      gui.remove();
-    }
-    this.geomFolder = null;
-    this.hasDatGUIMenu = false;
   }
 
   /**
@@ -167,6 +157,7 @@ export class UIManager {
     this.geomFolderAdded = true;
 
     if (this.hasDatGUIMenu) {
+      this.datGUIMenu.addGeomFolder();
     }
 
     if (this.hasPhoenixMenu) {
@@ -218,15 +209,6 @@ export class UIManager {
   }
 
   /**
-   * Sets the visibility of a geometry in the scene.
-   * @param name Name of the geometry in the scene
-   * @param visible Value for the visibility of the object
-   */
-  public geometryVisibility(name: string, visible: boolean) {
-    this.three.getSceneManager().objectVisibility(name, visible);
-  }
-
-  /**
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param color Color of the geometry.
@@ -244,6 +226,7 @@ export class UIManager {
     }
 
     if (this.hasDatGUIMenu) {
+      this.datGUIMenu.addGeometry(name, color, initiallyVisible);
     }
 
     if (this.hasPhoenixMenu) {
@@ -282,29 +265,7 @@ export class UIManager {
    */
   public addEventDataFolder() {
     if (this.hasDatGUIMenu) {
-      // If there is already an event data folder it is deleted and we create a new one.
-      if (this.eventFolder !== null) {
-        this.gui.removeFolder(this.eventFolder);
-      }
-      // A new folder for the Event Data is added to the GUI.
-      this.eventFolder = this.gui.addFolder('Event Data');
-      this.guiParameters.eventData = { show: true, depthTest: true };
-      // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
-      const menu = this.eventFolder
-        .add(this.guiParameters.eventData, 'show')
-        .name('Show')
-        .listen();
-      menu.onChange((value) =>
-        this.three
-          .getSceneManager()
-          .objectVisibility(SceneManager.EVENT_DATA_ID, value)
-      );
-      // A boolean toggle for enabling/disabling depthTest of event data.
-      const depthTestMenu = this.eventFolder
-        .add(this.guiParameters.eventData, 'depthTest')
-        .name('Depth Test')
-        .listen();
-      depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
+      this.datGUIMenu.addEventDataFolder();
     }
 
     if (this.hasPhoenixMenu) {
@@ -333,119 +294,58 @@ export class UIManager {
   }
 
   /**
-   * Get the event data folder in dat.GUI menu.
-   * @returns Event data folder.
-   */
-  public getEventDataFolder(): any {
-    return this.eventFolder;
-  }
-
-  /**
-   * Add folder for event data type like tracks or hits to the dat.GUI menu.
+   * Add folder for event data type like tracks or hits to the dat.GUI and Phoenix menu.
    * @param typeName Name of the type of event data.
-   * @returns dat.GUI menu's folder for event data type.
+   * @returns dat.GUI and Phoenix menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string): any {
-    if (this.hasDatGUIMenu) {
-      const typeFolder = this.eventFolder.addFolder(typeName);
-      this.guiParameters.eventData[typeName] = true;
-      const menu = typeFolder
-        .add(this.guiParameters.eventData, typeName)
-        .name('Show')
-        .listen();
-      menu.onChange((value) =>
-        this.three.getSceneManager().objectVisibility(typeName, value)
-      );
+  public addEventDataTypeFolder(
+    typeName: string
+  ): { typeFolder?: any; typeFolderPM?: PhoenixMenuNode } {
+    let typeFolder: any, typeFolderPM: PhoenixMenuNode;
 
-      return typeFolder;
+    if (this.hasDatGUIMenu) {
+      typeFolder = this.datGUIMenu.addEventDataTypeFolder(typeName);
     }
 
-    return undefined;
-  }
-
-  /**
-   * Add child for event data type like tracks or hits to the phoenix menu.
-   * @param typeName Name of the type of event data.
-   * @returns Phoenix menu node for event data type.
-   */
-  public addEventDataTypeFolderPM(typeName: string): PhoenixMenuNode {
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      const typeFolderPM = this.eventFolderPM.addChild(
-        typeName,
-        (value: boolean) => {
-          this.three.getSceneManager().objectVisibility(typeName, value);
-        }
-      );
-
-      return typeFolderPM;
+      typeFolderPM = this.eventFolderPM.addChild(typeName, (value: boolean) => {
+        this.three.getSceneManager().objectVisibility(typeName, value);
+      });
     }
 
-    return undefined;
+    return { typeFolder, typeFolderPM };
   }
 
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param typeFolder dat.GUI menu folder of an event data type.
+   * @param typeFolders dat.GUI and Phoenix menu folders of an event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
   public addCollection(
-    typeFolder: any,
+    typeFolders: { typeFolder: any; typeFolderPM: PhoenixMenuNode },
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    if (typeFolder && this.hasDatGUIMenu) {
-      // A new folder for the collection is added to the 'Event Data' folder
-      this.guiParameters[collectionName] = {
-        show: true,
-        color: 0x000000,
-        resetCut: () =>
-          this.three
-            .getSceneManager()
-            .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
-      };
-      const collFolder = typeFolder.addFolder(collectionName);
-      // A boolean toggle for showing/hiding the collection is added to its folder
-      const showMenu = collFolder
-        .add(this.guiParameters[collectionName], 'show')
-        .name('Show')
-        .listen();
-      showMenu.onChange((value) =>
-        this.three
-          .getSceneManager()
-          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
+    if (this.hasDatGUIMenu) {
+      this.datGUIMenu.addCollection(
+        typeFolders.typeFolder,
+        collectionName,
+        cuts,
+        collectionColor
       );
-      // A color picker is added to the collection's folder
-      const colorMenu = collFolder
-        .addColor(this.guiParameters[collectionName], 'color')
-        .name('Color');
-      colorMenu.onChange((value) =>
-        this.three.getSceneManager().collectionColor(collectionName, value)
+    }
+
+    // Phoenix menu
+    if (this.hasPhoenixMenu) {
+      this.addCollectionPM(
+        typeFolders.typeFolderPM,
+        collectionName,
+        cuts,
+        collectionColor
       );
-      colorMenu.setValue(collectionColor?.getHex());
-      // Cuts menu
-      if (cuts) {
-        const cutsFolder = collFolder.addFolder('Cuts');
-        cutsFolder
-          .add(this.guiParameters[collectionName], 'resetCut')
-          .name('Reset cuts');
-        for (const cut of cuts) {
-          const minCut = cutsFolder
-            .add(cut, 'minValue', cut.minValue, cut.maxValue)
-            .name('min ' + cut.field);
-          minCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
-          });
-          const maxCut = cutsFolder
-            .add(cut, 'maxValue', cut.minValue, cut.maxValue)
-            .name('max ' + cut.field);
-          maxCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
-          });
-        }
-      }
     }
   }
 
@@ -587,39 +487,14 @@ export class UIManager {
       this.loadLabelsFile();
     };
 
-    if (this.hasDatGUIMenu && this.labelsFolder === null) {
-      this.labelsFolder = this.gui.addFolder(SceneManager.LABELS_ID);
-
-      this.guiParameters.labels = {
-        show: true,
-        size: 1,
-        color: '#a8a8a8',
-        saveLabels: onSaveLabels,
-        loadLabels: onLoadLabels,
-      };
-
-      const showMenu = this.labelsFolder
-        .add(this.guiParameters.labels, 'show')
-        .name('Show')
-        .listen();
-      showMenu.onChange(onToggle);
-
-      const labelsSizeMenu = this.labelsFolder
-        .add(this.guiParameters.labels, 'size', 0, 10)
-        .name('Size');
-      labelsSizeMenu.onFinishChange(onSizeChange);
-
-      const colorMenu = this.labelsFolder
-        .addColor(this.guiParameters.labels, 'color')
-        .name('Color');
-      colorMenu.onChange(onColorChange);
-
-      this.labelsFolder
-        .add(this.guiParameters.labels, 'saveLabels')
-        .name('Save Labels');
-      this.labelsFolder
-        .add(this.guiParameters.labels, 'loadLabels')
-        .name('Load Labels');
+    if (this.hasDatGUIMenu) {
+      this.datGUIMenu.addLabelsFolder({
+        onToggle,
+        onSizeChange,
+        onColorChange,
+        onSaveLabels,
+        onLoadLabels,
+      });
     }
 
     if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
@@ -666,29 +541,7 @@ export class UIManager {
     }
 
     if (this.hasDatGUIMenu) {
-      this.guiParameters[labelId] = {
-        show: true,
-        color: 0xafafaf,
-      };
-
-      const labelItem = this.labelsFolder.addFolder(labelId);
-
-      const visibilityToggle = labelItem
-        .add(this.guiParameters[labelId], 'show')
-        .name('Show')
-        .listen();
-      visibilityToggle.onChange((value) => {
-        this.three
-          .getSceneManager()
-          .objectVisibility(labelId, value, SceneManager.LABELS_ID);
-      });
-
-      const colorMenu = labelItem
-        .addColor(this.guiParameters[labelId], 'color')
-        .name('Çolor');
-      colorMenu.onChange((color) =>
-        this.three.getSceneManager().changeObjectColor(labelId, color)
-      );
+      this.datGUIMenu.addLabel(labelId);
     }
 
     if (this.hasPhoenixMenu) {
@@ -739,6 +592,15 @@ export class UIManager {
 
       labelNode.remove();
     }
+  }
+
+  /**
+   * Sets the visibility of a geometry in the scene.
+   * @param name Name of the geometry in the scene
+   * @param visible Value for the visibility of the object
+   */
+  public geometryVisibility(name: string, visible: boolean) {
+    this.three.getSceneManager().objectVisibility(name, visible);
   }
 
   /**

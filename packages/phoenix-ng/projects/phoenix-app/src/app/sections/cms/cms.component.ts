@@ -33,7 +33,7 @@ export class CMSComponent implements OnInit {
         new PresetView('Right View', [0, 0, 12000], 'right-cube'),
       ],
       defaultView: [4000, 0, 4000],
-      phoenixMenuRoot: this.phoenixMenuRoot,
+      enableDatGUIMenu: true,
     };
 
     this.eventDisplay.init(configuration);

@@ -107,12 +107,6 @@ describe('UIManager', () => {
       expect(ui.getPresetViews()).toBeUndefined();
     });
 
-    it('should get event data folder', () => {
-      uiPrivate.eventFolder = uiPrivate.gui.addFolder('Event Data');
-      ui.addEventDataFolder();
-      expect(ui.getEventDataFolder()).toBeTruthy();
-    });
-
     it('should call three service functions', () => {
       spyOn(three.getSceneManager(), 'objectVisibility').and.callThrough();
       ui.geometryVisibility('TestGeometry', false);

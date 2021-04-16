@@ -1,6 +1,8 @@
 import { ThreeManager } from '../three';
 import { SceneManager } from '../three/scene-manager';
 import * as dat from 'dat.gui';
+import { Color } from 'three';
+import { Cut } from '../extras/cut.model';
 
 export class DatGUIMenuUI {
   /** dat.GUI menu. */
@@ -20,8 +22,6 @@ export class DatGUIMenuUI {
   private eventFolder: any;
   /** dat.GUI menu folder containing labels. */
   private labelsFolder: any;
-  /** If the geometry folder is added or not */
-  private geomFolderAdded: boolean = false;
 
   /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
@@ -45,6 +45,17 @@ export class DatGUIMenuUI {
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
+  }
+
+  /**
+   * Clear the dat.GUI menu.
+   */
+  public clearDatGUI() {
+    const gui = document.getElementById('gui');
+    if (gui != null) {
+      gui.remove();
+    }
+    this.geomFolder = null;
   }
 
   /**
@@ -79,19 +90,13 @@ export class DatGUIMenuUI {
    * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
    * @param name Name of the geometry.
    * @param color Color of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    */
   public addGeometry(
     name: string,
     color: any,
-    menuNodeName?: string,
     initiallyVisible: boolean = true
   ) {
-    if (!this.geomFolderAdded) {
-      this.addGeomFolder();
-    }
-
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
       show: initiallyVisible,
@@ -171,5 +176,202 @@ export class DatGUIMenuUI {
       }
       this.three.getSceneManager().removeGeometry(name);
     };
+  }
+
+  /**
+   * Functions for event data toggles like show/hide and depthTest.
+   */
+  public addEventDataFolder() {
+    // If there is already an event data folder it is deleted and we create a new one.
+    if (this.eventFolder !== null) {
+      this.gui.removeFolder(this.eventFolder);
+    }
+
+    // A new folder for the Event Data is added to the GUI.
+    this.eventFolder = this.gui.addFolder('Event Data');
+    this.guiParameters.eventData = { show: true, depthTest: true };
+    // A boolean toggle for showing/hiding the event data is added to the 'Event Data' folder.
+    const menu = this.eventFolder
+      .add(this.guiParameters.eventData, 'show')
+      .name('Show')
+      .listen();
+    menu.onChange((value) =>
+      this.three
+        .getSceneManager()
+        .objectVisibility(SceneManager.EVENT_DATA_ID, value)
+    );
+
+    // A boolean toggle for enabling/disabling depthTest of event data.
+    const depthTestMenu = this.eventFolder
+      .add(this.guiParameters.eventData, 'depthTest')
+      .name('Depth Test')
+      .listen();
+    depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
+  }
+
+  /**
+   * Add folder for event data type like tracks or hits to the dat.GUI menu.
+   * @param typeName Name of the type of event data.
+   * @returns dat.GUI menu's folder for event data type.
+   */
+  public addEventDataTypeFolder(typeName: string): any {
+    const typeFolder = this.eventFolder.addFolder(typeName);
+    this.guiParameters.eventData[typeName] = true;
+    const menu = typeFolder
+      .add(this.guiParameters.eventData, typeName)
+      .name('Show')
+      .listen();
+    menu.onChange((value) =>
+      this.three.getSceneManager().objectVisibility(typeName, value)
+    );
+
+    return typeFolder;
+  }
+
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param typeFolder dat.GUI menu folder of an event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor Color of the collection.
+   */
+  public addCollection(
+    typeFolder: any,
+    collectionName: string,
+    cuts?: Cut[],
+    collectionColor?: Color
+  ) {
+    if (typeFolder) {
+      // A new folder for the collection is added to the 'Event Data' folder
+      this.guiParameters[collectionName] = {
+        show: true,
+        color: 0x000000,
+        resetCut: () =>
+          this.three
+            .getSceneManager()
+            .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
+      };
+      const collFolder = typeFolder.addFolder(collectionName);
+      // A boolean toggle for showing/hiding the collection is added to its folder
+      const showMenu = collFolder
+        .add(this.guiParameters[collectionName], 'show')
+        .name('Show')
+        .listen();
+      showMenu.onChange((value) =>
+        this.three
+          .getSceneManager()
+          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
+      );
+      // A color picker is added to the collection's folder
+      const colorMenu = collFolder
+        .addColor(this.guiParameters[collectionName], 'color')
+        .name('Color');
+      colorMenu.onChange((value) =>
+        this.three.getSceneManager().collectionColor(collectionName, value)
+      );
+      colorMenu.setValue(collectionColor?.getHex());
+      // Cuts menu
+      if (cuts) {
+        const cutsFolder = collFolder.addFolder('Cuts');
+        cutsFolder
+          .add(this.guiParameters[collectionName], 'resetCut')
+          .name('Reset cuts');
+        for (const cut of cuts) {
+          const minCut = cutsFolder
+            .add(cut, 'minValue', cut.minValue, cut.maxValue)
+            .name('min ' + cut.field);
+          minCut.onChange((value) => {
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          });
+          const maxCut = cutsFolder
+            .add(cut, 'maxValue', cut.minValue, cut.maxValue)
+            .name('max ' + cut.field);
+          maxCut.onChange((value) => {
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          });
+        }
+      }
+    }
+  }
+
+  /**
+   * Add labels folder to dat.GUI and Phoenix menu.
+   * @param configFunctions Functions to attach to the labels folder configuration.
+   */
+  public addLabelsFolder(configFunctions: any) {
+    if (this.labelsFolder !== null) {
+      return;
+    }
+
+    const {
+      onToggle,
+      onSizeChange,
+      onColorChange,
+      onSaveLabels,
+      onLoadLabels,
+    } = configFunctions;
+
+    this.labelsFolder = this.gui.addFolder(SceneManager.LABELS_ID);
+
+    this.guiParameters.labels = {
+      show: true,
+      size: 1,
+      color: '#a8a8a8',
+      saveLabels: onSaveLabels,
+      loadLabels: onLoadLabels,
+    };
+
+    const showMenu = this.labelsFolder
+      .add(this.guiParameters.labels, 'show')
+      .name('Show')
+      .listen();
+    showMenu.onChange(onToggle);
+
+    const labelsSizeMenu = this.labelsFolder
+      .add(this.guiParameters.labels, 'size', 0, 10)
+      .name('Size');
+    labelsSizeMenu.onFinishChange(onSizeChange);
+
+    const colorMenu = this.labelsFolder
+      .addColor(this.guiParameters.labels, 'color')
+      .name('Color');
+    colorMenu.onChange(onColorChange);
+
+    this.labelsFolder
+      .add(this.guiParameters.labels, 'saveLabels')
+      .name('Save Labels');
+    this.labelsFolder
+      .add(this.guiParameters.labels, 'loadLabels')
+      .name('Load Labels');
+  }
+
+  /**
+   * Add configuration UI for label.
+   * @param labelId Unique ID of the label.
+   */
+  public addLabel(labelId: string) {
+    this.guiParameters[labelId] = {
+      show: true,
+      color: 0xafafaf,
+    };
+
+    const labelItem = this.labelsFolder.addFolder(labelId);
+
+    const visibilityToggle = labelItem
+      .add(this.guiParameters[labelId], 'show')
+      .name('Show')
+      .listen();
+    visibilityToggle.onChange((value) => {
+      this.three
+        .getSceneManager()
+        .objectVisibility(labelId, value, SceneManager.LABELS_ID);
+    });
+
+    const colorMenu = labelItem
+      .addColor(this.guiParameters[labelId], 'color')
+      .name('Çolor');
+    colorMenu.onChange((color) =>
+      this.three.getSceneManager().changeObjectColor(labelId, color)
+    );
   }
 }
