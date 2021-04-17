@@ -311,11 +311,11 @@ export class UIManager {
     }
 
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addLabel(labelId, this.removeLabel.bind(this));
+      this.datGUIMenu?.addLabel(labelId, () => this.removeLabel(labelId));
     }
 
     if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addLabel(labelId, this.removeLabel.bind(this));
+      this.phoenixMenuUI?.addLabel(labelId, () => this.removeLabel(labelId));
     }
   }
 

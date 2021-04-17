@@ -116,12 +116,14 @@ export class PhoenixMenuUI {
     if (menuNodeName) {
       parentNode = this.geomFolder.findInTreeOrCreate(menuNodeName);
     }
-    // Phoenix menu
-    const objFolderPM = parentNode.addChild(name, (value: boolean) => {
+
+    const objFolder = parentNode.addChild(name, (value: boolean) => {
       this.three.getSceneManager().objectVisibility(name, value);
     });
-    objFolderPM.toggleState = initiallyVisible;
-    objFolderPM
+
+    objFolder.toggleState = initiallyVisible;
+
+    objFolder
       .addConfig('color', {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
@@ -137,6 +139,13 @@ export class PhoenixMenuUI {
         allowCustomValue: true,
         onChange: (opacity: number) => {
           this.three.getSceneManager().setGeometryOpacity(name, opacity);
+        },
+      })
+      .addConfig('button', {
+        label: 'Remove',
+        onClick: () => {
+          objFolder.remove();
+          this.three.getSceneManager().removeGeometry(name);
         },
       });
   }
@@ -187,12 +196,12 @@ export class PhoenixMenuUI {
    * @param collectionColor Default color of the collection.
    */
   public addCollection(
-    typeFolderPM: PhoenixMenuNode,
+    typeFolder: PhoenixMenuNode,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    const collectionNode = typeFolderPM.addChild(
+    const collectionNode = typeFolder.addChild(
       collectionName,
       (value: boolean) => {
         this.three
