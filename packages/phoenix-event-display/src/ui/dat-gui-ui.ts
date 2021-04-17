@@ -1,12 +1,12 @@
+import { GUI } from 'dat.gui';
 import { ThreeManager } from '../three';
 import { SceneManager } from '../three/scene-manager';
-import * as dat from 'dat.gui';
 import { Color } from 'three';
 import { Cut } from '../extras/cut.model';
 
 export class DatGUIMenuUI {
   /** dat.GUI menu. */
-  private gui: any;
+  private gui: GUI;
   /** Options for the dat.GUI menu. */
   private guiParameters = {
     rotate: undefined,
@@ -17,11 +17,11 @@ export class DatGUIMenuUI {
     labels: undefined,
   };
   /** dat.GUI menu folder containing geometries data. */
-  private geomFolder: any;
+  private geomFolder: GUI;
   /** dat.GUI menu folder containing event related data. */
-  private eventFolder: any;
+  private eventFolder: GUI;
   /** dat.GUI menu folder containing labels. */
-  private labelsFolder: any;
+  private labelsFolder: GUI;
 
   /** Max changeable position of an object along the x-axis. */
   private maxPositionX = 4000;
@@ -36,7 +36,7 @@ export class DatGUIMenuUI {
    * @param three The three manager for managing three.js related operations.
    */
   constructor(elementId: string = 'eventDisplay', private three: ThreeManager) {
-    this.gui = new dat.GUI();
+    this.gui = new GUI();
     this.gui.domElement.id = 'gui';
     this.gui.domElement.style.cssText =
       'position: absolute; right: 0; top: 2rem; z-index: 11;';
@@ -214,7 +214,7 @@ export class DatGUIMenuUI {
    * @param typeName Name of the type of event data.
    * @returns dat.GUI menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string): any {
+  public addEventDataTypeFolder(typeName: string): GUI {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder
@@ -236,7 +236,7 @@ export class DatGUIMenuUI {
    * @param collectionColor Color of the collection.
    */
   public addCollection(
-    typeFolder: any,
+    typeFolder: GUI,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color

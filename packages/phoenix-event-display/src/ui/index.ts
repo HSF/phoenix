@@ -10,6 +10,7 @@ import { Color } from 'three';
 import { StateManager } from '../managers/state-manager';
 import { loadFile, saveFile } from '../helpers/file';
 import { DatGUIMenuUI } from './dat-gui-ui';
+import { GUI } from 'dat.gui';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -300,8 +301,8 @@ export class UIManager {
    */
   public addEventDataTypeFolder(
     typeName: string
-  ): { typeFolder?: any; typeFolderPM?: PhoenixMenuNode } {
-    let typeFolder: any, typeFolderPM: PhoenixMenuNode;
+  ): { typeFolder?: GUI; typeFolderPM?: PhoenixMenuNode } {
+    let typeFolder: GUI, typeFolderPM: PhoenixMenuNode;
 
     if (this.hasDatGUIMenu) {
       typeFolder = this.datGUIMenu.addEventDataTypeFolder(typeName);
@@ -324,7 +325,7 @@ export class UIManager {
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
   public addCollection(
-    typeFolders: { typeFolder: any; typeFolderPM: PhoenixMenuNode },
+    typeFolders: { typeFolder: GUI; typeFolderPM: PhoenixMenuNode },
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
