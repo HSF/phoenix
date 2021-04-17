@@ -5,9 +5,11 @@ import * as Helpers from '../../../helpers/file';
 
 describe('ThreeManager', () => {
   let three: ThreeManager;
+  let threePrivate: any;
 
   beforeEach(() => {
     three = new ThreeManager(new InfoLogger());
+    threePrivate = three as any;
   });
 
   it('should be created', () => {
@@ -15,12 +17,8 @@ describe('ThreeManager', () => {
   });
 
   describe('after init', () => {
-    let threePrivate: any;
-
     beforeEach(() => {
       three.init({});
-
-      threePrivate = three as any;
     });
 
     it('should initialize three service with managers', () => {
@@ -94,7 +92,10 @@ describe('ThreeManager', () => {
     });
 
     it('should swap cameras', () => {
-      spyOn(threePrivate.controlsManager, 'swapControls').and.callThrough();
+      const spy = spyOn(
+        threePrivate.controlsManager,
+        'swapControls'
+      ).and.callThrough();
 
       three.swapCameras(true);
       three.swapCameras(false);
@@ -102,7 +103,7 @@ describe('ThreeManager', () => {
         2
       );
 
-      threePrivate.controlsManager.swapControls.calls.reset();
+      spy.calls.reset();
 
       three.swapCameras(false);
       expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(
@@ -127,39 +128,60 @@ describe('ThreeManager', () => {
       expect(threePrivate.importManager.loadGLTFGeometry).toHaveBeenCalled();
     });
 
-    it('should parse OBJ geometry', async () => {
-      (await fetch(OBJ_FILE)).text().then((res) => {
-        spyOn(threePrivate.importManager, 'parseOBJGeometry').and.callThrough();
+    it('should parse OBJ geometry', (done) => {
+      fetch(OBJ_FILE)
+        .then((res) => res.text())
+        .then((res) => {
+          spyOn(
+            threePrivate.importManager,
+            'parseOBJGeometry'
+          ).and.callThrough();
 
-        three.parseOBJGeometry(res, 'Test OBJ');
-        expect(threePrivate.importManager.parseOBJGeometry).toHaveBeenCalled();
-      });
+          three.parseOBJGeometry(res, 'Test OBJ');
+          expect(
+            threePrivate.importManager.parseOBJGeometry
+          ).toHaveBeenCalled();
+
+          done();
+        });
     });
 
-    it('should parse glTF geometry', async () => {
-      (await fetch(GLTF_FILE)).arrayBuffer().then((res) => {
-        spyOn(
-          threePrivate.importManager,
-          'parseGLTFGeometry'
-        ).and.callThrough();
+    it('should parse glTF geometry', (done) => {
+      fetch(GLTF_FILE)
+        .then((res) => res.arrayBuffer())
+        .then((res) => {
+          spyOn(
+            threePrivate.importManager,
+            'parseGLTFGeometry'
+          ).and.callThrough();
 
-        three.parseGLTFGeometry(res, 'TEST_GLTF_FILE');
-        expect(threePrivate.importManager.parseGLTFGeometry).toHaveBeenCalled();
-      });
+          three.parseGLTFGeometry(res, 'TEST_GLTF_FILE');
+          expect(
+            threePrivate.importManager.parseGLTFGeometry
+          ).toHaveBeenCalled();
+
+          done();
+        });
     });
 
-    it('should load JSON geometry', async () => {
+    it('should load JSON geometry', (done) => {
       spyOn(threePrivate.importManager, 'loadJSONGeometry').and.callThrough();
 
-      (await fetch(OBJ_FILE)).text().then((res) => {
-        const geometry = threePrivate.importManager.parseOBJGeometry(
-          res,
-          'Test JSON'
-        );
+      fetch(OBJ_FILE)
+        .then((res) => res.text())
+        .then((res) => {
+          const geometry = threePrivate.importManager.parseOBJGeometry(
+            res,
+            'Test JSON'
+          );
 
-        three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
-        expect(threePrivate.importManager.loadJSONGeometry).toHaveBeenCalled();
-      });
+          three.loadJSONGeometry(geometry.toJSON(), 'Test JSON', 1, true);
+          expect(
+            threePrivate.importManager.loadJSONGeometry
+          ).toHaveBeenCalled();
+
+          done();
+        });
     });
 
     it('should export scene', () => {
