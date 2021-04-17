@@ -33,11 +33,6 @@ export class UIManager {
   /** If dark theme is enabled or disabled. */
   private darkTheme: boolean;
 
-  /** Whether the dat.GUI menu is enabled or disabled. */
-  private hasDatGUIMenu: boolean;
-  /** Whether the Phoenix menu is enabled or disabled. */
-  private hasPhoenixMenu: boolean;
-
   /** State manager for managing the event display's state. */
   private stateManager: StateManager;
 
@@ -60,11 +55,14 @@ export class UIManager {
     this.showStats(configuration.elementId);
     // Shows the menu that contains the options to interact with the scene.
     if (configuration.enableDatGUIMenu) {
-      this.showDatGUIMenu(configuration.elementId);
+      this.datGUIMenu = new DatGUIMenuUI(configuration.elementId, this.three);
     }
     // Set root node of phoenix menu
     if (configuration.phoenixMenuRoot) {
-      this.showPhoenixMenu(configuration.phoenixMenuRoot);
+      this.phoenixMenuUI = new PhoenixMenuUI(
+        configuration.phoenixMenuRoot,
+        this.three
+      );
     }
     // Detect UI color scheme
     this.detectColorScheme();
@@ -99,31 +97,11 @@ export class UIManager {
   }
 
   /**
-   * Show dat.GUI menu with different controls related to detector geometry and event data.
-   * @param elementId ID of the wrapper element.
-   */
-  private showDatGUIMenu(elementId: string = 'eventDisplay') {
-    this.hasDatGUIMenu = true;
-    this.datGUIMenu = new DatGUIMenuUI(elementId, this.three);
-  }
-
-  /**
-   * Show phoenix menu with different controls related to detector geometry and event data.
-   * @param phoenixMenuRoot Root node of the phoenix menu.
-   */
-  private showPhoenixMenu(phoenixMenuRoot: PhoenixMenuNode) {
-    this.hasPhoenixMenu = true;
-    this.phoenixMenuUI = new PhoenixMenuUI(phoenixMenuRoot, this.three);
-  }
-
-  /**
    * Clear the UI by removing the dat.GUI and phoenix menu(s).
    */
   public clearUI() {
     this.datGUIMenu?.clearDatGUI();
-    this.hasDatGUIMenu = false;
     this.phoenixMenuUI?.clearPhoenixMenu();
-    this.hasPhoenixMenu = false;
 
     this.geomFolderAdded = false;
     this.labelsFolderAdded = false;
@@ -134,14 +112,8 @@ export class UIManager {
    */
   public addGeomFolder() {
     this.geomFolderAdded = true;
-
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addGeomFolder();
-    }
-
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addGeomFolder();
-    }
+    this.datGUIMenu?.addGeomFolder();
+    this.phoenixMenuUI?.addGeomFolder();
   }
 
   /**
@@ -161,31 +133,21 @@ export class UIManager {
       this.addGeomFolder();
     }
 
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addGeometry(name, color, initiallyVisible);
-    }
-
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addGeometry(
-        name,
-        color,
-        menuNodeName,
-        initiallyVisible
-      );
-    }
+    this.datGUIMenu?.addGeometry(name, color, initiallyVisible);
+    this.phoenixMenuUI?.addGeometry(
+      name,
+      color,
+      menuNodeName,
+      initiallyVisible
+    );
   }
 
   /**
    * Functions for event data toggles like show/hide and depthTest.
    */
   public addEventDataFolder() {
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addEventDataFolder();
-    }
-
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addEventDataFolder();
-    }
+    this.datGUIMenu?.addEventDataFolder();
+    this.phoenixMenuUI?.addEventDataFolder();
   }
 
   /**
@@ -196,15 +158,8 @@ export class UIManager {
   public addEventDataTypeFolder(
     typeName: string
   ): { typeFolder?: GUI; typeFolderPM?: PhoenixMenuNode } {
-    let typeFolder: GUI, typeFolderPM: PhoenixMenuNode;
-
-    if (this.hasDatGUIMenu) {
-      typeFolder = this.datGUIMenu?.addEventDataTypeFolder(typeName);
-    }
-
-    if (this.hasPhoenixMenu) {
-      typeFolderPM = this.phoenixMenuUI?.addEventDataTypeFolder(typeName);
-    }
+    const typeFolder = this.datGUIMenu?.addEventDataTypeFolder(typeName);
+    const typeFolderPM = this.phoenixMenuUI?.addEventDataTypeFolder(typeName);
 
     return { typeFolder, typeFolderPM };
   }
@@ -221,24 +176,19 @@ export class UIManager {
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addCollection(
-        typeFolders.typeFolder,
-        collectionName,
-        cuts,
-        collectionColor
-      );
-    }
+    this.datGUIMenu?.addCollection(
+      typeFolders.typeFolder,
+      collectionName,
+      cuts,
+      collectionColor
+    );
 
-    // Phoenix menu
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addCollection(
-        typeFolders.typeFolderPM,
-        collectionName,
-        cuts,
-        collectionColor
-      );
-    }
+    this.phoenixMenuUI?.addCollection(
+      typeFolders.typeFolderPM,
+      collectionName,
+      cuts,
+      collectionColor
+    );
   }
 
   /**
@@ -279,25 +229,21 @@ export class UIManager {
       this.loadLabelsFile();
     };
 
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addLabelsFolder({
-        onToggle,
-        onSizeChange,
-        onColorChange,
-        onSaveLabels,
-        onLoadLabels,
-      });
-    }
+    this.datGUIMenu?.addLabelsFolder({
+      onToggle,
+      onSizeChange,
+      onColorChange,
+      onSaveLabels,
+      onLoadLabels,
+    });
 
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addLabelsFolder({
-        onToggle,
-        onSizeChange,
-        onColorChange,
-        onSaveLabels,
-        onLoadLabels,
-      });
-    }
+    this.phoenixMenuUI?.addLabelsFolder({
+      onToggle,
+      onSizeChange,
+      onColorChange,
+      onSaveLabels,
+      onLoadLabels,
+    });
   }
 
   /**
@@ -309,13 +255,8 @@ export class UIManager {
       this.addLabelsFolder();
     }
 
-    if (this.hasDatGUIMenu) {
-      this.datGUIMenu?.addLabel(labelId, () => this.removeLabel(labelId));
-    }
-
-    if (this.hasPhoenixMenu) {
-      this.phoenixMenuUI?.addLabel(labelId, () => this.removeLabel(labelId));
-    }
+    this.datGUIMenu?.addLabel(labelId, () => this.removeLabel(labelId));
+    this.phoenixMenuUI?.addLabel(labelId, () => this.removeLabel(labelId));
   }
 
   /**

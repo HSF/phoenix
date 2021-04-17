@@ -3,7 +3,7 @@
  */
 export class PrettySymbols {
   /** Pretty symbols for object params. */
-  public static readonly symbols: object = {
+  public static readonly symbols: { [key: string]: string[] } = {
     θ: ['theta'],
     ϕ: ['phi'],
     pT: ['pt'],
