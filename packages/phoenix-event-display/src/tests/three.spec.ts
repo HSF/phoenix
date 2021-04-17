@@ -1,6 +1,6 @@
-import { ThreeManager } from '../three';
-import { InfoLogger } from '../info-logger';
 import { Group } from 'three';
+import { ThreeManager } from '../managers/three-manager';
+import { InfoLogger } from '../helpers/info-logger';
 import * as Helpers from '../helpers/file';
 
 describe('ThreeManager', () => {

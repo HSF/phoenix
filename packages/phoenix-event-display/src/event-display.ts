@@ -1,6 +1,6 @@
-import { ThreeManager } from './three/index';
-import { UIManager } from './ui/index';
-import { InfoLogger } from './info-logger';
+import { ThreeManager } from './managers/three-manager';
+import { UIManager } from './managers/ui-manager';
+import { InfoLogger } from './helpers/info-logger';
 import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';

@@ -9,10 +9,10 @@ import {
   AxesHelper,
 } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
-import { InfoLogger } from '../info-logger';
+import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
-import { PrettySymbols } from '../helpers/pretty-symbols';
-import { ActiveVariable } from '../helpers/active-variable';
+import { PrettySymbols } from '../../helpers/pretty-symbols';
+import { ActiveVariable } from '../../helpers/active-variable';
 
 /**
  * Manager for managing event display's selection related functions.

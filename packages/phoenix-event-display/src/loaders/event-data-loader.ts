@@ -1,6 +1,6 @@
-import { ThreeManager } from '../three/index';
-import { UIManager } from '../ui/index';
-import { InfoLogger } from '../info-logger';
+import { ThreeManager } from '../managers/three-manager';
+import { UIManager } from '../managers/ui-manager';
+import { InfoLogger } from '../helpers/info-logger';
 
 /**
  * Event data loader for implementing different event data loaders.

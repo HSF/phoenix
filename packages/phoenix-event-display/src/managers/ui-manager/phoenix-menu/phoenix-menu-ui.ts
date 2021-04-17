@@ -1,9 +1,9 @@
-import { SceneManager } from '../three/scene-manager';
-import { ThreeManager } from '../three';
-import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
+import { SceneManager } from '../../three-manager/scene-manager';
+import { ThreeManager } from '../../three-manager';
+import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Color } from 'three';
-import { Cut } from '../extras/cut.model';
-import { PrettySymbols } from '../helpers/pretty-symbols';
+import { Cut } from '../../../extras/cut.model';
+import { PrettySymbols } from '../../../helpers/pretty-symbols';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.

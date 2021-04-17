@@ -1,17 +1,16 @@
 import * as Stats from 'stats-js';
-import { ThreeManager } from '../three';
-import { Configuration } from '../extras/configuration';
-import { PresetView } from '../extras/preset-view.model';
-import { Cut } from '../extras/cut.model';
-import { SceneManager } from '../three/scene-manager';
-import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
-import { PrettySymbols } from '../helpers/pretty-symbols';
-import { Color } from 'three';
-import { StateManager } from '../managers/state-manager';
-import { loadFile, saveFile } from '../helpers/file';
-import { DatGUIMenuUI } from './dat-gui-ui';
 import { GUI } from 'dat.gui';
-import { PhoenixMenuUI } from './phoenix-menu-ui';
+import { Color } from 'three';
+import { ThreeManager } from '../three-manager';
+import { Configuration } from '../../extras/configuration';
+import { PresetView } from '../../extras/preset-view.model';
+import { Cut } from '../../extras/cut.model';
+import { SceneManager } from '../three-manager/scene-manager';
+import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
+import { StateManager } from '../../managers/state-manager';
+import { loadFile, saveFile } from '../../helpers/file';
+import { DatGUIMenuUI } from './dat-gui-ui';
+import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.

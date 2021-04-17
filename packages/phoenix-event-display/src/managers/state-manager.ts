@@ -1,6 +1,6 @@
 import { EventDisplay } from '../event-display';
 import { Camera } from 'three';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node';
 import { loadFile, saveFile } from '../helpers/file';
 import { ActiveVariable } from '../helpers/active-variable';
 

@@ -1,8 +1,8 @@
 import { GUI } from 'dat.gui';
-import { ThreeManager } from '../three';
-import { SceneManager } from '../three/scene-manager';
 import { Color } from 'three';
-import { Cut } from '../extras/cut.model';
+import { ThreeManager } from '../three-manager';
+import { SceneManager } from '../three-manager/scene-manager';
+import { Cut } from '../../extras/cut.model';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.

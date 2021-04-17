@@ -5,7 +5,7 @@ import { PresetView } from './extras/preset-view.model';
 import { PrettySymbols } from './helpers/pretty-symbols';
 import { RKHelper } from './helpers/rk-helper';
 import { RungeKutta } from './helpers/runge-kutta';
-import { InfoLogger } from './info-logger';
+import { InfoLogger } from './helpers/info-logger';
 import { CMSLoader } from './loaders/cms-loader';
 import { JiveXMLLoader } from './loaders/jivexml-loader';
 import { JSRootEventLoader } from './loaders/jsroot-event-loader';
@@ -17,9 +17,9 @@ import { ScriptLoader } from './loaders/script-loader';
 import { TrackmlLoader } from './loaders/trackml-loader';
 import { StateManager } from './managers/state-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
-import { ThreeManager } from './three';
-import { UIManager } from './ui';
-import { PhoenixMenuNode } from './ui/phoenix-menu/phoenix-menu-node';
+import { ThreeManager } from './managers/three-manager';
+import { UIManager } from './managers/ui-manager';
+import { PhoenixMenuNode } from './managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 if (typeof globalThis !== 'undefined') {
   // `globalThis` makes Phoenix modules available in the browser

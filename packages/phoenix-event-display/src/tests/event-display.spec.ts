@@ -1,6 +1,6 @@
 import { EventDisplay } from '../event-display';
-import { ThreeManager } from '../three';
-import { UIManager } from '../ui';
+import { ThreeManager } from '../managers/three-manager';
+import { UIManager } from '../managers/ui-manager';
 import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 

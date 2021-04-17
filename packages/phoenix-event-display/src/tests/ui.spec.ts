@@ -1,9 +1,9 @@
-import { UIManager } from '../ui';
-import { ThreeManager } from '../three';
+import { UIManager } from '../managers/ui-manager';
+import { ThreeManager } from '../managers/three-manager';
 import { Configuration } from '../extras/configuration';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { PresetView } from '../extras/preset-view.model';
-import { InfoLogger } from '../info-logger';
+import { InfoLogger } from '../helpers/info-logger';
 
 describe('UIManager', () => {
   let ui: UIManager;

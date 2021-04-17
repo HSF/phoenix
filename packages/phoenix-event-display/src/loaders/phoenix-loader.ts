@@ -1,11 +1,11 @@
-import { EventDataLoader } from './event-data-loader';
 import { Group, Object3D } from 'three';
-import { UIManager } from '../ui';
-import { ThreeManager } from '../three';
+import { EventDataLoader } from './event-data-loader';
+import { UIManager } from '../managers/ui-manager';
+import { ThreeManager } from '../managers/three-manager';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
-import { InfoLogger } from '../info-logger';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { InfoLogger } from '../helpers/info-logger';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 

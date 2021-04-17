@@ -5,7 +5,6 @@ import {
   Vector3,
   BufferGeometry,
   Line,
-  Scene,
 } from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
 

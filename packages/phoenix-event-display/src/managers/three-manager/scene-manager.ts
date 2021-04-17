@@ -20,10 +20,9 @@ import {
   Camera,
   TextGeometry,
   Font,
-  MeshStandardMaterial,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Cut } from '../extras/cut.model';
+import { Cut } from '../../extras/cut.model';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
