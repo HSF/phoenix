@@ -1,9 +1,9 @@
-import { UIManager } from '../ui';
-import { ThreeManager } from '../three';
-import { Configuration } from '../extras/configuration';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
-import { PresetView } from '../extras/preset-view.model';
-import { InfoLogger } from '../info-logger';
+import { UIManager } from '../../../managers/ui-manager';
+import { ThreeManager } from '../../../managers/three-manager';
+import { Configuration } from '../../../extras/configuration';
+import { PhoenixMenuNode } from '../../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
+import { PresetView } from '../../../extras/preset-view.model';
+import { InfoLogger } from '../../../helpers/info-logger';
 
 describe('UIManager', () => {
   let ui: UIManager;
@@ -34,10 +34,11 @@ describe('UIManager', () => {
     });
 
     it('should show stats and dat.GUI menu', () => {
+      ui.init({ enableDatGUIMenu: true });
+
       document.getElementById('eventDisplay')?.remove();
       uiPrivate.showStats();
       expect(document.querySelector('#statsElement')).toBeTruthy();
-      uiPrivate.showDatGUIMenu();
       expect(document.querySelector('#gui')).toBeTruthy();
 
       const eventDisplayCanvas = document.createElement('canvas');
@@ -45,8 +46,6 @@ describe('UIManager', () => {
       document.body.appendChild(eventDisplayCanvas);
       uiPrivate.showStats();
       expect(document.querySelector('#statsElement')).toBeTruthy();
-      uiPrivate.showDatGUIMenu();
-      expect(document.querySelector('#gui')).toBeTruthy();
     });
 
     it('update stats', () => {
@@ -56,25 +55,11 @@ describe('UIManager', () => {
     });
 
     it('should clear UI', () => {
-      document.querySelector('#gui')?.remove();
+      spyOn(uiPrivate.datGUIMenu, 'clearDatGUI').and.stub();
+      spyOn(uiPrivate.phoenixMenuUI, 'clearPhoenixMenu').and.stub();
       ui.clearUI();
-      expect(uiPrivate.geomFolder).toBe(null);
-      const gui = document.createElement('div');
-      gui.id = 'gui';
-      document.body.appendChild(gui);
-      ui.clearUI();
-      expect(uiPrivate.geomFolder).toBe(null);
-    });
-
-    it('should remove OBJ', () => {
-      uiPrivate.showDatGUIMenu();
-      ui.addGeomFolder();
-      const GEOM_NAME = 'Test Geometry';
-      uiPrivate.geomFolder.addFolder(GEOM_NAME);
-      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeTruthy();
-      uiPrivate.removeOBJ(GEOM_NAME)();
-      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeUndefined();
-      uiPrivate.removeOBJ(GEOM_NAME)();
+      expect(uiPrivate.datGUIMenu.clearDatGUI).toHaveBeenCalled();
+      expect(uiPrivate.phoenixMenuUI.clearPhoenixMenu).toHaveBeenCalled();
     });
 
     it('should detect color scheme and theme and set theme', () => {
@@ -105,12 +90,6 @@ describe('UIManager', () => {
       expect(ui.getPresetViews().length).toBeGreaterThan(0);
       uiPrivate.configuration = undefined;
       expect(ui.getPresetViews()).toBeUndefined();
-    });
-
-    it('should get event data folder', () => {
-      uiPrivate.eventFolder = uiPrivate.gui.addFolder('Event Data');
-      ui.addEventDataFolder();
-      expect(ui.getEventDataFolder()).toBeTruthy();
     });
 
     it('should call three service functions', () => {

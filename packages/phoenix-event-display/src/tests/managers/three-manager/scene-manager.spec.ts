@@ -9,7 +9,7 @@ import {
   Color,
   Group,
 } from 'three';
-import { SceneManager } from '../../three/scene-manager';
+import { SceneManager } from '../../../managers/three-manager/scene-manager';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;

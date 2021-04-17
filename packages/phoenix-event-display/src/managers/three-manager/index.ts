@@ -13,7 +13,7 @@ import {
   MeshBasicMaterial,
   Euler,
 } from 'three';
-import { Configuration } from '../extras/configuration';
+import { Configuration } from '../../extras/configuration';
 import { ControlsManager } from './controls-manager';
 import { RendererManager } from './renderer-manager';
 import { ExportManager } from './export-manager';
@@ -21,12 +21,12 @@ import { ImportManager } from './import-manager';
 import { SelectionManager } from './selection-manager';
 import { SceneManager } from './scene-manager';
 import { AnimationsManager } from './animations-manager';
-import { InfoLogger } from '../info-logger';
+import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
-import { StateManager } from '../managers/state-manager';
-import { LoadingManager } from '../managers/loading-manager';
-import { ActiveVariable } from '../helpers/active-variable';
+import { StateManager } from '../state-manager';
+import { LoadingManager } from '../loading-manager';
+import { ActiveVariable } from '../../helpers/active-variable';
 
 /**
  * Manager for all three.js related functions.

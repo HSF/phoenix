@@ -15,7 +15,7 @@ import {
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { LoadingManager } from '../managers/loading-manager';
+import { LoadingManager } from '../loading-manager';
 
 /**
  * Manager for managing event display's import related functionality.

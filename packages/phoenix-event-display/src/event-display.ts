@@ -1,6 +1,6 @@
-import { ThreeManager } from './three/index';
-import { UIManager } from './ui/index';
-import { InfoLogger } from './info-logger';
+import { ThreeManager } from './managers/three-manager';
+import { UIManager } from './managers/ui-manager';
+import { InfoLogger } from './helpers/info-logger';
 import { Configuration } from './extras/configuration';
 import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';
@@ -463,12 +463,12 @@ export class EventDisplay {
     geometries: [];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const typeFolder = this.ui.addEventDataTypeFolder(objectType);
-      const typeFolderPM = this.ui.addEventDataTypeFolderPM(objectType);
+      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+        objectType
+      );
       const collections = sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
-        this.ui.addCollection(typeFolder, collection);
-        this.ui.addCollectionPM(typeFolderPM, collection);
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
       }
     }
 
@@ -687,7 +687,7 @@ export class EventDisplay {
 
     // Remove the label if the string is empty
     if (!label) {
-      this.ui.removeLabel(labelId);
+      this.ui.removeLabel(labelId, true);
       return;
     }
 

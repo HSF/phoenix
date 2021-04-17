@@ -1,5 +1,5 @@
-import { CMSLoader } from '../loaders/cms-loader';
-import { PhoenixLoader } from '../loaders/phoenix-loader';
+import { CMSLoader } from '../../loaders/cms-loader';
+import { PhoenixLoader } from '../../loaders/phoenix-loader';
 
 describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;

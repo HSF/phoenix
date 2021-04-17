@@ -1,24 +1,21 @@
 // Event display
 export * from './event-display';
 
-// Misc
-export * from './info-logger';
-
 // Three
-export * from './three/index';
-export * from './three/animations-manager';
-export * from './three/controls-manager';
-export * from './three/effects-manager';
-export * from './three/export-manager';
-export * from './three/import-manager';
-export * from './three/renderer-manager';
-export * from './three/scene-manager';
-export * from './three/selection-manager';
-export * from './three/vr-manager';
+export * from './managers/three-manager/index';
+export * from './managers/three-manager/animations-manager';
+export * from './managers/three-manager/controls-manager';
+export * from './managers/three-manager/effects-manager';
+export * from './managers/three-manager/export-manager';
+export * from './managers/three-manager/import-manager';
+export * from './managers/three-manager/renderer-manager';
+export * from './managers/three-manager/scene-manager';
+export * from './managers/three-manager/selection-manager';
+export * from './managers/three-manager/vr-manager';
 
 // UI
-export * from './ui/index';
-export * from './ui/phoenix-menu/phoenix-menu-node';
+export * from './managers/ui-manager/index';
+export * from './managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 // Extras
 export * from './extras/configuration';
@@ -26,6 +23,7 @@ export * from './extras/cut.model';
 export * from './extras/preset-view.model';
 
 // Helpers
+export * from './helpers/info-logger';
 export * from './helpers/rk-helper';
 export * from './helpers/runge-kutta';
 export * from './helpers/pretty-symbols';

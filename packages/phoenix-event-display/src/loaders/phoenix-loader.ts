@@ -1,11 +1,11 @@
-import { EventDataLoader } from './event-data-loader';
 import { Group, Object3D } from 'three';
-import { UIManager } from '../ui';
-import { ThreeManager } from '../three';
+import { EventDataLoader } from './event-data-loader';
+import { UIManager } from '../managers/ui-manager';
+import { ThreeManager } from '../managers/three-manager';
 import { Cut } from '../extras/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
-import { InfoLogger } from '../info-logger';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { InfoLogger } from '../helpers/info-logger';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 
@@ -347,8 +347,9 @@ export class PhoenixLoader implements EventDataLoader {
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
-    const typeFolder = this.ui.addEventDataTypeFolder(typeName);
-    const typeFolderPM = this.ui.addEventDataTypeFolderPM(typeName);
+    const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+      typeName
+    );
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -368,8 +369,7 @@ export class PhoenixLoader implements EventDataLoader {
       );
 
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-      this.ui.addCollection(typeFolder, collectionName, cuts);
-      this.ui.addCollectionPM(typeFolderPM, collectionName, cuts);
+      this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
     }
 
     extendEventDataTypeUI?.(typeFolder, typeFolderPM);

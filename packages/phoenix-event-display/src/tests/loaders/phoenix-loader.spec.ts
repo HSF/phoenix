@@ -1,4 +1,4 @@
-import { PhoenixLoader } from '../loaders/phoenix-loader';
+import { PhoenixLoader } from '../../loaders/phoenix-loader';
 
 describe('PhoenixLoader', () => {
   it('should create an instance', () => {

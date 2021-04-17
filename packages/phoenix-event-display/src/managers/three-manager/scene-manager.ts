@@ -25,11 +25,9 @@ import {
   Quaternion,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Cut } from '../extras/cut.model';
+import { Cut } from '../../extras/cut.model';
+import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
-import { CoordinateHelper } from '../helpers/coordinate-helper';
-import { stringify } from 'node:querystring';
-import { endianness } from 'node:os';
 
 /**
  * Manager for managing functions of the three.js scene.
@@ -613,23 +611,34 @@ export class SceneManager {
           eta,
           Math.PI / 2.0
         );
-        const text = this.getText(
-          'η=' + eta.toPrecision(2),
-          etaColour
-        );
+        const text = this.getText('η=' + eta.toPrecision(2), etaColour);
         text.position.set(etaVec.x, etaVec.y, etaVec.z);
-        text.rotateOnWorldAxis( new Vector3(0,1,0), Math.PI/2.0 );
+        text.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI / 2.0);
         this.grid.add(text);
         points.push(etaVec);
       }
 
       const etaGeometry = new BufferGeometry().setFromPoints(points);
-      const etaMaterial = new LineDashedMaterial({ color: etaColour ,  dashSize: 2 , gapSize: 1, scale: 0.01 });
+      const etaMaterial = new LineDashedMaterial({
+        color: etaColour,
+        dashSize: 2,
+        gapSize: 1,
+        scale: 0.01,
+      });
       const etaLines = new LineSegments(etaGeometry, etaMaterial);
       etaLines.computeLineDistances(); // Needed for dashed lines
 
-      const step = 2 * Math.PI / 8; // 8 steps
-      const phiLabels = ['-π', '-3π/4','-π/2,', '-π/4', '0', 'π/4','π/2,', '3π/4']
+      const step = (2 * Math.PI) / 8; // 8 steps
+      const phiLabels = [
+        '-π',
+        '-3π/4',
+        '-π/2,',
+        '-π/4',
+        '0',
+        'π/4',
+        'π/2,',
+        '3π/4',
+      ];
       let labelIndex = 0;
       const phiColor = new Color(0xff0000);
       points = [];
@@ -637,19 +646,21 @@ export class SceneManager {
       for (let phi = -Math.PI; phi < Math.PI; phi += step) {
         points.push(new Vector3(0, 0, 0));
         let phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
-        const text = this.getText(
-          'φ=' + phiLabels[labelIndex++],
-          phiColor
-        );
+        const text = this.getText('φ=' + phiLabels[labelIndex++], phiColor);
         text.position.set(phiVec.x, phiVec.y, phiVec.z);
         this.grid.add(text);
         points.push(phiVec);
       }
       const phiGeometry = new BufferGeometry().setFromPoints(points);
-      const phiMaterial = new LineDashedMaterial({ color: phiColor, dashSize: 1 , gapSize: 1, scale: 0.01 });
+      const phiMaterial = new LineDashedMaterial({
+        color: phiColor,
+        dashSize: 1,
+        gapSize: 1,
+        scale: 0.01,
+      });
       const phiLines = new LineSegments(phiGeometry, phiMaterial);
       phiLines.computeLineDistances(); // Needed for dashed lines
-      
+
       // Add to group and scene
       this.grid.add(etaLines);
       this.grid.add(phiLines);

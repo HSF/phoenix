@@ -1,6 +1,6 @@
 import { PresetView } from './preset-view.model';
 import { EventDataLoader } from '../loaders/event-data-loader';
-import { PhoenixMenuNode } from '../ui/phoenix-menu/phoenix-menu-node';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 /**
  * Configuration of the event display.

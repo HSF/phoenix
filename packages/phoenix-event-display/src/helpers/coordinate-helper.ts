@@ -43,7 +43,7 @@ export class CoordinateHelper {
     return vector;
   }
 
-   /**
+  /**
    * Get cartesian from eta/phi parameters.
    * Applies the necessary rotations to move from threejs native to experimental.
    * @param radius The radius.
@@ -62,7 +62,8 @@ export class CoordinateHelper {
     return vector;
   }
 
-  /** Returns the Quaternion to rotate to ATLAS coords.
+  /**
+   * Returns the Quaternion to rotate to ATLAS coords.
    * Temporary. We will need to make this configurable per experiment.
    */
   public static atlasQuaternion(): Quaternion {
