@@ -687,7 +687,7 @@ export class EventDisplay {
 
     // Remove the label if the string is empty
     if (!label) {
-      this.ui.removeLabel(labelId);
+      this.ui.removeLabel(labelId, true);
       return;
     }
 

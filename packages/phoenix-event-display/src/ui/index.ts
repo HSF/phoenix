@@ -11,6 +11,7 @@ import { StateManager } from '../managers/state-manager';
 import { loadFile, saveFile } from '../helpers/file';
 import { DatGUIMenuUI } from './dat-gui-ui';
 import { GUI } from 'dat.gui';
+import { PhoenixMenuUI } from './phoenix-menu-ui';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -18,18 +19,12 @@ import { GUI } from 'dat.gui';
 export class UIManager {
   // Functions ending in PM are for Phoenix Menu
 
-  /** The dat.GUI menu. */
-  private datGUIMenu: DatGUIMenuUI;
+  /** The dat.GUI menu UI. A wrapper for dat.GUI menu to perform UI related operations. */
+  private datGUIMenu: DatGUIMenuUI = null;
+  /** The Phoenix menu UI. A wrapper for Phoenix menu to perform UI related operations. */
+  private phoenixMenuUI: PhoenixMenuUI = null;
   /** Stats object from stats-js. */
   private stats: any;
-  /** Phoenix menu node containing geometries data */
-  private geomFolderPM: PhoenixMenuNode;
-  /** Phoenix menu node containing event related data. */
-  private eventFolderPM: PhoenixMenuNode;
-  /** State of the Phoenix menu node containing event related data. */
-  private eventFolderPMState: any;
-  /** Phoenix menu node containing labels. */
-  private labelsFolderPM: PhoenixMenuNode;
   /** If the geometry folder is added or not */
   private geomFolderAdded: boolean = false;
   /** If the labels folder is added or not */
@@ -38,12 +33,10 @@ export class UIManager {
   private configuration: Configuration;
   /** If dark theme is enabled or disabled. */
   private darkTheme: boolean;
-  /** Root node of the phoenix menu. */
-  private phoenixMenu: PhoenixMenuNode;
 
   /** Whether the dat.GUI menu is enabled or disabled. */
   private hasDatGUIMenu: boolean;
-  /** Whether the phoenix menu is enabled or disabled. */
+  /** Whether the Phoenix menu is enabled or disabled. */
   private hasPhoenixMenu: boolean;
 
   /** State manager for managing the event display's state. */
@@ -120,11 +113,8 @@ export class UIManager {
    * @param phoenixMenuRoot Root node of the phoenix menu.
    */
   private showPhoenixMenu(phoenixMenuRoot: PhoenixMenuNode) {
-    this.setPhoenixMenu(phoenixMenuRoot);
     this.hasPhoenixMenu = true;
-    this.geomFolderPM = null;
-    this.eventFolderPM = null;
-    this.labelsFolderPM = null;
+    this.phoenixMenuUI = new PhoenixMenuUI(phoenixMenuRoot, this.three);
   }
 
   /**
@@ -132,23 +122,12 @@ export class UIManager {
    */
   public clearUI() {
     this.datGUIMenu?.clearDatGUI();
-    this.clearPhoenixMenu();
+    this.hasDatGUIMenu = false;
+    this.phoenixMenuUI?.clearPhoenixMenu();
+    this.hasPhoenixMenu = false;
+
     this.geomFolderAdded = false;
     this.labelsFolderAdded = false;
-  }
-
-  /**
-   * Clear the phoenix menu.
-   */
-  private clearPhoenixMenu() {
-    if (this.phoenixMenu) {
-      this.phoenixMenu.truncate();
-      this.phoenixMenu = undefined;
-    }
-    this.geomFolderPM = null;
-    this.eventFolderPM = null;
-    this.labelsFolderPM = null;
-    this.hasPhoenixMenu = false;
   }
 
   /**
@@ -158,54 +137,11 @@ export class UIManager {
     this.geomFolderAdded = true;
 
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addGeomFolder();
+      this.datGUIMenu?.addGeomFolder();
     }
 
     if (this.hasPhoenixMenu) {
-      // Phoenix menu
-      if (this.geomFolderPM === null) {
-        this.geomFolderPM = this.phoenixMenu.addChild(
-          'Detector',
-          (value: boolean) => {
-            this.three
-              .getSceneManager()
-              .groupVisibility(SceneManager.GEOMETRIES_ID, value);
-          },
-          'perspective'
-        );
-      }
-      this.geomFolderPM
-        .addConfig('checkbox', {
-          label: 'Wireframe',
-          isChecked: false,
-          onChange: (value: boolean) => {
-            this.three.getSceneManager().wireframeGeometries(value);
-          },
-        })
-        .addConfig('slider', {
-          label: 'Opacity',
-          min: 0,
-          max: 1,
-          step: 0.01,
-          allowCustomValue: true,
-          onChange: (value: number) => {
-            this.three
-              .getSceneManager()
-              .setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
-          },
-        })
-        .addConfig('slider', {
-          label: 'Scale',
-          min: 0,
-          max: 20,
-          step: 0.01,
-          allowCustomValue: true,
-          onChange: (scale: number) => {
-            this.three
-              .getSceneManager()
-              .scaleObject(SceneManager.GEOMETRIES_ID, scale);
-          },
-        });
+      this.phoenixMenuUI?.addGeomFolder();
     }
   }
 
@@ -227,37 +163,16 @@ export class UIManager {
     }
 
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addGeometry(name, color, initiallyVisible);
+      this.datGUIMenu?.addGeometry(name, color, initiallyVisible);
     }
 
     if (this.hasPhoenixMenu) {
-      let parentNode: PhoenixMenuNode = this.geomFolderPM;
-      if (menuNodeName) {
-        parentNode = this.geomFolderPM.findInTreeOrCreate(menuNodeName);
-      }
-      // Phoenix menu
-      const objFolderPM = parentNode.addChild(name, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(name, value);
-      });
-      objFolderPM.toggleState = initiallyVisible;
-      objFolderPM
-        .addConfig('color', {
-          label: 'Color',
-          color: color ? `#${new Color(color).getHexString()}` : undefined,
-          onChange: (value: any) => {
-            this.three.getSceneManager().changeObjectColor(name, value);
-          },
-        })
-        .addConfig('slider', {
-          label: 'Opacity',
-          min: 0,
-          max: 1,
-          step: 0.05,
-          allowCustomValue: true,
-          onChange: (opacity: number) => {
-            this.three.getSceneManager().setGeometryOpacity(name, opacity);
-          },
-        });
+      this.phoenixMenuUI?.addGeometry(
+        name,
+        color,
+        menuNodeName,
+        initiallyVisible
+      );
     }
   }
 
@@ -266,31 +181,11 @@ export class UIManager {
    */
   public addEventDataFolder() {
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addEventDataFolder();
+      this.datGUIMenu?.addEventDataFolder();
     }
 
     if (this.hasPhoenixMenu) {
-      // Phoenix menu
-      if (this.eventFolderPM !== null) {
-        this.eventFolderPMState = this.eventFolderPM.getNodeState();
-        this.eventFolderPM.remove();
-      }
-      this.eventFolderPM = this.phoenixMenu.addChild(
-        'Event Data',
-        (value: boolean) => {
-          this.three
-            .getSceneManager()
-            .groupVisibility(SceneManager.EVENT_DATA_ID, value);
-        },
-        'event-folder'
-      );
-      this.eventFolderPM.addConfig('checkbox', {
-        label: 'Depth Test',
-        isChecked: true,
-        onChange: (value: boolean) => {
-          this.three.eventDataDepthTest(value);
-        },
-      });
+      this.phoenixMenuUI?.addEventDataFolder();
     }
   }
 
@@ -305,14 +200,11 @@ export class UIManager {
     let typeFolder: GUI, typeFolderPM: PhoenixMenuNode;
 
     if (this.hasDatGUIMenu) {
-      typeFolder = this.datGUIMenu.addEventDataTypeFolder(typeName);
+      typeFolder = this.datGUIMenu?.addEventDataTypeFolder(typeName);
     }
 
-    // Phoenix menu
     if (this.hasPhoenixMenu) {
-      typeFolderPM = this.eventFolderPM.addChild(typeName, (value: boolean) => {
-        this.three.getSceneManager().objectVisibility(typeName, value);
-      });
+      typeFolderPM = this.phoenixMenuUI?.addEventDataTypeFolder(typeName);
     }
 
     return { typeFolder, typeFolderPM };
@@ -331,7 +223,7 @@ export class UIManager {
     collectionColor?: Color
   ) {
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addCollection(
+      this.datGUIMenu?.addCollection(
         typeFolders.typeFolder,
         collectionName,
         cuts,
@@ -341,112 +233,12 @@ export class UIManager {
 
     // Phoenix menu
     if (this.hasPhoenixMenu) {
-      this.addCollectionPM(
+      this.phoenixMenuUI?.addCollection(
         typeFolders.typeFolderPM,
         collectionName,
         cuts,
         collectionColor
       );
-    }
-  }
-
-  /**
-   * Add collection node and its configurable options to the event data type (tracks, hits etc.) node.
-   * @param typeFolder Phoenix menu node of an event data type.
-   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
-   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
-   * @param collectionColor Default color of the collection.
-   */
-  public addCollectionPM(
-    typeFolderPM: PhoenixMenuNode,
-    collectionName: string,
-    cuts?: Cut[],
-    collectionColor?: Color
-  ) {
-    // Phoenix menu
-    if (this.hasPhoenixMenu) {
-      const collectionNode = typeFolderPM.addChild(
-        collectionName,
-        (value: boolean) => {
-          this.three
-            .getSceneManager()
-            .objectVisibility(
-              collectionName,
-              value,
-              SceneManager.EVENT_DATA_ID
-            );
-        }
-      );
-
-      collectionNode.addConfig('color', {
-        label: 'Color',
-        color: collectionColor
-          ? `#${collectionColor?.getHexString()}`
-          : undefined,
-        onChange: (value: any) => {
-          this.three.getSceneManager().collectionColor(collectionName, value);
-        },
-      });
-
-      collectionNode.addConfig('slider', {
-        label: 'Opacity',
-        min: 0.1,
-        step: 0.1,
-        max: 1,
-        onChange: (value: number) => {
-          this.three
-            .getSceneManager()
-            .setGeometryOpacity(collectionName, value);
-        },
-      });
-
-      collectionNode.addConfig('checkbox', {
-        label: 'Wireframe',
-        onChange: (value: boolean) =>
-          this.three.getSceneManager().wireframeObjects(collectionName, value),
-      });
-
-      if (cuts) {
-        collectionNode
-          .addConfig('label', {
-            label: 'Cuts',
-          })
-          .addConfig('button', {
-            label: 'Reset cuts',
-            onClick: () => {
-              this.three
-                .getSceneManager()
-                .groupVisibility(
-                  collectionName,
-                  true,
-                  SceneManager.EVENT_DATA_ID
-                );
-
-              for (const cut of cuts) {
-                cut.reset();
-              }
-            },
-          });
-
-        // Add range sliders for cuts
-        for (const cut of cuts) {
-          collectionNode.addConfig('rangeSlider', {
-            label: PrettySymbols.getPrettySymbol(cut.field),
-            min: cut.minValue,
-            max: cut.maxValue,
-            step: cut.step,
-            value: cut.minValue,
-            highValue: cut.maxValue,
-            onChange: (values: any) => {
-              cut.minValue = values?.value;
-              cut.maxValue = values?.highValue;
-              this.three
-                .getSceneManager()
-                .collectionFilter(collectionName, cuts);
-            },
-          });
-        }
-      }
     }
   }
 
@@ -489,7 +281,7 @@ export class UIManager {
     };
 
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addLabelsFolder({
+      this.datGUIMenu?.addLabelsFolder({
         onToggle,
         onSizeChange,
         onColorChange,
@@ -498,36 +290,13 @@ export class UIManager {
       });
     }
 
-    if (this.hasPhoenixMenu && this.labelsFolderPM === null) {
-      this.labelsFolderPM = this.phoenixMenu.addChild(
-        SceneManager.LABELS_ID,
+    if (this.hasPhoenixMenu) {
+      this.phoenixMenuUI?.addLabelsFolder({
         onToggle,
-        'info'
-      );
-
-      this.labelsFolderPM.addConfig('slider', {
-        label: 'Size',
-        min: 0,
-        max: 10,
-        step: 0.01,
-        allowCustomValue: true,
-        onChange: onSizeChange,
-      });
-
-      this.labelsFolderPM.addConfig('color', {
-        label: 'Color',
-        color: '#a8a8a8',
-        onChange: onColorChange,
-      });
-
-      this.labelsFolderPM.addConfig('button', {
-        label: 'Save Labels',
-        onClick: onSaveLabels,
-      });
-
-      this.labelsFolderPM.addConfig('button', {
-        label: 'Load Labels',
-        onClick: onLoadLabels,
+        onSizeChange,
+        onColorChange,
+        onSaveLabels,
+        onLoadLabels,
       });
     }
   }
@@ -542,56 +311,29 @@ export class UIManager {
     }
 
     if (this.hasDatGUIMenu) {
-      this.datGUIMenu.addLabel(labelId);
+      this.datGUIMenu?.addLabel(labelId, this.removeLabel.bind(this));
     }
 
     if (this.hasPhoenixMenu) {
-      let labelNode = this.labelsFolderPM.children.find(
-        (phoenixMenuNode) => phoenixMenuNode.name === labelId
-      );
-      if (!labelNode) {
-        labelNode = this.labelsFolderPM.addChild(labelId, (value) => {
-          this.three.getSceneManager().objectVisibility(labelId, value);
-        });
-
-        labelNode.addConfig('color', {
-          label: 'Color',
-          color: '#a8a8a8',
-          onChange: (value: any) => {
-            this.three.getSceneManager().changeObjectColor(labelId, value);
-          },
-        });
-
-        labelNode.addConfig('button', {
-          label: 'Remove',
-          onClick: () => {
-            this.removeLabel(labelId, labelNode);
-          },
-        });
-      }
+      this.phoenixMenuUI?.addLabel(labelId, this.removeLabel.bind(this));
     }
   }
 
   /**
    * Remove label from UI, scene and event data loader if it exists.
    * @param labelId A unique label ID string.
-   * @param labelNode Phoenix menu node of the label if any.
+   * @param removeFolders Whether to remove label folders from dat.GUI and Phoenix menu.
    */
-  public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
-    if (!labelNode) {
-      labelNode = this.labelsFolderPM?.children.find(
-        (singleLabelNode) => singleLabelNode.name === labelId
-      );
-    }
+  public removeLabel(labelId: string, removeFolders?: boolean) {
+    this.three.getSceneManager().removeLabel(labelId);
+    const objectKeys = labelId.split(' > ');
+    // labelsObject[EventDataType][Collection][Index]
+    const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
+    delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
 
-    if (labelNode) {
-      this.three.getSceneManager().removeLabel(labelId);
-      const objectKeys = labelId.split(' > ');
-      // labelsObject[EventDataType][Collection][Index]
-      const labelsObject = this.configuration.eventDataLoader?.getLabelsObject();
-      delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
-
-      labelNode.remove();
+    if (removeFolders) {
+      this.datGUIMenu?.removeLabel(labelId);
+      this.phoenixMenuUI?.removeLabelNode(labelId);
     }
   }
 
@@ -719,18 +461,6 @@ export class UIManager {
   }
 
   /**
-   * Set the phoenix menu to be used by the UI manager.
-   * @param phoenixMenu The root node of phoenix menu.
-   */
-  public setPhoenixMenu(phoenixMenu: PhoenixMenuNode) {
-    if (this.phoenixMenu) {
-      this.phoenixMenu.truncate();
-      this.phoenixMenu = undefined;
-    }
-    this.phoenixMenu = phoenixMenu;
-  }
-
-  /**
    * Enable keyboard controls for some UI manager operations.
    */
   public enableKeyboardControls() {
@@ -794,8 +524,6 @@ export class UIManager {
    * Load previous state of the event data folder in Phoenix menu if any.
    */
   public loadEventFolderPMState() {
-    if (this.eventFolderPMState) {
-      this.eventFolderPM.loadStateFromJSON(this.eventFolderPMState);
-    }
+    this.phoenixMenuUI?.loadEventFolderState();
   }
 }

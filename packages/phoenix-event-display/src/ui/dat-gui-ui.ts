@@ -4,6 +4,9 @@ import { SceneManager } from '../three/scene-manager';
 import { Color } from 'three';
 import { Cut } from '../extras/cut.model';
 
+/**
+ * A wrapper class for dat.GUI menu to perform UI related operations.
+ */
 export class DatGUIMenuUI {
   /** dat.GUI menu. */
   private gui: GUI;
@@ -31,7 +34,7 @@ export class DatGUIMenuUI {
   private maxPositionZ = 4000;
 
   /**
-   * Create dat.GUI menu with different controls related to detector geometry and event data.
+   * Create dat.GUI menu UI with different controls related to detector geometry and event data.
    * @param elementId ID of the wrapper element.
    * @param three The three manager for managing three.js related operations.
    */
@@ -295,7 +298,7 @@ export class DatGUIMenuUI {
   }
 
   /**
-   * Add labels folder to dat.GUI and Phoenix menu.
+   * Add labels folder to dat.GUI menu.
    * @param configFunctions Functions to attach to the labels folder configuration.
    */
   public addLabelsFolder(configFunctions: any) {
@@ -348,8 +351,9 @@ export class DatGUIMenuUI {
   /**
    * Add configuration UI for label.
    * @param labelId Unique ID of the label.
+   * @param removeLabel Function to remove label from the scene.
    */
-  public addLabel(labelId: string) {
+  public addLabel(labelId: string, removeLabel?: () => void) {
     this.guiParameters[labelId] = {
       show: true,
       color: 0xafafaf,
@@ -373,5 +377,26 @@ export class DatGUIMenuUI {
     colorMenu.onChange((color) =>
       this.three.getSceneManager().changeObjectColor(labelId, color)
     );
+
+    this.guiParameters[labelId]['removeLabel'] = () => {
+      removeLabel?.();
+      this.removeLabel(labelId, labelItem);
+    };
+    labelItem.add(this.guiParameters[labelId], 'removeLabel').name('Remove');
+  }
+
+  /**
+   * Remove label from UI, scene and event data loader if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelItemFolder dat.GUI folder of the label if any.
+   */
+  public removeLabel(labelId: string, labelItemFolder?: GUI) {
+    if (!labelItemFolder) {
+      labelItemFolder = this.labelsFolder.__folders[labelId];
+    }
+
+    if (labelItemFolder) {
+      this.labelsFolder.removeFolder(labelItemFolder);
+    }
   }
 }
