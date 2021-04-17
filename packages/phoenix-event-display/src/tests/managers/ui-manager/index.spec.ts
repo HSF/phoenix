@@ -34,10 +34,11 @@ describe('UIManager', () => {
     });
 
     it('should show stats and dat.GUI menu', () => {
+      ui.init({ enableDatGUIMenu: true });
+
       document.getElementById('eventDisplay')?.remove();
       uiPrivate.showStats();
       expect(document.querySelector('#statsElement')).toBeTruthy();
-      uiPrivate.showDatGUIMenu();
       expect(document.querySelector('#gui')).toBeTruthy();
 
       const eventDisplayCanvas = document.createElement('canvas');
@@ -45,8 +46,6 @@ describe('UIManager', () => {
       document.body.appendChild(eventDisplayCanvas);
       uiPrivate.showStats();
       expect(document.querySelector('#statsElement')).toBeTruthy();
-      uiPrivate.showDatGUIMenu();
-      expect(document.querySelector('#gui')).toBeTruthy();
     });
 
     it('update stats', () => {
