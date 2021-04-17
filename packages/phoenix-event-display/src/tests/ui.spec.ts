@@ -56,25 +56,11 @@ describe('UIManager', () => {
     });
 
     it('should clear UI', () => {
-      document.querySelector('#gui')?.remove();
+      spyOn(uiPrivate.datGUIMenu, 'clearDatGUI').and.stub();
+      spyOn(uiPrivate.phoenixMenuUI, 'clearPhoenixMenu').and.stub();
       ui.clearUI();
-      expect(uiPrivate.geomFolder).toBe(null);
-      const gui = document.createElement('div');
-      gui.id = 'gui';
-      document.body.appendChild(gui);
-      ui.clearUI();
-      expect(uiPrivate.geomFolder).toBe(null);
-    });
-
-    it('should remove OBJ', () => {
-      uiPrivate.showDatGUIMenu();
-      ui.addGeomFolder();
-      const GEOM_NAME = 'Test Geometry';
-      uiPrivate.geomFolder.addFolder(GEOM_NAME);
-      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeTruthy();
-      uiPrivate.removeOBJ(GEOM_NAME)();
-      expect(uiPrivate.geomFolder.__folders[GEOM_NAME]).toBeUndefined();
-      uiPrivate.removeOBJ(GEOM_NAME)();
+      expect(uiPrivate.datGUIMenu.clearDatGUI).toHaveBeenCalled();
+      expect(uiPrivate.phoenixMenuUI.clearPhoenixMenu).toHaveBeenCalled();
     });
 
     it('should detect color scheme and theme and set theme', () => {
