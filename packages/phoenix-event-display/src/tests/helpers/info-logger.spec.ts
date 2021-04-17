@@ -1,4 +1,4 @@
-import { InfoLogger } from '../helpers/info-logger';
+import { InfoLogger } from '../../helpers/info-logger';
 
 describe('InfoLogger', () => {
   let infoLogger: InfoLogger;

@@ -1,7 +1,7 @@
 import { Group } from 'three';
-import { ThreeManager } from '../managers/three-manager';
-import { InfoLogger } from '../helpers/info-logger';
-import * as Helpers from '../helpers/file';
+import { ThreeManager } from '../../../managers/three-manager';
+import { InfoLogger } from '../../../helpers/info-logger';
+import * as Helpers from '../../../helpers/file';
 
 describe('ThreeManager', () => {
   let three: ThreeManager;
@@ -94,10 +94,7 @@ describe('ThreeManager', () => {
     });
 
     it('should swap cameras', () => {
-      const swapControlsSpy = spyOn(
-        threePrivate.controlsManager,
-        'swapControls'
-      ).and.callThrough();
+      spyOn(threePrivate.controlsManager, 'swapControls').and.callThrough();
 
       three.swapCameras(true);
       three.swapCameras(false);
@@ -105,7 +102,7 @@ describe('ThreeManager', () => {
         2
       );
 
-      swapControlsSpy.calls.reset();
+      threePrivate.controlsManager.swapControls.calls.reset();
 
       three.swapCameras(false);
       expect(threePrivate.controlsManager.swapControls).toHaveBeenCalledTimes(
