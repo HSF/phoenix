@@ -6,6 +6,7 @@ import {
   Mesh,
   MeshPhongMaterial,
   LineBasicMaterial,
+  LineDashedMaterial,
   Vector3,
   Group,
   AxesHelper,
@@ -20,9 +21,12 @@ import {
   Camera,
   TextGeometry,
   Font,
+  BufferGeometry,
+  Quaternion,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../../extras/cut.model';
+import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
@@ -44,6 +48,8 @@ export class SceneManager {
   private axis: AxesHelper;
   /** Labels for the x, y and z-axis. */
   private axisLabels: Object3D;
+  /** Eta/phi grid */
+  private grid: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
@@ -390,9 +396,29 @@ export class SceneManager {
     this.getEventData();
   }
 
+  /** Returns a mesh representing the passed text. It will use this.textFont. */
+  public getText(text: string, colour: Color): Mesh {
+    const textGeometry = new TextGeometry(text, {
+      font: this.textFont,
+      size: 60,
+      curveSegments: 1,
+      height: 1,
+    });
+
+    let mesh = new Mesh(
+      textGeometry,
+      new MeshBasicMaterial({
+        color: new Color(colour),
+      })
+    );
+    return mesh;
+  }
+
   /**
    * Sets scene axis visibility.
    * @param visible If the axes will be visible (true) osr hidden (false).
+   * @param scale Set the scale of the axes.
+   * @param labels If true (default), show labels on the end of the axes.
    */
   public setAxis(
     visible: boolean,
@@ -412,19 +438,7 @@ export class SceneManager {
       const colours = [0xff0000, 0x00ff00, 0x0000ff];
       let colourIndex = 0;
       for (let label of labels) {
-        const textGeometry = new TextGeometry(label, {
-          font: this.textFont,
-          size: 60,
-          curveSegments: 1,
-          height: 1,
-        });
-
-        const mesh = new Mesh(
-          textGeometry,
-          new MeshBasicMaterial({
-            color: new Color(colours[colourIndex++]),
-          })
-        );
+        const mesh = this.getText(label, new Color(colours[colourIndex++]));
         this.axisLabels.add(mesh);
       }
       this.axisLabels.children[0].position.set(scale + 20, 0, 0);
@@ -557,18 +571,7 @@ export class SceneManager {
       labelsGroup.remove(labelObject);
     }
 
-    const textGeometry = new TextGeometry(label, {
-      font: this.textFont,
-      size: 60,
-      curveSegments: 1,
-      height: 1,
-    });
-    const textMesh = new Mesh(
-      textGeometry,
-      new MeshBasicMaterial({
-        color: new Color('#a8a8a8'),
-      })
-    );
+    let textMesh = this.getText(label, new Color('#a8a8a8'));
     textMesh.position.fromArray(objectPosition.toArray());
     textMesh.name = labelId;
 
@@ -586,5 +589,118 @@ export class SceneManager {
       'change',
       this.labelTextLookCallbacks[uuid]
     );
+  }
+
+  /**
+   * Sets scene eta/phi grid visibility.
+   * @param visible If the axes will be visible (true) osr hidden (false).
+   * @param scale Set the scale of the axes.
+   */
+  public setEtaPhiGrid(visible: boolean, scale: number = 3000) {
+    if (this.grid == null) {
+      this.grid = new Group();
+
+      // Currently hardcoding some of this
+      let points = [];
+      const radius = scale;
+      const etaColour = new Color(0x0000ff);
+      for (let eta = -3.0; eta <= 3.0; eta += 1.0) {
+        points.push(new Vector3(0, 0, 0));
+        let etaVec = CoordinateHelper.etaPhiToCartesian(
+          radius,
+          eta,
+          Math.PI / 2.0
+        );
+        const text = this.getText('η=' + eta.toPrecision(2), etaColour);
+        text.position.set(etaVec.x, etaVec.y, etaVec.z);
+        text.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI / 2.0);
+        this.grid.add(text);
+        points.push(etaVec);
+      }
+
+      const etaGeometry = new BufferGeometry().setFromPoints(points);
+      const etaMaterial = new LineDashedMaterial({
+        color: etaColour,
+        dashSize: 2,
+        gapSize: 1,
+        scale: 0.01,
+      });
+      const etaLines = new LineSegments(etaGeometry, etaMaterial);
+      etaLines.computeLineDistances(); // Needed for dashed lines
+
+      const step = (2 * Math.PI) / 8; // 8 steps
+      const phiLabels = [
+        '-π',
+        '-3π/4',
+        '-π/2,',
+        '-π/4',
+        '0',
+        'π/4',
+        'π/2,',
+        '3π/4',
+      ];
+      let labelIndex = 0;
+      const phiColor = new Color(0xff0000);
+      points = [];
+      const phiradius = radius * 0.9;
+      for (let phi = -Math.PI; phi < Math.PI; phi += step) {
+        points.push(new Vector3(0, 0, 0));
+        let phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
+        const text = this.getText('φ=' + phiLabels[labelIndex++], phiColor);
+        text.position.set(phiVec.x, phiVec.y, phiVec.z);
+        this.grid.add(text);
+        points.push(phiVec);
+      }
+      const phiGeometry = new BufferGeometry().setFromPoints(points);
+      const phiMaterial = new LineDashedMaterial({
+        color: phiColor,
+        dashSize: 1,
+        gapSize: 1,
+        scale: 0.01,
+      });
+      const phiLines = new LineSegments(phiGeometry, phiMaterial);
+      phiLines.computeLineDistances(); // Needed for dashed lines
+
+      // Add to group and scene
+      this.grid.add(etaLines);
+      this.grid.add(phiLines);
+      this.scene.add(this.grid);
+
+      // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
+      if (false) {
+        points = [];
+        for (let polar = 0; polar < Math.PI; polar += step) {
+          for (let azi = -Math.PI; azi < Math.PI; azi += step) {
+            if (polar === 0 && azi > -Math.PI) continue;
+            points.push(new Vector3(0, 0, 0));
+            let end = new Vector3(0, 0, 0);
+            end.setFromSphericalCoords(radius, polar, azi); // For threejs, phi=polar, theta=azimuthal
+
+            const v1 = new Vector3(0, 1, 0);
+            const v2 = new Vector3(0, 0, 1);
+            const quaternion = new Quaternion();
+            quaternion.setFromUnitVectors(v1, v2);
+            end.applyQuaternion(quaternion);
+
+            points.push(end);
+            const text = this.getText(
+              '(\u03C6,\u03B8) = ' +
+                azi.toPrecision(1) +
+                ' , ' +
+                polar.toPrecision(1),
+              new Color(0x00ff00)
+            );
+            text.position.set(end.x, end.y, end.z);
+            this.grid.add(text);
+          }
+        }
+        const geometry2 = new BufferGeometry().setFromPoints(points);
+        const material2 = new LineDashedMaterial({ color: 0x00ff00 });
+        const lines2 = new LineSegments(geometry2, material2);
+        this.grid.add(lines2);
+        this.scene.add(this.grid);
+      }
+    }
+    this.grid.visible = visible;
   }
 }

@@ -26,4 +26,9 @@ export class ViewOptionsComponent implements OnInit {
     const value = change.checked;
     this.eventDisplay.getUIManager().setShowAxis(value);
   }
+
+  setGrid(change: MatCheckboxChange) {
+    const value = change.checked;
+    this.eventDisplay.getUIManager().setShowGrid(value);
+  }
 }

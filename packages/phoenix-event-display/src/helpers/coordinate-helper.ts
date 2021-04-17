@@ -1,4 +1,4 @@
-import { Vector3 } from 'three';
+import { Vector3, Quaternion } from 'three';
 
 /**
  * Helper methods for coordinate conversions.
@@ -26,7 +26,7 @@ export class CoordinateHelper {
 
   /**
    * Get cartesian from spherical parameters.
-   * This should NOT be necessary - should use native threejs methods such as Vector3.setFromSpherical
+   * Applies the necessary rotations to move from threejs to experimental.
    * @param radius The radius.
    * @param theta Theta angle.
    * @param phi Phi angle.
@@ -36,10 +36,45 @@ export class CoordinateHelper {
     theta: number,
     phi: number
   ): Vector3 {
-    return new Vector3(
-      radius * Math.cos(phi) * Math.sin(theta),
-      radius * Math.sin(phi) * Math.sin(theta),
-      radius * Math.cos(theta)
-    );
+    // Threejs uses theta as azimuthal, so need to reverse.
+    let vector = new Vector3();
+    vector.setFromSphericalCoords(radius, theta, phi);
+    vector.applyQuaternion(CoordinateHelper.atlasQuaternion());
+    return vector;
+  }
+
+   /**
+   * Get cartesian from eta/phi parameters.
+   * Applies the necessary rotations to move from threejs native to experimental.
+   * @param radius The radius.
+   * @param eta Pseudorapidity
+   * @param phi Phi angle.
+   */
+  public static etaPhiToCartesian(
+    radius: number,
+    eta: number,
+    phi: number
+  ): Vector3 {
+    let vector = new Vector3();
+    // Threejs uses theta as azimuthal, so need to reverse.
+    vector.setFromSphericalCoords(radius, this.etaToTheta(eta), phi);
+    vector.applyQuaternion(CoordinateHelper.atlasQuaternion());
+    return vector;
+  }
+
+  /** Returns the Quaternion to rotate to ATLAS coords.
+   * Temporary. We will need to make this configurable per experiment.
+   */
+  public static atlasQuaternion(): Quaternion {
+    // With nothing, we have eta=0 on x, and phi=0 on z
+    // Should be eta=0 on y, and phi=0 on x
+    const v1 = new Vector3(0, 1, 0);
+    const v2 = new Vector3(0, 0, 1);
+    const quaternion = new Quaternion();
+    quaternion.setFromUnitVectors(v1, v2); // This puts eta~infinite on z-axis, eta=0 on  but y-positive is phi=PI (and eta=0 on x)
+    const quaternion2 = new Quaternion();
+    quaternion2.setFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 2.0); // Now have eta = 3.0 on -x, eta =0 on +y, and phi = 0 on +z
+    quaternion.multiply(quaternion2);
+    return quaternion;
   }
 }

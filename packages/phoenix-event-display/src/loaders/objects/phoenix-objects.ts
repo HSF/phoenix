@@ -302,7 +302,7 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR = 1100.0; // This needs to be configurable.
+    const maxR2 = 1100.0 * 1100.0;
     const maxZ = 3200.0;
     const length = clusterParams.energy * 0.03;
     // geometry
@@ -316,26 +316,26 @@ export class PhoenixObjects {
     const theta = CoordinateHelper.etaToTheta(clusterParams.eta);
     clusterParams.theta = theta;
 
-    const pos = new Vector3(
-      4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.cos(theta)
+    let position = CoordinateHelper.sphericalToCartesian(
+      4000,
+      theta,
+      clusterParams.phi
     );
 
-    cube.position.copy(
-      CoordinateHelper.sphericalToCartesian(4000, theta, clusterParams.phi)
-    );
-
-    // FIXME - more elegant way to do this? Maybe natively use cylindrical here?
-    // How to generalise? Pass in limit lambda?
-    if (
-      cube.position.x * cube.position.x + cube.position.y * cube.position.y >
-      maxR * maxR
-    ) {
-      cube.position.x = maxR * Math.cos(clusterParams.phi);
-      cube.position.y = maxR * Math.sin(clusterParams.phi);
+    // How to generalise to other experiments? Pass in limit lambda?
+    let cylRadius2 = position.x * position.x + position.y * position.y;
+    if (cylRadius2 > maxR2) {
+      position.setLength(
+        (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
+      );
     }
-    cube.position.z = Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+
+    if (Math.abs(position.z) > maxZ) {
+      position.setLength((position.length() * maxZ) / position.z);
+    }
+
+    cube.position.copy(position);
+
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData = Object.assign({}, clusterParams);
     cube.name = 'Cluster';

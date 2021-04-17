@@ -167,7 +167,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5, 5),
+        new Cut('eta', -5.0, 5.0, 0.1),
         new Cut('energy', 0, 100000, 100),
       ];
 
@@ -216,7 +216,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5, 5),
+        new Cut('eta', -5.0, 5.0),
         new Cut('energy', 0, 10000),
       ];
 
@@ -262,7 +262,7 @@ export class PhoenixLoader implements EventDataLoader {
     if (eventData.Muons) {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4),
+        new Cut('eta', -4, 4, 0.1),
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50),
       ];
