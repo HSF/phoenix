@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/three/scene-manager.ts</code>
+            <code>src/managers/three-manager/scene-manager.ts</code>
         </p>
 
             <p class="comment">
@@ -91,6 +91,10 @@
                                 <a href="#axis">axis</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#axisLabels">axisLabels</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#cameraLight">cameraLight</a>
                             </li>
@@ -101,6 +105,10 @@
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#GEOMETRIES_ID">GEOMETRIES_ID</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#grid">grid</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -196,6 +204,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getText">getText</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#groupVisibility">groupVisibility</a>
                             </li>
                             <li>
@@ -212,6 +224,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#scaleChildObjects">scaleChildObjects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#scaleJets">scaleJets</a>
                             </li>
                             <li>
@@ -221,6 +237,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#setAxis">setAxis</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setEtaPhiGrid">setEtaPhiGrid</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -237,6 +257,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#wireframeGeometries">wireframeGeometries</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#wireframeObjects">wireframeObjects</a>
                             </li>
                         </ul>
                     </td>
@@ -261,7 +285,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/three/scene-manager.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/managers/three-manager/scene-manager.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -348,13 +372,47 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/three/scene-manager.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/managers/three-manager/scene-manager.ts:48</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>An axes helper for visualizing the x, y and z-axis. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="axisLabels"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            axisLabels</b>
+                            <a href="#axisLabels"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Object3D</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/managers/three-manager/scene-manager.ts:50</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Labels for the x, y and z-axis. </p>
 </div>
                     </td>
                 </tr>
@@ -382,7 +440,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/three/scene-manager.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/managers/three-manager/scene-manager.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -421,7 +479,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/three/scene-manager.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/managers/three-manager/scene-manager.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -460,13 +518,47 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/three/scene-manager.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/managers/three-manager/scene-manager.ts:39</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
                         <div class="io-description"><p>Object group ID containing detector geometries. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="grid"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            grid</b>
+                            <a href="#grid"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Object3D</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/managers/three-manager/scene-manager.ts:52</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Eta/phi grid </p>
 </div>
                     </td>
                 </tr>
@@ -494,7 +586,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/three/scene-manager.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/three-manager/scene-manager.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -533,7 +625,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/three/scene-manager.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/managers/three-manager/scene-manager.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -572,7 +664,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/three/scene-manager.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/managers/three-manager/scene-manager.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -606,7 +698,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/three/scene-manager.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/scene-manager.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -645,7 +737,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/three/scene-manager.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/managers/three-manager/scene-manager.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -684,7 +776,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/three/scene-manager.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/managers/three-manager/scene-manager.ts:54</a></div>
                             </td>
                         </tr>
 
@@ -728,8 +820,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="261"
-                            class="link-to-prism">src/three/scene-manager.ts:261</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:269</a></div>
                 </td>
             </tr>
 
@@ -808,8 +900,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="474"
-                            class="link-to-prism">src/three/scene-manager.ts:474</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="557"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:557</a></div>
                 </td>
             </tr>
 
@@ -951,8 +1043,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">src/three/scene-manager.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:180</a></div>
                 </td>
             </tr>
 
@@ -1046,8 +1138,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="383"
-                            class="link-to-prism">src/three/scene-manager.ts:383</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="391"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:391</a></div>
                 </td>
             </tr>
 
@@ -1089,8 +1181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="277"
-                            class="link-to-prism">src/three/scene-manager.ts:277</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="285"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:285</a></div>
                 </td>
             </tr>
 
@@ -1184,8 +1276,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="310"
-                            class="link-to-prism">src/three/scene-manager.ts:310</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:318</a></div>
                 </td>
             </tr>
 
@@ -1279,8 +1371,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">src/three/scene-manager.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:147</a></div>
                 </td>
             </tr>
 
@@ -1358,8 +1450,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="407"
-                            class="link-to-prism">src/three/scene-manager.ts:407</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="457"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:457</a></div>
                 </td>
             </tr>
 
@@ -1437,8 +1529,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">src/three/scene-manager.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:128</a></div>
                 </td>
             </tr>
 
@@ -1486,8 +1578,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="368"
-                            class="link-to-prism">src/three/scene-manager.ts:368</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="376"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:376</a></div>
                 </td>
             </tr>
 
@@ -1535,8 +1627,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="376"
-                            class="link-to-prism">src/three/scene-manager.ts:376</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:384</a></div>
                 </td>
             </tr>
 
@@ -1584,8 +1676,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">src/three/scene-manager.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:228</a></div>
                 </td>
             </tr>
 
@@ -1664,8 +1756,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="354"
-                            class="link-to-prism">src/three/scene-manager.ts:354</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:362</a></div>
                 </td>
             </tr>
 
@@ -1744,8 +1836,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">src/three/scene-manager.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:117</a></div>
                 </td>
             </tr>
 
@@ -1764,6 +1856,92 @@
                     <div class="io-description">
                         <p>The scene.</p>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getText"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getText
+                        </b>
+                        <a href="#getText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getText(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, colour: Color)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="400"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:400</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns a mesh representing the passed text. It will use this.textFont. </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>colour</td>
+                                    <td>
+                                            <code>Color</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Mesh</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1793,8 +1971,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">src/three/scene-manager.ts:339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="347"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:347</a></div>
                 </td>
             </tr>
 
@@ -1905,8 +2083,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="196"
-                            class="link-to-prism">src/three/scene-manager.ts:196</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:204</a></div>
                 </td>
             </tr>
 
@@ -2017,8 +2195,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="231"
-                            class="link-to-prism">src/three/scene-manager.ts:231</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="239"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:239</a></div>
                 </td>
             </tr>
 
@@ -2096,8 +2274,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">src/three/scene-manager.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:249</a></div>
                 </td>
             </tr>
 
@@ -2155,6 +2333,117 @@ whose visibility is to be toggled.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="scaleChildObjects"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            scaleChildObjects
+                        </b>
+                        <a href="#scaleChildObjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scaleChildObjects(groupName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, axis?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="535"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:535</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Scale lowest level objects in a group.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groupName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the group to scale objects of.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value of the scale. Default is 1.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>axis</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>If passed, the local axis to scale.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="scaleJets"></a>
                     <span class="name">
                         <b>
@@ -2175,8 +2464,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="452"
-                            class="link-to-prism">src/three/scene-manager.ts:452</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="515"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:515</a></div>
                 </td>
             </tr>
 
@@ -2254,8 +2543,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="251"
-                            class="link-to-prism">src/three/scene-manager.ts:251</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="259"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:259</a></div>
                 </td>
             </tr>
 
@@ -2342,15 +2631,15 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setAxis(visible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>setAxis(visible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, labels: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="395"
-                            class="link-to-prism">src/three/scene-manager.ts:395</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:423</a></div>
                 </td>
             </tr>
 
@@ -2368,6 +2657,7 @@ whose visibility is to be toggled.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -2382,9 +2672,150 @@ whose visibility is to be toggled.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
-                                        <p>If the axes will be visible (true) or hidden (false).</p>
+                                        <p>If the axes will be visible (true) osr hidden (false).</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>2000</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Set the scale of the axes.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>labels</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>If true (default), show labels on the end of the axes.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setEtaPhiGrid"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            setEtaPhiGrid
+                        </b>
+                        <a href="#setEtaPhiGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setEtaPhiGrid(visible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="599"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:599</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets scene eta/phi grid visibility.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>visible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>If the axes will be visible (true) osr hidden (false).</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>3000</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Set the scale of the axes.</p>
 
                                     </td>
                                 </tr>
@@ -2428,8 +2859,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">src/three/scene-manager.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:162</a></div>
                 </td>
             </tr>
 
@@ -2523,8 +2954,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/three/scene-manager.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:79</a></div>
                 </td>
             </tr>
 
@@ -2606,8 +3037,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/three/scene-manager.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:107</a></div>
                 </td>
             </tr>
 
@@ -2685,8 +3116,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="431"
-                            class="link-to-prism">src/three/scene-manager.ts:431</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="480"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:480</a></div>
                 </td>
             </tr>
 
@@ -2720,8 +3151,102 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>A boolean to specify if geometries are to be wireframed
-or not.</p>
+                                        <p>A boolean to specify if geometries are to be wireframed or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="wireframeObjects"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            wireframeObjects
+                        </b>
+                        <a href="#wireframeObjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>wireframeObjects(groupName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:502</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Wireframe a group of objects.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groupName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Group name of the objects group to be wireframed.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A boolean to specify if objects are to be wireframed or not.</p>
 
                                     </td>
                                 </tr>
@@ -2759,6 +3284,7 @@ or not.</p>
   Mesh,
   MeshPhongMaterial,
   LineBasicMaterial,
+  LineDashedMaterial,
   Vector3,
   Group,
   AxesHelper,
@@ -2773,9 +3299,12 @@ or not.</p>
   Camera,
   TextGeometry,
   Font,
+  BufferGeometry,
+  Quaternion,
 } from &#x27;three&#x27;;
 import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
-import { Cut } from &#x27;../extras/cut.model&#x27;;
+import { Cut } from &#x27;../../extras/cut.model&#x27;;
+import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
 import HelvetikerFont from &#x27;./fonts/helvetiker_regular.typeface.json&#x27;;
 
 /**
@@ -2795,6 +3324,10 @@ export class SceneManager {
   private ignoreList: string[];
   /** An axes helper for visualizing the x, y and z-axis. */
   private axis: AxesHelper;
+  /** Labels for the x, y and z-axis. */
+  private axisLabels: Object3D;
+  /** Eta/phi grid */
+  private grid: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean &#x3D; true;
   /** Directional light following the camera position. */
@@ -2871,7 +3404,7 @@ export class SceneManager {
    * @returns A clear scene with no objects from the ignoreList.
    */
   public getCleanScene(): Scene {
-    const clearScene: Scene &#x3D; this.scene.clone();
+    const clearScene &#x3D; this.scene.clone() as Scene;
     const removeList &#x3D; [];
 
     clearScene.traverse((object: Object3D) &#x3D;&gt; {
@@ -3141,16 +3674,58 @@ export class SceneManager {
     this.getEventData();
   }
 
+  /** Returns a mesh representing the passed text. It will use this.textFont. */
+  public getText(text: string, colour: Color): Mesh {
+    const textGeometry &#x3D; new TextGeometry(text, {
+      font: this.textFont,
+      size: 60,
+      curveSegments: 1,
+      height: 1,
+    });
+
+    let mesh &#x3D; new Mesh(
+      textGeometry,
+      new MeshBasicMaterial({
+        color: new Color(colour),
+      })
+    );
+    return mesh;
+  }
+
   /**
    * Sets scene axis visibility.
-   * @param visible If the axes will be visible (true) or hidden (false).
+   * @param visible If the axes will be visible (true) osr hidden (false).
+   * @param scale Set the scale of the axes.
+   * @param labels If true (default), show labels on the end of the axes.
    */
-  public setAxis(visible: boolean) {
+  public setAxis(
+    visible: boolean,
+    scale: number &#x3D; 2000,
+    labels: boolean &#x3D; true
+  ) {
     if (this.axis &#x3D;&#x3D; null) {
-      this.axis &#x3D; new AxesHelper(2000);
+      this.axis &#x3D; new AxesHelper(scale);
       this.scene.add(this.axis);
     }
     this.axis.visible &#x3D; visible;
+
+    if (labels &amp;&amp; this.axisLabels &#x3D;&#x3D; null) {
+      this.axisLabels &#x3D; new Group();
+
+      const labels &#x3D; [&#x27;X&#x27;, &#x27;Y&#x27;, &#x27;Z&#x27;];
+      const colours &#x3D; [0xff0000, 0x00ff00, 0x0000ff];
+      let colourIndex &#x3D; 0;
+      for (let label of labels) {
+        const mesh &#x3D; this.getText(label, new Color(colours[colourIndex++]));
+        this.axisLabels.add(mesh);
+      }
+      this.axisLabels.children[0].position.set(scale + 20, 0, 0);
+      this.axisLabels.children[1].position.set(0, scale + 20, 0);
+      this.axisLabels.children[2].position.set(0, 0, scale + 20);
+
+      this.scene.add(this.axisLabels);
+    }
+    this.axisLabels.visible &#x3D; visible;
   }
 
   /**
@@ -3178,8 +3753,7 @@ export class SceneManager {
 
   /**
    * Wireframe geometries and decrease their opacity.
-   * @param value A boolean to specify if geometries are to be wireframed
-   * or not.
+   * @param value A boolean to specify if geometries are to be wireframed or not.
    */
   public wireframeGeometries(value: boolean) {
     const allGeoms &#x3D; this.getGeometries();
@@ -3199,6 +3773,20 @@ export class SceneManager {
   }
 
   /**
+   * Wireframe a group of objects.
+   * @param groupName Group name of the objects group to be wireframed.
+   * @param value A boolean to specify if objects are to be wireframed or not.
+   */
+  public wireframeObjects(groupName: string, value: boolean) {
+    const objects &#x3D; this.scene.getObjectByName(groupName);
+    objects.traverse((object: any) &#x3D;&gt; {
+      if (object.material) {
+        object.material.wireframe &#x3D; value;
+      }
+    });
+  }
+
+  /**
    * Change the scale of Jets.
    * @param value Percentage factor by which the Jets are to be scaled.
    */
@@ -3212,6 +3800,26 @@ export class SceneManager {
         objectChild.scale.setScalar(value);
         // Restoring to original position and then moving again with the current value.
         objectChild.position.divideScalar(previousScale).multiplyScalar(value);
+      }
+    });
+  }
+
+  /**
+   * Scale lowest level objects in a group.
+   * @param groupName Name of the group to scale objects of.
+   * @param value Value of the scale. Default is 1.
+   * @param axis If passed, the local axis to scale.
+   */
+  public scaleChildObjects(groupName: string, value: number, axis?: string) {
+    const object &#x3D; this.scene.getObjectByName(groupName);
+
+    object.traverse((objectChild: Object3D) &#x3D;&gt; {
+      if (objectChild.children.length &#x3D;&#x3D;&#x3D; 0) {
+        if (!axis) {
+          objectChild.scale.setScalar(value);
+        } else {
+          objectChild.scale[axis] &#x3D; value;
+        }
       }
     });
   }
@@ -3241,19 +3849,7 @@ export class SceneManager {
       labelsGroup.remove(labelObject);
     }
 
-    const textGeometry &#x3D; new TextGeometry(label, {
-      font: this.textFont,
-      size: 60,
-      curveSegments: 1,
-      height: 1,
-    });
-    const textMesh &#x3D; new Mesh(
-      textGeometry,
-      new MeshBasicMaterial({
-        color: new Color(&#x27;#a8a8a8&#x27;),
-        flatShading: true,
-      })
-    );
+    let textMesh &#x3D; this.getText(label, new Color(&#x27;#a8a8a8&#x27;));
     textMesh.position.fromArray(objectPosition.toArray());
     textMesh.name &#x3D; labelId;
 
@@ -3271,6 +3867,119 @@ export class SceneManager {
       &#x27;change&#x27;,
       this.labelTextLookCallbacks[uuid]
     );
+  }
+
+  /**
+   * Sets scene eta/phi grid visibility.
+   * @param visible If the axes will be visible (true) osr hidden (false).
+   * @param scale Set the scale of the axes.
+   */
+  public setEtaPhiGrid(visible: boolean, scale: number &#x3D; 3000) {
+    if (this.grid &#x3D;&#x3D; null) {
+      this.grid &#x3D; new Group();
+
+      // Currently hardcoding some of this
+      let points &#x3D; [];
+      const radius &#x3D; scale;
+      const etaColour &#x3D; new Color(0x0000ff);
+      for (let eta &#x3D; -3.0; eta &lt;&#x3D; 3.0; eta +&#x3D; 1.0) {
+        points.push(new Vector3(0, 0, 0));
+        let etaVec &#x3D; CoordinateHelper.etaPhiToCartesian(
+          radius,
+          eta,
+          Math.PI / 2.0
+        );
+        const text &#x3D; this.getText(&#x27;η&#x3D;&#x27; + eta.toPrecision(2), etaColour);
+        text.position.set(etaVec.x, etaVec.y, etaVec.z);
+        text.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI / 2.0);
+        this.grid.add(text);
+        points.push(etaVec);
+      }
+
+      const etaGeometry &#x3D; new BufferGeometry().setFromPoints(points);
+      const etaMaterial &#x3D; new LineDashedMaterial({
+        color: etaColour,
+        dashSize: 2,
+        gapSize: 1,
+        scale: 0.01,
+      });
+      const etaLines &#x3D; new LineSegments(etaGeometry, etaMaterial);
+      etaLines.computeLineDistances(); // Needed for dashed lines
+
+      const step &#x3D; (2 * Math.PI) / 8; // 8 steps
+      const phiLabels &#x3D; [
+        &#x27;-π&#x27;,
+        &#x27;-3π/4&#x27;,
+        &#x27;-π/2,&#x27;,
+        &#x27;-π/4&#x27;,
+        &#x27;0&#x27;,
+        &#x27;π/4&#x27;,
+        &#x27;π/2,&#x27;,
+        &#x27;3π/4&#x27;,
+      ];
+      let labelIndex &#x3D; 0;
+      const phiColor &#x3D; new Color(0xff0000);
+      points &#x3D; [];
+      const phiradius &#x3D; radius * 0.9;
+      for (let phi &#x3D; -Math.PI; phi &lt; Math.PI; phi +&#x3D; step) {
+        points.push(new Vector3(0, 0, 0));
+        let phiVec &#x3D; CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
+        const text &#x3D; this.getText(&#x27;φ&#x3D;&#x27; + phiLabels[labelIndex++], phiColor);
+        text.position.set(phiVec.x, phiVec.y, phiVec.z);
+        this.grid.add(text);
+        points.push(phiVec);
+      }
+      const phiGeometry &#x3D; new BufferGeometry().setFromPoints(points);
+      const phiMaterial &#x3D; new LineDashedMaterial({
+        color: phiColor,
+        dashSize: 1,
+        gapSize: 1,
+        scale: 0.01,
+      });
+      const phiLines &#x3D; new LineSegments(phiGeometry, phiMaterial);
+      phiLines.computeLineDistances(); // Needed for dashed lines
+
+      // Add to group and scene
+      this.grid.add(etaLines);
+      this.grid.add(phiLines);
+      this.scene.add(this.grid);
+
+      // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
+      if (false) {
+        points &#x3D; [];
+        for (let polar &#x3D; 0; polar &lt; Math.PI; polar +&#x3D; step) {
+          for (let azi &#x3D; -Math.PI; azi &lt; Math.PI; azi +&#x3D; step) {
+            if (polar &#x3D;&#x3D;&#x3D; 0 &amp;&amp; azi &gt; -Math.PI) continue;
+            points.push(new Vector3(0, 0, 0));
+            let end &#x3D; new Vector3(0, 0, 0);
+            end.setFromSphericalCoords(radius, polar, azi); // For threejs, phi&#x3D;polar, theta&#x3D;azimuthal
+
+            const v1 &#x3D; new Vector3(0, 1, 0);
+            const v2 &#x3D; new Vector3(0, 0, 1);
+            const quaternion &#x3D; new Quaternion();
+            quaternion.setFromUnitVectors(v1, v2);
+            end.applyQuaternion(quaternion);
+
+            points.push(end);
+            const text &#x3D; this.getText(
+              &#x27;(\u03C6,\u03B8) &#x3D; &#x27; +
+                azi.toPrecision(1) +
+                &#x27; , &#x27; +
+                polar.toPrecision(1),
+              new Color(0x00ff00)
+            );
+            text.position.set(end.x, end.y, end.z);
+            this.grid.add(text);
+          }
+        }
+        const geometry2 &#x3D; new BufferGeometry().setFromPoints(points);
+        const material2 &#x3D; new LineDashedMaterial({ color: 0x00ff00 });
+        const lines2 &#x3D; new LineSegments(geometry2, material2);
+        this.grid.add(lines2);
+        this.scene.add(this.grid);
+      }
+    }
+    this.grid.visible &#x3D; visible;
   }
 }
 </code></pre>

@@ -108,7 +108,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#applyHideWidgetsOption">applyHideWidgetsOption</a>
+                                <a href="#applyHideWidgetsOptions">applyHideWidgetsOptions</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -137,7 +137,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/url-options-manager.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/managers/url-options-manager.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -224,7 +224,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/url-options-manager.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/managers/url-options-manager.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -268,8 +268,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/managers/url-options-manager.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/managers/url-options-manager.ts:57</a></div>
                 </td>
             </tr>
 
@@ -344,28 +344,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="applyHideWidgetsOption"></a>
+                    <a name="applyHideWidgetsOptions"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Public</span>
-                            applyHideWidgetsOption
+                            applyHideWidgetsOptions
                         </b>
-                        <a href="#applyHideWidgetsOption"><span class="icon ion-ios-link"></span></a>
+                        <a href="#applyHideWidgetsOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>applyHideWidgetsOption()</code>
+                    <code>applyHideWidgetsOptions()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">src/managers/url-options-manager.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/managers/url-options-manager.ts:128</a></div>
                 </td>
             </tr>
 
@@ -407,8 +407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/managers/url-options-manager.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/managers/url-options-manager.ts:42</a></div>
                 </td>
             </tr>
 
@@ -443,6 +443,16 @@ import { EventDisplay } from &#x27;../event-display&#x27;;
 import { StateManager } from &#x27;./state-manager&#x27;;
 
 /**
+ * Model for Phoenix URL options.
+ */
+export const phoenixURLOptions &#x3D; {
+  file: &#x27;&#x27;,
+  type: &#x27;&#x27;,
+  config: &#x27;&#x27;,
+  hideWidgets: false,
+};
+
+/**
  * A manager for managing options given through URL.
  */
 export class URLOptionsManager {
@@ -473,7 +483,7 @@ export class URLOptionsManager {
       this.configuration.defaultEventFile?.eventFile,
       this.configuration.defaultEventFile?.eventType
     );
-    this.applyHideWidgetsOption();
+    this.applyHideWidgetsOptions();
   }
 
   /**
@@ -553,19 +563,27 @@ export class URLOptionsManager {
   /**
    * Hide all overlay widgets if &quot;hideWidgets&quot; option from the URL is true.
    */
-  public applyHideWidgetsOption() {
-    if (Boolean(this.urlOptions.get(&#x27;hideWidgets&#x27;)) &#x3D;&#x3D;&#x3D; true) {
-      // Hide overlay widgets
-      document
-        .getElementById(&#x27;overlayWidgets&#x27;)
-        ?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
-      // Hide stats
-      (document.getElementsByClassName(
-        &#x27;ui-element&#x27;
-      )[0] as HTMLElement)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
-      // Hide dat.GUI menu
-      document.getElementById(&#x27;gui&#x27;)?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
-    }
+  public applyHideWidgetsOptions() {
+    const hideWidgetsOptions &#x3D; {
+      hideWidgets: [
+        &#x27;mainLogo&#x27;, // Main logo
+        &#x27;uiMenu&#x27;, // UI menu
+        &#x27;experimentInfo&#x27;, // Experiment info
+        &#x27;phoenixMenu&#x27;, // Phoenix menu
+        &#x27;statsElement&#x27;, // Stats at the bottom left
+        &#x27;gui&#x27;, // dat.GUI menu
+      ],
+    };
+
+    Object.entries(hideWidgetsOptions).forEach(([urlOption, idsToHide]) &#x3D;&gt; {
+      if (this.urlOptions.get(urlOption) &#x3D;&#x3D;&#x3D; &#x27;true&#x27;) {
+        idsToHide.forEach((singleId) &#x3D;&gt; {
+          document
+            .getElementById(singleId)
+            ?.style.setProperty(&#x27;display&#x27;, &#x27;none&#x27;);
+        });
+      }
+    });
   }
 }
 </code></pre>

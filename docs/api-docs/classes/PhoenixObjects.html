@@ -101,11 +101,25 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#getMissingEnergy">getMissingEnergy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#getTrack">getTrack</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#getVertex">getVertex</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#hitsToLines">hitsToLines</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#hitsToPoints">hitsToPoints</a>
                             </li>
                         </ul>
                     </td>
@@ -150,8 +164,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="304"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:304</a></div>
                 </td>
             </tr>
 
@@ -223,15 +237,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getHits(hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getHits(hitsParams: [literal type])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:196</a></div>
                 </td>
             </tr>
 
@@ -256,7 +270,7 @@
                                 <tr>
                                     <td>hitsParams</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <code>[literal type]</code>
                                     </td>
 
                                     <td>
@@ -265,7 +279,9 @@
 
 
                                     <td>
-                                        <p>Parameters for the Hits.</p>
+                                        <p>Hit object. Must contain &#39;pos&#39;, the array of [x,y,z] positions,
+Can optionally contain extraInfo, which will be added to the resultant hit.
+<code>type</code> tells Phoenix how to draw this - currently can be Point (default), or Line.</p>
 
                                     </td>
                                 </tr>
@@ -310,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:129</a></div>
                 </td>
             </tr>
 
@@ -370,6 +386,86 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getMissingEnergy"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            getMissingEnergy
+                        </b>
+                        <a href="#getMissingEnergy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMissingEnergy(metParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="379"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:379</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Process the Vertex from the given parameters and get it as a geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters for the Vertex.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>MET object.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getTrack"></a>
                     <span class="name">
                         <b>
@@ -390,8 +486,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:39</a></div>
                 </td>
             </tr>
 
@@ -471,8 +567,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="279"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:279</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="353"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:353</a></div>
                 </td>
             </tr>
 
@@ -527,6 +623,232 @@ and get it as a geometry.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hitsToLines"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                            hitsToLines
+                        </b>
+                        <a href="#hitsToLines"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hitsToLines(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a Lines object from Hits parameters.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Position of the HIt.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cloned parameters of the Hit to avoid object references.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>LineSegments</code>.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hitsToPoints"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                            hitsToPoints
+                        </b>
+                        <a href="#hitsToPoints"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hitsToPoints(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:245</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a Points object from Hits parameters.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Position of the point.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cloned parameters of the Hit to avoid object references.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>Points</code>.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -557,9 +879,13 @@ and get it as a geometry.</p>
   BoxBufferGeometry,
   MeshPhongMaterial,
   SphereBufferGeometry,
+  LineSegments,
+  LineDashedMaterial,
+  Spherical,
 } from &#x27;three&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
+import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -576,11 +902,6 @@ export class PhoenixObjects {
     if (!positions) {
       return;
     }
-    // Track with no points
-    // if (positions.length&#x3D;&#x3D;0) {
-    //   console.log(&quot;Track with no positions.&quot;)
-    //   return;
-    // }
 
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length &lt; 3) {
@@ -597,24 +918,26 @@ export class PhoenixObjects {
         positions &#x3D; RKHelper.extrapolateTrackPositions(trackParams, inBounds);
       }
     }
+
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length &lt; 3) {
       return;
+    }
+
+    // For cuts etc we currently need to have the cut parameters on the track
+    if (trackParams?.dparams) {
+      if (!trackParams?.phi) {
+        trackParams.phi &#x3D; trackParams.dparams[2];
+      }
+      if (!trackParams?.eta) {
+        trackParams.eta &#x3D; CoordinateHelper.thetaToEta(trackParams.dparams[3]);
+      }
     }
 
     // const length &#x3D; 100;
     let objectColor &#x3D; trackParams.color
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
-
-    // // Apply pT cut TODO - make this configurable.
-    // const momentum &#x3D; trackParams.mom;
-    // if (momentum) {
-    //   if (momentum[0] * momentum[0] + momentum[1] * momentum[1] + momentum[2] * momentum[2] &lt; 0.25) {
-    //     // console.log(&#x27;Track mom&lt;0.5 GeV. Skipping. Positions are: &#x27; + positions + &#x27; particle_id: &#x27; + track.particle_id);
-    //     return;
-    //   }
-    // }
 
     const points &#x3D; [];
 
@@ -670,7 +993,7 @@ export class PhoenixObjects {
     // If theta is given then use that else calculate from eta
     const theta &#x3D; jetParams.theta
       ? jetParams.theta
-      : 2 * Math.atan(Math.pow(Math.E, eta));
+      : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be &#x27;energy&#x27; or &#x27;et&#x27;
     let length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     // Ugh - We don&#x27;t want the Jets to go out of the event display
@@ -726,33 +1049,65 @@ export class PhoenixObjects {
 
   /**
    * Process the Hits from the given parameters and get them as a geometry.
-   * @param hitsParams Parameters for the Hits.
+   * @param hitsParams Hit object. Must contain &#x27;pos&#x27;, the array of [x,y,z] positions,
+   * Can optionally contain extraInfo, which will be added to the resultant hit.
+   * &#x60;type&#x60; tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
-  public static getHits(hitsParams: any): Object3D {
-    let positions: any[];
-    let hitsParamsClone: any;
-
-    // If the parameters is an object then take out &#x27;pos&#x27; for hits positions
-    if (typeof hitsParams &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; !Array.isArray(hitsParams)) {
-      positions &#x3D; [hitsParams.pos];
-      hitsParamsClone &#x3D; hitsParams;
-    } else {
-      positions &#x3D; hitsParams;
-      hitsParamsClone &#x3D; { pos: hitsParams };
+  public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
+    let hitsParamsClone &#x3D; hitsParams;
+    let type: string &#x3D; &#x27;Point&#x27;; // Default is point and 3 coordinates per hit
+    let coordlength &#x3D; 3;
+    if (hitsParams.length &gt; 1) {
+      // Peek at first one. Would be better to make these properties of the collections.
+      if (&#x27;type&#x27; in hitsParams[0]) {
+        type &#x3D; hitsParams[0].type;
+        coordlength &#x3D; 6;
+      }
     }
-
     // attributes
-    const pointPos &#x3D; new Float32Array(positions.length * 3);
+    const pointPos &#x3D; new Float32Array(hitsParams.length * coordlength);
     let i &#x3D; 0;
-    for (const hit of positions) {
-      pointPos[i] &#x3D; hit[0];
-      pointPos[i + 1] &#x3D; hit[1];
-      pointPos[i + 2] &#x3D; hit[2];
-      i +&#x3D; 3;
+    let imax &#x3D; 0;
+    for (const hit of hitsParams) {
+      imax &#x3D; i + coordlength;
+      for (let j &#x3D; 0; j &lt; coordlength; ++j, ++i) {
+        pointPos[i] &#x3D; hit.pos[j];
+      }
     }
 
     // geometry
+    switch (type) {
+      case &#x27;Point&#x27;:
+        return PhoenixObjects.hitsToPoints(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      case &#x27;Line&#x27;:
+        return PhoenixObjects.hitsToLines(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      default:
+        console.log(&#x27;ERROR: Unknown hit type!&#x27;);
+        return;
+    }
+  }
+
+  /**
+   * Get a Points object from Hits parameters.
+   * @param pointPos Position of the point.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type &#x60;Points&#x60;.
+   */
+  private static hitsToPoints(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
     const geometry &#x3D; new BufferGeometry();
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
@@ -763,7 +1118,7 @@ export class PhoenixObjects {
     });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
-    pointsObj.userData &#x3D; Object.assign({}, hitsParamsClone);
+    pointsObj.userData &#x3D; Object.assign({}, hitParamsClone);
     pointsObj.name &#x3D; &#x27;Hit&#x27;;
     // Setting uuid for selection from collections info
     hitsParams.uuid &#x3D; pointsObj.uuid;
@@ -772,14 +1127,45 @@ export class PhoenixObjects {
   }
 
   /**
+   * Get a Lines object from Hits parameters.
+   * @param pointPos Position of the HIt.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type &#x60;LineSegments&#x60;.
+   */
+  private static hitsToLines(
+    pointPos: any,
+    hitsParams: any,
+    hitParamsClone: any
+  ): Object3D {
+    // geometry
+    const geometry &#x3D; new BufferGeometry();
+    geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    // material
+    const material &#x3D; new LineBasicMaterial({
+      linewidth: 2,
+      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+    });
+    // object
+    const linesObj &#x3D; new LineSegments(geometry, material);
+    linesObj.userData &#x3D; Object.assign({}, hitParamsClone);
+    linesObj.name &#x3D; &#x27;Hit&#x27;;
+    // Setting uuid for selection from collections info
+    hitsParams.uuid &#x3D; linesObj.uuid;
+
+    return linesObj;
+  }
+
+  /**
    * Process the CLuster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR &#x3D; 1100.0; // This needs to be configurable.
+    const maxR2 &#x3D; 1100.0 * 1100.0;
     const maxZ &#x3D; 3200.0;
-    const length &#x3D; clusterParams.energy * 0.003;
+    const length &#x3D; clusterParams.energy * 0.03;
     // geometry
     const geometry &#x3D; new BoxBufferGeometry(30, 30, length);
     // material
@@ -788,19 +1174,29 @@ export class PhoenixObjects {
     });
     // object
     const cube &#x3D; new Mesh(geometry, material);
-    const theta &#x3D; 2 * Math.atan(Math.pow(Math.E, clusterParams.eta));
-    const pos &#x3D; new Vector3(
-      4000.0 * Math.cos(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.sin(clusterParams.phi) * Math.sin(theta),
-      4000.0 * Math.cos(theta)
+    const theta &#x3D; CoordinateHelper.etaToTheta(clusterParams.eta);
+    clusterParams.theta &#x3D; theta;
+
+    let position &#x3D; CoordinateHelper.sphericalToCartesian(
+      4000,
+      theta,
+      clusterParams.phi
     );
-    cube.position.x &#x3D; pos.x;
-    cube.position.y &#x3D; pos.y;
-    if (pos.x * pos.x + pos.y * pos.y &gt; maxR * maxR) {
-      cube.position.x &#x3D; maxR * Math.cos(clusterParams.phi);
-      cube.position.y &#x3D; maxR * Math.sin(clusterParams.phi);
+
+    // How to generalise to other experiments? Pass in limit lambda?
+    let cylRadius2 &#x3D; position.x * position.x + position.y * position.y;
+    if (cylRadius2 &gt; maxR2) {
+      position.setLength(
+        (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
+      );
     }
-    cube.position.z &#x3D; Math.max(Math.min(pos.z, maxZ), -maxZ); // keep in maxZ range.
+
+    if (Math.abs(position.z) &gt; maxZ) {
+      position.setLength((position.length() * maxZ) / position.z);
+    }
+
+    cube.position.copy(position);
+
     cube.lookAt(new Vector3(0, 0, 0));
     cube.userData &#x3D; Object.assign({}, clusterParams);
     cube.name &#x3D; &#x27;Cluster&#x27;;
@@ -834,6 +1230,36 @@ export class PhoenixObjects {
     vertexParams.uuid &#x3D; sphere.uuid;
 
     return sphere;
+  }
+
+  /**
+   * Process the Vertex from the given parameters and get it as a geometry.
+   * @param metParams Parameters for the Vertex.
+   * @returns MET object.
+   */
+  public static getMissingEnergy(metParams: any): Object3D {
+    // geometry
+    const points &#x3D; [];
+    points.push(new Vector3(0, 0, 0));
+    points.push(new Vector3(metParams.etx, metParams.ety, 0));
+
+    const geometry &#x3D; new BufferGeometry().setFromPoints(points);
+
+    // material
+    const material &#x3D; new LineDashedMaterial({
+      linewidth: 2,
+      dashSize: 2,
+      color: metParams.color ?? EVENT_DATA_TYPE_COLORS.MissingEnergy,
+    });
+    // object
+    const object &#x3D; new Line(geometry, material);
+    object.computeLineDistances();
+    object.userData &#x3D; Object.assign({}, metParams);
+    object.name &#x3D; &#x27;Missing Energy&#x27;;
+    // Setting uuid for selection from collections info
+    metParams.uuid &#x3D; object.uuid;
+
+    return object;
   }
 }
 </code></pre>

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/HSF/phoenix/compare/v1.5.0...v1.6.0) (2021-04-18)
+
+
+### Bug Fixes
+
+* **app:** consistent input styling and fix share icon ([2e3455d](https://github.com/HSF/phoenix/commit/2e3455dd58c2c6f6bd0018651073a52f46716de4))
+* **app:** event selection should show current event ([a65d8ac](https://github.com/HSF/phoenix/commit/a65d8ac2feebf140181f20a81098b6174212ae32))
+* **app:** improve icons svg code ([d944837](https://github.com/HSF/phoenix/commit/d944837b0ba1c97ef8441599b6447b7ffbd56aec))
+* **app:** revert added URL options and UI components package.json ([96f0649](https://github.com/HSF/phoenix/commit/96f06498b58a87e2fa035e94bb76b05f13aaaa75))
+* **app:** update the ATLAS default configuration ([eadbd59](https://github.com/HSF/phoenix/commit/eadbd59bb674af2d23cf0fc32b56c3483c12953b))
+* **event-display:** update default configuration ([b21cd72](https://github.com/HSF/phoenix/commit/b21cd7291ecacafa3764e16fcbf0ed75d783027f))
+
+
+### Features
+
+* **app:** add calibration event for ATLAS ([8e6ffcb](https://github.com/HSF/phoenix/commit/8e6ffcb23c424d0e702a2c9eb0595be9fe33a20d))
+* **app:** bind clipping state with UI menu ([40bbba0](https://github.com/HSF/phoenix/commit/40bbba07311d6c23b59d5d5409d190c2721bc395))
+* **app:** complete dialog for share link and embed ([50c2584](https://github.com/HSF/phoenix/commit/50c2584107d132e8f7161c28ce4d88479e30c4ed))
+* **app:** create component for shareable link constructor ([181dfa8](https://github.com/HSF/phoenix/commit/181dfa8b0d05888f89a27f4640466f9b57c06568))
+* **app:** don't show hits in collection info ([c550a41](https://github.com/HSF/phoenix/commit/c550a41860c97a223527ecc2da4e66fb644a0844))
+* **app:** fix link creation and improve link constructor ([2cedfec](https://github.com/HSF/phoenix/commit/2cedfeceb99b2d105bd603b8290b15fcfe5cdf0e))
+* **event-display:** add guidelines and simplify some coordinate transformations ([56f94f0](https://github.com/HSF/phoenix/commit/56f94f043b5bdf5e521c05e0bc058186c78270ad))
+* **event-display:** create an active observable variable ([854e543](https://github.com/HSF/phoenix/commit/854e5439a1ebeba80940989a716338f1542984db))
+* upgrade all packages except three.js ([8e2eff4](https://github.com/HSF/phoenix/commit/8e2eff4b58e02f19cefd3e02e7edf92a81474783))
+* upgrade three.js except for CMSObjects ([0b2dd8a](https://github.com/HSF/phoenix/commit/0b2dd8a8860ed49feb16a247b52aa0b21452a251))
+* **app:** setup link share form ([b10bb7a](https://github.com/HSF/phoenix/commit/b10bb7aa14e373191bea6508d723c79c42c3f2b3))
+* **event-display:** introduce new URL options and improve handling them ([f7cd6b4](https://github.com/HSF/phoenix/commit/f7cd6b4b6059db82900bc9a0245d8365a5917e8b))
+
+
+
+
+
+
 # [1.5.0](https://github.com/HSF/phoenix/compare/v1.4.1...v1.5.0) (2021-03-24)
 
 

@@ -67,11 +67,10 @@ fetch(&#39;path/to/event-data.json&#39;)
 // Load detector geometry
 eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);
 </code></pre></div><h3 id="as-a-standalone-bundle">As a standalone bundle</h3>
-<p>Phoenix can be bundled and used directly in the HTML as a script.</p>
+<p>Phoenix can be bundled and used directly in the HTML as a script. You can either use the <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a> or build from source.</p>
 <p>To build Phoenix as a bundle.</p>
-<div><pre class="line-numbers"><code class="language-sh">npm run build:bundle
-# or
-yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix-&lt;version&gt;.min.js</code> (e.g. <code>phoenix-1.3.0.min.js</code>) in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
+<div><pre class="line-numbers"><code class="language-sh">yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix.min.js</code> in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
+<p>Without building, you can include the bundle directly from <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a>.</p>
 <div><pre class="line-numbers"><code class="language-html">&lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
     ...
@@ -81,16 +80,16 @@ yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix-&
 
     &lt;div id=&quot;eventDisplay&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;phoenix.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js&quot;&gt;&lt;/script&gt;
 
     &lt;script&gt;
       // Create the event display
-      const eventDisplay = new Phoenix.EventDisplay();
+      const eventDisplay = new EventDisplay();
 
       // Define the configuration
       const configuration = {
         elementId: &#39;eventDisplay&#39;,
-        eventDataLoader: new Phoenix.PhoenixLoader() // or some other event data loader
+        eventDataLoader: new PhoenixLoader() // or some other event data loader
         // ... other configuration options
       };
 

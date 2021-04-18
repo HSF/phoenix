@@ -1,0 +1,1843 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Phoenix API Docs</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Phoenix API Docs</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>DatGUIMenuUI</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/managers/ui-manager/dat-gui-ui.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A wrapper class for dat.GUI menu to perform UI related operations.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#eventFolder">eventFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#geomFolder">geomFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#gui">gui</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#guiParameters">guiParameters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#labelsFolder">labelsFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#maxPositionX">maxPositionX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#maxPositionY">maxPositionY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#maxPositionZ">maxPositionZ</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addCollection">addCollection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addEventDataFolder">addEventDataFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addEventDataTypeFolder">addEventDataTypeFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addGeometry">addGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addGeomFolder">addGeomFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addLabel">addLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addLabelsFolder">addLabelsFolder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clearDatGUI">clearDatGUI</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeLabel">removeLabel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeOBJ">removeOBJ</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, three: <a href="../classes/ThreeManager.html">ThreeManager</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:34</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Create dat.GUI menu UI with different controls related to detector geometry and event data.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>ID of the wrapper element.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>three</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../classes/ThreeManager.html" target="_self" >ThreeManager</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>The three manager for managing three.js related operations.</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="eventFolder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            eventFolder</b>
+                            <a href="#eventFolder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>GUI</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>dat.GUI menu folder containing event related data. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="geomFolder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            geomFolder</b>
+                            <a href="#geomFolder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>GUI</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>dat.GUI menu folder containing geometries data. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="gui"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            gui</b>
+                            <a href="#gui"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>GUI</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:12</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>dat.GUI menu. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="guiParameters"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            guiParameters</b>
+                            <a href="#guiParameters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+    rotate: undefined,
+    axis: undefined,
+    lowRes: undefined,
+    eventData: undefined,
+    geometries: undefined,
+    labels: undefined,
+  }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:14</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Options for the dat.GUI menu. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="labelsFolder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            labelsFolder</b>
+                            <a href="#labelsFolder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>GUI</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:27</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>dat.GUI menu folder containing labels. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxPositionX"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            maxPositionX</b>
+                            <a href="#maxPositionX"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>4000</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:30</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Max changeable position of an object along the x-axis. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxPositionY"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            maxPositionY</b>
+                            <a href="#maxPositionY"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>4000</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Max changeable position of an object along the y-axis. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxPositionZ"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            maxPositionZ</b>
+                            <a href="#maxPositionZ"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>4000</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:34</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Max changeable position of an object along the z-axis. </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCollection"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addCollection
+                        </b>
+                        <a href="#addCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCollection(typeFolder: GUI, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>, collectionColor?: Color)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:241</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeFolder</td>
+                                    <td>
+                                            <code>GUI</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>dat.GUI menu folder of an event data type.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the collection to be added in the type of event data (tracks, hits etc.).</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cuts</td>
+                                    <td>
+                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cuts to the collection of event data that are to be made configurable to filter event data.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionColor</td>
+                                    <td>
+                                            <code>Color</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Color of the collection.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEventDataFolder"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addEventDataFolder
+                        </b>
+                        <a href="#addEventDataFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addEventDataFolder()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:187</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Functions for event data toggles like show/hide and depthTest.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEventDataTypeFolder"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addEventDataTypeFolder
+                        </b>
+                        <a href="#addEventDataTypeFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addEventDataTypeFolder(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:220</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add folder for event data type like tracks or hits to the dat.GUI menu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the type of event data.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>GUI</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>dat.GUI menu&#39;s folder for event data type.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addGeometry"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addGeometry
+                        </b>
+                        <a href="#addGeometry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addGeometry(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds geometry to the dat.GUI menu&#39;s geometry folder and sets up its configurable options.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Name of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>color</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Color of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addGeomFolder"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addGeomFolder
+                        </b>
+                        <a href="#addGeomFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addGeomFolder()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add geometry (detector geometry) folder to the dat.GUI menu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addLabel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addLabel
+                        </b>
+                        <a href="#addLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, removeLabel?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:356</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add configuration UI for label.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labelId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Unique ID of the label.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>removeLabel</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to remove label from the scene.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addLabelsFolder"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addLabelsFolder
+                        </b>
+                        <a href="#addLabelsFolder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addLabelsFolder(configFunctions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="304"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:304</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add labels folder to dat.GUI menu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>configFunctions</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Functions to attach to the labels folder configuration.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearDatGUI"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            clearDatGUI
+                        </b>
+                        <a href="#clearDatGUI"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearDatGUI()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:56</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clear the dat.GUI menu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeLabel"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            removeLabel
+                        </b>
+                        <a href="#removeLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, labelItemFolder?: GUI)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="393"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:393</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Remove label from UI, scene and event data loader if it exists.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labelId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A unique label ID string.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>labelItemFolder</td>
+                                    <td>
+                                            <code>GUI</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>dat.GUI folder of the label if any.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeOBJ"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            removeOBJ
+                        </b>
+                        <a href="#removeOBJ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeOBJ(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Remove object from the dat.GUI menu.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the object to be removed.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>() &#x3D;&gt; void</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { GUI } from &#x27;dat.gui&#x27;;
+import { Color } from &#x27;three&#x27;;
+import { ThreeManager } from &#x27;../three-manager&#x27;;
+import { SceneManager } from &#x27;../three-manager/scene-manager&#x27;;
+import { Cut } from &#x27;../../extras/cut.model&#x27;;
+
+/**
+ * A wrapper class for dat.GUI menu to perform UI related operations.
+ */
+export class DatGUIMenuUI {
+  /** dat.GUI menu. */
+  private gui: GUI;
+  /** Options for the dat.GUI menu. */
+  private guiParameters &#x3D; {
+    rotate: undefined,
+    axis: undefined,
+    lowRes: undefined,
+    eventData: undefined,
+    geometries: undefined,
+    labels: undefined,
+  };
+  /** dat.GUI menu folder containing geometries data. */
+  private geomFolder: GUI;
+  /** dat.GUI menu folder containing event related data. */
+  private eventFolder: GUI;
+  /** dat.GUI menu folder containing labels. */
+  private labelsFolder: GUI;
+
+  /** Max changeable position of an object along the x-axis. */
+  private maxPositionX &#x3D; 4000;
+  /** Max changeable position of an object along the y-axis. */
+  private maxPositionY &#x3D; 4000;
+  /** Max changeable position of an object along the z-axis. */
+  private maxPositionZ &#x3D; 4000;
+
+  /**
+   * Create dat.GUI menu UI with different controls related to detector geometry and event data.
+   * @param elementId ID of the wrapper element.
+   * @param three The three manager for managing three.js related operations.
+   */
+  constructor(elementId: string &#x3D; &#x27;eventDisplay&#x27;, private three: ThreeManager) {
+    this.gui &#x3D; new GUI();
+    this.gui.domElement.id &#x3D; &#x27;gui&#x27;;
+    this.gui.domElement.style.cssText &#x3D;
+      &#x27;position: absolute; right: 0; top: 2rem; z-index: 11;&#x27;;
+    const canvas &#x3D; document.getElementById(elementId) ?? document.body;
+    canvas.appendChild(this.gui.domElement);
+    this.geomFolder &#x3D; null;
+    this.eventFolder &#x3D; null;
+    this.labelsFolder &#x3D; null;
+  }
+
+  /**
+   * Clear the dat.GUI menu.
+   */
+  public clearDatGUI() {
+    const gui &#x3D; document.getElementById(&#x27;gui&#x27;);
+    if (gui !&#x3D; null) {
+      gui.remove();
+    }
+    this.geomFolder &#x3D; null;
+  }
+
+  /**
+   * Add geometry (detector geometry) folder to the dat.GUI menu.
+   */
+  public addGeomFolder() {
+    if (this.geomFolder &#x3D;&#x3D;&#x3D; null) {
+      this.geomFolder &#x3D; this.gui.addFolder(SceneManager.GEOMETRIES_ID);
+    }
+    this.guiParameters.geometries &#x3D; { show: true, wireframe: false };
+    // A boolean toggle for showing/hiding the geometries is added to the &#x27;Geometry&#x27; folder.
+    const showGeometriesMenu &#x3D; this.geomFolder
+      .add(this.guiParameters.geometries, &#x27;show&#x27;)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    showGeometriesMenu.onChange((value) &#x3D;&gt; {
+      this.three
+        .getSceneManager()
+        .objectVisibility(SceneManager.GEOMETRIES_ID, value);
+    });
+    // A boolean toggle for enabling/disabling the geometries&#x27; wireframing.
+    const wireframeGeometriesMenu &#x3D; this.geomFolder
+      .add(this.guiParameters.geometries, &#x27;wireframe&#x27;)
+      .name(&#x27;Wireframe&#x27;)
+      .listen();
+    wireframeGeometriesMenu.onChange((value) &#x3D;&gt; {
+      this.three.getSceneManager().wireframeGeometries(value);
+    });
+  }
+
+  /**
+   * Adds geometry to the dat.GUI menu&#x27;s geometry folder and sets up its configurable options.
+   * @param name Name of the geometry.
+   * @param color Color of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   */
+  public addGeometry(
+    name: string,
+    color: any,
+    initiallyVisible: boolean &#x3D; true
+  ) {
+    // A new folder for the object is added to the &#x27;Geometry&#x27; folder
+    this.guiParameters[name] &#x3D; {
+      show: initiallyVisible,
+      color: color ?? &#x27;#000000&#x27;,
+      x: 0,
+      y: 0,
+      z: 0,
+      detectorOpacity: 1.0,
+      remove: this.removeOBJ(name),
+      scale: 1,
+    };
+
+    const objFolder &#x3D; this.geomFolder.addFolder(name);
+    // A color picker is added to the object&#x27;s folder
+    const colorMenu &#x3D; objFolder
+      .addColor(this.guiParameters[name], &#x27;color&#x27;)
+      .name(&#x27;Color&#x27;);
+    colorMenu.onChange((value) &#x3D;&gt;
+      this.three.getSceneManager().changeObjectColor(name, value)
+    );
+
+    const opacity &#x3D; objFolder
+      .add(this.guiParameters[name], &#x27;detectorOpacity&#x27;, 0.0, 1.0)
+      .name(&#x27;Opacity&#x27;);
+    opacity.onFinishChange((newValue) &#x3D;&gt;
+      this.three.getSceneManager().setGeometryOpacity(name, newValue)
+    );
+
+    // A boolean toggle for showing/hiding the object is added to its folder
+    const showMenu &#x3D; objFolder
+      .add(this.guiParameters[name], &#x27;show&#x27;)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    showMenu.onChange((value) &#x3D;&gt;
+      this.three.getSceneManager().objectVisibility(name, value)
+    );
+    // Scale slider
+    const scaleMenu &#x3D; objFolder
+      .add(this.guiParameters[name], &#x27;scale&#x27;, 0, 1000)
+      .name(&#x27;Scale&#x27;);
+    scaleMenu.onChange((value) &#x3D;&gt; {
+      this.three.getSceneManager().scaleObject(name, value);
+    });
+    // Controls for positioning.
+    // const position &#x3D; this.three.getObjectPosition(name);
+    objFolder
+      .add(this.guiParameters[name], &#x27;x&#x27;, -this.maxPositionX, this.maxPositionX)
+      .name(&#x27;X&#x27;)
+      .onChange((value) &#x3D;&gt;
+        this.three.getSceneManager().getObjectPosition(name).setX(value)
+      );
+    objFolder
+      .add(this.guiParameters[name], &#x27;y&#x27;, -this.maxPositionY, this.maxPositionY)
+      .name(&#x27;Y&#x27;)
+      .onChange((value) &#x3D;&gt;
+        this.three.getSceneManager().getObjectPosition(name).setY(value)
+      );
+    objFolder
+      .add(this.guiParameters[name], &#x27;z&#x27;, -this.maxPositionZ, this.maxPositionZ)
+      .name(&#x27;Z&#x27;)
+      .onChange((value) &#x3D;&gt;
+        this.three.getSceneManager().getObjectPosition(name).setZ(value)
+      );
+    // Controls for deleting the obj
+    objFolder.add(this.guiParameters[name], &#x27;remove&#x27;).name(&#x27;Remove&#x27;);
+  }
+
+  /**
+   * Remove object from the dat.GUI menu.
+   * @param name Name of the object to be removed.
+   */
+  private removeOBJ(name: string) {
+    return () &#x3D;&gt; {
+      const folder &#x3D; this.geomFolder.__folders[name];
+      if (folder) {
+        this.geomFolder.removeFolder(folder);
+      }
+      this.three.getSceneManager().removeGeometry(name);
+    };
+  }
+
+  /**
+   * Functions for event data toggles like show/hide and depthTest.
+   */
+  public addEventDataFolder() {
+    // If there is already an event data folder it is deleted and we create a new one.
+    if (this.eventFolder !&#x3D;&#x3D; null) {
+      this.gui.removeFolder(this.eventFolder);
+    }
+
+    // A new folder for the Event Data is added to the GUI.
+    this.eventFolder &#x3D; this.gui.addFolder(&#x27;Event Data&#x27;);
+    this.guiParameters.eventData &#x3D; { show: true, depthTest: true };
+    // A boolean toggle for showing/hiding the event data is added to the &#x27;Event Data&#x27; folder.
+    const menu &#x3D; this.eventFolder
+      .add(this.guiParameters.eventData, &#x27;show&#x27;)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    menu.onChange((value) &#x3D;&gt;
+      this.three
+        .getSceneManager()
+        .objectVisibility(SceneManager.EVENT_DATA_ID, value)
+    );
+
+    // A boolean toggle for enabling/disabling depthTest of event data.
+    const depthTestMenu &#x3D; this.eventFolder
+      .add(this.guiParameters.eventData, &#x27;depthTest&#x27;)
+      .name(&#x27;Depth Test&#x27;)
+      .listen();
+    depthTestMenu.onChange((value) &#x3D;&gt; this.three.eventDataDepthTest(value));
+  }
+
+  /**
+   * Add folder for event data type like tracks or hits to the dat.GUI menu.
+   * @param typeName Name of the type of event data.
+   * @returns dat.GUI menu&#x27;s folder for event data type.
+   */
+  public addEventDataTypeFolder(typeName: string): GUI {
+    const typeFolder &#x3D; this.eventFolder.addFolder(typeName);
+    this.guiParameters.eventData[typeName] &#x3D; true;
+    const menu &#x3D; typeFolder
+      .add(this.guiParameters.eventData, typeName)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    menu.onChange((value) &#x3D;&gt;
+      this.three.getSceneManager().objectVisibility(typeName, value)
+    );
+
+    return typeFolder;
+  }
+
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param typeFolder dat.GUI menu folder of an event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor Color of the collection.
+   */
+  public addCollection(
+    typeFolder: GUI,
+    collectionName: string,
+    cuts?: Cut[],
+    collectionColor?: Color
+  ) {
+    if (typeFolder) {
+      // A new folder for the collection is added to the &#x27;Event Data&#x27; folder
+      this.guiParameters[collectionName] &#x3D; {
+        show: true,
+        color: 0x000000,
+        resetCut: () &#x3D;&gt;
+          this.three
+            .getSceneManager()
+            .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
+      };
+      const collFolder &#x3D; typeFolder.addFolder(collectionName);
+      // A boolean toggle for showing/hiding the collection is added to its folder
+      const showMenu &#x3D; collFolder
+        .add(this.guiParameters[collectionName], &#x27;show&#x27;)
+        .name(&#x27;Show&#x27;)
+        .listen();
+      showMenu.onChange((value) &#x3D;&gt;
+        this.three
+          .getSceneManager()
+          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
+      );
+      // A color picker is added to the collection&#x27;s folder
+      const colorMenu &#x3D; collFolder
+        .addColor(this.guiParameters[collectionName], &#x27;color&#x27;)
+        .name(&#x27;Color&#x27;);
+      colorMenu.onChange((value) &#x3D;&gt;
+        this.three.getSceneManager().collectionColor(collectionName, value)
+      );
+      colorMenu.setValue(collectionColor?.getHex());
+      // Cuts menu
+      if (cuts) {
+        const cutsFolder &#x3D; collFolder.addFolder(&#x27;Cuts&#x27;);
+        cutsFolder
+          .add(this.guiParameters[collectionName], &#x27;resetCut&#x27;)
+          .name(&#x27;Reset cuts&#x27;);
+        for (const cut of cuts) {
+          const minCut &#x3D; cutsFolder
+            .add(cut, &#x27;minValue&#x27;, cut.minValue, cut.maxValue)
+            .name(&#x27;min &#x27; + cut.field);
+          minCut.onChange((value) &#x3D;&gt; {
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          });
+          const maxCut &#x3D; cutsFolder
+            .add(cut, &#x27;maxValue&#x27;, cut.minValue, cut.maxValue)
+            .name(&#x27;max &#x27; + cut.field);
+          maxCut.onChange((value) &#x3D;&gt; {
+            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          });
+        }
+      }
+    }
+  }
+
+  /**
+   * Add labels folder to dat.GUI menu.
+   * @param configFunctions Functions to attach to the labels folder configuration.
+   */
+  public addLabelsFolder(configFunctions: any) {
+    if (this.labelsFolder !&#x3D;&#x3D; null) {
+      return;
+    }
+
+    const {
+      onToggle,
+      onSizeChange,
+      onColorChange,
+      onSaveLabels,
+      onLoadLabels,
+    } &#x3D; configFunctions;
+
+    this.labelsFolder &#x3D; this.gui.addFolder(SceneManager.LABELS_ID);
+
+    this.guiParameters.labels &#x3D; {
+      show: true,
+      size: 1,
+      color: &#x27;#a8a8a8&#x27;,
+      saveLabels: onSaveLabels,
+      loadLabels: onLoadLabels,
+    };
+
+    const showMenu &#x3D; this.labelsFolder
+      .add(this.guiParameters.labels, &#x27;show&#x27;)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    showMenu.onChange(onToggle);
+
+    const labelsSizeMenu &#x3D; this.labelsFolder
+      .add(this.guiParameters.labels, &#x27;size&#x27;, 0, 10)
+      .name(&#x27;Size&#x27;);
+    labelsSizeMenu.onFinishChange(onSizeChange);
+
+    const colorMenu &#x3D; this.labelsFolder
+      .addColor(this.guiParameters.labels, &#x27;color&#x27;)
+      .name(&#x27;Color&#x27;);
+    colorMenu.onChange(onColorChange);
+
+    this.labelsFolder
+      .add(this.guiParameters.labels, &#x27;saveLabels&#x27;)
+      .name(&#x27;Save Labels&#x27;);
+    this.labelsFolder
+      .add(this.guiParameters.labels, &#x27;loadLabels&#x27;)
+      .name(&#x27;Load Labels&#x27;);
+  }
+
+  /**
+   * Add configuration UI for label.
+   * @param labelId Unique ID of the label.
+   * @param removeLabel Function to remove label from the scene.
+   */
+  public addLabel(labelId: string, removeLabel?: () &#x3D;&gt; void) {
+    this.guiParameters[labelId] &#x3D; {
+      show: true,
+      color: 0xafafaf,
+    };
+
+    const labelItem &#x3D; this.labelsFolder.addFolder(labelId);
+
+    const visibilityToggle &#x3D; labelItem
+      .add(this.guiParameters[labelId], &#x27;show&#x27;)
+      .name(&#x27;Show&#x27;)
+      .listen();
+    visibilityToggle.onChange((value) &#x3D;&gt; {
+      this.three
+        .getSceneManager()
+        .objectVisibility(labelId, value, SceneManager.LABELS_ID);
+    });
+
+    const colorMenu &#x3D; labelItem
+      .addColor(this.guiParameters[labelId], &#x27;color&#x27;)
+      .name(&#x27;Çolor&#x27;);
+    colorMenu.onChange((color) &#x3D;&gt;
+      this.three.getSceneManager().changeObjectColor(labelId, color)
+    );
+
+    this.guiParameters[labelId][&#x27;removeLabel&#x27;] &#x3D; () &#x3D;&gt; {
+      removeLabel?.();
+      this.removeLabel(labelId, labelItem);
+    };
+    labelItem.add(this.guiParameters[labelId], &#x27;removeLabel&#x27;).name(&#x27;Remove&#x27;);
+  }
+
+  /**
+   * Remove label from UI, scene and event data loader if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelItemFolder dat.GUI folder of the label if any.
+   */
+  public removeLabel(labelId: string, labelItemFolder?: GUI) {
+    if (!labelItemFolder) {
+      labelItemFolder &#x3D; this.labelsFolder.__folders[labelId];
+    }
+
+    if (labelItemFolder) {
+      this.labelsFolder.removeFolder(labelItemFolder);
+    }
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'DatGUIMenuUI.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

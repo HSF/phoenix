@@ -139,13 +139,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;./three/index&#x27;;
-import { UIManager } from &#x27;./ui/index&#x27;;
-import { InfoLogger } from &#x27;./info-logger&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;./managers/three-manager&#x27;;
+import { UIManager } from &#x27;./managers/ui-manager&#x27;;
+import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
 import { Configuration } from &#x27;./extras/configuration&#x27;;
 import { StateManager } from &#x27;./managers/state-manager&#x27;;
 import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
+import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
 
 declare global {
   /**
@@ -177,6 +178,8 @@ export class EventDisplay {
   private ui: UIManager;
   /** Loading manager for loadable resources */
   private loadingManager: LoadingManager;
+  /** State manager for managing event display state. */
+  private stateManager: StateManager;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -204,7 +207,7 @@ export class EventDisplay {
     // Initialize the UI with configuration
     this.ui.init(configuration);
     // Set up for the state manager
-    new StateManager().setEventDisplay(this);
+    this.getStateManager().setEventDisplay(this);
 
     // Animate loop
     const uiLoop &#x3D; () &#x3D;&gt; {
@@ -274,6 +277,8 @@ export class EventDisplay {
       this.infoLogger
     );
     this.onDisplayedEventChange.forEach((callback) &#x3D;&gt; callback(eventData));
+    // Reload the event data state in Phoenix menu
+    this.ui.loadEventFolderPMState();
   }
 
   /**
@@ -319,6 +324,17 @@ export class EventDisplay {
    */
   public getLoadingManager() {
     return this.loadingManager;
+  }
+
+  /**
+   * Get the state manager that manages event display&#x27;s state.
+   * @returns The state manager.
+   */
+  public getStateManager() {
+    if (!this.stateManager) {
+      this.stateManager &#x3D; new StateManager();
+    }
+    return this.stateManager;
   }
 
   // **********************
@@ -588,12 +604,12 @@ export class EventDisplay {
     geometries: [];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const typeFolder &#x3D; this.ui.addEventDataTypeFolder(objectType);
-      const typeFolderPM &#x3D; this.ui.addEventDataTypeFolderPM(objectType);
+      const { typeFolder, typeFolderPM } &#x3D; this.ui.addEventDataTypeFolder(
+        objectType
+      );
       const collections &#x3D; sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
-        this.ui.addCollection(typeFolder, collection);
-        this.ui.addCollectionPM(typeFolderPM, collection);
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
       }
     }
 
@@ -721,7 +737,7 @@ export class EventDisplay {
    * Get the uuid of the currently selected object.
    * @returns uuid of the currently selected object.
    */
-  public getActiveObjectId(): any {
+  public getActiveObjectId(): ActiveVariable&lt;string&gt; {
     return this.graphicsLibrary.getActiveObjectId();
   }
 
@@ -812,7 +828,7 @@ export class EventDisplay {
 
     // Remove the label if the string is empty
     if (!label) {
-      this.ui.removeLabel(labelId);
+      this.ui.removeLabel(labelId, true);
       return;
     }
 

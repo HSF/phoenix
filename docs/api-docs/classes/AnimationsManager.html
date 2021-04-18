@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/three/animations-manager.ts</code>
+            <code>src/managers/three-manager/animations-manager.ts</code>
         </p>
 
             <p class="comment">
@@ -146,7 +146,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/three/animations-manager.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/three-manager/animations-manager.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -253,8 +253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="497"
-                            class="link-to-prism">src/three/animations-manager.ts:497</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="499"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:499</a></div>
                 </td>
             </tr>
 
@@ -349,8 +349,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">src/three/animations-manager.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:141</a></div>
                 </td>
             </tr>
 
@@ -460,8 +460,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="315"
-                            class="link-to-prism">src/three/animations-manager.ts:315</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:314</a></div>
                 </td>
             </tr>
 
@@ -597,8 +597,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="487"
-                            class="link-to-prism">src/three/animations-manager.ts:487</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="489"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:489</a></div>
                 </td>
             </tr>
 
@@ -692,8 +692,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">src/three/animations-manager.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:70</a></div>
                 </td>
             </tr>
 
@@ -803,8 +803,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="448"
-                            class="link-to-prism">src/three/animations-manager.ts:448</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:450</a></div>
                 </td>
             </tr>
 
@@ -914,8 +914,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="388"
-                            class="link-to-prism">src/three/animations-manager.ts:388</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:390</a></div>
                 </td>
             </tr>
 
@@ -1071,8 +1071,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">src/three/animations-manager.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:47</a></div>
                 </td>
             </tr>
 
@@ -1191,8 +1191,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="514"
-                            class="link-to-prism">src/three/animations-manager.ts:514</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:516</a></div>
                 </td>
             </tr>
 
@@ -1272,7 +1272,6 @@ import {
   BufferAttribute,
   Scene,
   Camera,
-  SphereGeometry,
   Plane,
   Group,
 } from &#x27;three&#x27;;
@@ -1581,13 +1580,16 @@ export class AnimationsManager {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     // Sphere to get spherical set of clipping planes from
-    const sphere &#x3D; new SphereGeometry(1, 8, 8);
+    const sphere &#x3D; new SphereBufferGeometry(1, 8, 8);
     // Clipping planes for animation
     const animationClipPlanes: Plane[] &#x3D; [];
 
-    // Get clipping planes from the verticies of sphere
-    for (const vertice of sphere.vertices) {
-      animationClipPlanes.push(new Plane(vertice, 0));
+    // Get clipping planes from the vertices of sphere
+    const position &#x3D; sphere.attributes.position;
+    const vertex &#x3D; new Vector3();
+    for (let i &#x3D; 0; i &lt; position.count; i++) {
+      vertex.fromBufferAttribute(position, i);
+      animationClipPlanes.push(new Plane(vertex.clone(), 0));
     }
 
     // Save the previous clipping setting of the renderer
@@ -1660,7 +1662,7 @@ export class AnimationsManager {
     });
 
     const particle1 &#x3D; new Mesh(particleGeometry, particleMaterial);
-    const particle2 &#x3D; particle1.clone();
+    const particle2 &#x3D; particle1.clone() as Mesh;
 
     particle1.position.setZ(distanceFromOrigin);
     particle2.position.setZ(-distanceFromOrigin);

@@ -55,6 +55,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
+                                <a href="classes/ActiveVariable.html" data-type="entity-link">ActiveVariable</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/AnimationsManager.html" data-type="entity-link">AnimationsManager</a>
                             </li>
                             <li class="link">
@@ -67,7 +70,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/ControlsManager.html" data-type="entity-link">ControlsManager</a>
                             </li>
                             <li class="link">
+                                <a href="classes/CoordinateHelper.html" data-type="entity-link">CoordinateHelper</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/Cut.html" data-type="entity-link">Cut</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/DatGUIMenuUI.html" data-type="entity-link">DatGUIMenuUI</a>
                             </li>
                             <li class="link">
                                 <a href="classes/EffectsManager.html" data-type="entity-link">EffectsManager</a>
@@ -104,6 +113,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/PhoenixMenuNode.html" data-type="entity-link">PhoenixMenuNode</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/PhoenixMenuUI.html" data-type="entity-link">PhoenixMenuUI</a>
                             </li>
                             <li class="link">
                                 <a href="classes/PhoenixObjects.html" data-type="entity-link">PhoenixObjects</a>

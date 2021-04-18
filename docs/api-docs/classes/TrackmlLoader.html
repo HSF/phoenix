@@ -121,6 +121,10 @@
                                 <a href="#loadingManager">loadingManager</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#stateManager">stateManager</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#ui">ui</a>
                             </li>
@@ -457,7 +461,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:27</a></code>
 </div>
                             </td>
                         </tr>
@@ -499,6 +503,47 @@
                         <tr>
                             <td class="col-md-4">
                                     <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Loading manager for loadable resources </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="stateManager"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            stateManager</b>
+                            <a href="#stateManager"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/StateManager.html" target="_self" >StateManager</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/PhoenixLoader.html" target="_self" >PhoenixLoader</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
 </div>
                             </td>
                         </tr>
@@ -893,7 +938,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, objectGroup: Group)</code>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank">Boolean</a>)</code>
                 </td>
             </tr>
 
@@ -906,7 +951,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:301</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:386</a></code>
 </div>
                 </td>
             </tr>
@@ -993,6 +1038,22 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>concatonateObjs</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" target="_blank" >Boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits).</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1039,7 +1100,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:450</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:545</a></code>
 </div>
                 </td>
             </tr>
@@ -1144,7 +1205,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>, extendEventDataTypeUI?: (typeFolder?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeFolderPM?: <a href="../classes/PhoenixMenuNode.html">PhoenixMenuNode</a>) => void)</code>
+                    <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, cuts?: <a href="../classes/Cut.html">Cut[]</a>, extendEventDataTypeUI?: (typeFolder?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeFolderPM?: <a href="../classes/PhoenixMenuNode.html">PhoenixMenuNode</a>) => void)</code>
                 </td>
             </tr>
 
@@ -1157,7 +1218,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:257</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:339</a></code>
 </div>
                 </td>
             </tr>
@@ -1176,6 +1237,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -1190,6 +1252,8 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Contains all collections of a given type (Tracks, Jets, CaloClusters...).</p>
@@ -1206,6 +1270,8 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Function that handles of reconstructing objects of the given type.</p>
@@ -1222,9 +1288,30 @@
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Label for naming the object type.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>concatonateObjs</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits). Default is false.</p>
 
                                     </td>
                                 </tr>
@@ -1238,6 +1325,8 @@
                                         Yes
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>Filters that can be applied to the objects.</p>
@@ -1254,6 +1343,8 @@
                                         Yes
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                     <td>
                                         <p>A callback to add more options to event data type UI folder.</p>
@@ -1306,7 +1397,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:45</a></code>
 </div>
                 </td>
             </tr>
@@ -1440,7 +1531,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:113</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:121</a></code>
 </div>
                 </td>
             </tr>
@@ -1526,7 +1617,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:89</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:97</a></code>
 </div>
                 </td>
             </tr>
@@ -1579,7 +1670,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:396</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:490</a></code>
 </div>
                 </td>
             </tr>
@@ -1634,7 +1725,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:73</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:81</a></code>
 </div>
                 </td>
             </tr>
@@ -1720,7 +1811,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:476</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:571</a></code>
 </div>
                 </td>
             </tr>
@@ -1775,7 +1866,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:343</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:437</a></code>
 </div>
                 </td>
             </tr>
@@ -1861,7 +1952,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:326</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:420</a></code>
 </div>
                 </td>
             </tr>
@@ -1947,7 +2038,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:134</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:142</a></code>
 </div>
                 </td>
             </tr>

@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/HSF/phoenix/compare/v1.5.0...v1.6.0) (2021-04-18)
+
+
+### Bug Fixes
+
+* **app:** add sphericalToCartesian method ([bbea6b0](https://github.com/HSF/phoenix/commit/bbea6b03023cc56b5572684ec3cfaeb8cf3f0e7f))
+* **app:** consistent input styling and fix share icon ([2e3455d](https://github.com/HSF/phoenix/commit/2e3455dd58c2c6f6bd0018651073a52f46716de4))
+* **app:** event selection should show current event ([a65d8ac](https://github.com/HSF/phoenix/commit/a65d8ac2feebf140181f20a81098b6174212ae32))
+* **app:** improve icons svg code ([d944837](https://github.com/HSF/phoenix/commit/d944837b0ba1c97ef8441599b6447b7ffbd56aec))
+* **app:** revert added URL options and UI components package.json ([96f0649](https://github.com/HSF/phoenix/commit/96f06498b58a87e2fa035e94bb76b05f13aaaa75))
+* **app:** update the ATLAS default configuration ([eadbd59](https://github.com/HSF/phoenix/commit/eadbd59bb674af2d23cf0fc32b56c3483c12953b))
+* **event-display:** add back in geometrical limits for clusters ([0b95e5b](https://github.com/HSF/phoenix/commit/0b95e5b9263442df35f0af6f88694e7e5ee90e90))
+* **event-display:** add eta and phi cuts for tracks ([f8a0080](https://github.com/HSF/phoenix/commit/f8a0080b3ddd8ca79ff49ae1aa1faab66b6b4e56))
+* **event-display:** add missing docs ([c9781e5](https://github.com/HSF/phoenix/commit/c9781e5c0f876ea752a07178f072d82c45f50846))
+* **event-display:** add missing documentation ([236bdf4](https://github.com/HSF/phoenix/commit/236bdf48b49ad0538461ac636bcbf130ef4349f9))
+* **event-display:** calocluster eta position was wrong. ([66cbbc0](https://github.com/HSF/phoenix/commit/66cbbc03b5592775ee1971b0f181aaf5319636f3))
+* **event-display:** cleanup JixeXML loader ([6a834e8](https://github.com/HSF/phoenix/commit/6a834e8bb3ebfbb67110e3f2e5459fc88c11d6e8))
+* **event-display:** prettier fixes ([7528ee0](https://github.com/HSF/phoenix/commit/7528ee0c372c23418795866a3e041bbbb5e48d26))
+* **event-display:** run prettier (again) ([f279898](https://github.com/HSF/phoenix/commit/f279898dd34fe2e79774611397e1860f761f0b54))
+* **event-display:** update default configuration ([b21cd72](https://github.com/HSF/phoenix/commit/b21cd7291ecacafa3764e16fcbf0ed75d783027f))
+* **event-display:** use BufferGeometry for CMS objects with new three.js update ([b8e88b8](https://github.com/HSF/phoenix/commit/b8e88b8f88ba543fdbe43c95edf9955efd570780))
+
+
+### Features
+
+* **app:** add calibration event for ATLAS ([8e6ffcb](https://github.com/HSF/phoenix/commit/8e6ffcb23c424d0e702a2c9eb0595be9fe33a20d))
+* **app:** bind clipping state with UI menu ([40bbba0](https://github.com/HSF/phoenix/commit/40bbba07311d6c23b59d5d5409d190c2721bc395))
+* **app:** complete dialog for share link and embed ([50c2584](https://github.com/HSF/phoenix/commit/50c2584107d132e8f7161c28ce4d88479e30c4ed))
+* **app:** create component for shareable link constructor ([181dfa8](https://github.com/HSF/phoenix/commit/181dfa8b0d05888f89a27f4640466f9b57c06568))
+* **app:** don't show hits in collection info ([c550a41](https://github.com/HSF/phoenix/commit/c550a41860c97a223527ecc2da4e66fb644a0844))
+* **app:** fix link creation and improve link constructor ([2cedfec](https://github.com/HSF/phoenix/commit/2cedfeceb99b2d105bd603b8290b15fcfe5cdf0e))
+* **app:** setup link share form ([b10bb7a](https://github.com/HSF/phoenix/commit/b10bb7aa14e373191bea6508d723c79c42c3f2b3))
+* **event-display:** ability to remove geometry in Phoenix menu ([7d90d72](https://github.com/HSF/phoenix/commit/7d90d72e4c17776855946cc3a4d80149242c4a4f))
+* **event-display:** ability to scale CaloClusters ([ff666e2](https://github.com/HSF/phoenix/commit/ff666e2c8455dbf0316e220f008bf45bccb22228))
+* **event-display:** add ability to scale clusters in just one direction ([5a562ab](https://github.com/HSF/phoenix/commit/5a562ab6d7d8a228d5c69ea5454a597372810e48)), closes [#257](https://github.com/HSF/phoenix/issues/257)
+* **event-display:** add coordinate helper ([57e438f](https://github.com/HSF/phoenix/commit/57e438fd8ba22e525595a72425d9000c82988dc1))
+* **event-display:** add guidelines and simplify some coordinate transformations ([56f94f0](https://github.com/HSF/phoenix/commit/56f94f043b5bdf5e521c05e0bc058186c78270ad))
+* **event-display:** Add missing energy ([6ef17d0](https://github.com/HSF/phoenix/commit/6ef17d07d8101da845b7efa0eb6698d99490bcd8))
+* **event-display:** add opacity and wireframe for CaloClusters ([85d4a14](https://github.com/HSF/phoenix/commit/85d4a14ab1afc4518684128619824f46eda3aa9d))
+* **event-display:** add support for HitLines ([455f536](https://github.com/HSF/phoenix/commit/455f536a201a3bd228ac2c97bec3f45b3e769620))
+* **event-display:** add types for dat.GUI ([7632a18](https://github.com/HSF/phoenix/commit/7632a180c79d2cb04fc1ec82a580bc166ab9ed4a))
+* **event-display:** create an active observable variable ([854e543](https://github.com/HSF/phoenix/commit/854e5439a1ebeba80940989a716338f1542984db))
+* **event-display:** improve grid lines ([ca3cc2f](https://github.com/HSF/phoenix/commit/ca3cc2fa98c2bfc6f43bc6a459d7da273e6afc5a))
+* **event-display:** improve handling of UI menus in UI manager ([b7a324a](https://github.com/HSF/phoenix/commit/b7a324a6643a2e191483d9925ea467afb933def8))
+* **event-display:** introduce new URL options and improve handling them ([f7cd6b4](https://github.com/HSF/phoenix/commit/f7cd6b4b6059db82900bc9a0245d8365a5917e8b))
+* **event-display:** JiveXML : add support for more hit types ([bbcdf0c](https://github.com/HSF/phoenix/commit/bbcdf0c3ae090b693fa5fa3cf02c78fe2c50bf16))
+* **event-display:** keep state of event data folder on event switch ([b52282f](https://github.com/HSF/phoenix/commit/b52282ff038d081ed752ab6c85d08bcc7145c822))
+* **event-display:** make Phoenix available in browser without a namespace ([5389282](https://github.com/HSF/phoenix/commit/5389282be8018191426da02140cd29dcdbf2b726))
+* **event-display:** move opacity and wireframing to collection level ([6486982](https://github.com/HSF/phoenix/commit/6486982fbfdca3a8e51d05afd14804e86bb9fb14))
+* **event-display:** Remove LineHits and use hits to extend tracks ([30b5160](https://github.com/HSF/phoenix/commit/30b5160ce9db8cbe800b3393271224a014b0aecf))
+* **event-display:** restructure phoenix-event-display ([2e16371](https://github.com/HSF/phoenix/commit/2e163718ce32dd0713100f632127ac0a2cca8238))
+* **event-display:** separate dat.GUI UI menu ([29093a2](https://github.com/HSF/phoenix/commit/29093a22737e3c9771dc4b5ca52569962b994771))
+* **event-display:** separate Phoenix menu UI from UI manager ([5743adc](https://github.com/HSF/phoenix/commit/5743adcd4b6f3fb16dac3be6211450f2f04b94d3))
+* **event-display:** split dat.GUI menu options ([45a0123](https://github.com/HSF/phoenix/commit/45a0123892092c9397a80b5c99bb9d5c156aa0b1))
+* **event-display:** start splitting UI manager ([56ff275](https://github.com/HSF/phoenix/commit/56ff275013772e958818c3100165587aa244173f))
+* **event-display:** use run and event number and file name for config json ([03a1de4](https://github.com/HSF/phoenix/commit/03a1de4056c8e9acb29307b2efb906ac7e782201))
+* upgrade all packages except three.js ([8e2eff4](https://github.com/HSF/phoenix/commit/8e2eff4b58e02f19cefd3e02e7edf92a81474783))
+* upgrade three.js except for CMSObjects ([0b2dd8a](https://github.com/HSF/phoenix/commit/0b2dd8a8860ed49feb16a247b52aa0b21452a251))
+
+
+
+
+
+
 # [1.5.0](https://github.com/HSF/phoenix/compare/v1.4.1...v1.5.0) (2021-03-24)
 
 
