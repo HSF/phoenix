@@ -22,6 +22,16 @@ export const tracksColoringOptions = (
     '0': '#ff0000',
     '1': '#ff0000',
   };
+  const momColors = {
+    min: {
+      value: 0,
+      color: '#ff0000',
+    },
+    max: {
+      value: 15 * Math.pow(10, 9),
+      color: '#ff0000',
+    },
+  };
   let selectedColorByOption = colorByOptions.charge;
 
   // Helper functions
@@ -42,7 +52,7 @@ export const tracksColoringOptions = (
   collectionFolder.addConfig('select', {
     label: 'Color by',
     options: Object.values(colorByOptions),
-    onChange: (updatedColorByOption: ColorByOptions) => {
+    onChange: (updatedColorByOption: string) => {
       selectedColorByOption = updatedColorByOption;
 
       switch (updatedColorByOption) {
@@ -65,6 +75,7 @@ export const tracksColoringOptions = (
     },
   });
 
+  // Charge configurations
   [-1, 0, 1].forEach((chargeValue) => {
     collectionFolder.addConfig('color', {
       label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
@@ -83,6 +94,30 @@ export const tracksColoringOptions = (
               (objectUserData) => colorCharge(objectUserData, chargeValue)
             );
         }
+      },
+    });
+  });
+
+  // Momentum configurations
+  collectionFolder.addConfig('rangeSlider', {
+    label: PrettySymbols.getPrettySymbol('mom') + ' color range',
+    min: momColors.min.value,
+    max: momColors.max.value,
+    step: 10,
+    value: momColors.min.value,
+    highValue: momColors.max.value,
+    onChange: ({ value, highValue }) => {
+      momColors.min.value = value;
+      momColors.max.value = highValue;
+    },
+  });
+
+  Object.entries(momColors).forEach(([key, value]) => {
+    collectionFolder.addConfig('color', {
+      label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
+      color: value.color,
+      onChange: (color: any) => {
+        value.color = color;
       },
     });
   });
