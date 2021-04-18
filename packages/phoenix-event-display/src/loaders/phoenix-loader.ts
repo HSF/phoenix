@@ -9,7 +9,6 @@ import { InfoLogger } from '../helpers/info-logger';
 import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
-import { tracksColoringOptions } from '../managers/ui-manager/coloring-options';
 
 /**
  * Loader for processing and loading an event.
@@ -160,8 +159,7 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getTrack,
         'Tracks',
         false,
-        cuts,
-        tracksColoringOptions(this.graphicsLibrary)
+        cuts
       );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
@@ -391,7 +389,7 @@ export class PhoenixLoader implements EventDataLoader {
     collectionName: string,
     getObject: (object: any) => Object3D,
     objectGroup: Group,
-    concatonateObjs: Boolean
+    concatonateObjs: boolean
   ) {
     const collscene = new Group();
     collscene.name = collectionName;

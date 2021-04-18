@@ -51,11 +51,11 @@
             <span
               class="item-config-label"
               *ngIf="config.type !== 'button'"
-              [ngClass]="{ 'font-weight-bold': config.type === 'label' }"
+              [ngClass]="{ 'font-weight-bold w-100': config.type === 'label' }"
             >
               {{ config.label }}
             </span>
-            <div class="item-config-data">
+            <div class="item-config-data" *ngIf="config.type !== 'label'">
               <mat-checkbox
                 *ngSwitchCase="'checkbox'"
                 [checked]="config.isChecked"
@@ -113,6 +113,19 @@
                   animate: false
                 }"
               ></ngx-slider>
+
+              <select
+                *ngSwitchCase="'select'"
+                class="w-100"
+                (change)="config.onChange($event.target.value)"
+              >
+                <option
+                  *ngFor="let singleOption of config.options"
+                  [value]="singleOption"
+                >
+                  {{ singleOption }}
+                </option>
+              </select>
             </div>
           </label>
           <!-- Config types END -->

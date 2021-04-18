@@ -4,6 +4,7 @@ import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Color } from 'three';
 import { Cut } from '../../../extras/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
+import { tracksColoringOptions } from '../coloring-options';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -274,6 +275,11 @@ export class PhoenixMenuUI {
           },
         });
       }
+    }
+
+    // Extra config options specific to tracks
+    if (typeFolder.name === 'Tracks') {
+      tracksColoringOptions(this.three, collectionNode);
     }
   }
 
