@@ -1,4 +1,5 @@
 import { Group, Object3D } from 'three';
+import { GUI } from 'dat.gui';
 import { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager';
 import { ThreeManager } from '../managers/three-manager';
@@ -8,6 +9,7 @@ import { InfoLogger } from '../helpers/info-logger';
 import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
+import { tracksColoringOptions } from '../managers/ui-manager/coloring-options';
 
 /**
  * Loader for processing and loading an event.
@@ -158,7 +160,8 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getTrack,
         'Tracks',
         false,
-        cuts
+        cuts,
+        tracksColoringOptions(this.graphicsLibrary)
       );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
@@ -221,7 +224,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
 
       const addCaloClusterOptions = (
-        typeFolder: any,
+        typeFolder: GUI,
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleCaloClusters = (value: number) => {
@@ -290,7 +293,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.MissingEnergy) {
       const addMETSizeOption = (
-        typeFolder: any,
+        typeFolder: GUI,
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleMET = (value: number) => {
@@ -343,7 +346,7 @@ export class PhoenixLoader implements EventDataLoader {
     concatonateObjs: boolean = false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
-      typeFolder: any,
+      typeFolder: GUI,
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
