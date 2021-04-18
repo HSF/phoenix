@@ -259,25 +259,63 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineCounter += numPolyline[i];
           track.pos = pos;
         }
-        // Now loop over hits, and if possible, see if we can extend the track
-        if (numHits.length > 0) {
-          let hitIdentifier = 0;
-          let distance = 0.0;
-          let found = false;
-          for (let p = 0; p < numHits[i]; p++) {
-            hitIdentifier = hits[hitsCounter + p];
-            listOfHits.push(hitIdentifier);
-            // Now try to find matching hit
-            [found, x, y, z] = this.getPositionOfHit(hitIdentifier, eventData);
-            if (found) {
-              distance = Math.sqrt(x * x + y * y + z * z);
-              if (distance > maxR) {
-                track.pos.push([x, y, z]);
+        if (trackCollectionName.includes('Muon')) {
+          // Only try this for Muons at the moment.
+
+          // Now loop over hits, and if possible, see if we can extend the track
+          let measurementPositions = [];
+          if (numHits.length > 0) {
+            let hitIdentifier = 0;
+            let distance = 0.0;
+            let found = false;
+            for (let p = 0; p < numHits[i]; p++) {
+              hitIdentifier = hits[hitsCounter + p];
+              listOfHits.push(hitIdentifier);
+              // Now try to find matching hit
+              [found, x, y, z] = this.getPositionOfHit(
+                hitIdentifier,
+                eventData
+              );
+              if (found) {
+                distance = Math.sqrt(x * x + y * y + z * z);
+                if (distance > maxR) {
+                  measurementPositions.push([x, y, z, distance]);
+                }
+              }
+            }
+            hitsCounter += numHits[i];
+            track.hits = listOfHits;
+          }
+
+          // This seems to give pretty poor results, so try to filter.
+          // Sort radially (sorry cosmics!)
+          let sortedMeasurements = measurementPositions.sort(
+            (a, b) => a[3] - b[3]
+          );
+          const minDelta = 250; // tweaked by trial and error
+          let newHitCount = 0;
+          let rejectedHitCount = 0;
+          let lastDistance = maxR + minDelta;
+          if (sortedMeasurements.length) {
+            for (let meas of sortedMeasurements) {
+              if (meas[3] > lastDistance + minDelta) {
+                track.pos.push([meas[0], meas[1], meas[2]]);
+                lastDistance = meas[3] + minDelta;
+                newHitCount++;
+              } else {
+                rejectedHitCount++;
               }
             }
           }
-          hitsCounter += numHits[i];
-          track.hits = listOfHits;
+          console.log(
+            'Added ' +
+              newHitCount +
+              ' hits to ' +
+              trackCollectionName +
+              ' (and rejected ' +
+              rejectedHitCount +
+              ')'
+          );
         }
 
         jsontracks.push(track);
