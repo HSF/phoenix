@@ -28,7 +28,7 @@
     "@angular/cdk": "^11.2.7",
     "@angular/material": "^11.2.7",
     "css-element-queries": "^1.2.3",
-    "three": "^0.124.0",
+    "three": "^0.127.0",
     "tslib": "^2.0.1"
   },
   "main": "dist/bundles/phoenix-ui-components.umd.js",
