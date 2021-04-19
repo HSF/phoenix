@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/HSF/phoenix/compare/v1.6.0...v1.6.1) (2021-04-19)
+
+
+### Bug Fixes
+
+* **app:** update three.js for phoenix-ui-components ([6f5af5e](https://github.com/HSF/phoenix/commit/6f5af5edd5450d7143bd94de00c2186bd3b8d87e))
+* **event-display:** animation event with clipping because of maximum callstack reached ([e5d6639](https://github.com/HSF/phoenix/commit/e5d6639ca5698162160d4d64545916087dd5f066))
+
+
+
+
+
+
 # [1.6.0](https://github.com/HSF/phoenix/compare/v1.5.0...v1.6.0) (2021-04-18)
 
 
