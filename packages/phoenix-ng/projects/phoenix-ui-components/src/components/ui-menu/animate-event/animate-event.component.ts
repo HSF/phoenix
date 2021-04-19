@@ -14,7 +14,7 @@ export class AnimateEventComponent {
   toggleAnimateEvent() {
     if (!this.isAnimating) {
       this.isAnimating = true;
-      this.eventDisplay.animateEventWithCollision(10000, () => {
+      this.eventDisplay.animateClippingWithCollision(10000, () => {
         this.isAnimating = false;
       });
     }
