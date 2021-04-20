@@ -16,9 +16,9 @@ import {
 })
 export class IOOptionsDialogComponent implements OnInit {
   @Input()
-  eventDataFormats: EventDataImportOption[] = [EventDataFormat.JSON];
+  eventDataImportOptions: EventDataImportOption[] = [EventDataFormat.JSON];
 
-  eventDataFormatsWithHandler: ImportOption[];
+  eventDataOptionsWithHandler: ImportOption[];
 
   private supportedEventDataFormats = [
     new ImportOption(
@@ -51,22 +51,34 @@ export class IOOptionsDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.eventDataFormatsWithHandler = this.supportedEventDataFormats.filter(
+    this.eventDataOptionsWithHandler = this.supportedEventDataFormats.filter(
       (eventDataFormat) =>
-        this.eventDataFormats.includes(
+        this.eventDataImportOptions.includes(
           eventDataFormat.format as EventDataFormat
         )
     );
 
-    this.eventDataFormats.forEach((eventDataImportOption) => {
+    this.eventDataImportOptions.forEach((eventDataImportOption) => {
       if (eventDataImportOption instanceof ImportOption) {
-        this.eventDataFormatsWithHandler.push(eventDataImportOption);
+        const importHandler = eventDataImportOption.handler.bind(this);
+        eventDataImportOption.handler = (files: FileList) => {
+          importHandler(files);
+          this.onClose();
+        };
+        this.eventDataOptionsWithHandler.push(eventDataImportOption);
       }
     });
   }
 
   getSupportedEventDataFormats() {
-    return this.eventDataFormats
+    return this.eventDataImportOptions
+      .map((format) => {
+        if (format instanceof ImportOption) {
+          return format.format;
+        }
+
+        return format;
+      })
       .filter((format) => format !== 'ZIP')
       .join(', ');
   }

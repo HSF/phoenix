@@ -8,7 +8,7 @@ import { EventDataImportOption } from '../../services/extras/event-data-import';
 })
 export class UiMenuComponent {
   @Input()
-  eventDataFormats: EventDataImportOption[] = [];
+  eventDataImportOptions: EventDataImportOption[] = [];
 
   hideUIMenu: boolean = false;
 }

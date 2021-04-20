@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService } from 'phoenix-ui-components';
-import { HttpClient } from '@angular/common/http';
+import { EventDisplayService, ImportOption } from 'phoenix-ui-components';
 import {
   PhoenixMenuNode,
   LHCbLoader,
@@ -22,10 +21,14 @@ export class LHCbComponent implements OnInit {
   );
   loaded = false;
 
-  constructor(
-    private eventDisplay: EventDisplayService,
-    private http: HttpClient
-  ) {}
+  lhcbImporter = new ImportOption(
+    'JSON (LHCb)',
+    '.json (LHCb)',
+    this.handleLHCbJSONImport.bind(this),
+    'application/json'
+  );
+
+  constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
     this.loader = new LHCbLoader();
@@ -48,20 +51,28 @@ export class LHCbComponent implements OnInit {
       'LHCb detector'
     );
 
-    this.loadEventData();
+    fetch('assets/files/lhcb/00191749_0005296728.json')
+      .then((res) => res.json())
+      .then((eventData) => {
+        this.loadEventData(eventData);
+      });
 
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
     });
   }
 
-  private loadEventData() {
-    this.http
-      .get('assets/files/lhcb/00191749_0005296728.json')
-      .subscribe((data: any) => {
-        this.loader.process(data);
-        const eventData = this.loader.getEventData();
-        this.eventDisplay.buildEventDataFromJSON(eventData);
-      });
+  handleLHCbJSONImport(files: FileList) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.loadEventData(JSON.parse(reader.result.toString()));
+    };
+    reader.readAsText(files[0]);
+  }
+
+  private loadEventData(data: any) {
+    this.loader.process(data);
+    const eventData = this.loader.getEventData();
+    this.eventDisplay.buildEventDataFromJSON(eventData);
   }
 }
