@@ -252,18 +252,12 @@ What follows in the list of objects depends on the type:
   * 'phi'- phi direction
   * 'eta' - eta direction
   * 'energy'
- * Hits can be defined in one of two ways:
+* Hits can be defined in one of two ways:
   * [ [x,y,z], [x,y,z], [x,y,z], ] - i.e. an array of 3-dim arrays containing Cartesian coordinate. These will be rendered as points.
   * [ hit, hit, hit ] - i.e. an array of hit objects, where the hit objects must 
 Where hit needs to have a pos attribute, and optionally a type ( ‘Point’ || ‘Line’
 Everything else is decoration
 
-  
-Uniquely for clusters, you need to define the plane(s) on which to project the clusters as a property of the collection itself, using the following notation
-  
-```json
-  'CYL':[30.2493,243.645,136.947,213.396,3.14159,2850]
-```
 
 ### Geometry
 
