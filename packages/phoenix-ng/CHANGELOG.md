@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/EdwardMoyse/phoenix/compare/v1.6.1...v1.7.0) (2021-04-21)
+
+
+### Bug Fixes
+
+* **event-display:** handle older json hit format again ([edcd567](https://github.com/EdwardMoyse/phoenix/commit/edcd56770fcb865d39592cb3f4d130cd26b3919a))
+
+
+### Features
+
+* **app:** option for custom import handlers ([99b161e](https://github.com/EdwardMoyse/phoenix/commit/99b161e76109fb2b99031a35ac72fbe31596f44b))
+* **app:** structure to allow custom event data import options ([5a37573](https://github.com/EdwardMoyse/phoenix/commit/5a3757392a28e59d986637eb51801c3cd0a34fb3))
+* **app:** support for importing with LHCb loader ([8c6bd89](https://github.com/EdwardMoyse/phoenix/commit/8c6bd89bafcd3f4123365f36f36f49d83f4352d8))
+
+
+
+
+
 ## [1.6.1](https://github.com/HSF/phoenix/compare/v1.6.0...v1.6.1) (2021-04-19)
 
 

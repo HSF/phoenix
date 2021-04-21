@@ -13,7 +13,7 @@
       ]
     },
     "Hits": {
-      "Some Hits": [
+      "Some Hits": 
         [
           [
             -27.2185,
@@ -41,7 +41,7 @@
             -202.606
           ]
         ]
-      ]
+
     },
     "Tracks": {
       "CombinedMuonTrackParticles": [

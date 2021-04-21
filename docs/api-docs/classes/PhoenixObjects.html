@@ -164,8 +164,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="304"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:304</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:334</a></div>
                 </td>
             </tr>
 
@@ -237,7 +237,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getHits(hitsParams: [literal type])</code>
+                    <code>getHits(hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -270,7 +270,7 @@
                                 <tr>
                                     <td>hitsParams</td>
                                     <td>
-                                            <code>[literal type]</code>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -279,7 +279,7 @@
 
 
                                     <td>
-                                        <p>Hit object. Must contain &#39;pos&#39;, the array of [x,y,z] positions,
+                                        <p>Either an array of positions, or of Hit objects. If objects, they must contain &#39;pos&#39;, the array of [x,y,z] positions,
 Can optionally contain extraInfo, which will be added to the resultant hit.
 <code>type</code> tells Phoenix how to draw this - currently can be Point (default), or Line.</p>
 
@@ -406,8 +406,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="379"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:379</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:409</a></div>
                 </td>
             </tr>
 
@@ -567,8 +567,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="353"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:353</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="383"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:383</a></div>
                 </td>
             </tr>
 
@@ -648,8 +648,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="275"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:275</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="305"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:305</a></div>
                 </td>
             </tr>
 
@@ -761,8 +761,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="245"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:245</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:275</a></div>
                 </td>
             </tr>
 
@@ -1049,30 +1049,60 @@ export class PhoenixObjects {
 
   /**
    * Process the Hits from the given parameters and get them as a geometry.
-   * @param hitsParams Hit object. Must contain &#x27;pos&#x27;, the array of [x,y,z] positions,
+   * @param hitsParams Either an array of positions, or of Hit objects. If objects, they must contain &#x27;pos&#x27;, the array of [x,y,z] positions,
    * Can optionally contain extraInfo, which will be added to the resultant hit.
    * &#x60;type&#x60; tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
-  public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
-    let hitsParamsClone &#x3D; hitsParams;
+  public static getHits(hitsParams: any): Object3D {
+    let hitsParamsClone: any;
+    let positions: any[];
     let type: string &#x3D; &#x27;Point&#x27;; // Default is point and 3 coordinates per hit
     let coordlength &#x3D; 3;
-    if (hitsParams.length &gt; 1) {
+    let isSimpleArray &#x3D; false;
+
+    // if (typeof hitsParams &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; !Array.isArray(hitsParams)) {
+    //   positions &#x3D; [hitsParams.pos];
+    //   hitsParamsClone &#x3D; hitsParams;
+    // } else {
+    //   positions &#x3D; hitsParams;
+    //   hitsParamsClone &#x3D; { pos: hitsParams };
+    // }
+
+    if (hitsParams.length &gt; 0) {
       // Peek at first one. Would be better to make these properties of the collections.
-      if (&#x27;type&#x27; in hitsParams[0]) {
-        type &#x3D; hitsParams[0].type;
-        coordlength &#x3D; 6;
+      const first &#x3D; hitsParams[0];
+      if (Array.isArray(first)) {
+        isSimpleArray &#x3D; true;
+        hitsParamsClone &#x3D; { pos: hitsParams };
+      } else {
+        hitsParamsClone &#x3D; hitsParams;
+        if (&#x27;type&#x27; in first) {
+          type &#x3D; first.type;
+        }
       }
+    } else {
+      console.log(&#x27;No hits! Aborting from getHits.&#x27;);
+      return new Object3D();
     }
+
+    // Lines need 6 coords
+    if (type &#x3D;&#x3D;&#x3D; &#x27;Line&#x27;) {
+      coordlength &#x3D; 6;
+    }
+
     // attributes
-    const pointPos &#x3D; new Float32Array(hitsParams.length * coordlength);
+    let hitLength &#x3D; hitsParams.length * coordlength;
+    if (isSimpleArray) length &#x3D; hitLength; // These are already arrays
+    const pointPos &#x3D; new Float32Array(hitLength);
     let i &#x3D; 0;
-    let imax &#x3D; 0;
     for (const hit of hitsParams) {
-      imax &#x3D; i + coordlength;
       for (let j &#x3D; 0; j &lt; coordlength; ++j, ++i) {
-        pointPos[i] &#x3D; hit.pos[j];
+        if (isSimpleArray) {
+          pointPos[i] &#x3D; hit[j];
+        } else {
+          pointPos[i] &#x3D; hit.pos[j];
+        }
       }
     }
 

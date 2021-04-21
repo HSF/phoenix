@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/EdwardMoyse/phoenix/compare/v1.6.1...v1.7.0) (2021-04-21)
+
+
+### Bug Fixes
+
+* **event-display:** attempt to improve the output of the track extension by removing close hits ([5bdc562](https://github.com/EdwardMoyse/phoenix/commit/5bdc5623a2c4ef01a97143d12d9c396dbc57cfa3))
+* **event-display:** fix drawing of hits ([db3ca8b](https://github.com/EdwardMoyse/phoenix/commit/db3ca8b671bf2fa6bdf2831b8b5641cff74cf5a8))
+* **event-display:** handle older json hit format again ([edcd567](https://github.com/EdwardMoyse/phoenix/commit/edcd56770fcb865d39592cb3f4d130cd26b3919a))
+
+
+### Features
+
+* **app:** option for custom import handlers ([99b161e](https://github.com/EdwardMoyse/phoenix/commit/99b161e76109fb2b99031a35ac72fbe31596f44b))
+* **app:** support for importing with LHCb loader ([8c6bd89](https://github.com/EdwardMoyse/phoenix/commit/8c6bd89bafcd3f4123365f36f36f49d83f4352d8))
+
+
+
+
+
 ## [1.6.1](https://github.com/HSF/phoenix/compare/v1.6.0...v1.6.1) (2021-04-19)
 
 

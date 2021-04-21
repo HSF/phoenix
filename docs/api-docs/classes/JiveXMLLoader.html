@@ -605,8 +605,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="523"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:523</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="561"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:561</a></div>
                 </td>
             </tr>
 
@@ -700,8 +700,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="675"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:675</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="713"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:713</a></div>
                 </td>
             </tr>
 
@@ -844,8 +844,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="489"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:489</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="527"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:527</a></div>
                 </td>
             </tr>
 
@@ -939,8 +939,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="733"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:733</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="771"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:771</a></div>
                 </td>
             </tr>
 
@@ -1034,8 +1034,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="434"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:434</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="472"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:472</a></div>
                 </td>
             </tr>
 
@@ -1145,8 +1145,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="646"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:646</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="684"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:684</a></div>
                 </td>
             </tr>
 
@@ -1336,8 +1336,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="704"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:704</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="742"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:742</a></div>
                 </td>
             </tr>
 
@@ -1431,8 +1431,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="296"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:334</a></div>
                 </td>
             </tr>
 
@@ -1621,8 +1621,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="325"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:325</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:363</a></div>
                 </td>
             </tr>
 
@@ -1907,8 +1907,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="360"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:360</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="398"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:398</a></div>
                 </td>
             </tr>
 
@@ -2002,8 +2002,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="551"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:551</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="589"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:589</a></div>
                 </td>
             </tr>
 
@@ -3596,25 +3596,63 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineCounter +&#x3D; numPolyline[i];
           track.pos &#x3D; pos;
         }
-        // Now loop over hits, and if possible, see if we can extend the track
-        if (numHits.length &gt; 0) {
-          let hitIdentifier &#x3D; 0;
-          let distance &#x3D; 0.0;
-          let found &#x3D; false;
-          for (let p &#x3D; 0; p &lt; numHits[i]; p++) {
-            hitIdentifier &#x3D; hits[hitsCounter + p];
-            listOfHits.push(hitIdentifier);
-            // Now try to find matching hit
-            [found, x, y, z] &#x3D; this.getPositionOfHit(hitIdentifier, eventData);
-            if (found) {
-              distance &#x3D; Math.sqrt(x * x + y * y + z * z);
-              if (distance &gt; maxR) {
-                track.pos.push([x, y, z]);
+        if (trackCollectionName.includes(&#x27;Muon&#x27;)) {
+          // Only try this for Muons at the moment.
+
+          // Now loop over hits, and if possible, see if we can extend the track
+          let measurementPositions &#x3D; [];
+          if (numHits.length &gt; 0) {
+            let hitIdentifier &#x3D; 0;
+            let distance &#x3D; 0.0;
+            let found &#x3D; false;
+            for (let p &#x3D; 0; p &lt; numHits[i]; p++) {
+              hitIdentifier &#x3D; hits[hitsCounter + p];
+              listOfHits.push(hitIdentifier);
+              // Now try to find matching hit
+              [found, x, y, z] &#x3D; this.getPositionOfHit(
+                hitIdentifier,
+                eventData
+              );
+              if (found) {
+                distance &#x3D; Math.sqrt(x * x + y * y + z * z);
+                if (distance &gt; maxR) {
+                  measurementPositions.push([x, y, z, distance]);
+                }
+              }
+            }
+            hitsCounter +&#x3D; numHits[i];
+            track.hits &#x3D; listOfHits;
+          }
+
+          // This seems to give pretty poor results, so try to filter.
+          // Sort radially (sorry cosmics!)
+          let sortedMeasurements &#x3D; measurementPositions.sort(
+            (a, b) &#x3D;&gt; a[3] - b[3]
+          );
+          const minDelta &#x3D; 250; // tweaked by trial and error
+          let newHitCount &#x3D; 0;
+          let rejectedHitCount &#x3D; 0;
+          let lastDistance &#x3D; maxR + minDelta;
+          if (sortedMeasurements.length) {
+            for (let meas of sortedMeasurements) {
+              if (meas[3] &gt; lastDistance + minDelta) {
+                track.pos.push([meas[0], meas[1], meas[2]]);
+                lastDistance &#x3D; meas[3] + minDelta;
+                newHitCount++;
+              } else {
+                rejectedHitCount++;
               }
             }
           }
-          hitsCounter +&#x3D; numHits[i];
-          track.hits &#x3D; listOfHits;
+          console.log(
+            &#x27;Added &#x27; +
+              newHitCount +
+              &#x27; hits to &#x27; +
+              trackCollectionName +
+              &#x27; (and rejected &#x27; +
+              rejectedHitCount +
+              &#x27;)&#x27;
+          );
         }
 
         jsontracks.push(track);

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/HSF/phoenix/compare/v1.6.1...v1.7.0) (2021-04-21)
+
+
+### Features
+
+* **app:** option for custom import handlers ([99b161e](https://github.com/HSF/phoenix/commit/99b161e76109fb2b99031a35ac72fbe31596f44b))
+* **app:** support for importing with LHCb loader ([8c6bd89](https://github.com/HSF/phoenix/commit/8c6bd89bafcd3f4123365f36f36f49d83f4352d8))
+
+
+
+
+
 ## [1.6.1](https://github.com/HSF/phoenix/compare/v1.6.0...v1.6.1) (2021-04-19)
 
 
