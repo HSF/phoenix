@@ -188,30 +188,55 @@ export class PhoenixObjects {
 
   /**
    * Process the Hits from the given parameters and get them as a geometry.
-   * @param hitsParams Hit object. Must contain 'pos', the array of [x,y,z] positions,
+   * @param hitsParams Either an array of positions, or of Hit objects. If objects, they must contain 'pos', the array of [x,y,z] positions,
    * Can optionally contain extraInfo, which will be added to the resultant hit.
    * `type` tells Phoenix how to draw this - currently can be Point (default), or Line.
    * @returns Hits object.
    */
-  public static getHits(hitsParams: [{ pos: []; type?: string }]): Object3D {
-    let hitsParamsClone = hitsParams;
+  public static getHits(hitsParams: any): Object3D {
+    let hitsParamsClone: any;
+    let positions: any[];
     let type: string = 'Point'; // Default is point and 3 coordinates per hit
     let coordlength = 3;
-    if (hitsParams.length > 1) {
+    let isSimpleArray = false;
+
+    // if (typeof hitsParams === 'object' && !Array.isArray(hitsParams)) {
+    //   positions = [hitsParams.pos];
+    //   hitsParamsClone = hitsParams;
+    // } else {
+    //   positions = hitsParams;
+    //   hitsParamsClone = { pos: hitsParams };
+    // }
+
+    if (hitsParams.length > 0) {
       // Peek at first one. Would be better to make these properties of the collections.
-      if ('type' in hitsParams[0]) {
-        type = hitsParams[0].type;
-        coordlength = 6;
+      const first = hitsParams[0];
+      if (Array.isArray(first)) isSimpleArray = true;
+      if ('type' in first) {
+        type = first.type;
       }
+    } else {
+      console.log('No hits! Aborting from getHits.');
+      return new Object3D();
     }
+
+    // Lines need 6 coords
+    if (type === 'Line') {
+      coordlength = 6;
+    }
+
     // attributes
-    const pointPos = new Float32Array(hitsParams.length * coordlength);
+    let hitLength = hitsParams.length * coordlength;
+    if (isSimpleArray) length = hitLength; // These are already arrays
+    const pointPos = new Float32Array();
     let i = 0;
-    let imax = 0;
     for (const hit of hitsParams) {
-      imax = i + coordlength;
       for (let j = 0; j < coordlength; ++j, ++i) {
-        pointPos[i] = hit.pos[j];
+        if (isSimpleArray) {
+          pointPos[i] = hit;
+        } else {
+          pointPos[i] = hit.pos[j];
+        }
       }
     }
 
