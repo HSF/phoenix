@@ -19,6 +19,11 @@ const colorCharge = (objectParams: any, chargeValue: number) => {
   }
 };
 
+/**
+ * Get momentum from object parameters.
+ * @param objectParams Parameters associated to the 3D object.
+ * @returns THe momentum value.
+ */
 const getMomentum = (objectParams: any) =>
   objectParams?.dparams?.[4]
     ? Math.abs(1 / parseFloat(objectParams?.dparams?.[4]))
