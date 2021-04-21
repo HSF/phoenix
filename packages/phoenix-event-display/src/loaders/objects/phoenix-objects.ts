@@ -211,9 +211,14 @@ export class PhoenixObjects {
     if (hitsParams.length > 0) {
       // Peek at first one. Would be better to make these properties of the collections.
       const first = hitsParams[0];
-      if (Array.isArray(first)) isSimpleArray = true;
-      if ('type' in first) {
-        type = first.type;
+      if (Array.isArray(first)) {
+        isSimpleArray = true;
+        hitsParamsClone = { pos: hitsParams };
+      } else {
+        hitsParamsClone = hitsParams;
+        if ('type' in first) {
+          type = first.type;
+        }
       }
     } else {
       console.log('No hits! Aborting from getHits.');
@@ -228,12 +233,12 @@ export class PhoenixObjects {
     // attributes
     let hitLength = hitsParams.length * coordlength;
     if (isSimpleArray) length = hitLength; // These are already arrays
-    const pointPos = new Float32Array();
+    const pointPos = new Float32Array(hitLength);
     let i = 0;
     for (const hit of hitsParams) {
       for (let j = 0; j < coordlength; ++j, ++i) {
         if (isSimpleArray) {
-          pointPos[i] = hit;
+          pointPos[i] = hit[j];
         } else {
           pointPos[i] = hit.pos[j];
         }
