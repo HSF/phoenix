@@ -139,38 +139,23 @@ export const tracksColoringOptions = (
   };
 
   // Momentum configurations
-  collectionFolder.addConfig('slider', {
-    label: PrettySymbols.getPrettySymbol('mom') + ' min',
-    min: momColors.min.value,
-    max: momColors.max.value,
-    value: momColors.min.value,
-    step: 10,
-    allowCustomValue: true,
-    onChange: (value: number) => {
-      momColors.min.value = value;
-      if (selectedColorByOption === colorByOptions.mom) {
-        colorByMomentum('min', momColors.min.color);
-        colorByMomentum('max', momColors.max.color);
-      }
-    },
-  });
-  collectionFolder.addConfig('slider', {
-    label: PrettySymbols.getPrettySymbol('mom') + ' max',
-    min: momColors.min.value,
-    max: momColors.max.value,
-    value: momColors.max.value,
-    step: 10,
-    allowCustomValue: true,
-    onChange: (value: number) => {
-      momColors.max.value = value;
-      if (selectedColorByOption === colorByOptions.mom) {
-        colorByMomentum('min', momColors.min.color);
-        colorByMomentum('max', momColors.max.color);
-      }
-    },
-  });
-
   Object.entries(momColors).forEach(([key, value]) => {
+    collectionFolder.addConfig('slider', {
+      label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
+      min: momColors.min.value,
+      max: momColors.max.value,
+      value: momColors[key].value,
+      step: 10,
+      allowCustomValue: true,
+      onChange: (value: number) => {
+        momColors[key].value = value;
+        if (selectedColorByOption === colorByOptions.mom) {
+          colorByMomentum('min', momColors.min.color);
+          colorByMomentum('max', momColors.max.color);
+        }
+      },
+    });
+
     collectionFolder.addConfig('color', {
       label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
       color: value.color,
