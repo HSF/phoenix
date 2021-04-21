@@ -226,7 +226,8 @@ Currently Phoenix supports the following physics objects:
 * Tracks - the trajectory of a charged particle (usually in a magnetic field)
 * Calorimeter clusters - deposits of energy in a calorimeter
 * Jets - cones of activity within the detector
-* Hits - individual measurements
+* Hits - individual measurements, which can either be points or lines
+* Vertices 
 
 And coming soon:
 
@@ -251,6 +252,12 @@ What follows in the list of objects depends on the type:
   * 'phi'- phi direction
   * 'eta' - eta direction
   * 'energy'
+ * Hits can be defined in one of two ways:
+  * [ [x,y,z], [x,y,z], [x,y,z], ] - i.e. an array of 3-dim arrays containing Cartesian coordinate. These will be rendered as points.
+  * [ hit, hit, hit ] - i.e. an array of hit objects, where the hit objects must 
+Where hit needs to have a pos attribute, and optionally a type ( ‘Point’ || ‘Line’
+Everything else is decoration
+
   
 Uniquely for clusters, you need to define the plane(s) on which to project the clusters as a property of the collection itself, using the following notation
   
