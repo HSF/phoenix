@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { EventDataFormat } from '../../types';
+import { EventDataImportOption } from '../../services/extras/event-data-import';
 
 @Component({
   selector: 'app-ui-menu',
@@ -8,7 +8,7 @@ import { EventDataFormat } from '../../types';
 })
 export class UiMenuComponent {
   @Input()
-  eventDataFormats: EventDataFormat[] = [];
+  eventDataImportOptions: EventDataImportOption[] = [];
 
   hideUIMenu: boolean = false;
 }

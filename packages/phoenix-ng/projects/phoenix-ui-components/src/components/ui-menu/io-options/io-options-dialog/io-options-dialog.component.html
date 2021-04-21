@@ -1,28 +1,28 @@
 <div class="dialog">
   <h1 mat-dialog-title>Import and export options</h1>
   <div mat-dialog-content class="dialog-content">
-    <div *ngIf="eventDataFormats.length > 0">
+    <div *ngIf="eventDataImportOptions.length > 0">
       <h5>Import</h5>
 
       <h6 class="text-center">Event data</h6>
 
       <div class="row centered">
         <ng-container
-          *ngFor="let eventDataFormat of eventDataFormatsWithHandler"
+          *ngFor="let eventDataImportOption of eventDataOptionsWithHandler"
         >
           <input
             type="file"
-            [id]="'eventData' + eventDataFormat.format + 'File'"
+            [id]="'eventData' + eventDataImportOption.format + 'File'"
             class="inputfile"
-            [accept]="eventDataFormat.accept"
-            (change)="eventDataFormat.handler($event.target.files)"
+            [accept]="eventDataImportOption.accept"
+            (change)="eventDataImportOption.handler($event.target.files)"
           />
           <label
-            [for]="'eventData' + eventDataFormat.format + 'File'"
+            [for]="'eventData' + eventDataImportOption.format + 'File'"
             class="imageLabel"
           >
             <img src="assets/icons/eventData.svg" alt="Event data icon" />
-            Load {{ eventDataFormat.fileType }}
+            Load {{ eventDataImportOption.fileType }}
           </label>
         </ng-container>
       </div>
