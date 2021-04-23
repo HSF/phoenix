@@ -20,6 +20,7 @@ export class LHCbComponent implements OnInit {
     'phoenix-menu'
   );
   loaded = false;
+  loadingProgress = 0;
 
   lhcbImporter = new ImportOption(
     'JSON (LHCb)',
@@ -57,9 +58,13 @@ export class LHCbComponent implements OnInit {
         this.loadEventData(eventData);
       });
 
-    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      this.loaded = true;
-    });
+    this.eventDisplay
+      .getLoadingManager()
+      .addProgressListener((progress) => (this.loadingProgress = progress));
+
+    this.eventDisplay
+      .getLoadingManager()
+      .addLoadListenerWithCheck(() => (this.loaded = true));
   }
 
   handleLHCbJSONImport(files: FileList) {

@@ -8,6 +8,7 @@ import { EventDisplayService } from 'phoenix-ui-components';
 })
 export class GeometryComponent implements OnInit {
   loaded = false;
+  loadingProgress = 0;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -30,9 +31,13 @@ export class GeometryComponent implements OnInit {
     };
     this.eventDisplay.buildGeometryFromParameters(parameters);
 
-    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      this.loaded = true;
-    });
+    this.eventDisplay
+      .getLoadingManager()
+      .addProgressListener((progress) => (this.loadingProgress = progress));
+
+    this.eventDisplay
+      .getLoadingManager()
+      .addLoadListenerWithCheck(() => (this.loaded = true));
   }
 
   copyCode() {

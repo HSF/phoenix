@@ -7,7 +7,7 @@
     Loading...<br />
     <small class="text-muted">(This may take a while)</small>
   </p>
-  <div class="loading-bar" *ngIf="progress">
+  <div class="loading-bar" *ngIf="progress !== undefined">
     <span [style]="{ width: progress + '%' }"></span>
   </div>
 </div>
