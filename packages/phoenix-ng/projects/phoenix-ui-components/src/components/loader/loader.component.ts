@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class LoaderComponent {
   @Input() loaded = false;
+  @Input() progress: number;
 }

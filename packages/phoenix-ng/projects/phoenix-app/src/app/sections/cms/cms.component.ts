@@ -19,6 +19,7 @@ export class CMSComponent implements OnInit {
     'phoenix-menu'
   );
   loaded = false;
+  loadingProgress = 0;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -57,8 +58,12 @@ export class CMSComponent implements OnInit {
       }
     );
 
-    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      this.loaded = true;
-    });
+    this.eventDisplay
+      .getLoadingManager()
+      .addProgressListener((progress) => (this.loadingProgress = progress));
+
+    this.eventDisplay
+      .getLoadingManager()
+      .addLoadListenerWithCheck(() => (this.loaded = true));
   }
 }

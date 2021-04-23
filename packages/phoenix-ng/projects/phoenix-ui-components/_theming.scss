@@ -10,6 +10,8 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($light-theme);
 
 :root {
+  --phoenix-primary: #118ab2;
+  --phoenix-secondary: #f1e833;
   --phoenix-background-color: #ffffff;
   --phoenix-background-color-secondary: #f5f5f5;
   --phoenix-background-color-tertiary: #e6e6e6;
