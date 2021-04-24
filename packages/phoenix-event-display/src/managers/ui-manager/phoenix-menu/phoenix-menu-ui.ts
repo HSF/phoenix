@@ -1,10 +1,10 @@
+import { Color } from 'three';
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
-import { Color } from 'three';
 import { Cut } from '../../../extras/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
-import { tracksColoringOptions } from '../coloring-options';
+import { ColorOptions } from '../color-options';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -20,6 +20,8 @@ export class PhoenixMenuUI {
   private eventFolderState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolder: PhoenixMenuNode;
+  /** Color options with functions to color event data. */
+  private colorOptions: ColorOptions;
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -31,6 +33,8 @@ export class PhoenixMenuUI {
       this.phoenixMenu = undefined;
     }
     this.phoenixMenu = phoenixMenu;
+
+    this.colorOptions = new ColorOptions(three.getColoringManager());
 
     this.geomFolder = null;
     this.eventFolder = null;
@@ -279,7 +283,7 @@ export class PhoenixMenuUI {
 
     // Extra config options specific to tracks
     if (typeFolder.name === 'Tracks') {
-      tracksColoringOptions(this.three, collectionNode);
+      this.colorOptions.trackColorOptions(collectionNode);
     }
   }
 
