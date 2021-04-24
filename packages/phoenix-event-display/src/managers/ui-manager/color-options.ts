@@ -2,91 +2,119 @@ import { PrettySymbols } from '../../helpers/pretty-symbols';
 import { ColoringManager } from '../three-manager/coloring-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 
+export enum ColorByOptionKeys {
+  CHARGE = 'charge',
+  MOM = 'mom',
+}
+
+type ColorByOption = {
+  key: ColorByOptionKeys;
+  name: string;
+  initialize: () => void;
+  apply: () => void;
+};
+
 /**
  * Color options with functions to color event data.
  */
 export class ColorOptions {
+  private collectionName: string;
+  private allColorByOptions: ColorByOption[] = [
+    {
+      key: ColorByOptionKeys.CHARGE,
+      name: 'Charge ' + PrettySymbols.getPrettySymbol('charge'),
+      initialize: this.initChargeColorOptions.bind(this),
+      apply: this.applyChargeColorOptions.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.MOM,
+      name: 'Momentum ' + PrettySymbols.getPrettySymbol('mom'),
+      initialize: this.initMomColorOptions.bind(this),
+      apply: this.applyMomColorOptions.bind(this),
+    },
+  ];
+  private colorByOptions: ColorByOption[];
+  private selectedColorByOption: ColorByOptionKeys;
+
+  // Charge options.
+  private chargeColors = {
+    '-1': '#ff0000',
+    '0': '#ff0000',
+    '1': '#ff0000',
+  };
+
+  // Momentum options.
+  private momColors = {
+    min: {
+      value: 0,
+      color: '#ff0000',
+    },
+    max: {
+      value: 50000,
+      color: '#ff0000',
+    },
+  };
+
   /**
    * Create the color options.
    * @param coloringManager Coloring manager for three.js functions related to coloring of objects.
    */
-  constructor(private coloringManager: ColoringManager) {}
+  constructor(
+    private coloringManager: ColoringManager,
+    private collectionFolder: PhoenixMenuNode,
+    colorByOptionsToInclude: ColorByOptionKeys[]
+  ) {
+    this.collectionName = collectionFolder.name;
 
-  /**
-   * Add color options for tracks.
-   * @param collectionFolder Phoenix menu node of a collection.
-   */
-  public trackColorOptions(collectionFolder: PhoenixMenuNode) {
-    const collectionName = collectionFolder.name;
+    this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
+      colorByOptionsToInclude.includes(colorByOption.key)
+    );
 
-    const colorByOptions = {
-      charge: 'Charge ' + PrettySymbols.getPrettySymbol('charge'),
-      mom: 'Momentum ' + PrettySymbols.getPrettySymbol('charge'),
-    };
+    if (this.colorByOptions?.length > 0) {
+      this.init();
+      this.colorByOptions.forEach((colorByOption) =>
+        colorByOption.initialize()
+      );
+    }
+  }
 
-    const chargeColors = {
-      '-1': '#ff0000',
-      '0': '#ff0000',
-      '1': '#ff0000',
-    };
-
-    const momColors = {
-      min: {
-        value: 0,
-        color: '#ff0000',
-      },
-      max: {
-        value: 50000,
-        color: '#ff0000',
-      },
-    };
-
-    const momMidValue = () => (momColors.min.value + momColors.max.value) / 2;
-
-    let selectedColorByOption = colorByOptions.charge;
+  private init() {
+    this.selectedColorByOption = this.colorByOptions[0].key;
 
     // Configurations
-    collectionFolder.addConfig('label', {
+    this.collectionFolder.addConfig('label', {
       label: 'Color options',
     });
 
-    collectionFolder.addConfig('select', {
+    this.collectionFolder.addConfig('select', {
       label: 'Color by',
-      options: Object.values(colorByOptions),
+      options: this.colorByOptions.map((colorByOption) => colorByOption.name),
       onChange: (updatedColorByOption: string) => {
-        selectedColorByOption = updatedColorByOption;
+        const newColorByOption = this.colorByOptions.find(
+          (colorByOption) => colorByOption.name === updatedColorByOption
+        );
 
-        switch (updatedColorByOption) {
-          case colorByOptions.charge:
-            [-1, 0, 1].forEach((chargeValue) => {
-              this.coloringManager.colorObjectsByProperty(
-                chargeColors[chargeValue],
-                collectionName,
-                (objectUserData) =>
-                  this.shouldColorByCharge(objectUserData, chargeValue)
-              );
-            });
-            break;
-          case colorByOptions.mom:
-            colorByMomentum('min', momColors.min.color);
-            colorByMomentum('max', momColors.max.color);
-            break;
-        }
+        this.selectedColorByOption = newColorByOption?.key;
+        newColorByOption?.apply();
       },
     });
+  }
 
+  // Charge options.
+
+  private initChargeColorOptions() {
     // Charge configurations
     [-1, 0, 1].forEach((chargeValue) => {
-      collectionFolder.addConfig('color', {
+      this.collectionFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
-        color: chargeColors[chargeValue],
+        color: this.chargeColors[chargeValue],
         onChange: (color: any) => {
-          chargeColors[chargeValue] = color;
+          this.chargeColors[chargeValue] = color;
 
-          if (selectedColorByOption === colorByOptions.charge) {
+          if (this.selectedColorByOption === ColorByOptionKeys.CHARGE) {
             this.coloringManager.colorObjectsByProperty(
               color,
-              collectionName,
+              this.collectionName,
               (objectUserData) =>
                 this.shouldColorByCharge(objectUserData, chargeValue)
             );
@@ -94,58 +122,16 @@ export class ColorOptions {
         },
       });
     });
+  }
 
-    // Momentum helper functions
-    const colorByMomentum = (minOrMax: string, color: any) => {
+  private applyChargeColorOptions() {
+    [-1, 0, 1].forEach((chargeValue) => {
       this.coloringManager.colorObjectsByProperty(
-        color,
-        'Tracks',
-        (objectParams) => {
-          const mom = this.getMomentum(objectParams);
-          const mid = momMidValue();
-
-          if (minOrMax === 'max' && mom > mid && mom < momColors.max.value) {
-            return true;
-          } else if (
-            minOrMax === 'min' &&
-            mom < mid &&
-            mom > momColors.min.value
-          ) {
-            return true;
-          }
-        }
+        this.chargeColors[chargeValue],
+        this.collectionName,
+        (objectUserData) =>
+          this.shouldColorByCharge(objectUserData, chargeValue)
       );
-    };
-
-    // Momentum configurations
-    Object.entries(momColors).forEach(([key, value]) => {
-      collectionFolder.addConfig('slider', {
-        label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
-        min: momColors.min.value,
-        max: momColors.max.value,
-        value: momColors[key].value,
-        step: 10,
-        allowCustomValue: true,
-        onChange: (value: number) => {
-          momColors[key].value = value;
-          if (selectedColorByOption === colorByOptions.mom) {
-            colorByMomentum('min', momColors.min.color);
-            colorByMomentum('max', momColors.max.color);
-          }
-        },
-      });
-
-      collectionFolder.addConfig('color', {
-        label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
-        color: value.color,
-        onChange: (color: any) => {
-          value.color = color;
-
-          if (selectedColorByOption === colorByOptions.mom) {
-            colorByMomentum(key, color);
-          }
-        },
-      });
     });
   }
 
@@ -162,6 +148,68 @@ export class ColorOptions {
     } else if (objectParams?.charge === chargeValue) {
       return true;
     }
+  }
+
+  // Momentum options.
+
+  private initMomColorOptions() {
+    // Momentum configurations
+    Object.entries(this.momColors).forEach(([key, momValue]) => {
+      this.collectionFolder.addConfig('slider', {
+        label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
+        min: this.momColors.min.value,
+        max: this.momColors.max.value,
+        value: this.momColors[key].value,
+        step: 10,
+        allowCustomValue: true,
+        onChange: (sliderValue: number) => {
+          this.momColors[key].value = sliderValue;
+
+          if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
+            this.colorByMomentum('min');
+            this.colorByMomentum('max');
+          }
+        },
+      });
+
+      this.collectionFolder.addConfig('color', {
+        label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
+        color: momValue.color,
+        onChange: (color: any) => {
+          this.momColors[key].color = color;
+
+          if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
+            this.colorByMomentum(key);
+          }
+        },
+      });
+    });
+  }
+
+  private applyMomColorOptions() {
+    this.colorByMomentum('min');
+    this.colorByMomentum('max');
+  }
+
+  private colorByMomentum(minOrMax: string) {
+    this.coloringManager.colorObjectsByProperty(
+      this.momColors[minOrMax].color,
+      this.collectionName,
+      (objectParams) => {
+        const mom = this.getMomentum(objectParams);
+        const mid = (this.momColors.min.value + this.momColors.max.value) / 2;
+
+        if (minOrMax === 'max' && mom > mid && mom < this.momColors.max.value) {
+          return true;
+        } else if (
+          minOrMax === 'min' &&
+          mom < mid &&
+          mom > this.momColors.min.value
+        ) {
+          return true;
+        }
+      }
+    );
   }
 
   /**

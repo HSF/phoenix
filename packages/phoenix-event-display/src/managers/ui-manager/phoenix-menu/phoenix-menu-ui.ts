@@ -4,7 +4,7 @@ import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Cut } from '../../../extras/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
-import { ColorOptions } from '../color-options';
+import { ColorByOptionKeys, ColorOptions } from '../color-options';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -33,8 +33,6 @@ export class PhoenixMenuUI {
       this.phoenixMenu = undefined;
     }
     this.phoenixMenu = phoenixMenu;
-
-    this.colorOptions = new ColorOptions(three.getColoringManager());
 
     this.geomFolder = null;
     this.eventFolder = null;
@@ -283,7 +281,10 @@ export class PhoenixMenuUI {
 
     // Extra config options specific to tracks
     if (typeFolder.name === 'Tracks') {
-      this.colorOptions.trackColorOptions(collectionNode);
+      new ColorOptions(this.three.getColoringManager(), collectionNode, [
+        ColorByOptionKeys.CHARGE,
+        ColorByOptionKeys.MOM,
+      ]);
     }
   }
 
