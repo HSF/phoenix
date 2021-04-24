@@ -2,11 +2,13 @@ import { PrettySymbols } from '../../helpers/pretty-symbols';
 import { ColoringManager } from '../three-manager/coloring-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 
+/** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {
   CHARGE = 'charge',
   MOM = 'mom',
 }
 
+/** Type for a single color by option. */
 type ColorByOption = {
   key: ColorByOptionKeys;
   name: string;
@@ -18,7 +20,14 @@ type ColorByOption = {
  * Color options with functions to color event data.
  */
 export class ColorOptions {
+  /** Collection name of the event data type. */
   private collectionName: string;
+  /** Available options to color by in this instance of color options. */
+  private colorByOptions: ColorByOption[];
+  /** Currently selected option to color by. */
+  private selectedColorByOption: ColorByOptionKeys;
+
+  /** All color by options possible. */
   private allColorByOptions: ColorByOption[] = [
     {
       key: ColorByOptionKeys.CHARGE,
@@ -33,10 +42,9 @@ export class ColorOptions {
       apply: this.applyMomColorOptions.bind(this),
     },
   ];
-  private colorByOptions: ColorByOption[];
-  private selectedColorByOption: ColorByOptionKeys;
 
   // Charge options.
+  /** Default values for colors for color by charge. */
   private chargeColors = {
     '-1': '#ff0000',
     '0': '#ff0000',
@@ -44,6 +52,7 @@ export class ColorOptions {
   };
 
   // Momentum options.
+  /** Default values for colors and min/max for color by momentum. */
   private momColors = {
     min: {
       value: 0,
@@ -58,6 +67,8 @@ export class ColorOptions {
   /**
    * Create the color options.
    * @param coloringManager Coloring manager for three.js functions related to coloring of objects.
+   * @param collectionFolder Collection folder to add the color by options to.
+   * @param colorByOptionsToInclude Options to include for this collection to color event data by.
    */
   constructor(
     private coloringManager: ColoringManager,
@@ -78,6 +89,9 @@ export class ColorOptions {
     }
   }
 
+  /**
+   * Initialize the color options.
+   */
   private init() {
     this.selectedColorByOption = this.colorByOptions[0].key;
 
@@ -102,6 +116,9 @@ export class ColorOptions {
 
   // Charge options.
 
+  /**
+   * Initialize charge color options.
+   */
   private initChargeColorOptions() {
     // Charge configurations
     [-1, 0, 1].forEach((chargeValue) => {
@@ -124,6 +141,9 @@ export class ColorOptions {
     });
   }
 
+  /**
+   * Apply charge color options.
+   */
   private applyChargeColorOptions() {
     [-1, 0, 1].forEach((chargeValue) => {
       this.coloringManager.colorObjectsByProperty(
@@ -152,6 +172,9 @@ export class ColorOptions {
 
   // Momentum options.
 
+  /**
+   * Initialize momentum color options.
+   */
   private initMomColorOptions() {
     // Momentum configurations
     Object.entries(this.momColors).forEach(([key, momValue]) => {
@@ -186,11 +209,19 @@ export class ColorOptions {
     });
   }
 
+  /**
+   * Apply momentum color options.
+   */
   private applyMomColorOptions() {
     this.colorByMomentum('min');
     this.colorByMomentum('max');
   }
 
+  /**
+   * Color event data based on momentum property of each object.
+   * @param minOrMax If the momentum to color objects by is minimum or maximum momentum.
+   * To apply the stored momentum colors for minimum and maximum.
+   */
   private colorByMomentum(minOrMax: string) {
     this.coloringManager.colorObjectsByProperty(
       this.momColors[minOrMax].color,
