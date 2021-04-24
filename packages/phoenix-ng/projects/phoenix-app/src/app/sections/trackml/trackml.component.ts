@@ -29,6 +29,7 @@ export class TrackmlComponent implements OnInit {
     'phoenix-menu'
   );
   loaded = false;
+  loadingProgress = 0;
 
   constructor(
     private eventDisplay: EventDisplayService,
@@ -87,9 +88,13 @@ export class TrackmlComponent implements OnInit {
     );
     this.loadTrackMLData();
 
-    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      this.loaded = true;
-    });
+    this.eventDisplay
+      .getLoadingManager()
+      .addProgressListener((progress) => (this.loadingProgress = progress));
+
+    this.eventDisplay
+      .getLoadingManager()
+      .addLoadListenerWithCheck(() => (this.loaded = true));
   }
 
   private loadTrackMLData() {

@@ -11,58 +11,61 @@
     </svg>
   </button>
   <div id="optionsPanel" [hidden]="hideUIMenu">
-    <!-- Toggle for shareable link constructor modal-->
-    <app-share-link></app-share-link>
+    <!-- Event selector -->
+    <app-event-selector></app-event-selector>
+
+    <!-- Zoom in and zoom out controls -->
+    <app-zoom-controls></app-zoom-controls>
+
+    <app-view-options></app-view-options>
+
+    <app-auto-rotate></app-auto-rotate>
+
+    <!-- Dark theme toggle -->
+    <app-dark-theme></app-dark-theme>
+
+    <!-- Toggle for clipping geometries -->
+    <app-object-clipping></app-object-clipping>
+
+    <!-- Main view toggle -->
+    <app-main-view-toggle></app-main-view-toggle>
+
+    <!-- Toggle for overlay panel -->
+    <app-overlay-view></app-overlay-view>
+
+    <!-- Toggle for selected object panel -->
+    <app-object-selection></app-object-selection>
+
+    <!-- Info panel -->
+    <app-info-panel></app-info-panel>
+
+    <!-- Toggle for animating the event data -->
+    <app-animate-event></app-animate-event>
+
+    <!-- Toggle for animating camera through event -->
+    <app-animate-camera></app-animate-camera>
+
+    <!-- Toggle for collections info -->
+    <app-collections-info></app-collections-info>
+
+    <!-- Toggle for performance -->
+    <app-performance-toggle></app-performance-toggle>
+
+    <!-- Toggle for VR -->
+    <app-vr-toggle></app-vr-toggle>
+
+    <!-- Toggle for screenshot mode -->
+    <app-ss-mode></app-ss-mode>
 
     <!-- Toggle for loading geometries modal-->
     <app-io-options
       [eventDataImportOptions]="eventDataImportOptions"
     ></app-io-options>
 
-    <!-- Toggle for screenshot mode -->
-    <app-ss-mode></app-ss-mode>
+    <!-- Toggle for shareable link constructor modal-->
+    <app-share-link></app-share-link>
 
-    <!-- Toggle for VR -->
-    <app-vr-toggle></app-vr-toggle>
-
-    <!-- Toggle for performance -->
-    <app-performance-toggle></app-performance-toggle>
-
-    <!-- Toggle for collections info -->
-    <app-collections-info></app-collections-info>
-
-    <!-- Toggle for animating camera through event -->
-    <app-animate-camera></app-animate-camera>
-
-    <!-- Toggle for animating the event data -->
-    <app-animate-event></app-animate-event>
-
-    <!-- Info panel -->
-    <app-info-panel></app-info-panel>
-
-    <!-- Toggle for selected object panel -->
-    <app-object-selection></app-object-selection>
-
-    <!-- Toggle for overlay panel -->
-    <app-overlay-view></app-overlay-view>
-
-    <!-- Main view toggle -->
-    <app-main-view-toggle></app-main-view-toggle>
-
-    <!-- Toggle for clipping geometries -->
-    <app-object-clipping></app-object-clipping>
-
-    <!-- Dark theme toggle -->
-    <app-dark-theme></app-dark-theme>
-
-    <app-auto-rotate></app-auto-rotate>
-
-    <app-view-options></app-view-options>
-
-    <!-- Zoom in and zoom out controls -->
-    <app-zoom-controls></app-zoom-controls>
-
-    <!-- Event selector -->
-    <app-event-selector></app-event-selector>
+    <!-- Extra options -->
+    <ng-content></ng-content>
   </div>
 </div>

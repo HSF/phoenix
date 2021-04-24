@@ -35,6 +35,7 @@ export class LoadingManager {
    */
   public addLoadableItem(id: string = '') {
     this.toLoad.push(id);
+    this.progressItems[id] = 0;
   }
 
   /**
@@ -43,6 +44,8 @@ export class LoadingManager {
    */
   public itemLoaded(id: string = '') {
     this.loaded.push(id);
+    this.onProgress(id, 100);
+
     if (
       this.toLoad.length === this.loaded.length &&
       this.toLoad.sort().join(',') === this.loaded.sort().join(',')
@@ -54,11 +57,11 @@ export class LoadingManager {
 
   /**
    * When an item loading progresses.
-   * @param itemName Name of the item with the progress.
+   * @param id ID of the item with the progress.
    * @param progress Progress of the item.
    */
-  public onProgress(itemName: string, progress: number) {
-    this.progressItems[itemName] = progress;
+  public onProgress(id: string, progress: number) {
+    this.progressItems[id] = progress;
 
     let totalProgress = Object.values(this.progressItems).reduce(
       (acc, val) => acc + val,
