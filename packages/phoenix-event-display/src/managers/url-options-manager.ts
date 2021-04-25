@@ -46,6 +46,7 @@ export class URLOptionsManager {
       this.configuration.defaultEventFile?.eventType
     );
     this.applyHideWidgetsOptions();
+    this.applyEmbedOption();
   }
 
   /**
@@ -137,7 +138,28 @@ export class URLOptionsManager {
       ],
     };
 
-    Object.entries(hideWidgetsOptions).forEach(([urlOption, idsToHide]) => {
+    this.hideIdsWithURLOption(hideWidgetsOptions);
+  }
+
+  /**
+   * Hide all overlay widgets and enable embed menu if "hideWidgets" option from the URL is true.
+   */
+  public applyEmbedOption() {
+    if (this.urlOptions.get('embed') === 'true') {
+      this.applyHideWidgetsOptions();
+
+      document
+        .getElementById('embedMenu')
+        ?.style.setProperty('display', 'block');
+    }
+  }
+
+  /**
+   * Hide element with IDs based on a URL option.
+   * @param urlOptionWithIds IDs to hide with keys as the URL option and its array value as IDs.
+   */
+  private hideIdsWithURLOption(urlOptionWithIds: { [key: string]: string[] }) {
+    Object.entries(urlOptionWithIds).forEach(([urlOption, idsToHide]) => {
       if (this.urlOptions.get(urlOption) === 'true') {
         idsToHide.forEach((singleId) => {
           document
