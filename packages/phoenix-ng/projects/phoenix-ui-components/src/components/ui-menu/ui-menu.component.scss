@@ -1,4 +1,4 @@
-.optionsWrapper {
+#uiMenu {
   position: absolute;
   bottom: 1rem;
   width: 100%;
@@ -10,7 +10,6 @@
 
 #optionsPanel {
   display: flex;
-  justify-content: center;
   align-items: center;
   background: var(--phoenix-background-color-secondary);
   border: 1px solid var(--phoenix-background-color-tertiary);
@@ -20,22 +19,6 @@
   padding: 0.3rem 1rem;
   overflow-x: scroll;
   z-index: 90;
-
-  .preset-views {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-}
-
-#helpPanel {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.5rem;
-}
-
-.optionsSeparator {
-  margin: 0 0.5rem;
 }
 
 #hide-ui-menu {
@@ -62,15 +45,5 @@
       transform: scaleY(-1);
       transition: all 0.3s;
     }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  #optionsPanel {
-    justify-content: inherit;
-  }
-
-  .preset-views-ul {
-    display: none;
   }
 }

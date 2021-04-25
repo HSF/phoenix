@@ -1,14 +1,4 @@
 .eventSelector {
-  display: flex;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  font-size: 0.9rem;
-
-  label {
-    display: none;
-    color: var(--phoenix-text-color-secondary);
-  }
-
   select {
     width: 9rem;
     padding: 5px 10px;
