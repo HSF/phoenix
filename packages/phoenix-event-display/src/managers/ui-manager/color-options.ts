@@ -26,6 +26,8 @@ export class ColorOptions {
   private colorByOptions: ColorByOption[];
   /** Currently selected option to color by. */
   private selectedColorByOption: ColorByOptionKeys;
+  /** Phoenix menu node containing color configurations. */
+  private colorOptionsFolder: PhoenixMenuNode;
 
   /** All color by options possible. */
   private allColorByOptions: ColorByOption[] = [
@@ -96,11 +98,9 @@ export class ColorOptions {
     this.selectedColorByOption = this.colorByOptions[0].key;
 
     // Configurations
-    this.collectionFolder.addConfig('label', {
-      label: 'Color options',
-    });
+    this.colorOptionsFolder = this.collectionFolder.addChild('Color Options');
 
-    this.collectionFolder.addConfig('select', {
+    this.colorOptionsFolder.addConfig('select', {
       label: 'Color by',
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
       onChange: (updatedColorByOption: string) => {
@@ -122,7 +122,7 @@ export class ColorOptions {
   private initChargeColorOptions() {
     // Charge configurations
     [-1, 0, 1].forEach((chargeValue) => {
-      this.collectionFolder.addConfig('color', {
+      this.colorOptionsFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
         color: this.chargeColors[chargeValue],
         onChange: (color: any) => {
@@ -178,7 +178,7 @@ export class ColorOptions {
   private initMomColorOptions() {
     // Momentum configurations
     Object.entries(this.momColors).forEach(([key, momValue]) => {
-      this.collectionFolder.addConfig('slider', {
+      this.colorOptionsFolder.addConfig('slider', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
         min: this.momColors.min.value,
         max: this.momColors.max.value,
@@ -195,7 +195,7 @@ export class ColorOptions {
         },
       });
 
-      this.collectionFolder.addConfig('color', {
+      this.colorOptionsFolder.addConfig('color', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
         color: momValue.color,
         onChange: (color: any) => {
@@ -218,9 +218,9 @@ export class ColorOptions {
   }
 
   /**
-   * Color event data based on momentum property of each object.
+   * Color event data based on the momentum property of each object.
    * @param minOrMax If the momentum to color objects by is minimum or maximum momentum.
-   * To apply the stored momentum colors for minimum and maximum.
+   * This is to apply the stored momentum colors for minimum and maximum separated at the mid value.
    */
   private colorByMomentum(minOrMax: string) {
     this.coloringManager.colorObjectsByProperty(
