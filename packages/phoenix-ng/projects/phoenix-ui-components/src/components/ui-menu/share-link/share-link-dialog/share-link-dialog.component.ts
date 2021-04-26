@@ -28,8 +28,10 @@ export class ShareLinkDialogComponent {
     this.dialogRef.close();
   }
 
-  getEmbedLink() {
-    return `<iframe src="${this.shareLink}"></iframe>`;
+  getEmbedLink(urlParametersString: string = '') {
+    return `<iframe src="${this.baseLink}?embed=true${
+      urlParametersString ? '&' : ''
+    }${urlParametersString}"></iframe>`;
   }
 
   setOptionValue(option: string, value: string) {
@@ -51,7 +53,7 @@ export class ShareLinkDialogComponent {
 
     this.shareLink =
       this.baseLink + (urlParametersString ? '?' : '') + urlParametersString;
-    this.embedLink = this.getEmbedLink();
+    this.embedLink = this.getEmbedLink(urlParametersString);
   }
 
   copyText(text: string, element: HTMLElement) {

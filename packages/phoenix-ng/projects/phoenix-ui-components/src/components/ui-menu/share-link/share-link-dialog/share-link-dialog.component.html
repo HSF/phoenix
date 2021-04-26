@@ -20,7 +20,7 @@
         id="eventDataType"
         (input)="setOptionValue('type', $event.target.value)"
       >
-        <option selected disabled>Select</option>
+        <option selected value="">Select</option>
         <option value="jivexml">JiveXML</option>
         <option value="json">JSON</option>
       </select>
@@ -44,6 +44,7 @@
         Hide all widgets
       </mat-checkbox>
     </div>
+
     <h5>Share</h5>
     <div class="share-box my-2">
       <span>{{ shareLink }}</span>

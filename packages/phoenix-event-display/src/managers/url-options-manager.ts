@@ -12,6 +12,7 @@ export const phoenixURLOptions = {
   type: '',
   config: '',
   hideWidgets: false,
+  embed: false,
 };
 
 /**
