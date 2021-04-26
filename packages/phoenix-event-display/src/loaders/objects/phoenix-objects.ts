@@ -332,8 +332,11 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR2 = 1100.0 * 1100.0;
-    const maxZ = 3200.0;
+    const drawRadius = 1800.0; // FIXME - maker this configurable
+    const drawZ = 3600.0; // FIXME - maker this configurable
+
+    const maxR2 = drawRadius * drawRadius;
+    const maxZ = drawZ;
     const length = clusterParams.energy * 0.03;
     // geometry
     const geometry = new BoxBufferGeometry(30, 30, length);
@@ -347,12 +350,12 @@ export class PhoenixObjects {
     clusterParams.theta = theta;
 
     let position = CoordinateHelper.sphericalToCartesian(
-      4000,
+      drawZ+drawRadius,
       theta,
       clusterParams.phi
     );
 
-    // How to generalise to other experiments? Pass in limit lambda?
+    // How to generalise to other experiments? Pass in limit lambda? 
     let cylRadius2 = position.x * position.x + position.y * position.y;
     if (cylRadius2 > maxR2) {
       position.setLength(
@@ -361,7 +364,7 @@ export class PhoenixObjects {
     }
 
     if (Math.abs(position.z) > maxZ) {
-      position.setLength((position.length() * maxZ) / position.z);
+      position.setLength((position.length() * maxZ) / Math.abs(position.z));
     }
 
     cube.position.copy(position);
