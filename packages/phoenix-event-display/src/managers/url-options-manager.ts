@@ -146,7 +146,18 @@ export class URLOptionsManager {
    */
   public applyEmbedOption() {
     if (this.urlOptions.get('embed') === 'true') {
-      this.applyHideWidgetsOptions();
+      const hideWidgetsOptions = {
+        embed: [
+          'mainLogo', // Main logo
+          'uiMenu', // UI menu
+          'experimentInfo', // Experiment info
+          'phoenixMenu', // Phoenix menu
+          'statsElement', // Stats at the bottom left
+          'gui', // dat.GUI menu
+        ],
+      };
+
+      this.hideIdsWithURLOption(hideWidgetsOptions);
 
       document
         .getElementById('embedMenu')

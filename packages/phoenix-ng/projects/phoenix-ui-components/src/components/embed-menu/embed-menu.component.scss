@@ -1,0 +1,15 @@
+#embedMenu {
+  display: none;
+
+  #embedMenuInner {
+    display: flex;
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    background: var(--phoenix-background-color-secondary);
+    border: 1px solid var(--phoenix-background-color-tertiary);
+    box-shadow: var(--phoenix-box-shadow);
+    border-radius: 30px;
+    padding: 0.25rem 0;
+  }
+}
