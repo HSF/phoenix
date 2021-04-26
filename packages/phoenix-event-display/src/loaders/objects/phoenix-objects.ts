@@ -350,12 +350,12 @@ export class PhoenixObjects {
     clusterParams.theta = theta;
 
     let position = CoordinateHelper.sphericalToCartesian(
-      drawZ+drawRadius,
+      drawZ + drawRadius,
       theta,
       clusterParams.phi
     );
 
-    // How to generalise to other experiments? Pass in limit lambda? 
+    // How to generalise to other experiments? Pass in limit lambda?
     let cylRadius2 = position.x * position.x + position.y * position.y;
     if (cylRadius2 > maxR2) {
       position.setLength(

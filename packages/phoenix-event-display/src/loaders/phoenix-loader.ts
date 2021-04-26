@@ -360,6 +360,11 @@ export class PhoenixLoader implements EventDataLoader {
         `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`
       );
 
+      if (objectCollection.length == 0) {
+        console.log('Skipping');
+        return;
+      }
+
       this.addCollection(
         objectCollection,
         collectionName,
