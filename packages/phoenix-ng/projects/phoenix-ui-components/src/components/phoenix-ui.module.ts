@@ -52,6 +52,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
+import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -90,6 +91,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   LoaderComponent,
   ShareLinkComponent,
   ShareLinkDialogComponent,
+  EmbedMenuComponent,
 ];
 
 @NgModule({

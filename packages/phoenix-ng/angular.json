@@ -11,7 +11,11 @@
       "sourceRoot": "projects/phoenix-app/src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -27,7 +31,9 @@
               "projects/phoenix-app/src/assets",
               "projects/phoenix-app/src/api-docs"
             ],
-            "styles": ["projects/phoenix-app/src/styles.scss"],
+            "styles": [
+              "projects/phoenix-app/src/styles.scss"
+            ],
             "allowedCommonJsDependencies": [
               "css-element-queries",
               "@tweenjs/tween.js"
@@ -142,7 +148,9 @@
               "projects/phoenix-app/src/tsconfig.app.json",
               "projects/phoenix-app/src/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -168,7 +176,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -178,6 +188,11 @@
       "root": "projects/phoenix-ui-components",
       "sourceRoot": "projects/phoenix-ui-components/src",
       "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -209,7 +224,9 @@
               "projects/phoenix-ui-components/tsconfig.lib.json",
               "projects/phoenix-ui-components/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
