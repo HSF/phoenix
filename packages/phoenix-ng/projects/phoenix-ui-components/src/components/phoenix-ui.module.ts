@@ -53,6 +53,7 @@ import { RouterModule } from '@angular/router';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
+import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -92,6 +93,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   ShareLinkComponent,
   ShareLinkDialogComponent,
   EmbedMenuComponent,
+  ExperimentLinkComponent,
 ];
 
 @NgModule({
