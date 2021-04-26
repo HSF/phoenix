@@ -1,5 +1,6 @@
 import { RungeKutta } from './runge-kutta';
 import { Vector3 } from 'three';
+import { CoordinateHelper } from './coordinate-helper';
 
 /**
  * Helper methods for RungeKutta functions.
@@ -49,16 +50,9 @@ export class RKHelper {
     }
     const q = Math.round(p * qop);
 
-    // ATLAS definition of momentum, so probably so move this calc there.
-    let globalMomentum = new Vector3(
-      p * Math.cos(phi) * Math.sin(theta),
-      p * Math.sin(phi) * Math.sin(theta),
-      p * Math.cos(theta)
-    );
+    let globalMomentum = CoordinateHelper.sphericalToCartesian(p, theta, phi);
 
-    // Cannot use setFromSphericalCoordinates since ATLAS and threejs use
-    // different phi & theta definitions (though both are right-handed)
-    let startPos = new Vector3(-d0 * Math.sin(phi), d0 * Math.cos(phi), z0);
+    let startPos = CoordinateHelper.sphericalToCartesian(d0, theta, phi);
 
     // Wipe existing positions
     let positions: number[][] = [];
