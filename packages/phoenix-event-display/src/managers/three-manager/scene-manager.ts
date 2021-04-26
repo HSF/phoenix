@@ -12,12 +12,8 @@ import {
   AxesHelper,
   AmbientLight,
   DirectionalLight,
-  Line,
   MeshBasicMaterial,
   Material,
-  Points,
-  PointsMaterial,
-  MeshToonMaterial,
   Camera,
   TextGeometry,
   Font,
@@ -275,39 +271,6 @@ export class SceneManager {
     typeGroup.name = objectType;
     eventData.add(typeGroup);
     return typeGroup;
-  }
-
-  /**
-   * Changes the color of all objects inside an event data collection.
-   * @param collectionName Name of the collection.
-   * @param color Hex value representing the color.
-   */
-  public collectionColor(collectionName: string, color: any) {
-    const collection = this.getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
-
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object: THREE.Object3D) => {
-        // For jets and tracks
-        if (
-          object instanceof Line ||
-          object instanceof Mesh ||
-          object instanceof Points
-        ) {
-          if (
-            object.material instanceof LineBasicMaterial ||
-            object.material instanceof MeshBasicMaterial ||
-            object.material instanceof MeshBasicMaterial ||
-            object.material instanceof PointsMaterial ||
-            object.material instanceof MeshPhongMaterial ||
-            object.material instanceof MeshToonMaterial
-          ) {
-            (object.material.color as Color).set(color);
-          }
-        }
-      });
-    }
   }
 
   /**

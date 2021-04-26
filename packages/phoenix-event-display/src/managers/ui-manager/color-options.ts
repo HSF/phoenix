@@ -1,5 +1,6 @@
+import { Color } from 'three';
 import { PrettySymbols } from '../../helpers/pretty-symbols';
-import { ColoringManager } from '../three-manager/coloring-manager';
+import { ColorManager } from '../three-manager/color-manager';
 import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 
 /** Keys for options available for coloring event data by. */
@@ -68,23 +69,37 @@ export class ColorOptions {
 
   /**
    * Create the color options.
-   * @param coloringManager Coloring manager for three.js functions related to coloring of objects.
+   * @param colorManager Color manager for three.js functions related to coloring of objects.
    * @param collectionFolder Collection folder to add the color by options to.
    * @param colorByOptionsToInclude Options to include for this collection to color event data by.
    */
   constructor(
-    private coloringManager: ColoringManager,
-    private collectionFolder: PhoenixMenuNode,
-    colorByOptionsToInclude: ColorByOptionKeys[]
+    private colorManager: ColorManager,
+    collectionFolder: PhoenixMenuNode,
+    collectionColor: Color,
+    colorByOptionsToInclude?: ColorByOptionKeys[]
   ) {
     this.collectionName = collectionFolder.name;
+    this.colorOptionsFolder = collectionFolder.addChild('Color Options');
 
-    this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
-      colorByOptionsToInclude.includes(colorByOption.key)
-    );
+    this.colorOptionsFolder.addConfig('color', {
+      label: 'Color',
+      color: collectionColor
+        ? `#${collectionColor?.getHexString()}`
+        : undefined,
+      onChange: (value: any) => {
+        this.colorManager.collectionColor(this.collectionName, value);
+      },
+    });
 
-    if (this.colorByOptions?.length > 0) {
-      this.init();
+    // Check which color by options are to be included.
+
+    if (colorByOptionsToInclude?.length > 0) {
+      this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
+        colorByOptionsToInclude.includes(colorByOption.key)
+      );
+
+      this.initColorByOptions();
       this.colorByOptions.forEach((colorByOption) =>
         colorByOption.initialize()
       );
@@ -94,11 +109,10 @@ export class ColorOptions {
   /**
    * Initialize the color options.
    */
-  private init() {
+  private initColorByOptions() {
     this.selectedColorByOption = this.colorByOptions[0].key;
 
     // Configurations
-    this.colorOptionsFolder = this.collectionFolder.addChild('Color Options');
 
     this.colorOptionsFolder.addConfig('select', {
       label: 'Color by',
@@ -129,7 +143,7 @@ export class ColorOptions {
           this.chargeColors[chargeValue] = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.CHARGE) {
-            this.coloringManager.colorObjectsByProperty(
+            this.colorManager.colorObjectsByProperty(
               color,
               this.collectionName,
               (objectUserData) =>
@@ -146,7 +160,7 @@ export class ColorOptions {
    */
   private applyChargeColorOptions() {
     [-1, 0, 1].forEach((chargeValue) => {
-      this.coloringManager.colorObjectsByProperty(
+      this.colorManager.colorObjectsByProperty(
         this.chargeColors[chargeValue],
         this.collectionName,
         (objectUserData) =>
@@ -223,7 +237,7 @@ export class ColorOptions {
    * This is to apply the stored momentum colors for minimum and maximum separated at the mid value.
    */
   private colorByMomentum(minOrMax: string) {
-    this.coloringManager.colorObjectsByProperty(
+    this.colorManager.colorObjectsByProperty(
       this.momColors[minOrMax].color,
       this.collectionName,
       (objectParams) => {

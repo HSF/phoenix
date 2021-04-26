@@ -270,7 +270,7 @@ export class DatGUIMenuUI {
         .addColor(this.guiParameters[collectionName], 'color')
         .name('Color');
       colorMenu.onChange((value) =>
-        this.three.getSceneManager().collectionColor(collectionName, value)
+        this.three.getColorManager().collectionColor(collectionName, value)
       );
       colorMenu.setValue(collectionColor?.getHex());
       // Cuts menu

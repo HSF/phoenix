@@ -27,7 +27,7 @@ import { VRManager } from './vr-manager';
 import { StateManager } from '../state-manager';
 import { LoadingManager } from '../loading-manager';
 import { ActiveVariable } from '../../helpers/active-variable';
-import { ColoringManager } from './coloring-manager';
+import { ColorManager } from './color-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -53,7 +53,7 @@ export class ThreeManager {
   /** VR manager for VR related operations. */
   private vrManager: VRManager;
   /** Coloring manager for three.js functions related to coloring of objects. */
-  private coloringManager: ColoringManager;
+  private colorManager: ColorManager;
   /** Loading manager for loadable resources. */
   private loadingManager: LoadingManager;
   /** Loop to run for each frame of animation. */
@@ -125,7 +125,7 @@ export class ThreeManager {
     // VR manager
     this.vrManager = new VRManager();
     // Coloring manager
-    this.coloringManager = new ColoringManager(this.sceneManager);
+    this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
@@ -810,7 +810,7 @@ export class ThreeManager {
    * Get the coloring manager.
    * @returns The coloring manager for managing coloring related three.js operations.
    */
-  public getColoringManager() {
-    return this.coloringManager;
+  public getColorManager() {
+    return this.colorManager;
   }
 }
