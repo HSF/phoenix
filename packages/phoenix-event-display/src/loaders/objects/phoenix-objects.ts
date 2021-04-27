@@ -110,7 +110,7 @@ export class PhoenixObjects {
     trackObject.add(lineObject);
 
     // Setting info to the tubeObject and trackObject for selection and cuts
-    for (let object of [tubeObject, trackObject]) {
+    for (let object of [tubeObject, trackObject, lineObject]) {
       object.userData = Object.assign({}, trackParams);
       object.name = 'Track';
     }

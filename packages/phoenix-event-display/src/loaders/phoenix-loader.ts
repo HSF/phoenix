@@ -1,4 +1,5 @@
 import { Group, Object3D } from 'three';
+import { GUI } from 'dat.gui';
 import { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager';
 import { ThreeManager } from '../managers/three-manager';
@@ -221,7 +222,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
 
       const addCaloClusterOptions = (
-        typeFolder: any,
+        typeFolder: GUI,
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleCaloClusters = (value: number) => {
@@ -290,7 +291,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.MissingEnergy) {
       const addMETSizeOption = (
-        typeFolder: any,
+        typeFolder: GUI,
         typeFolderPM: PhoenixMenuNode
       ) => {
         const scaleMET = (value: number) => {
@@ -343,7 +344,7 @@ export class PhoenixLoader implements EventDataLoader {
     concatonateObjs: boolean = false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
-      typeFolder: any,
+      typeFolder: GUI,
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
@@ -388,7 +389,7 @@ export class PhoenixLoader implements EventDataLoader {
     collectionName: string,
     getObject: (object: any) => Object3D,
     objectGroup: Group,
-    concatonateObjs: Boolean
+    concatonateObjs: boolean
   ) {
     const collscene = new Group();
     collscene.name = collectionName;
