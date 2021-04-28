@@ -11,7 +11,11 @@
       "sourceRoot": "projects/phoenix-app/src",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -178,6 +182,11 @@
       "root": "projects/phoenix-ui-components",
       "sourceRoot": "projects/phoenix-ui-components/src",
       "prefix": "app",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
