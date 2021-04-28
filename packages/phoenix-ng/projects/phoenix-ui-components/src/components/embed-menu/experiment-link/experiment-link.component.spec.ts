@@ -8,9 +8,8 @@ describe('ExperimentLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExperimentLinkComponent ]
-    })
-    .compileComponents();
+      declarations: [ExperimentLinkComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +20,17 @@ describe('ExperimentLinkComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize experiment link', () => {
+    expect((component as any).experimentLink).toBeUndefined();
+    component.ngOnInit();
+    expect((component as any).experimentLink).toBeTruthy();
+  });
+
+  it('should go to experiment link', () => {
+    spyOn(window, 'open').and.stub();
+    component.goToExperiment();
+    expect(window.open).toHaveBeenCalled();
   });
 });

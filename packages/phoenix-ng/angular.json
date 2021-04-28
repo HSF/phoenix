@@ -31,9 +31,7 @@
               "projects/phoenix-app/src/assets",
               "projects/phoenix-app/src/api-docs"
             ],
-            "styles": [
-              "projects/phoenix-app/src/styles.scss"
-            ],
+            "styles": ["projects/phoenix-app/src/styles.scss"],
             "allowedCommonJsDependencies": [
               "css-element-queries",
               "@tweenjs/tween.js"
@@ -148,9 +146,7 @@
               "projects/phoenix-app/src/tsconfig.app.json",
               "projects/phoenix-app/src/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -176,9 +172,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -224,9 +218,7 @@
               "projects/phoenix-ui-components/tsconfig.lib.json",
               "projects/phoenix-ui-components/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
