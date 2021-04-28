@@ -27,43 +27,46 @@ import { VRManager } from './vr-manager';
 import { StateManager } from '../state-manager';
 import { LoadingManager } from '../loading-manager';
 import { ActiveVariable } from '../../helpers/active-variable';
+import { ColorManager } from './color-manager';
 
 /**
  * Manager for all three.js related functions.
  */
 export class ThreeManager {
   // Managers
-  /** Manager for three.js scene */
+  /** Manager for three.js scene. */
   private sceneManager: SceneManager;
-  /** Manager for three.js renderers */
+  /** Manager for three.js renderers. */
   private rendererManager: RendererManager;
-  /** Manager for three.js controls */
+  /** Manager for three.js controls. */
   private controlsManager: ControlsManager;
-  /** Manager for export operations */
+  /** Manager for export operations. */
   private exportManager: ExportManager;
-  /** Manager for import operations */
+  /** Manager for import operations. */
   private importManager: ImportManager;
-  /** Manager for selection of 3D objects and event data */
+  /** Manager for selection of 3D objects and event data. */
   private selectionManager: SelectionManager;
-  /** Manager for managing animation related operations using three.js and tween.js */
+  /** Manager for managing animation related operations using three.js and tween.js. */
   private animationsManager: AnimationsManager;
-  /** Manager for managing effects using EffectComposer */
+  /** Manager for managing effects using EffectComposer. */
   private effectsManager: EffectsManager;
-  /** VR manager for VR related operations */
+  /** VR manager for VR related operations. */
   private vrManager: VRManager;
-  /** Loading manager for loadable resources */
+  /** Coloring manager for three.js functions related to coloring of objects. */
+  private colorManager: ColorManager;
+  /** Loading manager for loadable resources. */
   private loadingManager: LoadingManager;
   /** Loop to run for each frame of animation. */
   private animationLoop: () => void;
   /** Loop to run for each frame to update stats. */
   private uiLoop: () => void;
-  /** Scene export ignore list */
+  /** Scene export ignore list. */
   private ignoreList = [
     new AmbientLight().type,
     new DirectionalLight().type,
     new AxesHelper().type,
   ];
-  /** Clipping planes for clipping geometry */
+  /** Clipping planes for clipping geometry. */
   private clipPlanes: Plane[];
 
   /**
@@ -121,6 +124,8 @@ export class ThreeManager {
     );
     // VR manager
     this.vrManager = new VRManager();
+    // Coloring manager
+    this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
     this.getSelectionManager().init(
       this.controlsManager.getMainCamera(),
@@ -799,5 +804,13 @@ export class ThreeManager {
       objectPosition,
       cameraControls
     );
+  }
+
+  /**
+   * Get the coloring manager.
+   * @returns The coloring manager for managing coloring related three.js operations.
+   */
+  public getColorManager() {
+    return this.colorManager;
   }
 }

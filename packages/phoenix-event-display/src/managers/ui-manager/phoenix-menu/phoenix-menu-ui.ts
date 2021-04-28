@@ -1,9 +1,10 @@
+import { Color } from 'three';
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
-import { Color } from 'three';
 import { Cut } from '../../../extras/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
+import { ColorByOptionKeys, ColorOptions } from '../color-options';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -19,6 +20,8 @@ export class PhoenixMenuUI {
   private eventFolderState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolder: PhoenixMenuNode;
+  /** Color options with functions to color event data. */
+  private colorOptions: ColorOptions;
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -210,17 +213,9 @@ export class PhoenixMenuUI {
       }
     );
 
-    collectionNode.addConfig('color', {
-      label: 'Color',
-      color: collectionColor
-        ? `#${collectionColor?.getHexString()}`
-        : undefined,
-      onChange: (value: any) => {
-        this.three.getSceneManager().collectionColor(collectionName, value);
-      },
-    });
+    const drawOptionsNode = collectionNode.addChild('Draw Options');
 
-    collectionNode.addConfig('slider', {
+    drawOptionsNode.addConfig('slider', {
       label: 'Opacity',
       min: 0.1,
       step: 0.1,
@@ -230,14 +225,16 @@ export class PhoenixMenuUI {
       },
     });
 
-    collectionNode.addConfig('checkbox', {
+    drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
       onChange: (value: boolean) =>
         this.three.getSceneManager().wireframeObjects(collectionName, value),
     });
 
-    if (cuts) {
-      collectionNode
+    if (cuts && cuts.length > 0) {
+      const cutsOptionsNode = collectionNode.addChild('Cut Options');
+
+      cutsOptionsNode
         .addConfig('label', {
           label: 'Cuts',
         })
@@ -260,7 +257,7 @@ export class PhoenixMenuUI {
 
       // Add range sliders for cuts
       for (const cut of cuts) {
-        collectionNode.addConfig('rangeSlider', {
+        cutsOptionsNode.addConfig('rangeSlider', {
           label: PrettySymbols.getPrettySymbol(cut.field),
           min: cut.minValue,
           max: cut.maxValue,
@@ -275,6 +272,20 @@ export class PhoenixMenuUI {
         });
       }
     }
+
+    const colorByOptions: ColorByOptionKeys[] = [];
+
+    // Extra config options specific to tracks
+    if (typeFolder.name === 'Tracks') {
+      colorByOptions.push(ColorByOptionKeys.CHARGE, ColorByOptionKeys.MOM);
+    }
+
+    new ColorOptions(
+      this.three.getColorManager(),
+      collectionNode,
+      collectionColor,
+      colorByOptions
+    );
   }
 
   /**

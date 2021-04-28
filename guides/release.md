@@ -1,11 +1,23 @@
 # Release
 
 This guide highlights the release process for Phoenix packages.\
-If you are not a part of Phoenix on npm and want to make a release, you can ask @9inpachi or @EdwardMoyse to add you to the npm org.
+If you are not a part of Phoenix on npm and want to make a release, you can ask [9inpachi](https://github.com/9inpachi) or [EdwardMoyse](https://github.com/EdwardMoyse) to add you to the npm org.
 
 We currently publish the packages `phoenix-event-display`and `phoenix-ui-components` to npm.
 
-To start, in the terminal, navigate to the root directory of Phoenix repo.\
+## Checklist
+
+For a smooth release make sure to check the following points.
+
+* The repository's origin is set to `HSF/phoenix`.  
+  `git remote set-url origin https://github.com/HSF/phoenix.git`
+* Angular is globally installed on the system.  
+  `npm install --global @angular/cli`
+* Clean `phoenix-ui-components` by removing the `dist` and `__ivy_ngcc__` directories in [`packages/phoenix-ng/projects/phoenix-ui-components`](../packages/phoenix-ng/projects/phoenix-ui-components) if any.
+
+## Release process
+
+In the terminal, navigate to the root directory of the Phoenix repo.\
 Then, login to npm in the terminal to be able to publish the packages.
 
 ```sh

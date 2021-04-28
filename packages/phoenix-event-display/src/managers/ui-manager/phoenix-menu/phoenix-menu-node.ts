@@ -7,7 +7,8 @@ export type PhoenixMenuConfig =
   | 'button'
   | 'label'
   | 'color'
-  | 'rangeSlider';
+  | 'rangeSlider'
+  | 'select';
 
 /**
  * A single node of phoenix menu item.

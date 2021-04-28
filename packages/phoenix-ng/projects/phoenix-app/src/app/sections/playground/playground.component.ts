@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlaygroundComponent implements OnInit {
   loaded = false;
+  loadingProgress = 0;
 
   constructor(
     protected eventDisplay: EventDisplayService,
@@ -26,8 +27,12 @@ export class PlaygroundComponent implements OnInit {
     };
     this.eventDisplay.init(configuration);
 
-    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
-      this.loaded = true;
-    });
+    this.eventDisplay
+      .getLoadingManager()
+      .addProgressListener((progress) => (this.loadingProgress = progress));
+
+    this.eventDisplay
+      .getLoadingManager()
+      .addLoadListenerWithCheck(() => (this.loaded = true));
   }
 }
