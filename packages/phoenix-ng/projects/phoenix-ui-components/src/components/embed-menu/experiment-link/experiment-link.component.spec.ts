@@ -18,13 +18,8 @@ describe('ExperimentLinkComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create and initialize experiment link', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should initialize experiment link', () => {
-    expect((component as any).experimentLink).toBeUndefined();
-    component.ngOnInit();
     expect((component as any).experimentLink).toBeTruthy();
   });
 
