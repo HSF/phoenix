@@ -90,8 +90,12 @@ export class PhoenixObjects {
       points.push(
         new Vector3(positions[i][0], positions[i][1], positions[i][2])
       );
-      const radius = Math.sqrt(positions[i][0]*positions[i][0] + positions[i][1]*positions[i][1] + positions[i][2]*positions[i][2]);
-      const thetaFromPos = Math.acos(positions[i][2]/radius)
+      const radius = Math.sqrt(
+        positions[i][0] * positions[i][0] +
+          positions[i][1] * positions[i][1] +
+          positions[i][2] * positions[i][2]
+      );
+      const thetaFromPos = Math.acos(positions[i][2] / radius);
       // const deltaTheta = Math.abs(trackParams.dparams[3]-thetaFromPos);
       // if (deltaTheta>0.1) {
       //   console.log( 'theta:', trackParams.dparams[3], 'theta from hit', thetaFromPos, 'radius', radius );
