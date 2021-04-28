@@ -151,6 +151,8 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
         new Cut('pT', 0, 50, 0.1),
+        new Cut('z0', -30, 30, 0.1),
+        new Cut('d0', -30, 30, 0.1),
       ];
 
       this.addObjectType(
@@ -216,7 +218,7 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5.0, 5.0),
+        new Cut('eta', -5.0, 5.0, 0.1),
         new Cut('energy', 0, 10000),
       ];
 
@@ -476,7 +478,11 @@ export class PhoenixLoader implements EventDataLoader {
           const trackParams = this.eventData.Tracks[trackColl][trackIndex];
           if (trackParams) {
             const track = PhoenixObjects.getTrack(trackParams);
-            muonScene.add(track);
+            if (track) {
+              muonScene.add(track);
+            } else {
+              console.log('WARNING: failed to get a muon track back.');
+            }
           }
         }
       }

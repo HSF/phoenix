@@ -148,14 +148,19 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
    * @param eventData Event data object to be updated with Tracks.
    */
-  public getTracks(firstEvent: Element, eventData: { Tracks: any; Hits: any }) {
+  public getTracks(
+    firstEvent: Element,
+    eventData: { Tracks: any; Hits: any }
+  ): void {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
-    let badTracks = { 'Negative theta': 0 };
+    let badTracks = {};
 
     for (const collection of trackCollections) {
       let trackCollectionName = collection.getAttribute('storeGateKey');
-      if (trackCollectionName === 'Tracks') trackCollectionName = 'Tracks_'; //We have problems if the name of the collection is a type
+      if (trackCollectionName === 'Tracks') {
+        trackCollectionName = 'Tracks_'; //We have problems if the name of the collection is a type
+      }
 
       // if (!trackCollectionName.includes('MuonSpectrometer')) continue;
       const numOfTracks = Number(collection.getAttribute('count'));
@@ -166,7 +171,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       const tmp = collection.getElementsByTagName('numPolyline');
 
       let numPolyline: number[];
-
       if (tmp.length === 0) {
         console.log(
           'WARNING the track collection ' +
@@ -178,17 +182,20 @@ export class JiveXMLLoader extends PhoenixLoader {
 
         const polyLineXHTML = collection.getElementsByTagName('polylineX');
         if (polyLineXHTML.length > 0) {
-          // This can happen with e.g. TrackParticles
           var polylineX = polyLineXHTML[0].innerHTML
             .replace(/\r\n|\n|\r/gm, ' ')
             .trim()
             .split(' ')
             .map(Number);
+          // Assume the rest are okay.
           var polylineY = this.getNumberArrayFromHTML(collection, 'polylineY');
           var polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
           numPolyline = null;
+          polylineX = null;
+          polylineY = null;
+          polylineZ = null;
         }
       }
 
@@ -202,6 +209,18 @@ export class JiveXMLLoader extends PhoenixLoader {
       const hits = this.getNumberArrayFromHTML(collection, 'hits');
       const numHits = this.getNumberArrayFromHTML(collection, 'numHits');
 
+      // Sanity check of some required quantities
+      if (
+        numOfTracks != pT.length ||
+        numOfTracks != d0.length ||
+        numOfTracks != z0.length ||
+        numOfTracks != cotTheta.length
+      ) {
+        console.log(
+          'ERROR: Wrong number of some track variables. Corrupted JiveXML?'
+        );
+      }
+
       if (collection.getElementsByTagName('trackAuthor').length) {
         var trackAuthor = this.getNumberArrayFromHTML(
           collection,
@@ -210,8 +229,18 @@ export class JiveXMLLoader extends PhoenixLoader {
       }
 
       let polylineCounter = 0,
-        hitsCounter = 0;
+        hitsCounter = 0; // Both of these need to persist throughout the track collection.
+      // Sanity check:
+      if (numPolyline && numPolyline.length != numOfTracks)
+        console.log(
+          'numPolyline ',
+          numPolyline.length,
+          'numOfTracks',
+          numOfTracks
+        );
       for (let i = 0; i < numOfTracks; i++) {
+        let storeTrack = true; // Need to do this because we need to retrieve all info so counters don't go wrong.
+        let debugTrack = false;
         const track = {
           chi2: 0.0,
           dof: 0.0,
@@ -229,14 +258,18 @@ export class JiveXMLLoader extends PhoenixLoader {
         if (trackAuthor.length >= i) track.author = trackAuthor[i];
 
         const theta = Math.tan(cotTheta[i]);
-        if (theta < 0) {
-          badTracks['Negative theta']++;
-          track.badtrack.push('Negative theta');
-        }
+
         track.pT = Math.abs(pT[i]);
         const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
         track.phi = phi0[i];
+
+        // if (track.phi == 1.37786) {
+        if (false && i === 0) {
+          console.log('Cuplrit found! Index = ', i);
+          debugTrack = true;
+          storeTrack = true;
+        }
 
         // FIXME - should probably handle this better ... what if phi = 4PI for example?
         if (track.phi > Math.PI) {
@@ -245,7 +278,19 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.phi += 2.0 * Math.PI;
         }
 
+        if (!CoordinateHelper.anglesAreSane(theta, track.phi)) {
+          badTracks['Improper angles']++;
+          track.badtrack.push('Improper angles');
+          storeTrack = false;
+        }
+
         track.eta = CoordinateHelper.thetaToEta(theta);
+
+        if (Number.isNaN(track.eta)) {
+          track.badtrack.push('Invalid eta');
+          storeTrack = false;
+        }
+
         const pos = [],
           listOfHits = [];
         let maxR = 0.0,
@@ -254,6 +299,16 @@ export class JiveXMLLoader extends PhoenixLoader {
           y = 0.0,
           z = 0.0;
         if (numPolyline) {
+          // Sanity check
+          if (
+            polylineCounter + numPolyline[i] > polylineX.length ||
+            polylineCounter + numPolyline[i] > polylineY.length ||
+            polylineCounter + numPolyline[i] > polylineZ.length
+          ) {
+            console.log(
+              'ERROR: not enough points left for this track. Corrupted JiveXML?'
+            );
+          }
           for (let p = 0; p < numPolyline[i]; p++) {
             x = polylineX[polylineCounter + p] * 10.0;
             y = polylineY[polylineCounter + p] * 10.0;
@@ -267,12 +322,25 @@ export class JiveXMLLoader extends PhoenixLoader {
               badTracks['Hits not sorted']++;
               track.badtrack.push('Hits not sorted');
             }
+            if (debugTrack) {
+              console.log('pos: ', p, '/', numPolyline[i], ':', pos);
+              console.log(
+                'theta:',
+                theta,
+                'theta from hit',
+                Math.acos(z / radius)
+              );
+            }
             maxR = radius;
           }
           polylineCounter += numPolyline[i];
           track.pos = pos;
         }
-        if (false && trackCollectionName.includes('Muon')) {
+        if (
+          false &&
+          numHits.length > 0 &&
+          trackCollectionName.includes('Muon')
+        ) {
           // Disable for the moment.
 
           // Now loop over hits, and if possible, see if we can extend the track
@@ -330,9 +398,19 @@ export class JiveXMLLoader extends PhoenixLoader {
               ')'
           );
         }
-        // if (track.pT<35 ) continue;
 
-        jsontracks.push(track);
+        if (storeTrack) jsontracks.push(track);
+      }
+      // Final sanity check here
+      if (
+        numPolyline &&
+        (polylineCounter != polylineX.length ||
+          polylineCounter != polylineY.length ||
+          polylineCounter != polylineZ.length)
+      ) {
+        console.log(
+          'ERROR: something has gone wrong with assigning the positions to the tracks!'
+        );
       }
 
       eventData.Tracks[trackCollectionName] = jsontracks;

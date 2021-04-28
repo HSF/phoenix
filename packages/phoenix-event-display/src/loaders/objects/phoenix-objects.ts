@@ -43,7 +43,7 @@ export class PhoenixObjects {
     }
 
     // Track with too few points are extrapolated with RungeKutta
-    if (positions.length < 3) {
+    if (positions.length < 2) {
       if (trackParams?.dparams) {
         // Test, for ATLAS.
         // FIXME - make configurable
@@ -59,7 +59,7 @@ export class PhoenixObjects {
     }
 
     // Check again, in case there was an issue with the extrapolation.
-    if (positions.length < 3) {
+    if (positions.length < 2) {
       return;
     }
 
@@ -70,6 +70,12 @@ export class PhoenixObjects {
       }
       if (!trackParams?.eta) {
         trackParams.eta = CoordinateHelper.thetaToEta(trackParams.dparams[3]);
+      }
+      if (!trackParams?.d0) {
+        trackParams.d0 = trackParams.dparams[0];
+      }
+      if (!trackParams?.z0) {
+        trackParams.z0 = trackParams.dparams[1];
       }
     }
 
@@ -84,6 +90,12 @@ export class PhoenixObjects {
       points.push(
         new Vector3(positions[i][0], positions[i][1], positions[i][2])
       );
+      const radius = Math.sqrt(positions[i][0]*positions[i][0] + positions[i][1]*positions[i][1] + positions[i][2]*positions[i][2]);
+      const thetaFromPos = Math.acos(positions[i][2]/radius)
+      // const deltaTheta = Math.abs(trackParams.dparams[3]-thetaFromPos);
+      // if (deltaTheta>0.1) {
+      //   console.log( 'theta:', trackParams.dparams[3], 'theta from hit', thetaFromPos, 'radius', radius );
+      // }
     }
 
     // attributes
