@@ -138,8 +138,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">src/helpers/rk-helper.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">src/helpers/rk-helper.ts:33</a></div>
                 </td>
             </tr>
 
@@ -241,8 +241,8 @@ is out of bounds, when it returns false. Default just always returns true.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/helpers/rk-helper.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">src/helpers/rk-helper.ts:13</a></div>
                 </td>
             </tr>
 
@@ -308,6 +308,7 @@ is out of bounds, when it returns false. Default just always returns true.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { RungeKutta } from &#x27;./runge-kutta&#x27;;
 import { Vector3 } from &#x27;three&#x27;;
+import { CoordinateHelper } from &#x27;./coordinate-helper&#x27;;
 
 /**
  * Helper methods for RungeKutta functions.
@@ -357,16 +358,9 @@ export class RKHelper {
     }
     const q &#x3D; Math.round(p * qop);
 
-    // ATLAS definition of momentum, so probably so move this calc there.
-    let globalMomentum &#x3D; new Vector3(
-      p * Math.cos(phi) * Math.sin(theta),
-      p * Math.sin(phi) * Math.sin(theta),
-      p * Math.cos(theta)
-    );
+    let globalMomentum &#x3D; CoordinateHelper.sphericalToCartesian(p, theta, phi);
 
-    // Cannot use setFromSphericalCoordinates since ATLAS and threejs use
-    // different phi &amp; theta definitions (though both are right-handed)
-    let startPos &#x3D; new Vector3(-d0 * Math.sin(phi), d0 * Math.cos(phi), z0);
+    let startPos &#x3D; CoordinateHelper.sphericalToCartesian(d0, theta, phi);
 
     // Wipe existing positions
     let positions: number[][] &#x3D; [];

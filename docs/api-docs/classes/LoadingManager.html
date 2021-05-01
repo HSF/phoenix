@@ -537,8 +537,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">src/managers/loading-manager.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/managers/loading-manager.ts:83</a></div>
                 </td>
             </tr>
 
@@ -616,8 +616,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">src/managers/loading-manager.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">src/managers/loading-manager.ts:92</a></div>
                 </td>
             </tr>
 
@@ -696,8 +696,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/managers/loading-manager.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">src/managers/loading-manager.ts:104</a></div>
                 </td>
             </tr>
 
@@ -775,8 +775,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">src/managers/loading-manager.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">src/managers/loading-manager.ts:45</a></div>
                 </td>
             </tr>
 
@@ -851,15 +851,15 @@ are any items to load when the listener is added.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onProgress(itemName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, progress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>onProgress(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, progress: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/managers/loading-manager.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/managers/loading-manager.ts:63</a></div>
                 </td>
             </tr>
 
@@ -882,7 +882,7 @@ are any items to load when the listener is added.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>itemName</td>
+                                    <td>id</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -893,7 +893,7 @@ are any items to load when the listener is added.</p>
 
 
                                     <td>
-                                        <p>Name of the item with the progress.</p>
+                                        <p>ID of the item with the progress.</p>
 
                                     </td>
                                 </tr>
@@ -953,8 +953,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">src/managers/loading-manager.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/managers/loading-manager.ts:111</a></div>
                 </td>
             </tr>
 
@@ -1016,6 +1016,7 @@ are any items to load when the listener is added.</p>
    */
   public addLoadableItem(id: string &#x3D; &#x27;&#x27;) {
     this.toLoad.push(id);
+    this.progressItems[id] &#x3D; 0;
   }
 
   /**
@@ -1024,6 +1025,8 @@ are any items to load when the listener is added.</p>
    */
   public itemLoaded(id: string &#x3D; &#x27;&#x27;) {
     this.loaded.push(id);
+    this.onProgress(id, 100);
+
     if (
       this.toLoad.length &#x3D;&#x3D;&#x3D; this.loaded.length &amp;&amp;
       this.toLoad.sort().join(&#x27;,&#x27;) &#x3D;&#x3D;&#x3D; this.loaded.sort().join(&#x27;,&#x27;)
@@ -1035,11 +1038,11 @@ are any items to load when the listener is added.</p>
 
   /**
    * When an item loading progresses.
-   * @param itemName Name of the item with the progress.
+   * @param id ID of the item with the progress.
    * @param progress Progress of the item.
    */
-  public onProgress(itemName: string, progress: number) {
-    this.progressItems[itemName] &#x3D; progress;
+  public onProgress(id: string, progress: number) {
+    this.progressItems[id] &#x3D; progress;
 
     let totalProgress &#x3D; Object.values(this.progressItems).reduce(
       (acc, val) &#x3D;&gt; acc + val,

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/HSF/phoenix/compare/v1.7.0...v1.8.0) (2021-05-01)
+
+
+### Bug Fixes
+
+* **event-display:** better debugging info and prettier ([df9ce07](https://github.com/HSF/phoenix/commit/df9ce07837be2a37885bcf8f2c4061f44922b617))
+* **event-display:** fix [#289](https://github.com/HSF/phoenix/issues/289) cluster rendering ([1a01248](https://github.com/HSF/phoenix/commit/1a01248cb0940e63273ee89c6317d9acda870759))
+* **event-display:** fixes and improvements for track import from JiveXML ([c92d65f](https://github.com/HSF/phoenix/commit/c92d65f9cfc5dc788f42be71b98cea05e2174561))
+* **event-display:** rk-helper should use CoordinateHelper ([6085f50](https://github.com/HSF/phoenix/commit/6085f50a52a8c1fa252833b2c868b2bc5dce227d))
+
+
+### Features
+
+* **app:** add embed in sharable link constructor ([8a0c0b1](https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125))
+* **app:** add embed menu with a URL option for embed ([56c6eff](https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808))
+* **app:** add load progress based on number of loaded items ([20ef288](https://github.com/HSF/phoenix/commit/20ef288ee3ade9f1c6535e225c992993b62f6b01))
+* **event-display:** add color options to tracks collections ([90aea3c](https://github.com/HSF/phoenix/commit/90aea3cec7d080e976299602bf0f113ba6dcba1b))
+* **event-display:** add docs for color options class ([6cd5d53](https://github.com/HSF/phoenix/commit/6cd5d5346189f6d19a22b371bbd9b34804607af9))
+* **event-display:** add embed option to URL ([cb68283](https://github.com/HSF/phoenix/commit/cb68283a50d34184a5ff80a4776d38aa6a595851))
+* **event-display:** add momentum color options UI ([f1d2cef](https://github.com/HSF/phoenix/commit/f1d2cefae0ad0f07c4a84acbdf0d28c3b6f3932c))
+* **event-display:** code improvement for momentum sliders ([1a17e99](https://github.com/HSF/phoenix/commit/1a17e99de30fae75bb0a35ba15a584786f3020f6))
+* **event-display:** color options for event data objects ([9908cc9](https://github.com/HSF/phoenix/commit/9908cc904742d1f1eceb750ffda531f5802ed2fa))
+* **event-display:** create coloring manager and color tracks by properties ([c446567](https://github.com/HSF/phoenix/commit/c4465674ef2dc745473e9d2c402eacda29d343fb))
+* **event-display:** divide collection config options into child nodes ([2e52c22](https://github.com/HSF/phoenix/commit/2e52c22f84e748b310262c12c41678d5de55915b))
+* **event-display:** highly optimize and generalize color by options ([595d9e5](https://github.com/HSF/phoenix/commit/595d9e5297d753db972801e59c4221748a1105f2))
+* **event-display:** implement color by momentum ([9222e04](https://github.com/HSF/phoenix/commit/9222e04c295ac674f015d43bde2ae2a90ccbf61d))
+* **event-display:** implement embed menu ([872f708](https://github.com/HSF/phoenix/commit/872f7085aabdaa952f0cffb5bab82e7a021582fb))
+* **event-display:** use child node for collection's color options ([8559830](https://github.com/HSF/phoenix/commit/8559830f4ad2d6463dfc463fa19d2d6265c42dc6))
+* **event-display:** use class for color options in UI ([4acca1a](https://github.com/HSF/phoenix/commit/4acca1a801c9650b96518654e79488c5637da503))
+
+
+
+
+
 # [1.7.0](https://github.com/HSF/phoenix/compare/v1.6.1...v1.7.0) (2021-04-21)
 
 

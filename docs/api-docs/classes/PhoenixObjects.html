@@ -406,8 +406,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="409"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:409</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="412"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:412</a></div>
                 </td>
             </tr>
 
@@ -567,8 +567,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="383"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:383</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="386"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:386</a></div>
                 </td>
             </tr>
 
@@ -971,7 +971,7 @@ export class PhoenixObjects {
     trackObject.add(lineObject);
 
     // Setting info to the tubeObject and trackObject for selection and cuts
-    for (let object of [tubeObject, trackObject]) {
+    for (let object of [tubeObject, trackObject, lineObject]) {
       object.userData &#x3D; Object.assign({}, trackParams);
       object.name &#x3D; &#x27;Track&#x27;;
     }
@@ -1193,8 +1193,11 @@ export class PhoenixObjects {
    * @returns Cluster object.
    */
   public static getCluster(clusterParams: any): Object3D {
-    const maxR2 &#x3D; 1100.0 * 1100.0;
-    const maxZ &#x3D; 3200.0;
+    const drawRadius &#x3D; 1800.0; // FIXME - maker this configurable
+    const drawZ &#x3D; 3600.0; // FIXME - maker this configurable
+
+    const maxR2 &#x3D; drawRadius * drawRadius;
+    const maxZ &#x3D; drawZ;
     const length &#x3D; clusterParams.energy * 0.03;
     // geometry
     const geometry &#x3D; new BoxBufferGeometry(30, 30, length);
@@ -1208,7 +1211,7 @@ export class PhoenixObjects {
     clusterParams.theta &#x3D; theta;
 
     let position &#x3D; CoordinateHelper.sphericalToCartesian(
-      4000,
+      drawZ + drawRadius,
       theta,
       clusterParams.phi
     );
@@ -1222,7 +1225,7 @@ export class PhoenixObjects {
     }
 
     if (Math.abs(position.z) &gt; maxZ) {
-      position.setLength((position.length() * maxZ) / position.z);
+      position.setLength((position.length() * maxZ) / Math.abs(position.z));
     }
 
     cube.position.copy(position);

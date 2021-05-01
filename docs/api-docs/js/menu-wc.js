@@ -67,6 +67,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/CMSObjects.html" data-type="entity-link">CMSObjects</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ColorManager.html" data-type="entity-link">ColorManager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ColorOptions.html" data-type="entity-link">ColorOptions</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/ControlsManager.html" data-type="entity-link">ControlsManager</a>
                             </li>
                             <li class="link">
@@ -194,6 +200,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="miscellaneous-links"' : 'id="xs-miscellaneous-links"' }>
+                            <li class="link">
+                                <a href="miscellaneous/enumerations.html" data-type="entity-link">Enums</a>
+                            </li>
                             <li class="link">
                                 <a href="miscellaneous/typealiases.html" data-type="entity-link">Type aliases</a>
                             </li>
