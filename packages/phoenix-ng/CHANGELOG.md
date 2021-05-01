@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/HSF/phoenix/compare/v1.7.0...v1.8.0) (2021-05-01)
+
+
+### Bug Fixes
+
+* **app:** remove redundant CSS and classes ([d2b7d34](https://github.com/HSF/phoenix/commit/d2b7d34f01e7fd7df18f1ab5acaf56ccf49610fc))
+* **app:** show overlays in SS mode ([364e643](https://github.com/HSF/phoenix/commit/364e6434ced3bfab11a435428693cb8149bbd89b))
+
+
+### Features
+
+* **app:** add embed in sharable link constructor ([8a0c0b1](https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125))
+* **app:** add embed menu with a URL option for embed ([56c6eff](https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808))
+* **app:** add experiment link to embed menu ([1bc14f9](https://github.com/HSF/phoenix/commit/1bc14f94edfa87bb6c752bc009ed790b54f3cf5e))
+* **app:** add load progress based on number of loaded items ([20ef288](https://github.com/HSF/phoenix/commit/20ef288ee3ade9f1c6535e225c992993b62f6b01))
+* **app:** add loading progress to all experiments ([b557cfb](https://github.com/HSF/phoenix/commit/b557cfb42710eeccc8182f9d2c4c6e45ecc25eb9))
+* **app:** add more options to embed menu ([575d29a](https://github.com/HSF/phoenix/commit/575d29ad1becbfaa4ce96371cc2bc77ffda3e474))
+* **app:** allow content in UI menu and display items in a straight row ([e3d83ea](https://github.com/HSF/phoenix/commit/e3d83ea7e3e7bf43e850e837b61770788747acdb))
+* **app:** create embed menu component ([5fe6685](https://github.com/HSF/phoenix/commit/5fe66859c5546dfdcd063097b7a5aaa3fd3acad5))
+* **app:** get experiment link dynamically and add tests for embed menu ([cc9590d](https://github.com/HSF/phoenix/commit/cc9590dd2f8d0482ed781603e12780cbfe8c2640))
+* **event-display:** add color options to tracks collections ([90aea3c](https://github.com/HSF/phoenix/commit/90aea3cec7d080e976299602bf0f113ba6dcba1b))
+* **event-display:** color options for event data objects ([9908cc9](https://github.com/HSF/phoenix/commit/9908cc904742d1f1eceb750ffda531f5802ed2fa))
+* **event-display:** implement embed menu ([872f708](https://github.com/HSF/phoenix/commit/872f7085aabdaa952f0cffb5bab82e7a021582fb))
+
+
+
+
+
 # [1.7.0](https://github.com/EdwardMoyse/phoenix/compare/v1.6.1...v1.7.0) (2021-04-21)
 
 
