@@ -7,14 +7,15 @@ import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 export enum ColorByOptionKeys {
   CHARGE = 'charge',
   MOM = 'mom',
+  VERTEX = 'vertex',
 }
 
 /** Type for a single color by option. */
 type ColorByOption = {
   key: ColorByOptionKeys;
   name: string;
-  initialize: () => void;
-  apply: () => void;
+  initialize?: () => void;
+  apply?: () => void;
 };
 
 /**
@@ -43,6 +44,11 @@ export class ColorOptions {
       name: 'Momentum ' + PrettySymbols.getPrettySymbol('mom'),
       initialize: this.initMomColorOptions.bind(this),
       apply: this.applyMomColorOptions.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.VERTEX,
+      name: 'Vertex',
+      apply: this.applyVertexColorOptions.bind(this),
     },
   ];
 
@@ -101,7 +107,7 @@ export class ColorOptions {
 
       this.initColorByOptions();
       this.colorByOptions.forEach((colorByOption) =>
-        colorByOption.initialize()
+        colorByOption.initialize?.()
       );
     }
   }
@@ -123,7 +129,7 @@ export class ColorOptions {
         );
 
         this.selectedColorByOption = newColorByOption?.key;
-        newColorByOption?.apply();
+        newColorByOption?.apply?.();
       },
     });
   }
@@ -266,5 +272,14 @@ export class ColorOptions {
     return objectParams?.dparams?.[4]
       ? Math.abs(1 / parseFloat(objectParams?.dparams?.[4]))
       : objectParams?.mom;
+  }
+
+  // Vertex options.
+
+  /**
+   * Apply color by vertex to tracks.
+   */
+  private applyVertexColorOptions() {
+    this.colorManager.colorTracksByVertex(this.collectionName);
   }
 }

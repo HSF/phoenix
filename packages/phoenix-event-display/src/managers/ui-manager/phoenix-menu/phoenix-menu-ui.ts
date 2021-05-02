@@ -277,7 +277,11 @@ export class PhoenixMenuUI {
 
     // Extra config options specific to tracks
     if (typeFolder.name === 'Tracks') {
-      colorByOptions.push(ColorByOptionKeys.CHARGE, ColorByOptionKeys.MOM);
+      colorByOptions.push(
+        ColorByOptionKeys.CHARGE,
+        ColorByOptionKeys.MOM,
+        ColorByOptionKeys.VERTEX
+      );
     }
 
     new ColorOptions(

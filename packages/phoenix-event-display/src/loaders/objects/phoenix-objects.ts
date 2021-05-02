@@ -20,7 +20,6 @@ import {
   SphereBufferGeometry,
   LineSegments,
   LineDashedMaterial,
-  Spherical,
 } from 'three';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';

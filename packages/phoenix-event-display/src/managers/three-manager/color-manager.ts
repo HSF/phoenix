@@ -1,14 +1,4 @@
-import {
-  Line,
-  Mesh,
-  Points,
-  LineBasicMaterial,
-  MeshBasicMaterial,
-  PointsMaterial,
-  MeshPhongMaterial,
-  MeshToonMaterial,
-  Color,
-} from 'three';
+import { Color } from 'three';
 import { SceneManager } from './scene-manager';
 
 /**
@@ -52,25 +42,40 @@ export class ColorManager {
       .getObjectByName(collectionName);
 
     for (const child of Object.values(collection.children)) {
-      child.traverse((object: THREE.Object3D) => {
+      child.traverse((object) => {
         // For jets and tracks
-        if (
-          object instanceof Line ||
-          object instanceof Mesh ||
-          object instanceof Points
-        ) {
-          if (
-            object.material instanceof LineBasicMaterial ||
-            object.material instanceof MeshBasicMaterial ||
-            object.material instanceof MeshBasicMaterial ||
-            object.material instanceof PointsMaterial ||
-            object.material instanceof MeshPhongMaterial ||
-            object.material instanceof MeshToonMaterial
-          ) {
-            (object.material.color as Color).set(color);
-          }
+        if (object && object['material']) {
+          (object['material'].color as Color).set(color);
         }
       });
     }
+  }
+
+  /**
+   * Randomly color tracks by the vertex they are associated with.
+   * @param collectionName Name of the collection.
+   */
+  public colorTracksByVertex(collectionName: string) {
+    const scene = this.sceneManager.getScene();
+    const vertices = scene.getObjectByName('Vertices');
+    vertices.traverse((object) => {
+      if (
+        object.name === 'Vertex' &&
+        object.userData.linkedTracks &&
+        object.userData.linkedTrackCollection === collectionName
+      ) {
+        const colorForTracksVertex = new Color(Math.random() * 0xffffff);
+
+        const trackCollection = scene.getObjectByName(
+          object.userData.linkedTrackCollection
+        );
+
+        object.userData.linkedTracks.forEach((trackIndex: number) => {
+          trackCollection.children[trackIndex].traverse((trackObject) => {
+            trackObject?.['material']?.color?.set(colorForTracksVertex);
+          });
+        });
+      }
+    });
   }
 }
