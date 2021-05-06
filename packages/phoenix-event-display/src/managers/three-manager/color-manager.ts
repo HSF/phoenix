@@ -44,9 +44,7 @@ export class ColorManager {
     for (const child of Object.values(collection.children)) {
       child.traverse((object) => {
         // For jets and tracks
-        if (object && object['material']) {
-          (object['material'].color as Color).set(color);
-        }
+        (object?.['material']?.color as Color).set(color);
       });
     }
   }
@@ -59,18 +57,18 @@ export class ColorManager {
     const scene = this.sceneManager.getScene();
     const vertices = scene.getObjectByName('Vertices');
     vertices.traverse((object) => {
+      const { linkedTrackCollection, linkedTracks } = object.userData;
+
       if (
         object.name === 'Vertex' &&
-        object.userData.linkedTracks &&
-        object.userData.linkedTrackCollection === collectionName
+        linkedTrackCollection === collectionName &&
+        linkedTracks
       ) {
         const colorForTracksVertex = new Color(Math.random() * 0xffffff);
 
-        const trackCollection = scene.getObjectByName(
-          object.userData.linkedTrackCollection
-        );
+        const trackCollection = scene.getObjectByName(linkedTrackCollection);
 
-        object.userData.linkedTracks.forEach((trackIndex: number) => {
+        linkedTracks.forEach((trackIndex: number) => {
           trackCollection.children[trackIndex].traverse((trackObject) => {
             trackObject?.['material']?.color?.set(colorForTracksVertex);
           });
