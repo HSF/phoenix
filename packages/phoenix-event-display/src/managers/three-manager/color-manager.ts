@@ -43,8 +43,7 @@ export class ColorManager {
 
     for (const child of Object.values(collection.children)) {
       child.traverse((object) => {
-        // For jets and tracks
-        (object?.['material']?.color as Color).set(color);
+        (object['material']?.color as Color)?.set(color);
       });
     }
   }

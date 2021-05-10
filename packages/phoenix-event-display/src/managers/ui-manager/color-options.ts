@@ -93,7 +93,7 @@ export class ColorOptions {
       color: collectionColor
         ? `#${collectionColor?.getHexString()}`
         : undefined,
-      onChange: (value: any) => {
+      onChange: (value) => {
         this.colorManager.collectionColor(this.collectionName, value);
       },
     });
@@ -123,7 +123,7 @@ export class ColorOptions {
     this.colorOptionsFolder.addConfig('select', {
       label: 'Color by',
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
-      onChange: (updatedColorByOption: string) => {
+      onChange: (updatedColorByOption) => {
         const newColorByOption = this.colorByOptions.find(
           (colorByOption) => colorByOption.name === updatedColorByOption
         );
@@ -145,7 +145,7 @@ export class ColorOptions {
       this.colorOptionsFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
         color: this.chargeColors[chargeValue],
-        onChange: (color: any) => {
+        onChange: (color) => {
           this.chargeColors[chargeValue] = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.CHARGE) {
@@ -205,7 +205,7 @@ export class ColorOptions {
         value: this.momColors[key].value,
         step: 10,
         allowCustomValue: true,
-        onChange: (sliderValue: number) => {
+        onChange: (sliderValue) => {
           this.momColors[key].value = sliderValue;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
@@ -218,7 +218,7 @@ export class ColorOptions {
       this.colorOptionsFolder.addConfig('color', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
         color: momValue.color,
-        onChange: (color: any) => {
+        onChange: (color) => {
           this.momColors[key].color = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
