@@ -1,7 +1,4 @@
-import {
-  PhoenixMenuConfig,
-  PhoenixMenuConfigs,
-} from './config-types';
+import { PhoenixMenuConfig, PhoenixMenuConfigs } from './config-types';
 
 /**
  * A single node of phoenix menu item.
@@ -119,9 +116,7 @@ export class PhoenixMenuNode {
     type: T,
     options: Omit<PhoenixMenuConfigs[T], 'type'>
   ): PhoenixMenuNode {
-    let configOptions = { type };
-    Object.assign(configOptions, options);
-    const configsLength = this.configs.push(configOptions);
+    const configsLength = this.configs.push({ type, ...options });
     // Apply the values of config
     this.applyConfigState(this.configs[configsLength - 1]);
     return this;
