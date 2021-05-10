@@ -260,6 +260,92 @@ export class PhoenixLoader implements EventDataLoader {
       );
     }
 
+    if (eventData.PlanarCaloCells) {
+      // (Optional) Cuts can be added to any physics object.
+      // const cuts = [
+      //   new Cut('energy', 0, 10000)
+      // ];
+
+      const addPlanarCaloCellsOptions = (
+        typeFolder: GUI,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
+        const scalePlanarCaloCells = (value: number) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('PlanarCaloCells', value / 100, 'z');
+        };
+
+        if (typeFolder) {
+          const sizeMenu = typeFolder
+            .add({ PlanarCaloCellsScale: 100 }, 'PlanarCaloCellsScale', 1, 400)
+            .name('PlanarCaloCells Size (%)');
+          sizeMenu.onChange(scalePlanarCaloCells);
+        }
+
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
+            label: 'PlanarCaloCells Size (%)',
+            value: 100,
+            min: 1,
+            max: 400,
+            allowCustomValue: true,
+            onChange: scalePlanarCaloCells,
+          });
+        }
+      };
+
+      // this.addObjectType(
+      //   eventData.PlanarCaloCells,
+      //   PhoenixObjects.getPlanarCaloCell,
+      //   'PlanarCaloCells',
+      //   false,
+      //   cuts,
+      //   addPlanarCaloCellsOptions
+      // );
+
+      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+        'PlanarCaloCells'
+      );
+      const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(
+        'PlanarCaloCells'
+      );
+
+      const collectionsList: string[] = this.getObjectTypeCollections(
+        eventData.PlanarCaloCells
+      );
+
+      for (const collectionName of collectionsList) {
+        const objectCollection =
+          eventData.PlanarCaloCells[collectionName]['cells'];
+        console.log(
+          ` PlanarCaloCells collection ${collectionName} has ${objectCollection.length} constituents.`
+        );
+
+        if (objectCollection.length == 0) {
+          console.log('Skipping');
+          return;
+        }
+
+        const plane = eventData.PlanarCaloCells[collectionName]['plane'];
+
+        const getPlane = (caloCells: any) => {
+          return PhoenixObjects.getPlanarCaloCell(caloCells, plane);
+        };
+
+        this.addCollection(
+          objectCollection,
+          collectionName,
+          getPlane,
+          objectGroup,
+          false
+        );
+
+        //cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName);
+      }
+    }
+
     if (eventData.Muons) {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),

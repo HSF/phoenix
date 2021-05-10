@@ -379,6 +379,43 @@ export class PhoenixObjects {
   }
 
   /**
+   * Process the PlanarCaloCell from the given parameters and get it as a geometry.
+   * @param caloCells Parameters for the Planar Calorimeter.
+   * @returns Planar Calorimeter object.
+   */
+   public static getPlanarCaloCell(caloCells: any, plane: any): Object3D {
+    let position = caloCells.pos;
+    if (!position) {
+      return;
+    }
+
+    const length = caloCells.energy * 0.22;
+    const size = caloCells.cellSize;
+
+    // geometry
+    const geometry = new BoxBufferGeometry(size, size, length);
+
+    // material
+    const material = new MeshPhongMaterial({
+      color: caloCells.color ?? EVENT_DATA_TYPE_COLORS.PlanarCaloCells,
+    });
+
+    // object
+    const box = new Mesh(geometry, material);
+
+    const boxPosition = new Vector3(position[0], position[1], plane[3] * 100);
+
+    box.position.copy(boxPosition);
+
+    //box.lookAt(new Vector3(0, 0, 1));
+    box.userData = Object.assign({}, caloCells);
+    box.name = 'PlanarCaloCell';
+    caloCells.uuid = box.uuid;
+
+    return box;
+  }
+
+  /**
    * Process the Vertex from the given parameters and get it as a geometry.
    * @param vertexParams Parameters for the Vertex.
    * @returns Vertex object.
