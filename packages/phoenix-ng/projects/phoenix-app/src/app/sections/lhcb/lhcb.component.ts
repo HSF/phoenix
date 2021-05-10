@@ -52,7 +52,7 @@ export class LHCbComponent implements OnInit {
       'LHCb detector'
     );
 
-    fetch('assets/files/lhcb/00191749_0005296728.json')
+    fetch('assets/files/lhcb/LHCbEventDataV2.json')
       .then((res) => res.json())
       .then((eventData) => {
         this.loadEventData(eventData);
