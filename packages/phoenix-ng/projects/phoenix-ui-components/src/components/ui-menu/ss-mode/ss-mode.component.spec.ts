@@ -11,13 +11,14 @@ describe('SSModeComponent', () => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SSModeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.ngOnInit();
+
+    spyOn(document.documentElement, 'requestFullscreen').and.stub();
+    spyOn(document, 'exitFullscreen').and.stub();
   });
 
   it('should create', () => {
@@ -30,6 +31,5 @@ describe('SSModeComponent', () => {
     expect(component.ssMode).toBe(true);
     component.toggleSSMode();
     expect(component.ssMode).toBe(false);
-    (component as any).onDocumentClick();
   });
 });
