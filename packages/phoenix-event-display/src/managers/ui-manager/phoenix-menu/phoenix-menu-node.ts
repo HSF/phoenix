@@ -1,14 +1,4 @@
-/**
- * Configuration types for PhoenixMenuNode.
- */
-export type PhoenixMenuConfig =
-  | 'checkbox'
-  | 'slider'
-  | 'button'
-  | 'label'
-  | 'color'
-  | 'rangeSlider'
-  | 'select';
+import { PhoenixMenuConfig, PhoenixMenuConfigs } from './config-types';
 
 /**
  * A single node of phoenix menu item.
@@ -25,7 +15,7 @@ export class PhoenixMenuNode {
   /** Children of the node. */
   children: PhoenixMenuNode[] = [];
   /** Configuration options in the node. */
-  configs: any[] = [];
+  configs: PhoenixMenuConfig[] = [];
   /** Level of the node. */
   nodeLevel: number = 0;
   /** Parent of the node. */
@@ -122,10 +112,11 @@ export class PhoenixMenuNode {
    * @param options Options for the config.
    * @returns The current node.
    */
-  addConfig(type: PhoenixMenuConfig, options: any): PhoenixMenuNode {
-    let configOptions = { type };
-    Object.assign(configOptions, options);
-    const configsLength = this.configs.push(configOptions);
+  addConfig<T extends keyof PhoenixMenuConfigs>(
+    type: T,
+    options: Omit<PhoenixMenuConfigs[T], 'type'>
+  ): PhoenixMenuNode {
+    const configsLength = this.configs.push({ type, ...options });
     // Apply the values of config
     this.applyConfigState(this.configs[configsLength - 1]);
     return this;

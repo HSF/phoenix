@@ -7,14 +7,15 @@ import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 export enum ColorByOptionKeys {
   CHARGE = 'charge',
   MOM = 'mom',
+  VERTEX = 'vertex',
 }
 
 /** Type for a single color by option. */
 type ColorByOption = {
   key: ColorByOptionKeys;
   name: string;
-  initialize: () => void;
-  apply: () => void;
+  initialize?: () => void;
+  apply?: () => void;
 };
 
 /**
@@ -43,6 +44,11 @@ export class ColorOptions {
       name: 'Momentum ' + PrettySymbols.getPrettySymbol('mom'),
       initialize: this.initMomColorOptions.bind(this),
       apply: this.applyMomColorOptions.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.VERTEX,
+      name: 'Vertex',
+      apply: this.applyVertexColorOptions.bind(this),
     },
   ];
 
@@ -87,7 +93,7 @@ export class ColorOptions {
       color: collectionColor
         ? `#${collectionColor?.getHexString()}`
         : undefined,
-      onChange: (value: any) => {
+      onChange: (value) => {
         this.colorManager.collectionColor(this.collectionName, value);
       },
     });
@@ -101,8 +107,9 @@ export class ColorOptions {
 
       this.initColorByOptions();
       this.colorByOptions.forEach((colorByOption) =>
-        colorByOption.initialize()
+        colorByOption.initialize?.()
       );
+      this.onlySelectedColorByOption();
     }
   }
 
@@ -117,13 +124,15 @@ export class ColorOptions {
     this.colorOptionsFolder.addConfig('select', {
       label: 'Color by',
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
-      onChange: (updatedColorByOption: string) => {
+      onChange: (updatedColorByOption) => {
         const newColorByOption = this.colorByOptions.find(
           (colorByOption) => colorByOption.name === updatedColorByOption
         );
 
         this.selectedColorByOption = newColorByOption?.key;
-        newColorByOption?.apply();
+        newColorByOption?.apply?.();
+
+        this.onlySelectedColorByOption();
       },
     });
   }
@@ -138,8 +147,9 @@ export class ColorOptions {
     [-1, 0, 1].forEach((chargeValue) => {
       this.colorOptionsFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
+        group: ColorByOptionKeys.CHARGE,
         color: this.chargeColors[chargeValue],
-        onChange: (color: any) => {
+        onChange: (color) => {
           this.chargeColors[chargeValue] = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.CHARGE) {
@@ -194,12 +204,13 @@ export class ColorOptions {
     Object.entries(this.momColors).forEach(([key, momValue]) => {
       this.colorOptionsFolder.addConfig('slider', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
+        group: ColorByOptionKeys.MOM,
         min: this.momColors.min.value,
         max: this.momColors.max.value,
         value: this.momColors[key].value,
         step: 10,
         allowCustomValue: true,
-        onChange: (sliderValue: number) => {
+        onChange: (sliderValue) => {
           this.momColors[key].value = sliderValue;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
@@ -211,8 +222,9 @@ export class ColorOptions {
 
       this.colorOptionsFolder.addConfig('color', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
+        group: ColorByOptionKeys.MOM,
         color: momValue.color,
-        onChange: (color: any) => {
+        onChange: (color) => {
           this.momColors[key].color = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.MOM) {
@@ -266,5 +278,27 @@ export class ColorOptions {
     return objectParams?.dparams?.[4]
       ? Math.abs(1 / parseFloat(objectParams?.dparams?.[4]))
       : objectParams?.mom;
+  }
+
+  // Vertex options.
+
+  /**
+   * Apply color by vertex to tracks.
+   */
+  private applyVertexColorOptions() {
+    this.colorManager.colorTracksByVertex(this.collectionName);
+  }
+
+  /**
+   * Show configs of only the currently selected color by option.
+   */
+  private onlySelectedColorByOption() {
+    this.colorOptionsFolder.configs.forEach((config) => {
+      const groupNotSelected =
+        config.group !== undefined &&
+        config.group !== this.selectedColorByOption;
+
+      config.hidden = groupNotSelected ? true : false;
+    });
   }
 }

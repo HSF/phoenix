@@ -60,7 +60,7 @@ export class PhoenixMenuUI {
     if (this.geomFolder === null) {
       this.geomFolder = this.phoenixMenu.addChild(
         'Detector',
-        (value: boolean) => {
+        (value) => {
           this.three
             .getSceneManager()
             .groupVisibility(SceneManager.GEOMETRIES_ID, value);
@@ -72,7 +72,7 @@ export class PhoenixMenuUI {
       .addConfig('checkbox', {
         label: 'Wireframe',
         isChecked: false,
-        onChange: (value: boolean) => {
+        onChange: (value) => {
           this.three.getSceneManager().wireframeGeometries(value);
         },
       })
@@ -82,7 +82,7 @@ export class PhoenixMenuUI {
         max: 1,
         step: 0.01,
         allowCustomValue: true,
-        onChange: (value: number) => {
+        onChange: (value) => {
           this.three
             .getSceneManager()
             .setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
@@ -94,7 +94,7 @@ export class PhoenixMenuUI {
         max: 20,
         step: 0.01,
         allowCustomValue: true,
-        onChange: (scale: number) => {
+        onChange: (scale) => {
           this.three
             .getSceneManager()
             .scaleObject(SceneManager.GEOMETRIES_ID, scale);
@@ -130,7 +130,7 @@ export class PhoenixMenuUI {
       .addConfig('color', {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
-        onChange: (value: any) => {
+        onChange: (value) => {
           this.three.getSceneManager().changeObjectColor(name, value);
         },
       })
@@ -140,7 +140,7 @@ export class PhoenixMenuUI {
         max: 1,
         step: 0.05,
         allowCustomValue: true,
-        onChange: (opacity: number) => {
+        onChange: (opacity) => {
           this.three.getSceneManager().setGeometryOpacity(name, opacity);
         },
       })
@@ -174,7 +174,7 @@ export class PhoenixMenuUI {
     this.eventFolder.addConfig('checkbox', {
       label: 'Depth Test',
       isChecked: true,
-      onChange: (value: boolean) => {
+      onChange: (value) => {
         this.three.eventDataDepthTest(value);
       },
     });
@@ -220,14 +220,14 @@ export class PhoenixMenuUI {
       min: 0.1,
       step: 0.1,
       max: 1,
-      onChange: (value: number) => {
+      onChange: (value) => {
         this.three.getSceneManager().setGeometryOpacity(collectionName, value);
       },
     });
 
     drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
-      onChange: (value: boolean) =>
+      onChange: (value) =>
         this.three.getSceneManager().wireframeObjects(collectionName, value),
     });
 
@@ -264,9 +264,9 @@ export class PhoenixMenuUI {
           step: cut.step,
           value: cut.minValue,
           highValue: cut.maxValue,
-          onChange: (values: any) => {
-            cut.minValue = values?.value;
-            cut.maxValue = values?.highValue;
+          onChange: ({ value, highValue }) => {
+            cut.minValue = value;
+            cut.maxValue = highValue;
             this.three.getSceneManager().collectionFilter(collectionName, cuts);
           },
         });
@@ -277,7 +277,11 @@ export class PhoenixMenuUI {
 
     // Extra config options specific to tracks
     if (typeFolder.name === 'Tracks') {
-      colorByOptions.push(ColorByOptionKeys.CHARGE, ColorByOptionKeys.MOM);
+      colorByOptions.push(
+        ColorByOptionKeys.CHARGE,
+        ColorByOptionKeys.MOM,
+        ColorByOptionKeys.VERTEX
+      );
     }
 
     new ColorOptions(
@@ -354,7 +358,7 @@ export class PhoenixMenuUI {
       labelNode.addConfig('color', {
         label: 'Color',
         color: '#a8a8a8',
-        onChange: (value: any) => {
+        onChange: (value) => {
           this.three.getSceneManager().changeObjectColor(labelId, value);
         },
       });
