@@ -47,7 +47,7 @@
           [ngSwitch]="config.type"
         >
           <!-- Config types -->
-          <label class="item-config-single">
+          <label class="item-config-single" *ngIf="!config.hidden">
             <span
               class="item-config-label"
               *ngIf="config.type !== 'button'"

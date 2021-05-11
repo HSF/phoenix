@@ -2,6 +2,8 @@
 export type ConfigLabel = {
   type: keyof PhoenixMenuConfigs;
   label: string;
+  group?: string;
+  hidden?: boolean;
 };
 
 /** Type for Phoenix menu node "checkbox" config. */

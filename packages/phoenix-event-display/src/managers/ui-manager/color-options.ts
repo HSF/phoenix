@@ -109,6 +109,7 @@ export class ColorOptions {
       this.colorByOptions.forEach((colorByOption) =>
         colorByOption.initialize?.()
       );
+      this.onlySelectedColorByOption();
     }
   }
 
@@ -130,6 +131,8 @@ export class ColorOptions {
 
         this.selectedColorByOption = newColorByOption?.key;
         newColorByOption?.apply?.();
+
+        this.onlySelectedColorByOption();
       },
     });
   }
@@ -144,6 +147,7 @@ export class ColorOptions {
     [-1, 0, 1].forEach((chargeValue) => {
       this.colorOptionsFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
+        group: ColorByOptionKeys.CHARGE,
         color: this.chargeColors[chargeValue],
         onChange: (color) => {
           this.chargeColors[chargeValue] = color;
@@ -200,6 +204,7 @@ export class ColorOptions {
     Object.entries(this.momColors).forEach(([key, momValue]) => {
       this.colorOptionsFolder.addConfig('slider', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
+        group: ColorByOptionKeys.MOM,
         min: this.momColors.min.value,
         max: this.momColors.max.value,
         value: this.momColors[key].value,
@@ -217,6 +222,7 @@ export class ColorOptions {
 
       this.colorOptionsFolder.addConfig('color', {
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
+        group: ColorByOptionKeys.MOM,
         color: momValue.color,
         onChange: (color) => {
           this.momColors[key].color = color;
@@ -281,5 +287,18 @@ export class ColorOptions {
    */
   private applyVertexColorOptions() {
     this.colorManager.colorTracksByVertex(this.collectionName);
+  }
+
+  /**
+   * Show configs of only the currently selected color by option.
+   */
+  private onlySelectedColorByOption() {
+    this.colorOptionsFolder.configs.forEach((config) => {
+      const groupNotSelected =
+        config.group !== undefined &&
+        config.group !== this.selectedColorByOption;
+
+      config.hidden = groupNotSelected ? true : false;
+    });
   }
 }
