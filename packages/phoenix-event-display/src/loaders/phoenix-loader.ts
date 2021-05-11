@@ -1,4 +1,4 @@
-import { Group, Object3D } from 'three';
+import { Group, Object3D, Vector3 } from 'three';
 import { GUI } from 'dat.gui';
 import { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager';
@@ -261,7 +261,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.PlanarCaloCells) {
-      // (Optional) Cuts can be added to any physics object.
+      //(Optional) Cuts can be added to any physics object.
       // const cuts = [
       //   new Cut('energy', 0, 10000)
       // ];
@@ -295,15 +295,6 @@ export class PhoenixLoader implements EventDataLoader {
         }
       };
 
-      // this.addObjectType(
-      //   eventData.PlanarCaloCells,
-      //   PhoenixObjects.getPlanarCaloCell,
-      //   'PlanarCaloCells',
-      //   false,
-      //   cuts,
-      //   addPlanarCaloCellsOptions
-      // );
-
       const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
         'PlanarCaloCells'
       );
@@ -327,19 +318,24 @@ export class PhoenixLoader implements EventDataLoader {
           return;
         }
 
+        /** 
+         * creating, adding, normalizing the plane normal Vector into a Unit one, once,
+         * hence avoiding doing the same thing for every cell inside the object itself, thus less calculations to be done, thus better performance.
+         */ 
         const plane = eventData.PlanarCaloCells[collectionName]['plane'];
-
-        const getPlane = (caloCells: any) => {
-          return PhoenixObjects.getPlanarCaloCell(caloCells, plane);
-        };
+        let unitVector = new Vector3(plane[0], plane[1], plane[2]);
+        unitVector.normalize();
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => cell['plane'] = [unitVector.x, unitVector.y, unitVector.z, plane[3]]);
 
         this.addCollection(
           objectCollection,
           collectionName,
-          getPlane,
+          PhoenixObjects.getPlanarCaloCell,
           objectGroup,
           false
         );
+
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => delete cell['plane']);
 
         //cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
         this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName);

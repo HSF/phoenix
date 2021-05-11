@@ -383,7 +383,7 @@ export class PhoenixObjects {
    * @param caloCells Parameters for the Planar Calorimeter.
    * @returns Planar Calorimeter object.
    */
-   public static getPlanarCaloCell(caloCells: any, plane: any): Object3D {
+   public static getPlanarCaloCell(caloCells: any): Object3D {
     let position = caloCells.pos;
     if (!position) {
       return;
@@ -391,9 +391,13 @@ export class PhoenixObjects {
 
     const length = caloCells.energy * 0.22;
     const size = caloCells.cellSize;
+    const plane = caloCells.plane;
 
     // geometry
     const geometry = new BoxBufferGeometry(size, size, length);
+
+    // there is a need of an outer box to place the proper one inside of it
+    const outerBox = new Object3D();
 
     // material
     const material = new MeshPhongMaterial({
@@ -403,16 +407,25 @@ export class PhoenixObjects {
     // object
     const box = new Mesh(geometry, material);
 
-    const boxPosition = new Vector3(position[0], position[1], plane[3] * 100);
+    // adding the original box to the outter created one, for proper translation / rotation purposes
+    outerBox.add(box);
+
+    // creating the box in the z direction, and moving it by d, along the z
+    const boxPosition = new Vector3(position[0], position[1], (plane[3]) + (length/2));
 
     box.position.copy(boxPosition);
 
-    //box.lookAt(new Vector3(0, 0, 1));
-    box.userData = Object.assign({}, caloCells);
-    box.name = 'PlanarCaloCell';
-    caloCells.uuid = box.uuid;
+    // transforming the box from the z axis to the x,y,z of the plane
+    let qrot = new Quaternion();
+    qrot.setFromUnitVectors(new Vector3(0, 0, 1), new Vector3(plane[0], plane[1], plane[2]));
+    
+    outerBox.quaternion.copy(qrot);
 
-    return box;
+    outerBox.userData = Object.assign({}, caloCells);
+    outerBox.name = 'PlanarCaloCell';
+    caloCells.uuid = outerBox.uuid;
+
+    return outerBox;
   }
 
   /**
