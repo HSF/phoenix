@@ -262,9 +262,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.PlanarCaloCells) {
       //(Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('energy', 0, 10000)
-      ];
+      const cuts = [new Cut('energy', 0, 10000)];
 
       const addPlanarCaloCellsOptions = (
         typeFolder: GUI,
@@ -318,14 +316,22 @@ export class PhoenixLoader implements EventDataLoader {
           return;
         }
 
-        /** 
+        /**
          * creating, adding, normalizing the plane normal Vector into a Unit one, once,
          * hence avoiding doing the same thing for every cell inside the object itself, thus less calculations to be done, thus better performance.
-         */ 
+         */
         const plane = eventData.PlanarCaloCells[collectionName]['plane'];
         let unitVector = new Vector3(plane[0], plane[1], plane[2]);
         unitVector.normalize();
-        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => cell['plane'] = [unitVector.x, unitVector.y, unitVector.z, plane[3]]);
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(
+          (cell) =>
+            (cell['plane'] = [
+              unitVector.x,
+              unitVector.y,
+              unitVector.z,
+              plane[3],
+            ])
+        );
 
         this.addCollection(
           objectCollection,
@@ -335,9 +341,15 @@ export class PhoenixLoader implements EventDataLoader {
           false
         );
 
-        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => delete cell['plane']);
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(
+          (cell) => delete cell['plane']
+        );
 
-        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
+        this.ui.addCollection(
+          { typeFolder, typeFolderPM },
+          collectionName,
+          cuts
+        );
       }
     }
 
