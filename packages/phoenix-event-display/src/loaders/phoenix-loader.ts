@@ -262,9 +262,9 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.PlanarCaloCells) {
       //(Optional) Cuts can be added to any physics object.
-      // const cuts = [
-      //   new Cut('energy', 0, 10000)
-      // ];
+      const cuts = [
+        new Cut('energy', 0, 10000)
+      ];
 
       const addPlanarCaloCellsOptions = (
         typeFolder: GUI,
@@ -337,8 +337,7 @@ export class PhoenixLoader implements EventDataLoader {
 
         eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => delete cell['plane']);
 
-        //cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName);
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
       }
     }
 
