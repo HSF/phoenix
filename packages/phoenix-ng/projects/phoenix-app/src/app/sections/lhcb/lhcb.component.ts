@@ -15,7 +15,7 @@ import {
 })
 export class LHCbComponent implements OnInit {
   events: any;
-  loader: LHCbLoader;
+  lhcbLoader: LHCbLoader;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
     'phoenix-menu'
@@ -33,11 +33,10 @@ export class LHCbComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
-    //this.loader = new LHCbLoader();
-    const loader = new PhoenixLoader();
+    this.lhcbLoader = new LHCbLoader();
 
     const configuration: Configuration = {
-      eventDataLoader: loader,
+      eventDataLoader: new PhoenixLoader(),
       presetViews: [
         new PresetView('Right View', [0, 0, 6000], 'right-cube'),
         new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
@@ -45,6 +44,10 @@ export class LHCbComponent implements OnInit {
       ],
       defaultView: [-800, 300, -1000],
       phoenixMenuRoot: this.phoenixMenuRoot,
+      defaultEventFile: {
+        eventFile: 'assets/files/lhcb/LHCbEventDataV2.json',
+        eventType: 'json',
+      },
     };
 
     this.eventDisplay.init(configuration);
@@ -53,13 +56,6 @@ export class LHCbComponent implements OnInit {
       'assets/geometry/LHCb/lhcb.gltf',
       'LHCb detector'
     );
-
-    fetch('assets/files/lhcb/LHCbEventDataV2.json')
-      .then((res) => res.json())
-      .then((eventData) => {
-        //this.loadEventData(eventData);
-        this.eventDisplay.parsePhoenixEvents(eventData);
-      });
 
     this.eventDisplay
       .getLoadingManager()
@@ -73,14 +69,14 @@ export class LHCbComponent implements OnInit {
   handleLHCbJSONImport(files: FileList) {
     const reader = new FileReader();
     reader.onload = () => {
-      this.loadEventData(JSON.parse(reader.result.toString()));
+      this.loadLHCbEventData(JSON.parse(reader.result.toString()));
     };
     reader.readAsText(files[0]);
   }
 
-  private loadEventData(data: any) {
-    this.loader.process(data);
-    const eventData = this.loader.getEventData();
+  private loadLHCbEventData(data: any) {
+    this.lhcbLoader.process(data);
+    const eventData = this.lhcbLoader.getEventData();
     this.eventDisplay.buildEventDataFromJSON(eventData);
   }
 }

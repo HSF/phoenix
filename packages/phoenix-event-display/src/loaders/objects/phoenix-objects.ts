@@ -382,7 +382,7 @@ export class PhoenixObjects {
    * @param caloCells Parameters for the Planar Calorimeter.
    * @returns Planar Calorimeter object.
    */
-   public static getPlanarCaloCell(caloCells: any): Object3D {
+  public static getPlanarCaloCell(caloCells: any): Object3D {
     let position = caloCells.pos;
     if (!position) {
       return;
@@ -410,14 +410,20 @@ export class PhoenixObjects {
     outerBox.add(box);
 
     // creating the box in the z direction, and moving it by d, along the z
-    const boxPosition = new Vector3( ...position.slice(0,2), ((plane[3]) + (length/2)) );
+    const boxPosition = new Vector3(
+      ...position.slice(0, 2),
+      plane[3] + length / 2
+    );
 
     box.position.copy(boxPosition);
 
     // transforming the box from the z axis to the x,y,z of the plane
     let qrot = new Quaternion();
-    qrot.setFromUnitVectors( new Vector3(0, 0, 1), new Vector3( ...plane.slice(0,3) ) );
-    
+    qrot.setFromUnitVectors(
+      new Vector3(0, 0, 1),
+      new Vector3(...plane.slice(0, 3))
+    );
+
     outerBox.quaternion.copy(qrot);
 
     outerBox.userData = Object.assign({}, caloCells);

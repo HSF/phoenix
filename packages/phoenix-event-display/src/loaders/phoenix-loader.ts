@@ -82,7 +82,7 @@ export class PhoenixLoader implements EventDataLoader {
   public getEventsList(eventsData: any): string[] {
     const eventsList: string[] = [];
 
-    for (const eventName of Object.keys(eventsData)) {
+    for (const eventName in eventsData) {
       if (eventsData[eventName] !== null) {
         eventsList.push(eventName);
       }
@@ -101,12 +101,12 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     const collections = [];
-    for (const objectType of Object.keys(this.eventData)) {
+    for (const objectType in this.eventData) {
       if (
         this.eventData[objectType] &&
         typeof this.eventData[objectType] === 'object'
       ) {
-        for (const collection of Object.keys(this.eventData[objectType])) {
+        for (const collection in this.eventData[objectType]) {
           collections.push(collection);
         }
       }
@@ -124,9 +124,9 @@ export class PhoenixLoader implements EventDataLoader {
       return null;
     }
 
-    for (const objectType of Object.keys(this.eventData)) {
+    for (const objectType in this.eventData) {
       if (this.eventData[objectType]) {
-        for (const collection of Object.keys(this.eventData[objectType])) {
+        for (const collection in this.eventData[objectType]) {
           if (collection === collectionName) {
             return this.eventData[objectType][collection];
           }
@@ -261,10 +261,8 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.PlanarCaloCells) {
-      //(Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('energy', 0, 10000)
-      ];
+      // (Optional) Cuts can be added to any physics object.
+      const cuts = [new Cut('energy', 0, 10000)];
 
       const addPlanarCaloCellsOptions = (
         typeFolder: GUI,
@@ -295,50 +293,26 @@ export class PhoenixLoader implements EventDataLoader {
         }
       };
 
-      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
-        'PlanarCaloCells'
-      );
-      const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(
-        'PlanarCaloCells'
-      );
+      for (const collectionName in eventData.PlanarCaloCells) {
+        const collection = eventData.PlanarCaloCells[collectionName];
+        const plane = collection['plane'];
+        const unitVector = new Vector3(...plane.slice(0, 3)).normalize();
 
-      const collectionsList: string[] = this.getObjectTypeCollections(
-        eventData.PlanarCaloCells
-      );
-
-      for (const collectionName of collectionsList) {
-        const objectCollection =
-          eventData.PlanarCaloCells[collectionName]['cells'];
-        console.log(
-          ` PlanarCaloCells collection ${collectionName} has ${objectCollection.length} constituents.`
+        collection['cells'].forEach(
+          (cell: any) => (cell['plane'] = [...unitVector.toArray(), plane[3]])
         );
 
-        if (objectCollection.length == 0) {
-          console.log('Skipping');
-          return;
-        }
-
-        /** 
-         * creating, adding, normalizing the plane normal Vector into a Unit one, once,
-         * hence avoiding doing the same thing for every cell inside the object itself, thus less calculations to be done, thus better performance.
-         */ 
-        const plane = eventData.PlanarCaloCells[collectionName]['plane'];
-        let unitVector = new Vector3(plane[0], plane[1], plane[2]);
-        unitVector.normalize();
-        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => cell['plane'] = [unitVector.x, unitVector.y, unitVector.z, plane[3]]);
-
-        this.addCollection(
-          objectCollection,
-          collectionName,
-          PhoenixObjects.getPlanarCaloCell,
-          objectGroup,
-          false
-        );
-
-        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => delete cell['plane']);
-
-        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
+        eventData.PlanarCaloCells[collectionName] = collection['cells'];
       }
+
+      this.addObjectType(
+        eventData.PlanarCaloCells,
+        PhoenixObjects.getPlanarCaloCell,
+        'PlanarCaloCells',
+        false,
+        cuts,
+        addPlanarCaloCellsOptions
+      );
     }
 
     if (eventData.Muons) {
@@ -507,7 +481,7 @@ export class PhoenixLoader implements EventDataLoader {
   private getObjectTypeCollections(object: any): string[] {
     const collectionsList: string[] = [];
 
-    for (const collectionName of Object.keys(object)) {
+    for (const collectionName in object) {
       if (object[collectionName] !== null) {
         collectionsList.push(collectionName);
       }
@@ -634,7 +608,7 @@ export class PhoenixLoader implements EventDataLoader {
     collection: string,
     indexInCollection: number
   ): string {
-    for (const eventDataType of Object.keys(this.eventData)) {
+    for (const eventDataType in this.eventData) {
       if (
         this.eventData[eventDataType] &&
         Object.keys(this.eventData[eventDataType]).includes(collection)
