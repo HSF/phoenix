@@ -9,4 +9,5 @@ export const EVENT_DATA_TYPE_COLORS = {
   MuonChambers: new Color(0xff0000),
   Vertices: new Color(0xffd166),
   MissingEnergy: new Color(0xffffff),
+  PlanarCaloCells: new Color(0xfff69a),
 };

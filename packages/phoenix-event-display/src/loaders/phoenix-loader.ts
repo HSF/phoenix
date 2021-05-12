@@ -1,4 +1,4 @@
-import { Group, Object3D } from 'three';
+import { Group, Object3D, Vector3 } from 'three';
 import { GUI } from 'dat.gui';
 import { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager';
@@ -258,6 +258,87 @@ export class PhoenixLoader implements EventDataLoader {
         cuts,
         addCaloClusterOptions
       );
+    }
+
+    if (eventData.PlanarCaloCells) {
+      //(Optional) Cuts can be added to any physics object.
+      const cuts = [
+        new Cut('energy', 0, 10000)
+      ];
+
+      const addPlanarCaloCellsOptions = (
+        typeFolder: GUI,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
+        const scalePlanarCaloCells = (value: number) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('PlanarCaloCells', value / 100, 'z');
+        };
+
+        if (typeFolder) {
+          const sizeMenu = typeFolder
+            .add({ PlanarCaloCellsScale: 100 }, 'PlanarCaloCellsScale', 1, 400)
+            .name('PlanarCaloCells Size (%)');
+          sizeMenu.onChange(scalePlanarCaloCells);
+        }
+
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
+            label: 'PlanarCaloCells Size (%)',
+            value: 100,
+            min: 1,
+            max: 400,
+            allowCustomValue: true,
+            onChange: scalePlanarCaloCells,
+          });
+        }
+      };
+
+      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
+        'PlanarCaloCells'
+      );
+      const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(
+        'PlanarCaloCells'
+      );
+
+      const collectionsList: string[] = this.getObjectTypeCollections(
+        eventData.PlanarCaloCells
+      );
+
+      for (const collectionName of collectionsList) {
+        const objectCollection =
+          eventData.PlanarCaloCells[collectionName]['cells'];
+        console.log(
+          ` PlanarCaloCells collection ${collectionName} has ${objectCollection.length} constituents.`
+        );
+
+        if (objectCollection.length == 0) {
+          console.log('Skipping');
+          return;
+        }
+
+        /** 
+         * creating, adding, normalizing the plane normal Vector into a Unit one, once,
+         * hence avoiding doing the same thing for every cell inside the object itself, thus less calculations to be done, thus better performance.
+         */ 
+        const plane = eventData.PlanarCaloCells[collectionName]['plane'];
+        let unitVector = new Vector3(plane[0], plane[1], plane[2]);
+        unitVector.normalize();
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => cell['plane'] = [unitVector.x, unitVector.y, unitVector.z, plane[3]]);
+
+        this.addCollection(
+          objectCollection,
+          collectionName,
+          PhoenixObjects.getPlanarCaloCell,
+          objectGroup,
+          false
+        );
+
+        eventData.PlanarCaloCells[collectionName]['cells'].forEach(cell => delete cell['plane']);
+
+        this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
+      }
     }
 
     if (eventData.Muons) {

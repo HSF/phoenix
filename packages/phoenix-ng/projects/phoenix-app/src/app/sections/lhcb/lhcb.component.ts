@@ -5,6 +5,7 @@ import {
   LHCbLoader,
   Configuration,
   PresetView,
+  PhoenixLoader,
 } from 'phoenix-event-display';
 
 @Component({
@@ -32,10 +33,11 @@ export class LHCbComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
-    this.loader = new LHCbLoader();
+    //this.loader = new LHCbLoader();
+    const loader = new PhoenixLoader();
 
     const configuration: Configuration = {
-      eventDataLoader: this.loader,
+      eventDataLoader: loader,
       presetViews: [
         new PresetView('Right View', [0, 0, 6000], 'right-cube'),
         new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
@@ -52,10 +54,11 @@ export class LHCbComponent implements OnInit {
       'LHCb detector'
     );
 
-    fetch('assets/files/lhcb/00191749_0005296728.json')
+    fetch('assets/files/lhcb/LHCbEventDataV2.json')
       .then((res) => res.json())
       .then((eventData) => {
-        this.loadEventData(eventData);
+        //this.loadEventData(eventData);
+        this.eventDisplay.parsePhoenixEvents(eventData);
       });
 
     this.eventDisplay

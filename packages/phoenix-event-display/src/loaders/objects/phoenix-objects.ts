@@ -378,6 +378,56 @@ export class PhoenixObjects {
   }
 
   /**
+   * Process the PlanarCaloCell from the given parameters and get it as a geometry.
+   * @param caloCells Parameters for the Planar Calorimeter.
+   * @returns Planar Calorimeter object.
+   */
+   public static getPlanarCaloCell(caloCells: any): Object3D {
+    let position = caloCells.pos;
+    if (!position) {
+      return;
+    }
+
+    const length = caloCells.energy * 0.22;
+    const size = caloCells.cellSize;
+    const plane = caloCells.plane;
+
+    // geometry
+    const geometry = new BoxBufferGeometry(size, size, length);
+
+    // there is a need of an outer box to place the proper one inside of it
+    const outerBox = new Object3D();
+
+    // material
+    const material = new MeshPhongMaterial({
+      color: caloCells.color ?? EVENT_DATA_TYPE_COLORS.PlanarCaloCells,
+    });
+
+    // object
+    const box = new Mesh(geometry, material);
+
+    // adding the original box to the outter created one, for proper translation / rotation purposes
+    outerBox.add(box);
+
+    // creating the box in the z direction, and moving it by d, along the z
+    const boxPosition = new Vector3( ...position.slice(0,2), ((plane[3]) + (length/2)) );
+
+    box.position.copy(boxPosition);
+
+    // transforming the box from the z axis to the x,y,z of the plane
+    let qrot = new Quaternion();
+    qrot.setFromUnitVectors( new Vector3(0, 0, 1), new Vector3( ...plane.slice(0,3) ) );
+    
+    outerBox.quaternion.copy(qrot);
+
+    outerBox.userData = Object.assign({}, caloCells);
+    outerBox.name = 'PlanarCaloCell';
+    caloCells.uuid = outerBox.uuid;
+
+    return outerBox;
+  }
+
+  /**
    * Process the Vertex from the given parameters and get it as a geometry.
    * @param vertexParams Parameters for the Vertex.
    * @returns Vertex object.
