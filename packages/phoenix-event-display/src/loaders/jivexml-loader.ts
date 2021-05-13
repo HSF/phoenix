@@ -257,7 +257,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         if (numDoF.length >= i) track.dof = numDoF[i];
         if (trackAuthor.length >= i) track.author = trackAuthor[i];
 
-        const theta = Math.tan(cotTheta[i]);
+        let theta = Math.atan(1 / cotTheta[i]);
 
         track.pT = Math.abs(pT[i]);
         const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
@@ -265,12 +265,16 @@ export class JiveXMLLoader extends PhoenixLoader {
         track.phi = phi0[i];
 
         // if (track.phi == 1.37786) {
-        if (false && i === 0) {
-          console.log('Cuplrit found! Index = ', i);
-          debugTrack = true;
-          storeTrack = true;
-        }
+        // if (i === 0) {
+        //   console.log('Cuplrit found! Index = ', i);
+        //   debugTrack = true;
+        //   storeTrack = true;
+        // }
 
+        if (theta < 0) {
+          theta += Math.PI;
+          // TODO - check if we need to flip phi here?
+        }
         // FIXME - should probably handle this better ... what if phi = 4PI for example?
         if (track.phi > Math.PI) {
           track.phi -= 2.0 * Math.PI;
