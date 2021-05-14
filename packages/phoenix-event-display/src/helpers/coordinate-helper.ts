@@ -5,6 +5,18 @@ import { Vector3, Quaternion } from 'three';
  */
 export class CoordinateHelper {
   /**
+   * Checks if angles are within range: -PI < phi < PI and 0 < theta < 2PI
+   * @param theta equatorial angle
+   * @param phi azimuthal angle
+   * @returns
+   */
+  public static anglesAreSane(theta: number, phi: number): boolean {
+    let tmp1 = -Math.PI < phi && Math.PI > phi;
+    let tmp2 = 0 < theta && Math.PI > theta;
+    return tmp1 && tmp2;
+  }
+
+  /**
    * Convert pseudorapidity eta to spherical coordinate theta.
    * See definition here: https://en.wikipedia.org/wiki/Pseudorapidity
    * @param eta Pseudorapidity eta to convert to theta.
