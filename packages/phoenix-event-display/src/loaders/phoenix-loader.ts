@@ -405,9 +405,8 @@ export class PhoenixLoader implements EventDataLoader {
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
-    const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
-      typeName
-    );
+    const { typeFolder, typeFolderPM } =
+      this.ui.addEventDataTypeFolder(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
 
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -510,9 +509,8 @@ export class PhoenixLoader implements EventDataLoader {
           this.eventData.CaloClusters &&
           this.eventData.CaloClusters[clusterColl]
         ) {
-          const clusterParams = this.eventData.CaloClusters[clusterColl][
-            clusterIndex
-          ];
+          const clusterParams =
+            this.eventData.CaloClusters[clusterColl][clusterIndex];
           if (clusterParams) {
             const cluster = PhoenixObjects.getCluster(clusterParams);
             muonScene.add(cluster);
@@ -582,9 +580,8 @@ export class PhoenixLoader implements EventDataLoader {
             eventDataKeys.includes(eventDataPropKey) &&
             this.eventData[eventDataPropKey]
           ) {
-            combinedProps[eventDataProp.label] = this.eventData[
-              eventDataPropKey
-            ];
+            combinedProps[eventDataProp.label] =
+              this.eventData[eventDataPropKey];
             break;
           }
         }

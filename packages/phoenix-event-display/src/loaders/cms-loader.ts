@@ -248,9 +248,9 @@ export class CMSLoader extends PhoenixLoader {
     let Jets = {};
 
     // Filtering collections to get all Jets collections
-    const jetsCollections = Object.keys(
-      this.data['Collections']
-    ).filter((key) => key.toLowerCase().includes('jets'));
+    const jetsCollections = Object.keys(this.data['Collections']).filter(
+      (key) => key.toLowerCase().includes('jets')
+    );
     const cuts = [
       { attribute: 'et', min: 10 },
       { attribute: 'energy', min: 10 },

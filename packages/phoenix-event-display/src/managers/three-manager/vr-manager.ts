@@ -67,10 +67,12 @@ export class VRManager {
         optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
       };
 
-      (webXR.requestSession(
-        VRManager.SESSION_TYPE,
-        sessionInit
-      ) as Promise<any>)
+      (
+        webXR.requestSession(
+          VRManager.SESSION_TYPE,
+          sessionInit
+        ) as Promise<any>
+      )
         .then((session: any) => {
           this.onVRSessionStarted(session);
           onSessionStarted?.();

@@ -18,6 +18,7 @@ export class IoOptionsComponent {
     const dialogRef = this.dialog.open(IOOptionsDialogComponent, {
       panelClass: 'dialog',
     });
-    dialogRef.componentInstance.eventDataImportOptions = this.eventDataImportOptions;
+    dialogRef.componentInstance.eventDataImportOptions =
+      this.eventDataImportOptions;
   }
 }

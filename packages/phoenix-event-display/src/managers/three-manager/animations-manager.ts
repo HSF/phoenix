@@ -333,8 +333,8 @@ export class AnimationsManager {
     }
 
     // Save the previous clipping setting of the renderer
-    const prevLocalClipping = this.rendererManager.getMainRenderer()
-      .localClippingEnabled;
+    const prevLocalClipping =
+      this.rendererManager.getMainRenderer().localClippingEnabled;
     if (!prevLocalClipping) {
       this.rendererManager.setLocalClippingEnabled(true);
     }
@@ -367,7 +367,8 @@ export class AnimationsManager {
     allTweens[allTweens.length - 1].onComplete(() => {
       // Revert local clipping of the renderer
       if (!prevLocalClipping) {
-        this.rendererManager.getMainRenderer().localClippingEnabled = prevLocalClipping /* false */;
+        this.rendererManager.getMainRenderer().localClippingEnabled =
+          prevLocalClipping /* false */;
       }
       // Remove the applied clipping planes from the event data objects
       allEventData.traverse((eventObject: any) => {
