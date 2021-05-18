@@ -155,9 +155,10 @@ export class UIManager {
    * @param typeName Name of the type of event data.
    * @returns dat.GUI and Phoenix menu's folder for event data type.
    */
-  public addEventDataTypeFolder(
-    typeName: string
-  ): { typeFolder?: GUI; typeFolderPM?: PhoenixMenuNode } {
+  public addEventDataTypeFolder(typeName: string): {
+    typeFolder?: GUI;
+    typeFolderPM?: PhoenixMenuNode;
+  } {
     const typeFolder = this.datGUIMenu?.addEventDataTypeFolder(typeName);
     const typeFolderPM = this.phoenixMenuUI?.addEventDataTypeFolder(typeName);
 
@@ -220,7 +221,8 @@ export class UIManager {
       });
     };
     const onSaveLabels = () => {
-      const labelsObject = this.configuration?.eventDataLoader?.getLabelsObject();
+      const labelsObject =
+        this.configuration?.eventDataLoader?.getLabelsObject();
       if (labelsObject) {
         saveFile(JSON.stringify(labelsObject), 'phoenix-labels.json');
       }

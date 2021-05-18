@@ -109,9 +109,8 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
-    const eventKeys = this.configuration.eventDataLoader.getEventsList(
-      eventsData
-    );
+    const eventKeys =
+      this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach((callback) => callback(eventKeys));
     return eventKeys;
@@ -463,9 +462,8 @@ export class EventDisplay {
     geometries: [];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const { typeFolder, typeFolderPM } = this.ui.addEventDataTypeFolder(
-        objectType
-      );
+      const { typeFolder, typeFolderPM } =
+        this.ui.addEventDataTypeFolder(objectType);
       const collections = sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
         this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
