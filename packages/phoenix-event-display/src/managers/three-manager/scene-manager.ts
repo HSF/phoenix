@@ -203,8 +203,8 @@ export class SceneManager {
       : this.scene;
     const object = parent.getObjectByName(name);
     if (object) {
+      object.visible = visible;
       object.traverse((child) => {
-        child.visible = visible;
         if (!visible) {
           child.layers.disable(0);
           child.layers.enable(1);
