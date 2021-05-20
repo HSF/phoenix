@@ -33,7 +33,7 @@ npm install -g @angular/cli
 Now, using the Angular CLI, create a new Angular app.
 
 ```sh
-ng new my-app --style scss
+ng new my-app --style scss --routing true
 ```
 
 Make sure the newly created app works.
