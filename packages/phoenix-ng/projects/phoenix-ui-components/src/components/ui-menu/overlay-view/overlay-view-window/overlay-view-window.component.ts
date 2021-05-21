@@ -9,11 +9,12 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 })
 export class OverlayViewWindowComponent implements AfterViewInit {
   @Input() showOverlay = true;
-  orthographicView: boolean = false;
-  overlayViewFixed: boolean = false;
+  transparentBody = false;
+  orthographicView = false;
+  overlayViewFixed = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
-  constructor(private eventDisplay: EventDisplayService) {}
+  constructor(private eventDisplay: EventDisplayService) { }
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
@@ -40,5 +41,9 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   fixOverlayView() {
     this.overlayViewFixed = !this.overlayViewFixed;
     this.eventDisplay.fixOverlayView(this.overlayViewFixed);
+  }
+
+  toggleBgTransparency() {
+    this.transparentBody = !this.transparentBody;
   }
 }
