@@ -143,7 +143,7 @@ export class SceneManager {
   public darkBackground(dark: boolean) {
     let background = 0xffffff;
     if (dark) {
-      background = 0x0;
+      background = 0x1a1a1a;
     }
     if (this.scene) {
       this.scene.background = new Color(background);

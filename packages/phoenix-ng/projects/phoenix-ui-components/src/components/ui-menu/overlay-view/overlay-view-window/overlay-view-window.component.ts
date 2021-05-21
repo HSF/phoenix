@@ -14,7 +14,7 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   overlayViewFixed = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
-  constructor(private eventDisplay: EventDisplayService) { }
+  constructor(private eventDisplay: EventDisplayService) {}
 
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
