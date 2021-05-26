@@ -290,7 +290,7 @@ export class PhoenixObjects {
   private static hitsToPoints(
     pointPos: any,
     hitsParams: any,
-    hitParamsClone: any
+    _hitParamsClone: any
   ): Object3D {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
@@ -302,7 +302,9 @@ export class PhoenixObjects {
     });
     // object
     const pointsObj = new Points(geometry, material);
-    pointsObj.userData = Object.assign({}, hitParamsClone);
+    // Disabling for now because the data isn't readable on object selection.
+    // pointsObj.userData = Object.assign({}, hitParamsClone);
+    pointsObj.userData = {};
     pointsObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
@@ -320,7 +322,7 @@ export class PhoenixObjects {
   private static hitsToLines(
     pointPos: any,
     hitsParams: any,
-    hitParamsClone: any
+    _hitParamsClone: any
   ): Object3D {
     // geometry
     const geometry = new BufferGeometry();
@@ -333,7 +335,9 @@ export class PhoenixObjects {
     });
     // object
     const linesObj = new LineSegments(geometry, material);
-    linesObj.userData = Object.assign({}, hitParamsClone);
+    // Disabling for now because the data isn't readable on object selection.
+    // linesObj.userData = Object.assign({}, hitParamsClone);
+    linesObj.userData = {};
     linesObj.name = 'Hit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = linesObj.uuid;
