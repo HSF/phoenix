@@ -90,5 +90,5 @@ jobs:
           target_url: ${{ steps.deploy_pr.outputs.deployment_url }}
           description: Deployed to environment ${{ steps.deploy_pr.outputs.deployment_env }}
           environment: ${{ steps.deploy_pr.outputs.deployment_env }}
-          environment_url: https://github.com/${{ github.repository }}/deployments/activity_log?environment=${{ steps.deploy_pr.outputs.deployment_env }}
+          environment_url: ${{ steps.deploy_pr.outputs.deployment_url }}
           mediaType: '{ "previews": ["flash", "ant-man"] }'
