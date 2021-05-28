@@ -16,13 +16,13 @@
 
 Phoenix is a TypeScript-based event display framework, using the popular [three.js](https://threejs.org) library for 3D. It focuses on being experiment agnostic by design, with common tools (such as custom menus, controls, propagators) and the possibility to add experiment specific extensions.
 
-It consists of two packages: a plain TypeScript core library ([phoenix-event-display](./packages/phoenix-event-display/README.md)) and Angular example application ([phoenix-app](./packages/phoenix-ng/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps.
+It consists of two packages: a plain TypeScript core library ([phoenix-event-display](./packages/phoenix-event-display/README.md)) and Angular example application ([phoenix-ng](./packages/phoenix-ng/README.md)). A React example is also [provided](https://github.com/9inpachi/phoenix-react). The core library can be adapted for any experiment with some simple steps.
 
 Phoenix is supported by the [HEP Software Foundation](https://hepsoftwarefoundation.org) and is the official web event display of the [ATLAS experiment](https://atlas.cern).
 
 It was selected for Google Summer of Code support in 2019 and 2020.
 
-You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](https://hepsoftwarefoundation.org/phoenix/)
+You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](https://hepsoftwarefoundation.org/phoenix/) and the development version at [http://phoenix-dev.surge.sh](http://phoenix-dev.surge.sh).
 
 ## Demo
 
@@ -30,8 +30,10 @@ You can see an online version at [https://hepsoftwarefoundation.org/phoenix/](ht
 
 ## Packages
 
-* [Phoenix event display API - `phoenix-event-display`](./packages/phoenix-event-display/)
-* [Phoenix application (Angular) - `phoenix-ng`](./packages/phoenix-ng/)
+* [`phoenix-event-display`](./packages/phoenix-event-display/)  
+  Phoenix event display framework
+* [`phoenix-ng`](./packages/phoenix-ng/)  
+  Phoenix Angular application
 
 ## Development
 
@@ -43,18 +45,28 @@ Once you have Node.js and npm (npm comes with Node.js), install yarn and lerna.
 npm install --global yarn lerna
 ```
 
-Then run the following set of commands.
+Then run the following commands.
 
 ```sh
 # Install all the required dependencies for both phoenix-event-display
 # and phoenix-app and symlink the packages
 yarn install:dependencies
 
-# Run both packages in development (watch) mode
+# Run both packages in development/watch mode
 yarn start
 ```
 
-Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to `http://localhost:4200` on the browser.
+Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+
+## Docker
+
+Run the following Docker command to start Phoenix locally using Docker.
+
+```sh
+docker run -dp 80:80 9inpachi/phoenix
+```
+
+Access the app by navigating to [`http://localhost`](http://localhost) on the browser.
 
 ## Documentation
 
