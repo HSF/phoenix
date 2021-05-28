@@ -42,21 +42,30 @@ jobs:
         uses: jwalton/gh-find-current-pr@master
         id: if_pr
 
-      - name: Deploy Pull Request
+      - name: Deploy
         id: deploy_pr
-        if: ${{ success() && steps.if_pr.outputs.number }}
+        if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/master' }}
         env:
           PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
+          DEV_URL: http://phoenix-dev.surge.sh
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
           yarn deploy:web
-          npx surge --project ./packages/phoenix-ng/docs/ --domain $PR_URL
-          echo "::set-output name=pr_url::$PR_URL"
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            export DEPLOYMENT_URL=$DEV_URL
+            export DEPLOYMENT_ENV=dev
+          else
+            export DEPLOYMENT_URL=$PR_URL
+            export DEPLOYMENT_ENV=pull-request
+          fi
+          npx surge --project ./packages/phoenix-ng/docs/ --domain $DEPLOYMENT_URL
+          echo "::set-output name=deployment_url::$DEPLOYMENT_URL"
+          echo "::set-output name=deployment_env::$DEPLOYMENT_ENV"
 
-      - name: Create Pull Request Deployment
+      - name: Create Deployment
         id: create_pr_deployment
-        if: ${{ success() && steps.if_pr.outputs.number }}
+        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/master') }}
         uses: octokit/request-action@v2.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -64,12 +73,12 @@ jobs:
           route: POST /repos/{repository}/deployments
           repository: ${{ github.repository }}
           ref: ${{ github.ref }}
-          environment: pull-request
+          environment: ${{ steps.deploy_pr.outputs.deployment_env }}
           required_contexts: "[]"
           auto_merge: false
 
-      - name: Create Pull Request Deployment Status
-        if: ${{ success() && steps.if_pr.outputs.number }}
+      - name: Create Deployment Status
+        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/master') }}
         uses: octokit/request-action@v2.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,8 +87,8 @@ jobs:
           repository: ${{ github.repository }}
           deployment_id: ${{ fromJSON(steps.create_pr_deployment.outputs.data).id }}
           state: success
-          target_url: ${{ steps.deploy_pr.outputs.pr_url }}
-          description: Pull request deployed
-          environment: pull-request
-          environment_url: ${{ steps.deploy_pr.outputs.pr_url }}
-          mediaType: '{"previews": ["flash", "ant-man"]}'
+          target_url: ${{ steps.deploy_pr.outputs.deployment_url }}
+          description: Deployed to environment ${{ steps.deploy_pr.outputs.deployment_env }}
+          environment: ${{ steps.deploy_pr.outputs.deployment_env }}
+          environment_url: https://github.com/${{ github.repository }}/deployments/activity_log?environment=${{ steps.deploy_pr.outputs.deployment_env }}
+          mediaType: '{ "previews": ["flash", "ant-man"] }'
