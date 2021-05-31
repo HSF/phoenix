@@ -338,7 +338,7 @@ export class PhoenixObjects {
     // Disabling for now because the data isn't readable on object selection.
     // linesObj.userData = Object.assign({}, hitParamsClone);
     linesObj.userData = {};
-    linesObj.name = 'Hit';
+    linesObj.name = 'LineHit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = linesObj.uuid;
 
