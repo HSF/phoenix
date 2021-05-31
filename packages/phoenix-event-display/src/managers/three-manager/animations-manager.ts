@@ -159,7 +159,7 @@ export class AnimationsManager {
     eventData.traverse((eventObject: any) => {
       if (eventObject.geometry) {
         // Animation for extrapolating tracks without changing scale
-        if (eventObject.name === 'Track') {
+        if (eventObject.name === 'Track' || eventObject.name === 'LineHit') {
           // Check if geometry drawRange count exists
           let geometryPosCount =
             eventObject.geometry?.attributes?.position?.count;
