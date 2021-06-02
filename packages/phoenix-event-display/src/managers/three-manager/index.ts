@@ -645,6 +645,12 @@ export class ThreeManager {
     );
   }
 
+  /**
+   * Animate scene by animating camera through the scene and animating event collision.
+   * @param positions Positions with duration of each tween forming a path.
+   * @param animateEventAfterInteral Time after which to start the event collision animation.
+   * @param collisionDuration Duration of the event collision.
+   */
   public animateScene(
     positions: { position: number[]; duration?: number }[],
     animateEventAfterInteral?: number,
