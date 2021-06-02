@@ -521,4 +521,31 @@ export class AnimationsManager {
     }
     return hitsPositions;
   }
+
+  public animateScene(
+    positions: { position: number[]; duration?: number }[],
+    animateEventAfterInteral?: number,
+    collisionDuration?: number
+  ) {
+    if (animateEventAfterInteral && collisionDuration) {
+      setTimeout(() => {
+        this.animateEventWithCollision(collisionDuration);
+      }, animateEventAfterInteral);
+    }
+
+    const firstTween = this.getCameraTween(
+      positions[0].position,
+      positions[0].duration ?? 2000
+    );
+    let previousTween = firstTween;
+
+    positions.slice(1).forEach((position) => {
+      const duration = position.duration ?? 2000;
+      const tween = this.getCameraTween(position.position, duration);
+      previousTween.chain(tween);
+      previousTween = tween;
+    });
+
+    firstTween.start();
+  }
 }

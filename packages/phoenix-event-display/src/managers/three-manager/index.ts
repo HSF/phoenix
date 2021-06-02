@@ -645,6 +645,18 @@ export class ThreeManager {
     );
   }
 
+  public animateScene(
+    positions: { position: number[]; duration?: number }[],
+    animateEventAfterInteral?: number,
+    collisionDuration?: number
+  ) {
+    this.animationsManager.animateScene(
+      positions,
+      animateEventAfterInteral,
+      collisionDuration
+    );
+  }
+
   /**
    * Animate the propagation and generation of event data with particle collison.
    * @param tweenDuration Duration of the animation tween.
