@@ -7,16 +7,48 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./animate-camera.component.scss'],
 })
 export class AnimateCameraComponent {
-  isAnimating: boolean = false;
+  animationPresets: {
+    [key: string]: {
+      positions: { position: number[]; duration: number }[];
+      animateEventAfterInterval: number;
+      collisionDuration: number;
+    };
+  } = {
+    'Preset 1': {
+      positions: [
+        {
+          position: [11976, 7262, 11927],
+          duration: 2000,
+        },
+        {
+          position: [11976, 7262, 11927],
+          duration: 2000,
+        },
+        {
+          position: [11976, 7262, 11927],
+          duration: 2000,
+        },
+      ],
+      animateEventAfterInterval: 3000,
+      collisionDuration: 2000,
+    },
+  };
+  animationPresetsKeys = Object.keys(this.animationPresets);
 
   constructor(private eventDisplay: EventDisplayService) {}
 
-  toggleAnimateCamera() {
-    if (!this.isAnimating) {
-      this.isAnimating = true;
-      this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000, () => {
-        this.isAnimating = false;
-      });
-    }
+  animateScene(preset: string) {
+    const { positions, animateEventAfterInterval, collisionDuration } =
+      this.animationPresets[preset];
+
+    this.eventDisplay.animateScene(
+      positions,
+      animateEventAfterInterval,
+      collisionDuration
+    );
+  }
+
+  animateCamera() {
+    this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000);
   }
 }

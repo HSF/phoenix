@@ -524,12 +524,12 @@ export class AnimationsManager {
 
   /**
    * Animate scene by animating camera through the scene and animating event collision.
-   * @param positions Positions with duration of each tween forming a path.
+   * @param positions Positions with duration and easing of each tween forming a path.
    * @param animateEventAfterInteral Time after which to start the event collision animation.
    * @param collisionDuration Duration of the event collision.
    */
   public animateScene(
-    positions: { position: number[]; duration?: number }[],
+    positions: { position: number[]; duration?: number; easing?: any }[],
     animateEventAfterInteral?: number,
     collisionDuration?: number
   ) {
@@ -541,13 +541,13 @@ export class AnimationsManager {
 
     const firstTween = this.getCameraTween(
       positions[0].position,
-      positions[0].duration ?? 2000
+      positions[0].duration ?? 2000,
+      positions[0].easing
     );
-    let previousTween = firstTween;
 
-    positions.slice(1).forEach((position) => {
-      const duration = position.duration ?? 2000;
-      const tween = this.getCameraTween(position.position, duration);
+    let previousTween = firstTween;
+    positions.slice(1).forEach(({ position, duration, easing }) => {
+      const tween = this.getCameraTween(position, duration ?? 2000, easing);
       previousTween.chain(tween);
       previousTween = tween;
     });
