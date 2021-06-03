@@ -4,11 +4,6 @@ module.exports = function (config) {
     // Timeout for browser disconnection error.
     pingTimeout: 15000,
     frameworks: ['jasmine', 'karma-typescript'],
-    plugins: [
-      require('karma-jasmine'),
-      require('karma-chrome-launcher'),
-      require('karma-typescript'),
-    ],
     files: [
       { pattern: 'src/**/*.ts' },
       {
@@ -36,7 +31,6 @@ module.exports = function (config) {
     singleRun: true,
     colors: true,
     logLevel: config.LOG_INFO,
-    port: 9876,
     karmaTypescriptConfig: {
       include: ['src'],
       reports: {
