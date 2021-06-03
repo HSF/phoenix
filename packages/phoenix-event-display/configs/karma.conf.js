@@ -1,9 +1,14 @@
 module.exports = function (config) {
   config.set({
     basePath: '../',
-    // Timeout for Chrome disconnection error.
-    pingTimeout: 30000,
+    // Timeout for browser disconnection error.
+    pingTimeout: 15000,
     frameworks: ['jasmine', 'karma-typescript'],
+    plugins: [
+      require('karma-jasmine'),
+      require('karma-chrome-launcher'),
+      require('karma-typescript'),
+    ],
     files: [
       { pattern: 'src/**/*.ts' },
       {
@@ -22,7 +27,16 @@ module.exports = function (config) {
     },
     reporters: ['dots', 'karma-typescript'],
     browsers: ['ChromeHeadless'],
-    singleRun: true,
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox'],
+      },
+    },
+    singleRun: false,
+    colors: true,
+    logLevel: config.LOG_INFO,
+    port: 9876,
     karmaTypescriptConfig: {
       include: ['src'],
       reports: {
