@@ -33,7 +33,7 @@ module.exports = function (config) {
         flags: ['--no-sandbox'],
       },
     },
-    singleRun: false,
+    singleRun: true,
     colors: true,
     logLevel: config.LOG_INFO,
     port: 9876,
