@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EventDataImportOption } from '../../../services/extras/event-data-import';
+import {
+  EventDataFormat,
+  EventDataImportOption,
+} from '../../../services/extras/event-data-import';
 import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.component';
 
 @Component({
@@ -10,7 +13,8 @@ import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.
 })
 export class IoOptionsComponent {
   @Input()
-  eventDataImportOptions: EventDataImportOption[] = [];
+  eventDataImportOptions: EventDataImportOption[] =
+    Object.values(EventDataFormat);
 
   constructor(private dialog: MatDialog) {}
 

@@ -4,6 +4,8 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
+    // Timeout for browser disconnection error.
+    pingTimeout: 15000,
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
