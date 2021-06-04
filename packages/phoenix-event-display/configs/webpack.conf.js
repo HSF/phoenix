@@ -7,8 +7,12 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        loader: 'esbuild-loader',
         exclude: /node_modules/,
+        options: {
+          loader: 'ts',
+          target: 'es2015',
+        },
       },
     ],
   },
