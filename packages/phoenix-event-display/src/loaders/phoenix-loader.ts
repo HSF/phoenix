@@ -358,7 +358,7 @@ export class PhoenixLoader implements EventDataLoader {
         };
         if (typeFolder) {
           const sizeMenu = typeFolder
-            .add({ jetsScale: 100 }, 'Scale', 1, 200)
+            .add({ jetsScale: 100 }, 'jetsScale', 1, 200)
             .name('Size (%)');
           sizeMenu.onChange(scaleMET);
         }

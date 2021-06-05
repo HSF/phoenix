@@ -55,7 +55,11 @@
             >
               {{ config.label }}
             </span>
-            <div class="item-config-data" *ngIf="config.type !== 'label'">
+            <div
+              class="item-config-data"
+              [ngClass]="{ 'p-0': config.type === 'button' }"
+              *ngIf="config.type !== 'label'"
+            >
               <mat-checkbox
                 *ngSwitchCase="'checkbox'"
                 [checked]="config.isChecked"

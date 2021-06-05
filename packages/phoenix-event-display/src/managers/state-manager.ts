@@ -97,7 +97,7 @@ export class StateManager {
   loadStateFromJSON(json: string | object) {
     const jsonData: object = typeof json === 'string' ? JSON.parse(json) : json;
 
-    if (jsonData['phoenixMenu']) {
+    if (jsonData['phoenixMenu'] && this.phoenixMenuRoot) {
       this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);
       this.phoenixMenuRoot.configActive = false;
     }
