@@ -249,12 +249,15 @@ export class DatGUIMenuUI {
       this.guiParameters[collectionName] = {
         show: true,
         color: 0x000000,
+        randomColor: () =>
+          this.three.getColorManager().collectionColorRandom(collectionName),
         resetCut: () =>
           this.three
             .getSceneManager()
             .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
       };
       const collFolder = typeFolder.addFolder(collectionName);
+
       // A boolean toggle for showing/hiding the collection is added to its folder
       const showMenu = collFolder
         .add(this.guiParameters[collectionName], 'show')
@@ -265,6 +268,7 @@ export class DatGUIMenuUI {
           .getSceneManager()
           .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
       );
+
       // A color picker is added to the collection's folder
       const colorMenu = collFolder
         .addColor(this.guiParameters[collectionName], 'color')
@@ -273,12 +277,17 @@ export class DatGUIMenuUI {
         this.three.getColorManager().collectionColor(collectionName, value)
       );
       colorMenu.setValue(collectionColor?.getHex());
+      collFolder
+        .add(this.guiParameters[collectionName], 'randomColor')
+        .name('Random Color');
+
       // Cuts menu
       if (cuts) {
         const cutsFolder = collFolder.addFolder('Cuts');
         cutsFolder
           .add(this.guiParameters[collectionName], 'resetCut')
           .name('Reset cuts');
+
         for (const cut of cuts) {
           const minCut = cutsFolder
             .add(cut, 'minValue', cut.minValue, cut.maxValue)

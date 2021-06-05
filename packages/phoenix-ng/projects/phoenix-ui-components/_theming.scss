@@ -120,7 +120,7 @@ canvas {
 select {
   border-radius: 30px;
   padding: 0.125rem 0.25rem;
-  background-color: var(--phoenix-background-color-tertiary);
+  background-color: var(--phoenix-background-color-secondary);
   color: var(--phoenix-text-color-secondary);
   outline: none;
   border: none;
@@ -203,6 +203,6 @@ select {
 .form-control,
 .form-control:focus {
   color: var(--phoenix-text-color);
-  background-color: var(--phoenix-background-color-tertiary);
+  background-color: var(--phoenix-background-color-secondary);
   border: 1px solid var(--phoenix-border);
 }

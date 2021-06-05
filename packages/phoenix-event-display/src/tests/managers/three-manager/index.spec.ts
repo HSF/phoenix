@@ -162,7 +162,7 @@ describe('ThreeManager', () => {
 
           done();
         });
-    });
+    }, 10000);
 
     it('should load JSON geometry', (done) => {
       spyOn(threePrivate.importManager, 'loadJSONGeometry').and.callThrough();
