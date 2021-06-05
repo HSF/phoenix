@@ -1,4 +1,4 @@
-import { Color } from 'three';
+import { Color, MeshPhongMaterial } from 'three';
 import { SceneManager } from './scene-manager';
 
 /**
@@ -49,6 +49,23 @@ export class ColorManager {
   }
 
   /**
+   * Changes the color of all objects inside an event data collection to some random color.
+   * @param collectionName Name of the collection.
+   */
+  public collectionColorRandom(collectionName: string) {
+    const collection = this.sceneManager
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID)
+      .getObjectByName(collectionName);
+
+    for (const child of Object.values(collection.children)) {
+      child.traverse((object) => {
+        (object['material']?.color as Color)?.set(Math.random() * 0xffffff);
+      });
+    }
+  }
+
+  /**
    * Randomly color tracks by the vertex they are associated with.
    * @param collectionName Name of the collection.
    */
@@ -63,8 +80,8 @@ export class ColorManager {
         linkedTrackCollection === collectionName &&
         linkedTracks
       ) {
-        const colorForTracksVertex = new Color(Math.random() * 0xffffff);
-
+        const colorForTracksVertex = (object['material'] as MeshPhongMaterial)
+          .color;
         const trackCollection = scene.getObjectByName(linkedTrackCollection);
 
         linkedTracks.forEach((trackIndex: number) => {

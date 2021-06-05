@@ -93,9 +93,14 @@ export class ColorOptions {
       color: collectionColor
         ? `#${collectionColor?.getHexString()}`
         : undefined,
-      onChange: (value) => {
-        this.colorManager.collectionColor(this.collectionName, value);
-      },
+      onChange: (value) =>
+        this.colorManager.collectionColor(this.collectionName, value),
+    });
+
+    this.colorOptionsFolder.addConfig('button', {
+      label: 'Random',
+      onClick: () =>
+        this.colorManager.collectionColorRandom(this.collectionName),
     });
 
     // Check which color by options are to be included.
