@@ -6,6 +6,7 @@ import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
 import { ActiveVariable } from './helpers/active-variable';
+import { AnimationPreset } from './managers/three-manager/animations-manager';
 
 declare global {
   /**
@@ -644,20 +645,11 @@ export class EventDisplay {
 
   /**
    * Animate scene by animating camera through the scene and animating event collision.
-   * @param positions Positions with duration and easing of each tween forming a path.
-   * @param animateEventAfterInteral Time after which to start the event collision animation.
-   * @param collisionDuration Duration of the event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
    */
-  public animateScene(
-    positions: { position: number[]; duration?: number; easing?: any }[],
-    animateEventAfterInteral?: number,
-    collisionDuration?: number
-  ) {
-    this.graphicsLibrary.animateScene(
-      positions,
-      animateEventAfterInteral,
-      collisionDuration
-    );
+  public animateScene(animationPreset: AnimationPreset) {
+    this.graphicsLibrary.animateScene(animationPreset);
   }
 
   /**

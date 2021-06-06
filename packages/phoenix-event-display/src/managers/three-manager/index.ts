@@ -20,7 +20,7 @@ import { ExportManager } from './export-manager';
 import { ImportManager } from './import-manager';
 import { SelectionManager } from './selection-manager';
 import { SceneManager } from './scene-manager';
-import { AnimationsManager } from './animations-manager';
+import { AnimationPreset, AnimationsManager } from './animations-manager';
 import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
@@ -647,20 +647,11 @@ export class ThreeManager {
 
   /**
    * Animate scene by animating camera through the scene and animating event collision.
-   * @param positions Positions with duration and easing of each tween forming a path.
-   * @param animateEventAfterInteral Time after which to start the event collision animation.
-   * @param collisionDuration Duration of the event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
    */
-  public animateScene(
-    positions: { position: number[]; duration?: number; easing?: any }[],
-    animateEventAfterInteral?: number,
-    collisionDuration?: number
-  ) {
-    this.animationsManager.animateScene(
-      positions,
-      animateEventAfterInteral,
-      collisionDuration
-    );
+  public animateScene(animationPreset: AnimationPreset) {
+    this.animationsManager.animateScene(animationPreset);
   }
 
   /**

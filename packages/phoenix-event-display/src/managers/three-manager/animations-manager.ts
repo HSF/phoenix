@@ -18,6 +18,16 @@ import {
 import * as TWEEN from '@tweenjs/tween.js';
 import { RendererManager } from './renderer-manager';
 
+/** Type for animation preset. */
+export interface AnimationPreset {
+  /** Positions with duration and easing of each tween forming a path. */
+  positions: { position: number[]; duration: number; easing?: any }[];
+  /** Time after which to start the event collision animation. */
+  animateEventAfterInterval?: number;
+  /** Duration of the event collision. */
+  collisionDuration?: number;
+}
+
 /**
  * Manager for managing animation related operations using three.js and tween.js.
  */
@@ -524,19 +534,17 @@ export class AnimationsManager {
 
   /**
    * Animate scene by animating camera through the scene and animating event collision.
-   * @param positions Positions with duration and easing of each tween forming a path.
-   * @param animateEventAfterInteral Time after which to start the event collision animation.
-   * @param collisionDuration Duration of the event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
    */
-  public animateScene(
-    positions: { position: number[]; duration?: number; easing?: any }[],
-    animateEventAfterInteral?: number,
-    collisionDuration?: number
-  ) {
-    if (animateEventAfterInteral && collisionDuration) {
+  public animateScene(animationPreset: AnimationPreset) {
+    const { positions, animateEventAfterInterval, collisionDuration } =
+      animationPreset;
+
+    if (animateEventAfterInterval && collisionDuration) {
       setTimeout(() => {
         this.animateEventWithCollision(collisionDuration);
-      }, animateEventAfterInteral);
+      }, animateEventAfterInterval);
     }
 
     const firstTween = this.getCameraTween(
