@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
-// Define an alternate dark theme.
+/* Define an alternate dark theme. */
 $primary: mat-palette($mat-amber);
 $accent: mat-palette($mat-cyan, A200, A100, A400);
 $warn: mat-palette($mat-deep-orange);
@@ -36,7 +36,7 @@ $light-theme: mat-light-theme($primary, $accent, $warn);
   }
 }
 
-//dark theme
+/* Dark Theme */
 [data-theme='dark'] {
   --phoenix-background-color: #1a1a1a;
   --phoenix-background-color-secondary: #292929;
