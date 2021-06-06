@@ -44,8 +44,8 @@ export const defaultAnimationPresets: {
 })
 export class AnimateCameraComponent {
   @Input() animationPresets = defaultAnimationPresets;
-
   animationPresetsKeys = Object.keys(this.animationPresets);
+  isAnimating = false;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -56,7 +56,12 @@ export class AnimateCameraComponent {
   }
 
   animateCamera() {
-    this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000);
+    if (!this.isAnimating) {
+      this.isAnimating = true;
+      this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000, () => {
+        this.isAnimating = false;
+      });
+    }
   }
 
   private setDetectorOpacity(opacity: number) {
