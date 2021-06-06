@@ -1,6 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AnimationPreset, SceneManager } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../services/event-display.service';
+
+export const defaultAnimationPresets: {
+  [key: string]: AnimationPreset;
+} = {
+  'Preset 1': {
+    positions: [
+      {
+        position: [11976, 7262, 11927],
+        duration: 1000,
+      },
+      {
+        position: [1000, 0, 11927],
+        duration: 1000,
+      },
+      {
+        position: [-1000, 0, 1000],
+        duration: 2000,
+      },
+      {
+        position: [-5000, 0, 1000],
+        duration: 3000,
+      },
+      {
+        position: [-5000, 0, 1000],
+        duration: 2000,
+      },
+      {
+        position: [11976, 7262, 11927],
+        duration: 2000,
+      },
+    ],
+    animateEventAfterInterval: 3000,
+    collisionDuration: 2500,
+  },
+};
 
 @Component({
   selector: 'app-animate-camera',
@@ -8,40 +43,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./animate-camera.component.scss'],
 })
 export class AnimateCameraComponent {
-  animationPresets: {
-    [key: string]: AnimationPreset;
-  } = {
-    'Preset 1': {
-      positions: [
-        {
-          position: [11976, 7262, 11927],
-          duration: 1000,
-        },
-        {
-          position: [1000, 0, 11927],
-          duration: 1000,
-        },
-        {
-          position: [-1000, 0, 1000],
-          duration: 2000,
-        },
-        {
-          position: [-5000, 0, 1000],
-          duration: 3000,
-        },
-        {
-          position: [-5000, 0, 1000],
-          duration: 2000,
-        },
-        {
-          position: [11976, 7262, 11927],
-          duration: 2000,
-        },
-      ],
-      animateEventAfterInterval: 3000,
-      collisionDuration: 2500,
-    },
-  };
+  @Input() animationPresets = defaultAnimationPresets;
 
   animationPresetsKeys = Object.keys(this.animationPresets);
 
