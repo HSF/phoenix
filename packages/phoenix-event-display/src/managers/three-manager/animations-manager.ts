@@ -536,12 +536,15 @@ export class AnimationsManager {
    * Animate scene by animating camera through the scene and animating event collision.
    * @param animationPreset Preset for animation including positions to go through and
    * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
    */
-  public animateScene(animationPreset: AnimationPreset) {
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () => void) {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
     if (animateEventAfterInterval && collisionDuration) {
+      // Will be made visible after collision animation ends.
+      this.scene.getObjectByName(SceneManager.EVENT_DATA_ID).visible = false;
       setTimeout(() => {
         this.animateEventWithCollision(collisionDuration);
       }, animateEventAfterInterval);
@@ -559,6 +562,7 @@ export class AnimationsManager {
       previousTween.chain(tween);
       previousTween = tween;
     });
+    previousTween.onComplete(onEnd);
 
     firstTween.start();
   }

@@ -12,28 +12,28 @@ export const defaultAnimationPresets: {
         duration: 1000,
       },
       {
-        position: [1000, 0, 11927],
-        duration: 1000,
-      },
-      {
-        position: [-1000, 0, 1000],
+        position: [-1000, 0, 11927],
         duration: 2000,
       },
       {
-        position: [-5000, 0, 1000],
+        position: [2000, 500, 1000],
+        duration: 3500,
+      },
+      {
+        position: [5000, 2000, 1000],
         duration: 3000,
       },
       {
-        position: [-5000, 0, 1000],
+        position: [5000, 2000, 1000],
         duration: 2000,
       },
       {
         position: [11976, 7262, 11927],
-        duration: 2000,
+        duration: 1000,
       },
     ],
-    animateEventAfterInterval: 3000,
-    collisionDuration: 2500,
+    animateEventAfterInterval: 5000,
+    collisionDuration: 6000,
   },
 };
 
@@ -49,10 +49,11 @@ export class AnimateCameraComponent {
 
   constructor(private eventDisplay: EventDisplayService) {}
 
-  animateScene(preset: string) {
+  animatePreset(preset: string) {
     this.setDetectorOpacity(0.2);
-    this.eventDisplay.animateScene(this.animationPresets[preset]);
-    this.setDetectorOpacity(1);
+    this.eventDisplay.animatePreset(this.animationPresets[preset], () => {
+      this.setDetectorOpacity(1);
+    });
   }
 
   animateCamera() {

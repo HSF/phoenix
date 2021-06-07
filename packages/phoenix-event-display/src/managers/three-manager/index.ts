@@ -649,9 +649,10 @@ export class ThreeManager {
    * Animate scene by animating camera through the scene and animating event collision.
    * @param animationPreset Preset for animation including positions to go through and
    * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
    */
-  public animateScene(animationPreset: AnimationPreset) {
-    this.animationsManager.animateScene(animationPreset);
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () => void) {
+    this.animationsManager.animatePreset(animationPreset, onEnd);
   }
 
   /**
