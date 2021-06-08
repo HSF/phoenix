@@ -8,18 +8,19 @@
     "start:ssl": "ng serve --ssl --host=0.0.0.0",
     "start:single": "ng serve --configuration singleEvent",
     "build": "ng build",
-    "build:ui-components": "ng build phoenix-ui-components --prod",
+    "build:prod": "ng build --configuration production",
+    "build:ui-components": "ng build phoenix-ui-components --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
-    "deploy": "mv ../../docs/api-docs ../../api-docs && ng build --prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
+    "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "test:coverage": "rm -rf ./coverage && ng test --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI --source-map=false",
     "version": "yarn deploy",
-    "deploy:web": "ng build --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
-    "deploy:web:single": "ng build --configuration singleEvent --prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
+    "deploy:web": "yarn build:prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
+    "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular-slider/ngx-slider": "^2.0.3",

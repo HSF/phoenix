@@ -10,7 +10,7 @@
     "release:major": "lerna publish major --create-release github",
     "release:minor": "lerna publish minor --create-release github",
     "release:pre": "lerna publish prerelease --conventional-prerelease",
-    "version": "lerna run docs --scope phoenix-event-display && git add .",
+    "postversion": "lerna run docs --scope phoenix-event-display && git add .",
     "deploy:web": "lerna run deploy:web --scope phoenix-ng",
     "prettier:check": "lerna run prettier:check",
     "prettier:write": "lerna run prettier:write",
