@@ -20,7 +20,7 @@ import { ExportManager } from './export-manager';
 import { ImportManager } from './import-manager';
 import { SelectionManager } from './selection-manager';
 import { SceneManager } from './scene-manager';
-import { AnimationsManager } from './animations-manager';
+import { AnimationPreset, AnimationsManager } from './animations-manager';
 import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
 import { VRManager } from './vr-manager';
@@ -643,6 +643,16 @@ export class ThreeManager {
       tweenDuration,
       onAnimationEnd
     );
+  }
+
+  /**
+   * Animate scene by animating camera through the scene and animating event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
+   */
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () => void) {
+    this.animationsManager.animatePreset(animationPreset, onEnd);
   }
 
   /**

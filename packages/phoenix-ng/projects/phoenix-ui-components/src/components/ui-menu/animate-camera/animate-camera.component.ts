@@ -1,5 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { AnimationPreset, SceneManager } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../services/event-display.service';
+
+export const defaultAnimationPresets: {
+  [key: string]: AnimationPreset;
+} = {
+  'Preset 1': {
+    positions: [
+      {
+        position: [11976, 7262, 11927],
+        duration: 1000,
+      },
+      {
+        position: [-1000, 0, 11927],
+        duration: 2000,
+      },
+      {
+        position: [2000, 500, 1000],
+        duration: 3500,
+      },
+      {
+        position: [5000, 2000, 1000],
+        duration: 3000,
+      },
+      {
+        position: [5000, 2000, 1000],
+        duration: 2000,
+      },
+      {
+        position: [11976, 7262, 11927],
+        duration: 1000,
+      },
+    ],
+    animateEventAfterInterval: 5000,
+    collisionDuration: 6000,
+  },
+};
 
 @Component({
   selector: 'app-animate-camera',
@@ -7,16 +43,32 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./animate-camera.component.scss'],
 })
 export class AnimateCameraComponent {
-  isAnimating: boolean = false;
+  @Input() animationPresets = defaultAnimationPresets;
+  animationPresetsKeys = Object.keys(this.animationPresets);
+  isAnimating = false;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
-  toggleAnimateCamera() {
+  animatePreset(preset: string) {
+    this.setDetectorOpacity(0.2);
+    this.eventDisplay.animatePreset(this.animationPresets[preset], () => {
+      this.setDetectorOpacity(1);
+    });
+  }
+
+  animateCamera() {
     if (!this.isAnimating) {
       this.isAnimating = true;
       this.eventDisplay.animateThroughEvent([11976, 7262, 11927], 3000, () => {
         this.isAnimating = false;
       });
     }
+  }
+
+  private setDetectorOpacity(opacity: number) {
+    this.eventDisplay
+      .getThreeManager()
+      .getSceneManager()
+      .setGeometryOpacity(SceneManager.GEOMETRIES_ID, opacity);
   }
 }

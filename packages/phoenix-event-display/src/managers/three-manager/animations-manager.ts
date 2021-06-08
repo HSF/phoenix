@@ -18,6 +18,16 @@ import {
 import * as TWEEN from '@tweenjs/tween.js';
 import { RendererManager } from './renderer-manager';
 
+/** Type for animation preset. */
+export interface AnimationPreset {
+  /** Positions with duration and easing of each tween forming a path. */
+  positions: { position: number[]; duration: number; easing?: any }[];
+  /** Time after which to start the event collision animation. */
+  animateEventAfterInterval?: number;
+  /** Duration of the event collision. */
+  collisionDuration?: number;
+}
+
 /**
  * Manager for managing animation related operations using three.js and tween.js.
  */
@@ -159,7 +169,7 @@ export class AnimationsManager {
     eventData.traverse((eventObject: any) => {
       if (eventObject.geometry) {
         // Animation for extrapolating tracks without changing scale
-        if (eventObject.name === 'Track') {
+        if (eventObject.name === 'Track' || eventObject.name === 'LineHit') {
           // Check if geometry drawRange count exists
           let geometryPosCount =
             eventObject.geometry?.attributes?.position?.count;
@@ -520,5 +530,40 @@ export class AnimationsManager {
       hitsPositions.push(positions.slice(i, i + 3));
     }
     return hitsPositions;
+  }
+
+  /**
+   * Animate scene by animating camera through the scene and animating event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
+   */
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () => void) {
+    const { positions, animateEventAfterInterval, collisionDuration } =
+      animationPreset;
+
+    if (animateEventAfterInterval && collisionDuration) {
+      // Will be made visible after collision animation ends.
+      this.scene.getObjectByName(SceneManager.EVENT_DATA_ID).visible = false;
+      setTimeout(() => {
+        this.animateEventWithCollision(collisionDuration);
+      }, animateEventAfterInterval);
+    }
+
+    const firstTween = this.getCameraTween(
+      positions[0].position,
+      positions[0].duration ?? 2000,
+      positions[0].easing
+    );
+
+    let previousTween = firstTween;
+    positions.slice(1).forEach(({ position, duration, easing }) => {
+      const tween = this.getCameraTween(position, duration ?? 2000, easing);
+      previousTween.chain(tween);
+      previousTween = tween;
+    });
+    previousTween.onComplete(onEnd);
+
+    firstTween.start();
   }
 }
