@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/HSF/phoenix/compare/v1.7.0...v2.0.0) (2021-06-08)
+
+
+### Bug Fixes
+
+* **event-display:** fix collision animation ([3e5d80d](https://github.com/HSF/phoenix/commit/3e5d80da441996aa5f905382125ff37b69ff02a3))
+* fix misc errors and improve styles ([124a272](https://github.com/HSF/phoenix/commit/124a272fdb2ae75ee5883abdbfb5a2cfb2ef9251))
+* **app:** fix fullscreen test ([be477a0](https://github.com/HSF/phoenix/commit/be477a0d0dc1f44a3e0ea68a92b5d0c642cd617a))
+* **app:** remove redundant CSS and classes ([d2b7d34](https://github.com/HSF/phoenix/commit/d2b7d34f01e7fd7df18f1ab5acaf56ccf49610fc))
+* **app:** show overlays in SS mode ([364e643](https://github.com/HSF/phoenix/commit/364e6434ced3bfab11a435428693cb8149bbd89b))
+
+
+### Features
+
+* **app:** ability to toggle background in overlay view ([aeee757](https://github.com/HSF/phoenix/commit/aeee757adfe25491b866d82758b7e5464ad8c88a))
+* **app:** add embed in sharable link constructor ([8a0c0b1](https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125))
+* **app:** add embed menu with a URL option for embed ([56c6eff](https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808))
+* **app:** add experiment link to embed menu ([1bc14f9](https://github.com/HSF/phoenix/commit/1bc14f94edfa87bb6c752bc009ed790b54f3cf5e))
+* **app:** add load progress based on number of loaded items ([20ef288](https://github.com/HSF/phoenix/commit/20ef288ee3ade9f1c6535e225c992993b62f6b01))
+* **app:** add loading progress to all experiments ([b557cfb](https://github.com/HSF/phoenix/commit/b557cfb42710eeccc8182f9d2c4c6e45ecc25eb9))
+* **app:** add more options to embed menu ([575d29a](https://github.com/HSF/phoenix/commit/575d29ad1becbfaa4ce96371cc2bc77ffda3e474))
+* **app:** allow content in UI menu and display items in a straight row ([e3d83ea](https://github.com/HSF/phoenix/commit/e3d83ea7e3e7bf43e850e837b61770788747acdb))
+* **app:** create embed menu component ([5fe6685](https://github.com/HSF/phoenix/commit/5fe66859c5546dfdcd063097b7a5aaa3fd3acad5))
+* **app:** get experiment link dynamically and add tests for embed menu ([cc9590d](https://github.com/HSF/phoenix/commit/cc9590dd2f8d0482ed781603e12780cbfe8c2640))
+* **app:** improve background colors ([110ca01](https://github.com/HSF/phoenix/commit/110ca0133e86937b57c959edcfd9bee5b11e3479))
+* **app:** improve background colors ([2c97f5c](https://github.com/HSF/phoenix/commit/2c97f5cc4f0d9e2933010350f02570b98a7d1f51))
+* **app:** make animation presets configurable ([bd5f161](https://github.com/HSF/phoenix/commit/bd5f1617ab2a9f2b169089e3c57862b264fec984))
+* **app:** setup for preset scene animations ([6e919e1](https://github.com/HSF/phoenix/commit/6e919e1b7f735ff15e83997d7b5a7b8ca94db441))
+* **app:** upgrade Angular version ([f31e66a](https://github.com/HSF/phoenix/commit/f31e66a959e43383e4cdf629d4251bcb8eefde4f))
+* **event-display:** add a sample animation preset ([e07725a](https://github.com/HSF/phoenix/commit/e07725a08c79e214a5f11cf902872f74e25a32fa))
+* **event-display:** add color options to tracks collections ([90aea3c](https://github.com/HSF/phoenix/commit/90aea3cec7d080e976299602bf0f113ba6dcba1b))
+* **event-display:** color options for event data objects ([9908cc9](https://github.com/HSF/phoenix/commit/9908cc904742d1f1eceb750ffda531f5802ed2fa))
+* **event-display:** implement embed menu ([872f708](https://github.com/HSF/phoenix/commit/872f7085aabdaa952f0cffb5bab82e7a021582fb))
+* **event-display:** improve preset animation ([2371f75](https://github.com/HSF/phoenix/commit/2371f75ed224bd26ffbfb88a299daf7c5ce16543))
+* **event-display:** only show selected color by options ([3041166](https://github.com/HSF/phoenix/commit/3041166ccc64609501d867471277687b17383b97))
+
+
+
+
+
 # [1.9.0](https://github.com/HSF/phoenix/compare/v1.7.0...v1.9.0) (2021-05-16)
 
 
