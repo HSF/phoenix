@@ -44,21 +44,14 @@ export class PhoenixObjects {
     // Track with too few points are extrapolated with RungeKutta
     if (positions.length < 2) {
       if (trackParams?.dparams) {
-        // Test, for ATLAS.
-        // FIXME - make configurable
-        let inBounds = function (pos: Vector3) {
-          if (pos.z > 3000) return false;
-          if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100) return false;
-
-          return true;
-        };
-
-        positions = RKHelper.extrapolateTrackPositions(trackParams, inBounds);
+        positions = RKHelper.extrapolateTrackPositions(trackParams);
       }
+      trackParams.extended = true;
     }
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 2) {
+      console.log('Track too short, and extrapolation failed.')
       return;
     }
 
