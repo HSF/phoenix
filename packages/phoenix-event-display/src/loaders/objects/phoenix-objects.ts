@@ -150,10 +150,6 @@ export class PhoenixObjects {
       : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
     let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
-    // Ugh - We don't want the Jets to go out of the event display
-    if (length > 3000) {
-      length = 3000;
-    }
     const width = length * 0.1;
 
     const sphi = Math.sin(phi);
