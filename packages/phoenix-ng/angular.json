@@ -94,6 +94,14 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -106,10 +114,14 @@
             "production": {
               "browserTarget": "phoenix-app:build:production"
             },
+            "development": {
+              "browserTarget": "phoenix-app:build:development"
+            },
             "singleEvent": {
               "browserTarget": "phoenix-app:build:singleEvent"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
