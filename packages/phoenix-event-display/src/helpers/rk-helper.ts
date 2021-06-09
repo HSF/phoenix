@@ -6,6 +6,13 @@ import { CoordinateHelper } from './coordinate-helper';
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
+
+  public static extrapolationLimit(pos: Vector3) {
+    if (pos.z > 3000) return false;
+    if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100) return false;
+    return true;
+  }
+
   /**
    * Get extrapolated tracks using RungeKutta.
    * @param tracksCollectionsEvent Event containing tracks collections.
@@ -26,13 +33,13 @@ export class RKHelper {
    * Extrapolate tracks using RungeKutta propagator.
    * @param track Track which is to be extrapolated.
    * @param inbounds Function which returns true until the passed position
-   * is out of bounds, when it returns false. Default just always returns true.
+   * is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit
    * @returns An array of track positions.
 
    */
   public static extrapolateTrackPositions(
     track: { dparams: any },
-    inbounds: (pos: Vector3) => boolean = () => true
+    inbounds: (pos: Vector3) => boolean = RKHelper.extrapolationLimit
   ): any {
     const dparams = track.dparams;
     // ATLAS uses mm, MeV
@@ -42,11 +49,15 @@ export class RKHelper {
       theta = dparams[3],
       qop = dparams[4];
 
+    if (theta < 0) {
+      theta += Math.PI;
+      // TODO - check if we need to flip phi here?
+    }
     let p: number;
     if (qop !== 0) {
       p = Math.abs(1 / qop);
     } else {
-      p = 0;
+      p = Number.MAX_VALUE;
     }
     const q = Math.round(p * qop);
 
@@ -60,11 +71,6 @@ export class RKHelper {
 
     const startDir = globalMomentum.clone();
     startDir.normalize();
-
-    // if (p < 0.5 ){
-    //   console.log("Track with very low momentum - not going to try to extrapolate.")
-    //   return positions;
-    // }
 
     const traj = RungeKutta.propagate(
       startPos,
