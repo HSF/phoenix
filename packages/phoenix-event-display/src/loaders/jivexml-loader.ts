@@ -796,13 +796,16 @@ export class JiveXMLLoader extends PhoenixLoader {
         const energy = this.getNumberArrayFromHTML(collection, 'energy');
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
-        const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        const pt = this.getNumberArrayFromHTML(collection, 'pt') ;
+        const pdgId = this.getNumberArrayFromHTML(collection, 'pdgId');
+        
         temp.push({
           chi2: chi2[i],
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
+          pdgId: pdgId[i],
         });
       }
       eventData.Muons[collection.getAttribute('storeGateKey')] = temp;
@@ -826,12 +829,15 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        const pdgId = this.getNumberArrayFromHTML(collection, 'pdgId');
+
         temp.push({
           author: author[i],
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
+          pdgId: pdgId[i],
         });
       }
       eventData.Electrons[collection.getAttribute('storeGateKey')] = temp;
@@ -860,7 +866,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
         });
       }
       eventData.Photons[collection.getAttribute('storeGateKey')] = temp;
