@@ -32,7 +32,7 @@ $light-theme: mat.define-light-theme($colors);
   --phoenix-options-icon-bg: rgba(0, 0, 0, 0.08);
   --phoenix-options-icon-path: #777777;
   --phoenix-icon-shadow: 0px 3px 6px rgba(0, 0, 0, 0.11);
-  --phoenix-accent: #1fa7a0;
+  --phoenix-accent: #00bcd4;
   --phoenix-border: #c5c5c5;
   --dat-background-primary: #f9f9f9;
   --dat-background-secondary: #efefef;
@@ -41,7 +41,7 @@ $light-theme: mat.define-light-theme($colors);
   --dat-border: #f0f0f0;
 
   .optionsButton.activeIcon {
-    --phoenix-options-icon-path: #00c4ba;
+    --phoenix-options-icon-path: #00bcd4;
   }
 }
 
@@ -58,7 +58,7 @@ $light-theme: mat.define-light-theme($colors);
   --phoenix-options-icon-bg: rgba(255, 255, 255, 0.18);
   --phoenix-options-icon-path: #fff;
   --phoenix-icon-shadow: 0px 4px 8px rgba(0, 0, 0, 0.22);
-  --phoenix-accent: #1cfff4;
+  --phoenix-accent: #00bcd4;
   --phoenix-border: #5c5c5c;
   --dat-background-primary: #1a1a1a;
   --dat-background-secondary: #292929;
@@ -70,12 +70,6 @@ $light-theme: mat.define-light-theme($colors);
   @include mat.core-color($dark-theme);
   @include mat.button-color($dark-theme);
   @include mat.all-component-colors($dark-theme);
-
-  #optionsPanel {
-    .optionsButton.activeIcon {
-      --phoenix-options-icon-path: #1cfff4;
-    }
-  }
 
   .mat-dialog-container {
     background: var(--phoenix-background-color-secondary);

@@ -11,24 +11,26 @@
   justify-content: space-between;
   align-items: center;
 
-  .phoenix-menu-item-left {
+  &-left {
     display: flex;
     justify-content: flex-start;
     min-width: 0;
     padding-right: 0.5rem;
+    overflow: hidden;
 
-    .phoenix-menu-name {
+    .item-name {
       flex: 1;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .phoenix-menu-icon {
+    .item-icon {
       margin-right: 0.2rem;
     }
   }
 
-  .phoenix-menu-item-right {
+  &-right {
     display: flex;
     justify-content: flex-end;
 

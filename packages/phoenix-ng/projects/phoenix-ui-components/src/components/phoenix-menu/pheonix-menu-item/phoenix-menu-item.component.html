@@ -3,7 +3,6 @@
     <!-- If the item has some toggle function -->
     <ng-container *ngIf="currentNode.onToggle; else nodeName">
       <mat-slide-toggle
-        class="phoenix-menu-name"
         [checked]="currentNode.toggleState"
         (change)="currentNode.toggleSelfAndDescendants($event.checked)"
       >
@@ -12,8 +11,8 @@
     </ng-container>
     <!-- If the item has no toggle function -->
     <ng-template #nodeName>
-      <div class="d-flex align-items-center">
-        <span *ngIf="currentNode.icon" class="icon-wrapper phoenix-menu-icon">
+      <span class="d-flex w-100 align-items-center">
+        <span *ngIf="currentNode.icon" class="icon-wrapper item-icon">
           <svg>
             <use
               attr.href="assets/icons/{{ currentNode.icon }}.svg#{{
@@ -22,8 +21,10 @@
             ></use>
           </svg>
         </span>
-        <span [title]="currentNode.name">{{ currentNode.name }}</span>
-      </div>
+        <span class="item-name" [title]="currentNode.name">{{
+          currentNode.name
+        }}</span>
+      </span>
     </ng-template>
   </div>
   <div class="phoenix-menu-item-right">
