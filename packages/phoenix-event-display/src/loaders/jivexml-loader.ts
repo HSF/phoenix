@@ -259,8 +259,8 @@ export class JiveXMLLoader extends PhoenixLoader {
 
         let theta = Math.atan(1 / cotTheta[i]);
 
-        track.pT = Math.abs(pT[i]);
-        const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
+        track.pT = Math.abs(pT[i]) * 1000 ; // JiveXML uses GeV
+        const momentum = ( track.pT / Math.sin(theta)) ; 
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
         track.phi = phi0[i];
 
