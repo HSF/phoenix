@@ -6,6 +6,11 @@ import { CoordinateHelper } from './coordinate-helper';
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
+   /**
+   * Function used by the extrapolator to check if the extrapolation should continue. 
+   * @param pos Location to be tested
+   * @returns A boolean: true, if the position is in-bounds, false otherwise.
+   */
   public static extrapolationLimit(pos: Vector3) {
     if (pos.z > 3000) return false;
     if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100) return false;
@@ -76,7 +81,7 @@ export class RKHelper {
       startDir,
       p,
       q,
-      10,
+      5,
       1500,
       inbounds
     );
