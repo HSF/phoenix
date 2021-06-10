@@ -165,15 +165,6 @@
   dependencies:
     tslib "^2.1.0"
 
-"@angular/cdk@^11.2.7":
-  version "11.2.12"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-11.2.12.tgz#c1c9c8d4a5763745fe2d324fc253f221b9c2b1b3"
-  integrity sha512-LImCQQ7n5OnTGXBAx1BaHgBBbdXiEtsNcHk5RvVURya9sswRcXRoa48EG3RyuT8mtqWsUdOX9+v4nCINLG4hZA==
-  dependencies:
-    tslib "^2.0.0"
-  optionalDependencies:
-    parse5 "^5.0.0"
-
 "@angular/cdk@^12.0.3":
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.0.3.tgz#ed2ab6da003dd39559c732186cd5e64536bd60fa"
@@ -271,13 +262,6 @@
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-12.0.3.tgz#5240db3612b32d0d5434a6e27c5dc2678e1f2300"
   integrity sha512-7dn5C9hTMwnoKSMZX/5lkA2EzrB8MU12iqIWHmiEqgzC4kLqkTNzyvlQ7OB6DxsH1bTsf+KXxH/hUkk1CNyFJA==
-
-"@angular/material@^11.2.7":
-  version "11.2.12"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-11.2.12.tgz#625778113075bddb92f13ab03a8a513178f2b5a8"
-  integrity sha512-n3HDKoM552jLcmxtpTYzMUzV6V9vUBKyNs7SNdUfjuK00VJlTWMu03g/QWOj2Y9KftOuDUa8+N2XodwAr+jtCw==
-  dependencies:
-    tslib "^2.0.0"
 
 "@angular/material@^12.0.3":
   version "12.0.3"
@@ -6055,27 +6039,27 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix-event-display@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/phoenix-event-display/-/phoenix-event-display-1.9.0.tgz#034e0e3ead578ab04139e1549bb13308bf9c000c"
-  integrity sha512-zjAllriHE4nXj8P1MiaXHeMoMeaU8rsDgz6o/UZ4zK+0RboMiMW3pMkVUKLj8zRP/ZZHPH6B+wgLxDMmxtpr6w==
+phoenix-event-display@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/phoenix-event-display/-/phoenix-event-display-2.0.0.tgz#0c8631a5aa1c5d991f65eed4b46062a08fb8f199"
+  integrity sha512-CW6KrWZZQ1KtOxzUV5I8GwWDDOhmWyU2Cngqqch216rZTNpW6Yu3z7fiHkSfYX0fceSacxWbqm7Ra1hP2+c0Hg==
   dependencies:
     "@tweenjs/tween.js" "^17.4.0"
     dat.gui "^0.7.7"
     jszip "^3.6.0"
     stats-js "^1.0.1"
-    three "^0.127.0"
+    three "^0.128.0"
 
-phoenix-ui-components@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/phoenix-ui-components/-/phoenix-ui-components-1.9.0.tgz#8e1ea6310544f94fc9afeac92d6446eb7d5e6e14"
-  integrity sha512-CT1Vv7v06ji5IMovFEUrBUY0s0MVLOEfRP/NJ1gSCh7qNshsA4qzGj3HuOr3I43zKteqm867NdnwP2ZaJhmKXA==
+phoenix-ui-components@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/phoenix-ui-components/-/phoenix-ui-components-2.0.0.tgz#05fd71473c36e3b6817139a8f40b880a1ad6197c"
+  integrity sha512-ix8VLzCxAQ003gEDSvA1NiGt1MFlqhBTvlvus/bOgWaTu5orkdtVAlnw0vsPg6MC/wRVlAj/lR8mclwy6XVgig==
   dependencies:
     "@angular-slider/ngx-slider" "^2.0.3"
-    "@angular/cdk" "^11.2.7"
-    "@angular/material" "^11.2.7"
+    "@angular/cdk" "^12.0.3"
+    "@angular/material" "^12.0.3"
     css-element-queries "^1.2.3"
-    three "^0.127.0"
+    three "^0.128.0"
     tslib "^2.0.1"
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
@@ -7948,11 +7932,6 @@ text-table@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
-
-three@^0.127.0:
-  version "0.127.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.127.0.tgz#c463f4d41b2c735dcf8e9e51a388815e80cd3791"
-  integrity sha512-wtgrn+mhYUbobxT7QN3GPdu3SRpSBQvwY6uOzLChWS7QE//f7paDU/+wlzbg+ngeIvBBqjBHSRuywTh8A99Jng==
 
 three@^0.128.0:
   version "0.128.0"
