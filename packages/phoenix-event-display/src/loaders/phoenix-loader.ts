@@ -10,8 +10,6 @@ import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-men
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
-import { RKHelper } from '../helpers/rk-helper';
-import { RungeKutta } from '../helpers/runge-kutta';
 
 /**
  * Loader for processing and loading an event.
@@ -583,44 +581,18 @@ export class PhoenixLoader implements EventDataLoader {
       let startPos = new Vector3(0, 0, 0);
       let theta = CoordinateHelper.etaToTheta(params.eta);
       let p = params.pt / Math.cos(Math.PI / 2 - theta);
-      // console.log('theta, p = ', theta, p)
-      let startDir = CoordinateHelper.sphericalToCartesian(
-        p,
-        params.phi,
-        theta
-      );
-      startDir.normalize();
+
       let q = 0;
       if ('pdgId' in params) {
         q = params.pdgId > 0 ? 1 : -1;
       }
-      const traj = RungeKutta.propagate(
-        startPos,
-        startDir,
-        p,
-        q,
-        -1,
-        1500,
-        RKHelper.extrapolationLimit
-      );
 
-      const extrapolatedPos = traj.map((val) => [
-        val.pos.x,
-        val.pos.y,
-        val.pos.z,
-      ]);
+      // dparams = d0, z0, phi, theta, q/p
+      let trackparams = { dparams: [0, 0, params.phi, theta, q / p] };
 
-      let trackparams = {
-        pos: extrapolatedPos,
-        phi: params.phi,
-        eta: params.eta,
-        d0: 0.0,
-        z0: 0.0,
-      };
       const track = PhoenixObjects.getTrack(trackparams);
       if (track) {
         scene.add(track);
-        addedTrack = true;
       } else {
         console.log('WARNING: failed to get a track back.');
       }

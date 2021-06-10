@@ -36,18 +36,15 @@ export class PhoenixObjects {
    * @returns Track object.
    */
   public static getTrack(trackParams: any): Object3D {
-    let positions = trackParams.pos;
-    if (!positions) {
-      return;
-    }
-
     // Track with too few points are extrapolated with RungeKutta
-    if (positions.length < 2) {
-      if (trackParams?.dparams) {
-        positions = RKHelper.extrapolateTrackPositions(trackParams);
+    if (!(trackParams.pos?.length > 2)) {
+      if (trackParams.dparams) {
+        trackParams.pos = RKHelper.extrapolateTrackPositions(trackParams);
       }
       trackParams.extended = true;
     }
+
+    let positions = trackParams.pos;
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 2) {
