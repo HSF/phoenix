@@ -154,7 +154,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('eta', -4, 4, 0.1),
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
-        new Cut('pT', 0, 50, 0.1),
+        new Cut('pT', 0, 50000, 0.1),
         new Cut('z0', -30, 30, 0.1),
         new Cut('d0', -30, 30, 0.1),
       ];
@@ -325,7 +325,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -4, 4, 0.1),
         new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50),
+        new Cut('pT', 0, 50000),
       ];
       this.addObjectType(eventData.Muons, this.getCompound, 'Muons', false, cuts);
     }
@@ -335,7 +335,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -4, 4, 0.1),
         new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50),
+        new Cut('pT', 0, 50000),
       ];
       this.addObjectType(eventData.Photons, this.getCompound, 'Photons', false, cuts);
     }
@@ -345,9 +345,9 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -4, 4, 0.1),
         new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50),
+        new Cut('pT', 0, 50000),
       ];
-      this.addObjectType(eventData.Photons, this.getCompound, 'Electrons', false, cuts);
+      this.addObjectType(eventData.Electrons, this.getCompound, 'Electrons', false, cuts);
     }
 
     if (eventData.Vertices) {
@@ -560,7 +560,6 @@ export class PhoenixLoader implements EventDataLoader {
       }
     }
     if (!addedTrack){
-      console.log('Extrapolating object with  eta, phi, pt = ', params.eta, params.phi, params.pt)
       // Let's try to extrapolate one.
       // ATLAS JiveXML have the following: energy, eta, phi, pt
       let startPos = new Vector3(0, 0, 0);
@@ -568,10 +567,7 @@ export class PhoenixLoader implements EventDataLoader {
       let p = params.pt / Math.cos(Math.PI / 2 - theta);
       // console.log('theta, p = ', theta, p)
       let startDir = CoordinateHelper.sphericalToCartesian(p, params.phi, theta);
-      console.log('startDir = ',startDir)
-
       startDir.normalize();
-      console.log()
       let q = 0;
       if ('pdgId' in params) {
         q = params.pdgId > 0 ? 1 : -1;
@@ -591,8 +587,7 @@ export class PhoenixLoader implements EventDataLoader {
         val.pos.y,
         val.pos.z,
       ]);
-      console.log('Got back ', extrapolatedPos)
-
+ 
       let trackparams = { pos: extrapolatedPos, phi: params.phi, eta: params.eta, d0: 0.0, z0: 0.0};
       const track = PhoenixObjects.getTrack(trackparams);
       if (track) {
