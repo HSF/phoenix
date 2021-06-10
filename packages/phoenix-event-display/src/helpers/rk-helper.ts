@@ -6,8 +6,8 @@ import { CoordinateHelper } from './coordinate-helper';
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
-   /**
-   * Function used by the extrapolator to check if the extrapolation should continue. 
+  /**
+   * Function used by the extrapolator to check if the extrapolation should continue.
    * @param pos Location to be tested
    * @returns A boolean: true, if the position is in-bounds, false otherwise.
    */
