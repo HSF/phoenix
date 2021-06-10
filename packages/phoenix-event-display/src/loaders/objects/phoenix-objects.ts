@@ -51,7 +51,7 @@ export class PhoenixObjects {
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 2) {
-      console.log('Track too short, and extrapolation failed.')
+      console.log('Track too short, and extrapolation failed.');
       return;
     }
 

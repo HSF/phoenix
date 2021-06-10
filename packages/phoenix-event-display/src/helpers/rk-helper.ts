@@ -6,7 +6,6 @@ import { CoordinateHelper } from './coordinate-helper';
  * Helper methods for RungeKutta functions.
  */
 export class RKHelper {
-
   public static extrapolationLimit(pos: Vector3) {
     if (pos.z > 3000) return false;
     if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) > 1100) return false;

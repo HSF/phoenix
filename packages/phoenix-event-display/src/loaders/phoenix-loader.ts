@@ -327,7 +327,13 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50000),
       ];
-      this.addObjectType(eventData.Muons, this.getCompound, 'Muons', false, cuts);
+      this.addObjectType(
+        eventData.Muons,
+        this.getCompound,
+        'Muons',
+        false,
+        cuts
+      );
     }
 
     if (eventData.Photons) {
@@ -337,7 +343,13 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50000),
       ];
-      this.addObjectType(eventData.Photons, this.getCompound, 'Photons', false, cuts);
+      this.addObjectType(
+        eventData.Photons,
+        this.getCompound,
+        'Photons',
+        false,
+        cuts
+      );
     }
 
     if (eventData.Electrons) {
@@ -347,7 +359,13 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
         new Cut('pT', 0, 50000),
       ];
-      this.addObjectType(eventData.Electrons, this.getCompound, 'Electrons', false, cuts);
+      this.addObjectType(
+        eventData.Electrons,
+        this.getCompound,
+        'Electrons',
+        false,
+        cuts
+      );
     }
 
     if (eventData.Vertices) {
@@ -551,7 +569,7 @@ export class PhoenixLoader implements EventDataLoader {
             const track = PhoenixObjects.getTrack(trackParams);
             if (track) {
               scene.add(track);
-              addedTrack=true;
+              addedTrack = true;
             } else {
               console.log('WARNING: failed to get a track back.');
             }
@@ -559,14 +577,18 @@ export class PhoenixLoader implements EventDataLoader {
         }
       }
     }
-    if (!addedTrack){
+    if (!addedTrack) {
       // Let's try to extrapolate one.
       // ATLAS JiveXML have the following: energy, eta, phi, pt
       let startPos = new Vector3(0, 0, 0);
       let theta = CoordinateHelper.etaToTheta(params.eta);
       let p = params.pt / Math.cos(Math.PI / 2 - theta);
       // console.log('theta, p = ', theta, p)
-      let startDir = CoordinateHelper.sphericalToCartesian(p, params.phi, theta);
+      let startDir = CoordinateHelper.sphericalToCartesian(
+        p,
+        params.phi,
+        theta
+      );
       startDir.normalize();
       let q = 0;
       if ('pdgId' in params) {
@@ -587,12 +609,18 @@ export class PhoenixLoader implements EventDataLoader {
         val.pos.y,
         val.pos.z,
       ]);
- 
-      let trackparams = { pos: extrapolatedPos, phi: params.phi, eta: params.eta, d0: 0.0, z0: 0.0};
+
+      let trackparams = {
+        pos: extrapolatedPos,
+        phi: params.phi,
+        eta: params.eta,
+        d0: 0.0,
+        z0: 0.0,
+      };
       const track = PhoenixObjects.getTrack(trackparams);
       if (track) {
         scene.add(track);
-        addedTrack=true;
+        addedTrack = true;
       } else {
         console.log('WARNING: failed to get a track back.');
       }
