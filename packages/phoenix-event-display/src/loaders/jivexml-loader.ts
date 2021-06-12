@@ -259,8 +259,8 @@ export class JiveXMLLoader extends PhoenixLoader {
 
         let theta = Math.atan(1 / cotTheta[i]);
 
-        track.pT = Math.abs(pT[i]);
-        const momentum = (pT[i] / Math.sin(theta)) * 1000; // JiveXML uses GeV
+        track.pT = Math.abs(pT[i]) * 1000; // JiveXML uses GeV
+        const momentum = track.pT / Math.sin(theta);
         track.dparams = [d0[i], z0[i], phi0[i], theta, 1.0 / momentum];
         track.phi = phi0[i];
 
@@ -797,12 +797,15 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        const pdgId = this.getNumberArrayFromHTML(collection, 'pdgId');
+
         temp.push({
           chi2: chi2[i],
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
+          pdgId: pdgId[i],
         });
       }
       eventData.Muons[collection.getAttribute('storeGateKey')] = temp;
@@ -826,12 +829,15 @@ export class JiveXMLLoader extends PhoenixLoader {
         const eta = this.getNumberArrayFromHTML(collection, 'eta');
         const phi = this.getNumberArrayFromHTML(collection, 'phi');
         const pt = this.getNumberArrayFromHTML(collection, 'pt');
+        const pdgId = this.getNumberArrayFromHTML(collection, 'pdgId');
+
         temp.push({
           author: author[i],
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
+          pdgId: pdgId[i],
         });
       }
       eventData.Electrons[collection.getAttribute('storeGateKey')] = temp;
@@ -860,7 +866,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           energy: energy[i],
           eta: eta[i],
           phi: phi[i],
-          pt: pt[i],
+          pt: pt[i] * 1000, // JiveXML uses GeV
         });
       }
       eventData.Photons[collection.getAttribute('storeGateKey')] = temp;

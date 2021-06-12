@@ -9,6 +9,7 @@ import { InfoLogger } from '../helpers/info-logger';
 import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
+import { CoordinateHelper } from '../helpers/coordinate-helper';
 
 /**
  * Loader for processing and loading an event.
@@ -151,7 +152,7 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('eta', -4, 4, 0.1),
         new Cut('chi2', 0, 100),
         new Cut('dof', 0, 100),
-        new Cut('pT', 0, 50, 0.1),
+        new Cut('pT', 0, 50000, 0.1),
         new Cut('z0', -30, 30, 0.1),
         new Cut('d0', -30, 30, 0.1),
       ];
@@ -322,18 +323,48 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -4, 4, 0.1),
         new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50),
+        new Cut('pT', 0, 50000),
       ];
-      this.addObjectType(eventData.Muons, this.getMuon, 'Muons', false, cuts);
+      this.addObjectType(
+        eventData.Muons,
+        this.getCompound,
+        'Muons',
+        false,
+        cuts
+      );
     }
 
-    // if (eventData.Photons) {
-    //   this.addObjectType(eventData.Photons, PhoenixObjects.getPhotons, 'Photons');
-    // }
+    if (eventData.Photons) {
+      const cuts = [
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -4, 4, 0.1),
+        new Cut('energy', 0, 10000),
+        new Cut('pT', 0, 50000),
+      ];
+      this.addObjectType(
+        eventData.Photons,
+        this.getCompound,
+        'Photons',
+        false,
+        cuts
+      );
+    }
 
-    // if (eventData.Electrons) {
-    //   this.addObjectType(eventData.Photons, PhoenixObjects.getElectrons, 'Electrons');
-    // }
+    if (eventData.Electrons) {
+      const cuts = [
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -4, 4, 0.1),
+        new Cut('energy', 0, 10000),
+        new Cut('pT', 0, 50000),
+      ];
+      this.addObjectType(
+        eventData.Electrons,
+        this.getCompound,
+        'Electrons',
+        false,
+        cuts
+      );
+    }
 
     if (eventData.Vertices) {
       const cuts = [new Cut('vertexType', 0, 5)];
@@ -492,14 +523,15 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
-   * Process the Muon from the given parameters and get it as a group.
-   * @param muonParams Parameters of the Muon.
+   * Process the compound object (e.g. Muon, Electron, Photon) from the given parameters and get it as a group.
+   * FIXME. This is currently here and not in PhoenixObjects because we need to handle linked objects.
+   * @param params Parameters of the Muon.
    * @returns Muon group containing Clusters and Tracks.
    */
-  protected getMuon(muonParams: any): Object3D {
-    const muonScene = new Group();
-    if ('LinkedClusters' in muonParams) {
-      for (const clusterID of muonParams.LinkedClusters) {
+  protected getCompound(params: any): Object3D {
+    const scene = new Group();
+    if ('LinkedClusters' in params) {
+      for (const clusterID of params.LinkedClusters) {
         const clusterColl = clusterID.split(':')[0];
         const clusterIndex = clusterID.split(':')[1];
 
@@ -513,13 +545,14 @@ export class PhoenixLoader implements EventDataLoader {
             this.eventData.CaloClusters[clusterColl][clusterIndex];
           if (clusterParams) {
             const cluster = PhoenixObjects.getCluster(clusterParams);
-            muonScene.add(cluster);
+            scene.add(cluster);
           }
         }
       }
     }
-    if ('LinkedTracks' in muonParams) {
-      for (const trackID of muonParams.LinkedTracks) {
+    let addedTrack = false;
+    if ('LinkedTracks' in params) {
+      for (const trackID of params.LinkedTracks) {
         const trackColl = trackID.split(':')[0];
         const trackIndex = trackID.split(':')[1];
 
@@ -533,19 +566,42 @@ export class PhoenixLoader implements EventDataLoader {
           if (trackParams) {
             const track = PhoenixObjects.getTrack(trackParams);
             if (track) {
-              muonScene.add(track);
+              scene.add(track);
+              addedTrack = true;
             } else {
-              console.log('WARNING: failed to get a muon track back.');
+              console.log('WARNING: failed to get a track back.');
             }
           }
         }
       }
     }
-    // uuid for selection of muons from the collections info panel
-    muonParams.uuid = muonScene.uuid;
-    muonScene.name = 'Muon';
+    if (!addedTrack) {
+      // Let's try to extrapolate one.
+      // ATLAS JiveXML have the following: energy, eta, phi, pt
+      let startPos = new Vector3(0, 0, 0);
+      let theta = CoordinateHelper.etaToTheta(params.eta);
+      let p = params.pt / Math.cos(Math.PI / 2 - theta);
+
+      let q = 0;
+      if ('pdgId' in params) {
+        q = params.pdgId > 0 ? 1 : -1;
+      }
+
+      // dparams = d0, z0, phi, theta, q/p
+      let trackparams = { dparams: [0, 0, params.phi, theta, q / p] };
+
+      const track = PhoenixObjects.getTrack(trackparams);
+      if (track) {
+        scene.add(track);
+      } else {
+        console.log('WARNING: failed to get a track back.');
+      }
+    }
+    // uuid for selection of compound obj from the collections info panel
+    params.uuid = scene.uuid;
+    scene.name = 'CompoundObj';
     // add to scene
-    return muonScene;
+    return scene;
   }
 
   /**
