@@ -1,4 +1,4 @@
-<div class="phoenix-menu-item">
+<div class="phoenix-menu-item" #phoenixMenuItem>
   <div class="phoenix-menu-item-left align-items-center">
     <!-- If the item has some toggle function -->
     <ng-container *ngIf="currentNode.onToggle; else nodeName">
@@ -42,7 +42,11 @@
         *ngIf="currentNode.configActive"
         (click)="currentNode.configActive = false"
       ></div>
-      <div class="item-config" [hidden]="!currentNode.configActive">
+      <div
+        class="item-config"
+        [hidden]="!currentNode.configActive"
+        [ngStyle]="{ top: phoenixMenuItem.offsetTop + 'px' }"
+      >
         <ng-container
           *ngFor="let config of currentNode.configs"
           [ngSwitch]="config.type"

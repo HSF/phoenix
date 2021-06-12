@@ -1,10 +1,15 @@
-#phoenixMenu {
-  background: var(--phoenix-background-color-secondary);
+:host {
+  width: 15rem;
+  max-width: 45%;
   position: absolute;
   top: 5rem;
   right: 1rem;
-  width: 15rem;
-  max-width: 45%;
+}
+
+#phoenixMenu {
+  background: var(--phoenix-background-color-secondary);
+  max-height: 75vh;
+  overflow-y: auto;
   box-shadow: var(--phoenix-box-shadow);
   z-index: 100;
 
