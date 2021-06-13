@@ -6,29 +6,30 @@
   font-size: 0.8rem;
   transition: all 0.5s;
 
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  .phoenix-menu-item-left {
+  &-left {
     display: flex;
     justify-content: flex-start;
     min-width: 0;
     padding-right: 0.5rem;
+    overflow: hidden;
 
-    .phoenix-menu-name {
+    .item-name {
       flex: 1;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .phoenix-menu-icon {
+    .item-icon {
       margin-right: 0.2rem;
     }
   }
 
-  .phoenix-menu-item-right {
+  &-right {
     display: flex;
     justify-content: flex-end;
 
@@ -53,7 +54,8 @@
 
     .item-config {
       position: absolute;
-      top: 0;
+      /* Has to be the same value (but negated) as `:host > top` of `phoenix-menu.component.scss`. */
+      margin-top: -5rem;
       right: 100%;
       width: 14rem;
       padding: 0.5rem;

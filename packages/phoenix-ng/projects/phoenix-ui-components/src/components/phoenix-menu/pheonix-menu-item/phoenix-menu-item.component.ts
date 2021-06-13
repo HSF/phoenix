@@ -1,4 +1,11 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import type { PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
@@ -9,4 +16,16 @@ import type { PhoenixMenuNode } from 'phoenix-event-display';
 })
 export class PhoenixMenuItemComponent {
   @Input() currentNode: PhoenixMenuNode;
+  @ViewChild('phoenixMenuItem') phoenixMenuItem: ElementRef<HTMLDivElement>;
+  configTop: number;
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  calculateConfigTop() {
+    if (this.phoenixMenuItem) {
+      this.configTop =
+        this.phoenixMenuItem.nativeElement.getBoundingClientRect().top;
+      this.cdr.detectChanges();
+    }
+  }
 }
