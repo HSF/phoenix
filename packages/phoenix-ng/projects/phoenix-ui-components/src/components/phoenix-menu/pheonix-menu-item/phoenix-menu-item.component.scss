@@ -54,7 +54,8 @@
 
     .item-config {
       position: absolute;
-      top: 0;
+      /* Has to be the same value (but negated) as `:host > top` of `phoenix-menu.component.scss`. */
+      margin-top: -5rem;
       right: 100%;
       width: 14rem;
       padding: 0.5rem;

@@ -31,7 +31,10 @@
     <div *ngIf="currentNode.configs.length > 0">
       <span
         class="icon-wrapper icon-clickable item-settings"
-        (click)="currentNode.configActive = !currentNode.configActive"
+        (click)="
+          calculateConfigTop();
+          currentNode.configActive = !currentNode.configActive
+        "
       >
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
@@ -45,7 +48,7 @@
       <div
         class="item-config"
         [hidden]="!currentNode.configActive"
-        [ngStyle]="{ top: phoenixMenuItem.offsetTop + 'px' }"
+        [ngStyle]="{ 'top.px': configTop }"
       >
         <ng-container
           *ngFor="let config of currentNode.configs"
