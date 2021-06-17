@@ -28,6 +28,7 @@ import { StateManager } from '../state-manager';
 import { LoadingManager } from '../loading-manager';
 import { ActiveVariable } from '../../helpers/active-variable';
 import { ColorManager } from './color-manager';
+import { ARManager } from './ar-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -52,6 +53,8 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations. */
   private vrManager: VRManager;
+  /** AR manager for AR related operations. */
+  private arManager: ARManager;
   /** Coloring manager for three.js functions related to coloring of objects. */
   private colorManager: ColorManager;
   /** Loading manager for loadable resources. */
@@ -124,6 +127,8 @@ export class ThreeManager {
     );
     // VR manager
     this.vrManager = new VRManager();
+    // AR manager
+    this.arManager = new ARManager();
     // Coloring manager
     this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
@@ -715,6 +720,29 @@ export class ThreeManager {
     mainRenderer.xr.enabled = false;
 
     this.vrManager.endVRSession();
+  }
+
+  /**
+   * Initialize the AR session.
+   * @param onSessionEnded Callback when the AR session ends.
+   */
+  public initARSession(onSessionEnded?: () => void) {
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.enabled = true;
+    mainRenderer.xr.setAnimationLoop(this.vrRender.bind(this));
+
+    this.arManager.setARSession(mainRenderer, onSessionEnded);
+  }
+
+  /**
+   * End the current AR session.
+   */
+  public endARSession() {
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    mainRenderer.xr.setAnimationLoop(null);
+    mainRenderer.xr.enabled = false;
+
+    this.arManager.endARSession();
   }
 
   /**

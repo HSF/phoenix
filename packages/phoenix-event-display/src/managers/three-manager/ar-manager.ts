@@ -16,29 +16,18 @@ export class ARManager {
   /**
    * Set and configure the AR session.
    * @param renderer Renderer to set the AR session for.
-   * @param onSessionStarted Callback to call when the AR session starts.
    * @param onSessionEnded Callback to call when the AR session ends.
    */
-  public setARSession(
-    renderer: WebGLRenderer,
-    onSessionStarted?: () => void,
-    onSessionEnded?: () => void
-  ) {
+  public setARSession(renderer: WebGLRenderer, onSessionEnded?: () => void) {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
     const webXR = (navigator as any)?.xr;
 
-    if (webXR) {
-      webXR
-        .requestSession(ARManager.SESSION_TYPE)
-        .then((session: any) => {
-          this.onARSessionStarted(session);
-          onSessionStarted?.();
-        })
-        .catch((error: any) => {
-          console.log('AR Error:', error);
-        });
-    }
+    (webXR?.requestSession(ARManager.SESSION_TYPE) as Promise<any>)
+      .then(this.onARSessionStarted)
+      .catch((error: any) => {
+        console.error('AR Error:', error);
+      });
   }
 
   /**
@@ -47,6 +36,7 @@ export class ARManager {
    */
   private onARSessionStarted = async (session: any) => {
     session.addEventListener('end', this.onARSessionEnded);
+    this.renderer.xr.setReferenceSpaceType('local');
     await this.renderer.xr.setSession(session);
     this.currentARSession = session;
   };
@@ -59,4 +49,11 @@ export class ARManager {
     this.currentARSession = null;
     this.onSessionEnded?.();
   };
+
+  /**
+   * End the current AR session.
+   */
+  public endARSession() {
+    this.currentARSession?.end();
+  }
 }

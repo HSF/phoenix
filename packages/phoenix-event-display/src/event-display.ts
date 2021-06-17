@@ -103,6 +103,21 @@ export class EventDisplay {
   }
 
   /**
+   * Initialize AR.
+   * @param onSessionEnded Callback when the AR session ends.
+   */
+  public initAR(onSessionEnded?: () => void) {
+    this.graphicsLibrary.initARSession(onSessionEnded);
+  }
+
+  /**
+   * End AR and remove AR settings.
+   */
+  public endAR() {
+    this.graphicsLibrary.endARSession();
+  }
+
+  /**
    * Receives an object containing all the eventKeys and saves it.
    * Then it loads by default the first event.
    * @param eventsData Object containing the event data.

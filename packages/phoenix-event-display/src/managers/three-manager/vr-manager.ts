@@ -59,30 +59,21 @@ export class VRManager {
   ) {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
-
     const webXR = (navigator as any)?.xr;
+    const sessionInit = {
+      optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
+    };
 
-    if (webXR) {
-      const sessionInit = {
-        optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
-      };
+    (webXR?.requestSession(VRManager.SESSION_TYPE, sessionInit) as Promise<any>)
+      .then((session: any) => {
+        this.onVRSessionStarted(session);
+        onSessionStarted?.();
+      })
+      .catch((error: any) => {
+        console.error('VR Error:', error);
+      });
 
-      (
-        webXR.requestSession(
-          VRManager.SESSION_TYPE,
-          sessionInit
-        ) as Promise<any>
-      )
-        .then((session: any) => {
-          this.onVRSessionStarted(session);
-          onSessionStarted?.();
-        })
-        .catch((error: any) => {
-          console.log('VR Error:', error);
-        });
-
-      this.setupVRControls();
-    }
+    this.setupVRControls();
   }
 
   /**
