@@ -22,6 +22,7 @@ export * from './tree-menu/tree-menu.component';
 export * from './tree-menu/tree-menu-item/tree-menu-item.component';
 export * from './view-options/view-options.component';
 export * from './vr-toggle/vr-toggle.component';
+export * from './ar-toggle/ar-toggle.component';
 export * from './zoom-controls/zoom-controls.component';
 export * from './ss-mode/ss-mode.component';
 export * from './performance-toggle/performance-toggle.component';

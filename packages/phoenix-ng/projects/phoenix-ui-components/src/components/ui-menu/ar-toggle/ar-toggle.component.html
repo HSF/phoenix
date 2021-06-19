@@ -1,0 +1,10 @@
+<app-menu-toggle
+  [disabled]="!arSupported"
+  [active]="arActive"
+  icon="ar"
+  (click)="arSupported && toggleAr()"
+  [tooltip]="
+    arSupported ? (arActive ? 'Exit AR' : 'Enter AR') : 'AR not supported'
+  "
+>
+</app-menu-toggle>
