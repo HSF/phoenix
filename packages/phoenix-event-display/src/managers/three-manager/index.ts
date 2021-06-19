@@ -729,15 +729,31 @@ export class ThreeManager {
   public initARSession(onSessionEnded?: () => void) {
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = true;
-    mainRenderer.xr.setAnimationLoop(this.vrRender.bind(this));
+    mainRenderer.xr.setAnimationLoop(() => {
+      this.uiLoop();
+      this.rendererManager
+        .getMainRenderer()
+        .render(this.sceneManager.getScene(), this.arManager.arCamera);
+      // The light directs towards origin
+      this.sceneManager.updateLights(this.arManager.arCamera);
+    });
 
-    this.arManager.setARSession(mainRenderer, onSessionEnded);
+    const onSessionStarted = () => {
+      const cameraGroup = this.arManager.getCameraGroup(
+        this.controlsManager.getMainCamera()
+      );
+      this.sceneManager.getScene().add(cameraGroup);
+    };
+
+    this.arManager.setARSession(mainRenderer, onSessionStarted, onSessionEnded);
   }
 
   /**
    * End the current AR session.
    */
   public endARSession() {
+    this.sceneManager.getScene().remove(this.arManager.getCameraGroup());
+
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.setAnimationLoop(null);
     mainRenderer.xr.enabled = false;

@@ -63,7 +63,6 @@ export class SceneManager {
   constructor(ignoreList: string[], useCameraLight: boolean = true) {
     this.getScene();
     this.ignoreList = ignoreList;
-    this.scene.background = new Color('hsl(0, 0%, 100%)');
     this.axis = null;
     this.setLights(useCameraLight);
   }
@@ -134,20 +133,6 @@ export class SceneManager {
     clearScene.remove(...removeList);
 
     return clearScene;
-  }
-
-  /**
-   * Sets the scene background to be dark or white.
-   * @param dark If the scene background is dark (true) or white (false).
-   */
-  public darkBackground(dark: boolean) {
-    let background = 0xffffff;
-    if (dark) {
-      background = 0x1a1a1a;
-    }
-    if (this.scene) {
-      this.scene.background = new Color(background);
-    }
   }
 
   /**
