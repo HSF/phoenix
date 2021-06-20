@@ -29,6 +29,7 @@ export class VRManager extends XRManager {
 
   /**
    * Create the VR manager.
+   * @override
    */
   constructor() {
     super(XRSessionType.VR, {

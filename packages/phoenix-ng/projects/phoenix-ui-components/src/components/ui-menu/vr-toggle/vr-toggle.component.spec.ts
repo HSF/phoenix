@@ -9,8 +9,8 @@ describe('VrToggleComponent', () => {
   let fixture: ComponentFixture<VrToggleComponent>;
 
   const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
-    'initVR',
-    'endVR',
+    'initXR',
+    'endXR',
   ]);
 
   beforeEach(() => {
@@ -39,10 +39,10 @@ describe('VrToggleComponent', () => {
   it('should toggle VR', () => {
     component.toggleVr();
     expect(component.vrActive).toBeTrue();
-    expect(mockEventDisplay.initVR).toHaveBeenCalled();
+    expect(mockEventDisplay.initXR).toHaveBeenCalled();
 
     component.toggleVr();
     expect(component.vrActive).toBeFalse();
-    expect(mockEventDisplay.endVR).toHaveBeenCalled();
+    expect(mockEventDisplay.endXR).toHaveBeenCalled();
   });
 });

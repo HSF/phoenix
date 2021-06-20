@@ -14,6 +14,7 @@ export class ARManager extends XRManager {
 
   /**
    * Create the AR manager.
+   * @override
    */
   constructor() {
     super(XRSessionType.AR);
