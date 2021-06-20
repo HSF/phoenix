@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:ssl": "ng serve --ssl --host=0.0.0.0",
+    "start:ssl": "ng serve --ssl --host 0.0.0.0",
     "start:single": "ng serve --configuration singleEvent",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
