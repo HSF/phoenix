@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
-import { VRManager } from 'phoenix-event-display';
+import { VRManager, XRSessionType } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-vr-toggle',
@@ -27,14 +27,14 @@ export class VrToggleComponent {
   toggleVr() {
     // If toggling VR on
     if (!this.vrActive) {
-      this.eventDisplay.initVR(() => {
+      this.eventDisplay.initXR(XRSessionType.VR, () => {
         this.vrActive = false;
         // Disable renderer XR and remove animation loop
-        this.eventDisplay.endVR();
+        this.eventDisplay.endXR(XRSessionType.VR);
       });
       this.vrActive = true;
     } else {
-      this.eventDisplay.endVR();
+      this.eventDisplay.endXR(XRSessionType.VR);
       this.vrActive = false;
     }
   }

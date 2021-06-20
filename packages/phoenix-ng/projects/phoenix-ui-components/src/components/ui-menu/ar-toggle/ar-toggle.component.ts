@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
-import { ARManager } from 'phoenix-event-display';
+import { ARManager, XRSessionType } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-ar-toggle',
@@ -27,14 +27,14 @@ export class ArToggleComponent {
   toggleAr() {
     // If toggling AR on
     if (!this.arActive) {
-      this.eventDisplay.initAR(() => {
+      this.eventDisplay.initXR(XRSessionType.AR, () => {
         this.arActive = false;
         // Disable renderer XR and remove animation loop
-        this.eventDisplay.endAR();
+        this.eventDisplay.endXR(XRSessionType.AR);
       });
       this.arActive = true;
     } else {
-      this.eventDisplay.endAR();
+      this.eventDisplay.endXR(XRSessionType.AR);
       this.arActive = false;
     }
   }

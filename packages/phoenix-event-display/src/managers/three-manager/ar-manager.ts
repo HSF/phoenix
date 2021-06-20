@@ -1,5 +1,10 @@
 import { XRManager, XRSessionType } from './xr-manager';
 
+// NOTE: This was created on 28/06/2021
+// It might get outdated given how WebXR is still a work in progress
+
+// LAST UPDATED ON 29/06/2021
+
 /**
  * AR manager for AR related operations.
  */

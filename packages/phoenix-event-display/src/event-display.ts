@@ -7,6 +7,7 @@ import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
 import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
+import { XRSessionType } from './managers/three-manager/xr-manager';
 
 declare global {
   /**
@@ -88,33 +89,20 @@ export class EventDisplay {
   }
 
   /**
-   * Initialize VR.
-   * @param onSessionEnded Callback when the VR session ends.
+   * Initialize XR.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
+   * @param onSessionEnded Callback when the XR session ends.
    */
-  public initVR(onSessionEnded?: () => void) {
-    this.graphicsLibrary.initVRSession(onSessionEnded);
+  public initXR(xrSessionType: XRSessionType, onSessionEnded?: () => void) {
+    this.graphicsLibrary.initXRSession(xrSessionType, onSessionEnded);
   }
 
   /**
    * End VR and remove VR settings.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
    */
-  public endVR() {
-    this.graphicsLibrary.endVRSession();
-  }
-
-  /**
-   * Initialize AR.
-   * @param onSessionEnded Callback when the AR session ends.
-   */
-  public initAR(onSessionEnded?: () => void) {
-    this.graphicsLibrary.initARSession(onSessionEnded);
-  }
-
-  /**
-   * End AR and remove AR settings.
-   */
-  public endAR() {
-    this.graphicsLibrary.endARSession();
+  public endXR(xrSessionType: XRSessionType) {
+    this.graphicsLibrary.endXRSession(xrSessionType);
   }
 
   /**
