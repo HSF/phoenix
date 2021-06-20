@@ -1,5 +1,10 @@
 import { Camera, Group, WebGLRenderer, XRSessionInit } from 'three';
 
+// NOTE: This was created on 28/06/2021
+// It might get outdated given how WebXR is still a work in progress
+
+// LAST UPDATED ON 29/06/2021
+
 /** Type of the XR session. */
 export enum XRSessionType {
   VR = 'VR',
@@ -78,6 +83,7 @@ export class XRManager {
     this.xrActive = false;
     this.currentXRSession.removeEventListener('end', this.onXRSessionEnded);
     this.currentXRSession = null;
+    this.cameraGroup = undefined;
     this.onSessionEnded?.();
   }
 
@@ -110,5 +116,13 @@ export class XRManager {
     }
 
     return this.cameraGroup;
+  }
+
+  /**
+   * Get the camera used by XR.
+   * @returns The camera used by XR.
+   */
+  public getXRCamera() {
+    return this.xrCamera;
   }
 }
