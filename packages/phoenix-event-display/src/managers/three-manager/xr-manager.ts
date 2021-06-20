@@ -1,8 +1,9 @@
 import { Camera, Group, WebGLRenderer, XRSessionInit } from 'three';
 
+/** Type of the XR session. */
 export enum XRSessionType {
-  VR = 'vr',
-  AR = 'ar',
+  VR = 'VR',
+  AR = 'AR',
 }
 
 /**
@@ -10,29 +11,35 @@ export enum XRSessionType {
  */
 export class XRManager {
   /** Whether the XR is currently active or not. */
-  private xrActive: boolean = false;
+  protected xrActive: boolean = false;
   /** Renderer to set the XR session for. */
-  private renderer: WebGLRenderer;
+  protected renderer: WebGLRenderer;
   /** Currently active XR session. */
-  private currentXRSession: any = null;
+  protected currentXRSession: any = null;
   /** Callback to call when the XR session ends. */
-  private onSessionEnded: () => void;
+  protected onSessionEnded: () => void;
   /** Group containing the the camera for XR. */
   public cameraGroup: Group;
   /** The camera used by XR. */
   public xrCamera: Camera;
 
   /**
-   * Set and configure the XR session.
+   * Create the XR manager.
    * @param sessionType Type of the session, either AR or VR.
    * @param sessionInit Other options for the session like optional features.
+   */
+  constructor(
+    private sessionType: XRSessionType,
+    private sessionInit?: XRSessionInit
+  ) {}
+
+  /**
+   * Set and configure the XR session.
    * @param renderer Renderer to set the XR session for.
    * @param onSessionStarted Callback to call when the XR session starts.
    * @param onSessionEnded Callback to call when the XR session ends.
    */
   public setXRSession(
-    sessionType: XRSessionType,
-    sessionInit: XRSessionInit,
     renderer: WebGLRenderer,
     onSessionStarted?: () => void,
     onSessionEnded?: () => void
@@ -40,12 +47,13 @@ export class XRManager {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;
     const webXR = (navigator as any)?.xr;
-    const xrType = sessionType === XRSessionType.VR ? 'vr' : 'ar';
+    const xrType = this.sessionType === XRSessionType.VR ? 'vr' : 'ar';
 
-    (webXR?.requestSession(`immersive-${xrType}`, sessionInit) as Promise<any>)
+    webXR
+      ?.requestSession(`immersive-${xrType}`, this.sessionInit)
       .then((session: any) => {
+        this.onXRSessionStarted.bind(this)(session);
         onSessionStarted?.();
-        this.onXRSessionStarted(session);
       })
       .catch((error: any) => {
         console.error(`${xrType.toUpperCase()} Error:`, error);
@@ -56,22 +64,22 @@ export class XRManager {
    * Callback for when the XR session is started.
    * @param session The XR session.
    */
-  private onXRSessionStarted = async (session: any) => {
+  protected async onXRSessionStarted(session: any) {
     this.xrActive = true;
-    session.addEventListener('end', this.onXRSessionEnded);
+    session.addEventListener('end', this.onXRSessionEnded.bind(this));
     await this.renderer.xr.setSession(session);
     this.currentXRSession = session;
-  };
+  }
 
   /**
    * Callback when the XR session ends.
    */
-  private onXRSessionEnded = () => {
+  protected onXRSessionEnded() {
     this.xrActive = false;
     this.currentXRSession.removeEventListener('end', this.onXRSessionEnded);
     this.currentXRSession = null;
     this.onSessionEnded?.();
-  };
+  }
 
   /**
    * End the current XR session.

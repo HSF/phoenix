@@ -733,9 +733,9 @@ export class ThreeManager {
       this.uiLoop();
       this.rendererManager
         .getMainRenderer()
-        .render(this.sceneManager.getScene(), this.arManager.arCamera);
+        .render(this.sceneManager.getScene(), this.arManager.xrCamera);
       // The light directs towards origin
-      this.sceneManager.updateLights(this.arManager.arCamera);
+      this.sceneManager.updateLights(this.arManager.xrCamera);
     });
 
     const onSessionStarted = () => {
@@ -745,7 +745,7 @@ export class ThreeManager {
       this.sceneManager.getScene().add(cameraGroup);
     };
 
-    this.arManager.setARSession(mainRenderer, onSessionStarted, onSessionEnded);
+    this.arManager.setXRSession(mainRenderer, onSessionStarted, onSessionEnded);
   }
 
   /**
@@ -758,7 +758,7 @@ export class ThreeManager {
     mainRenderer.xr.setAnimationLoop(null);
     mainRenderer.xr.enabled = false;
 
-    this.arManager.endARSession();
+    this.arManager.endXRSession();
   }
 
   /**

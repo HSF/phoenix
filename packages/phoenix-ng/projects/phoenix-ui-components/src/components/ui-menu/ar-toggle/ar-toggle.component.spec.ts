@@ -8,9 +8,8 @@ describe('ArToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArToggleComponent ]
-    })
-    .compileComponents();
+      declarations: [ArToggleComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

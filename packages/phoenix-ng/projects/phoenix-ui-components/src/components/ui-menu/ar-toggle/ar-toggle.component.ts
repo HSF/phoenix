@@ -14,7 +14,7 @@ export class ArToggleComponent {
   constructor(private eventDisplay: EventDisplayService) {
     // NOTE: WebXR needs secure HTTPS context
     if ('xr' in navigator) {
-      (navigator as any)?.xr
+      (navigator as any).xr
         ?.isSessionSupported?.(ARManager.SESSION_TYPE)
         .then((supported: boolean) => {
           if (supported) {
