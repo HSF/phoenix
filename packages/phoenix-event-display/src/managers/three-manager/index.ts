@@ -12,6 +12,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   Euler,
+  PerspectiveCamera,
 } from 'three';
 import { Configuration } from '../../extras/configuration';
 import { ControlsManager } from './controls-manager';
@@ -129,7 +130,10 @@ export class ThreeManager {
     // VR manager
     this.vrManager = new VRManager();
     // AR manager
-    this.arManager = new ARManager();
+    this.arManager = new ARManager(
+      this.sceneManager.getScene(),
+      this.controlsManager.getMainCamera() as PerspectiveCamera
+    );
     // Coloring manager
     this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
