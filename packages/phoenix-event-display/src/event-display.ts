@@ -559,6 +559,7 @@ export class EventDisplay {
       },
       buildGeometryFromParameters: (parameters: object) =>
         this.buildGeometryFromParameters(parameters),
+      scene: this.getThreeManager().getSceneManager().getScene(),
     };
   }
 
