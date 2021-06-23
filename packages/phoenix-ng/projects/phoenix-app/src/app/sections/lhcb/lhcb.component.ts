@@ -52,24 +52,6 @@ export class LHCbComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
-    /** 
-     * The following commented part of code is properly working
-     * and it is the whole new Geometry of the run3 LHCb detector in one single gltf file,
-     * but there is a huge performance issue (max 4fps)
-     * the fault is the root file that was designed with too many subchildren for the parts of
-     * Ecal, Hcal, Muon
-     * and thus the reuslted gltf file generated from the root one has huge performance issues. 
-     * Uncomment the following to see it in action ( you'll have to wait a bit :) )
-    */
-
-    // this.eventDisplay.loadGLTFGeometry(
-    //   'assets/geometry/LHCb/LHCb_run3_full.gltf',
-    //   'LHCb Run3 CompleteDetector',
-    //   'Whole Detector',
-    //   1,
-    //   false
-    // );
-
     this.eventDisplay.loadGLTFGeometry(
       'assets/geometry/LHCb/LHCb_run3_PIPE.gltf',
       'Pipe',
