@@ -52,9 +52,100 @@ export class LHCbComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
+    /** 
+     * The following commented part of code is properly working
+     * and it is the whole new Geometry of the run3 LHCb detector in one single gltf file,
+     * but there is a huge performance issue (max 4fps)
+     * the fault is the root file that was designed with too many subchildren for the parts of
+     * Ecal, Hcal, Muon
+     * and thus the reuslted gltf file generated from the root one has huge performance issues. 
+     * Uncomment the following to see it in action ( you'll have to wait a bit :) )
+    */
+
+    // this.eventDisplay.loadGLTFGeometry(
+    //   'assets/geometry/LHCb/LHCb_run3_full.gltf',
+    //   'LHCb Run3 CompleteDetector',
+    //   'Whole Detector',
+    //   1,
+    //   false
+    // );
+
     this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/lhcb.gltf',
-      'LHCb detector'
+      'assets/geometry/LHCb/LHCb_run3_PIPE.gltf',
+      'Pipe',
+      'Base',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_MAGNET.gltf',
+      'Upper & Lower Coils',
+      'Magnets',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_MagnetCover.gltf',
+      'Magnet Cover',
+      'Magnets',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_ECAL.gltf',
+      'Ecal',
+      'DownstreamRegion',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_HCAL.gltf',
+      'Hcal',
+      'DownstreamRegion',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_MUON.gltf',
+      'Muon',
+      'DownstreamRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_FT.gltf',
+      'FT',
+      'AfterMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_Rich_AfterMagnet.gltf',
+      'Rich',
+      'AfterMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_Rich_BeforeMagnet.gltf',
+      'Rich',
+      'BeforeMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_VP.gltf',
+      'VP',
+      'BeforeMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_UT.gltf',
+      'UT',
+      'BeforeMagnetRegion',
+      1,
+      true
     );
 
     this.eventDisplay
