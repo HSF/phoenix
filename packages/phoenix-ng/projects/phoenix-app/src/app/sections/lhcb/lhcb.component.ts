@@ -53,8 +53,81 @@ export class LHCbComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/lhcb.gltf',
-      'LHCb detector'
+      'assets/geometry/LHCb/LHCb_run3_PIPE.gltf',
+      'Pipe',
+      'Base',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_MAGNET.gltf',
+      'Upper & Lower Coils',
+      'Magnets',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_MagnetCover.gltf',
+      'Magnet Cover',
+      'Magnets',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_ECAL.gltf',
+      'Ecal',
+      'DownstreamRegion',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_HCAL.gltf',
+      'Hcal',
+      'DownstreamRegion',
+      1,
+      false
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run2_MUON.gltf',
+      'Muon',
+      'DownstreamRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_FT.gltf',
+      'FT',
+      'AfterMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_Rich_AfterMagnet.gltf',
+      'Rich',
+      'AfterMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_Rich_BeforeMagnet.gltf',
+      'Rich',
+      'BeforeMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_VP.gltf',
+      'VP',
+      'BeforeMagnetRegion',
+      1,
+      true
+    );
+    this.eventDisplay.loadGLTFGeometry(
+      'assets/geometry/LHCb/LHCb_run3_UT.gltf',
+      'UT',
+      'BeforeMagnetRegion',
+      1,
+      true
     );
 
     this.eventDisplay
