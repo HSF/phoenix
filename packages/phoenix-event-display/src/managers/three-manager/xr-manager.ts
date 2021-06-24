@@ -1,4 +1,4 @@
-import { Camera, Group, WebGLRenderer, XRSessionInit } from 'three';
+import { Camera, Group, Vector3, WebGLRenderer, XRSessionInit } from 'three';
 
 // NOTE: This was created on 28/06/2021
 // It might get outdated given how WebXR is still a work in progress
@@ -111,7 +111,11 @@ export class XRManager {
         .copy(camera.clone() as Camera);
       this.xrCamera.name = 'XR_CAMERA';
 
-      this.cameraGroup.position.copy(this.xrCamera.position);
+      const cameraPosition =
+        this.sessionType === XRSessionType.VR
+          ? this.xrCamera.position
+          : new Vector3(0, 0, 0.1);
+      this.cameraGroup.position.copy(cameraPosition);
       this.cameraGroup.add(this.xrCamera);
     }
 

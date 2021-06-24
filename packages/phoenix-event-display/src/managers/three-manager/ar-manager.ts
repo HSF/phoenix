@@ -17,7 +17,6 @@ export class ARManager extends XRManager {
   private previousValues = {
     sceneScale: 1,
     cameraNear: 10,
-    cameraPosition: new Vector3(1, 0, 1),
   };
 
   /**
@@ -38,10 +37,8 @@ export class ARManager extends XRManager {
   protected async onXRSessionStarted(session: any) {
     this.previousValues.sceneScale = this.scene.scale.x;
     this.previousValues.cameraNear = this.camera.near;
-    this.previousValues.cameraPosition = this.camera.position.clone();
     this.scaleScene(0.00001);
     this.camera.near = 0.01;
-    this.camera.position.set(0, 0, 0.1);
     this.renderer.xr.setReferenceSpaceType('local');
     await super.onXRSessionStarted(session);
   }
@@ -53,7 +50,6 @@ export class ARManager extends XRManager {
   protected onXRSessionEnded() {
     this.scaleScene(this.previousValues.sceneScale);
     this.camera.near = this.previousValues.cameraNear;
-    this.camera.position.copy(this.previousValues.cameraPosition);
     super.onXRSessionEnded();
   }
 
