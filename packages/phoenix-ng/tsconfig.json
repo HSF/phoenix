@@ -19,7 +19,7 @@
     ],
     "paths": {
       "phoenix-ui-components": [
-        "projects/phoenix-ui-components/src"
+        "./projects/phoenix-ui-components/src"
       ],
       "phoenix-event-display": [
         "../phoenix-event-display/src"

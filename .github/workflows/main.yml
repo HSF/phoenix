@@ -20,8 +20,7 @@ jobs:
 
       - name: Setup Phoenix
         run: |
-          npm install --global yarn lerna
-          yarn install:dependencies
+          yarn install
 
       - name: Check Prettier
         run: yarn prettier:check

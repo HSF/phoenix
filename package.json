@@ -6,7 +6,7 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "start": "lerna run start --scope=phoenix-ng",
+    "start": "lerna run start --scope phoenix-ng",
     "start:ssl": "lerna run start:ssl --scope=phoenix-ng",
     "test:coverage": "lerna run test:coverage",
     "release": "lerna publish patch --create-release github",
@@ -21,6 +21,15 @@
     "docs:coverage": "lerna run docs:coverage --scope phoenix-event-display"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "@types/jasmine": "^3.7.7",
+    "@types/node": "^15.12.4",
+    "@types/three": "^0.129.1",
+    "jasmine-core": "^3.7.1",
+    "karma": "^6.3.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^4.0.1",
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.1",
+    "typescript": "^4.3.4"
   }
 }
