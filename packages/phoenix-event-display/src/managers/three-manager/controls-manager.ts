@@ -1,4 +1,3 @@
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import {
   Camera,
   PerspectiveCamera,
@@ -10,6 +9,7 @@ import {
   Mesh,
   TubeBufferGeometry,
 } from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { RendererManager } from './renderer-manager';
 import * as TWEEN from '@tweenjs/tween.js';
 

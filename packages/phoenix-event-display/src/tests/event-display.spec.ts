@@ -1,6 +1,7 @@
 import { EventDisplay } from '../event-display';
 import { ThreeManager } from '../managers/three-manager';
 import { UIManager } from '../managers/ui-manager';
+import { XRSessionType } from '../managers/three-manager/xr-manager';
 import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 
@@ -288,19 +289,20 @@ describe('EventDisplay', () => {
       expect(eventDisplay.buildGeometryFromParameters).toHaveBeenCalled();
     });
 
-    it('should initialize VR', () => {
-      spyOn(three, 'initVRSession').and.stub();
-      eventDisplay.initVR();
-      expect(three.initVRSession).toHaveBeenCalled();
+    it('should initialize XR', () => {
+      spyOn(three, 'initXRSession').and.stub();
+      eventDisplay.initXR(XRSessionType.VR);
+      eventDisplay.initXR(XRSessionType.AR);
+      expect(three.initXRSession).toHaveBeenCalledTimes(2);
     });
 
     it('should end VR', () => {
-      spyOn(three, 'initVRSession').and.stub();
-      eventDisplay.initVR();
+      spyOn(three, 'initXRSession').and.stub();
+      eventDisplay.initXR(XRSessionType.VR);
 
-      spyOn(three, 'endVRSession').and.stub();
-      eventDisplay.endVR();
-      expect(three.endVRSession).toHaveBeenCalled();
+      spyOn(three, 'endXRSession').and.stub();
+      eventDisplay.endXR(XRSessionType.VR);
+      expect(three.endXRSession).toHaveBeenCalled();
     });
 
     it('should call three service functions', () => {

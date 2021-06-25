@@ -27,12 +27,6 @@ describe('SceneManager', () => {
     sceneManager.updateLights(new Camera());
   });
 
-  it('should not set background if there is no scene', () => {
-    sceneManager.darkBackground(true);
-    (sceneManager as any).scene = undefined;
-    expect((sceneManager as any).scene?.background).toBeUndefined();
-  });
-
   describe('with object in scene', () => {
     const OBJECT_NAME = 'TestCube';
 

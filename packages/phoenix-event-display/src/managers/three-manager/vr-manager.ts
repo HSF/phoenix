@@ -1,37 +1,18 @@
-import {
-  WebGLRenderer,
-  Group,
-  Camera,
-  Vector3,
-  BufferGeometry,
-  Line,
-} from 'three';
+import { WebGLRenderer, Vector3, BufferGeometry, Line } from 'three';
 import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 29/08/2020
 // It might get outdated given how WebXR is still a work in progress
 
-// LAST UPDATED ON 28/11/2020
+// LAST UPDATED ON 20/06/2021
 
 /**
  * VR manager for VR related operations.
  */
-export class VRManager {
+export class VRManager extends XRManager {
   /** Session type to use for VR. */
   static readonly SESSION_TYPE: string = 'immersive-vr';
-  /** Whether the VR is currently active or not. */
-  private vrActive: boolean = false;
-  /** Renderer to set the VR session for. */
-  private renderer: WebGLRenderer;
-  /** Currently active VR session. */
-  private currentVRSession: any = null;
-  /** Callback to call when the VR session ends. */
-  private onSessionEnded: () => void;
-  /** Group containing the the camera for VR. */
-  public cameraGroup: Group;
-  /** The camera used by VR. */
-  public vrCamera: Camera;
-
   /** The VR controller for movement. */
   private controller1: any;
   /** The VR controller for movement. */
@@ -47,64 +28,37 @@ export class VRManager {
   private onControllerSelectEnd: () => void;
 
   /**
+   * Create the VR manager.
+   * @override
+   */
+  constructor() {
+    super(XRSessionType.VR, {
+      optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
+    });
+  }
+
+  /**
    * Set and configure the VR session.
    * @param renderer Renderer to set the VR session for.
    * @param onSessionStarted Callback to call when the VR session starts.
    * @param onSessionEnded Callback to call when the VR session ends.
+   * @override
    */
-  public setVRSession(
+  public setXRSession(
     renderer: WebGLRenderer,
     onSessionStarted?: () => void,
     onSessionEnded?: () => void
   ) {
-    this.renderer = renderer;
-    this.onSessionEnded = onSessionEnded;
-
-    const webXR = (navigator as any)?.xr;
-
-    if (webXR) {
-      const sessionInit = {
-        optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
-      };
-
-      (
-        webXR.requestSession(
-          VRManager.SESSION_TYPE,
-          sessionInit
-        ) as Promise<any>
-      )
-        .then((session: any) => {
-          this.onVRSessionStarted(session);
-          onSessionStarted?.();
-        })
-        .catch((error: any) => {
-          console.log('VR Error:', error);
-        });
-
-      this.setupVRControls();
-    }
+    super.setXRSession(renderer, onSessionStarted, onSessionEnded);
+    this.setupVRControls();
   }
 
   /**
-   * Callback for when the VR session is started.
-   * @param session The VR session.
-   */
-  private onVRSessionStarted = (session: any) => {
-    this.vrActive = true;
-    session.addEventListener('end', this.onVRSessionEnded);
-    this.renderer.xr.setSession(session);
-    this.currentVRSession = session;
-  };
-
-  /**
    * Callback when the VR session ends.
+   * @override
    */
-  private onVRSessionEnded = () => {
-    this.onSessionEnded?.();
-
-    this.vrActive = false;
-    this.currentVRSession?.removeEventListener('end', this.onVRSessionEnded);
-    this.currentVRSession = null;
+  protected onXRSessionEnded() {
+    super.onXRSessionEnded();
 
     this.controller1?.removeEventListener(
       'selectstart',
@@ -114,55 +68,6 @@ export class VRManager {
       'selectend',
       this.onControllerSelectEnd
     );
-
-    this.cameraGroup = undefined;
-  };
-
-  /**
-   * End the current VR session.
-   */
-  public endVRSession() {
-    this.currentVRSession?.end();
-  }
-
-  /**
-   * Is the VR currently active or not.
-   * @returns A boolean for whether the VR is active or not.
-   */
-  public isVRActive(): boolean {
-    return this.vrActive;
-  }
-
-  /**
-   * Get the group containing the camera for VR.
-   * VR camera works by adding a Group with Camera to the scene.
-   * @param camera Camera which is to be cloned for VR use.
-   * @returns The camera group used in VR mode.
-   */
-  public getCameraGroup(camera?: Camera): Group {
-    // Set up the camera position in the VR - Adding a group with camera does it
-    if (!this.cameraGroup) {
-      this.cameraGroup = new Group();
-    }
-    if (camera && this.vrActive) {
-      this.vrCamera = this.renderer.xr
-        .getCamera(new Camera())
-        .copy(camera.clone() as Camera);
-      this.vrCamera.name = 'VR_CAMERA';
-
-      this.cameraGroup.position.copy(this.vrCamera.position);
-      this.cameraGroup.add(this.vrCamera);
-    }
-
-    return this.cameraGroup;
-  }
-
-  /**
-   * Get the camera used by VR.
-   * @returns The camera used by VR.
-   */
-  public getVRCamera() {
-    return this.vrCamera;
   }
 
   /**
@@ -245,10 +150,10 @@ export class VRManager {
     //! this.controller.getWorldDirection(direction);
 
     // Get direction the camera is facing
-    this.vrCamera?.getWorldDirection(direction);
+    this.xrCamera?.getWorldDirection(direction);
 
     // Move the camera in the given direction
     this.cameraGroup.position.addScaledVector(direction, stepDistance);
-    this.vrCamera.position.addScaledVector(direction, stepDistance);
+    this.xrCamera.position.addScaledVector(direction, stepDistance);
   }
 }

@@ -334,16 +334,9 @@ export class UIManager {
    * @param dark If the theme is to be dark or light. True for dark and false for light theme.
    */
   public setDarkTheme(dark: boolean) {
-    if (dark) {
-      localStorage.setItem('theme', 'dark');
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-
-    this.darkTheme = dark;
-    this.three.getSceneManager().darkBackground(dark);
+    const theme = dark ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }
 
   /**

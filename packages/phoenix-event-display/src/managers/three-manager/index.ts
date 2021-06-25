@@ -12,6 +12,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   Euler,
+  PerspectiveCamera,
 } from 'three';
 import { Configuration } from '../../extras/configuration';
 import { ControlsManager } from './controls-manager';
@@ -28,6 +29,8 @@ import { StateManager } from '../state-manager';
 import { LoadingManager } from '../loading-manager';
 import { ActiveVariable } from '../../helpers/active-variable';
 import { ColorManager } from './color-manager';
+import { ARManager } from './ar-manager';
+import { XRManager, XRSessionType } from './xr-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -52,6 +55,8 @@ export class ThreeManager {
   private effectsManager: EffectsManager;
   /** VR manager for VR related operations. */
   private vrManager: VRManager;
+  /** AR manager for AR related operations. */
+  private arManager: ARManager;
   /** Coloring manager for three.js functions related to coloring of objects. */
   private colorManager: ColorManager;
   /** Loading manager for loadable resources. */
@@ -124,6 +129,11 @@ export class ThreeManager {
     );
     // VR manager
     this.vrManager = new VRManager();
+    // AR manager
+    this.arManager = new ARManager(
+      this.sceneManager.getScene(),
+      this.controlsManager.getMainCamera() as PerspectiveCamera
+    );
     // Coloring manager
     this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
@@ -184,14 +194,15 @@ export class ThreeManager {
 
   /**
    * Minimally render without any post-processing.
+   * @param xrManager Manager for XR operations.
    */
-  public vrRender() {
+  public xrRender(xrManager: XRManager) {
     this.uiLoop();
     this.rendererManager
       .getMainRenderer()
-      .render(this.sceneManager.getScene(), this.vrManager.getVRCamera());
+      .render(this.sceneManager.getScene(), xrManager.getXRCamera());
     // The light directs towards origin
-    this.sceneManager.updateLights(this.vrManager.getVRCamera());
+    this.sceneManager.updateLights(xrManager.getXRCamera());
   }
 
   /**
@@ -679,42 +690,51 @@ export class ThreeManager {
 
   /**
    * Initialize the VR session.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the VR session ends.
    */
-  public initVRSession(onSessionEnded?: () => void) {
+  public initXRSession(
+    xrSessionType: XRSessionType,
+    onSessionEnded?: () => void
+  ) {
+    const xrManager =
+      xrSessionType === XRSessionType.VR ? this.vrManager : this.arManager;
+
     // Set up main renderer for VR
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.enabled = true;
-
     // Set the VR animation loop
-    mainRenderer.xr.setAnimationLoop(this.vrRender.bind(this));
+    mainRenderer.xr.setAnimationLoop(this.xrRender.bind(this, xrManager));
 
-    // Set up the camera position in the VR - Adding a group with camera does it
-    // The VR camera is only available AFTER the session starts
-    // For why we can't just move the camera directly, see e.g.
-    // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
-    const onSessionStarted = () => {
-      const cameraGroup = this.vrManager.getCameraGroup(
+    const onXRSessionStarted = () => {
+      // Set up the camera position in the XR - Adding a group with camera does it
+      // The XR camera is only available AFTER the session starts
+      // For why we can't just move the camera directly, see e.g.
+      // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
+      const cameraGroup = xrManager.getCameraGroup(
         this.controlsManager.getMainCamera()
       );
       this.sceneManager.getScene().add(cameraGroup);
     };
 
     // Set and initialize the VR session
-    this.vrManager.setVRSession(mainRenderer, onSessionStarted, onSessionEnded);
+    xrManager.setXRSession(mainRenderer, onXRSessionStarted, onSessionEnded);
   }
 
   /**
    * End the current VR session.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
    */
-  public endVRSession() {
-    this.sceneManager.getScene().remove(this.vrManager.getCameraGroup());
+  public endXRSession(xrSessionType: XRSessionType) {
+    const xrManager =
+      xrSessionType === XRSessionType.VR ? this.vrManager : this.arManager;
 
+    this.sceneManager.getScene().remove(xrManager.getCameraGroup());
     const mainRenderer = this.rendererManager.getMainRenderer();
     mainRenderer.xr.setAnimationLoop(null);
     mainRenderer.xr.enabled = false;
 
-    this.vrManager.endVRSession();
+    xrManager.endXRSession();
   }
 
   /**

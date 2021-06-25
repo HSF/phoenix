@@ -11,7 +11,9 @@ export * from './managers/three-manager/import-manager';
 export * from './managers/three-manager/renderer-manager';
 export * from './managers/three-manager/scene-manager';
 export * from './managers/three-manager/selection-manager';
+export * from './managers/three-manager/xr-manager';
 export * from './managers/three-manager/vr-manager';
+export * from './managers/three-manager/ar-manager';
 
 // UI
 export * from './managers/ui-manager/index';
