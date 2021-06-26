@@ -53,7 +53,6 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -79,7 +78,6 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -140,16 +138,6 @@
               "projects/phoenix-app/src/app/services/extras/**"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/phoenix-app/src/tsconfig.app.json",
-              "projects/phoenix-app/src/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
-          }
         }
       }
     },
@@ -168,13 +156,6 @@
             "production": {
               "devServerTarget": "phoenix-app:serve:production"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.json",
-            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -211,16 +192,6 @@
             "codeCoverageExclude": [
               "projects/phoenix-ui-components/src/services/extras/**"
             ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/phoenix-ui-components/tsconfig.lib.json",
-              "projects/phoenix-ui-components/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
           }
         }
       }

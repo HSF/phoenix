@@ -21,7 +21,8 @@
     "@angular/compiler": "*",
     "@angular/core": "*",
     "@angular/platform-browser-dynamic": "*",
-    "phoenix-event-display": "*"
+    "phoenix-event-display": "*",
+    "zone.js": "*"
   },
   "dependencies": {
     "@angular-slider/ngx-slider": "^2.0.3",

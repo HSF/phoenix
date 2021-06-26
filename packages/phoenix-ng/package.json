@@ -34,7 +34,6 @@
     "@angular/platform-browser": "^12.1.0",
     "@angular/platform-browser-dynamic": "^12.1.0",
     "@angular/router": "^12.1.0",
-    "core-js": "^3.15.1",
     "css-element-queries": "^1.2.3",
     "phoenix-event-display": "^2.0.0",
     "phoenix-ui-components": "^2.0.0",
@@ -48,13 +47,6 @@
     "@angular-devkit/build-ng-packagr": "~0.1002.0",
     "@angular/cli": "~12.1.0",
     "@angular/compiler-cli": "~12.1.0",
-    "@angular/language-service": "^12.1.0",
-    "@types/jasminewd2": "~2.0.9",
-    "codelyzer": "^6.0.2",
-    "jasmine-spec-reporter": "~7.0.0",
-    "karma-coverage": "^2.0.3",
-    "ng-packagr": "^12.1.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~10.0.0"
+    "@angular/language-service": "^12.1.0"
   }
 }
