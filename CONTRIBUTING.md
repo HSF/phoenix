@@ -15,18 +15,18 @@ Once you are decided to start contributing on the repository, take a look at the
 
 ### Code formatting
 
-We use [Prettier](http://github.com/prettier/prettier) as a tool for code formatting which you can set up with your editor with [these instructions](https://prettier.io/docs/en/editors.html). We also have scripts to check and update code with Prettier.
+We use [ESLint](http://github.com/eslint/eslint) for linting of TypeScript code and [Prettier](http://github.com/prettier/prettier) for liting of all other files. You can set up ESLint with your editor following [these instructions](https://eslint.org/docs/user-guide/integrations). We also have scripts to check and update code.
 
-To check if the code is formatted:
+To check:
 
 ```sh
-yarn prettier:check
+yarn lint
 ```
 
-To automatically format the code:
+To update:
 
 ```sh
-yarn prettier:write
+yarn lint:fix
 ```
 
 ## 3. Commit messages

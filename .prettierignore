@@ -53,3 +53,6 @@ Thumbs.db
 # prettier specific
 assets/
 *.md
+
+# ignore typescript files as they are handled with eslint
+*.ts
