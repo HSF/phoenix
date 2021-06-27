@@ -37,26 +37,25 @@ You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](ht
 
 ## Development
 
-For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/), yarn and lerna.
+For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and yarn.
 
-Once you have Node.js and npm (npm comes with Node.js), install yarn and lerna.
+Once you have Node.js and npm (npm comes with Node.js), install yarn.
 
 ```sh
-npm install --global yarn lerna
+npm install --global yarn
 ```
 
 Then run the following commands.
 
 ```sh
-# Install all the required dependencies for both phoenix-event-display
-# and phoenix-app and symlink the packages
-yarn install:dependencies
+# Install all the required dependencies
+yarn install
 
-# Run both packages in development/watch mode
+# Run phoenix-ng in development/watch mode
 yarn start
 ```
 
-Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+Now `phoenix-ng` will start in development/watch mode. Since `phoenix-ng` is linked to the source code of packages `phoenix-event-display` and `phoenix-ui-components` through TypeScript, any changes made to either of the packages will rebuild and hot reload the `phoenix-ng` app. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
 
 ## Docker
 

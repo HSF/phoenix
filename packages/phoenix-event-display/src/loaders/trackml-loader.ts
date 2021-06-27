@@ -54,7 +54,6 @@ export class TrackmlLoader extends PhoenixLoader {
     for (let line = 1; line < data.length; line++) {
       values = data[line].split(',');
       this.particleData.push({
-        // tslint:disable-next-line:radix
         particle_id: parseInt(values[0]),
         vertex_pos: [
           parseFloat(values[1]),
@@ -144,12 +143,10 @@ export class TrackmlLoader extends PhoenixLoader {
       }
       let hitId;
       let particleId;
-      // tslint:disable-next-line:radix
       const stepSize = parseInt(String(this.truthData.length / 10));
       for (let i = 1; i < this.truthData.length; i++) {
         // Now add the truth data - i.e. add the truth hits which match a particle to the particle (unsorted for the moment)
         hitId = i;
-        // tslint:disable-next-line:radix
         particleId = parseInt(this.truthData[i][0]);
         for (let j = 0; j < eventData.Tracks.Particles.length; j++) {
           // console.log(event_data.Tracks.Particles[j]);

@@ -1,10 +1,14 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/phoenix-ng/projects/*"
+  ],
   "scripts": {
-    "start": "lerna run start",
+    "start": "lerna run start --scope phoenix-ng",
+    "start:ssl": "lerna run start:ssl --scope=phoenix-ng",
     "test:coverage": "lerna run test:coverage",
-    "install:dependencies": "lerna bootstrap --ignore phoenix-ui-components && lerna link",
     "release": "lerna publish patch --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
     "release:major": "lerna publish major --create-release github",
@@ -17,6 +21,16 @@
     "docs:coverage": "lerna run docs:coverage --scope phoenix-event-display"
   },
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "@types/jasmine": "^3.7.7",
+    "@types/node": "^15.12.4",
+    "@types/three": "^0.129.1",
+    "jasmine-core": "^3.7.1",
+    "karma": "^6.3.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.1",
+    "typescript": "~4.2.4"
   }
 }
