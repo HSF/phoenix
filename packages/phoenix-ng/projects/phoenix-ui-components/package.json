@@ -14,7 +14,7 @@
     "_theming.scss"
   ],
   "scripts": {
-    "prepublishOnly": "ng build phoenix-ui-components --prod && rm -rf ./dist/package.json"
+    "prepublishOnly": "ng build phoenix-ui-components --configuration production && rm -rf ./dist/package.json"
   },
   "peerDependencies": {
     "@angular/common": "*",
