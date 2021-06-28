@@ -105,6 +105,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#animatePreset">animatePreset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#animateThroughEvent">animateThroughEvent</a>
                             </li>
                             <li>
@@ -146,7 +150,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/three-manager/animations-manager.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/three-manager/animations-manager.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -253,8 +257,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="499"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:499</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="510"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:510</a></div>
                 </td>
             </tr>
 
@@ -349,8 +353,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:151</a></div>
                 </td>
             </tr>
 
@@ -460,8 +464,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="324"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:324</a></div>
                 </td>
             </tr>
 
@@ -597,8 +601,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="489"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:489</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="500"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:500</a></div>
                 </td>
             </tr>
 
@@ -672,6 +676,102 @@ using clipping planes after particle collison.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="animatePreset"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            animatePreset
+                        </b>
+                        <a href="#animatePreset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>animatePreset(animationPreset: <a href="../interfaces/AnimationPreset.html">AnimationPreset</a>, onEnd?: () => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="541"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:541</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Animate scene by animating camera through the scene and animating event collision.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>animationPreset</td>
+                                    <td>
+                                                <code><a href="../interfaces/AnimationPreset.html" target="_self" >AnimationPreset</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Preset for animation including positions to go through and
+event collision animation options.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onEnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function to call when the animation ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="animateThroughEvent"></a>
                     <span class="name">
                         <b>
@@ -692,8 +792,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:80</a></div>
                 </td>
             </tr>
 
@@ -803,8 +903,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="450"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:450</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="461"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:461</a></div>
                 </td>
             </tr>
 
@@ -914,8 +1014,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="401"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:401</a></div>
                 </td>
             </tr>
 
@@ -1071,8 +1171,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:57</a></div>
                 </td>
             </tr>
 
@@ -1191,8 +1291,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="516"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:516</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="527"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:527</a></div>
                 </td>
             </tr>
 
@@ -1277,6 +1377,16 @@ import {
 } from &#x27;three&#x27;;
 import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
+
+/** Type for animation preset. */
+export interface AnimationPreset {
+  /** Positions with duration and easing of each tween forming a path. */
+  positions: { position: number[]; duration: number; easing?: any }[];
+  /** Time after which to start the event collision animation. */
+  animateEventAfterInterval?: number;
+  /** Duration of the event collision. */
+  collisionDuration?: number;
+}
 
 /**
  * Manager for managing animation related operations using three.js and tween.js.
@@ -1419,7 +1529,7 @@ export class AnimationsManager {
     eventData.traverse((eventObject: any) &#x3D;&gt; {
       if (eventObject.geometry) {
         // Animation for extrapolating tracks without changing scale
-        if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27;) {
+        if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; || eventObject.name &#x3D;&#x3D;&#x3D; &#x27;LineHit&#x27;) {
           // Check if geometry drawRange count exists
           let geometryPosCount &#x3D;
             eventObject.geometry?.attributes?.position?.count;
@@ -1593,8 +1703,8 @@ export class AnimationsManager {
     }
 
     // Save the previous clipping setting of the renderer
-    const prevLocalClipping &#x3D; this.rendererManager.getMainRenderer()
-      .localClippingEnabled;
+    const prevLocalClipping &#x3D;
+      this.rendererManager.getMainRenderer().localClippingEnabled;
     if (!prevLocalClipping) {
       this.rendererManager.setLocalClippingEnabled(true);
     }
@@ -1627,7 +1737,8 @@ export class AnimationsManager {
     allTweens[allTweens.length - 1].onComplete(() &#x3D;&gt; {
       // Revert local clipping of the renderer
       if (!prevLocalClipping) {
-        this.rendererManager.getMainRenderer().localClippingEnabled &#x3D; prevLocalClipping /* false */;
+        this.rendererManager.getMainRenderer().localClippingEnabled &#x3D;
+          prevLocalClipping /* false */;
       }
       // Remove the applied clipping planes from the event data objects
       allEventData.traverse((eventObject: any) &#x3D;&gt; {
@@ -1779,6 +1890,41 @@ export class AnimationsManager {
       hitsPositions.push(positions.slice(i, i + 3));
     }
     return hitsPositions;
+  }
+
+  /**
+   * Animate scene by animating camera through the scene and animating event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
+   */
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () &#x3D;&gt; void) {
+    const { positions, animateEventAfterInterval, collisionDuration } &#x3D;
+      animationPreset;
+
+    if (animateEventAfterInterval &amp;&amp; collisionDuration) {
+      // Will be made visible after collision animation ends.
+      this.scene.getObjectByName(SceneManager.EVENT_DATA_ID).visible &#x3D; false;
+      setTimeout(() &#x3D;&gt; {
+        this.animateEventWithCollision(collisionDuration);
+      }, animateEventAfterInterval);
+    }
+
+    const firstTween &#x3D; this.getCameraTween(
+      positions[0].position,
+      positions[0].duration ?? 2000,
+      positions[0].easing
+    );
+
+    let previousTween &#x3D; firstTween;
+    positions.slice(1).forEach(({ position, duration, easing }) &#x3D;&gt; {
+      const tween &#x3D; this.getCameraTween(position, duration ?? 2000, easing);
+      previousTween.chain(tween);
+      previousTween &#x3D; tween;
+    });
+    previousTween.onComplete(onEnd);
+
+    firstTween.start();
   }
 }
 </code></pre>

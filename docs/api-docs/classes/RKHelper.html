@@ -93,6 +93,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#extrapolationLimit">extrapolationLimit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#getTracksWithRungeKutta">getTracksWithRungeKutta</a>
                             </li>
                         </ul>
@@ -138,8 +142,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/helpers/rk-helper.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">src/helpers/rk-helper.ts:44</a></div>
                 </td>
             </tr>
 
@@ -191,12 +195,12 @@
                                     </td>
 
                                     <td>
-                                        <code>() &#x3D;&gt; true</code>
+                                        <code>RKHelper.extrapolationLimit</code>
                                     </td>
 
                                     <td>
                                         <p>Function which returns true until the passed position
-is out of bounds, when it returns false. Default just always returns true.</p>
+is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit</p>
 
                                     </td>
                                 </tr>
@@ -211,6 +215,86 @@ is out of bounds, when it returns false. Default just always returns true.</p>
                     </div>
                     <div class="io-description">
                         <p>An array of track positions.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extrapolationLimit"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            extrapolationLimit
+                        </b>
+                        <a href="#extrapolationLimit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>extrapolationLimit(pos: Vector3)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">src/helpers/rk-helper.ts:14</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function used by the extrapolator to check if the extrapolation should continue.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pos</td>
+                                    <td>
+                                            <code>Vector3</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Location to be tested</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A boolean: true, if the position is in-bounds, false otherwise.</p>
 
                     </div>
                 </td>
@@ -241,8 +325,8 @@ is out of bounds, when it returns false. Default just always returns true.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/helpers/rk-helper.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">src/helpers/rk-helper.ts:24</a></div>
                 </td>
             </tr>
 
@@ -315,6 +399,17 @@ import { CoordinateHelper } from &#x27;./coordinate-helper&#x27;;
  */
 export class RKHelper {
   /**
+   * Function used by the extrapolator to check if the extrapolation should continue.
+   * @param pos Location to be tested
+   * @returns A boolean: true, if the position is in-bounds, false otherwise.
+   */
+  public static extrapolationLimit(pos: Vector3) {
+    if (pos.z &gt; 3000) return false;
+    if (Math.sqrt(pos.x * pos.x + pos.y * pos.y) &gt; 1100) return false;
+    return true;
+  }
+
+  /**
    * Get extrapolated tracks using RungeKutta.
    * @param tracksCollectionsEvent Event containing tracks collections.
    */
@@ -334,13 +429,13 @@ export class RKHelper {
    * Extrapolate tracks using RungeKutta propagator.
    * @param track Track which is to be extrapolated.
    * @param inbounds Function which returns true until the passed position
-   * is out of bounds, when it returns false. Default just always returns true.
+   * is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit
    * @returns An array of track positions.
 
    */
   public static extrapolateTrackPositions(
     track: { dparams: any },
-    inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; () &#x3D;&gt; true
+    inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; RKHelper.extrapolationLimit
   ): any {
     const dparams &#x3D; track.dparams;
     // ATLAS uses mm, MeV
@@ -350,11 +445,15 @@ export class RKHelper {
       theta &#x3D; dparams[3],
       qop &#x3D; dparams[4];
 
+    if (theta &lt; 0) {
+      theta +&#x3D; Math.PI;
+      // TODO - check if we need to flip phi here?
+    }
     let p: number;
     if (qop !&#x3D;&#x3D; 0) {
       p &#x3D; Math.abs(1 / qop);
     } else {
-      p &#x3D; 0;
+      p &#x3D; Number.MAX_VALUE;
     }
     const q &#x3D; Math.round(p * qop);
 
@@ -369,17 +468,12 @@ export class RKHelper {
     const startDir &#x3D; globalMomentum.clone();
     startDir.normalize();
 
-    // if (p &lt; 0.5 ){
-    //   console.log(&quot;Track with very low momentum - not going to try to extrapolate.&quot;)
-    //   return positions;
-    // }
-
     const traj &#x3D; RungeKutta.propagate(
       startPos,
       startDir,
       p,
       q,
-      10,
+      5,
       1500,
       inbounds
     );
