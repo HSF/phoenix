@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0) (2021-06-28)
+
+
+### Bug Fixes
+
+* **app:** apply fixes after updating Angular using CLI ([b2316bf](https://github.com/HSF/phoenix/commit/b2316bfb4485cf3865fd8868f8ac3bde54b62ed9))
+* **app:** clean packages not used in phoenix-ng ([037af62](https://github.com/HSF/phoenix/commit/037af62579394a72dc3ba7777055d6ada3d8908a))
+* **app:** downgrade typescript to 4.2.4 ([cb3bc28](https://github.com/HSF/phoenix/commit/cb3bc28a80f2f47bbef0536ff42b35c2fab9e242))
+* **app:** fix build of phoenix-ui-components ([8a3094d](https://github.com/HSF/phoenix/commit/8a3094d3cc16a95b397f7051e500c1e94af1677d))
+* **app:** fix development serve build and update material ui styles ([dcf8010](https://github.com/HSF/phoenix/commit/dcf8010688179d2be0f6675a4683459958875776))
+* **app:** fix node_modules path in angular config ([3525101](https://github.com/HSF/phoenix/commit/3525101149c6451093afb323cd29e0850f6e4f43))
+* **app:** fix typescript version for angular ([01d8b49](https://github.com/HSF/phoenix/commit/01d8b499df4bead9d30ef2e0db3121ac22ad559f))
+* **app:** improve styles of phoenix menu ([ac0a0c4](https://github.com/HSF/phoenix/commit/ac0a0c46902fcaea7c6d6fc94ad788a0b93a778c))
+* **app:** make config visible with scrollable phoenix menu ([ab42d98](https://github.com/HSF/phoenix/commit/ab42d98e3d949d54665987588b078aab4b20d52a))
+* **app:** remove the full LHCb run3 geometry ([7a0c895](https://github.com/HSF/phoenix/commit/7a0c895270fa44af6b5ba0ab9217f3c493baea72))
+* **app:** update Angular packages and fix compilation bug ([51fd924](https://github.com/HSF/phoenix/commit/51fd924a7d3c5a0a643991ba3b501ab645dd6211))
+* **event-display:** bug when handling out-of-bounds theta ([717304e](https://github.com/HSF/phoenix/commit/717304e724847de0e5f9f027b62ce953ddb543c9))
+* **event-display:** cuts to match pT values ([62ae417](https://github.com/HSF/phoenix/commit/62ae417551e5715f81741942ace34fe89d60aa0c))
+* **event-display:** fix pt scale of compound objects for JiveXML ([a821e42](https://github.com/HSF/phoenix/commit/a821e42064113e3203f2b0aa8845751105d7ba5f))
+* **event-display:** handle track pT as p (scale correctly) ([7b839e3](https://github.com/HSF/phoenix/commit/7b839e333273ad4965de7a34e83b9ffc521f8f33))
+* **event-display:** simplify handling of compound objs needing a track extrapolation ([3daabc5](https://github.com/HSF/phoenix/commit/3daabc5a95ea1384d0f212f52db67b507e92da20))
+* **event-display:** since can scale jets, no longer limit length ([bb41683](https://github.com/HSF/phoenix/commit/bb41683910a2ee8a03f00fef71da86d14aae3f2c))
+
+
+### Features
+
+* **app:** Add the new LHCb run3 geometry into multiple parts ([40139b7](https://github.com/HSF/phoenix/commit/40139b743554b4670be9488c54139ba06e089fdd))
+* **app:** add toggle for AR ([a703bdd](https://github.com/HSF/phoenix/commit/a703bddcbfa5860239a905dc2c160f289a8e633c))
+* **app:** allow scrolling for phoenix menu ([3068d42](https://github.com/HSF/phoenix/commit/3068d4202093f5dcb3e909d909fb2b45aae54be1))
+* **event-display:** add AR manager ([3017ca9](https://github.com/HSF/phoenix/commit/3017ca911e8c636154df8c4ceb441661fe39393f))
+* **event-display:** add docs to AR manager ([5334996](https://github.com/HSF/phoenix/commit/53349963b949c2dc1ef25ae0ed2ccae648f4ffcd))
+* **event-display:** add scene to window EventDisplay object ([07d8633](https://github.com/HSF/phoenix/commit/07d86335a55e30372693640bc32481c3506fd63a))
+* **event-display:** combine repeating code for VR and AR into XR ([50fc5f7](https://github.com/HSF/phoenix/commit/50fc5f77367a898e5a48a2e2f3ec6c67e92749e5))
+* **event-display:** create a common xr-manager ([2700aaf](https://github.com/HSF/phoenix/commit/2700aafc1b561d263ffe5bd55e02075957f69e47))
+* **event-display:** extend ARManager from XRManager ([ae76d4a](https://github.com/HSF/phoenix/commit/ae76d4a0b9a56de07b6dfa75198cc2614ba081db))
+* **event-display:** extend VRManager from XRManager ([15dd07c](https://github.com/HSF/phoenix/commit/15dd07c67972d5920f0234d9da1ac3e5173f96f9))
+* **event-display:** handle camera position differently for AR ([5894cac](https://github.com/HSF/phoenix/commit/5894cac9bf973b3f3db04e5e2753ddd60108f44f))
+* **event-display:** refactor to make general getCompound from getMuon ([dfe8e8d](https://github.com/HSF/phoenix/commit/dfe8e8dd495913c778e9135084c31fe5cb03b816))
+* **event-display:** setup AR with event display ([8e7396f](https://github.com/HSF/phoenix/commit/8e7396fc80e62545989cef1f5b08dbe3731c853c))
+* **event-display:** use new extrapolationLimit of RKHelper and better debug output ([14e4cbb](https://github.com/HSF/phoenix/commit/14e4cbbf1c7c5d0913a164885c15cebb64be0d04))
+* **event-display:** use workaround to manage scale in AR ([a5481e1](https://github.com/HSF/phoenix/commit/a5481e1de384d38bbbd9b54445b871994619f08f))
+* **event-display:** working AR setup in event display ([fdd492a](https://github.com/HSF/phoenix/commit/fdd492ad3efdb3a966c15b7f3fb5ae3d151ab1e0))
+
+
+
+
+
 # [2.0.0](https://github.com/HSF/phoenix/compare/v1.7.0...v2.0.0) (2021-06-08)
 
 
