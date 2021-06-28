@@ -22,8 +22,8 @@ jobs:
         run: |
           yarn install
 
-      - name: Check Prettier
-        run: yarn prettier:check
+      - name: Lint
+        run: yarn lint
 
       - name: Check Documentation Coverage
         run: yarn docs:coverage

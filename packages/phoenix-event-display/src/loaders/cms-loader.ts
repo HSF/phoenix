@@ -49,7 +49,7 @@ export class CMSLoader extends PhoenixLoader {
   ) {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
-    let eventsDataInIg = [];
+    const eventsDataInIg = [];
     const readArchive = (res: File | ArrayBuffer) => {
       igArchive.loadAsync(res).then(() => {
         let allFilesPath = Object.keys(igArchive.files);
@@ -131,7 +131,7 @@ export class CMSLoader extends PhoenixLoader {
   public getEventData(): any {
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
 
-    let eventData = {
+    const eventData = {
       runNumber: eventInfo?.[0],
       eventNumber: eventInfo?.[1],
       ls: eventInfo?.[2],
@@ -155,7 +155,7 @@ export class CMSLoader extends PhoenixLoader {
     eventData.MuonChambers = this.getMuonChambers();
 
     // Undefining object types if there is no event data
-    for (let objectType of [
+    for (const objectType of [
       'Hits',
       'Tracks',
       'Jets',
@@ -176,7 +176,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns An object containing event data for all events.
    */
   public getAllEventsData(allEventsDataFromIg: any[]): any {
-    let allEventsData = {};
+    const allEventsData = {};
     for (const eventData of allEventsDataFromIg) {
       this.data = eventData;
       allEventsData[eventData.eventPath] = this.getEventData();
@@ -191,7 +191,7 @@ export class CMSLoader extends PhoenixLoader {
    */
   private getTrackingClusters(Hits: any): any {
     // These are the collections with point cloud geometries
-    let clusterCollections = [
+    const clusterCollections = [
       'TrackingRecHits_V1',
       'SiStripClusters_V1',
       'SiPixelClusters_V1',
@@ -219,7 +219,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns CaloClusters object containing all CaloClusters collections.
    */
   private getCaloClusters(): any {
-    let caloClustersCollections = ['SuperClusters_V1'];
+    const caloClustersCollections = ['SuperClusters_V1'];
     const CaloClusters = this.getObjectCollections(
       caloClustersCollections,
       (objectParams) => {
@@ -277,7 +277,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns MuonChambers object containing all Muon Chambers collections.
    */
   private getMuonChambers(): any {
-    let muonChambersCollections = ['MatchingCSCs_V1', 'MuonChambers_V1'];
+    const muonChambersCollections = ['MatchingCSCs_V1', 'MuonChambers_V1'];
     const MuonChambers = this.getObjectCollections(
       muonChambersCollections,
       (muonChamberParams) => {
@@ -308,7 +308,7 @@ export class CMSLoader extends PhoenixLoader {
     processObject?: (objectParams: any) => void,
     cuts?: { attribute: string; min?: number; max?: number }[]
   ): any {
-    let ObjectType = {};
+    const ObjectType = {};
 
     // Filter to check if the provided collections are indeed inside the data
     collections = collections.filter((key) => this.data['Collections'][key]);
@@ -319,7 +319,7 @@ export class CMSLoader extends PhoenixLoader {
       const objectAttributes = this.data['Types'][collection];
       // Iterating a single object collection to process all objects
       for (const physicsObject of this.data['Collections'][collection]) {
-        let objectParams = {};
+        const objectParams = {};
         // Filling object params using the given types
         objectAttributes.forEach((attribute, attributeIndex) => {
           objectParams[attribute[0]] = physicsObject[attributeIndex];
@@ -366,7 +366,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns Tracks object containing all Tracks collections.
    */
   private getTracks(): any {
-    let Tracks = {};
+    const Tracks = {};
 
     // All collections with tracks
     let tracksCollections = [
@@ -511,7 +511,7 @@ export class CMSLoader extends PhoenixLoader {
         // Create the track curve
         curve = new QuadraticBezierCurve3(p1, cp1, p2);
 
-        let positions = [];
+        const positions = [];
         // Divide the curve into points to put into positions array
         for (const position of curve.getPoints(24)) {
           // Increasing the scale to fit Phoenix's event display
@@ -536,7 +536,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns Metadata of the event.
    */
   getEventMetadata(): any[] {
-    let metadata = super.getEventMetadata();
+    const metadata = super.getEventMetadata();
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
     if (eventInfo?.[3]) {
       metadata.push({

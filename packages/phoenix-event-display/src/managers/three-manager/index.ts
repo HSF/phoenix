@@ -390,7 +390,7 @@ export class ThreeManager {
    * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(
-    json: string | object,
+    json: string | { [key: string]: any },
     name: string,
     scale?: number,
     doubleSided?: boolean,
@@ -627,12 +627,14 @@ export class ThreeManager {
               this.rotateClipping(180);
             }
             break;
-          case 'KeyV': // shift + "v"
+          case 'KeyV': {
+            // shift + "v"
             const isOrthographicView =
               this.controlsManager.getMainCamera().type ===
               'OrthographicCamera';
             this.swapCameras(!isOrthographicView);
             break;
+          }
         }
       }
     });
@@ -759,47 +761,47 @@ export class ThreeManager {
   public addGeometryFromParameters(parameters: any): void {
     this.loadingManager.addLoadableItem('geom_from_params');
 
-    let scene = this.getSceneManager().getScene();
-    let moduleName = parameters.ModuleName;
-    let moduleXdim = parameters.Xdim;
-    let moduleYdim = parameters.Ydim;
-    let moduleZdim = parameters.Zdim;
-    let numPhiEl = parameters.NumPhiEl;
-    let numZEl = parameters.NumZEl;
-    let radius = parameters.Radius;
+    const scene = this.getSceneManager().getScene();
+    const moduleName = parameters.ModuleName;
+    const moduleXdim = parameters.Xdim;
+    const moduleYdim = parameters.Ydim;
+    const moduleZdim = parameters.Zdim;
+    const numPhiEl = parameters.NumPhiEl;
+    const numZEl = parameters.NumZEl;
+    const radius = parameters.Radius;
 
-    let minZ = parameters.MinZ;
-    let maxZ = parameters.MaxZ;
-    let tiltAngle = parameters.TiltAngle;
-    let ztiltAngle = parameters.ZTiltAngle;
-    let phiOffset = parameters.PhiOffset;
-    let colour = parameters.Colour;
-    let edgecolour = parameters.EdgeColour;
+    const minZ = parameters.MinZ;
+    const maxZ = parameters.MaxZ;
+    const tiltAngle = parameters.TiltAngle;
+    const ztiltAngle = parameters.ZTiltAngle;
+    const phiOffset = parameters.PhiOffset;
+    const colour = parameters.Colour;
+    const edgecolour = parameters.EdgeColour;
     // Make the geometry and material
-    var geometry = new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
-    var material = new MeshBasicMaterial({
+    const geometry = new BoxGeometry(moduleXdim, moduleYdim, moduleZdim);
+    const material = new MeshBasicMaterial({
       color: colour,
       opacity: 0.5,
       transparent: true,
     });
 
-    var zstep = (maxZ - minZ) / numZEl;
-    var phistep = (2 * Math.PI) / numPhiEl;
+    const zstep = (maxZ - minZ) / numZEl;
+    const phistep = (2 * Math.PI) / numPhiEl;
 
-    var z = minZ + zstep / 2;
+    let z = minZ + zstep / 2;
 
-    var halfPi = Math.PI / 2.0;
-    var modulecentre;
-    for (var elZ = 0; elZ < numZEl; elZ++) {
-      var phi = phiOffset;
-      for (var elPhi = 0; elPhi < numPhiEl; elPhi++) {
+    const halfPi = Math.PI / 2.0;
+    let modulecentre;
+    for (let elZ = 0; elZ < numZEl; elZ++) {
+      let phi = phiOffset;
+      for (let elPhi = 0; elPhi < numPhiEl; elPhi++) {
         phi += phistep;
         modulecentre = new Vector3(
           radius * Math.cos(phi),
           radius * Math.sin(phi),
           z
         );
-        var cube = new Mesh(geometry.clone(), material);
+        const cube = new Mesh(geometry.clone(), material);
 
         cube.matrix.makeRotationFromEuler(
           new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle)

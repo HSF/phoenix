@@ -349,7 +349,7 @@ export class EventDisplay {
    * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(
-    json: string | object,
+    json: string | { [key: string]: any },
     name: string,
     menuNodeName?: string,
     scale?: number,
@@ -462,8 +462,8 @@ export class EventDisplay {
    * @param sceneConfiguration Scene configuration containingevent data and detector geometry.
    */
   private loadSceneConfiguration(sceneConfiguration: {
-    eventData: {};
-    geometries: [];
+    eventData: { [key: string]: any };
+    geometries: any[];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
       const { typeFolder, typeFolderPM } =
@@ -541,7 +541,7 @@ export class EventDisplay {
         this.loadOBJGeometry(filename, name, colour, menuNodeName, doubleSided);
       },
       loadJSONGeometry: (
-        json: string | object,
+        json: string | { [key: string]: any },
         name: string,
         menuNodeName: string,
         scale?: number,
@@ -557,7 +557,7 @@ export class EventDisplay {
           initiallyVisible
         );
       },
-      buildGeometryFromParameters: (parameters: object) =>
+      buildGeometryFromParameters: (parameters: { [key: string]: any }) =>
         this.buildGeometryFromParameters(parameters),
       scene: this.getThreeManager().getSceneManager().getScene(),
     };

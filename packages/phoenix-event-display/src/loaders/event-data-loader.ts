@@ -64,5 +64,5 @@ export interface EventDataLoader {
    * Get the object containing labels.
    * @returns The labels object.
    */
-  getLabelsObject(): object;
+  getLabelsObject(): { [key: string]: any };
 }

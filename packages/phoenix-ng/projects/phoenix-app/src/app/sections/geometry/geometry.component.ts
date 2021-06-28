@@ -14,7 +14,7 @@ export class GeometryComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.init({});
-    var parameters = {
+    const parameters = {
       ModuleName: 'Module 2',
       Xdim: 10,
       Ydim: 1,

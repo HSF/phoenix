@@ -11,8 +11,8 @@ export class CoordinateHelper {
    * @returns
    */
   public static anglesAreSane(theta: number, phi: number): boolean {
-    let tmp1 = -Math.PI < phi && Math.PI > phi;
-    let tmp2 = 0 < theta && Math.PI > theta;
+    const tmp1 = -Math.PI < phi && Math.PI > phi;
+    const tmp2 = 0 < theta && Math.PI > theta;
     return tmp1 && tmp2;
   }
 
@@ -49,7 +49,7 @@ export class CoordinateHelper {
     phi: number
   ): Vector3 {
     // Threejs uses theta as azimuthal, so need to reverse.
-    let vector = new Vector3();
+    const vector = new Vector3();
     vector.setFromSphericalCoords(radius, theta, phi);
     vector.applyQuaternion(CoordinateHelper.atlasQuaternion());
     return vector;
@@ -67,7 +67,7 @@ export class CoordinateHelper {
     eta: number,
     phi: number
   ): Vector3 {
-    let vector = new Vector3();
+    const vector = new Vector3();
     // Threejs uses theta as azimuthal, so need to reverse.
     vector.setFromSphericalCoords(radius, this.etaToTheta(eta), phi);
     vector.applyQuaternion(CoordinateHelper.atlasQuaternion());

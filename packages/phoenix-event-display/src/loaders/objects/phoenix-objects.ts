@@ -44,7 +44,7 @@ export class PhoenixObjects {
       trackParams.extended = true;
     }
 
-    let positions = trackParams.pos;
+    const positions = trackParams.pos;
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 2) {
@@ -69,7 +69,7 @@ export class PhoenixObjects {
     }
 
     // const length = 100;
-    let objectColor = trackParams.color
+    const objectColor = trackParams.color
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
@@ -115,7 +115,7 @@ export class PhoenixObjects {
     trackObject.add(lineObject);
 
     // Setting info to the tubeObject and trackObject for selection and cuts
-    for (let object of [tubeObject, trackObject, lineObject]) {
+    for (const object of [tubeObject, trackObject, lineObject]) {
       object.userData = Object.assign({}, trackParams);
       object.name = 'Track';
     }
@@ -139,7 +139,7 @@ export class PhoenixObjects {
       ? jetParams.theta
       : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
-    let length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
+    const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
     const width = length * 0.1;
 
     const sphi = Math.sin(phi);
@@ -232,7 +232,7 @@ export class PhoenixObjects {
     }
 
     // attributes
-    let hitLength = hitsParams.length * coordlength;
+    const hitLength = hitsParams.length * coordlength;
     if (isSimpleArray) length = hitLength; // These are already arrays
     const pointPos = new Float32Array(hitLength);
     let i = 0;
@@ -354,14 +354,14 @@ export class PhoenixObjects {
     const theta = CoordinateHelper.etaToTheta(clusterParams.eta);
     clusterParams.theta = theta;
 
-    let position = CoordinateHelper.sphericalToCartesian(
+    const position = CoordinateHelper.sphericalToCartesian(
       drawZ + drawRadius,
       theta,
       clusterParams.phi
     );
 
     // How to generalise to other experiments? Pass in limit lambda?
-    let cylRadius2 = position.x * position.x + position.y * position.y;
+    const cylRadius2 = position.x * position.x + position.y * position.y;
     if (cylRadius2 > maxR2) {
       position.setLength(
         (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
@@ -389,7 +389,7 @@ export class PhoenixObjects {
    * @returns Planar Calorimeter object.
    */
   public static getPlanarCaloCell(caloCells: any): Object3D {
-    let position = caloCells.pos;
+    const position = caloCells.pos;
     if (!position) {
       return;
     }
@@ -424,7 +424,7 @@ export class PhoenixObjects {
     box.position.copy(boxPosition);
 
     // transforming the box from the z axis to the x,y,z of the plane
-    let qrot = new Quaternion();
+    const qrot = new Quaternion();
     qrot.setFromUnitVectors(
       new Vector3(0, 0, 1),
       new Vector3(...plane.slice(0, 3))

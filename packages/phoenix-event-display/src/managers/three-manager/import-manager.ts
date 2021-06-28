@@ -283,7 +283,7 @@ export class ImportManager {
    * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(
-    json: string | object,
+    json: string | { [key: string]: any },
     name: string,
     callback: (Geometry: Object3D) => any,
     scale?: number,

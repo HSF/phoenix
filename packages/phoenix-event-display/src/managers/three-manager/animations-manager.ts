@@ -93,7 +93,7 @@ export class AnimationsManager {
     const angle = 3 * Math.PI;
     const step = angle / numOfSteps;
 
-    let rotationPositions = [];
+    const rotationPositions = [];
     for (let i = 1; i <= numOfSteps; i++) {
       rotationPositions.push([
         radius * Math.sin(step * i), // x

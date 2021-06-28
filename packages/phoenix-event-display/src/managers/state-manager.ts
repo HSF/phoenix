@@ -76,7 +76,7 @@ export class StateManager {
    * Save the state of the event display as JSON.
    */
   saveStateAsJSON() {
-    const state: object = {
+    const state: { [key: string]: any } = {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
@@ -94,8 +94,9 @@ export class StateManager {
    * Load the state from JSON.
    * @param json JSON for state.
    */
-  loadStateFromJSON(json: string | object) {
-    const jsonData: object = typeof json === 'string' ? JSON.parse(json) : json;
+  loadStateFromJSON(json: string | { [key: string]: any }) {
+    const jsonData: { [key: string]: any } =
+      typeof json === 'string' ? JSON.parse(json) : json;
 
     if (jsonData['phoenixMenu'] && this.phoenixMenuRoot) {
       this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);
