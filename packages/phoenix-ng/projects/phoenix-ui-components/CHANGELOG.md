@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0) (2021-06-28)
+
+
+### Bug Fixes
+
+* **app:** apply fixes after updating Angular using CLI ([b2316bf](https://github.com/HSF/phoenix/commit/b2316bfb4485cf3865fd8868f8ac3bde54b62ed9))
+* **app:** clean packages not used in phoenix-ng ([037af62](https://github.com/HSF/phoenix/commit/037af62579394a72dc3ba7777055d6ada3d8908a))
+* **app:** fix build of phoenix-ui-components ([8a3094d](https://github.com/HSF/phoenix/commit/8a3094d3cc16a95b397f7051e500c1e94af1677d))
+* **app:** fix development serve build and update material ui styles ([dcf8010](https://github.com/HSF/phoenix/commit/dcf8010688179d2be0f6675a4683459958875776))
+* **app:** fix node_modules path in angular config ([3525101](https://github.com/HSF/phoenix/commit/3525101149c6451093afb323cd29e0850f6e4f43))
+* **app:** improve styles of phoenix menu ([ac0a0c4](https://github.com/HSF/phoenix/commit/ac0a0c46902fcaea7c6d6fc94ad788a0b93a778c))
+* **app:** make config visible with scrollable phoenix menu ([ab42d98](https://github.com/HSF/phoenix/commit/ab42d98e3d949d54665987588b078aab4b20d52a))
+
+
+### Features
+
+* **app:** add toggle for AR ([a703bdd](https://github.com/HSF/phoenix/commit/a703bddcbfa5860239a905dc2c160f289a8e633c))
+* **app:** allow scrolling for phoenix menu ([3068d42](https://github.com/HSF/phoenix/commit/3068d4202093f5dcb3e909d909fb2b45aae54be1))
+* **event-display:** combine repeating code for VR and AR into XR ([50fc5f7](https://github.com/HSF/phoenix/commit/50fc5f77367a898e5a48a2e2f3ec6c67e92749e5))
+* **event-display:** extend ARManager from XRManager ([ae76d4a](https://github.com/HSF/phoenix/commit/ae76d4a0b9a56de07b6dfa75198cc2614ba081db))
+
+
+
+
+
 # [2.0.0](https://github.com/HSF/phoenix/compare/v1.7.0...v2.0.0) (2021-06-08)
 
 

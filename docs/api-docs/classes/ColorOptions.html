@@ -136,6 +136,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#applyVertexColorOptions">applyVertexColorOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#colorByMomentum">colorByMomentum</a>
                             </li>
                             <li>
@@ -153,6 +157,10 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#initMomColorOptions">initMomColorOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#onlySelectedColorByOption">onlySelectedColorByOption</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -181,7 +189,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/managers/ui-manager/color-options.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/ui-manager/color-options.ts:74</a></div>
                             </td>
                         </tr>
 
@@ -311,12 +319,17 @@
       initialize: this.initMomColorOptions.bind(this),
       apply: this.applyMomColorOptions.bind(this),
     },
+    {
+      key: ColorByOptionKeys.VERTEX,
+      name: &#x27;Vertex&#x27;,
+      apply: this.applyVertexColorOptions.bind(this),
+    },
   ]</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/ui-manager/color-options.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/ui-manager/color-options.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -359,7 +372,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/managers/ui-manager/color-options.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/managers/ui-manager/color-options.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -393,7 +406,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/ui-manager/color-options.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/managers/ui-manager/color-options.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -427,7 +440,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/ui-manager/color-options.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/ui-manager/color-options.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -461,7 +474,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/ui-manager/color-options.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/ui-manager/color-options.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -509,7 +522,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/managers/ui-manager/color-options.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/ui-manager/color-options.ts:65</a></div>
                             </td>
                         </tr>
 
@@ -543,7 +556,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/ui-manager/color-options.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/ui-manager/color-options.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -587,8 +600,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:176</a></div>
                 </td>
             </tr>
 
@@ -630,8 +643,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="229"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:229</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:246</a></div>
                 </td>
             </tr>
 
@@ -639,6 +652,49 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Apply momentum color options.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="applyVertexColorOptions"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            applyVertexColorOptions
+                        </b>
+                        <a href="#applyVertexColorOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>applyVertexColorOptions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="293"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:293</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Apply color by vertex to tracks.</p>
 </div>
 
                     <div class="io-description">
@@ -673,8 +729,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:256</a></div>
                 </td>
             </tr>
 
@@ -753,8 +809,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="282"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:282</a></div>
                 </td>
             </tr>
 
@@ -833,8 +889,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:150</a></div>
                 </td>
             </tr>
 
@@ -876,8 +932,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:124</a></div>
                 </td>
             </tr>
 
@@ -919,8 +975,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:207</a></div>
                 </td>
             </tr>
 
@@ -928,6 +984,49 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Initialize momentum color options.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onlySelectedColorByOption"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            onlySelectedColorByOption
+                        </b>
+                        <a href="#onlySelectedColorByOption"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onlySelectedColorByOption()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:300</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Show configs of only the currently selected color by option.</p>
 </div>
 
                     <div class="io-description">
@@ -962,8 +1061,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">src/managers/ui-manager/color-options.ts:178</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:193</a></div>
                 </td>
             </tr>
 
@@ -1053,14 +1152,15 @@ import { PhoenixMenuNode } from &#x27;./phoenix-menu/phoenix-menu-node&#x27;;
 export enum ColorByOptionKeys {
   CHARGE &#x3D; &#x27;charge&#x27;,
   MOM &#x3D; &#x27;mom&#x27;,
+  VERTEX &#x3D; &#x27;vertex&#x27;,
 }
 
 /** Type for a single color by option. */
 type ColorByOption &#x3D; {
   key: ColorByOptionKeys;
   name: string;
-  initialize: () &#x3D;&gt; void;
-  apply: () &#x3D;&gt; void;
+  initialize?: () &#x3D;&gt; void;
+  apply?: () &#x3D;&gt; void;
 };
 
 /**
@@ -1089,6 +1189,11 @@ export class ColorOptions {
       name: &#x27;Momentum &#x27; + PrettySymbols.getPrettySymbol(&#x27;mom&#x27;),
       initialize: this.initMomColorOptions.bind(this),
       apply: this.applyMomColorOptions.bind(this),
+    },
+    {
+      key: ColorByOptionKeys.VERTEX,
+      name: &#x27;Vertex&#x27;,
+      apply: this.applyVertexColorOptions.bind(this),
     },
   ];
 
@@ -1133,9 +1238,14 @@ export class ColorOptions {
       color: collectionColor
         ? &#x60;#${collectionColor?.getHexString()}&#x60;
         : undefined,
-      onChange: (value: any) &#x3D;&gt; {
-        this.colorManager.collectionColor(this.collectionName, value);
-      },
+      onChange: (value) &#x3D;&gt;
+        this.colorManager.collectionColor(this.collectionName, value),
+    });
+
+    this.colorOptionsFolder.addConfig(&#x27;button&#x27;, {
+      label: &#x27;Random&#x27;,
+      onClick: () &#x3D;&gt;
+        this.colorManager.collectionColorRandom(this.collectionName),
     });
 
     // Check which color by options are to be included.
@@ -1147,8 +1257,9 @@ export class ColorOptions {
 
       this.initColorByOptions();
       this.colorByOptions.forEach((colorByOption) &#x3D;&gt;
-        colorByOption.initialize()
+        colorByOption.initialize?.()
       );
+      this.onlySelectedColorByOption();
     }
   }
 
@@ -1163,13 +1274,15 @@ export class ColorOptions {
     this.colorOptionsFolder.addConfig(&#x27;select&#x27;, {
       label: &#x27;Color by&#x27;,
       options: this.colorByOptions.map((colorByOption) &#x3D;&gt; colorByOption.name),
-      onChange: (updatedColorByOption: string) &#x3D;&gt; {
+      onChange: (updatedColorByOption) &#x3D;&gt; {
         const newColorByOption &#x3D; this.colorByOptions.find(
           (colorByOption) &#x3D;&gt; colorByOption.name &#x3D;&#x3D;&#x3D; updatedColorByOption
         );
 
         this.selectedColorByOption &#x3D; newColorByOption?.key;
-        newColorByOption?.apply();
+        newColorByOption?.apply?.();
+
+        this.onlySelectedColorByOption();
       },
     });
   }
@@ -1184,8 +1297,9 @@ export class ColorOptions {
     [-1, 0, 1].forEach((chargeValue) &#x3D;&gt; {
       this.colorOptionsFolder.addConfig(&#x27;color&#x27;, {
         label: &#x60;${PrettySymbols.getPrettySymbol(&#x27;charge&#x27;)}&#x3D;${chargeValue}&#x60;,
+        group: ColorByOptionKeys.CHARGE,
         color: this.chargeColors[chargeValue],
-        onChange: (color: any) &#x3D;&gt; {
+        onChange: (color) &#x3D;&gt; {
           this.chargeColors[chargeValue] &#x3D; color;
 
           if (this.selectedColorByOption &#x3D;&#x3D;&#x3D; ColorByOptionKeys.CHARGE) {
@@ -1240,12 +1354,13 @@ export class ColorOptions {
     Object.entries(this.momColors).forEach(([key, momValue]) &#x3D;&gt; {
       this.colorOptionsFolder.addConfig(&#x27;slider&#x27;, {
         label: PrettySymbols.getPrettySymbol(&#x27;mom&#x27;) + &#x27; &#x27; + key,
+        group: ColorByOptionKeys.MOM,
         min: this.momColors.min.value,
         max: this.momColors.max.value,
         value: this.momColors[key].value,
         step: 10,
         allowCustomValue: true,
-        onChange: (sliderValue: number) &#x3D;&gt; {
+        onChange: (sliderValue) &#x3D;&gt; {
           this.momColors[key].value &#x3D; sliderValue;
 
           if (this.selectedColorByOption &#x3D;&#x3D;&#x3D; ColorByOptionKeys.MOM) {
@@ -1257,8 +1372,9 @@ export class ColorOptions {
 
       this.colorOptionsFolder.addConfig(&#x27;color&#x27;, {
         label: PrettySymbols.getPrettySymbol(&#x27;mom&#x27;) + &#x27; &#x27; + key + &#x27; color&#x27;,
+        group: ColorByOptionKeys.MOM,
         color: momValue.color,
-        onChange: (color: any) &#x3D;&gt; {
+        onChange: (color) &#x3D;&gt; {
           this.momColors[key].color &#x3D; color;
 
           if (this.selectedColorByOption &#x3D;&#x3D;&#x3D; ColorByOptionKeys.MOM) {
@@ -1312,6 +1428,28 @@ export class ColorOptions {
     return objectParams?.dparams?.[4]
       ? Math.abs(1 / parseFloat(objectParams?.dparams?.[4]))
       : objectParams?.mom;
+  }
+
+  // Vertex options.
+
+  /**
+   * Apply color by vertex to tracks.
+   */
+  private applyVertexColorOptions() {
+    this.colorManager.colorTracksByVertex(this.collectionName);
+  }
+
+  /**
+   * Show configs of only the currently selected color by option.
+   */
+  private onlySelectedColorByOption() {
+    this.colorOptionsFolder.configs.forEach((config) &#x3D;&gt; {
+      const groupNotSelected &#x3D;
+        config.group !&#x3D;&#x3D; undefined &amp;&amp;
+        config.group !&#x3D;&#x3D; this.selectedColorByOption;
+
+      config.hidden &#x3D; groupNotSelected ? true : false;
+    });
   }
 }
 </code></pre>

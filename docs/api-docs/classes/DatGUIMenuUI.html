@@ -1001,8 +1001,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="356"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:356</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:365</a></div>
                 </td>
             </tr>
 
@@ -1096,8 +1096,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="304"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:304</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="313"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:313</a></div>
                 </td>
             </tr>
 
@@ -1218,8 +1218,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="393"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:393</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="402"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:402</a></div>
                 </td>
             </tr>
 
@@ -1629,12 +1629,15 @@ export class DatGUIMenuUI {
       this.guiParameters[collectionName] &#x3D; {
         show: true,
         color: 0x000000,
+        randomColor: () &#x3D;&gt;
+          this.three.getColorManager().collectionColorRandom(collectionName),
         resetCut: () &#x3D;&gt;
           this.three
             .getSceneManager()
             .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
       };
       const collFolder &#x3D; typeFolder.addFolder(collectionName);
+
       // A boolean toggle for showing/hiding the collection is added to its folder
       const showMenu &#x3D; collFolder
         .add(this.guiParameters[collectionName], &#x27;show&#x27;)
@@ -1645,6 +1648,7 @@ export class DatGUIMenuUI {
           .getSceneManager()
           .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
       );
+
       // A color picker is added to the collection&#x27;s folder
       const colorMenu &#x3D; collFolder
         .addColor(this.guiParameters[collectionName], &#x27;color&#x27;)
@@ -1653,12 +1657,17 @@ export class DatGUIMenuUI {
         this.three.getColorManager().collectionColor(collectionName, value)
       );
       colorMenu.setValue(collectionColor?.getHex());
+      collFolder
+        .add(this.guiParameters[collectionName], &#x27;randomColor&#x27;)
+        .name(&#x27;Random Color&#x27;);
+
       // Cuts menu
       if (cuts) {
         const cutsFolder &#x3D; collFolder.addFolder(&#x27;Cuts&#x27;);
         cutsFolder
           .add(this.guiParameters[collectionName], &#x27;resetCut&#x27;)
           .name(&#x27;Reset cuts&#x27;);
+
         for (const cut of cuts) {
           const minCut &#x3D; cutsFolder
             .add(cut, &#x27;minValue&#x27;, cut.minValue, cut.maxValue)

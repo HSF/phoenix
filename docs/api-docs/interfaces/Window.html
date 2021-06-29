@@ -147,6 +147,8 @@ import { StateManager } from &#x27;./managers/state-manager&#x27;;
 import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
 import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
+import { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
+import { XRSessionType } from &#x27;./managers/three-manager/xr-manager&#x27;;
 
 declare global {
   /**
@@ -228,18 +230,20 @@ export class EventDisplay {
   }
 
   /**
-   * Initialize VR.
-   * @param onSessionEnded Callback when the VR session ends.
+   * Initialize XR.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
+   * @param onSessionEnded Callback when the XR session ends.
    */
-  public initVR(onSessionEnded?: () &#x3D;&gt; void) {
-    this.graphicsLibrary.initVRSession(onSessionEnded);
+  public initXR(xrSessionType: XRSessionType, onSessionEnded?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.initXRSession(xrSessionType, onSessionEnded);
   }
 
   /**
    * End VR and remove VR settings.
+   * @param xrSessionType Type of the XR session. Either AR or VR.
    */
-  public endVR() {
-    this.graphicsLibrary.endVRSession();
+  public endXR(xrSessionType: XRSessionType) {
+    this.graphicsLibrary.endXRSession(xrSessionType);
   }
 
   /**
@@ -250,9 +254,8 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData &#x3D; eventsData;
-    const eventKeys &#x3D; this.configuration.eventDataLoader.getEventsList(
-      eventsData
-    );
+    const eventKeys &#x3D;
+      this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach((callback) &#x3D;&gt; callback(eventKeys));
     return eventKeys;
@@ -604,9 +607,8 @@ export class EventDisplay {
     geometries: [];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const { typeFolder, typeFolderPM } &#x3D; this.ui.addEventDataTypeFolder(
-        objectType
-      );
+      const { typeFolder, typeFolderPM } &#x3D;
+        this.ui.addEventDataTypeFolder(objectType);
       const collections &#x3D; sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
         this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
@@ -698,6 +700,7 @@ export class EventDisplay {
       },
       buildGeometryFromParameters: (parameters: object) &#x3D;&gt;
         this.buildGeometryFromParameters(parameters),
+      scene: this.getThreeManager().getSceneManager().getScene(),
     };
   }
 
@@ -783,6 +786,16 @@ export class EventDisplay {
       tweenDuration,
       onAnimationEnd
     );
+  }
+
+  /**
+   * Animate scene by animating camera through the scene and animating event collision.
+   * @param animationPreset Preset for animation including positions to go through and
+   * event collision animation options.
+   * @param onEnd Function to call when the animation ends.
+   */
+  public animatePreset(animationPreset: AnimationPreset, onEnd?: () &#x3D;&gt; void) {
+    this.graphicsLibrary.animatePreset(animationPreset, onEnd);
   }
 
   /**

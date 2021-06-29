@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ui-components",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Reusable Angular components of the Phoenix event display application.",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
@@ -14,7 +14,8 @@
     "_theming.scss"
   ],
   "scripts": {
-    "prepublishOnly": "ng build phoenix-ui-components --prod && rm -rf ./dist/package.json"
+    "prepublishOnly": "node --eval \"console.error('ERROR: Trying to publish a package that has been compiled by NGCC. This is not allowed.\\nPlease delete and rebuild the package, without compiling with NGCC, before attempting to publish.\\nNote that NGCC may have been run by importing this package into another project that is being built with Ivy enabled.\\n')\" && exit 1",
+    "prepublishOnly__ivy_ngcc_bak": "ng build phoenix-ui-components --configuration production && rm -rf ./dist/package.json"
   },
   "peerDependencies": {
     "@angular/common": "*",
@@ -33,11 +34,20 @@
     "tslib": "^2.0.1"
   },
   "main": "dist/bundles/phoenix-ui-components.umd.js",
+  "module_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
   "module": "dist/fesm2015/phoenix-ui-components.js",
+  "es2015_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
   "es2015": "dist/fesm2015/phoenix-ui-components.js",
   "esm2015": "dist/esm2015/phoenix-ui-components.js",
+  "fesm2015_ivy_ngcc": "__ivy_ngcc__/dist/fesm2015/phoenix-ui-components.js",
   "fesm2015": "dist/fesm2015/phoenix-ui-components.js",
   "typings": "dist/phoenix-ui-components.d.ts",
   "metadata": "dist/phoenix-ui-components.metadata.json",
-  "sideEffects": false
+  "sideEffects": false,
+  "__processed_by_ivy_ngcc__": {
+    "es2015": "12.1.0",
+    "fesm2015": "12.1.0",
+    "module": "12.1.0",
+    "typings": "12.1.0"
+  }
 }

@@ -61,6 +61,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/AnimationsManager.html" data-type="entity-link">AnimationsManager</a>
                             </li>
                             <li class="link">
+                                <a href="classes/ARManager.html" data-type="entity-link">ARManager</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/CMSLoader.html" data-type="entity-link">CMSLoader</a>
                             </li>
                             <li class="link">
@@ -171,6 +174,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <li class="link">
                                 <a href="classes/VRManager.html" data-type="entity-link">VRManager</a>
                             </li>
+                            <li class="link">
+                                <a href="classes/XRManager.html" data-type="entity-link">XRManager</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="chapter">
@@ -181,6 +187,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <span class="icon ion-ios-arrow-down"></span>
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
+                            <li class="link">
+                                <a href="interfaces/AnimationPreset.html" data-type="entity-link">AnimationPreset</a>
+                            </li>
                             <li class="link">
                                 <a href="interfaces/Configuration.html" data-type="entity-link">Configuration</a>
                             </li>

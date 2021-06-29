@@ -89,6 +89,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#anglesAreSane">anglesAreSane</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#atlasQuaternion">atlasQuaternion</a>
                             </li>
                             <li>
@@ -130,6 +134,101 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="anglesAreSane"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            anglesAreSane
+                        </b>
+                        <a href="#anglesAreSane"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>anglesAreSane(theta: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, phi: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:13</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if angles are within range: -PI &lt; phi &lt; PI and 0 &lt; theta &lt; 2PI</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>theta</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>equatorial angle</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>phi</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>azimuthal angle</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="atlasQuaternion"></a>
                     <span class="name">
                         <b>
@@ -150,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">src/helpers/coordinate-helper.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:81</a></div>
                 </td>
             </tr>
 
@@ -194,8 +293,8 @@ Temporary. We will need to make this configurable per experiment.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">src/helpers/coordinate-helper.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:65</a></div>
                 </td>
             </tr>
 
@@ -306,8 +405,8 @@ Applies the necessary rotations to move from threejs native to experimental.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/helpers/coordinate-helper.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:25</a></div>
                 </td>
             </tr>
 
@@ -387,8 +486,8 @@ See definition here: <a href="https://en.wikipedia.org/wiki/Pseudorapidity">http
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/helpers/coordinate-helper.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:46</a></div>
                 </td>
             </tr>
 
@@ -499,8 +598,8 @@ Applies the necessary rotations to move from threejs to experimental.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">src/helpers/coordinate-helper.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">src/helpers/coordinate-helper.ts:35</a></div>
                 </td>
             </tr>
 
@@ -572,6 +671,18 @@ See definition here: <a href="https://en.wikipedia.org/wiki/Pseudorapidity">http
  * Helper methods for coordinate conversions.
  */
 export class CoordinateHelper {
+  /**
+   * Checks if angles are within range: -PI &lt; phi &lt; PI and 0 &lt; theta &lt; 2PI
+   * @param theta equatorial angle
+   * @param phi azimuthal angle
+   * @returns
+   */
+  public static anglesAreSane(theta: number, phi: number): boolean {
+    let tmp1 &#x3D; -Math.PI &lt; phi &amp;&amp; Math.PI &gt; phi;
+    let tmp2 &#x3D; 0 &lt; theta &amp;&amp; Math.PI &gt; theta;
+    return tmp1 &amp;&amp; tmp2;
+  }
+
   /**
    * Convert pseudorapidity eta to spherical coordinate theta.
    * See definition here: https://en.wikipedia.org/wiki/Pseudorapidity
