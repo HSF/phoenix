@@ -255,7 +255,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         };
         if (chi2.length >= i) track.chi2 = chi2[i];
         if (numDoF.length >= i) track.dof = numDoF[i];
-        if (trackAuthor.length >= i) track.author = trackAuthor[i];
+        if (trackAuthor?.length >= i) track.author = trackAuthor[i];
 
         let theta = Math.atan(1 / cotTheta[i]);
 
