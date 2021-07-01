@@ -2604,17 +2604,17 @@ acorn-walk@^7.0.0:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-7.2.0.tgz#0de889a601203909b0fbe07b8938dc21d2e967bc"
   integrity sha512-OPdCF6GsMIP+Az+aWfAAOEt2/+iVDKE7oy6lJ098aoe59oAmK76qV6Gw60SbZ8jHuG2wH058GF4pLFbYamYrVA==
 
-acorn-walk@^8.0.2:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-8.1.0.tgz#d3c6a9faf00987a5e2b9bdb506c2aa76cd707f83"
-  integrity sha512-mjmzmv12YIG/G8JQdQuz2MUDShEJ6teYpT5bmWA4q7iwoGen8xtt3twF3OvzIUl+Q06aWIjvnwQUKvQ6TtMRjg==
+acorn-walk@^8.0.0:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-8.1.1.tgz#3ddab7f84e4a7e2313f6c414c5b7dac85f4e3ebc"
+  integrity sha512-FbJdceMlPHEAWJOILDk1fXD8lnTlEIWFkqtfk+MvmL5q/qlHfN7GEHcsFZWt/Tea9jRNPWUZG4G976nqAAmU9w==
 
 acorn@^7.0.0, acorn@^7.4.0:
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.1.0, acorn@^8.2.1:
+acorn@^8.0.1, acorn@^8.2.1:
   version "8.4.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.4.1.tgz#56c36251fc7cabc7096adc18f05afe814321a28c"
   integrity sha512-asabaBSkEKosYKMITunzX177CXxQ4Q8BSSzMTKD+FefUhipQC70gfW5SiUDhYQ3vk8G+81HqQk7Fv9OXwwn9KA==
@@ -7310,24 +7310,24 @@ karma-source-map-support@1.4.0:
   dependencies:
     source-map-support "^0.5.5"
 
-karma-typescript-es6-transform@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/karma-typescript-es6-transform/-/karma-typescript-es6-transform-5.5.1.tgz#bb1061279e22b0259496c037e3014719cc6b3344"
-  integrity sha512-5iCFir1hLGdWlFEZk5+hfHKu9sDlSEAt1fJO46v8oqElszlMLVjoGQtSzb9E4uWg9fHo7mlRnjFhwM+WKScQHQ==
+karma-typescript-es6-transform@~5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/karma-typescript-es6-transform/-/karma-typescript-es6-transform-5.3.0.tgz#935d7408973d4a9f37c4dd0f3dabde3ce44bff9b"
+  integrity sha512-KNnieZRaRyjV/1aXTremGwqrqRZGS38+JpRvWgAvqcKnP8yEZaSDGqEit7oZ0oQOuD1bbyvaglY+N2f86eYNGg==
   dependencies:
     "@babel/core" "^7.11.1"
     "@babel/preset-env" "^7.11.0"
-    acorn-walk "^8.0.2"
+    acorn-walk "^8.0.0"
     log4js "^6.3.0"
     magic-string "^0.25.7"
 
-karma-typescript@^5.5.1:
-  version "5.5.1"
-  resolved "https://registry.yarnpkg.com/karma-typescript/-/karma-typescript-5.5.1.tgz#3ceb79ecec695c73d2633aff8714524b5440f38f"
-  integrity sha512-iQDh48sHv+1pCO/Fvlz4b6HwcmaTuAzx1H0Q6zkUQMQH+5sjz8GNFB9jVDiDblbZcgdr+luVBk7NGUV5mXj+eg==
+karma-typescript@~5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/karma-typescript/-/karma-typescript-5.3.0.tgz#c5e4345ffd67cc09b9467400cc67cbcb252eafb9"
+  integrity sha512-glx54LQkC4Lnb3zF/bDytWR6ELArQzzlniIvvlElsO7Ym8j0eQV2ATaXHQutczJ3tV+H2snYMDcD5RXkc4gY0w==
   dependencies:
-    acorn "^8.1.0"
-    acorn-walk "^8.0.2"
+    acorn "^8.0.1"
+    acorn-walk "^8.0.0"
     assert "^2.0.0"
     async "^3.0.1"
     browser-resolve "^2.0.0"
