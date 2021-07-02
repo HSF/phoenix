@@ -95,7 +95,7 @@ export class URLOptionsManager {
       this.eventDisplay.getLoadingManager().addLoadableItem('url_event');
       fetch(file)
         .then((res) => (type === 'jivexml' ? res.text() : res.json()))
-        .then((res: object | string) => {
+        .then((res: { [key: string]: any } | string) => {
           if (type === 'jivexml') {
             const loader = new JiveXMLLoader();
             this.configuration.eventDataLoader = loader;

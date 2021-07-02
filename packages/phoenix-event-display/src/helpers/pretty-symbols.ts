@@ -34,7 +34,9 @@ export class PrettySymbols {
    * @param params Object parameters to be pretty printed.
    * @returns New pretty printed parameterss.
    */
-  public static getPrettyParams(params: { [key: string]: any }): object {
+  public static getPrettyParams(params: { [key: string]: any }): {
+    [key: string]: any;
+  } {
     // Create a copy of the params so we don't overwrite the original object
     const paramsCopy = Object.assign({}, params);
     // Go through all the parameters
@@ -54,7 +56,7 @@ export class PrettySymbols {
 
     // Pretty print the dparams if any
     if (paramsCopy?.dparams) {
-      const prettyDParams: object = {};
+      const prettyDParams: { [key: string]: any } = {};
 
       prettyDParams['θ'] = paramsCopy.dparams[3];
       prettyDParams['ϕ'] = paramsCopy.dparams[2];

@@ -84,8 +84,8 @@ export class RungeKutta {
       error_estimate = tryRungeKuttaStep(state.stepSize);
     }
 
-    let fh: number = state.stepSize;
-    let fh2: number = Math.pow(fh, 2);
+    const fh: number = state.stepSize;
+    const fh2: number = Math.pow(fh, 2);
 
     // Update position and momentum
     // state.pos += state.dir * fh + (k1 + k2 + k3) * (fh2 /6)
@@ -132,19 +132,19 @@ export class RungeKutta {
     plength: number = 1000,
     inbounds: (pos: Vector3) => boolean = () => true
   ): { pos: Vector3; dir: Vector3 }[] {
-    let rkState: State = new State();
+    const rkState: State = new State();
     rkState.pos = startPos;
     rkState.dir = startDir;
     rkState.p = p;
     rkState.q = q;
     rkState.maxStepSize = mss;
 
-    let result: { pos: Vector3; dir: Vector3 }[] = [];
+    const result: { pos: Vector3; dir: Vector3 }[] = [];
 
     while (rkState.pathLength < plength) {
       rkState.pathLength += RungeKutta.step(rkState);
       // Cloning state to avoid using the reference
-      let copiedState = JSON.parse(JSON.stringify(rkState));
+      const copiedState = JSON.parse(JSON.stringify(rkState));
       result.push({
         pos: copiedState.pos,
         dir: copiedState.dir,

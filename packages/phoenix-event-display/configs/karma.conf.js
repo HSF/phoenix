@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = function (config) {
   config.set({
     basePath: '../',
@@ -44,6 +45,7 @@ module.exports = function (config) {
         esModuleInterop: true,
         resolveJsonModule: true,
       },
+      exclude: ['node_modules'],
       bundlerOptions: {
         transforms: [
           require('karma-typescript-es6-transform')({

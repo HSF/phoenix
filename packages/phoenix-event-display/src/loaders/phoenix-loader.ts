@@ -578,9 +578,9 @@ export class PhoenixLoader implements EventDataLoader {
     if (!addedTrack) {
       // Let's try to extrapolate one.
       // ATLAS JiveXML have the following: energy, eta, phi, pt
-      let startPos = new Vector3(0, 0, 0);
-      let theta = CoordinateHelper.etaToTheta(params.eta);
-      let p = params.pt / Math.cos(Math.PI / 2 - theta);
+      const startPos = new Vector3(0, 0, 0);
+      const theta = CoordinateHelper.etaToTheta(params.eta);
+      const p = params.pt / Math.cos(Math.PI / 2 - theta);
 
       let q = 0;
       if ('pdgId' in params) {
@@ -588,7 +588,7 @@ export class PhoenixLoader implements EventDataLoader {
       }
 
       // dparams = d0, z0, phi, theta, q/p
-      let trackparams = { dparams: [0, 0, params.phi, theta, q / p] };
+      const trackparams = { dparams: [0, 0, params.phi, theta, q / p] };
 
       const track = PhoenixObjects.getTrack(trackparams);
       if (track) {
@@ -609,7 +609,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @returns Metadata of the event.
    */
   getEventMetadata(): any[] {
-    let metadata = [];
+    const metadata = [];
 
     // Dividing event meta data into groups by keys and label
     // For example, the first array group is for "Run / Event / LS"
@@ -627,7 +627,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     // Iterating the group
     for (const eventDataPropGroup of eventDataPropGroups) {
-      let combinedProps = {};
+      const combinedProps = {};
       // Iterating the props inside a group
       for (const eventDataProp of eventDataPropGroup) {
         // Iterating each possible key of a prop
@@ -688,7 +688,7 @@ export class PhoenixLoader implements EventDataLoader {
    * Get the object containing labels.
    * @returns The labels object.
    */
-  public getLabelsObject(): object {
+  public getLabelsObject(): { [key: string]: any } {
     return this.labelsObject;
   }
 }

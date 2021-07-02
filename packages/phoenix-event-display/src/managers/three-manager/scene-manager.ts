@@ -353,7 +353,7 @@ export class SceneManager {
       height: 1,
     });
 
-    let mesh = new Mesh(
+    const mesh = new Mesh(
       textGeometry,
       new MeshBasicMaterial({
         color: new Color(colour),
@@ -385,7 +385,7 @@ export class SceneManager {
       const labels = ['X', 'Y', 'Z'];
       const colours = [0xff0000, 0x00ff00, 0x0000ff];
       let colourIndex = 0;
-      for (let label of labels) {
+      for (const label of labels) {
         const mesh = this.getText(label, new Color(colours[colourIndex++]));
         this.axisLabels.add(mesh);
       }
@@ -519,7 +519,7 @@ export class SceneManager {
       labelsGroup.remove(labelObject);
     }
 
-    let textMesh = this.getText(label, new Color('#a8a8a8'));
+    const textMesh = this.getText(label, new Color('#a8a8a8'));
     textMesh.position.fromArray(objectPosition.toArray());
     textMesh.name = labelId;
 
@@ -554,7 +554,7 @@ export class SceneManager {
       const etaColour = new Color(0x0000ff);
       for (let eta = -3.0; eta <= 3.0; eta += 1.0) {
         points.push(new Vector3(0, 0, 0));
-        let etaVec = CoordinateHelper.etaPhiToCartesian(
+        const etaVec = CoordinateHelper.etaPhiToCartesian(
           radius,
           eta,
           Math.PI / 2.0
@@ -593,7 +593,7 @@ export class SceneManager {
       const phiradius = radius * 0.9;
       for (let phi = -Math.PI; phi < Math.PI; phi += step) {
         points.push(new Vector3(0, 0, 0));
-        let phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
+        const phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
         const text = this.getText('φ=' + phiLabels[labelIndex++], phiColor);
         text.position.set(phiVec.x, phiVec.y, phiVec.z);
         this.grid.add(text);
@@ -615,13 +615,14 @@ export class SceneManager {
       this.scene.add(this.grid);
 
       // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
+      // eslint-disable-next-line no-constant-condition
       if (false) {
         points = [];
         for (let polar = 0; polar < Math.PI; polar += step) {
           for (let azi = -Math.PI; azi < Math.PI; azi += step) {
             if (polar === 0 && azi > -Math.PI) continue;
             points.push(new Vector3(0, 0, 0));
-            let end = new Vector3(0, 0, 0);
+            const end = new Vector3(0, 0, 0);
             end.setFromSphericalCoords(radius, polar, azi); // For threejs, phi=polar, theta=azimuthal
 
             const v1 = new Vector3(0, 1, 0);

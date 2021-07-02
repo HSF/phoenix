@@ -47,11 +47,11 @@ export class RKHelper {
   ): any {
     const dparams = track.dparams;
     // ATLAS uses mm, MeV
-    let d0 = dparams[0],
-      z0 = dparams[1],
-      phi = dparams[2],
-      theta = dparams[3],
-      qop = dparams[4];
+    const d0 = dparams[0];
+    const z0 = dparams[1];
+    const phi = dparams[2];
+    let theta = dparams[3];
+    const qop = dparams[4];
 
     if (theta < 0) {
       theta += Math.PI;
@@ -65,12 +65,12 @@ export class RKHelper {
     }
     const q = Math.round(p * qop);
 
-    let globalMomentum = CoordinateHelper.sphericalToCartesian(p, theta, phi);
+    const globalMomentum = CoordinateHelper.sphericalToCartesian(p, theta, phi);
 
-    let startPos = CoordinateHelper.sphericalToCartesian(d0, theta, phi);
+    const startPos = CoordinateHelper.sphericalToCartesian(d0, theta, phi);
 
     // Wipe existing positions
-    let positions: number[][] = [];
+    const positions: number[][] = [];
     positions.push([startPos.x, startPos.y, startPos.z]);
 
     const startDir = globalMomentum.clone();

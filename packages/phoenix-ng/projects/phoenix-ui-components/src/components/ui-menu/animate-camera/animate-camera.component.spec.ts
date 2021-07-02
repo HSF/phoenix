@@ -8,7 +8,7 @@ describe('AnimateCameraComponent', () => {
   let component: AnimateCameraComponent;
   let fixture: ComponentFixture<AnimateCameraComponent>;
 
-  let mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
     'animateThroughEvent',
   ]);
 

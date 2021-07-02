@@ -95,7 +95,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   private getNumberArrayFromHTML(collection: Element, key: any) {
     // console.log(collection);
     let array = [];
-    let elements = collection.getElementsByTagName(key);
+    const elements = collection.getElementsByTagName(key);
     if (elements.length) {
       array = elements[0].innerHTML
         .replace(/\r\n|\n|\r/gm, ' ')
@@ -154,7 +154,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   ): void {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
-    let badTracks = {};
+    const badTracks = {};
 
     for (const collection of trackCollections) {
       let trackCollectionName = collection.getAttribute('storeGateKey');
@@ -170,6 +170,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       // then convert to array of numbers
       const tmp = collection.getElementsByTagName('numPolyline');
 
+      let polylineX, polylineY, polylineZ;
       let numPolyline: number[];
       if (tmp.length === 0) {
         console.log(
@@ -181,15 +182,16 @@ export class JiveXMLLoader extends PhoenixLoader {
         numPolyline = this.getNumberArrayFromHTML(collection, 'numPolyline');
 
         const polyLineXHTML = collection.getElementsByTagName('polylineX');
+
         if (polyLineXHTML.length > 0) {
-          var polylineX = polyLineXHTML[0].innerHTML
+          polylineX = polyLineXHTML[0].innerHTML
             .replace(/\r\n|\n|\r/gm, ' ')
             .trim()
             .split(' ')
             .map(Number);
           // Assume the rest are okay.
-          var polylineY = this.getNumberArrayFromHTML(collection, 'polylineY');
-          var polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
+          polylineY = this.getNumberArrayFromHTML(collection, 'polylineY');
+          polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
           numPolyline = null;
@@ -221,11 +223,9 @@ export class JiveXMLLoader extends PhoenixLoader {
         );
       }
 
+      let trackAuthor;
       if (collection.getElementsByTagName('trackAuthor').length) {
-        var trackAuthor = this.getNumberArrayFromHTML(
-          collection,
-          'trackAuthor'
-        );
+        trackAuthor = this.getNumberArrayFromHTML(collection, 'trackAuthor');
       }
 
       let polylineCounter = 0,
@@ -240,7 +240,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         );
       for (let i = 0; i < numOfTracks; i++) {
         let storeTrack = true; // Need to do this because we need to retrieve all info so counters don't go wrong.
-        let debugTrack = false;
+        const debugTrack = false;
         const track = {
           chi2: 0.0,
           dof: 0.0,
@@ -255,7 +255,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         };
         if (chi2.length >= i) track.chi2 = chi2[i];
         if (numDoF.length >= i) track.dof = numDoF[i];
-        if (trackAuthor.length >= i) track.author = trackAuthor[i];
+        if (trackAuthor?.length >= i) track.author = trackAuthor[i];
 
         let theta = Math.atan(1 / cotTheta[i]);
 
@@ -341,6 +341,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.pos = pos;
         }
         if (
+          // eslint-disable-next-line no-constant-condition
           false &&
           numHits.length > 0 &&
           trackCollectionName.includes('Muon')
@@ -348,7 +349,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           // Disable for the moment.
 
           // Now loop over hits, and if possible, see if we can extend the track
-          let measurementPositions = [];
+          const measurementPositions = [];
           if (numHits.length > 0) {
             let hitIdentifier = 0;
             let distance = 0.0;
@@ -374,7 +375,7 @@ export class JiveXMLLoader extends PhoenixLoader {
 
           // This seems to give pretty poor results, so try to filter.
           // Sort radially (sorry cosmics!)
-          let sortedMeasurements = measurementPositions.sort(
+          const sortedMeasurements = measurementPositions.sort(
             (a, b) => a[3] - b[3]
           );
           const minDelta = 250; // tweaked by trial and error
@@ -382,7 +383,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           let rejectedHitCount = 0;
           let lastDistance = maxR + minDelta;
           if (sortedMeasurements.length) {
-            for (let meas of sortedMeasurements) {
+            for (const meas of sortedMeasurements) {
               if (meas[3] > lastDistance + minDelta) {
                 track.pos.push([meas[0], meas[1], meas[2]]);
                 lastDistance = meas[3] + minDelta;
@@ -420,7 +421,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       eventData.Tracks[trackCollectionName] = jsontracks;
       // }
     }
-    for (let error in badTracks) {
+    for (const error in badTracks) {
       if (badTracks[error] > 0)
         console.log(
           badTracks[error] +
@@ -452,7 +453,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.Pixel = [];
 
     for (let i = 0; i < numOfClusters; i++) {
-      let pixel = { pos: [], id: 0, energyLoss: 0 };
+      const pixel = { pos: [], id: 0, energyLoss: 0 };
       pixel.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       pixel.id = id[i];
       pixel.energyLoss = eloss[i];
@@ -486,7 +487,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.SCT = [];
 
     for (let i = 0; i < numOfSCTClusters; i++) {
-      let sct = { pos: [], id: 0, phiModule: 0, side: 0 };
+      const sct = { pos: [], id: 0, phiModule: 0, side: 0 };
       sct.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       sct.id = id[i];
       sct.phiModule = phiModule[i];
@@ -524,7 +525,7 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Hardcoding TRT size here. Could maybe think of generalising this?
     for (let i = 0; i < numOfDC; i++) {
-      let trt = {
+      const trt = {
         pos: [],
         id: 0,
         type: 'Line',
@@ -605,7 +606,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     let radius = 0.0,
       scaling = 0.0;
     for (let i = 0; i < numOfDC; i++) {
-      let muonHit = { pos: [], id: 0, type: 'Line', identifier: '' };
+      const muonHit = { pos: [], id: 0, type: 'Line', identifier: '' };
 
       radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
       scaling = length[i] / radius;
@@ -755,8 +756,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       const temp = []; // Ugh
       let trackIndex = 0;
       for (let i = 0; i < numOfObjects; i++) {
-        let maxIndex = trackIndex + numTracks[i];
-        let thisTrackIndices = [];
+        const maxIndex = trackIndex + numTracks[i];
+        const thisTrackIndices = [];
         for (; trackIndex < maxIndex; trackIndex++) {
           if (trackIndex > trackIndices.length) {
             console.log(

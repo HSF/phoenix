@@ -18,20 +18,19 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup Phoenix
-        run: |
-          yarn install
+      - name: Setup
+        run: yarn install
 
-      - name: Check Prettier
-        run: yarn prettier:check
+      - name: Lint
+        run: yarn lint
 
-      - name: Check Documentation Coverage
-        run: yarn docs:coverage
-
-      - name: Run Tests
+      - name: Test
         run: yarn test:coverage
 
-      - name: Upload Coverage
+      - name: Documentation Coverage
+        run: yarn docs:coverage
+
+      - name: Code Coverage
         uses: coverallsapp/github-action@master
         with:
           path-to-lcov: ./packages/phoenix-ng/coverage/phoenix-ui-components/lcov.info
@@ -43,7 +42,7 @@ jobs:
         id: if_pr
 
       - name: Deploy
-        id: deploy_pr
+        id: deploy
         if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/master' }}
         env:
           PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
@@ -64,7 +63,7 @@ jobs:
           echo "::set-output name=deployment_env::$DEPLOYMENT_ENV"
 
       - name: Create Deployment
-        id: create_pr_deployment
+        id: create_deployment
         if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/master') }}
         uses: octokit/request-action@v2.x
         env:
@@ -73,7 +72,7 @@ jobs:
           route: POST /repos/{repository}/deployments
           repository: ${{ github.repository }}
           ref: ${{ github.ref }}
-          environment: ${{ steps.deploy_pr.outputs.deployment_env }}
+          environment: ${{ steps.deploy.outputs.deployment_env }}
           required_contexts: "[]"
           auto_merge: false
 
@@ -85,10 +84,10 @@ jobs:
         with:
           route: POST /repos/{repository}/deployments/{deployment_id}/statuses
           repository: ${{ github.repository }}
-          deployment_id: ${{ fromJSON(steps.create_pr_deployment.outputs.data).id }}
+          deployment_id: ${{ fromJSON(steps.create_deployment.outputs.data).id }}
           state: success
-          target_url: ${{ steps.deploy_pr.outputs.deployment_url }}
-          description: Deployed to environment ${{ steps.deploy_pr.outputs.deployment_env }}
-          environment: ${{ steps.deploy_pr.outputs.deployment_env }}
-          environment_url: ${{ steps.deploy_pr.outputs.deployment_url }}
+          target_url: ${{ steps.deploy.outputs.deployment_url }}
+          description: Deployed to environment ${{ steps.deploy.outputs.deployment_env }}
+          environment: ${{ steps.deploy.outputs.deployment_env }}
+          environment_url: ${{ steps.deploy.outputs.deployment_url }}
           mediaType: '{ "previews": ["flash", "ant-man"] }'

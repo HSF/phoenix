@@ -169,8 +169,8 @@ export class PhoenixMenuNode {
    * Get current state of the node as an object.
    * @returns State of the node as an object.
    */
-  getNodeState(): object {
-    const phoenixNodeJSON: object = {};
+  getNodeState(): { [key: string]: any } {
+    const phoenixNodeJSON: { [key: string]: any } = {};
 
     phoenixNodeJSON['name'] = this.name;
     phoenixNodeJSON['nodeLevel'] = this.nodeLevel;
@@ -190,7 +190,7 @@ export class PhoenixMenuNode {
    * Load the state of the phoenix menu node from JSON.
    * @param json JSON containing the phoenix menu node state.
    */
-  loadStateFromJSON(json: string | object) {
+  loadStateFromJSON(json: string | { [key: string]: any }) {
     let jsonObject: any;
     if (typeof json === 'string') {
       jsonObject = JSON.parse(json);

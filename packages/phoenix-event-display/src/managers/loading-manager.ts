@@ -63,11 +63,11 @@ export class LoadingManager {
   public onProgress(id: string, progress: number) {
     this.progressItems[id] = progress;
 
-    let totalProgress = Object.values(this.progressItems).reduce(
+    const totalProgress = Object.values(this.progressItems).reduce(
       (acc, val) => acc + val,
       0
     );
-    let totalItems = Object.keys(this.progressItems).length;
+    const totalItems = Object.keys(this.progressItems).length;
 
     const averageProgress = totalProgress / totalItems;
 

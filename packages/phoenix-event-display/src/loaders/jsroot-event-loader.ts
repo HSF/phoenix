@@ -49,7 +49,12 @@ export class JSRootEventLoader extends PhoenixLoader {
             this.processItemsList(object);
           }
           if (i === objects.length) {
-            for (let objectType of ['Hits', 'Tracks', 'Jets', 'CaloClusters']) {
+            for (const objectType of [
+              'Hits',
+              'Tracks',
+              'Jets',
+              'CaloClusters',
+            ]) {
               if (Object.keys(this.fileEventData[objectType]).length === 0) {
                 this.fileEventData[objectType] = undefined;
               }
@@ -69,7 +74,7 @@ export class JSRootEventLoader extends PhoenixLoader {
     if (obj._typename === 'TObjArray' || obj._typename === 'TList') {
       if (!obj.arr) return;
       for (let n = 0; n < obj.arr.length; ++n) {
-        let sobj = obj.arr[n];
+        const sobj = obj.arr[n];
         this.processItemsList(sobj);
       }
     } else if (obj._typename === 'THREE.Mesh') {
@@ -177,7 +182,7 @@ export class JSRootEventLoader extends PhoenixLoader {
 
     const hitArray = [];
 
-    for (var i = 0; i < hit.fN; i += 3) {
+    for (let i = 0; i < hit.fN; i += 3) {
       hitArray.push([hit.fP[i * 3], hit.fP[i * 3 + 1], hit.fP[i * 3 + 2]]);
     }
 

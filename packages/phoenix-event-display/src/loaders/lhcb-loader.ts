@@ -36,14 +36,14 @@ export class LHCbLoader extends PhoenixLoader {
       Tracks: {},
     };
 
-    let part_list = [];
+    const part_list = [];
     const pdata_list = this.data.PARTICLES;
     if (pdata_list) {
       for (let j = 0; j < pdata_list.length; j++) {
-        let pdata = pdata_list[j];
-        let mom =
+        const pdata = pdata_list[j];
+        const mom =
           Math.pow(pdata.px, 2) + Math.pow(pdata.py, 2) + Math.pow(pdata.pz, 2);
-        let part = {
+        const part = {
           particle_id: pdata.name,
           pos: pdata.track,
           mom,
@@ -60,7 +60,7 @@ export class LHCbLoader extends PhoenixLoader {
    * @returns Metadata of the event.
    */
   getEventMetadata(): any[] {
-    let metadata = super.getEventMetadata();
+    const metadata = super.getEventMetadata();
     if (this.data['time']) {
       metadata.push({
         label: 'Data recorded',
