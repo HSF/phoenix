@@ -1,7 +1,7 @@
 import { Camera, Group, Vector3, WebGLRenderer, XRSessionInit } from 'three';
 
 // NOTE: This was created on 28/06/2021
-// It might get outdated given how WebXR is still a work in progress
+// It might become outdated given how WebXR is still a work in progress
 
 // LAST UPDATED ON 29/06/2021
 
@@ -35,7 +35,7 @@ export class XRManager {
    */
   constructor(
     private sessionType: XRSessionType,
-    private sessionInit?: XRSessionInit
+    private sessionInit?: XRSessionInit & { [key: string]: any }
   ) {}
 
   /**

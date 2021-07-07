@@ -1,11 +1,11 @@
-import { PerspectiveCamera, Scene, Vector3 } from 'three';
+import { PerspectiveCamera, Scene } from 'three';
 import { SceneManager } from './scene-manager';
 import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 28/06/2021
-// It might get outdated given how WebXR is still a work in progress
+// It might become outdated given how WebXR is still a work in progress
 
-// LAST UPDATED ON 29/06/2021
+// LAST UPDATED ON 07/07/2021
 
 /**
  * AR manager for AR related operations.
@@ -26,7 +26,10 @@ export class ARManager extends XRManager {
    * @override
    */
   constructor(private scene: Scene, private camera: PerspectiveCamera) {
-    super(XRSessionType.AR);
+    super(XRSessionType.AR, {
+      optionalFeatures: ['dom-overlay'],
+      domOverlay: { root: document.body },
+    });
   }
 
   /**
