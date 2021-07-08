@@ -12,7 +12,7 @@
 * [Phoenix event display](./event-display.md)
 * [Event data loader](./event-data-loader.md)
 * [Using JSROOT](./using-jsroot.md)
-* [Running with VR support](./running-with-vr-support.md)
+* [Running with XR (AR/VR) support](./running-with-xr-support.md)
 
 ## Phoenix architecture
 
