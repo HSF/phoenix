@@ -1,8 +1,13 @@
+<mat-menu #animationPresets>
+  <button mat-menu-item (click)="toggleAr(true)">AR with overlays</button>
+  <button mat-menu-item (click)="toggleAr(false)">AR without overlays</button>
+</mat-menu>
+
 <app-menu-toggle
+  [matMenuTriggerFor]="animationPresets"
   [disabled]="!arSupported"
   [active]="arActive"
   icon="ar"
-  (click)="arSupported && toggleAr()"
   [tooltip]="
     arSupported ? (arActive ? 'Exit AR' : 'Enter AR') : 'AR not supported'
   "

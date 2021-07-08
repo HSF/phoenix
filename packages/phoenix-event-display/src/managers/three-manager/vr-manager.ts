@@ -32,7 +32,8 @@ export class VRManager extends XRManager {
    * @override
    */
   constructor() {
-    super(XRSessionType.VR, {
+    super(XRSessionType.VR);
+    this.sessionInit = () => ({
       optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
     });
   }

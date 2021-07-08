@@ -17,6 +17,7 @@ export enum XRSessionType {
 export class XRManager {
   /** Whether the XR is currently active or not. */
   protected xrActive: boolean = false;
+  protected sessionInit: () => XRSessionInit & { [key: string]: any };
   /** Renderer to set the XR session for. */
   protected renderer: WebGLRenderer;
   /** Currently active XR session. */
@@ -34,8 +35,7 @@ export class XRManager {
    * @param sessionInit Other options for the session like optional features.
    */
   constructor(
-    private sessionType: XRSessionType,
-    private sessionInit?: XRSessionInit & { [key: string]: any }
+    private sessionType: XRSessionType
   ) {}
 
   /**
@@ -55,7 +55,7 @@ export class XRManager {
     const xrType = this.sessionType === XRSessionType.VR ? 'vr' : 'ar';
 
     webXR
-      ?.requestSession(`immersive-${xrType}`, this.sessionInit)
+      ?.requestSession(`immersive-${xrType}`, this.sessionInit?.())
       .then((session: any) => {
         this.onXRSessionStarted.bind(this)(session);
         onSessionStarted?.();

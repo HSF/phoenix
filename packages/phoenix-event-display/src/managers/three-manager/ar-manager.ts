@@ -13,6 +13,8 @@ import { XRManager, XRSessionType } from './xr-manager';
 export class ARManager extends XRManager {
   /** Session type to use for AR. */
   static readonly SESSION_TYPE: string = 'immersive-ar';
+  /** Whether to enable DOM overlay which shows Phoenix overlays on top of the AR scene. */
+  public static enableDomOverlay: boolean = true;
   /** Previous values of scene scale, camera near and camera position. */
   private previousValues = {
     sceneScale: 1,
@@ -26,16 +28,22 @@ export class ARManager extends XRManager {
    * @override
    */
   constructor(private scene: Scene, private camera: PerspectiveCamera) {
-    super(XRSessionType.AR, {
-      optionalFeatures: ['dom-overlay'],
-      domOverlay: { root: document.body },
-    });
+    super(XRSessionType.AR);
+
+    this.previousValues.sceneScale = scene.scale.x;
+    this.previousValues.cameraNear = camera.near;
+    this.sessionInit = () => {
+      return ARManager.enableDomOverlay ? {
+        optionalFeatures: ['dom-overlay'],
+        domOverlay: { root: document.body },
+      } : {};
+    }
   }
 
   /**
    * Callback for when the AR session is started.
-   * @override
    * @param session The AR session.
+   * @override
    */
   protected async onXRSessionStarted(session: any) {
     document.body.style.setProperty('background-color', 'transparent');
