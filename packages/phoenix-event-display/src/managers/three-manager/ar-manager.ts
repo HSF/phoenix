@@ -38,6 +38,7 @@ export class ARManager extends XRManager {
    * @param session The AR session.
    */
   protected async onXRSessionStarted(session: any) {
+    document.body.style.setProperty('background-color', 'transparent');
     this.previousValues.sceneScale = this.scene.scale.x;
     this.previousValues.cameraNear = this.camera.near;
     this.scaleScene(0.00001);
@@ -51,6 +52,7 @@ export class ARManager extends XRManager {
    * @override
    */
   protected onXRSessionEnded() {
+    document.body.style.removeProperty('background-color');
     this.scaleScene(this.previousValues.sceneScale);
     this.camera.near = this.previousValues.cameraNear;
     super.onXRSessionEnded();

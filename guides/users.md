@@ -100,7 +100,7 @@ From left to right, you can access the following functions:
    * **AR mode** : will make Phoenix enter Augmented Reality (AR) mode
    * **Screenshot mode** : will enter screenshot mode by hiding all overlays
    * **Import/export** : allows you to load new event data, or detector geometry (depending on configuration)
-   * **Create shareable link** : opens a dialog for creating a shareable link/URL to the experiment in Phoenix
+   * **Create shareable link** : opens a dialog for creating a shareable link/URL to the experiment
 
 The AR and VR mode will only be available if your device (or headset) supports AR or VR.
 
