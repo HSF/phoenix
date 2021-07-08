@@ -17,6 +17,7 @@ export enum XRSessionType {
 export class XRManager {
   /** Whether the XR is currently active or not. */
   protected xrActive: boolean = false;
+  /** Returns required and optional features when requesting an XR session. */
   protected sessionInit: () => XRSessionInit & { [key: string]: any };
   /** Renderer to set the XR session for. */
   protected renderer: WebGLRenderer;
