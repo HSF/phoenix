@@ -63,7 +63,7 @@ export class ARManager extends XRManager {
       SceneManager.GEOMETRIES_ID,
       SceneManager.LABELS_ID,
     ].forEach((groupName) => {
-      this.scene.getObjectByName(groupName).scale.setScalar(scale);
+      this.scene.getObjectByName(groupName)?.scale.setScalar(scale);
     });
   }
 }
