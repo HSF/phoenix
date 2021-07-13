@@ -1,10 +1,15 @@
-<mat-menu #animationPresets>
-  <button mat-menu-item (click)="toggleAr(true)">AR with overlays</button>
-  <button mat-menu-item (click)="toggleAr(false)">AR without overlays</button>
+<mat-menu #arToggleOptions>
+  <button *ngIf="arSupported" mat-menu-item (click)="toggleAr(true)">
+    AR with overlays
+  </button>
+  <button *ngIf="arSupported" mat-menu-item (click)="toggleAr(false)">
+    AR without overlays
+  </button>
 </mat-menu>
 
 <app-menu-toggle
-  [matMenuTriggerFor]="animationPresets"
+  [matMenuTriggerFor]="arToggleOptions"
+  (click)="!arSupported && (arActive ? toggleAr() : null)"
   [disabled]="!arSupported"
   [active]="arActive"
   icon="ar"
