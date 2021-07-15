@@ -150,7 +150,8 @@ export class PhoenixMenuNode {
     // Apply configs of different config types - manual
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
-    } else if (config.type === 'color' && config?.['color']) {
+    } else if (config.type === 'color' && config?.['color'] && !config.group) {
+      // Ignore color by options with `!config.group`, otherwise the collection color is overridden
       config.onChange?.(config?.['color']);
     } else if (config.type === 'slider' && config?.['value']) {
       config.onChange?.(config?.['value']);
