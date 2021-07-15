@@ -80,7 +80,7 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled ? this.clippingAngle : null,
+        clippingAngle: this.clippingEnabled.value ? this.clippingAngle.value : null,
       },
     };
 
