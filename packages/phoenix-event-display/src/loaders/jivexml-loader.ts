@@ -633,10 +633,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   public getJets(firstEvent: Element, eventData: { Jets: any }) {
     const jetsHTML = firstEvent.getElementsByTagName('Jet');
     const jetCollections = Array.from(jetsHTML);
-    const nameOfCollection = 'AntiKt4TopoJets';
     for (const jetColl of jetCollections) {
-      // Extract the only collection we (currently) care about
-      // if (jetColl.getAttribute("storeGateKey")==nameOfCollection){
       const numOfJets = Number(jetColl.getAttribute('count'));
 
       // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
@@ -644,18 +641,17 @@ export class JiveXMLLoader extends PhoenixLoader {
       const phi = this.getNumberArrayFromHTML(jetColl, 'phi');
       const eta = this.getNumberArrayFromHTML(jetColl, 'eta');
       const energy = this.getNumberArrayFromHTML(jetColl, 'energy');
-
+      const coneR = this.getNumberArrayFromHTML(jetColl, 'coneR');
       const temp = []; // Ugh
       for (let i = 0; i < numOfJets; i++) {
         temp.push({
-          coneR: 0.4,
+          coneR: coneR[i] ? coneR[i] : 0.4, // Set default of 0.4, since some JiveXML files might not have this.
           phi: phi[i],
           eta: eta[i],
           energy: energy[i] * 1000.0,
         });
       }
       eventData.Jets[jetColl.getAttribute('storeGateKey')] = temp;
-      // }
     }
   }
 
