@@ -24,7 +24,9 @@ export class ArToggleComponent {
     } // else AR not supported
   }
 
-  toggleAr() {
+  toggleAr(enableDomOverlay: boolean = true) {
+    ARManager.enableDomOverlay = enableDomOverlay;
+
     // If toggling AR on
     if (!this.arActive) {
       this.eventDisplay.initXR(XRSessionType.AR, () => {

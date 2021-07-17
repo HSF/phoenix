@@ -7,7 +7,7 @@
   * [The Phoenix iconbar](#the-phoenix-iconbar)
     * [Collections info panel](#collections-info-panel)
   * [Keyboard controls](#keyboard-controls)
-  * [VR mode](#vr-mode)
+  * [AR/VR mode](#arvr-mode)
   * [Event display state](#event-display-state)
   * [Labels](#labels)
   * [URL options](#url-options)
@@ -84,8 +84,8 @@ At the bottom of the main view you have the Phoenix iconbar (which can be shown/
 From left to right, you can access the following functions:
 
    * **Zoom** : the plus/minus icons allow you to zoom in and out, respectively
-   * **Pre-defined views** : clicking on this will allow you to access some preset views, and to view/hide the axes
-   * **Auto-rotate** : clicking on this will set the camera orbiting the origin
+   * **View options** : clicking on this will allow you to access some preset views, and to view/hide the axes
+   * **Auto rotate** : clicking on this will set the camera orbiting the origin
    * **Dark/light theme** : switches between dark and light themes
    * **Geometry clipping** : allows you to 'slice' away parts of the geometry in order to view the event data/geometry inside
    * **Orthographic/perspective view** : allows you to switch between different view modes
@@ -93,11 +93,16 @@ From left to right, you can access the following functions:
    * **Object selection** : once enabled, a new window will pop up which will display information about selected objects
    * **Info panel** : shows a window displaying relevant information from Phoenix (for example, about events opened)
    * **Collision animation** : starts a simple animation, simulating a collision and subsequent event data appearing
-   * **Event animation** : starts a simple animation, flying through the detector
+   * **Preset animations** : shows a list of preset animations that can be triggered by clicking on the preset
    * **Collection information** : displays a panel showing textual information about the event data collections (see below)
+   * **Performance mode** : clicking on this will turn on performance mode which makes Phoenix faster but decreases quality
+   * **VR mode** : will make Phoenix enter Virtual Reality (VR) mode
+   * **AR mode** : will make Phoenix enter Augmented Reality (AR) mode
+   * **Screenshot mode** : will enter screenshot mode by hiding all overlays
    * **Import/export** : allows you to load new event data, or detector geometry (depending on configuration)
+   * **Create shareable link** : opens a dialog for creating a shareable link/URL to the experiment
 
-And if you have a AR/VR headset plugged in (or are using it on a smartphone browser which supports this) then you will also see a VR headset icon, which will take you into the Phoenix VR mode (see below)
+The AR and VR mode will only be available if your device (or headset) supports AR or VR.
 
 #### Collections info panel
 
@@ -116,15 +121,18 @@ Phoenix support various keyboard controls:
    * **Shift-C** : enable clipping
    * **Shift-V** : switch between orthographic and perspective
 
-### VR mode
+### AR/VR mode
 
 Phoenix relies on the WebXR functionality of [three.js](https://threejs.org), so before trying it in Phoenix, it would be a good idea to test the VR/AR demos there.
 
-Currently it has been tested on the following devices:
+**VR:** Currently the VR has been tested on the following devices:
 
    * Android smartphones
    * Oculus Quest (make sure you use the Oculus browser - Firefox reality is currently unusably slow)
    * Oculus Rift S (as of writing, the best option seems to be to use google Chrome canary i.e. beta)
+
+**AR:** On Android you will need the latest version of Chrome. On iOS, you will need to use the [WebXR Viewer from Mozilla](https://apps.apple.com/us/app/webxr-viewer/id1295998056) to make AR work.\
+Make sure your device supports AR and is listed here: <https://developers.google.com/ar/devices>
 
 The situation here is rapidly changing, so please let us know if this is out-of-date. Also please note that some features of Phoenix need to be disabled in VR, and it is currently very much a work in progress (help is very much welcomed!).
 

@@ -3,7 +3,7 @@ import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerM
 import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 29/08/2020
-// It might get outdated given how WebXR is still a work in progress
+// It might become outdated given how WebXR is still a work in progress
 
 // LAST UPDATED ON 20/06/2021
 
@@ -32,7 +32,8 @@ export class VRManager extends XRManager {
    * @override
    */
   constructor() {
-    super(XRSessionType.VR, {
+    super(XRSessionType.VR);
+    this.sessionInit = () => ({
       optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
     });
   }

@@ -1,7 +1,7 @@
 import { Camera, Group, Vector3, WebGLRenderer, XRSessionInit } from 'three';
 
 // NOTE: This was created on 28/06/2021
-// It might get outdated given how WebXR is still a work in progress
+// It might become outdated given how WebXR is still a work in progress
 
 // LAST UPDATED ON 29/06/2021
 
@@ -17,6 +17,8 @@ export enum XRSessionType {
 export class XRManager {
   /** Whether the XR is currently active or not. */
   protected xrActive: boolean = false;
+  /** Returns required and optional features when requesting an XR session. */
+  protected sessionInit: () => XRSessionInit & { [key: string]: any };
   /** Renderer to set the XR session for. */
   protected renderer: WebGLRenderer;
   /** Currently active XR session. */
@@ -34,8 +36,7 @@ export class XRManager {
    * @param sessionInit Other options for the session like optional features.
    */
   constructor(
-    private sessionType: XRSessionType,
-    private sessionInit?: XRSessionInit
+    private sessionType: XRSessionType
   ) {}
 
   /**
@@ -55,7 +56,7 @@ export class XRManager {
     const xrType = this.sessionType === XRSessionType.VR ? 'vr' : 'ar';
 
     webXR
-      ?.requestSession(`immersive-${xrType}`, this.sessionInit)
+      ?.requestSession(`immersive-${xrType}`, this.sessionInit?.())
       .then((session: any) => {
         this.onXRSessionStarted.bind(this)(session);
         onSessionStarted?.();

@@ -1,11 +1,11 @@
-import { PerspectiveCamera, Scene, Vector3 } from 'three';
+import { PerspectiveCamera, Scene } from 'three';
 import { SceneManager } from './scene-manager';
 import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 28/06/2021
-// It might get outdated given how WebXR is still a work in progress
+// It might become outdated given how WebXR is still a work in progress
 
-// LAST UPDATED ON 29/06/2021
+// LAST UPDATED ON 07/07/2021
 
 /**
  * AR manager for AR related operations.
@@ -13,6 +13,8 @@ import { XRManager, XRSessionType } from './xr-manager';
 export class ARManager extends XRManager {
   /** Session type to use for AR. */
   static readonly SESSION_TYPE: string = 'immersive-ar';
+  /** Whether to enable DOM overlay which shows Phoenix overlays on top of the AR scene. */
+  public static enableDomOverlay: boolean = true;
   /** Previous values of scene scale, camera near and camera position. */
   private previousValues = {
     sceneScale: 1,
@@ -27,14 +29,24 @@ export class ARManager extends XRManager {
    */
   constructor(private scene: Scene, private camera: PerspectiveCamera) {
     super(XRSessionType.AR);
+
+    this.previousValues.sceneScale = scene.scale.x;
+    this.previousValues.cameraNear = camera.near;
+    this.sessionInit = () => {
+      return ARManager.enableDomOverlay ? {
+        optionalFeatures: ['dom-overlay'],
+        domOverlay: { root: document.body },
+      } : {};
+    }
   }
 
   /**
    * Callback for when the AR session is started.
-   * @override
    * @param session The AR session.
+   * @override
    */
   protected async onXRSessionStarted(session: any) {
+    document.body.style.setProperty('background-color', 'transparent');
     this.previousValues.sceneScale = this.scene.scale.x;
     this.previousValues.cameraNear = this.camera.near;
     this.scaleScene(0.00001);
@@ -48,6 +60,7 @@ export class ARManager extends XRManager {
    * @override
    */
   protected onXRSessionEnded() {
+    document.body.style.removeProperty('background-color');
     this.scaleScene(this.previousValues.sceneScale);
     this.camera.near = this.previousValues.cameraNear;
     super.onXRSessionEnded();
