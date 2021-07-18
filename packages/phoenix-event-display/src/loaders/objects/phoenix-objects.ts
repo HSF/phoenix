@@ -140,7 +140,6 @@ export class PhoenixObjects {
       : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be 'energy' or 'et'
     const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
-    const width = length * 0.1;
 
     const sphi = Math.sin(phi);
     const cphi = Math.cos(phi);
@@ -153,6 +152,8 @@ export class PhoenixObjects {
       0.5 * length * ctheta
     );
 
+    const width = jetParams.coneR ? length * Math.sin(jetParams.coneR) : length * 0.1;
+
     const x = cphi * stheta;
     const y = sphi * stheta;
     const z = ctheta;
@@ -163,7 +164,7 @@ export class PhoenixObjects {
 
     const geometry = new CylinderBufferGeometry(
       width,
-      1,
+      10,
       length,
       50,
       50,
