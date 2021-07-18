@@ -645,7 +645,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       const temp = []; // Ugh
       for (let i = 0; i < numOfJets; i++) {
         temp.push({
-          coneR: coneR[i] ? coneR[i] : 0.4, // Set default of 0.4, since some JiveXML files might not have this.
+          coneR: coneR[i] ?? 0.4, // Set default of 0.4, since some JiveXML files might not have this.
           phi: phi[i],
           eta: eta[i],
           energy: energy[i] * 1000.0,
