@@ -1,12 +1,14 @@
 <app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
 <app-nav></app-nav>
-<app-ui-menu
-  [eventDataImportOptions]="['JSON', 'JIVEXML', 'ZIP']"
-></app-ui-menu>
+<div id="arOverlay">
+  <app-ui-menu
+    [eventDataImportOptions]="['JSON', 'JIVEXML', 'ZIP']"
+  ></app-ui-menu>
+  <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
+</div>
 <app-embed-menu></app-embed-menu>
 <app-experiment-info
   experiment="atlas"
   experimentTagline="ATLAS Experiment at CERN"
 ></app-experiment-info>
-<app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
