@@ -172,7 +172,7 @@ export class PhoenixLoader implements EventDataLoader {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),
         new Cut('eta', -5.0, 5.0, 0.1),
-        new Cut('energy', 0, 100000, 100),
+        new Cut('energy', 0, 600000, 100),
       ];
 
       const addJetsSizeOption = (
