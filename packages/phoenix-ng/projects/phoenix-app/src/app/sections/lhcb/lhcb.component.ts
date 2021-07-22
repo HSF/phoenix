@@ -116,7 +116,7 @@ export class LHCbComponent implements OnInit {
       true
     );
     this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_VP_better_Performance',
+      'assets/geometry/LHCb/LHCb_run3_VP_better_Performance.gltf',
       'VP',
       'BeforeMagnetRegion',
       1,
