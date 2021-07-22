@@ -50,7 +50,7 @@
     "esbuild-loader": "^2.13.1",
     "karma-typescript": "~5.3.0",
     "karma-typescript-es6-transform": "~5.3.0",
-    "webpack": "^5.45.1",
+    "webpack": "^5.46.0",
     "webpack-cli": "^4.7.0"
   }
 }
