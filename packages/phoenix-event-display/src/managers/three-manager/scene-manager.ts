@@ -458,11 +458,10 @@ export class SceneManager {
 
   /**
    * Change the scale of Jets.
-   * @param value Percentage factor by which the Jets are to be scaled.
+   * @param value Factor by which the Jets are to be scaled.
    */
   public scaleJets(value: number) {
     const jets = this.scene.getObjectByName('Jets');
-    value /= 100;
 
     jets.traverse((objectChild: Object3D) => {
       if (objectChild.name === 'Jet') {

@@ -175,31 +175,14 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 600000, 100),
       ];
 
-      const addJetsSizeOption = (
-        typeFolder: any,
-        typeFolderPM: PhoenixMenuNode
-      ) => {
-        const scaleJets = (value: number) => {
-          this.graphicsLibrary.getSceneManager().scaleJets(value);
-        };
-        if (typeFolder) {
-          const sizeMenu = typeFolder
-            .add({ jetsScale: 100 }, 'jetsScale', 1, 200)
-            .name('Jets Size (%)');
-          sizeMenu.onChange(scaleJets);
-        }
-        // Phoenix menu
-        if (typeFolderPM) {
-          typeFolderPM.addConfig('slider', {
-            label: 'Jets Size (%)',
-            value: 100,
-            min: 1,
-            max: 200,
-            allowCustomValue: true,
-            onChange: scaleJets,
-          });
-        }
+      const scaleJets = (value: number) => {
+        this.graphicsLibrary.getSceneManager().scaleJets(value);
       };
+      const addJetsSizeOption = this.addScaleOptions(
+        'jetsScale',
+        'Jets Scale',
+        scaleJets
+      );
 
       this.addObjectType(
         eventData.Jets,
@@ -224,34 +207,16 @@ export class PhoenixLoader implements EventDataLoader {
         new Cut('energy', 0, 10000),
       ];
 
-      const addCaloClusterOptions = (
-        typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode
-      ) => {
-        const scaleCaloClusters = (value: number) => {
-          this.graphicsLibrary
-            .getSceneManager()
-            .scaleChildObjects('CaloClusters', value / 100, 'z');
-        };
-
-        if (typeFolder) {
-          const sizeMenu = typeFolder
-            .add({ caloClustersScale: 100 }, 'caloClustersScale', 1, 400)
-            .name('CaloClusters Size (%)');
-          sizeMenu.onChange(scaleCaloClusters);
-        }
-        // Phoenix menu
-        if (typeFolderPM) {
-          typeFolderPM.addConfig('slider', {
-            label: 'CaloClusters Size (%)',
-            value: 100,
-            min: 1,
-            max: 400,
-            allowCustomValue: true,
-            onChange: scaleCaloClusters,
-          });
-        }
+      const scaleCaloClusters = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('CaloClusters', value, 'z');
       };
+      const addCaloClusterOptions = this.addScaleOptions(
+        'caloClustersScale',
+        'CaloClusters Scale',
+        scaleCaloClusters
+      );
 
       this.addObjectType(
         eventData.CaloClusters,
@@ -267,34 +232,16 @@ export class PhoenixLoader implements EventDataLoader {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [new Cut('energy', 0, 10000)];
 
-      const addPlanarCaloCellsOptions = (
-        typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode
-      ) => {
-        const scalePlanarCaloCells = (value: number) => {
-          this.graphicsLibrary
-            .getSceneManager()
-            .scaleChildObjects('PlanarCaloCells', value / 100, 'z');
-        };
-
-        if (typeFolder) {
-          const sizeMenu = typeFolder
-            .add({ PlanarCaloCellsScale: 100 }, 'PlanarCaloCellsScale', 1, 400)
-            .name('PlanarCaloCells Size (%)');
-          sizeMenu.onChange(scalePlanarCaloCells);
-        }
-
-        if (typeFolderPM) {
-          typeFolderPM.addConfig('slider', {
-            label: 'PlanarCaloCells Size (%)',
-            value: 100,
-            min: 1,
-            max: 400,
-            allowCustomValue: true,
-            onChange: scalePlanarCaloCells,
-          });
-        }
+      const scalePlanarCaloCells = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('PlanarCaloCells', value, 'z');
       };
+      const addPlanarCaloCellsOptions = this.addScaleOptions(
+        'planarCaloCellsScale',
+        'PlanarCaloCells Scale',
+        scalePlanarCaloCells
+      );
 
       for (const collectionName in eventData.PlanarCaloCells) {
         const collection = eventData.PlanarCaloCells[collectionName];
@@ -368,12 +315,25 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.Vertices) {
       const cuts = [new Cut('vertexType', 0, 5)];
+
+      const scaleVertices = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('Vertices', value);
+      };
+      const addVerticesOptions = this.addScaleOptions(
+        'verticesScale',
+        'Vertices Scale',
+        scaleVertices
+      );
+
       this.addObjectType(
         eventData.Vertices,
         PhoenixObjects.getVertex,
         'Vertices',
         false,
-        cuts
+        cuts,
+        addVerticesOptions
       );
     }
 
@@ -690,5 +650,39 @@ export class PhoenixLoader implements EventDataLoader {
    */
   public getLabelsObject(): { [key: string]: any } {
     return this.labelsObject;
+  }
+
+  /**
+   * Get function to add options to scale event object type by.
+   * @param configKey Key of the scale configuration option (for dat.GUI menu).
+   * @param configLabel Label of the scale configuration option.
+   * @param scaleFunction Function to scale the objects by.
+   * @returns Function which adds scale options to Phoenix menu and dat.GUI menu.
+   */
+  public addScaleOptions(
+    configKey: string,
+    configLabel: string,
+    scaleFunction: (value: number) => void
+  ) {
+    return (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) => {
+      if (typeFolder) {
+        const sizeMenu = typeFolder
+          .add({ [configKey]: 1 }, configKey, 0.001, 100)
+          .name(configLabel);
+        sizeMenu.onChange(scaleFunction);
+      }
+      // Phoenix menu
+      if (typeFolderPM) {
+        typeFolderPM.addConfig('slider', {
+          label: configLabel,
+          value: 1,
+          min: 0.001,
+          step: 0.01,
+          max: 100,
+          allowCustomValue: true,
+          onChange: scaleFunction,
+        });
+      }
+    };
   }
 }
