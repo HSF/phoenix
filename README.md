@@ -26,7 +26,7 @@ You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](ht
 
 ## Demo
 
-[![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=75MWVRzVvoY)
+[![Phoenix demo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/video-cover.png)](https://www.youtube.com/watch?v=ETtkZ-mnzgQ)
 
 ## Packages
 
