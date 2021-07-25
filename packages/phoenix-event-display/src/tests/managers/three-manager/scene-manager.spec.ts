@@ -120,7 +120,7 @@ describe('SceneManager', () => {
       sceneManager.getScene().add(jetsGroup);
 
       sceneManager.scaleJets(10);
-      expect(testJet.scale.x).toBe(10 / 100); // In percent
+      expect(testJet.scale.x).toBe(10);
     });
   });
 });
