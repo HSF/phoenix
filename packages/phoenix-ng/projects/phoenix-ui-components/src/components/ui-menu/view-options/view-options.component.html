@@ -1,4 +1,4 @@
-<mat-menu #presetViews>
+<mat-menu #viewOptions>
   <mat-checkbox
     class="mat-menu-item"
     (click)="$event.stopPropagation()"
@@ -24,7 +24,7 @@
 </mat-menu>
 
 <app-menu-toggle
-  [matMenuTriggerFor]="presetViews"
+  [matMenuTriggerFor]="viewOptions"
   tooltip="View options"
   icon="views"
   [active]="false"

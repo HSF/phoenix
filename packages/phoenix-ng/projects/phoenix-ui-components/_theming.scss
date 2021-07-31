@@ -39,10 +39,6 @@ $light-theme: mat.define-light-theme($colors);
   --dat-background-tertiary: #e9e9e9;
   --dat-background-quaternary: #ffffff;
   --dat-border: #f0f0f0;
-
-  .optionsButton.activeIcon {
-    --phoenix-options-icon-path: #00bcd4;
-  }
 }
 
 /* Dark Theme */
@@ -130,7 +126,6 @@ select {
   padding: 0.125rem 0.25rem;
   background-color: var(--phoenix-background-color-tertiary);
   color: var(--phoenix-text-color-secondary);
-  outline: none;
   border: none;
 }
 

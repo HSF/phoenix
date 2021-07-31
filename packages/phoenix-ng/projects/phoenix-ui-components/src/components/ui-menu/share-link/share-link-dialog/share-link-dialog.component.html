@@ -48,16 +48,16 @@
     <h5>Share</h5>
     <div class="share-box my-2">
       <span>{{ shareLink }}</span>
-      <div class="share-box-copy" (click)="copyText(shareLink, $event.target)">
+      <button class="share-box-copy" (click)="copyText(shareLink, $event.target)">
         COPY
-      </div>
+      </button>
     </div>
     <h5>Embed</h5>
     <div class="share-box my-2">
       <span>{{ embedLink }}</span>
-      <div class="share-box-copy" (click)="copyText(embedLink, $event.target)">
+      <button class="share-box-copy" (click)="copyText(embedLink, $event.target)">
         COPY
-      </div>
+      </button>
     </div>
   </div>
   <div mat-dialog-actions>

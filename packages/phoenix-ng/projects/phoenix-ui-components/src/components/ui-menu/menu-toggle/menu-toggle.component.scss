@@ -18,6 +18,10 @@
     &-icon {
       width: 100%;
       height: 100%;
+
+      &.active-icon {
+        --phoenix-options-icon-path: #00bcd4;
+      }
     }
 
     &:hover {
