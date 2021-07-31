@@ -48,14 +48,20 @@
     <h5>Share</h5>
     <div class="share-box my-2">
       <span>{{ shareLink }}</span>
-      <button class="share-box-copy" (click)="copyText(shareLink, $event.target)">
+      <button
+        class="share-box-copy"
+        (click)="copyText(shareLink, $event.target)"
+      >
         COPY
       </button>
     </div>
     <h5>Embed</h5>
     <div class="share-box my-2">
       <span>{{ embedLink }}</span>
-      <button class="share-box-copy" (click)="copyText(embedLink, $event.target)">
+      <button
+        class="share-box-copy"
+        (click)="copyText(embedLink, $event.target)"
+      >
         COPY
       </button>
     </div>

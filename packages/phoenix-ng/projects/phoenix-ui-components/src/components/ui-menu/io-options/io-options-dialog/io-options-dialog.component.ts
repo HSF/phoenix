@@ -36,12 +36,14 @@ export class IOOptionsDialogComponent implements OnInit {
     new ImportOption(
       EventDataFormat.ZIP,
       '.zip',
-      this.handleZipEventDataInput.bind(this)
+      this.handleZipEventDataInput.bind(this),
+      '.zip'
     ),
     new ImportOption(
       EventDataFormat.IG,
       '.ig',
-      this.handleIgEventDataInput.bind(this)
+      this.handleIgEventDataInput.bind(this),
+      '.ig'
     ),
   ];
 
