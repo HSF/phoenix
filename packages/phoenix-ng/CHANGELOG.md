@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0) (2021-08-03)
+
+
+### Bug Fixes
+
+* **app:** add gltf extension to VP geometry ([2ab23d2](https://github.com/HSF/phoenix/commit/2ab23d20d9fc65be05a4aa407537a42c13a3a153))
+* **app:** finalize AR toggle ([3f1d3f5](https://github.com/HSF/phoenix/commit/3f1d3f56d3d3c4a084707b97f7f083dde0d1a15f))
+* **app:** fix VP geometry performance, Rich geometry bug ([04b87ae](https://github.com/HSF/phoenix/commit/04b87ae4b726bacfa05dd5414074afd3cf7a6cac))
+* **app:** make AR toggle buttons unavailable when not supported ([445c0e3](https://github.com/HSF/phoenix/commit/445c0e37be48eb3dc7bcb64b6ad857f8d4541bce))
+* Fix linting issues and update code ([dc7d74a](https://github.com/HSF/phoenix/commit/dc7d74a9bedb86a27fdd8a5326108e20274eafbd))
+
+
+### Features
+
+* **event-display:** add option to scale vertices ([08c8e00](https://github.com/HSF/phoenix/commit/08c8e00a2297adf6e5e36fbbd1096ea7e7ac8660))
+* **event-display:** improve handling of scale option and add it for vertices ([34d9b2c](https://github.com/HSF/phoenix/commit/34d9b2c70f9e2b4cd2df16663c73aa8992a78dc4))
+* update all packages including Angular ([9a88331](https://github.com/HSF/phoenix/commit/9a883317c910e928ef9164b9f5495972426b0494))
+* update packages except Angular ([26eff0e](https://github.com/HSF/phoenix/commit/26eff0ee71bbaed9afa484bfddeaa695044fc447))
+* upgrade all packages ([36486b8](https://github.com/HSF/phoenix/commit/36486b8523ac35a6f9565bba6ffc11252ccb40e6))
+* **app:** option to start AR with or without DOM overlay ([9a6c243](https://github.com/HSF/phoenix/commit/9a6c24311621eaed644da582876345cee04415b0))
+
+
+
+
+
 # [2.1.0](https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0) (2021-06-28)
 
 

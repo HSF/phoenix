@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0) (2021-08-03)
+
+
+### Bug Fixes
+
+* **app:** finalize AR toggle ([3f1d3f5](https://github.com/HSF/phoenix/commit/3f1d3f56d3d3c4a084707b97f7f083dde0d1a15f))
+* **app:** make AR toggle buttons unavailable when not supported ([445c0e3](https://github.com/HSF/phoenix/commit/445c0e37be48eb3dc7bcb64b6ad857f8d4541bce))
+* Fix linting issues and update code ([dc7d74a](https://github.com/HSF/phoenix/commit/dc7d74a9bedb86a27fdd8a5326108e20274eafbd))
+
+
+### Features
+
+* update all packages including Angular ([9a88331](https://github.com/HSF/phoenix/commit/9a883317c910e928ef9164b9f5495972426b0494))
+* update packages except Angular ([26eff0e](https://github.com/HSF/phoenix/commit/26eff0ee71bbaed9afa484bfddeaa695044fc447))
+* **app:** option to start AR with or without DOM overlay ([9a6c243](https://github.com/HSF/phoenix/commit/9a6c24311621eaed644da582876345cee04415b0))
+
+
+
+
+
 # [2.1.0](https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0) (2021-06-28)
 
 
