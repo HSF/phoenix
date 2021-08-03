@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>ScriptLoader</li>
+  <li >ScriptLoader</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/loaders/script-loader.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -90,11 +92,11 @@
                             <li>
                                     <span class="modifier">Static</span>
                                     <span class="modifier">Async</span>
-                                <a href="#loadJSRootScripts">loadJSRootScripts</a>
+                                <a href="#loadJSRootScripts" >loadJSRootScripts</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#loadScript">loadScript</a>
+                                <a href="#loadScript" >loadScript</a>
                             </li>
                         </ul>
                     </td>
@@ -121,11 +123,9 @@
                 <td class="col-md-4">
                     <a name="loadJSRootScripts"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            <span class="modifier">Async</span>
-                            loadJSRootScripts
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span class="modifier">Async</span>
+                        <span ><b>loadJSRootScripts</b></span>
                         <a href="#loadJSRootScripts"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -206,10 +206,8 @@
                 <td class="col-md-4">
                     <a name="loadScript"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            loadScript
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>loadScript</b></span>
                         <a href="#loadScript"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -232,7 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Load a script dynamically from a URL.</p>
+                    <div class="io-description"><p>Load a script dynamically from a URL.
+Defaults to <code>&lt;head&gt;</code> tag.</p>
 </div>
 
                     <div class="io-description">
@@ -459,9 +458,9 @@ export class ScriptLoader {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

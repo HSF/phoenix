@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>ColorManager</li>
+  <li >ColorManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/managers/three-manager/color-manager.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,18 +91,18 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#collectionColor">collectionColor</a>
+                                <a href="#collectionColor" >collectionColor</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#collectionColorRandom">collectionColorRandom</a>
+                                <a href="#collectionColorRandom" >collectionColorRandom</a>
                             </li>
                             <li>
-                                <a href="#colorObjectsByProperty">colorObjectsByProperty</a>
+                                <a href="#colorObjectsByProperty" >colorObjectsByProperty</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#colorTracksByVertex">colorTracksByVertex</a>
+                                <a href="#colorTracksByVertex" >colorTracksByVertex</a>
                             </li>
                         </ul>
                     </td>
@@ -120,7 +122,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(sceneManager: <a href="../classes/SceneManager.html">SceneManager</a>)</code>
+<code>constructor(sceneManager: <a href="../classes/SceneManager.html" target="_self">SceneManager</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -182,10 +184,8 @@
                 <td class="col-md-4">
                     <a name="collectionColor"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            collectionColor
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>collectionColor</b></span>
                         <a href="#collectionColor"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -277,10 +277,8 @@
                 <td class="col-md-4">
                     <a name="collectionColorRandom"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            collectionColorRandom
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>collectionColorRandom</b></span>
                         <a href="#collectionColorRandom"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -356,9 +354,7 @@
                 <td class="col-md-4">
                     <a name="colorObjectsByProperty"></a>
                     <span class="name">
-                        <b>
-                            colorObjectsByProperty
-                        </b>
+                        <span ><b>colorObjectsByProperty</b></span>
                         <a href="#colorObjectsByProperty"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -465,10 +461,8 @@
                 <td class="col-md-4">
                     <a name="colorTracksByVertex"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            colorTracksByVertex
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>colorTracksByVertex</b></span>
                         <a href="#colorTracksByVertex"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -677,9 +671,9 @@ export class ColorManager {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

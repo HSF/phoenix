@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-	      <link rel="stylesheet" href="./styles/style.css">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -33,8 +34,33 @@
 <h1 id="change-log">Change Log</h1>
 <p>All notable changes to this project will be documented in this file.
 See <a href="https://conventionalcommits.org">Conventional Commits</a> for commit guidelines.</p>
-<h1 id="210-2021-06-28"><a href="https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0">2.1.0</a> (2021-06-28)</h1>
+<h1 id="220-2021-08-03"><a href="https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0">2.2.0</a> (2021-08-03)</h1>
 <h3 id="bug-fixes">Bug Fixes</h3>
+<ul>
+<li><strong>event-display:</strong> fix AR not working in playground (<a href="https://github.com/HSF/phoenix/commit/7f35fdbf2a1907cd8f23114f2725360c9823c9a2">7f35fdb</a>)</li>
+<li><strong>event-display:</strong> fix bug in jive xml loader (<a href="https://github.com/HSF/phoenix/commit/39241a4a1e074e3e3c3e5b5b5a04e0dd61f8fc4c">39241a4</a>)</li>
+<li><strong>event-display:</strong> fix collection color not working with load state (<a href="https://github.com/HSF/phoenix/commit/4603dbcf18606da62e1a1649b5b1ea9b0505ea2d">4603dbc</a>)</li>
+<li><strong>event-display:</strong> fix load state throwing error (<a href="https://github.com/HSF/phoenix/commit/16ea0df2805d2b8517fa395008b0de0f6be40c39">16ea0df</a>)</li>
+<li><strong>event-display:</strong> fix tests (<a href="https://github.com/HSF/phoenix/commit/7e9c733a691ee6e66f5fd16cc120d46b4a44aa85">7e9c733</a>)</li>
+<li><strong>event-display:</strong> increase max cut value for jets (<a href="https://github.com/HSF/phoenix/commit/9f4cf7cf0f59744293b6714c447152defeb4c6ea">9f4cf7c</a>), closes <a href="https://github.com/HSF/phoenix/issues/336">#336</a></li>
+<li><strong>event-display:</strong> use coneR, if available, to determine jet width (<a href="https://github.com/HSF/phoenix/commit/d4b62c218b24f40da787648175cb790ad62bcc54">d4b62c2</a>)</li>
+<li>Fix linting issues and update code (<a href="https://github.com/HSF/phoenix/commit/dc7d74a9bedb86a27fdd8a5326108e20274eafbd">dc7d74a</a>)</li>
+</ul>
+<h3 id="features">Features</h3>
+<ul>
+<li><strong>event-display:</strong> add option to scale vertices (<a href="https://github.com/HSF/phoenix/commit/08c8e00a2297adf6e5e36fbbd1096ea7e7ac8660">08c8e00</a>)</li>
+<li><strong>event-display:</strong> improve handling of scale option and add it for vertices (<a href="https://github.com/HSF/phoenix/commit/34d9b2c70f9e2b4cd2df16663c73aa8992a78dc4">34d9b2c</a>)</li>
+<li>update all packages including Angular (<a href="https://github.com/HSF/phoenix/commit/9a883317c910e928ef9164b9f5495972426b0494">9a88331</a>)</li>
+<li>update packages except Angular (<a href="https://github.com/HSF/phoenix/commit/26eff0ee71bbaed9afa484bfddeaa695044fc447">26eff0e</a>)</li>
+<li>upgrade all packages (<a href="https://github.com/HSF/phoenix/commit/36486b8523ac35a6f9565bba6ffc11252ccb40e6">36486b8</a>)</li>
+<li><strong>app:</strong> option to start AR with or without DOM overlay (<a href="https://github.com/HSF/phoenix/commit/9a6c24311621eaed644da582876345cee04415b0">9a6c243</a>)</li>
+<li><strong>event-display:</strong> JiveXML, load coneR (set default if missing). (<a href="https://github.com/HSF/phoenix/commit/867d28a0f98d6a6cf3a4f93289e845452d98bce6">867d28a</a>)</li>
+<li><strong>event-display:</strong> make background transparent in AR mode (<a href="https://github.com/HSF/phoenix/commit/46b8aee4b277dbbce01251c7182c6b8cb081bc50">46b8aee</a>)</li>
+<li><strong>event-display:</strong> use dom overlay for AR (<a href="https://github.com/HSF/phoenix/commit/c897ab331d1b5481ac6c4951040f2eb303800e13">c897ab3</a>)</li>
+<li><strong>event-display:</strong> use DOM overlay for AR (<a href="https://github.com/HSF/phoenix/commit/a5eaa348cec487243c3549d9ff0c94d5ae15c0d5">a5eaa34</a>)</li>
+</ul>
+<h1 id="210-2021-06-28"><a href="https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0">2.1.0</a> (2021-06-28)</h1>
+<h3 id="bug-fixes-1">Bug Fixes</h3>
 <ul>
 <li><strong>app:</strong> clean packages not used in phoenix-ng (<a href="https://github.com/HSF/phoenix/commit/037af62579394a72dc3ba7777055d6ada3d8908a">037af62</a>)</li>
 <li><strong>event-display:</strong> bug when handling out-of-bounds theta (<a href="https://github.com/HSF/phoenix/commit/717304e724847de0e5f9f027b62ce953ddb543c9">717304e</a>)</li>
@@ -44,7 +70,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> simplify handling of compound objs needing a track extrapolation (<a href="https://github.com/HSF/phoenix/commit/3daabc5a95ea1384d0f212f52db67b507e92da20">3daabc5</a>)</li>
 <li><strong>event-display:</strong> since can scale jets, no longer limit length (<a href="https://github.com/HSF/phoenix/commit/bb41683910a2ee8a03f00fef71da86d14aae3f2c">bb41683</a>)</li>
 </ul>
-<h3 id="features">Features</h3>
+<h3 id="features-1">Features</h3>
 <ul>
 <li><strong>event-display:</strong> add AR manager (<a href="https://github.com/HSF/phoenix/commit/3017ca911e8c636154df8c4ceb441661fe39393f">3017ca9</a>)</li>
 <li><strong>event-display:</strong> add docs to AR manager (<a href="https://github.com/HSF/phoenix/commit/53349963b949c2dc1ef25ae0ed2ccae648f4ffcd">5334996</a>)</li>
@@ -61,7 +87,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> working AR setup in event display (<a href="https://github.com/HSF/phoenix/commit/fdd492ad3efdb3a966c15b7f3fb5ae3d151ab1e0">fdd492a</a>)</li>
 </ul>
 <h1 id="200-2021-06-08"><a href="https://github.com/HSF/phoenix/compare/v1.7.0...v2.0.0">2.0.0</a> (2021-06-08)</h1>
-<h3 id="bug-fixes-1">Bug Fixes</h3>
+<h3 id="bug-fixes-2">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> add energy cut, refactor (<a href="https://github.com/HSF/phoenix/commit/000ab78534b3d56cb4416358c2345c34d849254d">000ab78</a>)</li>
 <li><strong>event-display:</strong> attempt to improve robustness of tracks (<a href="https://github.com/HSF/phoenix/commit/689da2983c1751fc96709c781704625dab388ed3">689da29</a>)</li>
@@ -79,7 +105,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li>fix misc errors and improve styles (<a href="https://github.com/HSF/phoenix/commit/124a272fdb2ae75ee5883abdbfb5a2cfb2ef9251">124a272</a>)</li>
 <li><strong>event-display:</strong> rk-helper should use CoordinateHelper (<a href="https://github.com/HSF/phoenix/commit/6085f50a52a8c1fa252833b2c868b2bc5dce227d">6085f50</a>)</li>
 </ul>
-<h3 id="features-1">Features</h3>
+<h3 id="features-2">Features</h3>
 <ul>
 <li><strong>app:</strong> add embed in sharable link constructor (<a href="https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125">8a0c0b1</a>)</li>
 <li><strong>app:</strong> add embed menu with a URL option for embed (<a href="https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808">56c6eff</a>)</li>
@@ -112,7 +138,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-dosplay:</strong> improve processing of PlanarCaloCells in Phoenix loader (<a href="https://github.com/HSF/phoenix/commit/5a8fe9f3f431611760f56806900c132ad3e36b03">5a8fe9f</a>)</li>
 </ul>
 <h1 id="190-2021-05-16"><a href="https://github.com/HSF/phoenix/compare/v1.7.0...v1.9.0">1.9.0</a> (2021-05-16)</h1>
-<h3 id="bug-fixes-2">Bug Fixes</h3>
+<h3 id="bug-fixes-3">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> add energy cut, refactor (<a href="https://github.com/HSF/phoenix/commit/000ab78534b3d56cb4416358c2345c34d849254d">000ab78</a>)</li>
 <li><strong>event-display:</strong> attempt to improve robustness of tracks (<a href="https://github.com/HSF/phoenix/commit/689da2983c1751fc96709c781704625dab388ed3">689da29</a>)</li>
@@ -124,7 +150,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> properly display the PlanarCalorimeters (<a href="https://github.com/HSF/phoenix/commit/f41920b7cb3b88113b02309f2c72463f25d0978f">f41920b</a>)</li>
 <li><strong>event-display:</strong> rk-helper should use CoordinateHelper (<a href="https://github.com/HSF/phoenix/commit/6085f50a52a8c1fa252833b2c868b2bc5dce227d">6085f50</a>)</li>
 </ul>
-<h3 id="features-2">Features</h3>
+<h3 id="features-3">Features</h3>
 <ul>
 <li><strong>app:</strong> add embed in sharable link constructor (<a href="https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125">8a0c0b1</a>)</li>
 <li><strong>app:</strong> add embed menu with a URL option for embed (<a href="https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808">56c6eff</a>)</li>
@@ -151,14 +177,14 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-dosplay:</strong> improve processing of PlanarCaloCells in Phoenix loader (<a href="https://github.com/HSF/phoenix/commit/5a8fe9f3f431611760f56806900c132ad3e36b03">5a8fe9f</a>)</li>
 </ul>
 <h1 id="180-2021-05-01"><a href="https://github.com/HSF/phoenix/compare/v1.7.0...v1.8.0">1.8.0</a> (2021-05-01)</h1>
-<h3 id="bug-fixes-3">Bug Fixes</h3>
+<h3 id="bug-fixes-4">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> better debugging info and prettier (<a href="https://github.com/HSF/phoenix/commit/df9ce07837be2a37885bcf8f2c4061f44922b617">df9ce07</a>)</li>
 <li><strong>event-display:</strong> fix <a href="https://github.com/HSF/phoenix/issues/289">#289</a> cluster rendering (<a href="https://github.com/HSF/phoenix/commit/1a01248cb0940e63273ee89c6317d9acda870759">1a01248</a>)</li>
 <li><strong>event-display:</strong> fixes and improvements for track import from JiveXML (<a href="https://github.com/HSF/phoenix/commit/c92d65f9cfc5dc788f42be71b98cea05e2174561">c92d65f</a>)</li>
 <li><strong>event-display:</strong> rk-helper should use CoordinateHelper (<a href="https://github.com/HSF/phoenix/commit/6085f50a52a8c1fa252833b2c868b2bc5dce227d">6085f50</a>)</li>
 </ul>
-<h3 id="features-3">Features</h3>
+<h3 id="features-4">Features</h3>
 <ul>
 <li><strong>app:</strong> add embed in sharable link constructor (<a href="https://github.com/HSF/phoenix/commit/8a0c0b1b423e7c7b8dd6935a266d6158a8fc5125">8a0c0b1</a>)</li>
 <li><strong>app:</strong> add embed menu with a URL option for embed (<a href="https://github.com/HSF/phoenix/commit/56c6eff388fef027cfbe9e9b0ff0ea4513689808">56c6eff</a>)</li>
@@ -178,14 +204,14 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> use class for color options in UI (<a href="https://github.com/HSF/phoenix/commit/4acca1a801c9650b96518654e79488c5637da503">4acca1a</a>)</li>
 </ul>
 <h1 id="170-2021-04-21"><a href="https://github.com/HSF/phoenix/compare/v1.6.1...v1.7.0">1.7.0</a> (2021-04-21)</h1>
-<h3 id="bug-fixes-4">Bug Fixes</h3>
+<h3 id="bug-fixes-5">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> attempt to improve the output of the track extension by removing close hits (<a href="https://github.com/HSF/phoenix/commit/5bdc5623a2c4ef01a97143d12d9c396dbc57cfa3">5bdc562</a>)</li>
 <li><strong>event-display:</strong> fix drawing of hits (<a href="https://github.com/HSF/phoenix/commit/db3ca8b671bf2fa6bdf2831b8b5641cff74cf5a8">db3ca8b</a>)</li>
 <li><strong>event-display:</strong> handle older json hit format again (<a href="https://github.com/HSF/phoenix/commit/edcd56770fcb865d39592cb3f4d130cd26b3919a">edcd567</a>)</li>
 </ul>
 <h1 id="160-2021-04-18"><a href="https://github.com/HSF/phoenix/compare/v1.5.0...v1.6.0">1.6.0</a> (2021-04-18)</h1>
-<h3 id="bug-fixes-5">Bug Fixes</h3>
+<h3 id="bug-fixes-6">Bug Fixes</h3>
 <ul>
 <li><strong>app:</strong> add sphericalToCartesian method (<a href="https://github.com/HSF/phoenix/commit/bbea6b03023cc56b5572684ec3cfaeb8cf3f0e7f">bbea6b0</a>)</li>
 <li><strong>event-display:</strong> add back in geometrical limits for clusters (<a href="https://github.com/HSF/phoenix/commit/0b95e5b9263442df35f0af6f88694e7e5ee90e90">0b95e5b</a>)</li>
@@ -198,7 +224,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> run prettier (again) (<a href="https://github.com/HSF/phoenix/commit/f279898dd34fe2e79774611397e1860f761f0b54">f279898</a>)</li>
 <li><strong>event-display:</strong> use BufferGeometry for CMS objects with new three.js update (<a href="https://github.com/HSF/phoenix/commit/b8e88b8f88ba543fdbe43c95edf9955efd570780">b8e88b8</a>)</li>
 </ul>
-<h3 id="features-4">Features</h3>
+<h3 id="features-5">Features</h3>
 <ul>
 <li><strong>app:</strong> bind clipping state with UI menu (<a href="https://github.com/HSF/phoenix/commit/40bbba07311d6c23b59d5d5409d190c2721bc395">40bbba0</a>)</li>
 <li><strong>app:</strong> complete dialog for share link and embed (<a href="https://github.com/HSF/phoenix/commit/50c2584107d132e8f7161c28ce4d88479e30c4ed">50c2584</a>)</li>
@@ -232,7 +258,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li>upgrade three.js except for CMSObjects (<a href="https://github.com/HSF/phoenix/commit/0b2dd8a8860ed49feb16a247b52aa0b21452a251">0b2dd8a</a>)</li>
 </ul>
 <h1 id="150-2021-03-24"><a href="https://github.com/HSF/phoenix/compare/v1.4.1...v1.5.0">1.5.0</a> (2021-03-24)</h1>
-<h3 id="bug-fixes-6">Bug Fixes</h3>
+<h3 id="bug-fixes-7">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> catch VR request session error (<a href="https://github.com/HSF/phoenix/commit/d2874b8aed6f0647f5ccb11bfade1f9c1bc1f29c">d2874b8</a>)</li>
 <li><strong>event-display:</strong> fix jsroot loading root file (<a href="https://github.com/HSF/phoenix/commit/8cbcaa5d2e4ba89940d65d217e302e7500305641">8cbcaa5</a>)</li>
@@ -243,7 +269,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> use per physics object color and not collection color (<a href="https://github.com/HSF/phoenix/commit/ac0c4f149c36568b5f172d24656c7d754df7b635">ac0c4f1</a>)</li>
 <li>remove JSROOT source files from repo (<a href="https://github.com/HSF/phoenix/commit/7bcd7bad7bca398242697828ae3189927ff37e89">7bcd7ba</a>)</li>
 </ul>
-<h3 id="features-5">Features</h3>
+<h3 id="features-6">Features</h3>
 <ul>
 <li><strong>app:</strong> ability to import ig archive in CMS (<a href="https://github.com/HSF/phoenix/commit/9540af5d08ab2867e6ef0496a1bd1e3215e91af7">9540af5</a>)</li>
 <li><strong>app:</strong> Add more realistic geometry for ATLAS (<a href="https://github.com/HSF/phoenix/commit/d207bad4f72f9ae5e423c61fa7dc56eebc99c3b7">d207bad</a>)</li>
@@ -253,14 +279,14 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> use latest version of JSROOT (<a href="https://github.com/HSF/phoenix/commit/fbd584edb3dbfd436cdbe18a876c59ec05e43aa4">fbd584e</a>)</li>
 </ul>
 <h1 id="140-2021-02-16"><a href="https://github.com/HSF/phoenix/compare/v1.3.0...v1.4.0">1.4.0</a> (2021-02-16)</h1>
-<h3 id="bug-fixes-7">Bug Fixes</h3>
+<h3 id="bug-fixes-8">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> disable keyboard controls when typing (<a href="https://github.com/HSF/phoenix/commit/4f80bd6c972f2e1291bc62015870ac9b08c077ef">4f80bd6</a>)</li>
 <li><strong>event-display:</strong> improve object selection from uuid and label input (<a href="https://github.com/HSF/phoenix/commit/3475836eacca1485f6dddab8dc049bbb605a5e27">3475836</a>)</li>
 <li><strong>event-display:</strong> persist toggle state of phoenix menu node children (<a href="https://github.com/HSF/phoenix/commit/e96136b8bade393d336a74c607db18d19d139e96">e96136b</a>)</li>
 <li><strong>event-display:</strong> remove rollup config and fix globalThis usage (<a href="https://github.com/HSF/phoenix/commit/e6f69a0e47856dc38409eaea3030595fa5c3065d">e6f69a0</a>)</li>
 </ul>
-<h3 id="features-6">Features</h3>
+<h3 id="features-7">Features</h3>
 <ul>
 <li><strong>event-display:</strong> ability to add 3D label text (<a href="https://github.com/HSF/phoenix/commit/c9d4880c2ef97ee07f16a30ef17c80279c853de3">c9d4880</a>)</li>
 <li><strong>event-display:</strong> add labels configuration to dat.GUI menu (<a href="https://github.com/HSF/phoenix/commit/d677089d49a5fedee4b23bcc690690decef5f8a2">d677089</a>)</li>
@@ -282,7 +308,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li>Update Angular and all packages to latest (<a href="https://github.com/HSF/phoenix/commit/f4c2e31207e890436a6387e2e34ef31e3d0c48a6">f4c2e31</a>)</li>
 </ul>
 <h1 id="130-2021-01-16"><a href="https://github.com/HSF/phoenix/compare/v1.2.0...v1.3.0">1.3.0</a> (2021-01-16)</h1>
-<h3 id="bug-fixes-8">Bug Fixes</h3>
+<h3 id="bug-fixes-9">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> assign the right name to geometry (<a href="https://github.com/HSF/phoenix/commit/b7e8da002548255b0c996ebc91a06918b5819281">b7e8da0</a>)</li>
 <li><strong>event-display:</strong> code improvements (<a href="https://github.com/HSF/phoenix/commit/f94c0e40384ee95f22ba1a92938cf124a6d89a31">f94c0e4</a>)</li>
@@ -293,13 +319,13 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> revert jasmine spec files (<a href="https://github.com/HSF/phoenix/commit/dc140ddf33b083577782f55f4c2a8187c9501d44">dc140dd</a>)</li>
 <li><strong>event-display:</strong> try fixing CMSLoader tests (<a href="https://github.com/HSF/phoenix/commit/789da8b352620d485e80271283f2a133cf7d3323">789da8b</a>)</li>
 </ul>
-<h3 id="features-7">Features</h3>
+<h3 id="features-8">Features</h3>
 <ul>
 <li><strong>event-display:</strong> display size on selection (<a href="https://github.com/HSF/phoenix/commit/6943f792b2eb037dd4ab19b9dc806d75820b2249">6943f79</a>)</li>
 <li><strong>event-display:</strong> hide tube tracks on zoom (<a href="https://github.com/HSF/phoenix/commit/7d606b29214e9f080266ad13502fa1092605a00f">7d606b2</a>)</li>
 </ul>
 <h1 id="120-2020-12-06"><a href="https://github.com/HSF/phoenix/compare/v1.1.0...v1.2.0">1.2.0</a> (2020-12-06)</h1>
-<h3 id="bug-fixes-9">Bug Fixes</h3>
+<h3 id="bug-fixes-10">Bug Fixes</h3>
 <ul>
 <li><strong>event-display:</strong> add Edward&#39;s controller set up (<a href="https://github.com/HSF/phoenix/commit/a6a1c19d696aff6e6c239fef76dcd3c24f4897a1">a6a1c19</a>)</li>
 <li><strong>event-display:</strong> changes to animation loop for VR (<a href="https://github.com/HSF/phoenix/commit/37df19f17b0f6d37229e95dacf295e388dcefbd1">37df19f</a>)</li>
@@ -315,7 +341,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> stop animation loop on home (<a href="https://github.com/HSF/phoenix/commit/c39ecd3d57744e5ad117de6cd0aafc2c81b5c58d">c39ecd3</a>)</li>
 <li><strong>event-display:</strong> update configuration in tests (<a href="https://github.com/HSF/phoenix/commit/18f8db2e7d9cf5ccbcf1111112d4fec0449fa087">18f8db2</a>)</li>
 </ul>
-<h3 id="features-8">Features</h3>
+<h3 id="features-9">Features</h3>
 <ul>
 <li><strong>app:</strong> add toggle for screenshot mode (<a href="https://github.com/HSF/phoenix/commit/22a1ec8903ac80d72f564eca29e49d15cbd411ce">22a1ec8</a>)</li>
 <li><strong>app:</strong> make loader generic (<a href="https://github.com/HSF/phoenix/commit/ff10477b40fae8554813b283a644c6aeb421f88a">ff10477</a>)</li>
@@ -332,7 +358,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> use object to simplify configuration (<a href="https://github.com/HSF/phoenix/commit/4b10452a80aed8e67ddac5d550cc9fd15383bad3">4b10452</a>)</li>
 </ul>
 <h1 id="110-2020-11-07"><a href="https://github.com/HSF/phoenix/compare/v1.0.2...v1.1.0">1.1.0</a> (2020-11-07)</h1>
-<h3 id="bug-fixes-10">Bug Fixes</h3>
+<h3 id="bug-fixes-11">Bug Fixes</h3>
 <ul>
 <li><strong>app:</strong> cut filter failed if value return was zero (<a href="https://github.com/HSF/phoenix/commit/0a26fea050358e0444f6f257b74e9616ce2d0a91">0a26fea</a>)</li>
 <li><strong>app:</strong> cut should be pT, not mom (<a href="https://github.com/HSF/phoenix/commit/73b7c2709bf829516d94e4cf7e90c96b0016fdaf">73b7c27</a>)</li>
@@ -346,7 +372,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> use optional chaining in CMS loader (<a href="https://github.com/HSF/phoenix/commit/cfb1b6a9d49a1b812a6e7d569756a4e65899f5b7">cfb1b6a</a>)</li>
 <li><strong>VR:</strong> Fix bugged scene in VR mode (<a href="https://github.com/HSF/phoenix/commit/9efd9ca6cf814109a8901ce0d80eec90fc765c72">9efd9ca</a>)</li>
 </ul>
-<h3 id="features-9">Features</h3>
+<h3 id="features-10">Features</h3>
 <ul>
 <li><strong>app:</strong> Option to load config from URL in ATLAS (<a href="https://github.com/HSF/phoenix/commit/1906976f763dcb6d7748037e3f9cf4dd5796b230">1906976</a>)</li>
 <li><strong>app:</strong> phoenix-ui-components library (<a href="https://github.com/HSF/phoenix/commit/17909ebfd0e6a788933c85231410d9fa0516a428">17909eb</a>)</li>
@@ -355,7 +381,7 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 <li><strong>event-display:</strong> implicitly load event data from URL (<a href="https://github.com/HSF/phoenix/commit/9e3dc20748559a38289a9cf42da40bd85c72a492">9e3dc20</a>)</li>
 <li><strong>event-display:</strong> state manager for managing event display state for save and load (<a href="https://github.com/HSF/phoenix/commit/7d1ca22f5e9bfa430297597b1d4da116eaf075a2">7d1ca22</a>)</li>
 </ul>
-<h2 id="small102-2020-10-05small"><small>1.0.2 (2020-10-05)</small></h2>
+<h2 id="102-2020-10-05"><small>1.0.2 (2020-10-05)</small></h2>
 <ul>
 <li>Complete deployment set up (<a href="https://github.com/HSF/phoenix/commit/399ac77">399ac77</a>)</li>
 </ul>
@@ -403,9 +429,9 @@ See <a href="https://conventionalcommits.org">Conventional Commits</a> for commi
 
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="./js/menu-wc.js" defer></script>
+       
+       <script type="module" src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
 
        <script src="./js/libs/bootstrap-native.js"></script>
 

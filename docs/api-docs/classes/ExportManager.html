@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>ExportManager</li>
+  <li >ExportManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/managers/three-manager/export-manager.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,23 +91,23 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#exportPhoenixScene">exportPhoenixScene</a>
+                                <a href="#exportPhoenixScene" >exportPhoenixScene</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#exportSceneToOBJ">exportSceneToOBJ</a>
+                                <a href="#exportSceneToOBJ" >exportSceneToOBJ</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#saveEventDataConfiguration">saveEventDataConfiguration</a>
+                                <a href="#saveEventDataConfiguration" >saveEventDataConfiguration</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#saveGeometriesConfiguration">saveGeometriesConfiguration</a>
+                                <a href="#saveGeometriesConfiguration" >saveGeometriesConfiguration</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#saveSceneConfig">saveSceneConfig</a>
+                                <a href="#saveSceneConfig" >saveSceneConfig</a>
                             </li>
                         </ul>
                     </td>
@@ -132,10 +134,8 @@
                 <td class="col-md-4">
                     <a name="exportPhoenixScene"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            exportPhoenixScene
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>exportPhoenixScene</b></span>
                         <a href="#exportPhoenixScene"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -243,10 +243,8 @@
                 <td class="col-md-4">
                     <a name="exportSceneToOBJ"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            exportSceneToOBJ
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>exportSceneToOBJ</b></span>
                         <a href="#exportSceneToOBJ"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -322,10 +320,8 @@
                 <td class="col-md-4">
                     <a name="saveEventDataConfiguration"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            saveEventDataConfiguration
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>saveEventDataConfiguration</b></span>
                         <a href="#saveEventDataConfiguration"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -401,10 +397,8 @@
                 <td class="col-md-4">
                     <a name="saveGeometriesConfiguration"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            saveGeometriesConfiguration
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>saveGeometriesConfiguration</b></span>
                         <a href="#saveGeometriesConfiguration"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -480,10 +474,8 @@
                 <td class="col-md-4">
                     <a name="saveSceneConfig"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            saveSceneConfig
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>saveSceneConfig</b></span>
                         <a href="#saveSceneConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -707,9 +699,9 @@ export class ExportManager {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

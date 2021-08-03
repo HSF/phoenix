@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>PhoenixObjects</li>
+  <li >PhoenixObjects</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/loaders/objects/phoenix-objects.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,41 +91,41 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getCluster">getCluster</a>
+                                <a href="#getCluster" >getCluster</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getHits">getHits</a>
+                                <a href="#getHits" >getHits</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getJet">getJet</a>
+                                <a href="#getJet" >getJet</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getMissingEnergy">getMissingEnergy</a>
+                                <a href="#getMissingEnergy" >getMissingEnergy</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getPlanarCaloCell">getPlanarCaloCell</a>
+                                <a href="#getPlanarCaloCell" >getPlanarCaloCell</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getTrack">getTrack</a>
+                                <a href="#getTrack" >getTrack</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getVertex">getVertex</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#hitsToLines">hitsToLines</a>
+                                <a href="#getVertex" >getVertex</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Static</span>
-                                <a href="#hitsToPoints">hitsToPoints</a>
+                                <a href="#hitsToLines" >hitsToLines</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#hitsToPoints" >hitsToPoints</a>
                             </li>
                         </ul>
                     </td>
@@ -150,10 +152,8 @@
                 <td class="col-md-4">
                     <a name="getCluster"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getCluster
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getCluster</b></span>
                         <a href="#getCluster"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -168,8 +168,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:340</a></div>
                 </td>
             </tr>
 
@@ -230,10 +230,8 @@
                 <td class="col-md-4">
                     <a name="getHits"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getHits
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getHits</b></span>
                         <a href="#getHits"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -248,15 +246,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="197"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:197</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Process the Hits from the given parameters and get them as a geometry.</p>
+                    <div class="io-description"><p>Process the Hits from the given parameters and get them as a geometry.
+Can optionally contain extraInfo, which will be added to the resultant hit.
+<code>type</code> tells Phoenix how to draw this - currently can be Point (default), or Line.</p>
 </div>
 
                     <div class="io-description">
@@ -312,10 +312,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getJet"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getJet
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getJet</b></span>
                         <a href="#getJet"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -392,10 +390,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getMissingEnergy"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getMissingEnergy
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getMissingEnergy</b></span>
                         <a href="#getMissingEnergy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -410,8 +406,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="473"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:473</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="474"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:474</a></div>
                 </td>
             </tr>
 
@@ -472,10 +468,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getPlanarCaloCell"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getPlanarCaloCell
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getPlanarCaloCell</b></span>
                         <a href="#getPlanarCaloCell"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -490,8 +484,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="391"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:391</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="392"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:392</a></div>
                 </td>
             </tr>
 
@@ -552,10 +546,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getTrack"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getTrack
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getTrack</b></span>
                         <a href="#getTrack"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -633,10 +625,8 @@ and get it as a geometry.</p>
                 <td class="col-md-4">
                     <a name="getVertex"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getVertex
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getVertex</b></span>
                         <a href="#getVertex"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -651,8 +641,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:447</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="448"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:448</a></div>
                 </td>
             </tr>
 
@@ -713,11 +703,9 @@ and get it as a geometry.</p>
                 <td class="col-md-4">
                     <a name="hitsToLines"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
-                            hitsToLines
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>hitsToLines</b></span>
                         <a href="#hitsToLines"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -732,8 +720,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:309</a></div>
                 </td>
             </tr>
 
@@ -824,11 +812,9 @@ and get it as a geometry.</p>
                 <td class="col-md-4">
                     <a name="hitsToPoints"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
-                            hitsToPoints
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>hitsToPoints</b></span>
                         <a href="#hitsToPoints"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -843,8 +829,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="276"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:276</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:277</a></div>
                 </td>
             </tr>
 
@@ -985,7 +971,7 @@ export class PhoenixObjects {
       trackParams.extended &#x3D; true;
     }
 
-    let positions &#x3D; trackParams.pos;
+    const positions &#x3D; trackParams.pos;
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length &lt; 2) {
@@ -1010,7 +996,7 @@ export class PhoenixObjects {
     }
 
     // const length &#x3D; 100;
-    let objectColor &#x3D; trackParams.color
+    const objectColor &#x3D; trackParams.color
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
@@ -1056,7 +1042,7 @@ export class PhoenixObjects {
     trackObject.add(lineObject);
 
     // Setting info to the tubeObject and trackObject for selection and cuts
-    for (let object of [tubeObject, trackObject, lineObject]) {
+    for (const object of [tubeObject, trackObject, lineObject]) {
       object.userData &#x3D; Object.assign({}, trackParams);
       object.name &#x3D; &#x27;Track&#x27;;
     }
@@ -1080,8 +1066,7 @@ export class PhoenixObjects {
       ? jetParams.theta
       : CoordinateHelper.etaToTheta(eta);
     // Jet energy parameter can either be &#x27;energy&#x27; or &#x27;et&#x27;
-    let length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
-    const width &#x3D; length * 0.1;
+    const length &#x3D; (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
 
     const sphi &#x3D; Math.sin(phi);
     const cphi &#x3D; Math.cos(phi);
@@ -1094,6 +1079,8 @@ export class PhoenixObjects {
       0.5 * length * ctheta
     );
 
+    const width &#x3D; jetParams.coneR ? length * Math.sin(jetParams.coneR) : length * 0.1;
+
     const x &#x3D; cphi * stheta;
     const y &#x3D; sphi * stheta;
     const z &#x3D; ctheta;
@@ -1104,7 +1091,7 @@ export class PhoenixObjects {
 
     const geometry &#x3D; new CylinderBufferGeometry(
       width,
-      1,
+      10,
       length,
       50,
       50,
@@ -1173,7 +1160,7 @@ export class PhoenixObjects {
     }
 
     // attributes
-    let hitLength &#x3D; hitsParams.length * coordlength;
+    const hitLength &#x3D; hitsParams.length * coordlength;
     if (isSimpleArray) length &#x3D; hitLength; // These are already arrays
     const pointPos &#x3D; new Float32Array(hitLength);
     let i &#x3D; 0;
@@ -1295,14 +1282,14 @@ export class PhoenixObjects {
     const theta &#x3D; CoordinateHelper.etaToTheta(clusterParams.eta);
     clusterParams.theta &#x3D; theta;
 
-    let position &#x3D; CoordinateHelper.sphericalToCartesian(
+    const position &#x3D; CoordinateHelper.sphericalToCartesian(
       drawZ + drawRadius,
       theta,
       clusterParams.phi
     );
 
     // How to generalise to other experiments? Pass in limit lambda?
-    let cylRadius2 &#x3D; position.x * position.x + position.y * position.y;
+    const cylRadius2 &#x3D; position.x * position.x + position.y * position.y;
     if (cylRadius2 &gt; maxR2) {
       position.setLength(
         (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
@@ -1330,7 +1317,7 @@ export class PhoenixObjects {
    * @returns Planar Calorimeter object.
    */
   public static getPlanarCaloCell(caloCells: any): Object3D {
-    let position &#x3D; caloCells.pos;
+    const position &#x3D; caloCells.pos;
     if (!position) {
       return;
     }
@@ -1365,7 +1352,7 @@ export class PhoenixObjects {
     box.position.copy(boxPosition);
 
     // transforming the box from the z axis to the x,y,z of the plane
-    let qrot &#x3D; new Quaternion();
+    const qrot &#x3D; new Quaternion();
     qrot.setFromUnitVectors(
       new Vector3(0, 0, 1),
       new Vector3(...plane.slice(0, 3))
@@ -1470,9 +1457,9 @@ export class PhoenixObjects {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

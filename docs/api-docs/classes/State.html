@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>State</li>
+  <li >State</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/helpers/runge-kutta.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -87,28 +89,28 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#dir">dir</a>
+                                <a href="#dir" >dir</a>
                             </li>
                             <li>
-                                <a href="#maxStepSize">maxStepSize</a>
+                                <a href="#maxStepSize" >maxStepSize</a>
                             </li>
                             <li>
-                                <a href="#p">p</a>
+                                <a href="#p" >p</a>
                             </li>
                             <li>
-                                <a href="#pathLength">pathLength</a>
+                                <a href="#pathLength" >pathLength</a>
                             </li>
                             <li>
-                                <a href="#pos">pos</a>
+                                <a href="#pos" >pos</a>
                             </li>
                             <li>
-                                <a href="#q">q</a>
+                                <a href="#q" >q</a>
                             </li>
                             <li>
-                                <a href="#stepSize">stepSize</a>
+                                <a href="#stepSize" >stepSize</a>
                             </li>
                             <li>
-                                <a href="#unitC">unitC</a>
+                                <a href="#unitC" >unitC</a>
                             </li>
                         </ul>
                     </td>
@@ -126,313 +128,305 @@
 
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dir"></a>
+                    <span class="name">
+                        <span ><b>dir</b></span>
+                        <a href="#dir"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="dir"></a>
-                        <span class="name">
-                            <b>
-                            dir</b>
-                            <a href="#dir"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>Vector3</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Vector3(0, 0, 0)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Vector3</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/helpers/runge-kutta.ts:170</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>new Vector3(0, 0, 0)</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">src/helpers/runge-kutta.ts:170</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Direction. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Direction.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxStepSize"></a>
+                    <span class="name">
+                        <span ><b>maxStepSize</b></span>
+                        <a href="#maxStepSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="maxStepSize"></a>
-                        <span class="name">
-                            <b>
-                            maxStepSize</b>
-                            <a href="#maxStepSize"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>10</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/helpers/runge-kutta.ts:180</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>10</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="180" class="link-to-prism">src/helpers/runge-kutta.ts:180</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Max step size. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Max step size.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="p"></a>
+                    <span class="name">
+                        <span ><b>p</b></span>
+                        <a href="#p"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="p"></a>
-                        <span class="name">
-                            <b>
-                            p</b>
-                            <a href="#p"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">src/helpers/runge-kutta.ts:172</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>0</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">src/helpers/runge-kutta.ts:172</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Momentum. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Momentum.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pathLength"></a>
+                    <span class="name">
+                        <span ><b>pathLength</b></span>
+                        <a href="#pathLength"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="pathLength"></a>
-                        <span class="name">
-                            <b>
-                            pathLength</b>
-                            <a href="#pathLength"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">src/helpers/runge-kutta.ts:182</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>0</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">src/helpers/runge-kutta.ts:182</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Path length.. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Path length..</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pos"></a>
+                    <span class="name">
+                        <span ><b>pos</b></span>
+                        <a href="#pos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="pos"></a>
-                        <span class="name">
-                            <b>
-                            pos</b>
-                            <a href="#pos"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>Vector3</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Vector3(0, 0, 0)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Vector3</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/helpers/runge-kutta.ts:168</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>new Vector3(0, 0, 0)</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">src/helpers/runge-kutta.ts:168</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Position. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Position.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="q"></a>
+                    <span class="name">
+                        <span ><b>q</b></span>
+                        <a href="#q"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="q"></a>
-                        <span class="name">
-                            <b>
-                            q</b>
-                            <a href="#q"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/helpers/runge-kutta.ts:174</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>1</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">src/helpers/runge-kutta.ts:174</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Charge. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Charge.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stepSize"></a>
+                    <span class="name">
+                        <span ><b>stepSize</b></span>
+                        <a href="#stepSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="stepSize"></a>
-                        <span class="name">
-                            <b>
-                            stepSize</b>
-                            <a href="#stepSize"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1000</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/helpers/runge-kutta.ts:178</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>1000</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">src/helpers/runge-kutta.ts:178</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Step size. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Step size.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unitC"></a>
+                    <span class="name">
+                        <span ><b>unitC</b></span>
+                        <a href="#unitC"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="unitC"></a>
-                        <span class="name">
-                            <b>
-                            unitC</b>
-                            <a href="#unitC"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>3.3333</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">src/helpers/runge-kutta.ts:176</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>3.3333</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="176" class="link-to-prism">src/helpers/runge-kutta.ts:176</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Unit. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Unit.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
 
@@ -531,8 +525,8 @@ export class RungeKutta {
       error_estimate &#x3D; tryRungeKuttaStep(state.stepSize);
     }
 
-    let fh: number &#x3D; state.stepSize;
-    let fh2: number &#x3D; Math.pow(fh, 2);
+    const fh: number &#x3D; state.stepSize;
+    const fh2: number &#x3D; Math.pow(fh, 2);
 
     // Update position and momentum
     // state.pos +&#x3D; state.dir * fh + (k1 + k2 + k3) * (fh2 /6)
@@ -579,19 +573,19 @@ export class RungeKutta {
     plength: number &#x3D; 1000,
     inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; () &#x3D;&gt; true
   ): { pos: Vector3; dir: Vector3 }[] {
-    let rkState: State &#x3D; new State();
+    const rkState: State &#x3D; new State();
     rkState.pos &#x3D; startPos;
     rkState.dir &#x3D; startDir;
     rkState.p &#x3D; p;
     rkState.q &#x3D; q;
     rkState.maxStepSize &#x3D; mss;
 
-    let result: { pos: Vector3; dir: Vector3 }[] &#x3D; [];
+    const result: { pos: Vector3; dir: Vector3 }[] &#x3D; [];
 
     while (rkState.pathLength &lt; plength) {
       rkState.pathLength +&#x3D; RungeKutta.step(rkState);
       // Cloning state to avoid using the reference
-      let copiedState &#x3D; JSON.parse(JSON.stringify(rkState));
+      const copiedState &#x3D; JSON.parse(JSON.stringify(rkState));
       result.push({
         pos: copiedState.pos,
         dir: copiedState.dir,
@@ -674,9 +668,9 @@ class Field {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

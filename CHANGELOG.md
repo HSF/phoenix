@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0) (2021-08-03)
+
+
+### Bug Fixes
+
+* **app:** add gltf extension to VP geometry ([2ab23d2](https://github.com/HSF/phoenix/commit/2ab23d20d9fc65be05a4aa407537a42c13a3a153))
+* **app:** finalize AR toggle ([3f1d3f5](https://github.com/HSF/phoenix/commit/3f1d3f56d3d3c4a084707b97f7f083dde0d1a15f))
+* **app:** fix VP geometry performance, Rich geometry bug ([04b87ae](https://github.com/HSF/phoenix/commit/04b87ae4b726bacfa05dd5414074afd3cf7a6cac))
+* **app:** make AR toggle buttons unavailable when not supported ([445c0e3](https://github.com/HSF/phoenix/commit/445c0e37be48eb3dc7bcb64b6ad857f8d4541bce))
+* **event-display:** fix AR not working in playground ([7f35fdb](https://github.com/HSF/phoenix/commit/7f35fdbf2a1907cd8f23114f2725360c9823c9a2))
+* **event-display:** fix bug in jive xml loader ([39241a4](https://github.com/HSF/phoenix/commit/39241a4a1e074e3e3c3e5b5b5a04e0dd61f8fc4c))
+* **event-display:** fix collection color not working with load state ([4603dbc](https://github.com/HSF/phoenix/commit/4603dbcf18606da62e1a1649b5b1ea9b0505ea2d))
+* **event-display:** fix load state throwing error ([16ea0df](https://github.com/HSF/phoenix/commit/16ea0df2805d2b8517fa395008b0de0f6be40c39))
+* **event-display:** fix tests ([7e9c733](https://github.com/HSF/phoenix/commit/7e9c733a691ee6e66f5fd16cc120d46b4a44aa85))
+* **event-display:** increase max cut value for jets ([9f4cf7c](https://github.com/HSF/phoenix/commit/9f4cf7cf0f59744293b6714c447152defeb4c6ea)), closes [#336](https://github.com/HSF/phoenix/issues/336)
+* **event-display:** use coneR, if available, to determine jet width ([d4b62c2](https://github.com/HSF/phoenix/commit/d4b62c218b24f40da787648175cb790ad62bcc54))
+* Fix linting issues and update code ([dc7d74a](https://github.com/HSF/phoenix/commit/dc7d74a9bedb86a27fdd8a5326108e20274eafbd))
+
+
+### Features
+
+* **event-display:** improve handling of scale option and add it for vertices ([34d9b2c](https://github.com/HSF/phoenix/commit/34d9b2c70f9e2b4cd2df16663c73aa8992a78dc4))
+* update all packages including Angular ([9a88331](https://github.com/HSF/phoenix/commit/9a883317c910e928ef9164b9f5495972426b0494))
+* update packages except Angular ([26eff0e](https://github.com/HSF/phoenix/commit/26eff0ee71bbaed9afa484bfddeaa695044fc447))
+* **app:** option to start AR with or without DOM overlay ([9a6c243](https://github.com/HSF/phoenix/commit/9a6c24311621eaed644da582876345cee04415b0))
+* **event-display:** JiveXML, load coneR (set default if missing). ([867d28a](https://github.com/HSF/phoenix/commit/867d28a0f98d6a6cf3a4f93289e845452d98bce6))
+* **event-display:** make background transparent in AR mode ([46b8aee](https://github.com/HSF/phoenix/commit/46b8aee4b277dbbce01251c7182c6b8cb081bc50))
+* **event-display:** use dom overlay for AR ([c897ab3](https://github.com/HSF/phoenix/commit/c897ab331d1b5481ac6c4951040f2eb303800e13))
+
+
+
+
+
 # [2.1.0](https://github.com/HSF/phoenix/compare/v2.0.0...v2.1.0) (2021-06-28)
 
 

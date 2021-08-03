@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>RKHelper</li>
+  <li >RKHelper</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/helpers/rk-helper.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,15 +91,15 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#extrapolateTrackPositions">extrapolateTrackPositions</a>
+                                <a href="#extrapolateTrackPositions" >extrapolateTrackPositions</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#extrapolationLimit">extrapolationLimit</a>
+                                <a href="#extrapolationLimit" >extrapolationLimit</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#getTracksWithRungeKutta">getTracksWithRungeKutta</a>
+                                <a href="#getTracksWithRungeKutta" >getTracksWithRungeKutta</a>
                             </li>
                         </ul>
                     </td>
@@ -124,10 +126,8 @@
                 <td class="col-md-4">
                     <a name="extrapolateTrackPositions"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            extrapolateTrackPositions
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>extrapolateTrackPositions</b></span>
                         <a href="#extrapolateTrackPositions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -150,7 +150,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Extrapolate tracks using RungeKutta propagator.</p>
+                    <div class="io-description"><p>Extrapolate tracks using RungeKutta propagator.
+is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit</p>
 </div>
 
                     <div class="io-description">
@@ -227,10 +228,8 @@ is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit<
                 <td class="col-md-4">
                     <a name="extrapolationLimit"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            extrapolationLimit
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>extrapolationLimit</b></span>
                         <a href="#extrapolationLimit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -307,10 +306,8 @@ is out of bounds, when it returns false. Default is RKHelper.extrapolationLimit<
                 <td class="col-md-4">
                     <a name="getTracksWithRungeKutta"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            getTracksWithRungeKutta
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>getTracksWithRungeKutta</b></span>
                         <a href="#getTracksWithRungeKutta"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -439,11 +436,11 @@ export class RKHelper {
   ): any {
     const dparams &#x3D; track.dparams;
     // ATLAS uses mm, MeV
-    let d0 &#x3D; dparams[0],
-      z0 &#x3D; dparams[1],
-      phi &#x3D; dparams[2],
-      theta &#x3D; dparams[3],
-      qop &#x3D; dparams[4];
+    const d0 &#x3D; dparams[0];
+    const z0 &#x3D; dparams[1];
+    const phi &#x3D; dparams[2];
+    let theta &#x3D; dparams[3];
+    const qop &#x3D; dparams[4];
 
     if (theta &lt; 0) {
       theta +&#x3D; Math.PI;
@@ -457,12 +454,12 @@ export class RKHelper {
     }
     const q &#x3D; Math.round(p * qop);
 
-    let globalMomentum &#x3D; CoordinateHelper.sphericalToCartesian(p, theta, phi);
+    const globalMomentum &#x3D; CoordinateHelper.sphericalToCartesian(p, theta, phi);
 
-    let startPos &#x3D; CoordinateHelper.sphericalToCartesian(d0, theta, phi);
+    const startPos &#x3D; CoordinateHelper.sphericalToCartesian(d0, theta, phi);
 
     // Wipe existing positions
-    let positions: number[][] &#x3D; [];
+    const positions: number[][] &#x3D; [];
     positions.push([startPos.x, startPos.y, startPos.z]);
 
     const startDir &#x3D; globalMomentum.clone();
@@ -521,9 +518,9 @@ export class RKHelper {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>RendererManager</li>
+  <li >RendererManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/managers/three-manager/renderer-manager.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -88,19 +90,19 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#fixedOverlay">fixedOverlay</a>
+                                <a href="#fixedOverlay" >fixedOverlay</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#mainRenderer">mainRenderer</a>
+                                <a href="#mainRenderer" >mainRenderer</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#overlayRenderer">overlayRenderer</a>
+                                <a href="#overlayRenderer" >overlayRenderer</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#renderers">renderers</a>
+                                <a href="#renderers" >renderers</a>
                             </li>
                         </ul>
                     </td>
@@ -116,64 +118,64 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#addRenderer">addRenderer</a>
+                                <a href="#addRenderer" >addRenderer</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#containsObject">containsObject</a>
+                                <a href="#containsObject" >containsObject</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getLocalClipping">getLocalClipping</a>
+                                <a href="#getLocalClipping" >getLocalClipping</a>
                             </li>
                             <li>
-                                <a href="#getMainRenderer">getMainRenderer</a>
+                                <a href="#getMainRenderer" >getMainRenderer</a>
                             </li>
                             <li>
-                                <a href="#getOverlayRenderer">getOverlayRenderer</a>
+                                <a href="#getOverlayRenderer" >getOverlayRenderer</a>
                             </li>
                             <li>
-                                <a href="#getRenderers">getRenderers</a>
+                                <a href="#getRenderers" >getRenderers</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#init">init</a>
+                                <a href="#init" >init</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#initRenderer">initRenderer</a>
+                                <a href="#initRenderer" >initRenderer</a>
                             </li>
                             <li>
-                                <a href="#isFixedOverlay">isFixedOverlay</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#removeControls">removeControls</a>
+                                <a href="#isFixedOverlay" >isFixedOverlay</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#render">render</a>
-                            </li>
-                            <li>
-                                <a href="#setFixOverlay">setFixOverlay</a>
+                                <a href="#removeControls" >removeControls</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#setLocalClippingEnabled">setLocalClippingEnabled</a>
+                                <a href="#render" >render</a>
                             </li>
                             <li>
-                                <a href="#setMainRenderer">setMainRenderer</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#setOverlayRenderer">setOverlayRenderer</a>
-                            </li>
-                            <li>
-                                <a href="#setRenderers">setRenderers</a>
+                                <a href="#setFixOverlay" >setFixOverlay</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#swapRenderers">swapRenderers</a>
+                                <a href="#setLocalClippingEnabled" >setLocalClippingEnabled</a>
+                            </li>
+                            <li>
+                                <a href="#setMainRenderer" >setMainRenderer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#setOverlayRenderer" >setOverlayRenderer</a>
+                            </li>
+                            <li>
+                                <a href="#setRenderers" >setRenderers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#swapRenderers" >swapRenderers</a>
                             </li>
                         </ul>
                     </td>
@@ -214,160 +216,156 @@
 
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fixedOverlay"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>fixedOverlay</b></span>
+                        <a href="#fixedOverlay"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="fixedOverlay"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            fixedOverlay</b>
-                            <a href="#fixedOverlay"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:14</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:14</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>If the overlay is fixed or not. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If the overlay is fixed or not.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mainRenderer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>mainRenderer</b></span>
+                        <a href="#mainRenderer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="mainRenderer"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            mainRenderer</b>
-                            <a href="#mainRenderer"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>WebGLRenderer</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>WebGLRenderer</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:8</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>null</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:8</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Main renderer to be used by the event display. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Main renderer to be used by the event display.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="overlayRenderer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>overlayRenderer</b></span>
+                        <a href="#overlayRenderer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="overlayRenderer"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            overlayRenderer</b>
-                            <a href="#overlayRenderer"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>WebGLRenderer</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>WebGLRenderer</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:10</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>null</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:10</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Overlay renderer for rendering a secondary overlay canvas. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Overlay renderer for rendering a secondary overlay canvas.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="renderers"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>renderers</b></span>
+                        <a href="#renderers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="renderers"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            renderers</b>
-                            <a href="#renderers"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>WebGLRenderer[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>WebGLRenderer[]</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:12</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/managers/three-manager/renderer-manager.ts:12</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>A list of all available/created renderers. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A list of all available/created renderers.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -381,10 +379,8 @@
                 <td class="col-md-4">
                     <a name="addRenderer"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            addRenderer
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>addRenderer</b></span>
                         <a href="#addRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -460,10 +456,8 @@
                 <td class="col-md-4">
                     <a name="containsObject"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            containsObject
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>containsObject</b></span>
                         <a href="#containsObject"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -556,10 +550,8 @@
                 <td class="col-md-4">
                     <a name="getLocalClipping"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            getLocalClipping
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>getLocalClipping</b></span>
                         <a href="#getLocalClipping"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -605,9 +597,7 @@
                 <td class="col-md-4">
                     <a name="getMainRenderer"></a>
                     <span class="name">
-                        <b>
-                            getMainRenderer
-                        </b>
+                        <span ><b>getMainRenderer</b></span>
                         <a href="#getMainRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -652,9 +642,7 @@
                 <td class="col-md-4">
                     <a name="getOverlayRenderer"></a>
                     <span class="name">
-                        <b>
-                            getOverlayRenderer
-                        </b>
+                        <span ><b>getOverlayRenderer</b></span>
                         <a href="#getOverlayRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -699,9 +687,7 @@
                 <td class="col-md-4">
                     <a name="getRenderers"></a>
                     <span class="name">
-                        <b>
-                            getRenderers
-                        </b>
+                        <span ><b>getRenderers</b></span>
                         <a href="#getRenderers"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -746,10 +732,8 @@
                 <td class="col-md-4">
                     <a name="init"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            init
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>init</b></span>
                         <a href="#init"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -829,10 +813,8 @@
                 <td class="col-md-4">
                     <a name="initRenderer"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            initRenderer
-                        </b>
+                        <span class="modifier">Private</span>
+                        <span ><b>initRenderer</b></span>
                         <a href="#initRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -908,9 +890,7 @@
                 <td class="col-md-4">
                     <a name="isFixedOverlay"></a>
                     <span class="name">
-                        <b>
-                            isFixedOverlay
-                        </b>
+                        <span ><b>isFixedOverlay</b></span>
                         <a href="#isFixedOverlay"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -955,10 +935,8 @@
                 <td class="col-md-4">
                     <a name="removeControls"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            removeControls
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>removeControls</b></span>
                         <a href="#removeControls"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1034,10 +1012,8 @@
                 <td class="col-md-4">
                     <a name="render"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            render
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>render</b></span>
                         <a href="#render"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1129,9 +1105,7 @@
                 <td class="col-md-4">
                     <a name="setFixOverlay"></a>
                     <span class="name">
-                        <b>
-                            setFixOverlay
-                        </b>
+                        <span ><b>setFixOverlay</b></span>
                         <a href="#setFixOverlay"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1206,10 +1180,8 @@
                 <td class="col-md-4">
                     <a name="setLocalClippingEnabled"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            setLocalClippingEnabled
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>setLocalClippingEnabled</b></span>
                         <a href="#setLocalClippingEnabled"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1285,9 +1257,7 @@
                 <td class="col-md-4">
                     <a name="setMainRenderer"></a>
                     <span class="name">
-                        <b>
-                            setMainRenderer
-                        </b>
+                        <span ><b>setMainRenderer</b></span>
                         <a href="#setMainRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1362,10 +1332,8 @@
                 <td class="col-md-4">
                     <a name="setOverlayRenderer"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            setOverlayRenderer
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>setOverlayRenderer</b></span>
                         <a href="#setOverlayRenderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1441,9 +1409,7 @@
                 <td class="col-md-4">
                     <a name="setRenderers"></a>
                     <span class="name">
-                        <b>
-                            setRenderers
-                        </b>
+                        <span ><b>setRenderers</b></span>
                         <a href="#setRenderers"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1518,10 +1484,8 @@
                 <td class="col-md-4">
                     <a name="swapRenderers"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            swapRenderers
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>swapRenderers</b></span>
                         <a href="#swapRenderers"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1882,9 +1846,9 @@ export class RendererManager {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
