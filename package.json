@@ -14,7 +14,7 @@
     "release:major": "lerna publish major --create-release github",
     "release:minor": "lerna publish minor --create-release github",
     "release:pre": "lerna publish prerelease --conventional-prerelease",
-    "version": "yarn workspace phoenix-event-display docs && git add . && git checkout HEAD -- ./packages/phoenix-ng/projects/phoenix-ui-components/package.json",
+    "version": "yarn workspace phoenix-event-display docs && git add .",
     "deploy:web": "yarn workspace phoenix-ng deploy:web",
     "lint": "lerna run eslint && lerna run prettier:check",
     "lint:fix": "lerna run eslint:fix && lerna run prettier:write",
