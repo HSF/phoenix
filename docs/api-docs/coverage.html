@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-	      <link rel="stylesheet" href="./styles/style.css">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -265,7 +266,7 @@
             <td>CMSLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(34/34)</span>
+                <span class="coverage-count">(33/33)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -289,7 +290,7 @@
             <td>JiveXMLLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(38/38)</span>
+                <span class="coverage-count">(39/39)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -301,7 +302,7 @@
             <td>JSRootEventLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(28/28)</span>
+                <span class="coverage-count">(29/29)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -349,7 +350,7 @@
             <td>PhoenixLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(20/20)</span>
+                <span class="coverage-count">(21/21)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -385,7 +386,7 @@
             <td>TrackmlLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(27/27)</span>
+                <span class="coverage-count">(28/28)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -565,7 +566,7 @@
             <td>VRManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(25/25)</span>
+                <span class="coverage-count">(24/24)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -577,7 +578,7 @@
             <td>XRManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(14/14)</span>
+                <span class="coverage-count">(15/15)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -696,9 +697,9 @@
 
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="./js/menu-wc.js" defer></script>
+       
+       <script type="module" src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
 
        <script src="./js/libs/bootstrap-native.js"></script>
 

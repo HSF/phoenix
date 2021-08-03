@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>AnimationPreset</li>
+  <li
+  >
+  AnimationPreset</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -64,11 +67,12 @@
             <code>src/managers/three-manager/animations-manager.ts</code>
         </p>
 
+
             <p class="comment">
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>Type for animation preset. </p>
+                <p>Type for animation preset.</p>
 
             </p>
 
@@ -87,14 +91,23 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#animateEventAfterInterval">animateEventAfterInterval</a>
+                                        <a href="#animateEventAfterInterval" 
+>
+                                            animateEventAfterInterval
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#collisionDuration">collisionDuration</a>
+                                        <a href="#collisionDuration" 
+>
+                                            collisionDuration
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#positions">positions</a>
+                                        <a href="#positions" 
+>
+                                            positions
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -112,7 +125,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="animateEventAfterInterval"></a>
-                                        <span class="name"><b>animateEventAfterInterval</b><a href="#animateEventAfterInterval"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>animateEventAfterInterval</b>
+                                            <a href="#animateEventAfterInterval">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -141,7 +158,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Time after which to start the event collision animation. </p>
+                                    <div class="io-description"><p>Time after which to start the event collision animation.</p>
 </div>
                                 </td>
                             </tr>
@@ -152,7 +169,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="collisionDuration"></a>
-                                        <span class="name"><b>collisionDuration</b><a href="#collisionDuration"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>collisionDuration</b>
+                                            <a href="#collisionDuration">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -181,7 +202,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Duration of the event collision. </p>
+                                    <div class="io-description"><p>Duration of the event collision.</p>
 </div>
                                 </td>
                             </tr>
@@ -192,7 +213,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="positions"></a>
-                                        <span class="name"><b>positions</b><a href="#positions"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>positions</b>
+                                            <a href="#positions">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -216,7 +241,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Positions with duration and easing of each tween forming a path. </p>
+                                    <div class="io-description"><p>Positions with duration and easing of each tween forming a path.</p>
 </div>
                                 </td>
                             </tr>
@@ -322,7 +347,7 @@ export class AnimationsManager {
     const angle &#x3D; 3 * Math.PI;
     const step &#x3D; angle / numOfSteps;
 
-    let rotationPositions &#x3D; [];
+    const rotationPositions &#x3D; [];
     for (let i &#x3D; 1; i &lt;&#x3D; numOfSteps; i++) {
       rotationPositions.push([
         radius * Math.sin(step * i), // x
@@ -829,9 +854,9 @@ export class AnimationsManager {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

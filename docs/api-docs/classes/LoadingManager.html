@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>LoadingManager</li>
+  <li >LoadingManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>src/managers/loading-manager.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,27 +91,27 @@
                             <li>
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Static</span>
-                                <a href="#instance">instance</a>
+                                <a href="#instance" >instance</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#loaded">loaded</a>
+                                <a href="#loaded" >loaded</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#onLoadCallbacks">onLoadCallbacks</a>
+                                <a href="#onLoadCallbacks" >onLoadCallbacks</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#onProgressCallbacks">onProgressCallbacks</a>
+                                <a href="#onProgressCallbacks" >onProgressCallbacks</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#progressItems">progressItems</a>
+                                <a href="#progressItems" >progressItems</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#toLoad">toLoad</a>
+                                <a href="#toLoad" >toLoad</a>
                             </li>
                         </ul>
                     </td>
@@ -125,31 +127,31 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#addLoadableItem">addLoadableItem</a>
+                                <a href="#addLoadableItem" >addLoadableItem</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#addLoadListener">addLoadListener</a>
+                                <a href="#addLoadListener" >addLoadListener</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#addLoadListenerWithCheck">addLoadListenerWithCheck</a>
+                                <a href="#addLoadListenerWithCheck" >addLoadListenerWithCheck</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#addProgressListener">addProgressListener</a>
+                                <a href="#addProgressListener" >addProgressListener</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#itemLoaded">itemLoaded</a>
+                                <a href="#itemLoaded" >itemLoaded</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#onProgress">onProgress</a>
+                                <a href="#onProgress" >onProgress</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#reset">reset</a>
+                                <a href="#reset" >reset</a>
                             </li>
                         </ul>
                     </td>
@@ -190,239 +192,233 @@
 
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="instance"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                        <span ><b>instance</b></span>
+                        <a href="#instance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="instance"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            instance</b>
-                            <a href="#instance"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="../classes/LoadingManager.html" target="_self" >LoadingManager</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/LoadingManager.html" target="_self" >LoadingManager</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/managers/loading-manager.ts:6</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/managers/loading-manager.ts:6</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Instance of the loading manager </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Instance of the loading manager</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loaded"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>loaded</b></span>
+                        <a href="#loaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="loaded"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Public</span>
-                            loaded</b>
-                            <a href="#loaded"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>string[]</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/managers/loading-manager.ts:11</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/managers/loading-manager.ts:11</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Items loaded </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Items loaded</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onLoadCallbacks"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onLoadCallbacks</b></span>
+                        <a href="#onLoadCallbacks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="onLoadCallbacks"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            onLoadCallbacks</b>
-                            <a href="#onLoadCallbacks"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>(function)[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>(function)[]</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/loading-manager.ts:14</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/loading-manager.ts:14</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Callbacks to call on load. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callbacks to call on load.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onProgressCallbacks"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>onProgressCallbacks</b></span>
+                        <a href="#onProgressCallbacks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="onProgressCallbacks"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            onProgressCallbacks</b>
-                            <a href="#onProgressCallbacks"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>(function)[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>(function)[]</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/managers/loading-manager.ts:16</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/managers/loading-manager.ts:16</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Callbacks to call on progress. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callbacks to call on progress.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="progressItems"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>progressItems</b></span>
+                        <a href="#progressItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="progressItems"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            progressItems</b>
-                            <a href="#progressItems"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>literal type</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/managers/loading-manager.ts:19</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>{}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/managers/loading-manager.ts:19</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Progress for each named item. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Progress for each named item.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toLoad"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>toLoad</b></span>
+                        <a href="#toLoad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="toLoad"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Public</span>
-                            toLoad</b>
-                            <a href="#toLoad"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>string[]</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/managers/loading-manager.ts:9</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>[]</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/managers/loading-manager.ts:9</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>Items to load. </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Items to load.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -436,10 +432,8 @@
                 <td class="col-md-4">
                     <a name="addLoadableItem"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            addLoadableItem
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>addLoadableItem</b></span>
                         <a href="#addLoadableItem"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -519,10 +513,8 @@
                 <td class="col-md-4">
                     <a name="addLoadListener"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            addLoadListener
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>addLoadListener</b></span>
                         <a href="#addLoadListener"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -598,10 +590,8 @@
                 <td class="col-md-4">
                     <a name="addLoadListenerWithCheck"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            addLoadListenerWithCheck
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>addLoadListenerWithCheck</b></span>
                         <a href="#addLoadListenerWithCheck"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -678,10 +668,8 @@ are any items to load when the listener is added.</p>
                 <td class="col-md-4">
                     <a name="addProgressListener"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            addProgressListener
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>addProgressListener</b></span>
                         <a href="#addProgressListener"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -757,10 +745,8 @@ are any items to load when the listener is added.</p>
                 <td class="col-md-4">
                     <a name="itemLoaded"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            itemLoaded
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>itemLoaded</b></span>
                         <a href="#itemLoaded"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -840,10 +826,8 @@ are any items to load when the listener is added.</p>
                 <td class="col-md-4">
                     <a name="onProgress"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            onProgress
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>onProgress</b></span>
                         <a href="#onProgress"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -935,10 +919,8 @@ are any items to load when the listener is added.</p>
                 <td class="col-md-4">
                     <a name="reset"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            reset
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>reset</b></span>
                         <a href="#reset"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1044,11 +1026,11 @@ are any items to load when the listener is added.</p>
   public onProgress(id: string, progress: number) {
     this.progressItems[id] &#x3D; progress;
 
-    let totalProgress &#x3D; Object.values(this.progressItems).reduce(
+    const totalProgress &#x3D; Object.values(this.progressItems).reduce(
       (acc, val) &#x3D;&gt; acc + val,
       0
     );
-    let totalItems &#x3D; Object.keys(this.progressItems).length;
+    const totalItems &#x3D; Object.keys(this.progressItems).length;
 
     const averageProgress &#x3D; totalProgress / totalItems;
 
@@ -1131,9 +1113,9 @@ are any items to load when the listener is added.</p>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

@@ -55,127 +55,127 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
-                                <a href="classes/ActiveVariable.html" data-type="entity-link">ActiveVariable</a>
+                                <a href="classes/ActiveVariable.html" data-type="entity-link" >ActiveVariable</a>
                             </li>
                             <li class="link">
-                                <a href="classes/AnimationsManager.html" data-type="entity-link">AnimationsManager</a>
+                                <a href="classes/AnimationsManager.html" data-type="entity-link" >AnimationsManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ARManager.html" data-type="entity-link">ARManager</a>
+                                <a href="classes/ARManager.html" data-type="entity-link" >ARManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/CMSLoader.html" data-type="entity-link">CMSLoader</a>
+                                <a href="classes/CMSLoader.html" data-type="entity-link" >CMSLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/CMSObjects.html" data-type="entity-link">CMSObjects</a>
+                                <a href="classes/CMSObjects.html" data-type="entity-link" >CMSObjects</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ColorManager.html" data-type="entity-link">ColorManager</a>
+                                <a href="classes/ColorManager.html" data-type="entity-link" >ColorManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ColorOptions.html" data-type="entity-link">ColorOptions</a>
+                                <a href="classes/ColorOptions.html" data-type="entity-link" >ColorOptions</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ControlsManager.html" data-type="entity-link">ControlsManager</a>
+                                <a href="classes/ControlsManager.html" data-type="entity-link" >ControlsManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/CoordinateHelper.html" data-type="entity-link">CoordinateHelper</a>
+                                <a href="classes/CoordinateHelper.html" data-type="entity-link" >CoordinateHelper</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Cut.html" data-type="entity-link">Cut</a>
+                                <a href="classes/Cut.html" data-type="entity-link" >Cut</a>
                             </li>
                             <li class="link">
-                                <a href="classes/DatGUIMenuUI.html" data-type="entity-link">DatGUIMenuUI</a>
+                                <a href="classes/DatGUIMenuUI.html" data-type="entity-link" >DatGUIMenuUI</a>
                             </li>
                             <li class="link">
-                                <a href="classes/EffectsManager.html" data-type="entity-link">EffectsManager</a>
+                                <a href="classes/EffectsManager.html" data-type="entity-link" >EffectsManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/EventDisplay.html" data-type="entity-link">EventDisplay</a>
+                                <a href="classes/EventDisplay.html" data-type="entity-link" >EventDisplay</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ExportManager.html" data-type="entity-link">ExportManager</a>
+                                <a href="classes/ExportManager.html" data-type="entity-link" >ExportManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/Field.html" data-type="entity-link">Field</a>
+                                <a href="classes/Field.html" data-type="entity-link" >Field</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ImportManager.html" data-type="entity-link">ImportManager</a>
+                                <a href="classes/ImportManager.html" data-type="entity-link" >ImportManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/InfoLogger.html" data-type="entity-link">InfoLogger</a>
+                                <a href="classes/InfoLogger.html" data-type="entity-link" >InfoLogger</a>
                             </li>
                             <li class="link">
-                                <a href="classes/JiveXMLLoader.html" data-type="entity-link">JiveXMLLoader</a>
+                                <a href="classes/JiveXMLLoader.html" data-type="entity-link" >JiveXMLLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/JSRootEventLoader.html" data-type="entity-link">JSRootEventLoader</a>
+                                <a href="classes/JSRootEventLoader.html" data-type="entity-link" >JSRootEventLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/LHCbLoader.html" data-type="entity-link">LHCbLoader</a>
+                                <a href="classes/LHCbLoader.html" data-type="entity-link" >LHCbLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/LoadingManager.html" data-type="entity-link">LoadingManager</a>
+                                <a href="classes/LoadingManager.html" data-type="entity-link" >LoadingManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PhoenixLoader.html" data-type="entity-link">PhoenixLoader</a>
+                                <a href="classes/PhoenixLoader.html" data-type="entity-link" >PhoenixLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PhoenixMenuNode.html" data-type="entity-link">PhoenixMenuNode</a>
+                                <a href="classes/PhoenixMenuNode.html" data-type="entity-link" >PhoenixMenuNode</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PhoenixMenuUI.html" data-type="entity-link">PhoenixMenuUI</a>
+                                <a href="classes/PhoenixMenuUI.html" data-type="entity-link" >PhoenixMenuUI</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PhoenixObjects.html" data-type="entity-link">PhoenixObjects</a>
+                                <a href="classes/PhoenixObjects.html" data-type="entity-link" >PhoenixObjects</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PresetView.html" data-type="entity-link">PresetView</a>
+                                <a href="classes/PresetView.html" data-type="entity-link" >PresetView</a>
                             </li>
                             <li class="link">
-                                <a href="classes/PrettySymbols.html" data-type="entity-link">PrettySymbols</a>
+                                <a href="classes/PrettySymbols.html" data-type="entity-link" >PrettySymbols</a>
                             </li>
                             <li class="link">
-                                <a href="classes/RendererManager.html" data-type="entity-link">RendererManager</a>
+                                <a href="classes/RendererManager.html" data-type="entity-link" >RendererManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/RKHelper.html" data-type="entity-link">RKHelper</a>
+                                <a href="classes/RKHelper.html" data-type="entity-link" >RKHelper</a>
                             </li>
                             <li class="link">
-                                <a href="classes/RungeKutta.html" data-type="entity-link">RungeKutta</a>
+                                <a href="classes/RungeKutta.html" data-type="entity-link" >RungeKutta</a>
                             </li>
                             <li class="link">
-                                <a href="classes/SceneManager.html" data-type="entity-link">SceneManager</a>
+                                <a href="classes/SceneManager.html" data-type="entity-link" >SceneManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ScriptLoader.html" data-type="entity-link">ScriptLoader</a>
+                                <a href="classes/ScriptLoader.html" data-type="entity-link" >ScriptLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/SelectionManager.html" data-type="entity-link">SelectionManager</a>
+                                <a href="classes/SelectionManager.html" data-type="entity-link" >SelectionManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/State.html" data-type="entity-link">State</a>
+                                <a href="classes/State.html" data-type="entity-link" >State</a>
                             </li>
                             <li class="link">
-                                <a href="classes/StateManager.html" data-type="entity-link">StateManager</a>
+                                <a href="classes/StateManager.html" data-type="entity-link" >StateManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/ThreeManager.html" data-type="entity-link">ThreeManager</a>
+                                <a href="classes/ThreeManager.html" data-type="entity-link" >ThreeManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/TrackmlLoader.html" data-type="entity-link">TrackmlLoader</a>
+                                <a href="classes/TrackmlLoader.html" data-type="entity-link" >TrackmlLoader</a>
                             </li>
                             <li class="link">
-                                <a href="classes/UIManager.html" data-type="entity-link">UIManager</a>
+                                <a href="classes/UIManager.html" data-type="entity-link" >UIManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/URLOptionsManager.html" data-type="entity-link">URLOptionsManager</a>
+                                <a href="classes/URLOptionsManager.html" data-type="entity-link" >URLOptionsManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/VRManager.html" data-type="entity-link">VRManager</a>
+                                <a href="classes/VRManager.html" data-type="entity-link" >VRManager</a>
                             </li>
                             <li class="link">
-                                <a href="classes/XRManager.html" data-type="entity-link">XRManager</a>
+                                <a href="classes/XRManager.html" data-type="entity-link" >XRManager</a>
                             </li>
                         </ul>
                     </li>
@@ -188,16 +188,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
                             <li class="link">
-                                <a href="interfaces/AnimationPreset.html" data-type="entity-link">AnimationPreset</a>
+                                <a href="interfaces/AnimationPreset.html" data-type="entity-link" >AnimationPreset</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Configuration.html" data-type="entity-link">Configuration</a>
+                                <a href="interfaces/Configuration.html" data-type="entity-link" >Configuration</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/EventDataLoader.html" data-type="entity-link">EventDataLoader</a>
+                                <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Window.html" data-type="entity-link">Window</a>
+                                <a href="interfaces/Window.html" data-type="entity-link" >Window</a>
                             </li>
                         </ul>
                     </li>

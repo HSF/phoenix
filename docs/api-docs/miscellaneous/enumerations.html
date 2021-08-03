@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
     </head>
     <body>
 
@@ -58,10 +59,10 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
-                            <a href="#ColorByOptionKeys" title="src/managers/ui-manager/color-options.ts"><b>ColorByOptionKeys</b>&nbsp;&nbsp;&nbsp;(src/.../color-options.ts)</a>
+                            <a href="#ColorByOptionKeys" title="src/managers/ui-manager/color-options.ts" ><b>ColorByOptionKeys</b>&nbsp;&nbsp;&nbsp;(src/.../color-options.ts)</a>
                         </li>
                         <li>
-                            <a href="#XRSessionType" title="src/managers/three-manager/xr-manager.ts"><b>XRSessionType</b>&nbsp;&nbsp;&nbsp;(src/.../xr-manager.ts)</a>
+                            <a href="#XRSessionType" title="src/managers/three-manager/xr-manager.ts" ><b>XRSessionType</b>&nbsp;&nbsp;&nbsp;(src/.../xr-manager.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -77,12 +78,12 @@
                 <tr>
                     <td class="col-md-4">
                         <a name="ColorByOptionKeys"></a>
-                        <span class="name"><b>ColorByOptionKeys</b><a href="#ColorByOptionKeys"><span class="icon ion-ios-link"></span></a></span>
+                        <span class="name "><b>ColorByOptionKeys</b><a href="#ColorByOptionKeys"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-description"><p>Keys for options available for coloring event data by. </p>
+                            <div class="io-description"><p>Keys for options available for coloring event data by.</p>
 </div>
                         </td>
                     </tr>
@@ -126,12 +127,12 @@
                 <tr>
                     <td class="col-md-4">
                         <a name="XRSessionType"></a>
-                        <span class="name"><b>XRSessionType</b><a href="#XRSessionType"><span class="icon ion-ios-link"></span></a></span>
+                        <span class="name "><b>XRSessionType</b><a href="#XRSessionType"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-description"><p>Type of the XR session. </p>
+                            <div class="io-description"><p>Type of the XR session.</p>
 </div>
                         </td>
                     </tr>
@@ -184,9 +185,9 @@
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
-       <script src="../js/menu-wc.js" defer></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
