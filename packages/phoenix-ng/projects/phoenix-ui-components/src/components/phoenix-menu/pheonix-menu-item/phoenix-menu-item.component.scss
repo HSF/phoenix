@@ -90,6 +90,11 @@
     }
   }
 
+  .icon-button {
+    background: unset;
+    border: unset;
+  }
+
   .icon-wrapper {
     display: inline-block;
     width: 1.3rem;
@@ -97,7 +102,7 @@
     padding: 0.23rem;
     transition: all 0.4s;
 
-    &.icon-clickable:hover {
+    &.icon-button:hover {
       background: var(--phoenix-options-icon-bg);
       border-radius: 40%;
       cursor: pointer;
