@@ -30,7 +30,7 @@
   <div class="phoenix-menu-item-right">
     <div *ngIf="currentNode.configs.length > 0">
       <button
-        class="icon-wrapper icon-button item-settings"
+        class="icon-wrapper icon-button btn-blank item-settings"
         (click)="
           calculateConfigTop();
           currentNode.configActive = !currentNode.configActive
@@ -145,7 +145,7 @@
       </div>
     </div>
     <button
-      class="icon-wrapper icon-button item-expand"
+      class="icon-wrapper icon-button btn-blank item-expand"
       *ngIf="currentNode.children.length > 0"
       (click)="currentNode.childrenActive = !currentNode.childrenActive"
       [ngClass]="{ expanded: currentNode.childrenActive }"
