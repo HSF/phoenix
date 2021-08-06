@@ -56,24 +56,24 @@
                 *ngIf="object.uuid"
                 class="row justify-content-center icon-wrapper"
               >
-                <div
-                  class="object-select"
+                <button
+                  class="object-select btn-blank"
                   matTooltip="Move camera to object"
                   (click)="lookAtObject(object.uuid)"
                 >
                   <svg>
                     <use href="assets/icons/views.svg#views"></use>
                   </svg>
-                </div>
-                <div
-                  class="object-select"
+                </button>
+                <button
+                  class="object-select btn-blank"
                   matTooltip="Highlight object"
                   (click)="highlightObject(object.uuid)"
                 >
                   <svg>
                     <use href="assets/icons/cursor.svg#cursor"></use>
                   </svg>
-                </div>
+                </button>
               </div>
             </td>
             <td>
@@ -86,15 +86,15 @@
                   />
                 </div>
                 <div class="col-2 p-0 pl-2 text-center icon-wrapper">
-                  <div
-                    class="object-select"
-                    matTooltip="Add / update / remove object label"
+                  <button
+                    class="object-select btn-blank"
+                    matTooltip="Add, update or remove object label"
                     (click)="addLabel(i, object.uuid)"
                   >
                     <svg>
                       <use href="assets/icons/update.svg#update"></use>
                     </svg>
-                  </div>
+                  </button>
                 </div>
               </div>
             </td>
