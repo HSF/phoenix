@@ -336,9 +336,15 @@ export class ControlsManager {
             if (childObject.position.equals(origin)) {
               // Get the max vector from the bounding box to accumulate with the clusters
               if (childObject.geometry?.boundingSphere) {
-                objectPosition.add(
-                  childObject.geometry.boundingSphere.getBoundingBox().max
-                );
+                try {
+                  objectPosition.add(
+                    childObject.geometry.boundingSphere.getBoundingBox().max
+                  );
+                } catch (e) {
+                  objectPosition.add(
+                    childObject.geometry.boundingSphere?.center
+                  );
+                }
               }
             } else {
               objectPosition.add(childObject.position);
