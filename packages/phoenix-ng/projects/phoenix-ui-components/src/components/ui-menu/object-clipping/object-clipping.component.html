@@ -1,21 +1,32 @@
-<mat-menu #menu>
-  <mat-checkbox
-    class="mat-menu-item"
-    [checked]="clippingEnabled"
-    (click)="$event.stopPropagation()"
-    (change)="toggleClipping($event)"
-    >Clipping
-  </mat-checkbox>
-  <mat-slider
-    min="0"
-    max="180"
-    step="1"
-    thumbLabel
-    [value]="clippingAngle"
-    (click)="$event.stopPropagation()"
-    (input)="changeClippingAngle($event)"
+<mat-menu class="mat-menu" #menu>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      clippingCheckbox._inputElement.nativeElement.click()
+    "
   >
-  </mat-slider>
+    <mat-checkbox
+      #clippingCheckbox
+      [checked]="clippingEnabled"
+      (click)="$event.stopPropagation()"
+      (change)="toggleClipping($event)"
+      >Clipping
+    </mat-checkbox>
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="clippingSlider.focus()">
+    <mat-slider
+      #clippingSlider
+      min="0"
+      max="180"
+      step="1"
+      thumbLabel
+      [value]="clippingAngle"
+      (click)="$event.stopPropagation()"
+      (input)="changeClippingAngle($event)"
+    >
+    </mat-slider>
+  </button>
 </mat-menu>
 
 <app-menu-toggle
