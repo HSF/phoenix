@@ -29,8 +29,8 @@
   </div>
   <div class="phoenix-menu-item-right">
     <div *ngIf="currentNode.configs.length > 0">
-      <span
-        class="icon-wrapper icon-clickable item-settings"
+      <button
+        class="icon-wrapper icon-button btn-blank item-settings"
         (click)="
           calculateConfigTop();
           currentNode.configActive = !currentNode.configActive
@@ -39,7 +39,7 @@
         <svg>
           <use href="assets/icons/gear.svg#gear"></use>
         </svg>
-      </span>
+      </button>
       <div
         class="item-config-backdrop"
         *ngIf="currentNode.configActive"
@@ -144,8 +144,8 @@
         </ng-container>
       </div>
     </div>
-    <span
-      class="icon-wrapper icon-clickable item-expand"
+    <button
+      class="icon-wrapper icon-button btn-blank item-expand"
       *ngIf="currentNode.children.length > 0"
       (click)="currentNode.childrenActive = !currentNode.childrenActive"
       [ngClass]="{ expanded: currentNode.childrenActive }"
@@ -153,7 +153,7 @@
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
-    </span>
+    </button>
   </div>
 </div>
 <div class="phoenix-menu-children" *ngIf="currentNode.childrenActive">

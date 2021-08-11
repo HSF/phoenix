@@ -63,6 +63,7 @@ export class ShareLinkDialogComponent {
     inputElement.select();
     document.execCommand('copy');
     document.body.removeChild(inputElement);
+    element.focus();
 
     // Set text on copying
     element.innerText = 'COPIED';

@@ -17,8 +17,8 @@
       </svg>
     </div>
     <h5 class="align-self-center m-0 px-2">{{ overlayTitle }}</h5>
-    <div
-      class="align-self-center card-icon expandCollapse"
+    <button
+      class="align-self-center card-icon btn-blank expandCollapse"
       matTooltip="Expand / Collapse"
       matTooltipPosition="right"
       [ngClass]="{ expand: showBody }"
@@ -27,7 +27,7 @@
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>
       </svg>
-    </div>
+    </button>
   </div>
   <div
     class="overlay-card-content"

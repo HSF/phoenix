@@ -11,19 +11,20 @@
           *ngFor="let eventDataImportOption of eventDataOptionsWithHandler"
         >
           <input
+            #eventDataFileInput
             type="file"
-            [id]="'eventData' + eventDataImportOption.format + 'File'"
-            class="inputfile"
+            tabindex="-1"
+            class="file-input"
             [accept]="eventDataImportOption.accept"
             (change)="eventDataImportOption.handler($event.target.files)"
           />
-          <label
-            [for]="'eventData' + eventDataImportOption.format + 'File'"
-            class="imageLabel"
+          <button
+            class="file-input-button"
+            (click)="eventDataFileInput.click()"
           >
             <img src="assets/icons/eventData.svg" alt="Event data icon" />
             Load {{ eventDataImportOption.fileType }}
-          </label>
+          </button>
         </ng-container>
       </div>
 
@@ -36,50 +37,54 @@
 
     <div class="row centered">
       <input
+        #objFileInput
         type="file"
-        id="objFile"
-        class="inputfile"
+        tabindex="-1"
+        class="file-input"
         accept=".obj"
         name="image"
         (change)="handleOBJInput($event.target.files)"
       />
-      <label for="objFile" class="imageLabel">
+      <button class="file-input-button" (click)="objFileInput.click()">
         <img src="assets/icons/obj.svg" alt="" /> Load .obj
-      </label>
+      </button>
 
       <input
+        #gltfFileInput
         type="file"
-        id="gltfFile"
-        class="inputfile"
+        tabindex="-1"
+        class="file-input"
         accept=".gltf"
         name="image"
         (change)="handleGLTFInput($event.target.files)"
       />
-      <label for="gltfFile" class="imageLabel">
+      <button class="file-input-button" (click)="gltfFileInput.click()">
         <img src="assets/icons/gltf.svg" alt="" /> Load .gltf
-      </label>
+      </button>
 
       <input
+        #rootFileInput
         type="file"
-        id="rootFile"
-        class="inputfile"
+        tabindex="-1"
+        class="file-input"
         accept=".root"
         (change)="handleROOTInput($event.target.files)"
       />
-      <label for="rootFile" class="imageLabel">
+      <button class="file-input-button" (click)="rootFileInput.click()">
         <img src="assets/icons/file-import.svg" alt="" /> Load .root
-      </label>
+      </button>
 
       <input
+        #rootJSONFileInput
         type="file"
-        id="rootJSONFile"
-        class="inputfile"
+        tabindex="-1"
+        class="file-input"
         accept=".json.gz"
         (change)="handleRootJSONInput($event.target.files)"
       />
-      <label for="rootJSONFile" class="imageLabel">
+      <button class="file-input-button" (click)="rootJSONFileInput.click()">
         <img src="assets/icons/file-import.svg" alt="" /> Load .json.gz
-      </label>
+      </button>
     </div>
 
     <p class="text-center">Supported formats: OBJ, GLTF, ROOT, ROOT JSON</p>
@@ -87,33 +92,38 @@
     <h5>Import / export scene</h5>
 
     <div class="row centered">
-      <label
-        class="imageLabel loadExport"
+      <button
+        class="file-input-button load-export"
         id="exportScene"
         (click)="saveScene()"
       >
         <img src="assets/icons/save.svg" alt="" /> Save scene
-      </label>
+      </button>
 
       <input
+        #loadSceneInput
         type="file"
-        id="loadScene"
-        class="inputfile"
+        tabindex="-1"
+        class="file-input"
         accept=".phnx"
         name="image"
         (change)="handlePhoenixInput($event.target.files)"
       />
-      <label for="loadScene" class="imageLabel loadExport" id="importScene">
+      <button
+        class="file-input-button load-export"
+        id="importScene"
+        (click)="loadSceneInput.click()"
+      >
         <img src="assets/icons/upload.svg" alt="" /> Load scene
-      </label>
+      </button>
 
-      <label
-        class="imageLabel exportLabel"
+      <button
+        class="file-input-button export-button"
         id="exportOBJ"
         (click)="exportOBJ()"
       >
         <img src="assets/icons/obj.svg" alt="" /> Save OBJ
-      </label>
+      </button>
     </div>
   </div>
   <div mat-dialog-actions>

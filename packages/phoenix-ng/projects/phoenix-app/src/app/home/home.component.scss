@@ -19,6 +19,7 @@ h1 {
   width: 20em;
   background-color: var(--phoenix-background-color-secondary);
   border-radius: 10px;
+
   p {
     color: var(--phoenix-text-color-secondary);
   }
@@ -37,6 +38,7 @@ h1 {
 
   .card-body {
     justify-content: space-between;
+
     a {
       border-radius: 10px;
     }
