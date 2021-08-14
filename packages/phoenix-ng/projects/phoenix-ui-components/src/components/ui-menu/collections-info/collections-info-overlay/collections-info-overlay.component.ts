@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { PrettySymbols, ActiveVariable } from 'phoenix-event-display';
+import { PrettySymbols, ActiveVariable, SceneManager } from 'phoenix-event-display';
+import { Object3D } from 'three';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
@@ -13,7 +14,9 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
+  getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
+  eventDataGroup: Object3D;
 
   constructor(
     private elementRef: ElementRef,
@@ -22,7 +25,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange(
-      (event) => (this.collections = this.eventDisplay.getCollections())
+      (_event) => (this.collections = this.eventDisplay.getCollections())
     );
     this.activeObject = this.eventDisplay.getActiveObjectId();
     this.activeObject.onUpdate((value: string) => {
@@ -30,14 +33,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
         document.getElementById(value).scrollIntoView(false);
       }
     });
+    this.eventDataGroup = this.eventDisplay.getThreeManager().getSceneManager().getScene().getObjectByName(SceneManager.EVENT_DATA_ID);
   }
 
-  changeCollection(selected: any) {
-    const value = selected.target.value;
-    this.selectedCollection = value;
+  changeCollection(selectedCollection: string) {
+    this.selectedCollection = selectedCollection;
     this.showingCollection = this.eventDisplay
-      .getCollection(value)
-      .map(PrettySymbols.getPrettyParams);
+      .getCollection(selectedCollection);
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
       (column) => column !== 'uuid' && column !== 'hits' // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
