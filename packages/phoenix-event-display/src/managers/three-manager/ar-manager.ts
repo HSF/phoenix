@@ -35,7 +35,7 @@ export class ARManager extends XRManager {
     this.sessionInit = () => {
       return ARManager.enableDomOverlay ? {
         optionalFeatures: ['dom-overlay'],
-        domOverlay: { root: document.body },
+        domOverlay: { root: document.getElementById('arOverlay') },
       } : {};
     }
   }
@@ -46,7 +46,6 @@ export class ARManager extends XRManager {
    * @override
    */
   protected async onXRSessionStarted(session: any) {
-    document.body.style.setProperty('background-color', 'transparent');
     this.previousValues.sceneScale = this.scene.scale.x;
     this.previousValues.cameraNear = this.camera.near;
     this.scaleScene(0.00001);
@@ -60,7 +59,6 @@ export class ARManager extends XRManager {
    * @override
    */
   protected onXRSessionEnded() {
-    document.body.style.removeProperty('background-color');
     this.scaleScene(this.previousValues.sceneScale);
     this.camera.near = this.previousValues.cameraNear;
     super.onXRSessionEnded();
