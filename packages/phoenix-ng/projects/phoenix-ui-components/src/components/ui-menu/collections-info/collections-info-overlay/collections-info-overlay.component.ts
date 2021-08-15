@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { PrettySymbols, ActiveVariable, SceneManager } from 'phoenix-event-display';
-import { Object3D } from 'three';
+import {
+  PrettySymbols,
+  ActiveVariable,
+  SceneManager,
+} from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
@@ -16,7 +19,6 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collectionColumns: string[];
   getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
-  eventDataGroup: Object3D;
 
   constructor(
     private elementRef: ElementRef,
@@ -33,15 +35,22 @@ export class CollectionsInfoOverlayComponent implements OnInit {
         document.getElementById(value).scrollIntoView(false);
       }
     });
-    this.eventDataGroup = this.eventDisplay.getThreeManager().getSceneManager().getScene().getObjectByName(SceneManager.EVENT_DATA_ID);
   }
 
   changeCollection(selectedCollection: string) {
+    const eventDataGroup = this.getEventDataGroup();
     this.selectedCollection = selectedCollection;
+
     this.showingCollection = this.eventDisplay
-      .getCollection(selectedCollection);
+      .getCollection(selectedCollection)
+      .map((object: any) => ({
+        ...object,
+        isCut: !eventDataGroup.getObjectByProperty('uuid', object.uuid)
+          ?.visible,
+      }));
+
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => column !== 'uuid' && column !== 'hits' // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+      (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
 
@@ -72,5 +81,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
         uuid
       );
     }
+  }
+
+  private getEventDataGroup() {
+    return this.eventDisplay
+      .getThreeManager()
+      .getSceneManager()
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
   }
 }

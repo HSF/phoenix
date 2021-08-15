@@ -38,7 +38,9 @@
             <th>No.</th>
             <th>Selection</th>
             <th>Label</th>
-            <th *ngFor="let column of collectionColumns">{{ getPrettySymbol(column) }}</th>
+            <th *ngFor="let column of collectionColumns">
+              {{ getPrettySymbol(column) }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -47,7 +49,8 @@
             [attr.id]="object.uuid"
             [ngClass]="{
               'active-object':
-                activeObject && activeObject.value === object.uuid
+                activeObject && activeObject.value === object.uuid,
+              'is-cut': object.isCut
             }"
           >
             <td>#{{ i }}</td>

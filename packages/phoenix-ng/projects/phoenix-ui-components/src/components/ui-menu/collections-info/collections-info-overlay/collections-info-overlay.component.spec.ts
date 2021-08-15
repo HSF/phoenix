@@ -59,12 +59,12 @@ describe('CollectionsInfoOverlayComponent', () => {
     spyOn(eventDisplayService, 'getCollection').and.callFake(() => {
       return [{ uuid: 'abcd1234', otherProp: 'testPropValue' }];
     });
-    const mockSelectedValue = { target: { value: 'TestCollection' } };
+    const mockSelectedValue = 'TestCollection';
 
     component.changeCollection(mockSelectedValue);
 
     expect(eventDisplayService.getCollection).toHaveBeenCalledWith(
-      mockSelectedValue.target.value
+      mockSelectedValue
     );
   });
 
