@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { PrettySymbols, ActiveVariable } from 'phoenix-event-display';
+import {
+  PrettySymbols,
+  ActiveVariable,
+  SceneManager,
+} from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
@@ -13,6 +17,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
+  getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
 
   constructor(
@@ -22,7 +27,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange(
-      (event) => (this.collections = this.eventDisplay.getCollections())
+      (_event) => (this.collections = this.eventDisplay.getCollections())
     );
     this.activeObject = this.eventDisplay.getActiveObjectId();
     this.activeObject.onUpdate((value: string) => {
@@ -32,14 +37,20 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     });
   }
 
-  changeCollection(selected: any) {
-    const value = selected.target.value;
-    this.selectedCollection = value;
+  changeCollection(selectedCollection: string) {
+    const eventDataGroup = this.getEventDataGroup();
+    this.selectedCollection = selectedCollection;
+
     this.showingCollection = this.eventDisplay
-      .getCollection(value)
-      .map(PrettySymbols.getPrettyParams);
+      .getCollection(selectedCollection)
+      .map((object: any) => ({
+        ...object,
+        isCut: !eventDataGroup.getObjectByProperty('uuid', object.uuid)
+          ?.visible,
+      }));
+
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => column !== 'uuid' && column !== 'hits' // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+      (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
 
@@ -70,5 +81,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
         uuid
       );
     }
+  }
+
+  private getEventDataGroup() {
+    return this.eventDisplay
+      .getThreeManager()
+      .getSceneManager()
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
   }
 }

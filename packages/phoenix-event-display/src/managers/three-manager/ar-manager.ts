@@ -33,11 +33,13 @@ export class ARManager extends XRManager {
     this.previousValues.sceneScale = scene.scale.x;
     this.previousValues.cameraNear = camera.near;
     this.sessionInit = () => {
-      return ARManager.enableDomOverlay ? {
-        optionalFeatures: ['dom-overlay'],
-        domOverlay: { root: document.body },
-      } : {};
-    }
+      return ARManager.enableDomOverlay
+        ? {
+            optionalFeatures: ['dom-overlay'],
+            domOverlay: { root: document.body },
+          }
+        : {};
+    };
   }
 
   /**

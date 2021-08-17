@@ -49,6 +49,10 @@
     }
   }
 
+  tr.is-cut {
+    opacity: 0.5;
+  }
+
   tr.active-object {
     color: var(--phoenix-background-color);
     background: var(--phoenix-text-color);

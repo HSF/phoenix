@@ -152,7 +152,9 @@ export class PhoenixObjects {
       0.5 * length * ctheta
     );
 
-    const width = jetParams.coneR ? length * Math.sin(jetParams.coneR) : length * 0.1;
+    const width = jetParams.coneR
+      ? length * Math.sin(jetParams.coneR)
+      : length * 0.1;
 
     const x = cphi * stheta;
     const y = sphi * stheta;

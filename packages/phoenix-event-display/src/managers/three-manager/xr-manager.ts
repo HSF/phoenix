@@ -35,9 +35,7 @@ export class XRManager {
    * @param sessionType Type of the session, either AR or VR.
    * @param sessionInit Other options for the session like optional features.
    */
-  constructor(
-    private sessionType: XRSessionType
-  ) {}
+  constructor(private sessionType: XRSessionType) {}
 
   /**
    * Set and configure the XR session.

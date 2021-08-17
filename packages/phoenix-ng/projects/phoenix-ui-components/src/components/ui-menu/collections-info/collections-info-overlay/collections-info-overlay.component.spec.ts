@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { Group, Object3D } from 'three';
 
-describe('CollectionsInfoOverlayComponent', () => {
+fdescribe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
   let eventDisplayService: EventDisplayService;
@@ -15,7 +16,7 @@ describe('CollectionsInfoOverlayComponent', () => {
       providers: [EventDisplayService],
       declarations: [CollectionsInfoOverlayComponent],
     }).compileComponents();
-    eventDisplayService = TestBed.get(EventDisplayService);
+    eventDisplayService = TestBed.inject(EventDisplayService);
   });
 
   beforeEach(() => {
@@ -56,15 +57,25 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should change collection', () => {
-    spyOn(eventDisplayService, 'getCollection').and.callFake(() => {
-      return [{ uuid: 'abcd1234', otherProp: 'testPropValue' }];
-    });
-    const mockSelectedValue = { target: { value: 'TestCollection' } };
+    const uuid = 'abcd1234';
+    const group = new Object3D();
+    const object = new Object3D();
+    object.uuid = uuid;
+
+    spyOn(
+      eventDisplayService.getThreeManager().getSceneManager().getScene(),
+      'getObjectByName'
+    ).and.callFake(() => group);
+    spyOn(eventDisplayService, 'getCollection').and.callFake(() => [
+      { uuid, otherProp: 'testPropValue' },
+    ]);
+
+    const mockSelectedValue = 'TestCollection';
 
     component.changeCollection(mockSelectedValue);
 
     expect(eventDisplayService.getCollection).toHaveBeenCalledWith(
-      mockSelectedValue.target.value
+      mockSelectedValue
     );
   });
 

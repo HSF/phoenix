@@ -17,7 +17,7 @@
         <select
           id="collection"
           name="collection"
-          (change)="changeCollection($event)"
+          (change)="changeCollection($event.target.value)"
         >
           <option value="" selected disabled hidden>Choose Collection</option>
           <option *ngFor="let collection of collections" [value]="collection">
@@ -38,7 +38,9 @@
             <th>No.</th>
             <th>Selection</th>
             <th>Label</th>
-            <th *ngFor="let column of collectionColumns">{{ column }}</th>
+            <th *ngFor="let column of collectionColumns">
+              {{ getPrettySymbol(column) }}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -47,7 +49,8 @@
             [attr.id]="object.uuid"
             [ngClass]="{
               'active-object':
-                activeObject && activeObject.value === object.uuid
+                activeObject && activeObject.value === object.uuid,
+              'is-cut': object.isCut
             }"
           >
             <td>#{{ i }}</td>
