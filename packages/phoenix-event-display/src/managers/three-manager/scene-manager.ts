@@ -19,6 +19,7 @@ import {
   Font,
   BufferGeometry,
   Quaternion,
+  Line,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Cut } from '../../extras/cut.model';
@@ -144,10 +145,10 @@ export class SceneManager {
     const object = this.scene.getObjectByName(name);
 
     if (value && object) {
-      object.traverse((o) => {
-        if (o instanceof Mesh && o.material instanceof Material) {
-          o.material.transparent = true;
-          o.material.opacity = value;
+      object.traverse((child) => {
+        if (child?.['material']) {
+          child['material'].transparent = true;
+          child['material'].opacity = value;
         }
       });
     }
