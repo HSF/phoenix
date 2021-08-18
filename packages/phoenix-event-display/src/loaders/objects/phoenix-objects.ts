@@ -121,7 +121,7 @@ export class PhoenixObjects {
     }
 
     // Setting uuid for selection from collections info
-    trackParams.uuid = tubeObject.uuid;
+    trackParams.uuid = trackObject.uuid;
 
     return trackObject;
   }
