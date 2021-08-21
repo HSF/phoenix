@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Object3D } from 'three';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
-import { Group, Object3D } from 'three';
 
-fdescribe('CollectionsInfoOverlayComponent', () => {
+describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
   let eventDisplayService: EventDisplayService;
