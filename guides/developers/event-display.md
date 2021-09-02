@@ -25,7 +25,7 @@ The modular and extendable nature of Phoenix is not limited to just the `EventDi
 
 The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
 
-Here is a a list of sub managers of `ThreeManager`:
+Here is a list of sub managers of `ThreeManager`:
 
 * [**`AnimationsManager`**](../../packages/phoenix-event-display/src/managers/three-manager/animations-manager.ts)  
   Responsible for animation related operations. For example, animating the camera through the event.
@@ -47,24 +47,31 @@ Here is a a list of sub managers of `ThreeManager`:
   Manages selection functionality of the event display like applying outline pass to a selected object or getting selected object info for the object selection overlay.
 * [**`XRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/xr-manager.ts)  
   Provides common functionality of AR/VR like setting up the session and XR camera.
-* [**`ARManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/ar-manager.ts)  
-  Extended from `XRManager`. Used to manage AR related functions like starting an AR session and showing overlay in AR mode.
-* [**`VRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/vr-manager.ts)  
-  Extended from `XRManager`. Used to manage VR related functions like setting up VR controls and movement.
+  * [**`ARManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/ar-manager.ts)  
+    Extended from `XRManager`. Used to manage AR related functions like starting an AR session and showing overlay in AR mode.
+  * [**`VRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/vr-manager.ts)  
+    Extended from `XRManager`. Used to manage VR related functions like setting up VR controls and movement.
 
 Currently the sub managers are not big enough to be divided into multiple parts. However, if at some point their code gets large, it should be further divided.
 
-## [`UIManager`](../../packages/phoenix-event-display/src/ui/index.ts)
+## [`UIManager`](../../packages/phoenix-event-display/src/managers/ui-manager/index.ts)
 
 The `UIManager` is responsible for all the UI aspects of the `EventDisplay`. This includes the Phoenix menu, dat.GUI menu, stats UI etc.
 
 It takes care of tasks like:
 
 * Adding configuration options to Phoenix UI on loading geometry or event data.
-* Setting the UI color theme dark or light
+* Setting the UI color theme to dark or light
 * Applying clipping to geometries
 * Linking UI menu options with the `EventDisplay`
 * etc.
+
+The `UIManager` is further divided into the following managers:
+
+* [**`DatGUIMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/dat-gui-ui.ts)   
+  Contains functions for setting up all the options in dat.GUI menu.
+* [**`PhoenixMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts)  
+  Contains functions for setting up all the options in Phoenix menu.
 
 ### [`PhoenixMenuNode`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts)
 
