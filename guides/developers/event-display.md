@@ -21,30 +21,36 @@ This architectural approach helps in maintaining the modularity of Phoenix and m
 
 The modular and extendable nature of Phoenix is not limited to just the `EventDisplay`. The managers are also further divided into sub managers each of which is responsible for handling and maintaining different aspects and features.
 
-## [`ThreeManager`](../../packages/phoenix-event-display/src/three/index.ts)
+## [`ThreeManager`](../../packages/phoenix-event-display/src/managers/three-manager/index.ts)
 
 The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
 
 Here is a a list of sub managers of `ThreeManager`:
 
-* [**`AnimationsManager`**](../../packages/phoenix-event-display/src/three/animations-manager.ts)  
+* [**`AnimationsManager`**](../../packages/phoenix-event-display/src/managers/three-manager/animations-manager.ts)  
   Responsible for animation related operations. For example, animating the camera through the event.
-* [**`ControlsManager`**](../../packages/phoenix-event-display/src/three/controls-manager.ts)  
+* [**`ColorManager`**](../../packages/phoenix-event-display/src/managers/three-manager/color-manager.ts)  
+  Provides functionality for managing coloring of objects in the scene.
+* [**`ControlsManager`**](../../packages/phoenix-event-display/src/managers/three-manager/controls-manager.ts)  
   Manages all controls related functionality which includes the camera, orbit controls and zoom controls.
-* [**`EffectsManager`**](../../packages/phoenix-event-display/src/three/effects-manager.ts)  
+* [**`EffectsManager`**](../../packages/phoenix-event-display/src/managers/three-manager/effects-manager.ts)  
   Used for managing event display effects like the outline pass for selected object.
-* [**`ExportManager`**](../../packages/phoenix-event-display/src/three/export-manager.ts)  
+* [**`ExportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/export-manager.ts)  
   Manages export related functions like exporting the event display to an `.obj` file or to the `.phnx` (Phoenix scene) file.
-* [**`ImportManager`**](../../packages/phoenix-event-display/src/three/import-manager.ts)  
+* [**`ImportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/import-manager.ts)  
   Manages import related functions like importing different types of 3D geometries (`.gltf`, `.root`, `.obj` etc.) or event data (`.json`, `.xml` etc.).
-* [**`RendererManager`**](../../packages/phoenix-event-display/src/three/renderer-manager.ts)  
+* [**`RendererManager`**](../../packages/phoenix-event-display/src/managers/three-manager/renderer-manager.ts)  
   Manages `three.js` renderers used by Phoenix including both the main and overlay renderer (used in the overlay view).
-* [**`SceneManager`**](../../packages/phoenix-event-display/src/three/scene-manager.ts)  
+* [**`SceneManager`**](../../packages/phoenix-event-display/src/managers/three-manager/scene-manager.ts)  
   Used to manage `three.js` scene related operations like traversing through the scene, applying color or opacity to 3D objects, managing scene lights etc.
-* [**`SelectionManager`**](../../packages/phoenix-event-display/src/three/selection-manager.ts)  
+* [**`SelectionManager`**](../../packages/phoenix-event-display/src/managers/three-manager/selection-manager.ts)  
   Manages selection functionality of the event display like applying outline pass to a selected object or getting selected object info for the object selection overlay.
-* [**`VRManager`**](../../packages/phoenix-event-display/src/three/vr-manager.ts)  
-  Used to manage VR related functions like starting a VR session, setting up VR controls etc.
+* [**`XRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/xr-manager.ts)  
+  Provides common functionality of AR/VR like setting up the session and XR camera.
+* [**`ARManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/ar-manager.ts)  
+  Extended from `XRManager`. Used to manage AR related functions like starting an AR session and showing overlay in AR mode.
+* [**`VRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/vr-manager.ts)  
+  Extended from `XRManager`. Used to manage VR related functions like setting up VR controls and movement.
 
 Currently the sub managers are not big enough to be divided into multiple parts. However, if at some point their code gets large, it should be further divided.
 
@@ -60,7 +66,7 @@ It takes care of tasks like:
 * Linking UI menu options with the `EventDisplay`
 * etc.
 
-### [`PhoenixMenuNode`](../../packages/phoenix-event-display/src/ui/phoenix-menu/phoenix-menu-node.ts)
+### [`PhoenixMenuNode`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts)
 
 The `PhoenixMenuNode` is a class that maintains all the options of Phoenix menu at the program level. It doesn't implement the UI for Phoenix menu but contains all the logic.\
 It is designed to be adaptable to custom UIs. This class can be used to create a custom Phoenix menu like interface in any kind of frontend framework.
