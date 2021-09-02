@@ -24,13 +24,13 @@ import { SceneManager } from './scene-manager';
 import { AnimationPreset, AnimationsManager } from './animations-manager';
 import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
-import { VRManager } from './vr-manager';
 import { StateManager } from '../state-manager';
 import { LoadingManager } from '../loading-manager';
 import { ActiveVariable } from '../../helpers/active-variable';
 import { ColorManager } from './color-manager';
-import { ARManager } from './ar-manager';
-import { XRManager, XRSessionType } from './xr-manager';
+import { XRManager, XRSessionType } from './xr/xr-manager';
+import { VRManager } from './xr/vr-manager';
+import { ARManager } from './xr/ar-manager';
 
 /**
  * Manager for all three.js related functions.
