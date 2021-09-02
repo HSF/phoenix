@@ -39,9 +39,11 @@
     "phoenix-event-display": "^2.2.0",
     "phoenix-ui-components": "^2.2.0",
     "rxjs": "^6.5.3",
-    "three": "^0.132.2",
     "tslib": "^2.3.1",
     "zone.js": "^0.11.4"
+  },
+  "peerDependencies": {
+    "three": "*"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^12.2.3",

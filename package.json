@@ -20,6 +20,9 @@
     "lint:fix": "lerna run eslint:fix && lerna run prettier:write",
     "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
   },
+  "dependencies": {
+    "three": "^0.132.2"
+  },
   "devDependencies": {
     "@types/jasmine": "^3.8.2",
     "@types/node": "^15.12.4",
