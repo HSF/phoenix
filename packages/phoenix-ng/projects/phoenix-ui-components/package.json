@@ -22,7 +22,6 @@
     "@angular/core": "*",
     "@angular/platform-browser-dynamic": "*",
     "phoenix-event-display": "*",
-    "three": "*",
     "zone.js": "*"
   },
   "dependencies": {
@@ -30,6 +29,7 @@
     "@angular/cdk": "^12.2.3",
     "@angular/material": "^12.2.3",
     "css-element-queries": "^1.2.3",
+    "three": "^0.132.2",
     "tslib": "^2.3.1"
   },
   "main": "dist/bundles/phoenix-ui-components.umd.js",
