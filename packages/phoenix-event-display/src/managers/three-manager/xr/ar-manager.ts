@@ -1,5 +1,5 @@
 import { PerspectiveCamera, Scene } from 'three';
-import { SceneManager } from './scene-manager';
+import { SceneManager } from '../scene-manager';
 import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 28/06/2021

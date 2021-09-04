@@ -1,7 +1,7 @@
 import { EventDisplay } from '../event-display';
 import { ThreeManager } from '../managers/three-manager';
 import { UIManager } from '../managers/ui-manager';
-import { XRSessionType } from '../managers/three-manager/xr-manager';
+import { XRSessionType } from '../managers/three-manager/xr/xr-manager';
 import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 

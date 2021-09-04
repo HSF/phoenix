@@ -7,7 +7,7 @@ import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';
 import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
-import { XRSessionType } from './managers/three-manager/xr-manager';
+import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 
 declare global {
   /**
