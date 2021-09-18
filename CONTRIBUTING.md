@@ -53,7 +53,7 @@ The `body` is encouraged, and should describe in more detail what is being chang
   │       │
   │       └─⫸ Commit Scope: app | event-display
   │
-  └─⫸ Commit Type: feat | fix | docs | style | build
+  └─⫸ Commit Type: feat | fix | docs | style | build | misc
 ```
 
 Here is an example of a documentation improvement for the `phoenix-app` package:
