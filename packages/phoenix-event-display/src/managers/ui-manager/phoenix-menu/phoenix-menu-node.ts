@@ -201,7 +201,7 @@ export class PhoenixMenuNode {
 
     this.childrenActive = jsonObject['childrenActive'];
     this.toggleState = jsonObject['toggleState'];
-    this.onToggle?.(this.toggleState);
+    this.toggleState !== undefined && this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject['configs']) {
       const nodeConfig = this.configs.find(
