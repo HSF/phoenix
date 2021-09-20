@@ -159,7 +159,7 @@ import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
 import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
 import { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
-import { XRSessionType } from &#x27;./managers/three-manager/xr-manager&#x27;;
+import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
 
 declare global {
   /**
@@ -269,6 +269,7 @@ export class EventDisplay {
       this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach((callback) &#x3D;&gt; callback(eventKeys));
+
     return eventKeys;
   }
 
@@ -348,6 +349,7 @@ export class EventDisplay {
     if (!this.stateManager) {
       this.stateManager &#x3D; new StateManager();
     }
+
     return this.stateManager;
   }
 
@@ -363,8 +365,8 @@ export class EventDisplay {
    * @param color Color to initialize the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param doubleSided If true, render both sides of the material.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param setFlat Whether object should be flat-shaded or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
+   * @param setFlat Whether object should be flat-shaded or not. Default &#x60;true&#x60;.
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
@@ -379,6 +381,7 @@ export class EventDisplay {
     this.loadingManager.addLoadableItem(&#x60;obj_geom_${name}&#x60;);
     this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded OBJ geometry&#x27;);
+
     return this.graphicsLibrary.loadOBJGeometry(
       filename,
       name,
@@ -395,7 +398,7 @@ export class EventDisplay {
    * @param content Content of the OBJ geometry.
    * @param name Name given to the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    */
   public parseOBJGeometry(
     content: string,
@@ -435,6 +438,7 @@ export class EventDisplay {
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
 
       this.loadingManager.addLoadableItem(&#x60;parse_phnx_${name}&#x60;);
+
       return this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
     }
   }
@@ -459,6 +463,7 @@ export class EventDisplay {
     this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
     this.ui.addGeometry(name, undefined);
     this.infoLogger.add(name, &#x27;Parsed GLTF geometry&#x27;);
+
     return this.graphicsLibrary.parseGLTFGeometry(input, name);
   }
 
@@ -469,7 +474,7 @@ export class EventDisplay {
    * @param name Name of the loaded scene/geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -482,6 +487,7 @@ export class EventDisplay {
     this.loadingManager.addLoadableItem(&#x60;gltf_geom_${name}&#x60;);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded GLTF geometry&#x27;);
+
     return this.graphicsLibrary.loadGLTFGeometry(
       url,
       name,
@@ -497,7 +503,7 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    * @returns Promise for loading the geometry.
    */
   public loadJSONGeometry(
@@ -511,6 +517,7 @@ export class EventDisplay {
     this.loadingManager.addLoadableItem(&#x60;json_geom_${name}&#x60;);
     this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
     this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
+
     return this.graphicsLibrary.loadJSONGeometry(
       json,
       name,
@@ -528,7 +535,7 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    */
   public loadRootJSONGeometry(
     JSROOT: any,
@@ -562,7 +569,7 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    */
   public loadRootGeometry(
     JSROOT: any,

@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/HSF/phoenix/compare/v2.2.0...v2.3.0) (2021-09-20)
+
+
+### Bug Fixes
+
+* **app:** fix homepage button active style ([bc7d375](https://github.com/HSF/phoenix/commit/bc7d3759e000f8baeb5ca527e06b7bc04593eb69))
+
+
+### Features
+
+* Upgrade all packages ([4698ea4](https://github.com/HSF/phoenix/commit/4698ea4ed623c579e0720fd9d2a0dbdb16985181))
+* **app:** add class for blank button ([4df157b](https://github.com/HSF/phoenix/commit/4df157b90f656c4e270294d660efd9652b053779))
+* **app:** handle collection columns symbols more optimally ([69c3d1e](https://github.com/HSF/phoenix/commit/69c3d1e35bf6ae0dc621a91c8ddaddada65bd1b4))
+* **app:** keyboard a11y for io options dialog ([860be71](https://github.com/HSF/phoenix/commit/860be71f700c0469cf138f957c0a24c221078dae))
+* **app:** make overlay and collections info keyboard accessible ([eb31a83](https://github.com/HSF/phoenix/commit/eb31a83bdce3ba322a187e041d1e30738072d08f))
+* **app:** make Phoenix menu keyboard accessible ([ba7d66f](https://github.com/HSF/phoenix/commit/ba7d66ffd9a83ba58b3f06d8d8a8169d678646d8))
+* **app:** make UI menu buttons keyboard accessible ([69473fd](https://github.com/HSF/phoenix/commit/69473fd461ec236f698ba3df0be0c919b29a3dd1))
+* **app:** make UI menu keyboard accessible ([a18fa6f](https://github.com/HSF/phoenix/commit/a18fa6f28db98ec6ce6ee0c3310cc77b88a7b84c))
+* **app:** make view options accessible through keyboard ([a50a0d1](https://github.com/HSF/phoenix/commit/a50a0d1614fe46f183299b3918aad525e3d7f29f))
+* **app:** making clipping options keyboard accessible ([4d1bd95](https://github.com/HSF/phoenix/commit/4d1bd95f40c2c31fe99085c152ab0c9237ac2325))
+* **app:** show cut objects in collections info panel ([318acc9](https://github.com/HSF/phoenix/commit/318acc9ab68707bb6d0db91f30fbd7c95002b586))
+
+
+
+
+
 # [2.2.0](https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0) (2021-08-03)
 
 

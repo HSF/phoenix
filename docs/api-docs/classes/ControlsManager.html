@@ -650,8 +650,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="444"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:444</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:450</a></div>
                 </td>
             </tr>
 
@@ -1153,8 +1153,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="368"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:368</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:374</a></div>
                 </td>
             </tr>
 
@@ -1247,8 +1247,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="402"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:402</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="408"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:408</a></div>
                 </td>
             </tr>
 
@@ -1383,8 +1383,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="483"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:483</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="489"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:489</a></div>
                 </td>
             </tr>
 
@@ -1477,8 +1477,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="420"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:420</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:426</a></div>
                 </td>
             </tr>
 
@@ -1631,8 +1631,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="433"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:433</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="439"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:439</a></div>
                 </td>
             </tr>
 
@@ -2027,8 +2027,8 @@ with the given uuid.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="458"
-                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:458</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="464"
+                            class="link-to-prism">src/managers/three-manager/controls-manager.ts:464</a></div>
                 </td>
             </tr>
 
@@ -2724,9 +2724,15 @@ export class ControlsManager {
             if (childObject.position.equals(origin)) {
               // Get the max vector from the bounding box to accumulate with the clusters
               if (childObject.geometry?.boundingSphere) {
-                objectPosition.add(
-                  childObject.geometry.boundingSphere.getBoundingBox().max
-                );
+                try {
+                  objectPosition.add(
+                    childObject.geometry.boundingSphere.getBoundingBox().max
+                  );
+                } catch (e) {
+                  objectPosition.add(
+                    childObject.geometry.boundingSphere?.center
+                  );
+                }
               }
             } else {
               objectPosition.add(childObject.position);

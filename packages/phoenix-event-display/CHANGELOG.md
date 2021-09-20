@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/HSF/phoenix/compare/v2.2.0...v2.3.0) (2021-09-20)
+
+
+### Bug Fixes
+
+* **event-display:** do not apply Phoenix menu node toggle if undefined in config ([bf98a24](https://github.com/HSF/phoenix/commit/bf98a246d9808834b902b9b447d5e7f597eba6d2))
+* **event-display:** fix cuts not displaying for tracks in collections info ([14d5f3a](https://github.com/HSF/phoenix/commit/14d5f3a62384dccb63e69aea9de568227db0545c))
+* **event-display:** fix error in adding labels for electrons ([98c7055](https://github.com/HSF/phoenix/commit/98c70552ffb996957070cb2fa8119fc75d0864d3))
+* **event-display:** fix opacity for tracks ([094261c](https://github.com/HSF/phoenix/commit/094261c61ef9f7715c09530e907aa6913290a648))
+
+
+### Features
+
+* Upgrade all packages ([4698ea4](https://github.com/HSF/phoenix/commit/4698ea4ed623c579e0720fd9d2a0dbdb16985181))
+
+
+
+
+
 # [2.2.0](https://github.com/HSF/phoenix/compare/v2.1.0...v2.2.0) (2021-08-03)
 
 

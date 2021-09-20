@@ -168,8 +168,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="340"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:340</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:342</a></div>
                 </td>
             </tr>
 
@@ -246,8 +246,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:200</a></div>
                 </td>
             </tr>
 
@@ -406,8 +406,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="474"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:474</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="476"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:476</a></div>
                 </td>
             </tr>
 
@@ -484,8 +484,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="392"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:392</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:394</a></div>
                 </td>
             </tr>
 
@@ -641,8 +641,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="448"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:448</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:450</a></div>
                 </td>
             </tr>
 
@@ -720,8 +720,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="309"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:309</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="311"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:311</a></div>
                 </td>
             </tr>
 
@@ -829,8 +829,8 @@ and get it as a geometry.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="277"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:277</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="279"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:279</a></div>
                 </td>
             </tr>
 
@@ -1048,7 +1048,7 @@ export class PhoenixObjects {
     }
 
     // Setting uuid for selection from collections info
-    trackParams.uuid &#x3D; tubeObject.uuid;
+    trackParams.uuid &#x3D; trackObject.uuid;
 
     return trackObject;
   }
@@ -1079,7 +1079,9 @@ export class PhoenixObjects {
       0.5 * length * ctheta
     );
 
-    const width &#x3D; jetParams.coneR ? length * Math.sin(jetParams.coneR) : length * 0.1;
+    const width &#x3D; jetParams.coneR
+      ? length * Math.sin(jetParams.coneR)
+      : length * 0.1;
 
     const x &#x3D; cphi * stheta;
     const y &#x3D; sphi * stheta;
