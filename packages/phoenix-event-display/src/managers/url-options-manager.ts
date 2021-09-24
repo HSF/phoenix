@@ -31,9 +31,8 @@ export class URLOptionsManager {
     private eventDisplay: EventDisplay,
     private configuration: Configuration
   ) {
-    const locationHref = window.location.href;
     this.urlOptions = new URLSearchParams(
-      locationHref.substr(locationHref.lastIndexOf('?'))
+      window.location.href.substr(window.location.href.lastIndexOf('?'))
     );
   }
 
@@ -180,5 +179,13 @@ export class URLOptionsManager {
         });
       }
     });
+  }
+
+  /**
+   * Get options from URL set through query parameters.
+   * @returns URL options.
+   */
+  public getURLOptions() {
+    return this.urlOptions;
   }
 }
