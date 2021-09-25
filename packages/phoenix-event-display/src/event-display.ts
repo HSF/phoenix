@@ -41,6 +41,8 @@ export class EventDisplay {
   private loadingManager: LoadingManager;
   /** State manager for managing event display state. */
   private stateManager: StateManager;
+  /** URL manager for managing options given through URL. */
+  private urlOptionsManager: URLOptionsManager;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -77,9 +79,9 @@ export class EventDisplay {
     this.graphicsLibrary.setAnimationLoop(uiLoop);
 
     // Process and apply URL options
+    this.urlOptionsManager = new URLOptionsManager(this, configuration);
     if (configuration.allowUrlOptions !== false) {
-      const urlOptionsManager = new URLOptionsManager(this, configuration);
-      urlOptionsManager.applyOptions();
+      this.urlOptionsManager.applyOptions();
     }
 
     // Allow adding elements through console
@@ -199,6 +201,14 @@ export class EventDisplay {
     }
 
     return this.stateManager;
+  }
+
+  /**
+   * Get the URL options manager that manages options given through URL.
+   * @returns The URL options manager.
+   */
+  public getURLOptionsManager() {
+    return this.urlOptionsManager;
   }
 
   // **********************
