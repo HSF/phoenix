@@ -879,7 +879,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Camera, Group, Vector3, WebGLRenderer, XRSessionInit } from &#x27;three&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Camera, Group, Vector3, WebGLRenderer } from &#x27;three&#x27;;
 
 // NOTE: This was created on 28/06/2021
 // It might become outdated given how WebXR is still a work in progress
@@ -899,7 +899,7 @@ export class XRManager {
   /** Whether the XR is currently active or not. */
   protected xrActive: boolean &#x3D; false;
   /** Returns required and optional features when requesting an XR session. */
-  protected sessionInit: () &#x3D;&gt; XRSessionInit &amp; { [key: string]: any };
+  protected sessionInit: () &#x3D;&gt; { [key: string]: any };
   /** Renderer to set the XR session for. */
   protected renderer: WebGLRenderer;
   /** Currently active XR session. */

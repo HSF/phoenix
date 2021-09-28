@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/HSF/phoenix/compare/v2.3.1...v2.3.2) (2021-09-28)
+
+
+### Bug Fixes
+
+* **event-display:** remove XRSessionInit type from xr-manager ([608f529](https://github.com/HSF/phoenix/commit/608f5295d1ec8de5fb8d7da3be511748e642d040))
+
+
+
+
+
 ## [2.3.1](https://github.com/HSF/phoenix/compare/v2.3.0...v2.3.1) (2021-09-28)
 
 
