@@ -1,4 +1,4 @@
-import { Camera, Group, Vector3, WebGLRenderer, XRSessionInit } from 'three';
+import { Camera, Group, Vector3, WebGLRenderer } from 'three';
 
 // NOTE: This was created on 28/06/2021
 // It might become outdated given how WebXR is still a work in progress
@@ -18,7 +18,7 @@ export class XRManager {
   /** Whether the XR is currently active or not. */
   protected xrActive: boolean = false;
   /** Returns required and optional features when requesting an XR session. */
-  protected sessionInit: () => XRSessionInit & { [key: string]: any };
+  protected sessionInit: () => { [key: string]: any };
   /** Renderer to set the XR session for. */
   protected renderer: WebGLRenderer;
   /** Currently active XR session. */
