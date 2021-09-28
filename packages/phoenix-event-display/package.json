@@ -47,6 +47,7 @@
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@compodoc/compodoc": "^1.1.14",
     "@types/dat.gui": "^0.7.7",
+    "@types/three": "^0.132.1",
     "esbuild-loader": "^2.15.1",
     "karma-typescript": "~5.5.2",
     "karma-typescript-es6-transform": "~5.5.2",
