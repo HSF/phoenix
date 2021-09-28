@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/HSF/phoenix/compare/v2.3.0...v2.3.1) (2021-09-28)
+
+
+### Bug Fixes
+
+* **event-display:** add @types/three package as a dev dependency ([10244f7](https://github.com/HSF/phoenix/commit/10244f7da66782027636df00fbfd5383befb1668))
+
+
+### Features
+
+* **event-display:** function to get url options from url options manager ([0ba5097](https://github.com/HSF/phoenix/commit/0ba509786be4cc23fb702a8fe940b09e2f278de6))
+* Add API files for reading event data and config from server ([ccc8c5a](https://github.com/HSF/phoenix/commit/ccc8c5a4e8d24268877117078503a1ab6e5f3268))
+
+
+
+
+
 # [2.3.0](https://github.com/HSF/phoenix/compare/v2.2.0...v2.3.0) (2021-09-20)
 
 

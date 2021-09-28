@@ -121,6 +121,10 @@
                                 <a href="#applyOptions" >applyOptions</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getURLOptions" >getURLOptions</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#hideIdsWithURLOption" >hideIdsWithURLOption</a>
                             </li>
@@ -275,8 +279,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">src/managers/url-options-manager.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/managers/url-options-manager.ts:147</a></div>
                 </td>
             </tr>
 
@@ -316,8 +320,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/managers/url-options-manager.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/managers/url-options-manager.ts:58</a></div>
                 </td>
             </tr>
 
@@ -410,8 +414,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">src/managers/url-options-manager.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">src/managers/url-options-manager.ts:129</a></div>
                 </td>
             </tr>
 
@@ -451,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">src/managers/url-options-manager.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">src/managers/url-options-manager.ts:42</a></div>
                 </td>
             </tr>
 
@@ -464,6 +468,53 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getURLOptions"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getURLOptions</b></span>
+                        <a href="#getURLOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getURLOptions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">src/managers/url-options-manager.ts:188</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get options from URL set through query parameters.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>URL options.</p>
 
                     </div>
                 </td>
@@ -492,8 +543,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/managers/url-options-manager.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">src/managers/url-options-manager.ts:172</a></div>
                 </td>
             </tr>
 
@@ -590,9 +641,8 @@ export class URLOptionsManager {
     private eventDisplay: EventDisplay,
     private configuration: Configuration
   ) {
-    const locationHref &#x3D; window.location.href;
     this.urlOptions &#x3D; new URLSearchParams(
-      locationHref.substr(locationHref.lastIndexOf(&#x27;?&#x27;))
+      window.location.href.substr(window.location.href.lastIndexOf(&#x27;?&#x27;))
     );
   }
 
@@ -739,6 +789,14 @@ export class URLOptionsManager {
         });
       }
     });
+  }
+
+  /**
+   * Get options from URL set through query parameters.
+   * @returns URL options.
+   */
+  public getURLOptions() {
+    return this.urlOptions;
   }
 }
 </code></pre>
