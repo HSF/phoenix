@@ -15,7 +15,7 @@ Once you are decided to start contributing on the repository, take a look at the
 
 ### Code formatting
 
-We use [ESLint](http://github.com/eslint/eslint) for linting of TypeScript code and [Prettier](http://github.com/prettier/prettier) for liting of all other files. You can set up ESLint with your editor following [these instructions](https://eslint.org/docs/user-guide/integrations). We also have scripts to check and update code.
+We use [ESLint](http://github.com/eslint/eslint) for linting of TypeScript code and [Prettier](http://github.com/prettier/prettier) for linting of all other files. You can set up ESLint with your editor following [these instructions](https://eslint.org/docs/user-guide/integrations). We also have scripts to check and update code.
 
 To check:
 
