@@ -5,6 +5,10 @@
   [active]="showInfoPanel"
 >
   <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <!-- Show Phoenix Current Version (ON by Default) -->
+      Phoenix Version: {{version.version}}
+    </li>
     <li class="list-group-item" *ngIf="actionsList.length === 0">
       No actions.
     </li>
