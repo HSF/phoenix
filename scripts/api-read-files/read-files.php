@@ -26,9 +26,10 @@ if (isset($_GET['f'])) {
   return;
 }
 
-// Throw a 404 if the configured directory is not found.
+// Return a 422 response code if the configured directory is not found.
 if (!is_dir($config[$directoryToRead])) {
-  http_response_code(404);
+  http_response_code(422);
+  echo "The configured directory does not exist.";
   return;
 }
 
