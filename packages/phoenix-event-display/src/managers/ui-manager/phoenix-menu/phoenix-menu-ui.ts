@@ -20,8 +20,6 @@ export class PhoenixMenuUI {
   private eventFolderState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolder: PhoenixMenuNode;
-  /** Color options with functions to color event data. */
-  private colorOptions: ColorOptions;
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.

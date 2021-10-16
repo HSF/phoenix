@@ -8,6 +8,7 @@ import { URLOptionsManager } from './managers/url-options-manager';
 import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
+import { getLabelTitle } from './helpers/labels';
 
 declare global {
   /**
@@ -129,6 +130,8 @@ export class EventDisplay {
    * @param eventData Object containing the event data.
    */
   public buildEventDataFromJSON(eventData: any) {
+    // Reset labels
+    this.resetLabels();
     // Creating UI folder
     this.ui.addEventDataFolder();
     this.ui.addLabelsFolder();
@@ -723,5 +726,23 @@ export class EventDisplay {
 
     this.ui.addLabel(labelId);
     this.graphicsLibrary.addLabelToObject(label, uuid, labelId);
+  }
+
+  /**
+   * Reset/remove all labels.
+   */
+  public resetLabels() {
+    // labelsObject[EventDataType][Collection][Index]
+    const labelsObject = this.configuration.eventDataLoader.getLabelsObject();
+    for (const eventDataType in labelsObject) {
+      for (const collection in labelsObject[eventDataType]) {
+        for (const index in labelsObject[eventDataType][collection]) {
+          const labelId = getLabelTitle(eventDataType, collection, index);
+          this.ui.removeLabel(labelId, true);
+
+          delete labelsObject[eventDataType][collection][index];
+        }
+      }
+    }
   }
 }
