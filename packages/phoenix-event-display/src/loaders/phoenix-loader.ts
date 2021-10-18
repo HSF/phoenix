@@ -10,6 +10,7 @@ import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-men
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { getLabelTitle } from '../helpers/labels';
 
 /**
  * Loader for processing and loading an event.
@@ -628,10 +629,7 @@ export class PhoenixLoader implements EventDataLoader {
     indexInCollection: number
   ): string {
     for (const eventDataType in this.eventData) {
-      if (
-        this.eventData[eventDataType] &&
-        Object.keys(this.eventData[eventDataType]).includes(collection)
-      ) {
+      if (this.eventData?.[eventDataType]?.[collection]) {
         this.labelsObject[eventDataType] =
           this.labelsObject[eventDataType] || {};
         this.labelsObject[eventDataType][collection] =
@@ -639,7 +637,7 @@ export class PhoenixLoader implements EventDataLoader {
 
         this.labelsObject[eventDataType][collection][indexInCollection] = label;
 
-        return `${eventDataType} > ${collection} > ${indexInCollection}`;
+        return getLabelTitle(eventDataType, collection, indexInCollection);
       }
     }
   }
