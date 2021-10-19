@@ -11,6 +11,10 @@ import { StateManager } from '../../managers/state-manager';
 import { loadFile, saveFile } from '../../helpers/file';
 import { DatGUIMenuUI } from './dat-gui-ui';
 import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui';
+import {
+  getFromLocalStorage,
+  setToLocalStorage,
+} from '../../helpers/browser-storage';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -313,8 +317,8 @@ export class UIManager {
     let dark = false; // default to light
 
     // local storage is used to override OS theme settings
-    if (localStorage.getItem('theme')) {
-      if (localStorage.getItem('theme') === 'dark') {
+    if (getFromLocalStorage('theme')) {
+      if (getFromLocalStorage('theme') === 'dark') {
         dark = true;
       }
     } else if (!window.matchMedia) {
@@ -335,7 +339,7 @@ export class UIManager {
    */
   public setDarkTheme(dark: boolean) {
     const theme = dark ? 'dark' : 'light';
-    localStorage.setItem('theme', theme);
+    setToLocalStorage('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
   }
 
