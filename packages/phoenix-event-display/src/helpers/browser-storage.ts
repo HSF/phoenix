@@ -7,7 +7,7 @@ export const getFromLocalStorage = (item: string) => {
   try {
     return localStorage.getItem(item);
   } catch (exception) {
-    console.error(exception);
+    console.warn('Exception in localStorage', exception);
   }
 };
 
@@ -20,6 +20,6 @@ export const setToLocalStorage = (item: string, value: string) => {
   try {
     localStorage.setItem(item, value);
   } catch (exception) {
-    console.error(exception);
+    console.warn('Exception in localStorage', exception);
   }
 };

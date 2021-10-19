@@ -13,15 +13,15 @@ export class ArToggleComponent {
 
   constructor(private eventDisplay: EventDisplayService) {
     // NOTE: WebXR needs secure HTTPS context
-    if ('xr' in navigator) {
-      (navigator as any).xr
-        ?.isSessionSupported?.(ARManager.SESSION_TYPE)
-        .then((supported: boolean) => {
-          if (supported) {
-            this.arSupported = true;
-          }
-        });
-    } // else AR not supported
+    // Query for permissions of XR before using it (not supported by browsers yet). See https://developer.mozilla.org/en-US/docs/Web/API/Permissions/query
+    (navigator as any).xr
+      ?.isSessionSupported?.(ARManager.SESSION_TYPE)
+      .then((supported: boolean) => {
+        if (supported) {
+          this.arSupported = true;
+        }
+      })
+      .catch((err: any) => console.warn('Error in AR', err));
   }
 
   toggleAr(enableDomOverlay: boolean = true) {
