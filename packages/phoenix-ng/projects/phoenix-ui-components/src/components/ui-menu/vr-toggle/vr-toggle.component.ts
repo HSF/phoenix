@@ -13,15 +13,15 @@ export class VrToggleComponent {
 
   constructor(private eventDisplay: EventDisplayService) {
     // NOTE: WebXR needs secure HTTPS context
-    if ('xr' in navigator) {
-      (navigator as any)?.xr
-        ?.isSessionSupported?.(VRManager.SESSION_TYPE)
-        .then((supported: boolean) => {
-          if (supported) {
-            this.vrSupported = true;
-          }
-        });
-    } // else VR not supported
+    // Query for permissions of XR before using it (not supported by browsers yet). See https://developer.mozilla.org/en-US/docs/Web/API/Permissions/query
+    (navigator as any)?.xr
+      ?.isSessionSupported?.(VRManager.SESSION_TYPE)
+      .then((supported: boolean) => {
+        if (supported) {
+          this.vrSupported = true;
+        }
+      })
+      .catch((err: any) => console.warn('Error in VR', err));
   }
 
   toggleVr() {
