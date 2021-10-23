@@ -41,17 +41,17 @@
     "dat.gui": "^0.7.7",
     "jszip": "^3.7.1",
     "stats-js": "^1.0.1",
-    "three": "^0.132.2"
+    "three": "^0.133.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.15.0",
-    "@compodoc/compodoc": "^1.1.14",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@compodoc/compodoc": "^1.1.15",
     "@types/dat.gui": "^0.7.7",
-    "@types/three": "^0.132.1",
-    "esbuild-loader": "^2.15.1",
+    "@types/three": "^0.133.1",
+    "esbuild-loader": "^2.16.0",
     "karma-typescript": "~5.5.2",
     "karma-typescript-es6-transform": "~5.5.2",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0"
+    "webpack": "^5.59.1",
+    "webpack-cli": "^4.9.1"
   }
 }
