@@ -136,7 +136,7 @@ Finally, open the `test-experiment.component.ts` file and initialize the Phoenix
 ```ts
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration, PhoenixLoader, PresetView } from 'phoenix-event-display';
+import { Configuration, PhoenixLoader, PresetView, PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-test-experiment',
