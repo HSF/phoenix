@@ -25,16 +25,16 @@
   },
   "dependencies": {
     "@angular-slider/ngx-slider": "^2.0.3",
-    "@angular/animations": "^12.2.3",
-    "@angular/cdk": "^12.2.3",
-    "@angular/common": "^12.2.3",
-    "@angular/compiler": "^12.2.3",
-    "@angular/core": "^12.2.3",
-    "@angular/forms": "^12.2.3",
-    "@angular/material": "^12.2.3",
-    "@angular/platform-browser": "^12.2.3",
-    "@angular/platform-browser-dynamic": "^12.2.3",
-    "@angular/router": "^12.2.3",
+    "@angular/animations": "^12.2.11",
+    "@angular/cdk": "^12.2.11",
+    "@angular/common": "^12.2.11",
+    "@angular/compiler": "^12.2.11",
+    "@angular/core": "^12.2.11",
+    "@angular/forms": "^12.2.11",
+    "@angular/material": "^12.2.11",
+    "@angular/platform-browser": "^12.2.11",
+    "@angular/platform-browser-dynamic": "^12.2.11",
+    "@angular/router": "^12.2.11",
     "css-element-queries": "^1.2.3",
     "phoenix-event-display": "^2.3.2",
     "phoenix-ui-components": "^2.3.0",
@@ -46,11 +46,11 @@
     "three": "*"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^12.2.3",
+    "@angular-devkit/build-angular": "^12.2.11",
     "@angular-devkit/build-ng-packagr": "~0.1002.0",
-    "@angular/cli": "~12.2.3",
-    "@angular/compiler-cli": "~12.2.3",
-    "@angular/language-service": "^12.2.3",
-    "ng-packagr": "^12.2.1"
+    "@angular/cli": "~12.2.11",
+    "@angular/compiler-cli": "~12.2.11",
+    "@angular/language-service": "^12.2.11",
+    "ng-packagr": "^12.2.4"
   }
 }
