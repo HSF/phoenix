@@ -335,17 +335,19 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the CLuster from the given parameters and get it as a geometry.
+   * Process the Cluster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
    * @returns Cluster object.
    */
-  public static getCluster(clusterParams: any): Object3D {
-    const drawRadius = 1800.0; // FIXME - maker this configurable
-    const drawZ = 3600.0; // FIXME - maker this configurable
-
+  public static getCluster(
+    clusterParams: any,
+    drawRadius: number = 1800.0,
+    drawZ: number = 3600.0,
+    energyScaling: number = 0.03
+  ): Object3D {
     const maxR2 = drawRadius * drawRadius;
     const maxZ = drawZ;
-    const length = clusterParams.energy * 0.03;
+    const length = clusterParams.energy * energyScaling;
     // geometry
     const geometry = new BoxBufferGeometry(30, 30, length);
     // material
@@ -384,6 +386,10 @@ export class PhoenixObjects {
     clusterParams.uuid = cube.uuid;
 
     return cube;
+  }
+
+  public static getCaloCell(clusterParams: any): Object3D {
+    return PhoenixObjects.getCluster(clusterParams, 1500.0, 3000.0, 10);
   }
 
   /**

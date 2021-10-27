@@ -229,6 +229,30 @@ export class PhoenixLoader implements EventDataLoader {
       );
     }
 
+    if (eventData.CaloCells) {
+      // (Optional) Cuts can be added to any physics object.
+      const cuts = [
+        new Cut('phi', -pi, pi, 0.01),
+        new Cut('eta', -5.0, 5.0, 0.1),
+        new Cut('energy', 0, 10000),
+      ];
+
+      const scaleCaloCells = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('CaloCells', value, 'z');
+      };
+
+      // FIXME! Need to pass the radius in.
+      this.addObjectType(
+        eventData.CaloCells,
+        PhoenixObjects.getCaloCell,
+        'CaloCells',
+        false,
+        cuts
+      );
+    }
+
     if (eventData.PlanarCaloCells) {
       // (Optional) Cuts can be added to any physics object.
       const cuts = [new Cut('energy', 0, 10000)];
