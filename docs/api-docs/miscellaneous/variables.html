@@ -44,7 +44,7 @@
 
 
 
-                   
+
 
 <ol class="breadcrumb">
   <li>Miscellaneous</li>
@@ -62,6 +62,12 @@
                             <a href="#EVENT_DATA_TYPE_COLORS" title="src/helpers/constants.ts" ><b>EVENT_DATA_TYPE_COLORS</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
                         </li>
                         <li>
+                            <a href="#getFromLocalStorage" title="src/helpers/browser-storage.ts" ><b>getFromLocalStorage</b>&nbsp;&nbsp;&nbsp;(src/.../browser-storage.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#getLabelTitle" title="src/helpers/labels.ts" ><b>getLabelTitle</b>&nbsp;&nbsp;&nbsp;(src/.../labels.ts)</a>
+                        </li>
+                        <li>
                             <a href="#JSROOT" title="src/loaders/script-loader.ts" ><b>JSROOT</b>&nbsp;&nbsp;&nbsp;(src/.../script-loader.ts)</a>
                         </li>
                         <li>
@@ -72,6 +78,9 @@
                         </li>
                         <li>
                             <a href="#saveFile" title="src/helpers/file.ts" ><b>saveFile</b>&nbsp;&nbsp;&nbsp;(src/.../file.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#setToLocalStorage" title="src/helpers/browser-storage.ts" ><b>setToLocalStorage</b>&nbsp;&nbsp;&nbsp;(src/.../browser-storage.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -117,6 +126,106 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Colors of different event data types.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/helpers/browser-storage.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFromLocalStorage"></a>
+                    <span class="name">
+                        <span ><b>getFromLocalStorage</b></span>
+                        <a href="#getFromLocalStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(item: string) &#x3D;&gt; {
+  try {
+    return localStorage.getItem(item);
+  } catch (exception) {
+    console.warn(&#x27;Exception in localStorage&#x27;, exception);
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get an item from local storage.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setToLocalStorage"></a>
+                    <span class="name">
+                        <span ><b>setToLocalStorage</b></span>
+                        <a href="#setToLocalStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(item: string, value: string) &#x3D;&gt; {
+  try {
+    localStorage.setItem(item, value);
+  } catch (exception) {
+    console.warn(&#x27;Exception in localStorage&#x27;, exception);
+  }
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Set item to local storage.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/helpers/labels.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLabelTitle"></a>
+                    <span class="name">
+                        <span ><b>getLabelTitle</b></span>
+                        <a href="#getLabelTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  eventDataType: string,
+  collection: string,
+  index: string | number
+) &#x3D;&gt; &#x60;${eventDataType} &gt; ${collection} &gt; ${index}&#x60;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get title of the label.</p>
 </div>
                 </td>
             </tr>
@@ -287,7 +396,7 @@
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -308,8 +417,8 @@
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       
-       <script type="module" src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/menu-wc.js" defer></script>
        <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>

@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -36,8 +36,8 @@
     "@angular/platform-browser-dynamic": "^12.2.11",
     "@angular/router": "^12.2.11",
     "css-element-queries": "^1.2.3",
-    "phoenix-event-display": "^2.3.2",
-    "phoenix-ui-components": "^2.3.0",
+    "phoenix-event-display": "^2.4.0",
+    "phoenix-ui-components": "^2.4.0",
     "rxjs": "^6.5.3",
     "tslib": "^2.3.1",
     "zone.js": "^0.11.4"

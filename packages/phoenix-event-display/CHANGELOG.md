@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/HSF/phoenix/compare/v2.3.2...v2.4.0) (2021-10-28)
+
+
+### Bug Fixes
+
+* **event-display:** handle AR and VR permission errors ([dfbc6a2](https://github.com/HSF/phoenix/commit/dfbc6a2e97236408bcaa808221ca837576a1b6c5))
+* **event-display:** update three.js imports ([4e41f72](https://github.com/HSF/phoenix/commit/4e41f72491486e68166251d98c45417dc63d1a8b))
+* **event-display:** use proper error handling for local storage ([55cad7c](https://github.com/HSF/phoenix/commit/55cad7c9721d2949dd17ec4055946dbcd669179e))
+
+
+### Features
+
+* update all packages ([c0af497](https://github.com/HSF/phoenix/commit/c0af4975040881e6151cc2af36a2ea89da1938d8))
+* **event-display:** remove labels on event load ([75f829a](https://github.com/HSF/phoenix/commit/75f829a6d8aa630b1573ec9dc739cbe7e82c9fdc))
+
+
+
+
+
 ## [2.3.2](https://github.com/HSF/phoenix/compare/v2.3.1...v2.3.2) (2021-09-28)
 
 
