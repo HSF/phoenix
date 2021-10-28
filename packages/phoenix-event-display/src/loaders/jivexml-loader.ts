@@ -74,7 +74,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getCaloClusters(firstEvent, eventData);
 
     // Cells
-    this.getFCALCaloCells(firstEvent, 'FCAL', eventData);
+    // this.getFCALCaloCells(firstEvent, 'FCAL', eventData);
     this.getCaloCells(firstEvent, 'LAr', eventData);
     this.getCaloCells(firstEvent, 'HEC', eventData);
     this.getCaloCells(firstEvent, 'Tile', eventData);
