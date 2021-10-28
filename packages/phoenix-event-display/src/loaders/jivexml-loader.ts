@@ -785,8 +785,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       // and on the collection, a plane
 
       // Need to handle that some JiveXML is missing z,dz
-      let cellz = z.length ? z[i] * 10 : 10;
-      let celldz = dz.length ? dz[i] * 10 : dx[i];
+      const cellz = z.length ? z[i] * 10 : 10;
+      const celldz = dz.length ? dz[i] * 10 : dx[i];
 
       const cell = {
         pos: [x[i] * 10, y[i] * 10, cellz],
