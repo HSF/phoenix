@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
-import version from './../../../../../package.json';
+import packageJson from 'phoenix-event-display/package.json';
 
 /**
  * Component for displaying information from the logger
@@ -16,7 +16,7 @@ export class InfoPanelOverlayComponent implements OnInit {
   /** List of actions to be displayed in the info panel */
   actionsList = [];
   /** Get Phoenix Version */
-  version = version;
+  version = packageJson.version;
 
   /**
    * Create the information panel overlay
