@@ -59,15 +59,3 @@ export type PhoenixMenuConfigs = {
   rangeSlider: Partial<ConfigRangeSlider>;
   select: Partial<ConfigSelect>;
 };
-
-/** Convert union type to intersection. */
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never;
-
-/** Type for a single Phoenix menu config option. */
-export type PhoenixMenuConfig = UnionToIntersection<
-  PhoenixMenuConfigs[keyof PhoenixMenuConfigs]
->;
