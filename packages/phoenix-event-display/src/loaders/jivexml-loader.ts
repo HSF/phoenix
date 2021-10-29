@@ -630,9 +630,8 @@ export class JiveXMLLoader extends PhoenixLoader {
   }
 
   /**
-   * Extract Muon PRDs (type of Hits) from the JiveXML data format and process them.
+   * Extract RPC measurements from the JiveXML data format and process them.
    * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
-   * @param name Event data collection name.
    * @param eventData Event data object to be updated with TRT Drift Circles.
    */
   public getRPC(firstEvent: Element, eventData: { Hits: any }) {
@@ -668,7 +667,14 @@ export class JiveXMLLoader extends PhoenixLoader {
       eventData.Hits[name].push(rpcHit);
     }
   }
-
+  /**
+   * Get the end coordinates of a line, given its centre and its length.
+   * @param i index of the current coordinate
+   * @param x Array of x coordinates
+   * @param y Array of y coordinates
+   * @param z Array of z coordinates
+   * @param length Length of the line (i.e. strip or tube) that we need to draw
+   */
   private getMuonLinePositions(
     i: number,
     x: number[],
