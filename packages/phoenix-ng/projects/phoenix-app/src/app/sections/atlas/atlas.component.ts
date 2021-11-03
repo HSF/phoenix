@@ -271,8 +271,16 @@ export class AtlasComponent implements OnInit {
     // Load the default configuration
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
       this.loaded = true;
-      const stateManager = new StateManager();
-      stateManager.loadStateFromJSON(phoenixMenuConfig);
+
+      const urlConfig = this.eventDisplay
+        .getURLOptionsManager()
+        .getURLOptions()
+        .get('config');
+
+      if (!urlConfig) {
+        const stateManager = new StateManager();
+        stateManager.loadStateFromJSON(phoenixMenuConfig);
+      }
     });
   }
 }
