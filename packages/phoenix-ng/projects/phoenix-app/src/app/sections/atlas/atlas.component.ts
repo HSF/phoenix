@@ -270,6 +270,7 @@ export class AtlasComponent implements OnInit {
 
     // Load the default configuration
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      console.log('Loading default configuration.');
       this.loaded = true;
       const stateManager = new StateManager();
       stateManager.loadStateFromJSON(phoenixMenuConfig);

@@ -45,6 +45,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       Tracks: {},
       Jets: {},
       CaloClusters: {},
+      CaloCells: {},
+      PlanarCaloCells: {},
       Vertices: {},
       Electrons: {},
       Muons: {},
@@ -57,7 +59,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getSCTClusters(firstEvent, eventData);
     this.getTRT_DriftCircles(firstEvent, eventData);
     this.getMuonPRD(firstEvent, 'MDT', eventData);
-    this.getMuonPRD(firstEvent, 'RPC', eventData);
+    this.getRPC(firstEvent, eventData);
     this.getMuonPRD(firstEvent, 'TGC', eventData);
     this.getMuonPRD(firstEvent, 'CSCD', eventData);
 
@@ -70,6 +72,12 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Clusters
     this.getCaloClusters(firstEvent, eventData);
+
+    // Cells
+    // this.getFCALCaloCells(firstEvent, 'FCAL', eventData);
+    this.getCaloCells(firstEvent, 'LAr', eventData);
+    this.getCaloCells(firstEvent, 'HEC', eventData);
+    this.getCaloCells(firstEvent, 'Tile', eventData);
 
     // Vertices
     this.getVertices(firstEvent, eventData);
@@ -595,34 +603,98 @@ export class JiveXMLLoader extends PhoenixLoader {
     const z = this.getNumberArrayFromHTML(dcHTML, 'z');
     const length = this.getNumberArrayFromHTML(dcHTML, 'length');
 
-    if (dcHTML.getElementsByTagName('driftR').length > 0) {
-      const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
-    }
+    // if (dcHTML.getElementsByTagName('driftR').length > 0) {
+    //   const driftR = this.getNumberArrayFromHTML(dcHTML, 'driftR');
+    // }
+
+    // if (dcHTML.getElementsByTagName('measuresPhi').length > 0) {
+    //   const measuresPhi = this.getNumberArrayFromHTML(dcHTML, 'measuresPhi');
+    // }
+
     const id = this.getNumberArrayFromHTML(dcHTML, 'id');
     const identifier = this.getStringArrayFromHTML(dcHTML, 'identifier');
 
     eventData.Hits[name] = [];
 
-    let radius = 0.0,
-      scaling = 0.0;
     for (let i = 0; i < numOfDC; i++) {
-      const muonHit = { pos: [], id: 0, type: 'Line', identifier: '' };
+      const muonHit = {
+        pos: [],
+        id: id[i],
+        type: 'Line',
+        identifier: identifier[i],
+      };
 
-      radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
-      scaling = length[i] / radius;
-
-      muonHit.pos = [
-        x[i] * 10.0 - y[i] * scaling,
-        y[i] * 10.0 + x[i] * scaling,
-        z[i] * 10.0,
-        x[i] * 10.0 + y[i] * scaling,
-        y[i] * 10.0 - x[i] * scaling,
-        z[i] * 10.0,
-      ];
-      muonHit.id = id[i];
-      muonHit.identifier = identifier[i];
+      muonHit.pos = this.getMuonLinePositions(i, x, y, z, length);
       eventData.Hits[name].push(muonHit);
     }
+  }
+
+  /**
+   * Extract RPC measurements from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with TRT Drift Circles.
+   */
+  public getRPC(firstEvent: Element, eventData: { Hits: any }) {
+    const name = 'RPC';
+    if (firstEvent.getElementsByTagName(name).length === 0) {
+      return;
+    }
+
+    const dcHTML = firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC = Number(dcHTML.getAttribute('count'));
+    const x = this.getNumberArrayFromHTML(dcHTML, 'x');
+    const y = this.getNumberArrayFromHTML(dcHTML, 'y');
+    const z = this.getNumberArrayFromHTML(dcHTML, 'z');
+    const length = this.getNumberArrayFromHTML(dcHTML, 'length');
+    const width = this.getNumberArrayFromHTML(dcHTML, 'width');
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const identifier = this.getStringArrayFromHTML(dcHTML, 'identifier');
+
+    eventData.Hits[name] = [];
+
+    for (let i = 0; i < numOfDC; i++) {
+      const rpcHit = {
+        pos: [],
+        id: id[i],
+        type: 'Line',
+        identifier: identifier[i],
+        width: width[i],
+      };
+
+      rpcHit.pos = this.getMuonLinePositions(i, x, y, z, length);
+      //TODO - handle phi measurements
+      eventData.Hits[name].push(rpcHit);
+    }
+  }
+  /**
+   * Get the end coordinates of a line, given its centre and its length.
+   * @param i index of the current coordinate
+   * @param x Array of x coordinates
+   * @param y Array of y coordinates
+   * @param z Array of z coordinates
+   * @param length Length of the line (i.e. strip or tube) that we need to draw
+   */
+  private getMuonLinePositions(
+    i: number,
+    x: number[],
+    y: number[],
+    z: number[],
+    length: number[]
+  ) {
+    const radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
+    const scaling = length[i] / radius;
+    // didn't bother multiplying by 10 for radius and length, since they cancel in scaling
+    // 2 coords, beginning and end of line
+    const pos = [
+      x[i] * 10.0 - y[i] * scaling * 5.0,
+      y[i] * 10.0 + x[i] * scaling * 5.0,
+      z[i] * 10.0,
+      x[i] * 10.0 + y[i] * scaling * 5.0,
+      y[i] * 10.0 - x[i] * scaling * 5.0,
+      z[i] * 10.0,
+    ];
+    return pos;
   }
 
   /**
@@ -679,6 +751,103 @@ export class JiveXMLLoader extends PhoenixLoader {
       }
       eventData.CaloClusters[clusterColl.getAttribute('storeGateKey')] = temp;
       // }
+    }
+  }
+
+  /**
+   * Extract Calo Cells from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Calo Clusters.
+   */
+  public getFCALCaloCells(
+    firstEvent: Element,
+    name: string,
+    eventData: { PlanarCaloCells: any }
+  ) {
+    if (firstEvent.getElementsByTagName(name).length === 0) {
+      return;
+    }
+    const dcHTML = firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC = Number(dcHTML.getAttribute('count'));
+    const x = this.getNumberArrayFromHTML(dcHTML, 'x');
+    const y = this.getNumberArrayFromHTML(dcHTML, 'y');
+    const z = this.getNumberArrayFromHTML(dcHTML, 'z');
+    const dx = this.getNumberArrayFromHTML(dcHTML, 'dx');
+    const dy = this.getNumberArrayFromHTML(dcHTML, 'dy');
+    const dz = this.getNumberArrayFromHTML(dcHTML, 'dz');
+    const channel = this.getNumberArrayFromHTML(dcHTML, 'channel');
+    const energy = this.getNumberArrayFromHTML(dcHTML, 'energy');
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const slot = this.getStringArrayFromHTML(dcHTML, 'slot');
+
+    eventData.PlanarCaloCells[name] = { cells: [] };
+
+    let oldZ = 0;
+    for (let i = 0; i < numOfDC; i++) {
+      // Planar Calo cells need:
+      // pos
+      // length, size
+      // and on the collection, a plane
+
+      // Need to handle that some JiveXML is missing z,dz
+      const cellz = z.length ? z[i] * 10 : 10;
+      const celldz = dz.length ? dz[i] * 10 : dx[i];
+
+      const cell = {
+        pos: [x[i] * 10, y[i] * 10, cellz],
+        length: celldz,
+        cellSize: dx[i] * 10,
+        id: id[i],
+        slot: slot[i],
+        channel: channel[i],
+      };
+
+      eventData.PlanarCaloCells[name].cells.push(cell);
+      if (oldZ && oldZ != cellz) {
+        console.log(
+          "WARNING - we're assuming that all cells have the same z. This is apparently not correct!"
+        );
+      }
+      oldZ = cellz;
+    }
+    eventData.PlanarCaloCells[name].plane = [10, 10, oldZ]; // Just assuming
+  }
+
+  /**
+   * Extract Calo Cells from the JiveXML data format and process them.
+   * @param firstEvent First "Event" element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Calo Clusters.
+   */
+  public getCaloCells(
+    firstEvent: Element,
+    name: string = 'FCAL',
+    eventData: { CaloCells: any }
+  ) {
+    if (firstEvent.getElementsByTagName(name).length === 0) {
+      return;
+    }
+    const dcHTML = firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC = Number(dcHTML.getAttribute('count'));
+    const eta = this.getNumberArrayFromHTML(dcHTML, 'eta');
+    const phi = this.getNumberArrayFromHTML(dcHTML, 'phi');
+    const channel = this.getNumberArrayFromHTML(dcHTML, 'channel');
+    const energy = this.getNumberArrayFromHTML(dcHTML, 'energy');
+    const id = this.getNumberArrayFromHTML(dcHTML, 'id');
+    const slot = this.getStringArrayFromHTML(dcHTML, 'slot');
+
+    eventData.CaloCells[name] = [];
+
+    for (let i = 0; i < numOfDC; i++) {
+      const cell = {
+        eta: eta[i],
+        phi: phi[i],
+        id: id[i],
+        energy: energy[i],
+        channel: channel[i],
+      };
+      eventData.CaloCells[name].push(cell);
     }
   }
 

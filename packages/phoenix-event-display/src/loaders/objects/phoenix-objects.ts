@@ -335,25 +335,60 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the CLuster from the given parameters and get it as a geometry.
+   * Process the Cluster from the given parameters and get it as a geometry.
    * @param clusterParams Parameters for the Cluster.
+   * @param drawRadius Radius where to draw barrel Clusters
+   * @param drawZ Plane in z where to draw endcap Clusters
+   * @param energyScaling Amount to multply the energy by to get the depth of the cell
    * @returns Cluster object.
    */
-  public static getCluster(clusterParams: any): Object3D {
-    const drawRadius = 1800.0; // FIXME - maker this configurable
-    const drawZ = 3600.0; // FIXME - maker this configurable
-
+  public static getCluster(
+    clusterParams: any,
+    drawRadius: number = 1800.0,
+    drawZ: number = 3600.0,
+    energyScaling: number = 0.03,
+    fixedDepth: number = 0.0
+  ): Object3D {
     const maxR2 = drawRadius * drawRadius;
     const maxZ = drawZ;
-    const length = clusterParams.energy * 0.03;
+    const length = clusterParams.energy * energyScaling;
+
     // geometry
-    const geometry = new BoxBufferGeometry(30, 30, length);
-    // material
-    const material = new MeshPhongMaterial({
-      color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
-    });
-    // object
-    const cube = new Mesh(geometry, material);
+    const cube = PhoenixObjects.getCaloCube(length, 40, clusterParams);
+    const position = PhoenixObjects.getCaloPosition(
+      clusterParams,
+      drawZ,
+      drawRadius,
+      maxR2,
+      maxZ
+    );
+
+    cube.position.copy(position);
+
+    cube.lookAt(new Vector3(0, 0, 0));
+    cube.userData = Object.assign({}, clusterParams);
+    cube.name = 'Cluster';
+    // Setting uuid for selection from collections info
+    clusterParams.uuid = cube.uuid;
+
+    return cube;
+  }
+
+  /**
+   * Get the position for a Calo hit in cartesian coordinates
+   * @param clusterParams Parameters for the Cluster (which must include theta and phi)
+   * @param drawRadius Radius where to draw barrel Clusters
+   * @param maxR2 Maximum permitted radius squared
+   * @param maxZ Maximum position along the z axis
+   * @returns Corrected cartesian position.
+   */
+  private static getCaloPosition(
+    clusterParams: { phi: number; eta: number; theta: number },
+    drawZ: number,
+    drawRadius: number,
+    maxR2: number,
+    maxZ: number
+  ) {
     const theta = CoordinateHelper.etaToTheta(clusterParams.eta);
     clusterParams.theta = theta;
 
@@ -374,14 +409,68 @@ export class PhoenixObjects {
     if (Math.abs(position.z) > maxZ) {
       position.setLength((position.length() * maxZ) / Math.abs(position.z));
     }
+    return position;
+  }
+
+  /**
+   * Get the cuboid geometry for a Calo hit
+   * @param length length of the cuboid
+   * @param width width of the cuboid
+   * @param clusterParams Parameters for the Cluster (which must include color
+   * @returns Geometry
+   */
+  private static getCaloCube(
+    length: number,
+    width: number = 30,
+    clusterParams: any
+  ) {
+    if (length < width) {
+      length = width;
+    }
+    const geometry = new BoxBufferGeometry(width, width, length);
+    // material
+    const material = new MeshPhongMaterial({
+      color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+    });
+    // object
+    const cube = new Mesh(geometry, material);
+    return cube;
+  }
+
+  /**
+   * Process the CaloCell from the given parameters and get it as a geometry.
+   * @param caloCells Parameters for the CaloCell.
+   * @returns Calorimeter Cell object.
+   */
+  public static getCaloCell(caloCells: {
+    energy: number;
+    phi: number;
+    eta: number;
+    theta: number;
+    uuid: string;
+  }): Object3D {
+    const drawRadius = 1700; // FIXME - I really need to get this from somewhere. Atlantis has a lookup based on XML geometry.
+    const drawZ = 2000;
+    const maxR2 = drawRadius * drawRadius;
+    const maxZ = drawZ;
+    const length = 30;
+
+    // geometry
+    const cube = PhoenixObjects.getCaloCube(length, 30, caloCells);
+    const position = PhoenixObjects.getCaloPosition(
+      caloCells,
+      drawZ,
+      drawRadius,
+      maxR2,
+      maxZ
+    );
 
     cube.position.copy(position);
 
-    cube.lookAt(new Vector3(0, 0, 0));
-    cube.userData = Object.assign({}, clusterParams);
+    cube.userData = Object.assign({}, caloCells);
     cube.name = 'Cluster';
     // Setting uuid for selection from collections info
-    clusterParams.uuid = cube.uuid;
+    caloCells.uuid = cube.uuid;
 
     return cube;
   }
