@@ -9,8 +9,8 @@ function readAllFilesInDirectory($dir)
   $filesArray = array();
 
   foreach ($dirIterator as $path) {
-    if (!$path->isDir()) {
-      $filesArray[] = str_replace('\\', '/', $path->getPathname());
+    if ($path->isFile()) {
+      $filesArray[] = $path->getPathname();
     }
   }
 
