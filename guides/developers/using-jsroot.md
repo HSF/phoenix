@@ -48,7 +48,7 @@ import { EventDisplay } from "phoenix-event-display";
 
 const eventDisplay = new EventDisplay({});
 
-ScriptLoader.loadJSRootScripts((JSROOT) => {
+ScriptLoader.loadJSRootScripts().then((JSROOT) => {
   // To load `.json.gz` geometry
   eventDisplay.loadRootJSONGeometry(
     JSROOT,
