@@ -44,16 +44,8 @@
                   {{ getPrettySymbol(column.name) }}
                 </div>
                 <div *ngIf="column.isNumber">
-                  <div
-                    (click)="sort(column.name, 'dec')"
-                  >
-                    &uarr;
-                  </div>
-                  <div
-                    (click)="sort(column.name, 'asc')"
-                  >
-                    &darr;
-                  </div>
+                  <div (click)="sort(column.name, 'dec')">&uarr;</div>
+                  <div (click)="sort(column.name, 'asc')">&darr;</div>
                 </div>
               </div>
             </th>
