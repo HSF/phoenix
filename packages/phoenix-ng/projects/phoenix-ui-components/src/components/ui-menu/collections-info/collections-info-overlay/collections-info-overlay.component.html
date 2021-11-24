@@ -40,18 +40,16 @@
             <th>Label</th>
             <th *ngFor="let column of collectionColumns">
               <div class="head-wrapper">
-                <div style="margin: auto 0">
+                <div>
                   {{ getPrettySymbol(column.name) }}
                 </div>
                 <div *ngIf="column.isNumber">
                   <div
-                    style="cursor: pointer"
                     (click)="sort(column.name, 'dec')"
                   >
                     &uarr;
                   </div>
                   <div
-                    style="cursor: pointer"
                     (click)="sort(column.name, 'asc')"
                   >
                     &darr;

@@ -42,6 +42,14 @@
 
     .head-wrapper {
       display: flex;
+
+      >div{
+        margin: auto 0;
+
+        >div{
+          cursor: pointer;
+        }
+      }
     }
   }
 
