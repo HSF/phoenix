@@ -39,6 +39,10 @@
     top: 0;
     z-index: 100;
     background: var(--phoenix-background-color-secondary);
+
+    .head-wrapper {
+      display: flex;
+    }
   }
 
   tr * {
