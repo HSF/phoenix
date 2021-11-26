@@ -41,11 +41,25 @@
             <th *ngFor="let column of collectionColumns">
               <div class="head-wrapper">
                 <div>
-                  {{ getPrettySymbol(column.name) }}
+                  {{ getPrettySymbol(column) }}
                 </div>
-                <div *ngIf="column.isNumber">
-                  <div (click)="sort(column.name, 'dec')">&uarr;</div>
-                  <div (click)="sort(column.name, 'asc')">&darr;</div>
+                <div>
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    (click)="sort(column, 'dec')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    (click)="sort(column, 'asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </th>
@@ -110,7 +124,7 @@
               </div>
             </td>
             <td *ngFor="let column of collectionColumns">
-              {{ object[column.name] }}
+              {{ object[column] }}
             </td>
           </tr>
         </tbody>

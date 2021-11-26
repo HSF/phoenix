@@ -16,7 +16,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collections: string[];
   selectedCollection: string;
   showingCollection: any;
-  collectionColumns: any;
+  collectionColumns: string[];
   getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
 
@@ -52,19 +52,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
       (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
-
-    this.collectionColumns = this.collectionColumns.map((column) => {
-      return {
-        name: column,
-        isNumber: typeof this.showingCollection[0][column] === 'number',
-      };
-    });
   }
 
-  sort(columnName, order) {
+  sort(column: string, order: string) {
     if (order === 'asc')
-      this.showingCollection.sort((a, b) => a[columnName] - b[columnName]);
-    else this.showingCollection.sort((a, b) => b[columnName] - a[columnName]);
+      this.showingCollection.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+    else
+      this.showingCollection.sort((a, b) => (a[column] > b[column] ? -1 : 1));
   }
 
   lookAtObject(uuid: string) {
