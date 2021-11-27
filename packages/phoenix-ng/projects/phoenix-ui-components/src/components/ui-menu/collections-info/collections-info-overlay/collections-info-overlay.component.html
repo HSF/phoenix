@@ -39,7 +39,29 @@
             <th>Selection</th>
             <th>Label</th>
             <th *ngFor="let column of collectionColumns">
-              {{ getPrettySymbol(column) }}
+              <div class="head-wrapper">
+                <div>
+                  {{ getPrettySymbol(column) }}
+                </div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    (click)="sort(column, 'dec')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    (click)="sort(column, 'asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </th>
           </tr>
         </thead>

@@ -54,6 +54,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     );
   }
 
+  sort(column: string, order: string) {
+    if (order === 'asc')
+      this.showingCollection.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+    else
+      this.showingCollection.sort((a, b) => (a[column] > b[column] ? -1 : 1));
+  }
+
   lookAtObject(uuid: string) {
     if (uuid) {
       this.activeObject.update(uuid);
