@@ -13,9 +13,12 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 })
 export class CollectionsInfoOverlayComponent implements OnInit {
   @Input() showObjectsInfo: boolean;
+  hideInvisible: boolean;
   collections: string[];
   selectedCollection: string;
   showingCollection: any;
+  allCollection: any;
+  visibleCollection: any;
   collectionColumns: string[];
   getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
@@ -41,7 +44,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     const eventDataGroup = this.getEventDataGroup();
     this.selectedCollection = selectedCollection;
 
-    this.showingCollection = this.eventDisplay
+    this.allCollection = this.eventDisplay
       .getCollection(selectedCollection)
       .map((object: any) => ({
         ...object,
@@ -49,7 +52,14 @@ export class CollectionsInfoOverlayComponent implements OnInit {
           ?.visible,
       }));
 
-    this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
+    this.visibleCollection = this.allCollection.filter(
+      (collection) => collection.isCut === false
+    );
+
+    if (this.hideInvisible) this.showingCollection = this.visibleCollection;
+    else this.showingCollection = this.allCollection;
+
+    this.collectionColumns = Object.keys(this.allCollection[0]).filter(
       (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
@@ -66,6 +76,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       this.activeObject.update(uuid);
       this.eventDisplay.highlightObject(uuid);
     }
+  }
+
+  toggleInvisible(checked: boolean) {
+    this.hideInvisible = checked;
+
+    if (this.hideInvisible) this.showingCollection = this.visibleCollection;
+    else this.showingCollection = this.allCollection;
   }
 
   addLabel(index: number, uuid: string) {

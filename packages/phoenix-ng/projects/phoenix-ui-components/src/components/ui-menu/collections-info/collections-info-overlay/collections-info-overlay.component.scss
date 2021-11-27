@@ -4,10 +4,16 @@
   .collectionSelector {
     height: 15%;
     min-height: 2rem;
+    justify-content: space-between;
 
     span {
       color: var(--phoenix-text-color-secondary);
       margin-right: 1rem;
+    }
+
+    .checkbox-wrapper {
+      float: right;
+      color: var(--phoenix-text-color-secondary);
     }
   }
 }
