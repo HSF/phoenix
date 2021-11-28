@@ -36,6 +36,7 @@
     "@angular/platform-browser-dynamic": "^12.2.11",
     "@angular/router": "^12.2.11",
     "css-element-queries": "^1.2.3",
+    "ng-qrcode": "^6.0.0",
     "phoenix-event-display": "^2.4.0",
     "phoenix-ui-components": "^2.4.0",
     "rxjs": "^6.5.3",

@@ -1,4 +1,6 @@
 import { NgModule, Type } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { QrCodeModule } from 'ng-qrcode';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
@@ -49,8 +52,6 @@ import {
   ShareLinkComponent,
   ShareLinkDialogComponent,
 } from './ui-menu';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
@@ -114,6 +115,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatCheckboxModule,
     MatIconModule,
     NgxSliderModule,
+    QrCodeModule,
   ],
   entryComponents: [
     OverlayComponent,

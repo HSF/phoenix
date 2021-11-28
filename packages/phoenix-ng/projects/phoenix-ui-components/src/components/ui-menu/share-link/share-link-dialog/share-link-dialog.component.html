@@ -65,6 +65,10 @@
         COPY
       </button>
     </div>
+    <h5>QR Code</h5>
+    <div class="qrcode d-flex justify-content-center">
+      <qr-code [value]="shareLink" errorCorrectionLevel="M"></qr-code>
+    </div>
   </div>
   <div mat-dialog-actions>
     <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
