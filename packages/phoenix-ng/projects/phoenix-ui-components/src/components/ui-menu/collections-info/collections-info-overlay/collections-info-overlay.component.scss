@@ -4,7 +4,6 @@
   .collectionSelector {
     height: 15%;
     min-height: 2rem;
-    justify-content: space-between;
 
     span {
       color: var(--phoenix-text-color-secondary);
@@ -12,9 +11,13 @@
     }
 
     .checkbox-wrapper {
-      float: right;
       color: var(--phoenix-text-color-secondary);
+      margin-left: 1rem;
     }
+  }
+
+  ::ng-deep label.mat-checkbox-layout {
+    margin: 0;
   }
 }
 
@@ -57,6 +60,10 @@
 
   tr.is-cut {
     opacity: 0.5;
+  }
+
+  tr.hide {
+    display: none;
   }
 
   tr.active-object {

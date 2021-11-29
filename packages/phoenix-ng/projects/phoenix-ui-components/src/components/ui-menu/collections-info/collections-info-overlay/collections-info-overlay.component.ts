@@ -17,8 +17,6 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collections: string[];
   selectedCollection: string;
   showingCollection: any;
-  allCollection: any;
-  visibleCollection: any;
   collectionColumns: string[];
   getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
@@ -44,7 +42,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     const eventDataGroup = this.getEventDataGroup();
     this.selectedCollection = selectedCollection;
 
-    this.allCollection = this.eventDisplay
+    this.showingCollection = this.eventDisplay
       .getCollection(selectedCollection)
       .map((object: any) => ({
         ...object,
@@ -52,14 +50,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
           ?.visible,
       }));
 
-    this.visibleCollection = this.allCollection.filter(
-      (collection) => collection.isCut === false
-    );
-
-    if (this.hideInvisible) this.showingCollection = this.visibleCollection;
-    else this.showingCollection = this.allCollection;
-
-    this.collectionColumns = Object.keys(this.allCollection[0]).filter(
+    this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
       (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
@@ -80,9 +71,6 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   toggleInvisible(checked: boolean) {
     this.hideInvisible = checked;
-
-    if (this.hideInvisible) this.showingCollection = this.visibleCollection;
-    else this.showingCollection = this.allCollection;
   }
 
   addLabel(index: number, uuid: string) {
