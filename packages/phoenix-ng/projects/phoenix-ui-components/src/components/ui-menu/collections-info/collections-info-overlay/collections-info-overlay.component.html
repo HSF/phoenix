@@ -26,11 +26,12 @@
             </option>
           </select>
         </div>
-        <div class="checkbox-wrapper" *ngIf="showingCollection">
-          <mat-checkbox (change)="toggleInvisible($event.checked)">
-            Hide invisible Objects
-          </mat-checkbox>
-        </div>
+        <mat-checkbox
+          *ngIf="showingCollection"
+          (change)="toggleInvisible($event.checked)"
+        >
+          Hide invisible Objects
+        </mat-checkbox>
       </div>
     </div>
 
@@ -58,7 +59,7 @@
               'active-object':
                 activeObject && activeObject.value === object.uuid,
               'is-cut': object.isCut,
-              hide: object.isCut && hideInvisible
+              'd-none': object.isCut && hideInvisible
             }"
           >
             <td>#{{ i }}</td>

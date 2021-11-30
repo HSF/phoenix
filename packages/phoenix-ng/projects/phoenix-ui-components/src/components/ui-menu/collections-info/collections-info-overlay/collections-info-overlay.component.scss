@@ -10,8 +10,7 @@
       margin-right: 1rem;
     }
 
-    .checkbox-wrapper {
-      color: var(--phoenix-text-color-secondary);
+    mat-checkbox {
       margin-left: 1rem;
     }
   }
@@ -60,10 +59,6 @@
 
   tr.is-cut {
     opacity: 0.5;
-  }
-
-  tr.hide {
-    display: none;
   }
 
   tr.active-object {
