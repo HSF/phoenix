@@ -11,19 +11,27 @@
       class="collectionSelector mb-2 d-flex align-items-center"
       *ngIf="collections != null"
     >
-      <span>Choose a collection: </span>
-      <div class="eventSelector">
-        <label for="event">Event</label>
-        <select
-          id="collection"
-          name="collection"
-          (change)="changeCollection($event.target.value)"
+      <div class="d-flex align-items-center">
+        <span>Choose a collection: </span>
+        <div class="eventSelector">
+          <label for="event">Event</label>
+          <select
+            id="collection"
+            name="collection"
+            (change)="changeCollection($event.target.value)"
+          >
+            <option value="" selected disabled hidden>Choose Collection</option>
+            <option *ngFor="let collection of collections" [value]="collection">
+              {{ collection }}
+            </option>
+          </select>
+        </div>
+        <mat-checkbox
+          *ngIf="showingCollection"
+          (change)="toggleInvisible($event.checked)"
         >
-          <option value="" selected disabled hidden>Choose Collection</option>
-          <option *ngFor="let collection of collections" [value]="collection">
-            {{ collection }}
-          </option>
-        </select>
+          Hide invisible Objects
+        </mat-checkbox>
       </div>
     </div>
 
@@ -39,7 +47,29 @@
             <th>Selection</th>
             <th>Label</th>
             <th *ngFor="let column of collectionColumns">
-              {{ getPrettySymbol(column) }}
+              <div class="head-wrapper">
+                <div>
+                  {{ getPrettySymbol(column) }}
+                </div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    (click)="sort(column, 'dec')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    (click)="sort(column, 'asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </th>
           </tr>
         </thead>
@@ -50,7 +80,8 @@
             [ngClass]="{
               'active-object':
                 activeObject && activeObject.value === object.uuid,
-              'is-cut': object.isCut
+              'is-cut': object.isCut,
+              'd-none': object.isCut && hideInvisible
             }"
           >
             <td>#{{ i }}</td>
