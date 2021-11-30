@@ -9,6 +9,14 @@
       color: var(--phoenix-text-color-secondary);
       margin-right: 1rem;
     }
+
+    mat-checkbox {
+      margin-left: 1rem;
+    }
+  }
+
+  ::ng-deep label.mat-checkbox-layout {
+    margin: 0;
   }
 }
 

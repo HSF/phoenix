@@ -13,6 +13,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 })
 export class CollectionsInfoOverlayComponent implements OnInit {
   @Input() showObjectsInfo: boolean;
+  hideInvisible: boolean;
   collections: string[];
   selectedCollection: string;
   showingCollection: any;
@@ -73,6 +74,10 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       this.activeObject.update(uuid);
       this.eventDisplay.highlightObject(uuid);
     }
+  }
+
+  toggleInvisible(checked: boolean) {
+    this.hideInvisible = checked;
   }
 
   addLabel(index: number, uuid: string) {
