@@ -137,6 +137,10 @@ select {
   border: none;
 }
 
+label {
+  margin: 0;
+}
+
 #eventDisplay {
   height: 100vh;
   overflow: hidden;
