@@ -29,7 +29,7 @@
     "@angular/cdk": "^12.2.11",
     "@angular/material": "^12.2.11",
     "css-element-queries": "^1.2.3",
-    "ng-qrcode": "^6.0.0",
+    "qrcode": "1.5.0",
     "three": "^0.133.1",
     "tslib": "^2.3.1"
   },

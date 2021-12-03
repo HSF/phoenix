@@ -12,7 +12,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-import { QrCodeComponent, QrCodeModule } from 'ng-qrcode';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
@@ -115,7 +114,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatCheckboxModule,
     MatIconModule,
     NgxSliderModule,
-    QrCodeModule,
   ],
   entryComponents: [
     OverlayComponent,
@@ -124,7 +122,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent,
-    QrCodeComponent,
   ],
   exports: [PHOENIX_COMPONENTS],
 })

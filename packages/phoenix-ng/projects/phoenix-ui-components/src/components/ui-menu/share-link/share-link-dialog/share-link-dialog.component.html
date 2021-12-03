@@ -47,10 +47,10 @@
 
     <h5>Share</h5>
     <div class="share-box my-2">
-      <span>{{ shareLink }}</span>
+      <span>{{ shareLink.value }}</span>
       <button
         class="share-box-copy"
-        (click)="copyText(shareLink, $event.target)"
+        (click)="copyText(shareLink.value, $event.target)"
       >
         COPY
       </button>
@@ -67,7 +67,7 @@
     </div>
     <h5>QR Code</h5>
     <div class="qrcode d-flex justify-content-center">
-      <qr-code [value]="shareLink" errorCorrectionLevel="M"></qr-code>
+      <canvas #qrcodeCanvas></canvas>
     </div>
   </div>
   <div mat-dialog-actions>
