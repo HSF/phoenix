@@ -54,7 +54,7 @@ It can be done by importing the theming file into your app's global styles (`sty
 `styles.scss`
 
 ```scss
-@import '~phoenix-ui-components/theming';
+@import 'phoenix-ui-components/theming';
 
 ...
 ```
