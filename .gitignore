@@ -45,6 +45,7 @@ packages/**/docs/
 
 # angular compiler
 __ivy_ngcc__
+.angular/
 
 # system files
 .DS_Store
