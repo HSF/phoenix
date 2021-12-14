@@ -1,4 +1,6 @@
 import { NgModule, Type } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { MatButtonModule } from '@angular/material/button';
@@ -49,8 +51,6 @@ import {
   ShareLinkComponent,
   ShareLinkDialogComponent,
 } from './ui-menu';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';

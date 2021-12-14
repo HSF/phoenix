@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { phoenixURLOptions } from 'phoenix-event-display';
+import { ActiveVariable, phoenixURLOptions } from 'phoenix-event-display';
+import QRCode from 'qrcode';
 
 @Component({
   selector: 'app-share-link-dialog',
   templateUrl: './share-link-dialog.component.html',
   styleUrls: ['./share-link-dialog.component.scss'],
 })
-export class ShareLinkDialogComponent {
+export class ShareLinkDialogComponent implements AfterViewInit {
   baseLink: string;
-  shareLink: string;
+  shareLink: ActiveVariable<string>;
   embedLink: string;
   urlOptions = Object.assign({}, phoenixURLOptions);
+  @ViewChild('qrcodeCanvas') qrcodeCanvas: ElementRef<HTMLCanvasElement>;
 
   constructor(private dialogRef: MatDialogRef<ShareLinkDialogComponent>) {
     const locationHref = window.location.href;
@@ -19,9 +21,15 @@ export class ShareLinkDialogComponent {
       locationHref.lastIndexOf('?') === -1
         ? locationHref.length
         : locationHref.lastIndexOf('?');
+
     this.baseLink = locationHref.slice(0, lastIndex);
-    this.shareLink = this.baseLink;
+    this.shareLink = new ActiveVariable(this.baseLink);
     this.embedLink = this.getEmbedLink();
+  }
+
+  ngAfterViewInit() {
+    this.updateQRCode(this.shareLink.value);
+    this.shareLink.onUpdate(this.updateQRCode.bind(this));
   }
 
   onClose() {
@@ -51,8 +59,9 @@ export class ShareLinkDialogComponent {
       }, [])
       .join('&');
 
-    this.shareLink =
-      this.baseLink + (urlParametersString ? '?' : '') + urlParametersString;
+    this.shareLink.update(
+      this.baseLink + (urlParametersString ? '?' : '') + urlParametersString
+    );
     this.embedLink = this.getEmbedLink(urlParametersString);
   }
 
@@ -70,5 +79,9 @@ export class ShareLinkDialogComponent {
     setTimeout(() => {
       element.innerText = 'COPY';
     }, 2000);
+  }
+
+  updateQRCode(link: string) {
+    QRCode.toCanvas(this.qrcodeCanvas.nativeElement, link);
   }
 }

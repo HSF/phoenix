@@ -87,7 +87,7 @@ Since some Phoenix components use Bootstrap, you will need to add the the Bootst
 After this, go to the `src/styles.scss` file of your app and import the global Phoenix styles.
 
 ```scss
-@import '~phoenix-ui-components/theming';
+@import 'phoenix-ui-components/theming';
 
 ...
 ```

@@ -41,7 +41,9 @@ describe('ShareLinkDialogComponent', () => {
     spyOn(component, 'onOptionsChange').and.callThrough();
     component.setOptionValue('test_option', 'test_option_value');
     expect(component.onOptionsChange).toHaveBeenCalled();
-    expect(component.shareLink).toContain('test_option=test_option_value');
+    expect(component.shareLink.value).toContain(
+      'test_option=test_option_value'
+    );
     // Else case
     component.setOptionValue('type', undefined);
   });

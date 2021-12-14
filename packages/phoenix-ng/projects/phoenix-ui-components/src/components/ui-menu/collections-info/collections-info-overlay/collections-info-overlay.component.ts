@@ -13,6 +13,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 })
 export class CollectionsInfoOverlayComponent implements OnInit {
   @Input() showObjectsInfo: boolean;
+  hideInvisible: boolean;
   collections: string[];
   selectedCollection: string;
   showingCollection: any;
@@ -54,6 +55,13 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     );
   }
 
+  sort(column: string, order: string) {
+    if (order === 'asc')
+      this.showingCollection.sort((a, b) => (a[column] < b[column] ? -1 : 1));
+    else
+      this.showingCollection.sort((a, b) => (a[column] > b[column] ? -1 : 1));
+  }
+
   lookAtObject(uuid: string) {
     if (uuid) {
       this.activeObject.update(uuid);
@@ -66,6 +74,10 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       this.activeObject.update(uuid);
       this.eventDisplay.highlightObject(uuid);
     }
+  }
+
+  toggleInvisible(checked: boolean) {
+    this.hideInvisible = checked;
   }
 
   addLabel(index: number, uuid: string) {

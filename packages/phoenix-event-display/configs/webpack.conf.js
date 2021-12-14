@@ -23,4 +23,7 @@ module.exports = {
     filename: `phoenix.min.js`,
     path: path.resolve(__dirname, '../dist/bundle'),
   },
+  externals: {
+    three: 'THREE',
+  },
 };

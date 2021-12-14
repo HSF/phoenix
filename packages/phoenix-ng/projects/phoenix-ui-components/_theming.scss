@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @include mat.core();
 
 /* Define an alternate dark theme. */
@@ -135,6 +135,10 @@ select {
   background-color: var(--phoenix-background-color-tertiary);
   color: var(--phoenix-text-color-secondary);
   border: none;
+}
+
+label {
+  margin: 0;
 }
 
 #eventDisplay {
