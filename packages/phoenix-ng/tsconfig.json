@@ -16,7 +16,9 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
-      "phoenix-ui-components": ["./projects/phoenix-ui-components/src"],
+      "phoenix-ui-components": [
+        "projects/phoenix-ui-components/lib/public_api.ts"
+      ],
       "phoenix-event-display": ["../phoenix-event-display/src"]
     }
   }
