@@ -9,7 +9,7 @@
 
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
 	   <link rel="stylesheet" href="./styles/style.css">
-        <link rel="stylesheet" href="./styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
 
@@ -68,7 +68,7 @@ fetch(&#39;path/to/event-data.json&#39;)
 // Load detector geometry
 eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);
 </code></pre></div><h3 id="as-a-standalone-bundle">As a standalone bundle</h3>
-<p>Phoenix can be bundled and used directly in the HTML as a script. You can either use the <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a> or build from source.</p>
+<p>Phoenix can be bundled and used directly in the HTML as a script along with <a href="https://threejs.org">three.js</a>. You can either use the <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a> or build from source.</p>
 <p>To build Phoenix as a bundle.</p>
 <div><pre class="line-numbers"><code class="language-sh">yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix.min.js</code> in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
 <p>Without building, you can include the bundle directly from <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a>.</p>
@@ -81,6 +81,7 @@ eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#
 
     &lt;div id=&quot;eventDisplay&quot;&gt;&lt;/div&gt;
 
+    &lt;script src=&quot;https://cdn.jsdelivr.net/npm/three/build/three.min.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js&quot;&gt;&lt;/script&gt;
 
     &lt;script&gt;
@@ -138,6 +139,15 @@ eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#
                <!-- END CONTENT -->
            </div>
        </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 0;

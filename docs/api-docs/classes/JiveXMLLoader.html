@@ -9,7 +9,7 @@
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	   <link rel="stylesheet" href="../styles/style.css">
-        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -136,6 +136,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getCaloCells" >getCaloCells</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getCaloClusters" >getCaloClusters</a>
                             </li>
                             <li>
@@ -148,11 +152,19 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getFCALCaloCells" >getFCALCaloCells</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getJets" >getJets</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getMissingEnergy" >getMissingEnergy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getMuonLinePositions" >getMuonLinePositions</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -177,6 +189,10 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#getPositionOfHit" >getPositionOfHit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getRPC" >getRPC</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -584,6 +600,122 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getCaloCells"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getCaloCells</b></span>
+                        <a href="#getCaloCells"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCaloCells(firstEvent: Element, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventData: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="822"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:822</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extract Calo Cells from the JiveXML data format and process them.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>firstEvent</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>First &quot;Event&quot; element in the XML DOM of the JiveXML data format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;FCAL&#x27;</code>
+                                    </td>
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Event data object to be updated with Calo Clusters.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getCaloClusters"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -602,8 +734,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="663"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:663</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="735"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:735</a></div>
                 </td>
             </tr>
 
@@ -696,8 +828,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="817"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:817</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="986"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:986</a></div>
                 </td>
             </tr>
 
@@ -819,6 +951,114 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFCALCaloCells"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getFCALCaloCells</b></span>
+                        <a href="#getFCALCaloCells"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFCALCaloCells(firstEvent: Element, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, eventData: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="762"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:762</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extract Calo Cells from the JiveXML data format and process them.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>firstEvent</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>First &quot;Event&quot; element in the XML DOM of the JiveXML data format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Event data object to be updated with Calo Clusters.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getJets"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -837,8 +1077,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="633"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:633</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="705"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:705</a></div>
                 </td>
             </tr>
 
@@ -931,8 +1171,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="878"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:878</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1047"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:1047</a></div>
                 </td>
             </tr>
 
@@ -1007,6 +1247,148 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getMuonLinePositions"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>getMuonLinePositions</b></span>
+                        <a href="#getMuonLinePositions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMuonLinePositions(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, x: number[], y: number[], z: number[], length: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="678"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:678</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the end coordinates of a line, given its centre and its length.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>index of the current coordinate</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>x</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Array of x coordinates</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>y</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Array of y coordinates</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>z</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Array of z coordinates</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>length</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Length of the line (i.e. strip or tube) that we need to draw</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{}</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getMuonPRD"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -1025,8 +1407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="578"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:578</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="586"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:586</a></div>
                 </td>
             </tr>
 
@@ -1135,8 +1517,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="785"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:785</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="954"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:954</a></div>
                 </td>
             </tr>
 
@@ -1229,8 +1611,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:103</a></div>
                 </td>
             </tr>
 
@@ -1324,8 +1706,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="849"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:849</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1018"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:1018</a></div>
                 </td>
             </tr>
 
@@ -1418,8 +1800,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="440"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:440</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="448"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:448</a></div>
                 </td>
             </tr>
 
@@ -1512,8 +1894,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:137</a></div>
                 </td>
             </tr>
 
@@ -1588,6 +1970,100 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getRPC"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getRPC</b></span>
+                        <a href="#getRPC"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getRPC(firstEvent: Element, eventData: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="637"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:637</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extract RPC measurements from the JiveXML data format and process them.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>firstEvent</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>First &quot;Event&quot; element in the XML DOM of the JiveXML data format.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>eventData</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Event data object to be updated with TRT Drift Circles.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getSCTClusters"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -1606,8 +2082,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="469"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:469</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:477</a></div>
                 </td>
             </tr>
 
@@ -1700,8 +2176,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:123</a></div>
                 </td>
             </tr>
 
@@ -1795,8 +2271,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:159</a></div>
                 </td>
             </tr>
 
@@ -1889,8 +2365,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="504"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:504</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="512"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:512</a></div>
                 </td>
             </tr>
 
@@ -1983,8 +2459,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="690"
-                            class="link-to-prism">src/loaders/jivexml-loader.ts:690</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="859"
+                            class="link-to-prism">src/loaders/jivexml-loader.ts:859</a></div>
                 </td>
             </tr>
 
@@ -2161,7 +2637,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:440</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:464</a></code>
 </div>
                 </td>
             </tr>
@@ -2309,7 +2785,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:626</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:650</a></code>
 </div>
                 </td>
             </tr>
@@ -2426,7 +2902,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:389</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:413</a></code>
 </div>
                 </td>
             </tr>
@@ -2604,7 +3080,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:660</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:684</a></code>
 </div>
                 </td>
             </tr>
@@ -2682,7 +3158,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>(typeFolder: any, typeFolderPM: any) &#x3D;&gt; void</code>
+                        <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >(typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -2992,7 +3468,7 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:492</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:516</a></code>
 </div>
                 </td>
             </tr>
@@ -3076,7 +3552,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:572</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:596</a></code>
 </div>
                 </td>
             </tr>
@@ -3214,7 +3690,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:649</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:673</a></code>
 </div>
                 </td>
             </tr>
@@ -3267,7 +3743,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:474</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:498</a></code>
 </div>
                 </td>
             </tr>
@@ -3466,6 +3942,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       Tracks: {},
       Jets: {},
       CaloClusters: {},
+      CaloCells: {},
+      PlanarCaloCells: {},
       Vertices: {},
       Electrons: {},
       Muons: {},
@@ -3478,7 +3956,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getSCTClusters(firstEvent, eventData);
     this.getTRT_DriftCircles(firstEvent, eventData);
     this.getMuonPRD(firstEvent, &#x27;MDT&#x27;, eventData);
-    this.getMuonPRD(firstEvent, &#x27;RPC&#x27;, eventData);
+    this.getRPC(firstEvent, eventData);
     this.getMuonPRD(firstEvent, &#x27;TGC&#x27;, eventData);
     this.getMuonPRD(firstEvent, &#x27;CSCD&#x27;, eventData);
 
@@ -3491,6 +3969,12 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Clusters
     this.getCaloClusters(firstEvent, eventData);
+
+    // Cells
+    // this.getFCALCaloCells(firstEvent, &#x27;FCAL&#x27;, eventData);
+    this.getCaloCells(firstEvent, &#x27;LAr&#x27;, eventData);
+    this.getCaloCells(firstEvent, &#x27;HEC&#x27;, eventData);
+    this.getCaloCells(firstEvent, &#x27;Tile&#x27;, eventData);
 
     // Vertices
     this.getVertices(firstEvent, eventData);
@@ -4016,34 +4500,98 @@ export class JiveXMLLoader extends PhoenixLoader {
     const z &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;z&#x27;);
     const length &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;length&#x27;);
 
-    if (dcHTML.getElementsByTagName(&#x27;driftR&#x27;).length &gt; 0) {
-      const driftR &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;driftR&#x27;);
-    }
+    // if (dcHTML.getElementsByTagName(&#x27;driftR&#x27;).length &gt; 0) {
+    //   const driftR &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;driftR&#x27;);
+    // }
+
+    // if (dcHTML.getElementsByTagName(&#x27;measuresPhi&#x27;).length &gt; 0) {
+    //   const measuresPhi &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;measuresPhi&#x27;);
+    // }
+
     const id &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;id&#x27;);
     const identifier &#x3D; this.getStringArrayFromHTML(dcHTML, &#x27;identifier&#x27;);
 
     eventData.Hits[name] &#x3D; [];
 
-    let radius &#x3D; 0.0,
-      scaling &#x3D; 0.0;
     for (let i &#x3D; 0; i &lt; numOfDC; i++) {
-      const muonHit &#x3D; { pos: [], id: 0, type: &#x27;Line&#x27;, identifier: &#x27;&#x27; };
+      const muonHit &#x3D; {
+        pos: [],
+        id: id[i],
+        type: &#x27;Line&#x27;,
+        identifier: identifier[i],
+      };
 
-      radius &#x3D; Math.sqrt(x[i] * x[i] + y[i] * y[i]);
-      scaling &#x3D; length[i] / radius;
-
-      muonHit.pos &#x3D; [
-        x[i] * 10.0 - y[i] * scaling,
-        y[i] * 10.0 + x[i] * scaling,
-        z[i] * 10.0,
-        x[i] * 10.0 + y[i] * scaling,
-        y[i] * 10.0 - x[i] * scaling,
-        z[i] * 10.0,
-      ];
-      muonHit.id &#x3D; id[i];
-      muonHit.identifier &#x3D; identifier[i];
+      muonHit.pos &#x3D; this.getMuonLinePositions(i, x, y, z, length);
       eventData.Hits[name].push(muonHit);
     }
+  }
+
+  /**
+   * Extract RPC measurements from the JiveXML data format and process them.
+   * @param firstEvent First &quot;Event&quot; element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with TRT Drift Circles.
+   */
+  public getRPC(firstEvent: Element, eventData: { Hits: any }) {
+    const name &#x3D; &#x27;RPC&#x27;;
+    if (firstEvent.getElementsByTagName(name).length &#x3D;&#x3D;&#x3D; 0) {
+      return;
+    }
+
+    const dcHTML &#x3D; firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC &#x3D; Number(dcHTML.getAttribute(&#x27;count&#x27;));
+    const x &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;x&#x27;);
+    const y &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;y&#x27;);
+    const z &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;z&#x27;);
+    const length &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;length&#x27;);
+    const width &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;width&#x27;);
+    const id &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;id&#x27;);
+    const identifier &#x3D; this.getStringArrayFromHTML(dcHTML, &#x27;identifier&#x27;);
+
+    eventData.Hits[name] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; numOfDC; i++) {
+      const rpcHit &#x3D; {
+        pos: [],
+        id: id[i],
+        type: &#x27;Line&#x27;,
+        identifier: identifier[i],
+        width: width[i],
+      };
+
+      rpcHit.pos &#x3D; this.getMuonLinePositions(i, x, y, z, length);
+      //TODO - handle phi measurements
+      eventData.Hits[name].push(rpcHit);
+    }
+  }
+  /**
+   * Get the end coordinates of a line, given its centre and its length.
+   * @param i index of the current coordinate
+   * @param x Array of x coordinates
+   * @param y Array of y coordinates
+   * @param z Array of z coordinates
+   * @param length Length of the line (i.e. strip or tube) that we need to draw
+   */
+  private getMuonLinePositions(
+    i: number,
+    x: number[],
+    y: number[],
+    z: number[],
+    length: number[]
+  ) {
+    const radius &#x3D; Math.sqrt(x[i] * x[i] + y[i] * y[i]);
+    const scaling &#x3D; length[i] / radius;
+    // didn&#x27;t bother multiplying by 10 for radius and length, since they cancel in scaling
+    // 2 coords, beginning and end of line
+    const pos &#x3D; [
+      x[i] * 10.0 - y[i] * scaling * 5.0,
+      y[i] * 10.0 + x[i] * scaling * 5.0,
+      z[i] * 10.0,
+      x[i] * 10.0 + y[i] * scaling * 5.0,
+      y[i] * 10.0 - x[i] * scaling * 5.0,
+      z[i] * 10.0,
+    ];
+    return pos;
   }
 
   /**
@@ -4100,6 +4648,103 @@ export class JiveXMLLoader extends PhoenixLoader {
       }
       eventData.CaloClusters[clusterColl.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
       // }
+    }
+  }
+
+  /**
+   * Extract Calo Cells from the JiveXML data format and process them.
+   * @param firstEvent First &quot;Event&quot; element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Calo Clusters.
+   */
+  public getFCALCaloCells(
+    firstEvent: Element,
+    name: string,
+    eventData: { PlanarCaloCells: any }
+  ) {
+    if (firstEvent.getElementsByTagName(name).length &#x3D;&#x3D;&#x3D; 0) {
+      return;
+    }
+    const dcHTML &#x3D; firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC &#x3D; Number(dcHTML.getAttribute(&#x27;count&#x27;));
+    const x &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;x&#x27;);
+    const y &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;y&#x27;);
+    const z &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;z&#x27;);
+    const dx &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;dx&#x27;);
+    const dy &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;dy&#x27;);
+    const dz &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;dz&#x27;);
+    const channel &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;channel&#x27;);
+    const energy &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;energy&#x27;);
+    const id &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;id&#x27;);
+    const slot &#x3D; this.getStringArrayFromHTML(dcHTML, &#x27;slot&#x27;);
+
+    eventData.PlanarCaloCells[name] &#x3D; { cells: [] };
+
+    let oldZ &#x3D; 0;
+    for (let i &#x3D; 0; i &lt; numOfDC; i++) {
+      // Planar Calo cells need:
+      // pos
+      // length, size
+      // and on the collection, a plane
+
+      // Need to handle that some JiveXML is missing z,dz
+      const cellz &#x3D; z.length ? z[i] * 10 : 10;
+      const celldz &#x3D; dz.length ? dz[i] * 10 : dx[i];
+
+      const cell &#x3D; {
+        pos: [x[i] * 10, y[i] * 10, cellz],
+        length: celldz,
+        cellSize: dx[i] * 10,
+        id: id[i],
+        slot: slot[i],
+        channel: channel[i],
+      };
+
+      eventData.PlanarCaloCells[name].cells.push(cell);
+      if (oldZ &amp;&amp; oldZ !&#x3D; cellz) {
+        console.log(
+          &quot;WARNING - we&#x27;re assuming that all cells have the same z. This is apparently not correct!&quot;
+        );
+      }
+      oldZ &#x3D; cellz;
+    }
+    eventData.PlanarCaloCells[name].plane &#x3D; [10, 10, oldZ]; // Just assuming
+  }
+
+  /**
+   * Extract Calo Cells from the JiveXML data format and process them.
+   * @param firstEvent First &quot;Event&quot; element in the XML DOM of the JiveXML data format.
+   * @param eventData Event data object to be updated with Calo Clusters.
+   */
+  public getCaloCells(
+    firstEvent: Element,
+    name: string &#x3D; &#x27;FCAL&#x27;,
+    eventData: { CaloCells: any }
+  ) {
+    if (firstEvent.getElementsByTagName(name).length &#x3D;&#x3D;&#x3D; 0) {
+      return;
+    }
+    const dcHTML &#x3D; firstEvent.getElementsByTagName(name)[0];
+
+    const numOfDC &#x3D; Number(dcHTML.getAttribute(&#x27;count&#x27;));
+    const eta &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;eta&#x27;);
+    const phi &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;phi&#x27;);
+    const channel &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;channel&#x27;);
+    const energy &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;energy&#x27;);
+    const id &#x3D; this.getNumberArrayFromHTML(dcHTML, &#x27;id&#x27;);
+    const slot &#x3D; this.getStringArrayFromHTML(dcHTML, &#x27;slot&#x27;);
+
+    eventData.CaloCells[name] &#x3D; [];
+
+    for (let i &#x3D; 0; i &lt; numOfDC; i++) {
+      const cell &#x3D; {
+        eta: eta[i],
+        phi: phi[i],
+        id: id[i],
+        energy: energy[i],
+        channel: channel[i],
+      };
+      eventData.CaloCells[name].push(cell);
     }
   }
 
@@ -4344,6 +4989,15 @@ export class JiveXMLLoader extends PhoenixLoader {
                <!-- END CONTENT -->
            </div>
        </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;

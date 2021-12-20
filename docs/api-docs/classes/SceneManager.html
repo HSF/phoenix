@@ -9,7 +9,7 @@
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	   <link rel="stylesheet" href="../styles/style.css">
-        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -879,8 +879,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="503"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:503</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="505"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:505</a></div>
                 </td>
             </tr>
 
@@ -2139,8 +2139,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="481"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:481</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="483"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:483</a></div>
                 </td>
             </tr>
 
@@ -2540,8 +2540,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="545"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:545</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="547"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:547</a></div>
                 </td>
             </tr>
 
@@ -3516,6 +3516,8 @@ export class SceneManager {
    * @param value Factor by which the Jets are to be scaled.
    */
   public scaleJets(value: number) {
+    if (value &lt;&#x3D; 0) return;
+
     const jets &#x3D; this.scene.getObjectByName(&#x27;Jets&#x27;);
 
     jets.traverse((objectChild: Object3D) &#x3D;&gt; {
@@ -3731,6 +3733,15 @@ export class SceneManager {
                <!-- END CONTENT -->
            </div>
        </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
