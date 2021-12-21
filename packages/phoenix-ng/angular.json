@@ -187,7 +187,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/phoenix-ui-components/src/test.ts",
+            "main": "projects/phoenix-ui-components/lib/test.ts",
             "tsConfig": "projects/phoenix-ui-components/tsconfig.spec.json",
             "karmaConfig": "projects/phoenix-ui-components/karma.conf.js",
             "codeCoverageExclude": [
