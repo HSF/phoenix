@@ -19,14 +19,14 @@ module.exports = function (config) {
     },
     files: [
       {
-        pattern: './src/assets/**',
+        pattern: './lib/assets/**',
         watched: false,
         included: false,
         served: true,
       },
     ],
     proxies: {
-      '/assets/': '/base/src/assets/',
+      '/assets/': '/base/lib/assets/',
     },
     reporters: ['progress', 'coverage'],
     coverageReporter: {
