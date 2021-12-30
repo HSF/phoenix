@@ -1,0 +1,19 @@
+name: Phoenix Docker Release
+
+on:
+  push:
+    tag:
+      - v*
+
+jobs:
+  push-to-docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Test
+        run: echo "Working"
