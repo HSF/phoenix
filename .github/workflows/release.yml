@@ -1,9 +1,9 @@
 name: Phoenix Docker Release
 
 on:
-  push:
-    tag:
-      - v*
+  release:
+    types:
+      - created
 
 jobs:
   push-to-docker:
