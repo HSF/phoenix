@@ -164,7 +164,7 @@
     "phoenix-ui-components": {
       "projectType": "library",
       "root": "projects/phoenix-ui-components",
-      "sourceRoot": "projects/phoenix-ui-components/src",
+      "sourceRoot": "projects/phoenix-ui-components/lib",
       "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
@@ -191,7 +191,7 @@
             "tsConfig": "projects/phoenix-ui-components/tsconfig.spec.json",
             "karmaConfig": "projects/phoenix-ui-components/karma.conf.js",
             "codeCoverageExclude": [
-              "projects/phoenix-ui-components/src/services/extras/**"
+              "projects/phoenix-ui-components/lib/services/extras/**"
             ]
           }
         }

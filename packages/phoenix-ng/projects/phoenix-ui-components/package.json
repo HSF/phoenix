@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ui-components",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "Reusable Angular components of the Phoenix event display application.",
   "author": "Phoenix contributors (https://github.com/HSF/phoenix/graphs/contributors)",
   "license": "Apache-2.0",
@@ -33,12 +33,11 @@
     "three": "^0.135.0",
     "tslib": "^2.3.1"
   },
-  "main": "dist/bundles/phoenix-ui-components.umd.js",
-  "module": "dist/fesm2015/phoenix-ui-components.js",
-  "es2015": "dist/fesm2015/phoenix-ui-components.js",
-  "esm2015": "dist/esm2015/phoenix-ui-components.js",
-  "fesm2015": "dist/fesm2015/phoenix-ui-components.js",
+  "module": "dist/fesm2015/phoenix-ui-components.mjs",
+  "es2020": "dist/fesm2020/phoenix-ui-components.mjs",
+  "esm2020": "dist/esm2020/phoenix-ui-components.mjs",
+  "fesm2020": "dist/fesm2020/phoenix-ui-components.mjs",
+  "fesm2015": "dist/fesm2015/phoenix-ui-components.mjs",
   "typings": "dist/phoenix-ui-components.d.ts",
-  "metadata": "dist/phoenix-ui-components.metadata.json",
   "sideEffects": false
 }

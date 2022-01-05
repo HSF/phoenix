@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/HSF/phoenix/compare/v2.5.0...v2.5.1) (2021-12-27)
+
+
+### Bug Fixes
+
+* **app:** fix entry files of phoenix-ui-components ([e41d36f](https://github.com/HSF/phoenix/commit/e41d36f2464fb079cc5f3fad849b31892a5d0e76))
+
+
+
+
+
 # [2.5.0](https://github.com/HSF/phoenix/compare/v2.4.0...v2.5.0) (2021-12-20)
 
 
