@@ -145,7 +145,7 @@ describe('IoOptionsDialogComponent', () => {
     });
   });
 
-  it('should handle zipped event data', async () => {
+  xit('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
     const jivexmlData = await fetch('assets/test_data/JiveXML.xml');
