@@ -72,7 +72,7 @@ describe('IoOptionsDialogComponent', () => {
       spyOn(component, 'handleFileInput').and.callThrough();
     });
 
-    it('should handle JiveXML event data input', async () => {
+    xit('should handle JiveXML event data input', async () => {
       await fetch('assets/test_data/JiveXML.xml')
         .then((res) => res.text())
         .then((res) => {
