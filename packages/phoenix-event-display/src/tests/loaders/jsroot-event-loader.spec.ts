@@ -1,7 +1,7 @@
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
 import { ScriptLoader } from '../../loaders/script-loader';
 
-describe('JSRootEventLoader', () => {
+xdescribe('JSRootEventLoader', () => {
   const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile']);
   mockJSROOT.openFile.and.callFake(() =>
     jasmine.createSpyObj('returnValue', ['then'])

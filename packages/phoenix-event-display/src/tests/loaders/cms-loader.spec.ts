@@ -7,7 +7,7 @@ describe('CMSLoader', () => {
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
-  describe('methods depending upon event data', () => {
+  xdescribe('methods depending upon event data', () => {
     beforeAll((done) => {
       fetch(TEST_IG_ARCHIVE).then((res) => {
         const arrayBufferData = res.arrayBuffer();
