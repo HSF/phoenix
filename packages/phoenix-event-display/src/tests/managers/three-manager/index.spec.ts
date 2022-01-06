@@ -128,7 +128,7 @@ describe('ThreeManager', () => {
       expect(threePrivate.importManager.loadGLTFGeometry).toHaveBeenCalled();
     });
 
-    xit('should parse OBJ geometry', (done) => {
+    it('should parse OBJ geometry', (done) => {
       fetch(OBJ_FILE)
         .then((res) => res.text())
         .then((res) => {
@@ -146,7 +146,7 @@ describe('ThreeManager', () => {
         });
     });
 
-    xit('should parse glTF geometry', (done) => {
+    it('should parse glTF geometry', (done) => {
       fetch(GLTF_FILE)
         .then((res) => res.arrayBuffer())
         .then((res) => {
@@ -164,7 +164,7 @@ describe('ThreeManager', () => {
         });
     }, 10000);
 
-    xit('should load JSON geometry', (done) => {
+    it('should load JSON geometry', (done) => {
       spyOn(threePrivate.importManager, 'loadJSONGeometry').and.callThrough();
 
       fetch(OBJ_FILE)

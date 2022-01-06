@@ -8,7 +8,7 @@ describe('CMSLoader', () => {
   const TEST_EVENT_PATH = 'Run_202299/Event_876295434';
   const TEST_IG_ARCHIVE_TIMEOUT = 20000;
 
-  fdescribe('methods depending upon event data', () => {
+  describe('methods depending upon event data', () => {
     beforeAll((done) => {
       const file = readFileSync(__dirname + '../../' + TEST_IG_ARCHIVE);
       const res = new Response(file);

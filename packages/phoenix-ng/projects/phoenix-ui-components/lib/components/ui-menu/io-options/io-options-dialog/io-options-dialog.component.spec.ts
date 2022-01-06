@@ -72,7 +72,7 @@ describe('IoOptionsDialogComponent', () => {
       spyOn(component, 'handleFileInput').and.callThrough();
     });
 
-    xit('should handle JiveXML event data input', async () => {
+    it('should handle JiveXML event data input', async () => {
       await fetch('assets/test_data/JiveXML.xml')
         .then((res) => res.text())
         .then((res) => {
@@ -145,7 +145,7 @@ describe('IoOptionsDialogComponent', () => {
     });
   });
 
-  xit('should handle zipped event data', async () => {
+  it('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
     const jivexmlData = await fetch('assets/test_data/JiveXML.xml');

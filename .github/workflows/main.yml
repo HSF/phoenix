@@ -25,7 +25,9 @@ jobs:
         run: yarn lint
 
       - name: Test
-        run: yarn workspace phoenix-event-display test
+        run: |
+          yarn workspace phoenix-event-display test:coverage
+          yarn workspace phoenix-ng test:coverage
 
       - name: Documentation Coverage
         run: yarn docs:coverage
