@@ -1,6 +1,5 @@
 import { CMSLoader } from '../../loaders/cms-loader';
 import { PhoenixLoader } from '../../loaders/phoenix-loader';
-import { readFileSync } from 'fs';
 
 describe('CMSLoader', () => {
   let cmsLoader: CMSLoader;
@@ -10,13 +9,14 @@ describe('CMSLoader', () => {
 
   describe('methods depending upon event data', () => {
     beforeAll((done) => {
-      const file = readFileSync(__dirname + '../../' + TEST_IG_ARCHIVE);
-      const res = new Response(file);
-      spyOn(res, 'arrayBuffer').and.returnValue(Promise.resolve(file.buffer));
-      spyOn(window, 'fetch').and.returnValue(
-        Promise.resolve(new Response(file))
-      );
-      done();
+      fetch(TEST_IG_ARCHIVE).then((res) => {
+        const arrayBufferData = res.arrayBuffer();
+        spyOn(res, 'arrayBuffer').and.returnValue(
+          Promise.resolve(arrayBufferData)
+        );
+        spyOn(window, 'fetch').and.returnValue(Promise.resolve(res));
+        done();
+      });
     }, TEST_IG_ARCHIVE_TIMEOUT);
 
     beforeEach(() => {
