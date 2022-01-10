@@ -67,7 +67,7 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  xdescribe('handleFileInput', () => {
+  describe('handleFileInput', () => {
     beforeEach(() => {
       spyOn(component, 'handleFileInput').and.callThrough();
     });
