@@ -57,9 +57,19 @@ There is enough information in the website itself, so you won't get lost but som
 7. Upload your .gltf file to the GLTF viewer at the bottom of the page and verify that it was extracted properly. 
 8. Go and visualize your file inside Phoenix and play with it! 
 
-> Here's a gif demonstrating the above steps
+> Below you can find useful gifs demonstrating the above steps!
 
-![gltf-exporter](./../images/output.gif)
+#### Convert the geometry while importing the file locally from your machine
+
+![export-from-local-file](./../images/export-from-local-file.gif)
+
+#### Convert the geometry while importing the file via a web browser URL
+
+![export-from-url](./../images/export-from-url.gif)
+
+#### How to find the ROOT object name
+
+![find-root-object-name](./../images/find-root-object-name.gif)
 
 ### Split your GLTF geometry into multiple parts
 
@@ -69,4 +79,4 @@ To do that one might need to modify some code for his .gltf file but extensive d
 
 Just follow the documentation in the above link and you should be good to split your whole geometry into multiple subparts and be able to visualize into Phoenix each one of them seperately or all together with the option to enable and disable each part from the UI!
 
-Again feel free to open an [issue](https://github.com/HSF/phoenix/issues) if stuck and someone friendly folk will try and help! 
+Again feel free to open an [issue](https://github.com/HSF/phoenix/issues) if stuck and some friendly folk will try and help! 
