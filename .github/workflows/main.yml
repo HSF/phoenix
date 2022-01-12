@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 30
 
     strategy:
@@ -25,8 +25,7 @@ jobs:
         run: yarn lint
 
       - name: Test
-        run: |
-          yarn workspace phoenix-event-display test:coverage
+        run: yarn test:coverage
 
       - name: Documentation Coverage
         run: yarn docs:coverage
