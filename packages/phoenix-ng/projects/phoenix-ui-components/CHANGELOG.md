@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/HSF/phoenix/compare/v2.5.0...v2.5.1) (2021-12-27)
+
+
+### Bug Fixes
+
+* **app:** fix entry files of phoenix-ui-components ([e41d36f](https://github.com/HSF/phoenix/commit/e41d36f2464fb079cc5f3fad849b31892a5d0e76))
+
+
+
+
+
+# [2.5.0](https://github.com/HSF/phoenix/compare/v2.4.0...v2.5.0) (2021-12-20)
+
+
+### Bug Fixes
+
+* **app:** delegated filtering operation from ts onto html template along with moving the checkbox inline with "choose selection" dropdown ([f995a1a](https://github.com/HSF/phoenix/commit/f995a1a10d725da77f9d9ce6aa9b1e46b9390163))
+* **app:** fix error in qrcode component ([7c9cd19](https://github.com/HSF/phoenix/commit/7c9cd19db61d4f2cd6aee214d8519dc6bb8179dd))
+* **app:** make checkbox labels consistent ([84735f9](https://github.com/HSF/phoenix/commit/84735f9fa65c7d1fb29a13b4c235901c505fa6a6))
+* **app:** removed the redundant "checkbox-wrapper" class and replaced "hide" class with d-none bootstrap class ([36f077c](https://github.com/HSF/phoenix/commit/36f077c375f304668401fbf4cab201e31804e01c))
+* **app:** worked on the requested pr changes ([d7bbc08](https://github.com/HSF/phoenix/commit/d7bbc086a62087c45eb1f185232dafad25bfae73))
+* **app:** worked upon final comments on pr ([17d81d3](https://github.com/HSF/phoenix/commit/17d81d3aed9dcfff29e3dae82ce2d3cd94d11cbb))
+* **event-display:** lint fix ([9b6fe8f](https://github.com/HSF/phoenix/commit/9b6fe8f316ffbb88ed1caa66647f2e92887f28a6))
+* **event-display:** moved inline styles onto scss ([2ca8174](https://github.com/HSF/phoenix/commit/2ca817491243482c9a45608fd9938b9b0d2355cd))
+
+
+### Features
+
+* **app:** fix imports after sass update ([2550f7d](https://github.com/HSF/phoenix/commit/2550f7d2c3a81bee1a9ca157a70068ea1cb843da))
+* update packages ([26444f1](https://github.com/HSF/phoenix/commit/26444f15aba104f86357670f0e54e255dcf85123))
+* **app:** add a checkbox to hide invisible objects in collections ([1a39c59](https://github.com/HSF/phoenix/commit/1a39c59295655b138f4b52098a16f2d8de971339))
+* **app:** added a checkbox to hide invisible objects in collections ([aa75963](https://github.com/HSF/phoenix/commit/aa759630ca16d875fed9b2224df13839ab11fa2c))
+* **app:** manually generate qrcode ([474bcc7](https://github.com/HSF/phoenix/commit/474bcc7fe4cede8fe2a02830a40dc2a0d4c3333a))
+* **app:** QR code generation with ng-qrcode ([f35d146](https://github.com/HSF/phoenix/commit/f35d146ae766d9435985365df57e2bb9f5b343de))
+* **event-display:** added sorting feature in collections table ([8666b3a](https://github.com/HSF/phoenix/commit/8666b3ab4e9735a2c3d301b3cc06e8819081033e))
+
+
+
+
+
 # [2.4.0](https://github.com/HSF/phoenix/compare/v2.3.2...v2.4.0) (2021-10-28)
 
 

@@ -1,0 +1,10 @@
+<app-menu-toggle
+  [disabled]="!vrSupported"
+  [active]="vrActive"
+  icon="vr"
+  (click)="vrSupported && toggleVr()"
+  [tooltip]="
+    vrSupported ? (vrActive ? 'Exit VR' : 'Enter VR') : 'VR not supported'
+  "
+>
+</app-menu-toggle>

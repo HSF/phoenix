@@ -1,0 +1,26 @@
+.header {
+  cursor: pointer;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .node-name,
+  .mat-icon-rtl-mirror {
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  &.visible {
+    .node-name,
+    .mat-icon-rtl-mirror {
+      color: var(--phoenix-accent);
+    }
+  }
+}
+
+.children li {
+  list-style-type: none;
+}

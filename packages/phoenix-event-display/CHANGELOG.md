@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/HSF/phoenix/compare/v2.4.0...v2.5.0) (2021-12-20)
+
+
+### Bug Fixes
+
+* **event-display:** fix jets disappearing on scaling to 0 ([14cdc8f](https://github.com/HSF/phoenix/commit/14cdc8f49bac8482d607614d59e6391879a90e90))
+
+
+### Features
+
+* update packages ([26444f1](https://github.com/HSF/phoenix/commit/26444f15aba104f86357670f0e54e255dcf85123))
+* **event-display:** externalize three.js dependency in webpack bundle ([6a7e82f](https://github.com/HSF/phoenix/commit/6a7e82f0fb174e126b854818237eff7c1753abde))
+* **event-display:** improve JiveXML loader ([34a783c](https://github.com/HSF/phoenix/commit/34a783c0bfbc68f57abbb68e50fb9dc9e0cf1d40)), closes [#364](https://github.com/HSF/phoenix/issues/364)
+* **event-display:** simplify phoenix menu node types ([c60b3c1](https://github.com/HSF/phoenix/commit/c60b3c18f79d0274c05dbf68f1b92c9a79d4b209))
+
+
+
+
+
 # [2.4.0](https://github.com/HSF/phoenix/compare/v2.3.2...v2.4.0) (2021-10-28)
 
 

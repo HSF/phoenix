@@ -1,0 +1,13 @@
+<div
+  class="loader-wrapper d-flex position-absolute flex-column justify-content-center align-items-center w-100 h-100 text-center"
+  [ngClass]="{ 'load-complete': loaded }"
+>
+  <img src="assets/images/logo-small.svg" alt="Loader" />
+  <p class="mt-5">
+    Loading...<br />
+    <small class="text-muted">(This may take a while)</small>
+  </p>
+  <div class="loading-bar" *ngIf="progress !== undefined">
+    <span [style]="{ width: progress + '%' }"></span>
+  </div>
+</div>

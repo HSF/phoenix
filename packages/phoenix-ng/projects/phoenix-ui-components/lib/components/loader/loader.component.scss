@@ -1,0 +1,49 @@
+.loader-wrapper {
+  background: var(--phoenix-background-color);
+  z-index: 9998;
+
+  &.load-complete {
+    display: none !important;
+  }
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    animation: loader 2s infinite;
+  }
+
+  p {
+    color: var(--phoenix-text-color);
+  }
+
+  .loading-bar {
+    width: 15rem;
+    max-width: 90%;
+    height: 0.5rem;
+    background: var(--phoenix-background-color-tertiary);
+    border-radius: 2.5rem;
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: 2.5rem;
+      background: linear-gradient(
+        to right,
+        var(--phoenix-primary),
+        var(--phoenix-secondary)
+      );
+      transition: all 0.5s;
+    }
+  }
+}
+
+@keyframes loader {
+  0%,
+  100% {
+    transform: scale(0.1) rotateZ(0deg);
+  }
+  95% {
+    transform: scale(1) rotateZ(15deg);
+  }
+}

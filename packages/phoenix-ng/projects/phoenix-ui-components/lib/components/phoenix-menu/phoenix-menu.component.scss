@@ -1,0 +1,20 @@
+:host {
+  width: 15rem;
+  max-width: 45%;
+  position: absolute;
+  /* `.item-config > margin-top` in `phoenix-menu-item.component.scss` has to have the same value but negated. */
+  top: 5rem;
+  right: 1rem;
+}
+
+#phoenixMenu {
+  background: var(--phoenix-background-color-secondary);
+  max-height: 75vh;
+  overflow-y: auto;
+  box-shadow: var(--phoenix-box-shadow);
+  z-index: 100;
+
+  @media screen and (max-width: 768px) {
+    top: 4rem;
+  }
+}

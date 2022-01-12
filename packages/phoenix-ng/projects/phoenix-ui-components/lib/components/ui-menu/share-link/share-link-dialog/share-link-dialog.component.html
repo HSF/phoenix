@@ -1,0 +1,76 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Create shareable link</h1>
+  <div mat-dialog-content class="dialog-content">
+    <h5>URL options</h5>
+    <div class="form-group mt-2">
+      <label for="eventDataFile">Event data file (URL or path)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="eventDataFile"
+        placeholder="assets/files/event_data/atlaseventdump2.json"
+        [value]="urlOptions.file"
+        (input)="setOptionValue('file', $event.target.value)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="eventDataType">Event data type</label>
+      <select
+        class="form-control"
+        id="eventDataType"
+        (input)="setOptionValue('type', $event.target.value)"
+      >
+        <option selected value="">Select</option>
+        <option value="jivexml">JiveXML</option>
+        <option value="json">JSON</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="configuration">Configuration (URL or path)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="configuration"
+        placeholder="assets/files/config/phoenix-config.json"
+        [value]="urlOptions.config"
+        (input)="setOptionValue('config', $event.target.value)"
+      />
+    </div>
+    <div class="form-group">
+      <mat-checkbox
+        [checked]="urlOptions.hideWidgets"
+        (change)="setOptionValue('hideWidgets', $event.checked)"
+      >
+        Hide all widgets
+      </mat-checkbox>
+    </div>
+
+    <h5>Share</h5>
+    <div class="share-box my-2">
+      <span>{{ shareLink.value }}</span>
+      <button
+        class="share-box-copy"
+        (click)="copyText(shareLink.value, $event.target)"
+      >
+        COPY
+      </button>
+    </div>
+    <h5>Embed</h5>
+    <div class="share-box my-2">
+      <span>{{ embedLink }}</span>
+      <button
+        class="share-box-copy"
+        (click)="copyText(embedLink, $event.target)"
+      >
+        COPY
+      </button>
+    </div>
+    <h5>QR Code</h5>
+    <div class="qrcode d-flex justify-content-center">
+      <canvas #qrcodeCanvas></canvas>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+  </div>
+</div>

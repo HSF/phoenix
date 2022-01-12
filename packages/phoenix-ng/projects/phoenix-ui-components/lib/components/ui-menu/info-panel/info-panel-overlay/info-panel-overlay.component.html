@@ -1,0 +1,19 @@
+<app-overlay
+  overlayTitle="Info Panel"
+  icon="info-panel"
+  [resizable]="true"
+  [active]="showInfoPanel"
+>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <!-- Show Phoenix Current Version (ON by Default) -->
+      Phoenix Version: {{ version }}
+    </li>
+    <li class="list-group-item" *ngIf="actionsList.length === 0">
+      No actions.
+    </li>
+    <li class="list-group-item" *ngFor="let action of actionsList">
+      {{ action }}
+    </li>
+  </ul>
+</app-overlay>

@@ -1,0 +1,11 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="ss-mode">
+    <g stroke="var(--phoenix-options-icon-path, #fff)" fill="none" stroke-width="60">
+      <polyline points="180.9,39 39.9,39 39.9,184" />
+      <polyline points="332.9,39 473.9,39 473.9,184" />
+      <polyline points="180.9,473 39.9,473 39.9,328" />
+      <polyline points="332.9,473 473.9,473 473.9,328" />
+      <circle cx="256.9" cy="255" r="92.5" />
+    </g>
+  </symbol>
+</svg>

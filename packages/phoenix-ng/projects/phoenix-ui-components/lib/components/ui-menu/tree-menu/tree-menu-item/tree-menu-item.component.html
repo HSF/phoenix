@@ -1,0 +1,24 @@
+<ng-container *ngIf="node">
+  <div class="header" [ngClass]="{ visible: visible }">
+    <button
+      *ngIf="node.children"
+      mat-icon-button
+      matTreeNodeToggle
+      (click)="isExpanded = !isExpanded"
+    >
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{ isExpanded ? 'expand_more' : 'chevron_right' }}
+      </mat-icon>
+    </button>
+    <div (click)="toggleVisibility(!visible)" class="node-name">
+      {{ node.name }}
+    </div>
+  </div>
+  <ul [hidden]="!isExpanded" hid>
+    <div class="children">
+      <li *ngFor="let node of node.children">
+        <app-tree-menu-item [node]="node"></app-tree-menu-item>
+      </li>
+    </div>
+  </ul>
+</ng-container>

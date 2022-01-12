@@ -1,0 +1,8 @@
+<app-menu-toggle
+  [icon]="orthographicView ? 'perspective' : 'orthographic'"
+  [matTooltip]="
+    'Switch to ' + (orthographicView ? 'perspective' : 'orthographic') + ' view'
+  "
+  (click)="switchMainView()"
+>
+</app-menu-toggle>

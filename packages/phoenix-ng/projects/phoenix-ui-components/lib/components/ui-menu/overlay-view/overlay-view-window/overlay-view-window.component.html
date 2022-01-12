@@ -1,0 +1,40 @@
+<app-overlay
+  overlayTitle="Overlay View"
+  icon="overlay"
+  [resizable]="true"
+  [transparentBody]="transparentBody"
+  [active]="showOverlay"
+>
+  <div class="overlay-view-wrapper">
+    <canvas #overlayWindow id="overlay-canvas" [hidden]="!showOverlay">
+    </canvas>
+    <div class="overlay-view-controls position-absolute d-flex flex-row">
+      <app-menu-toggle
+        class="overlay-view-control"
+        icon="transparent"
+        matTooltip="Toggle background transparency"
+        (click)="toggleBgTransparency()"
+      >
+      </app-menu-toggle>
+      <app-menu-toggle
+        class="overlay-view-control"
+        icon="move-lock"
+        [matTooltip]="(overlayViewFixed ? 'Restore' : 'Fix') + ' overlay view'"
+        [active]="overlayViewFixed"
+        (click)="fixOverlayView()"
+      >
+      </app-menu-toggle>
+      <app-menu-toggle
+        class="overlay-view-control"
+        [icon]="orthographicView ? 'orthographic' : 'perspective'"
+        [matTooltip]="
+          'Switch to ' +
+          (orthographicView ? 'orthographic' : 'perspective') +
+          ' view'
+        "
+        (click)="switchOverlayView()"
+      >
+      </app-menu-toggle>
+    </div>
+  </div>
+</app-overlay>

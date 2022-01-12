@@ -1,0 +1,132 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Import and export options</h1>
+  <div mat-dialog-content class="dialog-content">
+    <div *ngIf="eventDataImportOptions.length > 0">
+      <h5>Import</h5>
+
+      <h6 class="text-center">Event data</h6>
+
+      <div class="row centered">
+        <ng-container
+          *ngFor="let eventDataImportOption of eventDataOptionsWithHandler"
+        >
+          <input
+            #eventDataFileInput
+            type="file"
+            tabindex="-1"
+            class="file-input"
+            [accept]="eventDataImportOption.accept"
+            (change)="eventDataImportOption.handler($event.target.files)"
+          />
+          <button
+            class="file-input-button"
+            (click)="eventDataFileInput.click()"
+          >
+            <img src="assets/icons/eventData.svg" alt="Event data icon" />
+            Load {{ eventDataImportOption.fileType }}
+          </button>
+        </ng-container>
+      </div>
+
+      <p class="text-center">
+        Supported formats: {{ getSupportedEventDataFormats() }}
+      </p>
+    </div>
+
+    <h6 class="text-center">Geometries</h6>
+
+    <div class="row centered">
+      <input
+        #objFileInput
+        type="file"
+        tabindex="-1"
+        class="file-input"
+        accept=".obj"
+        name="image"
+        (change)="handleOBJInput($event.target.files)"
+      />
+      <button class="file-input-button" (click)="objFileInput.click()">
+        <img src="assets/icons/obj.svg" alt="" /> Load .obj
+      </button>
+
+      <input
+        #gltfFileInput
+        type="file"
+        tabindex="-1"
+        class="file-input"
+        accept=".gltf"
+        name="image"
+        (change)="handleGLTFInput($event.target.files)"
+      />
+      <button class="file-input-button" (click)="gltfFileInput.click()">
+        <img src="assets/icons/gltf.svg" alt="" /> Load .gltf
+      </button>
+
+      <input
+        #rootFileInput
+        type="file"
+        tabindex="-1"
+        class="file-input"
+        accept=".root"
+        (change)="handleROOTInput($event.target.files)"
+      />
+      <button class="file-input-button" (click)="rootFileInput.click()">
+        <img src="assets/icons/file-import.svg" alt="" /> Load .root
+      </button>
+
+      <input
+        #rootJSONFileInput
+        type="file"
+        tabindex="-1"
+        class="file-input"
+        accept=".json.gz"
+        (change)="handleRootJSONInput($event.target.files)"
+      />
+      <button class="file-input-button" (click)="rootJSONFileInput.click()">
+        <img src="assets/icons/file-import.svg" alt="" /> Load .json.gz
+      </button>
+    </div>
+
+    <p class="text-center">Supported formats: OBJ, GLTF, ROOT, ROOT JSON</p>
+
+    <h5>Import / export scene</h5>
+
+    <div class="row centered">
+      <button
+        class="file-input-button load-export"
+        id="exportScene"
+        (click)="saveScene()"
+      >
+        <img src="assets/icons/save.svg" alt="" /> Save scene
+      </button>
+
+      <input
+        #loadSceneInput
+        type="file"
+        tabindex="-1"
+        class="file-input"
+        accept=".phnx"
+        name="image"
+        (change)="handlePhoenixInput($event.target.files)"
+      />
+      <button
+        class="file-input-button load-export"
+        id="importScene"
+        (click)="loadSceneInput.click()"
+      >
+        <img src="assets/icons/upload.svg" alt="" /> Load scene
+      </button>
+
+      <button
+        class="file-input-button export-button"
+        id="exportOBJ"
+        (click)="exportOBJ()"
+      >
+        <img src="assets/icons/obj.svg" alt="" /> Save OBJ
+      </button>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+  </div>
+</div>

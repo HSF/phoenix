@@ -1,0 +1,92 @@
+.overlay-card.card {
+  color: var(--phoenix-text-color);
+  background: none;
+  max-width: 100vw;
+  font-size: 12px;
+  /* Same min-width as overlay.component.ts MIN_RES_WIDTH */
+  min-width: 300px;
+  height: 100%;
+  max-height: 70vh;
+  box-shadow: none;
+  border: none;
+  position: relative;
+  z-index: 200;
+
+  .card-header {
+    width: 12rem;
+    background: var(--phoenix-background-color-secondary);
+    box-shadow: var(--phoenix-box-shadow);
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    border: none;
+    cursor: move;
+    text-align: center;
+    transition: all 0.2s;
+
+    &.with-body {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .card-icon {
+      display: flex;
+      height: 0.7rem;
+      width: 0.7rem;
+    }
+
+    h5 {
+      font-size: 0.9rem;
+    }
+
+    .expandCollapse {
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &.expand {
+        transform: scaleY(-1);
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .overlay-card-content {
+    background: var(--phoenix-background-color-secondary);
+    box-shadow: var(--phoenix-box-shadow);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    overflow: auto;
+    height: 100%;
+
+    &.transparent-bg {
+      background: none;
+    }
+  }
+
+  .list-group {
+    color: var(--phoenix-text-color-secondary);
+    background: var(--phoenix-background-color-secondary);
+    max-height: 40vh;
+    overflow: auto;
+
+    .list-group-item {
+      background-color: var(--phoenix-background-color-secondary);
+      border-color: var(--phoenix-border);
+    }
+  }
+
+  .resize-handle {
+    width: 1rem;
+    height: 1rem;
+    cursor: nwse-resize;
+    position: absolute;
+
+    &.corner {
+      border-right: 0.2rem solid var(--phoenix-text-color);
+      border-bottom: 0.2rem solid var(--phoenix-text-color);
+    }
+  }
+}

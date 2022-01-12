@@ -1,0 +1,15 @@
+.main-logo {
+  width: 140px;
+  z-index: 9999;
+
+  img {
+    transition: all 0.5s;
+  }
+
+  &:hover {
+    img {
+      filter: drop-shadow(0px 0px 10px var(--phoenix-text-color));
+      transition: all 0.5s;
+    }
+  }
+}

@@ -1,0 +1,156 @@
+.collectionsInfo {
+  height: 95%;
+
+  .collectionSelector {
+    height: 15%;
+    min-height: 2rem;
+
+    span {
+      color: var(--phoenix-text-color-secondary);
+      margin-right: 1rem;
+    }
+
+    mat-checkbox {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.boxBody {
+  height: 85%;
+  overflow: scroll;
+
+  p.emptyBox {
+    max-width: 21em;
+  }
+
+  .add-label {
+    min-width: 8rem;
+
+    input {
+      padding: 0.1rem 0.3rem;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+#collectionTable {
+  position: relative;
+  color: var(--phoenix-text-color-secondary);
+
+  thead tr th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--phoenix-background-color-secondary);
+
+    .head-wrapper {
+      display: flex;
+      align-items: center;
+
+      .sort-options {
+        display: flex;
+        flex-direction: row;
+
+        .icon-wrapper {
+          display: flex;
+          width: 1rem;
+          height: 1rem;
+          padding: 0.2rem;
+
+          &.up {
+            transform: rotate(180deg);
+          }
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  tr * {
+    padding-right: 1.2rem;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  tr.is-cut {
+    opacity: 0.5;
+  }
+
+  tr.active-object {
+    color: var(--phoenix-background-color);
+    background: var(--phoenix-text-color);
+    box-shadow: 0 0 15px var(--phoenix-text-color);
+
+    div.icon-wrapper {
+      --phoenix-options-icon-path: var(--phoenix-background-color);
+      --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
+    }
+
+    .add-label {
+      input {
+        --phoenix-text-color: var(--phoenix-background-color);
+        --phoenix-background-color-tertiary: var(
+          --phoenix-text-color-secondary
+        );
+        --phoenix-border: var(--phoenix-background-color);
+      }
+    }
+  }
+
+  td {
+    .object-select {
+      position: relative;
+      width: 1.6rem;
+      height: 1.6rem;
+      margin-right: 0.4em;
+      text-align: center;
+      background-color: var(--phoenix-options-icon-bg);
+      border-radius: 10px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &:hover {
+        border: 1px solid var(--phoenix-options-icon-path);
+      }
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0.4rem;
+        width: 100%;
+        height: 100%;
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+.eventSelector {
+  display: flex;
+
+  label {
+    display: none;
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  select {
+    width: 9rem;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 1px solid rgba(88, 88, 88, 0.08);
+    box-shadow: var(--phoenix-icon-shadow);
+    background-color: var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+  }
+}

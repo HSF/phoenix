@@ -1,0 +1,19 @@
+<mat-menu #arToggleOptions>
+  <ng-container *ngIf="arSupported">
+    <button mat-menu-item (click)="toggleAr(true)">AR with overlays</button>
+    <button mat-menu-item (click)="toggleAr(false)">AR without overlays</button>
+  </ng-container>
+  <button *ngIf="!arSupported" mat-menu-item disabled>AR not supported</button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="arToggleOptions"
+  (click)="arSupported && (arActive ? toggleAr() : null)"
+  [disabled]="!arSupported"
+  [active]="arActive"
+  icon="ar"
+  [tooltip]="
+    arSupported ? (arActive ? 'Exit AR' : 'Enter AR') : 'AR not supported'
+  "
+>
+</app-menu-toggle>

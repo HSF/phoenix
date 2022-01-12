@@ -1,0 +1,19 @@
+<app-overlay
+  icon="cursor"
+  [overlayTitle]="selectedObject.name"
+  [active]="!hiddenSelectedInfo"
+>
+  <div
+    id="selectedObjectPanelBody"
+    class="m-1"
+    *ngIf="selectedObject.attributes.length > 0"
+  >
+    <div
+      *ngFor="let attribute of selectedObject.attributes"
+      class="attributeField"
+    >
+      <strong>{{ attribute.attributeName }}</strong>
+      : {{ attribute.attributeValue | attributePipe }}
+    </div>
+  </div>
+</app-overlay>

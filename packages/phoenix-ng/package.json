@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.4.0",
+  "version": "2.5.1",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -36,8 +36,8 @@
     "@angular/platform-browser-dynamic": "^13.0.3",
     "@angular/router": "^13.0.3",
     "css-element-queries": "^1.2.3",
-    "phoenix-event-display": "^2.4.0",
-    "phoenix-ui-components": "^2.4.0",
+    "phoenix-event-display": "^2.5.0",
+    "phoenix-ui-components": "^2.5.1",
     "qrcode": "1.5.0",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.1",

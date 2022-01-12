@@ -1,0 +1,47 @@
+.experimentInfo {
+  position: absolute;
+  top: 5rem;
+  left: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: center;
+  cursor: move;
+}
+
+.experimentLogoWrapper {
+  width: 6rem;
+
+  .experimentLogo {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.textInfo {
+  margin-left: 1rem;
+
+  p {
+    color: var(--phoenix-text-color-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    user-select: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .experimentInfo {
+    top: 4rem;
+    max-width: 40%;
+  }
+
+  .experimentLogoWrapper {
+    height: 4rem;
+  }
+
+  .textInfo {
+    display: none;
+  }
+}

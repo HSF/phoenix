@@ -1,0 +1,68 @@
+.row {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-input-button {
+  font-size: 1em;
+  font-weight: 700;
+  color: white;
+  background-color: #6eaece;
+  padding: 1em 0.5em;
+  border: none;
+  border-radius: 10px;
+  width: 8rem;
+  margin: 0 0.4rem;
+
+  &.load-export {
+    padding: 0.8em 0.2em;
+    width: 7rem;
+
+    img {
+      max-height: 1.2em;
+    }
+  }
+
+  &.export-button {
+    background-color: #cb7133;
+
+    &:hover {
+      background-color: #ad5b2d;
+    }
+  }
+
+  img {
+    max-height: 2em;
+    display: block;
+    width: 100%;
+  }
+
+  &:hover {
+    background-color: #118ab2;
+  }
+}
+
+#exportScene {
+  background-color: #5bd99e;
+
+  &:hover {
+    background-color: #05c292;
+  }
+}
+
+#importScene {
+  background-color: #ecc25e;
+
+  &:hover {
+    background-color: #d6b44d;
+  }
+}

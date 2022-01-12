@@ -9,7 +9,7 @@
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 	   <link rel="stylesheet" href="../styles/style.css">
-        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -455,8 +455,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="440"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:440</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="464"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:464</a></div>
                 </td>
             </tr>
 
@@ -597,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="626"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:626</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="650"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:650</a></div>
                 </td>
             </tr>
 
@@ -708,8 +708,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="389"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:389</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:413</a></div>
                 </td>
             </tr>
 
@@ -880,8 +880,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="660"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:660</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="684"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:684</a></div>
                 </td>
             </tr>
 
@@ -958,7 +958,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>(typeFolder: any, typeFolderPM: any) &#x3D;&gt; void</code>
+                        <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >(typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1244,8 +1244,8 @@ the different objects to the graphics library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="492"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:492</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:516</a></div>
                 </td>
             </tr>
 
@@ -1322,8 +1322,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="572"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:572</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="596"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:596</a></div>
                 </td>
             </tr>
 
@@ -1448,8 +1448,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="649"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:649</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="673"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:673</a></div>
                 </td>
             </tr>
 
@@ -1495,8 +1495,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="474"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:474</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="498"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:498</a></div>
                 </td>
             </tr>
 
@@ -1869,6 +1869,30 @@ export class PhoenixLoader implements EventDataLoader {
         false,
         cuts,
         addCaloClusterOptions
+      );
+    }
+
+    if (eventData.CaloCells) {
+      // (Optional) Cuts can be added to any physics object.
+      const cuts &#x3D; [
+        new Cut(&#x27;phi&#x27;, -pi, pi, 0.01),
+        new Cut(&#x27;eta&#x27;, -5.0, 5.0, 0.1),
+        new Cut(&#x27;energy&#x27;, 0, 10000),
+      ];
+
+      const scaleCaloCells &#x3D; (value: number) &#x3D;&gt; {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects(&#x27;CaloCells&#x27;, value, &#x27;z&#x27;);
+      };
+
+      // FIXME! Need to pass the radius in.
+      this.addObjectType(
+        eventData.CaloCells,
+        PhoenixObjects.getCaloCell,
+        &#x27;CaloCells&#x27;,
+        false,
+        cuts
       );
     }
 
@@ -2351,6 +2375,15 @@ export class PhoenixLoader implements EventDataLoader {
                <!-- END CONTENT -->
            </div>
        </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;

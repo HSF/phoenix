@@ -1,0 +1,48 @@
+<mat-menu #viewOptions>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showGridCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showGridCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="setGrid($event)"
+      >Show Grid
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showAxisCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showAxisCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="setAxis($event)"
+      >Show Axis
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    *ngFor="let view of views"
+    (click)="displayView($event, view)"
+  >
+    <svg class="view-icon" *ngIf="view.icon">
+      <use attr.href="assets/icons/{{ view.icon }}.svg#{{ view.icon }}"></use>
+    </svg>
+    {{ view.name }}
+  </button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="viewOptions"
+  tooltip="View options"
+  icon="views"
+  [active]="false"
+>
+</app-menu-toggle>

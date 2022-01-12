@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  margin: 0 0.6rem;
+
+  .menu-toggle {
+    display: flex;
+    background: unset;
+    border: none;
+    height: 2.5rem;
+    width: 2.5rem;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    padding: 0.65rem;
+    cursor: pointer;
+    align-self: center;
+    transition: all 0.4s;
+
+    &-icon {
+      width: 100%;
+      height: 100%;
+
+      &.active-icon {
+        --phoenix-options-icon-path: #00bcd4;
+      }
+    }
+
+    &:hover {
+      background-color: var(--phoenix-options-icon-bg);
+      border-radius: 40%;
+      transition: all 0.4s;
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<mat-menu #animationPresets>
+  <button
+    mat-menu-item
+    *ngFor="let preset of animationPresetsKeys"
+    (click)="animatePreset(preset)"
+  >
+    {{ preset }}
+  </button>
+  <button mat-menu-item (click)="animateCamera()">Animate camera</button>
+</mat-menu>
+
+<app-menu-toggle
+  [matMenuTriggerFor]="animationPresets"
+  tooltip="Preset animations"
+  icon="animate-camera"
+>
+</app-menu-toggle>

@@ -1,0 +1,31 @@
+#overlay-canvas {
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.overlay-view-controls {
+  bottom: 1em;
+  right: 1em;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  .overlay-view-control {
+    border-radius: 50%;
+    background: var(--phoenix-background-color-secondary);
+    box-shadow: var(--phoenix-box-shadow);
+    overflow: hidden;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.overlay-view-wrapper:hover {
+  .overlay-view-controls {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+}

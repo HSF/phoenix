@@ -1,0 +1,147 @@
+<!-- Show objects -->
+<app-overlay
+  overlayTitle="Collections Info"
+  icon="info"
+  [resizable]="true"
+  [active]="showObjectsInfo"
+>
+  <!-- Using ngIf to remove it from DOM since this panel requires heavy computing -->
+  <div *ngIf="showObjectsInfo" class="collectionsInfo m-2">
+    <div
+      class="collectionSelector mb-2 d-flex align-items-center"
+      *ngIf="collections != null"
+    >
+      <div class="d-flex align-items-center">
+        <span>Choose a collection: </span>
+        <div class="eventSelector">
+          <label for="event">Event</label>
+          <select
+            id="collection"
+            name="collection"
+            (change)="changeCollection($event.target.value)"
+          >
+            <option value="" selected disabled hidden>Choose Collection</option>
+            <option *ngFor="let collection of collections" [value]="collection">
+              {{ collection }}
+            </option>
+          </select>
+        </div>
+        <mat-checkbox
+          *ngIf="showingCollection"
+          (change)="toggleInvisible($event.checked)"
+        >
+          Hide Invisible Objects
+        </mat-checkbox>
+      </div>
+    </div>
+
+    <div class="boxBody table-responsive">
+      <table
+        id="collectionTable"
+        class="table table-borderless table-sm"
+        *ngIf="showingCollection"
+      >
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Selection</th>
+            <th>Label</th>
+            <th *ngFor="let column of collectionColumns">
+              <div class="head-wrapper">
+                <div>
+                  {{ getPrettySymbol(column) }}
+                </div>
+                <div class="sort-options">
+                  <button
+                    class="icon-wrapper icon-button btn-blank up"
+                    (click)="sort(column, 'dec')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                  <button
+                    class="icon-wrapper icon-button btn-blank"
+                    (click)="sort(column, 'asc')"
+                  >
+                    <svg>
+                      <use href="assets/icons/expand.svg#expand"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let object of showingCollection; index as i"
+            [attr.id]="object.uuid"
+            [ngClass]="{
+              'active-object':
+                activeObject && activeObject.value === object.uuid,
+              'is-cut': object.isCut,
+              'd-none': object.isCut && hideInvisible
+            }"
+          >
+            <td>#{{ i }}</td>
+            <td>
+              <div
+                *ngIf="object.uuid"
+                class="row justify-content-center icon-wrapper"
+              >
+                <button
+                  class="object-select btn-blank"
+                  matTooltip="Move camera to object"
+                  (click)="lookAtObject(object.uuid)"
+                >
+                  <svg>
+                    <use href="assets/icons/views.svg#views"></use>
+                  </svg>
+                </button>
+                <button
+                  class="object-select btn-blank"
+                  matTooltip="Highlight object"
+                  (click)="highlightObject(object.uuid)"
+                >
+                  <svg>
+                    <use href="assets/icons/cursor.svg#cursor"></use>
+                  </svg>
+                </button>
+              </div>
+            </td>
+            <td>
+              <div class="row m-0 add-label">
+                <div class="col-10 p-0">
+                  <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    [id]="'label' + i"
+                  />
+                </div>
+                <div class="col-2 p-0 pl-2 text-center icon-wrapper">
+                  <button
+                    class="object-select btn-blank"
+                    matTooltip="Add, update or remove object label"
+                    (click)="addLabel(i, object.uuid)"
+                  >
+                    <svg>
+                      <use href="assets/icons/update.svg#update"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td *ngFor="let column of collectionColumns">
+              {{ object[column] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="emptyBox" *ngIf="!collections">
+        Load event data to be able to display information about the collections
+        here.
+      </p>
+    </div>
+  </div>
+</app-overlay>

@@ -1,0 +1,27 @@
+.share-box {
+  width: 30rem;
+  max-width: 100%;
+  position: relative;
+  background: var(--phoenix-background-color-tertiary);
+  border: 1px solid var(--phoenix-border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  word-wrap: break-word;
+
+  .share-box-copy {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border: 1px solid var(--phoenix-border);
+    border-radius: 0.5rem;
+
+    &:hover {
+      background: var(--phoenix-border);
+    }
+  }
+}
