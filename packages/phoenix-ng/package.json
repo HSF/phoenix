@@ -24,7 +24,6 @@
     "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
-    "@angular-slider/ngx-slider": "^2.0.3",
     "@angular/animations": "^13.0.3",
     "@angular/cdk": "^13.0.3",
     "@angular/common": "^13.0.3",
@@ -35,6 +34,7 @@
     "@angular/platform-browser": "^13.0.3",
     "@angular/platform-browser-dynamic": "^13.0.3",
     "@angular/router": "^13.0.3",
+    "@rp3e11/ngx-slider": "^13.0.0",
     "css-element-queries": "^1.2.3",
     "phoenix-event-display": "^2.5.0",
     "phoenix-ui-components": "^2.5.1",

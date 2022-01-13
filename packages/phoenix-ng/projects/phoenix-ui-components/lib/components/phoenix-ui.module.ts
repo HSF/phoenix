@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { NgxSliderModule } from '@rp3e11/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
