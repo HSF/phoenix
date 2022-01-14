@@ -33,7 +33,7 @@ jobs:
       - name: Code Coverage
         uses: coverallsapp/github-action@master
         with:
-          path-to-lcov: ./packages/phoenix-ng/coverage/phoenix-ui-components/lcov.info
+          path-to-lcov: ./packages/phoenix-event-display/coverage/lcov.info
           base-path: ./packages/phoenix-ng
           github-token: ${{ secrets.GITHUB_TOKEN }}
 

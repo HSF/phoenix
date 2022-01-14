@@ -18,7 +18,7 @@
     "tsc": "tsc",
     "tsc:build": "tsc -p tsconfig.build.json",
     "start": "yarn tsc:build --watch",
-    "build": "rm -rf ./dist && yarn tsc:build",
+    "build": "rimraf ./dist && yarn tsc:build",
     "build:es2015": "yarn tsc:build --module es2015 --target es2015 --outDir dist/es2015",
     "build:esm": "yarn tsc:build --module es2015 --target es5 --outDir dist/esm",
     "build:cjs": "yarn tsc:build --module commonjs --target es5 --outDir dist/cjs",
