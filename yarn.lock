@@ -3455,7 +3455,7 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rp3e11/ngx-slider@^13.0.0":
+"@rp3e11/ngx-slider@^13.0.1":
   version "13.0.1"
   resolved "https://registry.yarnpkg.com/@rp3e11/ngx-slider/-/ngx-slider-13.0.1.tgz#3a9d1f4437ab977f8caf98888ee6185a5683a350"
   integrity sha512-eC/V/RayRhQCYCyQHtd3k0/jeiR4drnMwHc99qE/34FpSkcotfJ9yBt3rhjAwb/WAGkGQIoFdnKvgYTGJzvGcg==

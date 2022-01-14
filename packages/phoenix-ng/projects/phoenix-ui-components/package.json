@@ -27,7 +27,7 @@
   "dependencies": {
     "@angular/cdk": "^13.0.3",
     "@angular/material": "^13.0.3",
-    "@rp3e11/ngx-slider": "^13.0.0",
+    "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.0",
     "three": "^0.135.0",
