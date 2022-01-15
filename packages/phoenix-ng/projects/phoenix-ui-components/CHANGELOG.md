@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/HSF/phoenix/compare/v2.6.0-alpha...v2.5.2) (2022-01-15)
+
+
+### Bug Fixes
+
+* **app:** use rp3e11's fork of ngx-slider ([660b053](https://github.com/HSF/phoenix/commit/660b053d4cf339fd4714e7b268ba60778dcaed00))
+
+
+
+
+
 ## [2.5.1](https://github.com/HSF/phoenix/compare/v2.5.0...v2.5.1) (2021-12-27)
 
 

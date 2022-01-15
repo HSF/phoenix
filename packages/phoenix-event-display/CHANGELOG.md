@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.2](https://github.com/HSF/phoenix/compare/v2.6.0-alpha...v2.5.2) (2022-01-15)
+
+**Note:** Version bump only for package phoenix-event-display
+
+
+
+
+
 # [2.5.0](https://github.com/HSF/phoenix/compare/v2.4.0...v2.5.0) (2021-12-20)
 
 
