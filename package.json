@@ -21,7 +21,7 @@
     "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
   },
   "dependencies": {
-    "three": "^0.135.0"
+    "three": "^0.137.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.10.2",
