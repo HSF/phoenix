@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTreeModule } from '@angular/material/tree';
 import { NgxSliderModule } from '@rp3e11/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
@@ -50,11 +51,14 @@ import {
   PerformanceToggleComponent,
   ShareLinkComponent,
   ShareLinkDialogComponent,
+  EventDataExplorerComponent,
+  EventDataExplorerDialogComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
+import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -96,6 +100,9 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   ShareLinkDialogComponent,
   EmbedMenuComponent,
   ExperimentLinkComponent,
+  EventDataExplorerComponent,
+  EventDataExplorerDialogComponent,
+  FileExplorerComponent,
 ];
 
 @NgModule({
@@ -114,6 +121,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatCheckboxModule,
     MatIconModule,
     NgxSliderModule,
+    MatTreeModule,
   ],
   entryComponents: [
     OverlayComponent,

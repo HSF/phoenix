@@ -1,0 +1,13 @@
+.file-tree {
+  // Padding for nested nodes.
+  .mat-nested-tree-node {
+    div[role='group'] {
+      padding-left: 1rem;
+    }
+  }
+
+  // Padding for leaf nodes.
+  div[role='group'] > .mat-tree-node {
+    padding-left: 1rem;
+  }
+}
