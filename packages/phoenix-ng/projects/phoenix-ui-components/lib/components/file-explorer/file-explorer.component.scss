@@ -1,4 +1,8 @@
 .file-tree {
+  &-invisible {
+    display: none;
+  }
+
   // Padding for nested nodes.
   .mat-nested-tree-node {
     div[role='group'] {
