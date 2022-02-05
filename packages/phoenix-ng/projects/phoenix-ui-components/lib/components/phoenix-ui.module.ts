@@ -12,6 +12,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxSliderModule } from '@rp3e11/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
@@ -122,6 +123,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatIconModule,
     NgxSliderModule,
     MatTreeModule,
+    MatTabsModule,
   ],
   entryComponents: [
     OverlayComponent,

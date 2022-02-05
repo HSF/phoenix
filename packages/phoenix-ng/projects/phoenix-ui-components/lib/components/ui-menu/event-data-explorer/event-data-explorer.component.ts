@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EventDataExplorerDialogComponent } from './event-data-explorer-dialog/event-data-explorer-dialog.component';
 
 @Component({
-  selector: 'atlas-event-data-explorer',
+  selector: 'app-event-data-explorer',
   templateUrl: './event-data-explorer.component.html',
   styleUrls: ['./event-data-explorer.component.scss'],
 })

@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { JiveXMLLoader } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
+import { FileNode } from '../../../file-explorer/file-explorer.component';
 
 // Local API URL for debugging.
-// const serverAPI = 'http://localhost/phoenix/api/read-files.php';
-const serverAPI = 'api/read-files.php';
+const serverAPI = 'http://localhost/phoenix/api/read-files.php';
+// const serverAPI = 'api/read-files.php';
 
 const supportFileTypes = ['json', 'xml'];
 
@@ -15,14 +16,14 @@ type FileResponse = {
 };
 
 @Component({
-  selector: 'atlas-event-data-explorer-dialog',
+  selector: 'app-event-data-explorer-dialog',
   templateUrl: './event-data-explorer-dialog.component.html',
   styleUrls: ['./event-data-explorer-dialog.component.scss'],
 })
 export class EventDataExplorerDialogComponent {
   private apiPath = serverAPI;
-  eventDataFiles: FileResponse[];
-  configFiles: FileResponse[];
+  eventDataFileNode: FileNode;
+  configFileNode: FileNode;
   loading = true;
   error = false;
 
@@ -32,15 +33,25 @@ export class EventDataExplorerDialogComponent {
   ) {
     // Event data
     this.makeRequest(this.apiPath, 'json', (res: FileResponse[]) => {
-      this.eventDataFiles = res.filter((file) =>
+      const filePaths = res.filter((file) =>
         supportFileTypes.includes(file.name.split('.').pop())
       );
+
+      this.eventDataFileNode = this.buildFileNode(filePaths);
     });
 
     // Config
-    this.makeRequest(`${this.apiPath}?type=config`, 'json', (res: FileResponse[]) => {
-      this.configFiles = res.filter((file) => file.name.split('.').pop() === 'json');
-    });
+    this.makeRequest(
+      `${this.apiPath}?type=config`,
+      'json',
+      (res: FileResponse[]) => {
+        const filePaths = res.filter(
+          (file) => file.name.split('.').pop() === 'json'
+        );
+
+        this.configFileNode = this.buildFileNode(filePaths);
+      }
+    );
   }
 
   loadEvent(file: string) {
@@ -100,11 +111,30 @@ export class EventDataExplorerDialogComponent {
         onData(data);
         this.error = false;
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         this.error = true;
       })
       .finally(() => {
         this.loading = false;
       });
+  }
+
+  private buildFileNode(filePaths: FileResponse[]): FileNode {
+    const rootNode = new FileNode();
+    let fileNode = rootNode;
+
+    for (const filePath of filePaths) {
+      filePath.name.split('/').forEach((name) => {
+        fileNode.children = fileNode.children || {};
+        fileNode.children[name] = new FileNode(name);
+        fileNode = fileNode.children[name];
+      });
+
+      fileNode.url = filePath.url;
+      fileNode = rootNode;
+    }
+
+    return rootNode;
   }
 }

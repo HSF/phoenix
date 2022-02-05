@@ -6,12 +6,37 @@
   // Padding for nested nodes.
   .mat-nested-tree-node {
     div[role='group'] {
-      padding-left: 1rem;
+      padding-left: 0.5rem;
     }
   }
 
   // Padding for leaf nodes.
   div[role='group'] > .mat-tree-node {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
+  }
+}
+
+.mat-tree-node {
+  min-height: 2rem;
+  margin: 0.325rem 0;
+}
+
+button {
+  outline: none;
+  padding: 0 0.75rem;
+}
+
+.mat-tree {
+  background: none;
+}
+
+.node-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+  margin-top: -2px;
+
+  &.folder-icon {
+    --icon-fill: var(--phoenix-options-icon-path, #fff);
   }
 }

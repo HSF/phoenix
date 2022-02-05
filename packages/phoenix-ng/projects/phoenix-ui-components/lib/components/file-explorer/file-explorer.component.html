@@ -6,6 +6,9 @@
   <!-- This is the tree node template for leaf nodes -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <button mat-button mat-stroked-button (click)="onSelect(node.url)">
+      <svg class="node-icon">
+        <use href="assets/icons/file.svg#file"></use>
+      </svg>
       {{ node.name }}
     </button>
   </mat-tree-node>
@@ -13,15 +16,15 @@
   <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
     <div class="mat-tree-node">
       <button
-        mat-icon-button
+        mat-button
         matTreeNodeToggle
         [attr.aria-label]="'Toggle ' + node.name"
       >
-        <mat-icon>
-          {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-        </mat-icon>
+        <svg class="node-icon folder-icon">
+          <use href="assets/icons/folder.svg#folder"></use>
+        </svg>
+        {{ node.name }}
       </button>
-      {{ node.name }}
     </div>
     <!-- There is inline padding applied to this div using styles.
           This padding value depends on the mat-icon-button width.  -->

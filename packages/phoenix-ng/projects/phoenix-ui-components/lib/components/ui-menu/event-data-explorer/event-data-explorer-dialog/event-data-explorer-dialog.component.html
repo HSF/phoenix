@@ -1,7 +1,7 @@
 <div class="dialog">
   <div class="d-flex">
     <h1 mat-dialog-title>Event data from directory</h1>
-    <atlas-ring-loader *ngIf="loading"></atlas-ring-loader>
+    <app-ring-loader *ngIf="loading"></app-ring-loader>
   </div>
   <div mat-dialog-content class="dialog-content">
     <div *ngIf="error">Error processing request.</div>
@@ -14,26 +14,18 @@
     >
       <mat-tab label="Event data">
         <div class="py-3">
-          <button
-            class="btn file-path-button"
-            title="Load event"
-            *ngFor="let file of eventDataFiles"
-            (click)="loadEvent(file.url)"
-          >
-            {{ file.name }}
-          </button>
+          <app-file-explorer
+            [rootFileNode]="eventDataFileNode"
+            (onFileSelect)="loadEvent($event)"
+          ></app-file-explorer>
         </div>
       </mat-tab>
       <mat-tab label="Config">
         <div class="py-3">
-          <button
-            class="btn file-path-button"
-            title="Load event"
-            *ngFor="let file of configFiles"
-            (click)="loadConfig(file.url)"
-          >
-            {{ file.name }}
-          </button>
+          <app-file-explorer
+            [rootFileNode]="configFileNode"
+            (onFileSelect)="loadConfig($event)"
+          ></app-file-explorer>
         </div>
       </mat-tab>
     </mat-tab-group>
