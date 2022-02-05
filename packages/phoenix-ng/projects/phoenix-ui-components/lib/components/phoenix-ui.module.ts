@@ -60,6 +60,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
+import { RingLoaderComponent } from './ring-loader/ring-loader.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -104,6 +105,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   FileExplorerComponent,
+  RingLoaderComponent,
 ];
 
 @NgModule({

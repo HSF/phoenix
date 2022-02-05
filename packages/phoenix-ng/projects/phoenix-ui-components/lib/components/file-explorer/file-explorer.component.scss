@@ -6,13 +6,13 @@
   // Padding for nested nodes.
   .mat-nested-tree-node {
     div[role='group'] {
-      padding-left: 0.5rem;
+      padding-left: 0.75rem;
     }
   }
 
   // Padding for leaf nodes.
   div[role='group'] > .mat-tree-node {
-    padding-left: 0.5rem;
+    padding-left: 0.75rem;
   }
 }
 

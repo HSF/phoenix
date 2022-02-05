@@ -28,15 +28,15 @@ export class FileExplorerComponent implements OnChanges {
   @Input() rootFileNode: FileNode;
   @Output() onFileSelect: EventEmitter<string> = new EventEmitter<string>();
 
-  treeControl = new NestedTreeControl<FileNode>((node) =>
-    Object.values(node.children)
+  treeControl = new NestedTreeControl<FileNode>(
+    this.getSortedChildren.bind(this)
   );
   dataSource = new MatTreeNestedDataSource<FileNode>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.rootFileNode?.currentValue) {
-      this.dataSource.data = Object.values(
-        changes.rootFileNode.currentValue.children
+      this.dataSource.data = this.getSortedChildren(
+        changes.rootFileNode.currentValue
       );
     }
   }
@@ -46,5 +46,16 @@ export class FileExplorerComponent implements OnChanges {
 
   onSelect(url: string) {
     this.onFileSelect.emit(url);
+  }
+
+  /**
+   * Sorted the file node's children with folders before files.
+   * @param node File node whose children are to be sorted.
+   * @returns An array of sorted file nodes.
+   */
+  getSortedChildren(node: FileNode): FileNode[] {
+    return Object.values(node.children).sort((a, b) =>
+      !a.url && b.url ? -1 : 1
+    );
   }
 }
