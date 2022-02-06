@@ -49,11 +49,15 @@ export class FileExplorerComponent implements OnChanges {
   }
 
   /**
-   * Sorted the file node's children with folders before files.
-   * @param node File node whose children are to be sorted.
-   * @returns An array of sorted file nodes.
+   * Sort the FileNode's children with folders before files.
+   * @param node FileNode whose children are to be sorted.
+   * @returns An array of sorted FileNodes.
    */
   getSortedChildren(node: FileNode): FileNode[] {
+    if (!node.children) {
+      return [];
+    }
+
     return Object.values(node.children).sort((a, b) =>
       !a.url && b.url ? -1 : 1
     );

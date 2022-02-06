@@ -1,38 +1,30 @@
-<mat-tree
-  [dataSource]="dataSource"
-  [treeControl]="treeControl"
-  class="file-tree"
->
+<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <!-- This is the tree node template for leaf nodes -->
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+  <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node">
     <button mat-button mat-stroked-button (click)="onSelect(node.url)">
       <svg class="node-icon">
         <use href="assets/icons/file.svg#file"></use>
       </svg>
       {{ node.name }}
     </button>
-  </mat-tree-node>
+  </cdk-nested-tree-node>
   <!-- This is the tree node template for expandable nodes -->
-  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-    <div class="mat-tree-node">
-      <button
-        mat-button
-        matTreeNodeToggle
-        [attr.aria-label]="'Toggle ' + node.name"
-      >
-        <svg class="node-icon folder-icon">
-          <use href="assets/icons/folder.svg#folder"></use>
-        </svg>
-        {{ node.name }}
-      </button>
-    </div>
-    <!-- There is inline padding applied to this div using styles.
-          This padding value depends on the mat-icon-button width.  -->
-    <div
-      [class.file-tree-invisible]="!treeControl.isExpanded(node)"
-      role="group"
+  <cdk-nested-tree-node
+    *cdkTreeNodeDef="let node; when: hasChild"
+    class="tree-node"
+  >
+    <button
+      mat-button
+      cdkTreeNodeToggle
+      [attr.aria-label]="'Toggle ' + node.name"
     >
-      <ng-container matTreeNodeOutlet></ng-container>
+      <svg class="node-icon folder-icon">
+        <use href="assets/icons/folder.svg#folder"></use>
+      </svg>
+      {{ node.name }}
+    </button>
+    <div [class.file-tree-invisible]="!treeControl.isExpanded(node)">
+      <ng-container cdkTreeNodeOutlet></ng-container>
     </div>
-  </mat-nested-tree-node>
-</mat-tree>
+  </cdk-nested-tree-node>
+</cdk-tree>
