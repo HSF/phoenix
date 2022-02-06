@@ -134,6 +134,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent,
+    EventDataExplorerDialogComponent,
   ],
   exports: PHOENIX_COMPONENTS,
 })

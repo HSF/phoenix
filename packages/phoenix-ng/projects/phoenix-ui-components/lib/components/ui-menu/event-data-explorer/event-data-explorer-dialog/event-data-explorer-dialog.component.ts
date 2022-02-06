@@ -1,12 +1,8 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { JiveXMLLoader } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { FileNode } from '../../../file-explorer/file-explorer.component';
-
-// Local API URL for debugging.
-const serverAPI = 'http://localhost/phoenix/api/read-files.php';
-// const serverAPI = 'api/read-files.php';
 
 const supportFileTypes = ['json', 'xml'];
 
@@ -21,7 +17,7 @@ type FileResponse = {
   styleUrls: ['./event-data-explorer-dialog.component.scss'],
 })
 export class EventDataExplorerDialogComponent {
-  private apiPath = serverAPI;
+  private apiURL: string;
   eventDataFileNode: FileNode;
   configFileNode: FileNode;
   loading = true;
@@ -29,10 +25,13 @@ export class EventDataExplorerDialogComponent {
 
   constructor(
     private eventDisplay: EventDisplayService,
-    private dialogRef: MatDialogRef<EventDataExplorerDialogComponent>
+    private dialogRef: MatDialogRef<EventDataExplorerDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private dialogData: { apiURL: string }
   ) {
+    this.apiURL = dialogData.apiURL;
+
     // Event data
-    this.makeRequest(this.apiPath, 'json', (res: FileResponse[]) => {
+    this.makeRequest(this.apiURL, 'json', (res: FileResponse[]) => {
       const filePaths = res.filter((file) =>
         supportFileTypes.includes(file.name.split('.').pop())
       );
@@ -42,7 +41,7 @@ export class EventDataExplorerDialogComponent {
 
     // Config
     this.makeRequest(
-      `${this.apiPath}?type=config`,
+      `${this.apiURL}?type=config`,
       'json',
       (res: FileResponse[]) => {
         const filePaths = res.filter(
@@ -82,7 +81,7 @@ export class EventDataExplorerDialogComponent {
 
   loadConfig(file: string) {
     this.makeRequest(
-      `${this.apiPath}?type=config&f=${file}`,
+      `${this.apiURL}?type=config&f=${file}`,
       'text',
       (config) => {
         const stateManager = this.eventDisplay.getStateManager();
