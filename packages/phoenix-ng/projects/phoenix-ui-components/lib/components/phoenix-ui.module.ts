@@ -109,7 +109,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
 ];
 
 @NgModule({
-  declarations: [...PHOENIX_COMPONENTS],
+  declarations: PHOENIX_COMPONENTS,
   imports: [
     CommonModule,
     RouterModule,
@@ -135,6 +135,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent,
   ],
-  exports: [PHOENIX_COMPONENTS],
+  exports: PHOENIX_COMPONENTS,
 })
 export class PhoenixUIModule {}

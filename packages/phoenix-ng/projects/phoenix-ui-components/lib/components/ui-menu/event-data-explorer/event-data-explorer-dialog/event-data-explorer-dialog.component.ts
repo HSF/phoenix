@@ -126,8 +126,8 @@ export class EventDataExplorerDialogComponent {
 
     for (const filePath of filePaths) {
       filePath.name.split('/').forEach((name) => {
-        fileNode.children = fileNode.children || {};
-        fileNode.children[name] = new FileNode(name);
+        fileNode.children = fileNode.children ?? {};
+        fileNode.children[name] = fileNode.children[name] ?? new FileNode(name);
         fileNode = fileNode.children[name];
       });
 
