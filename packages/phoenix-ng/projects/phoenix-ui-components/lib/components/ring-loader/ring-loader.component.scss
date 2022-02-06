@@ -14,8 +14,7 @@
     border: 0.25rem solid var(--phoenix-text-color);
     border-radius: 50%;
     animation: ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: var(--phoenix-text-color) transparent transparent
-      transparent;
+    border-color: var(--phoenix-text-color) transparent transparent transparent;
   }
 }
 
