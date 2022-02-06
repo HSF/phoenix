@@ -2,6 +2,10 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventDataExplorerDialogComponent } from './event-data-explorer-dialog/event-data-explorer-dialog.component';
 
+export type EventDataExplorerDialogData = {
+  apiURL: string;
+};
+
 @Component({
   selector: 'app-event-data-explorer',
   templateUrl: './event-data-explorer.component.html',
@@ -13,7 +17,10 @@ export class EventDataExplorerComponent {
   constructor(private dialog: MatDialog) {}
 
   openEventDataExplorerDialog() {
-    this.dialog.open(EventDataExplorerDialogComponent, {
+    this.dialog.open<
+      EventDataExplorerDialogComponent,
+      EventDataExplorerDialogData
+    >(EventDataExplorerDialogComponent, {
       data: {
         apiURL: this.apiURL,
       },

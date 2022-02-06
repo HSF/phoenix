@@ -1,13 +1,18 @@
 <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <!-- This is the tree node template for leaf nodes -->
-  <cdk-nested-tree-node *cdkTreeNodeDef="let node" class="tree-node">
-    <button mat-button mat-stroked-button (click)="onSelect(node.url)">
+  <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node">
+    <button
+      mat-button
+      mat-stroked-button
+      class="tree-node-button"
+      (click)="onSelect(node.url)"
+    >
       <svg class="node-icon">
         <use href="assets/icons/file.svg#file"></use>
       </svg>
       {{ node.name }}
     </button>
-  </cdk-nested-tree-node>
+  </cdk-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <cdk-nested-tree-node
     *cdkTreeNodeDef="let node; when: hasChild"
@@ -16,6 +21,7 @@
     <button
       mat-button
       cdkTreeNodeToggle
+      class="tree-node-button"
       [attr.aria-label]="'Toggle ' + node.name"
     >
       <svg class="node-icon folder-icon">

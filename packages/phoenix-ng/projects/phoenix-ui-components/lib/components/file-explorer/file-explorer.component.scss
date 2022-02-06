@@ -4,10 +4,14 @@
 
 .tree-node {
   display: block;
-  padding-left: 1rem;
+  margin: 0.25rem 0;
+
+  .tree-node {
+    padding-left: 1rem;
+  }
 }
 
-button {
+.tree-node-button {
   outline: none;
   padding: 0 0.75rem;
 }

@@ -1,5 +1,5 @@
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatTreeModule } from '@angular/material/tree';
 
 import { FileExplorerComponent } from './file-explorer.component';
 
@@ -10,7 +10,7 @@ describe('FileExplorerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [FileExplorerComponent],
-      imports: [MatTreeModule],
+      imports: [CdkTreeModule],
     }).compileComponents();
   });
 

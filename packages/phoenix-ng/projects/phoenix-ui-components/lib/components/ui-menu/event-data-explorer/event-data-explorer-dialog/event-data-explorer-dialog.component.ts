@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { JiveXMLLoader } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { FileNode } from '../../../file-explorer/file-explorer.component';
+import { EventDataExplorerDialogData } from '../event-data-explorer.component';
 
 const supportFileTypes = ['json', 'xml'];
 
@@ -17,7 +18,6 @@ type FileResponse = {
   styleUrls: ['./event-data-explorer-dialog.component.scss'],
 })
 export class EventDataExplorerDialogComponent {
-  private apiURL: string;
   eventDataFileNode: FileNode;
   configFileNode: FileNode;
   loading = true;
@@ -26,12 +26,10 @@ export class EventDataExplorerDialogComponent {
   constructor(
     private eventDisplay: EventDisplayService,
     private dialogRef: MatDialogRef<EventDataExplorerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private dialogData: { apiURL: string }
+    @Inject(MAT_DIALOG_DATA) private dialogData: EventDataExplorerDialogData
   ) {
-    this.apiURL = dialogData.apiURL;
-
     // Event data
-    this.makeRequest(this.apiURL, 'json', (res: FileResponse[]) => {
+    this.makeRequest(this.dialogData.apiURL, 'json', (res: FileResponse[]) => {
       const filePaths = res.filter((file) =>
         supportFileTypes.includes(file.name.split('.').pop())
       );
@@ -41,7 +39,7 @@ export class EventDataExplorerDialogComponent {
 
     // Config
     this.makeRequest(
-      `${this.apiURL}?type=config`,
+      `${this.dialogData.apiURL}?type=config`,
       'json',
       (res: FileResponse[]) => {
         const filePaths = res.filter(
@@ -81,7 +79,7 @@ export class EventDataExplorerDialogComponent {
 
   loadConfig(file: string) {
     this.makeRequest(
-      `${this.apiURL}?type=config&f=${file}`,
+      `${this.dialogData.apiURL}?type=config&f=${file}`,
       'text',
       (config) => {
         const stateManager = this.eventDisplay.getStateManager();
