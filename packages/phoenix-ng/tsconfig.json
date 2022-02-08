@@ -14,17 +14,12 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [
         "projects/phoenix-ui-components/lib/public_api.ts"
       ],
-      "phoenix-event-display": [
-        "../phoenix-event-display/src"
-      ]
+      "phoenix-event-display": ["../phoenix-event-display/src"]
     }
   },
   "angularCompilerOptions": {
