@@ -67,6 +67,7 @@ export class IOOptionsDialogComponent implements OnInit {
           importHandler(files);
           this.onClose();
         };
+
         this.eventDataOptionsWithHandler.push(eventDataImportOption);
       }
     });

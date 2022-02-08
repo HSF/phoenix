@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService, ImportOption } from 'phoenix-ui-components';
+import {
+  EventDataFormat,
+  EventDataImportOption,
+  EventDisplayService,
+  ImportOption,
+} from 'phoenix-ui-components';
 import {
   PhoenixMenuNode,
   LHCbLoader,
@@ -29,6 +34,10 @@ export class LHCbComponent implements OnInit {
     this.handleLHCbJSONImport.bind(this),
     'application/json'
   );
+  eventDataImportOptions: EventDataImportOption[] = [
+    EventDataFormat.JSON,
+    this.lhcbImporter,
+  ];
 
   constructor(private eventDisplay: EventDisplayService) {}
 

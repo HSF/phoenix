@@ -6,7 +6,11 @@ import {
   ScriptLoader,
   PhoenixMenuNode,
 } from 'phoenix-event-display';
-import { EventDisplayService } from 'phoenix-ui-components';
+import {
+  EventDataFormat,
+  EventDataImportOption,
+  EventDisplayService,
+} from 'phoenix-ui-components';
 
 @Component({
   selector: 'app-cms',
@@ -20,6 +24,10 @@ export class CMSComponent implements OnInit {
   );
   loaded = false;
   loadingProgress = 0;
+  eventDataImportOptions: EventDataImportOption[] = [
+    EventDataFormat.JSON,
+    EventDataFormat.IG,
+  ];
 
   constructor(private eventDisplay: EventDisplayService) {}
 

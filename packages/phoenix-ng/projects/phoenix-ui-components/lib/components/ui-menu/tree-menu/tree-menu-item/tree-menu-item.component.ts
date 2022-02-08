@@ -2,6 +2,12 @@ import { Component, Input, ViewChildren } from '@angular/core';
 import type { QueryList } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
+export type TreeMenuNode = {
+  name: string;
+  geometryId: string;
+  children?: TreeMenuNode[];
+};
+
 @Component({
   selector: 'app-tree-menu-item',
   templateUrl: './tree-menu-item.component.html',
@@ -10,7 +16,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 export class TreeMenuItemComponent {
   @ViewChildren(TreeMenuItemComponent)
   children!: QueryList<TreeMenuItemComponent>;
-  @Input() node: { name: string; geometryId: string; children: [] };
+  @Input() node: TreeMenuNode;
   isExpanded = false;
   visible = true;
 

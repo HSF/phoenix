@@ -1,8 +1,6 @@
 <app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
 <app-nav></app-nav>
-<app-ui-menu
-  [eventDataImportOptions]="['JSON', 'JIVEXML', 'ZIP']"
-></app-ui-menu>
+<app-ui-menu [eventDataImportOptions]="eventDataImportOptions"></app-ui-menu>
 <app-embed-menu></app-embed-menu>
 <app-experiment-info
   experiment="atlas"

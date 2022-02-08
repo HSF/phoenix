@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService } from 'phoenix-ui-components';
+import {
+  EventDataFormat,
+  EventDataImportOption,
+  EventDisplayService,
+} from 'phoenix-ui-components';
 import {
   Configuration,
   PresetView,
@@ -20,6 +24,11 @@ import phoenixMenuConfig from '../../../assets/files/config/atlas-config.json';
 })
 export class AtlasComponent implements OnInit {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
+  eventDataImportOptions: EventDataImportOption[] = [
+    EventDataFormat.JSON,
+    EventDataFormat.JIVEXML,
+    EventDataFormat.ZIP,
+  ];
   loaded = false;
   loadingProgress = 0;
 
