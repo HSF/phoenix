@@ -17,7 +17,7 @@ export type ConfigSlider = ConfigLabel & {
   value?: number;
   min: number;
   max: number;
-  step: number;
+  step?: number;
   allowCustomValue?: boolean;
   onChange: (value: number) => void;
 };

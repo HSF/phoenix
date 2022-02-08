@@ -51,7 +51,7 @@
         [ngStyle]="{ 'top.px': configTop }"
       >
         <ng-container
-          *ngFor="let config of currentNode.configs"
+          *ngFor="let config of castConfigsToAny(currentNode.configs)"
           [ngSwitch]="config.type"
         >
           <!-- Config types -->
