@@ -24,7 +24,10 @@
       class="tree-node-button"
       [attr.aria-label]="'Toggle ' + node.name"
     >
-      <svg class="node-icon folder-icon">
+      <svg
+        class="node-icon"
+        [class.node-icon-filled]="!treeControl.isExpanded(node)"
+      >
         <use href="assets/icons/folder.svg#folder"></use>
       </svg>
       {{ node.name }}
