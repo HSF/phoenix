@@ -41,7 +41,7 @@ export class FileExplorerComponent implements OnChanges {
     }
   }
 
-  hasChild = (_: number, node: FileNode) =>
+  hasChildren = (_: number, node: FileNode) =>
     !!node.children && Object.keys(node.children).length > 0;
 
   onSelect(url: string) {
