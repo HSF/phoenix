@@ -7,7 +7,7 @@ import { EventDataExplorerDialogData } from '../event-data-explorer.component';
 
 const supportFileTypes = ['json', 'xml'];
 
-type FileResponse = {
+export type FileResponse = {
   name: string;
   url: string;
 };

@@ -17,7 +17,7 @@ const getMockFileNode = () => {
   return rootNode;
 };
 
-fdescribe('FileExplorerComponent', () => {
+describe('FileExplorerComponent', () => {
   let component: FileExplorerComponent;
   let fixture: ComponentFixture<FileExplorerComponent>;
 
