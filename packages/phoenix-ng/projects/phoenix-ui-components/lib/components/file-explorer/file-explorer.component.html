@@ -1,0 +1,39 @@
+<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node">
+    <button
+      mat-button
+      mat-stroked-button
+      class="tree-node-button"
+      (click)="onSelect(node.url)"
+    >
+      <svg class="node-icon">
+        <use href="assets/icons/file.svg#file"></use>
+      </svg>
+      {{ node.name }}
+    </button>
+  </cdk-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <cdk-nested-tree-node
+    *cdkTreeNodeDef="let node; when: hasChildren"
+    class="tree-node"
+  >
+    <button
+      mat-button
+      cdkTreeNodeToggle
+      class="tree-node-button"
+      [attr.aria-label]="'Toggle ' + node.name"
+    >
+      <svg
+        class="node-icon"
+        [class.node-icon-filled]="!treeControl.isExpanded(node)"
+      >
+        <use href="assets/icons/folder.svg#folder"></use>
+      </svg>
+      {{ node.name }}
+    </button>
+    <div [class.file-tree-invisible]="!treeControl.isExpanded(node)">
+      <ng-container cdkTreeNodeOutlet></ng-container>
+    </div>
+  </cdk-nested-tree-node>
+</cdk-tree>

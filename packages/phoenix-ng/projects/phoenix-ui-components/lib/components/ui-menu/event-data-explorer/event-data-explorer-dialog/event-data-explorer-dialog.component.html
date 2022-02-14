@@ -1,0 +1,36 @@
+<div class="dialog">
+  <div class="d-flex">
+    <h1 mat-dialog-title>Event data from directory</h1>
+    <app-ring-loader *ngIf="loading"></app-ring-loader>
+  </div>
+  <div mat-dialog-content class="dialog-content">
+    <div *ngIf="error">Error processing request.</div>
+    <mat-tab-group
+      *ngIf="!error"
+      mat-align-tabs="start"
+      animationDuration="0ms"
+      disableRipple
+      color="transparent"
+    >
+      <mat-tab label="Event data">
+        <div class="py-3">
+          <app-file-explorer
+            [rootFileNode]="eventDataFileNode"
+            (onFileSelect)="loadEvent($event)"
+          ></app-file-explorer>
+        </div>
+      </mat-tab>
+      <mat-tab label="Config">
+        <div class="py-3">
+          <app-file-explorer
+            [rootFileNode]="configFileNode"
+            (onFileSelect)="loadConfig($event)"
+          ></app-file-explorer>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+  </div>
+</div>

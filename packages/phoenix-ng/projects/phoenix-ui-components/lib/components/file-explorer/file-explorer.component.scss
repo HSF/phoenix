@@ -1,0 +1,28 @@
+.file-tree-invisible {
+  display: none;
+}
+
+.tree-node {
+  display: block;
+  margin: 0.25rem 0;
+
+  .tree-node {
+    padding-left: 1rem;
+  }
+}
+
+.tree-node-button {
+  outline: none;
+  padding: 0 0.75rem;
+}
+
+.node-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+  margin-top: -2px;
+
+  &.node-icon-filled {
+    --icon-fill: var(--phoenix-options-icon-path, #fff);
+  }
+}

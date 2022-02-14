@@ -42,7 +42,7 @@ export class ShareLinkDialogComponent implements AfterViewInit {
     }${urlParametersString}"></iframe>`;
   }
 
-  setOptionValue(option: string, value: string) {
+  setOptionValue(option: string, value: string | boolean) {
     this.urlOptions[option] = value;
     this.onOptionsChange();
   }

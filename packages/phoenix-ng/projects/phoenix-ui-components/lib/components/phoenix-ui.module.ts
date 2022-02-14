@@ -11,6 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgxSliderModule } from '@rp3e11/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
@@ -50,11 +52,15 @@ import {
   PerformanceToggleComponent,
   ShareLinkComponent,
   ShareLinkDialogComponent,
+  EventDataExplorerComponent,
+  EventDataExplorerDialogComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
+import { FileExplorerComponent } from './file-explorer/file-explorer.component';
+import { RingLoaderComponent } from './ring-loader/ring-loader.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -96,10 +102,14 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   ShareLinkDialogComponent,
   EmbedMenuComponent,
   ExperimentLinkComponent,
+  EventDataExplorerComponent,
+  EventDataExplorerDialogComponent,
+  FileExplorerComponent,
+  RingLoaderComponent,
 ];
 
 @NgModule({
-  declarations: [...PHOENIX_COMPONENTS],
+  declarations: PHOENIX_COMPONENTS,
   imports: [
     CommonModule,
     RouterModule,
@@ -114,6 +124,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatCheckboxModule,
     MatIconModule,
     NgxSliderModule,
+    CdkTreeModule,
+    MatTabsModule,
   ],
   entryComponents: [
     OverlayComponent,
@@ -122,7 +134,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     CollectionsInfoOverlayComponent,
     ObjectSelectionOverlayComponent,
     InfoPanelOverlayComponent,
+    EventDataExplorerDialogComponent,
   ],
-  exports: [PHOENIX_COMPONENTS],
+  exports: PHOENIX_COMPONENTS,
 })
 export class PhoenixUIModule {}

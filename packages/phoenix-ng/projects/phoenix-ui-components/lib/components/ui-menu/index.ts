@@ -29,3 +29,5 @@ export * from './performance-toggle/performance-toggle.component';
 export * from './ui-menu.component';
 export * from './share-link/share-link.component';
 export * from './share-link/share-link-dialog/share-link-dialog.component';
+export * from './event-data-explorer/event-data-explorer.component';
+export * from './event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component';

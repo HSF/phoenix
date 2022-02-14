@@ -1,0 +1,40 @@
+.ring {
+  display: inline-block;
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0.25rem 0.5rem;
+    border: 0.25rem solid var(--phoenix-text-color);
+    border-radius: 50%;
+    animation: ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--phoenix-text-color) transparent transparent transparent;
+  }
+}
+
+.ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes ring {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

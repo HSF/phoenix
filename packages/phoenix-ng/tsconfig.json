@@ -21,5 +21,9 @@
       ],
       "phoenix-event-display": ["../phoenix-event-display/src"]
     }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictDomEventTypes": false
   }
 }

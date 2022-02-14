@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TreeMenuItemComponent } from './tree-menu-item/tree-menu-item.component';
+import { TreeMenuNode } from './tree-menu-item/tree-menu-item.component';
 
 @Component({
   selector: 'app-tree-menu',
@@ -7,7 +7,7 @@ import { TreeMenuItemComponent } from './tree-menu-item/tree-menu-item.component
   styleUrls: ['./tree-menu.component.scss'],
 })
 export class TreeMenuComponent implements OnInit {
-  rootNode = {
+  rootNode: TreeMenuNode = {
     name: 'Atlas Detector',
     geometryId: 'AtlasDetector',
     children: [

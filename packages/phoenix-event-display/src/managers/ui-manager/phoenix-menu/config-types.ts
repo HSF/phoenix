@@ -8,17 +8,17 @@ export type ConfigLabel = {
 
 /** Type for Phoenix menu node "checkbox" config. */
 export type ConfigCheckbox = ConfigLabel & {
-  isChecked: boolean;
+  isChecked?: boolean;
   onChange: (value: boolean) => void;
 };
 
 /** Type for Phoenix menu node "slider" config. */
 export type ConfigSlider = ConfigLabel & {
-  value: number;
+  value?: number;
   min: number;
   max: number;
-  step: number;
-  allowCustomValue: boolean;
+  step?: number;
+  allowCustomValue?: boolean;
   onChange: (value: number) => void;
 };
 
@@ -29,14 +29,14 @@ export type ConfigButton = ConfigLabel & {
 
 /** Type for Phoenix menu node "color" config. */
 export type ConfigColor = ConfigLabel & {
-  color: string;
+  color?: string;
   onChange: (value: string) => void;
 };
 
 /** Type for Phoenix menu node "rangeSlider" config. */
 export type ConfigRangeSlider = ConfigLabel & {
-  value: number;
-  highValue: number;
+  value?: number;
+  highValue?: number;
   min: number;
   max: number;
   step: number;
@@ -51,11 +51,11 @@ export type ConfigSelect = ConfigLabel & {
 
 /** Type for all Phoenix menu mode configuration options. */
 export type PhoenixMenuConfigs = {
-  label: Partial<ConfigLabel>;
-  checkbox: Partial<ConfigCheckbox>;
-  slider: Partial<ConfigSlider>;
-  button: Partial<ConfigButton>;
-  color: Partial<ConfigColor>;
-  rangeSlider: Partial<ConfigRangeSlider>;
-  select: Partial<ConfigSelect>;
+  label: ConfigLabel;
+  checkbox: ConfigCheckbox;
+  slider: ConfigSlider;
+  button: ConfigButton;
+  color: ConfigColor;
+  rangeSlider: ConfigRangeSlider;
+  select: ConfigSelect;
 };
