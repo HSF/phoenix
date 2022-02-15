@@ -44,14 +44,14 @@
     "three": "^0.137.5"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.16.4",
-    "@compodoc/compodoc": "^1.1.16",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@compodoc/compodoc": "^1.1.18",
     "@types/dat.gui": "^0.7.7",
-    "@types/three": "^0.135.0",
-    "esbuild-loader": "^2.16.0",
-    "karma-typescript": "~5.5.2",
-    "karma-typescript-es6-transform": "~5.5.2",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1"
+    "@types/three": "^0.137.0",
+    "esbuild-loader": "^2.18.0",
+    "karma-typescript": "~5.5.3",
+    "karma-typescript-es6-transform": "~5.5.3",
+    "webpack": "^5.69.0",
+    "webpack-cli": "^4.9.2"
   }
 }
