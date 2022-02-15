@@ -25,22 +25,23 @@
     "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
-    "@angular/animations": "^13.0.3",
-    "@angular/cdk": "^13.0.3",
-    "@angular/common": "^13.0.3",
-    "@angular/compiler": "^13.0.3",
-    "@angular/core": "^13.0.3",
-    "@angular/forms": "^13.0.3",
-    "@angular/material": "^13.0.3",
-    "@angular/platform-browser": "^13.0.3",
-    "@angular/platform-browser-dynamic": "^13.0.3",
-    "@angular/router": "^13.0.3",
+    "@angular/animations": "^13.2.2",
+    "@angular/cdk": "^13.2.2",
+    "@angular/common": "^13.2.2",
+    "@angular/compiler": "^13.2.2",
+    "@angular/core": "^13.2.2",
+    "@angular/forms": "^13.2.2",
+    "@angular/material": "^13.2.2",
+    "@angular/platform-browser": "^13.2.2",
+    "@angular/platform-browser-dynamic": "^13.2.2",
+    "@angular/router": "^13.2.2",
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "phoenix-event-display": "^2.5.2",
     "phoenix-ui-components": "^2.5.2",
     "qrcode": "1.5.0",
-    "rxjs": "^7.4.0",
+    "rxjs": "^7.5.4",
+    "three": "^0.137.5",
     "tslib": "^2.3.1",
     "zone.js": "^0.11.4"
   },
@@ -48,12 +49,12 @@
     "three": "*"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.0.4",
+    "@angular-devkit/build-angular": "^13.2.3",
     "@angular-devkit/build-ng-packagr": "~0.1002.0",
-    "@angular/cli": "~13.0.4",
-    "@angular/compiler-cli": "~13.0.3",
-    "@angular/language-service": "^13.0.3",
-    "@types/qrcode": "1.4.1",
-    "ng-packagr": "^13.0.8"
+    "@angular/cli": "~13.2.3",
+    "@angular/compiler-cli": "~13.2.2",
+    "@angular/language-service": "^13.2.2",
+    "@types/qrcode": "1.4.2",
+    "ng-packagr": "^13.2.1"
   }
 }

@@ -41,7 +41,7 @@
     "dat.gui": "^0.7.7",
     "jszip": "^3.7.1",
     "stats-js": "^1.0.1",
-    "three": "^0.135.0"
+    "three": "^0.137.5"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.16.4",
