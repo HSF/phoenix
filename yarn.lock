@@ -167,10 +167,10 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/cdk@^13.2.2":
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-13.2.2.tgz#4d41b1da6e92e3bc80d28aabe2049fa7ca40f5b1"
-  integrity sha512-cT5DIaz+NI9IGb3X61Wh26+L6zdRcOXT1BP37iRbK2Qa2qM8/0VNeK6hrBBIblyoHKR/WUmRlS8XYf6mmArpZw==
+"@angular/cdk@^13.2.3":
+  version "13.2.3"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-13.2.3.tgz#5bbd3c16d550c518ce6acda8c9389038edfb651b"
+  integrity sha512-X7FH0eGwfK2HcAroYBrE7O9ehZ50k9+DoDV98xm1NRgezNfiQ2QxIdLQKhJv0bnnID+pGk4Tnb44RXUmgk5idw==
   dependencies:
     tslib "^2.3.0"
   optionalDependencies:
@@ -250,10 +250,10 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-13.2.2.tgz#4de8742dc7603a331cb39be065f5a30d0bdc0fad"
   integrity sha512-2P5+wRsbHgpI2rVeFwnsLWxyntUiw8kG9Tqh5BkVDqtQovbYtzFiaMkf5TFz/g938JBBgeRQzvXr1kQhEidAWQ==
 
-"@angular/material@^13.2.2":
-  version "13.2.2"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-13.2.2.tgz#d673f68b0c9357ada2ee82ffeaf11f10f5d49b27"
-  integrity sha512-YAjPp2+/wuEOPfkAxdRVdbWHiK4P3DgMZa9qP/NizN2lTXNrftEfD09ZlPIFMZRnnExezJ2LnO7eyELpc1VSKg==
+"@angular/material@^13.2.3":
+  version "13.2.3"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-13.2.3.tgz#a7d716d7d3eebfeb1250a0235b38262f1000df00"
+  integrity sha512-io9NzL32QKBngSpNbnIGRN0/qhkGpyfZHnpW+IOsYa4gMlXqi0JMV5Ygi+O1Dvd57TXzbb3e2eggdZyAWe7IDA==
   dependencies:
     tslib "^2.3.0"
 
@@ -5904,14 +5904,6 @@ enhanced-resolve@^5.8.3:
   version "5.8.3"
   resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.8.3.tgz#6d552d465cce0423f5b3d718511ea53826a7b2f0"
   integrity sha512-EGAbGvH7j7Xt2nc0E7D99La1OiEs8LnyimkRgwExpUMScN6O+3x9tIWs7PLQZVNx4YD+00skHXPXi1yQHpAmZA==
-  dependencies:
-    graceful-fs "^4.2.4"
-    tapable "^2.2.0"
-
-enhanced-resolve@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.9.0.tgz#49ac24953ac8452ed8fed2ef1340fc8e043667ee"
-  integrity sha512-weDYmzbBygL7HzGGS26M3hGQx68vehdEg6VUmqSOaFzXExFqlnKuSvsEJCVGQHScS8CQMbrAqftT+AzzHNt/YA==
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.2.0"
@@ -12829,10 +12821,10 @@ webpack@5.67.0:
     watchpack "^2.3.1"
     webpack-sources "^3.2.3"
 
-webpack@^5.69.0:
-  version "5.69.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.69.0.tgz#c9eb607d4f6c49f1e5755492323a7b055c3450e3"
-  integrity sha512-E5Fqu89Gu8fR6vejRqu26h8ld/k6/dCVbeGUcuZjc+goQHDfCPU9rER71JmdtBYGmci7Ec2aFEATQ2IVXKy2wg==
+webpack@^5.69.1:
+  version "5.69.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.69.1.tgz#8cfd92c192c6a52c99ab00529b5a0d33aa848dc5"
+  integrity sha512-+VyvOSJXZMT2V5vLzOnDuMz5GxEqLk7hKWQ56YxPW/PQRUuKimPqmEIJOx8jHYeyo65pKbapbW464mvsKbaj4A==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"
@@ -12843,7 +12835,7 @@ webpack@^5.69.0:
     acorn-import-assertions "^1.7.6"
     browserslist "^4.14.5"
     chrome-trace-event "^1.0.2"
-    enhanced-resolve "^5.9.0"
+    enhanced-resolve "^5.8.3"
     es-module-lexer "^0.9.0"
     eslint-scope "5.1.1"
     events "^3.2.0"
