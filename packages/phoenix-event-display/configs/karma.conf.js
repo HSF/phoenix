@@ -47,6 +47,9 @@ module.exports = function (config) {
       },
       exclude: ['node_modules'],
       bundlerOptions: {
+        acornOptions: {
+          ecmaVersion: 11,
+        },
         transforms: [
           require('karma-typescript-es6-transform')({
             plugins: [
