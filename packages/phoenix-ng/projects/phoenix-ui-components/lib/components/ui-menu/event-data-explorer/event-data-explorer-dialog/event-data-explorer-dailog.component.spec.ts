@@ -10,7 +10,7 @@ import {
   FileResponse,
 } from './event-data-explorer-dialog.component';
 
-fdescribe('EventDataExplorerDialogComponent', () => {
+describe('EventDataExplorerDialogComponent', () => {
   let component: EventDataExplorerDialogComponent;
   let fixture: ComponentFixture<EventDataExplorerDialogComponent>;
 
