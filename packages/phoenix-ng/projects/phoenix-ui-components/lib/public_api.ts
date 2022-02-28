@@ -5,4 +5,6 @@ export * from './components/loader/loader.component';
 export * from './components/phoenix-ui.module';
 export * from './components/embed-menu/embed-menu.component';
 export * from './components/embed-menu/experiment-link/experiment-link.component';
+export * from './components/file-explorer/file-explorer.component';
+export * from './components/ring-loader/ring-loader.component';
 export * from './services/index';
