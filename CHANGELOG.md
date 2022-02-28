@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/HSF/phoenix/compare/v2.5.2...v2.6.0) (2022-02-28)
+
+
+### Bug Fixes
+
+* **app:** export file explorer component to fix build ([fb400da](https://github.com/HSF/phoenix/commit/fb400dab16f5de1d5538fd40da79ecda0262ec6b))
+* **app:** fix browser error after packages update ([4cc9215](https://github.com/HSF/phoenix/commit/4cc9215b44e07d881d60e2c62a04a9349cabaa28))
+* **app:** fix file node only having one children ([6747cd0](https://github.com/HSF/phoenix/commit/6747cd0843b9fe480ca35a10668c60e191a9194f))
+* **app:** fix folder icon fill ([8cfdc1d](https://github.com/HSF/phoenix/commit/8cfdc1df3ad18d6d32d301d9cf61e055c31c2c56))
+* **app:** fix tabbing in svg file ([ee62b7c](https://github.com/HSF/phoenix/commit/ee62b7c9d7c42269a6b39cec4a8945eeb9a76ac1))
+* **app:** fix types in templates ([545c956](https://github.com/HSF/phoenix/commit/545c95681093f25e7e9ea026c66fdfe91e25ec4f))
+* **app:** use workaround for phoenix menu config types in templates ([9d109e5](https://github.com/HSF/phoenix/commit/9d109e5e26a863951f82a93a4c610a9fd19e90c5))
+
+
+### Features
+
+* update packages ([f2ed0a3](https://github.com/HSF/phoenix/commit/f2ed0a366520c597349403a8648d384d907da0f6))
+* **app:** add event data explorer component ([abd5393](https://github.com/HSF/phoenix/commit/abd5393fec8b2f1cac53b52f42b200b844757092))
+* **app:** add file and folder icons ([40c1c0c](https://github.com/HSF/phoenix/commit/40c1c0c7d3a7f7fbffbfb365269d1c911c4058e8))
+* **app:** add file explorer component ([7e2ebf5](https://github.com/HSF/phoenix/commit/7e2ebf5a8a1772578c6e90f3b56c65baedc0a423))
+* **app:** add icon for event data explorer ([ad2e667](https://github.com/HSF/phoenix/commit/ad2e667a247aff59c2b614dff1f7c8fc0cfaceaa))
+* **app:** add ring loader component ([853faf1](https://github.com/HSF/phoenix/commit/853faf166a3c027b13209bb4c21b689c3a18d688))
+* **app:** enable strict templates ([a0406bd](https://github.com/HSF/phoenix/commit/a0406bdb43350c3359e6bbe4875cd17ac043936a))
+* **app:** improve and simplify file explorer and event data explorer ([82572c6](https://github.com/HSF/phoenix/commit/82572c623ec1f322e75253c153a260929348840c))
+* **app:** pass api url as input to event data explorer ([f28c8ba](https://github.com/HSF/phoenix/commit/f28c8bad7e7672e921c470d9399a3231219f2497))
+* **app:** remove redundant file icon ([c01c450](https://github.com/HSF/phoenix/commit/c01c450c6e951bf02c127196d23dc7e47e4f7608))
+* **app:** use cdk tree instead of material tree for simplicity ([87c1eee](https://github.com/HSF/phoenix/commit/87c1eeee9ec9f2f02a3fcc658dd9828e71791d7b))
+* **app:** use filled icon to indicate unopened folder ([18d7517](https://github.com/HSF/phoenix/commit/18d75177e2f6180461f30d4c1818f254c9514f9c))
+* **app:** working event data explorer ([7970da1](https://github.com/HSF/phoenix/commit/7970da1c5ccf954da8e9d7d46b5c77dc92001f1b))
+* **app:** working file explorer ([0447853](https://github.com/HSF/phoenix/commit/04478536f35fc9deb95f4548143d81477596b9c0))
+* **app:** working file tree using material tree ([4ce4964](https://github.com/HSF/phoenix/commit/4ce4964a4468b488b78b488026ddd80dffaf3867))
+
+
+
+
+
 ## [2.5.2](https://github.com/HSF/phoenix/compare/v2.6.0-alpha...v2.5.2) (2022-01-15)
 
 

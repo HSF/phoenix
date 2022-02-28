@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/HSF/phoenix/compare/v2.5.2...v2.6.0) (2022-02-28)
+
+
+### Bug Fixes
+
+* **app:** fix types in templates ([545c956](https://github.com/HSF/phoenix/commit/545c95681093f25e7e9ea026c66fdfe91e25ec4f))
+* **app:** use workaround for phoenix menu config types in templates ([9d109e5](https://github.com/HSF/phoenix/commit/9d109e5e26a863951f82a93a4c610a9fd19e90c5))
+
+
+### Features
+
+* update packages ([f2ed0a3](https://github.com/HSF/phoenix/commit/f2ed0a366520c597349403a8648d384d907da0f6))
+
+
+
+
+
 ## [2.5.2](https://github.com/HSF/phoenix/compare/v2.6.0-alpha...v2.5.2) (2022-01-15)
 
 **Note:** Version bump only for package phoenix-event-display
