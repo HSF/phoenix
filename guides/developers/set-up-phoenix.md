@@ -94,7 +94,7 @@ After this, go to the `src/styles.scss` file of your app and import the global P
 
 #### Set up assets
 
-And lastly, download [these assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/src/assets) (icons and images used by the Phoenix UI components) and put them in the `src/assets` directory of your app.
+And lastly, download [these assets](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-ui-components/lib/assets) (icons and images used by the Phoenix UI components) and put them in the `src/assets` directory of your app.
 
 With this, the app is ready and we can move onto setting up the event display in this app.
 
