@@ -10,13 +10,13 @@
 
 ## Introduction
 
-The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#application-architecture), it interconnects the `ThreeManager`, `UIManager` and `EventDataLoader`. It works as the primary endpoint for accessing all Phoenix functions.
+The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#phoenix-architecture), it interconnects the `ThreeManager`, `UIManager` and `EventDataLoader`. It works as the primary endpoint for accessing all Phoenix functions.
 
 See the [API docs for `EventDisplay`](https://hepsoftwarefoundation.org/phoenix/api-docs/classes/EventDisplay.html) to have a deeper look at the available functions.
 
 ## Modularity and architectural overview
 
-As specified in the [Phoenix architecture](../#application-architecture), the `EventDisplay` depends on some underlying managers to perform operations. Almost none of the functions of the `EventDisplay` are implemented directly in the `EventDisplay`. Instead the `EventDisplay` works as an intermediate interface that uses different managers and services to perform the relevant operations and interconnects them.\
+As specified in the [Phoenix architecture](./#phoenix-architecture), the `EventDisplay` depends on some underlying managers to perform operations. Almost none of the functions of the `EventDisplay` are implemented directly in the `EventDisplay`. Instead the `EventDisplay` works as an intermediate interface that uses different managers and services to perform the relevant operations and interconnects them.\
 This architectural approach helps in maintaining the modularity of Phoenix and makes it easier to add new functionality in isolation if needed.
 
 The modular and extendable nature of Phoenix is not limited to just the `EventDisplay`. The managers are also further divided into sub managers each of which is responsible for handling and maintaining different aspects and features.
@@ -94,7 +94,7 @@ These are some independent managers not part of the `ThreeManager` or `UIManager
   Maintains a list of loadable items with addable callbacks that are called when the loading is complete.
 * [**`StateManager`**](../../packages/phoenix-event-display/src/managers/state-manager.ts)  
   Manages the state of the `EventDisplay` including the Phoenix menu state, camera state and clipping state. The state can be saved to a file and loaded later.
-* [**`URLOptionsManager`**](../../packages/phoenix-event-display/src/managers/state-manager.ts)  
+* [**`URLOptionsManager`**](../../packages/phoenix-event-display/src/managers/url-options-manager.ts)  
   Manages `EventDisplay` options available through the URL like loading an event through the URL (`file` & `type`) or hiding overlay widgets (`hideWidgets`).
 
 ## Event data loaders
