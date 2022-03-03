@@ -17,7 +17,7 @@
   <button class="slider-btn" mat-menu-item (focus)="clippingSlider.focus()">
     <mat-slider
       #clippingSlider
-      min="0"
+      min="startClippingValue"
       max="180"
       step="1"
       thumbLabel
@@ -25,7 +25,20 @@
       (click)="$event.stopPropagation()"
       (input)="changeClippingAngle($event)"
     >
-    </mat-slider>
+    </mat-slider>Clipping Angle
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="clippingSlider.focus()">
+    <mat-slider
+      #clippingSlider
+      min="0"
+      max="45"
+      step="1"
+      thumbLabel
+      [value]="startClippingValue"
+      (click)="$event.stopPropagation()"
+      (input)="changeClippingAngle($event)"
+    >
+    </mat-slider>Start Clipping
   </button>
 </mat-menu>
 

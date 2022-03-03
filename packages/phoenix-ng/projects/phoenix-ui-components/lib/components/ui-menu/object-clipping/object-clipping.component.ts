@@ -11,11 +11,15 @@ import { EventDisplayService } from '../../../services/event-display.service';
 export class ObjectClippingComponent {
   clippingEnabled: boolean;
   clippingAngle: number;
+  startClippingValue: number;
 
   constructor(private eventDisplay: EventDisplayService) {
     const stateManager = this.eventDisplay.getStateManager();
     stateManager.clippingEnabled.onUpdate(
       (clippingValue) => (this.clippingEnabled = clippingValue)
+    );
+    stateManager.clippingEnabled.onUpdate(
+      (startClippingValue) => (this.clippingEnabled = startClippingValue)
     );
     stateManager.clippingAngle.onUpdate(
       (value) => (this.clippingAngle = value)
