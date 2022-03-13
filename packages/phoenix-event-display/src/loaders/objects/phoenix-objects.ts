@@ -604,7 +604,7 @@ export class PhoenixObjects {
     /// (x0, y[0], z0, x0+dxDy*(y[1]-y[0]),y[1],z0)
 
     const fiberHits = [];
-    fiberHits.push(new Vector3(0, 0, 0));
+    // fiberHits.push(new Vector3(0, 0, 0));
     fiberHits.push(new Vector3(x0, y0, z0));
     fiberHits.push(new Vector3(x0 + dxDy * (y1 - y0), y1, z0));
 
