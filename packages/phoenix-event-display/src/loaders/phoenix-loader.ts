@@ -290,6 +290,16 @@ export class PhoenixLoader implements EventDataLoader {
       );
     }
 
+    if (eventData.Fibers) {
+      // Cannot currently cut on just a position array.
+      this.addObjectType(
+        eventData.Fibers,
+        PhoenixObjects.getFibers,
+        'Fibers',
+        false
+      );
+    }
+
     if (eventData.Muons) {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),

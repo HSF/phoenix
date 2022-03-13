@@ -54,7 +54,7 @@ export class LHCbComponent implements OnInit {
       defaultView: [-800, 300, -1000],
       phoenixMenuRoot: this.phoenixMenuRoot,
       defaultEventFile: {
-        eventFile: 'assets/files/lhcb/LHCbEventDataV2.json',
+        eventFile: 'assets/files/lhcb/LHCb_EventDataset.json',
         eventType: 'json',
       },
     };

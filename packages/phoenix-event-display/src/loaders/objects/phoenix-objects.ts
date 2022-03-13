@@ -593,15 +593,39 @@ export class PhoenixObjects {
    * @returns Fiber object.
    */
   public static getFibers(FiberParams: any): Object3D {
-    /// retrieve and store the data
-    const fiberHits = [];
-    fiberHits.push(new Vector3(0, 0, 0));
-    fiberHits.push(new Vector3(fiberHits.x0, fiberHits.z0, fiberHits.dxDy));
+    /// retrieve and store the coords to draw the fibers
+    const x0 = FiberParams.x0;
+    const y0 = FiberParams.y[0];
+    const y1 = FiberParams.y[1];
+    const z0 = FiberParams.z0;
+    const dxDy = FiberParams.dxDy;
 
-    /// for my 6 coords to draw the line: 
+    /// we need 6 coords to draw the line:
     /// (x0, y[0], z0, x0+dxDy*(y[1]-y[0]),y[1],z0)
 
+    const fiberHits = [];
+    fiberHits.push(new Vector3(0, 0, 0));
+    fiberHits.push(new Vector3(x0, y0, z0));
+    fiberHits.push(new Vector3(x0 + dxDy * (y1 - y0), y1, z0));
+
+    /// geometry
+    const geometry = new BufferGeometry().setFromPoints(fiberHits);
+
+    /// material
+    const material = new LineBasicMaterial({
+      linewidth: 2,
+      color: FiberParams.color ?? EVENT_DATA_TYPE_COLORS.Fibers,
+    });
+
+    /// object
+    const fiberLines = new LineSegments(geometry, material);
+
+    fiberLines.userData = Object.assign({}, FiberParams);
+    fiberLines.name = 'FiberLine';
+    /// Setting uuid for selection from collections info
+    FiberParams.uuid = fiberLines.uuid;
+
     /// return (FiberObject)
-    return new Object3D();
+    return fiberLines;
   }
 }
