@@ -586,4 +586,22 @@ export class PhoenixObjects {
 
     return object;
   }
+
+  /**
+   * Process the Fibers (a.k.a reconstructed line from points / hits) from the given parameters and get it as a geometry.
+   * @param Fiber Parameters for the SciFi Calorimeter.
+   * @returns Fiber object.
+   */
+  public static getFibers(FiberParams: any): Object3D {
+    /// retrieve and store the data
+    const fiberHits = [];
+    fiberHits.push(new Vector3(0, 0, 0));
+    fiberHits.push(new Vector3(fiberHits.x0, fiberHits.z0, fiberHits.dxDy));
+
+    /// for my 6 coords to draw the line: 
+    /// (x0, y[0], z0, x0+dxDy*(y[1]-y[0]),y[1],z0)
+
+    /// return (FiberObject)
+    return new Object3D();
+  }
 }
