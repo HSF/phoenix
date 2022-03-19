@@ -1,5 +1,4 @@
 import { Color } from 'three';
-import { GUI } from 'dat.gui';
 import { Cut } from '../../extras/cut.model';
 
 export interface PhoenixUI<T> {
@@ -17,14 +16,14 @@ export interface PhoenixUI<T> {
    * Add geometry to the menu's geometry folder and set up its configurable options.
    * @param name Name of the geometry.
    * @param color Color of the geometry.
-   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
   addGeometry(
     name: string,
     color: Color,
-    menuSubfolder?: string,
-    initiallyVisible?: boolean
+    initiallyVisible?: boolean,
+    menuSubfolder?: string
   ): void;
 
   /**
@@ -47,7 +46,7 @@ export interface PhoenixUI<T> {
    * @param collectionColor Default color of the collection.
    */
   addCollection(
-    typeFolder: GUI,
+    typeFolder: T,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
@@ -60,16 +59,16 @@ export interface PhoenixUI<T> {
   addLabelsFolder(configFunctions: any): void;
 
   /**
-   * Add fodler for configuration of label.
+   * Add folder for configuration of label.
    * @param labelId Unique ID of the label.
    * @param removeLabel Function to remove label from the scene.
    */
   addLabel(labelId: string, removeLabel: () => void): void;
 
   /**
-   * Remove label from the menu and scene if it exists.
+   * Remove label folder from the menu and scene if it exists.
    * @param labelId A unique label ID string.
    * @param labelFolderReference Reference to the label folder.
    */
-  removeLabel(labelId: string, labelFolderReference: T): void;
+  removeLabelFolder(labelId: string, labelFolderReference: T): void;
 }

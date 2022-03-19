@@ -5,11 +5,12 @@ import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Cut } from '../../../extras/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
+import { PhoenixUI } from '../phoenix-ui';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
  */
-export class PhoenixMenuUI {
+export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   /** Root node of the phoenix menu. */
   private phoenixMenu: PhoenixMenuNode;
   /** Phoenix menu node containing geometries data */
@@ -37,10 +38,7 @@ export class PhoenixMenuUI {
     this.labelsFolder = null;
   }
 
-  /**
-   * Clear the Phoenix menu.
-   */
-  public clearPhoenixMenu() {
+  public clear() {
     if (this.phoenixMenu) {
       this.phoenixMenu.truncate();
       this.phoenixMenu = undefined;
@@ -50,10 +48,7 @@ export class PhoenixMenuUI {
     this.labelsFolder = null;
   }
 
-  /**
-   * Add geometry (detector geometry) folder to the Phoenix menu.
-   */
-  public addGeomFolder() {
+  public addGeometryFolder() {
     // Phoenix menu
     if (this.geomFolder === null) {
       this.geomFolder = this.phoenixMenu.addChild(
@@ -100,18 +95,11 @@ export class PhoenixMenuUI {
       });
   }
 
-  /**
-   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
-   */
   public addGeometry(
     name: string,
     color: any,
-    menuNodeName?: string,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
+    menuNodeName?: string
   ) {
     let parentNode: PhoenixMenuNode = this.geomFolder;
     if (menuNodeName) {
@@ -151,9 +139,6 @@ export class PhoenixMenuUI {
       });
   }
 
-  /**
-   * Functions for event data toggles like show/hide and depthTest.
-   */
   public addEventDataFolder() {
     // Phoenix menu
     if (this.eventFolder !== null) {
@@ -178,24 +163,12 @@ export class PhoenixMenuUI {
     });
   }
 
-  /**
-   * Add folder for event data type like tracks or hits to the Phoenix menu.
-   * @param typeName Name of the type of event data.
-   * @returns Phoenix menu's folder for event data type.
-   */
   public addEventDataTypeFolder(typeName: string): PhoenixMenuNode {
     return this.eventFolder.addChild(typeName, (value: boolean) => {
       this.three.getSceneManager().objectVisibility(typeName, value);
     });
   }
 
-  /**
-   * Add collection node and its configurable options to the event data type (tracks, hits etc.) node.
-   * @param typeFolder Phoenix menu node of an event data type.
-   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
-   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
-   * @param collectionColor Default color of the collection.
-   */
   public addCollection(
     typeFolder: PhoenixMenuNode,
     collectionName: string,
@@ -290,10 +263,6 @@ export class PhoenixMenuUI {
     );
   }
 
-  /**
-   * Add labels folder to Phoenix menu.
-   * @param configFunctions Functions to attach to the labels folder configuration.
-   */
   public addLabelsFolder(configFunctions: any) {
     if (this.labelsFolder !== null) {
       return;
@@ -339,11 +308,6 @@ export class PhoenixMenuUI {
     });
   }
 
-  /**
-   * Add configuration UI for label.
-   * @param labelId Unique ID of the label.
-   * @param removeLabel Function to remove label from the scene.
-   */
   public addLabel(labelId: string, removeLabel?: () => void) {
     let labelNode = this.labelsFolder.children.find(
       (phoenixMenuNode) => phoenixMenuNode.name === labelId
@@ -365,18 +329,13 @@ export class PhoenixMenuUI {
         label: 'Remove',
         onClick: () => {
           removeLabel?.();
-          this.removeLabelNode(labelId, labelNode);
+          this.removeLabelFolder(labelId, labelNode);
         },
       });
     }
   }
 
-  /**
-   * Remove label from UI, scene and event data loader if it exists.
-   * @param labelId A unique label ID string.
-   * @param labelNode Phoenix menu node of the label if any.
-   */
-  public removeLabelNode(labelId: string, labelNode?: PhoenixMenuNode) {
+  public removeLabelFolder(labelId: string, labelNode?: PhoenixMenuNode) {
     if (!labelNode) {
       labelNode = this.labelsFolder?.children.find(
         (singleLabelNode) => singleLabelNode.name === labelId
