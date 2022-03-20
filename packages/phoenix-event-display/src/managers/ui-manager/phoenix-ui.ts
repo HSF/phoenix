@@ -61,9 +61,9 @@ export interface PhoenixUI<T> {
   /**
    * Add folder for configuration of label.
    * @param labelId Unique ID of the label.
-   * @param removeLabel Function to remove label from the scene.
+   * @param onRemoveLabel Function called when label is removed.
    */
-  addLabel(labelId: string, removeLabel: () => void): void;
+  addLabel(labelId: string, onRemoveLabel: () => void): void;
 
   /**
    * Remove label folder from the menu and scene if it exists.

@@ -3,11 +3,12 @@ import { Color } from 'three';
 import { ThreeManager } from '../three-manager';
 import { SceneManager } from '../three-manager/scene-manager';
 import { Cut } from '../../extras/cut.model';
+import { PhoenixUI } from './phoenix-ui';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.
  */
-export class DatGUIMenuUI {
+export class DatGUIMenuUI implements PhoenixUI<GUI> {
   /** dat.GUI menu. */
   private gui: GUI;
   /** Options for the dat.GUI menu. */
@@ -50,10 +51,7 @@ export class DatGUIMenuUI {
     this.labelsFolder = null;
   }
 
-  /**
-   * Clear the dat.GUI menu.
-   */
-  public clearDatGUI() {
+  public clear() {
     const gui = document.getElementById('gui');
     if (gui != null) {
       gui.remove();
@@ -61,10 +59,7 @@ export class DatGUIMenuUI {
     this.geomFolder = null;
   }
 
-  /**
-   * Add geometry (detector geometry) folder to the dat.GUI menu.
-   */
-  public addGeomFolder() {
+  public addGeometryFolder() {
     if (this.geomFolder === null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
@@ -89,16 +84,11 @@ export class DatGUIMenuUI {
     });
   }
 
-  /**
-   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
-   */
   public addGeometry(
     name: string,
-    color: any,
-    initiallyVisible: boolean = true
+    color: Color,
+    initiallyVisible?: boolean,
+    _menuSubfolder?: string
   ) {
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
@@ -181,9 +171,6 @@ export class DatGUIMenuUI {
     };
   }
 
-  /**
-   * Functions for event data toggles like show/hide and depthTest.
-   */
   public addEventDataFolder() {
     // If there is already an event data folder it is deleted and we create a new one.
     if (this.eventFolder !== null) {
@@ -212,11 +199,6 @@ export class DatGUIMenuUI {
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
 
-  /**
-   * Add folder for event data type like tracks or hits to the dat.GUI menu.
-   * @param typeName Name of the type of event data.
-   * @returns dat.GUI menu's folder for event data type.
-   */
   public addEventDataTypeFolder(typeName: string): GUI {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
@@ -231,13 +213,6 @@ export class DatGUIMenuUI {
     return typeFolder;
   }
 
-  /**
-   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param typeFolder dat.GUI menu folder of an event data type.
-   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
-   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
-   * @param collectionColor Color of the collection.
-   */
   public addCollection(
     typeFolder: GUI,
     collectionName: string,
@@ -306,10 +281,6 @@ export class DatGUIMenuUI {
     }
   }
 
-  /**
-   * Add labels folder to dat.GUI menu.
-   * @param configFunctions Functions to attach to the labels folder configuration.
-   */
   public addLabelsFolder(configFunctions: any) {
     if (this.labelsFolder !== null) {
       return;
@@ -357,12 +328,7 @@ export class DatGUIMenuUI {
       .name('Load Labels');
   }
 
-  /**
-   * Add configuration UI for label.
-   * @param labelId Unique ID of the label.
-   * @param removeLabel Function to remove label from the scene.
-   */
-  public addLabel(labelId: string, removeLabel?: () => void) {
+  public addLabel(labelId: string, onRemoveLabel?: () => void) {
     this.guiParameters[labelId] = {
       show: true,
       color: 0xafafaf,
@@ -388,18 +354,13 @@ export class DatGUIMenuUI {
     );
 
     this.guiParameters[labelId]['removeLabel'] = () => {
-      removeLabel?.();
-      this.removeLabel(labelId, labelItem);
+      onRemoveLabel?.();
+      this.removeLabelFolder(labelId, labelItem);
     };
     labelItem.add(this.guiParameters[labelId], 'removeLabel').name('Remove');
   }
 
-  /**
-   * Remove label from UI, scene and event data loader if it exists.
-   * @param labelId A unique label ID string.
-   * @param labelItemFolder dat.GUI folder of the label if any.
-   */
-  public removeLabel(labelId: string, labelItemFolder?: GUI) {
+  public removeLabelFolder(labelId: string, labelItemFolder?: GUI) {
     if (!labelItemFolder) {
       labelItemFolder = this.labelsFolder.__folders[labelId];
     }
