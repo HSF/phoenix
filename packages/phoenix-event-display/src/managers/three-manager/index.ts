@@ -240,6 +240,9 @@ export class ThreeManager {
     const q = new Quaternion();
     q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
     this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
+    const q2 = new Quaternion();
+    q2.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
+    this.clipPlanes[1].normal.set(0, 1, 0).applyQuaternion(q2);
   }
 
   /**
