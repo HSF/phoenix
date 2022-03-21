@@ -15,6 +15,7 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from '../../helpers/browser-storage';
+import { PhoenixUI } from './phoenix-ui';
 
 /**
  * Manager for UI related operations including the dat.GUI menu, stats-js and theme settings.
@@ -23,9 +24,7 @@ export class UIManager {
   // Functions ending in PM are for Phoenix Menu
 
   /** The dat.GUI menu UI. A wrapper for dat.GUI menu to perform UI related operations. */
-  private datGUIMenu: DatGUIMenuUI = null;
-  /** The Phoenix menu UI. A wrapper for Phoenix menu to perform UI related operations. */
-  private phoenixMenuUI: PhoenixMenuUI = null;
+  private uiMenus: PhoenixUI<unknown>[] = null;
   /** Stats object from stats-js. */
   private stats: any;
   /** If the geometry folder is added or not */
@@ -57,17 +56,18 @@ export class UIManager {
     this.configuration = configuration;
     // Shows a panel on screen with information about the performance (fps).
     this.showStats(configuration.elementId);
-    // Shows the menu that contains the options to interact with the scene.
+
+    // UI Menus
+    this.uiMenus = [];
     if (configuration.enableDatGUIMenu) {
-      this.datGUIMenu = new DatGUIMenuUI(configuration.elementId, this.three);
+      this.uiMenus.push(new DatGUIMenuUI(configuration.elementId, this.three));
     }
-    // Set root node of phoenix menu
     if (configuration.phoenixMenuRoot) {
-      this.phoenixMenuUI = new PhoenixMenuUI(
-        configuration.phoenixMenuRoot,
-        this.three
+      this.uiMenus.push(
+        new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three)
       );
     }
+
     // Detect UI color scheme
     this.detectColorScheme();
     // State manager
@@ -104,8 +104,7 @@ export class UIManager {
    * Clear the UI by removing the dat.GUI and phoenix menu(s).
    */
   public clearUI() {
-    this.datGUIMenu?.clearDatGUI();
-    this.phoenixMenuUI?.clearPhoenixMenu();
+    this.uiMenus.forEach((menu) => menu.clear());
 
     this.geomFolderAdded = false;
     this.labelsFolderAdded = false;
@@ -116,8 +115,7 @@ export class UIManager {
    */
   public addGeomFolder() {
     this.geomFolderAdded = true;
-    this.datGUIMenu?.addGeomFolder();
-    this.phoenixMenuUI?.addGeomFolder();
+    this.uiMenus.forEach((menu) => menu.addGeometryFolder());
   }
 
   /**
@@ -137,12 +135,8 @@ export class UIManager {
       this.addGeomFolder();
     }
 
-    this.datGUIMenu?.addGeometry(name, color, initiallyVisible);
-    this.phoenixMenuUI?.addGeometry(
-      name,
-      color,
-      menuNodeName,
-      initiallyVisible
+    this.uiMenus.forEach((menu) =>
+      menu.addGeometry(name, color, initiallyVisible, menuNodeName)
     );
   }
 
@@ -150,8 +144,7 @@ export class UIManager {
    * Functions for event data toggles like show/hide and depthTest.
    */
   public addEventDataFolder() {
-    this.datGUIMenu?.addEventDataFolder();
-    this.phoenixMenuUI?.addEventDataFolder();
+    this.uiMenus.forEach((menu) => menu.addEventDataFolder());
   }
 
   /**
@@ -159,40 +152,26 @@ export class UIManager {
    * @param typeName Name of the type of event data.
    * @returns dat.GUI and Phoenix menu's folder for event data type.
    */
-  public addEventDataTypeFolder(typeName: string): {
-    typeFolder?: GUI;
-    typeFolderPM?: PhoenixMenuNode;
-  } {
-    const typeFolder = this.datGUIMenu?.addEventDataTypeFolder(typeName);
-    const typeFolderPM = this.phoenixMenuUI?.addEventDataTypeFolder(typeName);
-
-    return { typeFolder, typeFolderPM };
+  public addEventDataTypeFolder(typeName: string): void {
+    this.uiMenus.forEach((menu) => menu.addEventDataTypeFolder(typeName));
   }
+
+  public getEventDataTypeFolder(typeName: string) {}
 
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param typeFolders dat.GUI and Phoenix menu folders of an event data type.
+   * @param eventDataType Name of the event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    */
   public addCollection(
-    typeFolders: { typeFolder: GUI; typeFolderPM: PhoenixMenuNode },
+    eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    this.datGUIMenu?.addCollection(
-      typeFolders.typeFolder,
-      collectionName,
-      cuts,
-      collectionColor
-    );
-
-    this.phoenixMenuUI?.addCollection(
-      typeFolders.typeFolderPM,
-      collectionName,
-      cuts,
-      collectionColor
+    this.uiMenus.forEach((menu) =>
+      menu.addCollection(eventDataType, collectionName, cuts, collectionColor)
     );
   }
 
@@ -235,21 +214,15 @@ export class UIManager {
       this.loadLabelsFile();
     };
 
-    this.datGUIMenu?.addLabelsFolder({
-      onToggle,
-      onSizeChange,
-      onColorChange,
-      onSaveLabels,
-      onLoadLabels,
-    });
-
-    this.phoenixMenuUI?.addLabelsFolder({
-      onToggle,
-      onSizeChange,
-      onColorChange,
-      onSaveLabels,
-      onLoadLabels,
-    });
+    this.uiMenus.forEach((menu) =>
+      menu.addLabelsFolder({
+        onToggle,
+        onSizeChange,
+        onColorChange,
+        onSaveLabels,
+        onLoadLabels,
+      })
+    );
   }
 
   /**
@@ -261,8 +234,9 @@ export class UIManager {
       this.addLabelsFolder();
     }
 
-    this.datGUIMenu?.addLabel(labelId, () => this.removeLabel(labelId));
-    this.phoenixMenuUI?.addLabel(labelId, () => this.removeLabel(labelId));
+    this.uiMenus.forEach((menu) =>
+      menu?.addLabel(labelId, () => this.removeLabel(labelId))
+    );
   }
 
   /**
@@ -278,8 +252,7 @@ export class UIManager {
     delete labelsObject?.[objectKeys[0]]?.[objectKeys[1]]?.[objectKeys[2]];
 
     if (removeFolders) {
-      this.datGUIMenu?.removeLabel(labelId);
-      this.phoenixMenuUI?.removeLabelNode(labelId);
+      this.uiMenus.forEach((menu) => menu.removeLabel(labelId));
     }
   }
 
@@ -470,7 +443,10 @@ export class UIManager {
   /**
    * Load previous state of the event data folder in Phoenix menu if any.
    */
-  public loadEventFolderPMState() {
-    this.phoenixMenuUI?.loadEventFolderState();
+  public loadEventFolderPhoenixMenuState() {
+    const phoenixMenuUI = this.uiMenus.find(
+      (uiMenu) => uiMenu instanceof PhoenixMenuUI
+    ) as PhoenixMenuUI;
+    phoenixMenuUI?.loadEventFolderState();
   }
 }

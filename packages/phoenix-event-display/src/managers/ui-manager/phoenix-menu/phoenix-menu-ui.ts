@@ -170,11 +170,19 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   }
 
   public addCollection(
-    typeFolder: PhoenixMenuNode,
+    eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
   ) {
+    const typeFolder = this.eventFolder.children.find(
+      (eventDataTypeNode) => eventDataTypeNode.name === eventDataType
+    );
+
+    if (!typeFolder) {
+      return;
+    }
+
     const collectionNode = typeFolder.addChild(
       collectionName,
       (value: boolean) => {
@@ -329,13 +337,13 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Remove',
         onClick: () => {
           removeLabel?.();
-          this.removeLabelFolder(labelId, labelNode);
+          this.removeLabel(labelId, labelNode);
         },
       });
     }
   }
 
-  public removeLabelFolder(labelId: string, labelNode?: PhoenixMenuNode) {
+  public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
     if (!labelNode) {
       labelNode = this.labelsFolder?.children.find(
         (singleLabelNode) => singleLabelNode.name === labelId

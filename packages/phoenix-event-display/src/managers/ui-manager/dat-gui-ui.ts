@@ -214,69 +214,72 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   }
 
   public addCollection(
-    typeFolder: GUI,
+    eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    if (typeFolder) {
-      // A new folder for the collection is added to the 'Event Data' folder
-      this.guiParameters[collectionName] = {
-        show: true,
-        color: 0x000000,
-        randomColor: () =>
-          this.three.getColorManager().collectionColorRandom(collectionName),
-        resetCut: () =>
-          this.three
-            .getSceneManager()
-            .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
-      };
-      const collFolder = typeFolder.addFolder(collectionName);
+    const typeFolder = this.eventFolder.__folders[eventDataType];
+    if (!typeFolder) {
+      return;
+    }
 
-      // A boolean toggle for showing/hiding the collection is added to its folder
-      const showMenu = collFolder
-        .add(this.guiParameters[collectionName], 'show')
-        .name('Show')
-        .listen();
-      showMenu.onChange((value) =>
+    // A new folder for the collection is added to the 'Event Data' folder
+    this.guiParameters[collectionName] = {
+      show: true,
+      color: 0x000000,
+      randomColor: () =>
+        this.three.getColorManager().collectionColorRandom(collectionName),
+      resetCut: () =>
         this.three
           .getSceneManager()
-          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
-      );
+          .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
+    };
+    const collFolder = typeFolder.addFolder(collectionName);
 
-      // A color picker is added to the collection's folder
-      const colorMenu = collFolder
-        .addColor(this.guiParameters[collectionName], 'color')
-        .name('Color');
-      colorMenu.onChange((value) =>
-        this.three.getColorManager().collectionColor(collectionName, value)
-      );
-      colorMenu.setValue(collectionColor?.getHex());
-      collFolder
-        .add(this.guiParameters[collectionName], 'randomColor')
-        .name('Random Color');
+    // A boolean toggle for showing/hiding the collection is added to its folder
+    const showMenu = collFolder
+      .add(this.guiParameters[collectionName], 'show')
+      .name('Show')
+      .listen();
+    showMenu.onChange((value) =>
+      this.three
+        .getSceneManager()
+        .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
+    );
 
-      // Cuts menu
-      if (cuts) {
-        const cutsFolder = collFolder.addFolder('Cuts');
-        cutsFolder
-          .add(this.guiParameters[collectionName], 'resetCut')
-          .name('Reset cuts');
+    // A color picker is added to the collection's folder
+    const colorMenu = collFolder
+      .addColor(this.guiParameters[collectionName], 'color')
+      .name('Color');
+    colorMenu.onChange((value) =>
+      this.three.getColorManager().collectionColor(collectionName, value)
+    );
+    colorMenu.setValue(collectionColor?.getHex());
+    collFolder
+      .add(this.guiParameters[collectionName], 'randomColor')
+      .name('Random Color');
 
-        for (const cut of cuts) {
-          const minCut = cutsFolder
-            .add(cut, 'minValue', cut.minValue, cut.maxValue)
-            .name('min ' + cut.field);
-          minCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
-          });
-          const maxCut = cutsFolder
-            .add(cut, 'maxValue', cut.minValue, cut.maxValue)
-            .name('max ' + cut.field);
-          maxCut.onChange((value) => {
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
-          });
-        }
+    // Cuts menu
+    if (cuts) {
+      const cutsFolder = collFolder.addFolder('Cuts');
+      cutsFolder
+        .add(this.guiParameters[collectionName], 'resetCut')
+        .name('Reset cuts');
+
+      for (const cut of cuts) {
+        const minCut = cutsFolder
+          .add(cut, 'minValue', cut.minValue, cut.maxValue)
+          .name('min ' + cut.field);
+        minCut.onChange((value) => {
+          this.three.getSceneManager().collectionFilter(collectionName, cuts);
+        });
+        const maxCut = cutsFolder
+          .add(cut, 'maxValue', cut.minValue, cut.maxValue)
+          .name('max ' + cut.field);
+        maxCut.onChange((value) => {
+          this.three.getSceneManager().collectionFilter(collectionName, cuts);
+        });
       }
     }
   }
@@ -355,12 +358,12 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
     this.guiParameters[labelId]['removeLabel'] = () => {
       onRemoveLabel?.();
-      this.removeLabelFolder(labelId, labelItem);
+      this.removeLabel(labelId, labelItem);
     };
     labelItem.add(this.guiParameters[labelId], 'removeLabel').name('Remove');
   }
 
-  public removeLabelFolder(labelId: string, labelItemFolder?: GUI) {
+  public removeLabel(labelId: string, labelItemFolder?: GUI) {
     if (!labelItemFolder) {
       labelItemFolder = this.labelsFolder.__folders[labelId];
     }

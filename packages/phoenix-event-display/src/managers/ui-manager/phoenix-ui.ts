@@ -34,19 +34,18 @@ export interface PhoenixUI<T> {
   /**
    * Add folder for event data type like tracks or hits to the menu.
    * @param typeName Name of the type of event data.
-   * @returns Menu's folder for event data type.
    */
-  addEventDataTypeFolder(typeName: string): T;
+  addEventDataTypeFolder(typeName: string): void;
 
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-   * @param typeFolder Menu folder of an event data type.
+   * @param eventDataType Name of the event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
    * @param collectionColor Default color of the collection.
    */
   addCollection(
-    typeFolder: T,
+    eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
     collectionColor?: Color
@@ -66,9 +65,9 @@ export interface PhoenixUI<T> {
   addLabel(labelId: string, onRemoveLabel: () => void): void;
 
   /**
-   * Remove label folder from the menu and scene if it exists.
+   * Remove label from the menu and scene if it exists.
    * @param labelId A unique label ID string.
    * @param labelFolderReference Reference to the label folder.
    */
-  removeLabelFolder(labelId: string, labelFolderReference: T): void;
+  removeLabel(labelId: string, labelFolderReference?: T): void;
 }
