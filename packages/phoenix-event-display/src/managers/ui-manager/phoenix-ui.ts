@@ -70,4 +70,11 @@ export interface PhoenixUI<T> {
    * @param labelFolderReference Reference to the label folder.
    */
   removeLabel(labelId: string, labelFolderReference?: T): void;
+
+  /**
+   * Get the folder of the event data type.
+   * @param typeName Name of the event data type.
+   * @returns Folder of the event data type.
+   */
+  getEventDataTypeFolder(typeName: string): T;
 }

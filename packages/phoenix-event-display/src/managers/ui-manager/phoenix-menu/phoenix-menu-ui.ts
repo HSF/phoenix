@@ -353,6 +353,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     labelNode?.remove();
   }
 
+  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
+    return this.eventFolder.children.find(
+      (eventDataTypeNode) => eventDataTypeNode.name === typeName
+    );
+  }
+
   /**
    * Load previous state of the event data folder in Phoenix menu if any.
    */

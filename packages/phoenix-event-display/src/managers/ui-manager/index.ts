@@ -1,12 +1,10 @@
 import * as Stats from 'stats-js';
-import { GUI } from 'dat.gui';
 import { Color } from 'three';
 import { ThreeManager } from '../three-manager';
 import { Configuration } from '../../extras/configuration';
 import { PresetView } from '../../extras/preset-view.model';
 import { Cut } from '../../extras/cut.model';
 import { SceneManager } from '../three-manager/scene-manager';
-import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import { StateManager } from '../../managers/state-manager';
 import { loadFile, saveFile } from '../../helpers/file';
 import { DatGUIMenuUI } from './dat-gui-ui';
@@ -448,5 +446,13 @@ export class UIManager {
       (uiMenu) => uiMenu instanceof PhoenixMenuUI
     ) as PhoenixMenuUI;
     phoenixMenuUI?.loadEventFolderState();
+  }
+
+  /**
+   * Get all the UI menus.
+   * @returns An array containing UI menus. (Phoenix menu, dat.GUI menu etc.)
+   */
+  public getUIMenus(): PhoenixUI<unknown>[] {
+    return this.uiMenus;
   }
 }

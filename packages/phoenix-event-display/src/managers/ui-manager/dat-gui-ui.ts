@@ -372,4 +372,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       this.labelsFolder.removeFolder(labelItemFolder);
     }
   }
+
+  public getEventDataTypeFolder(typeName: string): GUI {
+    return this.eventFolder.__folders[typeName];
+  }
 }
