@@ -22,7 +22,7 @@ export class UIManager {
   // Functions ending in PM are for Phoenix Menu
 
   /** The dat.GUI menu UI. A wrapper for dat.GUI menu to perform UI related operations. */
-  private uiMenus: PhoenixUI<unknown>[] = null;
+  private uiMenus: PhoenixUI<unknown>[] = [];
   /** Stats object from stats-js. */
   private stats: any;
   /** If the geometry folder is added or not */
