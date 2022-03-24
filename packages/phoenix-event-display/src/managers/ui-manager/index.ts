@@ -293,12 +293,21 @@ export class UIManager {
   }
 
   /**
-   * Rotate the clipping on detector geometry.
+   * Rotate the starting angle of clipping on detector geometry.
    * @param angle Angle of rotation of the clipping.
    */
-  public rotateClipping(angle: number) {
-    this.three.rotateClipping(angle);
-    this.stateManager.setClippingAngle(angle);
+  public rotateStartAngleClipping(angle: number) {
+    this.three.rotateStartAngleClipping(angle);
+    this.stateManager.setstartClippingAngle(angle);
+  }
+
+  /**
+   * Rotate the opening angle of clipping on detector geometry.
+   * @param angle Angle of rotation of the clipping.
+   */
+  public rotateOpeningAngleClipping(angle: number) {
+    this.three.rotateOpeningAngleClipping(angle);
+    this.stateManager.setOpeningAngle(angle);
   }
 
   /**

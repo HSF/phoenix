@@ -21,7 +21,7 @@ describe('ObjectClippingComponent', () => {
       clippingEnabled: {
         onUpdate: jasmine.createSpy('onUpdate'),
       },
-      clippingAngle: {
+      startClippingAngle: {
         onUpdate: jasmine.createSpy('onUpdate'),
       },
     }),
@@ -71,7 +71,7 @@ describe('ObjectClippingComponent', () => {
     const matSliderChange = new MatSliderChange();
     matSliderChange.value = sliderValue;
 
-    component.changeClippingAngle(matSliderChange);
+    component.changestartClippingAngle(matSliderChange);
     expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(
       sliderValue
     );

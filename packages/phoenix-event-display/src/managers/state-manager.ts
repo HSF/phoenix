@@ -14,8 +14,10 @@ export class StateManager {
   phoenixMenuRoot: PhoenixMenuNode;
   /** Whether the clipping is enabled or not. */
   clippingEnabled = new ActiveVariable(false);
-  /** Angle of the clipping. */
-  clippingAngle = new ActiveVariable(0);
+  /** Start clipping angle of the clipping. */
+  startClippingAngle = new ActiveVariable(0);
+  /** Opening angle of the clipping. */
+  openingAngle = new ActiveVariable(0);
   /** The active camera. */
   activeCamera: Camera;
   /** The event display. */
@@ -80,8 +82,8 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled.value
-          ? this.clippingAngle.value
+        startClippingAngle: this.clippingEnabled.value
+          ? this.startClippingAngle.value
           : null,
       },
     };
@@ -109,12 +111,14 @@ export class StateManager {
       this.activeCamera.position.fromArray(
         jsonData['eventDisplay']?.['cameraPosition']
       );
-      if (jsonData['eventDisplay']?.['clippingAngle']) {
+      if (jsonData['eventDisplay']?.['startClippingAngle']) {
         this.setClippingEnabled(true);
         this.eventDisplay.getUIManager().setClipping(true);
         this.eventDisplay
           .getUIManager()
-          .rotateClipping(jsonData['eventDisplay']['clippingAngle']);
+          .rotateStartAngleClipping(
+            jsonData['eventDisplay']['startClippingAngle']
+          );
       }
     }
   }
@@ -128,11 +132,19 @@ export class StateManager {
   }
 
   /**
-   * Set the angle of clipping.
-   * @param angle Angle fo clipping.
+   * Set the start clipping angle of clipping.
+   * @param angle Angle for clipping.
    */
-  setClippingAngle(angle: number) {
-    this.clippingAngle.update(angle);
+  setstartClippingAngle(angle: number) {
+    this.startClippingAngle.update(angle);
+  }
+
+  /**
+   * Set the opening angle of clipping.
+   * @param angle Angle for clipping.
+   */
+  setOpeningAngle(angle: number) {
+    this.openingAngle.update(angle);
   }
 
   /**
