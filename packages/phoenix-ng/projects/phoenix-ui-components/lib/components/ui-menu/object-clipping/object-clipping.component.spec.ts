@@ -71,9 +71,9 @@ describe('ObjectClippingComponent', () => {
     const matSliderChange = new MatSliderChange();
     matSliderChange.value = sliderValue;
 
-    component.changestartClippingAngle(matSliderChange);
-    expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(
-      sliderValue
-    );
+    component.changeStartClippingAngle(matSliderChange);
+    expect(
+      mockEventDisplay.getUIManager().rotateStartAngleClipping
+    ).toHaveBeenCalledWith(sliderValue);
   });
 });

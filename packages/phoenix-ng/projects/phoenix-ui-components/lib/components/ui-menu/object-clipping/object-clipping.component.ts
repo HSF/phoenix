@@ -23,7 +23,7 @@ export class ObjectClippingComponent {
     );
   }
 
-  changestartClippingAngle(change: MatSliderChange) {
+  changeStartClippingAngle(change: MatSliderChange) {
     const startAngle = change.value;
     this.eventDisplay.getUIManager().rotateStartAngleClipping(startAngle);
   }
