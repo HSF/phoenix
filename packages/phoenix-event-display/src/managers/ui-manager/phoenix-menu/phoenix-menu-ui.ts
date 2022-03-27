@@ -38,6 +38,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.labelsFolder = null;
   }
 
+  /**
+   * Clear the menu by removing all folders.
+   */
   public clear() {
     if (this.phoenixMenu) {
       this.phoenixMenu.truncate();
@@ -48,6 +51,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.labelsFolder = null;
   }
 
+  /**
+   * Add geometry (detector geometry) folder to the menu.
+   */
   public addGeometryFolder() {
     // Phoenix menu
     if (this.geomFolder === null) {
@@ -95,6 +101,13 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       });
   }
 
+  /**
+   * Add geometry to the menu's geometry folder and set up its configurable options.
+   * @param name Name of the geometry.
+   * @param color Color of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
+   */
   public addGeometry(
     name: string,
     color: any,
@@ -139,6 +152,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       });
   }
 
+  /**
+   * Add event data folder with functions for event data toggles like show/hide and depthTest.
+   */
   public addEventDataFolder() {
     // Phoenix menu
     if (this.eventFolder !== null) {
@@ -163,12 +179,23 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     });
   }
 
+  /**
+   * Add folder for event data type like tracks or hits to the menu.
+   * @param typeName Name of the type of event data.
+   */
   public addEventDataTypeFolder(typeName: string): PhoenixMenuNode {
     return this.eventFolder.addChild(typeName, (value: boolean) => {
       this.three.getSceneManager().objectVisibility(typeName, value);
     });
   }
 
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param eventDataType Name of the event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor Default color of the collection.
+   */
   public addCollection(
     eventDataType: string,
     collectionName: string,
@@ -271,6 +298,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     );
   }
 
+  /**
+   * Add labels folder to the menu.
+   * @param configFunctions Functions to attach to the labels folder configuration.
+   */
   public addLabelsFolder(configFunctions: any) {
     if (this.labelsFolder !== null) {
       return;
@@ -316,6 +347,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     });
   }
 
+  /**
+   * Add folder for configuration of label.
+   * @param labelId Unique ID of the label.
+   * @param onRemoveLabel Function called when label is removed.
+   */
   public addLabel(labelId: string, removeLabel?: () => void) {
     let labelNode = this.labelsFolder.children.find(
       (phoenixMenuNode) => phoenixMenuNode.name === labelId
@@ -343,6 +379,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
   }
 
+  /**
+   * Remove label from the menu and scene if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelFolderReference Reference to the label folder.
+   */
   public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
     if (!labelNode) {
       labelNode = this.labelsFolder?.children.find(
@@ -353,6 +394,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     labelNode?.remove();
   }
 
+  /**
+   * Get the folder of the event data type.
+   * @param typeName Name of the event data type.
+   * @returns Folder of the event data type.
+   */
   public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
     return this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === typeName

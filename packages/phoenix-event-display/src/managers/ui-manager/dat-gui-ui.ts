@@ -51,6 +51,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     this.labelsFolder = null;
   }
 
+  /**
+   * Clear the menu by removing all folders.
+   */
   public clear() {
     const gui = document.getElementById('gui');
     if (gui != null) {
@@ -59,6 +62,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     this.geomFolder = null;
   }
 
+  /**
+   * Add geometry (detector geometry) folder to the menu.
+   */
   public addGeometryFolder() {
     if (this.geomFolder === null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
@@ -84,6 +90,13 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     });
   }
 
+  /**
+   * Add geometry to the menu's geometry folder and set up its configurable options.
+   * @param name Name of the geometry.
+   * @param color Color of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
+   */
   public addGeometry(
     name: string,
     color: Color,
@@ -171,6 +184,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     };
   }
 
+  /**
+   * Add event data folder with functions for event data toggles like show/hide and depthTest.
+   */
   public addEventDataFolder() {
     // If there is already an event data folder it is deleted and we create a new one.
     if (this.eventFolder !== null) {
@@ -199,6 +215,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     depthTestMenu.onChange((value) => this.three.eventDataDepthTest(value));
   }
 
+  /**
+   * Add folder for event data type like tracks or hits to the menu.
+   * @param typeName Name of the type of event data.
+   */
   public addEventDataTypeFolder(typeName: string): GUI {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
@@ -213,6 +233,13 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     return typeFolder;
   }
 
+  /**
+   * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+   * @param eventDataType Name of the event data type.
+   * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
+   * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor Default color of the collection.
+   */
   public addCollection(
     eventDataType: string,
     collectionName: string,
@@ -284,6 +311,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     }
   }
 
+  /**
+   * Add labels folder to the menu.
+   * @param configFunctions Functions to attach to the labels folder configuration.
+   */
   public addLabelsFolder(configFunctions: any) {
     if (this.labelsFolder !== null) {
       return;
@@ -331,6 +362,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Load Labels');
   }
 
+  /**
+   * Add folder for configuration of label.
+   * @param labelId Unique ID of the label.
+   * @param onRemoveLabel Function called when label is removed.
+   */
   public addLabel(labelId: string, onRemoveLabel?: () => void) {
     this.guiParameters[labelId] = {
       show: true,
@@ -363,6 +399,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     labelItem.add(this.guiParameters[labelId], 'removeLabel').name('Remove');
   }
 
+  /**
+   * Remove label from the menu and scene if it exists.
+   * @param labelId A unique label ID string.
+   * @param labelFolderReference Reference to the label folder.
+   */
   public removeLabel(labelId: string, labelItemFolder?: GUI) {
     if (!labelItemFolder) {
       labelItemFolder = this.labelsFolder.__folders[labelId];
@@ -373,6 +414,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     }
   }
 
+  /**
+   * Get the folder of the event data type.
+   * @param typeName Name of the event data type.
+   * @returns Folder of the event data type.
+   */
   public getEventDataTypeFolder(typeName: string): GUI {
     return this.eventFolder.__folders[typeName];
   }
