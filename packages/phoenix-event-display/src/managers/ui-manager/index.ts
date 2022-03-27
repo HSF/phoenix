@@ -154,8 +154,6 @@ export class UIManager {
     this.uiMenus.forEach((menu) => menu.addEventDataTypeFolder(typeName));
   }
 
-  public getEventDataTypeFolder(typeName: string) {}
-
   /**
    * Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
    * @param eventDataType Name of the event data type.

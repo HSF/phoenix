@@ -183,8 +183,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * Add folder for event data type like tracks or hits to the menu.
    * @param typeName Name of the type of event data.
    */
-  public addEventDataTypeFolder(typeName: string): PhoenixMenuNode {
-    return this.eventFolder.addChild(typeName, (value: boolean) => {
+  public addEventDataTypeFolder(typeName: string): void {
+    this.eventFolder.addChild(typeName, (value: boolean) => {
       this.three.getSceneManager().objectVisibility(typeName, value);
     });
   }

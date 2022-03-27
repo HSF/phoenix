@@ -219,7 +219,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    * Add folder for event data type like tracks or hits to the menu.
    * @param typeName Name of the type of event data.
    */
-  public addEventDataTypeFolder(typeName: string): GUI {
+  public addEventDataTypeFolder(typeName: string): void {
     const typeFolder = this.eventFolder.addFolder(typeName);
     this.guiParameters.eventData[typeName] = true;
     const menu = typeFolder
@@ -229,8 +229,6 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     menu.onChange((value) =>
       this.three.getSceneManager().objectVisibility(typeName, value)
     );
-
-    return typeFolder;
   }
 
   /**
