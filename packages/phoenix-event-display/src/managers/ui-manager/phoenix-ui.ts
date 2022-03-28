@@ -1,6 +1,9 @@
 import { Color } from 'three';
 import { Cut } from '../../extras/cut.model';
 
+/**
+ * Common interface for implement Phoenix UI menu.
+ */
 export interface PhoenixUI<T> {
   /**
    * Clear the menu by removing all folders.

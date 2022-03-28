@@ -11,8 +11,6 @@ import { PhoenixUI } from '../phoenix-ui';
  * A wrapper class for Phoenix menu to perform UI related operations.
  */
 export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
-  /** Root node of the phoenix menu. */
-  private phoenixMenu: PhoenixMenuNode;
   /** Phoenix menu node containing geometries data */
   private geomFolder: PhoenixMenuNode;
   /** Phoenix menu node containing event related data. */
@@ -24,15 +22,13 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
+   * @param phoenixMenuRoot Root node of the Phoenix menu.
    * @param three The three manager for managing three.js related operations.
    */
-  constructor(phoenixMenu: PhoenixMenuNode, private three: ThreeManager) {
-    if (this.phoenixMenu) {
-      this.phoenixMenu.truncate();
-      this.phoenixMenu = undefined;
-    }
-    this.phoenixMenu = phoenixMenu;
-
+  constructor(
+    private phoenixMenuRoot: PhoenixMenuNode,
+    private three: ThreeManager
+  ) {
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
@@ -42,10 +38,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * Clear the menu by removing all folders.
    */
   public clear() {
-    if (this.phoenixMenu) {
-      this.phoenixMenu.truncate();
-      this.phoenixMenu = undefined;
+    if (this.phoenixMenuRoot) {
+      this.phoenixMenuRoot.truncate();
+      this.phoenixMenuRoot = undefined;
     }
+
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
@@ -57,7 +54,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   public addGeometryFolder() {
     // Phoenix menu
     if (this.geomFolder === null) {
-      this.geomFolder = this.phoenixMenu.addChild(
+      this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
           this.three
@@ -161,7 +158,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolderState = this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }
-    this.eventFolder = this.phoenixMenu.addChild(
+    this.eventFolder = this.phoenixMenuRoot.addChild(
       'Event Data',
       (value: boolean) => {
         this.three
@@ -315,7 +312,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       onLoadLabels,
     } = configFunctions;
 
-    this.labelsFolder = this.phoenixMenu.addChild(
+    this.labelsFolder = this.phoenixMenuRoot.addChild(
       SceneManager.LABELS_ID,
       onToggle,
       'info'
