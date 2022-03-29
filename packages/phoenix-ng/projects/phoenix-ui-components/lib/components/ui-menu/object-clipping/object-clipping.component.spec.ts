@@ -75,5 +75,10 @@ describe('ObjectClippingComponent', () => {
     expect(
       mockEventDisplay.getUIManager().rotateStartAngleClipping
     ).toHaveBeenCalledWith(sliderValue);
+
+    component.changeOpeningAngle(matSliderChange);
+    expect(
+      mockEventDisplay.getUIManager().rotateOpeningAngleClipping
+    ).toHaveBeenCalledWith(sliderValue);
   });
 });

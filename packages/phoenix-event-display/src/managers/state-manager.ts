@@ -140,11 +140,27 @@ export class StateManager {
   }
 
   /**
+   * Get the start clipping angle of clipping.
+   * @returns The starting angle of clipping.
+   */
+  getStartClippingAngle(): number {
+    return this.startClippingAngle.value;
+  }
+
+  /**
    * Set the opening angle of clipping.
    * @param angle Angle for clipping.
    */
   setOpeningAngle(angle: number) {
     this.openingAngle.update(angle);
+  }
+
+  /**
+   * Get the opening angle of clipping.
+   * @returns The opening angle of clipping.
+   */
+  getOpeningAngle(): number {
+    return this.openingAngle.value;
   }
 
   /**
