@@ -233,8 +233,9 @@ export class ThreeManager {
   }
 
   /**
-   * Rotate clipping planes according to the start clipping angle slider.
-   * @param angle Angle to rotate the clipping planes.
+   * Rotate clipping planes according to the starting and opening angles.
+   * @param startingAngle The starting angle of clipping.
+   * @param openingAngle The opening angle of clipping.
    */
   public setClippingAngle(startingAngle: number, openingAngle: number) {
     const startingAngleQuaternion = new Quaternion();
