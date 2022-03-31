@@ -68,7 +68,7 @@ describe('ThreeManager', () => {
     });
 
     it('should rotate clipping', () => {
-      three.rotateClipping(90);
+      three.setClippingAngle(0, 90);
       expect(threePrivate.clipPlanes[0]).toBeTruthy();
     });
 

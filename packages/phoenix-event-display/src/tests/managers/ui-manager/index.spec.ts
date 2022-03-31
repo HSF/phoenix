@@ -97,9 +97,9 @@ describe('UIManager', () => {
       ui.geometryVisibility('TestGeometry', false);
       expect(three.getSceneManager().objectVisibility).toHaveBeenCalled();
 
-      spyOn(three, 'rotateClipping').and.stub();
-      ui.rotateClipping(90);
-      expect(three.rotateClipping).toHaveBeenCalled();
+      spyOn(three, 'setClippingAngle').and.stub();
+      ui.rotateOpeningAngleClipping(90);
+      expect(three.setClippingAngle).toHaveBeenCalled();
 
       spyOn(three, 'setClipping').and.stub();
       ui.setClipping(true);
