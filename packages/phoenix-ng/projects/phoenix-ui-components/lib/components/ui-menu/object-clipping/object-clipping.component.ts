@@ -10,21 +10,30 @@ import { EventDisplayService } from '../../../services/event-display.service';
 })
 export class ObjectClippingComponent {
   clippingEnabled: boolean;
-  clippingAngle: number;
+  startClippingAngle: number;
+  openingClippingAngle: number;
 
   constructor(private eventDisplay: EventDisplayService) {
     const stateManager = this.eventDisplay.getStateManager();
     stateManager.clippingEnabled.onUpdate(
       (clippingValue) => (this.clippingEnabled = clippingValue)
     );
-    stateManager.clippingAngle.onUpdate(
-      (value) => (this.clippingAngle = value)
+    stateManager.startClippingAngle.onUpdate(
+      (value) => (this.startClippingAngle = value)
+    );
+    stateManager.openingClippingAngle.onUpdate(
+      (value) => (this.openingClippingAngle = value)
     );
   }
 
-  changeClippingAngle(change: MatSliderChange) {
-    const angle = change.value;
-    this.eventDisplay.getUIManager().rotateClipping(angle);
+  changeStartClippingAngle(change: MatSliderChange) {
+    const startingAngle = change.value;
+    this.eventDisplay.getUIManager().rotateStartAngleClipping(startingAngle);
+  }
+
+  changeOpeningClippingAngle(change: MatSliderChange) {
+    const openingAngle = change.value;
+    this.eventDisplay.getUIManager().rotateOpeningAngleClipping(openingAngle);
   }
 
   toggleClipping(change: MatCheckboxChange) {

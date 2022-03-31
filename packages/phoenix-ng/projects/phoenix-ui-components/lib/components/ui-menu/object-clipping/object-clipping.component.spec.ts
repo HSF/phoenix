@@ -21,7 +21,10 @@ describe('ObjectClippingComponent', () => {
       clippingEnabled: {
         onUpdate: jasmine.createSpy('onUpdate'),
       },
-      clippingAngle: {
+      startClippingAngle: {
+        onUpdate: jasmine.createSpy('onUpdate'),
+      },
+      openingClippingAngle: {
         onUpdate: jasmine.createSpy('onUpdate'),
       },
     }),
@@ -71,9 +74,14 @@ describe('ObjectClippingComponent', () => {
     const matSliderChange = new MatSliderChange();
     matSliderChange.value = sliderValue;
 
-    component.changeClippingAngle(matSliderChange);
-    expect(mockEventDisplay.getUIManager().rotateClipping).toHaveBeenCalledWith(
-      sliderValue
-    );
+    component.changeStartClippingAngle(matSliderChange);
+    expect(
+      mockEventDisplay.getUIManager().rotateStartAngleClipping
+    ).toHaveBeenCalledWith(sliderValue);
+
+    component.changeOpeningClippingAngle(matSliderChange);
+    expect(
+      mockEventDisplay.getUIManager().rotateOpeningAngleClipping
+    ).toHaveBeenCalledWith(sliderValue);
   });
 });

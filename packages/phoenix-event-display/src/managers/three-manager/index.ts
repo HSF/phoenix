@@ -233,13 +233,28 @@ export class ThreeManager {
   }
 
   /**
-   * Rotates clipping planes.
-   * @param angle Angle to rotate the clipping planes.
+   * Rotate clipping planes according to the starting and opening angles.
+   * @param startingAngle The starting angle of clipping.
+   * @param openingAngle The opening angle of clipping.
    */
-  public rotateClipping(angle: number) {
-    const q = new Quaternion();
-    q.setFromAxisAngle(new Vector3(0, 0, 1), (angle * Math.PI) / 180);
-    this.clipPlanes[0].normal.set(0, 1, 0).applyQuaternion(q);
+  public setClippingAngle(startingAngle: number, openingAngle: number) {
+    const startingAngleQuaternion = new Quaternion();
+    startingAngleQuaternion.setFromAxisAngle(
+      new Vector3(0, 0, 1),
+      (startingAngle * Math.PI) / 180
+    );
+    this.clipPlanes[0].normal
+      .set(0, -1, 0)
+      .applyQuaternion(startingAngleQuaternion);
+
+    const openingAngleQuaternion = new Quaternion();
+    openingAngleQuaternion.setFromAxisAngle(
+      new Vector3(0, 0, 1),
+      ((startingAngle + openingAngle) * Math.PI) / 180
+    );
+    this.clipPlanes[1].normal
+      .set(0, 1, 0)
+      .applyQuaternion(openingAngleQuaternion);
   }
 
   /**
@@ -624,7 +639,7 @@ export class ThreeManager {
           case 'KeyC': // shift + "c"
             this.setClipping(!this.rendererManager.getLocalClipping());
             if (this.rendererManager.getLocalClipping()) {
-              this.rotateClipping(180);
+              this.setClippingAngle(0, 180);
             }
             break;
           case 'KeyV': {

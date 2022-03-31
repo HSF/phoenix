@@ -14,8 +14,10 @@ export class StateManager {
   phoenixMenuRoot: PhoenixMenuNode;
   /** Whether the clipping is enabled or not. */
   clippingEnabled = new ActiveVariable(false);
-  /** Angle of the clipping. */
-  clippingAngle = new ActiveVariable(0);
+  /** Starting angle of the clipping. */
+  startClippingAngle = new ActiveVariable(0);
+  /** Opening angle of the clipping. */
+  openingClippingAngle = new ActiveVariable(0);
   /** The active camera. */
   activeCamera: Camera;
   /** The event display. */
@@ -80,8 +82,11 @@ export class StateManager {
       phoenixMenu: this.phoenixMenuRoot.getNodeState(),
       eventDisplay: {
         cameraPosition: this.activeCamera.position.toArray(),
-        clippingAngle: this.clippingEnabled.value
-          ? this.clippingAngle.value
+        startClippingAngle: this.clippingEnabled.value
+          ? this.startClippingAngle.value
+          : null,
+        openingClippingAngle: this.clippingEnabled.value
+          ? this.openingClippingAngle.value
           : null,
       },
     };
@@ -109,12 +114,21 @@ export class StateManager {
       this.activeCamera.position.fromArray(
         jsonData['eventDisplay']?.['cameraPosition']
       );
-      if (jsonData['eventDisplay']?.['clippingAngle']) {
+      if (jsonData['eventDisplay']?.['startClippingAngle']) {
         this.setClippingEnabled(true);
         this.eventDisplay.getUIManager().setClipping(true);
         this.eventDisplay
           .getUIManager()
-          .rotateClipping(jsonData['eventDisplay']['clippingAngle']);
+          .rotateStartAngleClipping(
+            jsonData['eventDisplay']['startClippingAngle']
+          );
+        if (jsonData['eventDisplay']?.['openingClippingAngle']) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateOpeningAngleClipping(
+              jsonData['eventDisplay']['openingClippingAngle']
+            );
+        }
       }
     }
   }
@@ -128,11 +142,35 @@ export class StateManager {
   }
 
   /**
-   * Set the angle of clipping.
-   * @param angle Angle fo clipping.
+   * Set the start clipping angle of clipping.
+   * @param angle Angle for clipping.
    */
-  setClippingAngle(angle: number) {
-    this.clippingAngle.update(angle);
+  setStartClippingAngle(angle: number) {
+    this.startClippingAngle.update(angle);
+  }
+
+  /**
+   * Get the start clipping angle of clipping.
+   * @returns The starting angle of clipping.
+   */
+  getStartClippingAngle(): number {
+    return this.startClippingAngle.value;
+  }
+
+  /**
+   * Set the opening angle of clipping.
+   * @param angle Angle for clipping.
+   */
+  setOpeningClippingAngle(angle: number) {
+    this.openingClippingAngle.update(angle);
+  }
+
+  /**
+   * Get the opening angle of clipping.
+   * @returns The opening angle of clipping.
+   */
+  getOpeningClippingAngle(): number {
+    return this.openingClippingAngle.value;
   }
 
   /**

@@ -14,18 +14,37 @@
       >Clipping
     </mat-checkbox>
   </button>
-  <button class="slider-btn" mat-menu-item (focus)="clippingSlider.focus()">
+  <button
+    class="slider-btn"
+    mat-menu-item
+    (focus)="startingAngleSlider.focus()"
+  >
     <mat-slider
-      #clippingSlider
+      #startingAngleSlider
       min="0"
       max="180"
       step="1"
       thumbLabel
-      [value]="clippingAngle"
+      [value]="startClippingAngle"
       (click)="$event.stopPropagation()"
-      (input)="changeClippingAngle($event)"
+      (input)="changeStartClippingAngle($event)"
     >
-    </mat-slider>
+    </mat-slider
+    >Start Clipping
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="openingAngleSlider.focus()">
+    <mat-slider
+      #openingAngleSlider
+      min="0"
+      max="180"
+      step="1"
+      thumbLabel
+      [value]="openingClippingAngle"
+      (click)="$event.stopPropagation()"
+      (input)="changeOpeningClippingAngle($event)"
+    >
+    </mat-slider
+    >Opening
   </button>
 </mat-menu>
 
