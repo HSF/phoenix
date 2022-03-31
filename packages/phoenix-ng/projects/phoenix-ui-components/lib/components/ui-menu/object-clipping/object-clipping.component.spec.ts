@@ -24,6 +24,9 @@ describe('ObjectClippingComponent', () => {
       startClippingAngle: {
         onUpdate: jasmine.createSpy('onUpdate'),
       },
+      openingClippingAngle: {
+        onUpdate: jasmine.createSpy('onUpdate'),
+      },
     }),
   };
 
@@ -76,7 +79,7 @@ describe('ObjectClippingComponent', () => {
       mockEventDisplay.getUIManager().rotateStartAngleClipping
     ).toHaveBeenCalledWith(sliderValue);
 
-    component.changeOpeningAngle(matSliderChange);
+    component.changeOpeningClippingAngle(matSliderChange);
     expect(
       mockEventDisplay.getUIManager().rotateOpeningAngleClipping
     ).toHaveBeenCalledWith(sliderValue);

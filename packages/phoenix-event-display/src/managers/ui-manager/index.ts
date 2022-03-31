@@ -297,9 +297,9 @@ export class UIManager {
    * @param angle Angle of rotation of the clipping.
    */
   public rotateStartAngleClipping(angle: number) {
-    const openingAngle = this.stateManager.getOpeningAngle();
+    const openingAngle = this.stateManager.getOpeningClippingAngle();
     this.three.setClippingAngle(angle, openingAngle);
-    this.stateManager.setstartClippingAngle(angle);
+    this.stateManager.setStartClippingAngle(angle);
   }
 
   /**
@@ -307,9 +307,9 @@ export class UIManager {
    * @param angle Angle of rotation of the clipping.
    */
   public rotateOpeningAngleClipping(angle: number) {
-    const startAngle = this.stateManager.getStartClippingAngle();
-    this.three.setClippingAngle(startAngle, angle);
-    this.stateManager.setOpeningAngle(angle);
+    const startingAngle = this.stateManager.getStartClippingAngle();
+    this.three.setClippingAngle(startingAngle, angle);
+    this.stateManager.setOpeningClippingAngle(angle);
   }
 
   /**

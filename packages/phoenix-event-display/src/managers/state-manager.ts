@@ -14,10 +14,10 @@ export class StateManager {
   phoenixMenuRoot: PhoenixMenuNode;
   /** Whether the clipping is enabled or not. */
   clippingEnabled = new ActiveVariable(false);
-  /** Start clipping angle of the clipping. */
+  /** Starting angle of the clipping. */
   startClippingAngle = new ActiveVariable(0);
   /** Opening angle of the clipping. */
-  openingAngle = new ActiveVariable(0);
+  openingClippingAngle = new ActiveVariable(0);
   /** The active camera. */
   activeCamera: Camera;
   /** The event display. */
@@ -135,7 +135,7 @@ export class StateManager {
    * Set the start clipping angle of clipping.
    * @param angle Angle for clipping.
    */
-  setstartClippingAngle(angle: number) {
+  setStartClippingAngle(angle: number) {
     this.startClippingAngle.update(angle);
   }
 
@@ -151,16 +151,16 @@ export class StateManager {
    * Set the opening angle of clipping.
    * @param angle Angle for clipping.
    */
-  setOpeningAngle(angle: number) {
-    this.openingAngle.update(angle);
+  setOpeningClippingAngle(angle: number) {
+    this.openingClippingAngle.update(angle);
   }
 
   /**
    * Get the opening angle of clipping.
    * @returns The opening angle of clipping.
    */
-  getOpeningAngle(): number {
-    return this.openingAngle.value;
+  getOpeningClippingAngle(): number {
+    return this.openingClippingAngle.value;
   }
 
   /**

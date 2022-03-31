@@ -244,7 +244,7 @@ export class ThreeManager {
       (startingAngle * Math.PI) / 180
     );
     this.clipPlanes[0].normal
-      .set(0, 1, 0)
+      .set(0, -1, 0)
       .applyQuaternion(startingAngleQuaternion);
 
     const openingAngleQuaternion = new Quaternion();
