@@ -11,7 +11,8 @@ describe('ObjectClippingComponent', () => {
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
   const mockUIManager = jasmine.createSpyObj('UIManager', [
-    'rotateClipping',
+    'rotateStartAngleClipping',
+    'rotateOpeningAngleClipping',
     'setClipping',
   ]);
 
