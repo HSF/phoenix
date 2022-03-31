@@ -639,7 +639,7 @@ export class ThreeManager {
           case 'KeyC': // shift + "c"
             this.setClipping(!this.rendererManager.getLocalClipping());
             if (this.rendererManager.getLocalClipping()) {
-              this.setClippingAngle(180, 0);
+              this.setClippingAngle(0, 180);
             }
             break;
           case 'KeyV': {

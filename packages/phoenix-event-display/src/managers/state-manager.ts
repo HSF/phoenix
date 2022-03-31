@@ -85,6 +85,9 @@ export class StateManager {
         startClippingAngle: this.clippingEnabled.value
           ? this.startClippingAngle.value
           : null,
+        openingClippingAngle: this.clippingEnabled.value
+          ? this.openingClippingAngle.value
+          : null,
       },
     };
 
@@ -119,6 +122,13 @@ export class StateManager {
           .rotateStartAngleClipping(
             jsonData['eventDisplay']['startClippingAngle']
           );
+        if (jsonData['eventDisplay']?.['openingClippingAngle']) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateOpeningAngleClipping(
+              jsonData['eventDisplay']['openingClippingAngle']
+            );
+        }
       }
     }
   }
