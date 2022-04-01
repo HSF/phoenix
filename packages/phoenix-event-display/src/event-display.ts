@@ -146,7 +146,7 @@ export class EventDisplay {
     );
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
     // Reload the event data state in Phoenix menu
-    this.ui.loadEventFolderPMState();
+    this.ui.loadEventFolderPhoenixMenuState();
   }
 
   /**
@@ -486,11 +486,11 @@ export class EventDisplay {
     geometries: any[];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const { typeFolder, typeFolderPM } =
-        this.ui.addEventDataTypeFolder(objectType);
+      this.ui.addEventDataTypeFolder(objectType);
+
       const collections = sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
-        this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
+        this.ui.addCollection(objectType, collection);
       }
     }
 

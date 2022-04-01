@@ -11,6 +11,8 @@ import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
 import { getLabelTitle } from '../helpers/labels';
+import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
+import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
 
 /**
  * Loader for processing and loading an event.
@@ -417,15 +419,14 @@ export class PhoenixLoader implements EventDataLoader {
     concatonateObjs: boolean = false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
-      typeFolder: GUI,
+      typeFolder?: GUI,
       typeFolderPM?: PhoenixMenuNode
     ) => void
   ) {
-    const { typeFolder, typeFolderPM } =
-      this.ui.addEventDataTypeFolder(typeName);
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
-
     const collectionsList: string[] = this.getObjectTypeCollections(object);
+
+    this.ui.addEventDataTypeFolder(typeName);
 
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
@@ -447,10 +448,22 @@ export class PhoenixLoader implements EventDataLoader {
       );
 
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-      this.ui.addCollection({ typeFolder, typeFolderPM }, collectionName, cuts);
+      this.ui.addCollection(typeName, collectionName, cuts);
     }
 
-    extendEventDataTypeUI?.(typeFolder, typeFolderPM);
+    const eventDataTypeFolderDatGUI = this.ui
+      .getUIMenus()
+      .find((menu) => menu instanceof DatGUIMenuUI)
+      ?.getEventDataTypeFolder(typeName) as GUI;
+    const eventDataTypeFolderPhoenixMenu = this.ui
+      .getUIMenus()
+      .find((menu) => menu instanceof PhoenixMenuUI)
+      ?.getEventDataTypeFolder(typeName) as PhoenixMenuNode;
+
+    extendEventDataTypeUI?.(
+      eventDataTypeFolderDatGUI,
+      eventDataTypeFolderPhoenixMenu
+    );
   }
 
   /**
@@ -687,12 +700,14 @@ export class PhoenixLoader implements EventDataLoader {
     scaleFunction: (value: number) => void
   ) {
     return (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) => {
+      // dat.GUI menu
       if (typeFolder) {
         const sizeMenu = typeFolder
           .add({ [configKey]: 1 }, configKey, 0.001, 100)
           .name(configLabel);
         sizeMenu.onChange(scaleFunction);
       }
+
       // Phoenix menu
       if (typeFolderPM) {
         typeFolderPM.addConfig('slider', {

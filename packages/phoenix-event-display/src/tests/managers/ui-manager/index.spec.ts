@@ -55,11 +55,11 @@ describe('UIManager', () => {
     });
 
     it('should clear UI', () => {
-      spyOn(uiPrivate.datGUIMenu, 'clearDatGUI').and.stub();
-      spyOn(uiPrivate.phoenixMenuUI, 'clearPhoenixMenu').and.stub();
+      spyOn(uiPrivate.uiMenus[0], 'clear').and.stub();
+      spyOn(uiPrivate.uiMenus[1], 'clear').and.stub();
       ui.clearUI();
-      expect(uiPrivate.datGUIMenu.clearDatGUI).toHaveBeenCalled();
-      expect(uiPrivate.phoenixMenuUI.clearPhoenixMenu).toHaveBeenCalled();
+      expect(uiPrivate.uiMenus[0].clear).toHaveBeenCalled();
+      expect(uiPrivate.uiMenus[1].clear).toHaveBeenCalled();
     });
 
     it('should detect color scheme and theme and set theme', () => {
