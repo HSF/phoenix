@@ -198,6 +198,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/EventDataLoader.html" data-type="entity-link" >EventDataLoader</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/PhoenixUI.html" data-type="entity-link" >PhoenixUI</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/Window.html" data-type="entity-link" >Window</a>
                             </li>
                         </ul>

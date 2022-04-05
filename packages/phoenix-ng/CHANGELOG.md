@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/HSF/phoenix/compare/v2.6.0...v2.7.0) (2022-04-05)
+
+
+### Features
+
+* **app:** add object clipping for upper and lower geometry ([1788560](https://github.com/HSF/phoenix/commit/1788560fb3f6a3e2e0862cd7ca12c31779a0c3da))
+* **app:** add start clipping angle ([21877b6](https://github.com/HSF/phoenix/commit/21877b6276e2be488e305fb079becabb1936c5bf))
+* **app:** add start clipping angle and opening angle for object clipping ([12b1754](https://github.com/HSF/phoenix/commit/12b1754161db803abdf74afcd4d75732f8905503))
+* **app:** add start clipping angle and opening angle for object clipping ([a8336ae](https://github.com/HSF/phoenix/commit/a8336ae568613aa5cc1afc07bf0be5c157940ac2))
+* **app:** add start clipping angle and opening angle for object clipping ([7673435](https://github.com/HSF/phoenix/commit/7673435057de21095faa658f618fd1f911238ada))
+* **app:** add start clipping angle and opening angle for object clipping ([3255a65](https://github.com/HSF/phoenix/commit/3255a65a8aa04d6f1a58b7724a10032cdd071e7e))
+
+
+
+
+
 # [2.6.0](https://github.com/HSF/phoenix/compare/v2.5.2...v2.6.0) (2022-02-28)
 
 

@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/HSF/phoenix/compare/v2.6.0...v2.7.0) (2022-04-05)
+
+
+### Features
+
+* **app:** add object clipping for upper and lower geometry ([1788560](https://github.com/HSF/phoenix/commit/1788560fb3f6a3e2e0862cd7ca12c31779a0c3da))
+* **app:** add start clipping angle and opening angle for object clipping ([9bc48e0](https://github.com/HSF/phoenix/commit/9bc48e0d00e0710cfc58fe3ce3a2f16dd8efc1ca))
+* **app:** add start clipping angle and opening angle for object clipping ([12b1754](https://github.com/HSF/phoenix/commit/12b1754161db803abdf74afcd4d75732f8905503))
+* **app:** add start clipping angle and opening angle for object clipping ([4c5fac9](https://github.com/HSF/phoenix/commit/4c5fac913baac2acad09e930274135eea5786a0b))
+* **app:** add start clipping angle and opening angle for object clipping ([a8336ae](https://github.com/HSF/phoenix/commit/a8336ae568613aa5cc1afc07bf0be5c157940ac2))
+* **app:** add start clipping angle and opening angle for object clipping ([3255a65](https://github.com/HSF/phoenix/commit/3255a65a8aa04d6f1a58b7724a10032cdd071e7e))
+* **event-display:** add 'start' clipping angle as well as opening angle ([d2c02d5](https://github.com/HSF/phoenix/commit/d2c02d5255a0aa6d9c47e5ad625da3ee81a837c4))
+* **event-display:** add docs to phoenix ui implementations ([0c48b27](https://github.com/HSF/phoenix/commit/0c48b27ddf78700d939fe34f15ad065e3acb811f))
+* **event-display:** add function to get event data type folder of each menu ([c91aa0e](https://github.com/HSF/phoenix/commit/c91aa0e41532281443200e22f92f0754f4bb3296))
+* **event-display:** add interface for Phoenix UI ([aaed8f5](https://github.com/HSF/phoenix/commit/aaed8f50fee8fb2ce1661fd68ed1b25cde9df9e3))
+* **event-display:** implement phoenix-ui interface for phoenix menu ([d4866ea](https://github.com/HSF/phoenix/commit/d4866ea58a1bac188682d401a56ec1eaf6af72a0))
+* **event-display:** implement PhoenixUI interface for dat.GUI menu ([a4e8aaa](https://github.com/HSF/phoenix/commit/a4e8aaaa804973e3175bdca1d4e86ae833d21df8))
+* **event-display:** update calls to ui-manager ([473a39c](https://github.com/HSF/phoenix/commit/473a39c489a8aa512bac810912ee6fa4b7bfd34b))
+* **event-display:** update phoenix loader UI manager for PhoenixUI interface ([f2376cc](https://github.com/HSF/phoenix/commit/f2376cc8bbb9247e6598c82acab57501c5a04f80))
+* **event-display:** use generic menus in ui-manager ([7a42b65](https://github.com/HSF/phoenix/commit/7a42b659f6be3c57e22d9be834fb19caa00661c1))
+
+
+
+
+
 # [2.6.0](https://github.com/HSF/phoenix/compare/v2.5.2...v2.6.0) (2022-02-28)
 
 

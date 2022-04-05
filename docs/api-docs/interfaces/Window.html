@@ -299,7 +299,7 @@ export class EventDisplay {
     );
     this.onDisplayedEventChange.forEach((callback) &#x3D;&gt; callback(eventData));
     // Reload the event data state in Phoenix menu
-    this.ui.loadEventFolderPMState();
+    this.ui.loadEventFolderPhoenixMenuState();
   }
 
   /**
@@ -639,11 +639,11 @@ export class EventDisplay {
     geometries: any[];
   }) {
     for (const objectType of Object.keys(sceneConfiguration.eventData)) {
-      const { typeFolder, typeFolderPM } &#x3D;
-        this.ui.addEventDataTypeFolder(objectType);
+      this.ui.addEventDataTypeFolder(objectType);
+
       const collections &#x3D; sceneConfiguration.eventData[objectType];
       for (const collection of collections) {
-        this.ui.addCollection({ typeFolder, typeFolderPM }, collection);
+        this.ui.addCollection(objectType, collection);
       }
     }
 

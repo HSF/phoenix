@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -37,8 +37,8 @@
     "@angular/router": "^13.2.2",
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
-    "phoenix-event-display": "^2.6.0",
-    "phoenix-ui-components": "^2.6.0",
+    "phoenix-event-display": "^2.7.0",
+    "phoenix-ui-components": "^2.7.0",
     "qrcode": "1.5.0",
     "rxjs": "^7.5.4",
     "three": "^0.137.5",
