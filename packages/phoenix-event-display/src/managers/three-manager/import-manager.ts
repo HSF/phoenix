@@ -208,29 +208,51 @@ export class ImportManager {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene/geometry from the given URL.
+   * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry.
-   * @param callback Callback called after the scene/geometry is loaded.
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
+   * @param menuNodeName Name of the menu where to add the scene in the gui
+   * @param callback Callback called after the each scene/geometry is loaded.
    * @param scale Scale of the geometry.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: string,
     name: string,
-    callback: (Geometry: Object3D) => any,
-    scale?: number
+    menuNodeName: string,
+    callback: (
+      Geometry: Object3D,
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => any,
+    scale: number,
+    initiallyVisible: boolean
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
       loader.load(
         sceneUrl,
         (gltf) => {
-          const geometry = gltf.scene;
-          this.processGeometry(geometry, name, scale);
-          callback(geometry);
-          resolve();
-          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+          for (const geometry of gltf.scenes) {
+            var geoName = name === '' ? geometry.name : name;
+            // handle names with ' > ', these include paths which should go to menuName
+            const pos = geoName.lastIndexOf('_>_');
+            var menuName = menuNodeName;
+            if (pos > -1) {
+              if (menuName != '') menuName = menuName + ' > ';
+              menuName =
+                menuName + geoName.substring(0, pos).replace('_>_', ' > ');
+              geoName = geoName.substring(pos + 3);
+            }
+            this.processGeometry(geometry, geoName, scale);
+            var visible = initiallyVisible;
+            if ('visible' in geometry.userData)
+              visible = geometry.userData['visible'];
+            callback(geometry, geoName, menuName, visible);
+            resolve();
+            this.loadingManager.itemLoaded(`gltf_geom_${geoName}`);
+          }
         },
         null,
         (error) => {
@@ -251,7 +273,12 @@ export class ImportManager {
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
     name: string,
-    callback: (scene: Object3D) => any
+    callback: (
+      scene: Object3D,
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => any
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
@@ -259,11 +286,22 @@ export class ImportManager {
         geometry,
         '',
         (gltf) => {
-          const geometry = gltf.scene;
-          this.processGeometry(geometry, name);
-          callback(geometry);
-          resolve();
-          this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+          for (const geo of gltf.scenes) {
+            var geoName = geo.name === '' ? name : geo.name;
+            // handle names with ' > ', these include paths which should go to menuName
+            const pos = geoName.lastIndexOf('_>_');
+            var menuName = '';
+            if (pos > -1) {
+              menuName = geoName.substring(0, pos).replace('_>_', ' > ');
+              geoName = geoName.substring(pos + 3);
+            }
+            this.processGeometry(geo, geoName);
+            var visible = true;
+            if ('visible' in geo.userData) visible = geo.userData['visible'];
+            callback(geo, geoName, menuName, visible);
+            resolve();
+            this.loadingManager.itemLoaded(`parse_geom_${geoName}`);
+          }
         },
         (error) => {
           reject(error);

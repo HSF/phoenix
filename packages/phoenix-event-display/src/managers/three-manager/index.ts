@@ -332,23 +332,44 @@ export class ThreeManager {
   /**
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry.
+   * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
+   * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param parentCallback Callback called after each scene/geometry is loaded to update the GUI
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: any,
     name: string,
+    menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
+    parentCallback: (
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => void = null
   ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => {
-      geometry.visible = initiallyVisible;
+    const callback = (
+      geometry: Object3D,
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => {
+      parentCallback(geoName, menuName, visible);
+      geometry.visible = visible;
       geometries.add(geometry);
     };
-    return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
+    return this.importManager.loadGLTFGeometry(
+      sceneUrl,
+      name,
+      menuNodeName,
+      callback,
+      scale,
+      initiallyVisible
+    );
   }
 
   /**
@@ -375,8 +396,22 @@ export class ThreeManager {
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any, name: string): Promise<unknown> {
-    const callback = (scene: Object3D) => {
+  public parseGLTFGeometry(
+    geometry: any,
+    name: string,
+    parentCallback: (
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => void
+  ): Promise<unknown> {
+    const callback = (
+      scene: Object3D,
+      geoName: string,
+      menuName: string,
+      visible: boolean
+    ) => {
+      parentCallback(geoName, menuName, visible);
       this.sceneManager.getScene().add(scene);
     };
     return this.importManager.parseGLTFGeometry(geometry, name, callback);
