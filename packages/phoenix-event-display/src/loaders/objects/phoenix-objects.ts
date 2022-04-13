@@ -5,6 +5,7 @@ import {
   TubeBufferGeometry,
   MeshToonMaterial,
   Mesh,
+  BoxGeometry,
   BufferGeometry,
   LineBasicMaterial,
   Line,
@@ -24,6 +25,7 @@ import {
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -230,7 +232,7 @@ export class PhoenixObjects {
     }
 
     // Lines need 6 coords
-    if (type === 'Line') {
+    if (type === 'Line' || type === 'Box') {
       coordlength = 6;
     }
 
@@ -259,6 +261,12 @@ export class PhoenixObjects {
         );
       case 'Line':
         return PhoenixObjects.hitsToLines(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
+      case 'Box':
+        return PhoenixObjects.hitsToBoxes(
           pointPos,
           hitsParams,
           hitsParamsClone
@@ -332,6 +340,44 @@ export class PhoenixObjects {
     hitsParams.uuid = linesObj.uuid;
 
     return linesObj;
+  }
+
+  /**
+   * Get a Mesh object from Hits parameters. The Mesh is actually a set of boxes, one per hit
+   * @param pointPos Positions and dimensions of boxes
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `Mesh`.
+   */
+  private static hitsToBoxes(
+    pointPos: any,
+    hitsParams: any,
+    _hitParamsClone: any
+  ): Object3D {
+    // geometry
+    const geometries = [];
+    for (let i = 0; i < pointPos.length; i += 6) {
+      const boxGeometry = new BoxGeometry(pointPos[i+3], pointPos[i+4], pointPos[i+5]);
+      boxGeometry.translate(pointPos[i], pointPos[i+1], pointPos[i+2]);
+      geometries.push(boxGeometry);
+    }
+    const geometry = mergeBufferGeometries(geometries);
+    geometry.computeBoundingSphere();
+    // material
+    const material = new MeshPhongMaterial({
+      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+    });
+    // object
+    const box = new Mesh(geometry, material);
+
+    // Disabling for now because the data isn't readable on object selection.
+    // linesObj.userData = Object.assign({}, hitParamsClone);
+    box.userData = {};
+    box.name = 'BoxHit';
+    // Setting uuid for selection from collections info
+    hitsParams.uuid = box.uuid;
+
+    return box;
   }
 
   /**
