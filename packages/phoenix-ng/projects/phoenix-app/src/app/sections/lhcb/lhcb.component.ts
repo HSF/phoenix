@@ -52,7 +52,7 @@ export class LHCbComponent implements OnInit {
         new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
         new PresetView('Left View', [0, 0, -6000], 'left-cube'),
       ],
-      defaultView: [-800, 300, -1000],
+      defaultView: [-18000, 0, 15000],
       phoenixMenuRoot: this.phoenixMenuRoot,
       defaultEventFile: {
         eventFile: 'assets/files/lhcb/LHCbEventDataV2.json',
@@ -68,79 +68,9 @@ export class LHCbComponent implements OnInit {
     this.eventDisplay.init(configuration);
 
     this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_PIPE.gltf',
-      'Pipe',
-      'Base',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_MAGNET.gltf',
-      'Upper & Lower Coils',
-      'Magnets',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_MagnetCover.gltf',
-      'Magnet Cover',
-      'Magnets',
-      1,
-      false
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run2_ECAL.gltf',
-      'Ecal',
-      'DownstreamRegion',
-      1,
-      false
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run2_HCAL.gltf',
-      'Hcal',
-      'DownstreamRegion',
-      1,
-      false
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run2_MUON.gltf',
-      'Muon',
-      'DownstreamRegion',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_FT.gltf',
-      'FT',
-      'AfterMagnetRegion',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_Rich_AfterMagnet.gltf',
-      'Rich2',
-      'AfterMagnetRegion',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_Rich_BeforeMagnet.gltf',
-      'Rich1',
-      'BeforeMagnetRegion',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_VP_better_Performance.gltf',
-      'VP',
-      'BeforeMagnetRegion',
-      1,
-      true
-    );
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb_run3_UT.gltf',
-      'UT',
-      'BeforeMagnetRegion',
+      'assets/geometry/LHCb/LHCb.gltf',
+      '', // ignored in case of multiple scenes
+      '',
       1,
       true
     );
