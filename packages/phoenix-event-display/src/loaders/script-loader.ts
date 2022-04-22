@@ -13,7 +13,7 @@ export class ScriptLoader {
    * @returns Promise resolved with JSROOT global varilable.
    */
   public static async loadJSRootScripts(
-    jsrootVersion: string = 'latest'
+    jsrootVersion: string = '6.3.4'
   ): Promise<typeof JSROOT> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('jsroot_scripts');
