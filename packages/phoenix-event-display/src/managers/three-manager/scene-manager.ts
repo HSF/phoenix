@@ -404,6 +404,16 @@ export class SceneManager {
   public eventDataDepthTest(value: boolean) {
     const object = this.getEventData();
 
+    // Remove transparency from detector geometry for depthTest to work
+    if (!value) {
+      this.getObjectsGroup(SceneManager.GEOMETRIES_ID)?.traverse((child) => {
+        if (child instanceof Mesh && child.material) {
+          child.material.opacity = 1;
+          child.material.transparent = false;
+        }
+      });
+    }
+
     if (object !== null) {
       // Traversing all event data objects to change material's depthTest
       object.traverse((objectChild: any) => {
