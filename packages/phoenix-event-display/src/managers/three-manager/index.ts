@@ -90,7 +90,7 @@ export class ThreeManager {
    */
   public init(configuration: Configuration) {
     // Set the clipping planes
-    this.clipPlanes = [
+    this.clipPlanes = configuration.clippingPlanes ?? [
       new Plane(new Vector3(0, 1, 0), 0),
       new Plane(new Vector3(0, -1, 0), 0),
       new Plane(new Vector3(0, 0, 1), -15000),

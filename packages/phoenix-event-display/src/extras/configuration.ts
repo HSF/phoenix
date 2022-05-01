@@ -1,3 +1,4 @@
+import { Plane } from 'three';
 import { PresetView } from './preset-view.model';
 import { EventDataLoader } from '../loaders/event-data-loader';
 import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
@@ -22,4 +23,6 @@ export interface Configuration {
   defaultEventFile?: { eventFile: string; eventType: string };
   /** Whether to allow URL options or not (true by default). */
   allowUrlOptions?: boolean;
+  /** Planes for clipping detector geometry. */
+  clippingPlanes?: Plane[];
 }
