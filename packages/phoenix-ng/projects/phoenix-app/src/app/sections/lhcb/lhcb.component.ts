@@ -58,11 +58,6 @@ export class LHCbComponent implements OnInit {
         eventFile: 'assets/files/lhcb/LHCbEventDataV2.json',
         eventType: 'json',
       },
-      clippingPlanes: [
-        new Plane(new Vector3(0, 1, 0), 0),
-        new Plane(new Vector3(0, -1, 0), 0),
-        new Plane(new Vector3(0, 0, 1), -20000),
-      ],
     };
 
     this.eventDisplay.init(configuration);
