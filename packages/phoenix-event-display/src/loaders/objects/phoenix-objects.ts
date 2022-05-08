@@ -357,8 +357,12 @@ export class PhoenixObjects {
     // geometry
     const geometries = [];
     for (let i = 0; i < pointPos.length; i += 6) {
-      const boxGeometry = new BoxGeometry(pointPos[i+3], pointPos[i+4], pointPos[i+5]);
-      boxGeometry.translate(pointPos[i], pointPos[i+1], pointPos[i+2]);
+      const boxGeometry = new BoxGeometry(
+        pointPos[i + 3],
+        pointPos[i + 4],
+        pointPos[i + 5]
+      );
+      boxGeometry.translate(pointPos[i], pointPos[i + 1], pointPos[i + 2]);
       geometries.push(boxGeometry);
     }
     const geometry = mergeBufferGeometries(geometries);
