@@ -395,6 +395,7 @@ export class ImportManager {
             color: color,
             shininess: 0,
             side: side,
+            opacity: geometry.userData.opacity,
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
