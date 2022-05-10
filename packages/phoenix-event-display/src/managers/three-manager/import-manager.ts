@@ -23,6 +23,8 @@ import { LoadingManager } from '../loading-manager';
 export class ImportManager {
   /** Planes for clipping geometry. */
   private clipPlanes: Plane[];
+  /** Is clipping intersection or union. */
+  private clipIntersection: boolean;
   /** Object group ID containing event data. */
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
@@ -38,10 +40,12 @@ export class ImportManager {
    */
   constructor(
     clipPlanes: Plane[],
+    clipIntersection: boolean,
     EVENT_DATA_ID: string,
     GEOMETRIES_ID: string
   ) {
     this.clipPlanes = clipPlanes;
+    this.clipIntersection = clipIntersection;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
     this.loadingManager = new LoadingManager();
@@ -394,7 +398,7 @@ export class ImportManager {
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
-          child.material.clipIntersection = true;
+          child.material.clipIntersection = this.clipIntersection;
           child.material.clipShadows = false;
         }
       }
