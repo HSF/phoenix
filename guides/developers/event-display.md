@@ -5,6 +5,7 @@
 * [`ThreeManager`](#threemanager)
 * [`UIManager`](#uimanager)
   * [`PhoenixMenuNode`](#phoenixmenunode)
+  * [`PhoenixUI`](#phoenixui)
 * [Miscellaneous managers](#miscellaneous-managers)
 * [Event data loaders](#event-data-loaders)
 
@@ -90,7 +91,21 @@ For an overview, it contains functions for:
 * Getting and loading the state of a node.
 * Removing a single child node, current node, or all child nodes.  
 * Finding a node in tree by name, or create one if not found.
-* etc.
+* etc.  
+
+### [`PhoenixUI`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-ui.ts)  
+
+`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix. For an overview, it contains functions for:  
+
+* Adding collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
+* Adding event data folder with functions for event data toggles like show/hide and depthTest.
+* Adding folder for event data type like tracks or hits to the menu.
+* Adding geometry folder to the menu with and without configurable options.
+* Adding folder for configuration of labels.
+* Adding labels folder to the menu.
+* Getting the folder for event data type.
+* Removing labels from the menu and scene if they exist.
+* Clearing the menu by removing all folders.
 
 ## Miscellaneous managers
 
