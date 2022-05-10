@@ -342,14 +342,14 @@ export class ThreeManager {
   public loadGLTFGeometry(
     sceneUrl: any,
     name: string,
-    menuNodeName?: string,
-    scale?: number,
+    menuNodeName: string = '',
+    scale: number = undefined,
     initiallyVisible: boolean = true,
-    parentCallback: (
+    parentCallback?: (
       geoName: string,
       menuName: string,
       visible: boolean
-    ) => void = null
+    ) => void
   ): Promise<unknown> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (
@@ -358,7 +358,7 @@ export class ThreeManager {
       menuName: string,
       visible: boolean
     ) => {
-      parentCallback(geoName, menuName, visible);
+      if (parentCallback) parentCallback(geoName, menuName, visible);
       geometry.visible = visible;
       geometries.add(geometry);
     };
@@ -399,7 +399,7 @@ export class ThreeManager {
   public parseGLTFGeometry(
     geometry: any,
     name: string,
-    parentCallback: (
+    parentCallback?: (
       geoName: string,
       menuName: string,
       visible: boolean
@@ -411,7 +411,7 @@ export class ThreeManager {
       menuName: string,
       visible: boolean
     ) => {
-      parentCallback(geoName, menuName, visible);
+      if (parentCallback) parentCallback(geoName, menuName, visible);
       this.sceneManager.getScene().add(scene);
     };
     return this.importManager.parseGLTFGeometry(geometry, name, callback);
