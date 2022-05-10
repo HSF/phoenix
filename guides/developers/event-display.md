@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#phoenix-architecture), it interconnects the `ThreeManager`, `UIManager` and `EventDataLoader`. It works as the primary endpoint for accessing all Phoenix functions.
+The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#phoenix-architecture), it interconnects the [`ThreeManager`](#threemanager), [`UIManager`](#uimanager) and [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-data-loader.ts). It works as the primary endpoint for accessing all Phoenix functions.
 
 See the [API docs for `EventDisplay`](https://hepsoftwarefoundation.org/phoenix/api-docs/classes/EventDisplay.html) to have a deeper look at the available functions.
 
@@ -23,7 +23,7 @@ The modular and extendable nature of Phoenix is not limited to just the `EventDi
 
 ## [`ThreeManager`](../../packages/phoenix-event-display/src/managers/three-manager/index.ts)
 
-The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
+The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since, Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
 
 Here is a list of sub managers of `ThreeManager`:
 
@@ -38,7 +38,7 @@ Here is a list of sub managers of `ThreeManager`:
 * [**`ExportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/export-manager.ts)  
   Manages export related functions like exporting the event display to an `.obj` file or to the `.phnx` (Phoenix scene) file.
 * [**`ImportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/import-manager.ts)  
-  Manages import related functions like importing different types of 3D geometries (`.gltf`, `.root`, `.obj` etc.) or event data (`.json`, `.xml` etc.).
+  Manages import related functions like importing different types of 3D geometries (`.gltf`, `.root`, `.obj` etc.) or event data (`.json`, `.xml`, etc.).
 * [**`RendererManager`**](../../packages/phoenix-event-display/src/managers/three-manager/renderer-manager.ts)  
   Manages `three.js` renderers used by Phoenix including both the main and overlay renderer (used in the overlay view).
 * [**`SceneManager`**](../../packages/phoenix-event-display/src/managers/three-manager/scene-manager.ts)  
@@ -56,34 +56,40 @@ Currently the sub managers are not big enough to be divided into multiple parts.
 
 ## [`UIManager`](../../packages/phoenix-event-display/src/managers/ui-manager/index.ts)
 
-The `UIManager` is responsible for all the UI aspects of the `EventDisplay`. This includes the Phoenix menu, dat.GUI menu, stats UI etc.
+The `UIManager` is responsible for all the UI aspects of the `EventDisplay`. This includes the Phoenix menu, dat.GUI menu, stats UI, etc.
 
 It takes care of tasks like:
 
 * Adding configuration options to Phoenix UI on loading geometry or event data.
-* Setting the UI color theme to dark or light
-* Applying clipping to geometries
-* Linking UI menu options with the `EventDisplay`
+* Setting the UI color theme to dark or light.
+* Applying clipping to geometries.
+* Linking UI menu options with the `EventDisplay`.
+* Configuring different color options for event-data.
 * etc.
 
 The `UIManager` is further divided into the following managers:
 
+* [**`ColorOptionsUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/color-options.ts)  
+  Contains configurable color options with functions to color event data.
 * [**`DatGUIMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/dat-gui-ui.ts)   
   Contains functions for setting up all the options in dat.GUI menu.
 * [**`PhoenixMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts)  
   Contains functions for setting up all the options in Phoenix menu.
+  
+It also has [**`PhoenixMenuConfigTypes`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/config-types.ts) which provides types for Phoenix menu configuration.
 
 ### [`PhoenixMenuNode`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts)
 
 The `PhoenixMenuNode` is a class that maintains all the options of Phoenix menu at the program level. It doesn't implement the UI for Phoenix menu but contains all the logic.\
 It is designed to be adaptable to custom UIs. This class can be used to create a custom Phoenix menu like interface in any kind of frontend framework.
 
-For an overview, it contains functions like:
+For an overview, it contains functions for:
 
-* Adding children (of the same `PhoenixMenuNode` type) to a node
+* Adding children (of the same `PhoenixMenuNode` type) to a node.
 * Adding custom configuration of different types (like `checkbox`, `slider`, `button`, `label` etc.) to a node.
-* Getting or loading the state of a node
-* Removing self node or child nodes
+* Getting and loading the state of a node.
+* Removing a single child node, current node, or all child nodes.  
+* Finding a node in tree by name, or create one if not found.
 * etc.
 
 ## Miscellaneous managers
@@ -91,7 +97,7 @@ For an overview, it contains functions like:
 These are some independent managers not part of the `ThreeManager` or `UIManager` but used inside the `EventDisplay`.
 
 * [**`LoadingManager`**](../../packages/phoenix-event-display/src/managers/loading-manager.ts)  
-  Maintains a list of loadable items with addable callbacks that are called when the loading is complete.
+  Maintains a list of loadable items with addable callbacks that are called when the loading of an item completes.
 * [**`StateManager`**](../../packages/phoenix-event-display/src/managers/state-manager.ts)  
   Manages the state of the `EventDisplay` including the Phoenix menu state, camera state and clipping state. The state can be saved to a file and loaded later.
 * [**`URLOptionsManager`**](../../packages/phoenix-event-display/src/managers/url-options-manager.ts)  
