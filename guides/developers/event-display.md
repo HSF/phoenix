@@ -68,16 +68,12 @@ It takes care of tasks like:
 * Configuring different color options for event data.
 * etc.
 
+It also has [**`ColorOptionsUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/color-options.ts) which contains configurable color options with functions to color event data.
+
 ### [`PhoenixUI`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-ui.ts)  
 
-`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix.  
+`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix. It currently consists of the following implementations:
 
-Please see the [API docs for PhoenixUI](https://hepsoftwarefoundation.org/phoenix/api-docs/interfaces/PhoenixUI.html) to have a deeper look at the available functions.
-
-The `UIManager` is further divided into the following managers:
-
-* [**`ColorOptionsUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/color-options.ts)  
-  Contains configurable color options with functions to color event data.
 * [**`DatGUIMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/dat-gui-ui.ts)   
   Contains functions for setting up all the options in dat.GUI menu.
 * [**`PhoenixMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts)  
