@@ -4,8 +4,8 @@
 * [Modularity and architectural overview](#modularity-and-architectural-overview)
 * [`ThreeManager`](#threemanager)
 * [`UIManager`](#uimanager)
-  * [`PhoenixMenuNode`](#phoenixmenunode)
   * [`PhoenixUI`](#phoenixui)
+  * [`PhoenixMenuNode`](#phoenixmenunode)
 * [Miscellaneous managers](#miscellaneous-managers)
 * [Event data loaders](#event-data-loaders)
 
@@ -24,7 +24,7 @@ The modular and extendable nature of Phoenix is not limited to just the `EventDi
 
 ## [`ThreeManager`](../../packages/phoenix-event-display/src/managers/three-manager/index.ts)
 
-The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since, Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
+The `ThreeManager` is responsible for performing all `three.js` related functions. Any feature that depends on the `three.js` library is implemented through the `ThreeManager`. Since Phoenix has a lot of features implemented through `three.js`, the `ThreeManager` is further divided into sub managers which have different roles.
 
 Here is a list of sub managers of `ThreeManager`:
 
@@ -65,8 +65,14 @@ It takes care of tasks like:
 * Setting the UI color theme to dark or light.
 * Applying clipping to geometries.
 * Linking UI menu options with the `EventDisplay`.
-* Configuring different color options for event-data.
+* Configuring different color options for event data.
 * etc.
+
+### [`PhoenixUI`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-ui.ts)  
+
+`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix.  
+
+Please see the [API docs for PhoenixUI](https://hepsoftwarefoundation.org/phoenix/api-docs/interfaces/PhoenixUI.html) to have a deeper look at the available functions.
 
 The `UIManager` is further divided into the following managers:
 
@@ -76,8 +82,6 @@ The `UIManager` is further divided into the following managers:
   Contains functions for setting up all the options in dat.GUI menu.
 * [**`PhoenixMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts)  
   Contains functions for setting up all the options in Phoenix menu.
-  
-It also has [**`PhoenixMenuConfigTypes`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/config-types.ts) which provides types for Phoenix menu configuration.
 
 ### [`PhoenixMenuNode`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts)
 
@@ -92,20 +96,6 @@ For an overview, it contains functions for:
 * Removing a single child node, current node, or all child nodes.  
 * Finding a node in tree by name, or create one if not found.
 * etc.  
-
-### [`PhoenixUI`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-ui.ts)  
-
-`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix. For an overview, it contains functions for:  
-
-* Adding collection folder and its configurable options to the event data type (tracks, hits etc.) folder.
-* Adding event data folder with functions for event data toggles like show/hide and depthTest.
-* Adding folder for event data type like tracks or hits to the menu.
-* Adding geometry folder to the menu with and without configurable options.
-* Adding folder for configuration of labels.
-* Adding labels folder to the menu.
-* Getting the folder for event data type.
-* Removing labels from the menu and scene if they exist.
-* Clearing the menu by removing all folders.
 
 ## Miscellaneous managers
 
