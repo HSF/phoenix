@@ -321,11 +321,12 @@ export class EventDisplay {
     input: string | ArrayBuffer,
     name: string
   ): Promise<unknown> {
-    const callback = (geoName: string, menuName: string, visible: boolean) => {
-      this.loadingManager.addLoadableItem(`parse_gltf_${geoName}`);
-      this.ui.addGeometry(geoName, undefined, menuName, visible);
-      this.infoLogger.add(geoName, 'Parsed GLTF geometry');
+    this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
+    const callback = (name: string, visible: boolean) => {
+      this.ui.addGeometry(name, undefined, undefined, visible);
+      this.infoLogger.add(name, 'Parsed GLTF geometry');
     };
+
     return this.graphicsLibrary.parseGLTFGeometry(input, name, callback);
   }
 
@@ -345,12 +346,13 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     initiallyVisible: boolean = true
-  ): Promise<unknown> {
-    const callback = (geoName: string, menuName: string, visible: boolean) => {
-      this.loadingManager.addLoadableItem(`gltf_geom_${geoName}`);
-      this.ui.addGeometry(geoName, undefined, menuName, visible);
-      this.infoLogger.add(geoName, 'Loaded GLTF geometry');
+  ): Promise<void> {
+    this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
+    const callback = (name: string, menuNodeName: string, visible: boolean) => {
+      this.ui.addGeometry(name, undefined, menuNodeName, visible);
+      this.infoLogger.add(name, 'Loaded GLTF scene');
     };
+
     return this.graphicsLibrary.loadGLTFGeometry(
       url,
       name,

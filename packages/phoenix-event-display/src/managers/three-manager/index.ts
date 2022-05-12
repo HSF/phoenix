@@ -368,18 +368,17 @@ export class ThreeManager {
       menuName: string,
       visible: boolean
     ) => void = null
-  ): Promise<unknown> {
+  ): Promise<void> {
     const geometries = this.sceneManager.getGeometries();
     const callback = (
       geometry: Object3D,
       geoName: string,
-      menuName: string,
-      visible: boolean
+      menuName: string
     ) => {
-      parentCallback(geoName, menuName, visible);
-      geometry.visible = visible;
+      parentCallback(geoName, menuName, geometry.visible);
       geometries.add(geometry);
     };
+
     return this.importManager.loadGLTFGeometry(
       sceneUrl,
       name,
@@ -417,21 +416,13 @@ export class ThreeManager {
   public parseGLTFGeometry(
     geometry: any,
     name: string,
-    parentCallback: (
-      geoName: string,
-      menuName: string,
-      visible: boolean
-    ) => void
+    parentCallback: (name: string, visible: boolean) => void
   ): Promise<unknown> {
-    const callback = (
-      scene: Object3D,
-      geoName: string,
-      menuName: string,
-      visible: boolean
-    ) => {
-      parentCallback(geoName, menuName, visible);
-      this.sceneManager.getScene().add(scene);
+    const callback = (geometry: Object3D, geoName: string) => {
+      parentCallback(geoName, geometry.visible);
+      this.sceneManager.getScene().add(geometry);
     };
+
     return this.importManager.parseGLTFGeometry(geometry, name, callback);
   }
 
