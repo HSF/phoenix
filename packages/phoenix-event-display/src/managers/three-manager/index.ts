@@ -74,7 +74,7 @@ export class ThreeManager {
   ];
   /** Clipping planes for clipping geometry. */
   private clipPlanes: Plane[];
-  /** status of cliping intersection */
+  /** Status of clipping intersection. */
   private clipIntersection: boolean;
 
   /**
@@ -84,7 +84,6 @@ export class ThreeManager {
   constructor(private infoLogger: InfoLogger) {
     this.rendererManager = new RendererManager();
     this.loadingManager = new LoadingManager();
-    this.clipIntersection = true;
   }
 
   /**
@@ -105,7 +104,6 @@ export class ThreeManager {
     this.exportManager = new ExportManager();
     this.importManager = new ImportManager(
       this.clipPlanes,
-      this.clipIntersection,
       SceneManager.EVENT_DATA_ID,
       SceneManager.GEOMETRIES_ID
     );

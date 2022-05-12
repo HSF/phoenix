@@ -23,8 +23,6 @@ import { LoadingManager } from '../loading-manager';
 export class ImportManager {
   /** Planes for clipping geometry. */
   private clipPlanes: Plane[];
-  /** Is clipping intersection or union. */
-  private clipIntersection: boolean;
   /** Object group ID containing event data. */
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
@@ -40,12 +38,10 @@ export class ImportManager {
    */
   constructor(
     clipPlanes: Plane[],
-    clipIntersection: boolean,
     EVENT_DATA_ID: string,
     GEOMETRIES_ID: string
   ) {
     this.clipPlanes = clipPlanes;
-    this.clipIntersection = clipIntersection;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
     this.loadingManager = new LoadingManager();
@@ -239,10 +235,10 @@ export class ImportManager {
         sceneUrl,
         (gltf) => {
           for (const geometry of gltf.scenes) {
-            var geoName = name === '' ? geometry.name : name;
+            let geoName = name === '' ? geometry.name : name;
             // handle names with ' > ', these include paths which should go to menuName
             const pos = geoName.lastIndexOf('_>_');
-            var menuName = menuNodeName;
+            let menuName = menuNodeName;
             if (pos > -1) {
               if (menuName != '') menuName = menuName + ' > ';
               menuName =
@@ -250,7 +246,7 @@ export class ImportManager {
               geoName = geoName.substring(pos + 3);
             }
             this.processGeometry(geometry, geoName, scale);
-            var visible = initiallyVisible;
+            let visible = initiallyVisible;
             if ('visible' in geometry.userData)
               visible = geometry.userData['visible'];
             callback(geometry, geoName, menuName, visible);
@@ -291,16 +287,16 @@ export class ImportManager {
         '',
         (gltf) => {
           for (const geo of gltf.scenes) {
-            var geoName = geo.name === '' ? name : geo.name;
+            let geoName = geo.name === '' ? name : geo.name;
             // handle names with ' > ', these include paths which should go to menuName
             const pos = geoName.lastIndexOf('_>_');
-            var menuName = '';
+            let menuName = '';
             if (pos > -1) {
               menuName = geoName.substring(0, pos).replace('_>_', ' > ');
               geoName = geoName.substring(pos + 3);
             }
             this.processGeometry(geo, geoName);
-            var visible = true;
+            let visible = true;
             if ('visible' in geo.userData) visible = geo.userData['visible'];
             callback(geo, geoName, menuName, visible);
             resolve();
@@ -399,7 +395,7 @@ export class ImportManager {
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
-          child.material.clipIntersection = this.clipIntersection;
+          child.material.clipIntersection = true;
           child.material.clipShadows = false;
         }
       }
