@@ -32,6 +32,7 @@ import { ColorManager } from './color-manager';
 import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
+import { UIManager } from '../ui-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -89,7 +90,6 @@ export class ThreeManager {
   /**
    * Initializes the necessary three.js functionality.
    * @param configuration Configuration to customize different aspects.
-   * @param infoLogger Service for logging data to the information panel.
    */
   public init(configuration: Configuration) {
     // Set the clipping planes
@@ -354,38 +354,35 @@ export class ThreeManager {
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param parentCallback Callback called after each scene/geometry is loaded to update the GUI
+   * @param onSceneProcessed Callback called after each scene/geometry is loaded to update the GUI.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: any,
     name: string,
+    addGeometryToUI: UIManager['addGeometry'],
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean = true,
-    parentCallback: (
-      geoName: string,
-      menuName: string,
-      visible: boolean
-    ) => void = null
+    initiallyVisible?: boolean
   ): Promise<void> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (
+    const onSceneProcessed = (
       geometry: Object3D,
       geoName: string,
       menuName: string
     ) => {
-      parentCallback(geoName, menuName, geometry.visible);
+      addGeometryToUI(geoName, undefined, menuName, geometry.visible);
       geometries.add(geometry);
+      this.infoLogger.add(name, 'Loaded GLTF scene');
     };
 
     return this.importManager.loadGLTFGeometry(
       sceneUrl,
       name,
       menuNodeName,
-      callback,
       scale,
-      initiallyVisible
+      initiallyVisible,
+      onSceneProcessed
     );
   }
 
@@ -416,14 +413,19 @@ export class ThreeManager {
   public parseGLTFGeometry(
     geometry: any,
     name: string,
-    parentCallback: (name: string, visible: boolean) => void
+    addGeometryToUI: UIManager['addGeometry']
   ): Promise<unknown> {
-    const callback = (geometry: Object3D, geoName: string) => {
-      parentCallback(geoName, geometry.visible);
-      this.sceneManager.getScene().add(geometry);
+    const onSceneProcessed = (geometry: Object3D, geoName: string) => {
+      addGeometryToUI(geoName, undefined, undefined, geometry.visible);
+      this.sceneManager.getGeometries().add(geometry);
+      this.infoLogger.add(name, 'Parsed GLTF geometry');
     };
 
-    return this.importManager.parseGLTFGeometry(geometry, name, callback);
+    return this.importManager.parseGLTFGeometry(
+      geometry,
+      name,
+      onSceneProcessed
+    );
   }
 
   /**

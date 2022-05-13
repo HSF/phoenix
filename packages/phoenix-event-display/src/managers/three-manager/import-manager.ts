@@ -211,17 +211,22 @@ export class ImportManager {
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
    * @param menuNodeName Name of the menu where to add the scene in the gui
-   * @param callback Callback called after each scene/geometry is processed and loaded.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: string,
     name: string,
     menuNodeName: string,
-    callback: (geometry: Object3D, name: string, menuNodeName: string) => any,
     scale: number,
-    initiallyVisible: boolean
+    initiallyVisible: boolean,
+    onSceneProcessed: (
+      geometry: Object3D,
+      name: string,
+      menuNodeName: string
+    ) => void
   ): Promise<void> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
@@ -233,7 +238,7 @@ export class ImportManager {
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(scene, sceneName.name ?? name, scale);
 
-            callback(
+            onSceneProcessed(
               scene,
               sceneName.name ?? name,
               sceneName.menuNodeName ?? menuNodeName
@@ -256,13 +261,13 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param callback Callback called after the geometry is loaded.
+   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
     name: string,
-    callback: (geometry: Object3D, geoName: string) => any
+    onSceneProcessed: (geometry: Object3D, geoName: string) => any
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
@@ -275,7 +280,7 @@ export class ImportManager {
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(scene, sceneName.name ?? name);
 
-            callback(scene, sceneName.name ?? name);
+            onSceneProcessed(scene, sceneName.name ?? name);
           }
 
           resolve();

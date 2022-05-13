@@ -124,7 +124,7 @@ describe('ThreeManager', () => {
     it('should load glTF geometry', () => {
       spyOn(threePrivate.importManager, 'loadGLTFGeometry').and.callThrough();
 
-      three.loadGLTFGeometry(GLTF_FILE, 'Test glTF');
+      three.loadGLTFGeometry(GLTF_FILE, 'Test glTF', jasmine.createSpy());
       expect(threePrivate.importManager.loadGLTFGeometry).toHaveBeenCalled();
     });
 
@@ -155,8 +155,7 @@ describe('ThreeManager', () => {
             'parseGLTFGeometry'
           ).and.callThrough();
 
-          const callback = () => {};
-          three.parseGLTFGeometry(res, 'TEST_GLTF_FILE', callback);
+          three.parseGLTFGeometry(res, 'TEST_GLTF_FILE', jasmine.createSpy());
           expect(
             threePrivate.importManager.parseGLTFGeometry
           ).toHaveBeenCalled();

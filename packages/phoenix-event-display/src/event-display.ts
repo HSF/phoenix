@@ -322,12 +322,12 @@ export class EventDisplay {
     name: string
   ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
-    const callback = (name: string, visible: boolean) => {
-      this.ui.addGeometry(name, undefined, undefined, visible);
-      this.infoLogger.add(name, 'Parsed GLTF geometry');
-    };
 
-    return this.graphicsLibrary.parseGLTFGeometry(input, name, callback);
+    return this.graphicsLibrary.parseGLTFGeometry(
+      input,
+      name,
+      this.ui.addGeometry
+    );
   }
 
   /**
@@ -348,18 +348,14 @@ export class EventDisplay {
     initiallyVisible: boolean = true
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
-    const callback = (name: string, menuNodeName: string, visible: boolean) => {
-      this.ui.addGeometry(name, undefined, menuNodeName, visible);
-      this.infoLogger.add(name, 'Loaded GLTF scene');
-    };
 
     return this.graphicsLibrary.loadGLTFGeometry(
       url,
       name,
+      this.ui.addGeometry,
       menuNodeName,
       scale,
-      initiallyVisible,
-      callback
+      initiallyVisible
     );
   }
 
