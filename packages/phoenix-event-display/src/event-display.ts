@@ -326,7 +326,7 @@ export class EventDisplay {
     return this.graphicsLibrary.parseGLTFGeometry(
       input,
       name,
-      this.ui.addGeometry
+      this.ui.addGeometry.bind(this.ui)
     );
   }
 
@@ -352,7 +352,7 @@ export class EventDisplay {
     return this.graphicsLibrary.loadGLTFGeometry(
       url,
       name,
-      this.ui.addGeometry,
+      this.ui.addGeometry.bind(this.ui),
       menuNodeName,
       scale,
       initiallyVisible
