@@ -158,17 +158,15 @@ describe('EventDisplay', () => {
       expect(three.parsePhnxScene).toHaveBeenCalledTimes(0);
     });
 
-    it('should load glTF geometry through three and ui service', () => {
+    it('should load glTF geometry through three manager', () => {
       spyOn(three, 'loadGLTFGeometry').and.stub();
-      spyOn(ui, 'addGeometry').and.stub();
 
       eventDisplay.loadGLTFGeometry('test/file/path.gltf', 'Test glTF');
 
       expect(three.loadGLTFGeometry).toHaveBeenCalled();
-      expect(ui.addGeometry).toHaveBeenCalled();
     });
 
-    it('should load JSON geometry through three and ui service', () => {
+    it('should load JSON geometry through three and ui manager', () => {
       spyOn(three, 'loadJSONGeometry').and.stub();
       spyOn(ui, 'addGeometry').and.stub();
 

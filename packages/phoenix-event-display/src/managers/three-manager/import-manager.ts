@@ -11,7 +11,6 @@ import {
   Color,
   FrontSide,
   Vector3,
-  Box3,
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -23,8 +22,6 @@ import { LoadingManager } from '../loading-manager';
 export class ImportManager {
   /** Planes for clipping geometry. */
   private clipPlanes: Plane[];
-  /** Is clipping intersection or union. */
-  private clipIntersection: boolean;
   /** Object group ID containing event data. */
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
@@ -40,12 +37,10 @@ export class ImportManager {
    */
   constructor(
     clipPlanes: Plane[],
-    clipIntersection: boolean,
     EVENT_DATA_ID: string,
     GEOMETRIES_ID: string
   ) {
     this.clipPlanes = clipPlanes;
-    this.clipIntersection = clipIntersection;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
     this.loadingManager = new LoadingManager();
@@ -189,7 +184,7 @@ export class ImportManager {
   public parsePhnxScene(
     scene: any,
     callback: (geometries: Object3D, eventData: Object3D) => void
-  ): Promise<unknown> {
+  ): Promise<void> {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
     return new Promise<void>((resolve, reject) => {
@@ -216,49 +211,44 @@ export class ImportManager {
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
    * @param menuNodeName Name of the menu where to add the scene in the gui
-   * @param callback Callback called after the each scene/geometry is loaded.
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: string,
     name: string,
     menuNodeName: string,
-    callback: (
-      Geometry: Object3D,
-      geoName: string,
-      menuName: string,
-      visible: boolean
-    ) => any,
     scale: number,
-    initiallyVisible: boolean
-  ): Promise<unknown> {
+    initiallyVisible: boolean,
+    onSceneProcessed: (
+      geometry: Object3D,
+      name: string,
+      menuNodeName: string
+    ) => void
+  ): Promise<void> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
       loader.load(
         sceneUrl,
         (gltf) => {
-          for (const geometry of gltf.scenes) {
-            var geoName = name === '' ? geometry.name : name;
-            // handle names with ' > ', these include paths which should go to menuName
-            const pos = geoName.lastIndexOf('_>_');
-            var menuName = menuNodeName;
-            if (pos > -1) {
-              if (menuName != '') menuName = menuName + ' > ';
-              menuName =
-                menuName + geoName.substring(0, pos).replace('_>_', ' > ');
-              geoName = geoName.substring(pos + 3);
-            }
-            this.processGeometry(geometry, geoName, scale);
-            var visible = initiallyVisible;
-            if ('visible' in geometry.userData)
-              visible = geometry.userData['visible'];
-            callback(geometry, geoName, menuName, visible);
-            resolve();
-            this.loadingManager.itemLoaded(`gltf_geom_${geoName}`);
+          for (const scene of gltf.scenes) {
+            scene.visible = scene.userData.visible ?? initiallyVisible;
+            const sceneName = this.processGLTFSceneName(scene.name);
+            this.processGeometry(scene, sceneName.name ?? name, scale);
+
+            onSceneProcessed(
+              scene,
+              sceneName.name ?? name,
+              sceneName.menuNodeName ?? menuNodeName
+            );
           }
+
+          resolve();
+          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
         },
-        null,
+        undefined,
         (error) => {
           reject(error);
           this.loadingManager.itemLoaded(`gltf_geom_${name}`);
@@ -271,18 +261,13 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param callback Callback called after the geometry is loaded.
+   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
     name: string,
-    callback: (
-      scene: Object3D,
-      geoName: string,
-      menuName: string,
-      visible: boolean
-    ) => any
+    onSceneProcessed: (geometry: Object3D, geoName: string) => any
   ): Promise<unknown> {
     const loader = new GLTFLoader();
     return new Promise<void>((resolve, reject) => {
@@ -290,22 +275,16 @@ export class ImportManager {
         geometry,
         '',
         (gltf) => {
-          for (const geo of gltf.scenes) {
-            var geoName = geo.name === '' ? name : geo.name;
-            // handle names with ' > ', these include paths which should go to menuName
-            const pos = geoName.lastIndexOf('_>_');
-            var menuName = '';
-            if (pos > -1) {
-              menuName = geoName.substring(0, pos).replace('_>_', ' > ');
-              geoName = geoName.substring(pos + 3);
-            }
-            this.processGeometry(geo, geoName);
-            var visible = true;
-            if ('visible' in geo.userData) visible = geo.userData['visible'];
-            callback(geo, geoName, menuName, visible);
-            resolve();
-            this.loadingManager.itemLoaded(`parse_geom_${geoName}`);
+          for (const scene of gltf.scenes) {
+            scene.visible = scene.userData.visible;
+            const sceneName = this.processGLTFSceneName(scene.name);
+            this.processGeometry(scene, sceneName.name ?? name);
+
+            onSceneProcessed(scene, sceneName.name ?? name);
           }
+
+          resolve();
+          this.loadingManager.itemLoaded(`parse_geom_${name}`);
         },
         (error) => {
           reject(error);
@@ -313,6 +292,21 @@ export class ImportManager {
         }
       );
     });
+  }
+
+  /**
+   * Get geometry name and menuNodeName from GLTF scene name.
+   * @param sceneName GLTF scene name.
+   * @returns Geometry name and menuNodeName if present in scene name.
+   */
+  private processGLTFSceneName(sceneName?: string) {
+    if (sceneName) {
+      const nodes = sceneName.split('_>_');
+      const name = nodes.pop();
+      const menuNodeName = nodes.join(' > ');
+
+      return { name, menuNodeName };
+    }
   }
 
   /**
@@ -327,7 +321,7 @@ export class ImportManager {
   public loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
-    callback: (Geometry: Object3D) => any,
+    callback: (geometry: Object3D) => any,
     scale?: number,
     doubleSided?: boolean
   ): Promise<unknown> {
@@ -395,11 +389,11 @@ export class ImportManager {
             color: color,
             shininess: 0,
             side: side,
-            opacity: geometry.userData.opacity,
+            opacity: geometry.userData.opacity ?? null,
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
-          child.material.clipIntersection = this.clipIntersection;
+          child.material.clipIntersection = true;
           child.material.clipShadows = false;
         }
       }

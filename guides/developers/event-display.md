@@ -11,7 +11,7 @@
 
 ## Introduction
 
-The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#phoenix-architecture), it interconnects the [`ThreeManager`](#threemanager), [`UIManager`](#uimanager) and [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-data-loader.ts). It works as the primary endpoint for accessing all Phoenix functions.
+The [`EventDisplay`](../../packages/phoenix-event-display/src/event-display.ts) class is the primary building block of Phoenix. As in the [Phoenix architecture](./#phoenix-architecture), it interconnects the [`ThreeManager`](#threemanager), [`UIManager`](#uimanager) and [`EventDataLoader`](#event-data-loaders). It works as the primary endpoint for accessing all Phoenix functions.
 
 See the [API docs for `EventDisplay`](https://hepsoftwarefoundation.org/phoenix/api-docs/classes/EventDisplay.html) to have a deeper look at the available functions.
 
@@ -39,11 +39,11 @@ Here is a list of sub managers of `ThreeManager`:
 * [**`ExportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/export-manager.ts)  
   Manages export related functions like exporting the event display to an `.obj` file or to the `.phnx` (Phoenix scene) file.
 * [**`ImportManager`**](../../packages/phoenix-event-display/src/managers/three-manager/import-manager.ts)  
-  Manages import related functions like importing different types of 3D geometries (`.gltf`, `.root`, `.obj` etc.) or event data (`.json`, `.xml`, etc.).
+  Manages import related functions like importing different types of 3D geometries (`.gltf`, `.root`, `.obj`, etc.) or event data (`.json`, `.xml`, etc.).
 * [**`RendererManager`**](../../packages/phoenix-event-display/src/managers/three-manager/renderer-manager.ts)  
   Manages `three.js` renderers used by Phoenix including both the main and overlay renderer (used in the overlay view).
 * [**`SceneManager`**](../../packages/phoenix-event-display/src/managers/three-manager/scene-manager.ts)  
-  Used to manage `three.js` scene related operations like traversing through the scene, applying color or opacity to 3D objects, managing scene lights etc.
+  Used to manage `three.js` scene related operations like traversing through the scene, applying color or opacity to 3D objects, managing scene lights, etc.
 * [**`SelectionManager`**](../../packages/phoenix-event-display/src/managers/three-manager/selection-manager.ts)  
   Manages selection functionality of the event display like applying outline pass to a selected object or getting selected object info for the object selection overlay.
 * [**`XRManager`**](../../packages/phoenix-event-display/src/managers/three-manager/xr/xr-manager.ts)  
@@ -68,13 +68,13 @@ It takes care of tasks like:
 * Configuring different color options for event data.
 * etc.
 
-It also has [**`ColorOptionsUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/color-options.ts) which contains configurable color options with functions to color event data.
+It also has [**`ColorOptions`**](../../packages/phoenix-event-display/src/managers/ui-manager/color-options.ts) which contains logic to color event data.
 
 ### [`PhoenixUI`](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-ui.ts)  
 
-`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix. It currently consists of the following implementations:
+`PhoenixUI` is used as a common interface for implementing UI menus in Phoenix. It currently has the following implementations:
 
-* [**`DatGUIMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/dat-gui-ui.ts)   
+* [**`DatGUIMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/dat-gui-ui.ts)
   Contains functions for setting up all the options in dat.GUI menu.
 * [**`PhoenixMenuUI`**](../../packages/phoenix-event-display/src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts)  
   Contains functions for setting up all the options in Phoenix menu.
@@ -87,7 +87,7 @@ It is designed to be adaptable to custom UIs. This class can be used to create a
 For an overview, it contains functions for:
 
 * Adding children (of the same `PhoenixMenuNode` type) to a node.
-* Adding custom configuration of different types (like `checkbox`, `slider`, `button`, `label` etc.) to a node.
+* Adding custom configuration of different types (like `checkbox`, `slider`, `button`, `label`, etc.) to a node.
 * Getting and loading the state of a node.
 * Removing a single child node, current node, or all child nodes.  
 * Finding a node in tree by name, or create one if not found.
