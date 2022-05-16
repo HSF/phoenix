@@ -177,7 +177,7 @@
                                     </td>
 
                                     <td>
-                                        <code>&#x27;latest&#x27;</code>
+                                        <code>&#x27;6.3.4&#x27;</code>
                                     </td>
 
                                     <td>
@@ -348,7 +348,7 @@ export class ScriptLoader {
    * @returns Promise resolved with JSROOT global varilable.
    */
   public static async loadJSRootScripts(
-    jsrootVersion: string &#x3D; &#x27;latest&#x27;
+    jsrootVersion: string &#x3D; &#x27;6.3.4&#x27;
   ): Promise&lt;typeof JSROOT&gt; {
     const loadingManager &#x3D; new LoadingManager();
     loadingManager.addLoadableItem(&#x27;jsroot_scripts&#x27;);

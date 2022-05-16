@@ -151,6 +151,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#processGLTFSceneName" >processGLTFSceneName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#processOBJ" >processOBJ</a>
                             </li>
                             <li>
@@ -180,7 +184,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/import-manager.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/import-manager.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -282,7 +286,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/three-manager/import-manager.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/three-manager/import-manager.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -315,7 +319,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/three-manager/import-manager.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/managers/three-manager/import-manager.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -348,7 +352,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/three-manager/import-manager.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/three-manager/import-manager.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -381,7 +385,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/import-manager.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/import-manager.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -423,8 +427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="371"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:371</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="408"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:408</a></div>
                 </td>
             </tr>
 
@@ -495,22 +499,22 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(sceneUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (Geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>loadGLTFGeometry(sceneUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, onSceneProcessed: (geometry: Object3D,name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="218"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:218</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:219</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Loads a GLTF (.gltf) scene/geometry from the given URL.</p>
+                    <div class="io-description"><p>Loads a GLTF (.gltf) scene(s)/geometry from the given URL.</p>
 </div>
 
                     <div class="io-description">
@@ -554,14 +558,14 @@
 
 
                                     <td>
-                                        <p>Name of the loaded scene/geometry.</p>
+                                        <p>Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present</p>
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>callback</td>
+                                    <td>menuNodeName</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -570,7 +574,7 @@
 
 
                                     <td>
-                                        <p>Callback called after the scene/geometry is loaded.</p>
+                                        <p>Name of the menu where to add the scene in the gui</p>
 
                                     </td>
                                 </tr>
@@ -581,12 +585,44 @@
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
                                     <td>
                                         <p>Scale of the geometry.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>initiallyVisible</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether the geometry is initially visible or not.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onSceneProcessed</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback called after each scene/geometry is processed and loaded.</p>
 
                                     </td>
                                 </tr>
@@ -596,7 +632,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -622,15 +658,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadJSONGeometry(json: string | literal type, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (Geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadJSONGeometry(json: string | literal type, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="285"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:285</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:321</a></div>
                 </td>
             </tr>
 
@@ -772,8 +808,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:59</a></div>
                 </td>
             </tr>
 
@@ -924,15 +960,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (scene: Object3D) => void)</code>
+                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, onSceneProcessed: (geometry: Object3D,geoName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="251"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:251</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="267"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:267</a></div>
                 </td>
             </tr>
 
@@ -988,7 +1024,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>callback</td>
+                                    <td>onSceneProcessed</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
                                     </td>
@@ -1042,8 +1078,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:101</a></div>
                 </td>
             </tr>
 
@@ -1137,8 +1173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:184</a></div>
                 </td>
             </tr>
 
@@ -1199,7 +1235,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1232,8 +1268,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:365</a></div>
                 </td>
             </tr>
 
@@ -1340,6 +1376,85 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="processGLTFSceneName"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>processGLTFSceneName</b></span>
+                        <a href="#processGLTFSceneName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>processGLTFSceneName(sceneName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:302</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get geometry name and menuNodeName from GLTF scene name.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sceneName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>GLTF scene name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{ name: any; menuNodeName: any; }</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Geometry name and menuNodeName if present in scene name.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="processOBJ"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -1358,8 +1473,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:116</a></div>
                 </td>
             </tr>
 
@@ -1501,8 +1616,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:136</a></div>
                 </td>
             </tr>
 
@@ -1629,7 +1744,6 @@
   Color,
   FrontSide,
   Vector3,
-  Box3,
 } from &#x27;three&#x27;;
 import { OBJLoader } from &#x27;three/examples/jsm/loaders/OBJLoader&#x27;;
 import { GLTFLoader } from &#x27;three/examples/jsm/loaders/GLTFLoader&#x27;;
@@ -1803,7 +1917,7 @@ export class ImportManager {
   public parsePhnxScene(
     scene: any,
     callback: (geometries: Object3D, eventData: Object3D) &#x3D;&gt; void
-  ): Promise&lt;unknown&gt; {
+  ): Promise&lt;void&gt; {
     const loader &#x3D; new GLTFLoader();
     const sceneString &#x3D; JSON.stringify(scene, null, 2);
     return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
@@ -1826,31 +1940,48 @@ export class ImportManager {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene/geometry from the given URL.
+   * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry.
-   * @param callback Callback called after the scene/geometry is loaded.
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
+   * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: string,
     name: string,
-    callback: (Geometry: Object3D) &#x3D;&gt; any,
-    scale?: number
-  ): Promise&lt;unknown&gt; {
+    menuNodeName: string,
+    scale: number,
+    initiallyVisible: boolean,
+    onSceneProcessed: (
+      geometry: Object3D,
+      name: string,
+      menuNodeName: string
+    ) &#x3D;&gt; void
+  ): Promise&lt;void&gt; {
     const loader &#x3D; new GLTFLoader();
     return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
       loader.load(
         sceneUrl,
         (gltf) &#x3D;&gt; {
-          const geometry &#x3D; gltf.scene;
-          this.processGeometry(geometry, name, scale);
-          callback(geometry);
+          for (const scene of gltf.scenes) {
+            scene.visible &#x3D; scene.userData.visible ?? initiallyVisible;
+            const sceneName &#x3D; this.processGLTFSceneName(scene.name);
+            this.processGeometry(scene, sceneName.name ?? name, scale);
+
+            onSceneProcessed(
+              scene,
+              sceneName.name ?? name,
+              sceneName.menuNodeName ?? menuNodeName
+            );
+          }
+
           resolve();
           this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
         },
-        null,
+        undefined,
         (error) &#x3D;&gt; {
           reject(error);
           this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
@@ -1863,13 +1994,13 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param callback Callback called after the geometry is loaded.
+   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
     name: string,
-    callback: (scene: Object3D) &#x3D;&gt; any
+    onSceneProcessed: (geometry: Object3D, geoName: string) &#x3D;&gt; any
   ): Promise&lt;unknown&gt; {
     const loader &#x3D; new GLTFLoader();
     return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
@@ -1877,11 +2008,16 @@ export class ImportManager {
         geometry,
         &#x27;&#x27;,
         (gltf) &#x3D;&gt; {
-          const geometry &#x3D; gltf.scene;
-          this.processGeometry(geometry, name);
-          callback(geometry);
+          for (const scene of gltf.scenes) {
+            scene.visible &#x3D; scene.userData.visible;
+            const sceneName &#x3D; this.processGLTFSceneName(scene.name);
+            this.processGeometry(scene, sceneName.name ?? name);
+
+            onSceneProcessed(scene, sceneName.name ?? name);
+          }
+
           resolve();
-          this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
+          this.loadingManager.itemLoaded(&#x60;parse_geom_${name}&#x60;);
         },
         (error) &#x3D;&gt; {
           reject(error);
@@ -1889,6 +2025,21 @@ export class ImportManager {
         }
       );
     });
+  }
+
+  /**
+   * Get geometry name and menuNodeName from GLTF scene name.
+   * @param sceneName GLTF scene name.
+   * @returns Geometry name and menuNodeName if present in scene name.
+   */
+  private processGLTFSceneName(sceneName?: string) {
+    if (sceneName) {
+      const nodes &#x3D; sceneName.split(&#x27;_&gt;_&#x27;);
+      const name &#x3D; nodes.pop();
+      const menuNodeName &#x3D; nodes.join(&#x27; &gt; &#x27;);
+
+      return { name, menuNodeName };
+    }
   }
 
   /**
@@ -1903,7 +2054,7 @@ export class ImportManager {
   public loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
-    callback: (Geometry: Object3D) &#x3D;&gt; any,
+    callback: (geometry: Object3D) &#x3D;&gt; any,
     scale?: number,
     doubleSided?: boolean
   ): Promise&lt;unknown&gt; {
@@ -1971,6 +2122,7 @@ export class ImportManager {
             color: color,
             shininess: 0,
             side: side,
+            opacity: geometry.userData.opacity ?? null,
           });
           // Setting up the clipping planes
           child.material.clippingPlanes &#x3D; this.clipPlanes;
