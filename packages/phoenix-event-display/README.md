@@ -30,7 +30,7 @@ const eventDisplay = new EventDisplay();
 // Define the configuration
 const configuration = {
   elementId: '<wrapper_element_id>',
-  eventDataLoader: new PhoenixLoader() // or some other event data loader
+  eventDataLoader: new PhoenixLoader(), // or some other event data loader
   // ... other configuration options
 };
 
@@ -45,8 +45,11 @@ fetch('path/to/event-data.json')
   });
 
 // Load detector geometry
-eventDisplay.loadOBJGeometry('path/to/geometry.obj', 'Detector OBJ', 0x8c8c8c /* color */);
-
+eventDisplay.loadOBJGeometry(
+  'path/to/geometry.obj',
+  'Detector OBJ',
+  0x8c8c8c /* color */
+);
 ```
 
 ### As a standalone bundle
@@ -70,7 +73,6 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
   </head>
 
   <body>
-
     <div id="eventDisplay"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
@@ -83,7 +85,7 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
       // Define the configuration
       const configuration = {
         elementId: 'eventDisplay',
-        eventDataLoader: new PhoenixLoader() // or some other event data loader
+        eventDataLoader: new PhoenixLoader(), // or some other event data loader
         // ... other configuration options
       };
 
@@ -92,12 +94,11 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
 
       // ... other event display functions
     </script>
-
   </body>
 </html>
 ```
 
 ### Examples
 
-* [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
-* [Usage in React](https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31)
+- [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
+- [Usage in React](https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31)

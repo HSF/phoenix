@@ -53,4 +53,4 @@ Thumbs.db
 
 # prettier specific
 assets/
-*.md
+CHANGELOG.md

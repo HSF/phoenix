@@ -1,11 +1,11 @@
 # Phoenix application
 
-* [Build and run](#build-and-run)
-* [Components](#components)
-* [Event display](#event-display)
-* [Development flow](#development-flow)
-* [Deploy the application](#deploy-the-application)
-  * [Deploy with a specific event](#deploy-with-a-specific-event)
+- [Build and run](#build-and-run)
+- [Components](#components)
+- [Event display](#event-display)
+- [Development flow](#development-flow)
+- [Deploy the application](#deploy-the-application)
+  - [Deploy with a specific event](#deploy-with-a-specific-event)
 
 ## Build and run
 

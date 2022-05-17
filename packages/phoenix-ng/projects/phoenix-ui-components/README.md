@@ -44,7 +44,10 @@ Since some Phoenix components use Bootstrap, you will need to add the the Bootst
 <head>
   ...
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  />
 </head>
 ```
 
@@ -68,7 +71,10 @@ With everything set up, you can use the Phoenix components in your module compon
 ```html
 <app-nav></app-nav>
 <app-ui-menu></app-ui-menu>
-<app-experiment-info experiment="sample" experimentTagline="SAMPLE Experiment at CERN"></app-experiment-info>
+<app-experiment-info
+  experiment="sample"
+  experimentTagline="SAMPLE Experiment at CERN"
+></app-experiment-info>
 <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
 ```
@@ -79,7 +85,7 @@ With everything set up, you can use the Phoenix components in your module compon
 @Component({
   selector: 'app-test',
   templateUrl: './component.html',
-  styleUrls: ['./component.scss']
+  styleUrls: ['./component.scss'],
 })
 export class TestComponent {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
