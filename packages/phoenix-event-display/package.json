@@ -33,7 +33,7 @@
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
-    "eslint": "eslint src/**/*.ts",
+    "eslint": "eslint src/**/*.ts --ignore-path ../../.gitignore",
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
