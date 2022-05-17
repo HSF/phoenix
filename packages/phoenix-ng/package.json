@@ -41,7 +41,7 @@
     "phoenix-ui-components": "^2.8.0",
     "qrcode": "1.5.0",
     "rxjs": "^7.5.5",
-    "three": "^0.137.5",
+    "three": "^0.140.2",
     "tslib": "^2.4.0",
     "zone.js": "^0.11.5"
   },
