@@ -392,21 +392,25 @@ export class ImportManager {
             ? child.material['color']
             : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
+
           // Disposing of the default material
           child.material.dispose();
-          // should tranparency be used ?
-          var useTransparent = transparent ?? null;
+
+          // Should tranparency be used?
+          let isTransparent = transparent;
           if (geometry.userData.opacity) {
-            useTransparent = geometry.userData.opacity != 1;
+            isTransparent = geometry.userData.opacity !== 1;
           }
+
           // Changing to a material with 0 shininess
           child.material = new MeshPhongMaterial({
             color: color,
             shininess: 0,
             side: side,
-            transparent: useTransparent,
+            transparent: isTransparent,
             opacity: geometry.userData.opacity ?? 1,
           });
+
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
           child.material.clipIntersection = true;
