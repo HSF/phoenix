@@ -213,6 +213,7 @@ export class ImportManager {
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
@@ -222,6 +223,7 @@ export class ImportManager {
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
+    transparent: boolean,
     onSceneProcessed: (
       geometry: Object3D,
       name: string,
@@ -236,7 +238,13 @@ export class ImportManager {
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible ?? initiallyVisible;
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name, scale);
+            this.processGeometry(
+              scene,
+              sceneName.name ?? name,
+              scale,
+              undefined, //doublesided
+              transparent
+            );
 
             onSceneProcessed(
               scene,
@@ -361,17 +369,19 @@ export class ImportManager {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    */
   private processGeometry(
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
+    transparent?: boolean
   ) {
     geometry.name = name;
     // Set a custom scale if provided
     if (scale) {
-      geometry.scale.set(scale, scale, scale);
+      geometry.scale.setScalar(scale);
     }
     geometry.traverse((child) => {
       if (child instanceof Mesh) {
@@ -382,15 +392,25 @@ export class ImportManager {
             ? child.material['color']
             : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
+
           // Disposing of the default material
           child.material.dispose();
+
+          // Should tranparency be used?
+          let isTransparent = transparent;
+          if (geometry.userData.opacity) {
+            isTransparent = geometry.userData.opacity !== 1;
+          }
+
           // Changing to a material with 0 shininess
           child.material = new MeshPhongMaterial({
             color: color,
             shininess: 0,
             side: side,
-            opacity: geometry.userData.opacity ?? null,
+            transparent: isTransparent,
+            opacity: geometry.userData.opacity ?? 1,
           });
+
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
           child.material.clipIntersection = true;

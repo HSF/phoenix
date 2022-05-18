@@ -351,10 +351,11 @@ export class ThreeManager {
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
+   * @param addGeometryToUI Function to add geometry to the UI.
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param onSceneProcessed Callback called after each scene/geometry is loaded to update the GUI.
+   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -363,7 +364,8 @@ export class ThreeManager {
     addGeometryToUI: UIManager['addGeometry'],
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible?: boolean
+    initiallyVisible?: boolean,
+    transparent?: boolean
   ): Promise<void> {
     const geometries = this.sceneManager.getGeometries();
     const onSceneProcessed = (
@@ -382,6 +384,7 @@ export class ThreeManager {
       menuNodeName,
       scale,
       initiallyVisible,
+      transparent,
       onSceneProcessed
     );
   }
