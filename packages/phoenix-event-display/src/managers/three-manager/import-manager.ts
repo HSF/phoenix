@@ -213,6 +213,7 @@ export class ImportManager {
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
@@ -222,6 +223,7 @@ export class ImportManager {
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
+    transparent: boolean,
     onSceneProcessed: (
       geometry: Object3D,
       name: string,
@@ -236,7 +238,12 @@ export class ImportManager {
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible ?? initiallyVisible;
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name, scale);
+            this.processGeometry(
+              scene,
+              sceneName.name ?? name,
+              scale,
+              transparent
+            );
 
             onSceneProcessed(
               scene,
@@ -361,12 +368,14 @@ export class ImportManager {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    */
   private processGeometry(
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
+    transparent?: boolean
   ) {
     geometry.name = name;
     // Set a custom scale if provided
@@ -389,7 +398,7 @@ export class ImportManager {
             color: color,
             shininess: 0,
             side: side,
-            transparent: true,
+            transparent: transparent ?? null,
             opacity: geometry.userData.opacity ?? null,
           });
           // Setting up the clipping planes
