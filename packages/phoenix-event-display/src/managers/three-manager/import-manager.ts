@@ -242,6 +242,7 @@ export class ImportManager {
               scene,
               sceneName.name ?? name,
               scale,
+              undefined, //doublesided
               transparent
             );
 
@@ -393,13 +394,18 @@ export class ImportManager {
           const side = doubleSided ? DoubleSide : child.material['side'];
           // Disposing of the default material
           child.material.dispose();
+          // should tranparency be used ?
+          var useTransparent = transparent ?? null;
+          if (geometry.userData.opacity) {
+            useTransparent = geometry.userData.opacity != 1;
+          }
           // Changing to a material with 0 shininess
           child.material = new MeshPhongMaterial({
             color: color,
             shininess: 0,
             side: side,
-            transparent: transparent ?? null,
-            opacity: geometry.userData.opacity ?? null,
+            transparent: useTransparent,
+            opacity: geometry.userData.opacity ?? 1,
           });
           // Setting up the clipping planes
           child.material.clippingPlanes = this.clipPlanes;
