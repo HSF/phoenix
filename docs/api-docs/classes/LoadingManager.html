@@ -449,15 +449,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">src/managers/loading-manager.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/managers/loading-manager.ts:37</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add count for a loadable item.</p>
+                    <div class="io-description"><p>Add an item which is to be loaded.</p>
 </div>
 
                     <div class="io-description">
@@ -531,8 +531,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">src/managers/loading-manager.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">src/managers/loading-manager.ts:84</a></div>
                 </td>
             </tr>
 
@@ -609,15 +609,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">src/managers/loading-manager.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/managers/loading-manager.ts:93</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add a listener for when all items have loaded and check if there
+                    <div class="io-description"><p>Add a listener for when all items have loaded with check if there
 are any items to load when the listener is added.</p>
 </div>
 
@@ -688,15 +688,15 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">src/managers/loading-manager.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">src/managers/loading-manager.ts:105</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add a listener for when an item progress.</p>
+                    <div class="io-description"><p>Add a callback to listen when the progress of an item increases.</p>
 </div>
 
                     <div class="io-description">
@@ -724,7 +724,7 @@ are any items to load when the listener is added.</p>
 
 
                                     <td>
-                                        <p>Callback to call when there is progress.</p>
+                                        <p>Callback to call when the progress of a loading item increases.</p>
 
                                     </td>
                                 </tr>
@@ -766,15 +766,15 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">src/managers/loading-manager.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">src/managers/loading-manager.ts:46</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add count for an item is loaded.</p>
+                    <div class="io-description"><p>Function to call when an item has finished loading.</p>
 </div>
 
                     <div class="io-description">
@@ -848,15 +848,15 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">src/managers/loading-manager.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">src/managers/loading-manager.ts:64</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>When an item loading progresses.</p>
+                    <div class="io-description"><p>Function to call when loading of an item progresses.</p>
 </div>
 
                     <div class="io-description">
@@ -942,8 +942,8 @@ are any items to load when the listener is added.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">src/managers/loading-manager.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">src/managers/loading-manager.ts:112</a></div>
                 </td>
             </tr>
 
@@ -996,11 +996,12 @@ are any items to load when the listener is added.</p>
     if (LoadingManager.instance &#x3D;&#x3D;&#x3D; undefined) {
       LoadingManager.instance &#x3D; this;
     }
+
     return LoadingManager.instance;
   }
 
   /**
-   * Add count for a loadable item.
+   * Add an item which is to be loaded.
    * @param id ID of the item to be loaded.
    */
   public addLoadableItem(id: string &#x3D; &#x27;&#x27;) {
@@ -1009,7 +1010,7 @@ are any items to load when the listener is added.</p>
   }
 
   /**
-   * Add count for an item is loaded.
+   * Function to call when an item has finished loading.
    * @param id ID of the item loaded.
    */
   public itemLoaded(id: string &#x3D; &#x27;&#x27;) {
@@ -1026,7 +1027,7 @@ are any items to load when the listener is added.</p>
   }
 
   /**
-   * When an item loading progresses.
+   * Function to call when loading of an item progresses.
    * @param id ID of the item with the progress.
    * @param progress Progress of the item.
    */
@@ -1055,7 +1056,7 @@ are any items to load when the listener is added.</p>
   }
 
   /**
-   * Add a listener for when all items have loaded and check if there
+   * Add a listener for when all items have loaded with check if there
    * are any items to load when the listener is added.
    * @param callback Callback to call when all items have loaded.
    */
@@ -1068,8 +1069,8 @@ are any items to load when the listener is added.</p>
   }
 
   /**
-   * Add a listener for when an item progress.
-   * @param callback Callback to call when there is progress.
+   * Add a callback to listen when the progress of an item increases.
+   * @param callback Callback to call when the progress of a loading item increases.
    */
   public addProgressListener(callback: (progress: number) &#x3D;&gt; void) {
     this.onProgressCallbacks.push(callback);

@@ -5,6 +5,7 @@ import {
   Vector3,
   Plane,
   Quaternion,
+  Material,
   AmbientLight,
   DirectionalLight,
   AxesHelper,
@@ -31,6 +32,7 @@ import { ColorManager } from './color-manager';
 import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
+import { UIManager } from '../ui-manager';
 
 /**
  * Manager for all three.js related functions.
@@ -73,6 +75,8 @@ export class ThreeManager {
   ];
   /** Clipping planes for clipping geometry. */
   private clipPlanes: Plane[];
+  /** Status of clipping intersection. */
+  private clipIntersection: boolean;
 
   /**
    * Create the three manager for three.js operations.
@@ -86,14 +90,13 @@ export class ThreeManager {
   /**
    * Initializes the necessary three.js functionality.
    * @param configuration Configuration to customize different aspects.
-   * @param infoLogger Service for logging data to the information panel.
    */
   public init(configuration: Configuration) {
     // Set the clipping planes
     this.clipPlanes = [
+      // these 2 planes are used internally for the clipping functionnality
       new Plane(new Vector3(0, 1, 0), 0),
       new Plane(new Vector3(0, -1, 0), 0),
-      new Plane(new Vector3(0, 0, 1), -15000),
     ];
     // Scene manager
     this.sceneManager = new SceneManager(this.ignoreList);
@@ -246,7 +249,6 @@ export class ThreeManager {
     this.clipPlanes[0].normal
       .set(0, -1, 0)
       .applyQuaternion(startingAngleQuaternion);
-
     const openingAngleQuaternion = new Quaternion();
     openingAngleQuaternion.setFromAxisAngle(
       new Vector3(0, 0, 1),
@@ -255,6 +257,22 @@ export class ThreeManager {
     this.clipPlanes[1].normal
       .set(0, 1, 0)
       .applyQuaternion(openingAngleQuaternion);
+    // In case the openingAngle is crossing the 180 degree boundary
+    // we need to switch between intersection (< 180) and union (> 180)
+    // for clipping planes. This has to be applied to all children in the tree
+    const isClipIntersectionInvalid =
+      (this.clipIntersection && openingAngle > 180) ||
+      (!this.clipIntersection && openingAngle < 180);
+    if (isClipIntersectionInvalid) {
+      this.clipIntersection = openingAngle < 180;
+      this.sceneManager.getGeometries().traverse((child) => {
+        if (child instanceof Mesh) {
+          if (child.material instanceof Material) {
+            child.material.clipIntersection = this.clipIntersection;
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -332,23 +350,40 @@ export class ThreeManager {
   /**
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry.
+   * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
+   * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param onSceneProcessed Callback called after each scene/geometry is loaded to update the GUI.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
     sceneUrl: any,
     name: string,
+    addGeometryToUI: UIManager['addGeometry'],
+    menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean = true
-  ): Promise<unknown> {
+    initiallyVisible?: boolean
+  ): Promise<void> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => {
-      geometry.visible = initiallyVisible;
+    const onSceneProcessed = (
+      geometry: Object3D,
+      geoName: string,
+      menuName: string
+    ) => {
+      addGeometryToUI(geoName, undefined, menuName, geometry.visible);
       geometries.add(geometry);
+      this.infoLogger.add(name, 'Loaded GLTF scene');
     };
-    return this.importManager.loadGLTFGeometry(sceneUrl, name, callback, scale);
+
+    return this.importManager.loadGLTFGeometry(
+      sceneUrl,
+      name,
+      menuNodeName,
+      scale,
+      initiallyVisible,
+      onSceneProcessed
+    );
   }
 
   /**
@@ -375,11 +410,22 @@ export class ThreeManager {
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(geometry: any, name: string): Promise<unknown> {
-    const callback = (scene: Object3D) => {
-      this.sceneManager.getScene().add(scene);
+  public parseGLTFGeometry(
+    geometry: any,
+    name: string,
+    addGeometryToUI: UIManager['addGeometry']
+  ): Promise<unknown> {
+    const onSceneProcessed = (geometry: Object3D, geoName: string) => {
+      addGeometryToUI(geoName, undefined, undefined, geometry.visible);
+      this.sceneManager.getGeometries().add(geometry);
+      this.infoLogger.add(name, 'Parsed GLTF geometry');
     };
-    return this.importManager.parseGLTFGeometry(geometry, name, callback);
+
+    return this.importManager.parseGLTFGeometry(
+      geometry,
+      name,
+      onSceneProcessed
+    );
   }
 
   /**

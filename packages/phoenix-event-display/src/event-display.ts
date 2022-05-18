@@ -314,7 +314,7 @@ export class EventDisplay {
   /**
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param input Data of the GLTF (.gltf) file.
-   * @param name Name given to the geometry.
+   * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
@@ -322,10 +322,12 @@ export class EventDisplay {
     name: string
   ): Promise<unknown> {
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
-    this.ui.addGeometry(name, undefined);
-    this.infoLogger.add(name, 'Parsed GLTF geometry');
 
-    return this.graphicsLibrary.parseGLTFGeometry(input, name);
+    return this.graphicsLibrary.parseGLTFGeometry(
+      input,
+      name,
+      this.ui.addGeometry.bind(this.ui)
+    );
   }
 
   /**
@@ -344,14 +346,14 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     initiallyVisible: boolean = true
-  ): Promise<unknown> {
+  ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
-    this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
-    this.infoLogger.add(name, 'Loaded GLTF geometry');
 
     return this.graphicsLibrary.loadGLTFGeometry(
       url,
       name,
+      this.ui.addGeometry.bind(this.ui),
+      menuNodeName,
       scale,
       initiallyVisible
     );
