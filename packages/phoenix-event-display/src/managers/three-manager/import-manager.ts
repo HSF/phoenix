@@ -240,7 +240,7 @@ export class ImportManager {
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(
               scene,
-              sceneName.name ?? name,
+              name ?? sceneName.name,
               scale,
               undefined, //doublesided
               transparent
@@ -248,8 +248,8 @@ export class ImportManager {
 
             onSceneProcessed(
               scene,
-              sceneName.name ?? name,
-              sceneName.menuNodeName ?? menuNodeName
+              name ?? sceneName.name,
+              menuNodeName ?? sceneName.menuNodeName
             );
           }
 
@@ -286,7 +286,7 @@ export class ImportManager {
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name);
+            this.processGeometry(scene, name ?? sceneName.name);
 
             onSceneProcessed(scene, sceneName.name ?? name);
           }
@@ -352,8 +352,8 @@ export class ImportManager {
         );
       });
     } else if (typeof json === 'object') {
-      return new Promise<void>((resolve, reject) => {
-        const geometry = loader.parse(json, (object) => {
+      return new Promise<void>((resolve) => {
+        const geometry = loader.parse(json, () => {
           resolve();
           this.loadingManager.itemLoaded(`json_geom_${name}`);
         });
