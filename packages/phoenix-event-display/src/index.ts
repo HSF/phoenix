@@ -36,7 +36,6 @@ export * from './loaders/event-data-loader';
 export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
-export * from './loaders/lhcb-loader';
 export * from './loaders/phoenix-loader';
 export * from './loaders/script-loader';
 export * from './loaders/trackml-loader';

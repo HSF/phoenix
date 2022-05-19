@@ -9,7 +9,6 @@ import { InfoLogger } from './helpers/info-logger';
 import { CMSLoader } from './loaders/cms-loader';
 import { JiveXMLLoader } from './loaders/jivexml-loader';
 import { JSRootEventLoader } from './loaders/jsroot-event-loader';
-import { LHCbLoader } from './loaders/lhcb-loader';
 import { CMSObjects } from './loaders/objects/cms-objects';
 import { PhoenixObjects } from './loaders/objects/phoenix-objects';
 import { PhoenixLoader } from './loaders/phoenix-loader';
@@ -45,7 +44,6 @@ if (typeof globalThis !== 'undefined') {
     CMSLoader,
     JiveXMLLoader,
     JSRootEventLoader,
-    LHCbLoader,
     PhoenixLoader,
     ScriptLoader,
     TrackmlLoader,
