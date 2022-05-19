@@ -114,15 +114,22 @@ export class StateManager {
       this.activeCamera.position.fromArray(
         jsonData['eventDisplay']?.['cameraPosition']
       );
-      if (jsonData['eventDisplay']?.['startClippingAngle']) {
+
+      const startAngle = jsonData['eventDisplay']?.['startClippingAngle'];
+      const openingAngle = jsonData['eventDisplay']?.['openingClippingAngle'];
+
+      if (startAngle || openingAngle) {
         this.setClippingEnabled(true);
         this.eventDisplay.getUIManager().setClipping(true);
-        this.eventDisplay
-          .getUIManager()
-          .rotateStartAngleClipping(
-            jsonData['eventDisplay']['startClippingAngle']
-          );
-        if (jsonData['eventDisplay']?.['openingClippingAngle']) {
+
+        if (startAngle) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateStartAngleClipping(
+              jsonData['eventDisplay']['startClippingAngle']
+            );
+        }
+        if (openingAngle) {
           this.eventDisplay
             .getUIManager()
             .rotateOpeningAngleClipping(
