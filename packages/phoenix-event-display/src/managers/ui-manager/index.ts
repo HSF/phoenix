@@ -368,7 +368,7 @@ export class UIManager {
    * @param view Preset view to which the camera has to be transformed.
    */
   public displayView(view: PresetView) {
-    this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
+    this.three.animateCameraTransform(view.cameraPos, view.cameraTarget, 1000);
   }
 
   /**

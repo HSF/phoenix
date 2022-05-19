@@ -399,7 +399,7 @@ export class ImportManager {
           // Should tranparency be used?
           let isTransparent = transparent;
           if (geometry.userData.opacity) {
-              isTransparent = true;
+            isTransparent = true;
           }
 
           // Changing to a material with 0 shininess

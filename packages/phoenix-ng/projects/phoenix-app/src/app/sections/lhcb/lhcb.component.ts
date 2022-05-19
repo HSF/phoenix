@@ -48,11 +48,33 @@ export class LHCbComponent implements OnInit {
     const configuration: Configuration = {
       eventDataLoader: new PhoenixLoader(),
       presetViews: [
-        new PresetView('Right View', [0, 0, 6000], 'right-cube'),
-        new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
-        new PresetView('Left View', [0, 0, -6000], 'left-cube'),
+        new PresetView(
+          'Default View',
+          [-8000, 6000, 0],
+          [0, 0, 8000],
+          'perspective'
+        ),
+        new PresetView(
+          'Side View',
+          [-12000, 0, 12000],
+          [0, 0, 12000],
+          'right-cube'
+        ),
+        new PresetView(
+          'Vertex Locator View',
+          [-500, 1000, 0],
+          [0, 0, 0],
+          'top-cube'
+        ),
+        new PresetView('Front View', [0, 0, -6000], [0, 0, 0], 'left-cube'),
+        new PresetView(
+          'Top View',
+          [0, 16000, 12000],
+          [0, 0, 12000],
+          'top-cube'
+        ),
       ],
-      defaultView: [-18000, 0, 15000],
+      defaultView: [-8000, 6000, 0, 0, 0, 8000], // x,y,z of position followed by x,y,z of target
       phoenixMenuRoot: this.phoenixMenuRoot,
       defaultEventFile: {
         eventFile: 'assets/files/lhcb/LHCbEventData.json',
@@ -64,11 +86,11 @@ export class LHCbComponent implements OnInit {
 
     this.eventDisplay.loadGLTFGeometry(
       'assets/geometry/LHCb/LHCb.gltf',
-      '',   // name, ignored when empty
-      '',   // menuNodeName
-      1,    // scale
+      '', // name, ignored when empty
+      '', // menuNodeName
+      1, // scale
       true, // initiallyVisible
-      true  // transparent
+      true // transparent
     );
 
     this.eventDisplay

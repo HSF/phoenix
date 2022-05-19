@@ -51,6 +51,7 @@ describe('ViewOptionsComponent', () => {
     const mockPresetView = new PresetView(
       'Test View',
       [0, 0, -12000],
+      [0, 0, 0],
       'left-cube'
     );
     component.displayView(mockEvent, mockPresetView);

@@ -42,11 +42,11 @@ export class TrackmlComponent implements OnInit {
     const configuration: Configuration = {
       eventDataLoader: this.trackMLLoader,
       presetViews: [
-        new PresetView('Right View', [0, 0, 6000], 'right-cube'),
-        new PresetView('Center View', [-500, 1000, 0], 'top-cube'),
-        new PresetView('Left View', [0, 0, -6000], 'left-cube'),
+        new PresetView('Right View', [0, 0, 6000], [0, 0, 0], 'right-cube'),
+        new PresetView('Center View', [-500, 1000, 0], [0, 0, 0], 'top-cube'),
+        new PresetView('Left View', [0, 0, -6000], [0, 0, 0], 'left-cube'),
       ],
-      defaultView: [4000, 0, 4000],
+      defaultView: [4000, 0, 4000, 0, 0, 0],
       phoenixMenuRoot: this.phoenixMenuRoot,
     };
 

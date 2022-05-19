@@ -77,6 +77,10 @@ export class ControlsManager {
       defaultView[1];
     perspectiveCamera.position.x = orthographicCamera.position.x =
       defaultView[0];
+    if (defaultView.length >= 6) {
+      this.perspectiveControls.target = this.orthographicControls.target =
+        new Vector3(defaultView[3], defaultView[4], defaultView[5]);
+    }
     // Set active orbit controls
     this.addControls(this.perspectiveControls);
     this.addControls(this.orthographicControls);
