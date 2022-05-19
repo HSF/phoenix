@@ -64,10 +64,11 @@ export class LHCbComponent implements OnInit {
 
     this.eventDisplay.loadGLTFGeometry(
       'assets/geometry/LHCb/LHCb.gltf',
-      '', // ignored in case of multiple scenes
-      '',
-      1,
-      true
+      '', // name, ignored when empty
+      '', // menuNodeName
+      1, // scale
+      true, // initiallyVisible
+      true // transparent
     );
 
     this.eventDisplay
