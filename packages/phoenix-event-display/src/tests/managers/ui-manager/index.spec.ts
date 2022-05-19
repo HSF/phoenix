@@ -85,7 +85,7 @@ describe('UIManager', () => {
 
     it('should get preset views', () => {
       uiPrivate.configuration.presetViews = [
-        new PresetView('Test', [10, 10, 10], 'none'),
+        new PresetView('Test', [10, 10, 10], [0, 0, 0], 'none'),
       ];
       expect(ui.getPresetViews().length).toBeGreaterThan(0);
       uiPrivate.configuration = undefined;
@@ -110,7 +110,9 @@ describe('UIManager', () => {
       expect(three.autoRotate).toHaveBeenCalled();
 
       spyOn(three, 'animateCameraTransform').and.stub();
-      ui.displayView(new PresetView('Test View', [10, 10, 10], 'no-icon'));
+      ui.displayView(
+        new PresetView('Test View', [10, 10, 10], [0, 0, 0], 'no-icon')
+      );
       expect(three.animateCameraTransform).toHaveBeenCalled();
 
       spyOn(three, 'swapCameras').and.stub();
