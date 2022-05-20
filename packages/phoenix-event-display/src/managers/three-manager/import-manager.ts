@@ -237,7 +237,10 @@ export class ImportManager {
         (gltf) => {
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible ?? initiallyVisible;
-            const sceneName = this.processGLTFSceneName(scene.name);
+            const sceneName = this.processGLTFSceneName(
+              scene.name,
+              menuNodeName
+            );
             this.processGeometry(
               scene,
               name ?? sceneName.name,
@@ -307,10 +310,11 @@ export class ImportManager {
    * @param sceneName GLTF scene name.
    * @returns Geometry name and menuNodeName if present in scene name.
    */
-  private processGLTFSceneName(sceneName?: string) {
+  private processGLTFSceneName(sceneName?: string, nodeName?: string) {
     if (sceneName) {
       const nodes = sceneName.split('_>_');
       const name = nodes.pop();
+      nodeName && nodes.unshift(nodeName);
       const menuNodeName = nodes.join(' > ');
 
       return { name, menuNodeName };
