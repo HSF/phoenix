@@ -1,0 +1,26 @@
+build:
+  stage: build
+  image:
+    name: node:14
+  script:
+    - yarn install
+    - yarn deploy:web
+    - rm -rf packages/phoenix-ng/docs/node_modules
+  artifacts:
+    paths:
+    - packages/phoenix-ng/docs
+
+pages:
+  stage: deploy
+  needs: [build]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+  script:
+   - mv packages/phoenix-ng/docs public
+
+  artifacts:
+    untracked: false
+    expire_in: 30 days
+    paths:
+     - public

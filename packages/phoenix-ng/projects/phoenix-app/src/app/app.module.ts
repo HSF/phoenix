@@ -48,7 +48,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    // RouterModule.forRoot(routes),
+    RouterModule.forRoot([{ path: '', component: LHCbComponent }]),
     BrowserAnimationsModule,
     PhoenixUIModule,
   ],
