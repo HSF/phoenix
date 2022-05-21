@@ -209,8 +209,8 @@ export class ImportManager {
   /**
    * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
-   * @param menuNodeName Name of the menu where to add the scene in the gui
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
@@ -308,16 +308,17 @@ export class ImportManager {
   /**
    * Get geometry name and menuNodeName from GLTF scene name.
    * @param sceneName GLTF scene name.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
    * @returns Geometry name and menuNodeName if present in scene name.
    */
-  private processGLTFSceneName(sceneName?: string, nodeName?: string) {
+  private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes = sceneName.split('_>_');
       const name = nodes.pop();
-      nodeName && nodes.unshift(nodeName);
-      const menuNodeName = nodes.join(' > ');
+      menuNodeName && nodes.unshift(menuNodeName);
+      const nodeName = nodes.join(' > ');
 
-      return { name, menuNodeName };
+      return { name, menuNodeName: nodeName };
     }
   }
 
