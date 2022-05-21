@@ -39,12 +39,12 @@
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
     "dat.gui": "^0.7.9",
-    "jszip": "^3.9.1",
+    "jszip": "^3.10.0",
     "stats-js": "^1.0.1",
     "three": "^0.140.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.17.12",
+    "@babel/plugin-transform-runtime": "^7.18.0",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
     "@types/three": "^0.140.0",
