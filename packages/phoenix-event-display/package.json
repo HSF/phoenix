@@ -33,25 +33,25 @@
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
-    "eslint": "eslint src/**/*.ts",
+    "eslint": "eslint src/**/*.ts --ignore-path ../../.gitignore",
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
-    "dat.gui": "^0.7.7",
-    "jszip": "^3.7.1",
+    "dat.gui": "^0.7.9",
+    "jszip": "^3.10.0",
     "stats-js": "^1.0.1",
-    "three": "^0.137.5"
+    "three": "^0.140.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.17.0",
-    "@compodoc/compodoc": "^1.1.18",
+    "@babel/plugin-transform-runtime": "^7.18.0",
+    "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
-    "@types/three": "^0.137.0",
-    "esbuild-loader": "^2.18.0",
+    "@types/three": "^0.140.0",
+    "esbuild-loader": "^2.19.0",
     "karma-typescript": "~5.5.3",
     "karma-typescript-es6-transform": "~5.5.3",
-    "webpack": "^5.69.1",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
 }
