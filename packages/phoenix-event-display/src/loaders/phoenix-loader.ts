@@ -270,6 +270,7 @@ export class PhoenixLoader implements EventDataLoader {
         scalePlanarCaloCells
       );
 
+      const collections = {};
       for (const collectionName in eventData.PlanarCaloCells) {
         const collection = eventData.PlanarCaloCells[collectionName];
         const plane = collection['plane'];
@@ -279,11 +280,11 @@ export class PhoenixLoader implements EventDataLoader {
           (cell: any) => (cell['plane'] = [...unitVector.toArray(), plane[3]])
         );
 
-        eventData.PlanarCaloCells[collectionName] = collection['cells'];
+        collections[collectionName] = collection['cells'];
       }
 
       this.addObjectType(
-        eventData.PlanarCaloCells,
+        collections,
         PhoenixObjects.getPlanarCaloCell,
         'PlanarCaloCells',
         false,
