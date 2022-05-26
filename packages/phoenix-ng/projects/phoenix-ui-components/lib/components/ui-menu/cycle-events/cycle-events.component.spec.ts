@@ -31,14 +31,7 @@ describe('CycleEventsComponent', () => {
     fixture = TestBed.createComponent(CycleEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  beforeEach(() => {
-    jasmine.clock().install();
-  });
-
-  afterEach(() => {
-    jasmine.clock().uninstall();
+    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -46,16 +39,20 @@ describe('CycleEventsComponent', () => {
   });
 
   it('should listen to change in events', () => {
-    component.ngOnInit();
     expect(mockEventDisplay.listenToLoadedEventsChange).toHaveBeenCalled();
   });
 
   it('should start rotating through events on toggle', () => {
+    jasmine.clock().uninstall();
+    jasmine.clock().install();
     component.interval = 1000;
 
     component.toggleCycle();
     expect(component.active).toBeTrue();
+
     jasmine.clock().tick(1200);
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');
+
+    jasmine.clock().uninstall();
   });
 });
