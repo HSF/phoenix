@@ -3,16 +3,15 @@ import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 
 import { CycleEventsComponent } from './cycle-events.component';
 
-describe('CycleEventsComponent', () => {
+fdescribe('CycleEventsComponent', () => {
   let component: CycleEventsComponent;
   let fixture: ComponentFixture<CycleEventsComponent>;
-
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    listenToLoadedEventsChange: jasmine.createSpy().and.callFake((callback) => {
-      callback(['eventKey1', 'eventKey2']);
-    }),
+  const mockEventDisplay = {
+    listenToLoadedEventsChange: jasmine
+      .createSpy()
+      .and.callFake((callback) => callback(['eventKey1', 'eventKey2'])),
     loadEvent: jasmine.createSpy().and.stub(),
-  });
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,7 +30,6 @@ describe('CycleEventsComponent', () => {
     fixture = TestBed.createComponent(CycleEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.ngOnInit();
   });
 
   it('should create', () => {
