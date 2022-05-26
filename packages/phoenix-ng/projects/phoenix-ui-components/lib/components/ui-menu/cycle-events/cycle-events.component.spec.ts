@@ -33,6 +33,14 @@ describe('CycleEventsComponent', () => {
     fixture.detectChanges();
   });
 
+  beforeEach(() => {
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -43,14 +51,11 @@ describe('CycleEventsComponent', () => {
   });
 
   it('should start rotating through events on toggle', () => {
-    jasmine.clock().install();
     component.interval = 1000;
 
     component.toggleCycle();
     expect(component.active).toBeTrue();
     jasmine.clock().tick(1200);
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');
-
-    jasmine.clock().uninstall();
   });
 });
