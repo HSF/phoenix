@@ -4,7 +4,6 @@ import { EventDisplayService } from '../../../services/event-display.service';
 @Component({
   selector: 'app-cycle-events',
   templateUrl: './cycle-events.component.html',
-  styleUrls: ['./cycle-events.component.scss'],
 })
 export class CycleEventsComponent implements OnInit {
   @Input()
