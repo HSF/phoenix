@@ -402,7 +402,7 @@ export class ImportManager {
           child.material.dispose();
 
           // Should tranparency be used?
-          let isTransparent = transparent;
+          let isTransparent = transparent ?? null;
           if (geometry.userData.opacity) {
             isTransparent = true;
           }
