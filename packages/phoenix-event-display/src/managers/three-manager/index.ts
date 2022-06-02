@@ -415,7 +415,7 @@ export class ThreeManager {
     addGeometryToUI: UIManager['addGeometry']
   ): Promise<unknown> {
     const onSceneProcessed = (geometry: Object3D, geoName: string) => {
-      addGeometryToUI(geoName, undefined, undefined, geometry.visible);
+      addGeometryToUI(geometry);
       this.sceneManager.getGeometries().add(geometry);
       this.infoLogger.add(name, 'Parsed GLTF geometry');
     };

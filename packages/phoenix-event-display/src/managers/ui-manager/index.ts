@@ -1,5 +1,5 @@
 import * as Stats from 'stats-js';
-import { Color } from 'three';
+import { Color, Object3D } from 'three';
 import { ThreeManager } from '../three-manager';
 import { Configuration } from '../../extras/configuration';
 import { PresetView } from '../../extras/preset-view.model';
@@ -117,25 +117,16 @@ export class UIManager {
   }
 
   /**
-   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * Add geometry to the menus geometry folder and set up its configurable options.
+   * @param geometry Geometry to add to the UI menu.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: any,
-    menuNodeName?: string,
-    initiallyVisible: boolean = true
-  ) {
+  public addGeometry(geometry: Object3D, menuSubfolder?: string) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
-    this.uiMenus.forEach((menu) =>
-      menu.addGeometry(name, color, initiallyVisible, menuNodeName)
-    );
+    this.uiMenus.forEach((menu) => menu.addGeometry(geometry, menuSubfolder));
   }
 
   /**

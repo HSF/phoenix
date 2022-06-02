@@ -1,5 +1,11 @@
 import { GUI } from 'dat.gui';
-import { Color } from 'three';
+import {
+  BufferGeometry,
+  Color,
+  Mesh,
+  MeshPhongMaterial,
+  Object3D,
+} from 'three';
 import { ThreeManager } from '../three-manager';
 import { SceneManager } from '../three-manager/scene-manager';
 import { Cut } from '../../extras/cut.model';
@@ -92,20 +98,19 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
+   * @param geometry Geometry to add to the UI menu.
+   * @param _menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: Color,
-    initiallyVisible?: boolean,
-    _menuSubfolder?: string
-  ) {
+  public addGeometry(geometry: Object3D, _menuSubfolder?: string) {
+    const {
+      name,
+      material: { color },
+      visible,
+    } = geometry as Mesh<BufferGeometry, MeshPhongMaterial>;
+
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
-      show: initiallyVisible,
+      show: visible,
       color: color ?? '#000000',
       x: 0,
       y: 0,

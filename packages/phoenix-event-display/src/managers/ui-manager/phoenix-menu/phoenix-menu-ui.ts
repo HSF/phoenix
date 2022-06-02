@@ -1,4 +1,10 @@
-import { Color } from 'three';
+import {
+  BufferGeometry,
+  Color,
+  Mesh,
+  MeshPhongMaterial,
+  Object3D,
+} from 'three';
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
@@ -100,27 +106,26 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param geometry Geometry to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: any,
-    initiallyVisible: boolean = true,
-    menuNodeName?: string
-  ) {
+  public addGeometry(geometry: Object3D, menuSubfolder?: string) {
+    const {
+      name,
+      material: { color },
+      visible,
+    } = geometry as Mesh<BufferGeometry, MeshPhongMaterial>;
+
     let parentNode: PhoenixMenuNode = this.geomFolder;
-    if (menuNodeName) {
-      parentNode = this.geomFolder.findInTreeOrCreate(menuNodeName);
+    if (menuSubfolder) {
+      parentNode = this.geomFolder.findInTreeOrCreate(menuSubfolder);
     }
 
     const objFolder = parentNode.addChild(name, (value: boolean) => {
       this.three.getSceneManager().objectVisibility(name, value);
     });
 
-    objFolder.toggleState = initiallyVisible;
+    objFolder.toggleState = visible;
 
     objFolder
       .addConfig('color', {

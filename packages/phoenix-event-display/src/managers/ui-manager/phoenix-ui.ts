@@ -1,4 +1,4 @@
-import { Color } from 'three';
+import { Color, Object3D } from 'three';
 import { Cut } from '../../extras/cut.model';
 
 /**
@@ -17,17 +17,10 @@ export interface PhoenixUI<T> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param geometry Geometry to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  addGeometry(
-    name: string,
-    color: Color,
-    initiallyVisible?: boolean,
-    menuSubfolder?: string
-  ): void;
+  addGeometry(geometry: Object3D, menuSubfolder?: string): void;
 
   /**
    * Add event data folder with functions for event data toggles like show/hide and depthTest.
