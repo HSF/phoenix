@@ -15,6 +15,7 @@ import {
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { LoadingManager } from '../loading-manager';
+import { GeometryUIParameters } from './types/event-display.types';
 
 /**
  * Manager for managing event display's import related functionality.
@@ -214,7 +215,6 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
-   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -223,24 +223,22 @@ export class ImportManager {
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
-    transparent: boolean,
-    onSceneProcessed: (
-      geometry: Object3D,
-      name: string,
-      menuNodeName: string
-    ) => void
-  ): Promise<void> {
+    transparent: boolean
+  ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.load(
         sceneUrl,
         (gltf) => {
+          const allGeometries: GeometryUIParameters[] = [];
+
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible ?? initiallyVisible;
             const sceneName = this.processGLTFSceneName(
               scene.name,
               menuNodeName
             );
+
             this.processGeometry(
               scene,
               name ?? sceneName.name,
@@ -249,14 +247,13 @@ export class ImportManager {
               transparent
             );
 
-            onSceneProcessed(
-              scene,
-              name ?? sceneName.name,
-              menuNodeName ?? sceneName.menuNodeName
-            );
+            allGeometries.push({
+              geometry: scene,
+              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+            });
           }
 
-          resolve();
+          resolve(allGeometries);
           this.loadingManager.itemLoaded(`gltf_geom_${name}`);
         },
         undefined,
@@ -409,7 +406,7 @@ export class ImportManager {
 
           // Changing to a material with 0 shininess
           child.material = new MeshPhongMaterial({
-            color: color,
+            color,
             shininess: 0,
             side: side,
             transparent: isTransparent,

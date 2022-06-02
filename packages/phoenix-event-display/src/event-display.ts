@@ -9,6 +9,7 @@ import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { getLabelTitle } from './helpers/labels';
+import { Mesh, MeshPhongMaterial } from 'three';
 
 declare global {
   /**
@@ -341,7 +342,7 @@ export class EventDisplay {
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(
+  public async loadGLTFGeometry(
     url: any,
     name: string,
     menuNodeName?: string,
@@ -351,15 +352,20 @@ export class EventDisplay {
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
 
-    return this.graphicsLibrary.loadGLTFGeometry(
-      url,
-      name,
-      this.ui.addGeometry.bind(this.ui),
-      menuNodeName,
-      scale,
-      initiallyVisible,
-      transparent
-    );
+    const allGeometriesUIParameters =
+      await this.graphicsLibrary.loadGLTFGeometry(
+        url,
+        name,
+        menuNodeName,
+        scale,
+        initiallyVisible,
+        transparent
+      );
+
+    for (const { geometry, menuNodeName } of allGeometriesUIParameters) {
+      const color = ((geometry as Mesh).material as MeshPhongMaterial).color;
+      this.ui.addGeometry(geometry.name, color, menuNodeName, geometry.visible);
+    }
   }
 
   /**

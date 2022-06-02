@@ -33,6 +33,7 @@ import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
 import { UIManager } from '../ui-manager';
+import { GeometryUIParameters } from './types/event-display.types';
 
 /**
  * Manager for all three.js related functions.
@@ -351,42 +352,37 @@ export class ThreeManager {
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
-   * @param addGeometryToUI Function to add geometry to the UI.
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(
+  public async loadGLTFGeometry(
     sceneUrl: any,
     name: string,
-    addGeometryToUI: UIManager['addGeometry'],
     menuNodeName?: string,
     scale?: number,
     initiallyVisible?: boolean,
     transparent?: boolean
-  ): Promise<void> {
+  ): Promise<GeometryUIParameters[]> {
     const geometries = this.sceneManager.getGeometries();
-    const onSceneProcessed = (
-      geometry: Object3D,
-      geoName: string,
-      menuName: string
-    ) => {
-      addGeometryToUI(geoName, undefined, menuName, geometry.visible);
-      geometries.add(geometry);
-      this.infoLogger.add(name, 'Loaded GLTF scene');
-    };
 
-    return this.importManager.loadGLTFGeometry(
+    const allGeometriesUIParameters = await this.importManager.loadGLTFGeometry(
       sceneUrl,
       name,
       menuNodeName,
       scale,
       initiallyVisible,
-      transparent,
-      onSceneProcessed
+      transparent
     );
+
+    for (const { geometry } of allGeometriesUIParameters) {
+      geometries.add(geometry);
+      this.infoLogger.add(name, 'Loaded GLTF scene');
+    }
+
+    return allGeometriesUIParameters;
   }
 
   /**
