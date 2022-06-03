@@ -9,7 +9,6 @@ import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { getLabelTitle } from './helpers/labels';
-import { Mesh, MeshPhongMaterial } from 'three';
 
 declare global {
   /**
@@ -231,7 +230,7 @@ export class EventDisplay {
    * @param setFlat Whether object should be flat-shaded or not. Default `true`.
    * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(
+  public async loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
@@ -239,12 +238,9 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
-  ): Promise<unknown> {
+  ): Promise<void> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
-    this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
-    this.infoLogger.add(name, 'Loaded OBJ geometry');
-
-    return this.graphicsLibrary.loadOBJGeometry(
+    const { geometry } = await this.graphicsLibrary.loadOBJGeometry(
       filename,
       name,
       color,
@@ -252,6 +248,9 @@ export class EventDisplay {
       initiallyVisible,
       setFlat
     );
+
+    this.ui.addGeometry(geometry, menuNodeName);
+    this.infoLogger.add(name, 'Loaded OBJ geometry');
   }
 
   /**
@@ -318,17 +317,18 @@ export class EventDisplay {
    * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
+  public async parseGLTFGeometry(
     input: string | ArrayBuffer,
     name: string
-  ): Promise<unknown> {
+  ): Promise<void> {
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
 
-    return this.graphicsLibrary.parseGLTFGeometry(
-      input,
-      name,
-      this.ui.addGeometry.bind(this.ui)
-    );
+    const allGeometriesUIParameters =
+      await this.graphicsLibrary.parseGLTFGeometry(input, name);
+
+    for (const { geometry } of allGeometriesUIParameters) {
+      this.ui.addGeometry(geometry);
+    }
   }
 
   /**
@@ -363,8 +363,7 @@ export class EventDisplay {
       );
 
     for (const { geometry, menuNodeName } of allGeometriesUIParameters) {
-      const color = ((geometry as Mesh).material as MeshPhongMaterial).color;
-      this.ui.addGeometry(geometry.name, color, menuNodeName, geometry.visible);
+      this.ui.addGeometry(geometry, menuNodeName);
     }
   }
 

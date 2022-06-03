@@ -49,7 +49,6 @@ export class ImportManager {
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
-   * @param callback Callback when geometry is processed.
    * @param filename Path to the geometry.
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
@@ -58,30 +57,28 @@ export class ImportManager {
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
-    callback: (object: Object3D) => any,
     filename: string,
     name: string,
     color: any,
     doubleSided: boolean,
     setFlat: boolean
-  ): Promise<unknown> {
-    if (color == null) {
-      color = 0x41a6f4;
-    }
+  ): Promise<GeometryUIParameters> {
+    color = color ?? 0x41a6f4;
     const objLoader = new OBJLoader();
-    return new Promise<void>((resolve, reject) => {
+
+    return new Promise<GeometryUIParameters>((resolve, reject) => {
       objLoader.load(
         filename,
         (object) => {
-          const processed = this.processOBJ(
+          const processedObject = this.processOBJ(
             object,
             name,
             color,
             doubleSided,
             setFlat
           );
-          callback(processed);
-          resolve();
+
+          resolve({ geometry: processedObject });
           this.loadingManager.itemLoaded(`obj_geom_${name}`);
         },
         null,
@@ -269,29 +266,32 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
-    name: string,
-    onSceneProcessed: (geometry: Object3D, geoName: string) => any
-  ): Promise<unknown> {
+    name: string
+  ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    return new Promise<void>((resolve, reject) => {
+
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
         geometry,
         '',
         (gltf) => {
+          const allGeometriesUIParameters: GeometryUIParameters[] = [];
+
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(scene, name ?? sceneName.name);
 
-            onSceneProcessed(scene, sceneName.name ?? name);
+            allGeometriesUIParameters.push({
+              geometry: scene,
+            });
           }
 
-          resolve();
+          resolve(allGeometriesUIParameters);
           this.loadingManager.itemLoaded(`parse_geom_${name}`);
         },
         (error) => {

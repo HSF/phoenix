@@ -325,27 +325,28 @@ export class ThreeManager {
    * @param setFlat Whether object should be flat-shaded or not.
    * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(
+  public async loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (object: Object3D) => {
-      object.visible = initiallyVisible;
-      geometries.add(object);
-    };
-    return this.importManager.loadOBJGeometry(
-      callback,
+    const geometryUIParameters = await this.importManager.loadOBJGeometry(
       filename,
       name,
       color,
       doubleSided,
       setFlat
     );
+
+    const { geometry } = geometryUIParameters;
+    geometry.visible = initiallyVisible;
+    geometries.add(geometry);
+
+    return geometryUIParameters;
   }
 
   /**
@@ -409,22 +410,19 @@ export class ThreeManager {
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
+  public async parseGLTFGeometry(
     geometry: any,
-    name: string,
-    addGeometryToUI: UIManager['addGeometry']
-  ): Promise<unknown> {
-    const onSceneProcessed = (geometry: Object3D, geoName: string) => {
-      addGeometryToUI(geometry);
+    name: string
+  ): Promise<GeometryUIParameters[]> {
+    const allGeometriesUIParameters =
+      await this.importManager.parseGLTFGeometry(geometry, name);
+
+    for (const { geometry } of allGeometriesUIParameters) {
       this.sceneManager.getGeometries().add(geometry);
       this.infoLogger.add(name, 'Parsed GLTF geometry');
-    };
+    }
 
-    return this.importManager.parseGLTFGeometry(
-      geometry,
-      name,
-      onSceneProcessed
-    );
+    return allGeometriesUIParameters;
   }
 
   /**
