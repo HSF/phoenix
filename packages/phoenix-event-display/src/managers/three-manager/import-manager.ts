@@ -323,7 +323,6 @@ export class ImportManager {
    * Loads geometries from JSON.
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
-   * @param callback Callback called after the geometries are processed and loaded.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @returns Promise for loading the geometry.
@@ -331,37 +330,35 @@ export class ImportManager {
   public loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
-    callback: (geometry: Object3D) => any,
     scale?: number,
     doubleSided?: boolean
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const loader = new ObjectLoader();
-    if (typeof json === 'string') {
-      return new Promise<void>((resolve, reject) => {
-        loader.load(
-          json,
-          (geometry: Object3D) => {
-            this.processGeometry(geometry, name, scale, doubleSided);
-            callback(geometry);
-            resolve();
-            this.loadingManager.itemLoaded(`json_geom_${name}`);
-          },
-          null,
-          (error) => {
-            reject(error);
-            this.loadingManager.itemLoaded(`json_geom_${name}`);
-          }
-        );
-      });
-    } else if (typeof json === 'object') {
-      return new Promise<void>((resolve) => {
-        const geometry = loader.parse(json, () => {
-          resolve();
+
+    switch (typeof json) {
+      case 'string':
+        return new Promise<GeometryUIParameters>((resolve, reject) => {
+          loader.load(
+            json,
+            (geometry: Object3D) => {
+              this.processGeometry(geometry, name, scale, doubleSided);
+              resolve({ geometry });
+              this.loadingManager.itemLoaded(`json_geom_${name}`);
+            },
+            null,
+            (error) => {
+              reject(error);
+              this.loadingManager.itemLoaded(`json_geom_${name}`);
+            }
+          );
+        });
+      case 'object':
+        return new Promise<GeometryUIParameters>((resolve) => {
+          const geometry = loader.parse(json);
+          this.processGeometry(geometry, name, scale, doubleSided);
+          resolve({ geometry });
           this.loadingManager.itemLoaded(`json_geom_${name}`);
         });
-        this.processGeometry(geometry, name, scale, doubleSided);
-        callback(geometry);
-      });
     }
   }
 

@@ -268,8 +268,13 @@ export class EventDisplay {
     initiallyVisible: boolean = true
   ) {
     this.loadingManager.addLoadableItem(`parse_obj_${name}`);
-    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
-    this.ui.addGeometry(name, 0x000fff, menuNodeName, initiallyVisible);
+    const { geometry } = this.graphicsLibrary.parseOBJGeometry(
+      content,
+      name,
+      initiallyVisible
+    );
+    this.ui.addGeometry(geometry, menuNodeName);
+    this.loadingManager.itemLoaded(`parse_obj_${name}`);
   }
 
   /**
@@ -377,25 +382,25 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(
+  public async loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
     initiallyVisible: boolean = true
-  ): Promise<unknown> {
+  ): Promise<void> {
     this.loadingManager.addLoadableItem(`json_geom_${name}`);
-    this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
-    this.infoLogger.add(name, 'Loaded JSON geometry');
 
-    return this.graphicsLibrary.loadJSONGeometry(
+    const { geometry } = await this.graphicsLibrary.loadJSONGeometry(
       json,
       name,
       scale,
       doubleSided,
       initiallyVisible
     );
+    this.ui.addGeometry(geometry, menuNodeName);
+    this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 
   /**

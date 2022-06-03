@@ -396,12 +396,13 @@ export class ThreeManager {
     geometry: string,
     name: string,
     initiallyVisible: boolean = true
-  ) {
+  ): GeometryUIParameters {
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
     geometries.add(object);
-    this.loadingManager.itemLoaded(`parse_obj_${name}`);
+
+    return { geometry: object };
   }
 
   /**
@@ -447,25 +448,24 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(
+  public async loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
     scale?: number,
     doubleSided?: boolean,
     initiallyVisible: boolean = true
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => {
-      geometry.visible = initiallyVisible;
-      geometries.add(geometry);
-    };
-    return this.importManager.loadJSONGeometry(
+    const { geometry } = await this.importManager.loadJSONGeometry(
       json,
       name,
-      callback,
       scale,
       doubleSided
     );
+    geometry.visible = initiallyVisible;
+    geometries.add(geometry);
+
+    return { geometry };
   }
 
   /**
