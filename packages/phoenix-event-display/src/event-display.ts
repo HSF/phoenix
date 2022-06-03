@@ -240,6 +240,7 @@ export class EventDisplay {
     setFlat: boolean = true
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
+
     const { geometry } = await this.graphicsLibrary.loadOBJGeometry(
       filename,
       name,
@@ -248,8 +249,9 @@ export class EventDisplay {
       initiallyVisible,
       setFlat
     );
-
     this.ui.addGeometry(geometry, menuNodeName);
+
+    this.loadingManager.itemLoaded(`obj_geom_${name}`);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
   }
 
@@ -291,7 +293,7 @@ export class EventDisplay {
    * and other configuration.
    * @returns Promise for loading the geometry.
    */
-  public parsePhoenixDisplay(input: any): Promise<unknown> {
+  public async parsePhoenixDisplay(input: any): Promise<void> {
     const phoenixScene = JSON.parse(input);
 
     if (phoenixScene.sceneConfiguration && phoenixScene.scene) {
@@ -304,8 +306,8 @@ export class EventDisplay {
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
 
       this.loadingManager.addLoadableItem(`parse_phnx_${name}`);
-
-      return this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
+      await this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
+      this.loadingManager.itemLoaded(`parse_phnx_${name}`);
     }
   }
 
@@ -330,10 +332,11 @@ export class EventDisplay {
 
     const allGeometriesUIParameters =
       await this.graphicsLibrary.parseGLTFGeometry(input, name);
-
     for (const { geometry } of allGeometriesUIParameters) {
       this.ui.addGeometry(geometry);
     }
+
+    this.loadingManager.itemLoaded(`parse_gltf_${name}`);
   }
 
   /**
@@ -366,10 +369,11 @@ export class EventDisplay {
         initiallyVisible,
         transparent
       );
-
     for (const { geometry, menuNodeName } of allGeometriesUIParameters) {
       this.ui.addGeometry(geometry, menuNodeName);
     }
+
+    this.loadingManager.itemLoaded(`gltf_geom_${name}`);
   }
 
   /**
@@ -400,6 +404,8 @@ export class EventDisplay {
       initiallyVisible
     );
     this.ui.addGeometry(geometry, menuNodeName);
+
+    this.loadingManager.itemLoaded(`json_geom_${name}`);
     this.infoLogger.add(name, 'Loaded JSON geometry');
   }
 

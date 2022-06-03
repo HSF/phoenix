@@ -431,12 +431,13 @@ export class ThreeManager {
    * @param scene Geometry in Phoenix (.phnx) format.
    * @returns Promise for loading the scene.
    */
-  public parsePhnxScene(scene: any): Promise<unknown> {
+  public async parsePhnxScene(scene: any): Promise<void> {
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
     };
-    return this.importManager.parsePhnxScene(scene, callback);
+
+    await this.importManager.parsePhnxScene(scene, callback);
   }
 
   /**

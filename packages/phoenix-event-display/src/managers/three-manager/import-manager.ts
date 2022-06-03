@@ -27,8 +27,6 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
-  /** Loading manager for loadable resources */
-  private loadingManager: LoadingManager;
 
   /**
    * Constructor for the import manager.
@@ -44,7 +42,6 @@ export class ImportManager {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
-    this.loadingManager = new LoadingManager();
   }
 
   /**
@@ -79,12 +76,10 @@ export class ImportManager {
           );
 
           resolve({ geometry: processedObject });
-          this.loadingManager.itemLoaded(`obj_geom_${name}`);
         },
         null,
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`obj_geom_${name}`);
         }
       );
     });
@@ -185,6 +180,7 @@ export class ImportManager {
   ): Promise<void> {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
+
     return new Promise<void>((resolve, reject) => {
       loader.parse(
         sceneString,
@@ -194,11 +190,9 @@ export class ImportManager {
           const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
           callback(eventData, geometries);
           resolve();
-          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
         },
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
         }
       );
     });
@@ -251,12 +245,10 @@ export class ImportManager {
           }
 
           resolve(allGeometries);
-          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
         },
         undefined,
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
         }
       );
     });
@@ -292,11 +284,9 @@ export class ImportManager {
           }
 
           resolve(allGeometriesUIParameters);
-          this.loadingManager.itemLoaded(`parse_geom_${name}`);
         },
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`parse_gltf_${name}`);
         }
       );
     });
@@ -343,12 +333,10 @@ export class ImportManager {
             (geometry: Object3D) => {
               this.processGeometry(geometry, name, scale, doubleSided);
               resolve({ geometry });
-              this.loadingManager.itemLoaded(`json_geom_${name}`);
             },
             null,
             (error) => {
               reject(error);
-              this.loadingManager.itemLoaded(`json_geom_${name}`);
             }
           );
         });
@@ -357,7 +345,6 @@ export class ImportManager {
           const geometry = loader.parse(json);
           this.processGeometry(geometry, name, scale, doubleSided);
           resolve({ geometry });
-          this.loadingManager.itemLoaded(`json_geom_${name}`);
         });
     }
   }
