@@ -102,11 +102,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    * @param _menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
   public addGeometry(geometry: Object3D, _menuSubfolder?: string) {
-    const {
-      name,
-      material: { color },
-      visible,
-    } = geometry as Mesh<BufferGeometry, MeshPhongMaterial>;
+    const { name, material, visible } = geometry as Mesh<
+      BufferGeometry,
+      MeshPhongMaterial
+    >;
+    const color = material?.color;
 
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {

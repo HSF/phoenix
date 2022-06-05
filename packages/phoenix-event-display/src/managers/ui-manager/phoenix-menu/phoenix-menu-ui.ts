@@ -110,11 +110,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
   public addGeometry(geometry: Object3D, menuSubfolder?: string) {
-    const {
-      name,
-      material: { color },
-      visible,
-    } = geometry as Mesh<BufferGeometry, MeshPhongMaterial>;
+    const { name, material, visible } = geometry as Mesh<
+      BufferGeometry,
+      MeshPhongMaterial
+    >;
+    const color = material?.color;
 
     let parentNode: PhoenixMenuNode = this.geomFolder;
     if (menuSubfolder) {
