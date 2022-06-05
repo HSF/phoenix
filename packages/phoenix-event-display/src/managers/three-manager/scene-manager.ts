@@ -136,12 +136,10 @@ export class SceneManager {
 
   /**
    * Modifies an object's opacity.
-   * @param name Name of the object to change its opacity.
+   * @param object Object whose opacity needs to be changed.
    * @param value Value of opacity, between 0 (transparent) and 1 (opaque).
    */
-  public setGeometryOpacity(name: string, value: number) {
-    const object = this.scene.getObjectByName(name);
-
+  public setGeometryOpacity(object: Object3D, value: number) {
     if (value && object) {
       object.traverse((child) => {
         if (child?.['material']) {
@@ -651,5 +649,14 @@ export class SceneManager {
       }
     }
     this.grid.visible = visible;
+  }
+
+  /**
+   * Get an object by its name.
+   * @param name Name of the object.
+   * @returns The object.
+   */
+  public getObjectByName(name: string): Object3D {
+    return this.scene.getObjectByName(name);
   }
 }

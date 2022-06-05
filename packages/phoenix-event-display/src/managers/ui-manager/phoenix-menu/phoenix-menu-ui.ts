@@ -58,24 +58,24 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * Add geometry (detector geometry) folder to the menu.
    */
   public addGeometryFolder() {
+    const sceneManager = this.three.getSceneManager();
     // Phoenix menu
     if (this.geomFolder === null) {
       this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
-          this.three
-            .getSceneManager()
-            .groupVisibility(SceneManager.GEOMETRIES_ID, value);
+          sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
         },
         'perspective'
       );
     }
+
     this.geomFolder
       .addConfig('checkbox', {
         label: 'Wireframe',
         isChecked: false,
         onChange: (value) => {
-          this.three.getSceneManager().wireframeGeometries(value);
+          sceneManager.wireframeGeometries(value);
         },
       })
       .addConfig('slider', {
@@ -85,9 +85,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (value) => {
-          this.three
-            .getSceneManager()
-            .setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
+          sceneManager.setGeometryOpacity(
+            sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            value
+          );
         },
       })
       .addConfig('slider', {
@@ -97,9 +98,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (scale) => {
-          this.three
-            .getSceneManager()
-            .scaleObject(SceneManager.GEOMETRIES_ID, scale);
+          sceneManager.scaleObject(SceneManager.GEOMETRIES_ID, scale);
         },
       });
   }
@@ -142,7 +141,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.three.getSceneManager().setGeometryOpacity(name, opacity);
+          this.three.getSceneManager().setGeometryOpacity(geometry, opacity);
         },
       })
       .addConfig('button', {
@@ -204,6 +203,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     cuts?: Cut[],
     collectionColor?: Color
   ) {
+    const sceneManager = this.three.getSceneManager();
     const typeFolder = this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === eventDataType
     );
@@ -215,9 +215,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     const collectionNode = typeFolder.addChild(
       collectionName,
       (value: boolean) => {
-        this.three
-          .getSceneManager()
-          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID);
+        sceneManager.objectVisibility(
+          collectionName,
+          value,
+          SceneManager.EVENT_DATA_ID
+        );
       }
     );
 
@@ -229,14 +231,16 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       step: 0.1,
       max: 1,
       onChange: (value) => {
-        this.three.getSceneManager().setGeometryOpacity(collectionName, value);
+        sceneManager.setGeometryOpacity(
+          sceneManager.getObjectByName(collectionName),
+          value
+        );
       },
     });
 
     drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
-      onChange: (value) =>
-        this.three.getSceneManager().wireframeObjects(collectionName, value),
+      onChange: (value) => sceneManager.wireframeObjects(collectionName, value),
     });
 
     if (cuts && cuts.length > 0) {
@@ -249,13 +253,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         .addConfig('button', {
           label: 'Reset cuts',
           onClick: () => {
-            this.three
-              .getSceneManager()
-              .groupVisibility(
-                collectionName,
-                true,
-                SceneManager.EVENT_DATA_ID
-              );
+            sceneManager.groupVisibility(
+              collectionName,
+              true,
+              SceneManager.EVENT_DATA_ID
+            );
 
             for (const cut of cuts) {
               cut.reset();
