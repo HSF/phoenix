@@ -166,29 +166,22 @@ export class UIManager {
    * Add labels folder to dat.GUI and Phoenix menu.
    */
   public addLabelsFolder() {
+    const sceneManager = this.three.getSceneManager();
     this.labelsFolderAdded = true;
 
     // Common functions for Phoenix and dat.GUI menus
     const onToggle = (toggleValue: boolean) => {
-      this.three
-        .getSceneManager()
-        .objectVisibility(SceneManager.LABELS_ID, toggleValue);
+      sceneManager.objectVisibility(SceneManager.LABELS_ID, toggleValue);
     };
     const onSizeChange = (scale: number) => {
-      const labels = this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
+      const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
       labels.children.forEach((singleLabel) => {
-        this.three.getSceneManager().scaleObject(singleLabel.name, scale);
+        sceneManager.scaleObject(singleLabel.name, scale);
       });
     };
     const onColorChange = (value: any) => {
-      const labels = this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) => {
-        this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
-      });
+      const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
+      sceneManager.changeObjectColor(labels, value);
     };
     const onSaveLabels = () => {
       const labelsObject =

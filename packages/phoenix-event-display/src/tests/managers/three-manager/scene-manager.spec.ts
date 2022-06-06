@@ -8,6 +8,7 @@ import {
   Mesh,
   Color,
   Group,
+  BufferGeometry,
 } from 'three';
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
 
@@ -28,6 +29,7 @@ describe('SceneManager', () => {
   });
 
   describe('with object in scene', () => {
+    let object: Mesh<BufferGeometry, MeshBasicMaterial>;
     const OBJECT_NAME = 'TestCube';
 
     beforeEach(() => {
@@ -35,27 +37,27 @@ describe('SceneManager', () => {
 
       const geometry = new BoxGeometry(1, 1, 1);
       const material = new MeshBasicMaterial({ color: 'white' });
-      const cube = new Mesh(geometry, material);
-      cube.name = OBJECT_NAME;
+      const object = new Mesh(geometry, material);
+      object.name = OBJECT_NAME;
 
-      sceneManager.getScene().add(cube);
+      sceneManager.getScene().add(object);
     });
 
     it('should set geometry opacity', () => {
-      sceneManager.setGeometryOpacity(OBJECT_NAME, 0.5);
+      sceneManager.setGeometryOpacity(object, 0.5);
       const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
       expect(obj.material.opacity).toBe(0.5);
 
-      sceneManager.setGeometryOpacity(OBJECT_NAME, undefined);
+      sceneManager.setGeometryOpacity(object, undefined);
     });
 
     it('should change object geometry color', () => {
       const color = new Color(0xffffff);
-      sceneManager.changeObjectColor(OBJECT_NAME, 0xffffff);
+      sceneManager.changeObjectColor(object, 0xffffff);
       const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.material.color).toEqual(color);
+      expect(object.material.color).toEqual(color);
 
-      sceneManager.changeObjectColor('NonExistentObject', color);
+      sceneManager.changeObjectColor(undefined, color);
     });
 
     it('should change object visibility', () => {

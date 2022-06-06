@@ -25,6 +25,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   private eventFolderState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolder: PhoenixMenuNode;
+  /** Manager for managing functions of the three.js scene. */
+  private sceneManager: SceneManager;
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -38,6 +40,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
+    this.sceneManager = three.getSceneManager();
   }
 
   /**
@@ -58,13 +61,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * Add geometry (detector geometry) folder to the menu.
    */
   public addGeometryFolder() {
-    const sceneManager = this.three.getSceneManager();
     // Phoenix menu
     if (this.geomFolder === null) {
       this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
-          sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
+          this.sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
         },
         'perspective'
       );
@@ -75,7 +77,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Wireframe',
         isChecked: false,
         onChange: (value) => {
-          sceneManager.wireframeGeometries(value);
+          this.sceneManager.wireframeGeometries(value);
         },
       })
       .addConfig('slider', {
@@ -85,8 +87,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (value) => {
-          sceneManager.setGeometryOpacity(
-            sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+          this.sceneManager.setGeometryOpacity(
+            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
             value
           );
         },
@@ -98,7 +100,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (scale) => {
-          sceneManager.scaleObject(SceneManager.GEOMETRIES_ID, scale);
+          this.sceneManager.scaleObject(SceneManager.GEOMETRIES_ID, scale);
         },
       });
   }
@@ -121,7 +123,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
 
     const objFolder = parentNode.addChild(name, (value: boolean) => {
-      this.three.getSceneManager().objectVisibility(name, value);
+      this.sceneManager.objectVisibility(name, value);
     });
 
     objFolder.toggleState = visible;
@@ -131,7 +133,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value) => {
-          this.three.getSceneManager().changeObjectColor(name, value);
+          this.sceneManager.changeObjectColor(geometry, value);
         },
       })
       .addConfig('slider', {
@@ -141,14 +143,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.three.getSceneManager().setGeometryOpacity(geometry, opacity);
+          this.sceneManager.setGeometryOpacity(geometry, opacity);
         },
       })
       .addConfig('button', {
         label: 'Remove',
         onClick: () => {
           objFolder.remove();
-          this.three.getSceneManager().removeGeometry(name);
+          this.sceneManager.removeGeometry(name);
         },
       });
   }
@@ -165,9 +167,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.eventFolder = this.phoenixMenuRoot.addChild(
       'Event Data',
       (value: boolean) => {
-        this.three
-          .getSceneManager()
-          .groupVisibility(SceneManager.EVENT_DATA_ID, value);
+        this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value);
       },
       'event-folder'
     );
@@ -186,7 +186,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addEventDataTypeFolder(typeName: string): void {
     this.eventFolder.addChild(typeName, (value: boolean) => {
-      this.three.getSceneManager().objectVisibility(typeName, value);
+      this.sceneManager.objectVisibility(typeName, value);
     });
   }
 
@@ -203,7 +203,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    const sceneManager = this.three.getSceneManager();
+    const sceneManager = this.sceneManager;
     const typeFolder = this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === eventDataType
     );
@@ -277,7 +277,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           onChange: ({ value, highValue }) => {
             cut.minValue = value;
             cut.maxValue = highValue;
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+            this.sceneManager.collectionFilter(collectionName, cuts);
           },
         });
       }
@@ -356,27 +356,30 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param labelId Unique ID of the label.
    * @param onRemoveLabel Function called when label is removed.
    */
-  public addLabel(labelId: string, removeLabel?: () => void) {
+  public addLabel(labelId: string, onRemoveLabel?: () => void) {
     let labelNode = this.labelsFolder.children.find(
       (phoenixMenuNode) => phoenixMenuNode.name === labelId
     );
     if (!labelNode) {
       labelNode = this.labelsFolder.addChild(labelId, (value) => {
-        this.three.getSceneManager().objectVisibility(labelId, value);
+        this.sceneManager.objectVisibility(labelId, value);
       });
 
       labelNode.addConfig('color', {
         label: 'Color',
         color: '#a8a8a8',
         onChange: (value) => {
-          this.three.getSceneManager().changeObjectColor(labelId, value);
+          this.sceneManager.changeObjectColor(
+            this.sceneManager.getObjectByName(labelId),
+            value
+          );
         },
       });
 
       labelNode.addConfig('button', {
         label: 'Remove',
         onClick: () => {
-          removeLabel?.();
+          onRemoveLabel?.();
           this.removeLabel(labelId, labelNode);
         },
       });

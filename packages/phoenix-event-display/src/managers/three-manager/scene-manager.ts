@@ -152,11 +152,10 @@ export class SceneManager {
 
   /**
    * Changes color of an OBJ geometry.
-   * @param name Name of the geometry.
+   * @param object Object to change the color of.
    * @param value Value representing the color in hex format.
    */
-  public changeObjectColor(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
+  public changeObjectColor(object: Object3D, value: any) {
     if (object) {
       object.traverse((child) => {
         if (child instanceof Mesh || child instanceof LineSegments) {
