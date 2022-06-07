@@ -86,7 +86,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     showGeometriesMenu.onChange((value) => {
-      this.sceneManager.objectVisibility(SceneManager.GEOMETRIES_ID, value);
+      this.sceneManager.objectVisibility(
+        this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+        value
+      );
     });
     // A boolean toggle for enabling/disabling the geometries' wireframing.
     const wireframeGeometriesMenu = this.geomFolder
@@ -144,7 +147,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     showMenu.onChange((value) =>
-      this.sceneManager.objectVisibility(name, value)
+      this.sceneManager.objectVisibility(geometry, value)
     );
     // Scale slider
     const scaleMenu = objFolder
@@ -209,7 +212,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     menu.onChange((value) =>
-      this.sceneManager.objectVisibility(SceneManager.EVENT_DATA_ID, value)
+      this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value)
     );
 
     // A boolean toggle for enabling/disabling depthTest of event data.
@@ -232,7 +235,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     menu.onChange((value) =>
-      this.sceneManager.objectVisibility(typeName, value)
+      this.sceneManager.objectVisibility(
+        this.sceneManager.getObjectByName(typeName),
+        value
+      )
     );
   }
 
@@ -274,13 +280,12 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .add(this.guiParameters[collectionName], 'show')
       .name('Show')
       .listen();
-    showMenu.onChange((value) =>
-      this.sceneManager.objectVisibility(
-        collectionName,
-        value,
-        SceneManager.EVENT_DATA_ID
-      )
-    );
+    showMenu.onChange((value) => {
+      const collectionObject = this.sceneManager
+        .getObjectByName(SceneManager.EVENT_DATA_ID)
+        .getObjectByName(collectionName);
+      this.sceneManager.objectVisibility(collectionObject, value);
+    });
 
     // A color picker is added to the collection's folder
     const colorMenu = collFolder
@@ -387,11 +392,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     visibilityToggle.onChange((value) => {
-      this.sceneManager.objectVisibility(
-        labelId,
-        value,
-        SceneManager.LABELS_ID
-      );
+      const labelObject = this.sceneManager
+        .getObjectByName(SceneManager.LABELS_ID)
+        .getObjectByName(labelId);
+      this.sceneManager.objectVisibility(labelObject, value);
     });
 
     const colorMenu = labelItem

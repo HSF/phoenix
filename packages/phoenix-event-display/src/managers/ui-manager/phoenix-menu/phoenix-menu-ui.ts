@@ -126,7 +126,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
 
     const objFolder = parentNode.addChild(name, (value: boolean) => {
-      this.sceneManager.objectVisibility(name, value);
+      this.sceneManager.objectVisibility(geometry, value);
     });
 
     objFolder.toggleState = visible;
@@ -189,7 +189,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addEventDataTypeFolder(typeName: string): void {
     this.eventFolder.addChild(typeName, (value: boolean) => {
-      this.sceneManager.objectVisibility(typeName, value);
+      this.sceneManager.objectVisibility(
+        this.sceneManager.getObjectByName(typeName),
+        value
+      );
     });
   }
 
@@ -218,11 +221,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     const collectionNode = typeFolder.addChild(
       collectionName,
       (value: boolean) => {
-        sceneManager.objectVisibility(
-          collectionName,
-          value,
-          SceneManager.EVENT_DATA_ID
-        );
+        const collectionObject = this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(collectionName);
+        sceneManager.objectVisibility(collectionObject, value);
       }
     );
 
@@ -363,30 +365,36 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     let labelNode = this.labelsFolder.children.find(
       (phoenixMenuNode) => phoenixMenuNode.name === labelId
     );
-    if (!labelNode) {
-      labelNode = this.labelsFolder.addChild(labelId, (value) => {
-        this.sceneManager.objectVisibility(labelId, value);
-      });
 
-      labelNode.addConfig('color', {
-        label: 'Color',
-        color: '#a8a8a8',
-        onChange: (value) => {
-          this.sceneManager.changeObjectColor(
-            this.sceneManager.getObjectByName(labelId),
-            value
-          );
-        },
-      });
-
-      labelNode.addConfig('button', {
-        label: 'Remove',
-        onClick: () => {
-          onRemoveLabel?.();
-          this.removeLabel(labelId, labelNode);
-        },
-      });
+    if (labelNode) {
+      return;
     }
+
+    labelNode = this.labelsFolder.addChild(labelId, (value) => {
+      const labelObject = this.sceneManager
+        .getObjectByName(SceneManager.LABELS_ID)
+        .getObjectByName(labelId);
+      this.sceneManager.objectVisibility(labelObject, value);
+    });
+
+    labelNode.addConfig('color', {
+      label: 'Color',
+      color: '#a8a8a8',
+      onChange: (value) => {
+        this.sceneManager.changeObjectColor(
+          this.sceneManager.getObjectByName(labelId),
+          value
+        );
+      },
+    });
+
+    labelNode.addConfig('button', {
+      label: 'Remove',
+      onClick: () => {
+        onRemoveLabel?.();
+        this.removeLabel(labelId, labelNode);
+      },
+    });
   }
 
   /**

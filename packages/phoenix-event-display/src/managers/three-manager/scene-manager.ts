@@ -173,16 +173,10 @@ export class SceneManager {
 
   /**
    * Changes objects visibility.
-   * @param name Name of the object to change its visibility.
+   * @param object Object to change the visibility of.
    * @param visible If the object will be visible (true) or hidden (false).
-   * @param parentName Name of the parent object to look inside for object
-   * whose visibility is to be toggled.
    */
-  public objectVisibility(name: string, visible: boolean, parentName?: string) {
-    const parent = parentName
-      ? this.scene.getObjectByName(parentName)
-      : this.scene;
-    const object = parent.getObjectByName(name);
+  public objectVisibility(object: Object3D, visible: boolean) {
     if (object) {
       object.visible = visible;
       object.traverse((child) => {

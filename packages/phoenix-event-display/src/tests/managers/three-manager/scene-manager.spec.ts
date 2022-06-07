@@ -61,11 +61,10 @@ describe('SceneManager', () => {
     });
 
     it('should change object visibility', () => {
-      sceneManager.objectVisibility(OBJECT_NAME, false);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.visible).toBe(false);
-      sceneManager.objectVisibility(OBJECT_NAME, true);
-      expect(obj.visible).toBe(true);
+      sceneManager.objectVisibility(object, false);
+      expect(object.visible).toBe(false);
+      sceneManager.objectVisibility(object, true);
+      expect(object.visible).toBe(true);
     });
 
     it('should get object position', () => {

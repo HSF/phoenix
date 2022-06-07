@@ -171,14 +171,17 @@ export class UIManager {
 
     // Common functions for Phoenix and dat.GUI menus
     const onToggle = (toggleValue: boolean) => {
-      sceneManager.objectVisibility(SceneManager.LABELS_ID, toggleValue);
+      sceneManager.objectVisibility(
+        sceneManager.getObjectByName(SceneManager.LABELS_ID),
+        toggleValue
+      );
     };
     const onSizeChange = (scale: number) => {
-      const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
+      const labels = sceneManager.getObjectByName(SceneManager.LABELS_ID);
       sceneManager.scaleObject(labels, scale);
     };
     const onColorChange = (value: any) => {
-      const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
+      const labels = sceneManager.getObjectByName(SceneManager.LABELS_ID);
       sceneManager.changeObjectColor(labels, value);
     };
     const onSaveLabels = () => {
@@ -240,7 +243,8 @@ export class UIManager {
    * @param visible Value for the visibility of the object
    */
   public geometryVisibility(name: string, visible: boolean) {
-    this.three.getSceneManager().objectVisibility(name, visible);
+    const sceneManager = this.three.getSceneManager();
+    sceneManager.objectVisibility(sceneManager.getObjectByName(name), visible);
   }
 
   /**
