@@ -153,7 +153,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Remove',
         onClick: () => {
           objFolder.remove();
-          this.sceneManager.removeGeometry(name);
+          this.sceneManager.removeGeometry(geometry);
         },
       });
   }

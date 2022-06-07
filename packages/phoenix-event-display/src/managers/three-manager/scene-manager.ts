@@ -197,18 +197,14 @@ export class SceneManager {
    * @returns Object position.
    */
   public getObjectPosition(name: string): Vector3 {
-    const object = this.scene.getObjectByName(name);
-    if (object) {
-      return object.position;
-    }
+    return this.scene.getObjectByName(name)?.position;
   }
 
   /**
    * Removes a geometry from the scene.
-   * @param name Name of the object to be removed.
+   * @param object Geometry object to be removed.
    */
-  public removeGeometry(name: string) {
-    const object = this.scene.getObjectByName(name);
+  public removeGeometry(object: Object3D) {
     const geometries = this.getGeometries() as Group;
     geometries.remove(object);
   }

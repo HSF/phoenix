@@ -121,7 +121,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       y: 0,
       z: 0,
       detectorOpacity: 1.0,
-      remove: this.removeOBJ(name),
+      remove: this.removeOBJ(geometry),
       scale: 1,
     };
 
@@ -182,15 +182,15 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
   /**
    * Remove object from the dat.GUI menu.
-   * @param name Name of the object to be removed.
+   * @param object Geometry object to be removed.
    */
-  private removeOBJ(name: string) {
+  private removeOBJ(object: Object3D) {
     return () => {
-      const folder = this.geomFolder.__folders[name];
+      const folder = this.geomFolder.__folders[object.name];
       if (folder) {
         this.geomFolder.removeFolder(folder);
       }
-      this.sceneManager.removeGeometry(name);
+      this.sceneManager.removeGeometry(object);
     };
   }
 
