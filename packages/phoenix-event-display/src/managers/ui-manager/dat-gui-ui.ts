@@ -151,7 +151,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .add(this.guiParameters[name], 'scale', 0, 1000)
       .name('Scale');
     scaleMenu.onChange((value) => {
-      this.sceneManager.scaleObject(name, value);
+      this.sceneManager.scaleObject(geometry, value);
     });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);

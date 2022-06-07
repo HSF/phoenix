@@ -73,9 +73,8 @@ describe('SceneManager', () => {
     });
 
     it('should scale object', () => {
-      sceneManager.scaleObject(OBJECT_NAME, 0.5);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.scale.x).toBe(0.5);
+      sceneManager.scaleObject(object, 0.5);
+      expect(object.scale.x).toBe(0.5);
     });
 
     it('should change group visibility', () => {

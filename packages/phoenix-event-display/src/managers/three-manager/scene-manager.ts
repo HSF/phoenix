@@ -230,12 +230,11 @@ export class SceneManager {
 
   /**
    * Scales an object.
-   * @param name Name of the object to scale.
+   * @param object Object to scale.
    * @param value Value to scale the object by.
    */
-  public scaleObject(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
-    object.scale.set(value, value, value);
+  public scaleObject(object: Object3D, value: any) {
+    object.scale.setScalar(value);
   }
 
   /**

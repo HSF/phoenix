@@ -100,7 +100,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (scale) => {
-          this.sceneManager.scaleObject(SceneManager.GEOMETRIES_ID, scale);
+          this.sceneManager.scaleObject(
+            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            scale
+          );
         },
       });
   }

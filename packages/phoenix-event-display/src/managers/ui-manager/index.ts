@@ -175,9 +175,7 @@ export class UIManager {
     };
     const onSizeChange = (scale: number) => {
       const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) => {
-        sceneManager.scaleObject(singleLabel.name, scale);
-      });
+      sceneManager.scaleObject(labels, scale);
     };
     const onColorChange = (value: any) => {
       const labels = sceneManager.getObjectsGroup(SceneManager.LABELS_ID);
