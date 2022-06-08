@@ -8,7 +8,7 @@ import {
 } from 'three';
 import { ThreeManager } from '../three-manager';
 import { SceneManager } from '../three-manager/scene-manager';
-import { Cut } from '../../extras/cut.model';
+import { Cut } from '../../lib/models/cut.model';
 import { PhoenixUI } from './phoenix-ui';
 
 /**

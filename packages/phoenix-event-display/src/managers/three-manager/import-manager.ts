@@ -14,7 +14,7 @@ import {
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { GeometryUIParameters } from './types/event-display.types';
+import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 /**
  * Manager for managing event display's import related functionality.

@@ -1,7 +1,7 @@
 import { LoadingManager } from 'three';
 import { EventDisplay } from './event-display';
-import { Cut } from './extras/cut.model';
-import { PresetView } from './extras/preset-view.model';
+import { Cut } from './lib/models/cut.model';
+import { PresetView } from './lib/models/preset-view.model';
 import { PrettySymbols } from './helpers/pretty-symbols';
 import { RKHelper } from './helpers/rk-helper';
 import { RungeKutta } from './helpers/runge-kutta';

@@ -1,9 +1,9 @@
 import * as Stats from 'stats-js';
 import { Color, Object3D } from 'three';
 import { ThreeManager } from '../three-manager';
-import { Configuration } from '../../extras/configuration';
-import { PresetView } from '../../extras/preset-view.model';
-import { Cut } from '../../extras/cut.model';
+import { Configuration } from '../../lib/types/configuration';
+import { PresetView } from '../../lib/models/preset-view.model';
+import { Cut } from '../../lib/models/cut.model';
 import { SceneManager } from '../three-manager/scene-manager';
 import { StateManager } from '../../managers/state-manager';
 import { loadFile, saveFile } from '../../helpers/file';

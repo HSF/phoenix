@@ -1,5 +1,5 @@
 import { Color, Object3D } from 'three';
-import { Cut } from '../../extras/cut.model';
+import { Cut } from '../../lib/models/cut.model';
 
 /**
  * Common interface for implement Phoenix UI menu.

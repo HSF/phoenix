@@ -1,7 +1,7 @@
 import { ThreeManager } from './managers/three-manager';
 import { UIManager } from './managers/ui-manager';
 import { InfoLogger } from './helpers/info-logger';
-import { Configuration } from './extras/configuration';
+import { Configuration } from './lib/types/configuration';
 import { StateManager } from './managers/state-manager';
 import { LoadingManager } from './managers/loading-manager';
 import { URLOptionsManager } from './managers/url-options-manager';

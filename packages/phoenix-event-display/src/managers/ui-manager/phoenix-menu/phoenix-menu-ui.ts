@@ -8,7 +8,7 @@ import {
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
-import { Cut } from '../../../extras/cut.model';
+import { Cut } from '../../../lib/models/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
 import { PhoenixUI } from '../phoenix-ui';

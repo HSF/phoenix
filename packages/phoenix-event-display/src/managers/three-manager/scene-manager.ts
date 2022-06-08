@@ -20,7 +20,7 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { Font } from 'three/examples/jsm/loaders/FontLoader';
-import { Cut } from '../../extras/cut.model';
+import { Cut } from '../../lib/models/cut.model';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 

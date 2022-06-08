@@ -10,10 +10,6 @@ export class PresetView {
   public cameraTarget: number[];
   /** Name of the preset view. */
   public name: string;
-  /**
-   * Set the preset view.
-   */
-  setView: () => void;
 
   /**
    * Create a preset view.

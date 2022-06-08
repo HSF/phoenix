@@ -15,7 +15,7 @@ import {
   Euler,
   PerspectiveCamera,
 } from 'three';
-import { Configuration } from '../../extras/configuration';
+import { Configuration } from '../../lib/types/configuration';
 import { ControlsManager } from './controls-manager';
 import { RendererManager } from './renderer-manager';
 import { ExportManager } from './export-manager';
@@ -33,7 +33,7 @@ import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
 import { UIManager } from '../ui-manager';
-import { GeometryUIParameters } from './types/event-display.types';
+import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 /**
  * Manager for all three.js related functions.
