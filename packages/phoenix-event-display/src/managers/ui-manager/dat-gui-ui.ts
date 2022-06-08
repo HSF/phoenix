@@ -103,11 +103,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param geometry Geometry to add to the UI menu.
+   * @param object Object to add to the UI menu.
    * @param _menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(geometry: Object3D, _menuSubfolder?: string) {
-    const { name, material, visible } = geometry as Mesh<
+  public addGeometry(object: Object3D, _menuSubfolder?: string) {
+    const { name, material, visible } = object as Mesh<
       BufferGeometry,
       MeshPhongMaterial
     >;
@@ -121,7 +121,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       y: 0,
       z: 0,
       detectorOpacity: 1.0,
-      remove: this.removeOBJ(geometry),
+      remove: this.removeOBJ(object),
       scale: 1,
     };
 
@@ -131,14 +131,14 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .addColor(this.guiParameters[name], 'color')
       .name('Color');
     colorMenu.onChange((value) =>
-      this.sceneManager.changeObjectColor(geometry, value)
+      this.sceneManager.changeObjectColor(object, value)
     );
 
     const opacity = objFolder
       .add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0)
       .name('Opacity');
     opacity.onFinishChange((newValue) =>
-      this.sceneManager.setGeometryOpacity(geometry, newValue)
+      this.sceneManager.setGeometryOpacity(object, newValue)
     );
 
     // A boolean toggle for showing/hiding the object is added to its folder
@@ -147,14 +147,14 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     showMenu.onChange((value) =>
-      this.sceneManager.objectVisibility(geometry, value)
+      this.sceneManager.objectVisibility(object, value)
     );
     // Scale slider
     const scaleMenu = objFolder
       .add(this.guiParameters[name], 'scale', 0, 1000)
       .name('Scale');
     scaleMenu.onChange((value) => {
-      this.sceneManager.scaleObject(geometry, value);
+      this.sceneManager.scaleObject(object, value);
     });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);

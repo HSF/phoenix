@@ -342,9 +342,9 @@ export class ThreeManager {
       setFlat
     );
 
-    const { geometry } = geometryUIParameters;
-    geometry.visible = initiallyVisible;
-    geometries.add(geometry);
+    const { object } = geometryUIParameters;
+    object.visible = initiallyVisible;
+    geometries.add(object);
 
     return geometryUIParameters;
   }
@@ -378,7 +378,7 @@ export class ThreeManager {
       transparent
     );
 
-    for (const { geometry } of allGeometriesUIParameters) {
+    for (const { object: geometry } of allGeometriesUIParameters) {
       geometries.add(geometry);
       this.infoLogger.add(name, 'Loaded GLTF scene');
     }
@@ -402,7 +402,7 @@ export class ThreeManager {
     object.visible = initiallyVisible;
     geometries.add(object);
 
-    return { geometry: object };
+    return { object: object };
   }
 
   /**
@@ -418,7 +418,7 @@ export class ThreeManager {
     const allGeometriesUIParameters =
       await this.importManager.parseGLTFGeometry(geometry, name);
 
-    for (const { geometry } of allGeometriesUIParameters) {
+    for (const { object: geometry } of allGeometriesUIParameters) {
       this.sceneManager.getGeometries().add(geometry);
       this.infoLogger.add(name, 'Parsed GLTF geometry');
     }
@@ -457,7 +457,7 @@ export class ThreeManager {
     initiallyVisible: boolean = true
   ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
-    const { geometry } = await this.importManager.loadJSONGeometry(
+    const { object: geometry } = await this.importManager.loadJSONGeometry(
       json,
       name,
       scale,
@@ -466,7 +466,7 @@ export class ThreeManager {
     geometry.visible = initiallyVisible;
     geometries.add(geometry);
 
-    return { geometry };
+    return { object: geometry };
   }
 
   /**

@@ -241,7 +241,7 @@ export class EventDisplay {
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
 
-    const { geometry } = await this.graphicsLibrary.loadOBJGeometry(
+    const { object } = await this.graphicsLibrary.loadOBJGeometry(
       filename,
       name,
       color,
@@ -249,7 +249,7 @@ export class EventDisplay {
       initiallyVisible,
       setFlat
     );
-    this.ui.addGeometry(geometry, menuNodeName);
+    this.ui.addGeometry(object, menuNodeName);
 
     this.loadingManager.itemLoaded(`obj_geom_${name}`);
     this.infoLogger.add(name, 'Loaded OBJ geometry');
@@ -270,7 +270,7 @@ export class EventDisplay {
     initiallyVisible: boolean = true
   ) {
     this.loadingManager.addLoadableItem(`parse_obj_${name}`);
-    const { geometry } = this.graphicsLibrary.parseOBJGeometry(
+    const { object: geometry } = this.graphicsLibrary.parseOBJGeometry(
       content,
       name,
       initiallyVisible
@@ -332,7 +332,7 @@ export class EventDisplay {
 
     const allGeometriesUIParameters =
       await this.graphicsLibrary.parseGLTFGeometry(input, name);
-    for (const { geometry } of allGeometriesUIParameters) {
+    for (const { object: geometry } of allGeometriesUIParameters) {
       this.ui.addGeometry(geometry);
     }
 
@@ -369,8 +369,8 @@ export class EventDisplay {
         initiallyVisible,
         transparent
       );
-    for (const { geometry, menuNodeName } of allGeometriesUIParameters) {
-      this.ui.addGeometry(geometry, menuNodeName);
+    for (const { object, menuNodeName } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object, menuNodeName);
     }
 
     this.loadingManager.itemLoaded(`gltf_geom_${name}`);
@@ -396,7 +396,7 @@ export class EventDisplay {
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`json_geom_${name}`);
 
-    const { geometry } = await this.graphicsLibrary.loadJSONGeometry(
+    const { object: geometry } = await this.graphicsLibrary.loadJSONGeometry(
       json,
       name,
       scale,

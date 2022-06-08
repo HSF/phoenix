@@ -110,11 +110,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param geometry Geometry to add to the UI menu.
+   * @param object Object to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(geometry: Object3D, menuSubfolder?: string) {
-    const { name, material, visible } = geometry as Mesh<
+  public addGeometry(object: Object3D, menuSubfolder?: string) {
+    const { name, material, visible } = object as Mesh<
       BufferGeometry,
       MeshPhongMaterial
     >;
@@ -126,7 +126,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
 
     const objFolder = parentNode.addChild(name, (value: boolean) => {
-      this.sceneManager.objectVisibility(geometry, value);
+      this.sceneManager.objectVisibility(object, value);
     });
 
     objFolder.toggleState = visible;
@@ -136,7 +136,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value) => {
-          this.sceneManager.changeObjectColor(geometry, value);
+          this.sceneManager.changeObjectColor(object, value);
         },
       })
       .addConfig('slider', {
@@ -146,14 +146,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.sceneManager.setGeometryOpacity(geometry, opacity);
+          this.sceneManager.setGeometryOpacity(object, opacity);
         },
       })
       .addConfig('button', {
         label: 'Remove',
         onClick: () => {
           objFolder.remove();
-          this.sceneManager.removeGeometry(geometry);
+          this.sceneManager.removeGeometry(object);
         },
       });
   }

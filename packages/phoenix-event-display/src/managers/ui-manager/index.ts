@@ -118,15 +118,15 @@ export class UIManager {
 
   /**
    * Add geometry to the menus geometry folder and set up its configurable options.
-   * @param geometry Geometry to add to the UI menu.
+   * @param object Object to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(geometry: Object3D, menuSubfolder?: string) {
+  public addGeometry(object: Object3D, menuSubfolder?: string) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
-    this.uiMenus.forEach((menu) => menu.addGeometry(geometry, menuSubfolder));
+    this.uiMenus.forEach((menu) => menu.addGeometry(object, menuSubfolder));
   }
 
   /**

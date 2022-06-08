@@ -74,7 +74,7 @@ export class ImportManager {
             setFlat
           );
 
-          resolve({ geometry: processedObject });
+          resolve({ object: processedObject });
         },
         null,
         (error) => {
@@ -238,7 +238,7 @@ export class ImportManager {
             );
 
             allGeometries.push({
-              geometry: scene,
+              object: scene,
               menuNodeName: menuNodeName ?? sceneName.menuNodeName,
             });
           }
@@ -278,7 +278,7 @@ export class ImportManager {
             this.processGeometry(scene, name ?? sceneName.name);
 
             allGeometriesUIParameters.push({
-              geometry: scene,
+              object: scene,
             });
           }
 
@@ -329,9 +329,9 @@ export class ImportManager {
         return new Promise<GeometryUIParameters>((resolve, reject) => {
           loader.load(
             json,
-            (geometry: Object3D) => {
-              this.processGeometry(geometry, name, scale, doubleSided);
-              resolve({ geometry });
+            (object: Object3D) => {
+              this.processGeometry(object, name, scale, doubleSided);
+              resolve({ object });
             },
             null,
             (error) => {
@@ -341,9 +341,9 @@ export class ImportManager {
         });
       case 'object':
         return new Promise<GeometryUIParameters>((resolve) => {
-          const geometry = loader.parse(json);
-          this.processGeometry(geometry, name, scale, doubleSided);
-          resolve({ geometry });
+          const object = loader.parse(json);
+          this.processGeometry(object, name, scale, doubleSided);
+          resolve({ object });
         });
     }
   }

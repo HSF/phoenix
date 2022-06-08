@@ -17,10 +17,10 @@ export interface PhoenixUI<T> {
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param geometry Geometry to add to the UI menu.
+   * @param object Object to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  addGeometry(geometry: Object3D, menuSubfolder?: string): void;
+  addGeometry(object: Object3D, menuSubfolder?: string): void;
 
   /**
    * Add event data folder with functions for event data toggles like show/hide and depthTest.
