@@ -21,16 +21,14 @@ describe('CMSComponent', () => {
     spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
   });
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [AppModule],
-        providers: [HttpClient, EventDisplayService],
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [AppModule],
+      providers: [HttpClient, EventDisplayService],
+    }).compileComponents();
 
-      eventDisplayService = TestBed.get(EventDisplayService);
-    })
-  );
+    eventDisplayService = TestBed.get(EventDisplayService);
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CMSComponent);
