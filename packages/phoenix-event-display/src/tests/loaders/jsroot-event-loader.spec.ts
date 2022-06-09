@@ -14,9 +14,7 @@ describe('JSRootEventLoader', () => {
   const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
 
   beforeAll(async () => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(
-      Promise.resolve(mockJSROOT)
-    );
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
     JSROOT = await ScriptLoader.loadJSRootScripts();
   }, JSROOT_TIMEOUT);
 

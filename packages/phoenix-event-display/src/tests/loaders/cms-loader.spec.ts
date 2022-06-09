@@ -9,12 +9,10 @@ describe('CMSLoader', () => {
 
   describe('methods depending upon event data', () => {
     beforeAll((done) => {
-      fetch(TEST_IG_ARCHIVE).then((res) => {
-        const arrayBufferData = res.arrayBuffer();
-        spyOn(res, 'arrayBuffer').and.returnValue(
-          Promise.resolve(arrayBufferData)
-        );
-        spyOn(window, 'fetch').and.returnValue(Promise.resolve(res));
+      fetch(TEST_IG_ARCHIVE).then(async (res) => {
+        const arrayBufferData = await res.arrayBuffer();
+        spyOn(res, 'arrayBuffer').and.resolveTo(arrayBufferData);
+        spyOn(window, 'fetch').and.resolveTo(res);
         done();
       });
     }, TEST_IG_ARCHIVE_TIMEOUT);

@@ -270,12 +270,12 @@ export class EventDisplay {
     initiallyVisible: boolean = true
   ) {
     this.loadingManager.addLoadableItem(`parse_obj_${name}`);
-    const { object: geometry } = this.graphicsLibrary.parseOBJGeometry(
+    const { object } = this.graphicsLibrary.parseOBJGeometry(
       content,
       name,
       initiallyVisible
     );
-    this.ui.addGeometry(geometry, menuNodeName);
+    this.ui.addGeometry(object, menuNodeName);
     this.loadingManager.itemLoaded(`parse_obj_${name}`);
   }
 
@@ -332,8 +332,8 @@ export class EventDisplay {
 
     const allGeometriesUIParameters =
       await this.graphicsLibrary.parseGLTFGeometry(input, name);
-    for (const { object: geometry } of allGeometriesUIParameters) {
-      this.ui.addGeometry(geometry);
+    for (const { object } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object);
     }
 
     this.loadingManager.itemLoaded(`parse_gltf_${name}`);
@@ -396,14 +396,14 @@ export class EventDisplay {
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`json_geom_${name}`);
 
-    const { object: geometry } = await this.graphicsLibrary.loadJSONGeometry(
+    const { object } = await this.graphicsLibrary.loadJSONGeometry(
       json,
       name,
       scale,
       doubleSided,
       initiallyVisible
     );
-    this.ui.addGeometry(geometry, menuNodeName);
+    this.ui.addGeometry(object, menuNodeName);
 
     this.loadingManager.itemLoaded(`json_geom_${name}`);
     this.infoLogger.add(name, 'Loaded JSON geometry');
