@@ -37,7 +37,7 @@ describe('SceneManager', () => {
 
       const geometry = new BoxGeometry(1, 1, 1);
       const material = new MeshBasicMaterial({ color: 'white' });
-      const object = new Mesh(geometry, material);
+      object = new Mesh(geometry, material);
       object.name = OBJECT_NAME;
 
       sceneManager.getScene().add(object);
@@ -45,8 +45,7 @@ describe('SceneManager', () => {
 
     it('should set geometry opacity', () => {
       sceneManager.setGeometryOpacity(object, 0.5);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.material.opacity).toBe(0.5);
+      expect(object.material.opacity).toBe(0.5);
 
       sceneManager.setGeometryOpacity(object, undefined);
     });
@@ -54,7 +53,6 @@ describe('SceneManager', () => {
     it('should change object geometry color', () => {
       const color = new Color(0xffffff);
       sceneManager.changeObjectColor(object, 0xffffff);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
       expect(object.material.color).toEqual(color);
 
       sceneManager.changeObjectColor(undefined, color);
@@ -77,13 +75,16 @@ describe('SceneManager', () => {
     });
 
     it('should change group visibility', () => {
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
+      const group = new Group();
+      group.name = 'objectsGroup';
       const childObj = new Mesh(
         new BoxGeometry(1, 1, 1),
         new MeshBasicMaterial()
       );
-      obj.add(childObj);
-      sceneManager.groupVisibility(OBJECT_NAME, false);
+      group.add(childObj);
+      sceneManager.getScene().add(group);
+
+      sceneManager.groupVisibility('objectsGroup', false);
       expect(childObj.visible).toBe(false);
     });
 
