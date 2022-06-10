@@ -429,12 +429,11 @@ export class SceneManager {
 
   /**
    * Wireframe a group of objects.
-   * @param groupName Group name of the objects group to be wireframed.
+   * @param objectsGroup Group of the objects to be wireframed.
    * @param value A boolean to specify if objects are to be wireframed or not.
    */
-  public wireframeObjects(groupName: string, value: boolean) {
-    const objects = this.scene.getObjectByName(groupName);
-    objects.traverse((object: any) => {
+  public wireframeObjects(objectsGroup: Object3D, value: boolean) {
+    objectsGroup.traverse((object: any) => {
       if (object.material) {
         object.material.wireframe = value;
       }

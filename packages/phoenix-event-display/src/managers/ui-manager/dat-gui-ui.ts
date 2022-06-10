@@ -236,7 +236,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .listen();
     menu.onChange((value) =>
       this.sceneManager.objectVisibility(
-        this.sceneManager.getObjectByName(typeName),
+        this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(typeName),
         value
       )
     );

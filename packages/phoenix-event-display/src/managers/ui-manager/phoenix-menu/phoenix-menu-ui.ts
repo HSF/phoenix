@@ -190,7 +190,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   public addEventDataTypeFolder(typeName: string): void {
     this.eventFolder.addChild(typeName, (value: boolean) => {
       this.sceneManager.objectVisibility(
-        this.sceneManager.getObjectByName(typeName),
+        this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(typeName),
         value
       );
     });
@@ -209,7 +211,6 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     cuts?: Cut[],
     collectionColor?: Color
   ) {
-    const sceneManager = this.sceneManager;
     const typeFolder = this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === eventDataType
     );
@@ -224,7 +225,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         const collectionObject = this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
-        sceneManager.objectVisibility(collectionObject, value);
+        this.sceneManager.objectVisibility(collectionObject, value);
       }
     );
 
@@ -236,8 +237,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       step: 0.1,
       max: 1,
       onChange: (value) => {
-        sceneManager.setGeometryOpacity(
-          sceneManager.getObjectByName(collectionName),
+        this.sceneManager.setGeometryOpacity(
+          this.sceneManager
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName),
           value
         );
       },
@@ -245,7 +248,13 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
-      onChange: (value) => sceneManager.wireframeObjects(collectionName, value),
+      onChange: (value) =>
+        this.sceneManager.wireframeObjects(
+          this.sceneManager
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName),
+          value
+        ),
     });
 
     if (cuts && cuts.length > 0) {
@@ -258,7 +267,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         .addConfig('button', {
           label: 'Reset cuts',
           onClick: () => {
-            sceneManager.groupVisibility(
+            this.sceneManager.groupVisibility(
               collectionName,
               true,
               SceneManager.EVENT_DATA_ID
