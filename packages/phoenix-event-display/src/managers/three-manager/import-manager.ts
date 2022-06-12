@@ -14,7 +14,7 @@ import {
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { LoadingManager } from '../loading-manager';
+import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 /**
  * Manager for managing event display's import related functionality.
@@ -26,8 +26,6 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
-  /** Loading manager for loadable resources */
-  private loadingManager: LoadingManager;
 
   /**
    * Constructor for the import manager.
@@ -43,12 +41,10 @@ export class ImportManager {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
-    this.loadingManager = new LoadingManager();
   }
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
-   * @param callback Callback when geometry is processed.
    * @param filename Path to the geometry.
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
@@ -57,36 +53,32 @@ export class ImportManager {
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
-    callback: (object: Object3D) => any,
     filename: string,
     name: string,
     color: any,
     doubleSided: boolean,
     setFlat: boolean
-  ): Promise<unknown> {
-    if (color == null) {
-      color = 0x41a6f4;
-    }
+  ): Promise<GeometryUIParameters> {
+    color = color ?? 0x41a6f4;
     const objLoader = new OBJLoader();
-    return new Promise<void>((resolve, reject) => {
+
+    return new Promise<GeometryUIParameters>((resolve, reject) => {
       objLoader.load(
         filename,
         (object) => {
-          const processed = this.processOBJ(
+          const processedObject = this.processOBJ(
             object,
             name,
             color,
             doubleSided,
             setFlat
           );
-          callback(processed);
-          resolve();
-          this.loadingManager.itemLoaded(`obj_geom_${name}`);
+
+          resolve({ object: processedObject });
         },
         null,
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`obj_geom_${name}`);
         }
       );
     });
@@ -187,6 +179,7 @@ export class ImportManager {
   ): Promise<void> {
     const loader = new GLTFLoader();
     const sceneString = JSON.stringify(scene, null, 2);
+
     return new Promise<void>((resolve, reject) => {
       loader.parse(
         sceneString,
@@ -196,11 +189,9 @@ export class ImportManager {
           const geometries = gltf.scene.getObjectByName(this.GEOMETRIES_ID);
           callback(eventData, geometries);
           resolve();
-          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
         },
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`parse_phnx_${name}`);
         }
       );
     });
@@ -214,7 +205,6 @@ export class ImportManager {
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
-   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -223,24 +213,22 @@ export class ImportManager {
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
-    transparent: boolean,
-    onSceneProcessed: (
-      geometry: Object3D,
-      name: string,
-      menuNodeName: string
-    ) => void
-  ): Promise<void> {
+    transparent: boolean
+  ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.load(
         sceneUrl,
         (gltf) => {
+          const allGeometries: GeometryUIParameters[] = [];
+
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible ?? initiallyVisible;
             const sceneName = this.processGLTFSceneName(
               scene.name,
               menuNodeName
             );
+
             this.processGeometry(
               scene,
               name ?? sceneName.name,
@@ -249,20 +237,17 @@ export class ImportManager {
               transparent
             );
 
-            onSceneProcessed(
-              scene,
-              name ?? sceneName.name,
-              menuNodeName ?? sceneName.menuNodeName
-            );
+            allGeometries.push({
+              object: scene,
+              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+            });
           }
 
-          resolve();
-          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
+          resolve(allGeometries);
         },
         undefined,
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`gltf_geom_${name}`);
         }
       );
     });
@@ -272,34 +257,35 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
-    name: string,
-    onSceneProcessed: (geometry: Object3D, geoName: string) => any
-  ): Promise<unknown> {
+    name: string
+  ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    return new Promise<void>((resolve, reject) => {
+
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
         geometry,
         '',
         (gltf) => {
+          const allGeometriesUIParameters: GeometryUIParameters[] = [];
+
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(scene, name ?? sceneName.name);
 
-            onSceneProcessed(scene, sceneName.name ?? name);
+            allGeometriesUIParameters.push({
+              object: scene,
+            });
           }
 
-          resolve();
-          this.loadingManager.itemLoaded(`parse_geom_${name}`);
+          resolve(allGeometriesUIParameters);
         },
         (error) => {
           reject(error);
-          this.loadingManager.itemLoaded(`parse_gltf_${name}`);
         }
       );
     });
@@ -326,7 +312,6 @@ export class ImportManager {
    * Loads geometries from JSON.
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
-   * @param callback Callback called after the geometries are processed and loaded.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @returns Promise for loading the geometry.
@@ -334,37 +319,32 @@ export class ImportManager {
   public loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
-    callback: (geometry: Object3D) => any,
     scale?: number,
     doubleSided?: boolean
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const loader = new ObjectLoader();
-    if (typeof json === 'string') {
-      return new Promise<void>((resolve, reject) => {
-        loader.load(
-          json,
-          (geometry: Object3D) => {
-            this.processGeometry(geometry, name, scale, doubleSided);
-            callback(geometry);
-            resolve();
-            this.loadingManager.itemLoaded(`json_geom_${name}`);
-          },
-          null,
-          (error) => {
-            reject(error);
-            this.loadingManager.itemLoaded(`json_geom_${name}`);
-          }
-        );
-      });
-    } else if (typeof json === 'object') {
-      return new Promise<void>((resolve) => {
-        const geometry = loader.parse(json, () => {
-          resolve();
-          this.loadingManager.itemLoaded(`json_geom_${name}`);
+
+    switch (typeof json) {
+      case 'string':
+        return new Promise<GeometryUIParameters>((resolve, reject) => {
+          loader.load(
+            json,
+            (object: Object3D) => {
+              this.processGeometry(object, name, scale, doubleSided);
+              resolve({ object });
+            },
+            null,
+            (error) => {
+              reject(error);
+            }
+          );
         });
-        this.processGeometry(geometry, name, scale, doubleSided);
-        callback(geometry);
-      });
+      case 'object':
+        return new Promise<GeometryUIParameters>((resolve) => {
+          const object = loader.parse(json);
+          this.processGeometry(object, name, scale, doubleSided);
+          resolve({ object });
+        });
     }
   }
 
@@ -409,7 +389,7 @@ export class ImportManager {
 
           // Changing to a material with 0 shininess
           child.material = new MeshPhongMaterial({
-            color: color,
+            color,
             shininess: 0,
             side: side,
             transparent: isTransparent,

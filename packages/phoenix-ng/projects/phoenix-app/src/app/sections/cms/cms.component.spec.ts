@@ -18,9 +18,7 @@ describe('CMSComponent', () => {
   let eventDisplayService: EventDisplayService;
 
   beforeAll(() => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(
-      Promise.resolve(mockJSROOT)
-    );
+    spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
   });
 
   beforeEach(waitForAsync(() => {

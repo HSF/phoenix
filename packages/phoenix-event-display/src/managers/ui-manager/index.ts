@@ -1,9 +1,9 @@
 import * as Stats from 'stats-js';
-import { Color } from 'three';
+import { Color, Object3D } from 'three';
 import { ThreeManager } from '../three-manager';
-import { Configuration } from '../../extras/configuration';
-import { PresetView } from '../../extras/preset-view.model';
-import { Cut } from '../../extras/cut.model';
+import { Configuration } from '../../lib/types/configuration';
+import { PresetView } from '../../lib/models/preset-view.model';
+import { Cut } from '../../lib/models/cut.model';
 import { SceneManager } from '../three-manager/scene-manager';
 import { StateManager } from '../../managers/state-manager';
 import { loadFile, saveFile } from '../../helpers/file';
@@ -117,25 +117,16 @@ export class UIManager {
   }
 
   /**
-   * Adds geometry to the dat.GUI menu's geometry folder and sets up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * Add geometry to the menus geometry folder and set up its configurable options.
+   * @param object Object to add to the UI menu.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: any,
-    menuNodeName?: string,
-    initiallyVisible: boolean = true
-  ) {
+  public addGeometry(object: Object3D, menuSubfolder?: string) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
-    this.uiMenus.forEach((menu) =>
-      menu.addGeometry(name, color, initiallyVisible, menuNodeName)
-    );
+    this.uiMenus.forEach((menu) => menu.addGeometry(object, menuSubfolder));
   }
 
   /**
@@ -175,29 +166,23 @@ export class UIManager {
    * Add labels folder to dat.GUI and Phoenix menu.
    */
   public addLabelsFolder() {
+    const sceneManager = this.three.getSceneManager();
     this.labelsFolderAdded = true;
 
     // Common functions for Phoenix and dat.GUI menus
     const onToggle = (toggleValue: boolean) => {
-      this.three
-        .getSceneManager()
-        .objectVisibility(SceneManager.LABELS_ID, toggleValue);
+      sceneManager.objectVisibility(
+        sceneManager.getObjectByName(SceneManager.LABELS_ID),
+        toggleValue
+      );
     };
     const onSizeChange = (scale: number) => {
-      const labels = this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) => {
-        this.three.getSceneManager().scaleObject(singleLabel.name, scale);
-      });
+      const labels = sceneManager.getObjectByName(SceneManager.LABELS_ID);
+      sceneManager.scaleObject(labels, scale);
     };
     const onColorChange = (value: any) => {
-      const labels = this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) => {
-        this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
-      });
+      const labels = sceneManager.getObjectByName(SceneManager.LABELS_ID);
+      sceneManager.changeObjectColor(labels, value);
     };
     const onSaveLabels = () => {
       const labelsObject =
@@ -258,7 +243,8 @@ export class UIManager {
    * @param visible Value for the visibility of the object
    */
   public geometryVisibility(name: string, visible: boolean) {
-    this.three.getSceneManager().objectVisibility(name, visible);
+    const sceneManager = this.three.getSceneManager();
+    sceneManager.objectVisibility(sceneManager.getObjectByName(name), visible);
   }
 
   /**

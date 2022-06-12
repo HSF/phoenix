@@ -4,6 +4,7 @@ import { UIManager } from '../managers/ui-manager';
 import { XRSessionType } from '../managers/three-manager/xr/xr-manager';
 import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
+import { Object3D } from 'three';
 
 describe('EventDisplay', () => {
   let eventDisplay: EventDisplay;
@@ -11,6 +12,7 @@ describe('EventDisplay', () => {
   let three: ThreeManager;
   let ui: UIManager;
 
+  const MOCK_OBJECT = new Object3D();
   const EVENT_KEY = 'Event Key';
   const MOCK_EVENT_DATA = {
     'Event Key': {
@@ -103,18 +105,22 @@ describe('EventDisplay', () => {
       expect(eventDisplay.buildEventDataFromJSON).toHaveBeenCalledTimes(0);
     });
 
-    it('should load OBJ geometry through three and ui service', () => {
-      spyOn(three, 'loadOBJGeometry').and.stub();
+    it('should load OBJ geometry through three and ui service', async () => {
+      spyOn(three, 'loadOBJGeometry').and.resolveTo({ object: MOCK_OBJECT });
       spyOn(ui, 'addGeometry').and.stub();
 
-      eventDisplay.loadOBJGeometry('test/file/path.obj', 'Test OBJ', 0xffffff);
+      await eventDisplay.loadOBJGeometry(
+        'test/file/path.obj',
+        'Test OBJ',
+        0xffffff
+      );
 
       expect(three.loadOBJGeometry).toHaveBeenCalled();
       expect(ui.addGeometry).toHaveBeenCalled();
     });
 
     it('should parse OBJ geometry through three and ui service', () => {
-      spyOn(three, 'parseOBJGeometry').and.stub();
+      spyOn(three, 'parseOBJGeometry').and.returnValue({ object: MOCK_OBJECT });
       spyOn(ui, 'addGeometry').and.stub();
 
       eventDisplay.parseOBJGeometry('TestContentOfOBJFile', 'Test OBJ');
@@ -166,11 +172,11 @@ describe('EventDisplay', () => {
       expect(three.loadGLTFGeometry).toHaveBeenCalled();
     });
 
-    it('should load JSON geometry through three and ui manager', () => {
-      spyOn(three, 'loadJSONGeometry').and.stub();
+    it('should load JSON geometry through three and ui manager', async () => {
+      spyOn(three, 'loadJSONGeometry').and.resolveTo({ object: MOCK_OBJECT });
       spyOn(ui, 'addGeometry').and.stub();
 
-      eventDisplay.loadJSONGeometry('test/file/path.json', 'Test JSON');
+      await eventDisplay.loadJSONGeometry('test/file/path.json', 'Test JSON');
 
       expect(three.loadJSONGeometry).toHaveBeenCalled();
       expect(ui.addGeometry).toHaveBeenCalled();
@@ -188,9 +194,7 @@ describe('EventDisplay', () => {
         jasmine.createSpyObj('returnValue', ['send'])
       );
 
-      spyOn(ScriptLoader, 'loadJSRootScripts').and.returnValue(
-        Promise.resolve(mockJSROOT)
-      );
+      spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
 
       const JSROOT = await ScriptLoader.loadJSRootScripts();
 

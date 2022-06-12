@@ -20,9 +20,9 @@ export * from './managers/ui-manager/index';
 export * from './managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 // Extras
-export * from './extras/configuration';
-export * from './extras/cut.model';
-export * from './extras/preset-view.model';
+export * from './lib/types/configuration';
+export * from './lib/models/cut.model';
+export * from './lib/models/preset-view.model';
 
 // Helpers
 export * from './helpers/info-logger';

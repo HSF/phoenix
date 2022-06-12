@@ -20,7 +20,7 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 import { Font } from 'three/examples/jsm/loaders/FontLoader';
-import { Cut } from '../../extras/cut.model';
+import { Cut } from '../../lib/models/cut.model';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
@@ -136,12 +136,10 @@ export class SceneManager {
 
   /**
    * Modifies an object's opacity.
-   * @param name Name of the object to change its opacity.
+   * @param object Object whose opacity needs to be changed.
    * @param value Value of opacity, between 0 (transparent) and 1 (opaque).
    */
-  public setGeometryOpacity(name: string, value: number) {
-    const object = this.scene.getObjectByName(name);
-
+  public setGeometryOpacity(object: Object3D, value: number) {
     if (value && object) {
       object.traverse((child) => {
         if (child?.['material']) {
@@ -154,11 +152,10 @@ export class SceneManager {
 
   /**
    * Changes color of an OBJ geometry.
-   * @param name Name of the geometry.
+   * @param object Object to change the color of.
    * @param value Value representing the color in hex format.
    */
-  public changeObjectColor(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
+  public changeObjectColor(object: Object3D, value: any) {
     if (object) {
       object.traverse((child) => {
         if (child instanceof Mesh || child instanceof LineSegments) {
@@ -176,16 +173,10 @@ export class SceneManager {
 
   /**
    * Changes objects visibility.
-   * @param name Name of the object to change its visibility.
+   * @param object Object to change the visibility of.
    * @param visible If the object will be visible (true) or hidden (false).
-   * @param parentName Name of the parent object to look inside for object
-   * whose visibility is to be toggled.
    */
-  public objectVisibility(name: string, visible: boolean, parentName?: string) {
-    const parent = parentName
-      ? this.scene.getObjectByName(parentName)
-      : this.scene;
-    const object = parent.getObjectByName(name);
+  public objectVisibility(object: Object3D, visible: boolean) {
     if (object) {
       object.visible = visible;
       object.traverse((child) => {
@@ -206,18 +197,14 @@ export class SceneManager {
    * @returns Object position.
    */
   public getObjectPosition(name: string): Vector3 {
-    const object = this.scene.getObjectByName(name);
-    if (object) {
-      return object.position;
-    }
+    return this.scene.getObjectByName(name)?.position;
   }
 
   /**
    * Removes a geometry from the scene.
-   * @param name Name of the object to be removed.
+   * @param object Geometry object to be removed.
    */
-  public removeGeometry(name: string) {
-    const object = this.scene.getObjectByName(name);
+  public removeGeometry(object: Object3D) {
     const geometries = this.getGeometries() as Group;
     geometries.remove(object);
   }
@@ -233,12 +220,11 @@ export class SceneManager {
 
   /**
    * Scales an object.
-   * @param name Name of the object to scale.
+   * @param object Object to scale.
    * @param value Value to scale the object by.
    */
-  public scaleObject(name: string, value: any) {
-    const object = this.scene.getObjectByName(name);
-    object.scale.set(value, value, value);
+  public scaleObject(object: Object3D, value: any) {
+    object.scale.setScalar(value);
   }
 
   /**
@@ -443,12 +429,11 @@ export class SceneManager {
 
   /**
    * Wireframe a group of objects.
-   * @param groupName Group name of the objects group to be wireframed.
+   * @param objectsGroup Group of the objects to be wireframed.
    * @param value A boolean to specify if objects are to be wireframed or not.
    */
-  public wireframeObjects(groupName: string, value: boolean) {
-    const objects = this.scene.getObjectByName(groupName);
-    objects.traverse((object: any) => {
+  public wireframeObjects(objectsGroup: Object3D, value: boolean) {
+    objectsGroup.traverse((object: any) => {
       if (object.material) {
         object.material.wireframe = value;
       }
@@ -651,5 +636,14 @@ export class SceneManager {
       }
     }
     this.grid.visible = visible;
+  }
+
+  /**
+   * Get an object by its name.
+   * @param name Name of the object.
+   * @returns The object.
+   */
+  public getObjectByName(name: string): Object3D {
+    return this.scene.getObjectByName(name);
   }
 }

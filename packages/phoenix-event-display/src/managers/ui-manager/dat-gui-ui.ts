@@ -1,14 +1,22 @@
 import { GUI } from 'dat.gui';
-import { Color } from 'three';
+import {
+  BufferGeometry,
+  Color,
+  Mesh,
+  MeshPhongMaterial,
+  Object3D,
+} from 'three';
 import { ThreeManager } from '../three-manager';
 import { SceneManager } from '../three-manager/scene-manager';
-import { Cut } from '../../extras/cut.model';
+import { Cut } from '../../lib/models/cut.model';
 import { PhoenixUI } from './phoenix-ui';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.
  */
 export class DatGUIMenuUI implements PhoenixUI<GUI> {
+  /** Manager for managing functions of the three.js scene. */
+  private sceneManager: SceneManager;
   /** dat.GUI menu. */
   private gui: GUI;
   /** Options for the dat.GUI menu. */
@@ -49,6 +57,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
+
+    this.sceneManager = three.getSceneManager();
   }
 
   /**
@@ -76,9 +86,10 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     showGeometriesMenu.onChange((value) => {
-      this.three
-        .getSceneManager()
-        .objectVisibility(SceneManager.GEOMETRIES_ID, value);
+      this.sceneManager.objectVisibility(
+        this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+        value
+      );
     });
     // A boolean toggle for enabling/disabling the geometries' wireframing.
     const wireframeGeometriesMenu = this.geomFolder
@@ -86,32 +97,31 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Wireframe')
       .listen();
     wireframeGeometriesMenu.onChange((value) => {
-      this.three.getSceneManager().wireframeGeometries(value);
+      this.sceneManager.wireframeGeometries(value);
     });
   }
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
+   * @param object Object to add to the UI menu.
+   * @param _menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: Color,
-    initiallyVisible?: boolean,
-    _menuSubfolder?: string
-  ) {
+  public addGeometry(object: Object3D, _menuSubfolder?: string) {
+    const { name, material, visible } = object as Mesh<
+      BufferGeometry,
+      MeshPhongMaterial
+    >;
+    const color = material?.color;
+
     // A new folder for the object is added to the 'Geometry' folder
     this.guiParameters[name] = {
-      show: initiallyVisible,
+      show: visible,
       color: color ?? '#000000',
       x: 0,
       y: 0,
       z: 0,
       detectorOpacity: 1.0,
-      remove: this.removeOBJ(name),
+      remove: this.removeOBJ(object),
       scale: 1,
     };
 
@@ -121,14 +131,14 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .addColor(this.guiParameters[name], 'color')
       .name('Color');
     colorMenu.onChange((value) =>
-      this.three.getSceneManager().changeObjectColor(name, value)
+      this.sceneManager.changeObjectColor(object, value)
     );
 
     const opacity = objFolder
       .add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0)
       .name('Opacity');
     opacity.onFinishChange((newValue) =>
-      this.three.getSceneManager().setGeometryOpacity(name, newValue)
+      this.sceneManager.setGeometryOpacity(object, newValue)
     );
 
     // A boolean toggle for showing/hiding the object is added to its folder
@@ -137,14 +147,14 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     showMenu.onChange((value) =>
-      this.three.getSceneManager().objectVisibility(name, value)
+      this.sceneManager.objectVisibility(object, value)
     );
     // Scale slider
     const scaleMenu = objFolder
       .add(this.guiParameters[name], 'scale', 0, 1000)
       .name('Scale');
     scaleMenu.onChange((value) => {
-      this.three.getSceneManager().scaleObject(name, value);
+      this.sceneManager.scaleObject(object, value);
     });
     // Controls for positioning.
     // const position = this.three.getObjectPosition(name);
@@ -152,19 +162,19 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .add(this.guiParameters[name], 'x', -this.maxPositionX, this.maxPositionX)
       .name('X')
       .onChange((value) =>
-        this.three.getSceneManager().getObjectPosition(name).setX(value)
+        this.sceneManager.getObjectPosition(name).setX(value)
       );
     objFolder
       .add(this.guiParameters[name], 'y', -this.maxPositionY, this.maxPositionY)
       .name('Y')
       .onChange((value) =>
-        this.three.getSceneManager().getObjectPosition(name).setY(value)
+        this.sceneManager.getObjectPosition(name).setY(value)
       );
     objFolder
       .add(this.guiParameters[name], 'z', -this.maxPositionZ, this.maxPositionZ)
       .name('Z')
       .onChange((value) =>
-        this.three.getSceneManager().getObjectPosition(name).setZ(value)
+        this.sceneManager.getObjectPosition(name).setZ(value)
       );
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], 'remove').name('Remove');
@@ -172,15 +182,15 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
   /**
    * Remove object from the dat.GUI menu.
-   * @param name Name of the object to be removed.
+   * @param object Geometry object to be removed.
    */
-  private removeOBJ(name: string) {
+  private removeOBJ(object: Object3D) {
     return () => {
-      const folder = this.geomFolder.__folders[name];
+      const folder = this.geomFolder.__folders[object.name];
       if (folder) {
         this.geomFolder.removeFolder(folder);
       }
-      this.three.getSceneManager().removeGeometry(name);
+      this.sceneManager.removeGeometry(object);
     };
   }
 
@@ -202,9 +212,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     menu.onChange((value) =>
-      this.three
-        .getSceneManager()
-        .objectVisibility(SceneManager.EVENT_DATA_ID, value)
+      this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value)
     );
 
     // A boolean toggle for enabling/disabling depthTest of event data.
@@ -227,7 +235,12 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     menu.onChange((value) =>
-      this.three.getSceneManager().objectVisibility(typeName, value)
+      this.sceneManager.objectVisibility(
+        this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(typeName),
+        value
+      )
     );
   }
 
@@ -256,9 +269,11 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       randomColor: () =>
         this.three.getColorManager().collectionColorRandom(collectionName),
       resetCut: () =>
-        this.three
-          .getSceneManager()
-          .groupVisibility(collectionName, true, SceneManager.EVENT_DATA_ID),
+        this.sceneManager.groupVisibility(
+          collectionName,
+          true,
+          SceneManager.EVENT_DATA_ID
+        ),
     };
     const collFolder = typeFolder.addFolder(collectionName);
 
@@ -267,11 +282,12 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .add(this.guiParameters[collectionName], 'show')
       .name('Show')
       .listen();
-    showMenu.onChange((value) =>
-      this.three
-        .getSceneManager()
-        .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID)
-    );
+    showMenu.onChange((value) => {
+      const collectionObject = this.sceneManager
+        .getObjectByName(SceneManager.EVENT_DATA_ID)
+        .getObjectByName(collectionName);
+      this.sceneManager.objectVisibility(collectionObject, value);
+    });
 
     // A color picker is added to the collection's folder
     const colorMenu = collFolder
@@ -297,13 +313,13 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
           .add(cut, 'minValue', cut.minValue, cut.maxValue)
           .name('min ' + cut.field);
         minCut.onChange((value) => {
-          this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          this.sceneManager.collectionFilter(collectionName, cuts);
         });
         const maxCut = cutsFolder
           .add(cut, 'maxValue', cut.minValue, cut.maxValue)
           .name('max ' + cut.field);
         maxCut.onChange((value) => {
-          this.three.getSceneManager().collectionFilter(collectionName, cuts);
+          this.sceneManager.collectionFilter(collectionName, cuts);
         });
       }
     }
@@ -378,16 +394,20 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Show')
       .listen();
     visibilityToggle.onChange((value) => {
-      this.three
-        .getSceneManager()
-        .objectVisibility(labelId, value, SceneManager.LABELS_ID);
+      const labelObject = this.sceneManager
+        .getObjectByName(SceneManager.LABELS_ID)
+        .getObjectByName(labelId);
+      this.sceneManager.objectVisibility(labelObject, value);
     });
 
     const colorMenu = labelItem
       .addColor(this.guiParameters[labelId], 'color')
       .name('Çolor');
     colorMenu.onChange((color) =>
-      this.three.getSceneManager().changeObjectColor(labelId, color)
+      this.sceneManager.changeObjectColor(
+        this.sceneManager.getObjectByName(labelId),
+        color
+      )
     );
 
     this.guiParameters[labelId]['removeLabel'] = () => {

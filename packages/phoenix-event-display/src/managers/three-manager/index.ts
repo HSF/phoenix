@@ -15,7 +15,7 @@ import {
   Euler,
   PerspectiveCamera,
 } from 'three';
-import { Configuration } from '../../extras/configuration';
+import { Configuration } from '../../lib/types/configuration';
 import { ControlsManager } from './controls-manager';
 import { RendererManager } from './renderer-manager';
 import { ExportManager } from './export-manager';
@@ -33,6 +33,7 @@ import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
 import { UIManager } from '../ui-manager';
+import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 /**
  * Manager for all three.js related functions.
@@ -324,69 +325,65 @@ export class ThreeManager {
    * @param setFlat Whether object should be flat-shaded or not.
    * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(
+  public async loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (object: Object3D) => {
-      object.visible = initiallyVisible;
-      geometries.add(object);
-    };
-    return this.importManager.loadOBJGeometry(
-      callback,
+    const geometryUIParameters = await this.importManager.loadOBJGeometry(
       filename,
       name,
       color,
       doubleSided,
       setFlat
     );
+
+    const { object } = geometryUIParameters;
+    object.visible = initiallyVisible;
+    geometries.add(object);
+
+    return geometryUIParameters;
   }
 
   /**
    * Loads a GLTF (.gltf) scene/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
    * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
-   * @param addGeometryToUI Function to add geometry to the UI.
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(
+  public async loadGLTFGeometry(
     sceneUrl: any,
     name: string,
-    addGeometryToUI: UIManager['addGeometry'],
     menuNodeName?: string,
     scale?: number,
     initiallyVisible?: boolean,
     transparent?: boolean
-  ): Promise<void> {
+  ): Promise<GeometryUIParameters[]> {
     const geometries = this.sceneManager.getGeometries();
-    const onSceneProcessed = (
-      geometry: Object3D,
-      geoName: string,
-      menuName: string
-    ) => {
-      addGeometryToUI(geoName, undefined, menuName, geometry.visible);
-      geometries.add(geometry);
-      this.infoLogger.add(name, 'Loaded GLTF scene');
-    };
 
-    return this.importManager.loadGLTFGeometry(
+    const allGeometriesUIParameters = await this.importManager.loadGLTFGeometry(
       sceneUrl,
       name,
       menuNodeName,
       scale,
       initiallyVisible,
-      transparent,
-      onSceneProcessed
+      transparent
     );
+
+    for (const { object } of allGeometriesUIParameters) {
+      geometries.add(object);
+      this.infoLogger.add(name, 'Loaded GLTF scene');
+    }
+
+    return allGeometriesUIParameters;
   }
 
   /**
@@ -399,12 +396,13 @@ export class ThreeManager {
     geometry: string,
     name: string,
     initiallyVisible: boolean = true
-  ) {
+  ): GeometryUIParameters {
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
     object.visible = initiallyVisible;
     geometries.add(object);
-    this.loadingManager.itemLoaded(`parse_obj_${name}`);
+
+    return { object: object };
   }
 
   /**
@@ -413,22 +411,19 @@ export class ThreeManager {
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
+  public async parseGLTFGeometry(
     geometry: any,
-    name: string,
-    addGeometryToUI: UIManager['addGeometry']
-  ): Promise<unknown> {
-    const onSceneProcessed = (geometry: Object3D, geoName: string) => {
-      addGeometryToUI(geoName, undefined, undefined, geometry.visible);
-      this.sceneManager.getGeometries().add(geometry);
-      this.infoLogger.add(name, 'Parsed GLTF geometry');
-    };
+    name: string
+  ): Promise<GeometryUIParameters[]> {
+    const allGeometriesUIParameters =
+      await this.importManager.parseGLTFGeometry(geometry, name);
 
-    return this.importManager.parseGLTFGeometry(
-      geometry,
-      name,
-      onSceneProcessed
-    );
+    for (const { object } of allGeometriesUIParameters) {
+      this.sceneManager.getGeometries().add(object);
+      this.infoLogger.add(name, 'Parsed GLTF geometry');
+    }
+
+    return allGeometriesUIParameters;
   }
 
   /**
@@ -436,12 +431,13 @@ export class ThreeManager {
    * @param scene Geometry in Phoenix (.phnx) format.
    * @returns Promise for loading the scene.
    */
-  public parsePhnxScene(scene: any): Promise<unknown> {
+  public async parsePhnxScene(scene: any): Promise<void> {
     const callback = (geometries: Object3D, eventData: Object3D) => {
       this.sceneManager.getScene().add(geometries);
       this.sceneManager.getScene().add(eventData);
     };
-    return this.importManager.parsePhnxScene(scene, callback);
+
+    await this.importManager.parsePhnxScene(scene, callback);
   }
 
   /**
@@ -453,25 +449,24 @@ export class ThreeManager {
    * @param initiallyVisible Whether the geometry is initially visible or not.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(
+  public async loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
     scale?: number,
     doubleSided?: boolean,
     initiallyVisible: boolean = true
-  ): Promise<unknown> {
+  ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
-    const callback = (geometry: Object3D) => {
-      geometry.visible = initiallyVisible;
-      geometries.add(geometry);
-    };
-    return this.importManager.loadJSONGeometry(
+    const { object } = await this.importManager.loadJSONGeometry(
       json,
       name,
-      callback,
       scale,
       doubleSided
     );
+    object.visible = initiallyVisible;
+    geometries.add(object);
+
+    return { object };
   }
 
   /**

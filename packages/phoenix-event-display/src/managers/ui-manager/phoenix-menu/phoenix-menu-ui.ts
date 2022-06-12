@@ -1,8 +1,14 @@
-import { Color } from 'three';
+import {
+  BufferGeometry,
+  Color,
+  Mesh,
+  MeshPhongMaterial,
+  Object3D,
+} from 'three';
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
-import { Cut } from '../../../extras/cut.model';
+import { Cut } from '../../../lib/models/cut.model';
 import { PrettySymbols } from '../../../helpers/pretty-symbols';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
 import { PhoenixUI } from '../phoenix-ui';
@@ -19,6 +25,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   private eventFolderState: any;
   /** Phoenix menu node containing labels. */
   private labelsFolder: PhoenixMenuNode;
+  /** Manager for managing functions of the three.js scene. */
+  private sceneManager: SceneManager;
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -32,6 +40,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.geomFolder = null;
     this.eventFolder = null;
     this.labelsFolder = null;
+    this.sceneManager = three.getSceneManager();
   }
 
   /**
@@ -57,19 +66,18 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
-          this.three
-            .getSceneManager()
-            .groupVisibility(SceneManager.GEOMETRIES_ID, value);
+          this.sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
         },
         'perspective'
       );
     }
+
     this.geomFolder
       .addConfig('checkbox', {
         label: 'Wireframe',
         isChecked: false,
         onChange: (value) => {
-          this.three.getSceneManager().wireframeGeometries(value);
+          this.sceneManager.wireframeGeometries(value);
         },
       })
       .addConfig('slider', {
@@ -79,9 +87,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (value) => {
-          this.three
-            .getSceneManager()
-            .setGeometryOpacity(SceneManager.GEOMETRIES_ID, value);
+          this.sceneManager.setGeometryOpacity(
+            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            value
+          );
         },
       })
       .addConfig('slider', {
@@ -91,43 +100,43 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.01,
         allowCustomValue: true,
         onChange: (scale) => {
-          this.three
-            .getSceneManager()
-            .scaleObject(SceneManager.GEOMETRIES_ID, scale);
+          this.sceneManager.scaleObject(
+            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            scale
+          );
         },
       });
   }
 
   /**
    * Add geometry to the menu's geometry folder and set up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @param object Object to add to the UI menu.
    * @param menuSubfolder Subfolder in the menu to add the geometry to. Example `Folder > Subfolder`.
    */
-  public addGeometry(
-    name: string,
-    color: any,
-    initiallyVisible: boolean = true,
-    menuNodeName?: string
-  ) {
+  public addGeometry(object: Object3D, menuSubfolder?: string) {
+    const { name, material, visible } = object as Mesh<
+      BufferGeometry,
+      MeshPhongMaterial
+    >;
+    const color = material?.color;
+
     let parentNode: PhoenixMenuNode = this.geomFolder;
-    if (menuNodeName) {
-      parentNode = this.geomFolder.findInTreeOrCreate(menuNodeName);
+    if (menuSubfolder) {
+      parentNode = this.geomFolder.findInTreeOrCreate(menuSubfolder);
     }
 
     const objFolder = parentNode.addChild(name, (value: boolean) => {
-      this.three.getSceneManager().objectVisibility(name, value);
+      this.sceneManager.objectVisibility(object, value);
     });
 
-    objFolder.toggleState = initiallyVisible;
+    objFolder.toggleState = visible;
 
     objFolder
       .addConfig('color', {
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value) => {
-          this.three.getSceneManager().changeObjectColor(name, value);
+          this.sceneManager.changeObjectColor(object, value);
         },
       })
       .addConfig('slider', {
@@ -137,14 +146,14 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.three.getSceneManager().setGeometryOpacity(name, opacity);
+          this.sceneManager.setGeometryOpacity(object, opacity);
         },
       })
       .addConfig('button', {
         label: 'Remove',
         onClick: () => {
           objFolder.remove();
-          this.three.getSceneManager().removeGeometry(name);
+          this.sceneManager.removeGeometry(object);
         },
       });
   }
@@ -161,9 +170,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.eventFolder = this.phoenixMenuRoot.addChild(
       'Event Data',
       (value: boolean) => {
-        this.three
-          .getSceneManager()
-          .groupVisibility(SceneManager.EVENT_DATA_ID, value);
+        this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value);
       },
       'event-folder'
     );
@@ -182,7 +189,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addEventDataTypeFolder(typeName: string): void {
     this.eventFolder.addChild(typeName, (value: boolean) => {
-      this.three.getSceneManager().objectVisibility(typeName, value);
+      this.sceneManager.objectVisibility(
+        this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(typeName),
+        value
+      );
     });
   }
 
@@ -210,9 +222,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     const collectionNode = typeFolder.addChild(
       collectionName,
       (value: boolean) => {
-        this.three
-          .getSceneManager()
-          .objectVisibility(collectionName, value, SceneManager.EVENT_DATA_ID);
+        const collectionObject = this.sceneManager
+          .getObjectByName(SceneManager.EVENT_DATA_ID)
+          .getObjectByName(collectionName);
+        this.sceneManager.objectVisibility(collectionObject, value);
       }
     );
 
@@ -224,14 +237,24 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       step: 0.1,
       max: 1,
       onChange: (value) => {
-        this.three.getSceneManager().setGeometryOpacity(collectionName, value);
+        this.sceneManager.setGeometryOpacity(
+          this.sceneManager
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName),
+          value
+        );
       },
     });
 
     drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
       onChange: (value) =>
-        this.three.getSceneManager().wireframeObjects(collectionName, value),
+        this.sceneManager.wireframeObjects(
+          this.sceneManager
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName),
+          value
+        ),
     });
 
     if (cuts && cuts.length > 0) {
@@ -244,13 +267,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         .addConfig('button', {
           label: 'Reset cuts',
           onClick: () => {
-            this.three
-              .getSceneManager()
-              .groupVisibility(
-                collectionName,
-                true,
-                SceneManager.EVENT_DATA_ID
-              );
+            this.sceneManager.groupVisibility(
+              collectionName,
+              true,
+              SceneManager.EVENT_DATA_ID
+            );
 
             for (const cut of cuts) {
               cut.reset();
@@ -270,7 +291,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           onChange: ({ value, highValue }) => {
             cut.minValue = value;
             cut.maxValue = highValue;
-            this.three.getSceneManager().collectionFilter(collectionName, cuts);
+            this.sceneManager.collectionFilter(collectionName, cuts);
           },
         });
       }
@@ -349,31 +370,40 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param labelId Unique ID of the label.
    * @param onRemoveLabel Function called when label is removed.
    */
-  public addLabel(labelId: string, removeLabel?: () => void) {
+  public addLabel(labelId: string, onRemoveLabel?: () => void) {
     let labelNode = this.labelsFolder.children.find(
       (phoenixMenuNode) => phoenixMenuNode.name === labelId
     );
-    if (!labelNode) {
-      labelNode = this.labelsFolder.addChild(labelId, (value) => {
-        this.three.getSceneManager().objectVisibility(labelId, value);
-      });
 
-      labelNode.addConfig('color', {
-        label: 'Color',
-        color: '#a8a8a8',
-        onChange: (value) => {
-          this.three.getSceneManager().changeObjectColor(labelId, value);
-        },
-      });
-
-      labelNode.addConfig('button', {
-        label: 'Remove',
-        onClick: () => {
-          removeLabel?.();
-          this.removeLabel(labelId, labelNode);
-        },
-      });
+    if (labelNode) {
+      return;
     }
+
+    labelNode = this.labelsFolder.addChild(labelId, (value) => {
+      const labelObject = this.sceneManager
+        .getObjectByName(SceneManager.LABELS_ID)
+        .getObjectByName(labelId);
+      this.sceneManager.objectVisibility(labelObject, value);
+    });
+
+    labelNode.addConfig('color', {
+      label: 'Color',
+      color: '#a8a8a8',
+      onChange: (value) => {
+        this.sceneManager.changeObjectColor(
+          this.sceneManager.getObjectByName(labelId),
+          value
+        );
+      },
+    });
+
+    labelNode.addConfig('button', {
+      label: 'Remove',
+      onClick: () => {
+        onRemoveLabel?.();
+        this.removeLabel(labelId, labelNode);
+      },
+    });
   }
 
   /**

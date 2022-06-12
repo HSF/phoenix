@@ -48,10 +48,8 @@ describe('EventDataExplorerDialogComponent', () => {
   });
 
   beforeAll(() => {
-    spyOn(mockResponse, 'json').and.returnValue(
-      Promise.resolve(mockFileResponse)
-    );
-    spyOn(window, 'fetch').and.returnValue(Promise.resolve(mockResponse));
+    spyOn(mockResponse, 'json').and.resolveTo(mockFileResponse);
+    spyOn(window, 'fetch').and.resolveTo(mockResponse);
   });
 
   beforeEach(() => {

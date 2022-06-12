@@ -1,6 +1,6 @@
 import { JiveXMLLoader } from '../loaders/jivexml-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
-import { Configuration } from '../extras/configuration';
+import { Configuration } from '../lib/types/configuration';
 import { EventDisplay } from '../event-display';
 import { StateManager } from './state-manager';
 

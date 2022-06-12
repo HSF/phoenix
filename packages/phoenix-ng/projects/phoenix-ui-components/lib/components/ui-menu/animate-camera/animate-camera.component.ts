@@ -66,9 +66,11 @@ export class AnimateCameraComponent {
   }
 
   private setDetectorOpacity(opacity: number) {
-    this.eventDisplay
-      .getThreeManager()
-      .getSceneManager()
-      .setGeometryOpacity(SceneManager.GEOMETRIES_ID, opacity);
+    const sceneManager = this.eventDisplay.getThreeManager().getSceneManager();
+    const geometriesGroup = sceneManager.getObjectByName(
+      SceneManager.GEOMETRIES_ID
+    );
+
+    sceneManager.setGeometryOpacity(geometriesGroup, opacity);
   }
 }

@@ -3,7 +3,7 @@ import { GUI } from 'dat.gui';
 import { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager';
 import { ThreeManager } from '../managers/three-manager';
-import { Cut } from '../extras/cut.model';
+import { Cut } from '../lib/models/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../helpers/info-logger';
 import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';

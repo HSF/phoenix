@@ -8,6 +8,7 @@ import {
   Mesh,
   Color,
   Group,
+  BufferGeometry,
 } from 'three';
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
 
@@ -28,6 +29,7 @@ describe('SceneManager', () => {
   });
 
   describe('with object in scene', () => {
+    let object: Mesh<BufferGeometry, MeshBasicMaterial>;
     const OBJECT_NAME = 'TestCube';
 
     beforeEach(() => {
@@ -35,35 +37,32 @@ describe('SceneManager', () => {
 
       const geometry = new BoxGeometry(1, 1, 1);
       const material = new MeshBasicMaterial({ color: 'white' });
-      const cube = new Mesh(geometry, material);
-      cube.name = OBJECT_NAME;
+      object = new Mesh(geometry, material);
+      object.name = OBJECT_NAME;
 
-      sceneManager.getScene().add(cube);
+      sceneManager.getScene().add(object);
     });
 
     it('should set geometry opacity', () => {
-      sceneManager.setGeometryOpacity(OBJECT_NAME, 0.5);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.material.opacity).toBe(0.5);
+      sceneManager.setGeometryOpacity(object, 0.5);
+      expect(object.material.opacity).toBe(0.5);
 
-      sceneManager.setGeometryOpacity(OBJECT_NAME, undefined);
+      sceneManager.setGeometryOpacity(object, undefined);
     });
 
     it('should change object geometry color', () => {
       const color = new Color(0xffffff);
-      sceneManager.changeObjectColor(OBJECT_NAME, 0xffffff);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.material.color).toEqual(color);
+      sceneManager.changeObjectColor(object, 0xffffff);
+      expect(object.material.color).toEqual(color);
 
-      sceneManager.changeObjectColor('NonExistentObject', color);
+      sceneManager.changeObjectColor(undefined, color);
     });
 
     it('should change object visibility', () => {
-      sceneManager.objectVisibility(OBJECT_NAME, false);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.visible).toBe(false);
-      sceneManager.objectVisibility(OBJECT_NAME, true);
-      expect(obj.visible).toBe(true);
+      sceneManager.objectVisibility(object, false);
+      expect(object.visible).toBe(false);
+      sceneManager.objectVisibility(object, true);
+      expect(object.visible).toBe(true);
     });
 
     it('should get object position', () => {
@@ -71,19 +70,21 @@ describe('SceneManager', () => {
     });
 
     it('should scale object', () => {
-      sceneManager.scaleObject(OBJECT_NAME, 0.5);
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
-      expect(obj.scale.x).toBe(0.5);
+      sceneManager.scaleObject(object, 0.5);
+      expect(object.scale.x).toBe(0.5);
     });
 
     it('should change group visibility', () => {
-      const obj: any = sceneManager.getScene().getObjectByName(OBJECT_NAME);
+      const group = new Group();
+      group.name = 'objectsGroup';
       const childObj = new Mesh(
         new BoxGeometry(1, 1, 1),
         new MeshBasicMaterial()
       );
-      obj.add(childObj);
-      sceneManager.groupVisibility(OBJECT_NAME, false);
+      group.add(childObj);
+      sceneManager.getScene().add(group);
+
+      sceneManager.groupVisibility('objectsGroup', false);
       expect(childObj.visible).toBe(false);
     });
 

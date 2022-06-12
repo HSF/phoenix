@@ -1,8 +1,8 @@
 import { UIManager } from '../../../managers/ui-manager';
 import { ThreeManager } from '../../../managers/three-manager';
-import { Configuration } from '../../../extras/configuration';
+import { Configuration } from '../../../lib/types/configuration';
 import { PhoenixMenuNode } from '../../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
-import { PresetView } from '../../../extras/preset-view.model';
+import { PresetView } from '../../../lib/models/preset-view.model';
 import { InfoLogger } from '../../../helpers/info-logger';
 
 describe('UIManager', () => {
