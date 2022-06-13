@@ -1,11 +1,10 @@
 import { PhoenixLoader } from './phoenix-loader';
+import { openFile } from 'jsroot/modules/io.mjs';
 
 /**
  * PhoenixLoader for processing and loading an event from ".root".
  */
 export class JSRootEventLoader extends PhoenixLoader {
-  /** JSROOT object containing all JSROOT functions. */
-  private JSROOT: any;
   /** Event data inside the file. */
   private fileEventData: any;
   /** URL of the ".root" file to be processed. */
@@ -16,10 +15,8 @@ export class JSRootEventLoader extends PhoenixLoader {
    * @param JSROOT JSROOT object containing all JSROOT functions.
    * @param rootFileURL URL of the ".root" file to be processed.
    */
-  constructor(JSROOT: any, rootFileURL: string) {
+  constructor(rootFileURL: string) {
     super();
-
-    this.JSROOT = JSROOT;
     this.rootFileURL = rootFileURL;
 
     this.fileEventData = {
@@ -40,7 +37,7 @@ export class JSRootEventLoader extends PhoenixLoader {
     objects: string[],
     onEventData: (eventData: any) => void
   ) {
-    this.JSROOT.openFile(this.rootFileURL).then((file: any) => {
+    openFile(this.rootFileURL).then((file: any) => {
       let i = 0;
       for (const objectName of objects) {
         file.readObject(objectName).then((object: any) => {

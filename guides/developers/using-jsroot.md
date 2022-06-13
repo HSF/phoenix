@@ -75,16 +75,13 @@ import { EventDisplay } from "phoenix-event-display";
 
 const eventDisplay = new EventDisplay({});
 
-ScriptLoader.loadJSRootScripts().then((JSROOT) => {
-  // Create the JSRootEventLoader and specify URL of the .root event data file
-  const jsrootEventLoader = new JSRootEventLoader(
-    JSROOT,
-    "https://root.cern/js/files/geom/tracks_hits.root"
-  );
+// Create the JSRootEventLoader and specify URL of the .root event data file
+const jsrootEventLoader = new JSRootEventLoader(
+  "https://root.cern/js/files/geom/tracks_hits.root"
+);
 
-  // Get the event data in Phoenix format by specifying an array of objects (e.g "tracks;1", "hits;1") in the .root file
-  jsrootEventLoader.getEventData(["tracks;1", "hits;1"], (eventData) => {
-    eventDisplay.buildEventDataFromJSON(eventData);
-  });
+// Get the event data in Phoenix format by specifying an array of objects (e.g "tracks;1", "hits;1") in the .root file
+jsrootEventLoader.getEventData(["tracks;1", "hits;1"], (eventData) => {
+  eventDisplay.buildEventDataFromJSON(eventData);
 });
 ```

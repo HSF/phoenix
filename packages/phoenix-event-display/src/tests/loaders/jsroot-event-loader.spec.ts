@@ -19,7 +19,7 @@ describe('JSRootEventLoader', () => {
   }, JSROOT_TIMEOUT);
 
   beforeEach(() => {
-    jsrootLoader = new JSRootEventLoader(JSROOT, TEST_ROOT_FILE);
+    jsrootLoader = new JSRootEventLoader(TEST_ROOT_FILE);
   });
 
   afterEach(() => {
