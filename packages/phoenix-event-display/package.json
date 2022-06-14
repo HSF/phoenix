@@ -28,8 +28,8 @@
     "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
-    "test": "karma start configs/karma.conf.js --browsers=ChromeHeadlessCI",
-    "test:coverage": "yarn test",
+    "test": "",
+    "test:coverage": "",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
@@ -49,8 +49,6 @@
     "@types/dat.gui": "^0.7.7",
     "@types/three": "^0.140.0",
     "esbuild-loader": "^2.19.0",
-    "karma-typescript": "~5.5.3",
-    "karma-typescript-es6-transform": "~5.5.3",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
