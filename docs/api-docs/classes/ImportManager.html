@@ -101,10 +101,6 @@
                                     <span class="modifier">Private</span>
                                 <a href="#GEOMETRIES_ID" >GEOMETRIES_ID</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#loadingManager" >loadingManager</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -184,7 +180,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/import-manager.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/three-manager/import-manager.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -365,39 +361,6 @@
 
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="loadingManager"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>loadingManager</b></span>
-                        <a href="#loadingManager"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/LoadingManager.html" target="_self" >LoadingManager</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/import-manager.ts:30</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Loading manager for loadable resources</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
 </section>
 
             <section>
@@ -427,8 +390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="408"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:408</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:413</a></div>
                 </td>
             </tr>
 
@@ -499,15 +462,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(sceneUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, onSceneProcessed: (geometry: Object3D,name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                    <code>loadGLTFGeometry(sceneUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, transparent: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="219"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:219</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:210</a></div>
                 </td>
             </tr>
 
@@ -558,7 +521,7 @@
 
 
                                     <td>
-                                        <p>Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present</p>
+                                        <p>Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.</p>
 
                                     </td>
                                 </tr>
@@ -574,7 +537,7 @@
 
 
                                     <td>
-                                        <p>Name of the menu where to add the scene in the gui</p>
+                                        <p>Path to the node in Phoenix menu to add the geometry to. Use <code>&gt;</code> as a separator.</p>
 
                                     </td>
                                 </tr>
@@ -611,9 +574,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>onSceneProcessed</td>
+                                    <td>transparent</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
                                     </td>
 
                                     <td>
@@ -622,7 +585,7 @@
 
 
                                     <td>
-                                        <p>Callback called after each scene/geometry is processed and loaded.</p>
+                                        <p>Whether the transparent property of geometry is true or false. Default <code>false</code>.</p>
 
                                     </td>
                                 </tr>
@@ -632,7 +595,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -658,15 +621,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadJSONGeometry(json: string | literal type, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (geometry: Object3D) => void, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadJSONGeometry(json: string | literal type, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="321"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:321</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="319"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:319</a></div>
                 </td>
             </tr>
 
@@ -722,22 +685,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>callback</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Callback called after the geometries are processed and loaded.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>scale</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
@@ -775,7 +722,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -801,15 +748,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadOBJGeometry(callback: (object: Object3D) => void, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:55</a></div>
                 </td>
             </tr>
 
@@ -832,22 +779,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>callback</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Callback when geometry is processed.</p>
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>filename</td>
                                     <td>
@@ -934,7 +865,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -960,15 +891,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, onSceneProcessed: (geometry: Object3D,geoName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="267"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:267</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:262</a></div>
                 </td>
             </tr>
 
@@ -1023,29 +954,13 @@
 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>onSceneProcessed</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Callback called after the geometry is loaded.</p>
-
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -1078,8 +993,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:93</a></div>
                 </td>
             </tr>
 
@@ -1173,8 +1088,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:176</a></div>
                 </td>
             </tr>
 
@@ -1261,15 +1176,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>processGeometry(geometry: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>processGeometry(geometry: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, transparent?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="365"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:365</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="359"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:359</a></div>
                 </td>
             </tr>
 
@@ -1356,6 +1271,22 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>transparent</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether the transparent property of geometry is true or false. Default <code>false</code>.</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -1387,15 +1318,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>processGLTFSceneName(sceneName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>processGLTFSceneName(sceneName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="302"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:302</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:300</a></div>
                 </td>
             </tr>
 
@@ -1431,6 +1362,22 @@
 
                                     <td>
                                         <p>GLTF scene name.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>menuNodeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Path to the node in Phoenix menu to add the geometry to. Use <code>&gt;</code> as a separator.</p>
 
                                     </td>
                                 </tr>
@@ -1473,8 +1420,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:108</a></div>
                 </td>
             </tr>
 
@@ -1616,8 +1563,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">src/managers/three-manager/import-manager.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/managers/three-manager/import-manager.ts:128</a></div>
                 </td>
             </tr>
 
@@ -1747,7 +1694,7 @@
 } from &#x27;three&#x27;;
 import { OBJLoader } from &#x27;three/examples/jsm/loaders/OBJLoader&#x27;;
 import { GLTFLoader } from &#x27;three/examples/jsm/loaders/GLTFLoader&#x27;;
-import { LoadingManager } from &#x27;../loading-manager&#x27;;
+import { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters&#x27;;
 
 /**
  * Manager for managing event display&#x27;s import related functionality.
@@ -1759,8 +1706,6 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
-  /** Loading manager for loadable resources */
-  private loadingManager: LoadingManager;
 
   /**
    * Constructor for the import manager.
@@ -1776,12 +1721,10 @@ export class ImportManager {
     this.clipPlanes &#x3D; clipPlanes;
     this.EVENT_DATA_ID &#x3D; EVENT_DATA_ID;
     this.GEOMETRIES_ID &#x3D; GEOMETRIES_ID;
-    this.loadingManager &#x3D; new LoadingManager();
   }
 
   /**
    * Loads an OBJ (.obj) geometry from the given filename.
-   * @param callback Callback when geometry is processed.
    * @param filename Path to the geometry.
    * @param name Name given to the geometry.
    * @param color Color to initialize the geometry.
@@ -1790,36 +1733,32 @@ export class ImportManager {
    * @returns Promise for loading the geometry.
    */
   public loadOBJGeometry(
-    callback: (object: Object3D) &#x3D;&gt; any,
     filename: string,
     name: string,
     color: any,
     doubleSided: boolean,
     setFlat: boolean
-  ): Promise&lt;unknown&gt; {
-    if (color &#x3D;&#x3D; null) {
-      color &#x3D; 0x41a6f4;
-    }
+  ): Promise&lt;GeometryUIParameters&gt; {
+    color &#x3D; color ?? 0x41a6f4;
     const objLoader &#x3D; new OBJLoader();
-    return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
+
+    return new Promise&lt;GeometryUIParameters&gt;((resolve, reject) &#x3D;&gt; {
       objLoader.load(
         filename,
         (object) &#x3D;&gt; {
-          const processed &#x3D; this.processOBJ(
+          const processedObject &#x3D; this.processOBJ(
             object,
             name,
             color,
             doubleSided,
             setFlat
           );
-          callback(processed);
-          resolve();
-          this.loadingManager.itemLoaded(&#x60;obj_geom_${name}&#x60;);
+
+          resolve({ object: processedObject });
         },
         null,
         (error) &#x3D;&gt; {
           reject(error);
-          this.loadingManager.itemLoaded(&#x60;obj_geom_${name}&#x60;);
         }
       );
     });
@@ -1920,6 +1859,7 @@ export class ImportManager {
   ): Promise&lt;void&gt; {
     const loader &#x3D; new GLTFLoader();
     const sceneString &#x3D; JSON.stringify(scene, null, 2);
+
     return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
       loader.parse(
         sceneString,
@@ -1929,11 +1869,9 @@ export class ImportManager {
           const geometries &#x3D; gltf.scene.getObjectByName(this.GEOMETRIES_ID);
           callback(eventData, geometries);
           resolve();
-          this.loadingManager.itemLoaded(&#x60;parse_phnx_${name}&#x60;);
         },
         (error) &#x3D;&gt; {
           reject(error);
-          this.loadingManager.itemLoaded(&#x60;parse_phnx_${name}&#x60;);
         }
       );
     });
@@ -1942,11 +1880,11 @@ export class ImportManager {
   /**
    * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
    * @param sceneUrl URL to the GLTF (.gltf) file.
-   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present
-   * @param menuNodeName Name of the menu where to add the scene in the gui
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use &#x60;&gt;&#x60; as a separator.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param onSceneProcessed Callback called after each scene/geometry is processed and loaded.
+   * @param transparent Whether the transparent property of geometry is true or false. Default &#x60;false&#x60;.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -1955,36 +1893,41 @@ export class ImportManager {
     menuNodeName: string,
     scale: number,
     initiallyVisible: boolean,
-    onSceneProcessed: (
-      geometry: Object3D,
-      name: string,
-      menuNodeName: string
-    ) &#x3D;&gt; void
-  ): Promise&lt;void&gt; {
+    transparent: boolean
+  ): Promise&lt;GeometryUIParameters[]&gt; {
     const loader &#x3D; new GLTFLoader();
-    return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
+    return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
       loader.load(
         sceneUrl,
         (gltf) &#x3D;&gt; {
+          const allGeometries: GeometryUIParameters[] &#x3D; [];
+
           for (const scene of gltf.scenes) {
             scene.visible &#x3D; scene.userData.visible ?? initiallyVisible;
-            const sceneName &#x3D; this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name, scale);
-
-            onSceneProcessed(
-              scene,
-              sceneName.name ?? name,
-              sceneName.menuNodeName ?? menuNodeName
+            const sceneName &#x3D; this.processGLTFSceneName(
+              scene.name,
+              menuNodeName
             );
+
+            this.processGeometry(
+              scene,
+              name ?? sceneName.name,
+              scale,
+              undefined, //doublesided
+              transparent
+            );
+
+            allGeometries.push({
+              object: scene,
+              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+            });
           }
 
-          resolve();
-          this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
+          resolve(allGeometries);
         },
         undefined,
         (error) &#x3D;&gt; {
           reject(error);
-          this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
         }
       );
     });
@@ -1994,34 +1937,35 @@ export class ImportManager {
    * Parses and loads a geometry in GLTF (.gltf) format.
    * @param geometry Geometry in GLTF (.gltf) format.
    * @param name Name given to the geometry.
-   * @param onSceneProcessed Callback called after the geometry is loaded.
    * @returns Promise for loading the geometry.
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
-    name: string,
-    onSceneProcessed: (geometry: Object3D, geoName: string) &#x3D;&gt; any
-  ): Promise&lt;unknown&gt; {
+    name: string
+  ): Promise&lt;GeometryUIParameters[]&gt; {
     const loader &#x3D; new GLTFLoader();
-    return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
+
+    return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
       loader.parse(
         geometry,
         &#x27;&#x27;,
         (gltf) &#x3D;&gt; {
+          const allGeometriesUIParameters: GeometryUIParameters[] &#x3D; [];
+
           for (const scene of gltf.scenes) {
             scene.visible &#x3D; scene.userData.visible;
             const sceneName &#x3D; this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name);
+            this.processGeometry(scene, name ?? sceneName.name);
 
-            onSceneProcessed(scene, sceneName.name ?? name);
+            allGeometriesUIParameters.push({
+              object: scene,
+            });
           }
 
-          resolve();
-          this.loadingManager.itemLoaded(&#x60;parse_geom_${name}&#x60;);
+          resolve(allGeometriesUIParameters);
         },
         (error) &#x3D;&gt; {
           reject(error);
-          this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
         }
       );
     });
@@ -2030,15 +1974,17 @@ export class ImportManager {
   /**
    * Get geometry name and menuNodeName from GLTF scene name.
    * @param sceneName GLTF scene name.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use &#x60;&gt;&#x60; as a separator.
    * @returns Geometry name and menuNodeName if present in scene name.
    */
-  private processGLTFSceneName(sceneName?: string) {
+  private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes &#x3D; sceneName.split(&#x27;_&gt;_&#x27;);
       const name &#x3D; nodes.pop();
-      const menuNodeName &#x3D; nodes.join(&#x27; &gt; &#x27;);
+      menuNodeName &amp;&amp; nodes.unshift(menuNodeName);
+      const nodeName &#x3D; nodes.join(&#x27; &gt; &#x27;);
 
-      return { name, menuNodeName };
+      return { name, menuNodeName: nodeName };
     }
   }
 
@@ -2046,7 +1992,6 @@ export class ImportManager {
    * Loads geometries from JSON.
    * @param json JSON or URL to JSON file of the geometry.
    * @param name Name of the geometry or group of geometries.
-   * @param callback Callback called after the geometries are processed and loaded.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
    * @returns Promise for loading the geometry.
@@ -2054,37 +1999,32 @@ export class ImportManager {
   public loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
-    callback: (geometry: Object3D) &#x3D;&gt; any,
     scale?: number,
     doubleSided?: boolean
-  ): Promise&lt;unknown&gt; {
+  ): Promise&lt;GeometryUIParameters&gt; {
     const loader &#x3D; new ObjectLoader();
-    if (typeof json &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
-      return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
-        loader.load(
-          json,
-          (geometry: Object3D) &#x3D;&gt; {
-            this.processGeometry(geometry, name, scale, doubleSided);
-            callback(geometry);
-            resolve();
-            this.loadingManager.itemLoaded(&#x60;json_geom_${name}&#x60;);
-          },
-          null,
-          (error) &#x3D;&gt; {
-            reject(error);
-            this.loadingManager.itemLoaded(&#x60;json_geom_${name}&#x60;);
-          }
-        );
-      });
-    } else if (typeof json &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
-      return new Promise&lt;void&gt;((resolve, reject) &#x3D;&gt; {
-        const geometry &#x3D; loader.parse(json, (object) &#x3D;&gt; {
-          resolve();
-          this.loadingManager.itemLoaded(&#x60;json_geom_${name}&#x60;);
+
+    switch (typeof json) {
+      case &#x27;string&#x27;:
+        return new Promise&lt;GeometryUIParameters&gt;((resolve, reject) &#x3D;&gt; {
+          loader.load(
+            json,
+            (object: Object3D) &#x3D;&gt; {
+              this.processGeometry(object, name, scale, doubleSided);
+              resolve({ object });
+            },
+            null,
+            (error) &#x3D;&gt; {
+              reject(error);
+            }
+          );
         });
-        this.processGeometry(geometry, name, scale, doubleSided);
-        callback(geometry);
-      });
+      case &#x27;object&#x27;:
+        return new Promise&lt;GeometryUIParameters&gt;((resolve) &#x3D;&gt; {
+          const object &#x3D; loader.parse(json);
+          this.processGeometry(object, name, scale, doubleSided);
+          resolve({ object });
+        });
     }
   }
 
@@ -2094,17 +2034,19 @@ export class ImportManager {
    * @param name Name of the geometry.
    * @param scale Scale of the geometry.
    * @param doubleSided Renders both sides of the material.
+   * @param transparent Whether the transparent property of geometry is true or false. Default &#x60;false&#x60;.
    */
   private processGeometry(
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
+    transparent?: boolean
   ) {
     geometry.name &#x3D; name;
     // Set a custom scale if provided
     if (scale) {
-      geometry.scale.set(scale, scale, scale);
+      geometry.scale.setScalar(scale);
     }
     geometry.traverse((child) &#x3D;&gt; {
       if (child instanceof Mesh) {
@@ -2115,15 +2057,25 @@ export class ImportManager {
             ? child.material[&#x27;color&#x27;]
             : 0x2fd691;
           const side &#x3D; doubleSided ? DoubleSide : child.material[&#x27;side&#x27;];
+
           // Disposing of the default material
           child.material.dispose();
+
+          // Should tranparency be used?
+          let isTransparent &#x3D; transparent ?? null;
+          if (geometry.userData.opacity) {
+            isTransparent &#x3D; true;
+          }
+
           // Changing to a material with 0 shininess
           child.material &#x3D; new MeshPhongMaterial({
-            color: color,
+            color,
             shininess: 0,
             side: side,
-            opacity: geometry.userData.opacity ?? null,
+            transparent: isTransparent,
+            opacity: geometry.userData.opacity ?? 1,
           });
+
           // Setting up the clipping planes
           child.material.clippingPlanes &#x3D; this.clipPlanes;
           child.material.clipIntersection &#x3D; true;
@@ -2148,6 +2100,7 @@ export class ImportManager {
 </code></pre>
     </div>
 </div>
+
 
 
 

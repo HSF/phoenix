@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs');
 const { exec } = require('child_process');
 const path = require('path');
