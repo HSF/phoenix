@@ -154,7 +154,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;./managers/three-manager&#x27;;
 import { UIManager } from &#x27;./managers/ui-manager&#x27;;
 import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
-import { Configuration } from &#x27;./extras/configuration&#x27;;
+import { Configuration } from &#x27;./lib/types/configuration&#x27;;
 import { StateManager } from &#x27;./managers/state-manager&#x27;;
 import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
@@ -383,7 +383,7 @@ export class EventDisplay {
    * @param setFlat Whether object should be flat-shaded or not. Default &#x60;true&#x60;.
    * @returns Promise for loading the geometry.
    */
-  public loadOBJGeometry(
+  public async loadOBJGeometry(
     filename: string,
     name: string,
     color: any,
@@ -391,12 +391,10 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean &#x3D; true,
     setFlat: boolean &#x3D; true
-  ): Promise&lt;unknown&gt; {
+  ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;obj_geom_${name}&#x60;);
-    this.ui.addGeometry(name, color, menuNodeName, initiallyVisible);
-    this.infoLogger.add(name, &#x27;Loaded OBJ geometry&#x27;);
 
-    return this.graphicsLibrary.loadOBJGeometry(
+    const { object } &#x3D; await this.graphicsLibrary.loadOBJGeometry(
       filename,
       name,
       color,
@@ -404,6 +402,10 @@ export class EventDisplay {
       initiallyVisible,
       setFlat
     );
+    this.ui.addGeometry(object, menuNodeName);
+
+    this.loadingManager.itemLoaded(&#x60;obj_geom_${name}&#x60;);
+    this.infoLogger.add(name, &#x27;Loaded OBJ geometry&#x27;);
   }
 
   /**
@@ -421,8 +423,13 @@ export class EventDisplay {
     initiallyVisible: boolean &#x3D; true
   ) {
     this.loadingManager.addLoadableItem(&#x60;parse_obj_${name}&#x60;);
-    this.graphicsLibrary.parseOBJGeometry(content, name, initiallyVisible);
-    this.ui.addGeometry(name, 0x000fff, menuNodeName, initiallyVisible);
+    const { object } &#x3D; this.graphicsLibrary.parseOBJGeometry(
+      content,
+      name,
+      initiallyVisible
+    );
+    this.ui.addGeometry(object, menuNodeName);
+    this.loadingManager.itemLoaded(&#x60;parse_obj_${name}&#x60;);
   }
 
   /**
@@ -439,7 +446,7 @@ export class EventDisplay {
    * and other configuration.
    * @returns Promise for loading the geometry.
    */
-  public parsePhoenixDisplay(input: any): Promise&lt;unknown&gt; {
+  public async parsePhoenixDisplay(input: any): Promise&lt;void&gt; {
     const phoenixScene &#x3D; JSON.parse(input);
 
     if (phoenixScene.sceneConfiguration &amp;&amp; phoenixScene.scene) {
@@ -452,8 +459,8 @@ export class EventDisplay {
       this.loadSceneConfiguration(phoenixScene.sceneConfiguration);
 
       this.loadingManager.addLoadableItem(&#x60;parse_phnx_${name}&#x60;);
-
-      return this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
+      await this.graphicsLibrary.parsePhnxScene(phoenixScene.scene);
+      this.loadingManager.itemLoaded(&#x60;parse_phnx_${name}&#x60;);
     }
   }
 
@@ -470,17 +477,19 @@ export class EventDisplay {
    * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
+  public async parseGLTFGeometry(
     input: string | ArrayBuffer,
     name: string
-  ): Promise&lt;unknown&gt; {
+  ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
 
-    return this.graphicsLibrary.parseGLTFGeometry(
-      input,
-      name,
-      this.ui.addGeometry.bind(this.ui)
-    );
+    const allGeometriesUIParameters &#x3D;
+      await this.graphicsLibrary.parseGLTFGeometry(input, name);
+    for (const { object } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object);
+    }
+
+    this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
   }
 
   /**
@@ -491,25 +500,33 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
+   * @param transparent Whether the transparent property of geometry is true or false. Default &#x60;false&#x60;.
    * @returns Promise for loading the geometry.
    */
-  public loadGLTFGeometry(
+  public async loadGLTFGeometry(
     url: any,
     name: string,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
+    transparent: boolean &#x3D; false // Argument added because of https://github.com/HSF/phoenix/pull/425.
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;gltf_geom_${name}&#x60;);
 
-    return this.graphicsLibrary.loadGLTFGeometry(
-      url,
-      name,
-      this.ui.addGeometry.bind(this.ui),
-      menuNodeName,
-      scale,
-      initiallyVisible
-    );
+    const allGeometriesUIParameters &#x3D;
+      await this.graphicsLibrary.loadGLTFGeometry(
+        url,
+        name,
+        menuNodeName,
+        scale,
+        initiallyVisible,
+        transparent
+      );
+    for (const { object, menuNodeName } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object, menuNodeName);
+    }
+
+    this.loadingManager.itemLoaded(&#x60;gltf_geom_${name}&#x60;);
   }
 
   /**
@@ -522,25 +539,27 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    * @returns Promise for loading the geometry.
    */
-  public loadJSONGeometry(
+  public async loadJSONGeometry(
     json: string | { [key: string]: any },
     name: string,
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
     initiallyVisible: boolean &#x3D; true
-  ): Promise&lt;unknown&gt; {
+  ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;json_geom_${name}&#x60;);
-    this.ui.addGeometry(name, undefined, menuNodeName, initiallyVisible);
-    this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
 
-    return this.graphicsLibrary.loadJSONGeometry(
+    const { object } &#x3D; await this.graphicsLibrary.loadJSONGeometry(
       json,
       name,
       scale,
       doubleSided,
       initiallyVisible
     );
+    this.ui.addGeometry(object, menuNodeName);
+
+    this.loadingManager.itemLoaded(&#x60;json_geom_${name}&#x60;);
+    this.infoLogger.add(name, &#x27;Loaded JSON geometry&#x27;);
   }
 
   /**
@@ -904,6 +923,7 @@ export class EventDisplay {
 </code></pre>
     </div>
 </div>
+
 
 
 

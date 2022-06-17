@@ -187,6 +187,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getObjectByName" >getObjectByName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getObjectPosition" >getObjectPosition</a>
                             </li>
                             <li>
@@ -801,8 +805,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:235</a></div>
                 </td>
             </tr>
 
@@ -880,8 +884,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:505</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="490"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:490</a></div>
                 </td>
             </tr>
 
@@ -1015,15 +1019,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>changeObjectColor(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>changeObjectColor(object: Object3D, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:158</a></div>
                 </td>
             </tr>
 
@@ -1047,9 +1051,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -1058,7 +1062,7 @@
 
 
                                     <td>
-                                        <p>Name of the geometry.</p>
+                                        <p>Object to change the color of.</p>
 
                                     </td>
                                 </tr>
@@ -1116,8 +1120,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="324"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:324</a></div>
                 </td>
             </tr>
 
@@ -1157,8 +1161,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="251"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:251</a></div>
                 </td>
             </tr>
 
@@ -1251,8 +1255,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="404"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:404</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:390</a></div>
                 </td>
             </tr>
 
@@ -1376,8 +1380,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="323"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:323</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:309</a></div>
                 </td>
             </tr>
 
@@ -1423,8 +1427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="317"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:317</a></div>
                 </td>
             </tr>
 
@@ -1442,6 +1446,85 @@
                     </div>
                     <div class="io-description">
                         <p>A group of objects with geometries.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getObjectByName"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getObjectByName</b></span>
+                        <a href="#getObjectByName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getObjectByName(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="646"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:646</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get an object by its name.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the object.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The object.</p>
 
                     </div>
                 </td>
@@ -1470,8 +1553,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:208</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:199</a></div>
                 </td>
             </tr>
 
@@ -1549,8 +1632,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="309"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:309</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="295"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:295</a></div>
                 </td>
             </tr>
 
@@ -1675,8 +1758,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="347"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:347</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:333</a></div>
                 </td>
             </tr>
 
@@ -1760,8 +1843,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="294"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:294</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:280</a></div>
                 </td>
             </tr>
 
@@ -1865,23 +1948,22 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>objectVisibility(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, visible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, parentName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>objectVisibility(object: Object3D, visible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:179</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Changes objects visibility.
-whose visibility is to be toggled.</p>
+                    <div class="io-description"><p>Changes objects visibility.</p>
 </div>
 
                     <div class="io-description">
@@ -1898,9 +1980,9 @@ whose visibility is to be toggled.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -1909,7 +1991,7 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>Name of the object to change its visibility.</p>
+                                        <p>Object to change the visibility of.</p>
 
                                     </td>
                                 </tr>
@@ -1926,23 +2008,6 @@ whose visibility is to be toggled.</p>
 
                                     <td>
                                         <p>If the object will be visible (true) or hidden (false).</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>parentName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>Name of the parent object to look inside for object
-whose visibility is to be toggled.</p>
 
                                     </td>
                                 </tr>
@@ -1977,15 +2042,15 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>removeGeometry(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>removeGeometry(object: Object3D)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="219"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:219</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:207</a></div>
                 </td>
             </tr>
 
@@ -2009,9 +2074,9 @@ whose visibility is to be toggled.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -2020,7 +2085,7 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>Name of the object to be removed.</p>
+                                        <p>Geometry object to be removed.</p>
 
                                     </td>
                                 </tr>
@@ -2062,8 +2127,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="229"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:229</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:216</a></div>
                 </td>
             </tr>
 
@@ -2140,8 +2205,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="483"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:483</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="468"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:468</a></div>
                 </td>
             </tr>
 
@@ -2250,8 +2315,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="462"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:462</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="447"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:447</a></div>
                 </td>
             </tr>
 
@@ -2321,15 +2386,15 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>scaleObject(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>scaleObject(object: Object3D, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:226</a></div>
                 </td>
             </tr>
 
@@ -2353,9 +2418,9 @@ whose visibility is to be toggled.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -2364,7 +2429,7 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>Name of the object to scale.</p>
+                                        <p>Object to scale.</p>
 
                                     </td>
                                 </tr>
@@ -2422,8 +2487,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="370"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:370</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:356</a></div>
                 </td>
             </tr>
 
@@ -2541,8 +2606,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="547"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:547</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="532"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:532</a></div>
                 </td>
             </tr>
 
@@ -2634,7 +2699,7 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setGeometryOpacity(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>setGeometryOpacity(object: Object3D, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -2666,9 +2731,9 @@ whose visibility is to be toggled.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -2677,7 +2742,7 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>Name of the object to change its opacity.</p>
+                                        <p>Object whose opacity needs to be changed.</p>
 
                                     </td>
                                 </tr>
@@ -2895,8 +2960,8 @@ whose visibility is to be toggled.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="427"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:427</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:413</a></div>
                 </td>
             </tr>
 
@@ -2966,15 +3031,15 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>wireframeObjects(groupName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>wireframeObjects(objectsGroup: Object3D, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="449"
-                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:449</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="435"
+                            class="link-to-prism">src/managers/three-manager/scene-manager.ts:435</a></div>
                 </td>
             </tr>
 
@@ -2998,9 +3063,9 @@ whose visibility is to be toggled.</p>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>groupName</td>
+                                    <td>objectsGroup</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
@@ -3009,7 +3074,7 @@ whose visibility is to be toggled.</p>
 
 
                                     <td>
-                                        <p>Group name of the objects group to be wireframed.</p>
+                                        <p>Group of the objects to be wireframed.</p>
 
                                     </td>
                                 </tr>
@@ -3077,7 +3142,7 @@ whose visibility is to be toggled.</p>
 import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
 import { TextGeometry } from &#x27;three/examples/jsm/geometries/TextGeometry&#x27;;
 import { Font } from &#x27;three/examples/jsm/loaders/FontLoader&#x27;;
-import { Cut } from &#x27;../../extras/cut.model&#x27;;
+import { Cut } from &#x27;../../lib/models/cut.model&#x27;;
 import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
 import HelvetikerFont from &#x27;./fonts/helvetiker_regular.typeface.json&#x27;;
 
@@ -3193,12 +3258,10 @@ export class SceneManager {
 
   /**
    * Modifies an object&#x27;s opacity.
-   * @param name Name of the object to change its opacity.
+   * @param object Object whose opacity needs to be changed.
    * @param value Value of opacity, between 0 (transparent) and 1 (opaque).
    */
-  public setGeometryOpacity(name: string, value: number) {
-    const object &#x3D; this.scene.getObjectByName(name);
-
+  public setGeometryOpacity(object: Object3D, value: number) {
     if (value &amp;&amp; object) {
       object.traverse((child) &#x3D;&gt; {
         if (child?.[&#x27;material&#x27;]) {
@@ -3211,11 +3274,10 @@ export class SceneManager {
 
   /**
    * Changes color of an OBJ geometry.
-   * @param name Name of the geometry.
+   * @param object Object to change the color of.
    * @param value Value representing the color in hex format.
    */
-  public changeObjectColor(name: string, value: any) {
-    const object &#x3D; this.scene.getObjectByName(name);
+  public changeObjectColor(object: Object3D, value: any) {
     if (object) {
       object.traverse((child) &#x3D;&gt; {
         if (child instanceof Mesh || child instanceof LineSegments) {
@@ -3233,16 +3295,10 @@ export class SceneManager {
 
   /**
    * Changes objects visibility.
-   * @param name Name of the object to change its visibility.
+   * @param object Object to change the visibility of.
    * @param visible If the object will be visible (true) or hidden (false).
-   * @param parentName Name of the parent object to look inside for object
-   * whose visibility is to be toggled.
    */
-  public objectVisibility(name: string, visible: boolean, parentName?: string) {
-    const parent &#x3D; parentName
-      ? this.scene.getObjectByName(parentName)
-      : this.scene;
-    const object &#x3D; parent.getObjectByName(name);
+  public objectVisibility(object: Object3D, visible: boolean) {
     if (object) {
       object.visible &#x3D; visible;
       object.traverse((child) &#x3D;&gt; {
@@ -3263,18 +3319,14 @@ export class SceneManager {
    * @returns Object position.
    */
   public getObjectPosition(name: string): Vector3 {
-    const object &#x3D; this.scene.getObjectByName(name);
-    if (object) {
-      return object.position;
-    }
+    return this.scene.getObjectByName(name)?.position;
   }
 
   /**
    * Removes a geometry from the scene.
-   * @param name Name of the object to be removed.
+   * @param object Geometry object to be removed.
    */
-  public removeGeometry(name: string) {
-    const object &#x3D; this.scene.getObjectByName(name);
+  public removeGeometry(object: Object3D) {
     const geometries &#x3D; this.getGeometries() as Group;
     geometries.remove(object);
   }
@@ -3290,12 +3342,11 @@ export class SceneManager {
 
   /**
    * Scales an object.
-   * @param name Name of the object to scale.
+   * @param object Object to scale.
    * @param value Value to scale the object by.
    */
-  public scaleObject(name: string, value: any) {
-    const object &#x3D; this.scene.getObjectByName(name);
-    object.scale.set(value, value, value);
+  public scaleObject(object: Object3D, value: any) {
+    object.scale.setScalar(value);
   }
 
   /**
@@ -3500,12 +3551,11 @@ export class SceneManager {
 
   /**
    * Wireframe a group of objects.
-   * @param groupName Group name of the objects group to be wireframed.
+   * @param objectsGroup Group of the objects to be wireframed.
    * @param value A boolean to specify if objects are to be wireframed or not.
    */
-  public wireframeObjects(groupName: string, value: boolean) {
-    const objects &#x3D; this.scene.getObjectByName(groupName);
-    objects.traverse((object: any) &#x3D;&gt; {
+  public wireframeObjects(objectsGroup: Object3D, value: boolean) {
+    objectsGroup.traverse((object: any) &#x3D;&gt; {
       if (object.material) {
         object.material.wireframe &#x3D; value;
       }
@@ -3709,10 +3759,20 @@ export class SceneManager {
     }
     this.grid.visible &#x3D; visible;
   }
+
+  /**
+   * Get an object by its name.
+   * @param name Name of the object.
+   * @returns The object.
+   */
+  public getObjectByName(name: string): Object3D {
+    return this.scene.getObjectByName(name);
+  }
 }
 </code></pre>
     </div>
 </div>
+
 
 
 

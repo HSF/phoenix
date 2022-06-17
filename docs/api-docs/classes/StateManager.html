@@ -540,8 +540,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">src/managers/state-manager.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">src/managers/state-manager.ts:179</a></div>
                 </td>
             </tr>
 
@@ -585,8 +585,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">src/managers/state-manager.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">src/managers/state-manager.ts:163</a></div>
                 </td>
             </tr>
 
@@ -745,8 +745,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="180"
-                            class="link-to-prism">src/managers/state-manager.ts:180</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">src/managers/state-manager.ts:187</a></div>
                 </td>
             </tr>
 
@@ -821,8 +821,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">src/managers/state-manager.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">src/managers/state-manager.ts:147</a></div>
                 </td>
             </tr>
 
@@ -897,8 +897,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="188"
-                            class="link-to-prism">src/managers/state-manager.ts:188</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">src/managers/state-manager.ts:195</a></div>
                 </td>
             </tr>
 
@@ -973,8 +973,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">src/managers/state-manager.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">src/managers/state-manager.ts:171</a></div>
                 </td>
             </tr>
 
@@ -1125,8 +1125,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">src/managers/state-manager.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">src/managers/state-manager.ts:155</a></div>
                 </td>
             </tr>
 
@@ -1307,15 +1307,22 @@ export class StateManager {
       this.activeCamera.position.fromArray(
         jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraPosition&#x27;]
       );
-      if (jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;startClippingAngle&#x27;]) {
+
+      const startAngle &#x3D; jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;startClippingAngle&#x27;];
+      const openingAngle &#x3D; jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;openingClippingAngle&#x27;];
+
+      if (startAngle || openingAngle) {
         this.setClippingEnabled(true);
         this.eventDisplay.getUIManager().setClipping(true);
-        this.eventDisplay
-          .getUIManager()
-          .rotateStartAngleClipping(
-            jsonData[&#x27;eventDisplay&#x27;][&#x27;startClippingAngle&#x27;]
-          );
-        if (jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;openingClippingAngle&#x27;]) {
+
+        if (startAngle) {
+          this.eventDisplay
+            .getUIManager()
+            .rotateStartAngleClipping(
+              jsonData[&#x27;eventDisplay&#x27;][&#x27;startClippingAngle&#x27;]
+            );
+        }
+        if (openingAngle) {
           this.eventDisplay
             .getUIManager()
             .rotateOpeningAngleClipping(
@@ -1385,6 +1392,7 @@ export class StateManager {
 </code></pre>
     </div>
 </div>
+
 
 
 

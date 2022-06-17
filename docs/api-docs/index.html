@@ -51,7 +51,7 @@ const eventDisplay = new EventDisplay();
 // Define the configuration
 const configuration = {
   elementId: &#39;&lt;wrapper_element_id&gt;&#39;,
-  eventDataLoader: new PhoenixLoader() // or some other event data loader
+  eventDataLoader: new PhoenixLoader(), // or some other event data loader
   // ... other configuration options
 };
 
@@ -66,8 +66,11 @@ fetch(&#39;path/to/event-data.json&#39;)
   });
 
 // Load detector geometry
-eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#39;, 0x8c8c8c /* color */);
-</code></pre></div><h3 id="as-a-standalone-bundle">As a standalone bundle</h3>
+eventDisplay.loadOBJGeometry(
+  &#39;path/to/geometry.obj&#39;,
+  &#39;Detector OBJ&#39;,
+  0x8c8c8c /* color */
+);</code></pre></div><h3 id="as-a-standalone-bundle">As a standalone bundle</h3>
 <p>Phoenix can be bundled and used directly in the HTML as a script along with <a href="https://threejs.org">three.js</a>. You can either use the <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a> or build from source.</p>
 <p>To build Phoenix as a bundle.</p>
 <div><pre class="line-numbers"><code class="language-sh">yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix.min.js</code> in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
@@ -78,7 +81,6 @@ eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#
   &lt;/head&gt;
 
   &lt;body&gt;
-
     &lt;div id=&quot;eventDisplay&quot;&gt;&lt;/div&gt;
 
     &lt;script src=&quot;https://cdn.jsdelivr.net/npm/three/build/three.min.js&quot;&gt;&lt;/script&gt;
@@ -91,7 +93,7 @@ eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#
       // Define the configuration
       const configuration = {
         elementId: &#39;eventDisplay&#39;,
-        eventDataLoader: new PhoenixLoader() // or some other event data loader
+        eventDataLoader: new PhoenixLoader(), // or some other event data loader
         // ... other configuration options
       };
 
@@ -100,13 +102,13 @@ eventDisplay.loadOBJGeometry(&#39;path/to/geometry.obj&#39;, &#39;Detector OBJ&#
 
       // ... other event display functions
     &lt;/script&gt;
-
   &lt;/body&gt;
 &lt;/html&gt;</code></pre></div><h3 id="examples">Examples</h3>
 <ul>
 <li><a href="https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
 <li><a href="https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31">Usage in React</a></li>
 </ul>
+
 
 
 

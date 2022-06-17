@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/HSF/phoenix/compare/v2.8.0...v2.9.0) (2022-06-17)
+
+
+### Bug Fixes
+
+* **event-display:** fix clipping angle not being applied from menu config ([62bf178](https://github.com/HSF/phoenix/commit/62bf178263d0aa278c2570ad6a209da28c207c5b))
+
+
+### Features
+
+* **app:** add component to periodically cycle through events ([05ae1d6](https://github.com/HSF/phoenix/commit/05ae1d6db8892d4504d3f5532cb165b31663bcc8))
+* update all packages ([9276ef9](https://github.com/HSF/phoenix/commit/9276ef92ce52e24f7492aabd51831c07ddef0673))
+* **app:** make sure all volumes are transparent in LHCb ([7e36462](https://github.com/HSF/phoenix/commit/7e364625af06af3cc2a965fc2500bc4faedc73cb))
+* **app:** new event data for LHCb ([6dfc949](https://github.com/HSF/phoenix/commit/6dfc94902f2510f78853a104135665b073cfb8b1))
+
+
+
+
+
 # [2.8.0](https://github.com/HSF/phoenix/compare/v2.7.0...v2.8.0) (2022-05-16)
 
 

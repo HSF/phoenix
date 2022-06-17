@@ -597,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:154</a></div>
                 </td>
             </tr>
 
@@ -721,8 +721,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:135</a></div>
                 </td>
             </tr>
 
@@ -762,8 +762,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="153"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:153</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:144</a></div>
                 </td>
             </tr>
 
@@ -834,22 +834,22 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addGeometry(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, menuNodeName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>addGeometry(object: Object3D, menuSubfolder?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:124</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds geometry to the dat.GUI menu&#39;s geometry folder and sets up its configurable options.</p>
+                    <div class="io-description"><p>Add geometry to the menus geometry folder and set up its configurable options.</p>
 </div>
 
                     <div class="io-description">
@@ -861,49 +861,28 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>name</td>
+                                    <td>object</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>Object3D</code>
                                     </td>
 
                                     <td>
                                         No
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
-                                        <p>Name of the geometry.</p>
+                                        <p>Object to add to the UI menu.</p>
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>color</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        <p>Color of the geometry.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>menuNodeName</td>
+                                    <td>menuSubfolder</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -912,30 +891,9 @@
                                         Yes
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
-                                        <p>Name of the node in Phoenix menu to add the geometry to.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>initiallyVisible</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>true</code>
-                                    </td>
-
-                                    <td>
-                                        <p>Whether the geometry is initially visible or not.</p>
+                                        <p>Subfolder in the menu to add the geometry to. Example <code>Folder &gt; Subfolder</code>.</p>
 
                                     </td>
                                 </tr>
@@ -1018,8 +976,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="228"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:228</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:213</a></div>
                 </td>
             </tr>
 
@@ -1096,8 +1054,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="177"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:177</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:168</a></div>
                 </td>
             </tr>
 
@@ -1178,8 +1136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="296"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="283"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:283</a></div>
                 </td>
             </tr>
 
@@ -1219,8 +1177,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="370"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:370</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="357"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:357</a></div>
                 </td>
             </tr>
 
@@ -1297,8 +1255,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="393"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:393</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="380"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:380</a></div>
                 </td>
             </tr>
 
@@ -1338,8 +1296,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="260"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:260</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:245</a></div>
                 </td>
             </tr>
 
@@ -1432,8 +1390,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="330"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:330</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="317"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:317</a></div>
                 </td>
             </tr>
 
@@ -1479,8 +1437,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="362"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:362</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="349"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:349</a></div>
                 </td>
             </tr>
 
@@ -1526,8 +1484,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="464"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:464</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="451"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:451</a></div>
                 </td>
             </tr>
 
@@ -1651,8 +1609,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="453"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:453</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="440"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:440</a></div>
                 </td>
             </tr>
 
@@ -1692,8 +1650,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="422"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:422</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:409</a></div>
                 </td>
             </tr>
 
@@ -1733,8 +1691,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="243"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:243</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:228</a></div>
                 </td>
             </tr>
 
@@ -1827,8 +1785,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="278"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:278</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:264</a></div>
                 </td>
             </tr>
 
@@ -1905,8 +1863,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="268"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:268</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:254</a></div>
                 </td>
             </tr>
 
@@ -1983,8 +1941,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="325"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:325</a></div>
                 </td>
             </tr>
 
@@ -2061,8 +2019,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="288"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:288</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="274"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:274</a></div>
                 </td>
             </tr>
 
@@ -2139,8 +2097,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="320"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:320</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:307</a></div>
                 </td>
             </tr>
 
@@ -2217,8 +2175,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="386"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:386</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="373"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:373</a></div>
                 </td>
             </tr>
 
@@ -2295,8 +2253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="346"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:346</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:333</a></div>
                 </td>
             </tr>
 
@@ -2373,8 +2331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="354"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:354</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="341"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:341</a></div>
                 </td>
             </tr>
 
@@ -2533,8 +2491,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="378"
-                            class="link-to-prism">src/managers/ui-manager/index.ts:378</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="365"
+                            class="link-to-prism">src/managers/ui-manager/index.ts:365</a></div>
                 </td>
             </tr>
 
@@ -2641,11 +2599,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as Stats from &#x27;stats-js&#x27;;
-import { Color } from &#x27;three&#x27;;
+import { Color, Object3D } from &#x27;three&#x27;;
 import { ThreeManager } from &#x27;../three-manager&#x27;;
-import { Configuration } from &#x27;../../extras/configuration&#x27;;
-import { PresetView } from &#x27;../../extras/preset-view.model&#x27;;
-import { Cut } from &#x27;../../extras/cut.model&#x27;;
+import { Configuration } from &#x27;../../lib/types/configuration&#x27;;
+import { PresetView } from &#x27;../../lib/models/preset-view.model&#x27;;
+import { Cut } from &#x27;../../lib/models/cut.model&#x27;;
 import { SceneManager } from &#x27;../three-manager/scene-manager&#x27;;
 import { StateManager } from &#x27;../../managers/state-manager&#x27;;
 import { loadFile, saveFile } from &#x27;../../helpers/file&#x27;;
@@ -2759,25 +2717,16 @@ export class UIManager {
   }
 
   /**
-   * Adds geometry to the dat.GUI menu&#x27;s geometry folder and sets up its configurable options.
-   * @param name Name of the geometry.
-   * @param color Color of the geometry.
-   * @param menuNodeName Name of the node in Phoenix menu to add the geometry to.
-   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * Add geometry to the menus geometry folder and set up its configurable options.
+   * @param object Object to add to the UI menu.
+   * @param menuSubfolder Subfolder in the menu to add the geometry to. Example &#x60;Folder &gt; Subfolder&#x60;.
    */
-  public addGeometry(
-    name: string,
-    color: any,
-    menuNodeName?: string,
-    initiallyVisible: boolean &#x3D; true
-  ) {
+  public addGeometry(object: Object3D, menuSubfolder?: string) {
     if (!this.geomFolderAdded) {
       this.addGeomFolder();
     }
 
-    this.uiMenus.forEach((menu) &#x3D;&gt;
-      menu.addGeometry(name, color, initiallyVisible, menuNodeName)
-    );
+    this.uiMenus.forEach((menu) &#x3D;&gt; menu.addGeometry(object, menuSubfolder));
   }
 
   /**
@@ -2817,29 +2766,23 @@ export class UIManager {
    * Add labels folder to dat.GUI and Phoenix menu.
    */
   public addLabelsFolder() {
+    const sceneManager &#x3D; this.three.getSceneManager();
     this.labelsFolderAdded &#x3D; true;
 
     // Common functions for Phoenix and dat.GUI menus
     const onToggle &#x3D; (toggleValue: boolean) &#x3D;&gt; {
-      this.three
-        .getSceneManager()
-        .objectVisibility(SceneManager.LABELS_ID, toggleValue);
+      sceneManager.objectVisibility(
+        sceneManager.getObjectByName(SceneManager.LABELS_ID),
+        toggleValue
+      );
     };
     const onSizeChange &#x3D; (scale: number) &#x3D;&gt; {
-      const labels &#x3D; this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) &#x3D;&gt; {
-        this.three.getSceneManager().scaleObject(singleLabel.name, scale);
-      });
+      const labels &#x3D; sceneManager.getObjectByName(SceneManager.LABELS_ID);
+      sceneManager.scaleObject(labels, scale);
     };
     const onColorChange &#x3D; (value: any) &#x3D;&gt; {
-      const labels &#x3D; this.three
-        .getSceneManager()
-        .getObjectsGroup(SceneManager.LABELS_ID);
-      labels.children.forEach((singleLabel) &#x3D;&gt; {
-        this.three.getSceneManager().changeObjectColor(singleLabel.name, value);
-      });
+      const labels &#x3D; sceneManager.getObjectByName(SceneManager.LABELS_ID);
+      sceneManager.changeObjectColor(labels, value);
     };
     const onSaveLabels &#x3D; () &#x3D;&gt; {
       const labelsObject &#x3D;
@@ -2900,7 +2843,8 @@ export class UIManager {
    * @param visible Value for the visibility of the object
    */
   public geometryVisibility(name: string, visible: boolean) {
-    this.three.getSceneManager().objectVisibility(name, visible);
+    const sceneManager &#x3D; this.three.getSceneManager();
+    sceneManager.objectVisibility(sceneManager.getObjectByName(name), visible);
   }
 
   /**
@@ -2928,6 +2872,7 @@ export class UIManager {
    * @param value Set clipping to be true or false.
    */
   public setClipping(value: boolean) {
+    console.log(value);
     this.three.setClipping(value);
     this.stateManager.setClippingEnabled(value);
   }
@@ -3010,7 +2955,7 @@ export class UIManager {
    * @param view Preset view to which the camera has to be transformed.
    */
   public displayView(view: PresetView) {
-    this.three.animateCameraTransform(view.cameraPos, [0, 0, 0], 1000);
+    this.three.animateCameraTransform(view.cameraPos, view.cameraTarget, 1000);
   }
 
   /**
@@ -3110,6 +3055,7 @@ export class UIManager {
 </code></pre>
     </div>
 </div>
+
 
 
 
