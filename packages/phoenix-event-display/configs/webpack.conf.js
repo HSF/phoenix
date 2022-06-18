@@ -1,7 +1,5 @@
-const path = require('path');
-
-module.exports = {
-  entry: './src/browser.ts',
+export default {
+  entry: './src/index.ts',
   mode: 'production',
   module: {
     rules: [
@@ -20,10 +18,12 @@ module.exports = {
     extensions: ['.ts', '.js'],
   },
   output: {
-    filename: `phoenix.min.js`,
-    path: path.resolve(__dirname, '../dist/bundle'),
+    filename: `phoenix.module.js`,
+    library: {
+      type: 'module',
+    },
   },
-  externals: {
-    three: 'THREE',
+  experiments: {
+    outputModule: true,
   },
 };
