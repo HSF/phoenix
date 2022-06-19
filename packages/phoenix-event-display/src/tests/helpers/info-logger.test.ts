@@ -7,18 +7,18 @@ describe('InfoLogger', () => {
     infoLogger = new InfoLogger();
   });
 
-  it('should be created', () => {
+  test('InfoLogger should be created', () => {
     expect(infoLogger).toBeTruthy();
   });
 
-  it('should add to info logger list', () => {
+  test('It should add an entry to the info logger list', () => {
     const prevLength = infoLogger.getInfoLoggerList().length;
     infoLogger.add('Some log data');
     infoLogger.add('Some log data', 'Some Label');
     expect(infoLogger.getInfoLoggerList().length).toBe(prevLength + 2);
   });
 
-  it('should pop from list if max entries reached', () => {
+  test('It should pop an entry from the info logger list if max entries reached', () => {
     (infoLogger as any).infoLoggerList = [];
     (infoLogger as any).maxEntries = 2;
 

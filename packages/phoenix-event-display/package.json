@@ -28,9 +28,9 @@
     "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/cfompodoc.conf.json --coverageTest 100",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:debug": "jest --runInBand",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
@@ -45,7 +45,6 @@
     "three": "^0.140.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.18.0",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
     "@types/istanbul-lib-coverage": "^2.0.4",

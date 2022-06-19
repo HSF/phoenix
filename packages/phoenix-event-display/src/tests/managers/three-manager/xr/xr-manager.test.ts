@@ -1,0 +1,37 @@
+import { Camera, Group, Scene, Vector3, WebGLRenderer } from 'three';
+import {
+  XRManager,
+  XRSessionType,
+} from '../../../../../src/managers/three-manager/xr/xr-manager';
+
+describe('XRManager', () => {
+  const xrManager = new XRManager(XRSessionType.AR);
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('XRManager should be created', () => {
+    expect(xrManager).toBeTruthy();
+  });
+
+  test('It should get the group containing the camera for XR', () => {
+    xrManager.cameraGroup = new Group();
+    expect(xrManager.getCameraGroup()).toBe(xrManager.cameraGroup);
+    const xrcamera = new Camera();
+    xrManager.xrCamera = xrcamera;
+    expect(xrManager.getXRCamera()).toBe(xrcamera);
+    const cameraPosition = new Vector3(0, 0, 0.1);
+    xrManager.cameraGroup.position.copy(cameraPosition);
+    expect(xrManager.getCameraGroup().position).toEqual(cameraPosition);
+  });
+
+  test('It should end the current XR session', () => {
+    expect(xrManager.endXRSession).toBeDefined();
+  });
+
+  test('It should get the camera used by XR', () => {
+    const xrcamera = jest.fn(xrManager.getXRCamera() as any);
+    expect(xrcamera).toBeTruthy();
+  });
+});
