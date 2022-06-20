@@ -29,9 +29,4 @@ describe('XRManager', () => {
   test('It should end the current XR session', () => {
     expect(xrManager.endXRSession).toBeDefined();
   });
-
-  test('It should get the camera used by XR', () => {
-    const xrcamera = jest.fn(xrManager.getXRCamera() as any);
-    expect(xrcamera).toBeTruthy();
-  });
 });
