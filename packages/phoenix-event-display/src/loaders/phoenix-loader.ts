@@ -437,7 +437,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       if (objectCollection.length == 0) {
         console.log('Skipping');
-        return;
+        continue;
       }
 
       this.addCollection(
