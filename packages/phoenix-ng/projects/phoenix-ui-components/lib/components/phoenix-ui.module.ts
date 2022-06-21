@@ -21,6 +21,7 @@ import {
   ConfigSliderComponent,
 } from './phoenix-menu';
 import {
+  UiMenuWrapperComponent,
   UiMenuComponent,
   CollectionsInfoComponent,
   MenuToggleComponent,
@@ -54,6 +55,7 @@ import {
   ShareLinkDialogComponent,
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
+  CycleEventsComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { LoaderComponent } from './loader/loader.component';
@@ -61,10 +63,10 @@ import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { RingLoaderComponent } from './ring-loader/ring-loader.component';
-import { CycleEventsComponent } from './ui-menu/cycle-events/cycle-events.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
+  UiMenuWrapperComponent,
   UiMenuComponent,
   CollectionsInfoComponent,
   MenuToggleComponent,

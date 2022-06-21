@@ -16,6 +16,4 @@ export class UiMenuComponent {
     Object.values(EventDataFormat);
   @Input()
   animationPresets = defaultAnimationPresets;
-
-  hideUIMenu: boolean = false;
 }
