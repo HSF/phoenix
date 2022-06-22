@@ -1,78 +1,49 @@
-import { Vector3, Quaternion } from 'three';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
-jest.mock('../../helpers/coordinate-helper');
 
 describe('CoordinateHelper', () => {
-  let coordinateHelper: CoordinateHelper;
-  const mockAnglesAreSane = jest.fn();
-  const mockEtaToTheta = jest.fn();
-  const mockThetaToEta = jest.fn();
-  const mockSphericalToCartesian = jest.fn();
-  const mockEtaPhiToCartesian = jest.fn();
-  const mockAtlasQuaternion = jest.fn();
-
-  beforeEach(() => {
-    coordinateHelper = new CoordinateHelper();
-    CoordinateHelper.anglesAreSane = mockAnglesAreSane;
-    CoordinateHelper.etaToTheta = mockEtaToTheta;
-    CoordinateHelper.thetaToEta = mockThetaToEta;
-    CoordinateHelper.sphericalToCartesian = mockSphericalToCartesian;
-    CoordinateHelper.etaPhiToCartesian = mockEtaPhiToCartesian;
-    CoordinateHelper.atlasQuaternion = mockAtlasQuaternion;
+  it('should check if angles are within range: -PI < phi < PI and 0 < theta < 2PI', () => {
+    const phi = 1.0;
+    const theta = 3.0;
+    expect(CoordinateHelper.anglesAreSane(phi, theta)).toBe(true);
   });
 
-  it('should create an instance', () => {
-    expect(coordinateHelper).toBeTruthy();
+  it('should convert pseudorapidity eta to spherical coordinate theta', () => {
+    const eta = 1.0;
+    const theta = CoordinateHelper.etaToTheta(eta);
+    expect(theta).toBe(0.705026843555238);
   });
 
-  it('check if angles are within range', () => {
-    const expected: boolean = true;
-    mockAnglesAreSane.mockReturnValue(expected);
-    const result = CoordinateHelper.anglesAreSane(-Math.PI, 0);
-    expect(result).toEqual(expected);
-    expect(mockAnglesAreSane).toHaveBeenCalled();
-    const result2 = CoordinateHelper.anglesAreSane(0, Math.PI);
-    expect(result2).toEqual(expected);
-    expect(mockAnglesAreSane).toHaveBeenCalled();
-    expect(mockAnglesAreSane).toHaveBeenCalledTimes(2);
+  it('should convert spherical theta to pseudorapidity eta', () => {
+    const theta = 0.705026843555238;
+    const eta = CoordinateHelper.thetaToEta(theta);
+    expect(eta).toBe(1.0);
   });
 
-  it('convert pseudorapidity eta to spherical coordinate theta', () => {
-    const expected = 0;
-    mockEtaToTheta.mockReturnValue(expected);
-    const result = CoordinateHelper.etaToTheta(0);
-    expect(result).toEqual(expected);
-    expect(mockEtaToTheta).toHaveBeenCalled();
+  it('should get cartesian from spherical parameters', () => {
+    const radius = 1.0;
+    const theta = 0.705026843555238;
+    const phi = 0.0;
+    const vector = CoordinateHelper.sphericalToCartesian(radius, theta, phi);
+    expect(vector.x).toBe(0.6480542736638852);
+    expect(vector.y).toBe(-1.3183898417423734e-16);
+    expect(vector.z).toBe(0.7615941559557646);
   });
 
-  it('convert spherical theta to pseudorapidity eta', () => {
-    const expected = 0;
-    mockThetaToEta.mockReturnValue(expected);
-    const result = CoordinateHelper.thetaToEta(0);
-    expect(result).toEqual(expected);
-    expect(mockThetaToEta).toHaveBeenCalled();
-  });
-  it('get cartesian from spherical parameters', () => {
-    const expected = new Vector3();
-    mockSphericalToCartesian.mockReturnValue(expected);
-    const result = CoordinateHelper.sphericalToCartesian(0, 0, 0);
-    expect(result).toEqual(expected);
-    expect(mockSphericalToCartesian).toHaveBeenCalled();
+  it('should get cartesian from eta/phi parameters', () => {
+    const radius = 1.0;
+    const eta = 1.0;
+    const phi = 0.0;
+    const vector = CoordinateHelper.etaPhiToCartesian(radius, eta, phi);
+    expect(vector.x).toBe(0.6480542736638852);
+    expect(vector.y).toBe(-1.3183898417423734e-16);
+    expect(vector.z).toBe(0.7615941559557646);
   });
 
-  it('get cartesian from eta/phi parameters', () => {
-    const expected = new Vector3();
-    mockEtaPhiToCartesian.mockReturnValue(expected);
-    const result = CoordinateHelper.etaPhiToCartesian(0, 0, 0);
-    expect(result).toEqual(expected);
-    expect(mockEtaPhiToCartesian).toHaveBeenCalled();
-  });
-
-  it('get atlas quaternion', () => {
-    const expected = new Quaternion();
-    mockAtlasQuaternion.mockReturnValue(expected);
-    const result = CoordinateHelper.atlasQuaternion();
-    expect(result).toEqual(expected);
-    expect(mockAtlasQuaternion).toHaveBeenCalled();
+  it('should return the Quaternion to rotate to ATLAS coordinates', () => {
+    const quaternion = CoordinateHelper.atlasQuaternion();
+    expect(quaternion.x).toBe(0.5);
+    expect(quaternion.y).toBe(0.4999999999999999);
+    expect(quaternion.z).toBe(0.4999999999999999);
+    expect(quaternion.w).toBe(0.5);
   });
 });
