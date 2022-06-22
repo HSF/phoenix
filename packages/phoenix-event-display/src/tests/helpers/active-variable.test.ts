@@ -7,23 +7,23 @@ describe('ActiveVariable', () => {
     activeVariable = new ActiveVariable();
   });
 
-  test('should exist', () => {
+  it('should exist', () => {
     expect(activeVariable.value).toBeUndefined();
   });
 
-  test('should update', () => {
+  it('should update the value of variable', () => {
     activeVariable.update(1);
     expect(activeVariable.value).toBe(1);
   });
 
-  test('should call callback', () => {
+  it('should call a function on updating the value of variable', () => {
     const callback = jest.fn();
     activeVariable.onUpdate(callback);
     activeVariable.update(1);
     expect(callback).toHaveBeenCalledWith(1);
   });
 
-  test('should call multiple callbacks', () => {
+  it('should call multiple callbacks', () => {
     const callback1 = jest.fn();
     const callback2 = jest.fn();
     activeVariable.onUpdate(callback1);
@@ -31,11 +31,6 @@ describe('ActiveVariable', () => {
     activeVariable.update(1);
     expect(callback1).toHaveBeenCalledWith(1);
     expect(callback2).toHaveBeenCalledWith(1);
-  });
-
-  test('should not call callback if not subscribed', () => {
-    const callback = jest.fn();
-    activeVariable.update(1);
-    expect(callback).not.toHaveBeenCalled();
+    expect(callback1).toHaveBeenCalledTimes(1);
   });
 });

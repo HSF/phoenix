@@ -28,25 +28,25 @@ describe('BrowserStorage', () => {
     value: localStorageMock,
   });
 
-  test('getFromLocalStorage', () => {
+  it('should get an item from local storage', () => {
     expect(getFromLocalStorage('test')).toEqual(undefined);
     setToLocalStorage('test', 'test');
     expect(getFromLocalStorage('test')).toEqual('test');
   });
 
-  test('setToLocalStorage', () => {
+  it('should set item to local storage', () => {
     setToLocalStorage('test', 'test');
     expect(getFromLocalStorage('test')).toEqual('test');
   });
 
-  test('clearLocalStorage', () => {
+  it('clearLocalStorage', () => {
     setToLocalStorage('test', 'test2');
     expect(getFromLocalStorage('test')).toEqual('test2');
     localStorageMock.clear();
     expect(getFromLocalStorage('test')).toEqual(undefined);
   });
 
-  test('Exception in localStorage : setLocalStorage', () => {
+  it('should throw exception in localStorage during setLocalStorage', () => {
     try {
       localStorageMock.setItem('test3', 'test3');
     } catch (exception) {
@@ -54,7 +54,7 @@ describe('BrowserStorage', () => {
     }
   });
 
-  test('Exception in localStorage : getLocalStorage', () => {
+  it('should throw exception in localStorage during getLocalStorage', () => {
     try {
       localStorageMock.getItem('test4');
     } catch (exception) {

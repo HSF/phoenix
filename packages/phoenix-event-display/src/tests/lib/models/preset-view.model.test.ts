@@ -7,11 +7,11 @@ describe('PresetView', () => {
     model = new PresetView('test', [0, 0, 0], [0, 0, 0], 'test');
   });
 
-  test('can be created', () => {
+  it('can be created', () => {
     expect(model).toBeTruthy();
   });
 
-  test('get the url of the preset view icon', () => {
+  it('get the url of the preset view icon', () => {
     expect(model.getIconURL()).toBe('assets/preset-views/test.svg#test');
   });
 });

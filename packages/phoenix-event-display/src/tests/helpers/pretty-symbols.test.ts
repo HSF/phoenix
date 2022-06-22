@@ -24,11 +24,11 @@ describe('PrettySymbols', () => {
     PrettySymbols.getPrettyParams = mockGetPrettyParams;
   });
 
-  test('should create an instance', () => {
+  it('should create an instance', () => {
     expect(prettySymbols).toBeTruthy();
   });
 
-  test('get pretty symbol for a parameter', () => {
+  it('get pretty symbol for a parameter', () => {
     const expected: string[] = ['theta'];
     mockGetPrettySymbol.mockReturnValue(expected);
     const actual: string = PrettySymbols.getPrettySymbol('θ');
@@ -36,7 +36,7 @@ describe('PrettySymbols', () => {
     expect(mockGetPrettySymbol).toHaveBeenCalled();
   });
 
-  test('get pretty printed parameters of an object', () => {
+  it('get pretty printed parameters of an object', () => {
     const expected: { [key: string]: string[] } = PrettySymbols.symbols;
     mockGetPrettyParams.mockReturnValue(expected);
     const actual: { [key: string]: string[] } = PrettySymbols.getPrettyParams({

@@ -11,11 +11,11 @@ describe('XRManager', () => {
     jest.clearAllMocks();
   });
 
-  test('XRManager should be created', () => {
+  it('XRManager should be created', () => {
     expect(xrManager).toBeTruthy();
   });
 
-  test('It should get the group containing the camera for XR', () => {
+  it('It should get the group containing the camera for XR', () => {
     xrManager.cameraGroup = new Group();
     expect(xrManager.getCameraGroup()).toBe(xrManager.cameraGroup);
     const xrcamera = new Camera();
@@ -26,7 +26,7 @@ describe('XRManager', () => {
     expect(xrManager.getCameraGroup().position).toEqual(cameraPosition);
   });
 
-  test('It should end the current XR session', () => {
+  it('It should end the current XR session', () => {
     expect(xrManager.endXRSession).toBeDefined();
   });
 });

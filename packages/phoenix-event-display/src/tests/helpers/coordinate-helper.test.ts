@@ -25,7 +25,7 @@ describe('CoordinateHelper', () => {
     expect(coordinateHelper).toBeTruthy();
   });
 
-  test('check if angles are within range', () => {
+  it('check if angles are within range', () => {
     const expected: boolean = true;
     mockAnglesAreSane.mockReturnValue(expected);
     const result = CoordinateHelper.anglesAreSane(-Math.PI, 0);
@@ -37,7 +37,7 @@ describe('CoordinateHelper', () => {
     expect(mockAnglesAreSane).toHaveBeenCalledTimes(2);
   });
 
-  test('convert pseudorapidity eta to spherical coordinate theta', () => {
+  it('convert pseudorapidity eta to spherical coordinate theta', () => {
     const expected = 0;
     mockEtaToTheta.mockReturnValue(expected);
     const result = CoordinateHelper.etaToTheta(0);
@@ -45,14 +45,14 @@ describe('CoordinateHelper', () => {
     expect(mockEtaToTheta).toHaveBeenCalled();
   });
 
-  test('convert spherical theta to pseudorapidity eta', () => {
+  it('convert spherical theta to pseudorapidity eta', () => {
     const expected = 0;
     mockThetaToEta.mockReturnValue(expected);
     const result = CoordinateHelper.thetaToEta(0);
     expect(result).toEqual(expected);
     expect(mockThetaToEta).toHaveBeenCalled();
   });
-  test('get cartesian from spherical parameters', () => {
+  it('get cartesian from spherical parameters', () => {
     const expected = new Vector3();
     mockSphericalToCartesian.mockReturnValue(expected);
     const result = CoordinateHelper.sphericalToCartesian(0, 0, 0);
@@ -60,7 +60,7 @@ describe('CoordinateHelper', () => {
     expect(mockSphericalToCartesian).toHaveBeenCalled();
   });
 
-  test('get cartesian from eta/phi parameters', () => {
+  it('get cartesian from eta/phi parameters', () => {
     const expected = new Vector3();
     mockEtaPhiToCartesian.mockReturnValue(expected);
     const result = CoordinateHelper.etaPhiToCartesian(0, 0, 0);
@@ -68,7 +68,7 @@ describe('CoordinateHelper', () => {
     expect(mockEtaPhiToCartesian).toHaveBeenCalled();
   });
 
-  test('get atlas quaternion', () => {
+  it('get atlas quaternion', () => {
     const expected = new Quaternion();
     mockAtlasQuaternion.mockReturnValue(expected);
     const result = CoordinateHelper.atlasQuaternion();

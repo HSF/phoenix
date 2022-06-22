@@ -1,7 +1,7 @@
 import { getLabelTitle } from '../../../src/helpers/labels';
 
 describe('Labels', () => {
-  test('should return the correct label for the given event', () => {
+  it('should return the correct label for the given event', () => {
     const eventDataType = 'eventDataType';
     const collection = 'collection';
     const index = 'index';
