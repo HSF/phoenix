@@ -1,58 +1,47 @@
 import { PrettySymbols } from '../../../src/helpers/pretty-symbols';
 
 describe('PrettySymbols', () => {
-  let prettySymbols: PrettySymbols;
-  const mockSymbols: { [key: string]: string[] } = {
-    θ: ['theta'],
-    ϕ: ['phi'],
-    pT: ['pt'],
-    '𝛘2': ['chi2'],
-    η: ['eta'],
-    q: ['charge'],
-    NDOF: ['ndof'],
-    DOF: ['dof'],
-    Energy: ['energy'],
-    ET: ['et'],
-    '|p|': ['momentum', 'mom'],
-  };
-  const mockGetPrettySymbol = jest.fn();
-  const mockGetPrettyParams = jest.fn();
-
-  beforeEach(() => {
-    prettySymbols = new PrettySymbols();
-    PrettySymbols.getPrettySymbol = mockGetPrettySymbol;
-    PrettySymbols.getPrettyParams = mockGetPrettyParams;
+  it('should return pretty symbol of a parameter', () => {
+    expect(PrettySymbols.getPrettySymbol('theta')).toBe('θ');
+    expect(PrettySymbols.getPrettySymbol('phi')).toBe('ϕ');
+    expect(PrettySymbols.getPrettySymbol('pt')).toBe('pT');
+    expect(PrettySymbols.getPrettySymbol('chi2')).toBe('𝛘2');
+    expect(PrettySymbols.getPrettySymbol('eta')).toBe('η');
+    expect(PrettySymbols.getPrettySymbol('charge')).toBe('q');
+    expect(PrettySymbols.getPrettySymbol('ndof')).toBe('NDOF');
+    expect(PrettySymbols.getPrettySymbol('dof')).toBe('DOF');
+    expect(PrettySymbols.getPrettySymbol('energy')).toBe('Energy');
+    expect(PrettySymbols.getPrettySymbol('et')).toBe('ET');
+    expect(PrettySymbols.getPrettySymbol('momentum')).toBe('|p|');
   });
 
-  it('should create an instance', () => {
-    expect(prettySymbols).toBeTruthy();
-  });
+  it('should return pretty printed parameters of an object', () => {
+    const params = {
+      theta: 0,
+      phi: 1,
+      pt: 2,
+      chi2: 3,
+      eta: 4,
+      charge: 5,
+      ndof: 6,
+      dof: 7,
+      energy: 8,
+      et: 9,
+      momentum: 10,
+    };
 
-  it('get pretty symbol for a parameter', () => {
-    const expected: string[] = ['theta'];
-    mockGetPrettySymbol.mockReturnValue(expected);
-    const actual: string = PrettySymbols.getPrettySymbol('θ');
-    expect(actual).toEqual(expected);
-    expect(mockGetPrettySymbol).toHaveBeenCalled();
-  });
+    const prettyParams = PrettySymbols.getPrettyParams(params);
 
-  it('get pretty printed parameters of an object', () => {
-    const expected: { [key: string]: string[] } = PrettySymbols.symbols;
-    mockGetPrettyParams.mockReturnValue(expected);
-    const actual: { [key: string]: string[] } = PrettySymbols.getPrettyParams({
-      θ: ['theta'],
-      ϕ: ['phi'],
-      pT: ['pt'],
-      '𝛘2': ['chi2'],
-      η: ['eta'],
-      q: ['charge'],
-      NDOF: ['ndof'],
-      DOF: ['dof'],
-      Energy: ['energy'],
-      ET: ['et'],
-      '|p|': ['momentum', 'mom'],
-    });
-    expect(actual).toBe(expected);
-    expect(mockGetPrettyParams).toHaveBeenCalled();
+    expect(prettyParams['θ']).toBe(0);
+    expect(prettyParams['ϕ']).toBe(1);
+    expect(prettyParams['pT']).toBe(2);
+    expect(prettyParams['𝛘2']).toBe(3);
+    expect(prettyParams['η']).toBe(4);
+    expect(prettyParams['q']).toBe(5);
+    expect(prettyParams['NDOF']).toBe(6);
+    expect(prettyParams['DOF']).toBe(7);
+    expect(prettyParams['Energy']).toBe(8);
+    expect(prettyParams['ET']).toBe(9);
+    expect(prettyParams['|p|']).toBe(10);
   });
 });

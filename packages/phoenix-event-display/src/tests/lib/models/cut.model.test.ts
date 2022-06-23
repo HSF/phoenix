@@ -7,11 +7,11 @@ describe('Cut', () => {
     model = new Cut('test', 0, 1, 1);
   });
 
-  it('can be created', () => {
+  it('should create an instance of Cut model', () => {
     expect(model).toBeTruthy();
   });
 
-  it('can be reset', () => {
+  it('should reset the values', () => {
     model.reset();
     expect(model.minValue).toBe(0);
     expect(model.maxValue).toBe(1);
