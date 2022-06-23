@@ -12,12 +12,12 @@ describe('Cut', () => {
   });
 
   it('should reset the values', () => {
+    model.minValue = 10;
+    model.maxValue = 20;
+
     model.reset();
+
     expect(model.minValue).toBe(0);
     expect(model.maxValue).toBe(1);
-  });
-
-  it('can be created with default values', () => {
-    expect(model).toBeTruthy();
   });
 });
