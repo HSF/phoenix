@@ -18,4 +18,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   verbose: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  clearMocks: true,
 };
