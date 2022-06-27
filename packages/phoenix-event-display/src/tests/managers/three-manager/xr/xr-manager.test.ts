@@ -1,4 +1,7 @@
-import { Camera, Group, Scene, Vector3, WebGLRenderer } from 'three';
+/**
+ * @jest-environment jsdom
+ */
+import { Camera, Group, Vector3, WebGLRenderer } from 'three';
 import {
   XRManager,
   XRSessionType,
@@ -6,27 +9,40 @@ import {
 
 describe('XRManager', () => {
   const xrManager = new XRManager(XRSessionType.AR);
+  let renderer: WebGLRenderer;
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('XRManager should be created', () => {
+  it('should create an instance of XRManager', () => {
     expect(xrManager).toBeTruthy();
   });
 
-  it('It should get the group containing the camera for XR', () => {
-    xrManager.cameraGroup = new Group();
-    expect(xrManager.getCameraGroup()).toBe(xrManager.cameraGroup);
-    const xrcamera = new Camera();
-    xrManager.xrCamera = xrcamera;
-    expect(xrManager.getXRCamera()).toBe(xrcamera);
-    const cameraPosition = new Vector3(0, 0, 0.1);
-    xrManager.cameraGroup.position.copy(cameraPosition);
-    expect(xrManager.getCameraGroup().position).toEqual(cameraPosition);
+  it('should set and configure the XR session', () => {
+    const onSessionStarted = () => {};
+    const onSessionEnded = () => {};
+    xrManager.setXRSession(renderer, onSessionStarted, onSessionEnded);
   });
 
-  it('It should end the current XR session', () => {
-    expect(xrManager.endXRSession).toBeDefined();
+  it('should get the group containing the camera for XR', () => {
+    if (xrManager.cameraGroup == undefined) {
+      xrManager.cameraGroup = new Group();
+    }
+    expect(xrManager.getCameraGroup()).toEqual(xrManager.cameraGroup);
+
+    const xrcamera = new Camera();
+    xrManager.xrCamera = xrcamera;
+    expect(xrManager.getXRCamera()).toEqual(xrcamera);
+
+    const cameraPosition = XRSessionType.AR
+      ? xrcamera.position
+      : new Vector3(0, 0, 0.1);
+    xrManager.cameraGroup.position.copy(cameraPosition);
+    xrManager.cameraGroup.add(xrcamera);
+
+    expect(xrManager.getCameraGroup()).toEqual(xrManager.cameraGroup);
+    expect(xrManager.getCameraGroup().position).toEqual(cameraPosition);
+    expect(xrManager.getCameraGroup().children[0]).toEqual(xrcamera);
+  });
+
+  it('should end the current XR session', () => {
+    expect(xrManager.endXRSession()).toBeUndefined();
   });
 });
