@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import createRenderer from '../../helpers/create-renderer';
 import { RendererManager } from '../../../managers/three-manager/renderer-manager';
-import createRenderer from 'jest-three';
 
 describe('RendererManager', () => {
   let rendererManager: RendererManager;
