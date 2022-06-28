@@ -1,16 +1,14 @@
-app-ui-menu #uiMenu,
-app-phoenix-menu #phoenixMenu,
-app-nav #mainLogo,
+#uiMenu,
+#phoenixMenu,
+#mainLogo,
 #statsElement {
-  visibility: visible;
-  opacity: 1;
   transition: opacity 0.4s;
 }
 
 .ss-mode {
-  app-ui-menu #uiMenu,
-  app-phoenix-menu #phoenixMenu,
-  app-nav #mainLogo,
+  #uiMenu,
+  #phoenixMenu,
+  #mainLogo,
   #statsElement {
     visibility: hidden;
     opacity: 0;
