@@ -1,4 +1,13 @@
 /**
+ * Preset view settings for clipping
+ */
+export enum ClippingSetting {
+  NotForced,
+  On,
+  Off,
+}
+
+/**
  * Preset view for easily transforming/changing camera position to a specified position.
  */
 export class PresetView {
@@ -10,6 +19,12 @@ export class PresetView {
   public cameraTarget: number[];
   /** Name of the preset view. */
   public name: string;
+  /** Whether clipping should be used. */
+  public clipping: ClippingSetting;
+  /** In case of clipping, value of the start angle. */
+  public clippingStartAngle: number;
+  /** In case of clipping, value of the opening angle. */
+  public clippingOpeningAngle: number;
 
   /**
    * Create a preset view.
@@ -22,12 +37,18 @@ export class PresetView {
     name: string,
     cameraPos: number[],
     cameraTarget: number[],
-    icon: string
+    icon: string,
+    clipping: ClippingSetting = ClippingSetting.NotForced,
+    clippingStartAngle: number = 0,
+    clippingOpeningAngle: number = 0
   ) {
     this.name = name;
     this.cameraPos = cameraPos;
     this.cameraTarget = cameraTarget;
     this.icon = icon;
+    this.clipping = clipping;
+    this.clippingStartAngle = clippingStartAngle;
+    this.clippingOpeningAngle = clippingOpeningAngle;
   }
 
   /**

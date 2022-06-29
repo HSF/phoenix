@@ -2,7 +2,10 @@ import * as Stats from 'stats-js';
 import { Color, Object3D } from 'three';
 import { ThreeManager } from '../three-manager';
 import { Configuration } from '../../lib/types/configuration';
-import { PresetView } from '../../lib/models/preset-view.model';
+import {
+  PresetView,
+  ClippingSetting,
+} from '../../lib/models/preset-view.model';
 import { Cut } from '../../lib/models/cut.model';
 import { SceneManager } from '../three-manager/scene-manager';
 import { StateManager } from '../../managers/state-manager';
@@ -356,6 +359,11 @@ export class UIManager {
    */
   public displayView(view: PresetView) {
     this.three.animateCameraTransform(view.cameraPos, view.cameraTarget, 1000);
+    if (view.clipping != ClippingSetting.NotForced) {
+      this.rotateStartAngleClipping(view.clippingStartAngle);
+      this.rotateOpeningAngleClipping(view.clippingOpeningAngle);
+      this.setClipping(view.clipping == ClippingSetting.On);
+    }
   }
 
   /**
