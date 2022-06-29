@@ -23,7 +23,7 @@ describe('RendererManager', () => {
     const elementId = 'eventDisplay';
     jest.spyOn(rendererManager, 'init');
     rendererManager.init(elementId);
-    expect(rendererManager.init).toHaveBeenCalled();
+    expect(rendererManager.init).toHaveBeenCalledWith(elementId);
   });
 
   it('should render the overlay', () => {
@@ -31,7 +31,7 @@ describe('RendererManager', () => {
     const camera = new Camera();
     jest.spyOn(rendererManager, 'render');
     rendererManager.render(scene, camera);
-    expect(rendererManager.render).toHaveBeenCalled();
+    expect(rendererManager.render).toHaveBeenCalledWith(scene, camera);
   });
 
   it('should set if local clipping is to be enabled or disabled for all the available renderers', () => {
