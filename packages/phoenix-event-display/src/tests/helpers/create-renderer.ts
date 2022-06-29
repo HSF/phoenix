@@ -1,5 +1,5 @@
 /**
- * To create objects of WebGLRender in unit tests
+ * To make it easy to create objects of WebGLRenderer in unit tests
  */
 import createContext from 'gl';
 
