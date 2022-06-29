@@ -1,3 +1,6 @@
+/**
+ * To create objects of WebGLRender in unit tests
+ */
 import createContext from 'gl';
 
 import * as THREE from 'three';
