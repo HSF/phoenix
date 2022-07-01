@@ -316,8 +316,18 @@ This is a list of objects, displayed as dashed lines starting from 0 and staying
 * `etx`, `ety` : describing the direction of the line
 * `color` (opt) - Hexadecimal string representing the color to draw the line.
 
-### Geometry
-
-![sample geometry](images/phoenix-geometry.png "Geometry in Phoenix")
+### Geometry Data
 
 Phoenix currently supports loading `.obj`, `.gltf`, `.root`, `.json.gz` and `.json` files containing 3D objects.
+
+#### Usage of GLTF files
+
+[GLTF](https://www.khronos.org/registry/glTF/) defines a language to define 3D scenes as well as the corresponding file formats for storing the data (.gltf or .glb file extensions). Phoenix is able to load GLTF files and display them, but it also uses a couple of extensions that will be described in the following lines.
+
+##### Phoenix menu definition in GLTF
+
+GLTF files can have several scenes. Phoenix will display all of them at once, but it will create one menu item per scene so that they can be made visible/invisible independently. The menu item will simply use the name of the scene. If this name contains one or more ' > ' sequence(s) this will be interpreted as the separator between different levels of the menu. Hence scene 'A > B > C' will have name C and be located in submenu B of menu entry A
+
+GLTF scenes can also have extra data attached to them, in a dictionnary called `extras` attached to the scene object. 2 entries of that dictionnary will be interpreted by phoenix :
+* if a`visible` entry exists with boolean value, phoenix will interpret is as the initial visibility of that scene. By default scenes are visible
+* if an `opacity` entry exist with floating point value within [0, 1], phoenix will interpret is as the opacity of that scene. By default opacity is 1
