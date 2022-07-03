@@ -15,40 +15,34 @@ describe('LoadingManager', () => {
     expect(loadingManager).toBeTruthy();
   });
 
-  it('should add an item which is to be loaded', () => {
-    loadingManager.addLoadableItem('item');
-    expect(loadingManager.toLoad.length).toBe(1);
-  });
-
-  it('should call the function when an item has finished loading', () => {
-    jest.spyOn(loadingManager, 'itemLoaded');
+  it('should call the listeners when all items have loaded', () => {
+    const callback = jest.fn();
+    loadingManager.addLoadListener(callback);
     loadingManager.addLoadableItem('item');
     loadingManager.itemLoaded('item');
-    expect(loadingManager.itemLoaded).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalled();
   });
 
   it('should call the function when loading of an item progresses', () => {
-    jest.spyOn(loadingManager, 'onProgress');
+    const callback = jest.fn();
+    loadingManager.addProgressListener(callback);
     loadingManager.addLoadableItem('item');
     loadingManager.onProgress('item', 50);
-    expect(loadingManager.onProgress).toHaveBeenCalled();
+    expect(callback).toHaveBeenCalled();
   });
 
-  it('should add a listener for when all items have loaded', () => {
-    jest.spyOn(loadingManager, 'addLoadListener');
-    loadingManager.addLoadListener(() => {});
-    expect(loadingManager.addLoadListener).toHaveBeenCalled();
-  });
+  it('should add a listener for when all items have loaded with check if there are any items to load when the listener is added', () => {
+    loadingManager.addLoadableItem('item');
+    loadingManager.itemLoaded('item');
+    const callback = jest.fn();
+    loadingManager.addLoadListenerWithCheck(callback);
 
-  it('should add a listener for when all items have loaded with check if there', () => {
-    jest.spyOn(loadingManager, 'addLoadListenerWithCheck');
-    loadingManager.addLoadListenerWithCheck(() => {});
-    expect(loadingManager.addLoadListenerWithCheck).toHaveBeenCalled();
-  });
-
-  it('should add a callback to listen when the progress of an item increases', () => {
-    jest.spyOn(loadingManager, 'addProgressListener');
-    loadingManager.addProgressListener(() => {});
-    expect(loadingManager.addProgressListener).toHaveBeenCalled();
+    loadingManager.addLoadableItem('item2');
+    if (
+      loadingManager.toLoad.length === 1 &&
+      loadingManager.toLoad.length !== loadingManager.loaded.length
+    ) {
+      expect(callback).toHaveBeenCalled();
+    }
   });
 });
