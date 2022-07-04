@@ -39,8 +39,8 @@ describe('CMSObjects', () => {
 
     const mesh = muonChamber.children[0] as Mesh;
     expect(mesh.position).toBeInstanceOf(Vector3);
+    expect(mesh.rotation).toBeInstanceOf(Euler);
     expect(mesh.geometry.attributes.position.count).toBe(36);
-    expect(mesh.geometry.attributes.normal.count).toBe(36);
     expect(mesh.receiveShadow).toBe(false);
     expect(mesh.frustumCulled).toBe(true);
     expect(mesh.renderOrder).toBe(0);
