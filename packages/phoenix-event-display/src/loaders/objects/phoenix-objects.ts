@@ -32,8 +32,7 @@ import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUt
  */
 export class PhoenixObjects {
   /**
-   * Process the Track from the given parameters (and positions)
-   * and get it as a geometry.
+   * Create and return a Track object from the given parameters
    * @param trackParams Parameters of the Track.
    * @returns Track object.
    */
@@ -129,7 +128,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Jet from the given parameters and get it as a geometry.
+   * Create and return a Jet object from the given parameters.
    * @param jetParams Parameters for the Jet.
    * @returns Jet object.
    */
@@ -193,7 +192,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Hits from the given parameters and get them as a geometry.
+   * Create and return a Hits object according to the given parameters.
    * @param hitsParams Either an array of positions, or of Hit objects. If objects, they must contain 'pos', the array of [x,y,z] positions,
    * Can optionally contain extraInfo, which will be added to the resultant hit.
    * `type` tells Phoenix how to draw this - currently can be Point (default), or Line.
@@ -385,7 +384,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Cluster from the given parameters and get it as a geometry.
+   * Create and return a Cluster object from the given parameters.
    * @param clusterParams Parameters for the Cluster.
    * @param drawRadius Radius where to draw barrel Clusters
    * @param drawZ Plane in z where to draw endcap Clusters
@@ -488,7 +487,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the CaloCell from the given parameters and get it as a geometry.
+   * Create and return a Calocell object from the given parameters.
    * @param caloCells Parameters for the CaloCell.
    * @returns Calorimeter Cell object.
    */
@@ -526,7 +525,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the PlanarCaloCell from the given parameters and get it as a geometry.
+   * Create and return a PlanarCaloCell object from the given parameters.
    * @param caloCells Parameters for the Planar Calorimeter.
    * @returns Planar Calorimeter object.
    */
@@ -582,7 +581,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Vertex from the given parameters and get it as a geometry.
+   * Create and return a Vertex object from the given parameters.
    * @param vertexParams Parameters for the Vertex.
    * @returns Vertex object.
    */
@@ -608,7 +607,7 @@ export class PhoenixObjects {
   }
 
   /**
-   * Process the Vertex from the given parameters and get it as a geometry.
+   * Create and return a MET object from the given parameters.
    * @param metParams Parameters for the Vertex.
    * @returns MET object.
    */
