@@ -1,10 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera, Object3D, Scene } from 'three';
+import { Camera, Object3D, Scene, Vector3 } from 'three';
 import { AnimationsManager } from '../../../managers/three-manager/animations-manager';
 import { RendererManager } from '../../../managers/three-manager/renderer-manager';
-import * as TWEEN from '@tweenjs/tween.js';
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
 
 describe('AnimationsManager', () => {
@@ -21,20 +20,30 @@ describe('AnimationsManager', () => {
 
   it('should get the camera tween for animating camera to a position', () => {
     const tween = animationsManager.getCameraTween([0, 1, 2], 0, 1);
-    expect(tween).toBeDefined();
+
+    expect(tween._object).toBeInstanceOf(Vector3);
+    expect(tween._object.x).toBe(0);
+    expect(tween._object.y).toBe(0);
+    expect(tween._object.z).toBe(0);
+
+    expect(tween._valuesStart).toEqual({});
+    expect(tween._valuesEnd).toEqual({ x: 0, y: 1, z: 2 });
+    expect(tween._easingFunction).toBe(1);
+    expect(tween._chainedTweens.length).toBe(0);
+
+    expect(tween._group._tweens).toEqual({});
+    expect(tween._group.Easing).toBeDefined();
+    expect(tween._group.Interpolation).toBeDefined();
+
+    expect(tween._duration).toBe(0);
+    expect(tween._repeat).toBe(0);
+    expect(tween._id).toBe(0);
   });
 
   it('should animate the camera through the event scene', () => {
+    jest.spyOn(animationsManager, 'getCameraTween');
     animationsManager.animateThroughEvent([0, 1, 2], 10, () => {});
-    const alongAxisPosition = [0, 0, 2];
-    const startXAxis = animationsManager.getCameraTween(alongAxisPosition, 1);
-    expect(startXAxis).toBeDefined();
-    const startClone = animationsManager.getCameraTween(
-      [0, 1, 2],
-      10,
-      TWEEN.Easing.Cubic.Out
-    );
-    expect(startClone).toBeDefined();
+    expect(animationsManager.getCameraTween).toHaveBeenCalledTimes(29);
   });
 
   it('should get the positions of hits in a multidimensional array', () => {
@@ -50,25 +59,25 @@ describe('AnimationsManager', () => {
     });
 
     it('should animate the propagation and generation of event data', () => {
-      jest.spyOn(animationsManager, 'animateEvent');
+      jest.spyOn(scene, 'getObjectByName');
       animationsManager.animateEvent(
         500,
         () => {},
         () => {}
       );
-      expect(animationsManager.animateEvent).toHaveBeenCalled();
+      expect(scene.getObjectByName).toHaveBeenCalledTimes(1);
     });
 
     it('should animate the propagation and generation of event data with particle collison', () => {
-      jest.spyOn(animationsManager, 'collideParticles');
+      jest.spyOn(animationsManager, 'animateWithCollision');
       animationsManager.animateEventWithCollision(5000, () => {});
-      expect(animationsManager.collideParticles).toHaveBeenCalled();
+      expect(animationsManager.animateWithCollision).toHaveBeenCalledTimes(1);
     });
 
     it('should animate the propagation and generation of event data using clipping planes after particle collison', () => {
-      jest.spyOn(animationsManager, 'collideParticles');
+      jest.spyOn(animationsManager, 'animateWithCollision');
       animationsManager.animateClippingWithCollision(5000, () => {});
-      expect(animationsManager.collideParticles).toHaveBeenCalled();
+      expect(animationsManager.animateWithCollision).toHaveBeenCalledTimes(1);
     });
   });
 });
