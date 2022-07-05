@@ -30,43 +30,52 @@ describe('StateManager', () => {
   });
 
   it('should set the state of clipping', () => {
-    jest.spyOn(stateManager, 'setClippingEnabled');
     stateManager.setClippingEnabled(true);
-    expect(stateManager.setClippingEnabled).toHaveBeenCalledWith(true);
+    expect(stateManager.clippingEnabled.value).toBe(true);
 
     stateManager.setClippingEnabled(false);
-    expect(stateManager.setClippingEnabled).toHaveBeenCalledWith(false);
+    expect(stateManager.clippingEnabled.value).toBe(false);
   });
 
   it('should set the start clipping angle of clipping', () => {
-    jest.spyOn(stateManager, 'setStartClippingAngle');
-    stateManager.setStartClippingAngle(10);
-    expect(stateManager.setStartClippingAngle).toHaveBeenCalledWith(10);
+    stateManager.setStartClippingAngle(0);
+    expect(stateManager.startClippingAngle.value).toBe(0);
+
+    stateManager.setStartClippingAngle(90);
+    expect(stateManager.startClippingAngle.value).toBe(90);
   });
 
   it('should get the start clipping angle of clipping', () => {
-    stateManager.setStartClippingAngle(0);
-    expect(stateManager.getStartClippingAngle()).toBe(0);
+    stateManager.setStartClippingAngle(70);
+    expect(stateManager.getStartClippingAngle()).toBe(70);
+
+    stateManager.setStartClippingAngle(88);
+    expect(stateManager.getStartClippingAngle()).toBe(88);
   });
 
   it('should set the opening clipping angle of clipping', () => {
-    jest.spyOn(stateManager, 'setOpeningClippingAngle');
-    stateManager.setOpeningClippingAngle(90);
-    expect(stateManager.setOpeningClippingAngle).toHaveBeenCalledWith(90);
+    stateManager.setOpeningClippingAngle(50);
+    expect(stateManager.openingClippingAngle.value).toBe(50);
+
+    stateManager.setOpeningClippingAngle(100);
+    expect(stateManager.openingClippingAngle.value).toBe(100);
   });
 
   it('should get the opening clipping angle of clipping', () => {
-    stateManager.setOpeningClippingAngle(0);
-    expect(stateManager.getOpeningClippingAngle()).toBe(0);
+    stateManager.setOpeningClippingAngle(70);
+    expect(stateManager.getOpeningClippingAngle()).toBe(70);
+
+    stateManager.setOpeningClippingAngle(80);
+    expect(stateManager.getOpeningClippingAngle()).toBe(80);
   });
 
-  it('should set the scene camera for stateManager', () => {
+  it('should set the scene camera for state', () => {
     const camera = new Camera();
     stateManager.setCamera(camera);
     expect(stateManager.activeCamera).toBe(camera);
   });
 
-  it('should set the event display', () => {
+  it('should set the event display for state', () => {
     const eventDisplay = new EventDisplay();
     stateManager.setEventDisplay(eventDisplay);
     expect(stateManager.eventDisplay).toBe(eventDisplay);
