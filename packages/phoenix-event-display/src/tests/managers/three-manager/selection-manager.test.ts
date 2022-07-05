@@ -3,7 +3,7 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import { Camera, Object3D, Scene } from 'three';
+import { Camera, Scene } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import createRenderer from '../../helpers/create-renderer';
 
@@ -30,14 +30,13 @@ describe('SelectionManager', () => {
     const renderer = createRenderer();
     const effectsManager = new EffectsManager(camera, scene, renderer);
     const infoLogger = new InfoLogger();
-    jest.spyOn(selectionManager, 'init');
+
     selectionManager.init(camera, scene, effectsManager, infoLogger);
-    expect(selectionManager.init).toHaveBeenCalledWith(
-      camera,
-      scene,
-      effectsManager,
-      infoLogger
-    );
+
+    expect(selectionManagerPrivate.camera).toBe(camera);
+    expect(selectionManagerPrivate.scene).toBe(scene);
+    expect(selectionManagerPrivate.effectsManager).toBe(effectsManager);
+    expect(selectionManagerPrivate.infoLogger).toBe(infoLogger);
   });
 
   it('should set the currently selected object', () => {
@@ -45,41 +44,18 @@ describe('SelectionManager', () => {
       name: 'test',
       attributes: [],
     };
-    jest.spyOn(selectionManager, 'setSelectedObject');
     selectionManager.setSelectedObject(test);
-    expect(selectionManager.setSelectedObject).toHaveBeenCalledWith(test);
+
+    expect(selectionManagerPrivate.selectedObject).toBe(test);
   });
 
   it('should get the uuid of the currently selected object', () => {
-    jest.spyOn(selectionManager, 'getActiveObjectId');
     selectionManager.getActiveObjectId();
-    expect(selectionManager.getActiveObjectId).toHaveBeenCalled();
+    expect(selectionManagerPrivate.activeObject).toBeTruthy();
   });
 
   it('should set if selecting is to be enabled or disabled', () => {
-    jest.spyOn(selectionManager, 'setSelecting');
     selectionManager.setSelecting(true);
-    expect(selectionManager.setSelecting).toHaveBeenCalledWith(true);
-  });
-
-  it('should highlight the object with the given uuid by giving it an outline pass', () => {
-    const camera = new Camera();
-    const scene = new Scene();
-    const renderer = createRenderer();
-    const effectsManager = new EffectsManager(camera, scene, renderer);
-    const infoLogger = new InfoLogger();
-    selectionManager.init(camera, scene, effectsManager, infoLogger);
-    const test = {
-      name: 'test',
-      attributes: [],
-    };
-    selectionManager.setSelectedObject(test);
-    selectionManagerPrivate.outlinePass.selectedObject = test;
-    selectionManagerPrivate.outlinePass.render();
-    expect(selectionManagerPrivate.outlinePass.selectedObject).toEqual(test);
-
-    jest.spyOn(selectionManager, 'highlightObject');
-    selectionManager.highlightObject('test', new Object3D());
-    expect(selectionManager.highlightObject).toHaveBeenCalled();
+    expect(selectionManagerPrivate.isInit).toBeFalsy();
   });
 });
