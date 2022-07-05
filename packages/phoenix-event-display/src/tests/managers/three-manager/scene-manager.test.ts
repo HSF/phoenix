@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
+import { Object3D, Scene, Vector3 } from 'three';
 import {
   AmbientLight,
   AxesHelper,
@@ -14,6 +15,7 @@ import {
   Mesh,
   MeshBasicMaterial,
 } from 'three';
+import { CoordinateHelper } from '../../../helpers/coordinate-helper';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;
@@ -29,49 +31,70 @@ describe('SceneManager', () => {
 
   it('should update position of directional light for each frame rendered', () => {
     sceneManager.updateLights(new Camera());
+    expect(sceneManager.cameraLight).toBeUndefined();
   });
 
   it('should get a clean copy of the scene', () => {
     const scene = new Group();
     scene.add(new Mesh(new BoxGeometry(), new MeshBasicMaterial()));
     const cleanScene = sceneManager.getCleanScene();
+
+    expect(cleanScene).toBeInstanceOf(Scene);
     expect(cleanScene.children.length).toBe(0);
+
+    expect(cleanScene.up.x).toBe(0);
+    expect(cleanScene.up.y).toBe(1);
+    expect(cleanScene.up.z).toBe(0);
+
+    expect(cleanScene.position.x).toBe(0);
+    expect(cleanScene.position.y).toBe(0);
+    expect(cleanScene.position.z).toBe(0);
+
+    expect(cleanScene.scale.x).toBe(1);
+    expect(cleanScene.scale.y).toBe(1);
+    expect(cleanScene.scale.z).toBe(1);
   });
 
   it('should remove a label from the scene', () => {
-    jest.spyOn(sceneManager, 'removeLabel');
+    jest.spyOn(sceneManager, 'getObjectsGroup');
     sceneManager.removeLabel('test');
-    expect(sceneManager.removeLabel).toHaveBeenCalledWith('test');
+    expect(sceneManager.getObjectsGroup).toHaveBeenCalledTimes(1);
   });
 
-  it('should add a new type of objects (Jets, Tracks...) to the event data group', () => {
-    jest.spyOn(sceneManager, 'addEventDataTypeGroup');
-    sceneManager.addEventDataTypeGroup('object');
-    expect(sceneManager.addEventDataTypeGroup).toHaveBeenCalledWith('object');
+  it('should add new types of objects (Jets, Tracks...) to the event data group', () => {
+    const eventGroup = sceneManager.addEventDataTypeGroup('object');
+
+    expect(eventGroup).toBeInstanceOf(Group);
+    expect(eventGroup.parent.name).toBe('EventData');
+    expect(eventGroup.parent.parent).toBeInstanceOf(Scene);
+    expect(eventGroup.parent.parent.children.length).toBe(6);
+    expect(eventGroup.userData).toEqual({});
   });
 
   it('should clear event data of the scene', () => {
-    jest.spyOn(sceneManager, 'clearEventData');
+    jest.spyOn(sceneManager, 'getEventData');
     sceneManager.clearEventData();
-    expect(sceneManager.clearEventData).toHaveBeenCalled();
+    expect(sceneManager.getEventData).toHaveBeenCalledTimes(2);
   });
 
   it('should toggle depthTest of event data by updating all childrens depthTest and renderOrder', () => {
-    jest.spyOn(sceneManager, 'eventDataDepthTest');
-    sceneManager.eventDataDepthTest(true);
-    expect(sceneManager.eventDataDepthTest).toHaveBeenCalledWith(true);
+    jest.spyOn(sceneManager, 'getEventData');
 
+    sceneManager.eventDataDepthTest(true);
     sceneManager.eventDataDepthTest(false);
-    expect(sceneManager.eventDataDepthTest).toHaveBeenCalledWith(false);
+
+    expect(sceneManager.getEventData).toHaveBeenCalledTimes(2);
   });
 
   it('should set the visibility of the scene eta/phi grid ', () => {
-    jest.spyOn(sceneManager, 'setEtaPhiGrid');
-    sceneManager.setEtaPhiGrid(true);
-    expect(sceneManager.setEtaPhiGrid).toHaveBeenCalledWith(true);
+    jest.spyOn(CoordinateHelper, 'etaPhiToCartesian');
+    jest.spyOn(sceneManager, 'getText');
 
+    sceneManager.setEtaPhiGrid(true);
     sceneManager.setEtaPhiGrid(false);
-    expect(sceneManager.setEtaPhiGrid).toHaveBeenCalledWith(false);
+
+    expect(CoordinateHelper.etaPhiToCartesian).toHaveBeenCalledTimes(15);
+    expect(sceneManager.getText).toHaveBeenCalledTimes(15);
   });
 
   describe('With object in scene', () => {
@@ -94,9 +117,11 @@ describe('SceneManager', () => {
     });
 
     it('should wireframe a group of objects', () => {
-      jest.spyOn(sceneManager, 'wireframeObjects');
       sceneManager.wireframeObjects(object, true);
-      expect(sceneManager.wireframeObjects).toHaveBeenCalledWith(object, true);
+      expect(object.material.wireframe).toBe(true);
+
+      sceneManager.wireframeObjects(object, false);
+      expect(object.material.wireframe).toBe(false);
     });
 
     it('should modify opacity of an object', () => {
@@ -120,18 +145,24 @@ describe('SceneManager', () => {
     it('should change object visibility', () => {
       sceneManager.objectVisibility(object, false);
       expect(object.visible).toBe(false);
+
       sceneManager.objectVisibility(object, true);
       expect(object.visible).toBe(true);
     });
 
     it('should get position of an object', () => {
-      expect(sceneManager.getObjectPosition(OBJECT_NAME)).toBeTruthy();
+      const objPosition = sceneManager.getObjectPosition(OBJECT_NAME);
+
+      expect(objPosition).toBeInstanceOf(Vector3);
+      expect(objPosition.x).toBe(0);
+      expect(objPosition.y).toBe(0);
+      expect(objPosition.z).toBe(0);
     });
 
     it('should remove a geometry from the scene', () => {
-      jest.spyOn(sceneManager, 'removeGeometry');
+      jest.spyOn(sceneManager, 'getGeometries');
       sceneManager.removeGeometry(object);
-      expect(sceneManager.removeGeometry).toHaveBeenCalledWith(object);
+      expect(sceneManager.getGeometries).toHaveBeenCalledTimes(1);
     });
 
     it('should scale an object', () => {
@@ -156,6 +187,7 @@ describe('SceneManager', () => {
     it('should set axis', () => {
       sceneManager.setAxis(true);
       expect((sceneManager as any).axis?.visible).toBeTruthy();
+
       sceneManager.setAxis(false);
       expect((sceneManager as any).axis.visible).toBeFalsy();
     });
@@ -190,7 +222,14 @@ describe('SceneManager', () => {
     });
 
     it('should get an object by its name', () => {
-      expect(sceneManager.getObjectByName(OBJECT_NAME)).toBeTruthy();
+      const objName = sceneManager.getObjectByName(OBJECT_NAME) as Mesh;
+
+      expect(objName).toBeInstanceOf(Object3D);
+      expect(objName.name).toBe('TestCube');
+      expect(objName.parent.type).toBe('Scene');
+      expect(objName.parent.children.length).toBe(6);
+      expect(objName.geometry).toBeInstanceOf(BoxGeometry);
+      expect(objName.material).toBeInstanceOf(MeshBasicMaterial);
     });
   });
 });
