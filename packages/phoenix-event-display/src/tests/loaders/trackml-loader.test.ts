@@ -11,35 +11,43 @@ describe('TrackmlLoader', () => {
   });
 
   it('should create an instance', () => {
-    expect(trackmlLoader).toBeTruthy();
+    expect(trackmlLoader).toBeDefined();
   });
 
-  it('should process hits', () => {
+  it('should process hits to format and store them', () => {
     const hits = `1,0,0,0,0,0,0
     2,0,0,0,0,0,0`;
-    jest.spyOn(trackmlLoader, 'processHits');
+    jest.spyOn(console, 'log');
     trackmlLoader.processHits(hits);
-    expect(trackmlLoader.processHits).toHaveBeenCalledWith(hits);
+    expect(console.log).toHaveBeenCalledWith('Event has this many hits:', 2);
   });
 
   it('should process particles to format and store them', () => {
     const particles = `1,0,0,0,0,0,0,0,0
     2,0,0,0,0,0,0,0,0`;
-    jest.spyOn(trackmlLoader, 'processParticles');
+    jest.spyOn(console, 'log');
     trackmlLoader.processParticles(particles);
-    expect(trackmlLoader.processParticles).toHaveBeenCalledWith(particles);
+    expect(console.log).toHaveBeenCalledWith(
+      'Event has this many particles:',
+      2
+    );
   });
 
   it('should process truth data to format and store it', () => {
     const truth = `1,0,0,0,0,0,0,0,0
     2,0,0,0,0,0,0,0,0`;
-    jest.spyOn(trackmlLoader, 'processTruth');
+    jest.spyOn(console, 'log');
     trackmlLoader.processTruth(truth);
-    expect(trackmlLoader.processTruth).toHaveBeenCalledWith(truth);
+    expect(console.log).toHaveBeenCalledWith('Event has this many truth: ', 2);
   });
 
   it('should get structured event data from the processed Hits, Truth data and Particles', () => {
     const eventData = trackmlLoader.getEventData('eventNum');
-    expect(eventData).toBeTruthy();
+    expect(eventData).toEqual({
+      eventNumber: 'eventNum',
+      runNumber: 0,
+      Hits: { Reconstructed: [] },
+      Tracks: { Particles: [] },
+    });
   });
 });
