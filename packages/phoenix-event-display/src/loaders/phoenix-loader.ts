@@ -633,7 +633,7 @@ export class PhoenixLoader implements EventDataLoader {
         for (const eventDataPropKey of eventDataProp.keys) {
           if (
             eventDataKeys.includes(eventDataPropKey) &&
-            this.eventData[eventDataPropKey]
+            eventDataPropKey in this.eventData
           ) {
             combinedProps[eventDataProp.label] =
               this.eventData[eventDataPropKey];
