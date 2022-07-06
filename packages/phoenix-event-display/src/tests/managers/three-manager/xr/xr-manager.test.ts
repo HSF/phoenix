@@ -2,47 +2,38 @@
  * @jest-environment jsdom
  */
 import { Camera, Group, Vector3, WebGLRenderer } from 'three';
+import createRenderer from '../../../helpers/create-renderer';
 import {
   XRManager,
   XRSessionType,
 } from '../../../../../src/managers/three-manager/xr/xr-manager';
 
 describe('XRManager', () => {
-  const xrManager = new XRManager(XRSessionType.AR);
+  let xrManager: XRManager;
   let renderer: WebGLRenderer;
+
+  beforeEach(() => {
+    xrManager = new XRManager(XRSessionType.AR);
+    renderer = createRenderer();
+  });
+
+  afterEach(() => {
+    xrManager.endXRSession();
+  });
 
   it('should create an instance of XRManager', () => {
     expect(xrManager).toBeTruthy();
   });
 
-  it('should set and configure the XR session', () => {
-    const onSessionStarted = () => {};
-    const onSessionEnded = () => {};
-    xrManager.setXRSession(renderer, onSessionStarted, onSessionEnded);
-  });
-
   it('should get the group containing the camera for XR', () => {
-    if (xrManager.cameraGroup == undefined) {
-      xrManager.cameraGroup = new Group();
-    }
-    expect(xrManager.getCameraGroup()).toEqual(xrManager.cameraGroup);
-
-    const xrcamera = new Camera();
-    xrManager.xrCamera = xrcamera;
-    expect(xrManager.getXRCamera()).toEqual(xrcamera);
-
-    const cameraPosition = XRSessionType.AR
-      ? xrcamera.position
-      : new Vector3(0, 0, 0.1);
-    xrManager.cameraGroup.position.copy(cameraPosition);
-    xrManager.cameraGroup.add(xrcamera);
-
-    expect(xrManager.getCameraGroup()).toEqual(xrManager.cameraGroup);
-    expect(xrManager.getCameraGroup().position).toEqual(cameraPosition);
-    expect(xrManager.getCameraGroup().children[0]).toEqual(xrcamera);
+    xrManager.xrCamera = new Camera();
+    const cameraGroup = xrManager.getCameraGroup(xrManager.xrCamera);
+    expect(cameraGroup.type).toBe('Group');
   });
 
-  it('should end the current XR session', () => {
-    expect(xrManager.endXRSession()).toBeUndefined();
+  it('should get the camera used by XR', () => {
+    const camera = new Camera();
+    xrManager.xrCamera = camera;
+    expect(xrManager.getXRCamera()).toBe(camera);
   });
 });
