@@ -13,7 +13,7 @@
 * [Event data loader](./event-data-loader.md)
 * [Using JSROOT](./using-jsroot.md)
 * [Running with XR (AR/VR) support](./running-with-xr-support.md)
-* [Convert GDML Geometry to ROOT and GLTF](./convert-gdml-to-gltf.md)
+* [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
 
 ## Phoenix architecture
 

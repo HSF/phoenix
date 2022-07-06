@@ -9,6 +9,7 @@ export enum ClippingSetting {
 
 /**
  * Preset view for easily transforming/changing camera position to a specified position.
+ * Also allows to point the camera to a given target and to define the default clipping for that view
  */
 export class PresetView {
   /** Icon of the preset view (to describe the view angle). */

@@ -131,12 +131,29 @@ Now, open the `test-experiment.component.html` file and use the Phoenix UI compo
 
 The `[rootNode]="phoenixMenuRoot"` specified here for the Phoenix menu will be a defined in `test-experiment.component.ts`.
 
+One can easily customize the app-ui-menu. There are 2 main ways :
+  - just adding buttons at the end of it by inserting the corresponding components with the `app-ui-menu` declaration :
+  ```html
+  <app-ui-menu>
+    <app-cycle-events [interval]="5000"></app-cycle-events>
+  </app-ui-menu>
+  ```
+  will add a button to cycle through events every 5s at the end of the menu bar
+  - redefine the manu bar completely using `app-ui-menu-wrapper` instead of `app-ui-menu` :
+  ```html
+  <app-ui-menu-wrapper>
+    <app-event-selector></app-event-selector>
+    <app-cycle-events [interval]="5000"></app-cycle-events>
+  </app-ui-menu-wrapper>
+  ```
+  This defines a very restricted menu with only the event selector and the event cycling button
+
 Finally, open the `test-experiment.component.ts` file and initialize the Phoenix event display using the intermediate Angular `EventDisplayService`.
 
 ```ts
 import { Component, OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
-import { Configuration, PhoenixLoader, PresetView, PhoenixMenuNode } from 'phoenix-event-display';
+import { Configuration, PhoenixLoader, PresetView, ClippingSetting, PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
   selector: 'app-test-experiment',
@@ -155,11 +172,14 @@ export class TestExperimentComponent implements OnInit {
     const configuration: Configuration = {
       eventDataLoader: new PhoenixLoader(),
       presetViews: [
-        new PresetView('Left View', [0, 0, -12000], 'left-cube'),
-        new PresetView('Center View', [-500, 12000, 0], 'top-cube'),
-        new PresetView('Right View', [0, 0, 12000], 'right-cube')
+        // simple preset views, looking at point 0,0,0 and with no clipping
+        new PresetView('Left View', [0, 0, -12000], [0, 0, 0], 'left-cube'),
+        new PresetView('Center View', [-500, 12000, 0], [0, 0, 0], 'top-cube'),
+        // more fancy view, looking at point 0,0,5000 and with some clipping
+        new PresetView('Right View', [0, 0, 12000], [0, 0, 5000], 'right-cube', ClippingSetting.On, 90, 90)
       ],
-      defaultView: [4000, 0, 4000],
+      // default view with x, y, z of the camera and then x, y, z of the point it looks at
+      defaultView: [4000, 0, 4000, 0, 0 ,0],
       phoenixMenuRoot: this.phoenixMenuRoot,
       // Event data to load by default
       defaultEventFile: {
