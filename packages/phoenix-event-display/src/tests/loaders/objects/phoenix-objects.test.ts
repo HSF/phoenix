@@ -37,15 +37,7 @@ describe('PhoenixObjects', () => {
     expect(trackObject.children[1].type).toBe('Line');
     expect(trackObject.children[1].name).toBe('Track');
 
-    expect(trackObject.userData.pos).toEqual(trackParams.pos);
-    expect(trackObject.userData.dparams).toEqual(trackParams.dparams);
-    expect(trackObject.userData.extended).toBe(trackParams.extended);
-    expect(trackObject.userData.indices).toEqual(trackParams.indices);
-    expect(trackObject.userData.phi).toBe(trackParams.phi);
-    expect(trackObject.userData.eta).toBe(trackParams.eta);
-    expect(trackObject.userData.d0).toBe(trackParams.d0);
-    expect(trackObject.userData.z0).toBe(trackParams.z0);
-    expect(trackObject.userData.color).toBe(trackParams.color);
+    expect(trackParams).toMatchObject(trackObject.userData);
   });
 
   it('should create a Jet from the given parameters and get it as an object', () => {
@@ -64,13 +56,7 @@ describe('PhoenixObjects', () => {
     expect(jetObject.name).toBe('Jet');
     expect(jetObject.type).toBe('Mesh');
 
-    expect(jetObject.userData.eta).toBe(jetParams.eta);
-    expect(jetObject.userData.phi).toBe(jetParams.phi);
-    expect(jetObject.userData.theta).toBe(jetParams.theta);
-    expect(jetObject.userData.energy).toBe(jetParams.energy);
-    expect(jetObject.userData.et).toBe(jetParams.et);
-    expect(jetObject.userData.coneR).toBe(jetParams.coneR);
-    expect(jetObject.userData.color).toBe(jetParams.color);
+    expect(jetParams).toMatchObject(jetObject.userData);
   });
 
   it('should create Hits of Line type from the given parameters and get it as an object', () => {
@@ -87,6 +73,8 @@ describe('PhoenixObjects', () => {
 
     expect(hitsObjectLine).toBeInstanceOf(LineSegments);
     expect(hitsObjectLine.name).toBe('LineHit');
+
+    expect(hitsParamsLine).toMatchObject(hitsObjectLine.userData);
   });
 
   it('should create Hits of Point type from the given parameters and get it as an object', () => {
@@ -103,6 +91,8 @@ describe('PhoenixObjects', () => {
 
     expect(hitsObjectPoint.type).toBe('Points');
     expect(hitsObjectPoint.name).toBe('Hit');
+
+    expect(hitsParamsPoint).toMatchObject(hitsObjectPoint.userData);
   });
 
   it('should create Hits of Box type from the given parameters and get it as an object', () => {
@@ -119,6 +109,8 @@ describe('PhoenixObjects', () => {
 
     expect(hitsObjectBox.type).toBe('Mesh');
     expect(hitsObjectBox.name).toBe('BoxHit');
+
+    expect(hitsParamsBox).toMatchObject(hitsObjectBox.userData);
   });
 
   it('should create Hits of Unknown type from the given parameters and get it as an object', () => {
@@ -138,6 +130,8 @@ describe('PhoenixObjects', () => {
 
     expect(clusterObject.name).toBe('Cluster');
     expect(clusterObject.type).toBe('Mesh');
+
+    expect(clusterParams).toMatchObject(clusterObject.userData);
   });
 
   it('should create a Calocell from the given parameters and get it as an object', () => {
@@ -154,11 +148,9 @@ describe('PhoenixObjects', () => {
     expect(caloCellObject.name).toBe('Cluster');
     expect(caloCellObject.type).toBe('Mesh');
 
-    expect(caloCellObject.userData.energy).toBe(caloCells.energy);
-    expect(caloCellObject.userData.phi).toBe(caloCells.phi);
-    expect(caloCellObject.userData.eta).toBe(caloCells.eta);
-    expect(caloCellObject.userData.theta).toBe(caloCells.theta);
-    expect(caloCellObject.userData.uuid).not.toBe(caloCells.uuid);
+    const caloCell = (({ uuid, ...o }) => o)(caloCells);
+
+    expect(caloCellObject.userData).toMatchObject(caloCell);
   });
 
   it('should create a PlanarCaloCell from the given parameters and get it as an object', () => {
@@ -184,24 +176,7 @@ describe('PhoenixObjects', () => {
     expect(planarCaloCellObject.name).toBe('PlanarCaloCell');
     expect(planarCaloCellObject.type).toBe('Object3D');
 
-    expect(planarCaloCellObject.userData.energy).toBe(
-      planarCaloCellParams.energy
-    );
-    expect(planarCaloCellObject.userData.phi).toBe(planarCaloCellParams.phi);
-    expect(planarCaloCellObject.userData.eta).toBe(planarCaloCellParams.eta);
-    expect(planarCaloCellObject.userData.theta).toBe(
-      planarCaloCellParams.theta
-    );
-    expect(planarCaloCellObject.userData.cellSize).toBe(
-      planarCaloCellParams.cellSize
-    );
-    expect(planarCaloCellObject.userData.plane).toBe(
-      planarCaloCellParams.plane
-    );
-    expect(planarCaloCellObject.userData.color).toBe(
-      planarCaloCellParams.color
-    );
-    expect(planarCaloCellObject.userData.pos).toBe(planarCaloCellParams.pos);
+    expect(planarCaloCellParams).toMatchObject(planarCaloCellObject.userData);
   });
 
   it('should create a Vertex from the given parameters and get it as an object', () => {
@@ -216,6 +191,8 @@ describe('PhoenixObjects', () => {
 
     expect(vertexObject.name).toBe('Vertex');
     expect(vertexObject.type).toBe('Mesh');
+
+    expect(vertexParams).toMatchObject(vertexObject.userData);
   });
 
   it('should create a Vertex from the given parameters and get it as a MET object', () => {
@@ -231,9 +208,6 @@ describe('PhoenixObjects', () => {
     expect(metObject.name).toBe('Missing Energy');
     expect(metObject.type).toBe('Line');
 
-    expect(metObject.userData.color).toBe(metParams.color);
-    expect(metObject.userData.etx).toBe(metParams.etx);
-    expect(metObject.userData.ety).toBe(metParams.ety);
-    expect(metObject.userData.etz).toBe(metParams.etz);
+    expect(metParams).toMatchObject(metObject.userData);
   });
 });

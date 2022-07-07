@@ -37,5 +37,7 @@ describe('CMSObjects', () => {
     expect(muonChamber.children[0].name).toBe('MuonChamber');
     expect(muonChamber.children[0].type).toBe('Mesh');
     expect(muonChamber.children[1].type).toBe('LineSegments');
+
+    expect(muonChamberParams).toMatchObject(muonChamber.userData);
   });
 });
