@@ -5,6 +5,7 @@ import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-
 import { StateManager } from '../../managers/state-manager';
 import { Camera } from 'three';
 import { EventDisplay } from '../../event-display';
+import * as file from '../../helpers/file';
 
 jest.mock('../../event-display');
 
@@ -19,14 +20,49 @@ describe('StateManager', () => {
     expect(stateManager).toBeTruthy();
   });
 
-  it('should get the instance of stateManager', () => {
-    expect(StateManager.getInstance()).toBeTruthy();
+  it('should get the same instance of StateManager each time we create a new object', () => {
+    expect(new StateManager()).toBe(stateManager);
+    expect(StateManager.getInstance()).toBe(stateManager);
   });
 
   it('should set the root node of Phoenix menu', () => {
     const phoenixMenuRoot = new PhoenixMenuNode('root');
     stateManager.setPhoenixMenuRoot(phoenixMenuRoot);
     expect(stateManager.phoenixMenuRoot).toBe(phoenixMenuRoot);
+  });
+
+  it('should save the state of the event display as JSON', () => {
+    stateManager.activeCamera = new Camera();
+    global.URL.createObjectURL = jest.fn();
+
+    jest.spyOn(stateManager.phoenixMenuRoot, 'getNodeState');
+    jest.spyOn(file, 'saveFile');
+
+    stateManager.saveStateAsJSON();
+
+    expect(stateManager.phoenixMenuRoot.getNodeState).toHaveBeenCalled();
+    expect(file.saveFile).toHaveBeenCalled();
+
+    expect(stateManager.eventMetadata.runNumber).toBe('000');
+    expect(stateManager.eventMetadata.eventNumber).toBe('000');
+  });
+
+  it('should load the state of the event display from JSON', () => {
+    stateManager.phoenixMenuRoot = new PhoenixMenuNode('root');
+
+    const jsonData = {
+      eventDisplay: {
+        startClippingAngle: 0,
+        openingClippingAngle: 0,
+        cameraPosition: { x: 1, y: 2, z: 3 },
+      },
+    };
+
+    jest.spyOn(stateManager, 'setClippingEnabled');
+
+    stateManager.loadStateFromJSON(JSON.stringify(jsonData));
+
+    expect(stateManager.setClippingEnabled).not.toHaveBeenCalledWith(true);
   });
 
   it('should set the state of clipping', () => {
