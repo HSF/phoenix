@@ -3,9 +3,10 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import { Camera, Scene } from 'three';
+import { Camera, Object3D, Scene } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import createRenderer from '../../helpers/create-renderer';
+import { ActiveVariable } from '../../../helpers/active-variable';
 
 describe('SelectionManager', () => {
   let selectionManager: SelectionManager;
@@ -50,12 +51,18 @@ describe('SelectionManager', () => {
   });
 
   it('should get the uuid of the currently selected object', () => {
-    selectionManager.getActiveObjectId();
-    expect(selectionManagerPrivate.activeObject).toBeTruthy();
+    expect(selectionManager.getActiveObjectId()).toBeInstanceOf(ActiveVariable);
   });
 
-  it('should set if selecting is to be enabled or disabled', () => {
-    selectionManager.setSelecting(true);
-    expect(selectionManagerPrivate.isInit).toBeFalsy();
+  it('should highlight the object with the given uuid by giving it an outline', () => {
+    const objectGroup = new Object3D();
+    jest.spyOn(objectGroup, 'getObjectByProperty');
+
+    selectionManager.highlightObject('uuid', objectGroup);
+
+    expect(objectGroup.getObjectByProperty).toHaveBeenCalledWith(
+      'uuid',
+      'uuid'
+    );
   });
 });
