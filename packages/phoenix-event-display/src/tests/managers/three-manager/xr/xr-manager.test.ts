@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera, Group, Vector3, WebGLRenderer } from 'three';
+import { Camera, WebGLRenderer } from 'three';
 import createRenderer from '../../../helpers/create-renderer';
 import {
   XRManager,
@@ -23,6 +23,24 @@ describe('XRManager', () => {
 
   it('should create an instance of XRManager', () => {
     expect(xrManager).toBeTruthy();
+  });
+
+  it('should set and configure the XR session', () => {
+    jest
+      .spyOn(xrManager as any, 'onXRSessionStarted')
+      .mockImplementation(jest.fn());
+    const onSessionStarted = jest.fn();
+    const onSessionEnded = jest.fn();
+    const requestSessionSpy = jest.fn().mockResolvedValue(Promise.resolve({}));
+
+    Object.defineProperty(window.navigator, 'xr', {
+      value: {
+        requestSession: requestSessionSpy,
+      },
+    });
+
+    xrManager.setXRSession(renderer, onSessionStarted, onSessionEnded);
+    expect(requestSessionSpy).toHaveBeenCalled();
   });
 
   it('should get the group containing the camera for XR', () => {
