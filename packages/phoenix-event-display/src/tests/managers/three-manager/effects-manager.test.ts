@@ -1,18 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import {
-  Camera,
-  Scene,
-  WebGLRenderer,
-  Color,
-  WebGLRenderTarget,
-  Texture,
-  MeshDepthMaterial,
-  ShaderMaterial,
-} from 'three';
+import { Camera, Scene, WebGLRenderer, NormalBlending } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import createRenderer from '../../helpers/create-renderer';
@@ -38,32 +28,9 @@ describe('EffectsManager', () => {
     const outlinePass = effectsManager.addOutlinePassForSelection();
 
     expect(outlinePass).toBeInstanceOf(OutlinePass);
-    expect(outlinePass.selectedObjects.length).toBe(0);
-    expect(outlinePass.visibleEdgeColor).toBeInstanceOf(Color);
-    expect(outlinePass.hiddenEdgeColor).toBeInstanceOf(Color);
-
-    expect(outlinePass.edgeGlow).toBe(0);
-    expect(outlinePass.edgeThickness).toBe(1);
-    expect(outlinePass.edgeStrength).toBe(3);
-
-    expect(outlinePass.resolution.x).toBe(window.innerWidth);
-    expect(outlinePass.resolution.y).toBe(window.innerHeight);
-
-    expect(outlinePass.renderTargetMaskBuffer).toBeInstanceOf(
-      WebGLRenderTarget
-    );
-    expect(outlinePass.renderTargetMaskBuffer.texture).toBeInstanceOf(Texture);
-
-    expect(outlinePass.depthMaterial).toBeInstanceOf(MeshDepthMaterial);
-    expect(outlinePass.prepareMaskMaterial).toBeInstanceOf(ShaderMaterial);
-
-    expect(outlinePass.renderTargetDepthBuffer).toBeInstanceOf(
-      WebGLRenderTarget
-    );
-    expect(outlinePass.edgeDetectionMaterial).toBeInstanceOf(ShaderMaterial);
-    expect(outlinePass.overlayMaterial).toBeInstanceOf(ShaderMaterial);
-    expect(outlinePass.materialCopy).toBeInstanceOf(ShaderMaterial);
-    expect(outlinePass.fsQuad).toBeInstanceOf(FullScreenQuad);
+    expect(outlinePass.overlayMaterial.blending).toBe(NormalBlending);
+    expect(outlinePass.visibleEdgeColor.getHex()).toBe(0xdf5330);
+    expect(effectsManager.composer.passes.length).toBe(2);
   });
 
   it('should remove a pass from the effect composer', () => {
