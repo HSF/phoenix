@@ -38,11 +38,6 @@ describe('LoadingManager', () => {
     loadingManager.addLoadListenerWithCheck(callback);
 
     loadingManager.addLoadableItem('item2');
-    if (
-      loadingManager.toLoad.length === 1 &&
-      loadingManager.toLoad.length !== loadingManager.loaded.length
-    ) {
-      expect(callback).toHaveBeenCalled();
-    }
+    expect(callback).toHaveBeenCalled();
   });
 });
