@@ -273,7 +273,7 @@ Jets are a list of Jet objects with the following attributes :
 * `color` (opt) - Hexadecimal string representing the color to draw the jet.
 
 #### 'Hits'
-Hits can be defined>X in 2 ways. Either as an array of positions or as an array of Hit objects.
+Hits can be defined in 2 ways. Either as an array of positions or as an array of Hit objects.
 
 In case aray of positions is used, Hits have format [ [x,y,z], [x,y,z], [x,y,z], ... ] i.e. an array of 3-dim arrays containing Cartesian coordinate.
 These will be rendered as points.
