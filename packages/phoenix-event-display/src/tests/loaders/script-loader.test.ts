@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { LoadingManager } from '../../managers/loading-manager';
 import { ScriptLoader } from '../../loaders/script-loader';
 
 describe('ScriptLoader', () => {
@@ -14,24 +15,41 @@ describe('ScriptLoader', () => {
     expect(scriptLoader).toBeTruthy();
   });
 
-  // using async/await to test the loading of scripts - they take quite long to load
-  // not a good idea to test the script here as it is taking more than 15 seconds to load
-  // right now we only get back a pending promise
   it('should synchronously load all JSRoot scripts', () => {
+    const jsrootVersion: string = '6.3.4';
+    const loadingManager = new LoadingManager();
+
+    jest.spyOn(loadingManager, 'addLoadableItem');
+
     const JSROOT = ScriptLoader.loadJSRootScripts();
-    expect(JSROOT).toBeInstanceOf(Promise);
+
+    expect(loadingManager.addLoadableItem).toHaveBeenCalledWith(
+      'jsroot_scripts'
+    );
+
+    expect(document.scripts.length).toBe(1);
+    expect(document.scripts[0].src).toBe(
+      'https://cdn.jsdelivr.net/npm/jsroot' +
+        `@${jsrootVersion}/scripts/JSRoot.core.js`
+    );
   });
 
   it('should load a script dynamically from a URL', () => {
-    const scriptURL = 'https://www.google.com/jsapi';
-    const scriptFor = 'google_jsapi';
+    const scriptURL = 'abc';
+    const scriptFor = 'test';
     const parentElement = document.getElementsByTagName('head')[0];
+
+    jest.spyOn(parentElement, 'appendChild');
 
     const promise = ScriptLoader.loadScript(
       scriptURL,
       scriptFor,
       parentElement
     );
-    expect(promise).toBeInstanceOf(Promise);
+
+    expect(parentElement.appendChild).toHaveBeenCalled();
+
+    expect(document.scripts.length).toBe(2);
+    expect(document.scripts[1].src).toBe('http://localhost/' + scriptURL);
   });
 });
