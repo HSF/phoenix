@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
-import { Object3D, Scene, Vector3 } from 'three';
+import { Object3D, Scene, Vector3, PerspectiveCamera } from 'three';
 import {
   AmbientLight,
   AxesHelper,
@@ -16,6 +16,7 @@ import {
   MeshBasicMaterial,
 } from 'three';
 import { CoordinateHelper } from '../../../helpers/coordinate-helper';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;
@@ -26,38 +27,33 @@ describe('SceneManager', () => {
   ];
 
   beforeEach(() => {
-    sceneManager = new SceneManager(ignoreList, false);
+    sceneManager = new SceneManager(ignoreList, true);
   });
 
   it('should update position of directional light for each frame rendered', () => {
-    sceneManager.updateLights(new Camera());
-    expect(sceneManager.cameraLight).toBeUndefined();
+    const camera = new Camera();
+    camera.position.set(7, 7, 7);
+    sceneManager.cameraLight = new DirectionalLight();
+
+    sceneManager.updateLights(camera);
+
+    expect(sceneManager.cameraLight.position.x).toBe(7);
+    expect(sceneManager.cameraLight.position.y).toBe(7);
+    expect(sceneManager.cameraLight.position.z).toBe(7);
   });
 
   it('should get a clean copy of the scene', () => {
-    const scene = new Group();
-    scene.add(new Mesh(new BoxGeometry(), new MeshBasicMaterial()));
     const cleanScene = sceneManager.getCleanScene();
 
     expect(cleanScene).toBeInstanceOf(Scene);
     expect(cleanScene.children.length).toBe(0);
-
-    expect(cleanScene.up.x).toBe(0);
-    expect(cleanScene.up.y).toBe(1);
-    expect(cleanScene.up.z).toBe(0);
-
-    expect(cleanScene.position.x).toBe(0);
-    expect(cleanScene.position.y).toBe(0);
-    expect(cleanScene.position.z).toBe(0);
-
-    expect(cleanScene.scale.x).toBe(1);
-    expect(cleanScene.scale.y).toBe(1);
-    expect(cleanScene.scale.z).toBe(1);
   });
 
   it('should remove a label from the scene', () => {
     jest.spyOn(sceneManager, 'getObjectsGroup');
+
     sceneManager.removeLabel('test');
+
     expect(sceneManager.getObjectsGroup).toHaveBeenCalledTimes(1);
   });
 
@@ -66,24 +62,17 @@ describe('SceneManager', () => {
 
     expect(eventGroup).toBeInstanceOf(Group);
     expect(eventGroup.parent.name).toBe('EventData');
-    expect(eventGroup.parent.parent).toBeInstanceOf(Scene);
-    expect(eventGroup.parent.parent.children.length).toBe(6);
-    expect(eventGroup.userData).toEqual({});
-  });
-
-  it('should clear event data of the scene', () => {
-    jest.spyOn(sceneManager, 'getEventData');
-    sceneManager.clearEventData();
-    expect(sceneManager.getEventData).toHaveBeenCalledTimes(2);
   });
 
   it('should toggle depthTest of event data by updating all childrens depthTest and renderOrder', () => {
-    jest.spyOn(sceneManager, 'getEventData');
+    const eventData = sceneManager.getEventData();
 
-    sceneManager.eventDataDepthTest(true);
+    jest.spyOn(eventData, 'traverse');
+
     sceneManager.eventDataDepthTest(false);
+    sceneManager.eventDataDepthTest(true);
 
-    expect(sceneManager.getEventData).toHaveBeenCalledTimes(2);
+    expect(eventData.traverse).toHaveBeenCalledTimes(2);
   });
 
   it('should set the visibility of the scene eta/phi grid ', () => {
@@ -102,18 +91,29 @@ describe('SceneManager', () => {
     const OBJECT_NAME = 'TestCube';
 
     beforeEach(() => {
-      sceneManager = new SceneManager(ignoreList, false);
+      sceneManager = new SceneManager(ignoreList, true);
 
       const geometry = new BoxGeometry(1, 1, 1);
       const material = new MeshBasicMaterial({ color: 'white' });
       object = new Mesh(geometry, material);
       object.name = OBJECT_NAME;
+      object.uuid = 'uuid';
 
       sceneManager.getScene().add(object);
     });
 
     afterEach(() => {
       sceneManager.getScene().remove(object);
+    });
+
+    it('should clear event data of the scene', () => {
+      const group = sceneManager.addEventDataTypeGroup('eventData');
+
+      expect(sceneManager.getEventData().children.length).toBe(1);
+
+      sceneManager.clearEventData();
+
+      expect(sceneManager.getEventData().children.length).toBe(0);
     });
 
     it('should wireframe a group of objects', () => {
@@ -168,6 +168,31 @@ describe('SceneManager', () => {
     it('should scale an object', () => {
       sceneManager.scaleObject(object, 0.5);
       expect(object.scale.x).toBe(0.5);
+    });
+
+    it('should scale lowest level objects in a group', () => {
+      sceneManager.addEventDataTypeGroup('object');
+      const object = sceneManager.getObjectByName('object');
+
+      jest.spyOn(object, 'traverse');
+
+      sceneManager.scaleChildObjects('object', 0.5);
+
+      expect(object.traverse).toHaveBeenCalledTimes(1);
+    });
+
+    it('should add label to the three.js object', () => {
+      const camera = new PerspectiveCamera();
+      const htmlElement = document.createElement('div');
+      sceneManager.addLabelToObject(
+        'label',
+        'uuid',
+        'labelId',
+        new Vector3(0, 0, 0),
+        new OrbitControls(camera, htmlElement)
+      );
+
+      expect(object.userData.label).toBe('label');
     });
 
     it('should change group visibility', () => {
@@ -227,9 +252,6 @@ describe('SceneManager', () => {
       expect(objName).toBeInstanceOf(Object3D);
       expect(objName.name).toBe('TestCube');
       expect(objName.parent.type).toBe('Scene');
-      expect(objName.parent.children.length).toBe(6);
-      expect(objName.geometry).toBeInstanceOf(BoxGeometry);
-      expect(objName.material).toBeInstanceOf(MeshBasicMaterial);
     });
   });
 });
