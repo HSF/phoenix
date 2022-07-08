@@ -35,9 +35,6 @@ describe('PhoenixMenuUI', () => {
 
     expect(phoenixMenuUIPrivate.geomFolder.name).toBe('Detector');
     expect(phoenixMenuUIPrivate.geomFolder).toBeInstanceOf(PhoenixMenuNode);
-    expect(phoenixMenuUIPrivate.geomFolder.toggleState).toBeTruthy();
-    expect(phoenixMenuUIPrivate.geomFolder.configs[0].type).toBe('checkbox');
-    expect(phoenixMenuUIPrivate.geomFolder.configs[1].type).toBe('slider');
   });
 
   it('should add event data folder with functions for event data toggles like show/hide and depthTest', () => {
@@ -45,13 +42,6 @@ describe('PhoenixMenuUI', () => {
 
     expect(phoenixMenuUIPrivate.eventFolder.name).toBe('Event Data');
     expect(phoenixMenuUIPrivate.eventFolder).toBeInstanceOf(PhoenixMenuNode);
-    expect(phoenixMenuUIPrivate.eventFolder.toggleState).toBeTruthy();
-    expect(phoenixMenuUIPrivate.eventFolder.configs[0].type).toBe('checkbox');
-    expect(phoenixMenuUIPrivate.eventFolder.childrenActive).toBeFalsy();
-    expect(phoenixMenuUIPrivate.eventFolder.parent).toBeInstanceOf(
-      PhoenixMenuNode
-    );
-    expect(phoenixMenuUIPrivate.eventFolder.parent.name).toBe('test');
   });
 
   it('should add labels folder to the menu', () => {
@@ -59,21 +49,17 @@ describe('PhoenixMenuUI', () => {
 
     expect(phoenixMenuUIPrivate.labelsFolder.name).toBe('Labels');
     expect(phoenixMenuUIPrivate.labelsFolder).toBeInstanceOf(PhoenixMenuNode);
-    expect(phoenixMenuUIPrivate.labelsFolder.toggleState).toBeTruthy();
-    expect(phoenixMenuUIPrivate.labelsFolder.configs[0].type).toBe('slider');
-    expect(phoenixMenuUIPrivate.labelsFolder.configs[1].type).toBe('color');
-    expect(phoenixMenuUIPrivate.labelsFolder.configs[2].type).toBe('button');
-    expect(phoenixMenuUIPrivate.labelsFolder.parent).toBeInstanceOf(
-      PhoenixMenuNode
-    );
-    expect(phoenixMenuUIPrivate.labelsFolder.parent.name).toBe('test');
   });
 
   it('should remove label from the menu and scene if it exists', () => {
-    phoenixMenuUI.addLabelsFolder('test');
-    phoenixMenuUI.removeLabel('test');
+    const testMenuNode = new PhoenixMenuNode('test');
+    const testMenuNodeChild = testMenuNode.addChild('test', () => {});
 
-    expect(phoenixMenuUIPrivate.labelsFolder.childrenActive).toBeFalsy();
+    jest.spyOn(testMenuNodeChild, 'remove');
+
+    phoenixMenuUI.removeLabel('test', testMenuNodeChild);
+
+    expect(testMenuNodeChild.remove).toHaveBeenCalled();
   });
 
   it('should add geometry to the menu geometry folder and set up its configurable options', () => {
@@ -98,27 +84,72 @@ describe('PhoenixMenuUI', () => {
 
   it('should add collection folder and its configurable options to the event data type (tracks, hits etc.) folder', () => {
     phoenixMenuUI.addEventDataFolder();
-    phoenixMenuUI.addCollection('test', 'test');
+    phoenixMenuUI.addEventDataTypeFolder('test');
 
-    expect(phoenixMenuUIPrivate.eventFolder).toBeTruthy();
-    expect(phoenixMenuUIPrivate.eventFolder.children.length).toBe(0);
+    jest.spyOn(three, 'getColorManager');
+
+    phoenixMenuUI.addCollection('test', 'Tracks');
+
+    expect(three.getColorManager).toHaveBeenCalled();
   });
 
   it('should get the folder of the event data type', () => {
     phoenixMenuUI.addEventDataFolder();
-    const eventDataFolder = phoenixMenuUI.getEventDataTypeFolder;
+    phoenixMenuUI.addEventDataTypeFolder('test');
 
-    expect(eventDataFolder).toBeInstanceOf(Function);
-    expect(eventDataFolder.name).toBe('getEventDataTypeFolder');
+    const eventDataFolder = phoenixMenuUI.getEventDataTypeFolder('test');
+
+    expect(eventDataFolder.name).toBe('test');
   });
 
-  it('should load previous state of the event data folder in Phoenix menu if any', () => {
-    phoenixMenuUI.loadEventFolderState();
+  describe('PhoenixMenuNode', () => {
+    let testMenuNode: PhoenixMenuNode;
+    let testMenuNodeChild: PhoenixMenuNode;
 
-    if (phoenixMenuUIPrivate.eventFolderState) {
-      expect(phoenixMenuUIPrivate.eventFolder).toBeTruthy();
-    } else {
-      expect(phoenixMenuUIPrivate.eventFolder).toBeNull();
-    }
+    beforeEach(() => {
+      testMenuNode = new PhoenixMenuNode('test');
+      testMenuNodeChild = testMenuNode.addChild('testChild', () => {});
+    });
+
+    it('should toggle the current and all child nodes of the menu', () => {
+      jest.spyOn(testMenuNodeChild, 'toggleSelfAndDescendants');
+
+      testMenuNode.toggleSelfAndDescendants(true);
+
+      expect(testMenuNodeChild.toggleSelfAndDescendants).toHaveBeenCalled();
+    });
+
+    it('should get the current state of node as an object', () => {
+      const stateOfNode = testMenuNode.getNodeState();
+
+      expect(stateOfNode.name).toBe('test');
+      expect(stateOfNode.children[0].name).toBe('testChild');
+    });
+
+    it('should load the state of the phoenix menu node from JSON', () => {
+      jest.spyOn(testMenuNodeChild, 'loadStateFromJSON');
+
+      const stateOfNode = testMenuNode.getNodeState();
+
+      testMenuNode.loadStateFromJSON(stateOfNode);
+
+      expect(testMenuNodeChild.loadStateFromJSON).toHaveBeenCalled();
+    });
+
+    it('should find a node in the tree by name', () => {
+      const foundNode = testMenuNode.findInTree('testChild');
+
+      expect(foundNode.name).toBe('testChild');
+    });
+
+    it('should find a node in the tree by name or create one', () => {
+      const foundNode = testMenuNode.findInTreeOrCreate('testChild');
+
+      expect(foundNode.name).toBe('testChild');
+
+      const foundNode2 = testMenuNode.findInTreeOrCreate('testChild2');
+
+      expect(foundNode2.name).toBe('testChild2');
+    });
   });
 });
