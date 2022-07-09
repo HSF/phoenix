@@ -5,7 +5,11 @@ import { EventDisplay } from '../../event-display';
 import { URLOptionsManager } from '../../managers/url-options-manager';
 import { Configuration } from '../../lib/types/configuration';
 
-jest.mock('../../event-display');
+jest.mock('../../event-display', () => {
+  return {
+    EventDisplay: jest.fn(),
+  };
+});
 
 describe('URLOptionsManager', () => {
   let urlOptionsManager: URLOptionsManager;
@@ -16,10 +20,8 @@ describe('URLOptionsManager', () => {
   beforeEach(() => {
     eventDisplay = new EventDisplay();
     configuration = {
-      defaultEventFile: {
-        eventFile: 'test file',
-        eventType: 'test event',
-      },
+      elementId: 'elementId',
+      allowUrlOptions: true,
     };
     urlOptionsManager = new URLOptionsManager(eventDisplay, configuration);
     urlOptionsManagerPrivate = urlOptionsManager;
@@ -39,6 +41,17 @@ describe('URLOptionsManager', () => {
     expect(urlOptionsManager.applyEventOptions).toHaveBeenCalled();
     expect(urlOptionsManager.applyHideWidgetsOptions).toHaveBeenCalled();
     expect(urlOptionsManager.applyEmbedOption).toHaveBeenCalled();
+  });
+
+  it('should initialize the event display with event data and configuration from URL', () => {
+    window.fetch = jest.fn();
+    urlOptionsManager.applyOptions();
+
+    jest.spyOn(urlOptionsManager['urlOptions'], 'get');
+
+    urlOptionsManager.applyEventOptions();
+
+    expect(urlOptionsManager['urlOptions'].get).toHaveBeenCalled();
   });
 
   it('should hide all overlay widgets if "hideWidgets" option from the URL is true', () => {
