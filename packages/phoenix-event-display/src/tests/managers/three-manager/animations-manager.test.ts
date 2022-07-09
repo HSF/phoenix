@@ -29,15 +29,6 @@ describe('AnimationsManager', () => {
     expect(tween._valuesStart).toEqual({});
     expect(tween._valuesEnd).toEqual({ x: 0, y: 1, z: 2 });
     expect(tween._easingFunction).toBe(1);
-    expect(tween._chainedTweens.length).toBe(0);
-
-    expect(tween._group._tweens).toEqual({});
-    expect(tween._group.Easing).toBeDefined();
-    expect(tween._group.Interpolation).toBeDefined();
-
-    expect(tween._duration).toBe(0);
-    expect(tween._repeat).toBe(0);
-    expect(tween._id).toBe(0);
   });
 
   it('should animate the camera through the event scene', () => {
