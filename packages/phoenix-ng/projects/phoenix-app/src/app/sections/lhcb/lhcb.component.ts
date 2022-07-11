@@ -93,7 +93,7 @@ export class LHCbComponent implements OnInit {
       undefined, // menuNodeName
       1, // scale
       true, // initiallyVisible
-      true // transparent
+      false // transparent
     );
 
     this.eventDisplay
