@@ -43,14 +43,6 @@ describe('DatGUIMenuUI', () => {
     expect(datGUIMenuPrivate.geomFolder.__folders).toBeInstanceOf(Object);
   });
 
-  it('should add event data folder with functions for event data toggles like show/hide and depthTest', () => {
-    datGUIMenu.addEventDataFolder();
-
-    expect(datGUIMenuPrivate.eventFolder).toBeInstanceOf(GUI);
-    expect(datGUIMenuPrivate.eventFolder.name).toBe('Event Data');
-    expect(datGUIMenuPrivate.eventFolder.__folders).toEqual({});
-  });
-
   it('should add folder for event data type like tracks or hits to the menu', () => {
     datGUIMenu.addEventDataFolder();
     datGUIMenu.addEventDataTypeFolder('Event Data');
