@@ -10,43 +10,41 @@ jest.mock('../../managers/three-manager/index');
 
 describe('PhoenixLoader', () => {
   let phoenixLoader: PhoenixLoader;
-  let eventData: any;
+  const eventData = {
+    Event: {
+      'event number': 1,
+      'run number': 1,
+      Hits: {
+        hitsCollection: [
+          {
+            pos: [
+              -2545.135009765625, -2425.1064453125, 7826.09912109375,
+              -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+            ],
+            type: 'Line',
+          },
+        ],
+      },
+    },
+    Event2: {
+      'event number': 2,
+      'run number': 2,
+      Hits: {
+        hitsCollection: [
+          {
+            pos: [
+              -2545.135009765625, -2425.1064453125, 7826.09912109375,
+              -2545.135009765625, -1.1222461462020874, 7826.09912109375,
+            ],
+            type: 'Line',
+          },
+        ],
+      },
+    },
+  };
 
   beforeEach(() => {
     phoenixLoader = new PhoenixLoader();
-
-    eventData = {
-      Event: {
-        'event number': 1,
-        'run number': 1,
-        Hits: {
-          hitsCollection: [
-            {
-              pos: [
-                -2545.135009765625, -2425.1064453125, 7826.09912109375,
-                -2545.135009765625, -1.1222461462020874, 7826.09912109375,
-              ],
-              type: 'Line',
-            },
-          ],
-        },
-      },
-      Event2: {
-        'event number': 2,
-        'run number': 2,
-        Hits: {
-          hitsCollection: [
-            {
-              pos: [
-                -2545.135009765625, -2425.1064453125, 7826.09912109375,
-                -2545.135009765625, -1.1222461462020874, 7826.09912109375,
-              ],
-              type: 'Line',
-            },
-          ],
-        },
-      },
-    };
 
     const graphicsLibrary = new ThreeManager(new InfoLogger());
     const uiManager = new UIManager(new ThreeManager(new InfoLogger()));
@@ -86,17 +84,7 @@ describe('PhoenixLoader', () => {
   });
 
   it('should get the collection with the given collection name from the event data', () => {
-    const collectionName = {
-      hitsCollection: [
-        {
-          pos: [
-            -2545.135009765625, -2425.1064453125, 7826.09912109375,
-            -2545.135009765625, -1.1222461462020874, 7826.09912109375,
-          ],
-          type: 'Line',
-        },
-      ],
-    };
+    const collectionName = eventData['Event']['Hits'];
 
     const collection = phoenixLoader.getCollection('Hits');
 
@@ -104,24 +92,21 @@ describe('PhoenixLoader', () => {
   });
 
   it('get metadata associated to any event', () => {
+    // as of now returns an empty array of objects due to the event data we add in this test suite
     const metadata = phoenixLoader.getEventMetadata();
 
-    expect(metadata).toBeDefined();
+    expect(metadata).toEqual([]);
   });
 
   it('should get the object containing labels of events', () => {
-    const labelsObject = phoenixLoader.getLabelsObject();
-    // as we didnt add labels for any
-    expect(labelsObject).toBeNull;
+    // as we didnt add labels for any event, it should return back an empty object
+    expect(phoenixLoader.getLabelsObject()).toEqual({});
   });
 
   it('should get function to add options to scale event object type by given factor', () => {
-    const func = phoenixLoader.addScaleOptions(
-      'configKey',
-      'configLabel',
-      () => {}
-    );
-
-    expect(func).toBeDefined;
+    // it should be called with these arguments as an anonymous function
+    expect(
+      phoenixLoader.addScaleOptions('configKey', 'configLabel', () => {})
+    ).toBeInstanceOf(Function);
   });
 });
