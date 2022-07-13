@@ -27,22 +27,22 @@ import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { TracksMaterial, TracksMesh } from './tracks';
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
 
 /**
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
-  public static getTracks(tracks) : Object3D {
-    const tracksMesh = new TracksMesh()
-    const tracksMaterial = new TracksMaterial({lineWidth:5})
+  public static getTracks(tracks): Object3D {
+    const tracksMesh = new TracksMesh();
+    const tracksMaterial = new TracksMaterial({ lineWidth: 5 });
 
     for (const track of tracks) {
       if (!(track.pos?.length > 2)) {
         if (track.dparams) {
           track.pos = RKHelper.extrapolateTrackPositions(track);
         }
-        track.extended = true
+        track.extended = true;
       }
 
       if (track.pos.length < 2) {
@@ -66,24 +66,24 @@ export class PhoenixObjects {
         }
       }
 
-      const points = track.pos.map(p => new Vector3(p[0], p[1], p[2]));
+      const points = track.pos.map((p) => new Vector3(p[0], p[1], p[2]));
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
       const color = track.color
-      ? parseInt(track.color, 16)
-      : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
+        ? parseInt(track.color, 16)
+        : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
-      track.tid = tracksMesh.addTrack(vertices, color)
-      track.material = tracksMaterial
+      track.tid = tracksMesh.addTrack(vertices, color);
+      track.material = tracksMaterial;
     }
-    tracksMesh.process()
+    tracksMesh.process();
 
-    const tracksObject = new Mesh(tracksMesh, tracksMaterial)
-    tracksObject.name = 'Track'
-    return tracksObject
+    const tracksObject = new Mesh(tracksMesh, tracksMaterial);
+    tracksObject.name = 'Track';
+    return tracksObject;
   }
-  
+
   /**
    * Process the Track from the given parameters (and positions)
    * and get it as a geometry.
@@ -579,7 +579,7 @@ export class PhoenixObjects {
   }
 
   public static getPlanarCaloCells(caloCells: any[]): Object3D {
-    const geoms = []
+    const geoms = [];
     for (const caloCell of caloCells) {
       const position = caloCell.pos;
       if (!position) {
@@ -592,21 +592,24 @@ export class PhoenixObjects {
 
       // geometry
       const geometry = new BoxBufferGeometry(size, size, length);
-      geometry.translate(position[0], position[1], plane[3] + length / 2)
+      geometry.translate(position[0], position[1], plane[3] + length / 2);
       const qrot = new Quaternion();
       qrot.setFromUnitVectors(
         new Vector3(0, 0, 1),
         new Vector3(...plane.slice(0, 3))
       );
-      geometry.applyQuaternion(qrot)
-      geoms.push(geometry)
+      geometry.applyQuaternion(qrot);
+      geoms.push(geometry);
     }
 
     const material = new MeshPhongMaterial({
       color: caloCells[0].color ?? EVENT_DATA_TYPE_COLORS.PlanarCaloCells,
-    })
+    });
 
-    const outerBox = new Mesh(BufferGeometryUtils.mergeBufferGeometries(geoms), material)
+    const outerBox = new Mesh(
+      BufferGeometryUtils.mergeBufferGeometries(geoms),
+      material
+    );
 
     outerBox.userData = Object.assign({}, caloCells[0]);
     outerBox.name = 'PlanarCaloCell';

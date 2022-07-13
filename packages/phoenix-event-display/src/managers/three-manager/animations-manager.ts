@@ -183,10 +183,8 @@ export class AnimationsManager {
             }
 
             if (eventObject.geometry instanceof TracksMesh) {
-              eventObject.material.progress = 0
-              const eventObjectTween = new TWEEN.Tween(
-                eventObject.material
-              ).to(
+              eventObject.material.progress = 0;
+              const eventObjectTween = new TWEEN.Tween(eventObject.material).to(
                 {
                   progress: 1,
                 },

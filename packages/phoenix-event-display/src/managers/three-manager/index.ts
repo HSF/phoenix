@@ -36,14 +36,14 @@ import { UIManager } from '../ui-manager';
 import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 (function () {
-  let _updateMatrixWorld = Object3D.prototype.updateMatrixWorld
+  let _updateMatrixWorld = Object3D.prototype.updateMatrixWorld;
   Object3D.prototype.updateMatrixWorld = function () {
     if (!this.visible) {
-      return
+      return;
     }
-    _updateMatrixWorld.apply(this)
-  }
-})()
+    _updateMatrixWorld.apply(this);
+  };
+})();
 
 /**
  * Manager for all three.js related functions.
