@@ -50,8 +50,7 @@ Where:
 
 You can find various examples in the [files folder](../packages/phoenix-ng/projects/phoenix-app/src/assets/files):
 
-* [atlaseventdump2.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/event_data/atlaseventdump2.json) is an small multiple event file containing the various objects.
-* [EventData.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/event_data/EventData.json) is a bigger file containing more events and objects.
+* [atlas.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/event_data/event.json) is an ATLAS file containing two simulated events.
 * [LHCbEventData.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/lhcb/LHCbEventData.json) is a large file containing LHCb simulated events.
 
 
