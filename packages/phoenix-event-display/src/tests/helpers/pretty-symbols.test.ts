@@ -44,4 +44,30 @@ describe('PrettySymbols', () => {
     expect(prettyParams['ET']).toBe(9);
     expect(prettyParams['|p|']).toBe(10);
   });
+
+  it('should return pretty printed parameters of an object with dparams', () => {
+    const params = {
+      theta: 0,
+      phi: 1,
+      pt: 2,
+      chi2: 3,
+      eta: 4,
+      charge: 5,
+      ndof: 6,
+      dof: 7,
+      energy: 8,
+      et: 9,
+      momentum: 10,
+      dparams: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    };
+
+    const prettyParams = PrettySymbols.getPrettyParams(params);
+
+    expect(prettyParams['θ']).toBe(3);
+    expect(prettyParams['ϕ']).toBe(2);
+    expect(prettyParams['q']).toBe(1);
+    expect(prettyParams['|p|']).toBe(0.25);
+    expect(prettyParams['d0']).toBe(0);
+    expect(prettyParams['z0']).toBe(1);
+  });
 });
