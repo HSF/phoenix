@@ -17,6 +17,7 @@ import {
 } from 'three';
 import * as TWEEN from '@tweenjs/tween.js';
 import { RendererManager } from './renderer-manager';
+import { TracksMesh } from '../../loaders/objects/tracks';
 
 /** Type for animation preset. */
 export interface AnimationPreset {
@@ -180,7 +181,22 @@ export class AnimationsManager {
             if (eventObject.geometry instanceof TubeBufferGeometry) {
               geometryPosCount *= 6;
             }
-            if (eventObject.geometry instanceof BufferGeometry) {
+
+            if (eventObject.geometry instanceof TracksMesh) {
+              eventObject.material.progress = 0
+              const eventObjectTween = new TWEEN.Tween(
+                eventObject.material
+              ).to(
+                {
+                  progress: 1,
+                },
+                tweenDuration
+              );
+              eventObjectTween.onComplete(() => {
+                eventObject.material.progress = 1;
+              });
+              allTweens.push(eventObjectTween);
+            } else if (eventObject.geometry instanceof BufferGeometry) {
               const oldDrawRangeCount = eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
               const eventObjectTween = new TWEEN.Tween(

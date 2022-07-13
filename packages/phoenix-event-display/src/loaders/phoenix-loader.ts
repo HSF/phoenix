@@ -162,9 +162,9 @@ export class PhoenixLoader implements EventDataLoader {
 
       this.addObjectType(
         eventData.Tracks,
-        PhoenixObjects.getTrack,
+        PhoenixObjects.getTracks,
         'Tracks',
-        false,
+        true,
         cuts
       );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
@@ -285,9 +285,9 @@ export class PhoenixLoader implements EventDataLoader {
 
       this.addObjectType(
         collections,
-        PhoenixObjects.getPlanarCaloCell,
+        PhoenixObjects.getPlanarCaloCells,
         'PlanarCaloCells',
-        false,
+        true,
         cuts,
         addPlanarCaloCellsOptions
       );

@@ -11,10 +11,12 @@ import {
   Color,
   FrontSide,
   Vector3,
+  Matrix4,
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils"
 
 /**
  * Manager for managing event display's import related functionality.
@@ -228,6 +230,26 @@ export class ImportManager {
               scene.name,
               menuNodeName
             );
+
+            const materials = {}
+            function findMeshes(node, parentMatrix:Matrix4) {
+              const mat = parentMatrix.clone().multiply(node.matrix)
+              if (node instanceof Mesh) {
+                const key = ((node as Mesh).material as any).id // ts don't recognize material and prevent compilation...
+                if (!materials[key]) materials[key] = {material:(node as Mesh).material, geoms: []}
+                
+                materials[key].geoms.push((node as Mesh).geometry.clone().applyMatrix4(mat))
+              }
+              for (const obj of node.children) {
+                findMeshes(obj, mat)
+              }
+            }
+
+            findMeshes(scene, new Matrix4())
+            scene.remove(...scene.children)
+            for (const val of Object.values(materials)) {
+              scene.add(new Mesh(BufferGeometryUtils.mergeBufferGeometries((val as any).geoms), (val as any).material))
+            }
 
             this.processGeometry(
               scene,
