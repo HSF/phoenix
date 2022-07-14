@@ -71,9 +71,11 @@ With everything set up, you can use the Phoenix components in your module compon
 ```html
 <app-nav></app-nav>
 <app-ui-menu></app-ui-menu>
+<!-- Be sure to replace the experiment information (`logo`, `url` and `tagline`). -->
 <app-experiment-info
-  experiment="sample"
-  experimentTagline="SAMPLE Experiment at CERN"
+  logo="assets/images/sample.svg"
+  url="https://home.cern/science/experiments/sample"
+  tagline="SAMPLE Experiment at CERN"
 ></app-experiment-info>
 <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
