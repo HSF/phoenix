@@ -232,7 +232,7 @@ export class ImportManager {
             );
 
             const materials = {};
-            function findMeshes(node, parentMatrix: Matrix4) {
+            function findMeshes(node, parentMatrix: Matrix4, depth) {
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {
                 const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...
@@ -240,6 +240,7 @@ export class ImportManager {
                   materials[key] = {
                     material: (node as Mesh).material,
                     geoms: [],
+                    renderOrder: -depth,
                   };
 
                 materials[key].geoms.push(
@@ -247,19 +248,19 @@ export class ImportManager {
                 );
               }
               for (const obj of node.children) {
-                findMeshes(obj, mat);
+                findMeshes(obj, mat, depth + 1);
               }
             }
 
-            findMeshes(scene, new Matrix4());
+            findMeshes(scene, new Matrix4(), 0);
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
-              scene.add(
-                new Mesh(
-                  BufferGeometryUtils.mergeBufferGeometries((val as any).geoms),
-                  (val as any).material
-                )
+              const mesh = new Mesh(
+                BufferGeometryUtils.mergeBufferGeometries((val as any).geoms),
+                (val as any).material
               );
+              mesh.renderOrder = (val as any).renderOrder;
+              scene.add(mesh);
             }
 
             this.processGeometry(
