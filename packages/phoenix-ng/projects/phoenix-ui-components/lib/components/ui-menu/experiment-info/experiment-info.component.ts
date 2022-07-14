@@ -8,8 +8,9 @@ import { EventDisplayService } from '../../../services/event-display.service';
 })
 export class ExperimentInfoComponent implements OnInit {
   experimentInfo: any[];
-  @Input() experiment: string;
-  @Input() experimentTagline: string;
+  @Input() url: string;
+  @Input() logo: string;
+  @Input() tagline: string;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
