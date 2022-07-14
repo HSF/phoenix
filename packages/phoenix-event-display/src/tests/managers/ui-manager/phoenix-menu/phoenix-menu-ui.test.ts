@@ -86,11 +86,12 @@ describe('PhoenixMenuUI', () => {
     phoenixMenuUI.addEventDataFolder();
     phoenixMenuUI.addEventDataTypeFolder('test');
 
-    jest.spyOn(three, 'getColorManager');
-
     phoenixMenuUI.addCollection('test', 'Tracks');
 
-    expect(three.getColorManager).toHaveBeenCalled();
+    const addedChild = phoenixMenuUI['eventFolder'].findInTree('Draw Options');
+
+    expect(addedChild).toBeInstanceOf(PhoenixMenuNode);
+    expect(addedChild.name).toBe('Draw Options');
   });
 
   it('should get the folder of the event data type', () => {
