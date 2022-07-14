@@ -83,11 +83,11 @@ export class TracksMesh extends BufferGeometry {
         position: new BufferAttribute(new Float32Array(this.positions), 3),
         previous: new BufferAttribute(new Float32Array(this.previous), 3),
         next: new BufferAttribute(new Float32Array(this.next), 3),
-        side: new BufferAttribute(new Float32Array(this.side), 3),
-        track_id: new BufferAttribute(new Uint16Array(this.track_id), 1),
+        side: new BufferAttribute(new Float32Array(this.side), 1),
+        track_id: new BufferAttribute(new Int32Array(this.track_id), 1),
         color: new BufferAttribute(new Float32Array(this.colors), 3),
         counter: new BufferAttribute(new Float32Array(this.counter), 1),
-        index: new BufferAttribute(new Uint16Array(this.indices_array), 1),
+        index: new BufferAttribute(new Uint32Array(this.indices_array), 1),
       };
     } else {
       (this._attributes.position as BufferAttribute).copyArray(
@@ -107,7 +107,7 @@ export class TracksMesh extends BufferGeometry {
       );
       this._attributes.side.needsUpdate = true;
       (this._attributes.track_id as BufferAttribute).copyArray(
-        new Uint16Array(this.track_id)
+        new Int32Array(this.track_id)
       );
       this._attributes.track_id.needsUpdate = true;
       (this._attributes.color as BufferAttribute).copyArray(
@@ -119,7 +119,7 @@ export class TracksMesh extends BufferGeometry {
       );
       this._attributes.counter.needsUpdate = true;
       (this._attributes.index as BufferAttribute).copyArray(
-        new Uint16Array(this.indices_array)
+        new Uint32Array(this.indices_array)
       );
       this._attributes.index.needsUpdate = true;
     }
@@ -149,6 +149,7 @@ ShaderChunk['tracks_vert'] = [
 
   'varying vec3 v_color;',
   'varying float v_counter;',
+  'flat varying int v_track_id;',
 
   'uniform vec2 resolution;',
   'uniform float lineWidth;',
@@ -157,6 +158,7 @@ ShaderChunk['tracks_vert'] = [
   '',
   '  v_color = color;',
   '  v_counter = counter;',
+  '  v_track_id = track_id;',
   '',
   '  mat4 m = projectionMatrix * modelViewMatrix;',
   '  vec4 finalPosition = m * vec4(position, 1.0);',
@@ -186,6 +188,7 @@ ShaderChunk['tracks_frag'] = [
   'uniform float progress;',
   'varying vec3 v_color;',
   'varying float v_counter;',
+  'flat varying int v_track_id;',
   'void main() {',
   '  if (v_counter > progress) discard;',
   '  gl_FragColor = vec4(v_color, 1.0);',

@@ -35,7 +35,7 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
 export class PhoenixObjects {
   public static getTracks(tracks): Object3D {
     const tracksMesh = new TracksMesh();
-    const tracksMaterial = new TracksMaterial({ lineWidth: 5 });
+    const tracksMaterial = new TracksMaterial({ lineWidth: 2 });
 
     for (const track of tracks) {
       if (!(track.pos?.length > 2)) {
@@ -46,7 +46,7 @@ export class PhoenixObjects {
       }
 
       if (track.pos.length < 2) {
-        //console.log('Track too short, and extrapolation failed.');
+        console.log('Track too short, and extrapolation failed.');
         continue;
       }
 
@@ -81,6 +81,9 @@ export class PhoenixObjects {
 
     const tracksObject = new Mesh(tracksMesh, tracksMaterial);
     tracksObject.name = 'Track';
+    for (const track of tracks) {
+      track.uuid = tracksObject.uuid;
+    }
     return tracksObject;
   }
 
