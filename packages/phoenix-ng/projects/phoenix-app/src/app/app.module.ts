@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { GeometryComponent } from './sections/geometry/geometry.component';
 import { AtlasComponent } from './sections/atlas/atlas.component';
 import { LHCbComponent } from './sections/lhcb/lhcb.component';
+import { VPToggleComponent } from './sections/lhcb/vp-toggle/vp-toggle.component';
 import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { PhoenixUIModule } from 'phoenix-ui-components';
@@ -39,6 +40,7 @@ if (environment?.singleEvent) {
     GeometryComponent,
     AtlasComponent,
     LHCbComponent,
+    VPToggleComponent,
     CMSComponent,
     TrackmlComponent,
     PlaygroundComponent,
