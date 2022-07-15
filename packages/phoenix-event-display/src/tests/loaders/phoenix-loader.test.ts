@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { Group } from 'three';
 import { InfoLogger } from '../../helpers/info-logger';
 import { PhoenixLoader } from '../../loaders/phoenix-loader';
 import { ThreeManager } from '../../managers/three-manager/index';
@@ -10,6 +11,7 @@ jest.mock('../../managers/three-manager/index');
 
 describe('PhoenixLoader', () => {
   let phoenixLoader: PhoenixLoader;
+
   const eventData = {
     Event: {
       'event number': 1,
@@ -46,13 +48,18 @@ describe('PhoenixLoader', () => {
   beforeEach(() => {
     phoenixLoader = new PhoenixLoader();
 
-    const graphicsLibrary = new ThreeManager(new InfoLogger());
+    const threeManager = (<jest.Mock<typeof ThreeManager>>(
+      (<unknown>ThreeManager)
+    )) as any;
+
+    threeManager.addEventDataTypeGroup = jest.fn().mockReturnValue(new Group());
+
     const uiManager = new UIManager(new ThreeManager(new InfoLogger()));
     const infoLogger = new InfoLogger();
 
     phoenixLoader.buildEventData(
-      eventData,
-      graphicsLibrary,
+      eventData['Event'],
+      threeManager,
       uiManager,
       infoLogger
     );
@@ -73,29 +80,26 @@ describe('PhoenixLoader', () => {
   it('should get list of collections in the event data', () => {
     const collectionList = phoenixLoader.getCollections();
 
-    expect(collectionList).toEqual([
-      'event number',
-      'run number',
-      'Hits',
-      'event number',
-      'run number',
-      'Hits',
-    ]);
+    expect(collectionList).toEqual(['hitsCollection']);
   });
 
   it('should get the collection with the given collection name from the event data', () => {
-    const collectionName = eventData['Event']['Hits'];
+    const expectedCollection = eventData['Event']['Hits']['hitsCollection'];
 
-    const collection = phoenixLoader.getCollection('Hits');
+    const collection = phoenixLoader.getCollection('hitsCollection');
 
-    expect(collection).toEqual(collectionName);
+    expect(collection).toEqual(expectedCollection);
   });
 
   it('get metadata associated to any event', () => {
-    // as of now returns an empty array of objects due to the event data we add in this test suite
     const metadata = phoenixLoader.getEventMetadata();
 
-    expect(metadata).toEqual([]);
+    expect(metadata).toEqual([
+      {
+        label: 'Run / Event',
+        value: '1 / 1',
+      },
+    ]);
   });
 
   it('should get the object containing labels of events', () => {
