@@ -300,11 +300,12 @@ export class ImportManager {
   private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes = sceneName.split('_>_');
-      const name = nodes.pop();
       menuNodeName && nodes.unshift(menuNodeName);
-      const nodeName = nodes.join(' > ');
+      const fullNodeName = nodes.join(' > ');
+      nodes.pop();
+      const menuName = nodes.join(' > ');
 
-      return { name, menuNodeName: nodeName };
+      return { name: fullNodeName, menuNodeName: menuName };
     }
   }
 

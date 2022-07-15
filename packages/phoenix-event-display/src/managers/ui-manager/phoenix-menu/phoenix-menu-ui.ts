@@ -125,9 +125,20 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       parentNode = this.geomFolder.findInTreeOrCreate(menuSubfolder);
     }
 
-    const objFolder = parentNode.addChild(name, (value: boolean) => {
-      this.sceneManager.objectVisibility(object, value);
-    });
+    // find out where the actual object name starts, providing that the name
+    // is hierarchical and contents higher level menu names too
+    var nameStart = name.lastIndexOf(' > ');
+    if (nameStart < 0) {
+      nameStart = 0; // case where there is no hierarchy
+    } else {
+      nameStart += 3; // skip the last ' > '
+    }
+    const objFolder = parentNode.addChild(
+      name.substring(nameStart),
+      (value: boolean) => {
+        this.sceneManager.objectVisibility(object, value);
+      }
+    );
 
     objFolder.toggleState = visible;
 
