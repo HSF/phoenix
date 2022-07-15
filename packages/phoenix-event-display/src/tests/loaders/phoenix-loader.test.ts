@@ -48,14 +48,13 @@ describe('PhoenixLoader', () => {
   beforeEach(() => {
     phoenixLoader = new PhoenixLoader();
 
-    const threeManager = (<jest.Mock<typeof ThreeManager>>(
-      (<unknown>ThreeManager)
-    )) as any;
-
-    threeManager.addEventDataTypeGroup = jest.fn().mockReturnValue(new Group());
-
-    const uiManager = new UIManager(new ThreeManager(new InfoLogger()));
     const infoLogger = new InfoLogger();
+    const threeManager = new ThreeManager(infoLogger);
+    const uiManager = new UIManager(threeManager);
+
+    jest
+      .spyOn(threeManager, 'addEventDataTypeGroup')
+      .mockReturnValue(new Group());
 
     phoenixLoader.buildEventData(
       eventData['Event'],
