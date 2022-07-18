@@ -347,7 +347,6 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
-   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
   public async loadGLTFGeometry(
@@ -355,8 +354,7 @@ export class EventDisplay {
     name: string,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean = true,
-    transparent: boolean = false // Argument added because of https://github.com/HSF/phoenix/pull/425.
+    initiallyVisible: boolean = true
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
 
@@ -366,8 +364,7 @@ export class EventDisplay {
         name,
         menuNodeName,
         scale,
-        initiallyVisible,
-        transparent
+        initiallyVisible
       );
     for (const { object, menuNodeName } of allGeometriesUIParameters) {
       this.ui.addGeometry(object, menuNodeName);
