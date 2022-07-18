@@ -356,7 +356,6 @@ export class ThreeManager {
    * @param menuNodeName Name of the menu where to add the scene in the gui
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
   public async loadGLTFGeometry(
@@ -364,8 +363,7 @@ export class ThreeManager {
     name: string,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible?: boolean,
-    transparent?: boolean
+    initiallyVisible?: boolean
   ): Promise<GeometryUIParameters[]> {
     const geometries = this.sceneManager.getGeometries();
 
@@ -374,8 +372,7 @@ export class ThreeManager {
       name,
       menuNodeName,
       scale,
-      initiallyVisible,
-      transparent
+      initiallyVisible
     );
 
     for (const { object } of allGeometriesUIParameters) {
