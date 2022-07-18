@@ -231,7 +231,7 @@ export class ImportManager {
               scene,
               name ?? sceneName.name,
               scale,
-              undefined // doublesided
+              true // doublesided
             );
 
             allGeometries.push({
