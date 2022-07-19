@@ -108,6 +108,29 @@
                 "
               />
 
+              <p *ngSwitchCase="'rangeSlider'">
+                Min value:
+                <input
+                  type="number"
+                  [value]="config.value ? config.value : config.min"
+                  (input)="
+                    config.onChange($event.value);
+                    config.value = $event.value;
+                  "
+                />
+              </p>
+              <p *ngSwitchCase="'rangeSlider'">
+                Max value:
+                <input
+                  type="number"
+                  [value]="config.highValue ? config.highValue : config.max"
+                  (input)="
+                    config.onChange($event.highValue);
+                    config.highValue = $event.highValue
+                  "
+                />
+              </p>
+
               <ngx-slider
                 *ngSwitchCase="'rangeSlider'"
                 class="range-slider"
