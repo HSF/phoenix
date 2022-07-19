@@ -113,14 +113,17 @@
                 <input
                   type="number"
                   [value]="config.value ? config.value : config.min"
-                  (input)="config.value = $event.value; config.onChange(config)"
+                  (input)="
+                    config.value = $event.target.value; config.onChange(config)
+                  "
                 />
                 Max:
                 <input
                   type="number"
                   [value]="config.highValue ? config.highValue : config.max"
                   (input)="
-                    config.highValue = $event.highValue; config.onChange(config)
+                    config.highValue = $event.target.value;
+                    config.onChange(config)
                   "
                 />
                 <ngx-slider
