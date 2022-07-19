@@ -204,7 +204,6 @@ export class ImportManager {
    * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not.
-   * @param transparent Whether the transparent property of geometry is true or false. Default `false`.
    * @returns Promise for loading the geometry.
    */
   public loadGLTFGeometry(
@@ -212,8 +211,7 @@ export class ImportManager {
     name: string,
     menuNodeName: string,
     scale: number,
-    initiallyVisible: boolean,
-    transparent: boolean
+    initiallyVisible: boolean
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
@@ -233,8 +231,7 @@ export class ImportManager {
               scene,
               name ?? sceneName.name,
               scale,
-              undefined, //doublesided
-              transparent
+              true // doublesided
             );
 
             allGeometries.push({
@@ -360,8 +357,7 @@ export class ImportManager {
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean,
-    transparent?: boolean
+    doubleSided?: boolean
   ) {
     geometry.name = name;
     // Set a custom scale if provided
@@ -382,7 +378,7 @@ export class ImportManager {
           child.material.dispose();
 
           // Should tranparency be used?
-          let isTransparent = transparent ?? null;
+          let isTransparent = false;
           if (geometry.userData.opacity) {
             isTransparent = true;
           }
