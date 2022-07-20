@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "jest --no-cache",
+    "test": "jest --no-cache --config jest.config.js",
     "test-isolated": "jest -c=jest-isolated.config.js --no-cache",
     "test-esm": "node --experimental-vm-modules --no-warnings ../../node_modules/jest/bin/jest.js -c=jest-esm.config.mjs --no-cache",
     "test-esm-isolated": "node --experimental-vm-modules --no-warnings ../../node_modules/jest/bin/jest.js -c=jest-esm-isolated.config.mjs --no-cache"
@@ -37,14 +37,16 @@
     "@angular-devkit/build-ng-packagr": "~0.1002.0",
     "@angular/cli": "~13.3.8",
     "@angular/compiler-cli": "~13.3.11",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.45",
-    "jest": "^28.1.3",
-    "jest-preset-angular": "^12.2.0",
-    "typescript": "~4.6.4",
     "@angular/language-service": "^13.3.9",
     "@briebug/jest-schematic": "^4.0.0",
+    "@nrwl/jest": "^14.4.3",
+    "@types/jest": "^28.1.3",
+    "@types/node": "^16.11.45",
     "@types/qrcode": "1.4.2",
-    "ng-packagr": "^13.3.1"
+    "jest": "^28.1.3",
+    "jest-environment-jsdom": "^28.1.3",
+    "jest-preset-angular": "^12.2.0",
+    "ng-packagr": "^13.3.1",
+    "typescript": "~4.6.4"
   }
 }

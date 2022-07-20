@@ -11,7 +11,7 @@
   ],
   "include": [
     "src/**/*.d.ts",
-    "event-config.json"
+    "./event-config.json"
   ],
   "exclude": [
     "jest-global.mocks.ts",

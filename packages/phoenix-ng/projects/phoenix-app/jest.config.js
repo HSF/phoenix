@@ -13,8 +13,24 @@ globalThis.ngJest = {
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
-  globalSetup: 'jest-preset-angular/global-setup',
+  coverageReporters: ['html'],
+  resolver: '@nrwl/jest/plugins/resolver',
+  moduleFileExtensions: ['ts', 'js', 'html', 'json'],
+  transformIgnorePatterns: ['./node_modules/(?!three/examples/jsm/.+\\.js)'],
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  transform: {
+    '^.+\\.(ts|js|html)$': 'jest-preset-angular',
+  },
+  globals: {
+    'ts-jest': {
+      tsconfig: {
+        rootDir: null,
+        allowJs: true,
+      },
+    },
+  },
+  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
   verbose: true,
+  testEnvironment: 'jsdom',
 };
