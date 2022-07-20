@@ -21,6 +21,7 @@ const jestConfig = {
     rxjs: '<rootDir>/../../node_modules/rxjs/dist/bundles/rxjs.umd.js',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest-esm.ts'],
+  verbose: true,
 };
 
 export default jestConfig;

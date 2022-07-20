@@ -7,6 +7,9 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
@@ -15,7 +18,14 @@
     "strict": true,
     "lib": ["es2018", "dom"],
     "paths": {
-      "@shared/*": ["src/app/shared/*"]
+      "phoenix-ui-components": [
+        "../phoenix-ui-components/lib/public_api.ts"
+      ],
+      "phoenix-event-display": ["../../../phoenix-event-display/src"]
     }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictDomEventTypes": false
   }
 }

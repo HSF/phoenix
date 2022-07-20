@@ -26,7 +26,7 @@
     "@angular-devkit/core" "13.3.8"
     rxjs "6.6.7"
 
-"@angular-devkit/build-angular@^13.3.6":
+"@angular-devkit/build-angular@^13.3.6", "@angular-devkit/build-angular@^13.3.8":
   version "13.3.8"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-13.3.8.tgz#4682e50901486a4fb36a3c58cd5bb7a669d388e4"
   integrity sha512-5nWqb58oLcWoBoAECqHiUlOV23/J/4W1a9aqaFQcN6bThRzoy54S69zUuQREnBE36elDrSxhn2Y34poqYe8iKQ==
@@ -203,7 +203,7 @@
   optionalDependencies:
     parse5 "^5.0.0"
 
-"@angular/cli@~13.3.6":
+"@angular/cli@~13.3.6", "@angular/cli@~13.3.8":
   version "13.3.8"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-13.3.8.tgz#f072ade832f59edfea90b6b0a7cbe1351fb7707c"
   integrity sha512-dsvum8oGnbgX5mLh9CDzP1ip2UGDZdppPD6np2XXhqX75DfJxRlgl4u3NxBSnDmeyhIGTsGV0HKAxoB5EOoHcw==
@@ -235,7 +235,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/compiler-cli@~13.3.9":
+"@angular/compiler-cli@~13.3.11", "@angular/compiler-cli@~13.3.9":
   version "13.3.11"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-13.3.11.tgz#259e2f5174ea23f1f97a5ef65dac20d0fb55c6bc"
   integrity sha512-cl+3Wzxt8NRi2WY+RdsxuQ3yQRUp8pSlfSlJJnfaKE1BEqap6uem2DovuhnIbmrLhxZ5xt7o+I1szyO6sn6+ag==
