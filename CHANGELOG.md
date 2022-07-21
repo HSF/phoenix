@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/HSF/phoenix/compare/v2.9.0...v2.10.0) (2022-07-21)
+
+
+### Features
+
+* **app:** allow customization of options in experiment info component ([f56fa96](https://github.com/HSF/phoenix/commit/f56fa96d3eddee2aeea9def7b29a0bc82aa9c75d))
+* **app:** reorganize range slider ([57d4ed1](https://github.com/HSF/phoenix/commit/57d4ed1115a258f1eaea14200e5557578b7e121f))
+
+
+
+
+
 # [2.9.0](https://github.com/HSF/phoenix/compare/v2.8.0...v2.9.0) (2022-06-17)
 
 
