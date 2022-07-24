@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { paths } = require('./tsconfig.json').compilerOptions;
-const esModules = ['@angular', '@ngrx'];
+const esModules = ['@angular', '@ngrx', 'three'];
 
 // eslint-disable-next-line no-undef
 globalThis.ngJest = {
@@ -22,9 +22,7 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transformIgnorePatterns: [
-    '/node_modules/(?!three/examples/jsm/.+\\.js)',
-    `<rootDir>/node_modules/(?!.*\\.mjs$|${esModules.join('|')})`,
-    'node_modules/(?!.*\\.mjs$)',
+    `/node_modules/(?!.*\\.mjs$|${esModules.join('|')})`,
   ],
   verbose: true,
   collectCoverageFrom: ['<rootDir>/projects/**/*.ts'],
