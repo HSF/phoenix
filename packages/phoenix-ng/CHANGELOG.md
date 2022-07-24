@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.10.0](https://github.com/HSF/phoenix/compare/v2.9.0...v2.10.0) (2022-07-21)
+
+
+### Bug Fixes
+
+* **app:** rename pheonix-menu-item to phoenix-menu-item ([7057d74](https://github.com/HSF/phoenix/commit/7057d74f3a99bd0592c66af133116a8925fef51b))
+
+
+### Features
+
+* **app:** allow customization of options in experiment info component ([7c10787](https://github.com/HSF/phoenix/commit/7c1078733bca23ff29542b1c9b536af41faabeba))
+* **app:** allow customization of options in experiment info component ([f56fa96](https://github.com/HSF/phoenix/commit/f56fa96d3eddee2aeea9def7b29a0bc82aa9c75d))
+* **app:** reorganize range slider ([57d4ed1](https://github.com/HSF/phoenix/commit/57d4ed1115a258f1eaea14200e5557578b7e121f))
+
+
+
+
+
 # [2.9.0](https://github.com/HSF/phoenix/compare/v2.8.0...v2.9.0) (2022-06-17)
 
 

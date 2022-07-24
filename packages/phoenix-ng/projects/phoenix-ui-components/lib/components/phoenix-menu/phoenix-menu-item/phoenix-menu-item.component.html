@@ -108,23 +108,41 @@
                 "
               />
 
-              <ngx-slider
-                *ngSwitchCase="'rangeSlider'"
-                class="range-slider"
-                [value]="config.value ? config.value : config.min"
-                [highValue]="config.highValue ? config.highValue : config.max"
-                (userChange)="
-                  config.onChange($event);
-                  config.value = $event.value;
-                  config.highValue = $event.highValue
-                "
-                [options]="{
-                  floor: config.min,
-                  ceil: config.max,
-                  step: config.step,
-                  animate: false
-                }"
-              ></ngx-slider>
+              <div *ngSwitchCase="'rangeSlider'" class="range-slider">
+                <div class="range-slider-inputs d-flex justify-content-between">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    class="form-control form-control-sm"
+                    [value]="config.value"
+                    (input)="
+                      config.value = $event.target.value;
+                      config.onChange(config)
+                    "
+                  />
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    class="form-control form-control-sm"
+                    [value]="config.highValue"
+                    (input)="
+                      config.highValue = $event.target.value;
+                      config.onChange(config)
+                    "
+                  />
+                </div>
+                <ngx-slider
+                  [(value)]="config.value"
+                  [(highValue)]="config.highValue"
+                  (userChange)="config.onChange($event)"
+                  [options]="{
+                    floor: config.min,
+                    ceil: config.max,
+                    step: config.step,
+                    animate: false
+                  }"
+                ></ngx-slider>
+              </div>
 
               <select
                 *ngSwitchCase="'select'"
