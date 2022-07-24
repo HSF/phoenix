@@ -1,6 +1,6 @@
+/* eslint-disable no-undef */
 import ngPreset from 'jest-preset-angular/presets/index.js';
 
-// eslint-disable-next-line no-undef
 globalThis.ngJest = {
   skipNgcc: false,
   tsconfig: 'tsconfig-esm.spec.json',
@@ -18,10 +18,9 @@ const jestConfig = {
   globalSetup: 'jest-preset-angular/global-setup.mjs',
   moduleNameMapper: {
     tslib: 'tslib/tslib.es6.js',
-    rxjs: '<rootDir>/../../node_modules/rxjs/dist/bundles/rxjs.umd.js',
+    rxjs: '<rootDir>/node_modules/rxjs/dist/bundles/rxjs.umd.js',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest-esm.ts'],
-  verbose: true,
 };
 
 export default jestConfig;

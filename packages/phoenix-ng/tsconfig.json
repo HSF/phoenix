@@ -3,24 +3,23 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [
-        "../phoenix-ui-components/lib/public_api.ts"
+        "projects/phoenix-ui-components/lib/public_api.ts"
       ],
-      "phoenix-event-display": ["../../../phoenix-event-display/src"]
+      "phoenix-event-display": ["../phoenix-event-display/src"]
     }
   },
   "angularCompilerOptions": {
