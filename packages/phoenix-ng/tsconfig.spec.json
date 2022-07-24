@@ -2,8 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "CommonJS",
+    "outDir": "../out-tsc/spec",
+    "allowJs": true,
     "types": [
-      "jest"
+      "jest", "node"
     ]
   },
   "include": [
