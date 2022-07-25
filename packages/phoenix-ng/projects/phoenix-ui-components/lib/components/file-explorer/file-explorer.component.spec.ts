@@ -56,7 +56,7 @@ describe('FileExplorerComponent', () => {
   });
 
   it('should emit onFileSelect event on selection of file', () => {
-    spyOn(component.onFileSelect, 'emit');
+    jest.spyOn(component.onFileSelect, 'emit');
     component.onSelect('http://example.com/file.json');
     expect(component.onFileSelect.emit).toHaveBeenCalledWith(
       'http://example.com/file.json'
@@ -65,9 +65,9 @@ describe('FileExplorerComponent', () => {
 
   it('checks if node has children', () => {
     const testNode = new FileNode('TestNode');
-    expect(component.hasChildren(0, testNode)).toBeFalse();
+    expect(component.hasChildren(0, testNode)).toBeFalsy();
 
     testNode.children = { TestChild: new FileNode() };
-    expect(component.hasChildren(0, testNode)).toBeTrue();
+    expect(component.hasChildren(0, testNode)).toBeTruthy();
   });
 });
