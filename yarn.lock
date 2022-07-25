@@ -11964,17 +11964,6 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix-event-display@^2.10.0:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/phoenix-event-display/-/phoenix-event-display-2.10.0.tgz#a89491f1bc094dd74269561b3861adc5134243bc"
-  integrity sha512-xvZAQjNoRSapUedMR+1P+rAdvuwz7bItGEJQHfMPUPFMIbGiOC1bTWno+lsWSVwG2Z2NnYqNO5w/3246shMnVw==
-  dependencies:
-    "@tweenjs/tween.js" "^17.4.0"
-    dat.gui "^0.7.9"
-    jszip "^3.10.0"
-    stats-js "^1.0.1"
-    three "^0.140.2"
-
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
