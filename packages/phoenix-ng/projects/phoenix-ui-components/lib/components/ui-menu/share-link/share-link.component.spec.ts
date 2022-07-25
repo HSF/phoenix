@@ -31,7 +31,7 @@ describe('ShareLinkComponent', () => {
   });
 
   it('should open share link dialog', () => {
-    spyOn(dialog, 'open').and.callThrough();
+    jest.spyOn(dialog, 'open');
 
     component.openShareLinkDialog();
     expect(dialog.open).toHaveBeenCalled();

@@ -30,10 +30,7 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should initially get collections', () => {
-    spyOn(
-      eventDisplayService,
-      'listenToDisplayedEventChange'
-    ).and.callThrough();
+    jest.spyOn(eventDisplayService, 'listenToDisplayedEventChange');
     component.ngOnInit();
 
     // Expect to start listening to changes in the currently displayed event
@@ -48,7 +45,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     document.body.appendChild(activeObjectRow);
 
     // Return mocked row ID from the getActiveObjectId function same as the element we added above
-    spyOn(eventDisplayService, 'getActiveObjectId').and.callThrough();
+    jest.spyOn(eventDisplayService, 'getActiveObjectId');
 
     component.ngOnInit();
     component.activeObject.value = ROW_ID;
@@ -62,13 +59,16 @@ describe('CollectionsInfoOverlayComponent', () => {
     const object = new Object3D();
     object.uuid = uuid;
 
-    spyOn(
-      eventDisplayService.getThreeManager().getSceneManager().getScene(),
-      'getObjectByName'
-    ).and.callFake(() => group);
-    spyOn(eventDisplayService, 'getCollection').and.callFake(() => [
-      { uuid, otherProp: 'testPropValue' },
-    ]);
+    jest
+      .spyOn(
+        eventDisplayService.getThreeManager().getSceneManager().getScene(),
+        'getObjectByName'
+      )
+      .mockImplementation(() => group);
+
+    jest
+      .spyOn(eventDisplayService, 'getCollection')
+      .mockImplementation(() => [{ uuid, otherProp: 'testPropValue' }]);
 
     const mockSelectedValue = 'TestCollection';
 
@@ -82,13 +82,13 @@ describe('CollectionsInfoOverlayComponent', () => {
   it('should look at object through event display', () => {
     const mockUuid = 'abcd1234';
 
-    spyOn(eventDisplayService, 'lookAtObject').and.stub();
+    jest.spyOn(eventDisplayService, 'lookAtObject');
     component.lookAtObject(mockUuid);
     expect(eventDisplayService.lookAtObject).toHaveBeenCalledWith(mockUuid);
   });
 
   it('should not look at object with undefined uuid through event display', () => {
-    spyOn(eventDisplayService, 'lookAtObject').and.callThrough();
+    jest.spyOn(eventDisplayService, 'lookAtObject');
 
     // Branch for undefined or null uuid
     component.lookAtObject(undefined);
@@ -98,13 +98,13 @@ describe('CollectionsInfoOverlayComponent', () => {
   it('should highlight object through event display', () => {
     const mockUuid = 'abcd123'; // Wrong uuid to cover else
 
-    spyOn(eventDisplayService, 'highlightObject').and.stub();
+    jest.spyOn(eventDisplayService, 'highlightObject');
     component.highlightObject(mockUuid);
     expect(eventDisplayService.highlightObject).toHaveBeenCalledWith(mockUuid);
   });
 
   it('should not highlight object with undefined uuid through event display', () => {
-    spyOn(eventDisplayService, 'highlightObject').and.callThrough();
+    jest.spyOn(eventDisplayService, 'highlightObject');
 
     // Branch for undefined or null uuid
     component.highlightObject(undefined);

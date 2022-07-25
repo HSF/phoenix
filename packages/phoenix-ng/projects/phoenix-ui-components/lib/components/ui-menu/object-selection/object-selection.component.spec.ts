@@ -44,18 +44,18 @@ describe('ObjectSelectionComponent', () => {
   });
 
   it('should toggle object selection overlay', () => {
-    expect(component.hiddenSelectedInfo).toBe(true);
+    expect(component.hiddenSelectedInfo).toBeTruthy();
     component.toggleOverlay();
-    expect(component.hiddenSelectedInfo).toBe(false);
+    expect(component.hiddenSelectedInfo).toBeFalsy();
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.hiddenSelectedInfo).toBe(false);
+    expect(component.overlayWindow.instance.hiddenSelectedInfo).toBeFalsy();
     // Expect enable selection to have been called
     expect(mockEventDisplayService.enableSelecting).toHaveBeenCalled();
   });
 
   it('should destory object selection overlay', () => {
-    spyOn(component.overlayWindow, 'destroy');
+    jest.spyOn(component.overlayWindow, 'destroy');
 
     component.ngOnDestroy();
     expect(component.overlayWindow.destroy).toHaveBeenCalled();

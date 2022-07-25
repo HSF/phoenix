@@ -36,9 +36,9 @@ describe('AnimateCameraComponent', () => {
   });
 
   it('should start animation on toggle', () => {
-    expect(component.isAnimating).toBeFalse();
+    expect(component.isAnimating).toBeFalsy();
     component.animateCamera();
-    expect(component.isAnimating).toBeTrue();
+    expect(component.isAnimating).toBeTruthy();
     expect(mockEventDisplay.animateThroughEvent).toHaveBeenCalled();
     component.animateCamera();
   });

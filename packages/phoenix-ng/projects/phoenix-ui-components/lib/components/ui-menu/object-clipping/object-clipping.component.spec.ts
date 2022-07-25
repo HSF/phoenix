@@ -62,12 +62,12 @@ describe('ObjectClippingComponent', () => {
     // Check for true
     matCheckboxChange.checked = true;
     component.toggleClipping(matCheckboxChange);
-    expect(component.clippingEnabled).toBe(true);
+    expect(component.clippingEnabled).toBeTruthy();
 
     // Check for false
     matCheckboxChange.checked = false;
     component.toggleClipping(matCheckboxChange);
-    expect(component.clippingEnabled).toBe(false);
+    expect(component.clippingEnabled).toBeFalsy();
   });
 
   it('should change clipping angle', () => {

@@ -2,7 +2,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { paths } = require('./tsconfig.json').compilerOptions;
-const esModules = ['@angular', '@ngrx', 'three/examples/jsm/'];
+const esModules = [
+  '@angular',
+  '@ngrx',
+  'three/examples/jsm/',
+  '@rp3e11/ngx-slider/',
+];
 
 // eslint-disable-next-line no-undef
 globalThis.ngJest = {

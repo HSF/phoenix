@@ -32,16 +32,16 @@ describe('InfoPanelComponent', () => {
   });
 
   it('should toggle info panel overlay', () => {
-    expect(component.showInfoPanel).toBe(false);
+    expect(component.showInfoPanel).toBeFalsy();
     component.toggleOverlay();
-    expect(component.showInfoPanel).toBe(true);
+    expect(component.showInfoPanel).toBeTruthy();
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showInfoPanel).toBe(true);
+    expect(component.overlayWindow.instance.showInfoPanel).toBeTruthy();
   });
 
   it('should destroy info panel overlay', () => {
-    spyOn(component.overlayWindow, 'destroy');
+    jest.spyOn(component.overlayWindow, 'destroy');
 
     component.ngOnDestroy();
     expect(component.overlayWindow.destroy).toHaveBeenCalled();

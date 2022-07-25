@@ -38,7 +38,7 @@ describe('ShareLinkDialogComponent', () => {
   });
 
   it('set options value and update share link', () => {
-    spyOn(component, 'onOptionsChange').and.callThrough();
+    jest.spyOn(component, 'onOptionsChange');
     component.setOptionValue('test_option', 'test_option_value');
     expect(component.onOptionsChange).toHaveBeenCalled();
     expect(component.shareLink.value).toContain(
@@ -49,7 +49,7 @@ describe('ShareLinkDialogComponent', () => {
   });
 
   it('should update copy status', () => {
-    spyOn(document, 'execCommand').and.callThrough();
+    jest.spyOn(document, 'execCommand');
 
     const element = document.createElement('div');
     element.innerText = 'COPY';
