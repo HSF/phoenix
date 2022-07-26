@@ -32,16 +32,16 @@ describe('CollectionsInfoComponent', () => {
   });
 
   it('should toggle collections info overlay', () => {
-    expect(component.showObjectsInfo).toBeFalsy();
+    expect(component.showObjectsInfo).toBe(false);
     component.toggleOverlay();
-    expect(component.showObjectsInfo).toBeTruthy();
+    expect(component.showObjectsInfo).toBe(true);
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showObjectsInfo).toBeTruthy();
+    expect(component.overlayWindow.instance.showObjectsInfo).toBe(true);
   });
 
   it('should destroy collections info overlay', () => {
-    jest.spyOn(component.overlayWindow, 'destroy');
+    spyOn(component.overlayWindow, 'destroy');
 
     component.ngOnDestroy();
     expect(component.overlayWindow.destroy).toHaveBeenCalled();

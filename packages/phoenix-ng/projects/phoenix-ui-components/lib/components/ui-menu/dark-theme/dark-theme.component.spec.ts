@@ -34,18 +34,18 @@ describe('DarkThemeComponent', () => {
   });
 
   it('should initially get dark theme', () => {
-    jest.spyOn(uiManager, 'getDarkTheme');
+    spyOn(uiManager, 'getDarkTheme').and.callThrough();
 
     component.ngOnInit();
     expect(uiManager.getDarkTheme).toHaveBeenCalled();
   });
 
   it('should set/toggle dark theme', () => {
-    jest.spyOn(uiManager, 'setDarkTheme');
+    spyOn(uiManager, 'setDarkTheme').and.callThrough();
 
     expect(component.darkTheme).toBeFalsy();
     component.setDarkTheme();
-    expect(component.darkTheme).toBeTruthy();
+    expect(component.darkTheme).toBe(true);
 
     expect(uiManager.setDarkTheme).toHaveBeenCalled();
   });

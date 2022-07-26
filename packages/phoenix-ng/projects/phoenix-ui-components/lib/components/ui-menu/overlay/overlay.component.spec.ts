@@ -57,7 +57,7 @@ describe('OverlayComponent', () => {
     });
 
     it('should resize', () => {
-      jest.spyOn(component as any, 'setHandleTransform');
+      spyOn(component as any, 'setHandleTransform').and.callThrough();
       component.onResize();
 
       expect((component as any).setHandleTransform).toHaveBeenCalled();

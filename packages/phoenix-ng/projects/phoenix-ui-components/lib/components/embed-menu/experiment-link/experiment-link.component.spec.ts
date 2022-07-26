@@ -24,7 +24,7 @@ describe('ExperimentLinkComponent', () => {
   });
 
   it('should go to experiment link', () => {
-    jest.spyOn(window, 'open');
+    spyOn(window, 'open').and.stub();
     component.goToExperiment();
     expect(window.open).toHaveBeenCalled();
   });

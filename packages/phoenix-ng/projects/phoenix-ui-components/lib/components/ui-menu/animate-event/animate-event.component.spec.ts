@@ -38,7 +38,7 @@ describe('AnimateEventComponent', () => {
 
   it('should animate event', () => {
     component.toggleAnimateEvent();
-    expect(component.isAnimating).toBeTruthy();
+    expect(component.isAnimating).toBeTrue();
     component.toggleAnimateEvent();
   });
 });

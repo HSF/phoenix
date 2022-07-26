@@ -35,8 +35,8 @@ describe('PerformanceToggleComponent', () => {
   });
 
   it('should toggle antialiasing', () => {
-    expect(component.performanceMode).toBeFalsy();
+    expect(component.performanceMode).toBeFalse();
     component.togglePerformance();
-    expect(component.performanceMode).toBeTruthy();
+    expect(component.performanceMode).toBeTrue();
   });
 });

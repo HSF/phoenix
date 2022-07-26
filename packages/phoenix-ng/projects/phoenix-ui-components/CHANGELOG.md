@@ -3,36 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.10.0](https://github.com/HSF/phoenix/compare/v2.9.0...v2.10.0) (2022-07-21)
-
-
-### Features
-
-* **app:** allow customization of options in experiment info component ([7c10787](https://github.com/HSF/phoenix/commit/7c1078733bca23ff29542b1c9b536af41faabeba))
-* **app:** allow customization of options in experiment info component ([f56fa96](https://github.com/HSF/phoenix/commit/f56fa96d3eddee2aeea9def7b29a0bc82aa9c75d))
-* **app:** reorganize range slider ([57d4ed1](https://github.com/HSF/phoenix/commit/57d4ed1115a258f1eaea14200e5557578b7e121f))
-
-
-
-
-
-# [2.9.0](https://github.com/HSF/phoenix/compare/v2.8.0...v2.9.0) (2022-06-17)
-
-
-### Bug Fixes
-
-* **event-display:** fix clipping angle not being applied from menu config ([62bf178](https://github.com/HSF/phoenix/commit/62bf178263d0aa278c2570ad6a209da28c207c5b))
-
-
-### Features
-
-* **app:** add component to periodically cycle through events ([05ae1d6](https://github.com/HSF/phoenix/commit/05ae1d6db8892d4504d3f5532cb165b31663bcc8))
-* update all packages ([9276ef9](https://github.com/HSF/phoenix/commit/9276ef92ce52e24f7492aabd51831c07ddef0673))
-
-
-
-
-
 # [2.8.0](https://github.com/HSF/phoenix/compare/v2.7.0...v2.8.0) (2022-05-16)
 
 **Note:** Version bump only for package phoenix-ui-components

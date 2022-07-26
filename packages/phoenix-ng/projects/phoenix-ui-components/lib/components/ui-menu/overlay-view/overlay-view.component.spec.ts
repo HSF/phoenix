@@ -32,12 +32,12 @@ describe('OverlayViewComponent', () => {
   });
 
   it('should toggle overlay view', () => {
-    expect(component.showOverlay).toBeFalsy();
+    expect(component.showOverlay).toBe(false);
     component.toggleOverlay();
-    expect(component.showOverlay).toBeTruthy();
+    expect(component.showOverlay).toBe(true);
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showOverlay).toBeTruthy();
+    expect(component.overlayWindow.instance.showOverlay).toBe(true);
   });
 
   it('should destroy overlay view', () => {

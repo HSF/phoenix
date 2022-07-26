@@ -25,7 +25,7 @@ describe('ConfigSliderComponent', () => {
   });
 
   beforeEach(() => {
-    jest.spyOn(component.onChange, 'emit');
+    spyOn(component.onChange, 'emit').and.callThrough();
   });
 
   it('should change value', () => {

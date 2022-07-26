@@ -38,11 +38,11 @@ describe('VrToggleComponent', () => {
 
   it('should toggle VR', () => {
     component.toggleVr();
-    expect(component.vrActive).toBeTruthy();
+    expect(component.vrActive).toBeTrue();
     expect(mockEventDisplay.initXR).toHaveBeenCalled();
 
     component.toggleVr();
-    expect(component.vrActive).toBeFalsy();
+    expect(component.vrActive).toBeFalse();
     expect(mockEventDisplay.endXR).toHaveBeenCalled();
   });
 });

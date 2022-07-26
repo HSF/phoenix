@@ -1,63 +1,76 @@
-<app-ui-menu-wrapper>
-  <!-- Event selector -->
-  <app-event-selector></app-event-selector>
+<div id="uiMenu">
+  <button
+    id="hide-ui-menu"
+    [matTooltip]="hideUIMenu ? 'Show toolbar' : 'Hide toolbar'"
+    matTooltipPosition="above"
+    (click)="hideUIMenu = !hideUIMenu"
+    [ngClass]="{ 'ui-menu-hidden': hideUIMenu }"
+  >
+    <svg>
+      <use href="assets/icons/expand.svg#expand"></use>
+    </svg>
+  </button>
+  <div id="optionsPanel" [hidden]="hideUIMenu">
+    <!-- Event selector -->
+    <app-event-selector></app-event-selector>
 
-  <!-- Zoom in and zoom out controls -->
-  <app-zoom-controls></app-zoom-controls>
+    <!-- Zoom in and zoom out controls -->
+    <app-zoom-controls></app-zoom-controls>
 
-  <app-view-options></app-view-options>
+    <app-view-options></app-view-options>
 
-  <app-auto-rotate></app-auto-rotate>
+    <app-auto-rotate></app-auto-rotate>
 
-  <!-- Dark theme toggle -->
-  <app-dark-theme></app-dark-theme>
+    <!-- Dark theme toggle -->
+    <app-dark-theme></app-dark-theme>
 
-  <!-- Toggle for clipping geometries -->
-  <app-object-clipping></app-object-clipping>
+    <!-- Toggle for clipping geometries -->
+    <app-object-clipping></app-object-clipping>
 
-  <!-- Main view toggle -->
-  <app-main-view-toggle></app-main-view-toggle>
+    <!-- Main view toggle -->
+    <app-main-view-toggle></app-main-view-toggle>
 
-  <!-- Toggle for overlay panel -->
-  <app-overlay-view></app-overlay-view>
+    <!-- Toggle for overlay panel -->
+    <app-overlay-view></app-overlay-view>
 
-  <!-- Toggle for selected object panel -->
-  <app-object-selection></app-object-selection>
+    <!-- Toggle for selected object panel -->
+    <app-object-selection></app-object-selection>
 
-  <!-- Info panel -->
-  <app-info-panel></app-info-panel>
+    <!-- Info panel -->
+    <app-info-panel></app-info-panel>
 
-  <!-- Toggle for animating the event data -->
-  <app-animate-event></app-animate-event>
+    <!-- Toggle for animating the event data -->
+    <app-animate-event></app-animate-event>
 
-  <!-- Toggle for animating camera through event -->
-  <app-animate-camera
-    [animationPresets]="animationPresets"
-  ></app-animate-camera>
+    <!-- Toggle for animating camera through event -->
+    <app-animate-camera
+      [animationPresets]="animationPresets"
+    ></app-animate-camera>
 
-  <!-- Toggle for collections info -->
-  <app-collections-info></app-collections-info>
+    <!-- Toggle for collections info -->
+    <app-collections-info></app-collections-info>
 
-  <!-- Toggle for performance -->
-  <app-performance-toggle></app-performance-toggle>
+    <!-- Toggle for performance -->
+    <app-performance-toggle></app-performance-toggle>
 
-  <!-- Toggle for VR -->
-  <app-vr-toggle></app-vr-toggle>
+    <!-- Toggle for VR -->
+    <app-vr-toggle></app-vr-toggle>
 
-  <!-- Toggle for AR -->
-  <app-ar-toggle></app-ar-toggle>
+    <!-- Toggle for AR -->
+    <app-ar-toggle></app-ar-toggle>
 
-  <!-- Toggle for screenshot mode -->
-  <app-ss-mode></app-ss-mode>
+    <!-- Toggle for screenshot mode -->
+    <app-ss-mode></app-ss-mode>
 
-  <!-- Toggle for loading geometries modal-->
-  <app-io-options
-    [eventDataImportOptions]="eventDataImportOptions"
-  ></app-io-options>
+    <!-- Toggle for loading geometries modal-->
+    <app-io-options
+      [eventDataImportOptions]="eventDataImportOptions"
+    ></app-io-options>
 
-  <!-- Toggle for shareable link constructor modal-->
-  <app-share-link></app-share-link>
+    <!-- Toggle for shareable link constructor modal-->
+    <app-share-link></app-share-link>
 
-  <!-- Extra options -->
-  <ng-content></ng-content>
-</app-ui-menu-wrapper>
+    <!-- Extra options -->
+    <ng-content></ng-content>
+  </div>
+</div>

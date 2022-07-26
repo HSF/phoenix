@@ -31,7 +31,7 @@ describe('IoOptionsComponent', () => {
   });
 
   it('should open IO dialog', () => {
-    jest.spyOn(dialog, 'open');
+    spyOn(dialog, 'open').and.callThrough();
 
     component.openIODialog();
     expect(dialog.open).toHaveBeenCalled();

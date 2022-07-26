@@ -17,8 +17,8 @@ describe('SSModeComponent', () => {
     fixture.detectChanges();
     component.ngOnInit();
 
-    jest.spyOn(document.documentElement, 'requestFullscreen');
-    jest.spyOn(document, 'exitFullscreen');
+    spyOn(document.documentElement, 'requestFullscreen').and.stub();
+    spyOn(document, 'exitFullscreen').and.stub();
   });
 
   it('should create', () => {
@@ -26,10 +26,10 @@ describe('SSModeComponent', () => {
   });
 
   it('should toggle screenshot mode', () => {
-    expect(component.ssMode).toBeFalsy();
+    expect(component.ssMode).toBe(false);
     component.toggleSSMode();
-    expect(component.ssMode).toBeTruthy();
+    expect(component.ssMode).toBe(true);
     component.toggleSSMode();
-    expect(component.ssMode).toBeFalsy();
+    expect(component.ssMode).toBe(false);
   });
 });
