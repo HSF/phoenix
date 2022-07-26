@@ -3,18 +3,14 @@
     class="experimentLogoWrapper"
     target="_blank"
     rel="noopener noreferrer"
-    *ngIf="experiment"
-    href="https://home.cern/science/experiments/{{ experiment }}"
+    *ngIf="url"
+    [href]="url"
   >
-    <img
-      class="experimentLogo"
-      src="assets/images/{{ experiment }}.svg"
-      alt=""
-    />
+    <img class="experimentLogo" [src]="logo" alt="" />
   </a>
   <div class="textInfo">
-    <p *ngIf="experimentTagline">
-      <b>{{ experimentTagline }}</b>
+    <p *ngIf="tagline">
+      <b>{{ tagline }}</b>
     </p>
     <p *ngFor="let infoField of experimentInfo">
       <ng-container *ngIf="infoField.label">

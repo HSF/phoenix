@@ -1,0 +1,48 @@
+#uiMenu {
+  position: absolute;
+  bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#optionsPanel {
+  display: flex;
+  align-items: center;
+  background: var(--phoenix-background-color-secondary);
+  border: 1px solid var(--phoenix-background-color-tertiary);
+  box-shadow: var(--phoenix-box-shadow);
+  border-radius: 30px;
+  max-width: 95%;
+  padding: 0.3rem 1rem;
+  overflow-x: scroll;
+  z-index: 90;
+}
+
+#hideUIMenu {
+  background: var(--phoenix-background-color-secondary);
+  height: 1.2rem;
+  width: 3rem;
+  border: 1px solid var(--phoenix-border);
+  border-bottom: none;
+  box-shadow: var(--phoenix-box-shadow);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 3px;
+
+  svg {
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+    transition: all 0.3s;
+  }
+
+  &.ui-menu-hidden {
+    svg {
+      transform: scaleY(-1);
+      transition: all 0.3s;
+    }
+  }
+}

@@ -31,3 +31,5 @@ export * from './share-link/share-link.component';
 export * from './share-link/share-link-dialog/share-link-dialog.component';
 export * from './event-data-explorer/event-data-explorer.component';
 export * from './event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component';
+export * from './cycle-events/cycle-events.component';
+export * from './ui-menu-wrapper/ui-menu-wrapper.component';

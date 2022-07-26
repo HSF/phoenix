@@ -8,9 +8,9 @@ describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;
   let fixture: ComponentFixture<AutoRotateComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIManager', ['setAutoRotate']),
-  });
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+    'setAutoRotate',
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,9 +36,9 @@ describe('AutoRotateComponent', () => {
   });
 
   it('should toggle auto rotate', () => {
-    expect(component.autoRotate).toBe(false);
+    expect(component.autoRotate).toBeFalsy();
     component.toggleAutoRotate();
-    expect(component.autoRotate).toBe(true);
+    expect(component.autoRotate).toBeTruthy();
     expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalled();
   });
 });

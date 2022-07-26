@@ -1,0 +1,192 @@
+.phoenix-menu-item {
+  width: 100%;
+  padding: 0.6rem;
+  background: var(--phoenix-background-color-secondary);
+  color: var(--phoenix-text-color);
+  font-size: 0.8rem;
+  transition: all 0.5s;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &-left {
+    display: flex;
+    justify-content: flex-start;
+    min-width: 0;
+    padding-right: 0.5rem;
+    overflow: hidden;
+
+    .item-name {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-icon {
+      margin-right: 0.2rem;
+    }
+  }
+
+  &-right {
+    display: flex;
+    justify-content: flex-end;
+
+    .item-expand {
+      &.expanded {
+        transform: scaleY(-1);
+      }
+    }
+
+    .item-settings {
+      margin-right: 0.2rem;
+    }
+
+    .item-config-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 110;
+    }
+
+    .item-config {
+      position: absolute;
+      /* Has to be the same value (but negated) as `:host > top` of `phoenix-menu.component.scss`. */
+      margin-top: -5rem;
+      right: 100%;
+      width: 14rem;
+      padding: 0.5rem;
+      background: var(--phoenix-background-color-secondary);
+      color: var(--phoenix-text-color-secondary);
+      box-shadow: var(--phoenix-box-shadow);
+      display: flex;
+      flex-direction: column;
+      z-index: 120;
+
+      & > * {
+        margin-bottom: 0.4rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+
+      .item-config-single {
+        display: flex;
+        flex-direction: row;
+
+        .item-config-label {
+          width: 30%;
+        }
+
+        .item-config-data {
+          flex-grow: 1;
+          padding-left: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .icon-wrapper {
+    display: inline-block;
+    width: 1.3rem;
+    height: 1.3rem;
+    padding: 0.23rem;
+    transition: all 0.4s;
+
+    &.icon-button:hover {
+      background: var(--phoenix-options-icon-bg);
+      border-radius: 40%;
+      cursor: pointer;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      vertical-align: top;
+    }
+  }
+
+  // Overriding styles
+  .mat-slide-toggle-bar {
+    width: 30px !important;
+  }
+
+  .mat-slide-toggle-thumb {
+    width: 15px !important;
+    height: 15px !important;
+    position: absolute;
+    top: 2px;
+  }
+
+  .mat-slider-horizontal {
+    min-width: 0;
+    width: 100%;
+    height: 20px;
+
+    .mat-slider-wrapper {
+      top: 10px;
+    }
+  }
+
+  label.mat-checkbox-layout {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+
+    .icon-wrapper {
+      width: 1rem;
+      height: 1rem;
+      padding: 0.15rem;
+    }
+  }
+}
+
+.phoenix-menu-children {
+  margin-left: 0.5rem;
+  border-left: 1px solid var(--phoenix-accent);
+}
+
+.range-slider {
+  .range-slider-inputs {
+    gap: 20%;
+  }
+
+  .ngx-slider {
+    .ngx-slider-bar {
+      background: var(--phoenix-text-color-secondary);
+      height: 0.2rem;
+    }
+
+    .ngx-slider-selection {
+      background: var(--phoenix-accent);
+    }
+
+    .ngx-slider-pointer {
+      width: 1rem;
+      height: 1rem;
+      top: -0.45rem;
+      bottom: 0;
+      background-color: var(--phoenix-accent);
+
+      &:after {
+        display: none;
+      }
+    }
+
+    .ngx-slider-bubble {
+      color: var(--phoenix-text-color);
+      font-size: 0.8rem;
+
+      &.ngx-slider-limit {
+        color: var(--phoenix-text-color-secondary);
+      }
+    }
+  }
+}

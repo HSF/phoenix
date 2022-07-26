@@ -46,7 +46,7 @@ fdescribe('CycleEventsComponent', () => {
     component.interval = 1000;
 
     component.toggleCycle();
-    expect(component.active).toBeTrue();
+    expect(component.active).toBeTruthy();
 
     jasmine.clock().tick(1200);
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');

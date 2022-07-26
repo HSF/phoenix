@@ -1,0 +1,16 @@
+<div id="uiMenu">
+  <button
+    id="hideUIMenu"
+    [matTooltip]="hideUIMenu ? 'Show toolbar' : 'Hide toolbar'"
+    matTooltipPosition="above"
+    (click)="hideUIMenu = !hideUIMenu"
+    [ngClass]="{ 'ui-menu-hidden': hideUIMenu }"
+  >
+    <svg>
+      <use href="assets/icons/expand.svg#expand"></use>
+    </svg>
+  </button>
+  <div id="optionsPanel" [hidden]="hideUIMenu">
+    <ng-content></ng-content>
+  </div>
+</div>
