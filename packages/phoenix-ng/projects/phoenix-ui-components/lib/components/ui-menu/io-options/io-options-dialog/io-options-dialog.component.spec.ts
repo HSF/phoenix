@@ -69,7 +69,7 @@ describe('IoOptionsDialogComponent', () => {
 
   describe('handleFileInput', () => {
     beforeEach(() => {
-      spyOn(component, 'handleFileInput');
+      jest.spyOn(component, 'handleFileInput');
     });
 
     it('should handle JiveXML event data input', async () => {
