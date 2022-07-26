@@ -9,6 +9,7 @@ import {
   PhoenixMenuNode,
   Configuration,
   PresetView,
+  ClippingSetting,
   PhoenixLoader,
 } from 'phoenix-event-display';
 import { Plane, Vector3 } from 'three';
@@ -39,10 +40,22 @@ export class LHCbComponent implements OnInit {
       eventDataLoader: new PhoenixLoader(),
       presetViews: [
         new PresetView(
-          'Default View',
+          'Global View',
           [-8000, 6000, 0],
           [0, 0, 8000],
-          'perspective'
+          'perspective',
+          ClippingSetting.On,
+          90,
+          90
+        ),
+        new PresetView(
+          'Calo View',
+          [-8000, 6000, 16000],
+          [0, 0, 12000],
+          'perspective',
+          ClippingSetting.On,
+          90,
+          90
         ),
         new PresetView(
           'Side View',
@@ -79,8 +92,7 @@ export class LHCbComponent implements OnInit {
       undefined, // name, ignored when empty
       undefined, // menuNodeName
       1, // scale
-      true, // initiallyVisible
-      true // transparent
+      true // initiallyVisible
     );
 
     this.eventDisplay

@@ -1,10 +1,33 @@
 <app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
 <app-nav></app-nav>
-<app-ui-menu [eventDataImportOptions]="eventDataImportOptions"></app-ui-menu>
+<app-ui-menu-wrapper>
+  <app-event-selector></app-event-selector>
+  <app-cycle-events [interval]="5000"></app-cycle-events>
+  <app-zoom-controls></app-zoom-controls>
+  <app-view-options></app-view-options>
+  <app-auto-rotate></app-auto-rotate>
+  <app-dark-theme></app-dark-theme>
+  <app-object-clipping></app-object-clipping>
+  <app-main-view-toggle></app-main-view-toggle>
+  <app-overlay-view></app-overlay-view>
+  <app-object-selection></app-object-selection>
+  <app-info-panel></app-info-panel>
+  <app-animate-event></app-animate-event>
+  <app-collections-info></app-collections-info>
+  <app-performance-toggle></app-performance-toggle>
+  <app-vr-toggle></app-vr-toggle>
+  <app-ar-toggle></app-ar-toggle>
+  <app-ss-mode></app-ss-mode>
+  <app-io-options
+    [eventDataImportOptions]="eventDataImportOptions"
+  ></app-io-options>
+  <app-share-link></app-share-link>
+</app-ui-menu-wrapper>
 <app-embed-menu></app-embed-menu>
 <app-experiment-info
-  experiment="lhcb"
-  experimentTagline="LHCb Experiment at CERN"
+  logo="assets/images/lhcb.svg"
+  url="https://home.cern/science/experiments/lhcb"
+  tagline="LHCb Experiment at CERN"
 ></app-experiment-info>
 <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
