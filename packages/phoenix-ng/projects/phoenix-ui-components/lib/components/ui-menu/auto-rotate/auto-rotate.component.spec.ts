@@ -8,9 +8,9 @@ describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;
   let fixture: ComponentFixture<AutoRotateComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIManager', ['setAutoRotate']),
-  });
+  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
+    'setAutoRotate',
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({

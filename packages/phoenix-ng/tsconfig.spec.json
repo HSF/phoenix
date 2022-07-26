@@ -4,7 +4,12 @@
     "module": "CommonJS",
     "outDir": "../out-tsc/spec",
     "allowJs": true,
-    "types": ["jest", "node"]
+    "types": [
+      "jest", "node"
+    ]
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
 }
