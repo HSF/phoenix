@@ -17,8 +17,9 @@ globalThis.ngJest = {
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-  roots: ['packages'],
+  roots: ['projects'],
   preset: 'jest-preset-angular',
+  resolver: '@nrwl/jest/plugins/resolver',
   globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
