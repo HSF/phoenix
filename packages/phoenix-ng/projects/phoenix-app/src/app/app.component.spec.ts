@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NavComponent } from 'phoenix-ui-components/lib/components/nav/nav.component';
+import { NavComponent } from 'phoenix-ui-components';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AppComponent', () => {
