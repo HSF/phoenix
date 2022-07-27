@@ -54,6 +54,7 @@
     "@angular/cli": "~13.3.6",
     "@angular/compiler-cli": "~13.3.9",
     "@angular/language-service": "^13.3.9",
+    "@nrwl/jest": "^14.4.3",
     "@types/jest": "^28.1.2",
     "@types/node": "^16.11.45",
     "@types/qrcode": "1.4.2",

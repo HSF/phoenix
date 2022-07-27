@@ -19,6 +19,7 @@ globalThis.ngJest = {
 module.exports = {
   roots: ['projects'],
   preset: 'jest-preset-angular',
+  resolver: '@nrwl/jest/plugins/resolver',
   globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
