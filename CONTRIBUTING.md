@@ -60,7 +60,7 @@ Here is an example of a documentation improvement for the `phoenix-app` package:
 
 ```
 docs(app): Added some text about commit rules
-Lets add some rules for our commit messages, 
+Lets add some rules for our commit messages,
 based on the angular commit conventions.
 ```
 
