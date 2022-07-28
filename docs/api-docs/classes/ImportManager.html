@@ -1160,7 +1160,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>processGeometry(geometry: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>processGeometry(geometry: Object3D, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, transparent?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -1252,6 +1252,22 @@
 
                                     <td>
                                         <p>Renders both sides of the material.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>transparent</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether the transparent property of geometry is true or false. Default <code>false</code>.</p>
 
                                     </td>
                                 </tr>
@@ -2005,7 +2021,8 @@ export class ImportManager {
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
+    transparent?: boolean
   ) {
     geometry.name &#x3D; name;
     // Set a custom scale if provided

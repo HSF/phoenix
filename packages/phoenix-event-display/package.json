@@ -28,8 +28,9 @@
     "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
-    "test": "karma start configs/karma.conf.js --browsers=ChromeHeadlessCI",
-    "test:coverage": "yarn test",
+    "test": "jest --config configs/jest.conf.js",
+    "test:coverage": "yarn test --coverage",
+    "test:debug": "jest --runInBand",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
@@ -44,13 +45,17 @@
     "three": "^0.140.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.18.0",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
+    "@types/gl": "^4.1.0",
+    "@types/istanbul-lib-coverage": "^2.0.4",
+    "@types/jest": "~27.0.0",
     "@types/three": "^0.140.0",
+    "canvas": "^2.9.3",
     "esbuild-loader": "^2.19.0",
-    "karma-typescript": "~5.5.3",
-    "karma-typescript-es6-transform": "~5.5.3",
+    "gl": "^5.0.3",
+    "jest": "~27.0.0",
+    "ts-jest": "~27.0.0",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }

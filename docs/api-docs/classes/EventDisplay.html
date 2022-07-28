@@ -2900,7 +2900,7 @@ the event associated with that key.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(url: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadGLTFGeometry(url: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, transparent: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -3021,6 +3021,25 @@ and adds it to the dat.GUI menu.</p>
 
                                     <td>
                                         <p>Whether the geometry is initially visible or not. Default <code>true</code>.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>transparent</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Whether the transparent property of geometry is true or false. Default <code>false</code>.</p>
 
                                     </td>
                                 </tr>
@@ -4933,6 +4952,7 @@ export class EventDisplay {
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
    * @param scale Scale of the geometry.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
+   * @param transparent Whether the transparent property of geometry is true or false. Default &#x60;false&#x60;.
    * @returns Promise for loading the geometry.
    */
   public async loadGLTFGeometry(
@@ -4940,7 +4960,8 @@ export class EventDisplay {
     name: string,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
+    transparent: boolean &#x3D; false // Argument added because of https://github.com/HSF/phoenix/pull/425.
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;gltf_geom_${name}&#x60;);
 
