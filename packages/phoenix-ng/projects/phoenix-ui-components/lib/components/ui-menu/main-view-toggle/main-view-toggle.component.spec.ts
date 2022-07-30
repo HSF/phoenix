@@ -8,9 +8,10 @@ describe('MainViewToggleComponent', () => {
   let component: MainViewToggleComponent;
   let fixture: ComponentFixture<MainViewToggleComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIManager', ['toggleOrthographicView']),
-  });
+  const mockEventDisplay = {
+    getUIManager: jest.fn().mockReturnThis(),
+    toggleOrthographicView: jest.fn().mockReturnThis(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,9 +37,11 @@ describe('MainViewToggleComponent', () => {
   });
 
   it('should switch main view', () => {
-    expect(component.orthographicView).toBe(false);
+    expect(component.orthographicView).toBeFalsy();
+
     component.switchMainView();
-    expect(component.orthographicView).toBe(true);
+
+    expect(component.orthographicView).toBeTruthy();
     expect(
       mockEventDisplay.getUIManager().toggleOrthographicView
     ).toHaveBeenCalled();

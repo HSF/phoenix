@@ -10,23 +10,23 @@ describe('ObjectClippingComponent', () => {
   let component: ObjectClippingComponent;
   let fixture: ComponentFixture<ObjectClippingComponent>;
 
-  const mockUIManager = jasmine.createSpyObj('UIManager', [
-    'rotateStartAngleClipping',
-    'rotateOpeningAngleClipping',
-    'setClipping',
-  ]);
+  const mockUIManager = {
+    rotateStartAngleClipping: jest.fn(),
+    rotateOpeningAngleClipping: jest.fn(),
+    setClipping: jest.fn(),
+  };
 
   const mockEventDisplay = {
-    getUIManager: jasmine.createSpy().and.returnValue(mockUIManager),
+    getUIManager: jest.fn(() => mockUIManager),
     getStateManager: () => ({
       clippingEnabled: {
-        onUpdate: jasmine.createSpy('onUpdate'),
+        onUpdate: jest.fn(),
       },
       startClippingAngle: {
-        onUpdate: jasmine.createSpy('onUpdate'),
+        onUpdate: jest.fn(),
       },
       openingClippingAngle: {
-        onUpdate: jasmine.createSpy('onUpdate'),
+        onUpdate: jest.fn(),
       },
     }),
   };
