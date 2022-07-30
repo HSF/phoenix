@@ -6,11 +6,12 @@ import { CycleEventsComponent } from './cycle-events.component';
 fdescribe('CycleEventsComponent', () => {
   let component: CycleEventsComponent;
   let fixture: ComponentFixture<CycleEventsComponent>;
+
   const mockEventDisplay = {
-    listenToLoadedEventsChange: jasmine
-      .createSpy()
-      .and.callFake((callback) => callback(['eventKey1', 'eventKey2'])),
-    loadEvent: jasmine.createSpy().and.stub(),
+    listenToLoadedEventsChange: jest.fn((callback) =>
+      callback(['eventKey1', 'eventKey2'])
+    ),
+    loadEvent: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -41,16 +42,18 @@ fdescribe('CycleEventsComponent', () => {
   });
 
   it('should start rotating through events on toggle', () => {
-    jasmine.clock().uninstall();
-    jasmine.clock().install();
+    jest.useRealTimers();
+    jest.useFakeTimers();
     component.interval = 1000;
 
     component.toggleCycle();
+
     expect(component.active).toBeTruthy();
 
-    jasmine.clock().tick(1200);
+    jest.advanceTimersByTime(1200);
+
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');
 
-    jasmine.clock().uninstall();
+    jest.useRealTimers();
   });
 });
