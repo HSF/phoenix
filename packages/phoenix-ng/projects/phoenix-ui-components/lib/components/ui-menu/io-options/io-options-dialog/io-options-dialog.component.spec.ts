@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 import JSZip from 'jszip';
+import fetch from 'node-fetch';
 
 const mockFileList = (files: File[]): FileList => {
   const fileList: FileList = {
@@ -20,18 +21,20 @@ describe('IoOptionsDialogComponent', () => {
   let fixture: ComponentFixture<IOOptionsDialogComponent>;
 
   const mockDialogRef = {
-    close: jasmine.createSpy('close'),
+    close: jest.fn(),
   };
 
   const mockEventDisplayService = {
-    buildEventDataFromJSON: jasmine.createSpy('buildEventDataFromJSON'),
-    parsePhoenixEvents: jasmine.createSpy('parsePhoenixEvents'),
-    parseOBJGeometry: jasmine.createSpy('parseOBJGeometry'),
-    parsePhoenixDisplay: jasmine.createSpy('parsePhoenixDisplay'),
-    parseGLTFGeometry: jasmine.createSpy('parseGLTFGeometry'),
-    exportPhoenixDisplay: jasmine.createSpy('exportPhoenixDisplay'),
-    exportToOBJ: jasmine.createSpy('exportToOBJ'),
-    getInfoLogger: () => jasmine.createSpyObj('InfoLogger', ['add']),
+    buildEventDataFromJSON: jest.fn(),
+    parsePhoenixEvents: jest.fn(),
+    parseOBJGeometry: jest.fn(),
+    parsePhoenixDisplay: jest.fn(),
+    parseGLTFGeometry: jest.fn(),
+    exportPhoenixDisplay: jest.fn(),
+    exportToOBJ: jest.fn(),
+    getInfoLogger: () => ({
+      add: jest.fn(),
+    }),
   };
 
   beforeEach(() => {
@@ -64,16 +67,19 @@ describe('IoOptionsDialogComponent', () => {
 
   it('should close the IOOptionsDialog', () => {
     component.onClose();
+
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
   describe('handleFileInput', () => {
     beforeEach(() => {
-      spyOn(component, 'handleFileInput');
+      jest.spyOn(component, 'handleFileInput').mockImplementation(() => {});
     });
 
     it('should handle JiveXML event data input', async () => {
-      await fetch('assets/test_data/JiveXML.xml')
+      await fetch(
+        'https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml'
+      )
         .then((res) => res.text())
         .then((res) => {
           const files = mockFileList([
@@ -148,7 +154,9 @@ describe('IoOptionsDialogComponent', () => {
   it('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
-    const jivexmlData = await fetch('assets/test_data/JiveXML.xml');
+    const jivexmlData = await fetch(
+      'https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml'
+    );
     zip.file('test_data.xml', jivexmlData.text());
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     const files = mockFileList([
