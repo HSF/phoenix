@@ -8,9 +8,10 @@ describe('AutoRotateComponent', () => {
   let component: AutoRotateComponent;
   let fixture: ComponentFixture<AutoRotateComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
-    'setAutoRotate',
-  ]);
+  const mockEventDisplay = {
+    getUIManager: jest.fn().mockReturnThis(),
+    setAutoRotate: jest.fn().mockReturnThis(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,8 +38,15 @@ describe('AutoRotateComponent', () => {
 
   it('should toggle auto rotate', () => {
     expect(component.autoRotate).toBeFalsy();
+
+    const params = component['autoRotate'];
+    const toggledParams = !params;
+
     component.toggleAutoRotate();
+
     expect(component.autoRotate).toBeTruthy();
-    expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalled();
+    expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalledWith(
+      toggledParams
+    );
   });
 });
