@@ -9,10 +9,10 @@ describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
   let fixture: ComponentFixture<ObjectSelectionComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
-    'enableSelecting',
-    'allowSelection',
-  ]);
+  const mockEventDisplayService = {
+    enableSelecting: jest.fn(),
+    allowSelection: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,16 +40,20 @@ describe('ObjectSelectionComponent', () => {
 
   it('should initialize/create object selection overlay', () => {
     component.ngOnInit();
+
     expect(component.overlayWindow).toBeTruthy();
   });
 
   it('should toggle object selection overlay', () => {
     expect(component.hiddenSelectedInfo).toBeTruthy();
+
     component.toggleOverlay();
+
     expect(component.hiddenSelectedInfo).toBeFalsy();
 
     // Expect the overlay window to be visible
     expect(component.overlayWindow.instance.hiddenSelectedInfo).toBeFalsy();
+
     // Expect enable selection to have been called
     expect(mockEventDisplayService.enableSelecting).toHaveBeenCalled();
   });
@@ -58,6 +62,7 @@ describe('ObjectSelectionComponent', () => {
     jest.spyOn(component.overlayWindow, 'destroy');
 
     component.ngOnDestroy();
+
     expect(component.overlayWindow.destroy).toHaveBeenCalled();
   });
 });

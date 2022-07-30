@@ -8,9 +8,10 @@ describe('PerformanceToggleComponent', () => {
   let component: PerformanceToggleComponent;
   let fixture: ComponentFixture<PerformanceToggleComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getThreeManager: jasmine.createSpyObj('ThreeManager', ['setAntialiasing']),
-  });
+  const mockEventDisplay = {
+    getThreeManager: jest.fn().mockReturnThis(),
+    setAntialiasing: jest.fn().mockReturnThis(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,8 +36,16 @@ describe('PerformanceToggleComponent', () => {
   });
 
   it('should toggle antialiasing', () => {
-    expect(component.performanceMode).toBeFalsy();
+    const performanceMode = component.performanceMode;
+    const toggledPerformanceMode = !performanceMode;
+
+    expect(performanceMode).toBeFalsy();
+
     component.togglePerformance();
-    expect(component.performanceMode).toBeTruthy();
+
+    expect(toggledPerformanceMode).toBeTruthy();
+    expect(
+      mockEventDisplay.getThreeManager().setAntialiasing
+    ).toHaveBeenCalledWith(performanceMode);
   });
 });
