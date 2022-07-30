@@ -10,10 +10,12 @@ describe('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
-  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['NewHttpRequest']);
-  mockJSROOT.NewHttpRequest.and.callFake(() =>
-    jasmine.createSpyObj('returnValue', ['send'])
-  );
+  const mockJSROOT = {
+    NewHttpRequest: jest.fn(),
+  };
+  mockJSROOT.NewHttpRequest.mockImplementation(() => ({
+    send: jest.fn(),
+  }));
 
   let eventDisplayService: EventDisplayService;
 
@@ -42,7 +44,7 @@ describe('CMSComponent', () => {
 
   // Test if three.js is initialized
   it('should initialize three.js canvas', () => {
-    spyOn(eventDisplayService, 'parsePhoenixEvents').and.stub();
+    jest.spyOn(eventDisplayService, 'parsePhoenixEvents');
     component.ngOnInit();
     expect(document.getElementById('three-canvas')).toBeTruthy();
   });
