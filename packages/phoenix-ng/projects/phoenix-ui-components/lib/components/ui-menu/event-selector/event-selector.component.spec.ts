@@ -8,10 +8,10 @@ describe('EventSelectorComponent', () => {
   let component: EventSelectorComponent;
   let fixture: ComponentFixture<EventSelectorComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
-    'listenToLoadedEventsChange',
-    'loadEvent',
-  ]);
+  const mockEventDisplayService = {
+    listenToLoadedEventsChange: jest.fn(),
+    loadEvent: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,6 +38,7 @@ describe('EventSelectorComponent', () => {
 
   it('should initialize to listen to loaded events change', () => {
     component.ngOnInit();
+
     expect(
       mockEventDisplayService.listenToLoadedEventsChange
     ).toHaveBeenCalled();
@@ -45,7 +46,9 @@ describe('EventSelectorComponent', () => {
 
   it('should change event through event display', () => {
     const mockSelectEvent = { target: { value: 'TestEvent' } };
+
     component.changeEvent(mockSelectEvent);
+
     expect(mockEventDisplayService.loadEvent).toHaveBeenCalledWith(
       mockSelectEvent.target.value
     );

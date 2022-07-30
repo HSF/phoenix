@@ -8,10 +8,10 @@ describe('ExperimentInfoComponent', () => {
   let component: ExperimentInfoComponent;
   let fixture: ComponentFixture<ExperimentInfoComponent>;
 
-  const mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
-    'getEventMetadata',
-    'listenToDisplayedEventChange',
-  ]);
+  const mockEventDisplayService = {
+    getEventMetadata: jest.fn(),
+    listenToDisplayedEventChange: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,6 +37,7 @@ describe('ExperimentInfoComponent', () => {
 
   it('should initialize experiment info', () => {
     component.ngOnInit();
+
     expect(
       mockEventDisplayService.listenToDisplayedEventChange
     ).toHaveBeenCalled();
