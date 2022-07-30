@@ -8,10 +8,9 @@ describe('AnimateEventComponent', () => {
   let component: AnimateEventComponent;
   let fixture: ComponentFixture<AnimateEventComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
-    'animateClippingWithCollision',
-    'animateEventWithCollision',
-  ]);
+  const mockEventDisplay = {
+    animateEventWithCollision: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,8 +36,11 @@ describe('AnimateEventComponent', () => {
   });
 
   it('should animate event', () => {
+    expect(component.isAnimating).toBeFalsy();
+
     component.toggleAnimateEvent();
+
     expect(component.isAnimating).toBeTruthy();
-    component.toggleAnimateEvent();
+    expect(mockEventDisplay.animateEventWithCollision).toHaveBeenCalled();
   });
 });

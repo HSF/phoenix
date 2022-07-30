@@ -8,9 +8,9 @@ describe('AnimateCameraComponent', () => {
   let component: AnimateCameraComponent;
   let fixture: ComponentFixture<AnimateCameraComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
-    'animateThroughEvent',
-  ]);
+  const mockEventDisplay = {
+    animateThroughEvent: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,9 +37,10 @@ describe('AnimateCameraComponent', () => {
 
   it('should start animation on toggle', () => {
     expect(component.isAnimating).toBeFalsy();
+
     component.animateCamera();
+
     expect(component.isAnimating).toBeTruthy();
     expect(mockEventDisplay.animateThroughEvent).toHaveBeenCalled();
-    component.animateCamera();
   });
 });
