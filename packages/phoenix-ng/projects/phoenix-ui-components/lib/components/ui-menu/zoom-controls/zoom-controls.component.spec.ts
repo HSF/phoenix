@@ -11,9 +11,9 @@ describe('ZoomControlsComponent', () => {
   let mockEventDisplayService: any;
 
   beforeEach(() => {
-    mockEventDisplayService = jasmine.createSpyObj('EventDisplayService', [
-      'zoomTo',
-    ]);
+    mockEventDisplayService = {
+      zoomTo: jest.fn(),
+    };
 
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
@@ -60,6 +60,7 @@ describe('ZoomControlsComponent', () => {
   it('should clear zoom acceleration', () => {
     component.zoomIn(true);
     expect((component as any).zoomTime).toBeLessThan(200);
+
     component.clearZoom();
     expect((component as any).zoomTime).toEqual(200);
   });

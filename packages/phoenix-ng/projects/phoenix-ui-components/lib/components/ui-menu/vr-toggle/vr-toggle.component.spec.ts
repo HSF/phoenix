@@ -8,10 +8,10 @@ describe('VrToggleComponent', () => {
   let component: VrToggleComponent;
   let fixture: ComponentFixture<VrToggleComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', [
-    'initXR',
-    'endXR',
-  ]);
+  const mockEventDisplay = {
+    initXR: jest.fn(),
+    endXR: jest.fn(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
