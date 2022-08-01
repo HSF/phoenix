@@ -9,8 +9,9 @@ describe('TreeMenuItemComponent', () => {
   let fixture: ComponentFixture<TreeMenuItemComponent>;
 
   const mockEventDisplay = {
-    getUIManager: () =>
-      jasmine.createSpyObj('UIManager', ['geometryVisibility']),
+    getUIManager: () => ({
+      geometryVisibility: jest.fn(),
+    }),
   };
 
   beforeEach(() => {
@@ -46,10 +47,9 @@ describe('TreeMenuItemComponent', () => {
 
   it('should toggle children visibility', () => {
     // Creating a mock child tree menu item
-    const mockChildTreeMenuItem = jasmine.createSpyObj(
-      'TreeMenuItemComponent',
-      ['toggleVisibility']
-    );
+    const mockChildTreeMenuItem = {
+      toggleVisibility: jest.fn(),
+    };
     (component as any).children = [mockChildTreeMenuItem];
 
     component.toggleVisibility(true);
