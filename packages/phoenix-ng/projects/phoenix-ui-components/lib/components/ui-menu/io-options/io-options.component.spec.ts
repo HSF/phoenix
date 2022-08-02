@@ -9,15 +9,27 @@ describe('IoOptionsComponent', () => {
   let component: IoOptionsComponent;
   let fixture: ComponentFixture<IoOptionsComponent>;
 
-  let dialog: MatDialog;
+  const dialog = {
+    open: jest.fn().mockImplementation(() => {
+      return {
+        componentInstance: {
+          eventDataImportOptions: [],
+        },
+      };
+    }),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, PhoenixUIModule],
-      providers: [MatDialog],
+      providers: [
+        {
+          provide: MatDialog,
+          useValue: dialog,
+        },
+      ],
       declarations: [IoOptionsComponent],
     }).compileComponents();
-    dialog = TestBed.inject(MatDialog);
   });
 
   beforeEach(() => {
@@ -34,6 +46,7 @@ describe('IoOptionsComponent', () => {
     jest.spyOn(dialog, 'open');
 
     component.openIODialog();
+
     expect(dialog.open).toHaveBeenCalled();
   });
 });
