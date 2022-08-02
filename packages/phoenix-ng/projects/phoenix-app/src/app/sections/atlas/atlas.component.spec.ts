@@ -1,15 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AtlasComponent } from './atlas.component';
-import { AppModule } from '../../../app/app.module';
+import { EventDisplayService } from '../../../../../phoenix-ui-components/lib/services/event-display.service';
 
 describe('AtlasComponent', () => {
   let component: AtlasComponent;
   let fixture: ComponentFixture<AtlasComponent>;
 
+  const mockEventDisplay = {
+    init: jest.fn(),
+    loadGLTFGeometry: jest.fn(),
+    getLoadingManager: jest.fn().mockReturnThis(),
+    addProgressListener: jest.fn().mockImplementation(() => {
+      component.loadingProgress = 100;
+    }),
+    addLoadListenerWithCheck: jest.fn().mockImplementation(() => {
+      component.loaded = true;
+    }),
+    getURLOptionsManager: jest.fn().mockReturnThis(),
+    getURLOptions: jest.fn().mockReturnThis(),
+    get: jest.fn().mockReturnThis(),
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
     });
   });
 
@@ -25,11 +45,5 @@ describe('AtlasComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  // Test if three.js is initialized
-  it('should initialize three.js canvas', () => {
-    component.ngOnInit();
-    expect(document.getElementById('three-canvas')).toBeTruthy();
   });
 });
