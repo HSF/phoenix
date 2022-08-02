@@ -30,6 +30,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.js$|${esModules.join('|')})`,
+    `/e2e/(?!.*\\.ts$)`,
   ],
   verbose: true,
   collectCoverageFrom: ['<rootDir>/projects/**/*.ts'],
