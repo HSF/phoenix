@@ -9,18 +9,23 @@ describe('DarkThemeComponent', () => {
   let component: DarkThemeComponent;
   let fixture: ComponentFixture<DarkThemeComponent>;
 
-  let eventDisplay: EventDisplayService;
-  let uiManager: UIManager;
+  const mockEventDisplay = {
+    getUIManager: jest.fn().mockReturnThis(),
+    getDarkTheme: jest.fn().mockReturnThis(),
+    setDarkTheme: jest.fn().mockReturnThis(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [EventDisplayService],
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
       declarations: [DarkThemeComponent],
     }).compileComponents();
-
-    eventDisplay = TestBed.get(EventDisplayService);
-    uiManager = eventDisplay.getUIManager();
   });
 
   beforeEach(() => {
@@ -33,20 +38,9 @@ describe('DarkThemeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initially get dark theme', () => {
-    jest.spyOn(uiManager, 'getDarkTheme');
-
-    component.ngOnInit();
-    expect(uiManager.getDarkTheme).toHaveBeenCalled();
-  });
-
   it('should set/toggle dark theme', () => {
-    jest.spyOn(uiManager, 'setDarkTheme');
-
-    expect(component.darkTheme).toBeFalsy();
-    component.setDarkTheme();
     expect(component.darkTheme).toBeTruthy();
-
-    expect(uiManager.setDarkTheme).toHaveBeenCalled();
+    component.setDarkTheme();
+    expect(component.darkTheme).toBeFalsy();
   });
 });
