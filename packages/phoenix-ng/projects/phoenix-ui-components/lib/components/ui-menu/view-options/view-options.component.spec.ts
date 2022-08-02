@@ -4,23 +4,21 @@ import { ViewOptionsComponent } from './view-options.component';
 import { PresetView } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
   let fixture: ComponentFixture<ViewOptionsComponent>;
 
-  const mockEventDisplay = jasmine.createSpyObj('EventDisplayService', {
-    getUIManager: jasmine.createSpyObj('UIServicie', [
-      'getPresetViews',
-      'displayView',
-      'setShowAxis',
-    ]),
-  });
+  const mockEventDisplay = {
+    getUIManager: jest.fn().mockReturnThis(),
+    getPresetViews: jest.fn().mockReturnValue([]),
+    displayView: jest.fn().mockReturnThis(),
+    setShowAxis: jest.fn().mockReturnThis(),
+    setShowGrid: jest.fn().mockReturnThis(),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,
@@ -47,7 +45,9 @@ describe('ViewOptionsComponent', () => {
   });
 
   it('should display the chosen preset view', () => {
-    const mockEvent = jasmine.createSpyObj('Event', ['stopPropagation']);
+    const mockEvent = {
+      stopPropagation: jest.fn(),
+    };
     const mockPresetView = new PresetView(
       'Test View',
       [0, 0, -12000],
@@ -65,8 +65,22 @@ describe('ViewOptionsComponent', () => {
     const VALUE = false;
     const event = new MatCheckboxChange();
     event.checked = VALUE;
+
     component.setAxis(event);
+
     expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
+      VALUE
+    );
+  });
+
+  it('should set grid', () => {
+    const VALUE = false;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+
+    component.setGrid(event);
+
+    expect(mockEventDisplay.getUIManager().setShowGrid).toHaveBeenCalledWith(
       VALUE
     );
   });
