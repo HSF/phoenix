@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuItemComponent } from './phoenix-menu-item.component';
 import { PhoenixMenuNode } from 'phoenix-event-display';
+import { PhoenixMenuConfigs } from 'phoenix-event-display/src/managers/ui-manager/phoenix-menu/config-types';
 
 describe('PhoenixMenuItemComponent', () => {
   let component: PhoenixMenuItemComponent;
@@ -22,5 +23,16 @@ describe('PhoenixMenuItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should calculate configTop', () => {
+    expect(component.configTop).toBeUndefined();
+    component.calculateConfigTop();
+    expect(component.configTop).toBe(0);
+  });
+
+  it('should cast configs to any', () => {
+    const configs: PhoenixMenuConfigs[keyof PhoenixMenuConfigs][] = [];
+    expect(component.castConfigsToAny(configs)).toEqual([]);
   });
 });
