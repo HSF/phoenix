@@ -4,28 +4,39 @@ import { Object3D } from 'three';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { ActiveVariable } from '../../../../../../../../phoenix-event-display/src/helpers/active-variable';
 
-describe('CollectionsInfoOverlayComponent', () => {
+describe.skip('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
   let eventDisplayService: EventDisplayService;
 
+  const mockEventDisplay = {
+    listenToDisplayedEventChange: jest.fn(),
+    getActiveObjectId: jest.fn().mockReturnValue('uuid'),
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
-      providers: [EventDisplayService],
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
       declarations: [CollectionsInfoOverlayComponent],
     }).compileComponents();
-    eventDisplayService = TestBed.inject(EventDisplayService);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsInfoOverlayComponent);
     component = fixture.componentInstance;
+    component.activeObject = '' as unknown as ActiveVariable<string>;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it.only('should create', () => {
     expect(component).toBeTruthy();
   });
 

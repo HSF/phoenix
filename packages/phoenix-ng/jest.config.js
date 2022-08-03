@@ -28,6 +28,7 @@ module.exports = {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  testRegex: '(/__test__/.*|(\\.|/)(spec))\\.(j|t)sx?$',
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.js$|${esModules.join('|')})`,
   ],
