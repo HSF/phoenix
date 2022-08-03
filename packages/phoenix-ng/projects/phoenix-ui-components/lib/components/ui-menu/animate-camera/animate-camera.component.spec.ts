@@ -10,7 +10,14 @@ describe('AnimateCameraComponent', () => {
 
   const mockEventDisplay = {
     animateThroughEvent: jest.fn(),
+    getThreeManager: jest.fn().mockReturnThis(),
+    getSceneManager: jest.fn().mockReturnThis(),
+    animatePreset: jest.fn(),
   };
+
+  const mockScene = mockEventDisplay.getSceneManager();
+  mockScene.getObjectByName = jest.fn();
+  mockScene.setGeometryOpacity = jest.fn();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +48,12 @@ describe('AnimateCameraComponent', () => {
     component.animateCamera();
 
     expect(component.isAnimating).toBeTruthy();
+    expect(mockEventDisplay.animateThroughEvent).toHaveBeenCalled();
+  });
+
+  it('should animate preset', () => {
+    jest.spyOn(mockEventDisplay, 'animateThroughEvent');
+    component.animatePreset('test');
     expect(mockEventDisplay.animateThroughEvent).toHaveBeenCalled();
   });
 });
