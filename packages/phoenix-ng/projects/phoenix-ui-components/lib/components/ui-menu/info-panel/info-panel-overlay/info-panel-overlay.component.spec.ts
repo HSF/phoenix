@@ -27,7 +27,6 @@ describe('InfoPanelOverlayComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InfoPanelOverlayComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
   });
 
   it('should create', () => {
