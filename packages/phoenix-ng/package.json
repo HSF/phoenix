@@ -11,9 +11,7 @@
     "build:prod": "ng build --configuration production",
     "build:ui-components": "ng build phoenix-ui-components --configuration production",
     "test": "jest --no-cache",
-    "test-isolated": "jest -c=jest-isolated.config.js --no-cache",
-    "test-esm": "node --experimental-vm-modules --no-warnings ./../../node_modules/jest/bin/jest.js -c=jest-esm.config.mjs --no-cache",
-    "test-esm-isolated": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js -c=jest-esm-isolated.config.mjs --no-cache",
+    "test:coverage": "yarn test --coverage",
     "e2e": "ng e2e",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
@@ -22,7 +20,6 @@
     "eslint:fix": "yarn eslint --fix",
     "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "//": "Running tests only for phoenix-ui-components because of bug in phoenix-app tests",
-    "test:coverage": "rimraf ./coverage && ng test phoenix-ui-components --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI --source-map=false",
     "version": "yarn deploy",
     "deploy:web": "yarn build:prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
     "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
