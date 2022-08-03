@@ -1,9 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TrackmlComponent } from './trackml.component';
 import { EventDisplayService } from 'phoenix-ui-components';
@@ -16,12 +11,42 @@ describe('TrackmlComponent', () => {
   let http: HttpClient;
   let fixture: ComponentFixture<TrackmlComponent>;
 
+  const mockEventDisplay = {
+    init: jest.fn(),
+    getStateManager: jest.fn().mockReturnThis(),
+    clippingEnabled: jest.fn().mockReturnThis(),
+    startClippingAngle: jest.fn().mockReturnThis(),
+    openingClippingAngle: jest.fn().mockReturnThis(),
+    loadOBJGeometry: jest.fn(),
+    getLoadingManager: jest.fn().mockReturnThis(),
+    addProgressListener: jest.fn().mockImplementation(() => {
+      component.loadingProgress = 100;
+    }),
+    addLoadListenerWithCheck: jest.fn().mockImplementation(() => {
+      component.loaded = true;
+    }),
+    listenToLoadedEventsChange: jest.fn(),
+    getUIManager: jest.fn().mockReturnThis(),
+    getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
+    getDarkTheme: jest.fn().mockReturnThis(),
+    buildEventDataFromJSON: jest.fn(),
+  };
+
+  const mockStateManager = mockEventDisplay.getStateManager();
+  mockStateManager.clippingEnabled.onUpdate = jest.fn();
+  mockStateManager.startClippingAngle.onUpdate = jest.fn();
+  mockStateManager.openingClippingAngle.onUpdate = jest.fn();
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppModule],
-      providers: [EventDisplayService, HttpClient],
-      declarations: [TrackmlComponent],
-    }).compileComponents;
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
+    }).compileComponents();
     http = TestBed.get(HttpClient);
   });
 
@@ -29,10 +54,6 @@ describe('TrackmlComponent', () => {
     fixture = TestBed.createComponent(TrackmlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   it('should create', () => {
