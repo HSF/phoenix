@@ -16,9 +16,6 @@ describe('SSModeComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.ngOnInit();
-
-    jest.spyOn(document.documentElement, 'requestFullscreen');
-    jest.spyOn(document, 'exitFullscreen');
   });
 
   it('should create', () => {
