@@ -1,15 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EventDisplayService } from 'phoenix-ui-components';
 
 import { GeometryComponent } from './geometry.component';
-import { AppModule } from '../../../app/app.module';
 
 describe('GeometryComponent', () => {
   let component: GeometryComponent;
   let fixture: ComponentFixture<GeometryComponent>;
 
+  const mockEventDisplay = {
+    init: jest.fn(),
+    buildGeometryFromParameters: jest.fn(),
+    getLoadingManager(): any {
+      return {
+        addProgressListener: jest.fn(),
+        addLoadListenerWithCheck: jest.fn().mockReturnThis(),
+      };
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -21,5 +37,21 @@ describe('GeometryComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should copy code', () => {
+    const inputElement = document.createElement('input');
+    inputElement.value = 'test';
+
+    jest.spyOn(document.body, 'appendChild');
+    jest.spyOn(document.body, 'removeChild');
+
+    document.execCommand = jest.fn();
+
+    component.copyCode();
+
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(document.body.appendChild).toHaveBeenCalledWith(inputElement);
+    expect(document.body.removeChild).toHaveBeenCalledWith(inputElement);
   });
 });
