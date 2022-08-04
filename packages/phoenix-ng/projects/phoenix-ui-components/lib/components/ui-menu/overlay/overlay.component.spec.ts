@@ -4,7 +4,7 @@ import { OverlayComponent } from './overlay.component';
 import { ElementRef } from '@angular/core';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 
-describe.skip('OverlayComponent', () => {
+describe('OverlayComponent', () => {
   let component: OverlayComponent;
   let fixture: ComponentFixture<OverlayComponent>;
 
@@ -62,7 +62,20 @@ describe.skip('OverlayComponent', () => {
       jest.spyOn(component as any, 'setHandleTransform');
       component.onResize();
 
-      expect((component as any).setHandleTransform).toHaveBeenCalled();
+      expect((component as any).setHandleTransform).toHaveBeenCalledWith(
+        component.overlayCard.nativeElement.getBoundingClientRect(),
+        component.resizeHandleCorner.nativeElement.getBoundingClientRect()
+      );
+    });
+
+    it('should reset resize handle position', () => {
+      jest.spyOn(component as any, 'setHandleTransform');
+      component.resetHandlePosition();
+
+      expect((component as any).setHandleTransform).toHaveBeenCalledWith(
+        component.overlayCard.nativeElement.getBoundingClientRect(),
+        component.resizeHandleCorner.nativeElement.getBoundingClientRect()
+      );
     });
   });
 });
