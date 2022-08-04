@@ -5,7 +5,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 import { ElementRef } from '@angular/core';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
-describe.skip('OverlayViewWindowComponent', () => {
+describe('OverlayViewWindowComponent', () => {
   let component: OverlayViewWindowComponent;
   let fixture: ComponentFixture<OverlayViewWindowComponent>;
 
@@ -69,5 +69,13 @@ describe.skip('OverlayViewWindowComponent', () => {
     component.fixOverlayView();
 
     expect(component.overlayViewFixed).toBeTruthy();
+  });
+
+  it('should toggle bg transparency', () => {
+    expect(component.transparentBody).toBeFalsy();
+
+    component.toggleBgTransparency();
+
+    expect(component.transparentBody).toBeTruthy();
   });
 });
