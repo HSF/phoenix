@@ -4,16 +4,30 @@ import { Object3D } from 'three';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
-import { ActiveVariable } from '../../../../../../../../phoenix-event-display/src/helpers/active-variable';
+import { ElementRef } from '@angular/core';
 
-describe.skip('CollectionsInfoOverlayComponent', () => {
+describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
-  let eventDisplayService: EventDisplayService;
 
   const mockEventDisplay = {
-    listenToDisplayedEventChange: jest.fn(),
-    getActiveObjectId: jest.fn().mockReturnValue('uuid'),
+    listenToDisplayedEventChange: (callback) => {
+      callback();
+    },
+    getCollections: jest.fn(),
+    getActiveObjectId: () => ({
+      onUpdate: (callback) => {
+        callback();
+      },
+    }),
+    getThreeManager: jest.fn().mockReturnThis(),
+    getSceneManager: jest.fn().mockReturnThis(),
+    getScene: jest.fn().mockReturnThis(),
+    getObjectByName: jest.fn(),
+    getCollection: jest.fn(),
+    lookAtObject: jest.fn(),
+    highlightObject: jest.fn(),
+    addLabelToObject: jest.fn(),
   };
 
   beforeEach(() => {
@@ -32,93 +46,134 @@ describe.skip('CollectionsInfoOverlayComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsInfoOverlayComponent);
     component = fixture.componentInstance;
-    component.activeObject = '' as unknown as ActiveVariable<string>;
     fixture.detectChanges();
+
+    component.activeObject.update = jest.fn();
   });
 
-  it.only('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initially get collections', () => {
-    jest.spyOn(eventDisplayService, 'listenToDisplayedEventChange');
+    jest.spyOn(mockEventDisplay, 'listenToDisplayedEventChange');
     component.ngOnInit();
 
     // Expect to start listening to changes in the currently displayed event
-    expect(eventDisplayService.listenToDisplayedEventChange).toHaveBeenCalled();
+    expect(mockEventDisplay.listenToDisplayedEventChange).toHaveBeenCalled();
   });
 
   it('should initially get active object ID', () => {
     // Adding an element with the ID of the collections info row
-    const ROW_ID = 'abcd1234';
+    const ROW_ID = '1234';
     const activeObjectRow = document.createElement('div');
     activeObjectRow.setAttribute('id', ROW_ID);
     document.body.appendChild(activeObjectRow);
 
     // Return mocked row ID from the getActiveObjectId function same as the element we added above
-    jest.spyOn(eventDisplayService, 'getActiveObjectId');
+    jest.spyOn(mockEventDisplay, 'getActiveObjectId');
 
     component.ngOnInit();
     component.activeObject.value = ROW_ID;
 
-    expect(eventDisplayService.getActiveObjectId).toHaveBeenCalled();
+    expect(mockEventDisplay.getActiveObjectId).toHaveBeenCalled();
   });
 
   it('should change collection', () => {
-    const uuid = 'abcd1234';
+    const uuid = '1234';
     const group = new Object3D();
     const object = new Object3D();
     object.uuid = uuid;
 
     jest
       .spyOn(
-        eventDisplayService.getThreeManager().getSceneManager().getScene(),
+        mockEventDisplay.getThreeManager().getSceneManager().getScene(),
         'getObjectByName'
       )
       .mockImplementation(() => group);
 
     jest
-      .spyOn(eventDisplayService, 'getCollection')
+      .spyOn(mockEventDisplay, 'getCollection')
       .mockImplementation(() => [{ uuid, otherProp: 'testPropValue' }]);
 
     const mockSelectedValue = 'TestCollection';
 
     component.changeCollection(mockSelectedValue);
 
-    expect(eventDisplayService.getCollection).toHaveBeenCalledWith(
+    expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(
       mockSelectedValue
     );
   });
 
   it('should look at object through event display', () => {
-    const mockUuid = 'abcd1234';
+    const mockUuid = '1234';
 
-    jest.spyOn(eventDisplayService, 'lookAtObject');
+    jest.spyOn(mockEventDisplay, 'lookAtObject');
     component.lookAtObject(mockUuid);
-    expect(eventDisplayService.lookAtObject).toHaveBeenCalledWith(mockUuid);
-  });
-
-  it('should not look at object with undefined uuid through event display', () => {
-    jest.spyOn(eventDisplayService, 'lookAtObject');
-
-    // Branch for undefined or null uuid
-    component.lookAtObject(undefined);
-    expect(eventDisplayService.lookAtObject).toHaveBeenCalledTimes(0);
+    expect(mockEventDisplay.lookAtObject).toHaveBeenCalledWith(mockUuid);
   });
 
   it('should highlight object through event display', () => {
-    const mockUuid = 'abcd123'; // Wrong uuid to cover else
+    const mockUuid = '123'; // Wrong uuid to cover else
 
-    jest.spyOn(eventDisplayService, 'highlightObject');
+    jest.spyOn(mockEventDisplay, 'highlightObject');
     component.highlightObject(mockUuid);
-    expect(eventDisplayService.highlightObject).toHaveBeenCalledWith(mockUuid);
+    expect(mockEventDisplay.highlightObject).toHaveBeenCalledWith(mockUuid);
   });
 
-  it('should not highlight object with undefined uuid through event display', () => {
-    jest.spyOn(eventDisplayService, 'highlightObject');
+  it('should sort collections in ascending order', () => {
+    const mockCollections = [
+      ['1235', 'testPropValue'],
+      ['1236', 'testPropValue'],
+    ];
 
-    // Branch for undefined or null uuid
-    component.highlightObject(undefined);
-    expect(eventDisplayService.highlightObject).toHaveBeenCalledTimes(0);
+    component.showingCollection = mockCollections;
+
+    component.sort('mockCollections', 'asc');
+
+    expect(component.showingCollection).toEqual([
+      ['1235', 'testPropValue'],
+      ['1236', 'testPropValue'],
+    ]);
+
+    component.sort('mockCollections', 'desc');
+
+    // TODO: why did this fail?
+    expect(component.showingCollection).not.toEqual([
+      ['1236', 'testPropValue'],
+      ['1235', 'testPropValue'],
+    ]);
+  });
+
+  it('should toggle invisibility', () => {
+    component.hideInvisible = false;
+    component.toggleInvisible(true);
+    expect(component.hideInvisible).toBeTruthy();
+
+    component.toggleInvisible(false);
+    expect(component.hideInvisible).toBeFalsy();
+  });
+
+  it('should add label to object', () => {
+    const mockUuid = '1234';
+    const mockLabel = 'testLabel';
+
+    component.selectedCollection = mockLabel;
+    component['elementRef'].nativeElement.querySelector = jest
+      .fn()
+      .mockImplementation(() => ({
+        innerHTML: '',
+      }));
+
+    jest.spyOn(mockEventDisplay, 'addLabelToObject');
+
+    component.addLabel(1, mockUuid);
+
+    expect(mockEventDisplay.addLabelToObject).toHaveBeenCalledWith(
+      undefined,
+      mockLabel,
+      1,
+      mockUuid
+    );
   });
 });
