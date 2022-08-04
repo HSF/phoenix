@@ -4,6 +4,7 @@ import { ViewOptionsComponent } from './view-options.component';
 import { PresetView } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
@@ -19,6 +20,7 @@ describe('ViewOptionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,

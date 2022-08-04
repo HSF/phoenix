@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatDialog } from '@angular/material/dialog';
 import { EventDataExplorerComponent } from 'phoenix-ui-components';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('EventDataExplorerComponent', () => {
   let component: EventDataExplorerComponent;
@@ -9,6 +10,7 @@ describe('EventDataExplorerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: MatDialog,

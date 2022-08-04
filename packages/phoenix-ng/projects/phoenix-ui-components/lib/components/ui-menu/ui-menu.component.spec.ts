@@ -31,6 +31,7 @@ describe('UiMenuComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [UiMenuComponent],
       providers: [
         {
           provide: EventDataFormat,

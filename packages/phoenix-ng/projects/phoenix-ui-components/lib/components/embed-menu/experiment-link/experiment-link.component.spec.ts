@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExperimentLinkComponent } from './experiment-link.component';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ExperimentLinkComponent', () => {
   let component: ExperimentLinkComponent;
@@ -8,6 +9,7 @@ describe('ExperimentLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       declarations: [ExperimentLinkComponent],
     }).compileComponents();
   });

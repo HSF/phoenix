@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 
 import { ArToggleComponent } from './ar-toggle.component';
 
@@ -14,6 +14,7 @@ describe('ArToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,

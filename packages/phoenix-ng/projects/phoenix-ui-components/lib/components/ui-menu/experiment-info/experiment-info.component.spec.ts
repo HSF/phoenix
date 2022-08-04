@@ -16,6 +16,7 @@ describe('ExperimentInfoComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [ExperimentInfoComponent],
       providers: [
         {
           provide: EventDisplayService,
