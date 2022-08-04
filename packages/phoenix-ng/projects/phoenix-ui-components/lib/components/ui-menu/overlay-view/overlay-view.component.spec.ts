@@ -3,13 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayViewComponent } from './overlay-view.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { ComponentPortal } from '@angular/cdk/portal';
 
-describe.skip('OverlayViewComponent', () => {
+describe('OverlayViewComponent', () => {
   let component: OverlayViewComponent;
   let fixture: ComponentFixture<OverlayViewComponent>;
 
   const mockOverlay = {
-    create: jest.fn(),
+    create: jest.fn().mockReturnThis(),
+    attach: jest.fn().mockReturnThis(),
+    overlayWindow: jest.fn().mockReturnThis(),
+    instance: jest.fn().mockReturnThis(),
+    destroy: jest.fn(),
   };
 
   beforeEach(() => {
@@ -31,11 +36,16 @@ describe.skip('OverlayViewComponent', () => {
     fixture.detectChanges();
   });
 
-  it.only('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initialize/create overlay view', () => {
+    const overlayRef = mockOverlay.create();
+    const overlayPortal = new ComponentPortal(OverlayViewComponent);
+
+    mockOverlay.overlayWindow = overlayRef.attach(overlayPortal);
+
     component.ngOnInit();
 
     expect(component.overlayWindow).toBeTruthy();
