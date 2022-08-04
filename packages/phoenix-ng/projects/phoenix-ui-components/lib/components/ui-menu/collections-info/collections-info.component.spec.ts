@@ -1,19 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CollectionsInfoComponent } from './collections-info.component';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
-import { ComponentRef } from '@angular/core';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CollectionsInfoOverlayComponent } from 'phoenix-ui-components';
 
-describe.skip('CollectionsInfoComponent', () => {
+describe('CollectionsInfoComponent', () => {
   let component: CollectionsInfoComponent;
   let fixture: ComponentFixture<CollectionsInfoComponent>;
 
   const mockOverlay = {
-    create: jest.fn().mockReturnValue(OverlayRef),
-    attach: jest.fn(),
+    create: jest.fn().mockReturnThis(),
+    attach: jest.fn().mockReturnThis(),
+    overlayWindow: jest.fn().mockReturnThis(),
+    instance: jest.fn().mockReturnThis(),
+    destroy: jest.fn(),
   };
 
   beforeEach(() => {
@@ -25,33 +27,33 @@ describe.skip('CollectionsInfoComponent', () => {
           useValue: mockOverlay,
         },
       ],
-      declarations: [CollectionsInfoComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsInfoComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
+    fixture.detectChanges();
   });
 
-  it.only('should initialize/create collections info overlay', () => {
-    const overlayRef: OverlayRef = mockOverlay.create();
+  it('should initialize/create collections info overlay', () => {
+    const overlayRef = mockOverlay.create();
     const overlayPortal = new ComponentPortal(CollectionsInfoOverlayComponent);
-    let overlayWindow: ComponentRef<CollectionsInfoOverlayComponent>;
-    overlayRef.attach = jest.fn();
-    component.overlayWindow = overlayRef.attach(
-      overlayPortal
-    ) as typeof overlayWindow;
 
-    console.log(component.overlayWindow);
+    mockOverlay.overlayWindow = overlayRef.attach(overlayPortal);
+
     component.ngOnInit();
+
     expect(component.overlayWindow).toBeTruthy();
+
+    component.overlayWindow.destroy();
   });
 
   it('should toggle collections info overlay', () => {
     expect(component.showObjectsInfo).toBeFalsy();
+
     component.toggleOverlay();
+
     expect(component.showObjectsInfo).toBeTruthy();
 
     // Expect the overlay window to be visible
