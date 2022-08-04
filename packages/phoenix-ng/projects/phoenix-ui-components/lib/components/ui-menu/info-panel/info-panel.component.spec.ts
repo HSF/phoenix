@@ -1,17 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfoPanelComponent } from './info-panel.component';
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { Overlay } from '@angular/cdk/overlay';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-describe.skip('InfoPanelComponent', () => {
+describe('InfoPanelComponent', () => {
   let component: InfoPanelComponent;
   let fixture: ComponentFixture<InfoPanelComponent>;
 
   const mockOverlay = {
-    create: jest.fn().mockReturnValue(OverlayRef),
-    attach: jest.fn(),
+    create: jest.fn().mockReturnThis(),
+    attach: jest.fn().mockReturnThis(),
+    overlayWindow: jest.fn().mockReturnThis(),
+    instance: jest.fn().mockReturnThis(),
+    destroy: jest.fn(),
   };
 
   beforeEach(() => {
@@ -31,16 +34,18 @@ describe.skip('InfoPanelComponent', () => {
     fixture = TestBed.createComponent(InfoPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    const overlayRef: OverlayRef = mockOverlay.create() as OverlayRef;
-    const overlayPortal = new ComponentPortal(InfoPanelComponent);
-    const overlayWindow = overlayRef.attach(overlayPortal);
   });
 
-  it.only('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should initialize/create info panel overlay', () => {
+    const overlayRef = mockOverlay.create();
+    const overlayPortal = new ComponentPortal(InfoPanelComponent);
+
+    mockOverlay.overlayWindow = overlayRef.attach(overlayPortal);
+
     component.ngOnInit();
 
     expect(component.overlayWindow).toBeTruthy();
