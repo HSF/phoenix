@@ -15,6 +15,14 @@ Object.defineProperty(window, 'getComputedStyle', {
   },
 });
 
+Object.defineProperty(window, 'getComputedStyle', {
+  value: () => ({
+    getPropertyValue: (prop) => {
+      return '';
+    },
+  }),
+});
+
 /**
  * ISSUE: https://github.com/angular/material2/issues/7101
  * Workaround for JSDOM missing transform property
