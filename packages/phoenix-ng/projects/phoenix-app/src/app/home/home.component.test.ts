@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
-import { EventDisplayService } from '../../../../phoenix-ui-components/lib/services/event-display.service';
+import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

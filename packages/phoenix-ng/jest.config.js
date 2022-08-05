@@ -28,10 +28,14 @@ module.exports = {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
   },
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testRegex: '(/__test__/.*|(\\.|/)(spec))\\.(j|t)sx?$',
+  testRegex: '(/__test__/.*|(\\.|/)(component.test))\\.(j|t)sx?$',
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.js$|${esModules.join('|')})`,
   ],
   verbose: true,
-  collectCoverageFrom: ['<rootDir>/projects/**/*.ts'],
+  collectCoverageFrom: [
+    '<rootDir>/projects/**/*.ts',
+    '!<rootDir>/projects/phoenix-app/src/(environments/**/*.ts|test.ts)',
+    '!<rootDir>/projects/phoenix-ui-components/lib/(environments/**/*.ts|test.ts)',
+  ],
 };

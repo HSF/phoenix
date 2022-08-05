@@ -1,3 +1,4 @@
+// not a component still needs to be tested
 import { AttributePipe } from './attribute.pipe';
 
 describe('AttributePipe', () => {
