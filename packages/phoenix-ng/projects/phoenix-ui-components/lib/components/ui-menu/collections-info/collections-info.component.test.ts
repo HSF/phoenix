@@ -46,7 +46,8 @@ describe('CollectionsInfoComponent', () => {
 
     expect(component.overlayWindow).toBeTruthy();
 
-    component.overlayWindow.destroy();
+    component.ngOnDestroy();
+    expect(component.overlayWindow.destroy).toHaveBeenCalled();
   });
 
   it('should toggle collections info overlay', () => {
