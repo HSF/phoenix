@@ -47,6 +47,6 @@ describe('DarkThemeComponent', () => {
   it('should set/toggle dark theme', () => {
     expect(component.darkTheme).toBeTruthy();
     component.setDarkTheme();
-    expect(component.darkTheme).toBeFalsy();
+    expect(component.darkTheme).toBe(false);
   });
 });

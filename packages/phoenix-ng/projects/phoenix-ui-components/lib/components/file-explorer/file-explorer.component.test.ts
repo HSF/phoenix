@@ -65,9 +65,9 @@ describe('FileExplorerComponent', () => {
 
   it('checks if node has children', () => {
     const testNode = new FileNode('TestNode');
-    expect(component.hasChildren(0, testNode)).toBeFalsy();
+    expect(component.hasChildren(0, testNode)).toBe(false);
 
     testNode.children = { TestChild: new FileNode() };
-    expect(component.hasChildren(0, testNode)).toBeTruthy();
+    expect(component.hasChildren(0, testNode)).toBe(true);
   });
 });

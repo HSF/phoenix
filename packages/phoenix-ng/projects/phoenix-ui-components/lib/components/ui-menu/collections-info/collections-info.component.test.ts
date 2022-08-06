@@ -36,6 +36,10 @@ describe('CollectionsInfoComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('should initialize/create collections info overlay', () => {
     const overlayRef = mockOverlay.create();
     const overlayPortal = new ComponentPortal(CollectionsInfoOverlayComponent);
@@ -51,13 +55,13 @@ describe('CollectionsInfoComponent', () => {
   });
 
   it('should toggle collections info overlay', () => {
-    expect(component.showObjectsInfo).toBeFalsy();
+    expect(component.showObjectsInfo).toBe(false);
 
     component.toggleOverlay();
 
-    expect(component.showObjectsInfo).toBeTruthy();
+    expect(component.showObjectsInfo).toBe(true);
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showObjectsInfo).toBeTruthy();
+    expect(component.overlayWindow.instance.showObjectsInfo).toBe(true);
   });
 });

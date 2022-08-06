@@ -56,19 +56,19 @@ describe('OverlayViewWindowComponent', () => {
   });
 
   it('should switch view of overlay view window', () => {
-    expect(component.orthographicView).toBeFalsy();
+    expect(component.orthographicView).toBe(false);
 
     component.switchOverlayView();
 
-    expect(component.orthographicView).toBeTruthy();
+    expect(component.orthographicView).toBe(true);
   });
 
   it('should fix overlay view', () => {
-    expect(component.overlayViewFixed).toBeFalsy();
+    expect(component.overlayViewFixed).toBe(false);
 
     component.fixOverlayView();
 
-    expect(component.overlayViewFixed).toBeTruthy();
+    expect(component.overlayViewFixed).toBe(true);
   });
 
   it('should toggle bg transparency', () => {

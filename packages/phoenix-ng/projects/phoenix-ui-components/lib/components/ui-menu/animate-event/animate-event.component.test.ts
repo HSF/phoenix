@@ -36,11 +36,11 @@ describe('AnimateEventComponent', () => {
   });
 
   it('should animate event', () => {
-    expect(component.isAnimating).toBeFalsy();
+    expect(component.isAnimating).toBe(false);
 
     component.toggleAnimateEvent();
 
-    expect(component.isAnimating).toBeTruthy();
+    expect(component.isAnimating).toBe(true);
     expect(mockEventDisplay.animateEventWithCollision).toHaveBeenCalled();
   });
 });

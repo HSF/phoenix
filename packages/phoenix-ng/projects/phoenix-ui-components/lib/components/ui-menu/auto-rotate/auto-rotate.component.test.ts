@@ -37,11 +37,11 @@ describe('AutoRotateComponent', () => {
   });
 
   it('should toggle auto rotate', () => {
-    expect(component.autoRotate).toBeFalsy();
+    expect(component.autoRotate).toBe(false);
 
     component.toggleAutoRotate();
 
-    expect(component.autoRotate).toBeTruthy();
+    expect(component.autoRotate).toBe(true);
     expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalledWith(
       component.autoRotate
     );

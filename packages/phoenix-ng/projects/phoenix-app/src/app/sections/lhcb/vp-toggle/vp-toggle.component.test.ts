@@ -43,8 +43,8 @@ describe('VPToggleComponent', () => {
   });
 
   it('should toggle VP opening/closing', () => {
-    expect(component.open).toBeFalsy();
+    expect(component.open).toBe(false);
     component.toggleVP();
-    expect(component.open).toBeTruthy();
+    expect(component.open).toBe(true);
   });
 });

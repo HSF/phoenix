@@ -37,11 +37,11 @@ describe('MainViewToggleComponent', () => {
   });
 
   it('should switch main view', () => {
-    expect(component.orthographicView).toBeFalsy();
+    expect(component.orthographicView).toBe(false);
 
     component.switchMainView();
 
-    expect(component.orthographicView).toBeTruthy();
+    expect(component.orthographicView).toBe(true);
     expect(
       mockEventDisplay.getUIManager().toggleOrthographicView
     ).toHaveBeenCalled();
