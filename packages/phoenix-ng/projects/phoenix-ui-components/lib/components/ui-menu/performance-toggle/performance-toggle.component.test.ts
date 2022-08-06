@@ -36,16 +36,13 @@ describe('PerformanceToggleComponent', () => {
   });
 
   it('should toggle antialiasing', () => {
-    const performanceMode = component.performanceMode;
-    const toggledPerformanceMode = !performanceMode;
-
-    expect(performanceMode).toBeFalsy();
+    expect(component.performanceMode).toBeFalsy();
 
     component.togglePerformance();
 
-    expect(toggledPerformanceMode).toBeTruthy();
+    expect(component.performanceMode).toBeTruthy();
     expect(
       mockEventDisplay.getThreeManager().setAntialiasing
-    ).toHaveBeenCalledWith(performanceMode);
+    ).toHaveBeenCalledWith(!component.performanceMode);
   });
 });
