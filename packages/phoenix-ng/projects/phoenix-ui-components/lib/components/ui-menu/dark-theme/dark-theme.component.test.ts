@@ -38,6 +38,12 @@ describe('DarkThemeComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should initially get dark theme', () => {
+    jest.spyOn(mockEventDisplay, 'getDarkTheme');
+    component.ngOnInit();
+    expect(mockEventDisplay.getDarkTheme).toHaveBeenCalled();
+  });
+
   it('should set/toggle dark theme', () => {
     expect(component.darkTheme).toBeTruthy();
     component.setDarkTheme();
