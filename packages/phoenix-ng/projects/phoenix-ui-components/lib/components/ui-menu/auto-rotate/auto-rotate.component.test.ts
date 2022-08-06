@@ -39,14 +39,11 @@ describe('AutoRotateComponent', () => {
   it('should toggle auto rotate', () => {
     expect(component.autoRotate).toBeFalsy();
 
-    const params = component['autoRotate'];
-    const toggledParams = !params;
-
     component.toggleAutoRotate();
 
     expect(component.autoRotate).toBeTruthy();
     expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalledWith(
-      toggledParams
+      component.autoRotate
     );
   });
 });
