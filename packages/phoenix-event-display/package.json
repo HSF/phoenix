@@ -29,7 +29,7 @@
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
     "test": "jest --config configs/jest.conf.js",
-    "test:coverage": "yarn test --coverage --maxWorkers=2",
+    "test:coverage": "yarn test --coverage",
     "test:debug": "jest --runInBand",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",

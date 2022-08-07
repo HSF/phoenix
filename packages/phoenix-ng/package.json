@@ -11,7 +11,7 @@
     "build:prod": "ng build --configuration production",
     "build:ui-components": "ng build phoenix-ui-components --configuration production",
     "test": "jest --no-cache",
-    "test:coverage": "yarn test --coverage --maxWorkers=2",
+    "test:coverage": "yarn test --coverage",
     "e2e": "ng e2e",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
