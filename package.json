@@ -8,7 +8,7 @@
   "scripts": {
     "start": "yarn workspace phoenix-ng start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
-    "test:coverage": "lerna run test:coverage  --stream -- -- -maxWorkers=2",
+    "test:coverage": "lerna run test:coverage",
     "release": "lerna publish patch --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
     "release:major": "lerna publish major --create-release github",
