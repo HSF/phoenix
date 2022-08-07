@@ -28,7 +28,7 @@ jobs:
         run: yarn lint
 
       - name: Test
-        run: yarn test:coverage
+        run: yarn test:coverage --verbose --maxWorkers=2
 
       - name: Documentation Coverage
         run: yarn docs:coverage
