@@ -23,9 +23,8 @@ export default function createRenderer(
   canvas.addEventListener = function () {};
 
   return new THREE.WebGLRenderer({
-    precision: 'highp',
-    canvas,
     context,
+    canvas,
     ...options,
   });
 }
