@@ -20,9 +20,12 @@ export default function createRenderer(
   const canvasGL = new Canvas.Canvas(window.innerWidth, window.innerHeight);
   canvasGL.addEventListener = function (event, func, bind_) {}; // mock function to avoid errors inside THREE.WebGlRenderer()
 
-  return new THREE.WebGLRenderer({
+  const renderer = new THREE.WebGLRenderer({
     context: glContext,
     antialias: true,
     canvas: canvasGL,
   });
+
+  global.renderer = renderer;
+  return renderer;
 }
