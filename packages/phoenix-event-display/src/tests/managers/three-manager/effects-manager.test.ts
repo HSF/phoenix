@@ -18,12 +18,6 @@ describe('EffectsManager', () => {
     scene = new Scene();
     renderer = createRenderer();
 
-    renderer.getContext().getShaderPrecisionFormat = jest.fn().mockReturnValue({
-      rangeMin: 127,
-      rangeMax: 127,
-      precision: 23,
-    });
-
     effectsManager = new EffectsManager(camera, scene, renderer);
   });
 
