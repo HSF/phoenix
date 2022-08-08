@@ -22,5 +22,9 @@ export default function createRenderer(
   // Mock function to avoid errors inside THREE.WebGlRenderer():
   canvas.addEventListener = function () {};
 
-  return new THREE.WebGLRenderer({ context, canvas, ...options });
+  return new THREE.WebGLRenderer({
+    canvas,
+    context,
+    ...options,
+  });
 }
