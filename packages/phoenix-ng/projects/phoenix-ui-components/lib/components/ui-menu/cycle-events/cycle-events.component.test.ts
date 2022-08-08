@@ -42,7 +42,7 @@ fdescribe('CycleEventsComponent', () => {
   });
 
   it('should start rotating through events on toggle', () => {
-    jest.useRealTimers();
+    jest.clearAllTimers();
     jest.useFakeTimers();
     component.interval = 1000;
 
@@ -54,6 +54,6 @@ fdescribe('CycleEventsComponent', () => {
 
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');
 
-    jest.useRealTimers();
+    jest.clearAllTimers();
   });
 });
