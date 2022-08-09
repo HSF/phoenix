@@ -19,13 +19,6 @@
     },
     "run": {
       "parallel": true
-    },
-    "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/lerna",
-    "args": [
-      "${workspaceRoot}/node_modules/jest/bin/jest.js",
-      "--runInBand",
-      "--no-cache",
-      "maxWorkers=4"
-  ]
+    }
   }
 }
