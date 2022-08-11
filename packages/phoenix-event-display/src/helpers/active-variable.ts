@@ -22,7 +22,6 @@ export class ActiveVariable<T = any> {
    */
   public update(updatedValue: T) {
     this.value = updatedValue;
-    console.log('REACHING', this.callbacks);
     this.callbacks.forEach((callback) => callback(updatedValue));
   }
 

@@ -13,7 +13,9 @@ export class LoaderComponent {
 
   constructor(private errorMessageService: ErrorMessageService) {
     this.errorMessageService.subscribeToError((error) => {
-      this.error = error;
+      if (!this.loaded) {
+        this.error = error;
+      }
     });
   }
 }

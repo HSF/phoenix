@@ -1,5 +1,5 @@
 <div
-  class="loader-wrapper d-flex position-absolute flex-column justify-content-center align-items-center w-100 h-100 text-center"
+  class="loader-wrapper d-flex position-absolute flex-column justify-content-center align-items-center w-100 h-100 p-5 text-center"
   [ngClass]="{ 'load-complete': loaded }"
 >
   <ng-container *ngIf="error === undefined; else errorContainer">
@@ -13,7 +13,6 @@
     </div>
   </ng-container>
   <ng-template #errorContainer>
-    <h2>Error</h2>
     <p>
       An error occurred while loading the application. Please try refreshing the
       page.
