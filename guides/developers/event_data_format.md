@@ -2,6 +2,8 @@
 
 Phoenix internally makes use of a JSON format to represent event data. The JSON format is designed to be human-readable, but still compact. 
 
+There is a [event_file_checker.py](https://github.com/HSF/phoenix-helpers/blob/main/checkers/event_file_checker.py) validation script provided in the [phoenix-helpers](https://github.com/HSF/phoenix-helpers) repository.
+
 
 ### Event data
 
