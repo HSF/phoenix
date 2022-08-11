@@ -24,8 +24,6 @@ export class ScriptLoader {
       'three.extra.min.js',
       'JSRoot.csg.js',
       'JSRoot.painter.js',
-      'JSRoot.base3d.js',
-      'JSRoot.geobase.js',
       'JSRoot.geom.js',
     ];
     for (const script of allScripts) {
