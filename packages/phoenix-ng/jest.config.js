@@ -35,6 +35,9 @@ module.exports = {
   verbose: true,
   collectCoverageFrom: [
     '<rootDir>/projects/**/*.ts',
+    '!<rootDir>/projects/phoenix-app/src/main.ts',
+    '!<rootDir>/projects/phoenix-app/src/polyfills.ts',
+    '!<rootDir>/projects/phoenix-app/src/zone-flags.ts',
     '!<rootDir>/projects/phoenix-app/src/(environments/**/*.ts|test.ts)',
     '!<rootDir>/projects/phoenix-ui-components/lib/(environments/**/*.ts|test.ts)',
   ],

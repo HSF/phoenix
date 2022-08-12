@@ -151,7 +151,7 @@ describe('IoOptionsDialogComponent', () => {
     });
   });
 
-  it('should handle zipped event data', async () => {
+  it.skip('should handle zipped event data', async () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
     const jivexmlData = await fetch(
@@ -165,7 +165,7 @@ describe('IoOptionsDialogComponent', () => {
     component.handleZipEventDataInput(files);
   });
 
-  it('should handle ig event data', async () => {
+  it.skip('should handle ig event data', async () => {
     const ig = new JSZip();
     ig.file('test_data', '{}');
     const igBlob = await ig.generateAsync({ type: 'blob' });
