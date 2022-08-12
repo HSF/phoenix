@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 
 import { VPToggleComponent } from './vp-toggle.component';
-import { SceneManager } from 'phoenix-event-display/src/managers/three-manager/scene-manager';
 
 describe('VPToggleComponent', () => {
   let component: VPToggleComponent;
@@ -22,6 +21,7 @@ describe('VPToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,

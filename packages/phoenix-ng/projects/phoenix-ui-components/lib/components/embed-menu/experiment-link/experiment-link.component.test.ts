@@ -26,6 +26,9 @@ describe('ExperimentLinkComponent', () => {
   });
 
   it('should go to experiment link', () => {
+    window.open = jest.fn().mockReturnValue({
+      focus: jest.fn(),
+    });
     jest.spyOn(window, 'open');
     component.goToExperiment();
     expect(window.open).toHaveBeenCalled();

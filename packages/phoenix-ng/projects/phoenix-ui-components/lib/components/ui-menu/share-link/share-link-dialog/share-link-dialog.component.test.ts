@@ -32,6 +32,11 @@ describe('ShareLinkDialogComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    component.onClose();
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(component.baseLink).toBeTruthy();

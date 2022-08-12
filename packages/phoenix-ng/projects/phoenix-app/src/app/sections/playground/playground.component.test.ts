@@ -24,6 +24,10 @@ describe('PlaygroundComponent', () => {
     getUIManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
     getDarkTheme: jest.fn().mockReturnThis(),
+    setOverlayRenderer: jest.fn().mockReturnThis(),
+    allowSelection: jest.fn().mockReturnThis(),
+    getInfoLogger: jest.fn().mockReturnThis(),
+    getInfoLoggerList: jest.fn().mockReturnThis(),
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();

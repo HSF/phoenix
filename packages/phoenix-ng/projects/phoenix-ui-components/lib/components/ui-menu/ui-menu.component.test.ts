@@ -22,6 +22,10 @@ describe('UiMenuComponent', () => {
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
     getDarkTheme: jest.fn().mockReturnThis(),
     buildEventDataFromJSON: jest.fn(),
+    setOverlayRenderer: jest.fn().mockReturnThis(),
+    allowSelection: jest.fn().mockReturnThis(),
+    getInfoLogger: jest.fn().mockReturnThis(),
+    getInfoLoggerList: jest.fn().mockReturnThis(),
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
