@@ -1,4 +1,9 @@
 {
   "include": ["../src/**/*.ts"],
-  "exclude": ["../**/*.spec.ts", "../**/*test.ts", "../**/*.d.ts", "../src/tests/helpers/create-renderer.ts"]
+  "exclude": [
+    "../**/*.spec.ts",
+    "../**/*test.ts",
+    "../**/*.d.ts",
+    "../src/tests/helpers/create-renderer.ts"
+  ]
 }
