@@ -1,10 +1,11 @@
 /**
  * To make it easy to create objects of WebGLRenderer in unit tests
  */
-import createContext from 'gl';
-
 import * as THREE from 'three';
-import { createCanvas } from 'canvas';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Canvas = require('canvas');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const glContext = require('gl')(256, 256) as WebGLRenderingContext;
 
 export default function createRenderer(
   options?: THREE.WebGLRendererParameters
@@ -13,14 +14,16 @@ export default function createRenderer(
     innerWidth: 800,
     innerHeight: 600,
   };
-  const context = createContext(1, 1);
-  const canvas: HTMLCanvasElement = createCanvas(
-    window.innerWidth,
-    window.innerHeight
-  ) as any;
+  // GL scene renderer
+  const canvasGL = new Canvas.Canvas(window.innerWidth, window.innerHeight);
+  canvasGL.addEventListener = function (event, func, bind_) {}; // mock function to avoid errors inside THREE.WebGlRenderer()
 
-  // Mock function to avoid errors inside THREE.WebGlRenderer():
-  canvas.addEventListener = function () {};
+  const renderer = new THREE.WebGLRenderer({
+    context: glContext,
+    antialias: true,
+    canvas: canvasGL,
+  });
 
-  return new THREE.WebGLRenderer({ context, canvas, ...options });
+  global.renderer = renderer;
+  return renderer;
 }
