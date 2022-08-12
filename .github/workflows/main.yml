@@ -36,8 +36,8 @@ jobs:
       - name: Code Coverage
         uses: coverallsapp/github-action@master
         with:
-          base-path: ./packages/phoenix-event-display
-          path-to-lcov: ./packages/phoenix-event-display/coverage/lcov.info
+          base-path: ./packages/phoenix-ng,
+          path-to-lcov: ./packages/phoenix-ng/coverage/lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pre Deploy Pull Request
