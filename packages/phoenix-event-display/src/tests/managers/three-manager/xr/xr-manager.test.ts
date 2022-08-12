@@ -8,7 +8,7 @@ import {
   XRSessionType,
 } from '../../../../../src/managers/three-manager/xr/xr-manager';
 
-describe('XRManager', () => {
+describe.skip('XRManager', () => {
   let xrManager: XRManager;
   let renderer: WebGLRenderer;
 
