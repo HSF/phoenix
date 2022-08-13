@@ -1,4 +1,4 @@
-import { NgModule, Type } from '@angular/core';
+import { ErrorHandler, NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -58,6 +58,9 @@ import {
   CycleEventsComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
+import { EventDisplayService } from '../services/event-display.service';
+import { ErrorMessageService } from '../services/error-message-service';
+import { GlobalErrorHandler } from '../services/global-error-handler';
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
@@ -141,5 +144,13 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     EventDataExplorerDialogComponent,
   ],
   exports: PHOENIX_COMPONENTS,
+  providers: [
+    EventDisplayService,
+    ErrorMessageService,
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
+  ],
 })
 export class PhoenixUIModule {}
