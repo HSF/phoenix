@@ -7,7 +7,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import createRenderer from '../../helpers/create-renderer';
 
-describe.skip('EffectsManager', () => {
+describe('EffectsManager', () => {
   let effectsManager: EffectsManager;
   let camera: Camera;
   let scene: Scene;

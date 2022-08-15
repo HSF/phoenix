@@ -8,7 +8,7 @@ import { SelectionManager } from '../../../managers/three-manager/selection-mana
 import createRenderer from '../../helpers/create-renderer';
 import { ActiveVariable } from '../../../helpers/active-variable';
 
-describe.skip('SelectionManager', () => {
+describe('SelectionManager', () => {
   let selectionManager: SelectionManager;
   let selectionManagerPrivate: any;
 
