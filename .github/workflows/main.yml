@@ -27,8 +27,11 @@ jobs:
       - name: Lint
         run: yarn lint
 
+      - name: Install the dependencies for headless-gl
+        run: sudo apt-get update && $ sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+
       - name: Test
-        run: sudo apt-get update && $ sudo apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config && yarn test:coverage
+        run: yarn test:coverage
 
       - name: Documentation Coverage
         run: yarn docs:coverage
