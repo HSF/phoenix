@@ -1,10 +1,8 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Import and export options</h1>
+  <h1 mat-dialog-title>Import and export</h1>
   <div mat-dialog-content class="dialog-content">
     <div *ngIf="eventDataImportOptions.length > 0">
-      <h5>Import</h5>
-
-      <h6 class="text-center">Event data</h6>
+      <p class="text-center"><b>Event data</b></p>
 
       <div class="row centered">
         <ng-container
@@ -27,13 +25,9 @@
           </button>
         </ng-container>
       </div>
-
-      <p class="text-center">
-        Supported formats: {{ getSupportedEventDataFormats() }}
-      </p>
     </div>
 
-    <h6 class="text-center">Geometries</h6>
+    <p class="text-center"><b>Geometries</b></p>
 
     <div class="row centered">
       <input
@@ -87,9 +81,7 @@
       </button>
     </div>
 
-    <p class="text-center">Supported formats: OBJ, GLTF, ROOT, ROOT JSON</p>
-
-    <h5>Import / export scene</h5>
+    <p class="text-center"><b>Scene</b></p>
 
     <div class="row centered">
       <button
@@ -126,7 +118,8 @@
       </button>
     </div>
   </div>
-  <div mat-dialog-actions>
-    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+
+  <div mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>Close</button>
   </div>
 </div>
