@@ -13,6 +13,7 @@ import { ActiveVariable } from './helpers/active-variable';
 import { AnimationPreset } from './managers/three-manager/animations-manager';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { getLabelTitle } from './helpers/labels';
+import { PhoenixLoader } from './loaders/phoenix-loader';
 
 declare global {
   /**
@@ -120,6 +121,9 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
+    if (typeof this.configuration.eventDataLoader === 'undefined') {
+      this.configuration.eventDataLoader = new PhoenixLoader;
+    }
     const eventKeys =
       this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
