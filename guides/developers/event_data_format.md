@@ -81,8 +81,8 @@ In all the descriptions, `opt` means that the attribute described is optional.
 Tracks is a list of Track objects with the following attrbutes :
 * `pos` - list of positions along the track, each  given as a triplet [x, y, z]
 * `color` (opt) - Hexadecimal string representing the color to draw the track.
-* `dparams` (opt) - parameters of the tracks. 4 floats matching d0, z0, phi and eta
-* `d0`, `z0`, `phi`, `eta`  (opt) - parameters of the tracks, taking precedence over `dparams`
+* `dparams` (opt) - parameters of the tracks. 5 floats matching d0, z0, phi, eta, qOverP
+* `d0`, `z0`, `phi`, `eta`, `qOverP`  (opt) - parameters of the tracks, taking precedence over `dparams`
 
 #### 'Jets'
 Jets are a list of Jet objects with the following attributes :

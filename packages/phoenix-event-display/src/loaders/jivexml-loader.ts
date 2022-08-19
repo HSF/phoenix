@@ -35,7 +35,7 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     // Handle multiple events later (if JiveXML even supports this?)
     const firstEvent = xmlDoc.getElementsByTagName('Event')[0];
-
+    
     const eventData = {
       eventNumber: firstEvent.getAttribute('eventNumber'),
       runNumber: firstEvent.getAttribute('runNumber'),
