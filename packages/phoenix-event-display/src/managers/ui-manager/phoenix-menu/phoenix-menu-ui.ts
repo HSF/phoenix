@@ -127,7 +127,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     // find out where the actual object name starts, providing that the name
     // is hierarchical and contents higher level menu names too
-    var nameStart = name.lastIndexOf(' > ');
+    let nameStart = name.lastIndexOf(' > ');
     if (nameStart < 0) {
       nameStart = 0; // case where there is no hierarchy
     } else {
