@@ -50,3 +50,7 @@ __ivy_ngcc__
 # system files
 .DS_Store
 Thumbs.db
+
+# Cypress 
+packages/phoenix-ng/cypress/videos
+packages/phoenix-ng/cypress/screenshots
