@@ -14,10 +14,7 @@ describe('ATLAS', () => {
     cy.get('app-loader').should('exist');
     cy.get('app-ui-menu').should('be.visible');
     cy.get('app-ui-menu-wrapper').should('be.visible');
-    cy.get('#uiMenu').should('be.visible');
-    cy.get('#optionsPanel').should('be.visible');
     cy.get('app-embed-menu').should('exist');
-    cy.get('#embedMenu').should('exist');
     cy.get('app-dark-theme').should('be.visible');
     cy.get('app-auto-rotate').should('be.visible');
     cy.get('app-main-view-toggle').should('be.visible');
@@ -27,6 +24,10 @@ describe('ATLAS', () => {
     cy.get('app-experiment-info').should('be.visible');
     cy.get('app-phoenix-menu').should('be.visible');
     cy.get('app-phoenix-menu-item').should('be.visible');
+
+    cy.get('#uiMenu').should('be.visible');
+    cy.get('#optionsPanel').should('be.visible');
+    cy.get('#embedMenu').should('exist');
     cy.get('#three-canvas').should('be.visible');
     cy.get('#eventDisplay').should('be.visible');
     cy.get('#statsElement').should('be.visible');
@@ -42,7 +43,7 @@ describe('ATLAS', () => {
     );
   });
 
-  it('should render the Phoenix menu properly', () => {
+  it('should display the Phoenix menu properly', () => {
     cy.get('.phoenix-menu-item-right .item-settings').click();
     cy.contains('Save state').should('exist');
     cy.contains('Load state').should('exist');
@@ -54,6 +55,13 @@ describe('ATLAS', () => {
     cy.contains('Labels').should('exist');
 
     cy.get('.phoenix-menu-item-right > button').eq(1).click();
+    cy.contains('Magnets').should('exist');
+    cy.contains('Calorimeters').should('exist');
+    cy.contains('Inner Detector').should('exist');
+    cy.contains('Muon Spectrometer').should('exist');
+    cy.get('.phoenix-menu-item-right > button').eq(1).click();
+
+    cy.get('.phoenix-menu-item-right > button').eq(2).click();
     cy.contains('Tracks').should('exist');
     cy.contains('Jets').should('exist');
     cy.contains('Hits').should('exist');
@@ -65,13 +73,6 @@ describe('ATLAS', () => {
     cy.contains('Electrons').should('exist');
     cy.contains('Vertices').should('exist');
     cy.contains('MissingEnergy').should('exist');
-    cy.get('.phoenix-menu-item-right > button').eq(1).click();
-
-    cy.get('.phoenix-menu-item-right > button').eq(2).click();
-    cy.contains('Calorimeters').should('exist');
-    cy.contains('Inner Detector').should('exist');
-    cy.contains('Magnets').should('exist');
-    cy.contains('Muon Spectrometer').should('exist');
     cy.get('.phoenix-menu-item-right > button').eq(2).click();
   });
 });

@@ -1,6 +1,6 @@
 describe('Test the index page of Phoenix', () => {
   it('should be up and running', () => {
-    cy.visit('https://hepsoftwarefoundation.org/phoenix/#/');
+    cy.visit('/');
   });
 
   it('should display the correct title', () => {
@@ -49,87 +49,81 @@ describe('Test the index page of Phoenix', () => {
       cy.get('.card-title').eq(0).contains('Playground');
       cy.get('.card-text')
         .eq(0)
-        .contains('Get started with the different Phoenix features');
-      cy.get('.btn-primary').eq(0).contains('Show');
+        .contains('Get started with the different Phoenix features')
+        .should('exist');
+      cy.get('.btn-primary').eq(0).contains('Show').should('exist');
     });
 
     it('should display the Geometry display card properly', () => {
       cy.get('.card-body').eq(1).should('be.visible');
-      cy.get('.card-title').eq(1).contains('Geometry display');
+      cy.get('.card-title').eq(1).contains('Geometry display').should('exist');
       cy.get('.card-text')
         .eq(1)
-        .contains('This test should show some simple geometry');
-      cy.get('.btn-primary').eq(1).contains('Show');
+        .contains('This test should show some simple geometry')
+        .should('exist');
+      cy.get('.btn-primary').eq(1).contains('Show').should('exist');
     });
 
     it('should display the ATLAS card properly', () => {
       cy.get('.card-body').eq(2).should('be.visible');
-      cy.get('.card-title').eq(2).contains('ATLAS');
+      cy.get('.card-title').eq(2).contains('ATLAS').should('exist');
       cy.get('.card-text')
         .eq(2)
-        .contains('Show the ATLAS detector. One simple event');
-      cy.get('.btn-primary').eq(2).contains('Show');
+        .contains('Show the ATLAS detector. One simple event')
+        .should('exist');
+      cy.get('.btn-primary').eq(2).contains('Show').should('exist');
     });
 
     it('should display the LHCb card properly', () => {
       cy.get('.card-body').eq(3).should('be.visible');
-      cy.get('.card-title').eq(3).contains('LHCb');
+      cy.get('.card-title').eq(3).contains('LHCb').should('exist');
       cy.get('.card-text')
         .eq(3)
-        .contains('Show the LHCb detector. One simple event');
-      cy.get('.btn-primary').eq(3).contains('Show');
+        .contains('Show the LHCb detector. One simple event')
+        .should('exist');
+      cy.get('.btn-primary').eq(3).contains('Show').should('exist');
     });
 
     it('should display the CMS card properly', () => {
       cy.get('.card-body').eq(4).should('be.visible');
-      cy.get('.card-title').eq(4).contains('CMS');
+      cy.get('.card-title').eq(4).contains('CMS').should('exist');
       cy.get('.card-text')
         .eq(4)
-        .contains('Show the CMS detector. One simple event');
-      cy.get('.btn-primary').eq(4).contains('Show');
+        .contains('Show the CMS detector. One simple event')
+        .should('exist');
+      cy.get('.btn-primary').eq(4).contains('Show').should('exist');
     });
 
     it('should display the TrackML card properly', () => {
       cy.get('.card-body').eq(5).should('be.visible');
-      cy.get('.card-title').eq(5).contains('TrackML');
+      cy.get('.card-title').eq(5).contains('TrackML').should('exist');
       cy.get('.card-text')
         .eq(5)
         .contains(
           'Visualisation for TrackML. Shows how to write a custom event loader'
-        );
-      cy.get('.btn-primary').eq(5).contains('Show');
+        )
+        .should('exist');
+      cy.get('.btn-primary').eq(5).contains('Show').should('exist');
     });
 
     it('should navigate to the correct page', () => {
       cy.get('.btn-primary').eq(0).click();
-      cy.url().should(
-        'eq',
-        'https://hepsoftwarefoundation.org/phoenix/#/playground'
-      );
+      cy.url().should('eq', 'http://localhost:4200/#/playground');
       cy.go('back');
       cy.get('.btn-primary').eq(1).click();
-      cy.url().should(
-        'eq',
-        'https://hepsoftwarefoundation.org/phoenix/#/geometry'
-      );
+      cy.url().should('eq', 'http://localhost:4200/#/geometry');
       cy.go('back');
       cy.get('.btn-primary').eq(2).click();
-      cy.url().should(
-        'eq',
-        'https://hepsoftwarefoundation.org/phoenix/#/atlas'
-      );
+      cy.url().should('eq', 'http://localhost:4200/#/atlas');
       cy.go('back');
       cy.get('.btn-primary').eq(3).click();
-      cy.url().should('eq', 'https://hepsoftwarefoundation.org/phoenix/#/lhcb');
+      cy.url().should('eq', 'http://localhost:4200/#/lhcb');
       cy.go('back');
       cy.get('.btn-primary').eq(4).click();
-      cy.url().should('eq', 'https://hepsoftwarefoundation.org/phoenix/#/cms');
+      cy.url().should('eq', 'http://localhost:4200/#/cms');
       cy.go('back');
       cy.get('.btn-primary').eq(5).click();
-      cy.url().should(
-        'eq',
-        'https://hepsoftwarefoundation.org/phoenix/#/trackml'
-      );
+      cy.url().should('eq', 'http://localhost:4200/#/trackml');
       cy.go('back');
     });
   });
