@@ -1,5 +1,5 @@
 describe('TrackML', () => {
-  it('should be up and running', () => {
+  before(() => {
     cy.visit('/trackml');
   });
 

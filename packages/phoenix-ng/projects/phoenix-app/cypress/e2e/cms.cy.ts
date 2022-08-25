@@ -1,5 +1,5 @@
 describe('CMS', () => {
-  it('should be up and running', () => {
+  before(() => {
     cy.visit('/cms');
   });
 

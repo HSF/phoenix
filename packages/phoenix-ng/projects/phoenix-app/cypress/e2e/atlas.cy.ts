@@ -1,5 +1,5 @@
 describe('ATLAS', () => {
-  it('should be up and running', () => {
+  before(() => {
     cy.visit('/atlas');
   });
 

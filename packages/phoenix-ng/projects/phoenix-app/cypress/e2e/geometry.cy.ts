@@ -1,6 +1,9 @@
 describe('Geometry', () => {
-  it('should load a simple geometry', () => {
+  before(() => {
     cy.visit('/geometry');
+  });
+
+  it('should load a simple geometry', () => {
     cy.get('.load-complete')
       .contains('(This may take a while)')
       .should('exist');

@@ -1,5 +1,5 @@
 describe('Playground', () => {
-  it('should be able to load the Playground', () => {
+  before(() => {
     cy.visit('/playground');
   });
 

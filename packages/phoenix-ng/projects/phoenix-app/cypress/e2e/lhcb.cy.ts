@@ -1,5 +1,5 @@
 describe('LHCb', () => {
-  it('should be up and running', () => {
+  before(() => {
     cy.visit('/lhcb');
   });
 

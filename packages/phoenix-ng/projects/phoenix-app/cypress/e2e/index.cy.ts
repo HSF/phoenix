@@ -1,5 +1,5 @@
 describe('Test the index page of Phoenix', () => {
-  it('should be up and running', () => {
+  before(() => {
     cy.visit('/');
   });
 
