@@ -10,7 +10,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:4200/#/',
     fixturesFolder: false,
-    defaultCommandTimeout: 60000,
+    defaultCommandTimeout: 300000,
     supportFile: './projects/phoenix-app/cypress/support/e2e.ts',
     screenshotsFolder: './projects/phoenix-app/cypress/screenshots',
     videosFolder: './projects/phoenix-app/cypress/videos',
