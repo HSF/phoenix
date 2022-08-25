@@ -52,5 +52,6 @@ __ivy_ngcc__
 Thumbs.db
 
 # Cypress 
-packages/phoenix-ng/cypress/videos
-packages/phoenix-ng/cypress/screenshots
+packages/phoenix-ng/projects/phoenix-app/cypress/videos
+packages/phoenix-ng/projects/phoenix-app/cypress/screenshots
+packages/phoenix-ng/projects/phoenix-app/cypress/downloads

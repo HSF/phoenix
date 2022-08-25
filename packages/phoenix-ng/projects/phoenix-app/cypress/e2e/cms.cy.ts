@@ -46,7 +46,7 @@ describe('CMS', () => {
     cy.contains('Load state').should('exist');
     cy.get('.phoenix-menu-item-right .item-config-backdrop').click();
 
-    cy.get('.phoenix-menu-item-right .item-expand').click();
+    cy.get('.phoenix-menu-item-right > button').eq(0).click();
     cy.contains('Detector').should('exist');
     cy.contains('Event Data').should('exist');
     cy.contains('Labels').should('exist');
@@ -61,5 +61,67 @@ describe('CMS', () => {
     cy.get('.phoenix-menu-item-right > button').eq(2).click();
     cy.contains('CMS Detector').should('exist');
     cy.get('.phoenix-menu-item-right > button').eq(2).click();
+
+    // hide event data
+    cy.get('app-phoenix-menu-item').eq(1).click();
+    cy.get('app-phoenix-menu-item').eq(1).click();
+
+    // hide labels
+    cy.get('app-phoenix-menu-item').eq(2).click();
+    cy.get('app-phoenix-menu-item').eq(2).click();
+
+    // hide detector geometry
+    cy.get('app-phoenix-menu-item').eq(3).click();
+    cy.get('app-phoenix-menu-item').eq(3).click();
+
+    // close the menu
+    cy.get('.phoenix-menu-item-right .icon-wrapper').eq(1).click();
+  });
+
+  it('should test the Phoenix iconbar', () => {
+    cy.get('app-event-selector').click();
+
+    cy.get('app-view-options').click();
+    cy.contains('Show Grid').should('exist');
+    cy.contains('Show Axis').should('exist');
+    cy.contains('Left View').should('exist');
+    cy.contains('Center View').should('exist');
+    cy.contains('Right View').should('exist');
+    cy.get('.cdk-overlay-backdrop').click();
+
+    cy.get('app-dark-theme').eq(0).click();
+    cy.get('app-dark-theme').eq(0).click();
+
+    cy.get('app-object-clipping').click();
+    cy.contains('Clipping').should('exist');
+    cy.contains('Start Angle').should('exist');
+    cy.contains('Opening Angle').should('exist');
+    cy.get('.cdk-overlay-backdrop').click();
+
+    cy.get('app-main-view-toggle').eq(0).click();
+    cy.get('app-main-view-toggle').eq(0).click();
+
+    cy.get('app-overlay-view').click();
+    cy.get('app-overlay-view').click();
+
+    cy.get('app-object-selection').click();
+    cy.contains('Object').should('exist');
+    cy.get('app-object-selection').click();
+
+    cy.get('app-info-panel').click();
+    cy.contains('Info Panel').should('exist');
+    cy.contains('Phoenix Version:').should('exist');
+    cy.contains('Loaded JSON geometry: CMS Detector').should('exist');
+    cy.get('app-info-panel').click();
+
+    cy.get('app-animate-camera > app-menu-toggle').eq(0).click();
+    cy.contains('Preset 1').should('exist');
+    cy.contains('Animate camera').should('exist');
+    cy.get('.cdk-overlay-backdrop').click();
+
+    cy.get('app-collections-info').click();
+    cy.contains('Collections Info').should('exist').and('be.visible');
+    cy.contains('Choose a collection').should('exist').and('be.visible');
+    cy.get('app-collections-info').click();
   });
 });
