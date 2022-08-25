@@ -55,3 +55,4 @@ Thumbs.db
 packages/phoenix-ng/projects/phoenix-app/cypress/videos
 packages/phoenix-ng/projects/phoenix-app/cypress/screenshots
 packages/phoenix-ng/projects/phoenix-app/cypress/downloads
+packages/phoenix-ng/projects/phoenix-app/cypress/e2e/__image_snapshots__
