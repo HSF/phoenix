@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 describe('Playground', () => {
   before(() => {
     cy.visit('/playground').then(() => {
@@ -7,8 +6,6 @@ describe('Playground', () => {
   });
 
   it('Visual test case for Playground document', () => {
-    cy.wait(2000);
-    // @ts-ignore
     cy.document().toMatchImageSnapshot();
   });
 });

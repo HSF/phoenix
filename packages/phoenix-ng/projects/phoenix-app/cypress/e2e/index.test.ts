@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 describe('Test the index page of Phoenix', () => {
   before(() => {
     cy.visit('/').then(() => {
@@ -7,8 +6,6 @@ describe('Test the index page of Phoenix', () => {
   });
 
   it('Visual test case for index document', () => {
-    cy.wait(3000);
-    // @ts-ignore
     cy.document().toMatchImageSnapshot();
   });
 

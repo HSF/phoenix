@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 describe('Geometry', () => {
   before(() => {
     cy.visit('/geometry').then(() => {
@@ -7,8 +6,6 @@ describe('Geometry', () => {
   });
 
   it('Visual test case for geometry document', () => {
-    cy.wait(3000);
-    // @ts-ignore
     cy.document().toMatchImageSnapshot();
   });
 });
