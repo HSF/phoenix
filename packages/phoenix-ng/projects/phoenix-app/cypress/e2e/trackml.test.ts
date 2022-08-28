@@ -1,11 +1,8 @@
 describe('TrackML', () => {
-  before(() => {
+  it('should match the whole page', () => {
     cy.visit('/trackml').then(() => {
-      cy.log('visited /trackml');
+      cy.contains('This may take a while').should('not.be.visible');
+      cy.document().toMatchImageSnapshot();
     });
-  });
-
-  it('Visual test case for TrackML document', () => {
-    cy.document().toMatchImageSnapshot();
   });
 });

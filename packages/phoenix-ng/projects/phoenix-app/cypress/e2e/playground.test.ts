@@ -1,11 +1,8 @@
 describe('Playground', () => {
-  before(() => {
+  it('should match the whole page', () => {
     cy.visit('/playground').then(() => {
-      cy.log('visited /playground');
+      cy.contains('This may take a while').should('not.be.visible');
+      cy.document().toMatchImageSnapshot();
     });
-  });
-
-  it('Visual test case for Playground document', () => {
-    cy.document().toMatchImageSnapshot();
   });
 });

@@ -1,11 +1,8 @@
 describe('LHCb', () => {
-  before(() => {
+  it('should match the whole page', () => {
     cy.visit('/lhcb').then(() => {
-      cy.log('visited /lhcb');
+      cy.contains('This may take a while').should('not.be.visible');
+      cy.document().toMatchImageSnapshot();
     });
-  });
-
-  it('Visual test case for LHCb document', () => {
-    cy.document().toMatchImageSnapshot();
   });
 });

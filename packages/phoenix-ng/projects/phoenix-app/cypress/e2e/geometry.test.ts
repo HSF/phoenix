@@ -1,11 +1,8 @@
 describe('Geometry', () => {
-  before(() => {
+  it('should match the whole page', () => {
     cy.visit('/geometry').then(() => {
-      cy.log('visited /geometry');
+      cy.contains('This may take a while').should('not.be.visible');
+      cy.document().toMatchImageSnapshot();
     });
-  });
-
-  it('Visual test case for geometry document', () => {
-    cy.document().toMatchImageSnapshot();
   });
 });
