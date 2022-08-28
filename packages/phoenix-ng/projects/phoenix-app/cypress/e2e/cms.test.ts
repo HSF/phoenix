@@ -2,6 +2,8 @@ describe('CMS', () => {
   it('should match the whole page', () => {
     cy.visit('/cms').then(() => {
       cy.contains('This may take a while').should('not.be.visible');
+      // in order to make the detector appear which loads in 2 - 2.5 seconds
+      cy.wait(2500);
       cy.document().toMatchImageSnapshot();
     });
   });

@@ -29,7 +29,7 @@ describe('User scenarios', () => {
     cy.contains('Close').click();
   });
 
-  it('should generate a shareable link based on specified params: JiveXML', () => {
+  it('should generate a shareable link based on specified params: JSON', () => {
     cy.visit('/trackml');
     cy.get('app-share-link').click();
 
