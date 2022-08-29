@@ -26,22 +26,4 @@ describe('Test the index page of Phoenix', () => {
     cy.url().should('eq', Cypress.config().baseUrl + 'trackml');
     cy.go('back');
   });
-
-  it('should point to correct links in footer', () => {
-    cy.get('footer > p').contains('2022 Phoenix Project').should('be.visible');
-    cy.get('footer > p ')
-      .eq(1)
-      .contains('Github - Documentation')
-      .should('be.visible');
-    cy.get('footer > p > a')
-      .eq(0)
-      .should('have.attr', 'href', 'https://github.com/HSF/phoenix');
-    cy.get('footer > p > a')
-      .eq(1)
-      .should(
-        'have.attr',
-        'href',
-        'https://github.com/HSF/phoenix/blob/master/README.md'
-      );
-  });
 });

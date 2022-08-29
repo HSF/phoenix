@@ -58,16 +58,6 @@ describe('User scenarios', () => {
     cy.contains('Close').click();
   });
 
-  it('should rotate geometry', () => {
-    cy.visit('/cms');
-
-    cy.get('app-auto-rotate').eq(0).click();
-    // waiting to check the correct position of the geometry after rotation
-    cy.wait(2000);
-    cy.get('app-auto-rotate').eq(0).click();
-    cy.document().toMatchImageSnapshot();
-  });
-
   it('should be responsive', () => {
     cy.visit('/');
     cy.viewport(320, 480);
