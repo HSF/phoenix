@@ -3,11 +3,11 @@ describe('User scenarios', () => {
     cy.visit('/trackml');
     cy.get('app-share-link').click();
 
-    cy.get('#eventDataFile').type('test_path');
+    cy.get('#eventDataFile').type('test_path', { force: true });
     cy.contains('test_path').should('be.visible');
     cy.get('#eventDataType').select('JiveXML');
     cy.get('#eventDataType').should('have.value', 'jivexml');
-    cy.get('#configuration').type('test_path2');
+    cy.get('#configuration').type('test_path2', { force: true });
     cy.contains('test_path2').should('be.visible');
 
     cy.get('.share-box')
@@ -33,11 +33,11 @@ describe('User scenarios', () => {
     cy.visit('/trackml');
     cy.get('app-share-link').click();
 
-    cy.get('#eventDataFile').type('test');
+    cy.get('#eventDataFile').type('test', { force: true });
     cy.contains('test').should('be.visible');
     cy.get('#eventDataType').select('JSON');
     cy.get('#eventDataType').should('have.value', 'json');
-    cy.get('#configuration').type('test2');
+    cy.get('#configuration').type('test2', { force: true });
     cy.contains('test2').should('be.visible');
 
     cy.get('.share-box')
