@@ -1,5 +1,5 @@
 import { PhoenixLoader } from './phoenix-loader';
-import { openFile } from 'jsroot/modules/io.mjs';
+import { openFile } from 'jsroot';
 
 /**
  * PhoenixLoader for processing and loading an event from ".root".
@@ -12,7 +12,6 @@ export class JSRootEventLoader extends PhoenixLoader {
 
   /**
    * Constructor for the JSRoot event loader.
-   * @param JSROOT JSROOT object containing all JSROOT functions.
    * @param rootFileURL URL of the ".root" file to be processed.
    */
   constructor(rootFileURL: string) {
