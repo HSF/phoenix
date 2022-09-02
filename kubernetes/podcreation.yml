@@ -1,0 +1,15 @@
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+        name: phoenixapp
+        labels:
+                app: phoenixapp
+spec:
+        containers:
+                - name: appcontainer
+                  image: mehmuud/phoenixapp:phoenix
+                  ports:
+                          - name: app-port
+                            containerPort: 80 
