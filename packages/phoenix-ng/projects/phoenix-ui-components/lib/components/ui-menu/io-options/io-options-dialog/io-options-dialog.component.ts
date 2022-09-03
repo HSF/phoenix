@@ -136,18 +136,15 @@ export class IOOptionsDialogComponent implements OnInit {
     this.handleFileInput(files[0], 'phnx', callback);
   }
 
-  handleROOTInput(files: FileList) {
-    ScriptLoader.loadJSRootScripts().then((JSROOT: any) => {
-      const objectName = prompt('Enter object name in ROOT file');
-      JSROOT.openFile(files[0]).then((file: any) => {
-        file.readObject(objectName).then((obj: any) => {
-          this.eventDisplay.loadJSONGeometry(
-            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-            files[0].name.split('.')[0]
-          );
-        });
-      });
-    });
+  async handleROOTInput(files: FileList) {
+    const objectName = prompt('Enter object name in ROOT file');
+
+    await this.eventDisplay.loadRootGeometry(
+      files[0],
+      objectName,
+      files[0].name.split('.')[0]
+    );
+
     this.onClose();
   }
 

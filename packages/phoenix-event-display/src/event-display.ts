@@ -443,7 +443,7 @@ export class EventDisplay {
 
   /**
    * Load ROOT geometry from JSRoot.
-   * @param url URL of the JSRoot file.
+   * @param fileOrUrl A URL of the JSRoot file. Or a `File` object of the JSRoot file.
    * @param objectName Name of the object inside the ".root" file.
    * @param name Name of the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
@@ -452,7 +452,7 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
    */
   public async loadRootGeometry(
-    url: string,
+    fileOrUrl: string | File,
     objectName: string,
     name: string,
     menuNodeName?: string,
@@ -460,13 +460,13 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean = true
   ) {
-    if (url.indexOf('.root') == -1) {
+    if (typeof fileOrUrl === 'string' && fileOrUrl.indexOf('.root') === -1) {
       return;
     }
 
     this.loadingManager.addLoadableItem('root_geom');
 
-    const file = await openFile(url);
+    const file = await openFile(fileOrUrl);
     const obj = await file.readObject(objectName);
 
     await this.loadJSONGeometry(
