@@ -1,5 +1,6 @@
 import { httpRequest } from 'jsroot';
 import { build } from 'jsroot/geom';
+import { openFile } from 'jsroot/io';
 import { ThreeManager } from './managers/three-manager';
 import { UIManager } from './managers/ui-manager';
 import { InfoLogger } from './helpers/info-logger';
@@ -442,7 +443,6 @@ export class EventDisplay {
 
   /**
    * Load ROOT geometry from JSRoot.
-   * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot file.
    * @param objectName Name of the object inside the ".root" file.
    * @param name Name of the geometry.
@@ -451,8 +451,7 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
    */
-  public loadRootGeometry(
-    JSROOT: any,
+  public async loadRootGeometry(
     url: string,
     objectName: string,
     name: string,
@@ -461,20 +460,25 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean = true
   ) {
-    if (url.indexOf('.root') > 0) {
-      JSROOT.openFile(url).then((file: any) => {
-        file.readObject(objectName).then((obj: any) => {
-          this.loadJSONGeometry(
-            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-            name,
-            menuNodeName,
-            scale,
-            doubleSided,
-            initiallyVisible
-          );
-        });
-      });
+    if (url.indexOf('.root') == -1) {
+      return;
     }
+
+    this.loadingManager.addLoadableItem('root_geom');
+
+    const file = await openFile(url);
+    const obj = await file.readObject(objectName);
+
+    await this.loadJSONGeometry(
+      build(obj, { dflt_colors: true }).toJSON(),
+      name,
+      menuNodeName,
+      scale,
+      doubleSided,
+      initiallyVisible
+    );
+
+    this.loadingManager.itemLoaded('root_geom');
   }
 
   /**

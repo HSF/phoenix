@@ -196,16 +196,12 @@ describe('EventDisplay', () => {
 
       spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
 
-      const JSROOT = await ScriptLoader.loadJSRootScripts();
-
       // Calling JSROOT functions through does not cover their code for some reason so not using a spy
-      eventDisplay.loadRootJSONGeometry(
-        JSROOT,
+      await eventDisplay.loadRootJSONGeometry(
         'https://root.cern/js/files/geom/cms.json.gz',
         'Test JSON'
       );
-      eventDisplay.loadRootGeometry(
-        JSROOT,
+      await eventDisplay.loadRootGeometry(
         'https://root.cern/js/files/geom/rootgeom.root',
         'simple1;1',
         'Test ROOT'
@@ -215,8 +211,7 @@ describe('EventDisplay', () => {
       expect(mockJSROOT.NewHttpRequest).toHaveBeenCalled();
 
       spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
-      eventDisplay.loadRootGeometry(
-        JSROOT,
+      await eventDisplay.loadRootGeometry(
         'not/a/root.file',
         'object',
         'Test ROOT'
