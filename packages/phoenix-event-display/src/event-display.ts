@@ -1,3 +1,5 @@
+import { httpRequest } from 'jsroot';
+import { build } from 'jsroot/geom';
 import { ThreeManager } from './managers/three-manager';
 import { UIManager } from './managers/ui-manager';
 import { InfoLogger } from './helpers/info-logger';
@@ -408,7 +410,6 @@ export class EventDisplay {
 
   /**
    * Load JSON geometry from JSRoot.
-   * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot geometry file.
    * @param name Name of the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
@@ -416,8 +417,7 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
    */
-  public loadRootJSONGeometry(
-    JSROOT: any,
+  public async loadRootJSONGeometry(
     url: string,
     name: string,
     menuNodeName?: string,
@@ -426,17 +426,18 @@ export class EventDisplay {
     initiallyVisible: boolean = true
   ) {
     this.loadingManager.addLoadableItem('root_json_geom');
-    JSROOT.NewHttpRequest(url, 'object', (obj: any) => {
-      this.loadJSONGeometry(
-        JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-        name,
-        menuNodeName,
-        scale,
-        doubleSided,
-        initiallyVisible
-      );
-      this.loadingManager.itemLoaded('root_json_geom');
-    }).send();
+
+    const object = await httpRequest(url, 'object');
+    await this.loadJSONGeometry(
+      build(object, { dflt_colors: true }).toJSON(),
+      name,
+      menuNodeName,
+      scale,
+      doubleSided,
+      initiallyVisible
+    );
+
+    this.loadingManager.itemLoaded('root_json_geom');
   }
 
   /**
