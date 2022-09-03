@@ -1,4 +1,5 @@
 import { httpRequest } from 'jsroot';
+import { settings as jsrootSettings } from 'jsroot';
 import { build } from 'jsroot/geom';
 import { openFile } from 'jsroot/io';
 import { ThreeManager } from './managers/three-manager';
@@ -443,7 +444,7 @@ export class EventDisplay {
 
   /**
    * Load ROOT geometry from JSRoot.
-   * @param fileOrUrl A URL of the JSRoot file. Or a `File` object of the JSRoot file.
+   * @param url URL of the JSRoot file.
    * @param objectName Name of the object inside the ".root" file.
    * @param name Name of the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use >  as a separator for specifying the hierarchy for sub-folders.
@@ -452,7 +453,7 @@ export class EventDisplay {
    * @param initiallyVisible Whether the geometry is initially visible or not. Default `true`.
    */
   public async loadRootGeometry(
-    fileOrUrl: string | File,
+    url: string,
     objectName: string,
     name: string,
     menuNodeName?: string,
@@ -460,13 +461,11 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean = true
   ) {
-    if (typeof fileOrUrl === 'string' && fileOrUrl.indexOf('.root') === -1) {
-      return;
-    }
-
     this.loadingManager.addLoadableItem('root_geom');
+    // See https://github.com/root-project/jsroot/blob/19ce116b68701ab45e0a092c673119bf97ede0c2/modules/core.mjs#L241.
+    jsrootSettings.UseStamp = false;
 
-    const file = await openFile(fileOrUrl);
+    const file = await openFile(url);
     const obj = await file.readObject(objectName);
 
     await this.loadJSONGeometry(

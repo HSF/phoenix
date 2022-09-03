@@ -1,5 +1,5 @@
 import { OnInit, Component, Input } from '@angular/core';
-import { CMSLoader, JiveXMLLoader, ScriptLoader } from 'phoenix-event-display';
+import { CMSLoader, JiveXMLLoader } from 'phoenix-event-display';
 import JSZip from 'jszip';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -137,29 +137,29 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   async handleROOTInput(files: FileList) {
-    const objectName = prompt('Enter object name in ROOT file');
+    const rootObjectName = prompt('Enter object name in ROOT file');
 
     await this.eventDisplay.loadRootGeometry(
-      files[0],
-      objectName,
+      URL.createObjectURL(files[0]),
+      rootObjectName,
       files[0].name.split('.')[0]
     );
 
     this.onClose();
   }
 
-  handleRootJSONInput(files: FileList) {
-    ScriptLoader.loadJSRootScripts().then((JSROOT: any) => {
-      const callback = (content: any, name: string) => {
-        this.eventDisplay.loadJSONGeometry(
-          JSROOT.GEO.build(JSROOT.parse(content), {
-            dflt_colors: true,
-          }).toJSON(),
-          name
-        );
-      };
-      this.handleFileInput(files[0], 'gz', callback);
-    });
+  async handleRootJSONInput(files: FileList) {
+    if (!this.isFileOfExtension(files[0], 'gz')) {
+      return;
+    }
+
+    const name = files[0].name.split('.')[0];
+    await this.eventDisplay.loadRootJSONGeometry(
+      URL.createObjectURL(files[0]),
+      name
+    );
+
+    this.onClose();
   }
 
   handleIgEventDataInput(files: FileList) {
@@ -172,38 +172,37 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   handleZipEventDataInput(files: FileList) {
-    if (this.isFileOfExtension(files[0], 'zip')) {
-      this.handleZipInput(files[0], (allFilesWithData) => {
-        const allEventsObject = {};
-
-        // JSON event data
-        Object.keys(allFilesWithData)
-          .filter((fileName) => fileName.endsWith('.json'))
-          .forEach((fileName) => {
-            Object.assign(
-              allEventsObject,
-              JSON.parse(allFilesWithData[fileName])
-            );
-          });
-
-        // JiveXML event data
-        const jiveloader = new JiveXMLLoader();
-        Object.keys(allFilesWithData)
-          .filter((fileName) => fileName.endsWith('.xml'))
-          .forEach((fileName) => {
-            jiveloader.process(allFilesWithData[fileName]);
-            const eventData = jiveloader.getEventData();
-            Object.assign(allEventsObject, { [fileName]: eventData });
-          });
-
-        this.eventDisplay.parsePhoenixEvents(allEventsObject);
-
-        this.onClose();
-      });
-    } else {
-      console.error('Error: Invalid file format!');
-      this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
+    if (!this.isFileOfExtension(files[0], 'zip')) {
+      return;
     }
+
+    this.handleZipInput(files[0], (allFilesWithData) => {
+      const allEventsObject = {};
+
+      // JSON event data
+      Object.keys(allFilesWithData)
+        .filter((fileName) => fileName.endsWith('.json'))
+        .forEach((fileName) => {
+          Object.assign(
+            allEventsObject,
+            JSON.parse(allFilesWithData[fileName])
+          );
+        });
+
+      // JiveXML event data
+      const jiveloader = new JiveXMLLoader();
+      Object.keys(allFilesWithData)
+        .filter((fileName) => fileName.endsWith('.xml'))
+        .forEach((fileName) => {
+          jiveloader.process(allFilesWithData[fileName]);
+          const eventData = jiveloader.getEventData();
+          Object.assign(allEventsObject, { [fileName]: eventData });
+        });
+
+      this.eventDisplay.parsePhoenixEvents(allEventsObject);
+
+      this.onClose();
+    });
   }
 
   async handleZipInput(
@@ -233,20 +232,26 @@ export class IOOptionsDialogComponent implements OnInit {
     callback: (result: string, fileName?: string) => void
   ) {
     const reader = new FileReader();
+
     if (this.isFileOfExtension(file, extension)) {
       reader.onload = () => {
         callback(reader.result.toString(), file.name.split('.')[0]);
       };
       reader.readAsText(file);
-    } else {
-      console.error('Error: Invalid file format!');
-      this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
     }
+
     this.onClose();
   }
 
-  private isFileOfExtension(file: File, extension: string) {
-    return file.name.split('.').pop() === extension;
+  private isFileOfExtension(file: File, extension: string): boolean {
+    if (file.name.split('.').pop() === extension) {
+      return true;
+    }
+
+    console.error('Error: Invalid file format!');
+    this.eventDisplay.getInfoLogger().add('Invalid file format!', 'Error');
+
+    return false;
   }
 
   saveScene() {
