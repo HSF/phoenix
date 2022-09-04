@@ -9,6 +9,10 @@ describe('CMS', () => {
   });
 
   describe('Phoenix Menu', () => {
+    const getPhoenixMenuItem = (itemName: string) => {
+      return cy.get('app-phoenix-menu').contains(itemName);
+    };
+
     it('should have options to Save and Load state', () => {
       cy.get('.phoenix-menu-item-right .item-settings').click();
 
@@ -38,25 +42,25 @@ describe('CMS', () => {
     });
 
     it('should hide event data', () => {
-      cy.get('app-phoenix-menu-item .mat-slide-toggle')
-        .eq(0)
-        .contains('Event Data')
-        .click();
+      getPhoenixMenuItem('Event Data').closest('.mat-slide-toggle').click();
 
       cy.document().toMatchImageSnapshot();
+
+      getPhoenixMenuItem('Event Data').closest('.mat-slide-toggle').click();
 
       cy.get('app-phoenix-menu-item').eq(1).click();
     });
 
     it('should hide detector geometry', () => {
-      cy.get('app-phoenix-menu-item .mat-slide-toggle')
-        .eq(2)
-        .contains('Detector')
-        .click();
+      getPhoenixMenuItem('Detector').closest('.mat-slide-toggle').click();
 
       cy.document().toMatchImageSnapshot();
 
-      cy.get('app-phoenix-menu-item').eq(3).click();
+      getPhoenixMenuItem('Detector').closest('.mat-slide-toggle').click();
+
+      // here the event data gets toggled as well so we need to select the toggle again
+      getPhoenixMenuItem('Event Data').closest('.mat-slide-toggle').click();
+
       cy.get('.phoenix-menu-item-right > button').eq(0).click();
     });
   });
