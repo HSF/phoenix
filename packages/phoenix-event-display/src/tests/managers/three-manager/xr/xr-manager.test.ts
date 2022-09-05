@@ -1,20 +1,29 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera, WebGLRenderer } from 'three';
-import createRenderer from '../../../helpers/create-renderer';
+import THREE, { Camera, WebGLRenderer } from 'three';
 import {
   XRManager,
   XRSessionType,
 } from '../../../../../src/managers/three-manager/xr/xr-manager';
 
+jest.mock('three', () => {
+  const THREE = jest.requireActual('three');
+  return {
+    ...THREE,
+    WebGLRenderer: jest.fn().mockReturnValue({
+      domElement: document.createElement('div'), // create a fake div
+      setSize: jest.fn(),
+      render: jest.fn(),
+    }),
+  };
+});
+
 describe('XRManager', () => {
   let xrManager: XRManager;
-  let renderer: WebGLRenderer;
 
   beforeEach(() => {
     xrManager = new XRManager(XRSessionType.AR);
-    renderer = createRenderer();
   });
 
   afterEach(() => {
@@ -39,7 +48,11 @@ describe('XRManager', () => {
       },
     });
 
-    xrManager.setXRSession(renderer, onSessionStarted, onSessionEnded);
+    xrManager.setXRSession(
+      new THREE.WebGLRenderer(),
+      onSessionStarted,
+      onSessionEnded
+    );
     expect(requestSessionSpy).toHaveBeenCalled();
   });
 

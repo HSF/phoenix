@@ -1,24 +1,39 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera, Scene, WebGLRenderer, NormalBlending } from 'three';
+import THREE, { Camera, Scene, WebGLRenderer, NormalBlending } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import createRenderer from '../../helpers/create-renderer';
+
+jest.mock('three', () => {
+  const THREE = jest.requireActual('three');
+  return {
+    ...THREE,
+    WebGLRenderer: jest.fn().mockReturnValue({
+      domElement: document.createElement('div'),
+      setSize: jest.fn(),
+      render: jest.fn(),
+      getSize: jest.fn().mockReturnValue({ width: 100, height: 100 }),
+      getPixelRatio: jest.fn(),
+    }),
+  };
+});
 
 describe('EffectsManager', () => {
   let effectsManager: EffectsManager;
   let camera: Camera;
   let scene: Scene;
-  let renderer: WebGLRenderer;
 
   beforeEach(() => {
     camera = new Camera();
     scene = new Scene();
-    renderer = createRenderer();
 
-    effectsManager = new EffectsManager(camera, scene, renderer);
+    effectsManager = new EffectsManager(
+      camera,
+      scene,
+      new THREE.WebGLRenderer()
+    );
   });
 
   it('should create an instance', () => {
