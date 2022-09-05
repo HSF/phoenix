@@ -20,20 +20,18 @@ import { EventDisplay } from 'phoenix-event-display';
 
 const eventDisplay = new EventDisplay({});
 
-ScriptLoader.loadJSRootScripts().then((JSROOT) => {
-  // To load `.json.gz` geometry
-  eventDisplay.loadRootJSONGeometry(
-    'https://root.cern/js/files/geom/cms.json.gz',
-    'CMS Detector'
-  );
+// To load `.json.gz` geometry
+eventDisplay.loadRootJSONGeometry(
+  'https://root.cern/js/files/geom/cms.json.gz',
+  'CMS Detector'
+);
 
-  // To load `.root` geometry
-  eventDisplay.loadRootGeometry(
-    'https://root.cern/js/files/geom/atlas2.root',
-    'atlas', // Object name
-    'ATLAS Detector'
-  );
-});
+// To load `.root` geometry
+eventDisplay.loadRootGeometry(
+  'https://root.cern/js/files/geom/atlas2.root',
+  'atlas', // Object name
+  'ATLAS Detector'
+);
 ```
 
 ## JSROOT event loader
