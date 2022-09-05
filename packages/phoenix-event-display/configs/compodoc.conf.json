@@ -3,7 +3,6 @@
   "exclude": [
     "../**/*.spec.ts",
     "../**/*test.ts",
-    "../**/*.d.ts",
-    "../src/tests/helpers/create-renderer.ts"
+    "../**/*.d.ts"
   ]
 }
