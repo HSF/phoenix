@@ -47,8 +47,6 @@ describe('CMS', () => {
       cy.document().toMatchImageSnapshot();
 
       getPhoenixMenuItem('Event Data').closest('.mat-slide-toggle').click();
-
-      cy.get('app-phoenix-menu-item').eq(1).click();
     });
 
     it('should hide detector geometry', () => {
@@ -57,9 +55,6 @@ describe('CMS', () => {
       cy.document().toMatchImageSnapshot();
 
       getPhoenixMenuItem('Detector').closest('.mat-slide-toggle').click();
-
-      // here the event data gets toggled as well so we need to select the toggle again
-      getPhoenixMenuItem('Event Data').closest('.mat-slide-toggle').click();
 
       cy.get('.phoenix-menu-item-right > button').eq(0).click();
     });
@@ -81,6 +76,7 @@ describe('CMS', () => {
           .focus()
           .click();
       }
+      cy.wait(500);
       cy.document().toMatchImageSnapshot();
     });
 
@@ -110,6 +106,7 @@ describe('CMS', () => {
           .focus()
           .click();
       }
+      cy.wait(500);
       cy.document().toMatchImageSnapshot();
     });
 
