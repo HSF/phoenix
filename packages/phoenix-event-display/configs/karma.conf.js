@@ -49,8 +49,34 @@ module.exports = function (config) {
       bundlerOptions: {
         acornOptions: {
           ecmaVersion: 11,
+          scriptType: 'module',
+        },
+        resolve: {
+          alias: {
+            jsroot: 'node_modules/jsroot/modules/main.mjs',
+            'jsroot/core': 'node_modules/jsroot/modules/core.mjs',
+            'jsroot/draw': 'node_modules/jsroot/modules/draw.mjs',
+            'jsroot/io': 'node_modules/jsroot/modules/io.mjs',
+            'jsroot/tree': 'node_modules/jsroot/modules/tree.mjs',
+            'jsroot/colors': 'node_modules/jsroot/modules/base/colors.mjs',
+            'jsroot/hierarchy':
+              'node_modules/jsroot/modules/gui/HierarchyPainter.mjs',
+            'jsroot/latex': 'node_modules/jsroot/modules/base/latex.mjs',
+            'jsroot/geom': 'node_modules/jsroot/modules/geom/TGeoPainter.mjs',
+          },
         },
         transforms: [
+          function (context, callback) {
+            if (context.module === './core.mjs') {
+              context.source = context.source.replace(
+                'import.meta',
+                'undefined'
+              );
+              return callback(undefined, true);
+            }
+
+            return callback(undefined, false);
+          },
           require('karma-typescript-es6-transform')({
             plugins: [
               [
