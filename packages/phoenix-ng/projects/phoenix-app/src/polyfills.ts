@@ -53,7 +53,7 @@
  */
 
 // Disable the angular change detection on requestAnimation frame in order to speed up rendering
-import './zone-flags.ts';
+import './zone-flags';
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
