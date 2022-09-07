@@ -190,11 +190,8 @@ describe('EventDisplay', () => {
       mockJSROOT.openFile.and.callFake(() =>
         jasmine.createSpyObj('returnValue', ['then'])
       );
-      mockJSROOT.NewHttpRequest.and.callFake(() =>
-        jasmine.createSpyObj('returnValue', ['send'])
-      );
 
-      spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
+      // spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
 
       // Calling JSROOT functions through does not cover their code for some reason so not using a spy
       await eventDisplay.loadRootJSONGeometry(

@@ -1,22 +1,9 @@
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
-import { ScriptLoader } from '../../loaders/script-loader';
+import * as jsroot from 'jsroot/modules/core.mjs';
 
 describe('JSRootEventLoader', () => {
-  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['openFile']);
-  mockJSROOT.openFile.and.callFake(() =>
-    jasmine.createSpyObj('returnValue', ['then'])
-  );
-
-  let JSROOT: any;
-
   let jsrootLoader: JSRootEventLoader;
   const TEST_ROOT_FILE = 'assets/tracks_hits.root';
-  const JSROOT_TIMEOUT = 30000; // JSRoot takes time to process
-
-  beforeAll(async () => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
-    JSROOT = await ScriptLoader.loadJSRootScripts();
-  }, JSROOT_TIMEOUT);
 
   beforeEach(() => {
     jsrootLoader = new JSRootEventLoader(TEST_ROOT_FILE);
@@ -30,17 +17,13 @@ describe('JSRootEventLoader', () => {
     expect(jsrootLoader).toBeTruthy();
   });
 
-  it(
-    'should get event data',
-    () => {
-      jsrootLoader.getEventData(
-        ['tracks;1', 'hits;1'],
-        (_eventData: any) => {}
-      );
-      expect(mockJSROOT.openFile).toHaveBeenCalled();
-    },
-    JSROOT_TIMEOUT
-  );
+  it('should get event data', () => {
+    spyOn(jsroot, 'openFile').and.callFake(() =>
+      jasmine.createSpyObj('returnValue', ['then'])
+    );
+    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (_eventData: any) => {});
+    expect(jsroot.openFile).toHaveBeenCalled();
+  });
 
   it('should not process empty event data object', () => {
     const mockObjectNoArr = { _typename: 'TList', arr: undefined };

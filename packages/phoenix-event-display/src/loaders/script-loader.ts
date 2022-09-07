@@ -1,8 +1,5 @@
 import { LoadingManager } from '../managers/loading-manager';
 
-/** Global JSROOT variable for accessing functions after loading JSRoot scripts. */
-declare const JSROOT: any;
-
 /**
  * Script loader for dynamically loading external scripts.
  */
