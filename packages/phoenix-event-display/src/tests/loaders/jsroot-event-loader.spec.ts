@@ -1,5 +1,4 @@
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
-import * as jsroot from 'jsroot/modules/core.mjs';
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
@@ -17,12 +16,11 @@ describe('JSRootEventLoader', () => {
     expect(jsrootLoader).toBeTruthy();
   });
 
-  it('should get event data', () => {
-    spyOn(jsroot, 'openFile').and.callFake(() =>
-      jasmine.createSpyObj('returnValue', ['then'])
-    );
-    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (_eventData: any) => {});
-    expect(jsroot.openFile).toHaveBeenCalled();
+  it('should get event data', (done) => {
+    jsrootLoader.getEventData(['tracks;1', 'hits;1'], (eventData) => {
+      expect(eventData).toBeTruthy();
+      done();
+    });
   });
 
   it('should not process empty event data object', () => {

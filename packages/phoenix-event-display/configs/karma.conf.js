@@ -49,7 +49,6 @@ module.exports = function (config) {
       bundlerOptions: {
         acornOptions: {
           ecmaVersion: 11,
-          scriptType: 'module',
         },
         resolve: {
           alias: {
