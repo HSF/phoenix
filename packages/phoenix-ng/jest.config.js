@@ -40,5 +40,6 @@ module.exports = {
     '!<rootDir>/projects/phoenix-app/src/zone-flags.ts',
     '!<rootDir>/projects/phoenix-app/src/(environments/**/*.ts|test.ts)',
     '!<rootDir>/projects/phoenix-ui-components/lib/(environments/**/*.ts|test.ts)',
+    '!<rootDir>/projects/phoenix-app/cypress/**/*.ts',
   ],
 };
