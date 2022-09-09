@@ -10,6 +10,7 @@
 * [Contribution guidelines](../../CONTRIBUTING.md)
 * [Set up Phoenix for an experiment](./set-up-phoenix.md)
 * [Phoenix event display](./event-display.md)
+* [Event data format](./event_data_format.md)
 * [Event data loader](./event-data-loader.md)
 * [Using JSROOT](./using-jsroot.md)
 * [Running with XR (AR/VR) support](./running-with-xr-support.md)
