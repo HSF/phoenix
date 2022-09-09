@@ -230,6 +230,7 @@ export class ImportManager {
             );
 
             const materials = {};
+            // eslint-disable-next-line no-inner-declarations
             function findMeshes(node, parentMatrix: Matrix4, depth) {
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {

@@ -28,7 +28,7 @@ jobs:
         run: yarn lint
 
       - name: Test
-        run: yarn test:coverage
+        run: yarn test:coverage --no-bail
 
       - name: Documentation Coverage
         run: yarn docs:coverage
