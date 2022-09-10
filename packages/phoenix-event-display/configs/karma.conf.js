@@ -1,4 +1,9 @@
 /* eslint-disable */
+const path = require('path');
+
+const resolveJSROOTPath = (filePath) =>
+  path.dirname(require.resolve('jsroot')) + '/../' + filePath;
+
 module.exports = function (config) {
   config.set({
     basePath: '../',
@@ -52,16 +57,17 @@ module.exports = function (config) {
         },
         resolve: {
           alias: {
-            jsroot: 'node_modules/jsroot/modules/main.mjs',
-            'jsroot/core': 'node_modules/jsroot/modules/core.mjs',
-            'jsroot/draw': 'node_modules/jsroot/modules/draw.mjs',
-            'jsroot/io': 'node_modules/jsroot/modules/io.mjs',
-            'jsroot/tree': 'node_modules/jsroot/modules/tree.mjs',
-            'jsroot/colors': 'node_modules/jsroot/modules/base/colors.mjs',
-            'jsroot/hierarchy':
-              'node_modules/jsroot/modules/gui/HierarchyPainter.mjs',
-            'jsroot/latex': 'node_modules/jsroot/modules/base/latex.mjs',
-            'jsroot/geom': 'node_modules/jsroot/modules/geom/TGeoPainter.mjs',
+            jsroot: resolveJSROOTPath('/modules/main.mjs'),
+            'jsroot/core': resolveJSROOTPath('/modules/core.mjs'),
+            'jsroot/draw': resolveJSROOTPath('/modules/draw.mjs'),
+            'jsroot/io': resolveJSROOTPath('/modules/io.mjs'),
+            'jsroot/tree': resolveJSROOTPath('/modules/tree.mjs'),
+            'jsroot/colors': resolveJSROOTPath('/modules/base/colors.mjs'),
+            'jsroot/hierarchy': resolveJSROOTPath(
+              '/modules/gui/HierarchyPainter.mjs'
+            ),
+            'jsroot/latex': resolveJSROOTPath('/modules/base/latex.mjs'),
+            'jsroot/geom': resolveJSROOTPath('/modules/geom/TGeoPainter.mjs'),
           },
         },
         transforms: [

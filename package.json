@@ -1,15 +1,10 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "packages/phoenix-ng/projects/*"
-    ],
-    "nohoist": [
-      "jsroot"
-    ]
-  },
+  "workspaces": [
+    "packages/*",
+    "packages/phoenix-ng/projects/*"
+  ],
   "scripts": {
     "start": "yarn workspace phoenix-ng start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
