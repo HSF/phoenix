@@ -38,7 +38,7 @@
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
     "dat.gui": "^0.7.9",
-    "jsroot": "github:root-project/jsroot",
+    "jsroot": "github:9inpachi/jsroot#7.2.0-types",
     "jszip": "^3.10.0",
     "stats-js": "^1.0.1",
     "three": "^0.140.2"
