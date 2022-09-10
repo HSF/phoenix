@@ -14,11 +14,6 @@
   "files": [
     "dist"
   ],
-  "workspaces": {
-    "nohoist": [
-      "jsroot"
-    ]
-  },
   "scripts": {
     "tsc": "tsc",
     "tsc:build": "tsc -p tsconfig.build.json",
