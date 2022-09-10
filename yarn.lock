@@ -9235,9 +9235,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"jsroot@github:root-project/jsroot":
+"jsroot@github:9inpachi/jsroot#7.2.0-types":
   version "7.2.99"
-  resolved "https://codeload.github.com/root-project/jsroot/tar.gz/91bb4c7812c985834bead53ae2ea33c73a95f897"
+  resolved "https://codeload.github.com/9inpachi/jsroot/tar.gz/05f28a38153cf031bef5a334d649dd9fdb8b6c08"
   dependencies:
     canvas "^2.9.3"
     gl "^5.0.3"
