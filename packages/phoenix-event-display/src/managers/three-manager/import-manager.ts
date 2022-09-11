@@ -216,6 +216,7 @@ export class ImportManager {
     initiallyVisible: boolean
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
+
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.load(
         sceneUrl,
@@ -230,7 +231,11 @@ export class ImportManager {
             );
 
             const materials = {};
-            function findMeshes(node, parentMatrix: Matrix4, depth) {
+            const findMeshes = (
+              node: Object3D,
+              parentMatrix: Matrix4,
+              depth: number
+            ) => {
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {
                 const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...
@@ -245,10 +250,11 @@ export class ImportManager {
                   (node as Mesh).geometry.clone().applyMatrix4(mat)
                 );
               }
+
               for (const obj of node.children) {
                 findMeshes(obj, mat, depth + 1);
               }
-            }
+            };
 
             findMeshes(scene, new Matrix4(), 0);
             scene.remove(...scene.children);
