@@ -167,6 +167,7 @@
       *ngIf="currentNode.children.length > 0"
       (click)="currentNode.childrenActive = !currentNode.childrenActive"
       [ngClass]="{ expanded: currentNode.childrenActive }"
+      data-testid="dropdown"
     >
       <svg>
         <use href="assets/icons/expand.svg#expand"></use>

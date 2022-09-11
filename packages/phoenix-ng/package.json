@@ -11,7 +11,8 @@
     "build:prod": "ng build --configuration production",
     "build:ui-components": "ng build phoenix-ui-components --configuration production",
     "test": "ng test",
-    "e2e": "ng e2e",
+    "cy:open": "concurrently \"ng serve\" \"cypress open\"",
+    "cy:run": "concurrently \"ng serve\" \"cypress run\"",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
@@ -37,6 +38,7 @@
     "@angular/router": "^13.3.9",
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
+    "cypress-plugin-snapshots": "^1.4.4",
     "phoenix-event-display": "^2.10.0",
     "phoenix-ui-components": "^2.10.0",
     "qrcode": "1.5.0",
@@ -51,7 +53,10 @@
     "@angular/cli": "~13.3.6",
     "@angular/compiler-cli": "~13.3.9",
     "@angular/language-service": "^13.3.9",
+    "@types/cypress": "^1.1.3",
     "@types/qrcode": "1.4.2",
+    "concurrently": "^7.3.0",
+    "cypress": "^10.6.0",
     "ng-packagr": "^13.3.1"
   }
 }
