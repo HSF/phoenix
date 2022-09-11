@@ -1,4 +1,9 @@
 /* eslint-disable */
+const path = require('path');
+
+const resolveJSROOTPath = (filePath) =>
+  path.dirname(require.resolve('jsroot')) + '/../' + filePath;
+
 module.exports = function (config) {
   config.set({
     basePath: '../',
@@ -50,7 +55,33 @@ module.exports = function (config) {
         acornOptions: {
           ecmaVersion: 11,
         },
+        resolve: {
+          alias: {
+            jsroot: resolveJSROOTPath('/modules/main.mjs'),
+            'jsroot/core': resolveJSROOTPath('/modules/core.mjs'),
+            'jsroot/draw': resolveJSROOTPath('/modules/draw.mjs'),
+            'jsroot/io': resolveJSROOTPath('/modules/io.mjs'),
+            'jsroot/tree': resolveJSROOTPath('/modules/tree.mjs'),
+            'jsroot/colors': resolveJSROOTPath('/modules/base/colors.mjs'),
+            'jsroot/hierarchy': resolveJSROOTPath(
+              '/modules/gui/HierarchyPainter.mjs'
+            ),
+            'jsroot/latex': resolveJSROOTPath('/modules/base/latex.mjs'),
+            'jsroot/geom': resolveJSROOTPath('/modules/geom/TGeoPainter.mjs'),
+          },
+        },
         transforms: [
+          function (context, callback) {
+            if (context.module === './core.mjs') {
+              context.source = context.source.replace(
+                'import.meta',
+                'undefined'
+              );
+              return callback(undefined, true);
+            }
+
+            return callback(undefined, false);
+          },
           require('karma-typescript-es6-transform')({
             plugins: [
               [

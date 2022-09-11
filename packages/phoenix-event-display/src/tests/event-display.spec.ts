@@ -2,9 +2,9 @@ import { EventDisplay } from '../event-display';
 import { ThreeManager } from '../managers/three-manager';
 import { UIManager } from '../managers/ui-manager';
 import { XRSessionType } from '../managers/three-manager/xr/xr-manager';
-import { ScriptLoader } from '../loaders/script-loader';
 import { PhoenixLoader } from '../loaders/phoenix-loader';
 import { Object3D } from 'three';
+import * as jsroot from 'jsroot/geom';
 
 describe('EventDisplay', () => {
   let eventDisplay: EventDisplay;
@@ -13,6 +13,8 @@ describe('EventDisplay', () => {
   let ui: UIManager;
 
   const MOCK_OBJECT = new Object3D();
+  const ROOT_GEOM_JSON = 'assets/geometries/rootgeom.json.gz';
+  const ROOT_GEOM_ROOT = 'assets/geometries/rootgeom.root';
   const EVENT_KEY = 'Event Key';
   const MOCK_EVENT_DATA = {
     'Event Key': {
@@ -183,46 +185,18 @@ describe('EventDisplay', () => {
     });
 
     it('should load ROOT geometries', async () => {
-      const mockJSROOT = jasmine.createSpyObj('JSROOT', [
-        'openFile',
-        'NewHttpRequest',
-      ]);
-      mockJSROOT.openFile.and.callFake(() =>
-        jasmine.createSpyObj('returnValue', ['then'])
-      );
-      mockJSROOT.NewHttpRequest.and.callFake(() =>
-        jasmine.createSpyObj('returnValue', ['send'])
-      );
+      spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
+      spyOn(jsroot, 'build').and.returnValue(new Object3D());
 
-      spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
-
-      const JSROOT = await ScriptLoader.loadJSRootScripts();
-
-      // Calling JSROOT functions through does not cover their code for some reason so not using a spy
-      eventDisplay.loadRootJSONGeometry(
-        JSROOT,
-        'https://root.cern/js/files/geom/cms.json.gz',
-        'Test JSON'
-      );
-      eventDisplay.loadRootGeometry(
-        JSROOT,
-        'https://root.cern/js/files/geom/rootgeom.root',
+      await eventDisplay.loadRootJSONGeometry(ROOT_GEOM_JSON, 'Test JSON');
+      await eventDisplay.loadRootGeometry(
+        ROOT_GEOM_ROOT,
         'simple1;1',
         'Test ROOT'
       );
 
-      expect(mockJSROOT.openFile).toHaveBeenCalled();
-      expect(mockJSROOT.NewHttpRequest).toHaveBeenCalled();
-
-      spyOn(eventDisplay, 'loadJSONGeometry').and.stub();
-      eventDisplay.loadRootGeometry(
-        JSROOT,
-        'not/a/root.file',
-        'object',
-        'Test ROOT'
-      );
-      expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(0);
-    }, 40000);
+      expect(eventDisplay.loadJSONGeometry).toHaveBeenCalledTimes(2);
+    });
 
     it('should get collection through collection name', () => {
       spyOn(

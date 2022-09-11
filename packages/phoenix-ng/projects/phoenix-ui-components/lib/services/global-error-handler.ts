@@ -17,7 +17,7 @@ export class GlobalErrorHandler implements ErrorHandler {
    * @param error The error that occurred.
    */
   handleError(error: Error) {
-    console.error('ERROR IN PHOENIX APP', error);
+    console.error('ERROR IN PHOENIX APP', '\n', error);
     this.injector.get(ErrorMessageService).setError(error);
   }
 }

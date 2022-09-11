@@ -4,22 +4,12 @@ import { CMSComponent } from './cms.component';
 import { AppModule } from '../../app.module';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { HttpClient } from '@angular/common/http';
-import { ScriptLoader } from 'phoenix-event-display';
 
 describe('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
-  const mockJSROOT = jasmine.createSpyObj('JSROOT', ['NewHttpRequest']);
-  mockJSROOT.NewHttpRequest.and.callFake(() =>
-    jasmine.createSpyObj('returnValue', ['send'])
-  );
-
   let eventDisplayService: EventDisplayService;
-
-  beforeAll(() => {
-    spyOn(ScriptLoader, 'loadJSRootScripts').and.resolveTo(mockJSROOT);
-  });
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
