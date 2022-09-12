@@ -24,8 +24,7 @@
     "build:cjs": "yarn tsc:build --module commonjs --target es5 --outDir dist/cjs",
     "build:bundle": "webpack -c configs/webpack.conf.js",
     "tsc-d": "yarn tsc:build --declaration --emitDeclarationOnly --esModuleInterop --outFile dist/index.d.ts",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn build:bundle",
+    "prepublishOnly": "yarn build && yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
     "test": "jest --config configs/jest.conf.js",
@@ -40,11 +39,17 @@
   "dependencies": {
     "@tweenjs/tween.js": "^17.4.0",
     "dat.gui": "^0.7.9",
+    "jsroot": "github:9inpachi/jsroot#7.2.0-types",
     "jszip": "^3.10.0",
     "stats-js": "^1.0.1",
     "three": "^0.140.2"
   },
   "devDependencies": {
+<<<<<<< HEAD
+=======
+    "@babel/helper-string-parser": "^7.18.10",
+    "@babel/plugin-transform-runtime": "^7.18.0",
+>>>>>>> master
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
     "esbuild-loader": "^2.19.0",

@@ -3,7 +3,7 @@ import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 
 import { CycleEventsComponent } from './cycle-events.component';
 
-fdescribe('CycleEventsComponent', () => {
+describe('CycleEventsComponent', () => {
   let component: CycleEventsComponent;
   let fixture: ComponentFixture<CycleEventsComponent>;
 

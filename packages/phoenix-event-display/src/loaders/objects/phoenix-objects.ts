@@ -33,6 +33,11 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
  * Physics objects that make up an event in Phoenix.
  */
 export class PhoenixObjects {
+  /**
+   * Get tracks as three.js obejct.
+   * @param tracks Tracks params to construct tacks from.
+   * @returns The object containing tracks.
+   */
   public static getTracks(tracks): Object3D {
     const tracksMesh = new TracksMesh();
     const tracksMaterial = new TracksMaterial({ lineWidth: 2 });
@@ -522,7 +527,7 @@ export class PhoenixObjects {
    * @param length length of the cuboid
    * @param width width of the cuboid
    * @param clusterParams Parameters for the Cluster (which must include color
-   * @returns Geometry
+   * @returns Geometry.
    */
   private static getCaloCube(
     length: number,
@@ -580,6 +585,11 @@ export class PhoenixObjects {
     return cube;
   }
 
+  /**
+   * Get the planar calo cells from parameters.
+   * @param caloCells Parameters to build planar calo cells.
+   * @returns Geometry.
+   */
   public static getPlanarCaloCells(caloCells: any[]): Object3D {
     const geoms = [];
     for (const caloCell of caloCells) {

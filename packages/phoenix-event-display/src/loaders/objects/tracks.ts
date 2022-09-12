@@ -9,18 +9,34 @@ import {
   ColorRepresentation,
 } from 'three';
 
+/**
+ * Custom mesh for tracks.
+ */
 export class TracksMesh extends BufferGeometry {
+  /** ID of the next track. */
   next_track_id: number;
+  /** Positions. */
   positions: number[];
+  /** Previous. */
   previous: number[];
+  /** Next. */
   next: number[];
+  /** Colors. */
   colors: number[];
+  /** Counter. */
   counter: number[];
+  /** Track ID. */
   track_id: any[];
+  /** Side. */
   side: any[];
+  /** Indices. */
   indices_array: any[];
+  /** Attributes. */
   _attributes: any;
 
+  /**
+   * Create the tracks mesh.
+   */
   constructor() {
     super();
     this.type = 'TracksMesh';
@@ -35,6 +51,12 @@ export class TracksMesh extends BufferGeometry {
     this.next_track_id = 0;
   }
 
+  /**
+   * Add a track to the tracks mesh.
+   * @param points Points for constructing the track.
+   * @param color Color of the track.
+   * @returns ID of the track.
+   */
   addTrack(points: Vector3[], color: ColorRepresentation) {
     const id = this.next_track_id++;
 
@@ -74,6 +96,9 @@ export class TracksMesh extends BufferGeometry {
     return id;
   }
 
+  /**
+   * Process the track mesh.
+   */
   process() {
     if (
       !this._attributes ||
@@ -139,6 +164,7 @@ export class TracksMesh extends BufferGeometry {
   }
 }
 
+/** Custom vertex shader for tracks. */
 ShaderChunk['tracks_vert'] = [
   'attribute vec3 previous;',
   'attribute vec3 next;',
@@ -184,6 +210,7 @@ ShaderChunk['tracks_vert'] = [
   '}',
 ].join('\n');
 
+/** Custom fragment shadre for track. */
 ShaderChunk['tracks_frag'] = [
   'uniform float progress;',
   'varying vec3 v_color;',
@@ -195,8 +222,17 @@ ShaderChunk['tracks_frag'] = [
   '}',
 ].join('\n');
 
+/**
+ * Custom material for the tracks.
+ */
 export class TracksMaterial extends ShaderMaterial {
+  /** If the material is of track. */
   isTracksMaterial: boolean;
+
+  /**
+   * Create the tracks material.
+   * @param params Params for creating the tracks material.
+   */
   constructor(params) {
     super({
       uniforms: Object.assign(
