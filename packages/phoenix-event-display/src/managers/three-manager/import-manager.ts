@@ -231,16 +231,11 @@ export class ImportManager {
             );
 
             const materials = {};
-<<<<<<< HEAD
-            // eslint-disable-next-line no-inner-declarations
-            function findMeshes(node, parentMatrix: Matrix4, depth) {
-=======
             const findMeshes = (
               node: Object3D,
               parentMatrix: Matrix4,
               depth: number
             ) => {
->>>>>>> master
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {
                 const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...

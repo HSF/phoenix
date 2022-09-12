@@ -20,10 +20,6 @@
     "eslint:fix": "yarn eslint --fix",
     "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "//": "Running tests only for phoenix-ui-components because of bug in phoenix-app tests",
-<<<<<<< HEAD
-=======
-    "test:coverage": "rimraf ./coverage && ng test phoenix-ui-components --no-watch --code-coverage --no-progress --browsers=ChromeHeadlessCI",
->>>>>>> master
     "version": "yarn deploy",
     "deploy:web": "yarn build:prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
     "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"

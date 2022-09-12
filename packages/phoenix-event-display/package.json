@@ -45,11 +45,8 @@
     "three": "^0.140.2"
   },
   "devDependencies": {
-<<<<<<< HEAD
-=======
     "@babel/helper-string-parser": "^7.18.10",
     "@babel/plugin-transform-runtime": "^7.18.0",
->>>>>>> master
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
     "esbuild-loader": "^2.19.0",
