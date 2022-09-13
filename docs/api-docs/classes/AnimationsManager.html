@@ -153,7 +153,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/managers/three-manager/animations-manager.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/three-manager/animations-manager.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -258,8 +258,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="510"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:510</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="524"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:524</a></div>
                 </td>
             </tr>
 
@@ -353,8 +353,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:152</a></div>
                 </td>
             </tr>
 
@@ -463,8 +463,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="324"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:324</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="338"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:338</a></div>
                 </td>
             </tr>
 
@@ -599,8 +599,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="500"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:500</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="514"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:514</a></div>
                 </td>
             </tr>
 
@@ -693,8 +693,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="541"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:541</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="555"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:555</a></div>
                 </td>
             </tr>
 
@@ -789,8 +789,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:81</a></div>
                 </td>
             </tr>
 
@@ -899,8 +899,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="461"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:461</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="475"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:475</a></div>
                 </td>
             </tr>
 
@@ -1009,8 +1009,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="401"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:401</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="415"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:415</a></div>
                 </td>
             </tr>
 
@@ -1165,8 +1165,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:58</a></div>
                 </td>
             </tr>
 
@@ -1284,8 +1284,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="527"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:527</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="541"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:541</a></div>
                 </td>
             </tr>
 
@@ -1371,6 +1371,7 @@ import {
 } from &#x27;three&#x27;;
 import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
+import { TracksMesh } from &#x27;../../loaders/objects/tracks&#x27;;
 
 /** Type for animation preset. */
 export interface AnimationPreset {
@@ -1534,7 +1535,20 @@ export class AnimationsManager {
             if (eventObject.geometry instanceof TubeBufferGeometry) {
               geometryPosCount *&#x3D; 6;
             }
-            if (eventObject.geometry instanceof BufferGeometry) {
+
+            if (eventObject.geometry instanceof TracksMesh) {
+              eventObject.material.progress &#x3D; 0;
+              const eventObjectTween &#x3D; new TWEEN.Tween(eventObject.material).to(
+                {
+                  progress: 1,
+                },
+                tweenDuration
+              );
+              eventObjectTween.onComplete(() &#x3D;&gt; {
+                eventObject.material.progress &#x3D; 1;
+              });
+              allTweens.push(eventObjectTween);
+            } else if (eventObject.geometry instanceof BufferGeometry) {
               const oldDrawRangeCount &#x3D; eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
               const eventObjectTween &#x3D; new TWEEN.Tween(

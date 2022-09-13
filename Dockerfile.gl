@@ -1,0 +1,56 @@
+# Build stage
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu20.04 as builder
+
+# Install node 14.0
+RUN apt-get update -y && \
+    apt-get install -y curl gnupg ca-certificates && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
+
+# See: https://github.com/stackgl/headless-gl#ubuntudebian
+RUN apt-get update -y && \
+    apt-get install -y build-essential python libxi-dev libglu-dev libglew-dev pkg-config git
+
+WORKDIR /build
+
+COPY . .
+
+RUN npm install yarn --global
+RUN yarn install
+RUN yarn deploy:web 
+
+# Build headless-gl natively as the prebuilt binary is not compatible
+# See https://github.com/stackgl/headless-gl/issues/65#issuecomment-252742795
+
+RUN git clone https://github.com/stackgl/headless-gl.git && \
+    cd headless-gl && \
+    git submodule init && \
+    git submodule update && \
+    npm install && \
+    npm run rebuild
+
+# We will later copy headless-gl/build/Release/webgl.node into runtime layer
+
+# Runtime stage, install and copy only what's needed to run
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu20.04
+
+# Install node 14.0
+RUN apt-get update -y && \
+    apt-get install -y curl gnupg ca-certificates && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs
+
+# See: https://github.com/stackgl/headless-gl#ubuntudebian
+RUN apt-get update -y && \
+    apt-get install -y build-essential python libxi-dev libglu-dev libglew-dev pkg-config git
+
+WORKDIR /app
+
+COPY --from=builder /build . 
+COPY --from=builder /build/headless-gl/build/Release/webgl.node node_modules/gl/build/Release/webgl.node
+
+RUN npm install yarn --global
+
+ENV DISPLAY :0
+
+RUN yarn workspace phoenix-event-display test

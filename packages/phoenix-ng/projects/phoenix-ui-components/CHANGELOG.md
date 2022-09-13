@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/HSF/phoenix/compare/v2.10.0...v2.11.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* **app:** generic error handling ([09b048f](https://github.com/HSF/phoenix/commit/09b048f43ff7ea89b76849df3e7c99279d53210d))
+
+
+### Features
+
+* **app:** add global error handling ([e1b368f](https://github.com/HSF/phoenix/commit/e1b368f734ca7f731fd1dd775697fb68d43dd9da))
+* **event-display:** load root geometry in io options correctly ([ff77aaa](https://github.com/HSF/phoenix/commit/ff77aaa0c938e83f9075072bd2f5d5a66def5e7d))
+* **event-display:** use url inside of objects for loading jsroot geometries ([a54d302](https://github.com/HSF/phoenix/commit/a54d302e321cd064e62dc5e05136727e6a8dfd9b))
+
+
+
+
+
 # [2.10.0](https://github.com/HSF/phoenix/compare/v2.9.0...v2.10.0) (2022-07-21)
 
 

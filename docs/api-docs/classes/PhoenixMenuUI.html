@@ -454,8 +454,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="208"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:208</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:219</a></div>
                 </td>
             </tr>
 
@@ -580,8 +580,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:175</a></div>
                 </td>
             </tr>
 
@@ -621,8 +621,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:201</a></div>
                 </td>
             </tr>
 
@@ -834,8 +834,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="373"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:373</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="384"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:384</a></div>
                 </td>
             </tr>
 
@@ -928,8 +928,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="323"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:323</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:334</a></div>
                 </td>
             </tr>
 
@@ -1047,8 +1047,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="429"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:429</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="440"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:440</a></div>
                 </td>
             </tr>
 
@@ -1126,8 +1126,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="438"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:438</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="449"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:449</a></div>
                 </td>
             </tr>
 
@@ -1167,8 +1167,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="414"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:414</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="425"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:425</a></div>
                 </td>
             </tr>
 
@@ -1374,9 +1374,20 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       parentNode &#x3D; this.geomFolder.findInTreeOrCreate(menuSubfolder);
     }
 
-    const objFolder &#x3D; parentNode.addChild(name, (value: boolean) &#x3D;&gt; {
-      this.sceneManager.objectVisibility(object, value);
-    });
+    // find out where the actual object name starts, providing that the name
+    // is hierarchical and contents higher level menu names too
+    let nameStart &#x3D; name.lastIndexOf(&#x27; &gt; &#x27;);
+    if (nameStart &lt; 0) {
+      nameStart &#x3D; 0; // case where there is no hierarchy
+    } else {
+      nameStart +&#x3D; 3; // skip the last &#x27; &gt; &#x27;
+    }
+    const objFolder &#x3D; parentNode.addChild(
+      name.substring(nameStart),
+      (value: boolean) &#x3D;&gt; {
+        this.sceneManager.objectVisibility(object, value);
+      }
+    );
 
     objFolder.toggleState &#x3D; visible;
 
