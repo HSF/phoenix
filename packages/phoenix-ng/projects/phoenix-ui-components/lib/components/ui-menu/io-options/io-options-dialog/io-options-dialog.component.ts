@@ -193,7 +193,7 @@ export class IOOptionsDialogComponent implements OnInit {
       const jiveloader = new JiveXMLLoader();
       Object.keys(allFilesWithData)
         .filter((fileName) => {
-          fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
+          return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
         })
         .forEach((fileName) => {
           jiveloader.process(allFilesWithData[fileName]);
@@ -201,15 +201,6 @@ export class IOOptionsDialogComponent implements OnInit {
           Object.assign(allEventsObject, { [fileName]: eventData });
         });
       // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
-
-      // TODO - remove once the above works
-      Object.keys(allFilesWithData)
-        .filter((fileName) => fileName.startsWith('JiveXML'))
-        .forEach((fileName) => {
-          jiveloader.process(allFilesWithData[fileName]);
-          const eventData = jiveloader.getEventData();
-          Object.assign(allEventsObject, { [fileName]: eventData });
-        });
 
       this.eventDisplay.parsePhoenixEvents(allEventsObject);
 
