@@ -12,6 +12,10 @@ module.exports = {
     },
   },
   roots: ['<rootDir>/src/tests'],
+  moduleNameMapper: {
+    'jsroot/geom': '<rootDir>../../../phoenix/node_modules/jsroot/',
+    'jsroot/io': '<rootDir>../../../phoenix/node_modules/jsroot/',
+  },
   preset: 'ts-jest/presets/js-with-ts',
   transformIgnorePatterns: ['/node_modules/(?!three/examples/jsm/.+\\.js)'],
   testRegex: '(/__test__/.*|(\\.|/)(test|spec))\\.(j|t)sx?$',
