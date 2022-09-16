@@ -22,7 +22,10 @@ module.exports = {
   resolver: '@nrwl/jest/plugins/resolver',
   globalSetup: 'jest-preset-angular/global-setup',
   testEnvironment: 'jsdom',
-  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
+  moduleNameMapper: {
+    'jsroot/geom': '<rootDir>../../../phoenix/node_modules/jsroot/',
+    'jsroot/io': '<rootDir>../../../phoenix/node_modules/jsroot/',
+  },
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
