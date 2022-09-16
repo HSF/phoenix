@@ -163,7 +163,7 @@ describe('IoOptionsDialogComponent', () => {
       new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
     ]);
     component.handleZipEventDataInput(files);
-  });
+  }, 30000);
 
   it('should handle ig event data', async () => {
     const ig = new JSZip();
