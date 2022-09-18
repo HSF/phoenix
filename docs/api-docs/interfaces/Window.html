@@ -151,7 +151,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ThreeManager } from &#x27;./managers/three-manager&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest } from &#x27;jsroot&#x27;;
+import { settings as jsrootSettings } from &#x27;jsroot&#x27;;
+import { build } from &#x27;jsroot/geom&#x27;;
+import { openFile } from &#x27;jsroot/io&#x27;;
+import { ThreeManager } from &#x27;./managers/three-manager&#x27;;
 import { UIManager } from &#x27;./managers/ui-manager&#x27;;
 import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
 import { Configuration } from &#x27;./lib/types/configuration&#x27;;
@@ -561,7 +565,6 @@ export class EventDisplay {
 
   /**
    * Load JSON geometry from JSRoot.
-   * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot geometry file.
    * @param name Name of the geometry.
    * @param menuNodeName Name of the node in Phoenix menu to add the geometry to. Use &gt;  as a separator for specifying the hierarchy for sub-folders.
@@ -569,8 +572,7 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    */
-  public loadRootJSONGeometry(
-    JSROOT: any,
+  public async loadRootJSONGeometry(
     url: string,
     name: string,
     menuNodeName?: string,
@@ -579,22 +581,22 @@ export class EventDisplay {
     initiallyVisible: boolean &#x3D; true
   ) {
     this.loadingManager.addLoadableItem(&#x27;root_json_geom&#x27;);
-    JSROOT.NewHttpRequest(url, &#x27;object&#x27;, (obj: any) &#x3D;&gt; {
-      this.loadJSONGeometry(
-        JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-        name,
-        menuNodeName,
-        scale,
-        doubleSided,
-        initiallyVisible
-      );
-      this.loadingManager.itemLoaded(&#x27;root_json_geom&#x27;);
-    }).send();
+
+    const object &#x3D; await httpRequest(url, &#x27;object&#x27;);
+    await this.loadJSONGeometry(
+      build(object, { dflt_colors: true }).toJSON(),
+      name,
+      menuNodeName,
+      scale,
+      doubleSided,
+      initiallyVisible
+    );
+
+    this.loadingManager.itemLoaded(&#x27;root_json_geom&#x27;);
   }
 
   /**
    * Load ROOT geometry from JSRoot.
-   * @param JSROOT JSRoot object containing all the JSROOT functions.
    * @param url URL of the JSRoot file.
    * @param objectName Name of the object inside the &quot;.root&quot; file.
    * @param name Name of the geometry.
@@ -603,8 +605,7 @@ export class EventDisplay {
    * @param doubleSided Renders both sides of the material.
    * @param initiallyVisible Whether the geometry is initially visible or not. Default &#x60;true&#x60;.
    */
-  public loadRootGeometry(
-    JSROOT: any,
+  public async loadRootGeometry(
     url: string,
     objectName: string,
     name: string,
@@ -613,20 +614,23 @@ export class EventDisplay {
     doubleSided?: boolean,
     initiallyVisible: boolean &#x3D; true
   ) {
-    if (url.indexOf(&#x27;.root&#x27;) &gt; 0) {
-      JSROOT.openFile(url).then((file: any) &#x3D;&gt; {
-        file.readObject(objectName).then((obj: any) &#x3D;&gt; {
-          this.loadJSONGeometry(
-            JSROOT.GEO.build(obj, { dflt_colors: true }).toJSON(),
-            name,
-            menuNodeName,
-            scale,
-            doubleSided,
-            initiallyVisible
-          );
-        });
-      });
-    }
+    this.loadingManager.addLoadableItem(&#x27;root_geom&#x27;);
+    // See https://github.com/root-project/jsroot/blob/19ce116b68701ab45e0a092c673119bf97ede0c2/modules/core.mjs#L241.
+    jsrootSettings.UseStamp &#x3D; false;
+
+    const file &#x3D; await openFile(url);
+    const obj &#x3D; await file.readObject(objectName);
+
+    await this.loadJSONGeometry(
+      build(obj, { dflt_colors: true }).toJSON(),
+      name,
+      menuNodeName,
+      scale,
+      doubleSided,
+      initiallyVisible
+    );
+
+    this.loadingManager.itemLoaded(&#x27;root_geom&#x27;);
   }
 
   /**

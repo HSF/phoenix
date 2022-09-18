@@ -169,6 +169,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/TrackmlLoader.html" data-type="entity-link" >TrackmlLoader</a>
                             </li>
                             <li class="link">
+                                <a href="classes/TracksMaterial.html" data-type="entity-link" >TracksMaterial</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TracksMesh.html" data-type="entity-link" >TracksMesh</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/UIManager.html" data-type="entity-link" >UIManager</a>
                             </li>
                             <li class="link">

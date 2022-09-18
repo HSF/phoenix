@@ -1,0 +1,8 @@
+<svg width="0" height="0" class="hidden">
+  <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" id="closevp">
+    <g fill="var(--phoenix-options-icon-path, #fff)" stroke="var(--phoenix-options-icon-path, #fff)">
+      <path stroke-width="4" d="M42,0L32,10L42,20M60,10L42,10M18,0L28,10L18,20M0,10L18,10"/>
+      <text x="6" y="60" font-size="35" font-face="bold">VP</text>
+    </g>
+  </symbol>
+</svg>

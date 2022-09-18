@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/HSF/phoenix/compare/v2.10.0...v2.11.0) (2022-09-13)
+
+
+### Features
+
+* **app:** add e2e tests for phoenix app ([69544e6](https://github.com/HSF/phoenix/commit/69544e6eca5c98a222eb2dcbf9f93593ccd54f20))
+* **event-display:** add root geometry loading to loading manager ([6c92e33](https://github.com/HSF/phoenix/commit/6c92e33c0a0e7f516462ab05d7c0e07e89d4ee82))
+* **event-display:** load root geometry in io options correctly ([ff77aaa](https://github.com/HSF/phoenix/commit/ff77aaa0c938e83f9075072bd2f5d5a66def5e7d))
+* **event-display:** remove loadJSRootScripts function from script loader ([e152933](https://github.com/HSF/phoenix/commit/e1529336edc0e1a5f6718129a0881618e5c00ecc))
+* **event-display:** update jsroot usage in JSRootEventLoader ([4791f53](https://github.com/HSF/phoenix/commit/4791f5360050944c82a1cf6ebbf921d6b969008a))
+* **event-display:** use full path for object names to make them unique ([3d1f91c](https://github.com/HSF/phoenix/commit/3d1f91c6a1b9940be3d8971626a885229178083f))
+* **event-display:** use jsroot 7 to load root json geometry ([5518a3e](https://github.com/HSF/phoenix/commit/5518a3ececb50fdb5a346c9b2999a43249d16dac))
+* **event-display:** use url inside of objects for loading jsroot geometries ([a54d302](https://github.com/HSF/phoenix/commit/a54d302e321cd064e62dc5e05136727e6a8dfd9b))
+
+
+
+
+
 # [2.10.0](https://github.com/HSF/phoenix/compare/v2.9.0...v2.10.0) (2022-07-21)
 
 
