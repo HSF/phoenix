@@ -7,6 +7,10 @@ describe('ActiveVariable', () => {
     activeVariable = new ActiveVariable();
   });
 
+  afterEach(() => {
+    activeVariable = undefined;
+  });
+
   it('should exist', () => {
     expect(activeVariable.value).toBeUndefined();
   });

@@ -28,6 +28,7 @@ describe('XRManager', () => {
 
   afterEach(() => {
     xrManager.endXRSession();
+    xrManager = undefined;
   });
 
   it('should create an instance of XRManager', () => {

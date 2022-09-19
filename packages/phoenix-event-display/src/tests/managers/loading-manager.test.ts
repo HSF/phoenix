@@ -9,6 +9,7 @@ describe('LoadingManager', () => {
 
   afterEach(() => {
     loadingManager.reset();
+    loadingManager = undefined;
   });
 
   it('should create an instance', () => {

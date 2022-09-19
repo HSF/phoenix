@@ -24,6 +24,8 @@ describe('PhoenixMenuUI', () => {
 
   afterEach(() => {
     phoenixMenuUI.clear();
+    phoenixMenuUI = undefined;
+    phoenixMenuUIPrivate = undefined;
   });
 
   it('should create an instance', () => {

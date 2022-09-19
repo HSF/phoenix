@@ -27,6 +27,10 @@ describe('URLOptionsManager', () => {
     urlOptionsManagerPrivate = urlOptionsManager;
   });
 
+  afterEach(() => {
+    urlOptionsManager = undefined;
+  });
+
   it('should create an instance', () => {
     expect(urlOptionsManager).toBeTruthy();
   });

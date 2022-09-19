@@ -16,6 +16,10 @@ describe('StateManager', () => {
     stateManager = new StateManager();
   });
 
+  afterEach(() => {
+    stateManager = undefined;
+  });
+
   it('should create an instance', () => {
     expect(stateManager).toBeTruthy();
   });

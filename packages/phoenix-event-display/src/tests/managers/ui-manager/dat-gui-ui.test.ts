@@ -23,6 +23,7 @@ describe('DatGUIMenuUI', () => {
 
   afterEach(() => {
     datGUIMenu.clear();
+    datGUIMenu = undefined;
   });
 
   it('should create an instance', () => {

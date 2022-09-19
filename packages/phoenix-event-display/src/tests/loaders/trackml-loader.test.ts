@@ -10,6 +10,10 @@ describe('TrackmlLoader', () => {
     trackmlLoader = new TrackmlLoader();
   });
 
+  afterEach(() => {
+    trackmlLoader = undefined;
+  });
+
   it('should create an instance', () => {
     expect(trackmlLoader).toBeDefined();
   });

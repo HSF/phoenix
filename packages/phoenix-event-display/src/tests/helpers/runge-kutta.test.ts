@@ -8,6 +8,10 @@ describe('RungeKutta', () => {
     rungekutta = new RungeKutta();
   });
 
+  afterEach(() => {
+    rungekutta = undefined;
+  });
+
   it('should create an instance', () => {
     expect(rungekutta).toBeTruthy();
   });

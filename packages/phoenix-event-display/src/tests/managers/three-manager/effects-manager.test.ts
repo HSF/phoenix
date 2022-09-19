@@ -36,6 +36,10 @@ describe('EffectsManager', () => {
     );
   });
 
+  afterEach(() => {
+    effectsManager = undefined;
+  });
+
   it('should create an instance', () => {
     expect(effectsManager).toBeTruthy();
   });

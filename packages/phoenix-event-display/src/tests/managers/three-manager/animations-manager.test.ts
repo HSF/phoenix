@@ -18,6 +18,10 @@ describe('AnimationsManager', () => {
     animationsManager = new AnimationsManager(scene, camera, rendererManager);
   });
 
+  afterEach(() => {
+    animationsManager = undefined;
+  });
+
   it('should get the camera tween for animating camera to a position', () => {
     const tween = animationsManager.getCameraTween([0, 1, 2], 0, 1);
 

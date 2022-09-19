@@ -1,11 +1,3 @@
-import {
-  Euler,
-  LineBasicMaterial,
-  LineSegments,
-  Mesh,
-  MeshBasicMaterial,
-  Vector3,
-} from 'three';
 import { CMSObjects } from '../../../loaders/objects/cms-objects';
 
 describe('CMSObjects', () => {
@@ -13,6 +5,10 @@ describe('CMSObjects', () => {
 
   beforeEach(() => {
     cmsObjects = new CMSObjects();
+  });
+
+  afterEach(() => {
+    cmsObjects = undefined;
   });
 
   it('should create an instance', () => {

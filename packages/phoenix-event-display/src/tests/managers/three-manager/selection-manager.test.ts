@@ -32,7 +32,7 @@ describe('SelectionManager', () => {
   });
 
   afterEach(() => {
-    selectionManager = null;
+    selectionManager = undefined;
   });
 
   it('should be created', () => {

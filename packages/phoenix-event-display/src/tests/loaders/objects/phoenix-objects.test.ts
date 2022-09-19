@@ -8,6 +8,10 @@ describe('PhoenixObjects', () => {
     phoenixObjects = new PhoenixObjects();
   });
 
+  afterEach(() => {
+    phoenixObjects = undefined;
+  });
+
   it('should create an instance', () => {
     expect(phoenixObjects).toBeTruthy();
   });

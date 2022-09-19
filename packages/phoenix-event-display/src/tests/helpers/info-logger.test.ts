@@ -7,6 +7,10 @@ describe('InfoLogger', () => {
     infoLogger = new InfoLogger();
   });
 
+  afterEach(() => {
+    infoLogger = undefined;
+  });
+
   it('should create an instance of InfoLogger', () => {
     expect(infoLogger).toBeTruthy();
   });

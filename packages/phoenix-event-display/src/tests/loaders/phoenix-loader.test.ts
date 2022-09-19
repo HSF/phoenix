@@ -64,6 +64,10 @@ describe('PhoenixLoader', () => {
     );
   });
 
+  afterEach(() => {
+    phoenixLoader = undefined;
+  });
+
   it('should create an instance', () => {
     expect(phoenixLoader).toBeTruthy();
   });

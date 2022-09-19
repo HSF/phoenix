@@ -11,6 +11,10 @@ describe('ScriptLoader', () => {
     scriptLoader = new ScriptLoader();
   });
 
+  afterEach(() => {
+    scriptLoader = undefined;
+  });
+
   it('should create an instance', () => {
     expect(scriptLoader).toBeTruthy();
   });

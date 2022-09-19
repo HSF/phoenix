@@ -8,6 +8,10 @@ describe('RKHelper', () => {
     rkHelper = new RKHelper();
   });
 
+  afterEach(() => {
+    rkHelper = undefined;
+  });
+
   it('should create an instance', () => {
     expect(rkHelper).toBeTruthy();
   });

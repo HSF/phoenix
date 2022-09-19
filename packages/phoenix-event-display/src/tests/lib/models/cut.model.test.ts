@@ -7,6 +7,10 @@ describe('Cut', () => {
     model = new Cut('test', 0, 1, 1);
   });
 
+  afterEach(() => {
+    model = undefined;
+  });
+
   it('should create an instance of Cut model', () => {
     expect(model).toBeTruthy();
   });

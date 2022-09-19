@@ -7,6 +7,10 @@ describe('PresetView', () => {
     model = new PresetView('test', [0, 0, 0], [0, 0, 0], 'test');
   });
 
+  afterEach(() => {
+    model = undefined;
+  });
+
   it('should create an instance of PresetView', () => {
     expect(model).toBeTruthy();
   });

@@ -30,6 +30,10 @@ describe('SceneManager', () => {
     sceneManager = new SceneManager(ignoreList, true);
   });
 
+  afterEach(() => {
+    sceneManager = undefined;
+  });
+
   it('should update position of directional light for each frame rendered', () => {
     const camera = new Camera();
     camera.position.set(7, 7, 7);
