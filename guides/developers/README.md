@@ -15,6 +15,7 @@
 * [Using JSROOT](./using-jsroot.md)
 * [Running with XR (AR/VR) support](./running-with-xr-support.md)
 * [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
+* [How to make a Phoenix release](./../release.md)
 
 ## Phoenix architecture
 
