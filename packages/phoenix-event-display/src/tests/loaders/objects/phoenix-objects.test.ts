@@ -16,6 +16,40 @@ describe('PhoenixObjects', () => {
     expect(phoenixObjects).toBeTruthy();
   });
 
+  it('should get tracks as a three.js object', () => {
+    const trackParams = [
+      {
+        chi2: 0.0,
+        dof: 0.0,
+        dparams: [0.0, 0.0, 0.0, 1.5707963705062866, 0.0],
+        label: '0.000000/0.000000',
+        pos: [
+          [0.0, 0.0, -0.0],
+          [999.999999999999, 0.0, -4.371139000186444e-5],
+          [1999.999999999998, 0.0, -8.742278000372887e-5],
+          [2999.999999999997, 0.0, -0.00013113417000559332],
+        ],
+      },
+      {
+        chi2: 0.0,
+        dof: 0.0,
+        dparams: [0.0, 0.0, 0.0, 2.43656587600708, 0.0],
+        label: '1.000000/0.000000',
+        pos: [
+          [0.0, 0.0, -0.0],
+          [648.0542234195947, 0.0, -761.5941987095399],
+          [1296.1084468391894, 0.0, -1523.1883974190798],
+          [1944.162670258784, 0.0, -2284.78259612862],
+        ],
+      },
+    ];
+
+    const tracksObj = PhoenixObjects.getTracks(trackParams);
+
+    expect(tracksObj.name).toBe('Track');
+    expect(tracksObj.type).toBe('Mesh');
+  });
+
   it('should create a Track from the given parameters and get it as an object', () => {
     const trackParams = {
       pos: [
@@ -197,6 +231,31 @@ describe('PhoenixObjects', () => {
     expect(vertexObject.type).toBe('Mesh');
 
     expect(vertexParams).toMatchObject(vertexObject.userData);
+  });
+
+  it('should get the planar calo cells from parameters and get it as an object', () => {
+    const caloCellsObj = [
+      {
+        pos: [
+          [0, 0, 0],
+          [1, 0, 0],
+          [1, 1, 0],
+        ],
+        cellSize: 1,
+        plane: [1, 0, 0],
+        energy: 1,
+        phi: 0,
+        eta: 0,
+        theta: 0,
+        color: '#000000',
+      },
+    ];
+
+    const obj = PhoenixObjects.getPlanarCaloCells(caloCellsObj);
+
+    expect(obj).toBeInstanceOf(Object3D);
+    expect(obj.name).toBe('PlanarCaloCell');
+    expect(obj.type).toBe('Mesh');
   });
 
   it('should create a Vertex from the given parameters and get it as a MET object', () => {

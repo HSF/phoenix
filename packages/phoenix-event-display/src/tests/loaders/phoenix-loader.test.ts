@@ -72,6 +72,13 @@ describe('PhoenixLoader', () => {
     expect(phoenixLoader).toBeTruthy();
   });
 
+  it('should not get the list of collections and collection with the given collection name from the event data', () => {
+    phoenixLoader['eventData'] = undefined;
+    expect(phoenixLoader.getCollections()).toBeNull();
+    expect(phoenixLoader.getCollection('hitsCollection')).toBeNull();
+    phoenixLoader['eventData'] = eventData['Event'];
+  });
+
   it('should get the list of event names from the event data', () => {
     const eventsList = phoenixLoader.getEventsList(eventData);
 
@@ -115,5 +122,15 @@ describe('PhoenixLoader', () => {
     expect(
       phoenixLoader.addScaleOptions('configKey', 'configLabel', () => {})
     ).toBeInstanceOf(Function);
+  });
+
+  it('should add label of event object to the labels object', () => {
+    const label = 'hitsLabel';
+    const collectionName = 'hitsCollection';
+    const index = 0;
+
+    expect(
+      phoenixLoader.addLabelToEventObject(label, collectionName, index)
+    ).toBe('Hits > hitsCollection > 0');
   });
 });
