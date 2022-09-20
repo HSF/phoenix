@@ -39,20 +39,20 @@
     "@tweenjs/tween.js": "^17.4.0",
     "dat.gui": "^0.7.9",
     "jsroot": "github:9inpachi/jsroot#7.2.0-types",
-    "jszip": "^3.10.0",
+    "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.140.2"
+    "three": "^0.144.0"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.18.10",
-    "@babel/plugin-transform-runtime": "^7.18.0",
+    "@babel/plugin-transform-runtime": "^7.19.1",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
-    "@types/three": "^0.140.0",
-    "esbuild-loader": "^2.19.0",
+    "@types/three": "^0.144.0",
+    "esbuild-loader": "^2.20.0",
     "karma-typescript": "~5.5.3",
     "karma-typescript-es6-transform": "~5.5.3",
-    "webpack": "^5.72.1",
-    "webpack-cli": "^4.9.2"
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
