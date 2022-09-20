@@ -1,12 +1,12 @@
 import { SceneManager } from './scene-manager';
 import {
-  TubeBufferGeometry,
+  TubeGeometry,
   BufferGeometry,
   Vector3,
   Color,
   MeshBasicMaterial,
   Mesh,
-  SphereBufferGeometry,
+  SphereGeometry,
   Sphere,
   Object3D,
   BufferAttribute,
@@ -176,9 +176,9 @@ export class AnimationsManager {
             eventObject.geometry?.attributes?.position?.count;
           if (geometryPosCount) {
             // WORKAROUND
-            // Changing position count for TubeBufferGeometry because
+            // Changing position count for TubeGeometry because
             // what we get is not the actual and it has Infinity drawRange count
-            if (eventObject.geometry instanceof TubeBufferGeometry) {
+            if (eventObject.geometry instanceof TubeGeometry) {
               geometryPosCount *= 6;
             }
 
@@ -344,7 +344,7 @@ export class AnimationsManager {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     // Sphere to get spherical set of clipping planes from
-    const sphere = new SphereBufferGeometry(1, 8, 8);
+    const sphere = new SphereGeometry(1, 8, 8);
     // Clipping planes for animation
     const animationClipPlanes: Plane[] = [];
 
@@ -419,7 +419,7 @@ export class AnimationsManager {
     particleColor: Color = new Color(0xffffff),
     onEnd?: () => void
   ) {
-    const particleGeometry = new SphereBufferGeometry(particleSize, 32, 32);
+    const particleGeometry = new SphereGeometry(particleSize, 32, 32);
     const particleMaterial = new MeshBasicMaterial({
       color: particleColor,
       transparent: true,

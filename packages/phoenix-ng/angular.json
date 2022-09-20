@@ -34,7 +34,10 @@
             "allowedCommonJsDependencies": [
               "css-element-queries",
               "@tweenjs/tween.js",
-              "qrcode"
+              "qrcode",
+              "jszip",
+              "detect-passive-events",
+              "stats-js"
             ],
             "scripts": [],
             "vendorChunk": true,

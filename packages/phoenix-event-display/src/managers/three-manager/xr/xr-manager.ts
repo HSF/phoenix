@@ -1,4 +1,11 @@
-import { Camera, Group, Vector3, WebGLRenderer } from 'three';
+import {
+  ArrayCamera,
+  Camera,
+  Group,
+  PerspectiveCamera,
+  Vector3,
+  WebGLRenderer,
+} from 'three';
 
 // NOTE: This was created on 28/06/2021
 // It might become outdated given how WebXR is still a work in progress
@@ -106,8 +113,8 @@ export class XRManager {
     }
     if (camera && this.xrActive) {
       this.xrCamera = this.renderer.xr
-        .getCamera(new Camera())
-        .copy(camera.clone() as Camera);
+        .getCamera()
+        .copy(new ArrayCamera([camera.clone() as PerspectiveCamera]));
       this.xrCamera.name = 'XR_CAMERA';
 
       const cameraPosition =
