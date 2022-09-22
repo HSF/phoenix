@@ -7,7 +7,7 @@ import {
   Group,
   Scene,
   Mesh,
-  TubeBufferGeometry,
+  TubeGeometry,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { RendererManager } from './renderer-manager';
@@ -386,7 +386,7 @@ export class ControlsManager {
         scene.getObjectByName('Tracks')?.traverse((track) => {
           if (
             track.name === 'Track' &&
-            (track as Mesh).geometry instanceof TubeBufferGeometry
+            (track as Mesh).geometry instanceof TubeGeometry
           ) {
             track.visible = false;
           }
@@ -396,7 +396,7 @@ export class ControlsManager {
         scene.getObjectByName('Tracks')?.traverse((track) => {
           if (
             track.name === 'Track' &&
-            (track as Mesh).geometry instanceof TubeBufferGeometry
+            (track as Mesh).geometry instanceof TubeGeometry
           ) {
             track.visible = true;
           }

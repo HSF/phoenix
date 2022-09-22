@@ -2,23 +2,22 @@ import {
   Vector3,
   Object3D,
   CatmullRomCurve3,
-  TubeBufferGeometry,
+  TubeGeometry,
   MeshToonMaterial,
   Mesh,
-  BoxGeometry,
   BufferGeometry,
   LineBasicMaterial,
   Line,
   Group,
   Quaternion,
-  CylinderBufferGeometry,
+  CylinderGeometry,
   MeshBasicMaterial,
   BufferAttribute,
   PointsMaterial,
   Points,
-  BoxBufferGeometry,
+  BoxGeometry,
   MeshPhongMaterial,
-  SphereBufferGeometry,
+  SphereGeometry,
   LineSegments,
   LineDashedMaterial,
 } from 'three';
@@ -157,7 +156,7 @@ export class PhoenixObjects {
     const curve = new CatmullRomCurve3(points);
 
     // TubeGeometry
-    const geometry = new TubeBufferGeometry(curve, undefined, 2);
+    const geometry = new TubeGeometry(curve, undefined, 2);
     const material = new MeshToonMaterial({ color: objectColor });
     const tubeObject = new Mesh(geometry, material);
 
@@ -226,14 +225,7 @@ export class PhoenixObjects {
     const quaternion = new Quaternion();
     quaternion.setFromUnitVectors(v1, v2);
 
-    const geometry = new CylinderBufferGeometry(
-      width,
-      10,
-      length,
-      50,
-      50,
-      false
-    ); // Cone
+    const geometry = new CylinderGeometry(width, 10, length, 50, 50, false); // Cone
 
     const material = new MeshBasicMaterial({
       color: jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets,
@@ -537,7 +529,7 @@ export class PhoenixObjects {
     if (length < width) {
       length = width;
     }
-    const geometry = new BoxBufferGeometry(width, width, length);
+    const geometry = new BoxGeometry(width, width, length);
     // material
     const material = new MeshPhongMaterial({
       color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
@@ -603,7 +595,7 @@ export class PhoenixObjects {
       const plane = caloCell.plane;
 
       // geometry
-      const geometry = new BoxBufferGeometry(size, size, length);
+      const geometry = new BoxGeometry(size, size, length);
       geometry.translate(position[0], position[1], plane[3] + length / 2);
       const qrot = new Quaternion();
       qrot.setFromUnitVectors(
@@ -647,7 +639,7 @@ export class PhoenixObjects {
     const plane = caloCells.plane;
 
     // geometry
-    const geometry = new BoxBufferGeometry(size, size, length);
+    const geometry = new BoxGeometry(size, size, length);
 
     // there is a need of an outer box to place the proper one inside of it
     const outerBox = new Object3D();
@@ -694,7 +686,7 @@ export class PhoenixObjects {
    */
   public static getVertex(vertexParams: any): Object3D {
     // geometry
-    const geometry = new SphereBufferGeometry(3);
+    const geometry = new SphereGeometry(3);
     // material
     const material = new MeshPhongMaterial({
       color: vertexParams.color ?? EVENT_DATA_TYPE_COLORS.Vertices,

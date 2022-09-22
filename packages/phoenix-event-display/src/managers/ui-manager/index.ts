@@ -275,7 +275,6 @@ export class UIManager {
    * @param value Set clipping to be true or false.
    */
   public setClipping(value: boolean) {
-    console.log(value);
     this.three.setClipping(value);
     this.stateManager.setClippingEnabled(value);
   }
