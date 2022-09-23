@@ -113,7 +113,7 @@ export class XRManager {
     }
     if (camera && this.xrActive) {
       this.xrCamera = this.renderer.xr
-        .getCamera()
+        .getCamera(camera)
         .copy(new ArrayCamera([camera.clone() as PerspectiveCamera]));
       this.xrCamera.name = 'XR_CAMERA';
 
