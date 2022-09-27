@@ -59,7 +59,7 @@ describe('InfoPanelComponent', () => {
     expect(component.showInfoPanel).toBe(true);
 
     // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showInfoPanel).toBeTruthy();
+    expect(component.overlayWindow.instance.showInfoPanel).toBe(true);
   });
 
   it('should destroy info panel overlay', () => {

@@ -4,7 +4,7 @@ import { CMSComponent } from './cms.component';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { CMSLoader } from 'phoenix-event-display';
 
-describe.skip('CMSComponent', () => {
+describe('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
@@ -51,14 +51,14 @@ describe.skip('CMSComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it.skip('should create', () => {
-    //expect(component).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   // Test if three.js is initialized
-  it.skip('should initialize three.js canvas', () => {
+  it('should initialize three.js canvas', () => {
     jest.spyOn(mockEventDisplay, 'parsePhoenixEvents');
     component.ngOnInit();
-    //expect(document.getElementById('three-canvas')).toBeTruthy();
+    expect(document.getElementById('three-canvas')).toBeTruthy();
   });
 });

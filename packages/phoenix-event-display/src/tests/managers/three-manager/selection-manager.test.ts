@@ -5,7 +5,6 @@ import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import THREE, { Camera, Object3D, Scene } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
-import { ActiveVariable } from '../../../helpers/active-variable';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 
 jest.mock('three', () => {
@@ -65,7 +64,9 @@ describe('SelectionManager', () => {
   });
 
   it('should get the uuid of the currently selected object', () => {
-    expect(selectionManager.getActiveObjectId()).toBeInstanceOf(ActiveVariable);
+    const activeObj = selectionManager.getActiveObjectId();
+    expect(activeObj.value).toBe('');
+    expect(activeObj['callbacks']).toEqual([]);
   });
 
   it('should set if selecting is to be enabled or disabled', () => {

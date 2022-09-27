@@ -2,7 +2,13 @@
  * @jest-environment jsdom
  */
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
-import { Object3D, Scene, Vector3, PerspectiveCamera } from 'three';
+import {
+  Object3D,
+  Scene,
+  Vector3,
+  PerspectiveCamera,
+  LineSegments,
+} from 'three';
 import {
   AmbientLight,
   AxesHelper,
@@ -15,8 +21,8 @@ import {
   Mesh,
   MeshBasicMaterial,
 } from 'three';
-import { CoordinateHelper } from '../../../helpers/coordinate-helper';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Cut } from '../../../lib/models/cut.model';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;
@@ -54,11 +60,17 @@ describe('SceneManager', () => {
   });
 
   it('should remove a label from the scene', () => {
-    jest.spyOn(sceneManager, 'getObjectsGroup');
+    const labelObject = new Object3D();
+    labelObject.name = 'label';
+    sceneManager.getObjectsGroup(SceneManager.LABELS_ID).add(labelObject);
 
-    sceneManager.removeLabel('test');
+    sceneManager.removeLabel('label');
 
-    expect(sceneManager.getObjectsGroup).toHaveBeenCalledTimes(1);
+    const labelFromScene = sceneManager
+      .getObjectsGroup(SceneManager.LABELS_ID)
+      .getObjectByName('label');
+
+    expect(labelFromScene).toBeFalsy();
   });
 
   it('should add new types of objects (Jets, Tracks...) to the event data group', () => {
@@ -69,25 +81,30 @@ describe('SceneManager', () => {
   });
 
   it('should toggle depthTest of event data by updating all childrens depthTest and renderOrder', () => {
-    const eventData = sceneManager.getEventData();
+    const eventGroup = sceneManager.addEventDataTypeGroup('object');
+    const childObj = new Mesh(
+      new BoxGeometry(1, 1, 1),
+      new MeshBasicMaterial()
+    );
+    eventGroup.add(childObj);
 
-    jest.spyOn(eventData, 'traverse');
-
-    sceneManager.eventDataDepthTest(false);
     sceneManager.eventDataDepthTest(true);
 
-    expect(eventData.traverse).toHaveBeenCalledTimes(2);
+    expect(childObj.renderOrder).toBe(0);
+    expect(childObj.material.depthTest).toBe(true);
+
+    sceneManager.eventDataDepthTest(false);
+
+    expect(childObj.renderOrder).toBe(999);
+    expect(childObj.material.depthTest).toBe(false);
   });
 
   it('should set the visibility of the scene eta/phi grid ', () => {
-    jest.spyOn(CoordinateHelper, 'etaPhiToCartesian');
-    jest.spyOn(sceneManager, 'getText');
-
     sceneManager.setEtaPhiGrid(true);
-    sceneManager.setEtaPhiGrid(false);
+    expect(sceneManager['grid'].visible).toBe(true);
 
-    expect(CoordinateHelper.etaPhiToCartesian).toHaveBeenCalledTimes(15);
-    expect(sceneManager.getText).toHaveBeenCalledTimes(15);
+    sceneManager.setEtaPhiGrid(false);
+    expect(sceneManager['grid'].visible).toBe(false);
   });
 
   describe('With object in scene', () => {
@@ -111,7 +128,7 @@ describe('SceneManager', () => {
     });
 
     it('should clear event data of the scene', () => {
-      const group = sceneManager.addEventDataTypeGroup('eventData');
+      sceneManager.addEventDataTypeGroup('eventData');
 
       expect(sceneManager.getEventData().children.length).toBe(1);
 
@@ -139,11 +156,15 @@ describe('SceneManager', () => {
     });
 
     it('should change color of an OBJ geometry', () => {
-      const color = new Color(0xffffff);
-      sceneManager.changeObjectColor(object, 0xffffff);
-      expect(object.material.color).toEqual(color);
+      const newColor = new Color('red');
+      sceneManager.changeObjectColor(object, newColor);
 
-      sceneManager.changeObjectColor(undefined, color);
+      expect(object.material.color).toEqual(newColor);
+
+      const childObj = new LineSegments(new BufferGeometry());
+      object.add(childObj);
+      const color2 = new Color('blue');
+      sceneManager.changeObjectColor(childObj, color2);
     });
 
     it('should change object visibility', () => {
@@ -163,10 +184,18 @@ describe('SceneManager', () => {
       expect(objPosition.z).toBe(0);
     });
 
+    it('should not get position of an object that does not exist', () => {
+      const objPosition = sceneManager.getObjectPosition('nonExistingObject');
+
+      expect(objPosition).toBeUndefined();
+    });
+
     it('should remove a geometry from the scene', () => {
-      jest.spyOn(sceneManager, 'getGeometries');
+      jest.spyOn(sceneManager.getGeometries(), 'remove');
+
       sceneManager.removeGeometry(object);
-      expect(sceneManager.getGeometries).toHaveBeenCalledTimes(1);
+
+      expect(sceneManager.getGeometries().remove).toHaveBeenCalled();
     });
 
     it('should scale an object', () => {
@@ -177,12 +206,14 @@ describe('SceneManager', () => {
     it('should scale lowest level objects in a group', () => {
       sceneManager.addEventDataTypeGroup('object');
       const object = sceneManager.getObjectByName('object');
+      const objectChild = new Mesh(new BoxGeometry(1, 1, 1));
+      object.add(objectChild);
 
-      jest.spyOn(object, 'traverse');
+      sceneManager.scaleChildObjects('object', 1.5);
+      expect(objectChild.scale.x).toBe(1.5);
 
-      sceneManager.scaleChildObjects('object', 0.5);
-
-      expect(object.traverse).toHaveBeenCalledTimes(1);
+      sceneManager.scaleChildObjects('object', 0.5, 'axis');
+      expect(objectChild.scale['axis']).toBe(0.5);
     });
 
     it('should add label to the three.js object', () => {
@@ -209,8 +240,15 @@ describe('SceneManager', () => {
       group.add(childObj);
       sceneManager.getScene().add(group);
 
-      sceneManager.groupVisibility('objectsGroup', false);
+      sceneManager.groupVisibility('objectsGroup', false, 'objectsGroup');
       expect(childObj.visible).toBe(false);
+
+      sceneManager.groupVisibility('objectsGroup', true, 'objectsGroup');
+      expect(childObj.visible).toBe(true);
+
+      // it should not change visibility of objects that are not in the group
+      sceneManager.groupVisibility('objectsGroup', false);
+      expect(object.visible).toBe(true);
     });
 
     it('should set axis', () => {
@@ -232,7 +270,14 @@ describe('SceneManager', () => {
       sceneManager.getScene().add(geometryGroup);
 
       sceneManager.wireframeGeometries(true);
-      expect((testObj as any).material.wireframe).toBe(true);
+      expect(testObj.material.wireframe).toBe(true);
+      expect(testObj.material.transparent).toBe(true);
+      expect(testObj.material.opacity).toBe(0.1);
+
+      sceneManager.wireframeGeometries(false);
+
+      expect(testObj.material.transparent).toBe(false);
+      expect(testObj.material.opacity).toBe(1);
     });
 
     it('should scale Jets', () => {
@@ -248,6 +293,21 @@ describe('SceneManager', () => {
 
       sceneManager.scaleJets(10);
       expect(testJet.scale.x).toBe(10);
+    });
+
+    it('should not scale Jets', () => {
+      const testJet = new Mesh(
+        new BoxGeometry(1, 1, 1),
+        new MeshBasicMaterial()
+      );
+      testJet.name = 'Jet2';
+      const jetsGroup = new Group();
+      jetsGroup.name = 'Jets2';
+      jetsGroup.add(testJet);
+      sceneManager.getScene().add(jetsGroup);
+
+      sceneManager.scaleJets(0);
+      expect(testJet.scale.x).toBe(1);
     });
 
     it('should get an object by its name', () => {

@@ -21,7 +21,6 @@
     "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
   },
   "devDependencies": {
-    "@types/gl": "^4.1.0",
     "@types/jest": "~27.0.0",
     "@types/node": "^18.7.18",
     "@types/three": "^0.144.0",

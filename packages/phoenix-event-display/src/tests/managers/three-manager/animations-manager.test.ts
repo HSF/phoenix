@@ -2,7 +2,10 @@
  * @jest-environment jsdom
  */
 import { Camera, Object3D, Scene, Vector3 } from 'three';
-import { AnimationsManager } from '../../../managers/three-manager/animations-manager';
+import {
+  AnimationsManager,
+  AnimationPreset,
+} from '../../../managers/three-manager/animations-manager';
 import { RendererManager } from '../../../managers/three-manager/renderer-manager';
 import { SceneManager } from '../../../managers/three-manager/scene-manager';
 
@@ -60,19 +63,39 @@ describe('AnimationsManager', () => {
         () => {},
         () => {}
       );
-      expect(scene.getObjectByName).toHaveBeenCalledTimes(1);
-    });
-
-    it('should animate the propagation and generation of event data with particle collison', () => {
-      jest.spyOn(animationsManager, 'animateWithCollision');
-      animationsManager.animateEventWithCollision(5000, () => {});
-      expect(animationsManager.animateWithCollision).toHaveBeenCalledTimes(1);
+      expect(scene.getObjectByName).toHaveBeenCalled();
     });
 
     it('should animate the propagation and generation of event data using clipping planes after particle collison', () => {
       jest.spyOn(animationsManager, 'animateWithCollision');
       animationsManager.animateClippingWithCollision(5000, () => {});
-      expect(animationsManager.animateWithCollision).toHaveBeenCalledTimes(1);
+      expect(animationsManager.animateWithCollision).toHaveBeenCalled();
+    });
+
+    it('should animate the propagation and generation of event data with particle collison', () => {
+      jest.spyOn(animationsManager, 'animateWithCollision');
+      animationsManager.animateEventWithCollision(5000, () => {});
+      expect(animationsManager.animateWithCollision).toHaveBeenCalled();
+    });
+
+    it('should animate scene by animating camera through the scene and animating event collision', () => {
+      jest.spyOn(animationsManager, 'getCameraTween');
+      const animationPreset: AnimationPreset = {
+        positions: [
+          {
+            position: [0, 0, 0],
+            duration: 0,
+          },
+          {
+            position: [0, 0, 0],
+            duration: 0,
+          },
+        ],
+        animateEventAfterInterval: 1,
+        collisionDuration: 1,
+      };
+      animationsManager.animatePreset(animationPreset, () => {});
+      expect(animationsManager.getCameraTween).toHaveBeenCalled();
     });
   });
 });

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import THREE, { Camera, Scene, WebGLRenderer, NormalBlending } from 'three';
+import THREE, { Camera, Scene, NormalBlending } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
@@ -54,10 +54,17 @@ describe('EffectsManager', () => {
   });
 
   it('should remove a pass from the effect composer', () => {
-    const pass = new RenderPass(scene, camera);
-    effectsManager.removePass(pass);
+    const pass1 = new RenderPass(scene, camera);
+    effectsManager.composer.addPass(pass1);
 
-    expect(effectsManager.composer.passes.length).toBe(0);
+    const pass2 = new RenderPass(scene, camera);
+    effectsManager.composer.addPass(pass2);
+
+    expect(effectsManager.composer.passes.length).toBe(3);
+
+    effectsManager.removePass(pass2);
+
+    expect(effectsManager.composer.passes.length).toBe(2);
   });
 
   it('should set the antialiasing of renderer', () => {

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DarkThemeComponent } from './dark-theme.component';
 import { EventDisplayService } from '../../../services/event-display.service';
-import { UIManager } from 'phoenix-event-display';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('DarkThemeComponent', () => {
@@ -45,8 +44,8 @@ describe('DarkThemeComponent', () => {
   });
 
   it('should set/toggle dark theme', () => {
-    expect(component.darkTheme).toBeTruthy();
+    component.darkTheme = false;
     component.setDarkTheme();
-    expect(component.darkTheme).toBe(false);
+    expect(component.darkTheme).toBe(true);
   });
 });
