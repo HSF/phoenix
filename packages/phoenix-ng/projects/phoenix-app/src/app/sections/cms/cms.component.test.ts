@@ -4,7 +4,7 @@ import { CMSComponent } from './cms.component';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { CMSLoader } from 'phoenix-event-display';
 
-describe('CMSComponent', () => {
+describe.skip('CMSComponent', () => {
   let component: CMSComponent;
   let fixture: ComponentFixture<CMSComponent>;
 
