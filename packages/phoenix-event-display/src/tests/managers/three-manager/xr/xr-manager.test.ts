@@ -1,23 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import THREE, { Camera, WebGLRenderer } from 'three';
+import { Camera } from 'three';
 import {
   XRManager,
   XRSessionType,
 } from '../../../../../src/managers/three-manager/xr/xr-manager';
-
-jest.mock('three', () => {
-  const THREE = jest.requireActual('three');
-  return {
-    ...THREE,
-    WebGLRenderer: jest.fn().mockReturnValue({
-      domElement: document.createElement('div'), // create a fake div
-      setSize: jest.fn(),
-      render: jest.fn(),
-    }),
-  };
-});
+import THREE from '../../../helpers/webgl-mock';
 
 describe('XRManager', () => {
   let xrManager: XRManager;

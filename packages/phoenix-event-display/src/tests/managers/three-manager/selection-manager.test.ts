@@ -3,23 +3,10 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import THREE, { Camera, Object3D, Scene } from 'three';
+import { Camera, Object3D, Scene } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-
-jest.mock('three', () => {
-  const THREE = jest.requireActual('three');
-  return {
-    ...THREE,
-    WebGLRenderer: jest.fn().mockReturnValue({
-      domElement: document.createElement('div'),
-      setSize: jest.fn(),
-      render: jest.fn(),
-      getSize: jest.fn().mockReturnValue({ width: 100, height: 100 }),
-      getPixelRatio: jest.fn(),
-    }),
-  };
-});
+import THREE from '../../helpers/webgl-mock';
 
 describe('SelectionManager', () => {
   let selectionManager: SelectionManager;
@@ -90,6 +77,7 @@ describe('SelectionManager', () => {
     jest.spyOn(selectionManagerPrivate, 'disableSelecting');
 
     document.getElementById = jest.fn().mockReturnValue({
+      addEventListener: jest.fn(),
       removeEventListener: jest.fn(),
     });
 
