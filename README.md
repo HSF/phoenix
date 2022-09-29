@@ -55,7 +55,7 @@ yarn install
 yarn start
 ```
 
-Now `phoenix-ng` will start in development/watch mode. Since `phoenix-ng` is linked to the source code of packages `phoenix-event-display` and `phoenix-ui-components` through TypeScript, any changes made to either of the packages will rebuild and hot reload the `phoenix-ng` app. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
+Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
 
 ## Docker
 
