@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.9.1](https://github.com/HSF/phoenix/compare/v2.9.0...v2.9.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* **event-display:** fixed handling of event properties ([6ace2f6](https://github.com/HSF/phoenix/commit/6ace2f6b457ed79f1a2ed5f363e686d1a593839e))
+
+
+
+
+
 # [2.9.0](https://github.com/HSF/phoenix/compare/v2.8.0...v2.9.0) (2022-06-17)
 
 

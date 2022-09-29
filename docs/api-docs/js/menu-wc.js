@@ -16,7 +16,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
             <ul class="list">
                 <li class="title">
                     <a href="index.html" data-type="index-link">
-                        <img alt="" class="img-responsive" data-type="custom-logo" data-src="images/logo-text.svg">
+                        <img alt="" class="img-responsive" data-type="custom-logo" src=/images/logo-text.svg>
                     </a>
                 </li>
 
@@ -43,11 +43,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <li class="link">
                                     <a href="dependencies.html" data-type="chapter-link">
                                         <span class="icon ion-ios-list"></span>Dependencies
-                                    </a>
-                                </li>
-                                <li class="link">
-                                    <a href="properties.html" data-type="chapter-link">
-                                        <span class="icon ion-ios-apps"></span>Properties
                                     </a>
                                 </li>
                     </ul>

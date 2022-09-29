@@ -2081,7 +2081,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       if (objectCollection.length &#x3D;&#x3D; 0) {
         console.log(&#x27;Skipping&#x27;);
-        return;
+        continue;
       }
 
       this.addCollection(
@@ -2277,7 +2277,7 @@ export class PhoenixLoader implements EventDataLoader {
         for (const eventDataPropKey of eventDataProp.keys) {
           if (
             eventDataKeys.includes(eventDataPropKey) &amp;&amp;
-            this.eventData[eventDataPropKey]
+            eventDataPropKey in this.eventData
           ) {
             combinedProps[eventDataProp.label] &#x3D;
               this.eventData[eventDataPropKey];
@@ -2371,7 +2371,6 @@ export class PhoenixLoader implements EventDataLoader {
 </code></pre>
     </div>
 </div>
-
 
 
 
