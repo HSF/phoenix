@@ -29,6 +29,7 @@
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
     "test": "karma start configs/karma.conf.js --browsers=ChromeHeadlessCI",
     "test:coverage": "yarn test",
+    "prepare": "yarn tsc:build",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",

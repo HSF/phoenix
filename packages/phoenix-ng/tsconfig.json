@@ -17,9 +17,8 @@
     "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [
-        "projects/phoenix-ui-components/lib/index.ts"
-      ],
-      "phoenix-event-display": ["../phoenix-event-display/src"]
+        "projects/phoenix-ui-components/lib/public_api.ts"
+      ]
     }
   },
   "angularCompilerOptions": {

@@ -48,10 +48,10 @@ npm install --global yarn
 Then run the following commands.
 
 ```sh
-# Install all the required dependencies
-yarn install
+# Install all the required dependencies and synlink the local packages.
+yarn install:dependencies
 
-# Run phoenix-ng in development/watch mode
+# Run phoenix-event-display and phoenix-app in development/watch mode
 yarn start
 ```
 
