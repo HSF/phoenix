@@ -1,7 +1,7 @@
 {
   "dest": "dist",
   "lib": {
-    "entryFile": "./lib/public_api.ts"
+    "entryFile": "./lib/index.ts"
   },
   "allowedNonPeerDependencies": ["."]
 }
