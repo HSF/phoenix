@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "start": "lerna run start",
-    "install:dependencies": "lerna bootstrap --ignore phoenix-ui-components && lerna link",
+    "postinstall": "lerna link",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:coverage": "lerna run test:coverage",
     "release": "lerna publish patch --create-release github",
