@@ -1354,13 +1354,13 @@ from a single dimensional array.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SceneManager } from &#x27;./scene-manager&#x27;;
 import {
-  TubeBufferGeometry,
+  TubeGeometry,
   BufferGeometry,
   Vector3,
   Color,
   MeshBasicMaterial,
   Mesh,
-  SphereBufferGeometry,
+  SphereGeometry,
   Sphere,
   Object3D,
   BufferAttribute,
@@ -1530,9 +1530,9 @@ export class AnimationsManager {
             eventObject.geometry?.attributes?.position?.count;
           if (geometryPosCount) {
             // WORKAROUND
-            // Changing position count for TubeBufferGeometry because
+            // Changing position count for TubeGeometry because
             // what we get is not the actual and it has Infinity drawRange count
-            if (eventObject.geometry instanceof TubeBufferGeometry) {
+            if (eventObject.geometry instanceof TubeGeometry) {
               geometryPosCount *&#x3D; 6;
             }
 
@@ -1698,7 +1698,7 @@ export class AnimationsManager {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
     // Sphere to get spherical set of clipping planes from
-    const sphere &#x3D; new SphereBufferGeometry(1, 8, 8);
+    const sphere &#x3D; new SphereGeometry(1, 8, 8);
     // Clipping planes for animation
     const animationClipPlanes: Plane[] &#x3D; [];
 
@@ -1773,7 +1773,7 @@ export class AnimationsManager {
     particleColor: Color &#x3D; new Color(0xffffff),
     onEnd?: () &#x3D;&gt; void
   ) {
-    const particleGeometry &#x3D; new SphereBufferGeometry(particleSize, 32, 32);
+    const particleGeometry &#x3D; new SphereGeometry(particleSize, 32, 32);
     const particleMaterial &#x3D; new MeshBasicMaterial({
       color: particleColor,
       transparent: true,
