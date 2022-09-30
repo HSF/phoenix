@@ -18,7 +18,8 @@
     "paths": {
       "phoenix-ui-components": [
         "projects/phoenix-ui-components/lib/public_api.ts"
-      ]
+      ],
+      "phoenix-event-display": ["../phoenix-event-display/src"]
     }
   },
   "angularCompilerOptions": {

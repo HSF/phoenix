@@ -6,7 +6,10 @@
     "target": "es2015",
     "declaration": true,
     "inlineSources": true,
-    "lib": ["dom", "es2018"]
+    "lib": ["dom", "es2018"],
+    "paths": {
+      "phoenix-event-display": ["../../../phoenix-event-display/src"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
