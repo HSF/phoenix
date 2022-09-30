@@ -48,8 +48,8 @@ npm install --global yarn
 Then run the following commands.
 
 ```sh
-# Install all the required dependencies and synlink the local packages.
-yarn install:dependencies
+# Install all the required dependencies
+yarn install
 
 # Run phoenix-ng in development/watch mode
 yarn start
