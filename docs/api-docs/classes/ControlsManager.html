@@ -2412,7 +2412,7 @@ The factor may either be greater or smaller.</p>
   Group,
   Scene,
   Mesh,
-  TubeBufferGeometry,
+  TubeGeometry,
 } from &#x27;three&#x27;;
 import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
@@ -2791,7 +2791,7 @@ export class ControlsManager {
         scene.getObjectByName(&#x27;Tracks&#x27;)?.traverse((track) &#x3D;&gt; {
           if (
             track.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; &amp;&amp;
-            (track as Mesh).geometry instanceof TubeBufferGeometry
+            (track as Mesh).geometry instanceof TubeGeometry
           ) {
             track.visible &#x3D; false;
           }
@@ -2801,7 +2801,7 @@ export class ControlsManager {
         scene.getObjectByName(&#x27;Tracks&#x27;)?.traverse((track) &#x3D;&gt; {
           if (
             track.name &#x3D;&#x3D;&#x3D; &#x27;Track&#x27; &amp;&amp;
-            (track as Mesh).geometry instanceof TubeBufferGeometry
+            (track as Mesh).geometry instanceof TubeGeometry
           ) {
             track.visible &#x3D; true;
           }
