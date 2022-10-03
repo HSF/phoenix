@@ -6,9 +6,11 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "start": "yarn workspace phoenix-ng start",
+    "postinstall": "lerna link && yarn workspace phoenix-event-display prepare",
+    "start": "lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
+    "test:coverage": "lerna run test:coverage",
     "release": "lerna publish patch --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
     "release:major": "lerna publish major --create-release github",
