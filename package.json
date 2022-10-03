@@ -6,9 +6,10 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
+    "postinstall": "lerna link && yarn workspace phoenix-event-display prepare",
     "start": "lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
-    "postinstall": "lerna link && yarn workspace phoenix-event-display prepare",
+    "test:ci": "lerna run test:ci",
     "test:coverage": "lerna run test:coverage",
     "release": "lerna publish patch --create-release github",
     "release:graduate": "lerna publish --create-release github --conventional-graduate",
@@ -22,7 +23,7 @@
     "docs:coverage": "yarn workspace phoenix-event-display docs:coverage"
   },
   "devDependencies": {
-    "@types/jasmine": "^4.3.0",
+    "@types/jest": "~27.0.0",
     "@types/node": "^18.7.18",
     "@types/three": "^0.144.0",
     "@typescript-eslint/eslint-plugin": "^5.38.0",
@@ -30,11 +31,8 @@
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "jasmine-core": "^4.4.0",
-    "karma": "^6.4.1",
-    "karma-chrome-launcher": "^3.1.1",
-    "karma-coverage": "^2.2.0",
-    "karma-jasmine": "^5.1.0",
+    "jest": "~27.0.0",
+    "jest-environment-jsdom": "27.0.0",
     "lerna": "^5.5.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
