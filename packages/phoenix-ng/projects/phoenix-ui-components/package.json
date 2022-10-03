@@ -38,6 +38,6 @@
   "esm2020": "dist/esm2020/phoenix-ui-components.mjs",
   "fesm2020": "dist/fesm2020/phoenix-ui-components.mjs",
   "fesm2015": "dist/fesm2015/phoenix-ui-components.mjs",
-  "typings": "dist/phoenix-ui-components.d.ts",
+  "typings": "dist/index.d.ts",
   "sideEffects": false
 }
