@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.2](https://github.com/HSF/phoenix/compare/v2.11.0...v2.11.2) (2022-10-03)
+
+
+### Reverts
+
+* Revert "Simple angular 14 fix" ([f40beac](https://github.com/HSF/phoenix/commit/f40beac4947bdff5bb2e7543756f057c31761f30))
+* Revert "Improve scripts after removing phoenix-event-display from phoenix-ng 'paths'" ([24ecd77](https://github.com/HSF/phoenix/commit/24ecd773dd0a362f02b3bb924b637ae9cee8e7f8))
+
+
+
+
+
 ## [2.11.1](https://github.com/HSF/phoenix/compare/v2.11.0...v2.11.1) (2022-09-29)
 
 **Note:** Version bump only for package phoenix-event-display
