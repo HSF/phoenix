@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.11.2",
+  "version": "2.11.3",
   "private": true,
   "scripts": {
     "ng": "ng",
@@ -40,7 +40,7 @@
     "css-element-queries": "^1.2.3",
     "cypress-plugin-snapshots": "^1.4.4",
     "phoenix-event-display": "^2.11.2",
-    "phoenix-ui-components": "^2.11.2",
+    "phoenix-ui-components": "^2.11.3",
     "qrcode": "1.5.1",
     "rxjs": "^7.5.6",
     "three": "^0.144.0",

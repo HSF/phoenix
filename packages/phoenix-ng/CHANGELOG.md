@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.3](https://github.com/HSF/phoenix/compare/v2.11.2...v2.11.3) (2022-10-03)
+
+
+### Bug Fixes
+
+* **app:** Update entry point of  ui library after angular migration. ([ff3b85f](https://github.com/HSF/phoenix/commit/ff3b85f4932d6f9bc1333f61a915328f1f5ab144))
+
+
+
+
+
 ## [2.11.2](https://github.com/HSF/phoenix/compare/v2.11.0...v2.11.2) (2022-10-03)
 
 
