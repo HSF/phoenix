@@ -23,16 +23,14 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /* Process raw EDM4hep JSON event data into the Phoenix format */
   processEventData(): boolean {
-    const runNumber = this.getRunNumber();
-
     Object.entries(this.rawEventData).forEach(([eventName, event]) => {
       const oneEventData = {
         Tracks: {},
         Hits: {},
         Cells: {},
         Jets: {},
-        'event number': this.getEventNumber(eventName),
-        'run number': runNumber
+        'event number': this.getEventNumber(event),
+        'run number': this.getRunNumber(event)
       };
 
       oneEventData.Tracks = this.getTracks(event);
@@ -58,21 +56,65 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
 
-  private getRunNumber(): number {
-    if (this.rawEventData['Run number']) {
-      return Number(this.rawEventData['Run number']);
+  private getRunNumber(event: any): number {
+    if ('runNum' in event) {
+      return Number(event['runNum']);
     } else {
       return 0;
     }
   }
 
 
-  private getEventNumber(eventName: string): number {
-    return Number(eventName.replace('Event ', ''));
+  private getEventNumber(event: any): number {
+    if ('eventNum' in event) {
+      return Number(event['eventNum']);
+    } else {
+      return 0;
+    }
   }
 
   private getTracks(event: any) {
-    return {};
+
+    const randColor = () =>  {
+      return Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+    }
+
+    let tracks: any[] = [];
+    // const trackCollections = ['SiTracks', 'SiTracksCT', 'SiTracks_Refitted'];
+    const trackCollections = ['SiTracks'];
+
+    trackCollections.forEach((trackCollection: any) => {
+      if (!(trackCollection in event)) {
+        return;
+      }
+
+      const rawTracks = event[trackCollection];
+      const trackColor = randColor();
+
+      rawTracks.forEach((rawTrack: any) => {
+        let positions: any[] = [];
+        if ('trackStates' in rawTrack) {
+          const trackStates = rawTrack['trackStates'];
+          trackStates.forEach((trackState: any) => {
+            if ('referencePoint' in trackState) {
+              positions.push([
+                trackState['referencePoint']['x'],
+                trackState['referencePoint']['y'],
+                trackState['referencePoint']['z'],
+              ]);
+            }
+          });
+        }
+
+        let track = {
+          pos: positions,
+          color: trackColor,
+        }
+        tracks.push(track);
+      });
+    });
+
+    return { 'Tracks': tracks };
   }
 
 
@@ -87,9 +129,13 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
 
   private getJets(event: any) {
+    if (!('calo_clusters' in event)) {
+      return {};
+    }
+
     const rawClusters = event['calo_clusters'];
 
-    let jets: any[] = []
+    let jets: any[] = [];
     rawClusters.forEach((rawCluster: any) => {
       const px = rawCluster.position.x;
       const py = rawCluster.position.y;
