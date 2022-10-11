@@ -6,8 +6,6 @@ import { PhoenixLoader } from './phoenix-loader';
 export class Edm4hepJsonLoader extends PhoenixLoader {
   /* Event data loaded from EDM4hep JSON file */
   private rawEventData: any;
-  // eventData: any;
-
 
   constructor() {
     super();
@@ -25,17 +23,21 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   processEventData(): boolean {
     Object.entries(this.rawEventData).forEach(([eventName, event]) => {
       const oneEventData = {
+        Vertices: {},
         Tracks: {},
         Hits: {},
         Cells: {},
+        CaloClusters: {},
         Jets: {},
         'event number': this.getEventNumber(event),
         'run number': this.getRunNumber(event)
       };
 
+      oneEventData.Vertices = this.getVertices(event);
       oneEventData.Tracks = this.getTracks(event);
       oneEventData.Hits = this.getHits(event);
       oneEventData.Cells = this.getCells(event);
+      oneEventData.CaloClusters = this.getCaloClusters(event);
       oneEventData.Jets = this.getJets(event);
 
       this.eventData[eventName] = oneEventData;
@@ -73,12 +75,40 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
   }
 
+
+  private getVertices(event: any) {
+    let vertices: any[] = [];
+    const vertexCollections = ['BuildUpVertices'];
+
+    vertexCollections.forEach((vertexCollection: any) => {
+      if (!(vertexCollection in event)) {
+        return;
+      }
+
+      const rawVertices = event[vertexCollection];
+      const vertexColor = this.randomColor();
+
+      rawVertices.forEach((rawVertex: any) => {
+        let position: any[] = [];
+        if ('position' in rawVertex) {
+          position.push(rawVertex['position']['x']);
+          position.push(rawVertex['position']['y']);
+          position.push(rawVertex['position']['z']);
+        }
+
+        let vertex = {
+          pos: position,
+          color: '#' + vertexColor,
+        }
+        vertices.push(vertex);
+      });
+    });
+
+    return { 'Vertices': vertices };
+  }
+
+
   private getTracks(event: any) {
-
-    const randColor = () =>  {
-      return Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
-    }
-
     let tracks: any[] = [];
     // const trackCollections = ['SiTracks', 'SiTracksCT', 'SiTracks_Refitted'];
     const trackCollections = ['SiTracks'];
@@ -89,7 +119,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const rawTracks = event[trackCollection];
-      const trackColor = randColor();
+      const trackColor = this.randomColor();
 
       rawTracks.forEach((rawTrack: any) => {
         let positions: any[] = [];
@@ -128,14 +158,15 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
 
-  private getJets(event: any) {
-    if (!('calo_clusters' in event)) {
+  private getCaloClusters(event: any) {
+    if (!('PandoraClusters' in event)) {
+      console.log('No clusters!');
       return {};
     }
 
-    const rawClusters = event['calo_clusters'];
+    const rawClusters = event['PandoraClusters'];
 
-    let jets: any[] = [];
+    let clusters: any[] = [];
     rawClusters.forEach((rawCluster: any) => {
       const px = rawCluster.position.x;
       const py = rawCluster.position.y;
@@ -148,11 +179,52 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       const cluster = {
         eta: eta,
         phi: phi,
-        energy: 2500*rawCluster.energy
+        energy: 3000*rawCluster.energy
       }
-      jets.push(cluster);
+      clusters.push(cluster);
     });
 
-    return { "Calo Clusters": jets};
+    console.log(clusters);
+
+    return { "Calo Clusters": clusters};
+  }
+
+
+  private getJets(event: any) {
+    if (!('VertexJets' in event)) {
+      return {};
+    }
+
+    const rawJets = event['VertexJets'];
+
+    let jets: any[] = [];
+    rawJets.forEach((rawJet: any) => {
+      if (!('momentum' in rawJet)) {
+        return;
+      }
+      if (!('energy' in rawJet)) {
+        return;
+      }
+      const px = rawJet['momentum']['x'];
+      const py = rawJet['momentum']['y'];
+      const pz = rawJet['momentum']['z'];
+
+      const pt = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
+      const eta = Math.asinh(pz / pt);
+      const phi = Math.acos(px / pt);
+
+      const jet = {
+        eta: eta,
+        phi: phi,
+        energy: 2400*rawJet.energy
+      }
+      jets.push(jet);
+    });
+
+    return { "Jets": jets};
+  }
+
+  private randomColor() {
+    return Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
   }
 }
