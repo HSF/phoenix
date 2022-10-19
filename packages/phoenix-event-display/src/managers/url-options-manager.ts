@@ -72,7 +72,6 @@ export class URLOptionsManager {
       console.log('WARNING - if you specify one or other of type/file, you need to specify BOTH of them. Reverting to defaults.')
     }
 
-
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
       file = defaultEventPath;
       type = defaultEventType;
@@ -128,8 +127,13 @@ export class URLOptionsManager {
           }
           zipArchive.file(allFiles[0])
               .async('string')
-              .then((res) => {
-                handleTextFiles(res,type);
+              .then((data) => {
+                const loader = new JiveXMLLoader();
+                this.configuration.eventDataLoader = loader;
+                // Parse the JSON to extract events and their data
+                loader.process(data);
+                const eventData = loader.getEventData();
+                this.eventDisplay.buildEventDataFromJSON(eventData);
               })
               .catch((error) => {
                 this.eventDisplay
