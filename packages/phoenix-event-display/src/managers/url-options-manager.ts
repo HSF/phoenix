@@ -81,7 +81,6 @@ export class URLOptionsManager {
       type = this.urlOptions.get('type').toLowerCase();
     }
 
-    console.log('Trying to load event data',file,'of type',type );
     // Load config from URL
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
@@ -89,7 +88,7 @@ export class URLOptionsManager {
         fetch(this.urlOptions.get('config'))
           .then((res) => res.json())
           .then((jsonState) => {
-            console.log('Loading configuration', his.urlOptions.get('config'));
+            console.log('Loading configuration', this.urlOptions.get('config'));
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -99,72 +98,71 @@ export class URLOptionsManager {
       }
     };
 
-
-    const handleZipInput = async (
-      file: string
-    ) :  Promise<{ [key: string]: string; }> =>  {
-      const allFilesWithData: { [key: string]: string } = {};
-      // Using a try catch block to catch any errors in Promises
-      try {
-        const zipArchive = new JSZip();
-        await zipArchive.loadAsync(file);
-        const allFiles = Object.keys(zipArchive.files);
-        for (const singleFile of allFiles) {
-          const fileData = await zipArchive.file(singleFile).async('string');
-          allFilesWithData[singleFile] = fileData;
-        }
-        return allFilesWithData;
-      } catch (error) {
-        console.error('Error while reading zip', error);
-        this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
-      }
-    }
+    console.log('Trying to load event data',file,'of type',type );
 
     const handleTextFiles = async (data: any | string, type: string ) => {
       if (type === 'jivexml'){
-        console.log('Handing jivexml');
-        console.log(data.text());
-        // this prints a  
         const loader = new JiveXMLLoader();
         this.configuration.eventDataLoader = loader;
         // Parse the JSON to extract events and their data
-        loader.process(data.text());
+        loader.process(data);
         const eventData = loader.getEventData();
         this.eventDisplay.buildEventDataFromJSON(eventData);
       } else if (type === 'json'){
-        console.log('Handing json');
-        console.log(data.json());
         this.configuration.eventDataLoader = new PhoenixLoader();
-        this.eventDisplay.parsePhoenixEvents(data.json());
-      }
-    }
-
-    const loadFile = async (
-      file: string,
-      type: string
-    ) =>  {
-      try {
-        // Load event file from URL
-        if (type==='zip'){
-          const data = await handleZipInput(file);
-          await handleTextFiles(data, type);
-        } else {
-          const response = await fetch(file);
-          console.log('Got back ', response);
-          await handleTextFiles(response, type);
-        }
-        loadConfig();
-      } catch (error) {
-        if (error) {
-            console.log(error.message)
-        }
+        this.eventDisplay.parsePhoenixEvents(data);
       }
     }
 
     if (file && type) {
       this.eventDisplay.getLoadingManager().addLoadableItem('url_event');
-      loadFile(file, type);
-    } else {
+      if (type==='zip'){
+        console.log('Handling ', file)
+        const zipArchive = new JSZip();
+        zipArchive.loadAsync(file).then(function(zip) {
+          const allFiles = Object.keys(zip.files);
+          console.log('opened file ',zip)
+
+          if (allFiles.length > 1) {
+            console.log('WARNING : we currently only support one file per zip archive! ')
+          }
+          zipArchive.file(allFiles[0])
+              .async('string')
+              .then((res) => {
+                handleTextFiles(res,type);
+              })
+              .catch((error) => {
+                this.eventDisplay
+                  .getInfoLogger()
+                  .add('Could not find the file specified in URL.', 'Error');
+                console.error('Could not find the file specified in URL.', error);
+              })
+              .finally(() => {
+                // Load config from URL after loading the event
+                loadConfig();
+                this.eventDisplay.getLoadingManager().itemLoaded('url_event');
+              });
+        });
+      } else {
+      fetch(file)
+        .then((res) => (type === 'jivexml' ? res.text() : res.json()))
+        .then((res: { [key: string]: any } | string) => {
+          handleTextFiles(res,type);
+        })
+        .catch((error) => {
+          this.eventDisplay
+            .getInfoLogger()
+            .add('Could not find the file specified in URL.', 'Error');
+          console.error('Could not find the file specified in URL.', error);
+        })
+        .finally(() => {
+          // Load config from URL after loading the event
+          loadConfig();
+          this.eventDisplay.getLoadingManager().itemLoaded('url_event');
+        });
+    }
+  }
+     else {
       loadConfig();
     }
   }
