@@ -81,6 +81,7 @@ export class URLOptionsManager {
       type = this.urlOptions.get('type').toLowerCase();
     }
 
+    console.log('Trying to load event data',file,'of type',type );
     // Load config from URL
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
@@ -88,6 +89,7 @@ export class URLOptionsManager {
         fetch(this.urlOptions.get('config'))
           .then((res) => res.json())
           .then((jsonState) => {
+            console.log('Loading configuration', his.urlOptions.get('config'));
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -100,7 +102,7 @@ export class URLOptionsManager {
 
     const handleZipInput = async (
       file: string
-    ) =>  {
+    ) :  Promise<{ [key: string]: string; }> =>  {
       const allFilesWithData: { [key: string]: string } = {};
       // Using a try catch block to catch any errors in Promises
       try {
@@ -120,6 +122,9 @@ export class URLOptionsManager {
 
     const handleTextFiles = async (data: any | string, type: string ) => {
       if (type === 'jivexml'){
+        console.log('Handing jivexml');
+        console.log(data.text());
+        // this prints a  
         const loader = new JiveXMLLoader();
         this.configuration.eventDataLoader = loader;
         // Parse the JSON to extract events and their data
@@ -127,6 +132,8 @@ export class URLOptionsManager {
         const eventData = loader.getEventData();
         this.eventDisplay.buildEventDataFromJSON(eventData);
       } else if (type === 'json'){
+        console.log('Handing json');
+        console.log(data.json());
         this.configuration.eventDataLoader = new PhoenixLoader();
         this.eventDisplay.parsePhoenixEvents(data.json());
       }
@@ -142,13 +149,14 @@ export class URLOptionsManager {
           const data = await handleZipInput(file);
           await handleTextFiles(data, type);
         } else {
-          const data = await fetch(file);
-          await handleTextFiles(data, type);
+          const response = await fetch(file);
+          console.log('Got back ', response);
+          await handleTextFiles(response, type);
         }
         loadConfig();
       } catch (error) {
         if (error) {
-            return error.message
+            console.log(error.message)
         }
       }
     }
