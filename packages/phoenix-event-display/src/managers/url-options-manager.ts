@@ -3,6 +3,8 @@ import { PhoenixLoader } from '../loaders/phoenix-loader';
 import { Configuration } from '../lib/types/configuration';
 import { EventDisplay } from '../event-display';
 import { StateManager } from './state-manager';
+import JSZip from 'jszip';
+import { loadFile } from 'src/helpers/file';
 
 /**
  * Model for Phoenix URL options.
@@ -65,6 +67,12 @@ export class URLOptionsManager {
 
     let file: string, type: string;
 
+    if ( (this.urlOptions.get('file') && !this.urlOptions.get('type')) || (!this.urlOptions.get('file') && this.urlOptions.get('type')))
+    {
+      console.log('WARNING - if you specify one or other of type/file, you need to specify BOTH of them. Reverting to defaults.')
+    }
+
+
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
       file = defaultEventPath;
       type = defaultEventType;
@@ -89,35 +97,65 @@ export class URLOptionsManager {
       }
     };
 
-    // Load event file from URL
+
+    const handleZipInput = async (
+      file: string
+    ) =>  {
+      const allFilesWithData: { [key: string]: string } = {};
+      // Using a try catch block to catch any errors in Promises
+      try {
+        const zipArchive = new JSZip();
+        await zipArchive.loadAsync(file);
+        const allFiles = Object.keys(zipArchive.files);
+        for (const singleFile of allFiles) {
+          const fileData = await zipArchive.file(singleFile).async('string');
+          allFilesWithData[singleFile] = fileData;
+        }
+        return allFilesWithData;
+      } catch (error) {
+        console.error('Error while reading zip', error);
+        this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
+      }
+    }
+
+    const handleTextFiles = async (data: any | string, type: string ) => {
+      if (type === 'jivexml'){
+        const loader = new JiveXMLLoader();
+        this.configuration.eventDataLoader = loader;
+        // Parse the JSON to extract events and their data
+        loader.process(data.text());
+        const eventData = loader.getEventData();
+        this.eventDisplay.buildEventDataFromJSON(eventData);
+      } else if (type === 'json'){
+        this.configuration.eventDataLoader = new PhoenixLoader();
+        this.eventDisplay.parsePhoenixEvents(data.json());
+      }
+    }
+
+    const loadFile = async (
+      file: string,
+      type: string
+    ) =>  {
+      try {
+        // Load event file from URL
+        if (type==='zip'){
+          const data = await handleZipInput(file);
+          await handleTextFiles(data, type);
+        } else {
+          const data = await fetch(file);
+          await handleTextFiles(data, type);
+        }
+        loadConfig();
+      } catch (error) {
+        if (error) {
+            return error.message
+        }
+      }
+    }
+
     if (file && type) {
       this.eventDisplay.getLoadingManager().addLoadableItem('url_event');
-      fetch(file)
-        .then((res) => (type === 'jivexml' ? res.text() : res.json()))
-        .then((res: { [key: string]: any } | string) => {
-          if (type === 'jivexml') {
-            const loader = new JiveXMLLoader();
-            this.configuration.eventDataLoader = loader;
-            // Parse the JSON to extract events and their data
-            loader.process(res);
-            const eventData = loader.getEventData();
-            this.eventDisplay.buildEventDataFromJSON(eventData);
-          } else {
-            this.configuration.eventDataLoader = new PhoenixLoader();
-            this.eventDisplay.parsePhoenixEvents(res);
-          }
-        })
-        .catch((error) => {
-          this.eventDisplay
-            .getInfoLogger()
-            .add('Could not find the file specified in URL.', 'Error');
-          console.error('Could not find the file specified in URL.', error);
-        })
-        .finally(() => {
-          // Load config from URL after loading the event
-          loadConfig();
-          this.eventDisplay.getLoadingManager().itemLoaded('url_event');
-        });
+      loadFile(file, type);
     } else {
       loadConfig();
     }
