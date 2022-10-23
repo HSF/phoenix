@@ -3,8 +3,7 @@ import { PhoenixLoader } from '../loaders/phoenix-loader';
 import { Configuration } from '../lib/types/configuration';
 import { EventDisplay } from '../event-display';
 import { StateManager } from './state-manager';
-import JSZip from 'jszip';
-import { loadFile } from 'src/helpers/file';
+import { readZipFile } from '../helpers/zip';
 
 /**
  * Model for Phoenix URL options.
@@ -67,11 +66,6 @@ export class URLOptionsManager {
 
     let file: string, type: string;
 
-    if ( (this.urlOptions.get('file') && !this.urlOptions.get('type')) || (!this.urlOptions.get('file') && this.urlOptions.get('type')))
-    {
-      console.log('WARNING - if you specify one or other of type/file, you need to specify BOTH of them. Reverting to defaults.')
-    }
-
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
       file = defaultEventPath;
       type = defaultEventType;
@@ -87,7 +81,6 @@ export class URLOptionsManager {
         fetch(this.urlOptions.get('config'))
           .then((res) => res.json())
           .then((jsonState) => {
-            console.log('Loading configuration', this.urlOptions.get('config'));
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -97,62 +90,20 @@ export class URLOptionsManager {
       }
     };
 
-    console.log('Trying to load event data',file,'of type',type );
-
-    const handleTextFiles = async (data: any | string, type: string ) => {
-      if (type === 'jivexml'){
-        const loader = new JiveXMLLoader();
-        this.configuration.eventDataLoader = loader;
-        // Parse the JSON to extract events and their data
-        loader.process(data);
-        const eventData = loader.getEventData();
-        this.eventDisplay.buildEventDataFromJSON(eventData);
-      } else if (type === 'json'){
-        this.configuration.eventDataLoader = new PhoenixLoader();
-        this.eventDisplay.parsePhoenixEvents(data);
+    const processEventFile = (fileURL: string) => {
+      if (type === 'jivexml') {
+        return this.handleJiveXMLEvent(fileURL);
+      } else if (type === 'zip') {
+        return this.handleZipFileEvents(fileURL);
+      } else {
+        return this.handleJSONEvent(fileURL);
       }
-    }
+    };
 
+    // Load event file from URL
     if (file && type) {
       this.eventDisplay.getLoadingManager().addLoadableItem('url_event');
-      if (type==='zip'){
-        console.log('Handling ', file)
-        const zipArchive = new JSZip();
-        zipArchive.loadAsync(file).then(function(zip) {
-          const allFiles = Object.keys(zip.files);
-          console.log('opened file ',zip)
-
-          if (allFiles.length > 1) {
-            console.log('WARNING : we currently only support one file per zip archive! ')
-          }
-          zipArchive.file(allFiles[0])
-              .async('string')
-              .then((data) => {
-                const loader = new JiveXMLLoader();
-                this.configuration.eventDataLoader = loader;
-                // Parse the JSON to extract events and their data
-                loader.process(data);
-                const eventData = loader.getEventData();
-                this.eventDisplay.buildEventDataFromJSON(eventData);
-              })
-              .catch((error) => {
-                this.eventDisplay
-                  .getInfoLogger()
-                  .add('Could not find the file specified in URL.', 'Error');
-                console.error('Could not find the file specified in URL.', error);
-              })
-              .finally(() => {
-                // Load config from URL after loading the event
-                loadConfig();
-                this.eventDisplay.getLoadingManager().itemLoaded('url_event');
-              });
-        });
-      } else {
-      fetch(file)
-        .then((res) => (type === 'jivexml' ? res.text() : res.json()))
-        .then((res: { [key: string]: any } | string) => {
-          handleTextFiles(res,type);
-        })
+      processEventFile(file)
         .catch((error) => {
           this.eventDisplay
             .getInfoLogger()
@@ -164,11 +115,77 @@ export class URLOptionsManager {
           loadConfig();
           this.eventDisplay.getLoadingManager().itemLoaded('url_event');
         });
-    }
-  }
-     else {
+    } else {
       loadConfig();
     }
+  }
+
+  /**
+   * Handle JiveXML event from file URL.
+   * @param fileURL URL to the XML file.
+   * @returns An empty promise. ;(
+   */
+  private async handleJiveXMLEvent(fileURL: string) {
+    const fileData = await (await fetch(fileURL)).text();
+    const loader = new JiveXMLLoader();
+    this.configuration.eventDataLoader = loader;
+    // Parse the XML to extract events and their data
+    loader.process(fileData);
+    const eventData = loader.getEventData();
+    this.eventDisplay.buildEventDataFromJSON(eventData);
+  }
+
+  /**
+   * Handle JSON event from file URL.
+   * @param fileURL URL to the JSON file.
+   * @returns An empty promise. ;(
+   */
+  private async handleJSONEvent(fileURL: string) {
+    const fileData = await (await fetch(fileURL)).json();
+    this.configuration.eventDataLoader = new PhoenixLoader();
+    this.eventDisplay.parsePhoenixEvents(fileData);
+  }
+
+  /**
+   * Handle zip containing event data files.
+   * @param fileURL URL to the zip file.
+   * @returns An empty promise. ;(
+   */
+  private async handleZipFileEvents(fileURL: string) {
+    const fileBuffer = await (await fetch(fileURL)).arrayBuffer();
+    const allEventsObject = {};
+    let filesWithData: { [fileName: string]: string };
+
+    // Using a try catch block to catch any errors in Promises
+    try {
+      filesWithData = await readZipFile(fileBuffer);
+    } catch (error) {
+      console.error('Error while reading zip', error);
+      this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
+      return;
+    }
+
+    // JSON event data
+    Object.keys(filesWithData)
+      .filter((fileName) => fileName.endsWith('.json'))
+      .forEach((fileName) => {
+        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+      });
+
+    // JiveXML event data
+    const jiveloader = new JiveXMLLoader();
+    Object.keys(filesWithData)
+      .filter((fileName) => {
+        return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
+      })
+      .forEach((fileName) => {
+        jiveloader.process(filesWithData[fileName]);
+        const eventData = jiveloader.getEventData();
+        Object.assign(allEventsObject, { [fileName]: eventData });
+      });
+    // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
+
+    this.eventDisplay.parsePhoenixEvents(allEventsObject);
   }
 
   /**
