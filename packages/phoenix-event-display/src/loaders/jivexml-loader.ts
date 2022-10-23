@@ -54,9 +54,6 @@ export class JiveXMLLoader extends PhoenixLoader {
       MissingEnergy: {},
     };
 
-    console.log('JiveXML is '+eventData.eventNumber+'/'+eventData.runNumber+' from '+eventData.time);
-
-
     // Hits
     this.getPixelClusters(firstEvent, eventData);
     this.getSCTClusters(firstEvent, eventData);
