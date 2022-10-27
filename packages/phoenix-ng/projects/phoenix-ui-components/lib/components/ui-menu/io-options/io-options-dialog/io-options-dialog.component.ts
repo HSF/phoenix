@@ -1,6 +1,5 @@
 import { OnInit, Component, Input } from '@angular/core';
-import { CMSLoader, JiveXMLLoader } from 'phoenix-event-display';
-import JSZip from 'jszip';
+import { CMSLoader, JiveXMLLoader, readZipFile } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
@@ -171,62 +170,46 @@ export class IOOptionsDialogComponent implements OnInit {
     });
   }
 
-  handleZipEventDataInput(files: FileList) {
+  async handleZipEventDataInput(files: FileList) {
     if (!this.isFileOfExtension(files[0], 'zip')) {
       return;
     }
 
-    this.handleZipInput(files[0], (allFilesWithData) => {
-      const allEventsObject = {};
+    const allEventsObject = {};
+    let filesWithData: { [fileName: string]: string };
 
-      // JSON event data
-      Object.keys(allFilesWithData)
-        .filter((fileName) => fileName.endsWith('.json'))
-        .forEach((fileName) => {
-          Object.assign(
-            allEventsObject,
-            JSON.parse(allFilesWithData[fileName])
-          );
-        });
-
-      // JiveXML event data
-      const jiveloader = new JiveXMLLoader();
-      Object.keys(allFilesWithData)
-        .filter((fileName) => {
-          return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
-        })
-        .forEach((fileName) => {
-          jiveloader.process(allFilesWithData[fileName]);
-          const eventData = jiveloader.getEventData();
-          Object.assign(allEventsObject, { [fileName]: eventData });
-        });
-      // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
-
-      this.eventDisplay.parsePhoenixEvents(allEventsObject);
-
-      this.onClose();
-    });
-  }
-
-  async handleZipInput(
-    file: File,
-    callback: (allFilesWithData: { [key: string]: string }) => void
-  ) {
-    const allFilesWithData: { [key: string]: string } = {};
     // Using a try catch block to catch any errors in Promises
     try {
-      const zipArchive = new JSZip();
-      await zipArchive.loadAsync(file);
-      const allFiles = Object.keys(zipArchive.files);
-      for (const singleFile of allFiles) {
-        const fileData = await zipArchive.file(singleFile).async('string');
-        allFilesWithData[singleFile] = fileData;
-      }
-      callback(allFilesWithData);
+      filesWithData = await readZipFile(files[0]);
     } catch (error) {
       console.error('Error while reading zip', error);
       this.eventDisplay.getInfoLogger().add('Could not read zip file', 'Error');
+      return;
     }
+
+    // JSON event data
+    Object.keys(filesWithData)
+      .filter((fileName) => fileName.endsWith('.json'))
+      .forEach((fileName) => {
+        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+      });
+
+    // JiveXML event data
+    const jiveloader = new JiveXMLLoader();
+    Object.keys(filesWithData)
+      .filter((fileName) => {
+        return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
+      })
+      .forEach((fileName) => {
+        jiveloader.process(filesWithData[fileName]);
+        const eventData = jiveloader.getEventData();
+        Object.assign(allEventsObject, { [fileName]: eventData });
+      });
+    // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
+
+    this.eventDisplay.parsePhoenixEvents(allEventsObject);
+
+    this.onClose();
   }
 
   handleFileInput(
