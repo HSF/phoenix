@@ -66,14 +66,23 @@ export class URLOptionsManager {
 
     let file: string, type: string;
 
+    if ((!this.urlOptions.get('file') && this.urlOptions.get('type')) ||
+    (this.urlOptions.get('file') && !this.urlOptions.get('type'))) {
+      console.log('WARNING - if you set one of type or file, then you need to set both!')
+      console.log('WARNING - reverting to defaults!')
+    }
+
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
+      console.log('Setting and config from defaults');
       file = defaultEventPath;
       type = defaultEventType;
     } else {
+      console.log('Setting and config from urlOptions');
       file = this.urlOptions.get('file');
       type = this.urlOptions.get('type').toLowerCase();
     }
 
+    console.log('Loading ',file,'of type',type);
     // Load config from URL
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
@@ -92,8 +101,10 @@ export class URLOptionsManager {
 
     const processEventFile = (fileURL: string) => {
       if (type === 'jivexml') {
+        console.log('Opening JiveXML');
         return this.handleJiveXMLEvent(fileURL);
       } else if (type === 'zip') {
+        console.log('Opening zip file');
         return this.handleZipFileEvents(fileURL);
       } else {
         return this.handleJSONEvent(fileURL);
