@@ -4872,7 +4872,7 @@ import { UIManager } from &#x27;../ui-manager&#x27;;
 import { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters&#x27;;
 
 (function () {
-  let _updateMatrixWorld &#x3D; Object3D.prototype.updateMatrixWorld;
+  const _updateMatrixWorld &#x3D; Object3D.prototype.updateMatrixWorld;
   Object3D.prototype.updateMatrixWorld &#x3D; function () {
     if (!this.visible) {
       return;

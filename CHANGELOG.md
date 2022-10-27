@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.4](https://github.com/HSF/phoenix/compare/v2.11.3...v2.11.4) (2022-10-27)
+
+
+### Bug Fixes
+
+* **event-display:** An argument for 'camera' was not provided ([dcb4c88](https://github.com/HSF/phoenix/commit/dcb4c8844342cd997d7bd7ba7f9d1d316eb0b602))
+* linting ([f97e615](https://github.com/HSF/phoenix/commit/f97e6151a14dd9c9bee6af5c11222cc83b573d57))
+* linting ([219913d](https://github.com/HSF/phoenix/commit/219913d7687e543c6a46e4e2b0894729e7a31931))
+
+
+### Reverts
+
+* Revert "test(app): remove Jasmine-Karma setup and add Jest config" ([dfb4177](https://github.com/HSF/phoenix/commit/dfb4177c818403fac41835ee440721dea15d93be))
+* Revert "test(app): tests inside phoenix-ng wont run so add a jest config closer to it" ([206f230](https://github.com/HSF/phoenix/commit/206f230c96d8be7abd5f87acdeff45bbaedad7d8))
+* Revert "test(app): tests inside phoenix-app should use Jest APIs instead of Jasmine" ([14de840](https://github.com/HSF/phoenix/commit/14de840ba4b8a527b6dc73adb9e149544c034404))
+* Revert "test(app): tests inside phoenix-ui-components should use Jest APIs instead of Jasmine" ([062f714](https://github.com/HSF/phoenix/commit/062f714fa57bf8bad602df77f37aa3c6f718e306))
+* Revert "test(app): fix linting and minor changes" ([2fd47c6](https://github.com/HSF/phoenix/commit/2fd47c6533103d1a2e9b06e642654b236ade1863))
+
+
+
+
+
 ## [2.11.3](https://github.com/HSF/phoenix/compare/v2.11.2...v2.11.3) (2022-10-03)
 
 

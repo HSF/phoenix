@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.4](https://github.com/HSF/phoenix/compare/v2.11.3...v2.11.4) (2022-10-27)
+
+
+### Bug Fixes
+
+* linting ([219913d](https://github.com/HSF/phoenix/commit/219913d7687e543c6a46e4e2b0894729e7a31931))
+
+
+
+
+
 ## [2.11.3](https://github.com/HSF/phoenix/compare/v2.11.2...v2.11.3) (2022-10-03)
 
 

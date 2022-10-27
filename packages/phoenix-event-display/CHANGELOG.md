@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.11.4](https://github.com/HSF/phoenix/compare/v2.11.3...v2.11.4) (2022-10-27)
+
+
+### Bug Fixes
+
+* **event-display:** An argument for 'camera' was not provided ([dcb4c88](https://github.com/HSF/phoenix/commit/dcb4c8844342cd997d7bd7ba7f9d1d316eb0b602))
+* linting ([f97e615](https://github.com/HSF/phoenix/commit/f97e6151a14dd9c9bee6af5c11222cc83b573d57))
+
+
+
+
+
 ## [2.11.2](https://github.com/HSF/phoenix/compare/v2.11.0...v2.11.2) (2022-10-03)
 
 

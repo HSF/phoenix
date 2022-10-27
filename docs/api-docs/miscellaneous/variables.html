@@ -76,6 +76,9 @@
                             <a href="#phoenixURLOptions" title="src/managers/url-options-manager.ts" ><b>phoenixURLOptions</b>&nbsp;&nbsp;&nbsp;(src/.../url-options-manager.ts)</a>
                         </li>
                         <li>
+                            <a href="#readZipFile" title="src/helpers/zip.ts" ><b>readZipFile</b>&nbsp;&nbsp;&nbsp;(src/.../zip.ts)</a>
+                        </li>
+                        <li>
                             <a href="#saveFile" title="src/helpers/file.ts" ><b>saveFile</b>&nbsp;&nbsp;&nbsp;(src/.../file.ts)</a>
                         </li>
                         <li>
@@ -353,6 +356,46 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Model for Phoenix URL options.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/helpers/zip.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readZipFile"></a>
+                    <span class="name">
+                        <span ><b>readZipFile</b></span>
+                        <a href="#readZipFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>async (file: File | ArrayBuffer) &#x3D;&gt; {
+  const archive &#x3D; new JSZip();
+  const filesWithData: { [fileName: string]: string } &#x3D; {};
+
+  await archive.loadAsync(file);
+  for (const filePath in archive.files) {
+    const fileData &#x3D; await archive.file(filePath).async(&#x27;string&#x27;);
+    filesWithData[filePath] &#x3D; fileData;
+  }
+
+  return filesWithData;
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Read a zip file and return its contents as an object.</p>
 </div>
                 </td>
             </tr>
