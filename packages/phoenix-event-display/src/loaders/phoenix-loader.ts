@@ -244,6 +244,11 @@ export class PhoenixLoader implements EventDataLoader {
           .getSceneManager()
           .scaleChildObjects('CaloCells', value, 'z');
       };
+      const addCaloCellOptions = this.addScaleOptions(
+        'caloCellsScale',
+        'CaloCells Scale',
+        scaleCaloCells
+      );
 
       // FIXME! Need to pass the radius in.
       this.addObjectType(
@@ -251,7 +256,8 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getCaloCell,
         'CaloCells',
         false,
-        cuts
+        cuts,
+        addCaloCellOptions
       );
     }
 
