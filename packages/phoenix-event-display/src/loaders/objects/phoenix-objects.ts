@@ -693,9 +693,9 @@ export class PhoenixObjects {
     });
     // object
     const sphere = new Mesh(geometry, material);
-    sphere.position.x = vertexParams.x;
-    sphere.position.y = vertexParams.y;
-    sphere.position.z = vertexParams.y;
+    sphere.position.x = vertexParams.pos[0];
+    sphere.position.y = vertexParams.pos[1];
+    sphere.position.z = vertexParams.pos[2];
 
     sphere.userData = Object.assign({}, vertexParams);
     sphere.name = 'Vertex';
