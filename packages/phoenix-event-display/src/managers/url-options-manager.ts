@@ -66,10 +66,14 @@ export class URLOptionsManager {
 
     let file: string, type: string;
 
-    if ((!this.urlOptions.get('file') && this.urlOptions.get('type')) ||
-    (this.urlOptions.get('file') && !this.urlOptions.get('type'))) {
-      console.log('WARNING - if you set one of type or file, then you need to set both!')
-      console.log('WARNING - reverting to defaults!')
+    if (
+      (!this.urlOptions.get('file') && this.urlOptions.get('type')) ||
+      (this.urlOptions.get('file') && !this.urlOptions.get('type'))
+    ) {
+      console.log(
+        'WARNING - if you set one of type or file, then you need to set both!'
+      );
+      console.log('WARNING - reverting to defaults!');
     }
 
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
@@ -82,7 +86,7 @@ export class URLOptionsManager {
       type = this.urlOptions.get('type').toLowerCase();
     }
 
-    console.log('Loading ',file,'of type',type);
+    console.log('Loading ', file, 'of type', type);
     // Load config from URL
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
