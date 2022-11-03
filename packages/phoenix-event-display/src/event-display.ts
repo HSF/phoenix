@@ -122,7 +122,7 @@ export class EventDisplay {
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData = eventsData;
     if (typeof this.configuration.eventDataLoader === 'undefined') {
-      this.configuration.eventDataLoader = new PhoenixLoader;
+      this.configuration.eventDataLoader = new PhoenixLoader();
     }
     const eventKeys =
       this.configuration.eventDataLoader.getEventsList(eventsData);
