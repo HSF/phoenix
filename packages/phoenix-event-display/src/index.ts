@@ -38,6 +38,7 @@ export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
 export * from './loaders/phoenix-loader';
+export * from './loaders/edm4hep-json-loader';
 export * from './loaders/script-loader';
 export * from './loaders/trackml-loader';
 export * from './loaders/objects/cms-objects';
