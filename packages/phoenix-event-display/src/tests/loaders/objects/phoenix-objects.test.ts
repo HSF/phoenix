@@ -219,9 +219,7 @@ describe('PhoenixObjects', () => {
 
   it('should create a Vertex from the given parameters and get it as an object', () => {
     const vertexParams = {
-      x: 1,
-      y: 0,
-      z: 0,
+      pos: [1, 0, 0],
       color: '#000000',
     };
 
