@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.18.10",
-    "@babel/plugin-transform-runtime": "^7.19.1",
+    "@babel/plugin-transform-runtime": "^7.19.6",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
     "@types/three": "^0.144.0",

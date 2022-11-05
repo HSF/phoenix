@@ -25,13 +25,13 @@
     "zone.js": "*"
   },
   "dependencies": {
-    "@angular/cdk": "^14.2.2",
-    "@angular/material": "^14.2.2",
+    "@angular/cdk": "^14.2.6",
+    "@angular/material": "^14.2.6",
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.1",
     "three": "^0.144.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
     "node-fetch": "^2.0.0"
