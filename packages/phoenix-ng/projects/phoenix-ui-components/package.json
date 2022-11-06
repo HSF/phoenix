@@ -30,11 +30,11 @@
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.1",
-    "three": "^0.144.0",
+    "three": "^0.146.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "node-fetch": "^2.0.0"
+    "node-fetch": "^3.2.10"
   },
   "module": "dist/fesm2015/phoenix-ui-components.mjs",
   "es2020": "dist/fesm2020/phoenix-ui-components.mjs",

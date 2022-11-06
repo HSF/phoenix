@@ -44,7 +44,7 @@
     "jsroot": "github:9inpachi/jsroot#7.2.0-types",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.144.0"
+    "three": "^0.146.0"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.19.4",
@@ -53,7 +53,7 @@
     "@types/dat.gui": "^0.7.7",
     "@types/three": "^0.144.0",
     "esbuild-loader": "^2.20.0",
-    "ts-jest": "~27.0.0",
+    "ts-jest": "~29.0.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   }
