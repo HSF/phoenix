@@ -359,7 +359,7 @@ export class EventDisplay {
    */
   public async loadGLTFGeometry(
     url: any,
-    name: string,
+    name: string | undefined,
     menuNodeName?: string,
     scale?: number,
     initiallyVisible: boolean = true
