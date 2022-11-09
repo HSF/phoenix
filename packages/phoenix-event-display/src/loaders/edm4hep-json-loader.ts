@@ -12,12 +12,10 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     this.eventData = {};
   }
 
-
   /* Put raw EDM4hep JSON event data into the loader */
   setRawEventData(rawEventData: any) {
     this.rawEventData = rawEventData;
   }
-
 
   /* Process raw EDM4hep JSON event data into the Phoenix format */
   processEventData(): boolean {
@@ -31,7 +29,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         Jets: {},
         MissingEnergy: {},
         'event number': this.getEventNumber(event),
-        'run number': this.getRunNumber(event)
+        'run number': this.getRunNumber(event),
       };
 
       this.colorTracks(event);
@@ -50,24 +48,21 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return true;
   }
 
-
   /* Output event data in Phoenix compatible format */
   getEventData(): any {
     return this.eventData;
   }
 
-
   private getNumEvents(): number {
-    return Object.keys(this.rawEventData).length
+    return Object.keys(this.rawEventData).length;
   }
-
 
   private getRunNumber(event: any): number {
     if (!('EventHeader' in event)) {
       return 0;
     }
 
-    let eventHeader = event['EventHeader']['collection'];
+    const eventHeader = event['EventHeader']['collection'];
 
     if (!('runNumber' in eventHeader)) {
       return eventHeader[0]['runNumber'];
@@ -76,13 +71,12 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
-
   private getEventNumber(event: any): number {
     if (!('EventHeader' in event)) {
       return 0;
     }
 
-    let eventHeader = event['EventHeader']['collection'];
+    const eventHeader = event['EventHeader']['collection'];
 
     if (!('eventNumber' in eventHeader)) {
       return eventHeader[0]['eventNumber'];
@@ -91,38 +85,44 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
-
   private colorTracks(event: any) {
+    let recoParticles: any[];
     if ('ReconstructedParticles' in event) {
-      var recoParticles = event['ReconstructedParticles']['collection'];
+      recoParticles = event['ReconstructedParticles']['collection'];
     } else {
       return;
     }
+
+    let mcParticles: any[];
     if ('Particle' in event) {
-      var mcParticles = event['Particle']['collection'];
+      mcParticles = event['Particle']['collection'];
     } else {
       return;
     }
+
+    let mcRecoAssocs: any[];
     if ('MCRecoAssociations' in event) {
-      var mcRecoAssocs = event['MCRecoAssociations']['collection'];
+      mcRecoAssocs = event['MCRecoAssociations']['collection'];
     } else {
       return;
     }
+
+    let tracks: any[];
     if ('EFlowTrack' in event) {
-      var tracks = event['EFlowTrack']['collection'];
+      tracks = event['EFlowTrack']['collection'];
     } else {
       return;
     }
 
     mcRecoAssocs.forEach((mcRecoAssoc: any) => {
-      let recoIndex = mcRecoAssoc['rec']['index'];
-      let mcIndex = mcRecoAssoc['sim']['index'];
+      const recoIndex = mcRecoAssoc['rec']['index'];
+      const mcIndex = mcRecoAssoc['sim']['index'];
 
-      let pdgid = mcParticles[mcIndex]['PDG'];
-      let trackRefs = recoParticles[recoIndex]['tracks'];
+      const pdgid = mcParticles[mcIndex]['PDG'];
+      const trackRefs = recoParticles[recoIndex]['tracks'];
 
       trackRefs.forEach((trackRef: any) => {
-        let track = tracks[trackRef['index']];
+        const track = tracks[trackRef['index']];
         if (Math.abs(pdgid) === 11) {
           track['color'] = '00ff00';
           track['pid'] = 'electron';
@@ -145,19 +145,17 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         track['pdgid'] = pdgid;
       });
     });
-
-
   }
 
   private getVertices(event: any) {
-    let allVertices: any[] = [];
+    const allVertices: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
@@ -167,33 +165,37 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::VertexCollection")) {
+      if (!(collDict['collType'] === 'edm4hep::VertexCollection')) {
         continue;
       }
 
-      if (!(collName.includes("Vertices") ||
-            collName.includes("vertices") ||
-            collName.includes("Vertex") ||
-            collName.includes("vertex"))) {
+      if (
+        !(
+          collName.includes('Vertices') ||
+          collName.includes('vertices') ||
+          collName.includes('Vertex') ||
+          collName.includes('vertex')
+        )
+      ) {
         continue;
       }
 
-      let vertices: any[] = [];
+      const vertices: any[] = [];
       const rawVertices = collDict['collection'];
       const vertexColor = this.randomColor();
 
       rawVertices.forEach((rawVertex: any) => {
-        let position: any[] = [];
+        const position: any[] = [];
         if ('position' in rawVertex) {
           position.push(rawVertex['position']['x'] * 0.1);
           position.push(rawVertex['position']['y'] * 0.1);
           position.push(rawVertex['position']['z'] * 0.1);
         }
 
-        let vertex = {
+        const vertex = {
           pos: position,
           color: '#' + vertexColor,
-        }
+        };
         vertices.push(vertex);
       });
 
@@ -203,26 +205,25 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allVertices;
   }
 
-
   private getTracks(event: any) {
-    let allTracks: any[] = [];
+    const allTracks: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::TrackCollection")) {
+      if (!(collDict['collType'] === 'edm4hep::TrackCollection')) {
         continue;
       }
 
-      if (!(collName.includes("Track") || collName.includes("track"))) {
+      if (!(collName.includes('Track') || collName.includes('track'))) {
         continue;
       }
 
@@ -231,20 +232,22 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const rawTracks = collDict['collection'];
-      let electrons: any[] = [];
-      let photons: any[] = [];
-      let pions: any[] = [];
-      let protons: any[] = [];
-      let kaons: any[] = [];
-      let other: any[] = [];
+      const electrons: any[] = [];
+      const photons: any[] = [];
+      const pions: any[] = [];
+      const protons: any[] = [];
+      const kaons: any[] = [];
+      const other: any[] = [];
 
       rawTracks.forEach((rawTrack: any) => {
-
-        let positions: any[] = [];
+        const positions: any[] = [];
         if ('trackerHits' in rawTrack) {
           const trackerHitRefs = rawTrack['trackerHits'];
           trackerHitRefs.forEach((trackerHitRef: any) => {
-            const trackerHits = this.getCollByID(event, trackerHitRef['collectionID']);
+            const trackerHits = this.getCollByID(
+              event,
+              trackerHitRef['collectionID']
+            );
             const trackerHit = trackerHits[trackerHitRef['index']];
             positions.push([
               trackerHit['position']['x'] * 0.1,
@@ -271,10 +274,10 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           trackColor = rawTrack['color'];
         }
 
-        let track = {
+        const track = {
           pos: positions,
           color: trackColor,
-        }
+        };
 
         if ('pid' in rawTrack) {
           if (rawTrack['pid'] == 'electron') {
@@ -306,31 +309,29 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allTracks;
   }
 
-
   private getHits(event: any) {
     return {};
   }
 
-
   private getCells(event: any) {
-    let allCells: any[] = [];
+    const allCells: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::CalorimeterHitCollection")) {
+      if (!(collDict['collType'] === 'edm4hep::CalorimeterHitCollection')) {
         continue;
       }
 
-      if (!(collName.includes("Cell") || collName.includes("cell"))) {
+      if (!(collName.includes('Cell') || collName.includes('cell'))) {
         continue;
       }
 
@@ -339,7 +340,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const rawCells = collDict['collection'];
-      let cells: any[] = [];
+      const cells: any[] = [];
 
       // Find smallest distance between cell centers and use it as cell size
       let drmin = 1e9;
@@ -349,13 +350,22 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
             continue;
           }
 
-          const dx2 = Math.pow(rawCells[i].position.x - rawCells[j].position.x, 2);
-          const dy2 = Math.pow(rawCells[i].position.y - rawCells[j].position.y, 2);
-          const dz2 = Math.pow(rawCells[i].position.z - rawCells[j].position.z, 2);
+          const dx2 = Math.pow(
+            rawCells[i].position.x - rawCells[j].position.x,
+            2
+          );
+          const dy2 = Math.pow(
+            rawCells[i].position.y - rawCells[j].position.y,
+            2
+          );
+          const dz2 = Math.pow(
+            rawCells[i].position.z - rawCells[j].position.z,
+            2
+          );
           const dr = Math.sqrt(dx2 + dy2 + dz2);
 
           if (dr < drmin) {
-            drmin = dr
+            drmin = dr;
           }
         }
       }
@@ -371,7 +381,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         const eta = Math.asinh(z / rho);
         const phi = Math.acos(x / rho) * Math.sign(y);
-        const cellLightness = this.valToLightness(rawCell.energy, 1e-3, 1.);
+        const cellLightness = this.valToLightness(rawCell.energy, 1e-3, 1);
 
         const cell = {
           eta: eta,
@@ -379,9 +389,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           energy: rawCell.energy,
           radius: r,
           side: cellSide,
-          length: cellSide,  // expecting cells in multiple layers
-          color: '#' + this.convHSLtoHEX(cellsHue, 90, cellLightness)
-        }
+          length: cellSide, // expecting cells in multiple layers
+          color: '#' + this.convHSLtoHEX(cellsHue, 90, cellLightness),
+        };
         cells.push(cell);
       });
 
@@ -391,26 +401,25 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allCells;
   }
 
-
   private getCaloClusters(event: any) {
-    let allClusters: any[] = [];
+    const allClusters: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::ClusterCollection")) {
+      if (!(collDict['collType'] === 'edm4hep::ClusterCollection')) {
         continue;
       }
 
-      if (!(collName.includes("Cluster") || collName.includes("cluster"))) {
+      if (!(collName.includes('Cluster') || collName.includes('cluster'))) {
         continue;
       }
 
@@ -419,7 +428,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const rawClusters = collDict['collection'];
-      let clusters: any[] = [];
+      const clusters: any[] = [];
 
       rawClusters.forEach((rawCluster: any) => {
         const x = rawCluster.position.x * 0.1;
@@ -434,9 +443,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const cluster = {
           eta: eta,
           phi: phi,
-          energy: rawCluster.energy * 100.,
+          energy: rawCluster.energy * 100,
           radius: r,
-        }
+        };
         clusters.push(cluster);
       });
 
@@ -446,26 +455,27 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allClusters;
   }
 
-
   private getJets(event: any) {
-    let allJets: any[] = [];
+    const allJets: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::ReconstructedParticleCollection")) {
+      if (
+        !(collDict['collType'] === 'edm4hep::ReconstructedParticleCollection')
+      ) {
         continue;
       }
 
-      if (!(collName.includes("Jet") || collName.includes("jet"))) {
+      if (!(collName.includes('Jet') || collName.includes('jet'))) {
         continue;
       }
 
@@ -473,7 +483,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      let jets: any[] = [];
+      const jets: any[] = [];
       const rawJets = collDict['collection'];
 
       rawJets.forEach((rawJet: any) => {
@@ -494,8 +504,8 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const jet = {
           eta: eta,
           phi: phi,
-          energy: 1000*rawJet.energy
-        }
+          energy: 1000 * rawJet.energy,
+        };
         jets.push(jet);
       });
       allJets[collName] = jets;
@@ -504,26 +514,27 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allJets;
   }
 
-
   private getMissingEnergy(event: any) {
-    let allMETs: any[] = [];
+    const allMETs: any[] = [];
 
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collType' in collDict)) {
         continue;
       }
 
-      if (!(collDict['collType'] === "edm4hep::ReconstructedParticleCollection")) {
+      if (
+        !(collDict['collType'] === 'edm4hep::ReconstructedParticleCollection')
+      ) {
         continue;
       }
 
-      if (!(collName.includes("Missing") || collName.includes("missing"))) {
+      if (!(collName.includes('Missing') || collName.includes('missing'))) {
         continue;
       }
 
@@ -531,7 +542,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      let METs: any[] = [];
+      const METs: any[] = [];
       const rawMETs = collDict['collection'];
       const METColor = '#ff69b4';
 
@@ -546,17 +557,17 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const py = rawMET['momentum']['y'];
         const pz = rawMET['momentum']['z'];
 
-        const p = Math.sqrt(Math.pow(px, 2) +
-                            Math.pow(py, 2) +
-                            Math.pow(pz, 2));
-        const etx = rawMET['energy'] * px/p;
-        const ety = rawMET['energy'] * py/p;
+        const p = Math.sqrt(
+          Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2)
+        );
+        const etx = (rawMET['energy'] * px) / p;
+        const ety = (rawMET['energy'] * py) / p;
 
         const MET = {
-          etx: etx * 10.,
-          ety: ety * 10.,
-          color: '#ff69b4'
-        }
+          etx: etx * 10,
+          ety: ety * 10,
+          color: '#ff69b4',
+        };
         METs.push(MET);
       });
       allMETs[collName] = METs;
@@ -566,40 +577,45 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
   private randomColor() {
-    return Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+    return Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0')
+      .toUpperCase();
   }
 
   private convHSLtoHEX(h: number, s: number, l: number): string {
     l /= 100;
-    const a = s * Math.min(l, 1 - l) / 100;
-    const f = n => {
+    const a = (s * Math.min(l, 1 - l)) / 100;
+    const f = (n) => {
       const k = (n + h / 30) % 12;
       const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-    return Math.round(255 * color).toString(16).padStart(2, '0');
+      return Math.round(255 * color)
+        .toString(16)
+        .padStart(2, '0');
     };
 
     return `${f(0)}${f(8)}${f(4)}`;
   }
 
   private valToLightness(v: number, min: number, max: number): number {
-    let lightness = 80 - (v - min) * 65 / (max - min);
-    if (lightness < 20.) {
-      lightness = 20.;
+    let lightness = 80 - ((v - min) * 65) / (max - min);
+    if (lightness < 20) {
+      lightness = 20;
     }
-    if (lightness > 85.) {
-      lightness = 85.;
+    if (lightness > 85) {
+      lightness = 85;
     }
 
     return lightness;
   }
 
   private getCollByID(event: any, id: number) {
-    for (let collName in event) {
+    for (const collName in event) {
       if (event[collName].constructor != Object) {
         continue;
       }
 
-      let collDict = event[collName];
+      const collDict = event[collName];
 
       if (!('collID' in collDict)) {
         continue;
