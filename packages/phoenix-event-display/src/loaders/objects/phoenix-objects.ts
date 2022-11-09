@@ -453,10 +453,10 @@ export class PhoenixObjects {
   ): Object3D {
     const maxR2 = drawRadius * drawRadius;
     const maxZ = drawZ;
-    const length = clusterParams.energy * energyScaling;
+    const clusterLength = clusterParams.energy * energyScaling;
 
     // geometry
-    const cube = PhoenixObjects.getCaloCube(length, 40, clusterParams);
+    const cube = PhoenixObjects.getCaloCube(clusterParams, 40, clusterLength);
     const position = PhoenixObjects.getCaloPosition(
       clusterParams,
       drawZ,
@@ -515,25 +515,38 @@ export class PhoenixObjects {
   }
 
   /**
-   * Get the cuboid geometry for a Calo hit
-   * @param length length of the cuboid
-   * @param width width of the cuboid
-   * @param clusterParams Parameters for the Cluster (which must include color
+   * Get the cuboid geometry for a Calorimeter hit
+   * @param clusterParams  Parameters for the Cluster (can include color)
+   * @param defaultCellWidth width of the cuboid
+   * @param defaultCellLength length of the cuboid
    * @returns Geometry.
    */
   private static getCaloCube(
-    length: number,
-    width: number = 30,
-    clusterParams: any
+    clusterParams: any,
+    defaultCellWidth: number = 30,
+    defaultCellLength: number = 30
   ) {
-    if (length < width) {
-      length = width;
+    let cellWidth = clusterParams.side;
+    if (cellWidth === undefined) {
+      cellWidth = defaultCellWidth;
     }
-    const geometry = new BoxGeometry(width, width, length);
+
+    let cellLength = clusterParams.length;
+    if (cellLength === undefined) {
+      cellLength = defaultCellLength;
+    }
+
+    if (cellLength < cellWidth) {
+      cellLength = cellWidth;
+    }
+
+    const geometry = new BoxGeometry(cellWidth, cellWidth, cellLength);
+
     // material
     const material = new MeshPhongMaterial({
       color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
     });
+
     // object
     const cube = new Mesh(geometry, material);
     return cube;
@@ -549,16 +562,17 @@ export class PhoenixObjects {
     phi: number;
     eta: number;
     theta: number;
+    side: number | undefined;
+    length: number | undefined;
     uuid: string;
   }): Object3D {
     const drawRadius = 1700; // FIXME - I really need to get this from somewhere. Atlantis has a lookup based on XML geometry.
     const drawZ = 2000;
     const maxR2 = drawRadius * drawRadius;
     const maxZ = drawZ;
-    const length = 30;
 
     // geometry
-    const cube = PhoenixObjects.getCaloCube(length, 30, caloCells);
+    const cube = PhoenixObjects.getCaloCube(caloCells, 30, 30);
     const position = PhoenixObjects.getCaloPosition(
       caloCells,
       drawZ,
