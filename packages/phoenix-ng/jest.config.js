@@ -1,15 +1,12 @@
 /* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { pathsToModuleNameMapper } = require('ts-jest');
-const { paths } = require('./tsconfig.json').compilerOptions;
 const esModules = [
   '@angular',
   '@ngrx',
   'three/examples/jsm/',
   '@rp3e11/ngx-slider/',
+  'jsroot',
 ];
 
-// eslint-disable-next-line no-undef
 globalThis.ngJest = {
   skipNgcc: false,
   tsconfig: 'tsconfig.spec.json',
@@ -23,8 +20,8 @@ module.exports = {
   globalSetup: 'jest-preset-angular/global-setup',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
-    'jsroot/geom': '<rootDir>../../../phoenix/node_modules/jsroot/',
-    'jsroot/io': '<rootDir>../../../phoenix/node_modules/jsroot/',
+    'jsroot/geom': '<rootDir>../../node_modules/jsroot/',
+    'jsroot/io': '<rootDir>../../node_modules/jsroot/',
   },
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
   transform: {

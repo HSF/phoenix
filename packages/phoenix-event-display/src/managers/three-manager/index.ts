@@ -32,7 +32,6 @@ import { ColorManager } from './color-manager';
 import { XRManager, XRSessionType } from './xr/xr-manager';
 import { VRManager } from './xr/vr-manager';
 import { ARManager } from './xr/ar-manager';
-import { UIManager } from '../ui-manager';
 import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 
 (function () {

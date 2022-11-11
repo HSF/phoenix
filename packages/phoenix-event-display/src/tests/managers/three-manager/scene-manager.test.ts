@@ -22,7 +22,6 @@ import {
   MeshBasicMaterial,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { Cut } from '../../../lib/models/cut.model';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;
