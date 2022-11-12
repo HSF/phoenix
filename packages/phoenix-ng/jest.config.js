@@ -4,7 +4,6 @@ const esModules = [
   '@ngrx',
   'three/examples/jsm/',
   '@rp3e11/ngx-slider/',
-  'jsroot',
 ];
 
 globalThis.ngJest = {
