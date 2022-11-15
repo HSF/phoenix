@@ -1,11 +1,11 @@
+import JSZip from 'jszip';
+import fetch from 'node-fetch';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
-import JSZip from 'jszip';
-import fetch from 'node-fetch';
 
 const mockFileList = (files: File[]): FileList => {
   const fileList: FileList = {

@@ -36,7 +36,6 @@
     "lerna": "^6.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "~4.6.4",
-    "node-fetch": "^3.2.10"
+    "typescript": "~4.6.4"
   }
 }

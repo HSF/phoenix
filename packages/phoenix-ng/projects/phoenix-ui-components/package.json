@@ -33,6 +33,9 @@
     "three": "^0.146.0",
     "tslib": "^2.4.1"
   },
+  "devDependencies": {
+    "node-fetch": "^3.2.10"
+  },
   "module": "dist/fesm2015/phoenix-ui-components.mjs",
   "es2020": "dist/fesm2020/phoenix-ui-components.mjs",
   "esm2020": "dist/esm2020/phoenix-ui-components.mjs",
