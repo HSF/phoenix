@@ -1,5 +1,10 @@
 import { OnInit, Component, Input } from '@angular/core';
-import { CMSLoader, JiveXMLLoader, readZipFile } from 'phoenix-event-display';
+import {
+  CMSLoader,
+  JiveXMLLoader,
+  readZipFile,
+  Edm4hepJsonLoader,
+} from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import {
@@ -24,6 +29,12 @@ export class IOOptionsDialogComponent implements OnInit {
       EventDataFormat.JSON,
       '.json',
       this.handleJSONEventDataInput.bind(this),
+      'application/json'
+    ),
+    new ImportOption(
+      EventDataFormat.EDM4HEPJSON,
+      '.edm4hep.json',
+      this.handleEDM4HEPJSONEventDataInput.bind(this),
       'application/json'
     ),
     new ImportOption(
@@ -93,6 +104,17 @@ export class IOOptionsDialogComponent implements OnInit {
     const callback = (content: any) => {
       const json = typeof content === 'string' ? JSON.parse(content) : content;
       this.eventDisplay.parsePhoenixEvents(json);
+    };
+    this.handleFileInput(files[0], 'json', callback);
+  }
+
+  handleEDM4HEPJSONEventDataInput(files: FileList) {
+    const callback = (content: any) => {
+      const json = typeof content === 'string' ? JSON.parse(content) : content;
+      const edm4hepJsonLoader = new Edm4hepJsonLoader();
+      edm4hepJsonLoader.setRawEventData(json);
+      edm4hepJsonLoader.processEventData();
+      this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
     };
     this.handleFileInput(files[0], 'json', callback);
   }

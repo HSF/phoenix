@@ -12,6 +12,7 @@ import { JSRootEventLoader } from './loaders/jsroot-event-loader';
 import { CMSObjects } from './loaders/objects/cms-objects';
 import { PhoenixObjects } from './loaders/objects/phoenix-objects';
 import { PhoenixLoader } from './loaders/phoenix-loader';
+import { Edm4hepJsonLoader } from './loaders/edm4hep-json-loader';
 import { ScriptLoader } from './loaders/script-loader';
 import { TrackmlLoader } from './loaders/trackml-loader';
 import { StateManager } from './managers/state-manager';
@@ -45,6 +46,7 @@ if (typeof globalThis !== 'undefined') {
     JiveXMLLoader,
     JSRootEventLoader,
     PhoenixLoader,
+    Edm4hepJsonLoader,
     ScriptLoader,
     TrackmlLoader,
     // Physics objects
