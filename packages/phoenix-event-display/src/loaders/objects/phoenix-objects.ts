@@ -527,7 +527,7 @@ export class PhoenixObjects {
     defaultCellLength: number = 30
   ) {
     const cellWidth = clusterParams.side ?? defaultCellWidth;
-    const cellLength = clusterParams.length ?? defaultCellLength;
+    let cellLength = clusterParams.length ?? defaultCellLength;
 
     if (cellLength < cellWidth) {
       cellLength = cellWidth;
