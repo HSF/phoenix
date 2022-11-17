@@ -12,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "es2018",
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
