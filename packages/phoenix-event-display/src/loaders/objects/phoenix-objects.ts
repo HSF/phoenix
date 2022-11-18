@@ -555,9 +555,9 @@ export class PhoenixObjects {
     phi: number;
     eta: number;
     theta: number;
-    side: number | undefined;
-    length: number | undefined;
     uuid: string;
+    side?: number;
+    length?: number;
   }): Object3D {
     const drawRadius = 1700; // FIXME - I really need to get this from somewhere. Atlantis has a lookup based on XML geometry.
     const drawZ = 2000;
