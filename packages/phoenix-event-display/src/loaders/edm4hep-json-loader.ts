@@ -169,17 +169,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      if (
-        !(
-          collName.includes('Vertices') ||
-          collName.includes('vertices') ||
-          collName.includes('Vertex') ||
-          collName.includes('vertex')
-        )
-      ) {
-        continue;
-      }
-
       const vertices: any[] = [];
       const rawVertices = collDict['collection'];
       const vertexColor = this.randomColor();
@@ -194,6 +183,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
         const vertex = {
           pos: position,
+          size: 0.2,
           color: '#' + vertexColor,
         };
         vertices.push(vertex);
@@ -220,10 +210,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       if (!(collDict['collType'] === 'edm4hep::TrackCollection')) {
-        continue;
-      }
-
-      if (!(collName.includes('Track') || collName.includes('track'))) {
         continue;
       }
 
@@ -327,11 +313,11 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      if (!(collDict['collType'] === 'edm4hep::CalorimeterHitCollection')) {
+      if (!collDict['collType'].includes('edm4hep::')) {
         continue;
       }
 
-      if (!(collName.includes('Cell') || collName.includes('cell'))) {
+      if (!collDict['collType'].includes('CalorimeterHitCollection')) {
         continue;
       }
 
@@ -344,32 +330,33 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       // Find smallest distance between cell centers and use it as cell size
       let drmin = 1e9;
-      for (let i = 0; i < rawCells.length; ++i) {
-        for (let j = 0; j < rawCells.length; ++j) {
-          if (i === j) {
-            continue;
-          }
+      for (let i = 0; i < 1e4; ++i) {
+        const j = Math.floor(Math.random() * rawCells.length);
+        const k = Math.floor(Math.random() * rawCells.length);
+        if (j === k) {
+          continue;
+        }
 
-          const dx2 = Math.pow(
-            rawCells[i].position.x - rawCells[j].position.x,
-            2
-          );
-          const dy2 = Math.pow(
-            rawCells[i].position.y - rawCells[j].position.y,
-            2
-          );
-          const dz2 = Math.pow(
-            rawCells[i].position.z - rawCells[j].position.z,
-            2
-          );
-          const dr = Math.sqrt(dx2 + dy2 + dz2);
+        const dx2 = Math.pow(
+          rawCells[j].position.x - rawCells[k].position.x,
+          2
+        );
+        const dy2 = Math.pow(
+          rawCells[j].position.y - rawCells[k].position.y,
+          2
+        );
+        const dz2 = Math.pow(
+          rawCells[j].position.z - rawCells[k].position.z,
+          2
+        );
+        const dr = Math.sqrt(dx2 + dy2 + dz2);
 
-          if (dr < drmin) {
-            drmin = dr;
-          }
+        if (dr < drmin) {
+          drmin = dr;
         }
       }
-      const cellSide = Math.floor(drmin) * 0.1;
+      const cellSide =
+        Math.floor(drmin) * 0.1 > 1 ? Math.floor(drmin) * 0.1 : 1;
       const cellsHue = Math.floor(Math.random() * 358);
 
       rawCells.forEach((rawCell: any) => {
@@ -419,10 +406,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         continue;
       }
 
-      if (!(collName.includes('Cluster') || collName.includes('cluster'))) {
-        continue;
-      }
-
       if (!('collection' in collDict)) {
         continue;
       }
@@ -445,6 +428,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           phi: phi,
           energy: rawCluster.energy * 100,
           radius: r,
+          side: 4,
         };
         clusters.push(cluster);
       });
