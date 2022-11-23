@@ -163,7 +163,12 @@ describe('PhoenixObjects', () => {
   });
 
   it('should create a Cluster and get it as an object', () => {
-    const clusterParams = {};
+    const clusterParams = {
+      energy: 23.54,
+      phi: 1.26548,
+      eta: -0.21854,
+      theta: 1.78762,
+    };
     const clusterObject = PhoenixObjects.getCluster(clusterParams) as Mesh;
 
     expect(clusterObject.name).toBe('Cluster');

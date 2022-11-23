@@ -454,8 +454,8 @@ export class PhoenixObjects {
       side?: number;
       length?: number;
       color?: string;
-      theta: number;
-      uuid: string;
+      theta?: number;
+      uuid?: string;
     },
     defaultRadius: number = 1800,
     defaultZ: number = 3600,
@@ -500,12 +500,13 @@ export class PhoenixObjects {
       eta: number;
       radius?: number;
       z?: number;
-      theta: number;
+      theta?: number;
     },
     defaultRadius: number = 1800,
     defaultZ: number = 3600
   ) {
-    const theta = CoordinateHelper.etaToTheta(clusterParams.eta);
+    const theta =
+      clusterParams.theta ?? CoordinateHelper.etaToTheta(clusterParams.eta);
     const radius = clusterParams.radius ?? defaultRadius;
 
     const position = CoordinateHelper.sphericalToCartesian(
@@ -577,7 +578,7 @@ export class PhoenixObjects {
     eta: number;
     radius?: number;
     z?: number;
-    theta: number;
+    theta?: number;
     color?: string;
     side?: number;
     length?: number;
