@@ -449,11 +449,11 @@ export class PhoenixObjects {
       energy: number;
       phi: number;
       eta: number;
-      radius: number | undefined;
-      z: number | undefined;
-      side: number | undefined;
-      length: number | undefined;
-      color: string | undefined;
+      radius?: number;
+      z?: number;
+      side?: number;
+      length?: number;
+      color?: string;
       theta: number;
       uuid: string;
     },
@@ -498,8 +498,8 @@ export class PhoenixObjects {
     clusterParams: {
       phi: number;
       eta: number;
-      radius: number | undefined;
-      z: number | undefined;
+      radius?: number;
+      z?: number;
       theta: number;
     },
     defaultRadius: number = 1800,
@@ -514,13 +514,13 @@ export class PhoenixObjects {
       clusterParams.phi
     );
 
-    if (clusterParams.z !== undefined) {
+    if (clusterParams.z) {
       position.setLength(
         (position.length() * clusterParams.z) / Math.abs(position.z)
       );
     }
 
-    if (clusterParams.radius === undefined && clusterParams.z === undefined) {
+    if (!clusterParams.radius && !clusterParams.z) {
       if (Math.abs(position.z) > defaultZ) {
         position.setLength(
           (position.length() * defaultZ) / Math.abs(position.z)
@@ -540,9 +540,9 @@ export class PhoenixObjects {
    */
   private static getCaloCube(
     clusterParams: {
-      length: number | undefined;
-      side: number | undefined;
-      color: string | undefined;
+      length?: number;
+      side?: number;
+      color?: string;
     },
     defaultCellWidth: number = 30,
     defaultCellLength: number = 30
@@ -575,10 +575,10 @@ export class PhoenixObjects {
     energy: number;
     phi: number;
     eta: number;
-    radius: number | undefined;
-    z: number | undefined;
+    radius?: number;
+    z?: number;
     theta: number;
-    color: string | undefined;
+    color?: string;
     side?: number;
     length?: number;
     uuid: string;
@@ -601,15 +601,12 @@ export class PhoenixObjects {
     );
     cube.position.copy(position);
 
-    if (caloCellParams.radius === undefined && caloCellParams.z === undefined) {
+    if (!caloCellParams.radius && !caloCellParams.z) {
       cube.lookAt(new Vector3(0, 0, 0));
-    } else if (
-      caloCellParams.z !== undefined &&
-      caloCellParams.radius === undefined
-    ) {
+    } else if (caloCellParams.z && !caloCellParams.radius) {
       cube.lookAt(new Vector3(position.x, position.y, 0));
     }
-    if (caloCellParams.radius !== undefined) {
+    if (caloCellParams.radius) {
       cube.lookAt(new Vector3(0, 0, position.z));
     }
 
