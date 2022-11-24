@@ -129,8 +129,10 @@ PlanarCaloCells is an object with the following attributes :
 
 #### 'Vertices
 'Vertices are a list of Vertex objects with the following attributes :
-* `x`, `y`, `z` : describing the position of the vertex
 * `color` (opt) - Hexadecimal string representing the color to draw the vertex.
+* one of the 2 following sets of attributes 
+  * `x`, `y`, `z` : describing the position of the vertex
+  * `pos` : array of 3 numbers (x, y, z) describing the position of the vertex
 
 #### MissingEnergy
 This is a list of objects, displayed as dashed lines starting from 0 and staying in the plane z=0. Each object has the following attributes :
