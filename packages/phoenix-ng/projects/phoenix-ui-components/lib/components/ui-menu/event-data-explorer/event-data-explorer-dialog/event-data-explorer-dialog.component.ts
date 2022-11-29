@@ -4,6 +4,7 @@ import { JiveXMLLoader } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { FileNode } from '../../../file-explorer/file-explorer.component';
 import { EventDataExplorerDialogData } from '../event-data-explorer.component';
+import JSZip from 'jszip';
 
 const supportFileTypes = ['json', 'xml'];
 
@@ -52,8 +53,10 @@ export class EventDataExplorerDialogComponent {
   }
 
   loadEvent(file: string) {
-    this.makeRequest(file, 'text', (eventData) => {
-      switch (file.split('.').pop()) {
+    const isZip = file.split('.').pop() === 'zip';
+    const rawfile = isZip ? file.substring(0, file.length - 4) : file;
+    this.makeRequest(file, isZip ? 'blob' : 'text', (eventData) => {
+      switch (rawfile.split('.').pop()) {
         case 'xml':
           this.loadJiveXMLEvent(eventData);
           break;
@@ -96,16 +99,41 @@ export class EventDataExplorerDialogComponent {
     this.dialogRef.close();
   }
 
+  private async unzip(data: ArrayBuffer) {
+    const archive = new JSZip();
+    await archive.loadAsync(data);
+    let fileData = '';
+    let multiFile = false;
+    for (const filePath in archive.files) {
+      if (multiFile) {
+        console.error(
+          'Zip archive contains more than one file. Ignoring all but first'
+        );
+        break;
+      }
+      fileData = await archive.file(filePath).async('string');
+      multiFile = true;
+    }
+    return fileData;
+  }
+
   makeRequest(
     urlPath: string,
-    responseType: 'json' | 'text',
+    responseType: 'json' | 'text' | 'blob',
     onData: (data: any) => void
   ) {
     this.loading = true;
     fetch(urlPath)
       .then((res) => res[responseType]())
       .then((data) => {
-        onData(data);
+        if (responseType === 'blob') {
+          data
+            .arrayBuffer()
+            .then((buf) => this.unzip(buf))
+            .then((d) => onData(d));
+        } else {
+          onData(data);
+        }
         this.error = false;
       })
       .catch((error) => {
