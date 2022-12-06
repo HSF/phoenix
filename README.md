@@ -50,6 +50,7 @@ Then run the following commands.
 ```sh
 # Install all the required dependencies
 yarn install
+# For macOS Ventura you may need to specify C++ version, e.g. yarn install -std=c++17
 
 # Run phoenix-event-display and phoenix-app in development/watch mode
 yarn start
