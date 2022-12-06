@@ -1,23 +1,24 @@
 import { PhoenixLoader } from './phoenix-loader';
 
-/*
+/**
  * Edm4hepJsonLoader for loading EDM4hep json dumps
  */
 export class Edm4hepJsonLoader extends PhoenixLoader {
-  /* Event data loaded from EDM4hep JSON file */
+  /**  Event data loaded from EDM4hep JSON file */
   private rawEventData: any;
 
+  /** Create Edm4hepJsonLoader */
   constructor() {
     super();
     this.eventData = {};
   }
 
-  /* Put raw EDM4hep JSON event data into the loader */
+  /** Put raw EDM4hep JSON event data into the loader */
   setRawEventData(rawEventData: any) {
     this.rawEventData = rawEventData;
   }
 
-  /* Process raw EDM4hep JSON event data into the Phoenix format */
+  /** Process raw EDM4hep JSON event data into the Phoenix format */
   processEventData(): boolean {
     Object.entries(this.rawEventData).forEach(([eventName, event]) => {
       const oneEventData = {
@@ -48,15 +49,17 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return true;
   }
 
-  /* Output event data in Phoenix compatible format */
+  /** Output event data in Phoenix compatible format */
   getEventData(): any {
     return this.eventData;
   }
 
+  /** Return number of events */
   private getNumEvents(): number {
     return Object.keys(this.rawEventData).length;
   }
 
+  /** Return run number (or 0, if not defined) */
   private getRunNumber(event: any): number {
     if (!('EventHeader' in event)) {
       return 0;
@@ -71,6 +74,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
+  /** Return event number (or 0, if not defined) */
   private getEventNumber(event: any): number {
     if (!('EventHeader' in event)) {
       return 0;
@@ -85,6 +89,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
+  /** Assign default color to Tracks*/
   private colorTracks(event: any) {
     let recoParticles: any[];
     if ('ReconstructedParticles' in event) {
@@ -147,6 +152,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     });
   }
 
+  /** Return the vertices */
   private getVertices(event: any) {
     const allVertices: any[] = [];
 
@@ -195,6 +201,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allVertices;
   }
 
+  /** Return tracks */
   private getTracks(event: any) {
     const allTracks: any[] = [];
 
@@ -295,10 +302,12 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allTracks;
   }
 
+  /** Not implemented */
   private getHits(event: any) {
     return {};
   }
 
+  /** Returns the cells */
   private getCells(event: any) {
     const allCells: any[] = [];
 
@@ -388,6 +397,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allCells;
   }
 
+  /** Return Calo clusters */
   private getCaloClusters(event: any) {
     const allClusters: any[] = [];
 
@@ -439,6 +449,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allClusters;
   }
 
+  /** Return jets */
   private getJets(event: any) {
     const allJets: any[] = [];
 
@@ -498,6 +509,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allJets;
   }
 
+  /** Return missing energy */
   private getMissingEnergy(event: any) {
     const allMETs: any[] = [];
 
@@ -560,6 +572,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allMETs;
   }
 
+  /** Return a random colour */
   private randomColor() {
     return Math.floor(Math.random() * 16777215)
       .toString(16)
@@ -567,6 +580,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       .toUpperCase();
   }
 
+  /** Helper conversion of HSL to hexadecimal */
   private convHSLtoHEX(h: number, s: number, l: number): string {
     l /= 100;
     const a = (s * Math.min(l, 1 - l)) / 100;
@@ -581,6 +595,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return `${f(0)}${f(8)}${f(4)}`;
   }
 
+  /** Return a lightness value from the passed number and range */
   private valToLightness(v: number, min: number, max: number): number {
     let lightness = 80 - ((v - min) * 65) / (max - min);
     if (lightness < 20) {
@@ -593,6 +608,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return lightness;
   }
 
+  /** Get the required collection */
   private getCollByID(event: any, id: number) {
     for (const collName in event) {
       if (event[collName].constructor != Object) {
