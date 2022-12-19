@@ -62,6 +62,8 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getRPC(firstEvent, eventData);
     this.getMuonPRD(firstEvent, 'TGC', eventData);
     this.getMuonPRD(firstEvent, 'CSCD', eventData);
+    this.getMuonPRD(firstEvent, 'MM', eventData);
+    this.getMuonPRD(firstEvent, 'STGC', eventData);
 
     // Tracks
     // (must be filled after hits because it might use them)
