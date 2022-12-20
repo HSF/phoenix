@@ -87,13 +87,17 @@ export class LHCbComponent implements OnInit {
 
     this.eventDisplay.init(configuration);
 
-    this.eventDisplay.loadGLTFGeometry(
-      'assets/geometry/LHCb/LHCb.gltf',
-      undefined, // name, ignored when empty
-      undefined, // menuNodeName
-      1, // scale
-      true // initiallyVisible
-    );
+    try {
+      this.eventDisplay.loadGLTFGeometry(
+        'assets/geometry/LHCb/LHCb.glb',
+        undefined, // name, ignored when empty
+        undefined, // menuNodeName
+        1, // scale
+        true // initiallyVisible
+      );
+    } catch (e) {
+      console.log('Error:', e);
+    }
 
     this.eventDisplay
       .getLoadingManager()

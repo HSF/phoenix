@@ -12,9 +12,11 @@ import {
   FrontSide,
   Vector3,
   Matrix4,
+  REVISION,
 } from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
 
@@ -180,6 +182,13 @@ export class ImportManager {
     callback: (geometries: Object3D, eventData: Object3D) => void
   ): Promise<void> {
     const loader = new GLTFLoader();
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+    );
+    loader.setDRACOLoader(dracoLoader);
+
     const sceneString = JSON.stringify(scene, null, 2);
 
     return new Promise<void>((resolve, reject) => {
@@ -216,6 +225,11 @@ export class ImportManager {
     initiallyVisible: boolean
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+    );
+    loader.setDRACOLoader(dracoLoader);
 
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.load(
@@ -301,7 +315,11 @@ export class ImportManager {
     name: string
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+    );
+    loader.setDRACOLoader(dracoLoader);
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
         geometry,
