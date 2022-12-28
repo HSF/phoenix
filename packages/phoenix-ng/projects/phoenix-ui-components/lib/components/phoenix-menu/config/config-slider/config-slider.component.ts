@@ -14,8 +14,6 @@ export class ConfigSliderComponent {
   @Output() onChange: EventEmitter<number> = new EventEmitter<number>();
 
   onValueChange(value: number) {
-    if (value) {
-      this.onChange.emit(value);
-    }
+    value && this.onChange.emit(value);
   }
 }
