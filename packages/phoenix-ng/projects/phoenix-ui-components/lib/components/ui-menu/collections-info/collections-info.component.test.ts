@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { Overlay } from '@angular/cdk/overlay';
 
 import { CollectionsInfoComponent } from './collections-info.component';
-import { Overlay } from '@angular/cdk/overlay';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
-import { ComponentPortal } from '@angular/cdk/portal';
-import { CollectionsInfoOverlayComponent } from 'phoenix-ui-components';
+import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
 
 describe('CollectionsInfoComponent', () => {
   let component: CollectionsInfoComponent;

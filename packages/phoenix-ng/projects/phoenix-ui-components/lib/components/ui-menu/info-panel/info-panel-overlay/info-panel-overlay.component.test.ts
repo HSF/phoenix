@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InfoPanelOverlayComponent } from './info-panel-overlay.component';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 describe('InfoPanelOverlayComponent', () => {
