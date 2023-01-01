@@ -30,7 +30,7 @@
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.1",
-    "three": "^0.146.0",
+    "three": "^0.148.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
