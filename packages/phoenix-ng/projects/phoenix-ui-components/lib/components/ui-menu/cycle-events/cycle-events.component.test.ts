@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
+import { EventDisplayService } from '../../../services/event-display.service';
+import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { CycleEventsComponent } from './cycle-events.component';
 

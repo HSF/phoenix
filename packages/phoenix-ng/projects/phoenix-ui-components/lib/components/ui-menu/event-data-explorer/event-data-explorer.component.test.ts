@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MatDialog } from '@angular/material/dialog';
-import { EventDataExplorerComponent } from 'phoenix-ui-components';
+
 import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { EventDataExplorerComponent } from './event-data-explorer.component';
 
 describe('EventDataExplorerComponent', () => {
   let component: EventDataExplorerComponent;

@@ -12,12 +12,12 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2018",
+    "target": "es2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [
-        "projects/phoenix-ui-components/lib/public_api.ts"
+        "./projects/phoenix-ui-components/lib/public_api.ts"
       ]
     }
   },

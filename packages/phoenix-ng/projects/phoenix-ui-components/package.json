@@ -25,16 +25,16 @@
     "zone.js": "*"
   },
   "dependencies": {
-    "@angular/cdk": "^14.2.6",
-    "@angular/material": "^14.2.6",
+    "@angular/cdk": "^15.0.3",
+    "@angular/material": "^15.0.3",
     "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.1",
-    "three": "^0.146.0",
+    "three": "^0.148.0",
     "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "node-fetch": "^2.0.0"
+    "node-fetch": "^3.3.0"
   },
   "module": "dist/fesm2015/phoenix-ui-components.mjs",
   "es2020": "dist/fesm2020/phoenix-ui-components.mjs",

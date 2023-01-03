@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDataFormat } from 'phoenix-ui-components';
+import { EventDataFormat } from '../../services/extras/event-data-import';
 import { PhoenixUIModule } from '../phoenix-ui.module';
 
 import { UiMenuComponent } from './ui-menu.component';
