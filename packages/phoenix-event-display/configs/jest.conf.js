@@ -9,22 +9,24 @@ module.exports = {
     '^.+\\.m?[tj]s$': [
       'ts-jest',
       {
-        useESM: true,
         tsconfig: {
           rootDir: null,
           allowJs: true,
         },
+        astTransformers: {
+          before: [
+            {
+              path: 'ts-jest-mock-import-meta',
+              options: {
+                metaObjectReplacement: { url: '' },
+              },
+            },
+          ],
+        },
       },
     ],
   },
-  moduleNameMapper: {
-    'jsroot/geom': '<rootDir>../../node_modules/jsroot/',
-    'jsroot/io': '<rootDir>../../node_modules/jsroot/',
-  },
-  transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!three/examples/jsm)',
-    '<rootDir>/node_modules/(?!jsroot)',
-  ],
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!three/examples/jsm)'],
   testRegex: '\\.test.ts$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   verbose: true,

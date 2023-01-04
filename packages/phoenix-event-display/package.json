@@ -29,7 +29,7 @@
     "test": "jest --config configs/jest.conf.js",
     "test:coverage": "yarn test --coverage",
     "test:ci": "yarn test:coverage --maxWorkers=2 --silent",
-    "test:debug": "jest --runInBand",
+    "test:debug": "yarn test --runInBand",
     "prepare": "yarn build",
     "prettier": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore",
     "prettier:check": "yarn prettier --check .",

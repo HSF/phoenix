@@ -14040,6 +14040,11 @@ truncate-utf8-bytes@^1.0.0:
   dependencies:
     utf8-byte-length "^1.0.1"
 
+ts-jest-mock-import-meta@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ts-jest-mock-import-meta/-/ts-jest-mock-import-meta-1.0.0.tgz#64ae9a1b309c04f21d9eb97f95fc3d897f173ad9"
+  integrity sha512-Ss4cH/Csq7dh+hkL4HPLw+30BXNwDYiuNiuUcAdNG22pq1GLbvxGCTMu1nUDldSl4FC5Bcz5k5oSodkoXBaxuA==
+
 ts-jest@^28.0.0:
   version "28.0.8"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-28.0.8.tgz#cd204b8e7a2f78da32cf6c95c9a6165c5b99cc73"
