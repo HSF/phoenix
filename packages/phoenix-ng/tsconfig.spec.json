@@ -4,7 +4,12 @@
     "module": "CommonJS",
     "outDir": "../out-tsc/spec",
     "allowJs": true,
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "paths": {
+      "phoenix-ui-components": [
+        "./projects/phoenix-ui-components/lib/public_api.ts"
+      ]
+    }
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }

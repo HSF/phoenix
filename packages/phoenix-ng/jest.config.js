@@ -4,6 +4,7 @@ const esModules = [
   '@ngrx',
   'three/examples/jsm/',
   '@rp3e11/ngx-slider/',
+  'jsroot',
 ];
 
 globalThis.ngJest = {
@@ -15,13 +16,8 @@ globalThis.ngJest = {
 module.exports = {
   roots: ['projects'],
   preset: 'jest-preset-angular',
-  resolver: '@nrwl/jest/plugins/resolver',
   globalSetup: 'jest-preset-angular/global-setup',
   testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    'jsroot/geom': '<rootDir>../../node_modules/jsroot/',
-    'jsroot/io': '<rootDir>../../node_modules/jsroot/',
-  },
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
   transform: {
     '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
@@ -31,6 +27,10 @@ module.exports = {
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.js$|${esModules.join('|')})`,
   ],
+  moduleNameMapper: {
+    'phoenix-ui-components':
+      '<rootDir>projects/phoenix-ui-components/lib/public_api.ts',
+  },
   verbose: true,
   collectCoverageFrom: [
     '<rootDir>/projects/**/*.ts',
