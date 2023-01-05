@@ -1,0 +1,26 @@
+.size-input {
+  background: transparent;
+  color: var(--phoenix-text-color);
+  text-align: center;
+}
+
+.size-input label {
+  width: 60px;
+}
+
+.size-input input {
+  background: transparent;
+  color: var(--phoenix-text-color);
+  width: 80px;
+}
+
+.make-picture {
+  text-align: center;
+  display: block;
+}
+
+.make-picture span {
+  padding: 5px 25px;
+  border: 2px solid var(--phoenix-text-color);
+  border-radius: 8px;
+}

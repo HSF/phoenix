@@ -25,6 +25,7 @@ export * from './vr-toggle/vr-toggle.component';
 export * from './ar-toggle/ar-toggle.component';
 export * from './zoom-controls/zoom-controls.component';
 export * from './ss-mode/ss-mode.component';
+export * from './make-picture/make-picture.component';
 export * from './performance-toggle/performance-toggle.component';
 export * from './ui-menu.component';
 export * from './share-link/share-link.component';

@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -50,6 +52,7 @@ import {
   VrToggleComponent,
   ArToggleComponent,
   SSModeComponent,
+  MakePictureComponent,
   PerformanceToggleComponent,
   ShareLinkComponent,
   ShareLinkDialogComponent,
@@ -102,6 +105,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   VrToggleComponent,
   ArToggleComponent,
   SSModeComponent,
+  MakePictureComponent,
   PerformanceToggleComponent,
   LoaderComponent,
   ShareLinkComponent,
@@ -125,7 +129,9 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatButtonModule,
     MatTooltipModule,
     OverlayModule,
+    FormsModule,
     MatMenuModule,
+    MatRadioModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatCheckboxModule,
