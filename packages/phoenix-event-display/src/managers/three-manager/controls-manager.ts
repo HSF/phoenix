@@ -1,3 +1,4 @@
+import { Tween } from '@tweenjs/tween.js';
 import {
   Camera,
   PerspectiveCamera,
@@ -11,7 +12,6 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { RendererManager } from './renderer-manager';
-import * as TWEEN from '@tweenjs/tween.js';
 
 /**
  * Manager for managing event display controls.
@@ -304,7 +304,7 @@ export class ControlsManager {
       if (objectPosition.distanceTo(origin) > 0.001) {
         for (const camera of this.getAllCameras()) {
           // Moving the camera to the object's position and then zooming out
-          new TWEEN.Tween(camera.position)
+          new Tween(camera.position)
             .to(
               {
                 x: objectPosition.x * 1.1,
@@ -414,8 +414,8 @@ export class ControlsManager {
     this.zoomCameraAnimPairs = [];
     for (const camera of allCameras) {
       const animation = camera.isOrthographicCamera
-        ? new TWEEN.Tween(camera)
-        : new TWEEN.Tween(camera.position);
+        ? new Tween(camera)
+        : new Tween(camera.position);
       this.zoomCameraAnimPairs.push({
         camera: camera,
         anim: animation,

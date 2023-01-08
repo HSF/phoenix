@@ -38,7 +38,7 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@tweenjs/tween.js": "^17.4.0",
+    "@tweenjs/tween.js": "^18.6.4",
     "dat.gui": "^0.7.9",
     "jsroot": "github:9inpachi/jsroot#7.2.0-types",
     "jszip": "^3.10.1",
