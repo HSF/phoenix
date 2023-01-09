@@ -58,8 +58,8 @@ export class AnimationsManager {
   public getCameraTween(
     pos: number[],
     duration: number = 1000,
-    easing?: any
-  ): any {
+    easing?: typeof Easing.Linear.None
+  ) {
     const tween = new Tween(this.activeCamera.position).to(
       { x: pos[0], y: pos[1], z: pos[2] },
       duration
