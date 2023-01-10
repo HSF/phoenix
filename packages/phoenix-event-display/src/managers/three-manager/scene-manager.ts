@@ -257,7 +257,13 @@ export class SceneManager {
         for (const filter of filters) {
           const value = child.userData[filter.field];
           if (value) {
-            if (value <= filter.maxValue && value >= filter.minValue) {
+            // Setting [min|max]Value to Number.[MIN|MAX]_SAFE_INTEGER disables these cuts
+            if (
+              (filter.maxValue === Number.MAX_SAFE_INTEGER ||
+                value <= filter.maxValue) &&
+              (filter.minValue === Number.MIN_SAFE_INTEGER ||
+                value >= filter.minValue)
+            ) {
               child.visible = true;
             } else {
               child.visible = false;
