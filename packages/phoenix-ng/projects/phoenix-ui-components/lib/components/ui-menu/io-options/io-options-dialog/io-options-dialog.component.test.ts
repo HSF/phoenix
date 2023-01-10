@@ -11,8 +11,10 @@ const mockFileList = (files: File[]): FileList => {
   const fileList: FileList = {
     length: files.length,
     item: (index) => files[index],
+    [Symbol.iterator]: files[Symbol.iterator],
   };
   Object.assign(fileList, files);
+
   return fileList;
 };
 

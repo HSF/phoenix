@@ -1,4 +1,4 @@
-import * as TWEEN from '@tweenjs/tween.js';
+import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
 import {
   Group,
   Object3D,
@@ -166,7 +166,7 @@ export class ThreeManager {
   public updateControls() {
     this.controlsManager.getActiveControls().update();
     this.controlsManager.updateSync();
-    TWEEN.update();
+    tweenUpdate();
   }
 
   /**
@@ -588,7 +588,7 @@ export class ThreeManager {
    * @param duration Duration of an animation in seconds.
    */
   private animateCameraPosition(cameraPosition: number[], duration: number) {
-    const posAnimation = new TWEEN.Tween(
+    const posAnimation = new Tween(
       this.controlsManager.getActiveCamera().position
     );
     posAnimation.to(
@@ -608,7 +608,7 @@ export class ThreeManager {
    * @param duration Duration of an animation in seconds.
    */
   private animateCameraTarget(cameraTarget: number[], duration: number) {
-    const rotAnimation = new TWEEN.Tween(
+    const rotAnimation = new Tween(
       this.controlsManager.getActiveControls().target
     );
     rotAnimation.to(

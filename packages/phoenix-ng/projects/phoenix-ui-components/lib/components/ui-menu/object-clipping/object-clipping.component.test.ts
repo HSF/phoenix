@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ObjectClippingComponent } from './object-clipping.component';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSliderChange } from '@angular/material/slider';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 
@@ -71,15 +70,13 @@ describe('ObjectClippingComponent', () => {
 
   it('should change clipping angle', () => {
     const sliderValue = 10;
-    const matSliderChange = new MatSliderChange();
-    matSliderChange.value = sliderValue;
 
-    component.changeStartClippingAngle(matSliderChange);
+    component.changeStartClippingAngle(sliderValue);
     expect(
       mockEventDisplay.getUIManager().rotateStartAngleClipping
     ).toHaveBeenCalledWith(sliderValue);
 
-    component.changeOpeningClippingAngle(matSliderChange);
+    component.changeOpeningClippingAngle(sliderValue);
     expect(
       mockEventDisplay.getUIManager().rotateOpeningAngleClipping
     ).toHaveBeenCalledWith(sliderValue);

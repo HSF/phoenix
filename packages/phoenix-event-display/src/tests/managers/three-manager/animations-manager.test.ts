@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { Easing } from '@tweenjs/tween.js';
 import { Camera, Object3D, Scene, Vector3 } from 'three';
 import {
   AnimationsManager,
@@ -26,16 +27,17 @@ describe('AnimationsManager', () => {
   });
 
   it('should get the camera tween for animating camera to a position', () => {
-    const tween = animationsManager.getCameraTween([0, 1, 2], 0, 1);
+    const camera = (animationsManager as any).activeCamera as Camera;
+    const targetPosition = new Vector3(0, 1, 2);
+    const tween = animationsManager.getCameraTween(
+      Object.values(targetPosition),
+      0,
+      Easing.Linear.None
+    );
 
-    expect(tween._object).toBeInstanceOf(Vector3);
-    expect(tween._object.x).toBe(0);
-    expect(tween._object.y).toBe(0);
-    expect(tween._object.z).toBe(0);
-
-    expect(tween._valuesStart).toEqual({});
-    expect(tween._valuesEnd).toEqual({ x: 0, y: 1, z: 2 });
-    expect(tween._easingFunction).toBe(1);
+    expect(camera.position).toEqual(new Vector3());
+    tween.start().end();
+    expect(camera.position).toEqual(targetPosition);
   });
 
   it('should animate the camera through the event scene', () => {

@@ -1,4 +1,5 @@
 import { jest } from '@jest/globals';
+import { TextDecoder } from 'util';
 
 Object.defineProperty(window, 'CSS', { value: null });
 
@@ -17,7 +18,7 @@ Object.defineProperty(window, 'getComputedStyle', {
 
 Object.defineProperty(window, 'getComputedStyle', {
   value: () => ({
-    getPropertyValue: (prop) => {
+    getPropertyValue: (_prop) => {
       return '';
     },
   }),
@@ -39,3 +40,6 @@ Object.defineProperty(document.body.style, 'transform', {
 HTMLCanvasElement.prototype.getContext = <
   typeof HTMLCanvasElement.prototype.getContext
 >jest.fn();
+
+// For being able to mock FileList in `packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu\io-options\io-options-dialog/io-options-dialog.component.test.ts:10`.
+globalThis.TextDecoder = TextDecoder;
