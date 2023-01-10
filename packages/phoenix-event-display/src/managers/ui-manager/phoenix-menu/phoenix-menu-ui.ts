@@ -240,6 +240,89 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       }
     );
 
+    this.addDrawOptions(collectionNode, collectionName);
+
+    if (cuts && cuts.length > 0) {
+      this.addCutOptions(collectionNode, collectionName, cuts);
+    }
+
+    const colorByOptions: ColorByOptionKeys[] = [];
+
+    // Extra config options specific to tracks
+    if (typeFolder.name === 'Tracks') {
+      colorByOptions.push(
+        ColorByOptionKeys.CHARGE,
+        ColorByOptionKeys.MOM,
+        ColorByOptionKeys.VERTEX
+      );
+    }
+
+    new ColorOptions(
+      this.three.getColorManager(),
+      collectionNode,
+      collectionColor,
+      colorByOptions
+    );
+  }
+
+  /**
+   * Add Cut Options folder to the menu.
+   * @param collectionNode The parent node to attach folder to
+   * @param collectionName The name of the collection
+   */
+  private addCutOptions(
+    collectionNode: PhoenixMenuNode,
+    collectionName: string,
+    cuts: Cut[]
+  ) {
+    const cutsOptionsNode = collectionNode.addChild('Cut Options');
+
+    cutsOptionsNode
+      .addConfig('label', {
+        label: 'Cuts',
+      })
+      .addConfig('button', {
+        label: 'Reset cut',
+        onClick: () => {
+          this.sceneManager.groupVisibility(
+            collectionName,
+            true,
+            SceneManager.EVENT_DATA_ID
+          );
+
+          for (const cut of cuts) {
+            cut.reset();
+          }
+        },
+      });
+
+    // Add range sliders for cuts
+    for (const cut of cuts) {
+      cutsOptionsNode.addConfig('rangeSlider', {
+        label: PrettySymbols.getPrettySymbol(cut.field),
+        min: cut.minValue,
+        max: cut.maxValue,
+        step: cut.step,
+        value: cut.minValue,
+        highValue: cut.maxValue,
+        onChange: ({ value, highValue }) => {
+          cut.minValue = value;
+          cut.maxValue = highValue;
+          this.sceneManager.collectionFilter(collectionName, cuts);
+        },
+      });
+    }
+  }
+
+  /**
+   * Add Draw Options folder to the menu.
+   * @param collectionNode The parent node to attach folder to
+   * @param collectionName The name of the collection
+   */
+  private addDrawOptions(
+    collectionNode: PhoenixMenuNode,
+    collectionName: string
+  ) {
     const drawOptionsNode = collectionNode.addChild('Draw Options');
 
     drawOptionsNode.addConfig('slider', {
@@ -267,64 +350,6 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           value
         ),
     });
-
-    if (cuts && cuts.length > 0) {
-      const cutsOptionsNode = collectionNode.addChild('Cut Options');
-
-      cutsOptionsNode
-        .addConfig('label', {
-          label: 'Cuts',
-        })
-        .addConfig('button', {
-          label: 'Reset cuts',
-          onClick: () => {
-            this.sceneManager.groupVisibility(
-              collectionName,
-              true,
-              SceneManager.EVENT_DATA_ID
-            );
-
-            for (const cut of cuts) {
-              cut.reset();
-            }
-          },
-        });
-
-      // Add range sliders for cuts
-      for (const cut of cuts) {
-        cutsOptionsNode.addConfig('rangeSlider', {
-          label: PrettySymbols.getPrettySymbol(cut.field),
-          min: cut.minValue,
-          max: cut.maxValue,
-          step: cut.step,
-          value: cut.minValue,
-          highValue: cut.maxValue,
-          onChange: ({ value, highValue }) => {
-            cut.minValue = value;
-            cut.maxValue = highValue;
-            this.sceneManager.collectionFilter(collectionName, cuts);
-          },
-        });
-      }
-    }
-
-    const colorByOptions: ColorByOptionKeys[] = [];
-
-    // Extra config options specific to tracks
-    if (typeFolder.name === 'Tracks') {
-      colorByOptions.push(
-        ColorByOptionKeys.CHARGE,
-        ColorByOptionKeys.MOM,
-        ColorByOptionKeys.VERTEX
-      );
-    }
-
-    new ColorOptions(
-      this.three.getColorManager(),
-      collectionNode,
-      collectionColor,
-      colorByOptions
-    );
   }
 
   /**
