@@ -282,7 +282,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Cuts',
       })
       .addConfig('button', {
-        label: 'Reset cut',
+        label: 'Reset cuts',
         onClick: () => {
           this.sceneManager.groupVisibility(
             collectionName,
@@ -309,6 +309,20 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           cut.minValue = value;
           cut.maxValue = highValue;
           this.sceneManager.collectionFilter(collectionName, cuts);
+        },
+        toggleMin: (checked: boolean) => {
+          if (checked) {
+            cut.minValue = cut.defaultMinValue;
+          } else {
+            cut.minValue = Number.MIN_SAFE_INTEGER;
+          }
+        },
+        toggleMax: (checked: boolean) => {
+          if (checked) {
+            cut.maxValue = cut.defaultMaxValue;
+          } else {
+            cut.maxValue = Number.MAX_SAFE_INTEGER;
+          }
         },
       });
     }
