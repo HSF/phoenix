@@ -28,10 +28,6 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   /** Manager for managing functions of the three.js scene. */
   private sceneManager: SceneManager;
 
-  private readonly newProperty = this;
-
-  private readonly newProperty_1 = this;
-
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
    * @param phoenixMenuRoot Root node of the Phoenix menu.
@@ -286,7 +282,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         label: 'Cuts',
       })
       .addConfig('button', {
-        label: 'Reset cuts',
+        label: 'Reset cut',
         onClick: () => {
           this.sceneManager.groupVisibility(
             collectionName,
@@ -348,7 +344,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       label: 'Wireframe',
       onChange: (value) =>
         this.sceneManager.wireframeObjects(
-          this.newProperty_1.newProperty.sceneManager
+          this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
             .getObjectByName(collectionName),
           value
