@@ -41,6 +41,8 @@ export type ConfigRangeSlider = ConfigLabel & {
   max: number;
   step: number;
   onChange: (valueRange: { value: number; highValue: number }) => void;
+  toggleMin: (checked: boolean ) => void;
+  toggleMax: ( checked: boolean ) => void ;
 };
 
 /** Type for Phoenix menu node "select" config. */
