@@ -3,9 +3,9 @@
  */
 export class Cut {
   /** Default minimum allowed value of the event data attribute. */
-  private defaultMinValue: number;
+  defaultMinValue: number;
   /** Default maximum allowed value of the event data attribute. */
-  private defaultMaxValue: number;
+  defaultMaxValue: number;
 
   /**
    * Create the cut to filter an event data attribute.
