@@ -166,6 +166,7 @@ import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
 import { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
 import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
 import { getLabelTitle } from &#x27;./helpers/labels&#x27;;
+import { PhoenixLoader } from &#x27;./loaders/phoenix-loader&#x27;;
 
 declare global {
   /**
@@ -273,6 +274,9 @@ export class EventDisplay {
    */
   public parsePhoenixEvents(eventsData: any): string[] {
     this.eventsData &#x3D; eventsData;
+    if (typeof this.configuration.eventDataLoader &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
+      this.configuration.eventDataLoader &#x3D; new PhoenixLoader();
+    }
     const eventKeys &#x3D;
       this.configuration.eventDataLoader.getEventsList(eventsData);
     this.loadEvent(eventKeys[0]);
@@ -508,7 +512,7 @@ export class EventDisplay {
    */
   public async loadGLTFGeometry(
     url: any,
-    name: string,
+    name: string | undefined,
     menuNodeName?: string,
     scale?: number,
     initiallyVisible: boolean &#x3D; true

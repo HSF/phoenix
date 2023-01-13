@@ -295,8 +295,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="223"
-                            class="link-to-prism">src/managers/url-options-manager.ts:223</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">src/managers/url-options-manager.ts:227</a></div>
                 </td>
             </tr>
 
@@ -431,8 +431,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="205"
-                            class="link-to-prism">src/managers/url-options-manager.ts:205</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">src/managers/url-options-manager.ts:209</a></div>
                 </td>
             </tr>
 
@@ -513,8 +513,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">src/managers/url-options-manager.ts:264</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">src/managers/url-options-manager.ts:268</a></div>
                 </td>
             </tr>
 
@@ -561,8 +561,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">src/managers/url-options-manager.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">src/managers/url-options-manager.ts:143</a></div>
                 </td>
             </tr>
 
@@ -641,8 +641,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">src/managers/url-options-manager.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">src/managers/url-options-manager.ts:158</a></div>
                 </td>
             </tr>
 
@@ -721,8 +721,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">src/managers/url-options-manager.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">src/managers/url-options-manager.ts:169</a></div>
                 </td>
             </tr>
 
@@ -800,8 +800,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="248"
-                            class="link-to-prism">src/managers/url-options-manager.ts:248</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="252"
+                            class="link-to-prism">src/managers/url-options-manager.ts:252</a></div>
                 </td>
             </tr>
 
@@ -934,10 +934,14 @@ export class URLOptionsManager {
 
     let file: string, type: string;
 
-    if ((!this.urlOptions.get(&#x27;file&#x27;) &amp;&amp; this.urlOptions.get(&#x27;type&#x27;)) ||
-    (this.urlOptions.get(&#x27;file&#x27;) &amp;&amp; !this.urlOptions.get(&#x27;type&#x27;))) {
-      console.log(&#x27;WARNING - if you set one of type or file, then you need to set both!&#x27;)
-      console.log(&#x27;WARNING - reverting to defaults!&#x27;)
+    if (
+      (!this.urlOptions.get(&#x27;file&#x27;) &amp;&amp; this.urlOptions.get(&#x27;type&#x27;)) ||
+      (this.urlOptions.get(&#x27;file&#x27;) &amp;&amp; !this.urlOptions.get(&#x27;type&#x27;))
+    ) {
+      console.log(
+        &#x27;WARNING - if you set one of type or file, then you need to set both!&#x27;
+      );
+      console.log(&#x27;WARNING - reverting to defaults!&#x27;);
     }
 
     if (!this.urlOptions.get(&#x27;file&#x27;) || !this.urlOptions.get(&#x27;type&#x27;)) {
@@ -950,7 +954,7 @@ export class URLOptionsManager {
       type &#x3D; this.urlOptions.get(&#x27;type&#x27;).toLowerCase();
     }
 
-    console.log(&#x27;Loading &#x27;,file,&#x27;of type&#x27;,type);
+    console.log(&#x27;Loading &#x27;, file, &#x27;of type&#x27;, type);
     // Load config from URL
     const loadConfig &#x3D; () &#x3D;&gt; {
       if (this.urlOptions.get(&#x27;config&#x27;)) {

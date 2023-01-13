@@ -94,6 +94,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/DatGUIMenuUI.html" data-type="entity-link" >DatGUIMenuUI</a>
                             </li>
                             <li class="link">
+                                <a href="classes/Edm4hepJsonLoader.html" data-type="entity-link" >Edm4hepJsonLoader</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/EffectsManager.html" data-type="entity-link" >EffectsManager</a>
                             </li>
                             <li class="link">

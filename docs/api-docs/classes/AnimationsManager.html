@@ -258,8 +258,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="524"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:524</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="520"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:520</a></div>
                 </td>
             </tr>
 
@@ -353,8 +353,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:148</a></div>
                 </td>
             </tr>
 
@@ -463,8 +463,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="338"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:338</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="334"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:334</a></div>
                 </td>
             </tr>
 
@@ -599,8 +599,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="514"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:514</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="510"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:510</a></div>
                 </td>
             </tr>
 
@@ -693,8 +693,8 @@ using clipping planes after particle collison.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="555"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:555</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="551"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:551</a></div>
                 </td>
             </tr>
 
@@ -899,8 +899,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="475"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:475</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="471"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:471</a></div>
                 </td>
             </tr>
 
@@ -1009,8 +1009,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="415"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:415</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="411"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:411</a></div>
                 </td>
             </tr>
 
@@ -1158,7 +1158,7 @@ event collision animation options.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCameraTween(pos: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, easing?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>getCameraTween(pos: number[], duration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, easing?)</code>
                 </td>
             </tr>
 
@@ -1230,7 +1230,6 @@ event collision animation options.</p>
                                 <tr>
                                     <td>easing</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -1284,8 +1283,8 @@ event collision animation options.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="541"
-                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:541</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="537"
+                            class="link-to-prism">src/managers/three-manager/animations-manager.ts:537</a></div>
                 </td>
             </tr>
 
@@ -1352,7 +1351,7 @@ from a single dimensional array.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SceneManager } from &#x27;./scene-manager&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Easing, Tween } from &#x27;@tweenjs/tween.js&#x27;;
 import {
   TubeGeometry,
   BufferGeometry,
@@ -1369,7 +1368,7 @@ import {
   Plane,
   Group,
 } from &#x27;three&#x27;;
-import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
+import { SceneManager } from &#x27;./scene-manager&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
 import { TracksMesh } from &#x27;../../loaders/objects/tracks&#x27;;
 
@@ -1412,9 +1411,9 @@ export class AnimationsManager {
   public getCameraTween(
     pos: number[],
     duration: number &#x3D; 1000,
-    easing?: any
-  ): any {
-    const tween &#x3D; new TWEEN.Tween(this.activeCamera.position).to(
+    easing?: typeof Easing.Linear.None
+  ) {
+    const tween &#x3D; new Tween(this.activeCamera.position).to(
       { x: pos[0], y: pos[1], z: pos[2] },
       duration
     );
@@ -1438,7 +1437,7 @@ export class AnimationsManager {
     onAnimationEnd?: () &#x3D;&gt; void
   ) {
     // Move to start
-    const start &#x3D; this.getCameraTween(startPos, 1000, TWEEN.Easing.Cubic.Out);
+    const start &#x3D; this.getCameraTween(startPos, 1000, Easing.Cubic.Out);
     // Move to position along the detector axis
     const alongAxisPosition &#x3D; [0, 0, startPos[2]];
     const startXAxis &#x3D; this.getCameraTween(alongAxisPosition, tweenDuration);
@@ -1461,7 +1460,7 @@ export class AnimationsManager {
     const rotateStart &#x3D; this.getCameraTween(
       [0, 0, radius],
       tweenDuration,
-      TWEEN.Easing.Cubic.Out
+      Easing.Cubic.Out
     );
 
     let rotate &#x3D; rotateStart;
@@ -1476,15 +1475,11 @@ export class AnimationsManager {
 
     // Go to the end position and then back to the starting point
     const endPos &#x3D; [0, 0, -startPos[2]];
-    const end &#x3D; this.getCameraTween(
-      endPos,
-      tweenDuration,
-      TWEEN.Easing.Cubic.In
-    );
+    const end &#x3D; this.getCameraTween(endPos, tweenDuration, Easing.Cubic.In);
     const startClone &#x3D; this.getCameraTween(
       startPos,
       tweenDuration,
-      TWEEN.Easing.Cubic.Out
+      Easing.Cubic.Out
     );
     startClone.onComplete(() &#x3D;&gt; onAnimationEnd?.());
     startClone.delay(500);
@@ -1538,7 +1533,7 @@ export class AnimationsManager {
 
             if (eventObject.geometry instanceof TracksMesh) {
               eventObject.material.progress &#x3D; 0;
-              const eventObjectTween &#x3D; new TWEEN.Tween(eventObject.material).to(
+              const eventObjectTween &#x3D; new Tween(eventObject.material).to(
                 {
                   progress: 1,
                 },
@@ -1551,7 +1546,7 @@ export class AnimationsManager {
             } else if (eventObject.geometry instanceof BufferGeometry) {
               const oldDrawRangeCount &#x3D; eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
-              const eventObjectTween &#x3D; new TWEEN.Tween(
+              const eventObjectTween &#x3D; new Tween(
                 eventObject.geometry.drawRange
               ).to(
                 {
@@ -1568,7 +1563,7 @@ export class AnimationsManager {
         }
         // Animation for scaling out objects with or without position
         else if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Jet&#x27;) {
-          const scaleTween &#x3D; new TWEEN.Tween({
+          const scaleTween &#x3D; new Tween({
             x: 0.01,
             y: 0.01,
             z: 0.01,
@@ -1620,7 +1615,7 @@ export class AnimationsManager {
     });
 
     // Tween for the animation sphere
-    const animationSphereTween &#x3D; new TWEEN.Tween(animationSphere).to(
+    const animationSphereTween &#x3D; new Tween(animationSphere).to(
       { radius: 3000 },
       tweenDuration
     );
@@ -1656,7 +1651,7 @@ export class AnimationsManager {
     animationSphereTween.onUpdate(onAnimationSphereUpdate);
 
     // Animation sphere tween after covering the tracks
-    const animationSphereTweenClone &#x3D; new TWEEN.Tween(animationSphere).to(
+    const animationSphereTweenClone &#x3D; new Tween(animationSphere).to(
       { radius: 10000 },
       extraAnimationSphereDuration
     );
@@ -1671,7 +1666,7 @@ export class AnimationsManager {
 
     // Start all tweens
     for (const tween of allTweens) {
-      tween.easing(TWEEN.Easing.Quartic.Out).start();
+      tween.easing(Easing.Quartic.Out).start();
     }
 
     // Call onEnd when the last tween completes
@@ -1728,7 +1723,7 @@ export class AnimationsManager {
     // Create tweens for the animation clipping planes
     for (const animationClipPlane of animationClipPlanes) {
       animationClipPlane.constant &#x3D; 0;
-      const tween &#x3D; new TWEEN.Tween(animationClipPlane).to(
+      const tween &#x3D; new Tween(animationClipPlane).to(
         { constant: clippingConstant },
         tweenDuration
       );
@@ -1793,7 +1788,7 @@ export class AnimationsManager {
     const particleTweens &#x3D; [];
 
     for (const particle of particles) {
-      new TWEEN.Tween(particle.material)
+      new Tween(particle.material)
         .to(
           {
             opacity: 1,
@@ -1802,7 +1797,7 @@ export class AnimationsManager {
         )
         .start();
 
-      const particleToOrigin &#x3D; new TWEEN.Tween(particle.position)
+      const particleToOrigin &#x3D; new Tween(particle.position)
         .to(
           {
             z: 0,

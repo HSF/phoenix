@@ -1,18 +1,11 @@
 {
-  "version": "2.11.4",
+  "version": "2.12.0",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "packages": [
-    "packages/*",
-    "packages/phoenix-ng/projects/*"
-  ],
+  "packages": ["packages/*", "packages/phoenix-ng/projects/*"],
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md",
-        "*.txt",
-        "*.obj"
-      ],
+      "ignoreChanges": ["*.md", "*.txt", "*.obj"],
       "message": "chore(release): %s",
       "conventionalCommits": true,
       "changelogPreset": "angular"

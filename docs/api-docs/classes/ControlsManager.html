@@ -2403,7 +2403,8 @@ The factor may either be greater or smaller.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Tween } from &#x27;@tweenjs/tween.js&#x27;;
+import {
   Camera,
   PerspectiveCamera,
   OrthographicCamera,
@@ -2416,7 +2417,6 @@ The factor may either be greater or smaller.</p>
 } from &#x27;three&#x27;;
 import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
 import { RendererManager } from &#x27;./renderer-manager&#x27;;
-import * as TWEEN from &#x27;@tweenjs/tween.js&#x27;;
 
 /**
  * Manager for managing event display controls.
@@ -2709,7 +2709,7 @@ export class ControlsManager {
       if (objectPosition.distanceTo(origin) &gt; 0.001) {
         for (const camera of this.getAllCameras()) {
           // Moving the camera to the object&#x27;s position and then zooming out
-          new TWEEN.Tween(camera.position)
+          new Tween(camera.position)
             .to(
               {
                 x: objectPosition.x * 1.1,
@@ -2819,8 +2819,8 @@ export class ControlsManager {
     this.zoomCameraAnimPairs &#x3D; [];
     for (const camera of allCameras) {
       const animation &#x3D; camera.isOrthographicCamera
-        ? new TWEEN.Tween(camera)
-        : new TWEEN.Tween(camera.position);
+        ? new Tween(camera)
+        : new Tween(camera.position);
       this.zoomCameraAnimPairs.push({
         camera: camera,
         anim: animation,
