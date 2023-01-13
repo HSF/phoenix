@@ -110,6 +110,20 @@
 
               <div *ngSwitchCase="'rangeSlider'" class="range-slider">
                 <div class="range-slider-inputs d-flex justify-content-between">
+                  <mat-checkbox
+                    [checked]="config.isChecked"
+                    (change)="
+                      config.toggleMin($event.checked);
+                    "
+                  ></mat-checkbox>
+                  <mat-checkbox
+                    [checked]="config.isChecked"
+                    (change)="
+                      config.toggleMax($event.checked);
+                    "
+                  ></mat-checkbox>
+                </div>
+                <div class="range-slider-inputs d-flex justify-content-between">
                   <input
                     type="number"
                     placeholder="Min"
@@ -135,6 +149,7 @@
                   [(value)]="config.value"
                   [(highValue)]="config.highValue"
                   (userChange)="config.onChange($event)"
+                  thumbLabel
                   [options]="{
                     floor: config.min,
                     ceil: config.max,
