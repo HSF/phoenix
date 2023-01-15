@@ -1,6 +1,7 @@
 import {
   Vector3,
   Object3D,
+  Color,
   CatmullRomCurve3,
   TubeGeometry,
   MeshToonMaterial,
@@ -21,6 +22,7 @@ import {
   LineSegments,
   LineDashedMaterial,
 } from 'three';
+import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
