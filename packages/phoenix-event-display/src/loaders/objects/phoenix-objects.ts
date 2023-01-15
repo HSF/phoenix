@@ -782,4 +782,43 @@ export class PhoenixObjects {
 
     return object;
   }
+
+  /**
+   * Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.
+   * @param layer Calorimeter layer
+   * @param vtx Flattened list of 8 vertex coordinates (24 floats)
+   * @param color [R,G,B] integer list
+   * @param opacity value from 0 to 1
+   * @returns the cell
+   */
+   public static getIrregularCaloCell(irrCells: {    
+    type: any,
+    layer: number,
+    vtx: any,
+    color: string,
+    opacity: any,
+   }): Object3D {
+
+    const verticesOfCube = [];
+    for (let i = 0; i < 24; i += 3) {
+      verticesOfCube.push( new Vector3(irrCells.vtx[i],irrCells.vtx[i+1],irrCells.vtx[i+2]));
+    }
+    const geometry = new ConvexGeometry(verticesOfCube);
+    const cell_color = new Color("rgb(" + irrCells.color[0].toString() + "," + irrCells.color[1].toString() + "," + irrCells.color[2].toString() + ")");
+
+    // material
+    const material = new MeshPhongMaterial({
+      color: cell_color,
+      transparent: true,
+      opacity: irrCells.opacity
+      // wireframe: true
+    });
+
+    // object
+    const cell = new Mesh(geometry, material);
+    cell.userData = Object.assign({});
+    cell.name = 'IrregularCaloCell';
+
+    return cell;
+  }
 }
