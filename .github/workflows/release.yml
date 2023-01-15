@@ -1,4 +1,4 @@
-name: Phoenix Docker Release
+name: phoenix-docker-release
 
 on:
   release:
