@@ -29,6 +29,8 @@ To update:
 yarn lint:fix
 ```
 
+If you're using Visual Studio Code, you can also add the [prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and then choose 'Format Document' with this linting tool.
+
 ## 3. Commit messages
 
 For commit messages, we follow a tweaked version of [angular commit convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit).
