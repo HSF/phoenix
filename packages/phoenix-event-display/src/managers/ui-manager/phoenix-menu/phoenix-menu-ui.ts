@@ -311,18 +311,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           this.sceneManager.collectionFilter(collectionName, cuts);
         },
         toggleMin: (checked: boolean) => {
-          if (checked) {
-            cut.minValue = cut.defaultMinValue;
-          } else {
-            cut.minValue = Number.MIN_SAFE_INTEGER;
-          }
+          cut.enableMinCut(checked);
+          this.sceneManager.collectionFilter(collectionName, cuts);
         },
         toggleMax: (checked: boolean) => {
-          if (checked) {
-            cut.maxValue = cut.defaultMaxValue;
-          } else {
-            cut.maxValue = Number.MAX_SAFE_INTEGER;
-          }
+          cut.enableMaxCut(checked);
+          this.sceneManager.collectionFilter(collectionName, cuts);
         },
       });
     }
