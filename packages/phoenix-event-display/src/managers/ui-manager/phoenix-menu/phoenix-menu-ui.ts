@@ -305,16 +305,18 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: cut.step,
         value: cut.minValue,
         highValue: cut.maxValue,
+        enableMin: cut.minCutActive,
+        enableMax: cut.maxCutActive,
         onChange: ({ value, highValue }) => {
           cut.minValue = value;
           cut.maxValue = highValue;
           this.sceneManager.collectionFilter(collectionName, cuts);
         },
-        toggleMin: (checked: boolean) => {
+        setEnableMin: (checked: boolean) => {
           cut.enableMinCut(checked);
           this.sceneManager.collectionFilter(collectionName, cuts);
         },
-        toggleMax: (checked: boolean) => {
+        setEnableMax: (checked: boolean) => {
           cut.enableMaxCut(checked);
           this.sceneManager.collectionFilter(collectionName, cuts);
         },
