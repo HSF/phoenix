@@ -111,12 +111,12 @@
               <div *ngSwitchCase="'rangeSlider'" class="range-slider">
                 <div class="range-slider-inputs d-flex justify-content-between">
                   <mat-checkbox
-                    [checked]="config.isChecked"
-                    (change)="config.toggleMin($event.checked)"
+                    [checked]="config.enableMin"
+                    (change)="config.setEnableMin($event.checked)"
                   ></mat-checkbox>
                   <mat-checkbox
-                    [checked]="config.isChecked"
-                    (change)="config.toggleMax($event.checked)"
+                    [checked]="config.enableMax"
+                    (change)="config.setEnableMax($event.checked)"
                   ></mat-checkbox>
                 </div>
                 <div class="range-slider-inputs d-flex justify-content-between">
