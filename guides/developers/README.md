@@ -17,9 +17,10 @@
 * [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
 * [Geometry tips and tricks](./geometry-tips.md)
 * [How to make a Phoenix release](./../release.md)
+* [How Phoenix tests work](./test-setup.md)
 
 ## Phoenix architecture
 
-This is an overall model of the architecture of Phoenix. We will try to keep it up to date, but beware that some things may not be completely up to date.
+This is an overall model of the architecture of Phoenix. We will try to keep it up to date, but beware that some things may not be completely current.
 
 ![Architecture model](../images/architecture.svg "Phoenix architecture")
