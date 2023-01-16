@@ -299,6 +299,31 @@ export class PhoenixLoader implements EventDataLoader {
       );
     }
 
+    if (eventData.IrregularCaloCells) {
+      // (Optional) Cuts can be added to any physics object.
+      const cuts = [new Cut('layer', 0, 10), new Cut('energy', 0, 10000)];
+
+      const scaleIrregularCaloCells = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('IrregularCaloCells', value, 'z');
+      };
+      const addIrregularCaloCellOptions = this.addScaleOptions(
+        'IrregularCaloCellsScale',
+        'IrregularCaloCells Scale',
+        scaleIrregularCaloCells
+      );
+
+      this.addObjectType(
+        eventData.IrregularCaloCells,
+        PhoenixObjects.getIrregularCaloCell,
+        'IrregularCaloCells',
+        false,
+        cuts,
+        addIrregularCaloCellOptions
+      );
+    }
+
     if (eventData.Muons) {
       const cuts = [
         new Cut('phi', -pi, pi, 0.01),

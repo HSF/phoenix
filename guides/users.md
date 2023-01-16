@@ -226,6 +226,16 @@ PlanarCaloCells is an object with the following attributes :
   * `pos` - position of the cell within the calo plane given as a pair [x, y]
   * `color` (opt) - Hexadecimal string representing the color to draw the cell.
 
+#### 'IrregularCaloCells'
+Calorimeter cells with arbitrary polyhedron-type geometry. 
+Each cell is represented by 8 (x,y,z) vertices connected using a convex hull from the [ConvexGeometry](https://threejs.org/docs/#examples/en/geometries/ConvexGeometry) class.
+
+IrregularCaloCells is a list of objects with the following attributes :
+   * `layer` - the Calorimeter layer
+   * `vtx` - a flattened list of 8 vertex coordinates (24 floats)
+   * `color` - an integer list of [R,G,B] values
+   * `opacity` - value from 0 to 1
+
 #### 'Vertices
 'Vertices are a list of Vertex objects with the following attributes :
 * `x`, `y`, `z` : describing the position of the vertex
