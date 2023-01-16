@@ -301,9 +301,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (eventData.IrregularCaloCells) {
       // (Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('layer', 0, 10),
-      ];
+      const cuts = [new Cut('layer', 0, 10), new Cut('energy', 0, 10000)];
 
       const scaleIrregularCaloCells = (value: number) => {
         this.graphicsLibrary
