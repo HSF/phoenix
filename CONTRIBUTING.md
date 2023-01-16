@@ -31,6 +31,9 @@ yarn lint:fix
 
 If you're using Visual Studio Code, you can also add the [prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and then choose 'Format Document' with this linting tool.
 
+### CI tests
+We make use of continuous integration (CI) tests for each code change. Please see the [relevant part](./guides/developers/test-setup.md) of the [Developer guide](./guides/developers#readme) for how to fix problems, and run locally.
+
 ## 3. Commit messages
 
 For commit messages, we follow a tweaked version of [angular commit convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit).
