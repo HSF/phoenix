@@ -163,8 +163,8 @@ export class PhoenixMenuNode {
         value: config?.['value'],
         highValue: config?.['highValue'],
       });
-      config.setEnableMin?.( config?.['enableMin'] );
-      config.setEnableMax?.( config?.['enableMax'] );
+      config.setEnableMin?.(config?.['enableMin']);
+      config.setEnableMax?.(config?.['enableMax']);
     }
   }
 

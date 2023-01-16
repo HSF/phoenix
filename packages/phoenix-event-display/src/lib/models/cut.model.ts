@@ -45,8 +45,11 @@ export class Cut {
     this.minCutActive = check;
   }
 
-  cutPassed( value:number ): boolean {
-    return (!this.maxCutActive || value<=this.maxValue) && (!this.minCutActive || value>this.minValue);
+  cutPassed(value: number): boolean {
+    return (
+      (!this.maxCutActive || value <= this.maxValue) &&
+      (!this.minCutActive || value > this.minValue)
+    );
   }
 
   /**
