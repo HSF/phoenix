@@ -785,12 +785,13 @@ export class PhoenixObjects {
     return object;
   }
 
-  /**
+/**
    * Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.
-   * @param layer Calorimeter layer
-   * @param vtx Flattened list of 8 vertex coordinates (24 floats)
-   * @param color [R,G,B] integer list
-   * @param opacity value from 0 to 1
+   * @param irrCells Properties of irregular calo cell.
+   * @param irrCells.layer Calorimeter layer
+   * @param irrCells.vtx Flattened list of 8 vertex coordinates (24 floats)
+   * @param irrCells.color [R,G,B] integer list
+   * @param irrCells.opacity value from 0 to 1
    * @returns the cell
    */
    public static getIrregularCaloCell(irrCells: {    
@@ -813,13 +814,15 @@ export class PhoenixObjects {
       color: cell_color,
       transparent: true,
       opacity: irrCells.opacity
-      // wireframe: true
     });
 
     // object
     const cell = new Mesh(geometry, material);
-    cell.userData = Object.assign({});
+    cell.userData = Object.assign({}, irrCells);
     cell.name = 'IrregularCaloCell';
+  
+    // Setting uuid for selection from collections info
+    irrCells.uuid = cell.uuid;
 
     return cell;
   }
