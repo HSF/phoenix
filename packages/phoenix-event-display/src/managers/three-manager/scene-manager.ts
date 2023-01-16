@@ -257,7 +257,7 @@ export class SceneManager {
         for (const filter of filters) {
           const value = child.userData[filter.field];
           if (value) {
-            if (value <= filter.maxValue && value >= filter.minValue) {
+            if (filter.cutPassed(value)) {
               child.visible = true;
             } else {
               child.visible = false;
