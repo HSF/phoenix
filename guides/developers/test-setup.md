@@ -7,6 +7,8 @@
 * [E2E Tests in Phoenix](#e2e-tests-in-phoenix)
   * [E2E Test Syntax in Cypress Example](#e2e-test-syntax-in-cypress-example)
   * [Cypress Configuration](#cypress-configuration)
+* [Running tests locally](#running-the-tests-locally)
+* [Fixing problems](#fixing-problems)
 
 ## Introduction
 
@@ -76,3 +78,32 @@ describe('CMSComponent', () => {
 ### Cypress Configuration
 
 The configuration file for e2e tests is [cypress.config.ts](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/cypress.config.ts). More examples of e2e tests can be found inside the [phoenix-app/cypress](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app/cypress) folder and we recommend you to check out the [official Cypress documentation](https://docs.cypress.io/guides/overview/why-cypress) as it is quite fantastic and more than enough to get started with Cypress.
+
+
+# Running the tests locally
+
+Ideally you test locally before pushing a PR. You can do this with e.g:
+```
+yarn test:ci
+```
+(please note you will need to have `jest` installed locally for this to work)
+
+# Fixing problems
+If you see issues, either in the CI or from your local tests (see above), then follow these tips to help solve the problems.
+
+## Failures in documentation coverage
+We currently fail the CI if the documentation coverage drops below 100%. If this happens, the easiest way to find the undocumentation code is to run `compodoc` locally, _without_ the coverage requirement. i.e. do:
+```
+cd packages/phoenix-event-display
+yarn compodoc -p configs/compodoc.conf.json
+```
+Now you can look in `documentation` and see which code is not fully documented.
+Once you have fixed it, you can check the CI would succeed with:
+```
+# From the root directory
+yarn docs:coverage
+```
+
+
+
+
