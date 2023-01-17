@@ -14,7 +14,9 @@ import {
   MeshBasicMaterial,
   Euler,
   PerspectiveCamera,
+  Vector2,
 } from 'three';
+import html2canvas from 'html2canvas';
 import { Configuration } from '../../lib/types/configuration';
 import { ControlsManager } from './controls-manager';
 import { RendererManager } from './renderer-manager';
@@ -753,6 +755,124 @@ export class ThreeManager {
     onEnd?: () => void
   ) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
+  }
+
+  saveBlob = (function () {
+    const a = document.createElement('a');
+    document.body.appendChild(a);
+    a.style.display = 'none';
+    return function saveData(blob, fileName) {
+      const url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = fileName;
+      a.click();
+    };
+  })();
+
+  /**
+   * Takes a screen shot of the current view
+   * @param width the width of the picture to be created
+   * @param height the height of the picture to be created
+   * @param fitting the type of fitting to use in case width and height
+   * ratio do not match the current screen ratio. Posible values are
+   *    - Crop : current view is cropped on both side or up and done to fit ratio
+   *             thus it is not streched, but some parts are lost
+   *    - Strech : current view is streched to given format
+   *               this is the default and used also for any other value given to fitting
+   */
+  public makeScreenShot(
+    width: number,
+    height: number,
+    fitting: string = 'Strech'
+  ) {
+    // compute actual size of screen shot, based on current view and reuested size
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    var originalSize = new Vector2();
+    mainRenderer.getSize(originalSize);
+    var scaledHeight = height;
+    var scaledWidth = width;
+    if (fitting == 'Crop') {
+      // Massage width and height so that we keep the screen ratio
+      // and thus the image from the screen is not streched
+      if (originalSize.width * height < originalSize.height * width) {
+        scaledHeight = (originalSize.height * width) / originalSize.width;
+      } else {
+        scaledWidth = (originalSize.width * height) / originalSize.height;
+      }
+    }
+    const heightShift = (scaledHeight - height) / 2;
+    const widthShift = (scaledWidth - width) / 2;
+
+    // get background color to be used
+    var bkgColor = getComputedStyle(document.body).getPropertyValue(
+      '--phoenix-background-color'
+    );
+
+    // grab output canvas on which we will draw, and set size
+    var outputCanvas = document.getElementById(
+      'screenshotCanvas'
+    ) as HTMLCanvasElement;
+    outputCanvas.width = width;
+    outputCanvas.height = height;
+    var ctx = outputCanvas.getContext('2d');
+    ctx.fillStyle = bkgColor;
+    ctx.fillRect(0, 0, width, height);
+    // draw main image on our output canvas, with right size
+    mainRenderer.setSize(scaledWidth, scaledHeight, false);
+    this.render();
+    ctx.drawImage(
+      mainRenderer.domElement,
+      widthShift,
+      heightShift,
+      width,
+      height,
+      0,
+      0,
+      width,
+      height
+    );
+    mainRenderer.setSize(originalSize.width, originalSize.height, false);
+    this.render();
+
+    // Get info panel
+    const infoPanel = document.getElementById('experimentInfo');
+    if (infoPanel != null) {
+      // Compute size of info panel on final picture
+      const infoHeight =
+        (infoPanel.clientHeight * scaledHeight) / originalSize.height;
+      const infoWidth =
+        (infoPanel.clientWidth * scaledWidth) / originalSize.width;
+
+      // Add info panel to output. This is HTML, so first convert it to canvas,
+      // and then draw to our output canvas
+      html2canvas(infoPanel, {
+        backgroundColor: bkgColor,
+        // avoid cloning canvas in the main page, this is useless and leads to
+        // warnings in the javascript console similar to this :
+        // "Unable to clone WebGL context as it has preserveDrawingBuffer=false"
+        ignoreElements: (element: Element) => element.tagName == 'CANVAS',
+      }).then((canvas) => {
+        canvas.toBlob((blob) => {
+          ctx.drawImage(
+            canvas,
+            infoHeight / 6,
+            infoHeight / 6,
+            infoWidth,
+            infoHeight
+          );
+          // Finally save to png file
+          outputCanvas.toBlob((blob) => {
+            const a = document.createElement('a');
+            document.body.appendChild(a);
+            a.style.display = 'none';
+            const url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = `screencapture.png`;
+            a.click();
+          });
+        });
+      });
+    }
   }
 
   /**
