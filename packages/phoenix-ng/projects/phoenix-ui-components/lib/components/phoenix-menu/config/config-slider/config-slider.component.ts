@@ -37,7 +37,7 @@ export class ConfigSliderComponent {
       this.max = this.oldMax;
     } else {
       this.oldMax = this.max;
-      this.max = Number.MIN_SAFE_INTEGER;
+      this.max = Number.MAX_SAFE_INTEGER;
     }
     // We should probably disable the min input too, and change text to be infinity symbol or something?
   }
