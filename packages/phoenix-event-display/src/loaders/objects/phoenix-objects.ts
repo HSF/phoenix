@@ -914,9 +914,6 @@ export class PhoenixObjects {
     cell.userData = Object.assign({}, irrCells);
     cell.name = 'IrregularCaloCell';
 
-    // Setting uuid for selection from collections info
-    irrCells.uuid = cell.uuid;
-
     return cell;
   }
 }
