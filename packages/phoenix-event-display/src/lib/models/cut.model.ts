@@ -15,8 +15,7 @@ export class Cut {
    * @param field Name of the event data attribute to be filtered.
    * @param minValue Minimum allowed value of the event data attribute.
    * @param maxValue Maximum allowed value of the event data attribute.
-   * @param maxValue Maximum allowed value of the event data attribute.
-   * @param maxValue Maximum allowed value of the event data attribute.
+   * @param step Size of increment when using slider.
    * @param minCutActive If true, the minimum cut is appled. Can be overriden later with enableMinCut.
    * @param maxCutActive If true, the maximum cut is appled. Can be overriden later with enableMaxCut.
    *
@@ -35,16 +34,17 @@ export class Cut {
     this.defaultApplyMaxValue = maxCutActive;
   }
 
-  /** Returns true if upper cut is valid */
+  /** Returns true if upper cut is valid. */
   enableMaxCut(check: boolean) {
     this.maxCutActive = check;
   }
 
-  /** Returns true if upper cut is valid */
+  /** Returns true if upper cut is valid. */
   enableMinCut(check: boolean) {
     this.minCutActive = check;
   }
 
+  /** Returns true if the passed value is within the active cut range. */
   cutPassed(value: number): boolean {
     return (
       (!this.maxCutActive || value <= this.maxValue) &&
