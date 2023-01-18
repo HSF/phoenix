@@ -809,17 +809,22 @@ export class ThreeManager {
       '--phoenix-background-color'
     );
 
+    // Deal with devices having special devicePixelRatio (retina screens in particular)
+    const scale = window.devicePixelRatio;
+
     // grab output canvas on which we will draw, and set size
     const outputCanvas = document.getElementById(
       'screenshotCanvas'
     ) as HTMLCanvasElement;
     outputCanvas.width = width;
     outputCanvas.height = height;
+    outputCanvas.style.width = (width / scale).toString() + 'px';
+    outputCanvas.style.height = (height / scale).toString() + 'px';
     const ctx = outputCanvas.getContext('2d');
     ctx.fillStyle = bkgColor;
     ctx.fillRect(0, 0, width, height);
     // draw main image on our output canvas, with right size
-    mainRenderer.setSize(scaledWidth, scaledHeight, false);
+    mainRenderer.setSize(scaledWidth / scale, scaledHeight / scale, false);
     this.render();
     ctx.drawImage(
       mainRenderer.domElement,
