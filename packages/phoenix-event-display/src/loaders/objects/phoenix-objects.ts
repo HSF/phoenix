@@ -21,6 +21,7 @@ import {
   SphereGeometry,
   LineSegments,
   LineDashedMaterial,
+  CanvasTexture,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
@@ -313,6 +314,12 @@ export class PhoenixObjects {
           hitsParams,
           hitsParamsClone
         );
+      case 'CircularPoint':
+        return PhoenixObjects.hitsToCircularPoints(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
       case 'Line':
         return PhoenixObjects.hitsToLines(
           pointPos,
@@ -349,7 +356,7 @@ export class PhoenixObjects {
     // material
     const material = new PointsMaterial({
       size: 10,
-      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj = new Points(geometry, material);
@@ -357,6 +364,52 @@ export class PhoenixObjects {
     // pointsObj.userData = Object.assign({}, hitParamsClone);
     pointsObj.userData = {};
     pointsObj.name = 'Hit';
+    // Setting uuid for selection from collections info
+    hitsParams.uuid = pointsObj.uuid;
+
+    return pointsObj;
+  }
+
+  /**
+   * Get a Circular Points object from Hits parameters.
+   * @param pointPos Position of the point.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type `Points`.
+   */
+  private static hitsToCircularPoints(
+    pointPos: any,
+    hitsParams: any,
+    _hitParamsClone: any
+  ): Object3D {
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    // material
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const context = canvas.getContext('2d');
+    context.clearRect(0, 0, 128, 128);
+    context.fillStyle = 'white';
+    context.beginPath();
+    context.arc(64, 64, 64, 0, 2 * Math.PI);
+    context.fill();
+    const texture = new CanvasTexture(canvas);
+
+    const material = new PointsMaterial({
+      size: 10,
+      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      map: texture,
+      alphaMap: texture,
+      alphaTest: 0.5,
+    });
+    // object
+    const pointsObj = new Points(geometry, material);
+    // Disabling for now because the data isn't readable on object selection.
+    // pointsObj.userData = Object.assign({}, hitParamsClone);
+    pointsObj.userData = {};
+    pointsObj.name = 'CircularHit';
     // Setting uuid for selection from collections info
     hitsParams.uuid = pointsObj.uuid;
 
@@ -800,6 +853,7 @@ export class PhoenixObjects {
     vtx: any;
     color: string;
     opacity: any;
+    uuid: any;
   }): Object3D {
     const verticesOfCube = [];
     for (let i = 0; i < 24; i += 3) {

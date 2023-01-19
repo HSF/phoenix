@@ -304,7 +304,55 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Not implemented */
   private getHits(event: any) {
-    return {};
+    const allHits: any[] = [];
+
+    for (const collName in event) {
+      if (event[collName].constructor != Object) {
+        continue;
+      }
+
+      const collDict = event[collName];
+
+      if (!('collType' in collDict)) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('edm4hep::')) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('TrackerHitCollection')) {
+        continue;
+      }
+
+      if (!('collection' in collDict)) {
+        continue;
+      }
+
+      const rawHits = collDict['collection'];
+      const hits: any[] = [];
+      const hitColor = this.randomColor();
+
+      rawHits.forEach((rawHit: any) => {
+        const position: any[] = [];
+        if ('position' in rawHit) {
+          position.push(rawHit['position']['x'] * 0.1);
+          position.push(rawHit['position']['y'] * 0.1);
+          position.push(rawHit['position']['z'] * 0.1);
+        }
+
+        const hit = {
+          type: 'CircularPoint',
+          pos: position,
+          color: '#' + hitColor,
+        };
+        hits.push(hit);
+      });
+
+      allHits[collName] = hits;
+    }
+
+    return allHits;
   }
 
   /** Returns the cells */
