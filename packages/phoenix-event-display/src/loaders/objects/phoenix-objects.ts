@@ -398,7 +398,7 @@ export class PhoenixObjects {
     const texture = new CanvasTexture(canvas);
 
     const material = new PointsMaterial({
-      size: 10,
+      size: hitsParams[0].size ?? 10,
       color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
       map: texture,
       alphaMap: texture,

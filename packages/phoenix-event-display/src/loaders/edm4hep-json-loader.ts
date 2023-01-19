@@ -345,6 +345,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           type: 'CircularPoint',
           pos: position,
           color: '#' + hitColor,
+          size: 2,
         };
         hits.push(hit);
       });
