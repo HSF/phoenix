@@ -83,6 +83,7 @@ describe('AnimationsManager', () => {
     it('should animate scene by animating camera through the scene and animating event collision', () => {
       jest.spyOn(animationsManager, 'getCameraTween');
       const animationPreset: AnimationPreset = {
+        name: 'test',
         positions: [
           {
             position: [0, 0, 0],
