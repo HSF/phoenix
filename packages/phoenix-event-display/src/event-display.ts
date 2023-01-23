@@ -103,14 +103,14 @@ export class EventDisplay {
    * @param fitting the type of fitting to use in case width and height
    * ratio do not match the current screen ratio. Posible values are
    *    - Crop : current view is cropped on both side or up and done to fit ratio
-   *             thus it is not streched, but some parts are lost
-   *    - Strech : current view is streched to given format
+   *             thus it is not stretched, but some parts are lost
+   *    - Stretch : current view is stretched to given format
    *               this is the default and used also for any other value given to fitting
    */
   public makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Strech'
+    fitting: string = 'Stretch'
   ) {
     this.graphicsLibrary.makeScreenShot(width, height, fitting);
   }
