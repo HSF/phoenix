@@ -787,10 +787,10 @@ export class ThreeManager {
   ) {
     // compute actual size of screen shot, based on current view and reuested size
     const mainRenderer = this.rendererManager.getMainRenderer();
-    var originalSize = new Vector2();
+    const originalSize = new Vector2();
     mainRenderer.getSize(originalSize);
-    var scaledHeight = height;
-    var scaledWidth = width;
+    let scaledHeight = height;
+    let scaledWidth = width;
     if (fitting == 'Crop') {
       // Massage width and height so that we keep the screen ratio
       // and thus the image from the screen is not streched
@@ -804,17 +804,17 @@ export class ThreeManager {
     const widthShift = (scaledWidth - width) / 2;
 
     // get background color to be used
-    var bkgColor = getComputedStyle(document.body).getPropertyValue(
+    const bkgColor = getComputedStyle(document.body).getPropertyValue(
       '--phoenix-background-color'
     );
 
     // grab output canvas on which we will draw, and set size
-    var outputCanvas = document.getElementById(
+    const outputCanvas = document.getElementById(
       'screenshotCanvas'
     ) as HTMLCanvasElement;
     outputCanvas.width = width;
     outputCanvas.height = height;
-    var ctx = outputCanvas.getContext('2d');
+    const ctx = outputCanvas.getContext('2d');
     ctx.fillStyle = bkgColor;
     ctx.fillRect(0, 0, width, height);
     // draw main image on our output canvas, with right size
