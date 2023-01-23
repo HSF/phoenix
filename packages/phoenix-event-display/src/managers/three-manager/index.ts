@@ -757,6 +757,7 @@ export class ThreeManager {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
   }
 
+  /** Saves a blob */
   saveBlob = (function () {
     const a = document.createElement('a');
     document.body.appendChild(a);
