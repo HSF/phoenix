@@ -25,6 +25,6 @@
     "strictTemplates": true,
     "strictDomEventTypes": false,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+    "skipDefaultLibCheck": true
   }
 }
