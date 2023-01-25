@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "start:ssl": "ng serve --ssl --host 0.0.0.0",
-    "start:single": "ng serve --configuration singleEvent",
+    "start": "ng serve phoenix-app",
+    "start:ssl": "ng serve phoenix-app --ssl --host 0.0.0.0",
+    "start:single": "ng serve phoenix-app --configuration singleEvent",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
     "build:ui-components": "ng build phoenix-ui-components --configuration production",
@@ -21,9 +21,9 @@
     "eslint:fix": "yarn eslint --fix",
     "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "//": "Running tests only for phoenix-ui-components because of bug in phoenix-app tests",
-    "version": "yarn deploy",
-    "deploy:web": "yarn build:prod --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
-    "deploy:web:single": "ng build --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
+    "version": "yarn deploy phoenix-app",
+    "deploy:web": "yarn build:prod phoenix-app --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
+    "deploy:web:single": "ng build phoenix-app --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular/animations": "^15.0.4",
