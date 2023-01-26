@@ -23,6 +23,8 @@
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
-    "strictDomEventTypes": false
+    "strictDomEventTypes": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   }
 }

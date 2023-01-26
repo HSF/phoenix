@@ -55,3 +55,12 @@ Thumbs.db
 packages/phoenix-ng/projects/phoenix-app/cypress/videos
 packages/phoenix-ng/projects/phoenix-app/cypress/screenshots
 packages/phoenix-ng/projects/phoenix-app/cypress/downloads
+
+# Added as per https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
