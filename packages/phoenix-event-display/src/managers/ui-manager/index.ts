@@ -19,6 +19,7 @@ import {
 import { PhoenixUI } from './phoenix-ui';
 import { AnimationPreset } from '../../managers/three-manager/animations-manager';
 
+/** If animation presets not passed in configuration, we will use this. */
 const defaultAnimationPresets: AnimationPreset[] = [
   {
     name: 'Cavern to ID',
