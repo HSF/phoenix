@@ -31,7 +31,7 @@
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.1",
     "three": "^0.148.0",
-    "tslib": "^2.4.1"
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
     "node-fetch": "^3.3.0"
