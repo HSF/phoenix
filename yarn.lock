@@ -5538,21 +5538,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rp3e11/ngx-slider@npm:^13.0.1":
-  version: 13.0.1
-  resolution: "@rp3e11/ngx-slider@npm:13.0.1"
-  dependencies:
-    detect-passive-events: ^1.0.3
-    rxjs: ^7.4.0
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/common": ^13.0.2
-    "@angular/core": ^13.0.2
-    "@angular/forms": ^13.0.2
-  checksum: e8310cfc88943b56be05ccca39e47416ad421c1f73bf8e36f25ec3918b8a97d68f65b2dcf5c69d038438e65d4afe1d3336d63977a8ffa2207d9e261c68cf58dc
-  languageName: node
-  linkType: hard
-
 "@schematics/angular@npm:15.0.4":
   version: 15.0.4
   resolution: "@schematics/angular@npm:15.0.4"
@@ -9067,6 +9052,13 @@ cors@latest:
   languageName: node
   linkType: hard
 
+"detect-it@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "detect-it@npm:4.0.1"
+  checksum: 013981eae87c0265169e11e09efcc1c78fb2fc3e956b0001eb8d741ce03784a3e8e6d60e1445105f510c52be2ccffbd1c31c1bc094d01ad77f11df9830822a9c
+  languageName: node
+  linkType: hard
+
 "detect-libc@npm:^2.0.0":
   version: 2.0.1
   resolution: "detect-libc@npm:2.0.1"
@@ -9088,10 +9080,12 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"detect-passive-events@npm:^1.0.3":
-  version: 1.0.5
-  resolution: "detect-passive-events@npm:1.0.5"
-  checksum: 0de350485b3dffbea0b5aefbe6eb889017f76c32b39bbade65095cce16929fa08fa8489f213a03fe46e118b11579b2d2f002512096d1e7c80a4532be7c8f9bb3
+"detect-passive-events@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "detect-passive-events@npm:2.0.3"
+  dependencies:
+    detect-it: ^4.0.1
+  checksum: 2fb48474e340a1add096735427433578c571e2fed0c44af86ac116c50b9b7d70662a2e3bf1539d9dff4e2a43459c874b20876270afe7beeb5d4bef08ff9d4a5c
   languageName: node
   linkType: hard
 
@@ -14612,6 +14606,21 @@ cors@latest:
   languageName: node
   linkType: hard
 
+"ngx-slider-v2@npm:^15.0.3":
+  version: 15.0.3
+  resolution: "ngx-slider-v2@npm:15.0.3"
+  dependencies:
+    detect-passive-events: ^2.0.3
+    rxjs: ^7.4.0
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^15.0.4
+    "@angular/core": ^15.0.4
+    "@angular/forms": ^15.0.4
+  checksum: 9096e101a58da3a08d185e6840e53244d238f672b6ddcbd2191bfc8d6e2deb118fa3992d2f0e79e55097278004429912771a58f7dd7667858d0a8783ba33ada3
+  languageName: node
+  linkType: hard
+
 "nice-napi@npm:^1.0.2":
   version: 1.0.2
   resolution: "nice-napi@npm:1.0.2"
@@ -15841,7 +15850,6 @@ cors@latest:
     "@angular/platform-browser": ^15.0.4
     "@angular/platform-browser-dynamic": ^15.0.4
     "@angular/router": ^15.0.4
-    "@rp3e11/ngx-slider": ^13.0.1
     "@types/cypress": ^1.1.3
     "@types/qrcode": 1.5.0
     concurrently: ^7.6.0
@@ -15851,6 +15859,7 @@ cors@latest:
     jest: ^29.4.1
     jest-preset-angular: 12.2.6
     ng-packagr: ^15.1.1
+    ngx-slider-v2: ^15.0.3
     phoenix-event-display: ^2.12.0
     phoenix-ui-components: ^2.12.0
     qrcode: 1.5.1
@@ -15871,8 +15880,8 @@ cors@latest:
     "@angular/forms": ^15.1.2
     "@angular/material": ^15.0.3
     "@angular/platform-browser": ^15.1.2
-    "@rp3e11/ngx-slider": ^13.0.1
     css-element-queries: ^1.2.3
+    ngx-slider-v2: ^15.0.3
     node-fetch: ^3.3.0
     qrcode: 1.5.1
     rxjs: ^7.8.0

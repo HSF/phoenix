@@ -15,7 +15,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxSliderModule } from '@rp3e11/ngx-slider';
+import { NgxSliderModule } from 'ngx-slider-v2';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
