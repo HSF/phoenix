@@ -185,7 +185,7 @@ export class ImportManager {
 
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
     );
     loader.setDRACOLoader(dracoLoader);
 
@@ -227,7 +227,7 @@ export class ImportManager {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
     );
     loader.setDRACOLoader(dracoLoader);
 
@@ -317,7 +317,7 @@ export class ImportManager {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/js/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
     );
     loader.setDRACOLoader(dracoLoader);
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
