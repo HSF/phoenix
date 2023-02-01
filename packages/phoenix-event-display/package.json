@@ -45,14 +45,14 @@
     "jsroot": "^7.3.0",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.148.0"
+    "three": "^0.149.0"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.19.4",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@compodoc/compodoc": "^1.1.19",
     "@types/dat.gui": "^0.7.7",
-    "@types/three": "^0.147.1",
+    "@types/three": "^0.148.1",
     "esbuild-loader": "^2.21.0",
     "jest": "^29.4.1",
     "ts-jest": "~29.0.5",
