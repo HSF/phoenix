@@ -1,5 +1,6 @@
 {
   "compileOnSave": false,
+  "exclude": ["**/*.test.ts"],
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",

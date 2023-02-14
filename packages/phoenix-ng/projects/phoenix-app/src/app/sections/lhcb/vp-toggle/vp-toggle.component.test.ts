@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
+import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
+import { PhoenixUIModule } from 'phoenix-ui-components/lib/components/phoenix-ui.module';
 
 import { VPToggleComponent } from './vp-toggle.component';
 

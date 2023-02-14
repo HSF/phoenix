@@ -47,7 +47,7 @@ describe('FileExplorerComponent', () => {
       rootFileNode: {
         currentValue: mockFileNode,
         previousValue: undefined,
-        firstChange: undefined,
+        firstChange: true,
         isFirstChange: () => true,
       },
     });

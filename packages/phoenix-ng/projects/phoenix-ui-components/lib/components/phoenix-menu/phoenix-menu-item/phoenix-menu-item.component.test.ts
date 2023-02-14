@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuItemComponent } from './phoenix-menu-item.component';
 import { PhoenixMenuNode } from 'phoenix-event-display';
-import { PhoenixMenuConfigs } from 'phoenix-event-display/src/managers/ui-manager/phoenix-menu/config-types';
-import { ConfigLabel } from '../../../../../../../phoenix-event-display/src/managers/ui-manager/phoenix-menu/config-types';
 
 describe('PhoenixMenuItemComponent', () => {
   let component: PhoenixMenuItemComponent;

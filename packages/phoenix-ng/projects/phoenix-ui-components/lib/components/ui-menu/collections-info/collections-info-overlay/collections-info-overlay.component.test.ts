@@ -2,9 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Object3D } from 'three';
 
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
-import { EventDisplayService } from '../../../../services/event-display.service';
+import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
-import { ElementRef } from '@angular/core';
 
 describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;

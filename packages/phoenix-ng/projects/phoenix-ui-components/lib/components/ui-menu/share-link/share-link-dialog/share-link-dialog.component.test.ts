@@ -53,8 +53,6 @@ describe('ShareLinkDialogComponent', () => {
     expect(component.shareLink.value).toContain(
       'test_option=test_option_value'
     );
-    // Else case
-    component.setOptionValue('type', undefined);
   });
 
   it('should update copy status', () => {

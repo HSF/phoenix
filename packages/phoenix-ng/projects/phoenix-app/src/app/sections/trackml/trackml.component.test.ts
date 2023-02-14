@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TrackmlComponent } from './trackml.component';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { AppModule } from '../../app.module';

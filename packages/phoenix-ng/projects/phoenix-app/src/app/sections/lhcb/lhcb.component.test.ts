@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
 
 import { LHCbComponent } from './lhcb.component';
 

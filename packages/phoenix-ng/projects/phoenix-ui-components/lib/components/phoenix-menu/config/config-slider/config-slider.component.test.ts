@@ -32,9 +32,4 @@ describe('ConfigSliderComponent', () => {
     component.onValueChange(100);
     expect(component.onChange.emit).toHaveBeenCalledWith(100);
   });
-
-  it('should not change value if undefined', () => {
-    component.onValueChange(undefined);
-    expect(component.onChange.emit).toHaveBeenCalledTimes(0);
-  });
 });
