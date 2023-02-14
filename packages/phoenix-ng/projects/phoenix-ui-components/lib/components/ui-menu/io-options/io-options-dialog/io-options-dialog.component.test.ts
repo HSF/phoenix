@@ -7,16 +7,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
-const mockFileList = (files: File[]): FileList => {
-  const fileList: FileList = {
-    length: files.length,
-    item: (index) => files[index],
-    [Symbol.iterator]: files[Symbol.iterator],
-  };
-  Object.assign(fileList, files);
-
-  return fileList;
-};
+const mockFileList = jest.fn().mockReturnValue({
+  0: {
+    name: 'test_file.json',
+    type: 'application/json',
+  },
+  length: 1,
+  item: jest.fn(),
+});
 
 describe('IoOptionsDialogComponent', () => {
   let component: IOOptionsDialogComponent;
