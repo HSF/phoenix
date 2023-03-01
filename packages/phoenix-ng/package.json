@@ -6,8 +6,9 @@
     "start": "ng serve phoenix-app",
     "start:ssl": "ng serve phoenix-app --ssl --host 0.0.0.0",
     "start:single": "ng serve phoenix-app --configuration singleEvent",
-    "build:prod": "ng build phoenix-app --configuration production",
-    "build:ui-components": "ng build phoenix-ui-components --configuration production",
+    "build:prod": "ng build --configuration production",
+    "build:app": "yarn build:prod phoenix-app",
+    "build:ui-components": "yarn build:prod phoenix-ui-components",
     "test": "jest --no-cache",
     "test:coverage": "yarn test --coverage",
     "test:ci": "yarn test:coverage --maxWorkers=2 --silent",
@@ -17,9 +18,9 @@
     "prettier:write": "yarn prettier --write .",
     "eslint": "eslint projects/**/*.ts --ignore-path ../../.gitignore",
     "eslint:fix": "yarn eslint --fix",
-    "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:prod --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
+    "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:app --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "version": "yarn deploy",
-    "deploy:web": "yarn build:prod phoenix-app --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
+    "deploy:web": "yarn build:app --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
     "deploy:web:single": "ng build phoenix-app --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
