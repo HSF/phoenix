@@ -456,8 +456,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="484"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:484</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="509"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:509</a></div>
                 </td>
             </tr>
 
@@ -598,8 +598,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="670"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:670</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="695"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:695</a></div>
                 </td>
             </tr>
 
@@ -709,8 +709,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="422"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:422</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="447"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:447</a></div>
                 </td>
             </tr>
 
@@ -881,8 +881,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="704"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:704</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="729"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:729</a></div>
                 </td>
             </tr>
 
@@ -1245,8 +1245,8 @@ the different objects to the graphics library and the UI controls.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="536"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:536</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="561"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:561</a></div>
                 </td>
             </tr>
 
@@ -1323,8 +1323,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="616"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:616</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="641"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:641</a></div>
                 </td>
             </tr>
 
@@ -1449,8 +1449,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="693"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:693</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="718"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:718</a></div>
                 </td>
             </tr>
 
@@ -1496,8 +1496,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="518"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:518</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="543"
+                            class="link-to-prism">src/loaders/phoenix-loader.ts:543</a></div>
                 </td>
             </tr>
 
@@ -1940,6 +1940,31 @@ export class PhoenixLoader implements EventDataLoader {
         false,
         cuts,
         addPlanarCaloCellsOptions
+      );
+    }
+
+    if (eventData.IrregularCaloCells) {
+      // (Optional) Cuts can be added to any physics object.
+      const cuts &#x3D; [new Cut(&#x27;layer&#x27;, 0, 10), new Cut(&#x27;energy&#x27;, 0, 10000)];
+
+      const scaleIrregularCaloCells &#x3D; (value: number) &#x3D;&gt; {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects(&#x27;IrregularCaloCells&#x27;, value, &#x27;z&#x27;);
+      };
+      const addIrregularCaloCellOptions &#x3D; this.addScaleOptions(
+        &#x27;IrregularCaloCellsScale&#x27;,
+        &#x27;IrregularCaloCells Scale&#x27;,
+        scaleIrregularCaloCells
+      );
+
+      this.addObjectType(
+        eventData.IrregularCaloCells,
+        PhoenixObjects.getIrregularCaloCell,
+        &#x27;IrregularCaloCells&#x27;,
+        false,
+        cuts,
+        addIrregularCaloCellOptions
       );
     }
 

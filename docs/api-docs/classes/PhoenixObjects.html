@@ -114,6 +114,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
+                                <a href="#getIrregularCaloCell" >getIrregularCaloCell</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
                                 <a href="#getJet" >getJet</a>
                             </li>
                             <li>
@@ -144,6 +148,11 @@
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Static</span>
                                 <a href="#hitsToBoxes" >hitsToBoxes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                <a href="#hitsToCircularPoints" >hitsToCircularPoints</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -196,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="575"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:575</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="630"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:630</a></div>
                 </td>
             </tr>
 
@@ -271,8 +280,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="542"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:542</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="597"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:597</a></div>
                 </td>
             </tr>
 
@@ -392,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="497"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:497</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="552"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:552</a></div>
                 </td>
             </tr>
 
@@ -512,8 +521,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:447</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:502</a></div>
                 </td>
             </tr>
 
@@ -651,8 +660,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="254"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:254</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="257"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:257</a></div>
                 </td>
             </tr>
 
@@ -716,6 +725,85 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getIrregularCaloCell"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>getIrregularCaloCell</b></span>
+                        <a href="#getIrregularCaloCell"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIrregularCaloCell(irrCells: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="850"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:850</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>irrCells</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Properties of irregular calo cell.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>the cell</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getJet"></a>
                     <span class="name">
                         <span class="modifier">Static</span>
@@ -734,8 +822,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="195"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:195</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
                 </td>
             </tr>
 
@@ -813,8 +901,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="761"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:761</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="816"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:816</a></div>
                 </td>
             </tr>
 
@@ -892,8 +980,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="673"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:673</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="728"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:728</a></div>
                 </td>
             </tr>
 
@@ -971,8 +1059,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="627"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:627</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="682"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:682</a></div>
                 </td>
             </tr>
 
@@ -1050,8 +1138,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:102</a></div>
                 </td>
             </tr>
 
@@ -1129,8 +1217,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:43</a></div>
                 </td>
             </tr>
 
@@ -1204,8 +1292,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="729"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:729</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="784"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:784</a></div>
                 </td>
             </tr>
 
@@ -1284,8 +1372,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="404"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:404</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="459"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:459</a></div>
                 </td>
             </tr>
 
@@ -1375,6 +1463,116 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hitsToCircularPoints"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
+                        <span ><b>hitsToCircularPoints</b></span>
+                        <a href="#hitsToCircularPoints"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hitsToCircularPoints(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="380"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:380</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a Circular Points object from Hits parameters.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Position of the point.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>_hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>Points</code>.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="hitsToLines"></a>
                     <span class="name">
                         <span class="modifier">Private</span>
@@ -1394,8 +1592,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="371"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:371</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:426</a></div>
                 </td>
             </tr>
 
@@ -1504,8 +1702,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="339"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:348</a></div>
                 </td>
             </tr>
 
@@ -1604,6 +1802,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Vector3,
   Object3D,
+  Color,
   CatmullRomCurve3,
   TubeGeometry,
   MeshToonMaterial,
@@ -1623,7 +1822,9 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
   SphereGeometry,
   LineSegments,
   LineDashedMaterial,
+  CanvasTexture,
 } from &#x27;three&#x27;;
+import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
@@ -1914,6 +2115,12 @@ export class PhoenixObjects {
           hitsParams,
           hitsParamsClone
         );
+      case &#x27;CircularPoint&#x27;:
+        return PhoenixObjects.hitsToCircularPoints(
+          pointPos,
+          hitsParams,
+          hitsParamsClone
+        );
       case &#x27;Line&#x27;:
         return PhoenixObjects.hitsToLines(
           pointPos,
@@ -1950,7 +2157,7 @@ export class PhoenixObjects {
     // material
     const material &#x3D; new PointsMaterial({
       size: 10,
-      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
@@ -1958,6 +2165,52 @@ export class PhoenixObjects {
     // pointsObj.userData &#x3D; Object.assign({}, hitParamsClone);
     pointsObj.userData &#x3D; {};
     pointsObj.name &#x3D; &#x27;Hit&#x27;;
+    // Setting uuid for selection from collections info
+    hitsParams.uuid &#x3D; pointsObj.uuid;
+
+    return pointsObj;
+  }
+
+  /**
+   * Get a Circular Points object from Hits parameters.
+   * @param pointPos Position of the point.
+   * @param hitsParams Parameters of the Hit.
+   * @param hitParamsClone Cloned parameters of the Hit to avoid object references.
+   * @returns A 3D object of type &#x60;Points&#x60;.
+   */
+  private static hitsToCircularPoints(
+    pointPos: any,
+    hitsParams: any,
+    _hitParamsClone: any
+  ): Object3D {
+    const geometry &#x3D; new BufferGeometry();
+    geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
+    geometry.computeBoundingSphere();
+    // material
+    const canvas &#x3D; document.createElement(&#x27;canvas&#x27;);
+    canvas.width &#x3D; 128;
+    canvas.height &#x3D; 128;
+    const context &#x3D; canvas.getContext(&#x27;2d&#x27;);
+    context.clearRect(0, 0, 128, 128);
+    context.fillStyle &#x3D; &#x27;white&#x27;;
+    context.beginPath();
+    context.arc(64, 64, 64, 0, 2 * Math.PI);
+    context.fill();
+    const texture &#x3D; new CanvasTexture(canvas);
+
+    const material &#x3D; new PointsMaterial({
+      size: hitsParams[0].size ?? 10,
+      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      map: texture,
+      alphaMap: texture,
+      alphaTest: 0.5,
+    });
+    // object
+    const pointsObj &#x3D; new Points(geometry, material);
+    // Disabling for now because the data isn&#x27;t readable on object selection.
+    // pointsObj.userData &#x3D; Object.assign({}, hitParamsClone);
+    pointsObj.userData &#x3D; {};
+    pointsObj.name &#x3D; &#x27;CircularHit&#x27;;
     // Setting uuid for selection from collections info
     hitsParams.uuid &#x3D; pointsObj.uuid;
 
@@ -2384,6 +2637,58 @@ export class PhoenixObjects {
     metParams.uuid &#x3D; object.uuid;
 
     return object;
+  }
+
+  /**
+   * Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.
+   * @param irrCells Properties of irregular calo cell.
+   * @param irrCells.layer Calorimeter layer
+   * @param irrCells.vtx Flattened list of 8 vertex coordinates (24 floats)
+   * @param irrCells.color [R,G,B] integer list
+   * @param irrCells.opacity value from 0 to 1
+   * @returns the cell
+   */
+  public static getIrregularCaloCell(irrCells: {
+    type: any;
+    layer: number;
+    vtx: any;
+    color: string;
+    opacity: any;
+    uuid: any;
+  }): Object3D {
+    const verticesOfCube &#x3D; [];
+    for (let i &#x3D; 0; i &lt; 24; i +&#x3D; 3) {
+      verticesOfCube.push(
+        new Vector3(irrCells.vtx[i], irrCells.vtx[i + 1], irrCells.vtx[i + 2])
+      );
+    }
+    const geometry &#x3D; new ConvexGeometry(verticesOfCube);
+    const cell_color &#x3D; new Color(
+      &#x27;rgb(&#x27; +
+        irrCells.color[0].toString() +
+        &#x27;,&#x27; +
+        irrCells.color[1].toString() +
+        &#x27;,&#x27; +
+        irrCells.color[2].toString() +
+        &#x27;)&#x27;
+    );
+
+    // material
+    const material &#x3D; new MeshPhongMaterial({
+      color: cell_color,
+      transparent: true,
+      opacity: irrCells.opacity,
+    });
+
+    // object
+    const cell &#x3D; new Mesh(geometry, material);
+    cell.userData &#x3D; Object.assign({}, irrCells);
+    cell.name &#x3D; &#x27;IrregularCaloCell&#x27;;
+
+    // Setting uuid for selection from collections info
+    irrCells.uuid &#x3D; cell.uuid;
+
+    return cell;
   }
 }
 </code></pre>

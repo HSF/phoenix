@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/HSF/phoenix/compare/v2.12.0...v2.13.0) (2023-03-02)
+
+
+### Reverts
+
+* Revert "Updated versions to try to reduce yarn warnings" ([477845f](https://github.com/HSF/phoenix/commit/477845f916b9da939a8fbe8c3eb7278684255813))
+
+
+
+
+
 # [2.12.0](https://github.com/HSF/phoenix/compare/v2.11.4...v2.12.0) (2023-01-13)
 
 ### Bug Fixes
