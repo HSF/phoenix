@@ -28,8 +28,12 @@ export class OverlayComponent implements AfterViewInit {
   @Input() resizable: boolean = false;
   /** If the overlay body is transparent or not. */
   @Input() transparentBody: boolean = false;
+  /** If the aspect ratio is kept fixed or not. */
+  @Input() keepAspectRatioFixed: boolean = false;
   /** If the overlay body is visible or not. */
   showBody: boolean = true;
+  /** Aspect ratio of the overlay view. */
+  aspectRatio: number = window.innerWidth / window.innerHeight;
 
   // ********************************************************************************
   // * Below code is specific to the overlay resize feature. (LOOK INTO CSS RESIZE) *
@@ -81,6 +85,9 @@ export class OverlayComponent implements AfterViewInit {
     if (width > this.MIN_RES_WIDTH && height > this.MIN_RES_HEIGHT) {
       overlayCardElement.style.width = width + 'px';
       overlayCardElement.style.height = height + 'px';
+      if (this.keepAspectRatioFixed) {
+        overlayCardElement.style.height = width / this.aspectRatio + 30 + 'px';
+      }
     }
   }
 
