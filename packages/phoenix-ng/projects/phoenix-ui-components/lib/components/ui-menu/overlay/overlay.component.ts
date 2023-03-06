@@ -89,9 +89,6 @@ export class OverlayComponent implements AfterViewInit {
       } else {
         overlayCardElement.style.height = height + 'px';
       }
-      else {
-        overlayCardElement.style.height = height + 'px';
-      }
     }
   }
 
