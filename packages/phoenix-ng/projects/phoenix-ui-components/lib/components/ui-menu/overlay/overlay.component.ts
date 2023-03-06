@@ -84,9 +84,10 @@ export class OverlayComponent implements AfterViewInit {
 
     if (width > this.MIN_RES_WIDTH && height > this.MIN_RES_HEIGHT) {
       overlayCardElement.style.width = width + 'px';
-      overlayCardElement.style.height = height + 'px';
       if (this.keepAspectRatioFixed) {
         overlayCardElement.style.height = width / this.aspectRatio + 30 + 'px';
+      } else {
+        overlayCardElement.style.height = height + 'px';
       }
     }
   }
