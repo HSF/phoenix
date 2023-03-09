@@ -44,7 +44,9 @@ export class SceneManager {
   /** Labels for the x, y and z-axis. */
   private axisLabels: Object3D;
   /** Eta/phi grid */
-  private grid: Object3D;
+  private etaPhiGrid: Object3D;
+  /** Cartesian grid */
+  private cartesianGrid: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
@@ -525,13 +527,104 @@ export class SceneManager {
   }
 
   /**
+   * Sets scene cartesian grid visibility.
+   * @param visible If the axes will be visible (true) or hidden (false).
+   * @param scale Set the scale of the axes.
+   */
+  public setCartesianGrid(visible: boolean, scale: number = 3000) {
+    if (this.cartesianGrid == null) {
+      this.cartesianGrid = new Group();
+
+      let points = [];
+      const length = scale;
+
+      // x
+      const xColor = new Color(0xd63333);
+      for (let y = -length; y <= length; y += 0.1 * length) {
+        points.push(new Vector3(-length, y, 0));
+        const xVec = new Vector3(length, y, 0);
+        points.push(xVec);
+      }
+      for (let z = -length; z <= length; z += 0.1 * length) {
+        points.push(new Vector3(-length, 0, z));
+        const xVec = new Vector3(length, 0, z);
+        points.push(xVec);
+      }
+
+      const xGeometry = new BufferGeometry().setFromPoints(points);
+      const xMaterial = new LineDashedMaterial({
+        color: xColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+      const xlines = new LineSegments(xGeometry, xMaterial);
+      xlines.computeLineDistances();
+      this.cartesianGrid.add(xlines);
+
+      // y
+      points = [];
+      const yColor = new Color(0x33d633);
+      for (let x = -length; x <= length; x += 0.1 * length) {
+        points.push(new Vector3(x, -length, 0));
+        const yVec = new Vector3(x, length, 0);
+        points.push(yVec);
+      }
+      for (let z = -length; z <= length; z += 0.1 * length) {
+        points.push(new Vector3(0, -length, z));
+        const yVec = new Vector3(0, length, z);
+        points.push(yVec);
+      }
+
+      const yGeometry = new BufferGeometry().setFromPoints(points);
+      const yMaterial = new LineDashedMaterial({
+        color: yColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+      const ylines = new LineSegments(yGeometry, yMaterial);
+      ylines.computeLineDistances();
+      this.cartesianGrid.add(ylines);
+
+      // z
+      points = [];
+      const zColor = new Color(0x3333d6);
+      for (let x = -length; x <= length; x += 0.1 * length) {
+        points.push(new Vector3(x, 0, -length));
+        const zVec = new Vector3(x, 0, length);
+        points.push(zVec);
+      }
+      for (let y = -length; y <= length; y += 0.1 * length) {
+        points.push(new Vector3(0, y, -length));
+        const zVec = new Vector3(0, y, length);
+        points.push(zVec);
+      }
+
+      const zGeometry = new BufferGeometry().setFromPoints(points);
+      const zMaterial = new LineDashedMaterial({
+        color: zColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+      const zlines = new LineSegments(zGeometry, zMaterial);
+      zlines.computeLineDistances();
+      this.cartesianGrid.add(zlines);
+
+      this.scene.add(this.cartesianGrid);
+    }
+    this.cartesianGrid.visible = visible;
+  }
+
+  /**
    * Sets scene eta/phi grid visibility.
    * @param visible If the axes will be visible (true) osr hidden (false).
    * @param scale Set the scale of the axes.
    */
   public setEtaPhiGrid(visible: boolean, scale: number = 3000) {
-    if (this.grid == null) {
-      this.grid = new Group();
+    if (this.etaPhiGrid == null) {
+      this.etaPhiGrid = new Group();
 
       // Currently hardcoding some of this
       let points = [];
@@ -547,7 +640,7 @@ export class SceneManager {
         const text = this.getText('η=' + eta.toPrecision(2), etaColour);
         text.position.set(etaVec.x, etaVec.y, etaVec.z);
         text.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI / 2.0);
-        this.grid.add(text);
+        this.etaPhiGrid.add(text);
         points.push(etaVec);
       }
 
@@ -581,7 +674,7 @@ export class SceneManager {
         const phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
         const text = this.getText('φ=' + phiLabels[labelIndex++], phiColor);
         text.position.set(phiVec.x, phiVec.y, phiVec.z);
-        this.grid.add(text);
+        this.etaPhiGrid.add(text);
         points.push(phiVec);
       }
       const phiGeometry = new BufferGeometry().setFromPoints(points);
@@ -595,9 +688,9 @@ export class SceneManager {
       phiLines.computeLineDistances(); // Needed for dashed lines
 
       // Add to group and scene
-      this.grid.add(etaLines);
-      this.grid.add(phiLines);
-      this.scene.add(this.grid);
+      this.etaPhiGrid.add(etaLines);
+      this.etaPhiGrid.add(phiLines);
+      this.scene.add(this.etaPhiGrid);
 
       // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
       // eslint-disable-next-line no-constant-condition
@@ -625,17 +718,17 @@ export class SceneManager {
               new Color(0x00ff00)
             );
             text.position.set(end.x, end.y, end.z);
-            this.grid.add(text);
+            this.etaPhiGrid.add(text);
           }
         }
         const geometry2 = new BufferGeometry().setFromPoints(points);
         const material2 = new LineDashedMaterial({ color: 0x00ff00 });
         const lines2 = new LineSegments(geometry2, material2);
-        this.grid.add(lines2);
-        this.scene.add(this.grid);
+        this.etaPhiGrid.add(lines2);
+        this.scene.add(this.etaPhiGrid);
       }
     }
-    this.grid.visible = visible;
+    this.etaPhiGrid.visible = visible;
   }
 
   /**

@@ -337,10 +337,18 @@ export class UIManager {
   }
 
   /**
+   * Set whether to show the cartesian or not
+   * @param show If the grid is to be shown or not.
+   */
+  public setShowCartesianGrid(show: boolean) {
+    this.three.getSceneManager().setCartesianGrid(show);
+  }
+
+  /**
    * Set whether to show the eta/phi or not
    * @param show If the grid is to be shown or not.
    */
-  public setShowGrid(show: boolean) {
+  public setShowEtaPhiGrid(show: boolean) {
     this.three.getSceneManager().setEtaPhiGrid(show);
   }
 

@@ -3,14 +3,28 @@
     mat-menu-item
     (click)="
       $event.stopPropagation();
-      showGridCheckbox._inputElement.nativeElement.click()
+      showCartesianGridCheckbox._inputElement.nativeElement.click()
     "
   >
     <mat-checkbox
-      #showGridCheckbox
+      #showCartesianGridCheckbox
       (click)="$event.stopPropagation()"
-      (change)="setGrid($event)"
-      >Show Grid
+      (change)="setCartesianGrid($event)"
+      >Show Cartesian Grid
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showEtaPhiGridCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showEtaPhiGridCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="setEtaPhiGrid($event)"
+      >Show Eta Phi Grid
     </mat-checkbox>
   </button>
   <button
