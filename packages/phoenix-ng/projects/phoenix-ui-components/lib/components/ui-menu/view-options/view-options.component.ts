@@ -10,6 +10,10 @@ import { EventDisplayService } from '../../../services/event-display.service';
 })
 export class ViewOptionsComponent implements OnInit {
   views: PresetView[];
+  showCartesianGrid: boolean = false;
+  xDistance: number = 0;
+  yDistance: number = 0;
+  zDistance: number = 0;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -33,7 +37,50 @@ export class ViewOptionsComponent implements OnInit {
   }
 
   setCartesianGrid(change: MatCheckboxChange) {
-    const value = change.checked;
-    this.eventDisplay.getUIManager().setShowCartesianGrid(value);
+    this.showCartesianGrid = change.checked;
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(
+        this.showCartesianGrid,
+        this.xDistance,
+        this.yDistance,
+        this.zDistance
+      );
+  }
+
+  addXYPlanes(zDistance: number) {
+    this.zDistance = zDistance;
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(
+        this.showCartesianGrid,
+        this.xDistance,
+        this.yDistance,
+        this.zDistance
+      );
+  }
+
+  addYZPlanes(xDistance: number) {
+    this.xDistance = xDistance;
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(
+        this.showCartesianGrid,
+        this.xDistance,
+        this.yDistance,
+        this.zDistance
+      );
+  }
+
+  addZXPlanes(yDistance: number) {
+    this.yDistance = yDistance;
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(
+        this.showCartesianGrid,
+        this.xDistance,
+        this.yDistance,
+        this.zDistance
+      );
   }
 }

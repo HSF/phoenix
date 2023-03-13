@@ -340,8 +340,15 @@ export class UIManager {
    * Set whether to show the cartesian or not
    * @param show If the grid is to be shown or not.
    */
-  public setShowCartesianGrid(show: boolean) {
-    this.three.getSceneManager().setCartesianGrid(show);
+  public setShowCartesianGrid(
+    show: boolean,
+    xDistance: number,
+    yDistance: number,
+    zDistance: number
+  ) {
+    this.three
+      .getSceneManager()
+      .setCartesianGrid(show, xDistance, yDistance, zDistance);
   }
 
   /**

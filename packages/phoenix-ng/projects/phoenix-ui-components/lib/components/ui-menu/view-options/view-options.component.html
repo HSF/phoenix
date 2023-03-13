@@ -13,6 +13,39 @@
       >Show Cartesian Grid
     </mat-checkbox>
   </button>
+  <button class="slider-btn" mat-menu-item (focus)="xyPlaneSlider.focus()">
+    <mat-slider min="0" max="3000" step="300" thumbLabel>
+      <input
+        #xyPlaneSlider
+        matSliderThumb
+        [value]="zDistance"
+        (valueChange)="addXYPlanes($event)"
+      />
+    </mat-slider>
+    XY Plane
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="yzPlaneSlider.focus()">
+    <mat-slider min="0" max="3000" step="300" thumbLabel>
+      <input
+        #yzPlaneSlider
+        matSliderThumb
+        [value]="xDistance"
+        (valueChange)="addYZPlanes($event)"
+      />
+    </mat-slider>
+    YZ Plane
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="zxPlaneSlider.focus()">
+    <mat-slider min="0" max="3000" step="300" thumbLabel>
+      <input
+        #zxPlaneSlider
+        matSliderThumb
+        [value]="yDistance"
+        (valueChange)="addZXPlanes($event)"
+      />
+    </mat-slider>
+    ZX Plane
+  </button>
   <button
     mat-menu-item
     (click)="

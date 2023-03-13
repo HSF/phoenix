@@ -531,90 +531,173 @@ export class SceneManager {
    * @param visible If the axes will be visible (true) or hidden (false).
    * @param scale Set the scale of the axes.
    */
-  public setCartesianGrid(visible: boolean, scale: number = 3000) {
+  public setCartesianGrid(
+    visible: boolean,
+    xDistance: number,
+    yDistance: number,
+    zDistance: number,
+    scale: number = 3000
+  ) {
+    const length = scale;
+
     if (this.cartesianGrid == null) {
       this.cartesianGrid = new Group();
 
-      let points = [];
-      const length = scale;
-
-      // x
       const xColor = new Color(0xd63333);
-      for (let y = -length; y <= length; y += 0.1 * length) {
-        points.push(new Vector3(-length, y, 0));
-        const xVec = new Vector3(length, y, 0);
-        points.push(xVec);
-      }
-      for (let z = -length; z <= length; z += 0.1 * length) {
-        points.push(new Vector3(-length, 0, z));
-        const xVec = new Vector3(length, 0, z);
-        points.push(xVec);
-      }
+      const yColor = new Color(0x33d633);
+      const zColor = new Color(0x3333d6);
 
-      const xGeometry = new BufferGeometry().setFromPoints(points);
       const xMaterial = new LineDashedMaterial({
         color: xColor,
         dashSize: 0.5,
         gapSize: 0.1,
         scale: 0.01,
       });
-      const xlines = new LineSegments(xGeometry, xMaterial);
-      xlines.computeLineDistances();
-      this.cartesianGrid.add(xlines);
-
-      // y
-      points = [];
-      const yColor = new Color(0x33d633);
-      for (let x = -length; x <= length; x += 0.1 * length) {
-        points.push(new Vector3(x, -length, 0));
-        const yVec = new Vector3(x, length, 0);
-        points.push(yVec);
-      }
-      for (let z = -length; z <= length; z += 0.1 * length) {
-        points.push(new Vector3(0, -length, z));
-        const yVec = new Vector3(0, length, z);
-        points.push(yVec);
-      }
-
-      const yGeometry = new BufferGeometry().setFromPoints(points);
       const yMaterial = new LineDashedMaterial({
         color: yColor,
         dashSize: 0.5,
         gapSize: 0.1,
         scale: 0.01,
       });
-      const ylines = new LineSegments(yGeometry, yMaterial);
-      ylines.computeLineDistances();
-      this.cartesianGrid.add(ylines);
-
-      // z
-      points = [];
-      const zColor = new Color(0x3333d6);
-      for (let x = -length; x <= length; x += 0.1 * length) {
-        points.push(new Vector3(x, 0, -length));
-        const zVec = new Vector3(x, 0, length);
-        points.push(zVec);
-      }
-      for (let y = -length; y <= length; y += 0.1 * length) {
-        points.push(new Vector3(0, y, -length));
-        const zVec = new Vector3(0, y, length);
-        points.push(zVec);
-      }
-
-      const zGeometry = new BufferGeometry().setFromPoints(points);
       const zMaterial = new LineDashedMaterial({
         color: zColor,
         dashSize: 0.5,
         gapSize: 0.1,
         scale: 0.01,
       });
-      const zlines = new LineSegments(zGeometry, zMaterial);
-      zlines.computeLineDistances();
-      this.cartesianGrid.add(zlines);
+
+      // xy plane
+      let xyPlane = new Group();
+      for (let z = -length; z <= length; z += 0.1 * length) {
+        xyPlane = new Group();
+
+        let points = [];
+        for (let y = -length; y <= length; y += 0.1 * length) {
+          points.push(new Vector3(-length, y, z));
+          points.push(new Vector3(length, y, z));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = xMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        xyPlane.add(lines);
+
+        points = [];
+        for (let x = -length; x <= length; x += 0.1 * length) {
+          points.push(new Vector3(x, -length, z));
+          points.push(new Vector3(x, length, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = yMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        xyPlane.add(lines);
+        // console.log(this.xyPlanes);
+        this.cartesianGrid.add(xyPlane);
+      }
+
+      // YZ plane
+      let yzPlane = new Group();
+      for (let x = -length; x <= length; x += 0.1 * length) {
+        yzPlane = new Group();
+
+        let points = [];
+        for (let y = -length; y <= length; y += 0.1 * length) {
+          points.push(new Vector3(x, y, -length));
+          points.push(new Vector3(x, y, length));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = zMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        yzPlane.add(lines);
+
+        points = [];
+        for (let z = -length; z <= length; z += 0.1 * length) {
+          points.push(new Vector3(x, -length, z));
+          points.push(new Vector3(x, length, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = yMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        yzPlane.add(lines);
+        this.cartesianGrid.add(yzPlane);
+      }
+
+      // ZX plane
+      let zxPlane = new Group();
+      for (let y = -length; y <= length; y += 0.1 * length) {
+        zxPlane = new Group();
+
+        let points = [];
+        for (let x = -length; x <= length; x += 0.1 * length) {
+          points.push(new Vector3(x, y, -length));
+          points.push(new Vector3(x, y, length));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = zMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        zxPlane.add(lines);
+
+        points = [];
+        for (let z = -length; z <= length; z += 0.1 * length) {
+          points.push(new Vector3(-length, y, z));
+          points.push(new Vector3(length, y, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = xMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        zxPlane.add(lines);
+        this.cartesianGrid.add(zxPlane);
+      }
 
       this.scene.add(this.cartesianGrid);
     }
-    this.cartesianGrid.visible = visible;
+
+    for (let i = 0; i < 10 - (zDistance * 10) / length; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+    for (
+      let i = 10 - (zDistance * 10) / length;
+      i <= 10 + (zDistance * 10) / length;
+      i += 1
+    ) {
+      this.cartesianGrid.children[i].visible = visible;
+    }
+    for (let i = 11 + (zDistance * 10) / length; i <= 20; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+
+    for (let i = 21; i < 31 - (xDistance * 10) / length; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+    for (
+      let i = 31 - (xDistance * 10) / length;
+      i <= 31 + (xDistance * 10) / length;
+      i += 1
+    ) {
+      this.cartesianGrid.children[i].visible = visible;
+    }
+    for (let i = 32 + (xDistance * 10) / length; i <= 41; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+
+    for (let i = 42; i < 52 - (yDistance * 10) / length; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+    for (
+      let i = 52 - (yDistance * 10) / length;
+      i <= 52 + (yDistance * 10) / length;
+      i += 1
+    ) {
+      this.cartesianGrid.children[i].visible = visible;
+    }
+    for (let i = 53 + (yDistance * 10) / length; i <= 62; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
   }
 
   /**
