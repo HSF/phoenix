@@ -533,9 +533,13 @@ export class SceneManager {
    */
   public setCartesianGrid(
     visible: boolean,
+    showXY: boolean,
+    showYZ: boolean,
+    showZX: boolean,
     xDistance: number,
     yDistance: number,
     zDistance: number,
+    sparsity: number = 1,
     scale: number = 3000
   ) {
     const length = scale;
@@ -592,7 +596,6 @@ export class SceneManager {
         lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         xyPlane.add(lines);
-        // console.log(this.xyPlanes);
         this.cartesianGrid.add(xyPlane);
       }
 
@@ -657,46 +660,34 @@ export class SceneManager {
       this.scene.add(this.cartesianGrid);
     }
 
-    for (let i = 0; i < 10 - (zDistance * 10) / length; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
-    for (
-      let i = 10 - (zDistance * 10) / length;
-      i <= 10 + (zDistance * 10) / length;
-      i += 1
-    ) {
-      this.cartesianGrid.children[i].visible = visible;
-    }
-    for (let i = 11 + (zDistance * 10) / length; i <= 20; i += 1) {
+    for (let i = 0; i <= 62; i += 1) {
       this.cartesianGrid.children[i].visible = false;
     }
 
-    for (let i = 21; i < 31 - (xDistance * 10) / length; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
-    for (
-      let i = 31 - (xDistance * 10) / length;
-      i <= 31 + (xDistance * 10) / length;
-      i += 1
-    ) {
-      this.cartesianGrid.children[i].visible = visible;
-    }
-    for (let i = 32 + (xDistance * 10) / length; i <= 41; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
+    const childPoints = [10, 31, 52];
+    const distances = [zDistance, xDistance, yDistance];
+    const visiblePlanes = [showXY, showYZ, showZX];
 
-    for (let i = 42; i < 52 - (yDistance * 10) / length; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
-    for (
-      let i = 52 - (yDistance * 10) / length;
-      i <= 52 + (yDistance * 10) / length;
-      i += 1
-    ) {
-      this.cartesianGrid.children[i].visible = visible;
-    }
-    for (let i = 53 + (yDistance * 10) / length; i <= 62; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
+    if (visible) {
+      for (let i = 0; i < 3; i += 1) {
+        if (visiblePlanes[i]) {
+          for (
+            let j = childPoints[i];
+            j >= childPoints[i] - (distances[i] * 10) / length;
+            j -= sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
+          }
+
+          for (
+            let j = childPoints[i];
+            j <= childPoints[i] + (distances[i] * 10) / length;
+            j += sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
+          }
+        }
+      }
     }
   }
 

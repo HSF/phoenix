@@ -13,8 +13,23 @@
       >Show Cartesian Grid
     </mat-checkbox>
   </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showXYPlanesCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showXYPlanesCheckbox
+      [(ngModel)]="showXY"
+      (click)="$event.stopPropagation()"
+      (change)="showXYPlanes($event)"
+      >Show XY Planes
+    </mat-checkbox>
+  </button>
   <button class="slider-btn" mat-menu-item (focus)="xyPlaneSlider.focus()">
-    <mat-slider min="0" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" max="3000" step="300" thumbLabel>
       <input
         #xyPlaneSlider
         matSliderThumb
@@ -24,8 +39,23 @@
     </mat-slider>
     XY Plane
   </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showYZPlanesCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showYZPlanesCheckbox
+      [(ngModel)]="showYZ"
+      (click)="$event.stopPropagation()"
+      (change)="showYZPlanes($event)"
+      >Show YZ Planes
+    </mat-checkbox>
+  </button>
   <button class="slider-btn" mat-menu-item (focus)="yzPlaneSlider.focus()">
-    <mat-slider min="0" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" max="3000" step="300" thumbLabel>
       <input
         #yzPlaneSlider
         matSliderThumb
@@ -35,8 +65,23 @@
     </mat-slider>
     YZ Plane
   </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showZXPlanesCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showZXPlanesCheckbox
+      [(ngModel)]="showZX"
+      (click)="$event.stopPropagation()"
+      (change)="showZXPlanes($event)"
+      >Show ZX Planes
+    </mat-checkbox>
+  </button>
   <button class="slider-btn" mat-menu-item (focus)="zxPlaneSlider.focus()">
-    <mat-slider min="0" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" max="3000" step="300" thumbLabel>
       <input
         #zxPlaneSlider
         matSliderThumb
@@ -45,6 +90,17 @@
       />
     </mat-slider>
     ZX Plane
+  </button>
+  <button class="slider-btn" mat-menu-item (focus)="sparsitySlider.focus()">
+    <mat-slider min="1" max="5" step="1" thumbLabel>
+      <input
+        #sparsitySlider
+        matSliderThumb
+        [value]="sparsity"
+        (valueChange)="changeSparsity($event)"
+      />
+    </mat-slider>
+    Sparsity
   </button>
   <button
     mat-menu-item

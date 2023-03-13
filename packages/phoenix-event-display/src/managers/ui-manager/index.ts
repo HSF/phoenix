@@ -342,13 +342,26 @@ export class UIManager {
    */
   public setShowCartesianGrid(
     show: boolean,
+    showXY: boolean,
+    showYZ: boolean,
+    showZX: boolean,
     xDistance: number,
     yDistance: number,
-    zDistance: number
+    zDistance: number,
+    sparsity: number
   ) {
     this.three
       .getSceneManager()
-      .setCartesianGrid(show, xDistance, yDistance, zDistance);
+      .setCartesianGrid(
+        show,
+        showXY,
+        showYZ,
+        showZX,
+        xDistance,
+        yDistance,
+        zDistance,
+        sparsity
+      );
   }
 
   /**

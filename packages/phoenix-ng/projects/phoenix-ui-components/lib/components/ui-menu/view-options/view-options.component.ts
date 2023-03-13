@@ -11,9 +11,13 @@ import { EventDisplayService } from '../../../services/event-display.service';
 export class ViewOptionsComponent implements OnInit {
   views: PresetView[];
   showCartesianGrid: boolean = false;
+  showXY: boolean = true;
+  showYZ: boolean = true;
+  showZX: boolean = true;
   xDistance: number = 0;
   yDistance: number = 0;
   zDistance: number = 0;
+  sparsity: number = 1;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -38,49 +42,56 @@ export class ViewOptionsComponent implements OnInit {
 
   setCartesianGrid(change: MatCheckboxChange) {
     this.showCartesianGrid = change.checked;
-    this.eventDisplay
-      .getUIManager()
-      .setShowCartesianGrid(
-        this.showCartesianGrid,
-        this.xDistance,
-        this.yDistance,
-        this.zDistance
-      );
+    this.callSetShowCartesianGrid();
   }
 
   addXYPlanes(zDistance: number) {
     this.zDistance = zDistance;
-    this.eventDisplay
-      .getUIManager()
-      .setShowCartesianGrid(
-        this.showCartesianGrid,
-        this.xDistance,
-        this.yDistance,
-        this.zDistance
-      );
+    this.callSetShowCartesianGrid();
   }
 
   addYZPlanes(xDistance: number) {
     this.xDistance = xDistance;
-    this.eventDisplay
-      .getUIManager()
-      .setShowCartesianGrid(
-        this.showCartesianGrid,
-        this.xDistance,
-        this.yDistance,
-        this.zDistance
-      );
+    this.callSetShowCartesianGrid();
   }
 
   addZXPlanes(yDistance: number) {
     this.yDistance = yDistance;
+    this.callSetShowCartesianGrid();
+  }
+
+  changeSparsity(sparsity: number) {
+    this.sparsity = sparsity;
+    this.callSetShowCartesianGrid();
+  }
+
+  showXYPlanes(change: MatCheckboxChange) {
+    this.showXY = change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  showYZPlanes(change: MatCheckboxChange) {
+    this.showYZ = change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  showZXPlanes(change: MatCheckboxChange) {
+    this.showZX = change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  callSetShowCartesianGrid() {
     this.eventDisplay
       .getUIManager()
       .setShowCartesianGrid(
         this.showCartesianGrid,
+        this.showXY,
+        this.showYZ,
+        this.showZX,
         this.xDistance,
         this.yDistance,
-        this.zDistance
+        this.zDistance,
+        this.sparsity
       );
   }
 }
