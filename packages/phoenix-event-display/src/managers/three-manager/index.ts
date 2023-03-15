@@ -88,6 +88,8 @@ export class ThreeManager {
   private isEventData: (elem: Intersection<Object3D<Event>>) => boolean;
   /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
   private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
+  /** Callback function for the 'click' event listener to show 3D coordinates of the clicked point */
+  private eventListenerCallback: (event: MouseEvent) => void;
   /** Scene export ignore list. */
   private ignoreList = [
     new AmbientLight().type,
@@ -300,36 +302,39 @@ export class ThreeManager {
       };
     }
 
-    const eventListenerCallback = (event) => {
-      mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
-      raycaster.setFromCamera(mousePosition, camera);
-      const intersects = raycaster.intersectObjects(scene.children);
+    if (this.eventListenerCallback == null) {
+      this.eventListenerCallback = (event) => {
+        mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mousePosition, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
 
-      let mainIntersect = null;
-      if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
-        mainIntersect = intersects[0];
-      } else {
-        for (const intersect of intersects) {
-          if (this.isEventData(intersect)) {
-            mainIntersect = intersect;
-            break;
-          } else if (this.isVisible(intersect)) {
-            mainIntersect = intersect;
-            break;
+        let mainIntersect = null;
+        if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
+          mainIntersect = intersects[0];
+        } else {
+          for (const intersect of intersects) {
+            if (this.isEventData(intersect)) {
+              mainIntersect = intersect;
+              break;
+            } else if (this.isVisible(intersect)) {
+              mainIntersect = intersect;
+              break;
+            }
           }
         }
-      }
-      if (mainIntersect != null) {
-        const coordinates = mainIntersect.point;
-        console.log(coordinates);
-      }
-    };
+
+        if (mainIntersect != null) {
+          const coordinates = mainIntersect.point;
+          console.log(coordinates, mainIntersect.object.name);
+        }
+      };
+    }
 
     if (show) {
-      window.addEventListener('click', eventListenerCallback);
+      window.addEventListener('click', this.eventListenerCallback);
     } else {
-      window.removeEventListener('click', eventListenerCallback);
+      window.removeEventListener('click', this.eventListenerCallback);
     }
   }
 
