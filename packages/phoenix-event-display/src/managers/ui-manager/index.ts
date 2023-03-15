@@ -373,6 +373,14 @@ export class UIManager {
   }
 
   /**
+   * Show 3D coordinates where the mouse pointer clicks
+   * @param show If the coordinates are to be shown or not.
+   */
+  public show3DMousePoints(show: boolean) {
+    this.three.show3DMousePoints(show);
+  }
+
+  /**
    * Get preset views from the configuration.
    * @returns Available preset views.
    */

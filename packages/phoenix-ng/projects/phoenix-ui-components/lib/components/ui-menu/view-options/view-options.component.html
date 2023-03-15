@@ -3,6 +3,20 @@
     mat-menu-item
     (click)="
       $event.stopPropagation();
+      showMouse3DPointsCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showMouse3DPointsCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="show3DMousePoints($event)"
+      >Show 3D Coordinates
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
       showCartesianGridCheckbox._inputElement.nativeElement.click()
     "
   >

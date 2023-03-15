@@ -18,6 +18,7 @@ export class ViewOptionsComponent implements OnInit {
   yDistance: number = 0;
   zDistance: number = 0;
   sparsity: number = 1;
+  show3DPoints: boolean;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -93,5 +94,10 @@ export class ViewOptionsComponent implements OnInit {
         this.zDistance,
         this.sparsity
       );
+  }
+
+  show3DMousePoints(change: MatCheckboxChange) {
+    this.show3DPoints = change.checked;
+    this.eventDisplay.getUIManager().show3DMousePoints(this.show3DPoints);
   }
 }

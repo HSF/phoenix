@@ -15,6 +15,9 @@ import {
   Euler,
   PerspectiveCamera,
   Vector2,
+  Raycaster,
+  Intersection,
+  Event,
 } from 'three';
 import html2canvas from 'html2canvas';
 import { Configuration } from '../../lib/types/configuration';
@@ -75,10 +78,16 @@ export class ThreeManager {
   private colorManager: ColorManager;
   /** Loading manager for loadable resources. */
   private loadingManager: LoadingManager;
+  /** State manager for managing the scene's state. */
+  private stateManager: StateManager;
   /** Loop to run for each frame of animation. */
   private animationLoop: () => void;
   /** Loop to run for each frame to update stats. */
   private uiLoop: () => void;
+  /** Function to check if the object intersected with raycaster is an event data */
+  private isEventData: (elem: Intersection<Object3D<Event>>) => boolean;
+  /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
+  private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
   /** Scene export ignore list. */
   private ignoreList = [
     new AmbientLight().type,
@@ -237,6 +246,91 @@ export class ThreeManager {
    */
   public autoRotate(autoRotate: boolean) {
     this.controlsManager.getActiveControls().autoRotate = autoRotate;
+  }
+
+  /**
+   * Show 3D coordinates where the mouse pointer clicks
+   * @param show If the coordinates are to be shown or not.
+   */
+  public show3DMousePoints(show: boolean) {
+    const camera = this.controlsManager.getMainCamera();
+    const scene = this.sceneManager.getScene();
+    const raycaster = new Raycaster();
+    const mousePosition = new Vector2();
+
+    if (this.stateManager == null) {
+      this.stateManager = new StateManager();
+    }
+
+    if (this.isEventData == null) {
+      this.isEventData = (elem) => {
+        let event = false;
+        elem.object.traverseAncestors((elem2) => {
+          if (elem2.name == 'EventData') {
+            event = true;
+          }
+        });
+        return event;
+      };
+    }
+
+    if (this.isVisible == null) {
+      this.isVisible = (elem) => {
+        let visible = false;
+        if (this.clipPlanes.length > 0) {
+          if (this.clipIntersection) {
+            if (
+              !this.clipPlanes.every((elem2) => {
+                return elem2.distanceToPoint(elem.point) < 0;
+              })
+            ) {
+              visible = true;
+            }
+          } else {
+            if (
+              this.clipPlanes.every((elem2) => {
+                return elem2.distanceToPoint(elem.point) > 0;
+              })
+            ) {
+              visible = true;
+            }
+          }
+        }
+        return visible;
+      };
+    }
+
+    const eventListenerCallback = (event) => {
+      mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mousePosition, camera);
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      let mainIntersect = null;
+      if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
+        mainIntersect = intersects[0];
+      } else {
+        for (const intersect of intersects) {
+          if (this.isEventData(intersect)) {
+            mainIntersect = intersect;
+            break;
+          } else if (this.isVisible(intersect)) {
+            mainIntersect = intersect;
+            break;
+          }
+        }
+      }
+      if (mainIntersect != null) {
+        const coordinates = mainIntersect.point;
+        console.log(coordinates);
+      }
+    };
+
+    if (show) {
+      window.addEventListener('click', eventListenerCallback);
+    } else {
+      window.removeEventListener('click', eventListenerCallback);
+    }
   }
 
   /**
