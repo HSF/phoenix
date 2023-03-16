@@ -583,6 +583,7 @@ export class SceneManager {
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = xMaterial;
         let lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         xyPlane.add(lines);
 
@@ -594,6 +595,7 @@ export class SceneManager {
         geometry = new BufferGeometry().setFromPoints(points);
         material = yMaterial;
         lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         xyPlane.add(lines);
         this.cartesianGrid.add(xyPlane);
@@ -612,6 +614,7 @@ export class SceneManager {
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = zMaterial;
         let lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         yzPlane.add(lines);
 
@@ -623,6 +626,7 @@ export class SceneManager {
         geometry = new BufferGeometry().setFromPoints(points);
         material = yMaterial;
         lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         yzPlane.add(lines);
         this.cartesianGrid.add(yzPlane);
@@ -641,6 +645,7 @@ export class SceneManager {
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = zMaterial;
         let lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         zxPlane.add(lines);
 
@@ -652,6 +657,7 @@ export class SceneManager {
         geometry = new BufferGeometry().setFromPoints(points);
         material = xMaterial;
         lines = new LineSegments(geometry, material);
+        lines.name = 'gridline';
         lines.computeLineDistances();
         zxPlane.add(lines);
         this.cartesianGrid.add(zxPlane);

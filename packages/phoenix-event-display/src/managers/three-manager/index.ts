@@ -320,13 +320,29 @@ export class ThreeManager {
             } else if (this.isVisible(intersect)) {
               mainIntersect = intersect;
               break;
+            } else if (intersect.object.name == 'gridline') {
+              mainIntersect = intersect;
+              break;
             }
           }
         }
 
         if (mainIntersect != null) {
           const coordinates = mainIntersect.point;
-          console.log(coordinates, mainIntersect.object.name);
+          const app = document.getElementsByTagName('app-root')[0];
+          const p = document.createElement('p');
+          p.id = '3dcoordinates';
+          p.textContent = `${Math.round(coordinates.x)}, ${Math.round(
+            coordinates.y
+          )}, ${Math.round(coordinates.z)} (${mainIntersect.object.name})`;
+          p.style.color = 'white';
+          p.style.position = 'absolute';
+          p.style.top = event.clientY + 'px';
+          p.style.left = event.clientX + 'px';
+          app?.appendChild(p);
+          setTimeout(() => {
+            document.getElementById('3dcoordinates').remove();
+          }, 1000);
         }
       };
     }
