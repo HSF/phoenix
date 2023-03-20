@@ -1,6 +1,7 @@
 import { PresetView } from '../models/preset-view.model';
 import { EventDataLoader } from '../../loaders/event-data-loader';
 import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
+import { AnimationPreset } from '../../managers/three-manager/animations-manager';
 
 /**
  * Configuration of the event display.
@@ -10,6 +11,8 @@ export interface Configuration {
   defaultView?: number[];
   /** Preset views for switching event display camera. */
   presetViews?: PresetView[];
+  /** Preset views for switching event display camera. */
+  presetAnimations?: AnimationPreset[];
   /** Event data loader responsible for processing and loading event data. */
   eventDataLoader?: EventDataLoader;
   /** Root node of the phoenix menu. */
