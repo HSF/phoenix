@@ -55,14 +55,15 @@
           [ngSwitch]="config.type"
         >
           <!-- Config types -->
-          <label class="item-config-single" *ngIf="!config.hidden">
-            <span
+          <div class="item-config-single" *ngIf="!config.hidden">
+            <label
               class="item-config-label"
+              for="item-config-field"
               *ngIf="config.type !== 'button'"
               [ngClass]="{ 'font-weight-bold w-100': config.type === 'label' }"
             >
               {{ config.label }}
-            </span>
+            </label>
             <div
               class="item-config-data"
               [ngClass]="{ 'p-0': config.type === 'button' }"
@@ -100,6 +101,7 @@
 
               <input
                 *ngSwitchCase="'color'"
+                id="item-config-field"
                 type="color"
                 [value]="config.color"
                 (input)="
@@ -159,6 +161,7 @@
 
               <select
                 *ngSwitchCase="'select'"
+                id="item-config-field"
                 class="w-100"
                 (change)="config.onChange($event.target.value)"
               >
@@ -170,7 +173,7 @@
                 </option>
               </select>
             </div>
-          </label>
+          </div>
           <!-- Config types END -->
         </ng-container>
       </div>
