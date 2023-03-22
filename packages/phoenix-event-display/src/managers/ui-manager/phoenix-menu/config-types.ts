@@ -35,12 +35,16 @@ export type ConfigColor = ConfigLabel & {
 
 /** Type for Phoenix menu node "rangeSlider" config. */
 export type ConfigRangeSlider = ConfigLabel & {
-  value?: number;
-  highValue?: number;
-  min: number;
-  max: number;
+  value?: number; //Bottom of cut range
+  highValue?: number; //Top of cut range
+  min: number; // Minimum value possible for slider
+  max: number; // Maximum value possible for slider
   step: number;
+  enableMin: boolean; // Do we use value when cutting (i.e. open-ended range or not?)
+  enableMax: boolean; // Do we use highValue when cutting (i.e. open-ended range or not?)
   onChange: (valueRange: { value: number; highValue: number }) => void;
+  setEnableMin: (checked: boolean) => void;
+  setEnableMax: (checked: boolean) => void;
 };
 
 /** Type for Phoenix menu node "select" config. */
