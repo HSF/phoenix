@@ -116,9 +116,14 @@ export class UIManager {
         new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three)
       );
     }
-
-    // Detect UI color scheme
-    this.detectColorScheme();
+    if (!configuration.forceColourTheme) {
+      // Detect UI color scheme
+      this.detectColorScheme();
+    } else {
+      this.setDarkTheme(
+        configuration.forceColourTheme.toLocaleLowerCase() == 'dark'
+      );
+    }
     // State manager
     this.stateManager = new StateManager();
     this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
