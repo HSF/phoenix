@@ -545,8 +545,9 @@ export class PhoenixObjects {
   /**
    * Get the position for a Calo hit in cartesian coordinates
    * @param clusterParams Parameters for the Cluster (which must include theta and phi)
-   * @param defaultRadius Default cylindrical radius (rho) where to draw barrel Clusters
-   * @param defaultZ Default position along the z axis
+   * @param defaultRadius Default cylindrical radius (rho) where to draw barrel Clusters. Ignored if clusterParams contains radius.
+   * @param defaultZ Default position along the z axis. Ignored if clusterParams contains z.
+   * @param cylindrical If true, if clusterParams do not contain radius and z, then constrain to a cylinder of radius defaultRadius and length z
    * @returns Corrected cartesian position.
    */
   private static getCaloPosition(
@@ -558,11 +559,16 @@ export class PhoenixObjects {
       theta?: number;
     },
     defaultRadius: number = 1800,
-    defaultZ: number = 3600
+    defaultZ: number = 3600,
+    cylindrical: boolean = true
   ) {
     const theta =
       clusterParams.theta ?? CoordinateHelper.etaToTheta(clusterParams.eta);
-    const radius = clusterParams.radius ?? defaultRadius;
+
+    // if radius is not part of clusterParams then set it to defaultRadius (if cylindrical is false), or radius+defaultZ otherwise
+    const radius = cylindrical
+      ? clusterParams.radius ?? defaultRadius + defaultZ
+      : clusterParams.radius ?? defaultRadius;
 
     const position = CoordinateHelper.sphericalToCartesian(
       radius,
@@ -580,6 +586,13 @@ export class PhoenixObjects {
       if (Math.abs(position.z) > defaultZ) {
         position.setLength(
           (position.length() * defaultZ) / Math.abs(position.z)
+        );
+      }
+      const cylRadius2 = position.x * position.x + position.y * position.y;
+      const maxR2 = defaultRadius * defaultRadius;
+      if (cylRadius2 > maxR2) {
+        position.setLength(
+          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
         );
       }
     }
