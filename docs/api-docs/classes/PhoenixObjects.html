@@ -205,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="630"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:630</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="643"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:643</a></div>
                 </td>
             </tr>
 
@@ -280,8 +280,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="597"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:597</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="610"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:610</a></div>
                 </td>
             </tr>
 
@@ -394,15 +394,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCaloPosition(clusterParams: literal type, defaultRadius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, defaultZ: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>getCaloPosition(clusterParams: literal type, defaultRadius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, defaultZ: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, cylindrical: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="552"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:552</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="553"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:553</a></div>
                 </td>
             </tr>
 
@@ -459,7 +459,7 @@
                                     </td>
 
                                     <td>
-                                        <p>Default cylindrical radius (rho) where to draw barrel Clusters</p>
+                                        <p>Default cylindrical radius (rho) where to draw barrel Clusters. Ignored if clusterParams contains radius.</p>
 
                                     </td>
                                 </tr>
@@ -478,7 +478,26 @@
                                     </td>
 
                                     <td>
-                                        <p>Default position along the z axis</p>
+                                        <p>Default position along the z axis. Ignored if clusterParams contains z.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cylindrical</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                    <td>
+                                        <p>If true, if clusterParams do not contain radius and z, then constrain to a cylinder of radius defaultRadius and length z</p>
 
                                     </td>
                                 </tr>
@@ -743,8 +762,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="850"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:850</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="863"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:863</a></div>
                 </td>
             </tr>
 
@@ -901,8 +920,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="816"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:816</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="829"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:829</a></div>
                 </td>
             </tr>
 
@@ -980,8 +999,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="728"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:728</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="741"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:741</a></div>
                 </td>
             </tr>
 
@@ -1059,8 +1078,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="682"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:682</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="695"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:695</a></div>
                 </td>
             </tr>
 
@@ -1292,8 +1311,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="784"
-                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:784</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="797"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:797</a></div>
                 </td>
             </tr>
 
@@ -2346,8 +2365,9 @@ export class PhoenixObjects {
   /**
    * Get the position for a Calo hit in cartesian coordinates
    * @param clusterParams Parameters for the Cluster (which must include theta and phi)
-   * @param defaultRadius Default cylindrical radius (rho) where to draw barrel Clusters
-   * @param defaultZ Default position along the z axis
+   * @param defaultRadius Default cylindrical radius (rho) where to draw barrel Clusters. Ignored if clusterParams contains radius.
+   * @param defaultZ Default position along the z axis. Ignored if clusterParams contains z.
+   * @param cylindrical If true, if clusterParams do not contain radius and z, then constrain to a cylinder of radius defaultRadius and length z
    * @returns Corrected cartesian position.
    */
   private static getCaloPosition(
@@ -2359,11 +2379,16 @@ export class PhoenixObjects {
       theta?: number;
     },
     defaultRadius: number &#x3D; 1800,
-    defaultZ: number &#x3D; 3600
+    defaultZ: number &#x3D; 3600,
+    cylindrical: boolean &#x3D; true
   ) {
     const theta &#x3D;
       clusterParams.theta ?? CoordinateHelper.etaToTheta(clusterParams.eta);
-    const radius &#x3D; clusterParams.radius ?? defaultRadius;
+
+    // if radius is not part of clusterParams then set it to defaultRadius (if cylindrical is false), or radius+defaultZ otherwise
+    const radius &#x3D; cylindrical
+      ? clusterParams.radius ?? defaultRadius + defaultZ
+      : clusterParams.radius ?? defaultRadius;
 
     const position &#x3D; CoordinateHelper.sphericalToCartesian(
       radius,
@@ -2381,6 +2406,13 @@ export class PhoenixObjects {
       if (Math.abs(position.z) &gt; defaultZ) {
         position.setLength(
           (position.length() * defaultZ) / Math.abs(position.z)
+        );
+      }
+      const cylRadius2 &#x3D; position.x * position.x + position.y * position.y;
+      const maxR2 &#x3D; defaultRadius * defaultRadius;
+      if (cylRadius2 &gt; maxR2) {
+        position.setLength(
+          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
         );
       }
     }

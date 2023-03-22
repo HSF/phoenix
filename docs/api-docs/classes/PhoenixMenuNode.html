@@ -1025,8 +1025,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:242</a></div>
                 </td>
             </tr>
 
@@ -1102,8 +1102,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="258"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:258</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="260"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:260</a></div>
                 </td>
             </tr>
 
@@ -1179,8 +1179,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="173"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:173</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:175</a></div>
                 </td>
             </tr>
 
@@ -1224,8 +1224,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:196</a></div>
                 </td>
             </tr>
 
@@ -1686,6 +1686,8 @@ export class PhoenixMenuNode {
         value: config?.[&#x27;value&#x27;],
         highValue: config?.[&#x27;highValue&#x27;],
       });
+      config.setEnableMin?.(config?.[&#x27;enableMin&#x27;]);
+      config.setEnableMax?.(config?.[&#x27;enableMax&#x27;]);
     }
   }
 
