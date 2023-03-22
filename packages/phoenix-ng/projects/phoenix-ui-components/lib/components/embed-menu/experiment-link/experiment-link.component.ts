@@ -10,7 +10,7 @@ export class ExperimentLinkComponent implements OnInit {
 
   ngOnInit() {
     // we just want to remove the "&embed=true" instruction here.
-    const url = new URL(window.location);
+    const url = new URL(window.location.href);
     url.searchParams.delete('embed');
     this.experimentLink = url.toString();
   }
