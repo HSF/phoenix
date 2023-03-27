@@ -1,0 +1,81 @@
+<!-- Show objects -->
+<app-overlay
+  overlayTitle="Browse Display"
+  icon="info"
+  [resizable]="true"
+  [active]="browseDetectorParts"
+>
+  <!-- Using ngIf to remove it from DOM since this panel requires heavy computing -->
+  <div *ngIf="browseDetectorParts" class="collectionsInfo m-2">
+    <div
+      class="collectionSelector mb-2 d-flex align-items-center"
+      *ngIf="collections != null"
+    >
+      <div class="d-flex align-items-center">
+        <span>Choose a collection: </span>
+        <div class="eventSelector">
+          <select
+            id="detectorCollection"
+            name="detectorCollection"
+            (change)="changeCollection($event.target.value)"
+          >
+            <option value="" selected disabled hidden>Choose Collection</option>
+            <option *ngFor="let child of children" [value]="child.name">
+              {{ child.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxBody table-responsive">
+      <table
+        id="collectionTable"
+        class="table table-borderless table-sm"
+        *ngIf="showingCollection"
+      >
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Selection</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let object of showingCollection; index as i"
+            [attr.id]="object.uuid"
+            [ngClass]="{
+              'active-object':
+                activeObject && activeObject.value === object.uuid,
+              'is-cut': object.isCut,
+              'd-none': object.isCut
+            }"
+
+          >
+            <td>#{{ i }}</td>
+            <td>
+              <div
+                *ngIf="object.uuid"
+                class="row justify-content-center icon-wrapper"
+              >
+                <button
+                  class="object-select btn-blank"
+                  matTooltip="Highlight object"
+                  (click)="highlightObject(object.uuid)"
+                >
+                  <svg>
+                    <use href="assets/icons/cursor.svg#cursor"></use>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="emptyBox" *ngIf="!collections">
+        Load event data to be able to display information about the collections
+        here.
+      </p>
+    </div>
+  </div>
+</app-overlay>

@@ -3,6 +3,8 @@ export * from './animate-event/animate-event.component';
 export * from './auto-rotate/auto-rotate.component';
 export * from './collections-info/collections-info.component';
 export * from './collections-info/collections-info-overlay/collections-info-overlay.component';
+export * from './geometry-browser/geometry-browser.component';
+export * from './geometry-browser/geometry-browser-overlay/geometry-browser-overlay.component';
 export * from './dark-theme/dark-theme.component';
 export * from './event-selector/event-selector.component';
 export * from './experiment-info/experiment-info.component';

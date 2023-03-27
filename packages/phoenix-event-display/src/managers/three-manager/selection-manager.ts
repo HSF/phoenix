@@ -241,6 +241,7 @@ export class SelectionManager {
   public highlightObject(uuid: string, objectsGroup: Object3D) {
     const object = objectsGroup.getObjectByProperty('uuid', uuid);
     if (object) {
+      console.log('executed');
       this.outlinePass.selectedObjects = [object];
     }
   }
