@@ -55,14 +55,15 @@
           [ngSwitch]="config.type"
         >
           <!-- Config types -->
-          <label class="item-config-single" *ngIf="!config.hidden">
-            <span
+          <div class="item-config-single" *ngIf="!config.hidden">
+            <label
               class="item-config-label"
+              for="item-config-field"
               *ngIf="config.type !== 'button'"
               [ngClass]="{ 'font-weight-bold w-100': config.type === 'label' }"
             >
               {{ config.label }}
-            </span>
+            </label>
             <div
               class="item-config-data"
               [ngClass]="{ 'p-0': config.type === 'button' }"
@@ -100,6 +101,7 @@
 
               <input
                 *ngSwitchCase="'color'"
+                id="item-config-field"
                 type="color"
                 [value]="config.color"
                 (input)="
@@ -110,6 +112,16 @@
 
               <div *ngSwitchCase="'rangeSlider'" class="range-slider">
                 <div class="range-slider-inputs d-flex justify-content-between">
+                  <mat-checkbox
+                    [checked]="config.enableMin"
+                    (change)="config.setEnableMin($event.checked)"
+                  ></mat-checkbox>
+                  <mat-checkbox
+                    [checked]="config.enableMax"
+                    (change)="config.setEnableMax($event.checked)"
+                  ></mat-checkbox>
+                </div>
+                <div class="range-slider-inputs d-flex justify-content-between">
                   <input
                     type="number"
                     placeholder="Min"
@@ -119,6 +131,7 @@
                       config.value = $event.target.value;
                       config.onChange(config)
                     "
+                    step="config.step"
                   />
                   <input
                     type="number"
@@ -129,12 +142,14 @@
                       config.highValue = $event.target.value;
                       config.onChange(config)
                     "
+                    step="config.step"
                   />
                 </div>
                 <ngx-slider
                   [(value)]="config.value"
                   [(highValue)]="config.highValue"
                   (userChange)="config.onChange($event)"
+                  thumbLabel
                   [options]="{
                     floor: config.min,
                     ceil: config.max,
@@ -146,6 +161,7 @@
 
               <select
                 *ngSwitchCase="'select'"
+                id="item-config-field"
                 class="w-100"
                 (change)="config.onChange($event.target.value)"
               >
@@ -157,7 +173,7 @@
                 </option>
               </select>
             </div>
-          </label>
+          </div>
           <!-- Config types END -->
         </ng-container>
       </div>

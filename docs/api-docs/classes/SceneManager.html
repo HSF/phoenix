@@ -3379,7 +3379,7 @@ export class SceneManager {
         for (const filter of filters) {
           const value &#x3D; child.userData[filter.field];
           if (value) {
-            if (value &lt;&#x3D; filter.maxValue &amp;&amp; value &gt;&#x3D; filter.minValue) {
+            if (filter.cutPassed(value)) {
               child.visible &#x3D; true;
             } else {
               child.visible &#x3D; false;
