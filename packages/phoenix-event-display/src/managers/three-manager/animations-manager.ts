@@ -27,6 +27,8 @@ export interface AnimationPreset {
   animateEventAfterInterval?: number;
   /** Duration of the event collision. */
   collisionDuration?: number;
+  /** Name of the Animation */
+  name: string;
 }
 
 /**

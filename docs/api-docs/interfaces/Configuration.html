@@ -134,9 +134,23 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#forceColourTheme" 
+>
+                                            forceColourTheme
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#phoenixMenuRoot" 
 >
                                             phoenixMenuRoot
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#presetAnimations" 
+>
+                                            presetAnimations
                                         </a>
                                 </li>
                                 <li>
@@ -425,6 +439,50 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="forceColourTheme"></a>
+                                        <span class="name "><b>forceColourTheme</b>
+                                            <a href="#forceColourTheme">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>forceColourTheme:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Whether to force a theme (&#39;dark&#39; or &#39;light&#39; are current options)</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="phoenixMenuRoot"></a>
                                         <span class="name "><b>phoenixMenuRoot</b>
                                             <a href="#phoenixMenuRoot">
@@ -460,6 +518,50 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Root node of the phoenix menu.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="presetAnimations"></a>
+                                        <span class="name "><b>presetAnimations</b>
+                                            <a href="#presetAnimations">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>presetAnimations:         <code><a href="../interfaces/AnimationPreset.html" target="_self" >AnimationPreset[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/AnimationPreset.html" target="_self" >AnimationPreset[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Preset animations for switching event display camera.</p>
 </div>
                                 </td>
                             </tr>
@@ -517,6 +619,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PresetView } from &#x27;../models/preset-view.model&#x27;;
 import { EventDataLoader } from &#x27;../../loaders/event-data-loader&#x27;;
 import { PhoenixMenuNode } from &#x27;../../managers/ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
+import { AnimationPreset } from &#x27;../../managers/three-manager/animations-manager&#x27;;
+import { DepthPackingStrategies } from &#x27;three&#x27;;
 
 /**
  * Configuration of the event display.
@@ -526,6 +630,8 @@ export interface Configuration {
   defaultView?: number[];
   /** Preset views for switching event display camera. */
   presetViews?: PresetView[];
+  /** Preset animations for switching event display camera. */
+  presetAnimations?: AnimationPreset[];
   /** Event data loader responsible for processing and loading event data. */
   eventDataLoader?: EventDataLoader;
   /** Root node of the phoenix menu. */
@@ -538,6 +644,8 @@ export interface Configuration {
   defaultEventFile?: { eventFile: string; eventType: string };
   /** Whether to allow URL options or not (true by default). */
   allowUrlOptions?: boolean;
+  /** Whether to force a theme (&#x27;dark&#x27; or &#x27;light&#x27; are current options) */
+  forceColourTheme?: string;
 }
 </code></pre>
     </div>
