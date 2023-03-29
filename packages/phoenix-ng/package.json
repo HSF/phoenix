@@ -34,7 +34,6 @@
     "@angular/platform-browser": "^15.1.2",
     "@angular/platform-browser-dynamic": "^15.1.2",
     "@angular/router": "^15.1.2",
-    "@rp3e11/ngx-slider": "^13.0.1",
     "css-element-queries": "^1.2.3",
     "cypress-plugin-snapshots": "^1.4.4",
     "phoenix-event-display": "^2.13.0",
