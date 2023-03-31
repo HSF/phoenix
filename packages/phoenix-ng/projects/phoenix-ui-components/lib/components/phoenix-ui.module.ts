@@ -15,7 +15,6 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxSliderModule } from '@rp3e11/ngx-slider';
 import { NavComponent } from './nav/nav.component';
 import {
   PhoenixMenuComponent,
@@ -136,7 +135,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatSlideToggleModule,
     MatCheckboxModule,
     MatIconModule,
-    NgxSliderModule,
     CdkTreeModule,
     MatTabsModule,
   ],

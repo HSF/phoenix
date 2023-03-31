@@ -5439,21 +5439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rp3e11/ngx-slider@npm:^13.0.1":
-  version: 13.0.1
-  resolution: "@rp3e11/ngx-slider@npm:13.0.1"
-  dependencies:
-    detect-passive-events: ^1.0.3
-    rxjs: ^7.4.0
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/common": ^13.0.2
-    "@angular/core": ^13.0.2
-    "@angular/forms": ^13.0.2
-  checksum: e8310cfc88943b56be05ccca39e47416ad421c1f73bf8e36f25ec3918b8a97d68f65b2dcf5c69d038438e65d4afe1d3336d63977a8ffa2207d9e261c68cf58dc
-  languageName: node
-  linkType: hard
-
 "@schematics/angular@npm:15.1.3":
   version: 15.1.3
   resolution: "@schematics/angular@npm:15.1.3"
@@ -8965,13 +8950,6 @@ cors@latest:
   version: 2.1.0
   resolution: "detect-node@npm:2.1.0"
   checksum: 832184ec458353e41533ac9c622f16c19f7c02d8b10c303dfd3a756f56be93e903616c0bb2d4226183c9351c15fc0b3dba41a17a2308262afabcfa3776e6ae6e
-  languageName: node
-  linkType: hard
-
-"detect-passive-events@npm:^1.0.3":
-  version: 1.0.5
-  resolution: "detect-passive-events@npm:1.0.5"
-  checksum: 0de350485b3dffbea0b5aefbe6eb889017f76c32b39bbade65095cce16929fa08fa8489f213a03fe46e118b11579b2d2f002512096d1e7c80a4532be7c8f9bb3
   languageName: node
   linkType: hard
 
@@ -15504,7 +15482,6 @@ cors@latest:
     "@angular/platform-browser": ^15.1.2
     "@angular/platform-browser-dynamic": ^15.1.2
     "@angular/router": ^15.1.2
-    "@rp3e11/ngx-slider": ^13.0.1
     "@types/cypress": ^1.1.3
     "@types/qrcode": ^1.5.0
     concurrently: ^7.6.0
@@ -15534,7 +15511,6 @@ cors@latest:
     "@angular/forms": ^15.1.2
     "@angular/material": ^15.1.2
     "@angular/platform-browser": ^15.1.2
-    "@rp3e11/ngx-slider": ^13.0.1
     css-element-queries: ^1.2.3
     node-fetch: ^3.3.0
     qrcode: 1.5.1
@@ -16682,7 +16658,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0, rxjs@npm:^7.4.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.5.6, rxjs@npm:^7.8.0":
+"rxjs@npm:^7.0.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.5.6, rxjs@npm:^7.8.0":
   version: 7.8.0
   resolution: "rxjs@npm:7.8.0"
   dependencies:
