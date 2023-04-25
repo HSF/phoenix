@@ -39,7 +39,7 @@ export class TracksMesh extends BufferGeometry {
    */
   constructor() {
     super();
-    this.type = 'TracksMesh';
+    (this.type as string) = 'TracksMesh';
     this.positions = [];
     this.previous = [];
     this.next = [];

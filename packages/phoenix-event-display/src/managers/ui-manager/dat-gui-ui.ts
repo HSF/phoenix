@@ -310,15 +310,27 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
 
       for (const cut of cuts) {
         const minCut = cutsFolder
-          .add(cut, 'minValue', cut.minValue, cut.maxValue)
+          .add(
+            { minValue: cut.minValue },
+            'minValue',
+            cut.minValue,
+            cut.maxValue
+          )
           .name('min ' + cut.field);
         minCut.onChange((value) => {
+          cut.minValue = value;
           this.sceneManager.collectionFilter(collectionName, cuts);
         });
         const maxCut = cutsFolder
-          .add(cut, 'maxValue', cut.minValue, cut.maxValue)
+          .add(
+            { maxValue: cut.maxValue },
+            'maxValue',
+            cut.minValue,
+            cut.maxValue
+          )
           .name('max ' + cut.field);
         maxCut.onChange((value) => {
+          cut.maxValue = value;
           this.sceneManager.collectionFilter(collectionName, cuts);
         });
       }
