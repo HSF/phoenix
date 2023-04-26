@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera } from 'three';
+import { PerspectiveCamera } from 'three';
 import {
   XRManager,
   XRSessionType,
@@ -47,13 +47,13 @@ describe('XRManager', () => {
   });
 
   it('should get the group containing the camera for XR', () => {
-    xrManager.xrCamera = new Camera();
+    xrManager.xrCamera = new PerspectiveCamera();
     const cameraGroup = xrManager.getCameraGroup(xrManager.xrCamera);
     expect(cameraGroup.type).toBe('Group');
   });
 
   it('should get the camera used by XR', () => {
-    const camera = new Camera();
+    const camera = new PerspectiveCamera();
     xrManager.xrCamera = camera;
     expect(xrManager.getXRCamera()).toBe(camera);
   });
