@@ -243,8 +243,8 @@ export class TracksMaterial extends ShaderMaterial {
           progress: { value: 1 },
         }
       ),
-      vertexShader: ShaderChunk.tracks_vert,
-      fragmentShader: ShaderChunk.tracks_frag,
+      vertexShader: ShaderChunk['tracks_vert'],
+      fragmentShader: ShaderChunk['tracks_vert'],
     });
     this.isTracksMaterial = true;
     this.type = 'TracksMaterial';

@@ -32,8 +32,8 @@
     "@angular/platform-browser": "^15.2.8",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.3",
-    "rxjs": "^7.8.0",
-    "three": "^0.151.3",
+    "rxjs": "^7.8.1",
+    "three": "^0.152.2",
     "tslib": "^2.5.0"
   },
   "devDependencies": {
