@@ -39,7 +39,7 @@ export class TracksMesh extends BufferGeometry {
    */
   constructor() {
     super();
-    this.type = 'TracksMesh';
+    (this.type as string) = 'TracksMesh';
     this.positions = [];
     this.previous = [];
     this.next = [];
@@ -243,8 +243,8 @@ export class TracksMaterial extends ShaderMaterial {
           progress: { value: 1 },
         }
       ),
-      vertexShader: ShaderChunk.tracks_vert,
-      fragmentShader: ShaderChunk.tracks_frag,
+      vertexShader: ShaderChunk['tracks_vert'],
+      fragmentShader: ShaderChunk['tracks_vert'],
     });
     this.isTracksMaterial = true;
     this.type = 'TracksMaterial';

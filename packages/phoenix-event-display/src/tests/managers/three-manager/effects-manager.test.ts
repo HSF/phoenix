@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Camera, Scene, NormalBlending } from 'three';
+import { Camera, Scene, NormalBlending, PerspectiveCamera } from 'three';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
@@ -13,7 +13,7 @@ describe('EffectsManager', () => {
   let scene: Scene;
 
   beforeEach(() => {
-    camera = new Camera();
+    camera = new PerspectiveCamera();
     scene = new Scene();
 
     effectsManager = new EffectsManager(

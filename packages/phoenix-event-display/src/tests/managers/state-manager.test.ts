@@ -3,7 +3,7 @@
  */
 import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { StateManager } from '../../managers/state-manager';
-import { Camera } from 'three';
+import { PerspectiveCamera } from 'three';
 import { EventDisplay } from '../../event-display';
 import * as file from '../../helpers/file';
 
@@ -36,7 +36,7 @@ describe('StateManager', () => {
   });
 
   it('should save the state of the event display as JSON', () => {
-    stateManager.activeCamera = new Camera();
+    stateManager.activeCamera = new PerspectiveCamera();
     global.URL.createObjectURL = jest.fn();
 
     jest.spyOn(stateManager.phoenixMenuRoot, 'getNodeState');
@@ -110,7 +110,7 @@ describe('StateManager', () => {
   });
 
   it('should set the scene camera for state', () => {
-    const camera = new Camera();
+    const camera = new PerspectiveCamera();
     stateManager.setCamera(camera);
     expect(stateManager.activeCamera).toBe(camera);
   });

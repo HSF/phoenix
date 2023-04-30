@@ -44,10 +44,7 @@ Since some Phoenix components use Bootstrap, you will need to add the the Bootst
 <head>
   ...
 
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-  />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 </head>
 ```
 
@@ -72,11 +69,7 @@ With everything set up, you can use the Phoenix components in your module compon
 <app-nav></app-nav>
 <app-ui-menu></app-ui-menu>
 <!-- Be sure to replace the experiment information (`logo`, `url` and `tagline`). -->
-<app-experiment-info
-  logo="assets/images/sample.svg"
-  url="https://home.cern/science/experiments/sample"
-  tagline="SAMPLE Experiment at CERN"
-></app-experiment-info>
+<app-experiment-info logo="assets/images/sample.svg" url="https://home.cern/science/experiments/sample" tagline="SAMPLE Experiment at CERN"></app-experiment-info>
 <app-phoenix-menu [rootNode]="phoenixMenuRoot"></app-phoenix-menu>
 <div id="eventDisplay"></div>
 ```

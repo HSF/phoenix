@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { Easing } from '@tweenjs/tween.js';
-import { Camera, Object3D, Scene, Vector3 } from 'three';
+import { Camera, Object3D, PerspectiveCamera, Scene, Vector3 } from 'three';
 import {
   AnimationsManager,
   AnimationPreset,
@@ -18,7 +18,7 @@ describe('AnimationsManager', () => {
 
   beforeEach(() => {
     scene = new Scene();
-    camera = new Camera();
+    camera = new PerspectiveCamera();
     animationsManager = new AnimationsManager(scene, camera, rendererManager);
   });
 

@@ -350,7 +350,7 @@ export class AnimationsManager {
     const position = sphere.attributes.position;
     const vertex = new Vector3();
     for (let i = 0; i < position.count; i++) {
-      vertex.fromBufferAttribute(position, i);
+      vertex.fromBufferAttribute(position as BufferAttribute, i);
       animationClipPlanes.push(new Plane(vertex.clone(), 0));
     }
 
