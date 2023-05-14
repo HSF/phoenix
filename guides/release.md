@@ -3,7 +3,7 @@
 This guide highlights the release process for Phoenix packages.\
 If you are not a part of Phoenix on npm and want to make a release, you can ask [9inpachi](https://github.com/9inpachi) or [EdwardMoyse](https://github.com/EdwardMoyse) to add you to the npm org.
 
-We currently publish the packages `phoenix-event-display`and `phoenix-ui-components` to npm.
+We currently publish the packages `phoenix-event-display` and `phoenix-ui-components` to npm.
 
 ## Checklist
 
@@ -30,12 +30,12 @@ Then you need to set the `GH_TOKEN` environment variable in your terminal when r
 The release commands will then be structured like:
 
 ```sh
-GH_TOKEN=<your_gh_token> yarn release:<version_priority>
+GH_TOKEN=<your_gh_token> yarn release:<release_type>
 ```
 
 Here's a list of the release commands.
 
-* `yarn release`
+* `yarn release:patch`
   * Will release a patch version of all the packages. (1.0.x where x will be updated)
 * `yarn release:minor`
   * Will release a minor version of all the packages. (1.x.0 where x will be updated)
@@ -45,7 +45,7 @@ Here's a list of the release commands.
   * Will prerelease a patch version. (1.0.0-alpha-x - alpha suffix will be added and x will be updated with each release)
 * `yarn release:graduate`
   * Will graduate a prerelease (the one we did above) to a full stable version removing the alpha suffix from the version. (If you don't graduate a prerelease, the normal release commands (`yarn release:major`, `yarn release` etc.) will also prerelease with the alpha suffix)
-* All `yarn release:<version_priority>` commands will
+* All `yarn release:<release_type>` commands will
    1) Release all the packages (`phoenix-event-display` and `phoenix-ui-components`).
    2) Deploy the API docs.
    3) Deploy the Angular application.
