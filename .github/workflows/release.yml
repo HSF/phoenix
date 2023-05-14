@@ -1,17 +1,50 @@
-name: phoenix-docker-release
+name: phoenix-release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: Type of the next version update to be released.
+        required: true
+        options: [patch, minor, major, pre, graduate]
+        default: patch
 
 jobs:
-  push-to-docker:
+  release:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@main
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@main
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup
+        run: yarn install
+
+      - name: Release
+        run: yarn release:${{ inputs.release_type }} --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  push-to-docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: release
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
 
       - name: Release Version
         id: release_version
