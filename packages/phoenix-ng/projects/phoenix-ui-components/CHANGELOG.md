@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2.14.1 (2023-05-14)
+
+
+### Bug Fixes
+
+* configure git when trying to release ([fc4ae96](https://github.com/HSF/phoenix/commit/fc4ae96efdb5ce47db09c0e026fce4561a42ec24))
+
+
+
+
+
 # [2.14.0](https://github.com/HSF/phoenix/compare/v2.13.0...v2.14.0) (2023-03-22)
 
 **Note:** Version bump only for package phoenix-ui-components

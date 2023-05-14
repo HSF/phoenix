@@ -16126,7 +16126,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"phoenix-event-display@^2.14.0, phoenix-event-display@workspace:packages/phoenix-event-display":
+"phoenix-event-display@^2.14.1, phoenix-event-display@workspace:packages/phoenix-event-display":
   version: 0.0.0-use.local
   resolution: "phoenix-event-display@workspace:packages/phoenix-event-display"
   dependencies:
@@ -16180,8 +16180,8 @@ cors@latest:
     jest: ^29.5.0
     jest-preset-angular: ^12.2.6
     ng-packagr: ^15.2.2
-    phoenix-event-display: ^2.14.0
-    phoenix-ui-components: ^2.14.0
+    phoenix-event-display: ^2.14.1
+    phoenix-ui-components: ^2.14.1
     qrcode: 1.5.3
     rxjs: ^7.8.1
     three: ^0.152.2
@@ -16191,7 +16191,7 @@ cors@latest:
   languageName: unknown
   linkType: soft
 
-"phoenix-ui-components@^2.14.0, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
+"phoenix-ui-components@^2.14.1, phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components":
   version: 0.0.0-use.local
   resolution: "phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components"
   dependencies:

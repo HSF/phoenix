@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "private": true,
   "scripts": {
     "start": "ng serve phoenix-app",
@@ -36,8 +36,8 @@
     "@angular/router": "^15.2.8",
     "css-element-queries": "^1.2.3",
     "cypress-plugin-snapshots": "^1.4.4",
-    "phoenix-event-display": "^2.14.0",
-    "phoenix-ui-components": "^2.14.0",
+    "phoenix-event-display": "^2.14.1",
+    "phoenix-ui-components": "^2.14.1",
     "qrcode": "1.5.3",
     "rxjs": "^7.8.1",
     "three": "^0.152.2",
