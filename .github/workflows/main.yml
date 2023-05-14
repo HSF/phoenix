@@ -12,10 +12,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@main
+      - name: Checkout
+        uses: actions/checkout@main
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@main
         with:
@@ -76,7 +78,7 @@ jobs:
           repository: ${{ github.repository }}
           ref: ${{ github.ref }}
           environment: ${{ steps.deploy.outputs.deployment_env }}
-          required_contexts: "[]"
+          required_contexts: '[]'
           auto_merge: false
 
       - name: Create Deployment Status
