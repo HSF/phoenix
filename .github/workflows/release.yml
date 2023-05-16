@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       release_type:
-        description: Type of the next version update to be released.
+        description: Type of the next version update to be released
         required: true
         options: [patch, minor, major, pre, graduate]
         default: patch
