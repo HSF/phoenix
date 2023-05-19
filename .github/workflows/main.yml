@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy
         id: deploy
-        if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/master' }}
+        if: ${{ steps.if_pr.outputs.number || github.ref == 'refs/heads/main' }}
         env:
           PR_URL: http://phoenix-pr-${{ steps.if_pr.outputs.number }}.surge.sh
           DEV_URL: http://phoenix-dev.surge.sh
@@ -56,7 +56,7 @@ jobs:
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: |
           yarn deploy:web
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             export DEPLOYMENT_URL=$DEV_URL
             export DEPLOYMENT_ENV=dev
           else
@@ -69,7 +69,7 @@ jobs:
 
       - name: Create Deployment
         id: create_deployment
-        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/master') }}
+        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/main') }}
         uses: octokit/request-action@v2.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -82,7 +82,7 @@ jobs:
           auto_merge: false
 
       - name: Create Deployment Status
-        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/master') }}
+        if: ${{ success() && (steps.if_pr.outputs.number || github.ref == 'refs/heads/main') }}
         uses: octokit/request-action@v2.x
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
