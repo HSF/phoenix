@@ -303,7 +303,7 @@ export class ColorOptions {
         config.group !== undefined &&
         config.group !== this.selectedColorByOption;
 
-      config.hidden = groupNotSelected ? true : false;
+      config.hidden = groupNotSelected;
     });
   }
 }

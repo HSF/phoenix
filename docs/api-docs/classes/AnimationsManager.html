@@ -1703,7 +1703,7 @@ export class AnimationsManager {
     const position &#x3D; sphere.attributes.position;
     const vertex &#x3D; new Vector3();
     for (let i &#x3D; 0; i &lt; position.count; i++) {
-      vertex.fromBufferAttribute(position, i);
+      vertex.fromBufferAttribute(position as BufferAttribute, i);
       animationClipPlanes.push(new Plane(vertex.clone(), 0));
     }
 

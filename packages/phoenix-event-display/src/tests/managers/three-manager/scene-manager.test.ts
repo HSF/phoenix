@@ -14,7 +14,6 @@ import {
   AxesHelper,
   BoxGeometry,
   BufferGeometry,
-  Camera,
   Color,
   DirectionalLight,
   Group,
@@ -40,7 +39,7 @@ describe('SceneManager', () => {
   });
 
   it('should update position of directional light for each frame rendered', () => {
-    const camera = new Camera();
+    const camera = new PerspectiveCamera();
     camera.position.set(7, 7, 7);
     sceneManager.cameraLight = new DirectionalLight();
 

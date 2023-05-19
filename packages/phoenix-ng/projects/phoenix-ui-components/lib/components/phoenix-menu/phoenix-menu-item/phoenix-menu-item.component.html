@@ -145,18 +145,6 @@
                     step="config.step"
                   />
                 </div>
-                <ngx-slider
-                  [(value)]="config.value"
-                  [(highValue)]="config.highValue"
-                  (userChange)="config.onChange($event)"
-                  thumbLabel
-                  [options]="{
-                    floor: config.min,
-                    ceil: config.max,
-                    step: config.step,
-                    animate: false
-                  }"
-                ></ngx-slider>
               </div>
 
               <select

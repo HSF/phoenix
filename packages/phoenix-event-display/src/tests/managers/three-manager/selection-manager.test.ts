@@ -3,7 +3,7 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import { Camera, Object3D, Scene } from 'three';
+import { Object3D, PerspectiveCamera, Scene, Vector2 } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
 import THREE from '../../helpers/webgl-mock';
@@ -26,7 +26,7 @@ describe('SelectionManager', () => {
   });
 
   it('should initialize the selection manager', () => {
-    const camera = new Camera();
+    const camera = new PerspectiveCamera();
     const scene = new Scene();
     const renderer = new THREE.WebGLRenderer();
     const effectsManager = new EffectsManager(camera, scene, renderer);
@@ -65,7 +65,7 @@ describe('SelectionManager', () => {
     });
 
     selectionManager['effectsManager'] = new EffectsManager(
-      new Camera(),
+      new PerspectiveCamera(),
       new Scene(),
       new THREE.WebGLRenderer()
     );
@@ -82,9 +82,9 @@ describe('SelectionManager', () => {
     });
 
     selectionManager['outlinePass'] = new OutlinePass(
-      new THREE.Vector2(100, 100),
-      new THREE.Scene(),
-      new THREE.Camera()
+      new Vector2(100, 100),
+      new Scene(),
+      new PerspectiveCamera()
     );
 
     selectionManager.setSelecting(false);

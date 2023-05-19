@@ -1009,8 +1009,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="384"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:384</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="396"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:396</a></div>
                 </td>
             </tr>
 
@@ -1103,8 +1103,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="332"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:332</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="344"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:344</a></div>
                 </td>
             </tr>
 
@@ -1222,8 +1222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="440"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:440</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="452"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:452</a></div>
                 </td>
             </tr>
 
@@ -1301,8 +1301,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="425"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:425</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="437"
+                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:437</a></div>
                 </td>
             </tr>
 
@@ -1771,15 +1771,27 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
 
       for (const cut of cuts) {
         const minCut &#x3D; cutsFolder
-          .add(cut, &#x27;minValue&#x27;, cut.minValue, cut.maxValue)
+          .add(
+            { minValue: cut.minValue },
+            &#x27;minValue&#x27;,
+            cut.minValue,
+            cut.maxValue
+          )
           .name(&#x27;min &#x27; + cut.field);
         minCut.onChange((value) &#x3D;&gt; {
+          cut.minValue &#x3D; value;
           this.sceneManager.collectionFilter(collectionName, cuts);
         });
         const maxCut &#x3D; cutsFolder
-          .add(cut, &#x27;maxValue&#x27;, cut.minValue, cut.maxValue)
+          .add(
+            { maxValue: cut.maxValue },
+            &#x27;maxValue&#x27;,
+            cut.minValue,
+            cut.maxValue
+          )
           .name(&#x27;max &#x27; + cut.field);
         maxCut.onChange((value) &#x3D;&gt; {
+          cut.maxValue &#x3D; value;
           this.sceneManager.collectionFilter(collectionName, cuts);
         });
       }

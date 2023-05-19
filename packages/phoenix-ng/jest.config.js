@@ -1,11 +1,5 @@
 /* eslint-disable no-undef */
-const esModules = [
-  '@angular',
-  '@ngrx',
-  'three/examples/jsm/',
-  '@rp3e11/ngx-slider/',
-  'jsroot',
-];
+const esModules = ['@angular', '@ngrx', 'three/examples/jsm/', 'jsroot'];
 
 globalThis.ngJest = {
   skipNgcc: false,
