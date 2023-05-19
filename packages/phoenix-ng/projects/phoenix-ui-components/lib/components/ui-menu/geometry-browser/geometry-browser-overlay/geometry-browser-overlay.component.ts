@@ -50,7 +50,6 @@ export class GeometryBrowserOverlayComponent implements OnInit {
         break;
       }
     }
-    console.log(selectedCollection);
   }
 
   highlightObject(uuid: string) {
