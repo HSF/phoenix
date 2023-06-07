@@ -8,6 +8,7 @@ if (!fs.existsSync('package.json')) {
     'Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.'
   );
   process.exit(1);
+  
 }
 
 // IMPORTANT: The directory for exec commands is `./packages/phoenix-event-display` and for Node.js functions is `./packages/phoenix-event-display/scripts`

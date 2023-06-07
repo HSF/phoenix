@@ -4,6 +4,7 @@ import { EmbedMenuComponent } from './embed-menu.component';
 
 describe('EmbedMenuComponent', () => {
   let component: EmbedMenuComponent;
+
   let fixture: ComponentFixture<EmbedMenuComponent>;
 
   beforeEach(async () => {
