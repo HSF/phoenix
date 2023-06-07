@@ -79,10 +79,15 @@ Access the app by navigating to [`http://localhost`](http://localhost) on the br
 
 Phoenix was presented at the [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
 
-## Phoenix clients
+## Examples of Phoenix in use
 
-Phoenix is the official web event display of the [ATLAS experiment](https://atlas.cern). ATLAS has also used it for embedded views of interesting events in Physics briefings, e.g. [Heavyweight champions: a search for new heavy W' bosons with the ATLAS detector](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwi5vtnp8Yr8AhWw9LsIHeSPBRoQFnoECCAQAQ&url=https%3A%2F%2Fatlas.cern%2Fupdates%2Fbriefing%2Fsearch-heavy-W-bosons&usg=AOvVaw3RpPlPkM5i4gdk2S27cX-C)
+### ATLAS
+[PhoenixATLAS](https://github.com/ATLAS-experiment/PhoenixATLAS) is the official web event display of the [ATLAS experiment](https://atlas.cern). It can be used to visualise different versions of ATLAS Geometry, and uploaded events.
+
+ATLAS has also used it for embedded events in Physics briefings, e.g. [Heavyweight champions: a search for new heavy W' bosons with the ATLAS detector](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwi5vtnp8Yr8AhWw9LsIHeSPBRoQFnoECCAQAQ&url=https%3A%2F%2Fatlas.cern%2Fupdates%2Fbriefing%2Fsearch-heavy-W-bosons&usg=AOvVaw3RpPlPkM5i4gdk2S27cX-C)
+
+### FCC
+Phoenix is also used by [Future Circular Collider](https://fcc.web.cern.ch), see [here](https://fccsw.web.cern.ch/fccsw/phoenix/).
 
 ## Contact
-
-Best is to either open an issue in GitHub, start a [discussion](https://github.com/HSF/phoenix/discussions) or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community).
+The best way to contact us is to either open an issue in GitHub, start a [discussion](https://github.com/HSF/phoenix/discussions) or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community) (though this is not used as much these days).
