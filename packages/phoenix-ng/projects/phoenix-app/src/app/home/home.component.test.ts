@@ -5,6 +5,7 @@ import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-di
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
+
   let fixture: ComponentFixture<HomeComponent>;
 
   const mockEventDisplay = {
