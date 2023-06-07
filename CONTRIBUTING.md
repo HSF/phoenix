@@ -31,6 +31,9 @@ yarn lint:fix
 
 If you're using Visual Studio Code, you can also add the [prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) and then choose 'Format Document' with this linting tool.
 
+### Running linters against staged git files
+We use [lint-staged](https://github.com/okonet/lint-staged) to make sure we are not committing the usually unwanted linting error on the CI and helps us to focus on the actual problem if we see a failed CI output. This runs our linters everytime we do a `git commit` and automatically fixes any linting errors it sees inside the project. 
+
 ### CI tests
 We make use of continuous integration (CI) tests for each code change. Please see the [relevant part](./guides/developers/test-setup.md) of the [Developer guide](./guides/developers#readme) for how to fix problems, and run locally.
 
