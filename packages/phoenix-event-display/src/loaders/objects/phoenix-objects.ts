@@ -797,7 +797,6 @@ export class PhoenixObjects {
   public static getVertex(vertexParams: any): Object3D {
     // geometry
     const geometry = new SphereGeometry(vertexParams.size ?? 3);
-    console.log(geometry);
     // material
     const material = new MeshPhongMaterial({
       color: vertexParams.color ?? EVENT_DATA_TYPE_COLORS.Vertices,
