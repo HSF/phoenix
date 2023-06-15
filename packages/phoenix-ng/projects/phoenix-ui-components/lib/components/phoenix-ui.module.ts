@@ -60,6 +60,7 @@ import {
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
+  CartesianGridComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { EventDisplayService } from '../services/event-display.service';
@@ -70,6 +71,7 @@ import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { RingLoaderComponent } from './ring-loader/ring-loader.component';
+import { ViewOptionsConfigComponent } from './ui-menu/view-options/view-options-config/view-options-config.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -78,6 +80,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   CollectionsInfoComponent,
   GeometryBrowserComponent,
   GeometryBrowserOverlayComponent,
+  CartesianGridComponent,
   MenuToggleComponent,
   CollectionsInfoOverlayComponent,
   IoOptionsComponent,
@@ -91,6 +94,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   DarkThemeComponent,
   AutoRotateComponent,
   ViewOptionsComponent,
+  ViewOptionsConfigComponent,
   OverlayViewWindowComponent,
   OverlayComponent,
   ExperimentInfoComponent,

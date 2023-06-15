@@ -1,5 +1,5 @@
 import * as Stats from 'stats-js';
-import { Color, Object3D } from 'three';
+import { Color, Object3D, Vector3 } from 'three';
 import { ThreeManager } from '../three-manager';
 import { Configuration } from '../../lib/types/configuration';
 import {
@@ -401,20 +401,37 @@ export class UIManager {
     xDistance: number,
     yDistance: number,
     zDistance: number,
-    sparsity: number
+    sparsity: number,
+    translate?: Vector3
   ) {
-    this.three
-      .getSceneManager()
-      .setCartesianGrid(
-        show,
-        showXY,
-        showYZ,
-        showZX,
-        xDistance,
-        yDistance,
-        zDistance,
-        sparsity
-      );
+    if (typeof translate === 'undefined') {
+      this.three
+        .getSceneManager()
+        .setCartesianGrid(
+          show,
+          showXY,
+          showYZ,
+          showZX,
+          xDistance,
+          yDistance,
+          zDistance,
+          sparsity
+        );
+    } else {
+      this.three
+        .getSceneManager()
+        .setCartesianGrid(
+          show,
+          showXY,
+          showYZ,
+          showZX,
+          xDistance,
+          yDistance,
+          zDistance,
+          sparsity,
+          translate
+        );
+    }
   }
 
   /**
@@ -429,8 +446,15 @@ export class UIManager {
    * Show 3D coordinates where the mouse pointer clicks
    * @param show If the coordinates are to be shown or not.
    */
-  public show3DMousePoints(show: boolean) {
-    this.three.show3DMousePoints(show);
+  public show3DMousePoints(show: boolean, origin: Vector3) {
+    this.three.show3DMousePoints(show, origin);
+  }
+
+  /**
+   * Shift cartesian grid by a mouse click
+   */
+  public shiftCartesianGridByPointer(change: boolean) {
+    this.three.shiftCartesianGrid(change);
   }
 
   /**

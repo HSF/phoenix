@@ -540,6 +540,7 @@ export class SceneManager {
     yDistance: number,
     zDistance: number,
     sparsity: number = 1,
+    translate?: Vector3,
     scale: number = 3000
   ) {
     const length = scale;
@@ -666,34 +667,40 @@ export class SceneManager {
       this.scene.add(this.cartesianGrid);
     }
 
-    for (let i = 0; i <= 62; i += 1) {
-      this.cartesianGrid.children[i].visible = false;
-    }
+    if (typeof translate === 'undefined') {
+      for (let i = 0; i <= 62; i += 1) {
+        this.cartesianGrid.children[i].visible = false;
+      }
 
-    const childPoints = [10, 31, 52];
-    const distances = [zDistance, xDistance, yDistance];
-    const visiblePlanes = [showXY, showYZ, showZX];
+      const childPoints = [10, 31, 52];
+      const distances = [zDistance, xDistance, yDistance];
+      const visiblePlanes = [showXY, showYZ, showZX];
 
-    if (visible) {
-      for (let i = 0; i < 3; i += 1) {
-        if (visiblePlanes[i]) {
-          for (
-            let j = childPoints[i];
-            j >= childPoints[i] - (distances[i] * 10) / length;
-            j -= sparsity
-          ) {
-            this.cartesianGrid.children[j].visible = visible;
-          }
+      if (visible) {
+        for (let i = 0; i < 3; i += 1) {
+          if (visiblePlanes[i]) {
+            for (
+              let j = childPoints[i];
+              j >= childPoints[i] - (distances[i] * 10) / length;
+              j -= sparsity
+            ) {
+              this.cartesianGrid.children[j].visible = visible;
+            }
 
-          for (
-            let j = childPoints[i];
-            j <= childPoints[i] + (distances[i] * 10) / length;
-            j += sparsity
-          ) {
-            this.cartesianGrid.children[j].visible = visible;
+            for (
+              let j = childPoints[i];
+              j <= childPoints[i] + (distances[i] * 10) / length;
+              j += sparsity
+            ) {
+              this.cartesianGrid.children[j].visible = visible;
+            }
           }
         }
       }
+    } else {
+      const distance = translate.length();
+      const unitVector = translate.normalize();
+      this.cartesianGrid.translateOnAxis(unitVector, distance);
     }
   }
 

@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
 import {
   Group,
@@ -89,7 +90,11 @@ export class ThreeManager {
   /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
   private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
   /** Callback function for the 'click' event listener to show 3D coordinates of the clicked point */
-  private eventListenerCallback: (event: MouseEvent) => void;
+  private show3DPointsCallback: (event: MouseEvent) => void;
+  /** Callback function for the click event listener to shift the cartesian grid at the clicked point */
+  private shiftCartesianGridCallback: (event: MouseEvent) => void;
+  /** Origin of the cartesian grid w.r.t. world origin */
+  private origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */
   private ignoreList = [
     new AmbientLight().type,
@@ -100,6 +105,8 @@ export class ThreeManager {
   private clipPlanes: Plane[];
   /** Status of clipping intersection. */
   private clipIntersection: boolean;
+  /** Subject emitting that a new 3D coordinate has been clicked upon */
+  mainIntersectChanged = new EventEmitter<Vector3>();
 
   /**
    * Create the three manager for three.js operations.
@@ -251,15 +258,9 @@ export class ThreeManager {
   }
 
   /**
-   * Show 3D coordinates where the mouse pointer clicks
-   * @param show If the coordinates are to be shown or not.
+   * Helper function to find closest ray intersect
    */
-  public show3DMousePoints(show: boolean) {
-    const camera = this.controlsManager.getMainCamera();
-    const scene = this.sceneManager.getScene();
-    const raycaster = new Raycaster();
-    const mousePosition = new Vector2();
-
+  private closestRayIntersect() {
     if (this.stateManager == null) {
       this.stateManager = new StateManager();
     }
@@ -301,9 +302,32 @@ export class ThreeManager {
         return visible;
       };
     }
+  }
 
-    if (this.eventListenerCallback == null) {
-      this.eventListenerCallback = (event) => {
+  /**
+   * Emit mainintersectChanged emitter
+   */
+  public mainIntersectChangedEmit(origin: Vector3) {
+    console.log('entered');
+    this.origin = origin;
+    this.mainIntersectChanged.emit(origin);
+  }
+
+  /**
+   * Show 3D coordinates where the mouse pointer clicks
+   * @param show If the coordinates are to be shown or not.
+   */
+  public show3DMousePoints(show: boolean, origin: Vector3) {
+    this.origin = origin;
+    this.closestRayIntersect();
+
+    const camera = this.controlsManager.getMainCamera();
+    const scene = this.sceneManager.getScene();
+    const raycaster = new Raycaster();
+    const mousePosition = new Vector2();
+
+    if (this.show3DPointsCallback == null) {
+      this.show3DPointsCallback = (event) => {
         mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
         mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
         raycaster.setFromCamera(mousePosition, camera);
@@ -326,15 +350,19 @@ export class ThreeManager {
             }
           }
         }
-
         if (mainIntersect != null) {
-          const coordinates = mainIntersect.point;
+          const initialCoord = mainIntersect.point;
+          console.log(initialCoord);
+          console.log(this.origin);
+          const finalCoord = new Vector3();
+          finalCoord.subVectors(initialCoord, this.origin);
+          console.log(finalCoord);
           const app = document.getElementsByTagName('app-root')[0];
           const p = document.createElement('p');
           p.id = '3dcoordinates';
-          p.textContent = `${Math.round(coordinates.x)}, ${Math.round(
-            coordinates.y
-          )}, ${Math.round(coordinates.z)} (${mainIntersect.object.name})`;
+          p.textContent = `${Math.round(finalCoord.x)}, ${Math.round(
+            finalCoord.y
+          )}, ${Math.round(finalCoord.z)} (${mainIntersect.object.name})`;
           p.style.color = 'white';
           p.style.position = 'absolute';
           p.style.top = event.clientY + 'px';
@@ -348,9 +376,61 @@ export class ThreeManager {
     }
 
     if (show) {
-      window.addEventListener('click', this.eventListenerCallback);
+      window.addEventListener('click', this.show3DPointsCallback);
     } else {
-      window.removeEventListener('click', this.eventListenerCallback);
+      window.removeEventListener('click', this.show3DPointsCallback);
+    }
+  }
+
+  /**
+   * Returns the closest ray Intersect
+   */
+  public shiftCartesianGrid(checked: boolean) {
+    this.closestRayIntersect();
+
+    const camera = this.controlsManager.getMainCamera();
+    const scene = this.sceneManager.getScene();
+    const raycaster = new Raycaster();
+    const mousePosition = new Vector2();
+
+    if (this.shiftCartesianGridCallback == null) {
+      this.shiftCartesianGridCallback = (event) => {
+        mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mousePosition, camera);
+        const intersects = raycaster.intersectObjects(scene.children);
+
+        let mainIntersect = null;
+        if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
+          mainIntersect = intersects[0];
+        } else {
+          for (const intersect of intersects) {
+            if (this.isEventData(intersect)) {
+              mainIntersect = intersect;
+              break;
+            } else if (this.isVisible(intersect)) {
+              mainIntersect = intersect;
+              break;
+            } else if (intersect.object.name == 'gridline') {
+              mainIntersect = intersect;
+              break;
+            }
+          }
+        }
+        if (mainIntersect != null) {
+          console.log('emission hapeninggggggggg');
+          this.mainIntersectChanged.emit(mainIntersect.point);
+        }
+        window.removeEventListener('click', this.shiftCartesianGridCallback);
+      };
+    }
+
+    if (checked) {
+      window.addEventListener('click', this.shiftCartesianGridCallback);
+      console.log('event listener addeed');
+    } else {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      console.log('event list removeerd');
     }
   }
 

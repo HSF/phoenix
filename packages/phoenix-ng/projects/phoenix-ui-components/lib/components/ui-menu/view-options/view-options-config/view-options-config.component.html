@@ -1,0 +1,42 @@
+<div class="item-config-single">
+	<div class="item-config-group">
+		<label class="item-config-label" for="xPos">x : </label>
+		<input 
+			type="number" 
+			placeholder="Origin X" 
+			value="0" 
+			class="form-control" 
+			name="xPos" 
+			id="xPos" 
+			#xPos
+		>
+	</div>
+
+	<div class="item-config-group">
+		<label class="item-config-label" for="yPos">y : </label>
+		<input 
+			type="number" 
+			placeholder="Origin Y" 
+			value="0" 
+			class="form-control" 
+			name="yPos" 
+			id="yPos" 
+			#yPos
+		>
+	</div>
+
+	<div class="item-config-group">
+		<label class="item-config-label" for="zPos">z : </label>
+		<input 
+			type="number" 
+			placeholder="Origin Z" 
+			value="0" 
+			class="form-control" 
+			name="zPos" 
+			id="zPos" 
+			#zPos
+		>
+	</div>
+
+	<button mat-stroked-button (click)="onSave(xPos.value, yPos.value, zPos.value)">Save</button>
+</div>
