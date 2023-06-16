@@ -274,7 +274,7 @@ export class ImportManager {
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
               const mesh = new Mesh(
-                BufferGeometryUtils.mergeBufferGeometries((val as any).geoms),
+                BufferGeometryUtils.mergeGeometries((val as any).geoms),
                 (val as any).material
               );
               mesh.renderOrder = (val as any).renderOrder;
