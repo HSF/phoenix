@@ -1,6 +1,7 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from 'projects/phoenix-ui-components/lib/services/event-display.service';
+import { Subscription } from 'rxjs';
 import { Vector3 } from 'three';
 
 @Component({
@@ -8,7 +9,7 @@ import { Vector3 } from 'three';
   templateUrl: './cartesian-grid.component.html',
   styleUrls: ['./cartesian-grid.component.scss'],
 })
-export class CartesianGridComponent {
+export class CartesianGridComponent implements OnDestroy {
   showCartesianGrid: boolean = false;
   showXY: boolean = true;
   showYZ: boolean = true;
@@ -18,6 +19,8 @@ export class CartesianGridComponent {
   zDistance: number = 0;
   sparsity: number = 1;
   cartesianPos = new Vector3(0, 0, 0);
+
+  mainIntersectSubscription: Subscription = null;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -65,7 +68,7 @@ export class CartesianGridComponent {
     this.eventDisplay
       .getUIManager()
       .shiftCartesianGridByPointer(change.checked);
-    this.eventDisplay
+    this.mainIntersectSubscription = this.eventDisplay
       .getThreeManager()
       .mainIntersectChanged.subscribe((intersect) => {
         this.translateGrid(intersect);
@@ -73,7 +76,6 @@ export class CartesianGridComponent {
   }
 
   shiftCartesianGridByValues(position: Vector3) {
-    console.log('oops');
     this.translateGrid(position);
     this.eventDisplay.getThreeManager().mainIntersectChangedEmit(position);
   }
@@ -83,20 +85,15 @@ export class CartesianGridComponent {
     const initialPos = this.cartesianPos;
     const difference = new Vector3();
     difference.subVectors(finalPos, initialPos);
+    this.eventDisplay.getUIManager().translateCartesianGrid(difference.clone());
     this.eventDisplay
       .getUIManager()
-      .setShowCartesianGrid(
-        this.showCartesianGrid,
-        this.showXY,
-        this.showYZ,
-        this.showZX,
-        this.xDistance,
-        this.yDistance,
-        this.zDistance,
-        this.sparsity,
-        difference
-      );
+      .translateCartesianLabels(difference.clone());
     this.cartesianPos = finalPos;
+  }
+
+  showLabels(change: MatCheckboxChange) {
+    this.eventDisplay.getUIManager().showLabels(change.checked);
   }
 
   callSetShowCartesianGrid() {
@@ -112,5 +109,10 @@ export class CartesianGridComponent {
         this.zDistance,
         this.sparsity
       );
+  }
+
+  ngOnDestroy(): void {
+    if (this.mainIntersectSubscription != null)
+      this.mainIntersectSubscription.unsubscribe();
   }
 }

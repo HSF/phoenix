@@ -22,6 +22,20 @@
       mat-menu-item
       (click)="
         $event.stopPropagation();
+        shiftCartesianGridCheckbox._inputElement.nativeElement.click();
+      "
+    >
+      <mat-checkbox
+        #shiftCartesianGridCheckbox
+        (click)="$event.stopPropagation()"
+        (change)="shiftCartesianGridByPointer($event)"
+        >Shift Cartesian Grid
+      </mat-checkbox>
+    </button>
+    <button
+      mat-menu-item
+      (click)="
+        $event.stopPropagation();
         showXYPlanesCheckbox._inputElement.nativeElement.click()
       "
     >
@@ -99,15 +113,14 @@
     <button
       mat-menu-item
       (click)="
-        $event.stopPropagation();
-        shiftCartesianGridCheckbox._inputElement.nativeElement.click();
+        showLabelsCheckbox._inputElement.nativeElement.click();
       "
     >
       <mat-checkbox
-        #shiftCartesianGridCheckbox
+        #showLabelsCheckbox
         (click)="$event.stopPropagation()"
-        (change)="shiftCartesianGridByPointer($event)"
-        >Shift Cartesian Grid
+        (change)="showLabels($event)"
+        >Show Labels
       </mat-checkbox>
     </button>
     <button class="slider-btn" mat-menu-item (focus)="sparsitySlider.focus()">

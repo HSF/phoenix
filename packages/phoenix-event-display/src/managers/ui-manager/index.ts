@@ -401,37 +401,41 @@ export class UIManager {
     xDistance: number,
     yDistance: number,
     zDistance: number,
-    sparsity: number,
-    translate?: Vector3
+    sparsity: number
   ) {
-    if (typeof translate === 'undefined') {
-      this.three
-        .getSceneManager()
-        .setCartesianGrid(
-          show,
-          showXY,
-          showYZ,
-          showZX,
-          xDistance,
-          yDistance,
-          zDistance,
-          sparsity
-        );
-    } else {
-      this.three
-        .getSceneManager()
-        .setCartesianGrid(
-          show,
-          showXY,
-          showYZ,
-          showZX,
-          xDistance,
-          yDistance,
-          zDistance,
-          sparsity,
-          translate
-        );
-    }
+    this.three
+      .getSceneManager()
+      .setCartesianGrid(
+        show,
+        showXY,
+        showYZ,
+        showZX,
+        xDistance,
+        yDistance,
+        zDistance,
+        sparsity
+      );
+  }
+
+  /**
+   * Show labels on cartesian grid
+   */
+  public showLabels(visible: boolean) {
+    this.three.getSceneManager().showLabels(visible);
+  }
+
+  /**
+   * Translate the cartesian grid
+   */
+  public translateCartesianGrid(translate: Vector3) {
+    this.three.getSceneManager().translateCartesianGrid(translate);
+  }
+
+  /**
+   * Translate the cartesian labels
+   */
+  public translateCartesianLabels(translate: Vector3) {
+    this.three.getSceneManager().translateCartesianLabels(translate);
   }
 
   /**

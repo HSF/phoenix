@@ -308,7 +308,6 @@ export class ThreeManager {
    * Emit mainintersectChanged emitter
    */
   public mainIntersectChangedEmit(origin: Vector3) {
-    console.log('entered');
     this.origin = origin;
     this.mainIntersectChanged.emit(origin);
   }
@@ -335,16 +334,27 @@ export class ThreeManager {
 
         let mainIntersect = null;
         if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
-          mainIntersect = intersects[0];
+          for (const intersect of intersects) {
+            if (
+              intersect.object.name == 'gridline' ||
+              intersect.object.name == 'XYZ Labels'
+            ) {
+              continue;
+            } else {
+              mainIntersect = intersect;
+            }
+          }
         } else {
           for (const intersect of intersects) {
-            if (this.isEventData(intersect)) {
+            if (
+              intersect.object.name == 'gridline' ||
+              intersect.object.name == 'XYZ Labels'
+            ) {
+              continue;
+            } else if (this.isEventData(intersect)) {
               mainIntersect = intersect;
               break;
             } else if (this.isVisible(intersect)) {
-              mainIntersect = intersect;
-              break;
-            } else if (intersect.object.name == 'gridline') {
               mainIntersect = intersect;
               break;
             }
@@ -352,17 +362,17 @@ export class ThreeManager {
         }
         if (mainIntersect != null) {
           const initialCoord = mainIntersect.point;
-          console.log(initialCoord);
-          console.log(this.origin);
           const finalCoord = new Vector3();
           finalCoord.subVectors(initialCoord, this.origin);
-          console.log(finalCoord);
           const app = document.getElementsByTagName('app-root')[0];
           const p = document.createElement('p');
           p.id = '3dcoordinates';
-          p.textContent = `${Math.round(finalCoord.x)}, ${Math.round(
+          p.textContent = `x: ${Math.round(finalCoord.x)}\r\ny: ${Math.round(
             finalCoord.y
-          )}, ${Math.round(finalCoord.z)} (${mainIntersect.object.name})`;
+          )}\r\nz: ${Math.round(finalCoord.z)}\r\n(${
+            mainIntersect.object.name
+          })`;
+          p.style.whiteSpace = 'pre';
           p.style.color = 'white';
           p.style.position = 'absolute';
           p.style.top = event.clientY + 'px';
@@ -418,7 +428,6 @@ export class ThreeManager {
           }
         }
         if (mainIntersect != null) {
-          console.log('emission hapeninggggggggg');
           this.mainIntersectChanged.emit(mainIntersect.point);
         }
         window.removeEventListener('click', this.shiftCartesianGridCallback);
@@ -427,10 +436,8 @@ export class ThreeManager {
 
     if (checked) {
       window.addEventListener('click', this.shiftCartesianGridCallback);
-      console.log('event listener addeed');
     } else {
       window.removeEventListener('click', this.shiftCartesianGridCallback);
-      console.log('event list removeerd');
     }
   }
 

@@ -16,6 +16,7 @@ import {
   Camera,
   BufferGeometry,
   Quaternion,
+  ArrowHelper,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
@@ -40,13 +41,15 @@ export class SceneManager {
   /** List of objects to ignore for getting a clean scene. */
   private ignoreList: string[];
   /** An axes helper for visualizing the x, y and z-axis. */
-  private axis: AxesHelper;
+  private axis: Object3D;
   /** Labels for the x, y and z-axis. */
   private axisLabels: Object3D;
   /** Eta/phi grid */
   private etaPhiGrid: Object3D;
   /** Cartesian grid */
   private cartesianGrid: Object3D;
+  /** Cartesian grid labels */
+  private cartesianLabels: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
@@ -361,7 +364,35 @@ export class SceneManager {
     labels: boolean = true
   ) {
     if (this.axis == null) {
-      this.axis = new AxesHelper(scale);
+      this.axis = new Group();
+
+      const xColor = new Color(0xd63333);
+      const yColor = new Color(0x33d633);
+      const zColor = new Color(0x3333d6);
+      const xMaterial = new LineBasicMaterial({ color: xColor });
+      const yMaterial = new LineBasicMaterial({ color: yColor });
+      const zMaterial = new LineBasicMaterial({ color: zColor });
+
+      // X axis
+      let points = [new Vector3(-scale, 0, 0), new Vector3(scale, 0, 0)];
+      let geometry = new BufferGeometry().setFromPoints(points);
+      const xAxis = new LineSegments(geometry, xMaterial);
+      this.axis.add(xAxis);
+
+      // Y axis
+      points = [new Vector3(0, -scale, 0), new Vector3(0, scale, 0)];
+      geometry = new BufferGeometry().setFromPoints(points);
+      const yAxis = new LineSegments(geometry, yMaterial);
+      this.axis.add(yAxis);
+
+      // Z axis
+      points = [new Vector3(0, 0, -scale), new Vector3(0, 0, scale)];
+      geometry = new BufferGeometry().setFromPoints(points);
+      const zAxis = new LineSegments(geometry, zMaterial);
+      this.axis.add(zAxis);
+
+      this.axis.name = 'gridline';
+      this.axis.traverse((child) => (child.name = 'gridline'));
       this.scene.add(this.axis);
     }
     this.axis.visible = visible;
@@ -379,6 +410,9 @@ export class SceneManager {
       this.axisLabels.children[0].position.set(scale + 20, 0, 0);
       this.axisLabels.children[1].position.set(0, scale + 20, 0);
       this.axisLabels.children[2].position.set(0, 0, scale + 20);
+
+      this.axisLabels.name = 'XYZ Labels';
+      this.axisLabels.traverse((child) => (child.name = 'XYZ Labels'));
 
       this.scene.add(this.axisLabels);
     }
@@ -527,24 +561,9 @@ export class SceneManager {
   }
 
   /**
-   * Sets scene cartesian grid visibility.
-   * @param visible If the axes will be visible (true) or hidden (false).
-   * @param scale Set the scale of the axes.
+   * Creates the cartesian grid if doesn't exist already
    */
-  public setCartesianGrid(
-    visible: boolean,
-    showXY: boolean,
-    showYZ: boolean,
-    showZX: boolean,
-    xDistance: number,
-    yDistance: number,
-    zDistance: number,
-    sparsity: number = 1,
-    translate?: Vector3,
-    scale: number = 3000
-  ) {
-    const length = scale;
-
+  private createCartesianGrid(scale: number = 3000) {
     if (this.cartesianGrid == null) {
       this.cartesianGrid = new Group();
 
@@ -573,30 +592,28 @@ export class SceneManager {
 
       // xy plane
       let xyPlane = new Group();
-      for (let z = -length; z <= length; z += 0.1 * length) {
+      for (let z = -scale; z <= scale; z += 0.1 * scale) {
         xyPlane = new Group();
 
         let points = [];
-        for (let y = -length; y <= length; y += 0.1 * length) {
-          points.push(new Vector3(-length, y, z));
-          points.push(new Vector3(length, y, z));
+        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+          points.push(new Vector3(-scale, y, z));
+          points.push(new Vector3(scale, y, z));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = xMaterial;
         let lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         xyPlane.add(lines);
 
         points = [];
-        for (let x = -length; x <= length; x += 0.1 * length) {
-          points.push(new Vector3(x, -length, z));
-          points.push(new Vector3(x, length, z));
+        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+          points.push(new Vector3(x, -scale, z));
+          points.push(new Vector3(x, scale, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
         material = yMaterial;
         lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         xyPlane.add(lines);
         this.cartesianGrid.add(xyPlane);
@@ -604,30 +621,28 @@ export class SceneManager {
 
       // YZ plane
       let yzPlane = new Group();
-      for (let x = -length; x <= length; x += 0.1 * length) {
+      for (let x = -scale; x <= scale; x += 0.1 * scale) {
         yzPlane = new Group();
 
         let points = [];
-        for (let y = -length; y <= length; y += 0.1 * length) {
-          points.push(new Vector3(x, y, -length));
-          points.push(new Vector3(x, y, length));
+        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+          points.push(new Vector3(x, y, -scale));
+          points.push(new Vector3(x, y, scale));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = zMaterial;
         let lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         yzPlane.add(lines);
 
         points = [];
-        for (let z = -length; z <= length; z += 0.1 * length) {
-          points.push(new Vector3(x, -length, z));
-          points.push(new Vector3(x, length, z));
+        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+          points.push(new Vector3(x, -scale, z));
+          points.push(new Vector3(x, scale, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
         material = yMaterial;
         lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         yzPlane.add(lines);
         this.cartesianGrid.add(yzPlane);
@@ -635,73 +650,157 @@ export class SceneManager {
 
       // ZX plane
       let zxPlane = new Group();
-      for (let y = -length; y <= length; y += 0.1 * length) {
+      for (let y = -scale; y <= scale; y += 0.1 * scale) {
         zxPlane = new Group();
 
         let points = [];
-        for (let x = -length; x <= length; x += 0.1 * length) {
-          points.push(new Vector3(x, y, -length));
-          points.push(new Vector3(x, y, length));
+        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+          points.push(new Vector3(x, y, -scale));
+          points.push(new Vector3(x, y, scale));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
         let material = zMaterial;
         let lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         zxPlane.add(lines);
 
         points = [];
-        for (let z = -length; z <= length; z += 0.1 * length) {
-          points.push(new Vector3(-length, y, z));
-          points.push(new Vector3(length, y, z));
+        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+          points.push(new Vector3(-scale, y, z));
+          points.push(new Vector3(scale, y, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
         material = xMaterial;
         lines = new LineSegments(geometry, material);
-        lines.name = 'gridline';
         lines.computeLineDistances();
         zxPlane.add(lines);
         this.cartesianGrid.add(zxPlane);
       }
 
+      this.cartesianGrid.name = 'gridline';
+      this.cartesianGrid.traverse((child) => (child.name = 'gridline'));
+      this.cartesianGrid.children.forEach((child) => (child.visible = false));
       this.scene.add(this.cartesianGrid);
     }
+  }
 
-    if (typeof translate === 'undefined') {
-      for (let i = 0; i <= 62; i += 1) {
-        this.cartesianGrid.children[i].visible = false;
-      }
+  /**
+   * Sets scene cartesian grid visibility.
+   * @param visible If the axes will be visible (true) or hidden (false).
+   * @param scale Set the scale of the axes.
+   */
+  public setCartesianGrid(
+    visible: boolean,
+    showXY: boolean,
+    showYZ: boolean,
+    showZX: boolean,
+    xDistance: number,
+    yDistance: number,
+    zDistance: number,
+    sparsity: number = 1,
+    scale: number = 3000
+  ) {
+    this.createCartesianGrid(scale);
+    for (let i = 0; i <= 62; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
 
-      const childPoints = [10, 31, 52];
-      const distances = [zDistance, xDistance, yDistance];
-      const visiblePlanes = [showXY, showYZ, showZX];
+    const childPoints = [10, 31, 52];
+    const distances = [zDistance, xDistance, yDistance];
+    const visiblePlanes = [showXY, showYZ, showZX];
 
-      if (visible) {
-        for (let i = 0; i < 3; i += 1) {
-          if (visiblePlanes[i]) {
-            for (
-              let j = childPoints[i];
-              j >= childPoints[i] - (distances[i] * 10) / length;
-              j -= sparsity
-            ) {
-              this.cartesianGrid.children[j].visible = visible;
-            }
+    if (visible) {
+      for (let i = 0; i < 3; i += 1) {
+        if (visiblePlanes[i]) {
+          for (
+            let j = childPoints[i];
+            j >= childPoints[i] - (distances[i] * 10) / scale;
+            j -= sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
+          }
 
-            for (
-              let j = childPoints[i];
-              j <= childPoints[i] + (distances[i] * 10) / length;
-              j += sparsity
-            ) {
-              this.cartesianGrid.children[j].visible = visible;
-            }
+          for (
+            let j = childPoints[i];
+            j <= childPoints[i] + (distances[i] * 10) / scale;
+            j += sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
           }
         }
       }
-    } else {
-      const distance = translate.length();
-      const unitVector = translate.normalize();
-      this.cartesianGrid.translateOnAxis(unitVector, distance);
     }
+  }
+
+  private createCartesianLabels(scale: number = 3000) {
+    if (this.cartesianLabels == null) {
+      this.cartesianLabels = new Group();
+      this.cartesianLabels.name = 'XYZ Labels';
+
+      const xColor = new Color(0xd63333);
+      const yColor = new Color(0x33d633);
+      const zColor = new Color(0x3333d6);
+
+      // X Labels
+      for (let x = -scale; x <= scale; x += 0.1 * scale) {
+        const text = this.getText(x.toString(), xColor);
+        text.position.set(x - 70, 0, 0);
+        this.cartesianLabels.add(text);
+      }
+
+      // Y Labels
+      for (let y = -scale; y <= scale; y += 0.1 * scale) {
+        const text = this.getText(y.toString(), yColor);
+        text.position.set(-70, y, 0);
+        this.cartesianLabels.add(text);
+      }
+
+      // Z Labels
+      for (let z = -scale; z <= scale; z += 0.1 * scale) {
+        const text = this.getText(z.toString(), zColor);
+        text.position.set(-70, 0, z);
+        this.cartesianLabels.add(text);
+      }
+
+      this.cartesianLabels.traverse((child) => (child.name = 'XYZ Labels'));
+      this.scene.add(this.cartesianLabels);
+      this.cartesianLabels.children.forEach((child) => (child.visible = false));
+
+      this.setAxis(false, 3000);
+    }
+  }
+
+  /**
+   * Show labels of the cartesian grid.
+   */
+  public showLabels(visible: boolean) {
+    this.createCartesianLabels();
+    this.setAxis(visible, 3000);
+    this.cartesianLabels.children.forEach((child) => (child.visible = visible));
+  }
+
+  /**
+   * Translate the cartesianGrid
+   */
+  public translateCartesianGrid(translate: Vector3) {
+    this.createCartesianGrid();
+
+    const distance = translate.length();
+    const unitVector = translate.normalize();
+    this.cartesianGrid.translateOnAxis(unitVector, distance);
+  }
+
+  /**
+   * Translate Cartesian labels
+   */
+  public translateCartesianLabels(translate: Vector3) {
+    this.createCartesianLabels();
+
+    const distance = translate.length();
+    const unitVector = translate.normalize();
+    this.cartesianLabels.translateOnAxis(unitVector, distance);
+    this.axis.translateOnAxis(unitVector, distance);
+    this.axisLabels.translateOnAxis(unitVector, distance);
   }
 
   /**
@@ -777,6 +876,9 @@ export class SceneManager {
       // Add to group and scene
       this.etaPhiGrid.add(etaLines);
       this.etaPhiGrid.add(phiLines);
+
+      this.etaPhiGrid.name = 'gridline';
+      this.etaPhiGrid.traverse((child) => (child.name = 'gridline'));
       this.scene.add(this.etaPhiGrid);
 
       // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
