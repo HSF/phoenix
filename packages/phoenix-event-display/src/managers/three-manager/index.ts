@@ -89,10 +89,12 @@ export class ThreeManager {
   private isEventData: (elem: Intersection<Object3D<Event>>) => boolean;
   /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
   private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
-  /** Callback function for the 'click' event listener to show 3D coordinates of the clicked point */
+  /** 'click' event listener callback to show 3D coordinates of the clicked point */
   private show3DPointsCallback: (event: MouseEvent) => void;
-  /** Callback function for the click event listener to shift the cartesian grid at the clicked point */
+  /** 'click' event listener callback to shift the cartesian grid at the clicked point */
   private shiftCartesianGridCallback: (event: MouseEvent) => void;
+  /** 'click' event listener callback to show 3D distance between two clicked points */
+  private show3DDistanceCallback: (event: MouseEvent) => void;
   /** Origin of the cartesian grid w.r.t. world origin */
   private origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */
@@ -105,6 +107,16 @@ export class ThreeManager {
   private clipPlanes: Plane[];
   /** Status of clipping intersection. */
   private clipIntersection: boolean;
+  /** Store the 3D coordinates of first point to find 3D Distance */
+  private prev3DCoord: Vector3 = null;
+  /** Store the 2D coordinates of first point to find 3D Distance */
+  private prev2DCoord: Vector2;
+  /** Store the name of the object of first intersect while finding 3D Distance */
+  private prevIntersectName: string = null;
+  /** Canvas used for rendering the distance line */
+  private distanceCanvas: HTMLCanvasElement = null;
+  /** Mousemove callback to draw dynamic distance line */
+  private mousemoveCallback: (MouseEvent) => void;
   /** Subject emitting that a new 3D coordinate has been clicked upon */
   mainIntersectChanged = new EventEmitter<Vector3>();
 
@@ -258,9 +270,9 @@ export class ThreeManager {
   }
 
   /**
-   * Helper function to find closest ray intersect
+   * Helper function to filter out invalid ray intersect
    */
-  private closestRayIntersect() {
+  private filterRayIntersect() {
     if (this.stateManager == null) {
       this.stateManager = new StateManager();
     }
@@ -313,53 +325,62 @@ export class ThreeManager {
   }
 
   /**
-   * Show 3D coordinates where the mouse pointer clicks
-   * @param show If the coordinates are to be shown or not.
+   * Returns the mainIntersect upon clicking a point
    */
-  public show3DMousePoints(show: boolean, origin: Vector3) {
-    this.origin = origin;
-    this.closestRayIntersect();
-
+  private getMainIntersect(event): Intersection<Object3D<Event>> {
     const camera = this.controlsManager.getMainCamera();
     const scene = this.sceneManager.getScene();
     const raycaster = new Raycaster();
     const mousePosition = new Vector2();
 
+    mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mousePosition, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+
+    let mainIntersect = null;
+    if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
+      for (const intersect of intersects) {
+        if (
+          intersect.object.name == 'gridline' ||
+          intersect.object.name == 'XYZ Labels'
+        ) {
+          continue;
+        } else {
+          mainIntersect = intersect;
+          break;
+        }
+      }
+    } else {
+      for (const intersect of intersects) {
+        if (
+          intersect.object.name == 'gridline' ||
+          intersect.object.name == 'XYZ Labels'
+        ) {
+          continue;
+        } else if (this.isEventData(intersect)) {
+          mainIntersect = intersect;
+          break;
+        } else if (this.isVisible(intersect)) {
+          mainIntersect = intersect;
+          break;
+        }
+      }
+    }
+    return mainIntersect;
+  }
+
+  /**
+   * Show 3D coordinates where the mouse pointer clicks
+   * @param show If the coordinates are to be shown or not.
+   */
+  public show3DMousePoints(show: boolean, origin: Vector3) {
+    this.origin = origin;
+    this.filterRayIntersect();
+
     if (this.show3DPointsCallback == null) {
       this.show3DPointsCallback = (event) => {
-        mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mousePosition, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        let mainIntersect = null;
-        if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
-          for (const intersect of intersects) {
-            if (
-              intersect.object.name == 'gridline' ||
-              intersect.object.name == 'XYZ Labels'
-            ) {
-              continue;
-            } else {
-              mainIntersect = intersect;
-            }
-          }
-        } else {
-          for (const intersect of intersects) {
-            if (
-              intersect.object.name == 'gridline' ||
-              intersect.object.name == 'XYZ Labels'
-            ) {
-              continue;
-            } else if (this.isEventData(intersect)) {
-              mainIntersect = intersect;
-              break;
-            } else if (this.isVisible(intersect)) {
-              mainIntersect = intersect;
-              break;
-            }
-          }
-        }
+        const mainIntersect = this.getMainIntersect(event);
         if (mainIntersect != null) {
           const initialCoord = mainIntersect.point;
           const finalCoord = new Vector3();
@@ -393,40 +414,130 @@ export class ThreeManager {
   }
 
   /**
-   * Returns the closest ray Intersect
+   * Show 3D Distance between any two clicked points
+   */
+  public show3DDistance(show: boolean) {
+    this.prev3DCoord = null;
+    this.prev2DCoord = null;
+    this.prevIntersectName = null;
+    this.filterRayIntersect();
+
+    if (this.show3DDistanceCallback == null) {
+      this.mousemoveCallback = this.drawLine.bind(this);
+      this.show3DDistanceCallback = (event) => {
+        const mainIntersect = this.getMainIntersect(event);
+        if (mainIntersect != null) {
+          if (this.prev3DCoord == null) {
+            this.prev3DCoord = mainIntersect.point;
+            this.prev2DCoord = new Vector2(event.clientX, event.clientY);
+            this.prevIntersectName = mainIntersect.object.name;
+
+            // add a new canvas to add distance
+            const app = document.getElementsByTagName('app-root')[0];
+            if (this.distanceCanvas == null) {
+              this.distanceCanvas = document.createElement('canvas');
+              this.distanceCanvas.id = '3Ddistance';
+              this.distanceCanvas.width = window.innerWidth;
+              this.distanceCanvas.height = window.innerHeight;
+              this.distanceCanvas.style.position = 'absolute';
+              this.distanceCanvas.style.bottom = '0';
+            }
+            app?.appendChild(this.distanceCanvas);
+
+            window.addEventListener('mousemove', this.mousemoveCallback);
+          } else {
+            window.removeEventListener('mousemove', this.mousemoveCallback);
+            const distance = mainIntersect.point.distanceTo(this.prev3DCoord);
+
+            // draw distance line
+            this.drawLine(event);
+
+            // render the distance and the names of initial and final intersect
+            const ctx = this.distanceCanvas.getContext('2d');
+            ctx.fillText(
+              this.prevIntersectName,
+              this.prev2DCoord.x,
+              this.prev2DCoord.y
+            );
+            ctx.fillText(
+              mainIntersect.object.name,
+              event.clientX,
+              event.clientY
+            );
+            ctx.fillText(
+              distance.toFixed(2).toString(),
+              (this.prev2DCoord.x + event.clientX) / 2,
+              (this.prev2DCoord.y + event.clientY) / 2
+            );
+
+            // remove the canvas after some time
+            setTimeout(() => {
+              if (document.getElementById('3Ddistance') != null) {
+                document.getElementById('3Ddistance').remove();
+              }
+              this.distanceCanvas
+                .getContext('2d')
+                .clearRect(
+                  0,
+                  0,
+                  this.distanceCanvas.width,
+                  this.distanceCanvas.height
+                );
+            }, 3000);
+
+            // reset the parameters for the next pair of clicked points
+            this.prev3DCoord = null;
+            this.prev2DCoord = null;
+            this.prevIntersectName = null;
+          }
+        }
+      };
+    }
+
+    if (show) {
+      window.addEventListener('click', this.show3DDistanceCallback);
+    } else {
+      window.removeEventListener('click', this.show3DDistanceCallback);
+      window.removeEventListener('mousemove', this.mousemoveCallback);
+      if (document.getElementById('3Ddistance') != null) {
+        document.getElementById('3Ddistance').remove();
+      }
+      if (this.distanceCanvas != null) {
+        this.distanceCanvas
+          .getContext('2d')
+          .clearRect(
+            0,
+            0,
+            this.distanceCanvas.width,
+            this.distanceCanvas.height
+          );
+      }
+    }
+  }
+
+  /**
+   * function to dynamically draw the distance line from the prev2DCoord
+   */
+  private drawLine(finalPoint: MouseEvent) {
+    const ctx = this.distanceCanvas.getContext('2d');
+    ctx.clearRect(0, 0, this.distanceCanvas.width, this.distanceCanvas.height);
+    ctx.beginPath();
+    ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
+    ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  /**
+   * Shifts the cartesian grid at a clicked point
    */
   public shiftCartesianGrid(checked: boolean) {
-    this.closestRayIntersect();
-
-    const camera = this.controlsManager.getMainCamera();
-    const scene = this.sceneManager.getScene();
-    const raycaster = new Raycaster();
-    const mousePosition = new Vector2();
+    this.filterRayIntersect();
 
     if (this.shiftCartesianGridCallback == null) {
       this.shiftCartesianGridCallback = (event) => {
-        mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        raycaster.setFromCamera(mousePosition, camera);
-        const intersects = raycaster.intersectObjects(scene.children);
-
-        let mainIntersect = null;
-        if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
-          mainIntersect = intersects[0];
-        } else {
-          for (const intersect of intersects) {
-            if (this.isEventData(intersect)) {
-              mainIntersect = intersect;
-              break;
-            } else if (this.isVisible(intersect)) {
-              mainIntersect = intersect;
-              break;
-            } else if (intersect.object.name == 'gridline') {
-              mainIntersect = intersect;
-              break;
-            }
-          }
-        }
+        const mainIntersect = this.getMainIntersect(event);
         if (mainIntersect != null) {
           this.mainIntersectChanged.emit(mainIntersect.point);
         }

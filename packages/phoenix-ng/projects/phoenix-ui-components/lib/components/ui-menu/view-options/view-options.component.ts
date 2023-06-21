@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PresetView } from 'phoenix-event-display';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -9,16 +10,17 @@ import { Vector3 } from 'three';
   templateUrl: './view-options.component.html',
   styleUrls: ['./view-options.component.scss'],
 })
-export class ViewOptionsComponent implements OnInit {
+export class ViewOptionsComponent implements OnInit, OnDestroy {
   views: PresetView[];
   show3DPoints: boolean;
   origin: Vector3 = new Vector3(0, 0, 0);
+  sub: Subscription;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit(): void {
     this.views = this.eventDisplay.getUIManager().getPresetViews();
-    this.eventDisplay
+    this.sub = this.eventDisplay
       .getThreeManager()
       .mainIntersectChanged.subscribe((intersect) => {
         this.origin = intersect;
@@ -45,5 +47,9 @@ export class ViewOptionsComponent implements OnInit {
     this.eventDisplay
       .getUIManager()
       .show3DMousePoints(this.show3DPoints, this.origin);
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }

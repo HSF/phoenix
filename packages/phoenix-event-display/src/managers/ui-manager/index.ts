@@ -455,6 +455,13 @@ export class UIManager {
   }
 
   /**
+   * Show 3D Distance between two clicked points
+   */
+  public show3DDistance(show: boolean) {
+    this.three.show3DDistance(show);
+  }
+
+  /**
    * Shift cartesian grid by a mouse click
    */
   public shiftCartesianGridByPointer(change: boolean) {
