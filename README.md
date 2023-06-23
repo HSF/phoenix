@@ -45,6 +45,11 @@ Once you have Node.js and npm (npm comes with Node.js), install yarn.
 npm install --global yarn
 ```
 
+> You might need to set your yarn version to Yarn 2 and beyond with
+> ```
+> yarn set version berry
+> ```
+
 Then run the following commands.
 
 ```sh
