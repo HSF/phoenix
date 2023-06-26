@@ -37,13 +37,18 @@ You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](ht
 
 ## Development
 
-For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and yarn.
+For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and Yarn.
 
-Once you have Node.js and npm (npm comes with Node.js), install yarn.
+Once you have Node.js and npm (npm comes with Node.js), install Yarn.
 
 ```sh
 npm install --global yarn
 ```
+
+> You might need to set your Yarn version to Yarn 2 and beyond with
+> ```
+> yarn set version berry
+> ```
 
 Then run the following commands.
 
