@@ -22,7 +22,7 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
     this.views = this.eventDisplay.getUIManager().getPresetViews();
     this.sub = this.eventDisplay
       .getThreeManager()
-      .mainIntersectChanged.subscribe((intersect) => {
+      .originChanged.subscribe((intersect) => {
         this.origin = intersect;
       });
   }

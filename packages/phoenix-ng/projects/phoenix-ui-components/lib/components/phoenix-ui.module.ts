@@ -72,7 +72,7 @@ import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
 import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { RingLoaderComponent } from './ring-loader/ring-loader.component';
-import { ViewOptionsConfigComponent } from './ui-menu/view-options/view-options-config/view-options-config.component';
+import { CartesianGridConfigComponent } from './ui-menu/cartesian-grid/cartesian-grid-config/cartesian-grid-config.component';
 
 const PHOENIX_COMPONENTS: Type<any>[] = [
   NavComponent,
@@ -96,7 +96,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   DarkThemeComponent,
   AutoRotateComponent,
   ViewOptionsComponent,
-  ViewOptionsConfigComponent,
+  CartesianGridConfigComponent,
   OverlayViewWindowComponent,
   OverlayComponent,
   ExperimentInfoComponent,

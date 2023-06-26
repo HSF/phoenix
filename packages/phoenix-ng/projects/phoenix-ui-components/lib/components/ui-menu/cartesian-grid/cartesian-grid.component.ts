@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnDestroy } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { EventDisplayService } from 'projects/phoenix-ui-components/lib/services/event-display.service';
 import { Subscription } from 'rxjs';
 import { Vector3 } from 'three';
@@ -10,6 +11,9 @@ import { Vector3 } from 'three';
   styleUrls: ['./cartesian-grid.component.scss'],
 })
 export class CartesianGridComponent implements OnDestroy {
+  @ViewChild(MatMenuTrigger) gridOptionsTrigger: MatMenuTrigger;
+  @ViewChild(MatCheckbox) shiftCartesianGridCheckbox: MatCheckbox;
+
   showCartesianGrid: boolean = false;
   showXY: boolean = true;
   showYZ: boolean = true;
@@ -20,7 +24,8 @@ export class CartesianGridComponent implements OnDestroy {
   sparsity: number = 1;
   cartesianPos = new Vector3(0, 0, 0);
 
-  mainIntersectSubscription: Subscription = null;
+  originChangedSub: Subscription = null;
+  stopShiftingSub: Subscription = null;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -68,16 +73,25 @@ export class CartesianGridComponent implements OnDestroy {
     this.eventDisplay
       .getUIManager()
       .shiftCartesianGridByPointer(change.checked);
-    this.mainIntersectSubscription = this.eventDisplay
+    this.gridOptionsTrigger.closeMenu();
+    this.originChangedSub = this.eventDisplay
       .getThreeManager()
-      .mainIntersectChanged.subscribe((intersect) => {
+      .originChanged.subscribe((intersect) => {
         this.translateGrid(intersect);
+      });
+    this.stopShiftingSub = this.eventDisplay
+      .getThreeManager()
+      .stopShifting.subscribe((stop) => {
+        if (stop) {
+          this.originChangedSub.unsubscribe();
+          this.stopShiftingSub.unsubscribe();
+        }
       });
   }
 
   shiftCartesianGridByValues(position: Vector3) {
     this.translateGrid(position);
-    this.eventDisplay.getThreeManager().mainIntersectChangedEmit(position);
+    this.eventDisplay.getThreeManager().originChangedEmit(position);
   }
 
   private translateGrid(position: Vector3) {
@@ -112,7 +126,7 @@ export class CartesianGridComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.mainIntersectSubscription != null)
-      this.mainIntersectSubscription.unsubscribe();
+    if (this.originChangedSub != null) this.originChangedSub.unsubscribe();
+    if (this.stopShiftingSub != null) this.stopShiftingSub.unsubscribe();
   }
 }

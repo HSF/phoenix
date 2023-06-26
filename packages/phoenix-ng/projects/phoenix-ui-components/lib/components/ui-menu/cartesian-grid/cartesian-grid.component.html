@@ -13,11 +13,11 @@
       >Show Cartesian Grid
     </mat-checkbox>
   </button>
-  <app-view-options-config
+  <app-cartesian-grid-config
     (click)="$event.stopPropagation();"
     (originChanged)="shiftCartesianGridByValues($event)"
   >
-  </app-view-options-config>
+  </app-cartesian-grid-config>
   <button
     mat-menu-item
     (click)="
@@ -137,6 +137,7 @@
 </mat-menu>
 
 <app-menu-toggle
+  #gridOptionsTrigger
   [matMenuTriggerFor]="gridOptions"
   tooltip="Cartesian Grid"
   icon="views"

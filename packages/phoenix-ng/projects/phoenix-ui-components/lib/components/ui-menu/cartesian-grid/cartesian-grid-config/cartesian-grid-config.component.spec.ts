@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewOptionsConfigComponent } from './view-options-config.component';
+import { CartesianGridConfigComponent } from './cartesian-grid-config.component';
 
 describe('ViewOptionsConfigComponent', () => {
-  let component: ViewOptionsConfigComponent;
-  let fixture: ComponentFixture<ViewOptionsConfigComponent>;
+  let component: CartesianGridConfigComponent;
+  let fixture: ComponentFixture<CartesianGridConfigComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ViewOptionsConfigComponent],
+      declarations: [CartesianGridConfigComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ViewOptionsConfigComponent);
+    fixture = TestBed.createComponent(CartesianGridConfigComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

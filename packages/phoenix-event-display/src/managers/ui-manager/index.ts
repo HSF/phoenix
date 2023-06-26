@@ -363,6 +363,7 @@ export class UIManager {
     const theme = dark ? 'dark' : 'light';
     setToLocalStorage('theme', theme);
     document.documentElement.setAttribute('data-theme', theme);
+    this.three.setDarkColor(dark);
   }
 
   /**

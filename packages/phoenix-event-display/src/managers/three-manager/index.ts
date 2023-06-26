@@ -115,10 +115,14 @@ export class ThreeManager {
   private prevIntersectName: string = null;
   /** Canvas used for rendering the distance line */
   private distanceCanvas: HTMLCanvasElement = null;
+  /** Color of the text to be displayed as per dark theme */
+  private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
   private mousemoveCallback: (MouseEvent) => void;
-  /** Subject emitting that a new 3D coordinate has been clicked upon */
-  mainIntersectChanged = new EventEmitter<Vector3>();
+  /** Emitting that a new 3D coordinate has been clicked upon */
+  originChanged = new EventEmitter<Vector3>();
+  /** Emitting that shifting the grid by pointer has to be stopped */
+  stopShifting = new EventEmitter<boolean>();
 
   /**
    * Create the three manager for three.js operations.
@@ -190,6 +194,13 @@ export class ThreeManager {
     );
     // Set camera of the event display state
     new StateManager().setCamera(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Sets the color of the text displayed as per dark theme.
+   */
+  public setDarkColor(dark: boolean) {
+    this.displayColor = dark ? 'white' : 'black';
   }
 
   /**
@@ -317,11 +328,11 @@ export class ThreeManager {
   }
 
   /**
-   * Emit mainintersectChanged emitter
+   * Emit originChanged emitter
    */
-  public mainIntersectChangedEmit(origin: Vector3) {
+  public originChangedEmit(origin: Vector3) {
     this.origin = origin;
-    this.mainIntersectChanged.emit(origin);
+    this.originChanged.emit(origin);
   }
 
   /**
@@ -375,7 +386,7 @@ export class ThreeManager {
    * @param show If the coordinates are to be shown or not.
    */
   public show3DMousePoints(show: boolean, origin: Vector3) {
-    this.origin = origin;
+    // this.origin = origin;
     this.filterRayIntersect();
 
     if (this.show3DPointsCallback == null) {
@@ -385,22 +396,50 @@ export class ThreeManager {
           const initialCoord = mainIntersect.point;
           const finalCoord = new Vector3();
           finalCoord.subVectors(initialCoord, this.origin);
+
           const app = document.getElementsByTagName('app-root')[0];
+
           const p = document.createElement('p');
           p.id = '3dcoordinates';
-          p.textContent = `x: ${Math.round(finalCoord.x)}\r\ny: ${Math.round(
-            finalCoord.y
-          )}\r\nz: ${Math.round(finalCoord.z)}\r\n(${
-            mainIntersect.object.name
-          })`;
+          p.innerHTML = `${mainIntersect.object.name}:\r\n\tx: ${Math.round(
+            finalCoord.x
+          )}\r\n\ty: ${Math.round(finalCoord.y)}\r\n\tz: ${Math.round(
+            finalCoord.z
+          )}`;
           p.style.whiteSpace = 'pre';
-          p.style.color = 'white';
+          p.style.color = this.displayColor;
           p.style.position = 'absolute';
           p.style.top = event.clientY + 'px';
           p.style.left = event.clientX + 'px';
+
+          const div = document.createElement('div');
+          div.id = 'circledDot';
+          div.style.width = '1rem';
+          div.style.height = '1rem';
+          // div.style.padding = '0.1rem';
+          div.style.position = 'absolute';
+          div.style.top = `calc(${event.clientY}px - 0.5rem)`;
+          div.style.left = `calc(${event.clientX}px - 0.5rem)`;
+          div.style.border = `2px solid ${this.displayColor}`;
+          div.style.borderRadius = '0.5rem';
+          div.innerHTML = `
+            <div 
+              style = "
+                background-color: ${this.displayColor}; 
+                margin-top: calc(0.3rem - 1.5px);
+                margin-left: calc(0.3rem - 1.5px); 
+                width: 0.4rem; 
+                height: 0.4rem; 
+                border-radius: 0.5rem;
+              "
+            ></div>`;
+
           app?.appendChild(p);
+          app?.appendChild(div);
+
           setTimeout(() => {
             document.getElementById('3dcoordinates').remove();
+            document.getElementById('circledDot').remove();
           }, 1000);
         }
       };
@@ -444,6 +483,17 @@ export class ThreeManager {
             }
             app?.appendChild(this.distanceCanvas);
 
+            const ctx = this.distanceCanvas.getContext('2d');
+            ctx.strokeStyle = this.displayColor;
+            ctx.lineWidth = 2;
+            ctx.fillStyle = this.displayColor;
+            ctx.beginPath();
+            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+            ctx.fill();
+
             window.addEventListener('mousemove', this.mousemoveCallback);
           } else {
             window.removeEventListener('mousemove', this.mousemoveCallback);
@@ -451,24 +501,49 @@ export class ThreeManager {
 
             // draw distance line
             this.drawLine(event);
+            const ctx = this.distanceCanvas.getContext('2d');
+            ctx.beginPath();
+            ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
+            ctx.fill();
 
             // render the distance and the names of initial and final intersect
-            const ctx = this.distanceCanvas.getContext('2d');
-            ctx.fillText(
-              this.prevIntersectName,
-              this.prev2DCoord.x,
-              this.prev2DCoord.y
-            );
-            ctx.fillText(
-              mainIntersect.object.name,
-              event.clientX,
-              event.clientY
-            );
-            ctx.fillText(
-              distance.toFixed(2).toString(),
-              (this.prev2DCoord.x + event.clientX) / 2,
-              (this.prev2DCoord.y + event.clientY) / 2
-            );
+            ctx.font = '15px Arial';
+
+            let x1 = this.prev2DCoord.x,
+              x2 = event.clientX;
+
+            const y1 = this.prev2DCoord.y,
+              y2 = event.clientY;
+
+            const x_center = (x1 + x2) / 2,
+              y_center = (y1 + y2) / 2;
+            const d = 25;
+            const m = (x1 - x2) / (y2 - y1);
+            const delta_x = d / Math.sqrt(1 + m * m);
+            const delta_y = m * delta_x;
+            const x3 = x_center + delta_x;
+            const y3 = y_center + delta_y;
+
+            if (this.prev2DCoord.x > event.clientX) {
+              x1 = this.prev2DCoord.x + 20;
+              x2 =
+                event.clientX -
+                ctx.measureText(mainIntersect.object.name).width -
+                20;
+            } else {
+              x1 =
+                this.prev2DCoord.x -
+                ctx.measureText(this.prevIntersectName).width -
+                20;
+              x2 = event.clientX + 20;
+            }
+
+            ctx.fillText(this.prevIntersectName, x1, y1);
+            ctx.fillText(mainIntersect.object.name, x2, y2);
+            ctx.fillText(distance.toFixed(2).toString(), x3, y3);
 
             // remove the canvas after some time
             setTimeout(() => {
@@ -524,31 +599,44 @@ export class ThreeManager {
     ctx.beginPath();
     ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
     ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
     ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+    ctx.fill();
   }
 
   /**
    * Shifts the cartesian grid at a clicked point
    */
   public shiftCartesianGrid(checked: boolean) {
-    this.filterRayIntersect();
+    if (checked) {
+      this.filterRayIntersect();
+    }
 
     if (this.shiftCartesianGridCallback == null) {
       this.shiftCartesianGridCallback = (event) => {
         const mainIntersect = this.getMainIntersect(event);
         if (mainIntersect != null) {
-          this.mainIntersectChanged.emit(mainIntersect.point);
+          this.originChangedEmit(mainIntersect.point);
         }
-        window.removeEventListener('click', this.shiftCartesianGridCallback);
       };
     }
 
+    const rightClickCallback = (event) => {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      this.stopShifting.emit(true);
+      window.removeEventListener('contextmenu', rightClickCallback);
+    };
+
     if (checked) {
       window.addEventListener('click', this.shiftCartesianGridCallback);
+      window.addEventListener('contextmenu', rightClickCallback);
     } else {
       window.removeEventListener('click', this.shiftCartesianGridCallback);
+      window.removeEventListener('contextmenu', rightClickCallback);
     }
   }
 
