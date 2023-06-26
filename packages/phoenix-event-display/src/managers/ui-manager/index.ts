@@ -392,6 +392,13 @@ export class UIManager {
   /**
    * Set whether to show the cartesian or not
    * @param show If the grid is to be shown or not.
+   * @param showXY If the XY planes are to be shown.
+   * @param showYZ If the YZ planes are to be shown.
+   * @param showZX If the ZX planes are to be shown.
+   * @param xDistance The distance in x direction upto which YZ planes will be shown.
+   * @param yDistance The distance in y direction upto which ZX planes will be shown.
+   * @param zDistance The distance in z direction upto which XY planes will be shown.
+   * @param sparsity Sparsity of the gridlines.
    */
   public setShowCartesianGrid(
     show: boolean,

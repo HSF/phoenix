@@ -387,6 +387,7 @@ export class SceneManager {
 
   /**
    * Creates the cartesian grid if doesn't exist already
+   * @param scale the maximum scale (dimensions: height, width, length) of the grid
    */
   private createCartesianGrid(scale: number = 3000) {
     if (this.cartesianGrid == null) {
@@ -511,8 +512,15 @@ export class SceneManager {
 
   /**
    * Sets scene cartesian grid visibility.
-   * @param visible If the axes will be visible (true) or hidden (false).
-   * @param scale Set the scale of the axes.
+   * @param visible If the grid will be visible.
+   * @param showXY If the XY planes are to be shown.
+   * @param showYZ If the YZ planes are to be shown.
+   * @param showZX If the ZX planes are to be shown.
+   * @param xDistance The distance in x direction upto which YZ planes will be shown.
+   * @param yDistance The distance in y direction upto which ZX planes will be shown.
+   * @param zDistance The distance in z direction upto which XY planes will be shown.
+   * @param sparsity Sparsity of the gridlines.
+   * @param scale Set the scale of the grid.
    */
   public setCartesianGrid(
     visible: boolean,
