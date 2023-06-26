@@ -44,7 +44,9 @@ export class SceneManager {
   /** Labels for the x, y and z-axis. */
   private axisLabels: Object3D;
   /** Eta/phi grid */
-  private grid: Object3D;
+  private etaPhiGrid: Object3D;
+  /** Cartesian grid */
+  private cartesianGrid: Object3D;
   /** Whether to use directional light placed at the camera position. */
   private useCameraLight: boolean = true;
   /** Directional light following the camera position. */
@@ -384,6 +386,178 @@ export class SceneManager {
   }
 
   /**
+   * Creates the cartesian grid if doesn't exist already
+   */
+  private createCartesianGrid(scale: number = 3000) {
+    if (this.cartesianGrid == null) {
+      this.cartesianGrid = new Group();
+
+      const xColor = new Color(0xd63333);
+      const yColor = new Color(0x33d633);
+      const zColor = new Color(0x3333d6);
+
+      const xMaterial = new LineDashedMaterial({
+        color: xColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+      const yMaterial = new LineDashedMaterial({
+        color: yColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+      const zMaterial = new LineDashedMaterial({
+        color: zColor,
+        dashSize: 0.5,
+        gapSize: 0.1,
+        scale: 0.01,
+      });
+
+      // xy plane
+      let xyPlane = new Group();
+      for (let z = -scale; z <= scale; z += 0.1 * scale) {
+        xyPlane = new Group();
+
+        let points = [];
+        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+          points.push(new Vector3(-scale, y, z));
+          points.push(new Vector3(scale, y, z));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = xMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        xyPlane.add(lines);
+
+        points = [];
+        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+          points.push(new Vector3(x, -scale, z));
+          points.push(new Vector3(x, scale, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = yMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        xyPlane.add(lines);
+        this.cartesianGrid.add(xyPlane);
+      }
+
+      // YZ plane
+      let yzPlane = new Group();
+      for (let x = -scale; x <= scale; x += 0.1 * scale) {
+        yzPlane = new Group();
+
+        let points = [];
+        for (let y = -scale; y <= scale; y += 0.1 * scale) {
+          points.push(new Vector3(x, y, -scale));
+          points.push(new Vector3(x, y, scale));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = zMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        yzPlane.add(lines);
+
+        points = [];
+        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+          points.push(new Vector3(x, -scale, z));
+          points.push(new Vector3(x, scale, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = yMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        yzPlane.add(lines);
+        this.cartesianGrid.add(yzPlane);
+      }
+
+      // ZX plane
+      let zxPlane = new Group();
+      for (let y = -scale; y <= scale; y += 0.1 * scale) {
+        zxPlane = new Group();
+
+        let points = [];
+        for (let x = -scale; x <= scale; x += 0.1 * scale) {
+          points.push(new Vector3(x, y, -scale));
+          points.push(new Vector3(x, y, scale));
+        }
+        let geometry = new BufferGeometry().setFromPoints(points);
+        let material = zMaterial;
+        let lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        zxPlane.add(lines);
+
+        points = [];
+        for (let z = -scale; z <= scale; z += 0.1 * scale) {
+          points.push(new Vector3(-scale, y, z));
+          points.push(new Vector3(scale, y, z));
+        }
+        geometry = new BufferGeometry().setFromPoints(points);
+        material = xMaterial;
+        lines = new LineSegments(geometry, material);
+        lines.computeLineDistances();
+        zxPlane.add(lines);
+        this.cartesianGrid.add(zxPlane);
+      }
+
+      this.cartesianGrid.name = 'gridline';
+      this.cartesianGrid.traverse((child) => (child.name = 'gridline'));
+      this.cartesianGrid.children.forEach((child) => (child.visible = false));
+      this.scene.add(this.cartesianGrid);
+    }
+  }
+
+  /**
+   * Sets scene cartesian grid visibility.
+   * @param visible If the axes will be visible (true) or hidden (false).
+   * @param scale Set the scale of the axes.
+   */
+  public setCartesianGrid(
+    visible: boolean,
+    showXY: boolean,
+    showYZ: boolean,
+    showZX: boolean,
+    xDistance: number,
+    yDistance: number,
+    zDistance: number,
+    sparsity: number = 1,
+    scale: number = 3000
+  ) {
+    this.createCartesianGrid(scale);
+    for (let i = 0; i <= 62; i += 1) {
+      this.cartesianGrid.children[i].visible = false;
+    }
+
+    const childPoints = [10, 31, 52];
+    const distances = [zDistance, xDistance, yDistance];
+    const visiblePlanes = [showXY, showYZ, showZX];
+
+    if (visible) {
+      for (let i = 0; i < 3; i += 1) {
+        if (visiblePlanes[i]) {
+          for (
+            let j = childPoints[i];
+            j >= childPoints[i] - (distances[i] * 10) / scale;
+            j -= sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
+          }
+
+          for (
+            let j = childPoints[i];
+            j <= childPoints[i] + (distances[i] * 10) / scale;
+            j += sparsity
+          ) {
+            this.cartesianGrid.children[j].visible = visible;
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * Toggle depthTest of event data by updating all children's depthTest and renderOrder.
    * @param value If depthTest will be true or false.
    */
@@ -530,8 +704,8 @@ export class SceneManager {
    * @param scale Set the scale of the axes.
    */
   public setEtaPhiGrid(visible: boolean, scale: number = 3000) {
-    if (this.grid == null) {
-      this.grid = new Group();
+    if (this.etaPhiGrid == null) {
+      this.etaPhiGrid = new Group();
 
       // Currently hardcoding some of this
       let points = [];
@@ -547,7 +721,7 @@ export class SceneManager {
         const text = this.getText('η=' + eta.toPrecision(2), etaColour);
         text.position.set(etaVec.x, etaVec.y, etaVec.z);
         text.rotateOnWorldAxis(new Vector3(0, 1, 0), Math.PI / 2.0);
-        this.grid.add(text);
+        this.etaPhiGrid.add(text);
         points.push(etaVec);
       }
 
@@ -581,7 +755,7 @@ export class SceneManager {
         const phiVec = CoordinateHelper.etaPhiToCartesian(phiradius, 0.0, phi);
         const text = this.getText('φ=' + phiLabels[labelIndex++], phiColor);
         text.position.set(phiVec.x, phiVec.y, phiVec.z);
-        this.grid.add(text);
+        this.etaPhiGrid.add(text);
         points.push(phiVec);
       }
       const phiGeometry = new BufferGeometry().setFromPoints(points);
@@ -595,9 +769,12 @@ export class SceneManager {
       phiLines.computeLineDistances(); // Needed for dashed lines
 
       // Add to group and scene
-      this.grid.add(etaLines);
-      this.grid.add(phiLines);
-      this.scene.add(this.grid);
+      this.etaPhiGrid.add(etaLines);
+      this.etaPhiGrid.add(phiLines);
+
+      this.etaPhiGrid.name = 'gridline';
+      this.etaPhiGrid.traverse((child) => (child.name = 'gridline'));
+      this.scene.add(this.etaPhiGrid);
 
       // Now, for debugging, draw phi / theta native to threejs (though flipping for azimuthal)
       // eslint-disable-next-line no-constant-condition
@@ -625,17 +802,17 @@ export class SceneManager {
               new Color(0x00ff00)
             );
             text.position.set(end.x, end.y, end.z);
-            this.grid.add(text);
+            this.etaPhiGrid.add(text);
           }
         }
         const geometry2 = new BufferGeometry().setFromPoints(points);
         const material2 = new LineDashedMaterial({ color: 0x00ff00 });
         const lines2 = new LineSegments(geometry2, material2);
-        this.grid.add(lines2);
-        this.scene.add(this.grid);
+        this.etaPhiGrid.add(lines2);
+        this.scene.add(this.etaPhiGrid);
       }
     }
-    this.grid.visible = visible;
+    this.etaPhiGrid.visible = visible;
   }
 
   /**

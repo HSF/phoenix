@@ -27,8 +27,8 @@ export class ViewOptionsComponent implements OnInit {
     this.eventDisplay.getUIManager().setShowAxis(value);
   }
 
-  setGrid(change: MatCheckboxChange) {
+  setEtaPhiGrid(change: MatCheckboxChange) {
     const value = change.checked;
-    this.eventDisplay.getUIManager().setShowGrid(value);
+    this.eventDisplay.getUIManager().setShowEtaPhiGrid(value);
   }
 }

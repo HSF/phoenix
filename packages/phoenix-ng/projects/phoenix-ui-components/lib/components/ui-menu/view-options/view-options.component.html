@@ -3,14 +3,14 @@
     mat-menu-item
     (click)="
       $event.stopPropagation();
-      showGridCheckbox._inputElement.nativeElement.click()
+      showEtaPhiGridCheckbox._inputElement.nativeElement.click()
     "
   >
     <mat-checkbox
-      #showGridCheckbox
+      #showEtaPhiGridCheckbox
       (click)="$event.stopPropagation()"
-      (change)="setGrid($event)"
-      >Show Grid
+      (change)="setEtaPhiGrid($event)"
+      >Show Eta Phi Grid
     </mat-checkbox>
   </button>
   <button

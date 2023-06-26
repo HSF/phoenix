@@ -390,10 +390,38 @@ export class UIManager {
   }
 
   /**
+   * Set whether to show the cartesian or not
+   * @param show If the grid is to be shown or not.
+   */
+  public setShowCartesianGrid(
+    show: boolean,
+    showXY: boolean,
+    showYZ: boolean,
+    showZX: boolean,
+    xDistance: number,
+    yDistance: number,
+    zDistance: number,
+    sparsity: number
+  ) {
+    this.three
+      .getSceneManager()
+      .setCartesianGrid(
+        show,
+        showXY,
+        showYZ,
+        showZX,
+        xDistance,
+        yDistance,
+        zDistance,
+        sparsity
+      );
+  }
+
+  /**
    * Set whether to show the eta/phi or not
    * @param show If the grid is to be shown or not.
    */
-  public setShowGrid(show: boolean) {
+  public setShowEtaPhiGrid(show: boolean) {
     this.three.getSceneManager().setEtaPhiGrid(show);
   }
 
