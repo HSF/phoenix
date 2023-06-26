@@ -8,9 +8,8 @@ describe('CartesianGridComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CartesianGridComponent ]
-    })
-    .compileComponents();
+      declarations: [CartesianGridComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CartesianGridComponent);
     component = fixture.componentInstance;

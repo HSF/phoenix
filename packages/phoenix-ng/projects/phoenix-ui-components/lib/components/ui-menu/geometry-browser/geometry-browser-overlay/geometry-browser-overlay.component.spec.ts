@@ -8,9 +8,8 @@ describe('GeometryBrowserOverlayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GeometryBrowserOverlayComponent ]
-    })
-    .compileComponents();
+      declarations: [GeometryBrowserOverlayComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GeometryBrowserOverlayComponent);
     component = fixture.componentInstance;

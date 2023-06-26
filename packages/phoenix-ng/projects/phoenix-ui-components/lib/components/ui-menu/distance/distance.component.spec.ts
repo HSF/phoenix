@@ -8,9 +8,8 @@ describe('DistanceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DistanceComponent ]
-    })
-    .compileComponents();
+      declarations: [DistanceComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DistanceComponent);
     component = fixture.componentInstance;
