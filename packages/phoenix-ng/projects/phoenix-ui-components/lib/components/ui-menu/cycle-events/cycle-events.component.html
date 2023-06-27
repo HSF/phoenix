@@ -1,7 +1,16 @@
-<app-menu-toggle
+<button
+  class="cycle-events"
+  [ngClass]=""
+  [matTooltip]="tooltip"
+  matTooltipPosition="above"
+  matTooltipTouchGestures="off"
   tooltip="Cycle through events"
-  [active]="active"
-  icon="cycle-events"
   (click)="toggleCycle()"
 >
-</app-menu-toggle>
+  <svg
+    class="cycle-events-icon"
+    [ngClass]="{ 'active-icon': active, 'reload-icon': reloading }"
+  >
+    <use href="assets/icons/cycle-events.svg#cycle-events"></use>
+  </svg>
+</button>
