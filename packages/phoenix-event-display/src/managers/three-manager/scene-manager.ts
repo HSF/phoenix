@@ -695,7 +695,7 @@ export class SceneManager {
     yDistance: number,
     zDistance: number,
     sparsity: number = 1,
-    scale: number = 3000
+    scale: number
   ) {
     this.createCartesianGrid(scale);
     for (let i = 0; i <= 62; i += 1) {

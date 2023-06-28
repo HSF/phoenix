@@ -22,6 +22,7 @@ export class CartesianGridComponent implements OnDestroy {
   yDistance: number = 0;
   zDistance: number = 0;
   sparsity: number = 2;
+  scale: number = 3000;
   cartesianPos = new Vector3(0, 0, 0);
 
   originChangedSub: Subscription = null;
@@ -121,8 +122,17 @@ export class CartesianGridComponent implements OnDestroy {
         this.xDistance,
         this.yDistance,
         this.zDistance,
-        this.sparsity
+        this.sparsity,
+        this.scale
       );
+  }
+
+  // helper function to calculate number of planes
+  calcPlanes(dis: number) {
+    return Math.max(
+      0,
+      1 + 2 * Math.floor((dis * 10) / (this.scale * this.sparsity))
+    );
   }
 
   ngOnDestroy(): void {

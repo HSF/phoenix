@@ -402,7 +402,8 @@ export class UIManager {
     xDistance: number,
     yDistance: number,
     zDistance: number,
-    sparsity: number
+    sparsity: number,
+    scale: number
   ) {
     this.three
       .getSceneManager()
@@ -414,7 +415,8 @@ export class UIManager {
         xDistance,
         yDistance,
         zDistance,
-        sparsity
+        sparsity,
+        scale
       );
   }
 
