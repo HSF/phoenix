@@ -15,7 +15,7 @@ export class CartesianGridComponent implements OnDestroy {
   xDistance: number = 0;
   yDistance: number = 0;
   zDistance: number = 0;
-  sparsity: number = 1;
+  sparsity: number = 2;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
