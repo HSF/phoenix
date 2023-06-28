@@ -409,14 +409,13 @@ export class ThreeManager {
           p.style.whiteSpace = 'pre';
           p.style.color = this.displayColor;
           p.style.position = 'absolute';
-          p.style.top = event.clientY + 'px';
-          p.style.left = event.clientX + 'px';
+          p.style.top = `${event.clientY + 10}px`;
+          p.style.left = `${event.clientX + 10}px`;
 
           const div = document.createElement('div');
           div.id = 'circledDot';
           div.style.width = '1rem';
           div.style.height = '1rem';
-          // div.style.padding = '0.1rem';
           div.style.position = 'absolute';
           div.style.top = `calc(${event.clientY}px - 0.5rem)`;
           div.style.left = `calc(${event.clientX}px - 0.5rem)`;
@@ -440,7 +439,7 @@ export class ThreeManager {
           setTimeout(() => {
             document.getElementById('3dcoordinates').remove();
             document.getElementById('circledDot').remove();
-          }, 1000);
+          }, 3000);
         }
       };
     }
