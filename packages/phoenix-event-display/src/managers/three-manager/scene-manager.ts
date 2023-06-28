@@ -601,7 +601,7 @@ export class SceneManager {
           points.push(new Vector3(scale, y, z));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
-        let material = zMaterial;
+        const material = zMaterial;
         let lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         xyPlane.add(lines);
@@ -612,7 +612,6 @@ export class SceneManager {
           points.push(new Vector3(x, scale, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
-        material = zMaterial;
         lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         xyPlane.add(lines);
@@ -630,7 +629,7 @@ export class SceneManager {
           points.push(new Vector3(x, y, scale));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
-        let material = xMaterial;
+        const material = xMaterial;
         let lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         yzPlane.add(lines);
@@ -641,7 +640,6 @@ export class SceneManager {
           points.push(new Vector3(x, scale, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
-        material = xMaterial;
         lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         yzPlane.add(lines);
@@ -659,7 +657,7 @@ export class SceneManager {
           points.push(new Vector3(x, y, scale));
         }
         let geometry = new BufferGeometry().setFromPoints(points);
-        let material = yMaterial;
+        const material = yMaterial;
         let lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         zxPlane.add(lines);
@@ -670,7 +668,6 @@ export class SceneManager {
           points.push(new Vector3(scale, y, z));
         }
         geometry = new BufferGeometry().setFromPoints(points);
-        material = yMaterial;
         lines = new LineSegments(geometry, material);
         lines.computeLineDistances();
         zxPlane.add(lines);
