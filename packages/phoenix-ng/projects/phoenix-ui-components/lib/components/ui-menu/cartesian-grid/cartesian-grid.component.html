@@ -29,7 +29,7 @@
     </mat-checkbox>
   </button>
   <button class="slider-btn" mat-menu-item (focus)="xyPlaneSlider.focus()">
-    <mat-slider min="-300" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" [max]=scale step="300" thumbLabel>
       <input
         #xyPlaneSlider
         matSliderThumb
@@ -37,7 +37,7 @@
         (valueChange)="addXYPlanes($event)"
       />
     </mat-slider>
-    XY Plane
+    XY Plane ({{ calcPlanes(zDistance) }})
   </button>
   <button
     mat-menu-item
@@ -55,7 +55,7 @@
     </mat-checkbox>
   </button>
   <button class="slider-btn" mat-menu-item (focus)="yzPlaneSlider.focus()">
-    <mat-slider min="-300" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" [max]=scale step="300" thumbLabel>
       <input
         #yzPlaneSlider
         matSliderThumb
@@ -63,7 +63,7 @@
         (valueChange)="addYZPlanes($event)"
       />
     </mat-slider>
-    YZ Plane
+    YZ Plane ({{ calcPlanes(xDistance) }})
   </button>
   <button
     mat-menu-item
@@ -81,7 +81,7 @@
     </mat-checkbox>
   </button>
   <button class="slider-btn" mat-menu-item (focus)="zxPlaneSlider.focus()">
-    <mat-slider min="-300" max="3000" step="300" thumbLabel>
+    <mat-slider min="-300" [max]=scale step="300" thumbLabel>
       <input
         #zxPlaneSlider
         matSliderThumb
@@ -89,7 +89,7 @@
         (valueChange)="addZXPlanes($event)"
       />
     </mat-slider>
-    ZX Plane
+    ZX Plane ({{ calcPlanes(yDistance) }})
   </button>
   <button class="slider-btn" mat-menu-item (focus)="sparsitySlider.focus()">
     <mat-slider min="1" max="5" step="1" thumbLabel>
@@ -100,7 +100,7 @@
         (valueChange)="changeSparsity($event)"
       />
     </mat-slider>
-    Sparsity
+    Sparsity ({{ sparsity }})
   </button>
 </mat-menu>
 
