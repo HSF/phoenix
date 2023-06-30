@@ -36,23 +36,31 @@ export class CartesianGridConfigComponent {
     this.dialogRef.close();
   }
 
-  addXYPlanes(zDistance: number) {
-    this.gridConfig.zDistance = zDistance;
+  addXYPlanes(zDistance: Event) {
+    this.gridConfig.zDistance = Number(
+      (zDistance.target as HTMLInputElement).value
+    );
     this.callSetShowCartesianGrid();
   }
 
-  addYZPlanes(xDistance: number) {
-    this.gridConfig.xDistance = xDistance;
+  addYZPlanes(xDistance: Event) {
+    this.gridConfig.xDistance = Number(
+      (xDistance.target as HTMLInputElement).value
+    );
     this.callSetShowCartesianGrid();
   }
 
-  addZXPlanes(yDistance: number) {
-    this.gridConfig.yDistance = yDistance;
+  addZXPlanes(yDistance: Event) {
+    this.gridConfig.yDistance = Number(
+      (yDistance.target as HTMLInputElement).value
+    );
     this.callSetShowCartesianGrid();
   }
 
-  changeSparsity(sparsity: number) {
-    this.gridConfig.sparsity = sparsity;
+  changeSparsity(sparsity: Event) {
+    this.gridConfig.sparsity = Number(
+      (sparsity.target as HTMLInputElement).value
+    );
     this.callSetShowCartesianGrid();
   }
 

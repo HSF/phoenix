@@ -21,7 +21,7 @@
                 #xyPlaneSlider
                 matSliderThumb
                 [value]="gridConfig.zDistance"
-                (valueChange)="addXYPlanes($event)"
+                (input)="addXYPlanes($event)"
             />
             </mat-slider>
             XY Plane ({{ calcPlanes(gridConfig.zDistance) }})
@@ -46,7 +46,7 @@
                 #yzPlaneSlider
                 matSliderThumb
                 [value]="gridConfig.xDistance"
-                (valueChange)="addYZPlanes($event)"
+                (input)="addYZPlanes($event)"
             />
             </mat-slider>
             YZ Plane ({{ calcPlanes(gridConfig.xDistance) }})
@@ -71,7 +71,7 @@
                 #zxPlaneSlider
                 matSliderThumb
                 [value]="gridConfig.yDistance"
-                (valueChange)="addZXPlanes($event)"
+                (input)="addZXPlanes($event)"
             />
             </mat-slider>
             ZX Plane ({{ calcPlanes(gridConfig.yDistance) }})
@@ -82,7 +82,7 @@
                 #sparsitySlider
                 matSliderThumb
                 [value]="gridConfig.sparsity"
-                (valueChange)="changeSparsity($event)"
+                (input)="changeSparsity($event)"
             />
             </mat-slider>
             Sparsity ({{ gridConfig.sparsity }})
