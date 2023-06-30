@@ -46,6 +46,16 @@ export class SceneManager {
   private etaPhiGrid: Object3D;
   /** Cartesian grid */
   private cartesianGrid: Object3D;
+  /** Cartesian Grid Config */
+  private cartesianGridConfig = {
+    showXY: true,
+    showYZ: true,
+    showZX: true,
+    xDistance: 0,
+    yDistance: 0,
+    zDistance: 0,
+    sparsity: 1,
+  };
   /** Cartesian grid labels */
   private cartesianLabels: Object3D;
   /** Whether to use directional light placed at the camera position. */
@@ -553,23 +563,31 @@ export class SceneManager {
    */
   public setCartesianGrid(
     visible: boolean,
-    showXY: boolean,
-    showYZ: boolean,
-    showZX: boolean,
-    xDistance: number,
-    yDistance: number,
-    zDistance: number,
-    sparsity: number = 1,
-    scale: number
+    scale: number,
+    config?: {
+      showXY: boolean;
+      showYZ: boolean;
+      showZX: boolean;
+      xDistance: number;
+      yDistance: number;
+      zDistance: number;
+      sparsity: number;
+    }
   ) {
     this.createCartesianGrid(scale);
     for (let i = 0; i <= 62; i += 1) {
       this.cartesianGrid.children[i].visible = false;
     }
 
+    if (typeof config === 'undefined') {
+      config = this.cartesianGridConfig;
+    } else {
+      this.cartesianGridConfig = config;
+    }
+
     const childPoints = [10, 31, 52];
-    const distances = [zDistance, xDistance, yDistance];
-    const visiblePlanes = [showXY, showYZ, showZX];
+    const distances = [config.zDistance, config.xDistance, config.yDistance];
+    const visiblePlanes = [config.showXY, config.showYZ, config.showZX];
 
     if (visible) {
       for (let i = 0; i < 3; i += 1) {
@@ -577,7 +595,7 @@ export class SceneManager {
           for (
             let j = childPoints[i];
             j >= childPoints[i] - (distances[i] * 10) / scale;
-            j -= sparsity
+            j -= config.sparsity
           ) {
             this.cartesianGrid.children[j].visible = visible;
           }
@@ -585,13 +603,20 @@ export class SceneManager {
           for (
             let j = childPoints[i];
             j <= childPoints[i] + (distances[i] * 10) / scale;
-            j += sparsity
+            j += config.sparsity
           ) {
             this.cartesianGrid.children[j].visible = visible;
           }
         }
       }
     }
+  }
+
+  /**
+   * returns the cartesian grid configuration
+   */
+  public getCartesianGridConfig() {
+    return this.cartesianGridConfig;
   }
 
   /**

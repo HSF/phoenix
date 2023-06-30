@@ -37,6 +37,7 @@ import {
   DarkThemeComponent,
   AutoRotateComponent,
   ViewOptionsComponent,
+  CartesianGridConfigComponent,
   OverlayViewWindowComponent,
   OverlayComponent,
   ExperimentInfoComponent,
@@ -58,7 +59,6 @@ import {
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
-  CartesianGridComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { EventDisplayService } from '../services/event-display.service';
@@ -75,7 +75,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   UiMenuWrapperComponent,
   UiMenuComponent,
   CollectionsInfoComponent,
-  CartesianGridComponent,
   MenuToggleComponent,
   CollectionsInfoOverlayComponent,
   IoOptionsComponent,
@@ -89,6 +88,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   DarkThemeComponent,
   AutoRotateComponent,
   ViewOptionsComponent,
+  CartesianGridConfigComponent,
   OverlayViewWindowComponent,
   OverlayComponent,
   ExperimentInfoComponent,

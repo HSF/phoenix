@@ -400,38 +400,34 @@ export class UIManager {
   /**
    * Set whether to show the cartesian or not
    * @param show If the grid is to be shown or not.
-   * @param showXY If the XY planes are to be shown.
-   * @param showYZ If the YZ planes are to be shown.
-   * @param showZX If the ZX planes are to be shown.
-   * @param xDistance The distance in x direction upto which YZ planes will be shown.
-   * @param yDistance The distance in y direction upto which ZX planes will be shown.
-   * @param zDistance The distance in z direction upto which XY planes will be shown.
-   * @param sparsity Sparsity of the gridlines.
+   * @param scale The maximum dimensions (height, width, length) of the grid
+   * @param config Configuration related to the visibility of the grid, such as visibility of the planes, number of planes in each direction, sparsity of the gridlines
    */
   public setShowCartesianGrid(
     show: boolean,
-    showXY: boolean,
-    showYZ: boolean,
-    showZX: boolean,
-    xDistance: number,
-    yDistance: number,
-    zDistance: number,
-    sparsity: number,
-    scale: number
+    scale: number,
+    config?: {
+      showXY: boolean;
+      showYZ: boolean;
+      showZX: boolean;
+      xDistance: number;
+      yDistance: number;
+      zDistance: number;
+      sparsity: number;
+    }
   ) {
-    this.three
-      .getSceneManager()
-      .setCartesianGrid(
-        show,
-        showXY,
-        showYZ,
-        showZX,
-        xDistance,
-        yDistance,
-        zDistance,
-        sparsity,
-        scale
-      );
+    if (typeof config === 'undefined') {
+      this.three.getSceneManager().setCartesianGrid(show, scale);
+    } else {
+      this.three.getSceneManager().setCartesianGrid(show, scale, config);
+    }
+  }
+
+  /**
+   * returns the cartesian grid configuration
+   */
+  public getCartesianGridConfig() {
+    return this.three.getSceneManager().getCartesianGridConfig();
   }
 
   /**

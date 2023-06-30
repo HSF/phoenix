@@ -3,7 +3,6 @@ export * from './animate-event/animate-event.component';
 export * from './auto-rotate/auto-rotate.component';
 export * from './collections-info/collections-info.component';
 export * from './collections-info/collections-info-overlay/collections-info-overlay.component';
-export * from './cartesian-grid/cartesian-grid.component';
 export * from './dark-theme/dark-theme.component';
 export * from './event-selector/event-selector.component';
 export * from './experiment-info/experiment-info.component';
@@ -22,6 +21,7 @@ export * from './overlay-view/overlay-view-window/overlay-view-window.component'
 export * from './tree-menu/tree-menu.component';
 export * from './tree-menu/tree-menu-item/tree-menu-item.component';
 export * from './view-options/view-options.component';
+export * from './view-options/cartesian-grid-config/cartesian-grid-config.component';
 export * from './vr-toggle/vr-toggle.component';
 export * from './ar-toggle/ar-toggle.component';
 export * from './zoom-controls/zoom-controls.component';

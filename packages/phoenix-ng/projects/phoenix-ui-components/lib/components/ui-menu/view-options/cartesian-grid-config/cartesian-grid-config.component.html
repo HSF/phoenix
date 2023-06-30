@@ -1,0 +1,94 @@
+<div>
+    <h1 mat-dialog-title>Customize Cartesian Grid</h1>
+    <div mat-dialog-content class="dialog-content">
+        <button
+            mat-menu-item
+            (click)="
+                showXYPlanesCheckbox._inputElement.nativeElement.click()
+            "
+            >
+            <mat-checkbox
+                #showXYPlanesCheckbox
+                [(ngModel)]="gridConfig.showXY"
+                (click)="$event.stopPropagation()"
+                (change)="showXYPlanes($event)"
+                >Show XY Planes
+            </mat-checkbox>
+        </button>
+        <button class="slider-btn" mat-menu-item (focus)="xyPlaneSlider.focus()">
+            <mat-slider min="-300" [max]=scale step="300" thumbLabel>
+            <input
+                #xyPlaneSlider
+                matSliderThumb
+                [value]="gridConfig.zDistance"
+                (valueChange)="addXYPlanes($event)"
+            />
+            </mat-slider>
+            XY Plane ({{ calcPlanes(gridConfig.zDistance) }})
+        </button>
+        <button
+            mat-menu-item
+            (click)="
+            showYZPlanesCheckbox._inputElement.nativeElement.click()
+            "
+        >
+            <mat-checkbox
+                #showYZPlanesCheckbox
+                [(ngModel)]="gridConfig.showYZ"
+                (click)="$event.stopPropagation()"
+                (change)="showYZPlanes($event)"
+                >Show YZ Planes
+            </mat-checkbox>
+        </button>
+        <button class="slider-btn" mat-menu-item (focus)="yzPlaneSlider.focus()">
+            <mat-slider min="-300" [max]=scale step="300" thumbLabel>
+            <input
+                #yzPlaneSlider
+                matSliderThumb
+                [value]="gridConfig.xDistance"
+                (valueChange)="addYZPlanes($event)"
+            />
+            </mat-slider>
+            YZ Plane ({{ calcPlanes(gridConfig.xDistance) }})
+        </button>
+        <button
+            mat-menu-item
+            (click)="
+            showZXPlanesCheckbox._inputElement.nativeElement.click()
+            "
+        >
+            <mat-checkbox
+                #showZXPlanesCheckbox
+                [(ngModel)]="gridConfig.showZX"
+                (click)="$event.stopPropagation()"
+                (change)="showZXPlanes($event)"
+                >Show ZX Planes
+            </mat-checkbox>
+        </button>
+        <button class="slider-btn" mat-menu-item (focus)="zxPlaneSlider.focus()">
+            <mat-slider min="-300" [max]=scale step="300" thumbLabel>
+            <input
+                #zxPlaneSlider
+                matSliderThumb
+                [value]="gridConfig.yDistance"
+                (valueChange)="addZXPlanes($event)"
+            />
+            </mat-slider>
+            ZX Plane ({{ calcPlanes(gridConfig.yDistance) }})
+        </button>
+        <button class="slider-btn" mat-menu-item (focus)="sparsitySlider.focus()">
+            <mat-slider min="1" max="5" step="1" thumbLabel>
+            <input
+                #sparsitySlider
+                matSliderThumb
+                [value]="gridConfig.sparsity"
+                (valueChange)="changeSparsity($event)"
+            />
+            </mat-slider>
+            Sparsity ({{ gridConfig.sparsity }})
+        </button>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>
+    </div>
+</div>
