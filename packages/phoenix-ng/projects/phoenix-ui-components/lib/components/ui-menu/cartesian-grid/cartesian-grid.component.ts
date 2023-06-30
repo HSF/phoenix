@@ -84,5 +84,9 @@ export class CartesianGridComponent implements OnDestroy {
     );
   }
 
+  showLabels(change: MatCheckboxChange) {
+    this.eventDisplay.getUIManager().showLabels(change.checked);
+  }
+
   ngOnDestroy(): void {}
 }

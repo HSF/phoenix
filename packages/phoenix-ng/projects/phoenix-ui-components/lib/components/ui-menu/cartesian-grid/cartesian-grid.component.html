@@ -14,6 +14,19 @@
       </mat-checkbox>
     </button>
     <button
+      mat-menu-item
+      (click)="
+        showLabelsCheckbox._inputElement.nativeElement.click();
+      "
+    >
+      <mat-checkbox
+        #showLabelsCheckbox
+        (click)="$event.stopPropagation()"
+        (change)="showLabels($event)"
+        >Show Labels
+      </mat-checkbox>
+    </button>
+    <button
     mat-menu-item
     (click)="
       $event.stopPropagation();

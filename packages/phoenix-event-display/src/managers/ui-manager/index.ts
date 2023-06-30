@@ -390,6 +390,14 @@ export class UIManager {
   }
 
   /**
+   * Show labels on cartesian grid
+   * @param visible if the labels are to be shown or not
+   */
+  public showLabels(visible: boolean) {
+    this.three.getSceneManager().showLabels(visible);
+  }
+
+  /**
    * Set whether to show the cartesian or not
    * @param show If the grid is to be shown or not.
    * @param showXY If the XY planes are to be shown.
