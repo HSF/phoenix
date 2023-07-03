@@ -15,6 +15,8 @@ import {
   Camera,
   BufferGeometry,
   Quaternion,
+  DoubleSide,
+  BoxGeometry,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
@@ -772,26 +774,56 @@ export class SceneManager {
       const xColor = new Color(0xd63333);
       const yColor = new Color(0x33d633);
       const zColor = new Color(0x3333d6);
+      const xMaterial = new MeshBasicMaterial({
+        color: xColor,
+        side: DoubleSide,
+      });
+      const yMaterial = new MeshBasicMaterial({
+        color: yColor,
+        side: DoubleSide,
+      });
+      const zMaterial = new MeshBasicMaterial({
+        color: zColor,
+        side: DoubleSide,
+      });
 
       // X Labels
       for (let x = -scale; x <= scale; x += 0.1 * scale) {
         const text = this.getText(x.toString(), xColor);
-        text.position.set(x - 70, 0, 0);
+        text.position.set(x - 70, 40, 0);
         this.cartesianLabels.add(text);
+
+        const geometry = new BoxGeometry(10, 30, 10);
+        geometry.translate(x, 0, 0);
+        const xTicks = new Mesh(geometry, xMaterial);
+        this.cartesianLabels.add(xTicks);
       }
 
       // Y Labels
       for (let y = -scale; y <= scale; y += 0.1 * scale) {
         const text = this.getText(y.toString(), yColor);
-        text.position.set(-70, y, 0);
+        text.position.set(-40, y - 70, 0);
+        text.rotateZ(Math.PI / 2);
         this.cartesianLabels.add(text);
+
+        const geometry = new BoxGeometry(30, 10, 10);
+        geometry.translate(0, y, 0);
+        const yTicks = new Mesh(geometry, yMaterial);
+        this.cartesianLabels.add(yTicks);
       }
 
       // Z Labels
       for (let z = -scale; z <= scale; z += 0.1 * scale) {
         const text = this.getText(z.toString(), zColor);
-        text.position.set(-70, 0, z);
+        text.position.set(-40, 0, z + 70);
+        text.rotateY(Math.PI / 2);
+        text.rotateX(-Math.PI / 2);
         this.cartesianLabels.add(text);
+
+        const geometry = new BoxGeometry(30, 10, 10);
+        geometry.translate(0, 0, z);
+        const zTicks = new Mesh(geometry, zMaterial);
+        this.cartesianLabels.add(zTicks);
       }
 
       this.cartesianLabels.traverse((child) => (child.name = 'XYZ Labels'));
