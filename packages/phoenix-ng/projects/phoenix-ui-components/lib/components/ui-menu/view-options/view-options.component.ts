@@ -30,6 +30,10 @@ export class ViewOptionsComponent implements OnInit {
         gridVisible: this.showCartesianGrid,
         scale: this.scale,
       },
+      position: {
+        bottom: '5rem',
+        left: '3rem',
+      },
     });
   }
 
