@@ -56,7 +56,7 @@ export class SceneManager {
     xDistance: 0,
     yDistance: 0,
     zDistance: 0,
-    sparsity: 1,
+    sparsity: 2,
   };
   /** Cartesian grid labels */
   private cartesianLabels: Object3D;
