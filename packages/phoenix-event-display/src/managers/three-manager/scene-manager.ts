@@ -68,6 +68,8 @@ export class SceneManager {
   private textFont: Font = new Font(HelvetikerFont);
   /** An object containing look at camera change callbacks for labels. */
   private labelTextLookCallbacks: { [key: string]: () => void } = {};
+  /** Numbers on the X, Y and Z axes */
+  private axesNumbers: Mesh[] = [];
 
   /**
    * Create the scene manager.
@@ -790,7 +792,8 @@ export class SceneManager {
       // X Labels
       for (let x = -scale; x <= scale; x += 0.1 * scale) {
         const text = this.getText(x.toString(), xColor);
-        text.position.set(x - 70, 40, 0);
+        text.position.set(x, 40, 0);
+        this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
 
         const geometry = new BoxGeometry(10, 30, 10);
@@ -802,8 +805,8 @@ export class SceneManager {
       // Y Labels
       for (let y = -scale; y <= scale; y += 0.1 * scale) {
         const text = this.getText(y.toString(), yColor);
-        text.position.set(-40, y - 70, 0);
-        text.rotateZ(Math.PI / 2);
+        text.position.set(-40, y, 0);
+        this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
 
         const geometry = new BoxGeometry(30, 10, 10);
@@ -815,9 +818,8 @@ export class SceneManager {
       // Z Labels
       for (let z = -scale; z <= scale; z += 0.1 * scale) {
         const text = this.getText(z.toString(), zColor);
-        text.position.set(-40, 0, z + 70);
-        text.rotateY(Math.PI / 2);
-        text.rotateX(-Math.PI / 2);
+        text.position.set(-40, 0, z);
+        this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
 
         const geometry = new BoxGeometry(30, 10, 10);
@@ -832,6 +834,17 @@ export class SceneManager {
 
       this.setAxis(false, 3000);
     }
+  }
+
+  /**
+   * Aligns the axes numbers always towards the main camera
+   */
+  public alignText(camera: Camera) {
+    console.log(camera);
+    if (this.cartesianLabels != null)
+      this.axesNumbers.forEach((element) => {
+        element.lookAt(camera.position);
+      });
   }
 
   /**
