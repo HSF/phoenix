@@ -840,7 +840,6 @@ export class SceneManager {
    * Aligns the axes numbers always towards the main camera
    */
   public alignText(camera: Camera) {
-    console.log(camera);
     if (this.cartesianLabels != null)
       this.axesNumbers.forEach((element) => {
         element.lookAt(camera.position);
