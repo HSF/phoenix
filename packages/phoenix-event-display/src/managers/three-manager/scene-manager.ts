@@ -412,16 +412,16 @@ export class SceneManager {
     if (labels && this.axisLabels == null) {
       this.axisLabels = new Group();
 
-      const labels = ['X', 'Y', 'Z'];
+      const labels = ['X (cm)', 'Y (cm)', 'Z (cm)'];
       const colours = [0xff0000, 0x00ff00, 0x0000ff];
       let colourIndex = 0;
       for (const label of labels) {
         const mesh = this.getText(label, new Color(colours[colourIndex++]));
         this.axisLabels.add(mesh);
       }
-      this.axisLabels.children[0].position.set(scale + 20, 0, 0);
-      this.axisLabels.children[1].position.set(0, scale + 20, 0);
-      this.axisLabels.children[2].position.set(0, 0, scale + 20);
+      this.axisLabels.children[0].position.set(scale + 200, 0, 0);
+      this.axisLabels.children[1].position.set(0, scale + 200, 0);
+      this.axisLabels.children[2].position.set(0, 0, scale + 200);
 
       this.axisLabels.name = 'XYZ Labels';
       this.axisLabels.traverse((child) => (child.name = 'XYZ Labels'));
@@ -791,7 +791,7 @@ export class SceneManager {
 
       // X Labels
       for (let x = -scale; x <= scale; x += 0.1 * scale) {
-        const text = this.getText(x.toString(), xColor);
+        const text = this.getText((x / 10).toString(), xColor);
         text.position.set(x, 40, 0);
         this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
@@ -804,7 +804,7 @@ export class SceneManager {
 
       // Y Labels
       for (let y = -scale; y <= scale; y += 0.1 * scale) {
-        const text = this.getText(y.toString(), yColor);
+        const text = this.getText((y / 10).toString(), yColor);
         text.position.set(-40, y, 0);
         this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
@@ -817,7 +817,7 @@ export class SceneManager {
 
       // Z Labels
       for (let z = -scale; z <= scale; z += 0.1 * scale) {
-        const text = this.getText(z.toString(), zColor);
+        const text = this.getText((z / 10).toString(), zColor);
         text.position.set(-40, 0, z);
         this.axesNumbers.push(text);
         this.cartesianLabels.add(text);
@@ -844,6 +844,12 @@ export class SceneManager {
       this.axesNumbers.forEach((element) => {
         element.lookAt(camera.position);
       });
+
+    if (this.axisLabels != null) {
+      this.axisLabels.children.forEach((element) =>
+        element.lookAt(camera.position)
+      );
+    }
   }
 
   /**
