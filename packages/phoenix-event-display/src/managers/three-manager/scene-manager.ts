@@ -412,7 +412,7 @@ export class SceneManager {
     if (labels && this.axisLabels == null) {
       this.axisLabels = new Group();
 
-      const labels = ['X (cm)', 'Y (cm)', 'Z (cm)'];
+      const labels = ['X [cm]', 'Y [cm]', 'Z [cm]'];
       const colours = [0xff0000, 0x00ff00, 0x0000ff];
       let colourIndex = 0;
       for (const label of labels) {
