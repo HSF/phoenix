@@ -180,6 +180,7 @@ export class ThreeManager {
     this.animationLoop = () => {
       this.uiLoop();
       this.updateControls();
+      this.sceneManager.alignText(this.controlsManager.getMainCamera());
       this.render();
     };
     this.rendererManager.getMainRenderer().setAnimationLoop(this.animationLoop);

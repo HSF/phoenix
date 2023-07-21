@@ -21,6 +21,7 @@ export * from './overlay-view/overlay-view-window/overlay-view-window.component'
 export * from './tree-menu/tree-menu.component';
 export * from './tree-menu/tree-menu-item/tree-menu-item.component';
 export * from './view-options/view-options.component';
+export * from './view-options/cartesian-grid-config/cartesian-grid-config.component';
 export * from './vr-toggle/vr-toggle.component';
 export * from './ar-toggle/ar-toggle.component';
 export * from './zoom-controls/zoom-controls.component';

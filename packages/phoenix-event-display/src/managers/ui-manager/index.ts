@@ -390,10 +390,51 @@ export class UIManager {
   }
 
   /**
+   * Show labels on cartesian grid
+   * @param visible if the labels are to be shown or not
+   */
+  public showLabels(visible: boolean) {
+    this.three.getSceneManager().showLabels(visible);
+  }
+
+  /**
+   * Set whether to show the cartesian or not
+   * @param show If the grid is to be shown or not.
+   * @param scale The maximum dimensions (height, width, length) of the grid
+   * @param config Configuration related to the visibility of the grid, such as visibility of the planes, number of planes in each direction, sparsity of the gridlines
+   */
+  public setShowCartesianGrid(
+    show: boolean,
+    scale: number,
+    config?: {
+      showXY: boolean;
+      showYZ: boolean;
+      showZX: boolean;
+      xDistance: number;
+      yDistance: number;
+      zDistance: number;
+      sparsity: number;
+    }
+  ) {
+    if (typeof config === 'undefined') {
+      this.three.getSceneManager().setCartesianGrid(show, scale);
+    } else {
+      this.three.getSceneManager().setCartesianGrid(show, scale, config);
+    }
+  }
+
+  /**
+   * returns the cartesian grid configuration
+   */
+  public getCartesianGridConfig() {
+    return this.three.getSceneManager().getCartesianGridConfig();
+  }
+
+  /**
    * Set whether to show the eta/phi or not
    * @param show If the grid is to be shown or not.
    */
-  public setShowGrid(show: boolean) {
+  public setShowEtaPhiGrid(show: boolean) {
     this.three.getSceneManager().setEtaPhiGrid(show);
   }
 

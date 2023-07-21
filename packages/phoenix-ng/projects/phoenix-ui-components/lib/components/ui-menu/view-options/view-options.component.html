@@ -1,16 +1,36 @@
 <mat-menu #viewOptions>
   <button
     mat-menu-item
+  >
+    <mat-checkbox
+      #showCartesianGridCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="setCartesianGrid($event)"
+      >Show Cartesian Grid
+    </mat-checkbox>
+    <button
+      class="icon-wrapper icon-button btn-blank item-settings"
+      (click)="
+        openCartesianGridConfigDialog()
+      "
+    >
+      <svg>
+        <use href="assets/icons/gear.svg#gear"></use>
+      </svg>
+    </button>
+  </button>
+  <button
+    mat-menu-item
     (click)="
       $event.stopPropagation();
-      showGridCheckbox._inputElement.nativeElement.click()
+      showEtaPhiGridCheckbox._inputElement.nativeElement.click()
     "
   >
     <mat-checkbox
-      #showGridCheckbox
+      #showEtaPhiGridCheckbox
       (click)="$event.stopPropagation()"
-      (change)="setGrid($event)"
-      >Show Grid
+      (change)="setEtaPhiGrid($event)"
+      >Show Eta Phi Grid
     </mat-checkbox>
   </button>
   <button
@@ -25,6 +45,19 @@
       (click)="$event.stopPropagation()"
       (change)="setAxis($event)"
       >Show Axis
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    (click)="
+      showLabelsCheckbox._inputElement.nativeElement.click();
+    "
+    >
+    <mat-checkbox
+      #showLabelsCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="showLabels($event)"
+      >Show Labels
     </mat-checkbox>
   </button>
   <button
