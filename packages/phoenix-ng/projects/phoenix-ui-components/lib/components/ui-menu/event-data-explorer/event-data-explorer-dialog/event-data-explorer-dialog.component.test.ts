@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { FileNode } from '../../../file-explorer/file-explorer.component';
+import { FileLoaderService } from '../../../../services/file-loader.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 import { EventDataExplorerDialogData } from '../event-data-explorer.component';
 import {
@@ -16,6 +17,10 @@ describe.skip('EventDataExplorerDialogComponent', () => {
 
   const mockStateManager = {
     loadStateFromJSON: jest.fn(),
+  };
+
+  const mockFileLoaderService = {
+    loadEvent: jest.fn(),
   };
 
   const mockEventDisplay = {};
@@ -97,31 +102,30 @@ describe.skip('EventDataExplorerDialogComponent', () => {
 
   it('should load event based on file type', () => {
     jest
-      .spyOn(EventDataExplorerDialogComponent.prototype, 'makeRequest')
+      .spyOn(FileLoaderService.prototype, 'loadEvent')
       .mockImplementation(
-        (_arg1: string, _arg2: string, onData: (data: string) => void) =>
-          onData('test')
+        (_arg1: string, eventDisplay: EventDisplayService) => true
       );
 
-    jest.spyOn(component as any, 'loadJSONEvent');
+    jest.spyOn(FileLoaderService.prototype, 'loadEvent');
     component.loadEvent('https://example.com/event_data/test.json');
-    expect((component as any).loadJSONEvent).toHaveBeenCalled();
-
-    jest.spyOn(component as any, 'loadJiveXMLEvent');
-    component.loadEvent('https://example.com/event_data/test.xml');
-    expect((component as any).loadJiveXMLEvent).toHaveBeenCalled();
+    expect(mockFileLoaderService.loadEvent).toHaveBeenCalled();
   });
 
   it('should load config', () => {
     jest
-      .spyOn(EventDataExplorerDialogComponent.prototype, 'makeRequest')
+      .spyOn(FileLoaderService.prototype, 'makeRequest')
       .mockImplementation(
-        (_arg1: string, _arg2: string, onData: (data: string) => void) =>
-          onData('{}')
+        (
+          _arg1: string,
+          _arg2: 'json' | 'blob' | 'text',
+          onData: (data: any) => void
+        ) => {
+          onData('{}');
+          return true;
+        }
       );
-
     component.loadConfig('https://example.com/config_data/test.json');
-
     expect(mockStateManager.loadStateFromJSON).toHaveBeenCalledWith({});
   });
 });

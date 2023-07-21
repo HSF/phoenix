@@ -46,15 +46,17 @@ describe('CycleEventsComponent', () => {
     jest.clearAllTimers();
     jest.useFakeTimers();
     component.interval = 1000;
-
     component.toggleCycle();
-
     expect(component.active).toBeTruthy();
-
+    expect(component.reloading).toBeFalsy();
     jest.advanceTimersByTime(1200);
-
     expect(mockEventDisplay.loadEvent).toHaveBeenCalledWith('eventKey2');
-
+    component.toggleCycle();
+    expect(component.active).toBeTruthy();
+    expect(component.reloading).toBeTruthy();
+    component.toggleCycle();
+    expect(component.active).toBeFalsy();
+    expect(component.reloading).toBeFalsy();
     jest.clearAllTimers();
   });
 });
