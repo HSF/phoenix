@@ -1,7 +1,5 @@
 <mat-menu #viewOptions>
-  <button
-    mat-menu-item
-  >
+  <button mat-menu-item>
     <mat-checkbox
       #showCartesianGridCheckbox
       (click)="$event.stopPropagation()"
@@ -10,9 +8,7 @@
     </mat-checkbox>
     <button
       class="icon-wrapper icon-button btn-blank item-settings"
-      (click)="
-        openCartesianGridConfigDialog()
-      "
+      (click)="openCartesianGridConfigDialog()"
     >
       <svg>
         <use href="assets/icons/gear.svg#gear"></use>
@@ -49,10 +45,8 @@
   </button>
   <button
     mat-menu-item
-    (click)="
-      showLabelsCheckbox._inputElement.nativeElement.click();
-    "
-    >
+    (click)="showLabelsCheckbox._inputElement.nativeElement.click()"
+  >
     <mat-checkbox
       #showLabelsCheckbox
       (click)="$event.stopPropagation()"
