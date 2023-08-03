@@ -34,10 +34,10 @@
     "qrcode": "1.5.3",
     "rxjs": "^7.8.1",
     "three": "^0.152.2",
-    "tslib": "^2.5.0"
+    "tslib": "^2.6.1"
   },
   "devDependencies": {
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^3.3.2"
   },
   "module": "dist/fesm2015/phoenix-ui-components.mjs",
   "es2020": "dist/fesm2020/phoenix-ui-components.mjs",
