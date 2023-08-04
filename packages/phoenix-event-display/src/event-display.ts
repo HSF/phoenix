@@ -97,25 +97,6 @@ export class EventDisplay {
   }
 
   /**
-   * Takes a screen shot of the current view
-   * @param width the width of the picture to be created
-   * @param height the height of the picture to be created
-   * @param fitting the type of fitting to use in case width and height
-   * ratio do not match the current screen ratio. Posible values are
-   *    - Crop : current view is cropped on both side or up and done to fit ratio
-   *             thus it is not stretched, but some parts are lost
-   *    - Stretch : current view is stretched to given format
-   *               this is the default and used also for any other value given to fitting
-   */
-  public makeScreenShot(
-    width: number,
-    height: number,
-    fitting: string = 'Stretch',
-  ) {
-    this.graphicsLibrary.makeScreenShot(width, height, fitting);
-  }
-
-  /**
    * Initialize XR.
    * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the XR session ends.
