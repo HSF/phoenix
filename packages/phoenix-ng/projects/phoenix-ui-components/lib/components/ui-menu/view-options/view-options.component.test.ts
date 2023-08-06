@@ -54,12 +54,12 @@ describe('ViewOptionsComponent', () => {
       'Test View',
       [0, 0, -12000],
       [0, 0, 0],
-      'left-cube'
+      'left-cube',
     );
     component.displayView(mockEvent, mockPresetView);
 
     expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(
-      mockPresetView
+      mockPresetView,
     );
   });
 
@@ -71,7 +71,7 @@ describe('ViewOptionsComponent', () => {
     component.setAxis(event);
 
     expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 
@@ -83,7 +83,7 @@ describe('ViewOptionsComponent', () => {
     component.setGrid(event);
 
     expect(mockEventDisplay.getUIManager().setShowGrid).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 });

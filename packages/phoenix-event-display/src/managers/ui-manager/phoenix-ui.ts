@@ -44,7 +44,7 @@ export interface PhoenixUI<T> {
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
-    collectionColor?: Color
+    collectionColor?: Color,
   ): void;
 
   /**

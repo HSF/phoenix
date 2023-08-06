@@ -22,7 +22,7 @@ describe('JSRootEventLoader', () => {
   it('should not process empty event data object', () => {
     const mockObjectNoArr = { _typename: 'TList', arr: undefined };
     expect(
-      (jsrootLoader as any).processItemsList(mockObjectNoArr)
+      (jsrootLoader as any).processItemsList(mockObjectNoArr),
     ).toBeUndefined();
   });
 
@@ -34,14 +34,14 @@ describe('JSRootEventLoader', () => {
     };
     (jsrootLoader as any).processItemsList(mockTGeoTrack);
     expect(
-      (jsrootLoader as any).fileEventData.Tracks['TGeoTracks'].length
+      (jsrootLoader as any).fileEventData.Tracks['TGeoTracks'].length,
     ).toBeGreaterThan(0);
   });
 
   it('should not get TGeoTrack', () => {
     expect((jsrootLoader as any).getTGeoTrack(undefined)).toBeFalsy();
     expect(
-      (jsrootLoader as any).getTGeoTrack({ fNpoints: undefined })
+      (jsrootLoader as any).getTGeoTrack({ fNpoints: undefined }),
     ).toBeFalsy();
   });
 
@@ -52,19 +52,19 @@ describe('JSRootEventLoader', () => {
     (jsrootLoader as any).processItemsList(mockHitObjAlt1);
     // Should have an empty array
     expect(
-      Object.keys((jsrootLoader as any).fileEventData.Hits).length
+      Object.keys((jsrootLoader as any).fileEventData.Hits).length,
     ).toBeGreaterThan(0);
 
     const mockHitObjAlt2 = {
       _typename: 'TPolyMarker3D',
     };
     const prevHitTypesLength = Object.keys(
-      (jsrootLoader as any).fileEventData.Hits
+      (jsrootLoader as any).fileEventData.Hits,
     ).length;
     (jsrootLoader as any).processItemsList(mockHitObjAlt2);
     // Hits should have another type (with empty array value)
     expect(Object.keys((jsrootLoader as any).fileEventData.Hits).length).toBe(
-      prevHitTypesLength + 1
+      prevHitTypesLength + 1,
     );
   });
 
@@ -79,14 +79,14 @@ describe('JSRootEventLoader', () => {
       _typename: 'TEveGeoShapeExtract',
     };
     expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj1)
+      (jsrootLoader as any).processItemsList(mockExtraObj1),
     ).toBeUndefined();
 
     const mockExtraObj2 = {
       _typename: 'ROOT::Experimental::TEveGeoShapeExtract',
     };
     expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj2)
+      (jsrootLoader as any).processItemsList(mockExtraObj2),
     ).toBeUndefined();
   });
 

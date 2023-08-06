@@ -43,7 +43,7 @@ describe('AutoRotateComponent', () => {
 
     expect(component.autoRotate).toBe(true);
     expect(mockEventDisplay.getUIManager().setAutoRotate).toHaveBeenCalledWith(
-      component.autoRotate
+      component.autoRotate,
     );
   });
 });

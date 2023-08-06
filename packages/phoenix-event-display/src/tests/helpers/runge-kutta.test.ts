@@ -49,7 +49,7 @@ describe('RungeKutta', () => {
       q,
       mss,
       plength,
-      inbounds
+      inbounds,
     );
 
     expect(result.length).toBe(8192);

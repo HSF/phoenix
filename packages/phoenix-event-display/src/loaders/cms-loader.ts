@@ -31,7 +31,7 @@ export class CMSLoader extends PhoenixLoader {
       this.addObjectType(
         eventData.MuonChambers,
         CMSObjects.getMuonChamber,
-        'MuonChambers'
+        'MuonChambers',
       );
     }
   }
@@ -45,7 +45,7 @@ export class CMSLoader extends PhoenixLoader {
   public readIgArchive(
     file: string | File,
     onFileRead: (allEvents: any[]) => void,
-    eventPathName?: string
+    eventPathName?: string,
   ) {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
@@ -56,7 +56,7 @@ export class CMSLoader extends PhoenixLoader {
         // If the event path or name is given then filter all data to get the required events
         if (eventPathName) {
           allFilesPath = allFilesPath.filter((filePath) =>
-            filePath.includes(eventPathName)
+            filePath.includes(eventPathName),
           );
         }
         let i = 1;
@@ -113,14 +113,14 @@ export class CMSLoader extends PhoenixLoader {
   public loadEventDataFromIg(
     filePath: string,
     eventPathName: string,
-    onEventRead: (eventData: any) => void
+    onEventRead: (eventData: any) => void,
   ) {
     this.readIgArchive(
       filePath,
       (allEvents: any[]) => {
         onEventRead(allEvents[0]);
       },
-      eventPathName
+      eventPathName,
     );
   }
 
@@ -203,10 +203,10 @@ export class CMSLoader extends PhoenixLoader {
         if (objectParams['pos']) {
           // Increasing the scale to fit Phoenix's event display
           objectParams['pos'] = objectParams['pos'].map(
-            (point: number) => point * this.geometryScale
+            (point: number) => point * this.geometryScale,
           );
         }
-      }
+      },
     );
 
     Object.assign(Hits, newHits);
@@ -227,7 +227,7 @@ export class CMSLoader extends PhoenixLoader {
           // If the attribute of Calo Cluster is energy then scale it to a higher value
           objectParams['energy'] *= this.geometryScale;
         }
-      }
+      },
     );
 
     //! TO BE REVIEWED - Not using extras and assocs - output might be different
@@ -249,7 +249,7 @@ export class CMSLoader extends PhoenixLoader {
 
     // Filtering collections to get all Jets collections
     const jetsCollections = Object.keys(this.data['Collections']).filter(
-      (key) => key.toLowerCase().includes('jets')
+      (key) => key.toLowerCase().includes('jets'),
     );
     const cuts = [
       { attribute: 'et', min: 10 },
@@ -266,7 +266,7 @@ export class CMSLoader extends PhoenixLoader {
           }
         }
       },
-      cuts
+      cuts,
     );
 
     return Jets;
@@ -291,7 +291,7 @@ export class CMSLoader extends PhoenixLoader {
             ].map((val: number) => val * this.geometryScale);
           }
         }
-      }
+      },
     );
     return MuonChambers;
   }
@@ -306,7 +306,7 @@ export class CMSLoader extends PhoenixLoader {
   private getObjectCollections(
     collections: string[],
     processObject?: (objectParams: any) => void,
-    cuts?: { attribute: string; min?: number; max?: number }[]
+    cuts?: { attribute: string; min?: number; max?: number }[],
   ): any {
     const ObjectType = {};
 
@@ -443,7 +443,7 @@ export class CMSLoader extends PhoenixLoader {
     ];
     // Filtering to check if data actually exists in collections
     tracksCollections = tracksCollections.filter(
-      (obj) => this.data['Collections'][obj.collection]
+      (obj) => this.data['Collections'][obj.collection],
     );
 
     for (const tracksCollection of tracksCollections) {
@@ -500,12 +500,12 @@ export class CMSLoader extends PhoenixLoader {
         cp1 = new Vector3(
           p1.x + scale * d1.x,
           p1.y + scale * d1.y,
-          p1.z + scale * d1.z
+          p1.z + scale * d1.z,
         );
         cp2 = new Vector3(
           p2.x + scale * d2.x,
           p2.y + scale * d2.y,
-          p2.z + scale * d2.z
+          p2.z + scale * d2.z,
         );
 
         // Create the track curve

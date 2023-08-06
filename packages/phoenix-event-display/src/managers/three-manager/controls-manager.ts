@@ -38,7 +38,7 @@ export class ControlsManager {
    */
   constructor(
     rendererManager: RendererManager,
-    defaultView: number[] = [0, 0, 200]
+    defaultView: number[] = [0, 0, 200],
   ) {
     this.controls = [];
     this.mainControls = null;
@@ -51,7 +51,7 @@ export class ControlsManager {
       75,
       rendererElement.offsetWidth / rendererElement.offsetHeight,
       10,
-      100000
+      100000,
     );
     // Arguments: left, right, top, bottom, near and far distances
     const orthographicCamera = new OrthographicCamera(
@@ -60,16 +60,16 @@ export class ControlsManager {
       rendererElement.offsetHeight / 2,
       rendererElement.offsetHeight / -2,
       10,
-      100000
+      100000,
     );
     // Orbit controls allow to move around
     this.perspectiveControls = this.setOrbitControls(
       perspectiveCamera,
-      rendererElement
+      rendererElement,
     );
     this.orthographicControls = this.setOrbitControls(
       orthographicCamera,
-      rendererElement
+      rendererElement,
     );
     perspectiveCamera.position.z = orthographicCamera.position.z =
       defaultView[2];
@@ -106,7 +106,7 @@ export class ControlsManager {
    */
   private setOrbitControls(
     camera: PerspectiveCamera | OrthographicCamera,
-    domElement?: HTMLElement
+    domElement?: HTMLElement,
   ): OrbitControls {
     const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
@@ -271,7 +271,7 @@ export class ControlsManager {
           {
             zoom: camera.zoom * (1 / zoomFactor),
           },
-          zoomTime
+          zoomTime,
         );
         camera.updateProjectionMatrix();
       } else {
@@ -282,7 +282,7 @@ export class ControlsManager {
             y: cameraPosition.y * zoomFactor,
             z: cameraPosition.z * zoomFactor,
           },
-          zoomTime
+          zoomTime,
         );
       }
       anim.start();
@@ -311,7 +311,7 @@ export class ControlsManager {
                 y: objectPosition.y * 1.1,
                 z: objectPosition.z * 1.1,
               },
-              200
+              200,
             )
             .start();
         }
@@ -342,11 +342,11 @@ export class ControlsManager {
               if (childObject.geometry?.boundingSphere) {
                 try {
                   objectPosition.add(
-                    childObject.geometry.boundingSphere.getBoundingBox().max
+                    childObject.geometry.boundingSphere.getBoundingBox().max,
                   );
                 } catch (e) {
                   objectPosition.add(
-                    childObject.geometry.boundingSphere?.center
+                    childObject.geometry.boundingSphere?.center,
                   );
                 }
               }
@@ -431,7 +431,7 @@ export class ControlsManager {
     controls.object.position.set(
       this.activeControls.object.position.x,
       this.activeControls.object.position.y,
-      this.activeControls.object.position.z
+      this.activeControls.object.position.z,
     );
     // controls.update();
   }

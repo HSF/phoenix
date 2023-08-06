@@ -48,7 +48,7 @@ fetch('path/to/event-data.json')
 eventDisplay.loadOBJGeometry(
   'path/to/geometry.obj',
   'Detector OBJ',
-  0x8c8c8c /* color */
+  0x8c8c8c /* color */,
 );
 ```
 

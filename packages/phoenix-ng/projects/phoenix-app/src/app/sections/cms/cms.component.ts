@@ -19,7 +19,7 @@ import {
 export class CMSComponent implements OnInit {
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
-    'phoenix-menu'
+    'phoenix-menu',
   );
   loaded = false;
   loadingProgress = 0;
@@ -51,7 +51,7 @@ export class CMSComponent implements OnInit {
       'CMS Detector',
       undefined,
       10,
-      true
+      true,
     );
 
     cmsLoader.readIgArchive(
@@ -59,7 +59,7 @@ export class CMSComponent implements OnInit {
       (allEvents: any[]) => {
         const allEventsData = cmsLoader.getAllEventsData(allEvents);
         this.eventDisplay.parsePhoenixEvents(allEventsData);
-      }
+      },
     );
 
     this.eventDisplay

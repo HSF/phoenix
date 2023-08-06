@@ -239,7 +239,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           trackerHitRefs.forEach((trackerHitRef: any) => {
             const trackerHits = this.getCollByID(
               event,
-              trackerHitRef['collectionID']
+              trackerHitRef['collectionID'],
             );
             const trackerHit = trackerHits[trackerHitRef['index']];
             positions.push([
@@ -397,15 +397,15 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
         const dx2 = Math.pow(
           rawCells[j].position.x - rawCells[k].position.x,
-          2
+          2,
         );
         const dy2 = Math.pow(
           rawCells[j].position.y - rawCells[k].position.y,
-          2
+          2,
         );
         const dz2 = Math.pow(
           rawCells[j].position.z - rawCells[k].position.z,
-          2
+          2,
         );
         const dr = Math.sqrt(dx2 + dy2 + dz2);
 
@@ -603,7 +603,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const pz = rawMET['momentum']['z'];
 
         const p = Math.sqrt(
-          Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2)
+          Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2),
         );
         const etx = (rawMET['energy'] * px) / p;
         const ety = (rawMET['energy'] * py) / p;

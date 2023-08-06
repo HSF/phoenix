@@ -116,35 +116,35 @@ export class TracksMesh extends BufferGeometry {
       };
     } else {
       (this._attributes.position as BufferAttribute).copyArray(
-        new Float32Array(this.positions)
+        new Float32Array(this.positions),
       );
       this._attributes.position.needsUpdate = true;
       (this._attributes.previous as BufferAttribute).copyArray(
-        new Float32Array(this.previous)
+        new Float32Array(this.previous),
       );
       this._attributes.previous.needsUpdate = true;
       (this._attributes.next as BufferAttribute).copyArray(
-        new Float32Array(this.next)
+        new Float32Array(this.next),
       );
       this._attributes.next.needsUpdate = true;
       (this._attributes.side as BufferAttribute).copyArray(
-        new Float32Array(this.side)
+        new Float32Array(this.side),
       );
       this._attributes.side.needsUpdate = true;
       (this._attributes.track_id as BufferAttribute).copyArray(
-        new Int32Array(this.track_id)
+        new Int32Array(this.track_id),
       );
       this._attributes.track_id.needsUpdate = true;
       (this._attributes.color as BufferAttribute).copyArray(
-        new Float32Array(this.colors)
+        new Float32Array(this.colors),
       );
       this._attributes.color.needsUpdate = true;
       (this._attributes.counter as BufferAttribute).copyArray(
-        new Float32Array(this.counter)
+        new Float32Array(this.counter),
       );
       this._attributes.counter.needsUpdate = true;
       (this._attributes.index as BufferAttribute).copyArray(
-        new Uint32Array(this.indices_array)
+        new Uint32Array(this.indices_array),
       );
       this._attributes.index.needsUpdate = true;
     }
@@ -241,7 +241,7 @@ export class TracksMaterial extends ShaderMaterial {
           lineWidth: { value: 1 },
           resolution: { value: new Vector2(1, 1) },
           progress: { value: 1 },
-        }
+        },
       ),
       vertexShader: ShaderChunk['tracks_vert'],
       fragmentShader: ShaderChunk['tracks_vert'],

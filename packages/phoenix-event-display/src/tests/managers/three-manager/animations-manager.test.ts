@@ -32,7 +32,7 @@ describe('AnimationsManager', () => {
     const tween = animationsManager.getCameraTween(
       Object.values(targetPosition),
       0,
-      Easing.Linear.None
+      Easing.Linear.None,
     );
 
     expect(camera.position).toEqual(new Vector3());
@@ -63,7 +63,7 @@ describe('AnimationsManager', () => {
       animationsManager.animateEvent(
         500,
         () => {},
-        () => {}
+        () => {},
       );
       expect(scene.getObjectByName).toHaveBeenCalled();
     });

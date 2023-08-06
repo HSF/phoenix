@@ -74,7 +74,7 @@ describe('URLOptionsManager', () => {
 
     urlOptionsManager.applyHideWidgetsOptions();
     expect(urlOptionsManagerPrivate.hideIdsWithURLOption).toHaveBeenCalledWith(
-      hideWidgetsOptions
+      hideWidgetsOptions,
     );
   });
 
@@ -95,7 +95,7 @@ describe('URLOptionsManager', () => {
 
     urlOptionsManager.applyEmbedOption();
     expect(urlOptionsManagerPrivate.hideIdsWithURLOption).toHaveBeenCalledWith(
-      hideWidgetsOptions
+      hideWidgetsOptions,
     );
   });
 

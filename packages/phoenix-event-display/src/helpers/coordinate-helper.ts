@@ -46,7 +46,7 @@ export class CoordinateHelper {
   public static sphericalToCartesian(
     radius: number,
     theta: number,
-    phi: number
+    phi: number,
   ): Vector3 {
     // Threejs uses theta as azimuthal, so need to reverse.
     const vector = new Vector3();
@@ -65,7 +65,7 @@ export class CoordinateHelper {
   public static etaPhiToCartesian(
     radius: number,
     eta: number,
-    phi: number
+    phi: number,
   ): Vector3 {
     const vector = new Vector3();
     // Threejs uses theta as azimuthal, so need to reverse.

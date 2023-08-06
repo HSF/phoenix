@@ -41,7 +41,7 @@ export class PresetView {
     icon: string,
     clipping: ClippingSetting = ClippingSetting.NotForced,
     clippingStartAngle: number = 0,
-    clippingOpeningAngle: number = 0
+    clippingOpeningAngle: number = 0,
   ) {
     this.name = name;
     this.cameraPos = cameraPos;

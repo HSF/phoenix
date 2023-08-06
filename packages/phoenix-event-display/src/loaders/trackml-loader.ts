@@ -125,7 +125,7 @@ export class TrackmlLoader extends PhoenixLoader {
     }
     console.log(
       'Will show this many hits',
-      eventData.Hits.Reconstructed.length
+      eventData.Hits.Reconstructed.length,
     );
 
     if (this.truthData) {

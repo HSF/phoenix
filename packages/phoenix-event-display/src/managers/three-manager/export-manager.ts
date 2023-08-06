@@ -27,7 +27,7 @@ export class ExportManager {
   public exportPhoenixScene(
     scene: Scene,
     eventData: Object3D,
-    geometries: Object3D
+    geometries: Object3D,
   ) {
     const exporter = new GLTFExporter();
 
@@ -40,7 +40,7 @@ export class ExportManager {
         const output = JSON.stringify(jsonResult, null, 2);
         saveFile(output, 'phoenix-scene.phnx', 'text/plain');
       },
-      null
+      null,
     );
   }
 

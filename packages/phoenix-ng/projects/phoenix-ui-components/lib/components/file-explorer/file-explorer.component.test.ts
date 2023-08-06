@@ -59,7 +59,7 @@ describe('FileExplorerComponent', () => {
     jest.spyOn(component.onFileSelect, 'emit');
     component.onSelect('http://example.com/file.json');
     expect(component.onFileSelect.emit).toHaveBeenCalledWith(
-      'http://example.com/file.json'
+      'http://example.com/file.json',
     );
   });
 

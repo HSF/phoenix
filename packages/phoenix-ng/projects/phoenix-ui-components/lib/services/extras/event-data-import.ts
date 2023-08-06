@@ -13,6 +13,6 @@ export class ImportOption {
     public format: string,
     public fileType: string,
     public handler: (files: FileList) => void,
-    public accept?: string
+    public accept?: string,
   ) {}
 }

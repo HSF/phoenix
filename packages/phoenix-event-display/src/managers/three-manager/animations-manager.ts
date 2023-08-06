@@ -44,7 +44,7 @@ export class AnimationsManager {
   constructor(
     private scene: Scene,
     private activeCamera: Camera,
-    private rendererManager: RendererManager
+    private rendererManager: RendererManager,
   ) {
     this.animateEvent = this.animateEvent.bind(this);
     this.animateEventWithClipping = this.animateEventWithClipping.bind(this);
@@ -60,11 +60,11 @@ export class AnimationsManager {
   public getCameraTween(
     pos: number[],
     duration: number = 1000,
-    easing?: typeof Easing.Linear.None
+    easing?: typeof Easing.Linear.None,
   ) {
     const tween = new Tween(this.activeCamera.position).to(
       { x: pos[0], y: pos[1], z: pos[2] },
-      duration
+      duration,
     );
 
     if (easing) {
@@ -83,7 +83,7 @@ export class AnimationsManager {
   public animateThroughEvent(
     startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void
+    onAnimationEnd?: () => void,
   ) {
     // Move to start
     const start = this.getCameraTween(startPos, 1000, Easing.Cubic.Out);
@@ -109,7 +109,7 @@ export class AnimationsManager {
     const rotateStart = this.getCameraTween(
       [0, 0, radius],
       tweenDuration,
-      Easing.Cubic.Out
+      Easing.Cubic.Out,
     );
 
     let rotate = rotateStart;
@@ -128,7 +128,7 @@ export class AnimationsManager {
     const startClone = this.getCameraTween(
       startPos,
       tweenDuration,
-      Easing.Cubic.Out
+      Easing.Cubic.Out,
     );
     startClone.onComplete(() => onAnimationEnd?.());
     startClone.delay(500);
@@ -150,7 +150,7 @@ export class AnimationsManager {
   public animateEvent(
     tweenDuration: number,
     onEnd?: () => void,
-    onAnimationStart?: () => void
+    onAnimationStart?: () => void,
   ) {
     const extraAnimationSphereDuration = tweenDuration * 0.25;
     tweenDuration *= 0.75;
@@ -186,7 +186,7 @@ export class AnimationsManager {
                 {
                   progress: 1,
                 },
-                tweenDuration
+                tweenDuration,
               );
               eventObjectTween.onComplete(() => {
                 eventObject.material.progress = 1;
@@ -196,12 +196,12 @@ export class AnimationsManager {
               const oldDrawRangeCount = eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
               const eventObjectTween = new Tween(
-                eventObject.geometry.drawRange
+                eventObject.geometry.drawRange,
               ).to(
                 {
                   count: geometryPosCount,
                 },
-                tweenDuration
+                tweenDuration,
               );
               eventObjectTween.onComplete(() => {
                 eventObject.geometry.drawRange.count = oldDrawRangeCount;
@@ -222,7 +222,7 @@ export class AnimationsManager {
               y: eventObject.scale.y,
               z: eventObject.scale.z,
             },
-            tweenDuration
+            tweenDuration,
           );
           // Manually updating scale since we need to change position
           scaleTween.onUpdate((updatedScale: Vector3) => {
@@ -236,7 +236,7 @@ export class AnimationsManager {
           allTweens.push(scaleTween);
         } else {
           const hasPosition = !eventObject.position.equals(
-            new Vector3(0, 0, 0)
+            new Vector3(0, 0, 0),
           );
           let position = hasPosition
             ? eventObject.position
@@ -245,7 +245,7 @@ export class AnimationsManager {
           // Edit geometry for hits
           if (eventObject.name === 'Hit') {
             position = Array.from(
-              eventObject.geometry.attributes['position'].array
+              eventObject.geometry.attributes['position'].array,
             );
             eventObject.geometry.deleteAttribute('position');
             eventObject.geometry.computeBoundingSphere();
@@ -266,7 +266,7 @@ export class AnimationsManager {
     // Tween for the animation sphere
     const animationSphereTween = new Tween(animationSphere).to(
       { radius: 3000 },
-      tweenDuration
+      tweenDuration,
     );
 
     const onAnimationSphereUpdate = (updateAnimationSphere: Sphere) => {
@@ -277,8 +277,8 @@ export class AnimationsManager {
           const hitsPositions = this.getHitsPositions(obj.position);
           const reachedHits = hitsPositions.filter((hitPosition) =>
             updateAnimationSphere.containsPoint(
-              new Vector3().fromArray(hitPosition)
-            )
+              new Vector3().fromArray(hitPosition),
+            ),
           );
 
           if (reachedHits.length > 0) {
@@ -286,8 +286,8 @@ export class AnimationsManager {
               'position',
               new BufferAttribute(
                 new Float32Array([].concat(...reachedHits)),
-                3
-              )
+                3,
+              ),
             );
             geometry.computeBoundingSphere();
           }
@@ -302,7 +302,7 @@ export class AnimationsManager {
     // Animation sphere tween after covering the tracks
     const animationSphereTweenClone = new Tween(animationSphere).to(
       { radius: 10000 },
-      extraAnimationSphereDuration
+      extraAnimationSphereDuration,
     );
     animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
 
@@ -337,7 +337,7 @@ export class AnimationsManager {
     tweenDuration: number,
     onEnd?: () => void,
     onAnimationStart?: () => void,
-    clippingConstant: number = 11000
+    clippingConstant: number = 11000,
   ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
@@ -374,7 +374,7 @@ export class AnimationsManager {
       animationClipPlane.constant = 0;
       const tween = new Tween(animationClipPlane).to(
         { constant: clippingConstant },
-        tweenDuration
+        tweenDuration,
       );
       allTweens.push(tween);
     }
@@ -415,7 +415,7 @@ export class AnimationsManager {
     particleSize: number = 10,
     distanceFromOrigin: number = 5000,
     particleColor: Color = new Color(0xffffff),
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     const particleGeometry = new SphereGeometry(particleSize, 32, 32);
     const particleMaterial = new MeshBasicMaterial({
@@ -442,7 +442,7 @@ export class AnimationsManager {
           {
             opacity: 1,
           },
-          300
+          300,
         )
         .start();
 
@@ -451,7 +451,7 @@ export class AnimationsManager {
           {
             z: 0,
           },
-          tweenDuration
+          tweenDuration,
         )
         .start();
 
@@ -474,10 +474,10 @@ export class AnimationsManager {
     animationFunction: (
       tweenDuration: number,
       onEnd?: () => void,
-      onAnimationStart?: () => void
+      onAnimationStart?: () => void,
     ) => void,
     tweenDuration: number,
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
@@ -521,12 +521,12 @@ export class AnimationsManager {
    */
   public animateClippingWithCollision(
     tweenDuration: number,
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     this.animateWithCollision(
       this.animateEventWithClipping,
       tweenDuration,
-      onEnd
+      onEnd,
     );
   }
 
@@ -565,7 +565,7 @@ export class AnimationsManager {
     const firstTween = this.getCameraTween(
       positions[0].position,
       positions[0].duration ?? 2000,
-      positions[0].easing
+      positions[0].easing,
     );
 
     let previousTween = firstTween;

@@ -27,7 +27,10 @@ export class ARManager extends XRManager {
    * @param camera Camera in the scene.
    * @override
    */
-  constructor(private scene: Scene, private camera: PerspectiveCamera) {
+  constructor(
+    private scene: Scene,
+    private camera: PerspectiveCamera,
+  ) {
     super(XRSessionType.AR);
 
     this.previousValues.sceneScale = scene.scale.x;

@@ -40,7 +40,7 @@ describe('ExperimentInfoComponent', () => {
     component.ngOnInit();
 
     expect(
-      mockEventDisplayService.listenToDisplayedEventChange
+      mockEventDisplayService.listenToDisplayedEventChange,
     ).toHaveBeenCalled();
   });
 });

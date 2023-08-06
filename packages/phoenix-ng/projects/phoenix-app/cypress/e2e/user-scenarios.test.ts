@@ -14,7 +14,7 @@ describe('User scenarios', () => {
       .eq(0)
       .contains(
         Cypress.config().baseUrl +
-          'trackml?file=test_path&type=jivexml&config=test_path2'
+          'trackml?file=test_path&type=jivexml&config=test_path2',
       )
       .should('be.visible');
     cy.get('.share-box')
@@ -22,7 +22,7 @@ describe('User scenarios', () => {
       .contains(
         '<iframe src="' +
           Cypress.config().baseUrl +
-          'trackml?embed=true&file=test_path&type=jivexml&config=test_path2"></iframe>'
+          'trackml?embed=true&file=test_path&type=jivexml&config=test_path2"></iframe>',
       )
       .should('be.visible');
 
@@ -43,7 +43,7 @@ describe('User scenarios', () => {
     cy.get('.share-box')
       .eq(0)
       .contains(
-        Cypress.config().baseUrl + 'trackml?file=test&type=json&config=test2'
+        Cypress.config().baseUrl + 'trackml?file=test&type=json&config=test2',
       )
       .should('be.visible');
     cy.get('.share-box')
@@ -51,7 +51,7 @@ describe('User scenarios', () => {
       .contains(
         '<iframe src="' +
           Cypress.config().baseUrl +
-          'trackml?embed=true&file=test&type=json&config=test2"></iframe>'
+          'trackml?embed=true&file=test&type=json&config=test2"></iframe>',
       )
       .should('be.visible');
 

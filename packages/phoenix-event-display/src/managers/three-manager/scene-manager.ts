@@ -359,7 +359,7 @@ export class SceneManager {
       textGeometry,
       new MeshBasicMaterial({
         color: new Color(colour),
-      })
+      }),
     );
     return mesh;
   }
@@ -373,7 +373,7 @@ export class SceneManager {
   public setAxis(
     visible: boolean,
     scale: number = 2000,
-    labels: boolean = true
+    labels: boolean = true,
   ) {
     if (this.axis == null) {
       this.axis = new Group();
@@ -576,7 +576,7 @@ export class SceneManager {
       yDistance: number;
       zDistance: number;
       sparsity: number;
-    }
+    },
   ) {
     this.createCartesianGrid(scale);
     for (let i = 0; i <= 62; i += 1) {
@@ -732,7 +732,7 @@ export class SceneManager {
     uuid: string,
     labelId: string,
     objectPosition: Vector3,
-    cameraControls: OrbitControls
+    cameraControls: OrbitControls,
   ) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
     object.userData.label = label;
@@ -752,7 +752,7 @@ export class SceneManager {
 
     cameraControls.removeEventListener(
       'change',
-      this.labelTextLookCallbacks[uuid]
+      this.labelTextLookCallbacks[uuid],
     );
     this.labelTextLookCallbacks[uuid] = () => {
       textMesh.lookAt(cameraControls.object.position);
@@ -760,7 +760,7 @@ export class SceneManager {
     this.labelTextLookCallbacks[uuid]();
     cameraControls.addEventListener(
       'change',
-      this.labelTextLookCallbacks[uuid]
+      this.labelTextLookCallbacks[uuid],
     );
   }
 
@@ -847,7 +847,7 @@ export class SceneManager {
 
     if (this.axisLabels != null) {
       this.axisLabels.children.forEach((element) =>
-        element.lookAt(camera.position)
+        element.lookAt(camera.position),
       );
     }
   }
@@ -879,7 +879,7 @@ export class SceneManager {
         const etaVec = CoordinateHelper.etaPhiToCartesian(
           radius,
           eta,
-          Math.PI / 2.0
+          Math.PI / 2.0,
         );
         const text = this.getText('η=' + eta.toPrecision(2), etaColour);
         text.position.set(etaVec.x, etaVec.y, etaVec.z);
@@ -962,7 +962,7 @@ export class SceneManager {
                 azi.toPrecision(1) +
                 ' , ' +
                 polar.toPrecision(1),
-              new Color(0x00ff00)
+              new Color(0x00ff00),
             );
             text.position.set(end.x, end.y, end.z);
             this.etaPhiGrid.add(text);

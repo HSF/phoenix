@@ -73,12 +73,12 @@ describe('ObjectClippingComponent', () => {
 
     component.changeStartClippingAngle(sliderValue);
     expect(
-      mockEventDisplay.getUIManager().rotateStartAngleClipping
+      mockEventDisplay.getUIManager().rotateStartAngleClipping,
     ).toHaveBeenCalledWith(sliderValue);
 
     component.changeOpeningClippingAngle(sliderValue);
     expect(
-      mockEventDisplay.getUIManager().rotateOpeningAngleClipping
+      mockEventDisplay.getUIManager().rotateOpeningAngleClipping,
     ).toHaveBeenCalledWith(sliderValue);
   });
 });

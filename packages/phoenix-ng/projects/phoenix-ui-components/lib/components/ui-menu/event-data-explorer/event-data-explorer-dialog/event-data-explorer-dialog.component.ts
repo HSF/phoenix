@@ -27,7 +27,7 @@ export class EventDataExplorerDialogComponent {
     private eventDisplay: EventDisplayService,
     private fileLoader: FileLoaderService,
     private dialogRef: MatDialogRef<EventDataExplorerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private dialogData: EventDataExplorerDialogData
+    @Inject(MAT_DIALOG_DATA) private dialogData: EventDataExplorerDialogData,
   ) {
     // Event data
     fileLoader.makeRequest(
@@ -35,11 +35,11 @@ export class EventDataExplorerDialogComponent {
       'json',
       (res: FileResponse[]) => {
         const filePaths = res.filter((file) =>
-          supportFileTypes.includes(file.name.split('.').pop())
+          supportFileTypes.includes(file.name.split('.').pop()),
         );
 
         this.eventDataFileNode = this.buildFileNode(filePaths);
-      }
+      },
     );
 
     // Config
@@ -48,11 +48,11 @@ export class EventDataExplorerDialogComponent {
       'json',
       (res: FileResponse[]) => {
         const filePaths = res.filter(
-          (file) => file.name.split('.').pop() === 'json'
+          (file) => file.name.split('.').pop() === 'json',
         );
 
         this.configFileNode = this.buildFileNode(filePaths);
-      }
+      },
     );
   }
 
@@ -72,7 +72,7 @@ export class EventDataExplorerDialogComponent {
         const stateManager = this.eventDisplay.getStateManager();
         stateManager.loadStateFromJSON(JSON.parse(config));
         this.onClose();
-      }
+      },
     );
     this.loading = false;
   }

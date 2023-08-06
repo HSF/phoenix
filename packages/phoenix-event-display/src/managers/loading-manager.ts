@@ -66,7 +66,7 @@ export class LoadingManager {
 
     const totalProgress = Object.values(this.progressItems).reduce(
       (acc, val) => acc + val,
-      0
+      0,
     );
     const totalItems = Object.keys(this.progressItems).length;
 

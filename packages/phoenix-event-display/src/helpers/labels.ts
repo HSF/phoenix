@@ -8,5 +8,5 @@
 export const getLabelTitle = (
   eventDataType: string,
   collection: string,
-  index: string | number
+  index: string | number,
 ) => `${eventDataType} > ${collection} > ${index}`;

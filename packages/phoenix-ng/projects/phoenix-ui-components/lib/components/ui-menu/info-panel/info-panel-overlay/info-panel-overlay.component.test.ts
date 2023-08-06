@@ -39,7 +39,7 @@ describe('InfoPanelOverlayComponent', () => {
     component.ngOnInit();
 
     expect(
-      mockEventDisplay.getInfoLogger().getInfoLoggerList
+      mockEventDisplay.getInfoLogger().getInfoLoggerList,
     ).toHaveBeenCalled();
     expect(component.actionsList).toBeTruthy();
   });

@@ -82,7 +82,7 @@ describe('SceneManager', () => {
     const eventGroup = sceneManager.addEventDataTypeGroup('object');
     const childObj = new Mesh(
       new BoxGeometry(1, 1, 1),
-      new MeshBasicMaterial()
+      new MeshBasicMaterial(),
     );
     eventGroup.add(childObj);
 
@@ -222,7 +222,7 @@ describe('SceneManager', () => {
         'uuid',
         'labelId',
         new Vector3(0, 0, 0),
-        new OrbitControls(camera, htmlElement)
+        new OrbitControls(camera, htmlElement),
       );
 
       expect(object.userData.label).toBe('label');
@@ -233,7 +233,7 @@ describe('SceneManager', () => {
       group.name = 'objectsGroup';
       const childObj = new Mesh(
         new BoxGeometry(1, 1, 1),
-        new MeshBasicMaterial()
+        new MeshBasicMaterial(),
       );
       group.add(childObj);
       sceneManager.getScene().add(group);
@@ -260,7 +260,7 @@ describe('SceneManager', () => {
     it('should wireframe geometries', () => {
       const testObj = new Mesh(
         new BoxGeometry(1, 1, 1),
-        new MeshBasicMaterial({ wireframe: false })
+        new MeshBasicMaterial({ wireframe: false }),
       );
       const geometryGroup = new Group();
       geometryGroup.name = SceneManager.GEOMETRIES_ID;
@@ -281,7 +281,7 @@ describe('SceneManager', () => {
     it('should scale Jets', () => {
       const testJet = new Mesh(
         new BoxGeometry(1, 1, 1),
-        new MeshBasicMaterial()
+        new MeshBasicMaterial(),
       );
       testJet.name = 'Jet';
       const jetsGroup = new Group();
@@ -296,7 +296,7 @@ describe('SceneManager', () => {
     it('should not scale Jets', () => {
       const testJet = new Mesh(
         new BoxGeometry(1, 1, 1),
-        new MeshBasicMaterial()
+        new MeshBasicMaterial(),
       );
       testJet.name = 'Jet2';
       const jetsGroup = new Group();

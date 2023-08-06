@@ -104,7 +104,7 @@ describe('TrackmlComponent', () => {
     jest.spyOn(http, 'get').mockReturnValue(
       of(`hit_id,x,y,z,volume_id,layer_id,module_id
     1,-64.4099,-7.1637,-1502.5,7,2,1
-    2,-55.3361,0.635342,-1502.5,7,2,1`)
+    2,-55.3361,0.635342,-1502.5,7,2,1`),
     );
     component.ngOnInit();
 

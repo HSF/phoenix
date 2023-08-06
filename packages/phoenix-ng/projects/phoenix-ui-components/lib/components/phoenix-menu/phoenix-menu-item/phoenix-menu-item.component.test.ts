@@ -34,7 +34,7 @@ describe('PhoenixMenuItemComponent', () => {
 
   it('should cast configs to any', () => {
     expect(component.castConfigsToAny(component.currentNode.configs)).toEqual(
-      []
+      [],
     );
   });
 });

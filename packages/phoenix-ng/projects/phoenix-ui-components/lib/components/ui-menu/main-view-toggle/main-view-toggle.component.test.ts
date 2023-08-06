@@ -43,7 +43,7 @@ describe('MainViewToggleComponent', () => {
 
     expect(component.orthographicView).toBe(true);
     expect(
-      mockEventDisplay.getUIManager().toggleOrthographicView
+      mockEventDisplay.getUIManager().toggleOrthographicView,
     ).toHaveBeenCalled();
   });
 });

@@ -60,7 +60,7 @@ describe('PhoenixLoader', () => {
       eventData['Event'],
       threeManager,
       uiManager,
-      infoLogger
+      infoLogger,
     );
   });
 
@@ -120,7 +120,7 @@ describe('PhoenixLoader', () => {
   it('should get function to add options to scale event object type by given factor', () => {
     // it should be called with these arguments as an anonymous function
     expect(
-      phoenixLoader.addScaleOptions('configKey', 'configLabel', () => {})
+      phoenixLoader.addScaleOptions('configKey', 'configLabel', () => {}),
     ).toBeInstanceOf(Function);
   });
 
@@ -130,7 +130,7 @@ describe('PhoenixLoader', () => {
     const index = 0;
 
     expect(
-      phoenixLoader.addLabelToEventObject(label, collectionName, index)
+      phoenixLoader.addLabelToEventObject(label, collectionName, index),
     ).toBe('Hits > hitsCollection > 0');
   });
 });

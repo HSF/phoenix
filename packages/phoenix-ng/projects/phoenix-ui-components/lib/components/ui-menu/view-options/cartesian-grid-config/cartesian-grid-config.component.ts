@@ -25,7 +25,7 @@ export class CartesianGridConfigComponent {
     @Inject(MAT_DIALOG_DATA)
     public data: { gridVisible: boolean; scale: number },
     private dialogRef: MatDialogRef<CartesianGridConfigComponent>,
-    private eventDisplay: EventDisplayService
+    private eventDisplay: EventDisplayService,
   ) {
     this.showCartesianGrid = this.data.gridVisible;
     this.scale = this.data.scale;
@@ -38,28 +38,28 @@ export class CartesianGridConfigComponent {
 
   addXYPlanes(zDistance: Event) {
     this.gridConfig.zDistance = Number(
-      (zDistance.target as HTMLInputElement).value
+      (zDistance.target as HTMLInputElement).value,
     );
     this.callSetShowCartesianGrid();
   }
 
   addYZPlanes(xDistance: Event) {
     this.gridConfig.xDistance = Number(
-      (xDistance.target as HTMLInputElement).value
+      (xDistance.target as HTMLInputElement).value,
     );
     this.callSetShowCartesianGrid();
   }
 
   addZXPlanes(yDistance: Event) {
     this.gridConfig.yDistance = Number(
-      (yDistance.target as HTMLInputElement).value
+      (yDistance.target as HTMLInputElement).value,
     );
     this.callSetShowCartesianGrid();
   }
 
   changeSparsity(sparsity: Event) {
     this.gridConfig.sparsity = Number(
-      (sparsity.target as HTMLInputElement).value
+      (sparsity.target as HTMLInputElement).value,
     );
     this.callSetShowCartesianGrid();
   }
@@ -85,7 +85,7 @@ export class CartesianGridConfigComponent {
       .setShowCartesianGrid(
         this.showCartesianGrid,
         this.scale,
-        this.gridConfig
+        this.gridConfig,
       );
   }
 
@@ -93,7 +93,7 @@ export class CartesianGridConfigComponent {
   calcPlanes(dis: number) {
     return Math.max(
       0,
-      1 + 2 * Math.floor((dis * 10) / (this.scale * this.gridConfig.sparsity))
+      1 + 2 * Math.floor((dis * 10) / (this.scale * this.gridConfig.sparsity)),
     );
   }
 }

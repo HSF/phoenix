@@ -27,7 +27,7 @@ export class VPToggleComponent {
     this.open = !this.open;
     this.moveVP(
       this.eventDisplay.getThreeManager().getSceneManager(),
-      this.open ? 30 : 0
+      this.open ? 30 : 0,
     );
   }
 }

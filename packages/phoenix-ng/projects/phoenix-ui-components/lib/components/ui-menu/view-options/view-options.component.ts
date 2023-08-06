@@ -17,7 +17,7 @@ export class ViewOptionsComponent implements OnInit {
 
   constructor(
     private eventDisplay: EventDisplayService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
