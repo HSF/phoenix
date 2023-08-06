@@ -140,15 +140,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     CdkTreeModule,
     MatTabsModule,
   ],
-  entryComponents: [
-    OverlayComponent,
-    OverlayViewWindowComponent,
-    IOOptionsDialogComponent,
-    CollectionsInfoOverlayComponent,
-    ObjectSelectionOverlayComponent,
-    InfoPanelOverlayComponent,
-    EventDataExplorerDialogComponent,
-  ],
   exports: PHOENIX_COMPONENTS,
   providers: [
     EventDisplayService,

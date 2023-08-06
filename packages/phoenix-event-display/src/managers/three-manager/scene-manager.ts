@@ -90,11 +90,11 @@ export class SceneManager {
   private setLights(useCameraLight: boolean = true) {
     this.useCameraLight = useCameraLight;
 
-    const ambientLight = new AmbientLight(0xffffff, 0.6);
+    const ambientLight = new AmbientLight(0xffffff, 1.2);
     this.scene.add(ambientLight);
 
     if (this.useCameraLight) {
-      this.cameraLight = new DirectionalLight(0xffffff, 0.45);
+      this.cameraLight = new DirectionalLight(0xffffff, 0.9);
       this.cameraLight.position.set(0, 0, 10);
       this.scene.add(this.cameraLight);
     } else {
