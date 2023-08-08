@@ -38,7 +38,7 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.22.9",
+    "@babel/core": "^7.22.10",
     "@tweenjs/tween.js": "^21.0.0",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.22.5",
-    "@babel/plugin-transform-runtime": "^7.22.9",
+    "@babel/plugin-transform-runtime": "^7.22.10",
     "@compodoc/compodoc": "^1.1.21",
     "@types/dat.gui": "^0.7.10",
     "@types/three": "^0.155.0",

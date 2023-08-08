@@ -99,10 +99,10 @@ describe('SceneManager', () => {
 
   it('should set the visibility of the scene eta/phi grid ', () => {
     sceneManager.setEtaPhiGrid(true);
-    expect(sceneManager['grid'].visible).toBe(true);
+    expect(sceneManager['etaPhiGrid'].visible).toBe(true);
 
     sceneManager.setEtaPhiGrid(false);
-    expect(sceneManager['grid'].visible).toBe(false);
+    expect(sceneManager['etaPhiGrid'].visible).toBe(false);
   });
 
   describe('With object in scene', () => {

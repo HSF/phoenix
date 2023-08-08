@@ -80,10 +80,10 @@ describe('ViewOptionsComponent', () => {
     const event = new MatCheckboxChange();
     event.checked = VALUE;
 
-    component.setGrid(event);
+    component.setEtaPhiGrid(event);
 
-    expect(mockEventDisplay.getUIManager().setShowGrid).toHaveBeenCalledWith(
-      VALUE,
-    );
+    expect(
+      mockEventDisplay.getUIManager().setShowEtaPhiGrid,
+    ).toHaveBeenCalledWith(VALUE);
   });
 });
