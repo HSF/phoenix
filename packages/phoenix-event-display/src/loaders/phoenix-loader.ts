@@ -433,6 +433,32 @@ export class PhoenixLoader implements EventDataLoader {
         addMETSizeOption,
       );
     }
+
+    if (eventData.MCParticles) {
+      const cuts = [
+        // new Cut('status', 0, 200, 20, 29),
+      ];
+
+      const scaleMCParticles = (value: number) => {
+        this.graphicsLibrary
+          .getSceneManager()
+          .scaleChildObjects('MCParticles', value);
+      };
+      const addMCParticlesOptions = this.addScaleOptions(
+        'mcParticlesScale',
+        'MCParticles Scale',
+        scaleMCParticles
+      );
+
+      this.addObjectType(
+        eventData.MCParticles,
+        PhoenixObjects.getMCParticle,
+        'MCParticles',
+        false,
+        cuts,
+        addMCParticlesOptions
+      );
+    }
   }
 
   /**

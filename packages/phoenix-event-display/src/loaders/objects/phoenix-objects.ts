@@ -7,6 +7,7 @@ import {
   MeshToonMaterial,
   Mesh,
   BufferGeometry,
+  ConeGeometry,
   LineBasicMaterial,
   Line,
   Group,
@@ -22,12 +23,13 @@ import {
   LineSegments,
   LineDashedMaterial,
   CanvasTexture,
+  ArrowHelper,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
-import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { TracksMaterial, TracksMesh } from './tracks';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
 
@@ -472,7 +474,7 @@ export class PhoenixObjects {
       boxGeometry.translate(pointPos[i], pointPos[i + 1], pointPos[i + 2]);
       geometries.push(boxGeometry);
     }
-    const geometry = mergeBufferGeometries(geometries);
+    const geometry = mergeGeometries(geometries);
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
@@ -900,5 +902,99 @@ export class PhoenixObjects {
     irrCells.uuid = cell.uuid;
 
     return cell;
+  }
+
+  /**
+   * Create and return a Monte Carlo particle arrow from the given parameters.
+   * @param mcParticleParams  MCParticle parameters.
+   * @returns  Calorimeter MCParticle object.
+   */
+  public static getMCParticle(mcParticleParams: {
+    origin: number[];
+    momentum: number[];
+    status?: number;
+    color?: string;
+    uuid: string;
+  }): Object3D {
+    const defaultColor: string = '#ffff00';
+    const defaultStatus = 0;
+
+    const origin = new Vector3(
+      mcParticleParams.origin[0],
+      mcParticleParams.origin[1],
+      mcParticleParams.origin[2]
+    );
+
+    const direction = new Vector3(
+      mcParticleParams.momentum[0],
+      mcParticleParams.momentum[1],
+      mcParticleParams.momentum[2]
+    );
+    const length = direction.length();
+    direction.normalize();
+
+    const lineLength = 0.85 * length;
+    let lineWidth = Math.log(length * 100) / 10;
+    console.log(lineWidth);
+    if (lineWidth < 0) {
+      lineWidth = 0.00001;
+    }
+    if (lineWidth > 0.4) {
+      lineWidth = 0.4;
+    }
+    const coneLength = 0.15 * length;
+    const coneWidth = 2.5 * lineWidth;
+
+    // const lineGeometry = new CylinderGeometry(2, 2, lineLength, 16, 2);
+    const lineGeometry = new CylinderGeometry(
+      lineWidth,
+      lineWidth,
+      lineLength,
+      16
+    );
+    lineGeometry.rotateZ(Math.PI / 2);
+    lineGeometry.translate(lineLength / 2, 0, 0);
+
+    // const coneGeometry = new ConeGeometry(2, coneLength, 16, 2);
+    const coneGeometry = new ConeGeometry(coneWidth, coneLength, 16);
+    coneGeometry.rotateZ(-Math.PI / 2);
+    coneGeometry.translate(length - coneLength / 2, 0, 0);
+
+    const geometries = [lineGeometry, coneGeometry];
+    const mergedGeometry = mergeGeometries(geometries, false);
+
+    const buildDirection = new Vector3(1, 0, 0).normalize();
+
+    const quaternion = new Quaternion();
+    quaternion.setFromUnitVectors(buildDirection, direction);
+    mergedGeometry.applyQuaternion(quaternion);
+
+    mergedGeometry.translate(origin.x, origin.y, origin.z);
+    mergedGeometry.computeBoundingBox();
+
+    const material = new MeshPhongMaterial({
+      color: mcParticleParams.color ?? defaultColor,
+    });
+
+    const arrowObject = new Mesh(mergedGeometry, material);
+
+    // const arrowHelper = new ArrowHelper(direction, origin, length);
+    // arrowHelper.position.copy(origin);
+    // arrowHelper.setDirection(direction);
+
+    // const arrowObject = new Group();
+    // arrowObject.add(arrowHelper.line);
+    // arrowObject.add(arrowHelper.cone);
+
+    // console.log(arrowHelper.line);
+    // console.log(arrowHelper.cone);
+
+    mcParticleParams.uuid = arrowObject.uuid;
+    // mcParticleParams.uuid = arrowHelper.uuid;
+
+    arrowObject.name = 'MCParticle';
+    // arrowHelper.name = 'MCParticle';
+
+    return arrowObject;
   }
 }

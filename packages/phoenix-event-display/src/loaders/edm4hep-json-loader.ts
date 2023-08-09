@@ -29,6 +29,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         CaloClusters: {},
         Jets: {},
         MissingEnergy: {},
+        MCParticles: {},
         'event number': this.getEventNumber(event),
         'run number': this.getRunNumber(event),
       };
@@ -42,6 +43,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       oneEventData.CaloClusters = this.getCaloClusters(event);
       oneEventData.Jets = this.getJets(event);
       oneEventData.MissingEnergy = this.getMissingEnergy(event);
+      oneEventData.MCParticles = this.getMCParticles(event);
 
       this.eventData[eventName] = oneEventData;
     });
@@ -619,6 +621,66 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
 
     return allMETs;
+  }
+
+  /** Returns Monte Carlo particles */
+  private getMCParticles(event: any) {
+    const allParticles: any[] = [];
+
+    for (const collName in event) {
+      if (event[collName].constructor != Object) {
+        continue;
+      }
+
+      const collDict = event[collName];
+
+      if (!('collType' in collDict)) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('edm4hep::')) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('MCParticleCollection')) {
+        continue;
+      }
+
+      if (!('collection' in collDict)) {
+        continue;
+      }
+
+      const rawParticles = collDict['collection'];
+      const particles: any[] = [];
+
+      rawParticles.forEach((rawParticle: any) => {
+        const origin: number[] = [];
+        origin.push(rawParticle.vertex.x * 0.1);
+        origin.push(rawParticle.vertex.y * 0.1);
+        origin.push(rawParticle.vertex.z * 0.1);
+
+        const momentum: number[] = [];
+        momentum.push(rawParticle.momentum.x);
+        momentum.push(rawParticle.momentum.y);
+        momentum.push(rawParticle.momentum.z);
+
+        console.log('------------ Particle -----------');
+        console.log(' - origin:', origin);
+        console.log(' - momentum:', momentum);
+        console.log(' - status:', rawParticle.generatorStatus);
+
+        const particle = {
+          origin: origin,
+          momentum: momentum,
+          color: '#ffff00',
+        };
+        particles.push(particle);
+      });
+
+      allParticles[collName] = particles;
+    }
+
+    return allParticles;
   }
 
   /** Return a random colour */
