@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { EventDisplayService } from 'phoenix-ui-components';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   selector: 'app-cartesian-grid-config',

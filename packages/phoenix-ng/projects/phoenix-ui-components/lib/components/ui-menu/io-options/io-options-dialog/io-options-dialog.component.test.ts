@@ -6,6 +6,7 @@ import { IOOptionsDialogComponent } from './io-options-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const mockFileList = (files: File[]): FileList => {
   const fileList: FileList = {
@@ -41,7 +42,7 @@ describe('IoOptionsDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
+      imports: [BrowserAnimationsModule, PhoenixUIModule],
       providers: [
         {
           provide: EventDisplayService,
@@ -54,6 +55,7 @@ describe('IoOptionsDialogComponent', () => {
       ],
       declarations: [IOOptionsDialogComponent],
     }).compileComponents();
+
     fixture = TestBed.createComponent(IOOptionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
