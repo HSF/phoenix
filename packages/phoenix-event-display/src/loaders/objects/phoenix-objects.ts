@@ -612,6 +612,7 @@ export class PhoenixObjects {
       length?: number;
       side?: number;
       color?: string;
+      opacity?: number;
     },
     defaultCellWidth: number = 30,
     defaultCellLength: number = 30,
@@ -628,6 +629,8 @@ export class PhoenixObjects {
     // material
     const material = new MeshPhongMaterial({
       color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
+      opacity: clusterParams.opacity ?? 1.0,
+      transparent: (clusterParams.opacity ?? 1.0) == 1.0 ? false : true,
     });
 
     // object
@@ -648,6 +651,7 @@ export class PhoenixObjects {
     z?: number;
     theta?: number;
     color?: string;
+    opacity?: number;
     side?: number;
     length?: number;
     uuid: string;
