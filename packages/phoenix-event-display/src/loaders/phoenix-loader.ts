@@ -435,20 +435,35 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     if (eventData.MCParticles) {
-      const cuts = [
-        // new Cut('status', 0, 200, 20, 29),
-      ];
+      const cuts = [new Cut('status', 21, 29, 200)];
 
-      const scaleMCParticles = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('MCParticles', value);
+      const addMCParticlesSizeOption = (
+        typeFolder: GUI,
+        typeFolderPM: PhoenixMenuNode
+      ) => {
+        const scaleMCParticles = (value: number) => {
+          this.graphicsLibrary
+            .getSceneManager()
+            .scaleChildObjects('MCParticles', value / 100);
+        };
+        if (typeFolder) {
+          const sizeMenu = typeFolder
+            .add({ particleScale: 100 }, 'particleScale', 1, 400)
+            .name('Size (%)');
+          sizeMenu.onChange(scaleMCParticles);
+        }
+        // Phoenix menu
+        if (typeFolderPM) {
+          typeFolderPM.addConfig('slider', {
+            label: 'Size (%)',
+            value: 100,
+            min: 1,
+            max: 400,
+            allowCustomValue: true,
+            onChange: scaleMCParticles,
+          });
+        }
       };
-      const addMCParticlesOptions = this.addScaleOptions(
-        'mcParticlesScale',
-        'MCParticles Scale',
-        scaleMCParticles
-      );
 
       this.addObjectType(
         eventData.MCParticles,
@@ -456,7 +471,7 @@ export class PhoenixLoader implements EventDataLoader {
         'MCParticles',
         false,
         cuts,
-        addMCParticlesOptions
+        addMCParticlesSizeOption
       );
     }
   }

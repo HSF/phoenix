@@ -664,15 +664,12 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         momentum.push(rawParticle.momentum.y);
         momentum.push(rawParticle.momentum.z);
 
-        console.log('------------ Particle -----------');
-        console.log(' - origin:', origin);
-        console.log(' - momentum:', momentum);
-        console.log(' - status:', rawParticle.generatorStatus);
-
         const particle = {
           origin: origin,
           momentum: momentum,
-          color: '#ffff00',
+          pdgid: rawParticle.PDG,
+          status: rawParticle.generatorStatus,
+          color: this.mcParticleColor(rawParticle.PDG),
         };
         particles.push(particle);
       });
@@ -689,6 +686,53 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       .toString(16)
       .padStart(6, '0')
       .toUpperCase();
+  }
+
+  /** Return a random colour */
+  private mcParticleColor(mcParticlePDGid) {
+    switch (Math.abs(mcParticlePDGid)) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+        return '#aa0000';
+      case 11:
+        return '#00aa00';
+      case 12:
+        return '#00aa00';
+      case 13:
+        return '#00aa00';
+      case 14:
+        return '#00aa00';
+      case 15:
+        return '#00aa00';
+      case 16:
+        return '#00aa00';
+      case 21:
+        return '#0000aa';
+      case 22:
+        return '#0000aa';
+      case 23:
+        return '#0000aa';
+      case 24:
+        return '#0000aa';
+      case 25:
+        return '#00aaaa';
+      case 111:
+        return '#aa00aa';
+      case 211:
+        return '#aa00aa';
+      case 221:
+        return '#aa00aa';
+      case 311:
+        return '#aa00aa';
+      case 321:
+        return '#aa00aa';
+      default:
+        return '#aaaa00';
+    }
   }
 
   /** Helper conversion of HSL to hexadecimal */
