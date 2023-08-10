@@ -34,7 +34,7 @@ export class JSRootEventLoader extends PhoenixLoader {
    */
   public getEventData(
     objects: string[],
-    onEventData: (eventData: any) => void
+    onEventData: (eventData: any) => void,
   ) {
     openFile(this.rootFileURL).then((file: any) => {
       let i = 0;

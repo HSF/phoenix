@@ -43,7 +43,7 @@ export class RKHelper {
    */
   public static extrapolateTrackPositions(
     track: { dparams: any },
-    inbounds: (pos: Vector3) => boolean = RKHelper.extrapolationLimit
+    inbounds: (pos: Vector3) => boolean = RKHelper.extrapolationLimit,
   ): any {
     const dparams = track.dparams;
     // ATLAS uses mm, MeV
@@ -83,7 +83,7 @@ export class RKHelper {
       q,
       5,
       1500,
-      inbounds
+      inbounds,
     );
 
     const extrapolatedPos = traj.map((val) => [

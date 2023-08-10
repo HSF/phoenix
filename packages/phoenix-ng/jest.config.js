@@ -1,30 +1,23 @@
-/* eslint-disable no-undef */
+const { pathsToModuleNameMapper } = require('ts-jest');
+const { paths } = require('./tsconfig.json').compilerOptions;
+
 const esModules = ['@angular', '@ngrx', 'three/examples/jsm/', 'jsroot'];
 
+// eslint-disable-next-line no-undef
 globalThis.ngJest = {
   skipNgcc: false,
   tsconfig: 'tsconfig.spec.json',
 };
 
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-  roots: ['projects'],
   preset: 'jest-preset-angular',
-  globalSetup: 'jest-preset-angular/global-setup',
-  testEnvironment: 'jsdom',
-  moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
-  transform: {
-    '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
-  },
+  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>' }),
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testRegex: '(/__test__/.*|(\\.|/)(component.test))\\.(j|t)sx?$',
   transformIgnorePatterns: [
     `/node_modules/(?!.*\\.js$|${esModules.join('|')})`,
   ],
-  moduleNameMapper: {
-    'phoenix-ui-components':
-      '<rootDir>projects/phoenix-ui-components/lib/public_api.ts',
-  },
+  testRegex: '(/__test__/.*|(\\.|/)(component.test))\\.(j|t)sx?$',
   verbose: true,
   collectCoverageFrom: [
     '<rootDir>/projects/**/*.ts',

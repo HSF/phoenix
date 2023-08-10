@@ -48,10 +48,10 @@ describe('OverlayViewWindowComponent', () => {
     component.ngAfterViewInit();
 
     expect(component.initializeCanvas).toHaveBeenCalledWith(
-      mockCanvasElement.nativeElement
+      mockCanvasElement.nativeElement,
     );
     expect(mockEventDisplay.setOverlayRenderer).toHaveBeenCalledWith(
-      mockCanvasElement.nativeElement
+      mockCanvasElement.nativeElement,
     );
   });
 

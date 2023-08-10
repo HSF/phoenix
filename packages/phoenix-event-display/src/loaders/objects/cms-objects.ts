@@ -27,7 +27,7 @@ export class CMSObjects {
 
     const addFace3 = (...faces: string[]) => {
       allFacePositions = allFacePositions.concat(
-        ...faces.map((face) => muonChamberParams[face])
+        ...faces.map((face) => muonChamberParams[face]),
       );
     };
 
@@ -58,7 +58,7 @@ export class CMSObjects {
     const boxBuffer = new BufferGeometry();
     boxBuffer.attributes.position = new BufferAttribute(
       new Float32Array(allFacePositions),
-      3
+      3,
     );
     boxBuffer.computeVertexNormals();
 
@@ -69,7 +69,7 @@ export class CMSObjects {
         transparent: true,
         opacity: 0.1,
         side: DoubleSide,
-      })
+      }),
     );
 
     boxObject.userData = Object.assign({}, muonChamberParams);
@@ -84,7 +84,7 @@ export class CMSObjects {
         color: 0xffffff,
         transparent: true,
         opacity: 0.7,
-      })
+      }),
     );
 
     const muonChamber = new Group();

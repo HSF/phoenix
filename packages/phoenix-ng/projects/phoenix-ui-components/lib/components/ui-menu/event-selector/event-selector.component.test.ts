@@ -40,7 +40,7 @@ describe('EventSelectorComponent', () => {
     component.ngOnInit();
 
     expect(
-      mockEventDisplayService.listenToLoadedEventsChange
+      mockEventDisplayService.listenToLoadedEventsChange,
     ).toHaveBeenCalled();
   });
 
@@ -50,7 +50,7 @@ describe('EventSelectorComponent', () => {
     component.changeEvent(mockSelectEvent);
 
     expect(mockEventDisplayService.loadEvent).toHaveBeenCalledWith(
-      mockSelectEvent.target.value
+      mockSelectEvent.target.value,
     );
   });
 });

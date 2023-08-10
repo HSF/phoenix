@@ -16,7 +16,7 @@ export class ObjectSelectionComponent implements OnInit, OnDestroy {
 
   constructor(
     private overlay: Overlay,
-    private eventDisplay: EventDisplayService
+    private eventDisplay: EventDisplayService,
   ) {}
 
   ngOnInit() {

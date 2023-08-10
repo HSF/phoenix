@@ -35,7 +35,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   constructor(
     private phoenixMenuRoot: PhoenixMenuNode,
-    private three: ThreeManager
+    private three: ThreeManager,
   ) {
     this.geomFolder = null;
     this.eventFolder = null;
@@ -68,7 +68,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         (value) => {
           this.sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
         },
-        'perspective'
+        'perspective',
       );
     }
 
@@ -89,7 +89,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         onChange: (value) => {
           this.sceneManager.setGeometryOpacity(
             this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
-            value
+            value,
           );
         },
       })
@@ -102,7 +102,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         onChange: (scale) => {
           this.sceneManager.scaleObject(
             this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
-            scale
+            scale,
           );
         },
       });
@@ -137,7 +137,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       name.substring(nameStart),
       (value: boolean) => {
         this.sceneManager.objectVisibility(object, value);
-      }
+      },
     );
 
     objFolder.toggleState = visible;
@@ -183,7 +183,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       (value: boolean) => {
         this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value);
       },
-      'event-folder'
+      'event-folder',
     );
     this.eventFolder.addConfig('checkbox', {
       label: 'Depth Test',
@@ -204,7 +204,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(typeName),
-        value
+        value,
       );
     });
   }
@@ -220,10 +220,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
-    collectionColor?: Color
+    collectionColor?: Color,
   ) {
     const typeFolder = this.eventFolder.children.find(
-      (eventDataTypeNode) => eventDataTypeNode.name === eventDataType
+      (eventDataTypeNode) => eventDataTypeNode.name === eventDataType,
     );
 
     if (!typeFolder) {
@@ -237,7 +237,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
         this.sceneManager.objectVisibility(collectionObject, value);
-      }
+      },
     );
 
     this.addDrawOptions(collectionNode, collectionName);
@@ -253,7 +253,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       colorByOptions.push(
         ColorByOptionKeys.CHARGE,
         ColorByOptionKeys.MOM,
-        ColorByOptionKeys.VERTEX
+        ColorByOptionKeys.VERTEX,
       );
     }
 
@@ -261,7 +261,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.three.getColorManager(),
       collectionNode,
       collectionColor,
-      colorByOptions
+      colorByOptions,
     );
   }
 
@@ -273,7 +273,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   private addCutOptions(
     collectionNode: PhoenixMenuNode,
     collectionName: string,
-    cuts: Cut[]
+    cuts: Cut[],
   ) {
     const cutsOptionsNode = collectionNode.addChild('Cut Options');
 
@@ -287,7 +287,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           this.sceneManager.groupVisibility(
             collectionName,
             true,
-            SceneManager.EVENT_DATA_ID
+            SceneManager.EVENT_DATA_ID,
           );
 
           for (const cut of cuts) {
@@ -331,7 +331,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   private addDrawOptions(
     collectionNode: PhoenixMenuNode,
-    collectionName: string
+    collectionName: string,
   ) {
     const drawOptionsNode = collectionNode.addChild('Draw Options');
 
@@ -345,7 +345,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
             .getObjectByName(collectionName),
-          value
+          value,
         );
       },
     });
@@ -357,7 +357,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
             .getObjectByName(collectionName),
-          value
+          value,
         ),
     });
   }
@@ -382,7 +382,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     this.labelsFolder = this.phoenixMenuRoot.addChild(
       SceneManager.LABELS_ID,
       onToggle,
-      'info'
+      'info',
     );
 
     this.labelsFolder.addConfig('slider', {
@@ -418,7 +418,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addLabel(labelId: string, onRemoveLabel?: () => void) {
     let labelNode = this.labelsFolder.children.find(
-      (phoenixMenuNode) => phoenixMenuNode.name === labelId
+      (phoenixMenuNode) => phoenixMenuNode.name === labelId,
     );
 
     if (labelNode) {
@@ -438,7 +438,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       onChange: (value) => {
         this.sceneManager.changeObjectColor(
           this.sceneManager.getObjectByName(labelId),
-          value
+          value,
         );
       },
     });
@@ -460,7 +460,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
     if (!labelNode) {
       labelNode = this.labelsFolder?.children.find(
-        (singleLabelNode) => singleLabelNode.name === labelId
+        (singleLabelNode) => singleLabelNode.name === labelId,
       );
     }
 
@@ -474,7 +474,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
     return this.eventFolder.children.find(
-      (eventDataTypeNode) => eventDataTypeNode.name === typeName
+      (eventDataTypeNode) => eventDataTypeNode.name === typeName,
     );
   }
 

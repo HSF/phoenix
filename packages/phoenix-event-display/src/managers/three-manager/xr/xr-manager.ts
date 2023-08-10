@@ -53,7 +53,7 @@ export class XRManager {
   public setXRSession(
     renderer: WebGLRenderer,
     onSessionStarted?: () => void,
-    onSessionEnded?: () => void
+    onSessionEnded?: () => void,
   ) {
     this.renderer = renderer;
     this.onSessionEnded = onSessionEnded;

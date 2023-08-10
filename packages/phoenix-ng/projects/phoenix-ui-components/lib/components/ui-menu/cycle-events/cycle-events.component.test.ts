@@ -10,7 +10,7 @@ describe('CycleEventsComponent', () => {
 
   const mockEventDisplay = {
     listenToLoadedEventsChange: jest.fn((callback) =>
-      callback(['eventKey1', 'eventKey2'])
+      callback(['eventKey1', 'eventKey2']),
     ),
     loadEvent: jest.fn(),
   };

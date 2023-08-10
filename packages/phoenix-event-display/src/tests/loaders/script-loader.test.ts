@@ -29,7 +29,7 @@ describe('ScriptLoader', () => {
     const promise = ScriptLoader.loadScript(
       scriptURL,
       scriptFor,
-      parentElement
+      parentElement,
     );
 
     expect(parentElement.appendChild).toHaveBeenCalled();

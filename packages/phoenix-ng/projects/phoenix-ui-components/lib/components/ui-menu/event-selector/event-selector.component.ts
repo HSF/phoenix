@@ -14,7 +14,7 @@ export class EventSelectorComponent implements OnInit {
 
   ngOnInit() {
     this.eventDisplay.listenToLoadedEventsChange(
-      (events) => (this.events = events)
+      (events) => (this.events = events),
     );
   }
 

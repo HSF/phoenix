@@ -113,7 +113,7 @@ export class UIManager {
     }
     if (configuration.phoenixMenuRoot) {
       this.uiMenus.push(
-        new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three)
+        new PhoenixMenuUI(configuration.phoenixMenuRoot, this.three),
       );
     }
     if (!configuration.forceColourTheme) {
@@ -121,7 +121,7 @@ export class UIManager {
       this.detectColorScheme();
     } else {
       this.setDarkTheme(
-        configuration.forceColourTheme.toLocaleLowerCase() == 'dark'
+        configuration.forceColourTheme.toLocaleLowerCase() == 'dark',
       );
     }
     // State manager
@@ -211,10 +211,10 @@ export class UIManager {
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
-    collectionColor?: Color
+    collectionColor?: Color,
   ) {
     this.uiMenus.forEach((menu) =>
-      menu.addCollection(eventDataType, collectionName, cuts, collectionColor)
+      menu.addCollection(eventDataType, collectionName, cuts, collectionColor),
     );
   }
 
@@ -229,7 +229,7 @@ export class UIManager {
     const onToggle = (toggleValue: boolean) => {
       sceneManager.objectVisibility(
         sceneManager.getObjectByName(SceneManager.LABELS_ID),
-        toggleValue
+        toggleValue,
       );
     };
     const onSizeChange = (scale: number) => {
@@ -258,7 +258,7 @@ export class UIManager {
         onColorChange,
         onSaveLabels,
         onLoadLabels,
-      })
+      }),
     );
   }
 
@@ -271,8 +271,8 @@ export class UIManager {
       this.addLabelsFolder();
     }
 
-    this.uiMenus.forEach((menu) =>
-      menu?.addLabel(labelId, () => this.removeLabel(labelId))
+    this.uiMenus.forEach(
+      (menu) => menu?.addLabel(labelId, () => this.removeLabel(labelId)),
     );
   }
 
@@ -414,7 +414,7 @@ export class UIManager {
       yDistance: number;
       zDistance: number;
       sparsity: number;
-    }
+    },
   ) {
     if (typeof config === 'undefined') {
       this.three.getSceneManager().setCartesianGrid(show, scale);
@@ -493,7 +493,7 @@ export class UIManager {
   public enableKeyboardControls() {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const isTyping = ['input', 'textarea'].includes(
-        (e.target as HTMLElement)?.tagName.toLowerCase()
+        (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
 
       if (!isTyping && e.shiftKey) {
@@ -529,14 +529,14 @@ export class UIManager {
           for (const collection of Object.keys(labelsObject[eventDataType])) {
             const collectionObject = eventDataLoader.getCollection(collection);
             for (const labelIndex of Object.keys(
-              labelsObject[eventDataType][collection]
+              labelsObject[eventDataType][collection],
             )) {
               const label = labelsObject[eventDataType][collection][labelIndex];
               const objectUuid = collectionObject[labelIndex].uuid;
               const labelId = eventDataLoader.addLabelToEventObject(
                 label,
                 collection,
-                Number(labelIndex)
+                Number(labelIndex),
               );
               this.addLabel(labelId);
               this.three.addLabelToObject(label, objectUuid, labelId);
@@ -552,7 +552,7 @@ export class UIManager {
    */
   public loadEventFolderPhoenixMenuState() {
     const phoenixMenuUI = this.uiMenus.find(
-      (uiMenu) => uiMenu instanceof PhoenixMenuUI
+      (uiMenu) => uiMenu instanceof PhoenixMenuUI,
     ) as PhoenixMenuUI;
     phoenixMenuUI?.loadEventFolderState();
   }

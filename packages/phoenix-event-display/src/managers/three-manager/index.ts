@@ -117,37 +117,37 @@ export class ThreeManager {
     this.importManager = new ImportManager(
       this.clipPlanes,
       SceneManager.EVENT_DATA_ID,
-      SceneManager.GEOMETRIES_ID
+      SceneManager.GEOMETRIES_ID,
     );
     // Renderer manager
     this.rendererManager.init(configuration.elementId);
     // Controls manager
     this.controlsManager = new ControlsManager(
       this.rendererManager,
-      configuration.defaultView
+      configuration.defaultView,
     );
     this.controlsManager.hideTubeTracksOnZoom(
       this.sceneManager.getScene(),
-      200
+      200,
     );
     // Effects manager
     this.effectsManager = new EffectsManager(
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
-      this.rendererManager.getMainRenderer()
+      this.rendererManager.getMainRenderer(),
     );
     // Animations manager
     this.animationsManager = new AnimationsManager(
       this.sceneManager.getScene(),
       this.controlsManager.getActiveCamera(),
-      this.rendererManager
+      this.rendererManager,
     );
     // VR manager
     this.vrManager = new VRManager();
     // AR manager
     this.arManager = new ARManager(
       this.sceneManager.getScene(),
-      this.controlsManager.getMainCamera() as PerspectiveCamera
+      this.controlsManager.getMainCamera() as PerspectiveCamera,
     );
     // Coloring manager
     this.colorManager = new ColorManager(this.sceneManager);
@@ -156,7 +156,7 @@ export class ThreeManager {
       this.controlsManager.getMainCamera(),
       this.sceneManager.getScene(),
       this.effectsManager,
-      this.infoLogger
+      this.infoLogger,
     );
     // Set camera of the event display state
     new StateManager().setCamera(this.controlsManager.getActiveCamera());
@@ -199,11 +199,11 @@ export class ThreeManager {
   public render() {
     this.rendererManager.render(
       this.sceneManager.getScene(),
-      this.controlsManager.getOverlayCamera()
+      this.controlsManager.getOverlayCamera(),
     );
     this.effectsManager.render(
       this.sceneManager.getScene(),
-      this.controlsManager.getMainCamera()
+      this.controlsManager.getMainCamera(),
     );
     this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
@@ -257,7 +257,7 @@ export class ThreeManager {
     const startingAngleQuaternion = new Quaternion();
     startingAngleQuaternion.setFromAxisAngle(
       new Vector3(0, 0, 1),
-      (startingAngle * Math.PI) / 180
+      (startingAngle * Math.PI) / 180,
     );
     this.clipPlanes[0].normal
       .set(0, -1, 0)
@@ -265,7 +265,7 @@ export class ThreeManager {
     const openingAngleQuaternion = new Quaternion();
     openingAngleQuaternion.setFromAxisAngle(
       new Vector3(0, 0, 1),
-      ((startingAngle + openingAngle) * Math.PI) / 180
+      ((startingAngle + openingAngle) * Math.PI) / 180,
     );
     this.clipPlanes[1].normal
       .set(0, 1, 0)
@@ -297,7 +297,7 @@ export class ThreeManager {
   public animateCameraTransform(
     cameraPosition: number[],
     cameraTarget: number[],
-    duration: number
+    duration: number,
   ) {
     this.animateCameraPosition(cameraPosition, duration);
     this.animateCameraTarget(cameraTarget, duration);
@@ -343,7 +343,7 @@ export class ThreeManager {
     color: any,
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
-    setFlat: boolean = true
+    setFlat: boolean = true,
   ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
     const geometryUIParameters = await this.importManager.loadOBJGeometry(
@@ -351,7 +351,7 @@ export class ThreeManager {
       name,
       color,
       doubleSided,
-      setFlat
+      setFlat,
     );
 
     const { object } = geometryUIParameters;
@@ -375,7 +375,7 @@ export class ThreeManager {
     name: string,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible?: boolean
+    initiallyVisible?: boolean,
   ): Promise<GeometryUIParameters[]> {
     const geometries = this.sceneManager.getGeometries();
 
@@ -384,7 +384,7 @@ export class ThreeManager {
       name,
       menuNodeName,
       scale,
-      initiallyVisible
+      initiallyVisible,
     );
 
     for (const { object } of allGeometriesUIParameters) {
@@ -404,7 +404,7 @@ export class ThreeManager {
   public parseOBJGeometry(
     geometry: string,
     name: string,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ): GeometryUIParameters {
     const geometries = this.sceneManager.getGeometries();
     const object = this.importManager.parseOBJGeometry(geometry, name);
@@ -422,7 +422,7 @@ export class ThreeManager {
    */
   public async parseGLTFGeometry(
     geometry: any,
-    name: string
+    name: string,
   ): Promise<GeometryUIParameters[]> {
     const allGeometriesUIParameters =
       await this.importManager.parseGLTFGeometry(geometry, name);
@@ -463,14 +463,14 @@ export class ThreeManager {
     name: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ): Promise<GeometryUIParameters> {
     const geometries = this.sceneManager.getGeometries();
     const { object } = await this.importManager.loadJSONGeometry(
       json,
       name,
       scale,
-      doubleSided
+      doubleSided,
     );
     object.visible = initiallyVisible;
     geometries.add(object);
@@ -495,7 +495,7 @@ export class ThreeManager {
     this.exportManager.exportPhoenixScene(
       scene,
       this.sceneManager.getEventData(),
-      this.sceneManager.getGeometries()
+      this.sceneManager.getGeometries(),
     );
   }
 
@@ -592,7 +592,7 @@ export class ThreeManager {
    */
   private animateCameraPosition(cameraPosition: number[], duration: number) {
     const posAnimation = new Tween(
-      this.controlsManager.getActiveCamera().position
+      this.controlsManager.getActiveCamera().position,
     );
     posAnimation.to(
       {
@@ -600,7 +600,7 @@ export class ThreeManager {
         y: cameraPosition[1],
         z: cameraPosition[2],
       },
-      duration
+      duration,
     );
     posAnimation.start();
   }
@@ -612,7 +612,7 @@ export class ThreeManager {
    */
   private animateCameraTarget(cameraTarget: number[], duration: number) {
     const rotAnimation = new Tween(
-      this.controlsManager.getActiveControls().target
+      this.controlsManager.getActiveControls().target,
     );
     rotAnimation.to(
       {
@@ -620,7 +620,7 @@ export class ThreeManager {
         y: cameraTarget[1],
         z: cameraTarget[2],
       },
-      duration
+      duration,
     );
     rotAnimation.start();
   }
@@ -640,7 +640,7 @@ export class ThreeManager {
   public lookAtObject(uuid: string) {
     this.controlsManager.lookAtObject(
       uuid,
-      this.getSceneManager().getEventData()
+      this.getSceneManager().getEventData(),
     );
   }
 
@@ -652,7 +652,7 @@ export class ThreeManager {
   public getObjectPosition(uuid: string): Vector3 {
     return this.controlsManager.getObjectPosition(
       uuid,
-      this.getSceneManager().getScene()
+      this.getSceneManager().getScene(),
     );
   }
 
@@ -663,7 +663,7 @@ export class ThreeManager {
   public highlightObject(uuid: string) {
     this.selectionManager.highlightObject(
       uuid,
-      this.getSceneManager().getEventData()
+      this.getSceneManager().getEventData(),
     );
   }
 
@@ -673,14 +673,14 @@ export class ThreeManager {
   public enableKeyboardControls() {
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const isTyping = ['input', 'textarea'].includes(
-        (e.target as HTMLElement)?.tagName.toLowerCase()
+        (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
 
       if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
             this.autoRotate(
-              !this.controlsManager.getActiveControls().autoRotate
+              !this.controlsManager.getActiveControls().autoRotate,
             );
             break;
           case 'Equal': // shift + "+"
@@ -717,12 +717,12 @@ export class ThreeManager {
   public animateThroughEvent(
     startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void
+    onAnimationEnd?: () => void,
   ) {
     this.animationsManager.animateThroughEvent(
       startPos,
       tweenDuration,
-      onAnimationEnd
+      onAnimationEnd,
     );
   }
 
@@ -753,7 +753,7 @@ export class ThreeManager {
    */
   public animateClippingWithCollision(
     tweenDuration: number,
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     this.animationsManager.animateClippingWithCollision(tweenDuration, onEnd);
   }
@@ -785,7 +785,7 @@ export class ThreeManager {
   public makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Strech'
+    fitting: string = 'Strech',
   ) {
     // compute actual size of screen shot, based on current view and reuested size
     const mainRenderer = this.rendererManager.getMainRenderer();
@@ -807,7 +807,7 @@ export class ThreeManager {
 
     // get background color to be used
     const bkgColor = getComputedStyle(document.body).getPropertyValue(
-      '--phoenix-background-color'
+      '--phoenix-background-color',
     );
 
     // Deal with devices having special devicePixelRatio (retina screens in particular)
@@ -815,7 +815,7 @@ export class ThreeManager {
 
     // grab output canvas on which we will draw, and set size
     const outputCanvas = document.getElementById(
-      'screenshotCanvas'
+      'screenshotCanvas',
     ) as HTMLCanvasElement;
     outputCanvas.width = width;
     outputCanvas.height = height;
@@ -836,7 +836,7 @@ export class ThreeManager {
       0,
       0,
       width,
-      height
+      height,
     );
     mainRenderer.setSize(originalSize.width, originalSize.height, false);
     this.render();
@@ -865,7 +865,7 @@ export class ThreeManager {
             infoHeight / 6,
             infoHeight / 6,
             infoWidth,
-            infoHeight
+            infoHeight,
           );
           // Finally save to png file
           outputCanvas.toBlob((blob) => {
@@ -889,7 +889,7 @@ export class ThreeManager {
    */
   public initXRSession(
     xrSessionType: XRSessionType,
-    onSessionEnded?: () => void
+    onSessionEnded?: () => void,
   ) {
     const xrManager =
       xrSessionType === XRSessionType.VR ? this.vrManager : this.arManager;
@@ -906,7 +906,7 @@ export class ThreeManager {
       // For why we can't just move the camera directly, see e.g.
       // https://stackoverflow.com/questions/34470248/unable-to-change-camera-position-when-using-vrcontrols/34471170#34471170
       const cameraGroup = xrManager.getCameraGroup(
-        this.controlsManager.getMainCamera()
+        this.controlsManager.getMainCamera(),
       );
       this.sceneManager.getScene().add(cameraGroup);
     };
@@ -991,12 +991,12 @@ export class ThreeManager {
         modulecentre = new Vector3(
           radius * Math.cos(phi),
           radius * Math.sin(phi),
-          z
+          z,
         );
         const cube = new Mesh(geometry.clone(), material);
 
         cube.matrix.makeRotationFromEuler(
-          new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle)
+          new Euler(ztiltAngle, 0.0, halfPi + phi + tiltAngle),
         );
         cube.matrix.setPosition(modulecentre);
         cube.matrixAutoUpdate = false;
@@ -1026,7 +1026,7 @@ export class ThreeManager {
       uuid,
       labelId,
       objectPosition,
-      cameraControls
+      cameraControls,
     );
   }
 

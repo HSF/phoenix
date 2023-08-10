@@ -70,7 +70,7 @@ export class EffectsManager {
     const outlinePass = new OutlinePass(
       new Vector2(window.innerWidth, window.innerHeight),
       this.scene,
-      this.camera
+      this.camera,
     );
     outlinePass.overlayMaterial.blending = NormalBlending;
     outlinePass.visibleEdgeColor.set(0xffff66);

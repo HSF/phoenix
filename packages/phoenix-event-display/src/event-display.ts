@@ -110,7 +110,7 @@ export class EventDisplay {
   public makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Stretch'
+    fitting: string = 'Stretch',
   ) {
     this.graphicsLibrary.makeScreenShot(width, height, fitting);
   }
@@ -169,7 +169,7 @@ export class EventDisplay {
       eventData,
       this.graphicsLibrary,
       this.ui,
-      this.infoLogger
+      this.infoLogger,
     );
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
     // Reload the event data state in Phoenix menu
@@ -264,7 +264,7 @@ export class EventDisplay {
     menuNodeName?: string,
     doubleSided?: boolean,
     initiallyVisible: boolean = true,
-    setFlat: boolean = true
+    setFlat: boolean = true,
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`obj_geom_${name}`);
 
@@ -274,7 +274,7 @@ export class EventDisplay {
       color,
       doubleSided,
       initiallyVisible,
-      setFlat
+      setFlat,
     );
     this.ui.addGeometry(object, menuNodeName);
 
@@ -294,13 +294,13 @@ export class EventDisplay {
     content: string,
     name: string,
     menuNodeName?: string,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ) {
     this.loadingManager.addLoadableItem(`parse_obj_${name}`);
     const { object } = this.graphicsLibrary.parseOBJGeometry(
       content,
       name,
-      initiallyVisible
+      initiallyVisible,
     );
     this.ui.addGeometry(object, menuNodeName);
     this.loadingManager.itemLoaded(`parse_obj_${name}`);
@@ -353,7 +353,7 @@ export class EventDisplay {
    */
   public async parseGLTFGeometry(
     input: string | ArrayBuffer,
-    name: string
+    name: string,
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
 
@@ -381,7 +381,7 @@ export class EventDisplay {
     name: string | undefined,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
 
@@ -391,7 +391,7 @@ export class EventDisplay {
         name,
         menuNodeName,
         scale,
-        initiallyVisible
+        initiallyVisible,
       );
     for (const { object, menuNodeName } of allGeometriesUIParameters) {
       this.ui.addGeometry(object, menuNodeName);
@@ -416,7 +416,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`json_geom_${name}`);
 
@@ -425,7 +425,7 @@ export class EventDisplay {
       name,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
     this.ui.addGeometry(object, menuNodeName);
 
@@ -448,7 +448,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ) {
     this.loadingManager.addLoadableItem('root_json_geom');
 
@@ -459,7 +459,7 @@ export class EventDisplay {
       menuNodeName,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
 
     this.loadingManager.itemLoaded('root_json_geom');
@@ -482,7 +482,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean = true
+    initiallyVisible: boolean = true,
   ) {
     this.loadingManager.addLoadableItem('root_geom');
     // See https://github.com/root-project/jsroot/blob/19ce116b68701ab45e0a092c673119bf97ede0c2/modules/core.mjs#L241.
@@ -497,7 +497,7 @@ export class EventDisplay {
       menuNodeName,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
 
     this.loadingManager.itemLoaded('root_geom');
@@ -601,7 +601,7 @@ export class EventDisplay {
         name: string,
         colour: any,
         menuNodeName: string,
-        doubleSided: boolean
+        doubleSided: boolean,
       ) => {
         this.loadOBJGeometry(filename, name, colour, menuNodeName, doubleSided);
       },
@@ -611,7 +611,7 @@ export class EventDisplay {
         menuNodeName: string,
         scale?: number,
         doubleSided?: boolean,
-        initiallyVisible: boolean = true
+        initiallyVisible: boolean = true,
       ) => {
         this.loadJSONGeometry(
           json,
@@ -619,7 +619,7 @@ export class EventDisplay {
           menuNodeName,
           scale,
           doubleSided,
-          initiallyVisible
+          initiallyVisible,
         );
       },
       buildGeometryFromParameters: (parameters: { [key: string]: any }) =>
@@ -703,12 +703,12 @@ export class EventDisplay {
   public animateThroughEvent(
     startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () => void
+    onAnimationEnd?: () => void,
   ) {
     this.graphicsLibrary.animateThroughEvent(
       startPos,
       tweenDuration,
-      onAnimationEnd
+      onAnimationEnd,
     );
   }
 
@@ -739,7 +739,7 @@ export class EventDisplay {
    */
   public animateClippingWithCollision(
     tweenDuration: number,
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
   }
@@ -755,12 +755,12 @@ export class EventDisplay {
     label: string,
     collection: string,
     indexInCollection: number,
-    uuid: string
+    uuid: string,
   ) {
     const labelId = this.configuration.eventDataLoader.addLabelToEventObject(
       label,
       collection,
-      indexInCollection
+      indexInCollection,
     );
 
     // Remove the label if the string is empty

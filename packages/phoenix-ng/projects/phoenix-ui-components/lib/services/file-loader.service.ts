@@ -20,7 +20,7 @@ export class FileLoaderService {
     for (const filePath in archive.files) {
       if (multiFile) {
         console.error(
-          'Zip archive contains more than one file. Ignoring all but first'
+          'Zip archive contains more than one file. Ignoring all but first',
         );
         break;
       }
@@ -34,7 +34,7 @@ export class FileLoaderService {
   makeRequest(
     urlPath: string,
     responseType: 'json' | 'text' | 'blob',
-    onData: (data: any) => void
+    onData: (data: any) => void,
   ) {
     fetch(urlPath)
       .then((res) => res[responseType]())

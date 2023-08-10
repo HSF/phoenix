@@ -23,7 +23,7 @@ export class PrettySymbols {
    */
   public static getPrettySymbol(param: string) {
     const prettySymbol = Object.keys(PrettySymbols.symbols).find((symbol) =>
-      PrettySymbols.symbols[symbol].includes(param)
+      PrettySymbols.symbols[symbol].includes(param),
     );
 
     return prettySymbol ? prettySymbol : param;

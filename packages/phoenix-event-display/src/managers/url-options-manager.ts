@@ -30,10 +30,10 @@ export class URLOptionsManager {
    */
   constructor(
     private eventDisplay: EventDisplay,
-    private configuration: Configuration
+    private configuration: Configuration,
   ) {
     this.urlOptions = new URLSearchParams(
-      window.location.href.substr(window.location.href.lastIndexOf('?'))
+      window.location.href.substr(window.location.href.lastIndexOf('?')),
     );
   }
 
@@ -44,7 +44,7 @@ export class URLOptionsManager {
     // Initialize event with data from URL if there is any
     this.applyEventOptions(
       this.configuration.defaultEventFile?.eventFile,
-      this.configuration.defaultEventFile?.eventType
+      this.configuration.defaultEventFile?.eventType,
     );
     this.applyHideWidgetsOptions();
     this.applyEmbedOption();
@@ -58,7 +58,7 @@ export class URLOptionsManager {
    */
   public applyEventOptions(
     defaultEventPath?: string,
-    defaultEventType?: string
+    defaultEventType?: string,
   ) {
     if (!('fetch' in window)) {
       return;
@@ -71,7 +71,7 @@ export class URLOptionsManager {
       (this.urlOptions.get('file') && !this.urlOptions.get('type'))
     ) {
       console.log(
-        'WARNING - if you set one of type or file, then you need to set both!'
+        'WARNING - if you set one of type or file, then you need to set both!',
       );
       console.log('WARNING - reverting to defaults!');
     }

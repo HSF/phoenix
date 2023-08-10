@@ -23,7 +23,7 @@ export class LHCbComponent implements OnInit {
   events: any;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
-    'phoenix-menu'
+    'phoenix-menu',
   );
   loaded = false;
   loadingProgress = 0;
@@ -46,7 +46,7 @@ export class LHCbComponent implements OnInit {
           'perspective',
           ClippingSetting.On,
           90,
-          90
+          90,
         ),
         new PresetView(
           'Calo View',
@@ -55,26 +55,26 @@ export class LHCbComponent implements OnInit {
           'perspective',
           ClippingSetting.On,
           90,
-          90
+          90,
         ),
         new PresetView(
           'Side View',
           [-12000, 0, 12000],
           [0, 0, 12000],
-          'right-cube'
+          'right-cube',
         ),
         new PresetView(
           'Vertex Locator View',
           [-500, 1000, 0],
           [0, 0, 0],
-          'top-cube'
+          'top-cube',
         ),
         new PresetView('Front View', [0, 0, -6000], [0, 0, 0], 'left-cube'),
         new PresetView(
           'Top View',
           [0, 16000, 12000],
           [0, 0, 12000],
-          'top-cube'
+          'top-cube',
         ),
       ],
       defaultView: [-8000, 6000, 0, 0, 0, 8000], // x,y,z of position followed by x,y,z of target
@@ -93,7 +93,7 @@ export class LHCbComponent implements OnInit {
         undefined, // name, ignored when empty
         undefined, // menuNodeName
         1, // scale
-        true // initiallyVisible
+        true, // initiallyVisible
       );
     } catch (e) {
       console.log('Error:', e);

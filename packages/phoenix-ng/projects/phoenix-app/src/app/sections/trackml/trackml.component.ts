@@ -26,14 +26,14 @@ export class TrackmlComponent implements OnInit {
   };
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
-    'phoenix-menu'
+    'phoenix-menu',
   );
   loaded = false;
   loadingProgress = 0;
 
   constructor(
     private eventDisplay: EventDisplayService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit() {
@@ -56,35 +56,35 @@ export class TrackmlComponent implements OnInit {
       'Long Strip',
       0xe9a23b,
       undefined,
-      true
+      true,
     );
     this.eventDisplay.loadOBJGeometry(
       'assets/geometry/TrackML/pixel_simplified.obj',
       'Pixel',
       0xe2a9e8,
       undefined,
-      true
+      true,
     );
     this.eventDisplay.loadOBJGeometry(
       'assets/geometry/TrackML/strip_short_simplified.obj',
       'Short Strip',
       0x369f95,
       undefined,
-      true
+      true,
     );
     this.eventDisplay.loadOBJGeometry(
       'assets/geometry/TrackML/beampipe_simplified.obj',
       'Beampipe',
       0x7f7f7f,
       undefined,
-      true
+      true,
     );
     this.eventDisplay.loadOBJGeometry(
       'assets/geometry/TrackML/pixel_support_tube_simplified.obj',
       'PST',
       0x7bb3ff,
       undefined,
-      true
+      true,
     );
     this.loadTrackMLData();
 

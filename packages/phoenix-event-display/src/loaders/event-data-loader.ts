@@ -18,7 +18,7 @@ export interface EventDataLoader {
     eventData: any,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
-    infoLogger: InfoLogger
+    infoLogger: InfoLogger,
   ): void;
 
   /**
@@ -57,7 +57,7 @@ export interface EventDataLoader {
   addLabelToEventObject(
     label: string,
     collection: string,
-    indexInCollection: number
+    indexInCollection: number,
   ): string;
 
   /**

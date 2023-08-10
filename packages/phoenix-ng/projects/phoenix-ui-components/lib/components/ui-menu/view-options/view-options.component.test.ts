@@ -1,10 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ViewOptionsComponent } from './view-options.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PresetView } from 'phoenix-event-display';
+import { ViewOptionsComponent } from './view-options.component';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { MatDialog } from '@angular/material/dialog';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
@@ -15,23 +15,27 @@ describe('ViewOptionsComponent', () => {
     getPresetViews: jest.fn().mockReturnValue([]),
     displayView: jest.fn().mockReturnThis(),
     setShowAxis: jest.fn().mockReturnThis(),
-    setShowGrid: jest.fn().mockReturnThis(),
+    setShowEtaPhiGrid: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [ViewOptionsComponent],
       providers: [
         {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
         },
+        {
+          provide: MatDialog,
+          useValue: {
+            open: jest.fn(),
+          },
+        },
       ],
-      declarations: [ViewOptionsComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,12 +58,12 @@ describe('ViewOptionsComponent', () => {
       'Test View',
       [0, 0, -12000],
       [0, 0, 0],
-      'left-cube'
+      'left-cube',
     );
     component.displayView(mockEvent, mockPresetView);
 
     expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(
-      mockPresetView
+      mockPresetView,
     );
   });
 
@@ -71,7 +75,7 @@ describe('ViewOptionsComponent', () => {
     component.setAxis(event);
 
     expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 
@@ -80,10 +84,10 @@ describe('ViewOptionsComponent', () => {
     const event = new MatCheckboxChange();
     event.checked = VALUE;
 
-    component.setGrid(event);
+    component.setEtaPhiGrid(event);
 
-    expect(mockEventDisplay.getUIManager().setShowGrid).toHaveBeenCalledWith(
-      VALUE
-    );
+    expect(
+      mockEventDisplay.getUIManager().setShowEtaPhiGrid,
+    ).toHaveBeenCalledWith(VALUE);
   });
 });

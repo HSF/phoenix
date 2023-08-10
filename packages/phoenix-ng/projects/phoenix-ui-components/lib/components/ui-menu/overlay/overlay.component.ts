@@ -100,7 +100,7 @@ export class OverlayComponent implements AfterViewInit {
 
     this.setHandleTransform(
       this.overlayCard.nativeElement.getBoundingClientRect(),
-      resizeHandleElement.getBoundingClientRect()
+      resizeHandleElement.getBoundingClientRect(),
     );
 
     resizeHandleElement.style.bottom = null;
