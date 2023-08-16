@@ -924,13 +924,13 @@ export class PhoenixObjects {
     const origin = new Vector3(
       mcParticleParams.origin[0],
       mcParticleParams.origin[1],
-      mcParticleParams.origin[2]
+      mcParticleParams.origin[2],
     );
 
     const direction = new Vector3(
       mcParticleParams.momentum[0],
       mcParticleParams.momentum[1],
-      mcParticleParams.momentum[2]
+      mcParticleParams.momentum[2],
     );
     const length = direction.length();
     direction.normalize();
@@ -950,7 +950,7 @@ export class PhoenixObjects {
       lineWidth,
       lineWidth,
       lineLength,
-      16
+      16,
     );
     lineGeometry.rotateZ(Math.PI / 2);
     lineGeometry.translate(lineLength / 2, 0, 0);
@@ -979,15 +979,9 @@ export class PhoenixObjects {
       PhoenixObjects.getMCParticleName(mcParticleParams.pdgid),
       {
         font: font,
-        size: 80,
-        height: 2,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 4,
-        bevelSize: 4,
-        bevelOffset: 0,
-        bevelSegments: 5,
-      }
+        size: 100,
+        height: 15,
+      },
     );
     labelGeometry.scale(0.01, 0.01, 0.01);
 

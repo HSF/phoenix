@@ -680,7 +680,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allParticles;
   }
 
-  /** Return a random colour */
+  /** Return a random color */
   private randomColor() {
     return Math.floor(Math.random() * 16777215)
       .toString(16)
@@ -688,7 +688,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       .toUpperCase();
   }
 
-  /** Return a random colour */
+  /** Return color depending on the particle type */
   private mcParticleColor(mcParticlePDGid) {
     switch (Math.abs(mcParticlePDGid)) {
       case 1:
@@ -699,35 +699,23 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       case 6:
         return '#aa0000';
       case 11:
-        return '#00aa00';
       case 12:
-        return '#00aa00';
       case 13:
-        return '#00aa00';
       case 14:
-        return '#00aa00';
       case 15:
-        return '#00aa00';
       case 16:
         return '#00aa00';
       case 21:
-        return '#0000aa';
       case 22:
-        return '#0000aa';
       case 23:
-        return '#0000aa';
       case 24:
         return '#0000aa';
       case 25:
         return '#00aaaa';
       case 111:
-        return '#aa00aa';
       case 211:
-        return '#aa00aa';
       case 221:
-        return '#aa00aa';
       case 311:
-        return '#aa00aa';
       case 321:
         return '#aa00aa';
       default:

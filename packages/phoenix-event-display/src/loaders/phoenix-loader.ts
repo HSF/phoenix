@@ -439,7 +439,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       const addMCParticlesSizeOption = (
         typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode
+        typeFolderPM: PhoenixMenuNode,
       ) => {
         const scaleMCParticles = (value: number) => {
           this.graphicsLibrary
@@ -471,7 +471,7 @@ export class PhoenixLoader implements EventDataLoader {
         'MCParticles',
         false,
         cuts,
-        addMCParticlesSizeOption
+        addMCParticlesSizeOption,
       );
     }
   }
