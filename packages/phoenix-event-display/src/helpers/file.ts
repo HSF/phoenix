@@ -43,4 +43,7 @@ export const loadFile = (
     reader.readAsText(configFile);
   };
   inputFile.click();
+  setTimeout(() => {
+    console.log('Let us just wait a second');
+}, 1000);
 };
