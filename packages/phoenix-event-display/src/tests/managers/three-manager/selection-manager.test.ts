@@ -67,7 +67,7 @@ describe('SelectionManager', () => {
     selectionManager['effectsManager'] = new EffectsManager(
       new PerspectiveCamera(),
       new Scene(),
-      new THREE.WebGLRenderer()
+      new THREE.WebGLRenderer(),
     );
 
     selectionManager.setSelecting(true);
@@ -84,7 +84,7 @@ describe('SelectionManager', () => {
     selectionManager['outlinePass'] = new OutlinePass(
       new Vector2(100, 100),
       new Scene(),
-      new PerspectiveCamera()
+      new PerspectiveCamera(),
     );
 
     selectionManager.setSelecting(false);
@@ -100,7 +100,7 @@ describe('SelectionManager', () => {
 
     expect(objectGroup.getObjectByProperty).toHaveBeenCalledWith(
       'uuid',
-      'uuid'
+      'uuid',
     );
   });
 });

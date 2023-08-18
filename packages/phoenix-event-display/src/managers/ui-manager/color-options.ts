@@ -83,7 +83,7 @@ export class ColorOptions {
     private colorManager: ColorManager,
     collectionFolder: PhoenixMenuNode,
     collectionColor: Color,
-    colorByOptionsToInclude?: ColorByOptionKeys[]
+    colorByOptionsToInclude?: ColorByOptionKeys[],
   ) {
     this.collectionName = collectionFolder.name;
     this.colorOptionsFolder = collectionFolder.addChild('Color Options');
@@ -107,12 +107,12 @@ export class ColorOptions {
 
     if (colorByOptionsToInclude?.length > 0) {
       this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
-        colorByOptionsToInclude.includes(colorByOption.key)
+        colorByOptionsToInclude.includes(colorByOption.key),
       );
 
       this.initColorByOptions();
-      this.colorByOptions.forEach((colorByOption) =>
-        colorByOption.initialize?.()
+      this.colorByOptions.forEach(
+        (colorByOption) => colorByOption.initialize?.(),
       );
       this.onlySelectedColorByOption();
     }
@@ -131,7 +131,7 @@ export class ColorOptions {
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
       onChange: (updatedColorByOption) => {
         const newColorByOption = this.colorByOptions.find(
-          (colorByOption) => colorByOption.name === updatedColorByOption
+          (colorByOption) => colorByOption.name === updatedColorByOption,
         );
 
         this.selectedColorByOption = newColorByOption?.key;
@@ -162,7 +162,7 @@ export class ColorOptions {
               color,
               this.collectionName,
               (objectUserData) =>
-                this.shouldColorByCharge(objectUserData, chargeValue)
+                this.shouldColorByCharge(objectUserData, chargeValue),
             );
           }
         },
@@ -179,7 +179,7 @@ export class ColorOptions {
         this.chargeColors[chargeValue],
         this.collectionName,
         (objectUserData) =>
-          this.shouldColorByCharge(objectUserData, chargeValue)
+          this.shouldColorByCharge(objectUserData, chargeValue),
       );
     });
   }
@@ -270,7 +270,7 @@ export class ColorOptions {
         ) {
           return true;
         }
-      }
+      },
     );
   }
 

@@ -93,7 +93,7 @@ export class StateManager {
 
     saveFile(
       JSON.stringify(state),
-      `run${this.eventMetadata.runNumber}_evt${this.eventMetadata.eventNumber}.json`
+      `run${this.eventMetadata.runNumber}_evt${this.eventMetadata.eventNumber}.json`,
     );
   }
 
@@ -112,7 +112,7 @@ export class StateManager {
 
     if (jsonData['eventDisplay']) {
       this.activeCamera.position.fromArray(
-        jsonData['eventDisplay']?.['cameraPosition']
+        jsonData['eventDisplay']?.['cameraPosition'],
       );
 
       const startAngle = jsonData['eventDisplay']?.['startClippingAngle'];
@@ -126,14 +126,14 @@ export class StateManager {
           this.eventDisplay
             .getUIManager()
             .rotateStartAngleClipping(
-              jsonData['eventDisplay']['startClippingAngle']
+              jsonData['eventDisplay']['startClippingAngle'],
             );
         }
         if (openingAngle) {
           this.eventDisplay
             .getUIManager()
             .rotateOpeningAngleClipping(
-              jsonData['eventDisplay']['openingClippingAngle']
+              jsonData['eventDisplay']['openingClippingAngle'],
             );
         }
       }

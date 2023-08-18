@@ -40,7 +40,7 @@ export class ImportManager {
   constructor(
     clipPlanes: Plane[],
     EVENT_DATA_ID: string,
-    GEOMETRIES_ID: string
+    GEOMETRIES_ID: string,
   ) {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
@@ -61,7 +61,7 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
-    setFlat: boolean
+    setFlat: boolean,
   ): Promise<GeometryUIParameters> {
     color = color ?? 0x41a6f4;
     const objLoader = new OBJLoader();
@@ -75,7 +75,7 @@ export class ImportManager {
             name,
             color,
             doubleSided,
-            setFlat
+            setFlat,
           );
 
           resolve({ object: processedObject });
@@ -83,7 +83,7 @@ export class ImportManager {
         null,
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   }
@@ -114,7 +114,7 @@ export class ImportManager {
     name: string,
     color: any,
     doubleSided: boolean,
-    setFlat: boolean
+    setFlat: boolean,
   ): Object3D {
     object.name = name;
     object.userData = { name };
@@ -133,7 +133,7 @@ export class ImportManager {
     object3d: Object3D,
     color: any,
     doubleSided: boolean,
-    setFlat: boolean
+    setFlat: boolean,
   ): Object3D {
     const material2 = new MeshPhongMaterial({
       color: color,
@@ -179,13 +179,13 @@ export class ImportManager {
    */
   public parsePhnxScene(
     scene: any,
-    callback: (geometries: Object3D, eventData: Object3D) => void
+    callback: (geometries: Object3D, eventData: Object3D) => void,
   ): Promise<void> {
     const loader = new GLTFLoader();
 
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
     );
     loader.setDRACOLoader(dracoLoader);
 
@@ -203,7 +203,7 @@ export class ImportManager {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   }
@@ -222,12 +222,12 @@ export class ImportManager {
     name: string,
     menuNodeName: string,
     scale: number,
-    initiallyVisible: boolean
+    initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
     );
     loader.setDRACOLoader(dracoLoader);
 
@@ -241,14 +241,14 @@ export class ImportManager {
             scene.visible = scene.userData.visible ?? initiallyVisible;
             const sceneName = this.processGLTFSceneName(
               scene.name,
-              menuNodeName
+              menuNodeName,
             );
 
             const materials = {};
             const findMeshes = (
               node: Object3D,
               parentMatrix: Matrix4,
-              depth: number
+              depth: number,
             ) => {
               const mat = parentMatrix.clone().multiply(node.matrix);
               if (node instanceof Mesh) {
@@ -261,7 +261,7 @@ export class ImportManager {
                   };
 
                 materials[key].geoms.push(
-                  (node as Mesh).geometry.clone().applyMatrix4(mat)
+                  (node as Mesh).geometry.clone().applyMatrix4(mat),
                 );
               }
 
@@ -275,7 +275,7 @@ export class ImportManager {
             for (const val of Object.values(materials)) {
               const mesh = new Mesh(
                 BufferGeometryUtils.mergeGeometries((val as any).geoms),
-                (val as any).material
+                (val as any).material,
               );
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
@@ -285,7 +285,7 @@ export class ImportManager {
               scene,
               name ?? sceneName.name,
               scale,
-              true // doublesided
+              true, // doublesided
             );
 
             allGeometries.push({
@@ -299,7 +299,7 @@ export class ImportManager {
         undefined,
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   }
@@ -312,12 +312,12 @@ export class ImportManager {
    */
   public parseGLTFGeometry(
     geometry: string | ArrayBuffer,
-    name: string
+    name: string,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`
+      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
     );
     loader.setDRACOLoader(dracoLoader);
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
@@ -341,7 +341,7 @@ export class ImportManager {
         },
         (error) => {
           reject(error);
-        }
+        },
       );
     });
   }
@@ -376,7 +376,7 @@ export class ImportManager {
     json: string | { [key: string]: any },
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
   ): Promise<GeometryUIParameters> {
     const loader = new ObjectLoader();
 
@@ -392,7 +392,7 @@ export class ImportManager {
             null,
             (error) => {
               reject(error);
-            }
+            },
           );
         });
       case 'object':
@@ -416,7 +416,7 @@ export class ImportManager {
     geometry: Object3D,
     name: string,
     scale?: number,
-    doubleSided?: boolean
+    doubleSided?: boolean,
   ) {
     geometry.name = name;
     // Set a custom scale if provided

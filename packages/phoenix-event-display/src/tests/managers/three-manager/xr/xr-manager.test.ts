@@ -41,7 +41,7 @@ describe('XRManager', () => {
     xrManager.setXRSession(
       new THREE.WebGLRenderer(),
       onSessionStarted,
-      onSessionEnded
+      onSessionEnded,
     );
     expect(requestSessionSpy).toHaveBeenCalled();
   });

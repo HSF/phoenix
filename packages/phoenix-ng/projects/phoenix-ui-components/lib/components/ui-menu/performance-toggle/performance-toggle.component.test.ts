@@ -42,7 +42,7 @@ describe('PerformanceToggleComponent', () => {
 
     expect(component.performanceMode).toBe(true);
     expect(
-      mockEventDisplay.getThreeManager().setAntialiasing
+      mockEventDisplay.getThreeManager().setAntialiasing,
     ).toHaveBeenCalledWith(!component.performanceMode);
   });
 });

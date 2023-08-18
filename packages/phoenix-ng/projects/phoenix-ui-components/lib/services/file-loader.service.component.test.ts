@@ -22,30 +22,30 @@ describe.skip('FileLoaderService', () => {
         (
           _arg1: string,
           _arg2: 'json' | 'text' | 'blob',
-          onData: (data: any) => void
+          onData: (data: any) => void,
         ) => {
           onData('test');
           return true;
-        }
+        },
       );
     jest.spyOn(FileLoaderService.prototype, 'loadJSONEvent');
     service.loadEvent(
       'https://example.com/event_data/test.json',
-      mockEventDisplay
+      mockEventDisplay,
     );
     expect(mockFileLoaderService.loadJSONEvent).toHaveBeenCalled();
 
     jest.spyOn(FileLoaderService.prototype, 'loadJiveXMLEvent');
     service.loadEvent(
       'https://example.com/event_data/test.xml',
-      mockEventDisplay
+      mockEventDisplay,
     );
     expect(mockFileLoaderService.loadJiveXMLEvent).toHaveBeenCalled();
 
     jest.spyOn(FileLoaderService.prototype, 'loadEvent');
     service.reloadLastEvents(mockEventDisplay);
     expect(mockFileLoaderService.loadEvent).toHaveBeenCalledWith(
-      'https://example.com/event_data/test.xml'
+      'https://example.com/event_data/test.xml',
     );
   });
 });

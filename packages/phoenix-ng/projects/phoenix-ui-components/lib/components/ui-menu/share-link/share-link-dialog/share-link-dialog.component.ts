@@ -52,7 +52,7 @@ export class ShareLinkDialogComponent implements AfterViewInit {
       .reduce((filteredOptions: string[], option: string) => {
         if (this.urlOptions[option]) {
           filteredOptions.push(
-            `${option}=${encodeURI(this.urlOptions[option])}`
+            `${option}=${encodeURI(this.urlOptions[option])}`,
           );
         }
         return filteredOptions;
@@ -60,7 +60,7 @@ export class ShareLinkDialogComponent implements AfterViewInit {
       .join('&');
 
     this.shareLink.update(
-      this.baseLink + (urlParametersString ? '?' : '') + urlParametersString
+      this.baseLink + (urlParametersString ? '?' : '') + urlParametersString,
     );
     this.embedLink = this.getEmbedLink(urlParametersString);
   }

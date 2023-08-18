@@ -51,7 +51,7 @@ describe('ShareLinkDialogComponent', () => {
 
     expect(component.onOptionsChange).toHaveBeenCalled();
     expect(component.shareLink.value).toContain(
-      'test_option=test_option_value'
+      'test_option=test_option_value',
     );
     // Else case
     component.setOptionValue('type', undefined);

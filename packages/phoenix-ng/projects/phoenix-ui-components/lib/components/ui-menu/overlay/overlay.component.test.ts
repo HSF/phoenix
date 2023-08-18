@@ -39,7 +39,7 @@ describe('OverlayComponent', () => {
 
     // Creating a mock resize handle corner
     component.resizeHandleCorner = new ElementRef(
-      document.createElement('span')
+      document.createElement('span'),
     );
     component.ngAfterViewInit();
 
@@ -53,7 +53,7 @@ describe('OverlayComponent', () => {
       component.resizable = true;
       component.showBody = true;
       component.resizeHandleCorner = new ElementRef(
-        document.createElement('span')
+        document.createElement('span'),
       );
       component.overlayCard = new ElementRef(document.createElement('div'));
     });
@@ -64,7 +64,7 @@ describe('OverlayComponent', () => {
 
       expect((component as any).setHandleTransform).toHaveBeenCalledWith(
         component.overlayCard.nativeElement.getBoundingClientRect(),
-        component.resizeHandleCorner.nativeElement.getBoundingClientRect()
+        component.resizeHandleCorner.nativeElement.getBoundingClientRect(),
       );
     });
 
@@ -74,7 +74,7 @@ describe('OverlayComponent', () => {
 
       expect((component as any).setHandleTransform).toHaveBeenCalledWith(
         component.overlayCard.nativeElement.getBoundingClientRect(),
-        component.resizeHandleCorner.nativeElement.getBoundingClientRect()
+        component.resizeHandleCorner.nativeElement.getBoundingClientRect(),
       );
     });
   });

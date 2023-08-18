@@ -33,7 +33,7 @@ describe('TrackmlLoader', () => {
     trackmlLoader.processParticles(particles);
     expect(console.log).toHaveBeenCalledWith(
       'Event has this many particles:',
-      2
+      2,
     );
   });
 

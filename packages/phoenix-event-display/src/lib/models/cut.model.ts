@@ -26,7 +26,7 @@ export class Cut {
     public maxValue: number,
     public step: number = 1,
     public minCutActive: boolean = true,
-    public maxCutActive: boolean = true
+    public maxCutActive: boolean = true,
   ) {
     this.defaultMinValue = minValue;
     this.defaultMaxValue = maxValue;

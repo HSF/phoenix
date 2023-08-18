@@ -15,14 +15,14 @@ export class ScriptLoader {
   public static loadScript(
     scriptURL: string,
     scriptFor?: string,
-    parentElement: HTMLElement = document.getElementsByTagName('head')[0]
+    parentElement: HTMLElement = document.getElementsByTagName('head')[0],
   ): Promise<void> {
     const loadingManager = new LoadingManager();
     loadingManager.addLoadableItem('single_script');
 
     return new Promise<void>((resolve, reject) => {
       const scriptExists = document.querySelectorAll<HTMLScriptElement>(
-        'script[src="' + scriptURL + '"]'
+        'script[src="' + scriptURL + '"]',
       );
 
       // If no script exists - add one

@@ -139,7 +139,7 @@ describe('CMS', () => {
 
       cy.contains('Loaded JSON geometry: CMS Detector').should('be.visible');
       cy.contains('Loaded: Event#1605749984 from run#200091').should(
-        'be.visible'
+        'be.visible',
       );
 
       cy.get('app-info-panel').click();

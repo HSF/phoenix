@@ -26,7 +26,7 @@ export class CycleEventsComponent implements OnInit {
 
   constructor(
     private eventDisplay: EventDisplayService,
-    private fileLoader: FileLoaderService
+    private fileLoader: FileLoaderService,
   ) {}
 
   ngOnInit() {

@@ -19,7 +19,7 @@ describe('EffectsManager', () => {
     effectsManager = new EffectsManager(
       camera,
       scene,
-      new THREE.WebGLRenderer()
+      new THREE.WebGLRenderer(),
     );
   });
 

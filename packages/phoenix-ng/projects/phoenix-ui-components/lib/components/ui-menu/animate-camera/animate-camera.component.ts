@@ -86,7 +86,7 @@ export class AnimateCameraComponent {
   private setDetectorOpacity(opacity: number) {
     const sceneManager = this.eventDisplay.getThreeManager().getSceneManager();
     const geometriesGroup = sceneManager.getObjectByName(
-      SceneManager.GEOMETRIES_ID
+      SceneManager.GEOMETRIES_ID,
     );
 
     sceneManager.setGeometryOpacity(geometriesGroup, opacity);

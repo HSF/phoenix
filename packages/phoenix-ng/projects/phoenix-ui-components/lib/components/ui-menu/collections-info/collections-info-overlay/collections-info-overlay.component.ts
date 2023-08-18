@@ -23,12 +23,12 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private eventDisplay: EventDisplayService
+    private eventDisplay: EventDisplayService,
   ) {}
 
   ngOnInit() {
     this.eventDisplay.listenToDisplayedEventChange(
-      (_event) => (this.collections = this.eventDisplay.getCollections())
+      (_event) => (this.collections = this.eventDisplay.getCollections()),
     );
     this.activeObject = this.eventDisplay.getActiveObjectId();
     this.activeObject.onUpdate((value: string) => {
@@ -51,7 +51,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       }));
 
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => !['uuid', 'hits', 'isCut'].includes(column) // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+      (column) => !['uuid', 'hits', 'isCut'].includes(column), // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
 
@@ -82,7 +82,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
 
   addLabel(index: number, uuid: string) {
     const labelValue = this.elementRef.nativeElement.querySelector(
-      `#label${index}`
+      `#label${index}`,
     ).value;
     if (this.selectedCollection) {
       // Empty labelValue will remove the label object
@@ -90,7 +90,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
         labelValue,
         this.selectedCollection,
         index,
-        uuid
+        uuid,
       );
     }
   }

@@ -29,14 +29,14 @@ export class FileExplorerComponent implements OnChanges {
   @Output() onFileSelect: EventEmitter<string> = new EventEmitter<string>();
 
   treeControl = new NestedTreeControl<FileNode>(
-    this.getSortedChildren.bind(this)
+    this.getSortedChildren.bind(this),
   );
   dataSource = new MatTreeNestedDataSource<FileNode>();
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.rootFileNode?.currentValue) {
       this.dataSource.data = this.getSortedChildren(
-        changes.rootFileNode.currentValue
+        changes.rootFileNode.currentValue,
       );
     }
   }
@@ -59,7 +59,7 @@ export class FileExplorerComponent implements OnChanges {
     }
 
     return Object.values(node.children).sort((a, b) =>
-      !a.url && b.url ? -1 : 1
+      !a.url && b.url ? -1 : 1,
     );
   }
 }

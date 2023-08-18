@@ -66,7 +66,7 @@ export class SelectionManager {
     camera: Camera,
     scene: Scene,
     effectsManager: EffectsManager,
-    infoLogger: InfoLogger
+    infoLogger: InfoLogger,
   ) {
     this.camera = camera;
     this.scene = scene;
@@ -161,13 +161,13 @@ export class SelectionManager {
       this.selectedObject.name = intersectedObject.name;
       this.selectedObject.attributes.splice(
         0,
-        this.selectedObject.attributes.length
+        this.selectedObject.attributes.length,
       );
 
       this.activeObject.update(intersectedObject.uuid);
 
       const prettyParams = PrettySymbols.getPrettyParams(
-        intersectedObject.userData
+        intersectedObject.userData,
       );
 
       for (const key of Object.keys(prettyParams)) {
@@ -183,7 +183,7 @@ export class SelectionManager {
           // Only take properties that are a string or number (no arrays or objects)
           if (
             ['string', 'number'].includes(
-              typeof intersectedObject.userData[key]
+              typeof intersectedObject.userData[key],
             )
           ) {
             return key + '=' + intersectedObject.userData[key];

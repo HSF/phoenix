@@ -15,13 +15,13 @@ export class ObjectClippingComponent {
   constructor(private eventDisplay: EventDisplayService) {
     const stateManager = this.eventDisplay.getStateManager();
     stateManager.clippingEnabled.onUpdate(
-      (clippingValue) => (this.clippingEnabled = clippingValue)
+      (clippingValue) => (this.clippingEnabled = clippingValue),
     );
     stateManager.startClippingAngle.onUpdate(
-      (value) => (this.startClippingAngle = value)
+      (value) => (this.startClippingAngle = value),
     );
     stateManager.openingClippingAngle.onUpdate(
-      (value) => (this.openingClippingAngle = value)
+      (value) => (this.openingClippingAngle = value),
     );
   }
 

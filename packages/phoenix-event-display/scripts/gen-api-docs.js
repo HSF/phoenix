@@ -5,7 +5,7 @@ const path = require('path');
 
 if (!fs.existsSync('package.json')) {
   console.log(
-    'Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.'
+    'Unable to run script.\nUse `yarn gen-api-docs` from directory containing package.json.',
   );
   process.exit(1);
 }
@@ -38,7 +38,7 @@ exec(COMPODOC_GEN, (err, stdout, stderr) => {
   replaceInFile(
     path.resolve(__dirname, '../../../docs/api-docs/index.html'),
     '<p.*logo-text.svg.*p>',
-    ''
+    '',
   );
 });
 
@@ -51,7 +51,7 @@ function replaceInFile(filePath, toReplace, replaceWith) {
     else {
       const replaceData = fileData.replace(
         new RegExp(toReplace, 'g'),
-        replaceWith
+        replaceWith,
       );
       fs.writeFile(filePath, replaceData, 'utf-8', (err) => {
         if (err) console.log('Could not write to file ' + filePath);

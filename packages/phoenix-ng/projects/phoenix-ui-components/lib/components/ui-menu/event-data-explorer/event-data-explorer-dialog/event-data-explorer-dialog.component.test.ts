@@ -89,14 +89,14 @@ describe.skip('EventDataExplorerDialogComponent', () => {
 
   it('should build file node from response', () => {
     const fileNode: FileNode = (component as any).buildFileNode(
-      mockFileResponse
+      mockFileResponse,
     );
 
     expect(fileNode.children['event_data'].children['test.json'].name).toBe(
-      'test.json'
+      'test.json',
     );
     expect(fileNode.children['config_data'].children['test.json'].name).toBe(
-      'test.json'
+      'test.json',
     );
   });
 
@@ -104,7 +104,7 @@ describe.skip('EventDataExplorerDialogComponent', () => {
     jest
       .spyOn(FileLoaderService.prototype, 'loadEvent')
       .mockImplementation(
-        (_arg1: string, eventDisplay: EventDisplayService) => true
+        (_arg1: string, eventDisplay: EventDisplayService) => true,
       );
 
     jest.spyOn(FileLoaderService.prototype, 'loadEvent');
@@ -119,11 +119,11 @@ describe.skip('EventDataExplorerDialogComponent', () => {
         (
           _arg1: string,
           _arg2: 'json' | 'blob' | 'text',
-          onData: (data: any) => void
+          onData: (data: any) => void,
         ) => {
           onData('{}');
           return true;
-        }
+        },
       );
     component.loadConfig('https://example.com/config_data/test.json');
     expect(mockStateManager.loadStateFromJSON).toHaveBeenCalledWith({});

@@ -1,9 +1,9 @@
-import { CartesianGridConfigComponent } from './cartesian-grid-config/cartesian-grid-config.component';
 import { Component, OnInit } from '@angular/core';
 import { PresetView } from 'phoenix-event-display';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { MatDialog } from '@angular/material/dialog';
+import { CartesianGridConfigComponent } from './cartesian-grid-config/cartesian-grid-config.component';
 
 @Component({
   selector: 'app-view-options',
@@ -17,7 +17,7 @@ export class ViewOptionsComponent implements OnInit {
 
   constructor(
     private eventDisplay: EventDisplayService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {

@@ -51,7 +51,7 @@ export class PhoenixLoader implements EventDataLoader {
     eventData: any,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
-    infoLogger: InfoLogger
+    infoLogger: InfoLogger,
   ): void {
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
@@ -165,7 +165,7 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getTrack,
         'Tracks',
         false,
-        cuts
+        cuts,
       );
       // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
@@ -184,7 +184,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addJetsSizeOption = this.addScaleOptions(
         'jetsScale',
         'Jets Scale',
-        scaleJets
+        scaleJets,
       );
 
       this.addObjectType(
@@ -193,7 +193,7 @@ export class PhoenixLoader implements EventDataLoader {
         'Jets',
         false,
         cuts,
-        addJetsSizeOption
+        addJetsSizeOption,
       );
     }
 
@@ -218,7 +218,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addCaloClusterOptions = this.addScaleOptions(
         'caloClustersScale',
         'CaloClusters Scale',
-        scaleCaloClusters
+        scaleCaloClusters,
       );
 
       this.addObjectType(
@@ -227,7 +227,7 @@ export class PhoenixLoader implements EventDataLoader {
         'CaloClusters',
         false,
         cuts,
-        addCaloClusterOptions
+        addCaloClusterOptions,
       );
     }
 
@@ -247,7 +247,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addCaloCellOptions = this.addScaleOptions(
         'caloCellsScale',
         'CaloCells Scale',
-        scaleCaloCells
+        scaleCaloCells,
       );
 
       // FIXME! Need to pass the radius in.
@@ -257,7 +257,7 @@ export class PhoenixLoader implements EventDataLoader {
         'CaloCells',
         false,
         cuts,
-        addCaloCellOptions
+        addCaloCellOptions,
       );
     }
 
@@ -273,7 +273,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addPlanarCaloCellsOptions = this.addScaleOptions(
         'planarCaloCellsScale',
         'PlanarCaloCells Scale',
-        scalePlanarCaloCells
+        scalePlanarCaloCells,
       );
 
       const collections = {};
@@ -283,7 +283,7 @@ export class PhoenixLoader implements EventDataLoader {
         const unitVector = new Vector3(...plane.slice(0, 3)).normalize();
 
         collection['cells'].forEach(
-          (cell: any) => (cell['plane'] = [...unitVector.toArray(), plane[3]])
+          (cell: any) => (cell['plane'] = [...unitVector.toArray(), plane[3]]),
         );
 
         collections[collectionName] = collection['cells'];
@@ -295,7 +295,7 @@ export class PhoenixLoader implements EventDataLoader {
         'PlanarCaloCells',
         false,
         cuts,
-        addPlanarCaloCellsOptions
+        addPlanarCaloCellsOptions,
       );
     }
 
@@ -311,7 +311,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addIrregularCaloCellOptions = this.addScaleOptions(
         'IrregularCaloCellsScale',
         'IrregularCaloCells Scale',
-        scaleIrregularCaloCells
+        scaleIrregularCaloCells,
       );
 
       this.addObjectType(
@@ -320,7 +320,7 @@ export class PhoenixLoader implements EventDataLoader {
         'IrregularCaloCells',
         false,
         cuts,
-        addIrregularCaloCellOptions
+        addIrregularCaloCellOptions,
       );
     }
 
@@ -336,7 +336,7 @@ export class PhoenixLoader implements EventDataLoader {
         this.getCompound,
         'Muons',
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -352,7 +352,7 @@ export class PhoenixLoader implements EventDataLoader {
         this.getCompound,
         'Photons',
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -368,7 +368,7 @@ export class PhoenixLoader implements EventDataLoader {
         this.getCompound,
         'Electrons',
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -383,7 +383,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addVerticesOptions = this.addScaleOptions(
         'verticesScale',
         'Vertices Scale',
-        scaleVertices
+        scaleVertices,
       );
 
       this.addObjectType(
@@ -392,14 +392,14 @@ export class PhoenixLoader implements EventDataLoader {
         'Vertices',
         false,
         cuts,
-        addVerticesOptions
+        addVerticesOptions,
       );
     }
 
     if (eventData.MissingEnergy) {
       const addMETSizeOption = (
         typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode
+        typeFolderPM: PhoenixMenuNode,
       ) => {
         const scaleMET = (value: number) => {
           this.graphicsLibrary
@@ -430,7 +430,7 @@ export class PhoenixLoader implements EventDataLoader {
         'MissingEnergy',
         false,
         [],
-        addMETSizeOption
+        addMETSizeOption,
       );
     }
   }
@@ -452,8 +452,8 @@ export class PhoenixLoader implements EventDataLoader {
     cuts?: Cut[],
     extendEventDataTypeUI?: (
       typeFolder?: GUI,
-      typeFolderPM?: PhoenixMenuNode
-    ) => void
+      typeFolderPM?: PhoenixMenuNode,
+    ) => void,
   ) {
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
     const collectionsList: string[] = this.getObjectTypeCollections(object);
@@ -463,7 +463,7 @@ export class PhoenixLoader implements EventDataLoader {
     for (const collectionName of collectionsList) {
       const objectCollection = object[collectionName];
       console.log(
-        `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`
+        `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`,
       );
 
       if (objectCollection.length == 0) {
@@ -476,7 +476,7 @@ export class PhoenixLoader implements EventDataLoader {
         collectionName,
         getObject,
         objectGroup,
-        concatonateObjs
+        concatonateObjs,
       );
 
       cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
@@ -494,7 +494,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     extendEventDataTypeUI?.(
       eventDataTypeFolderDatGUI,
-      eventDataTypeFolderPhoenixMenu
+      eventDataTypeFolderPhoenixMenu,
     );
   }
 
@@ -511,7 +511,7 @@ export class PhoenixLoader implements EventDataLoader {
     collectionName: string,
     getObject: (object: any) => Object3D,
     objectGroup: Group,
-    concatonateObjs: boolean
+    concatonateObjs: boolean,
   ) {
     const collscene = new Group();
     collscene.name = collectionName;
@@ -695,7 +695,7 @@ export class PhoenixLoader implements EventDataLoader {
   public addLabelToEventObject(
     label: string,
     collection: string,
-    indexInCollection: number
+    indexInCollection: number,
   ): string {
     for (const eventDataType in this.eventData) {
       if (this.eventData?.[eventDataType]?.[collection]) {
@@ -729,7 +729,7 @@ export class PhoenixLoader implements EventDataLoader {
   public addScaleOptions(
     configKey: string,
     configLabel: string,
-    scaleFunction: (value: number) => void
+    scaleFunction: (value: number) => void,
   ) {
     return (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) => {
       // dat.GUI menu

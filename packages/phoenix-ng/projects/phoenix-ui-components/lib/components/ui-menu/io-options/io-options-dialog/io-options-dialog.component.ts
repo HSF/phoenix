@@ -29,45 +29,45 @@ export class IOOptionsDialogComponent implements OnInit {
       EventDataFormat.JSON,
       '.json',
       this.handleJSONEventDataInput.bind(this),
-      'application/json'
+      'application/json',
     ),
     new ImportOption(
       EventDataFormat.EDM4HEPJSON,
       '.edm4hep.json',
       this.handleEDM4HEPJSONEventDataInput.bind(this),
-      'application/json'
+      'application/json',
     ),
     new ImportOption(
       EventDataFormat.JIVEXML,
       '.xml',
       this.handleJiveXMLDataInput.bind(this),
-      'text/xml'
+      'text/xml',
     ),
     new ImportOption(
       EventDataFormat.ZIP,
       '.zip',
       this.handleZipEventDataInput.bind(this),
-      '.zip'
+      '.zip',
     ),
     new ImportOption(
       EventDataFormat.IG,
       '.ig',
       this.handleIgEventDataInput.bind(this),
-      '.ig'
+      '.ig',
     ),
   ];
 
   constructor(
     private eventDisplay: EventDisplayService,
-    public dialogRef: MatDialogRef<IOOptionsDialogComponent>
+    public dialogRef: MatDialogRef<IOOptionsDialogComponent>,
   ) {}
 
   ngOnInit() {
     this.eventDataOptionsWithHandler = this.supportedEventDataFormats.filter(
       (eventDataFormat) =>
         this.eventDataImportOptions.includes(
-          eventDataFormat.format as EventDataFormat
-        )
+          eventDataFormat.format as EventDataFormat,
+        ),
     );
 
     this.eventDataImportOptions.forEach((eventDataImportOption) => {
@@ -163,7 +163,7 @@ export class IOOptionsDialogComponent implements OnInit {
     await this.eventDisplay.loadRootGeometry(
       URL.createObjectURL(files[0]),
       rootObjectName,
-      files[0].name.split('.')[0]
+      files[0].name.split('.')[0],
     );
 
     this.onClose();
@@ -177,7 +177,7 @@ export class IOOptionsDialogComponent implements OnInit {
     const name = files[0].name.split('.')[0];
     await this.eventDisplay.loadRootJSONGeometry(
       URL.createObjectURL(files[0]),
-      name
+      name,
     );
 
     this.onClose();
@@ -237,7 +237,7 @@ export class IOOptionsDialogComponent implements OnInit {
   handleFileInput(
     file: File,
     extension: string,
-    callback: (result: string, fileName?: string) => void
+    callback: (result: string, fileName?: string) => void,
   ) {
     const reader = new FileReader();
 

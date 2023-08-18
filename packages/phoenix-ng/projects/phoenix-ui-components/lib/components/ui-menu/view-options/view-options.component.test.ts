@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ViewOptionsComponent } from './view-options.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PresetView } from 'phoenix-event-display';
+import { ViewOptionsComponent } from './view-options.component';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
@@ -29,6 +28,7 @@ describe('ViewOptionsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [ViewOptionsComponent],
       providers: [
         {
           provide: EventDisplayService,
@@ -39,11 +39,8 @@ describe('ViewOptionsComponent', () => {
           useValue: mockMatDialog,
         },
       ],
-      declarations: [ViewOptionsComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewOptionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -86,12 +83,12 @@ describe('ViewOptionsComponent', () => {
       'Test View',
       [0, 0, -12000],
       [0, 0, 0],
-      'left-cube'
+      'left-cube',
     );
     component.displayView(mockEvent, mockPresetView);
 
     expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(
-      mockPresetView
+      mockPresetView,
     );
   });
 
@@ -103,7 +100,7 @@ describe('ViewOptionsComponent', () => {
     component.setAxis(event);
 
     expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 

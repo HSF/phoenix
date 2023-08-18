@@ -16,7 +16,7 @@ describe('DatGUIMenuUI', () => {
   beforeEach(() => {
     datGUIMenu = new DatGUIMenuUI(
       'eventDisplay',
-      new ThreeManager(new InfoLogger())
+      new ThreeManager(new InfoLogger()),
     );
     datGUIMenuPrivate = datGUIMenu as any;
   });
@@ -49,7 +49,7 @@ describe('DatGUIMenuUI', () => {
     datGUIMenu.addEventDataTypeFolder('Event Data');
 
     expect(
-      datGUIMenuPrivate.eventFolder.__folders['Event Data']
+      datGUIMenuPrivate.eventFolder.__folders['Event Data'],
     ).toBeInstanceOf(GUI);
   });
 
@@ -58,7 +58,7 @@ describe('DatGUIMenuUI', () => {
     datGUIMenu.addCollection('Event Data', 'test');
 
     expect(
-      datGUIMenuPrivate.eventFolder.__folders['Event Data']
+      datGUIMenuPrivate.eventFolder.__folders['Event Data'],
     ).toBeUndefined();
   });
 

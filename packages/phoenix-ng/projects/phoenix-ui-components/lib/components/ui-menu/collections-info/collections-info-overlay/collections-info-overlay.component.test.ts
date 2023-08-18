@@ -88,7 +88,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     jest
       .spyOn(
         mockEventDisplay.getThreeManager().getSceneManager().getScene(),
-        'getObjectByName'
+        'getObjectByName',
       )
       .mockImplementation(() => group);
 
@@ -101,7 +101,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     component.changeCollection(mockSelectedValue);
 
     expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(
-      mockSelectedValue
+      mockSelectedValue,
     );
   });
 
@@ -173,7 +173,7 @@ describe('CollectionsInfoOverlayComponent', () => {
       undefined,
       mockLabel,
       1,
-      mockUuid
+      mockUuid,
     );
   });
 });

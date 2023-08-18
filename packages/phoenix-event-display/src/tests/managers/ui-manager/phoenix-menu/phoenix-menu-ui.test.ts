@@ -77,10 +77,10 @@ describe('PhoenixMenuUI', () => {
     phoenixMenuUI.addEventDataTypeFolder('Event Data');
 
     expect(phoenixMenuUIPrivate.eventFolder.children[0]).toBeInstanceOf(
-      PhoenixMenuNode
+      PhoenixMenuNode,
     );
     expect(phoenixMenuUIPrivate.eventFolder.children[0].name).toBe(
-      'Event Data'
+      'Event Data',
     );
   });
 

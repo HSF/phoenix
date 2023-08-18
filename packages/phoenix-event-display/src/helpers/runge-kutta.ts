@@ -94,7 +94,7 @@ export class RungeKutta {
         .clone()
         .add(k2)
         .add(k3)
-        .multiplyScalar(fh2 / 6)
+        .multiplyScalar(fh2 / 6),
     );
     // state.dir += (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
     state.dir.add(
@@ -103,7 +103,7 @@ export class RungeKutta {
         .add(k2.clone().multiplyScalar(2))
         .add(k3.clone().multiplyScalar(2))
         .add(k4)
-        .multiplyScalar(fh / 6)
+        .multiplyScalar(fh / 6),
     );
     state.dir.normalize();
 
@@ -130,7 +130,7 @@ export class RungeKutta {
     q: number,
     mss: number = -1,
     plength: number = 1000,
-    inbounds: (pos: Vector3) => boolean = () => true
+    inbounds: (pos: Vector3) => boolean = () => true,
   ): { pos: Vector3; dir: Vector3 }[] {
     const rkState: State = new State();
     rkState.pos = startPos;

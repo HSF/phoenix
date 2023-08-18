@@ -20,7 +20,7 @@ export class ColorManager {
   colorObjectsByProperty(
     color: any,
     objectsGroup: string,
-    customCheck: (objectUserData: any) => boolean
+    customCheck: (objectUserData: any) => boolean,
   ) {
     const objects = this.sceneManager.getScene().getObjectByName(objectsGroup);
     objects.traverse((object: any) => {

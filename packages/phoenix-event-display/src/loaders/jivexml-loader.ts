@@ -138,7 +138,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   private getPositionOfHit(
     hitIdentifier,
-    eventData: { Hits: [[{ id: number; pos: any }]] }
+    eventData: { Hits: [[{ id: number; pos: any }]] },
   ) {
     for (const hitcollection in eventData.Hits) {
       for (const hit of eventData.Hits[hitcollection]) {
@@ -160,7 +160,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getTracks(
     firstEvent: Element,
-    eventData: { Tracks: any; Hits: any }
+    eventData: { Tracks: any; Hits: any },
   ): void {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
@@ -186,7 +186,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         console.log(
           'WARNING the track collection ' +
             trackCollectionName +
-            ' has no line information. Will rely on Phoenix to extrapolate.'
+            ' has no line information. Will rely on Phoenix to extrapolate.',
         );
       } else {
         numPolyline = this.getNumberArrayFromHTML(collection, 'numPolyline');
@@ -229,7 +229,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         numOfTracks != cotTheta.length
       ) {
         console.log(
-          'ERROR: Wrong number of some track variables. Corrupted JiveXML?'
+          'ERROR: Wrong number of some track variables. Corrupted JiveXML?',
         );
       }
 
@@ -246,7 +246,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           'numPolyline ',
           numPolyline.length,
           'numOfTracks',
-          numOfTracks
+          numOfTracks,
         );
       for (let i = 0; i < numOfTracks; i++) {
         let storeTrack = true; // Need to do this because we need to retrieve all info so counters don't go wrong.
@@ -320,7 +320,7 @@ export class JiveXMLLoader extends PhoenixLoader {
             polylineCounter + numPolyline[i] > polylineZ.length
           ) {
             console.log(
-              'ERROR: not enough points left for this track. Corrupted JiveXML?'
+              'ERROR: not enough points left for this track. Corrupted JiveXML?',
             );
           }
           for (let p = 0; p < numPolyline[i]; p++) {
@@ -331,7 +331,7 @@ export class JiveXMLLoader extends PhoenixLoader {
             radius = Math.sqrt(x * x + y * y + z * z);
             if (radius < maxR) {
               console.log(
-                'WARNING: track positions do not seem to be sorted radially'
+                'WARNING: track positions do not seem to be sorted radially',
               );
               badTracks['Hits not sorted']++;
               track.badtrack.push('Hits not sorted');
@@ -342,7 +342,7 @@ export class JiveXMLLoader extends PhoenixLoader {
                 'theta:',
                 theta,
                 'theta from hit',
-                Math.acos(z / radius)
+                Math.acos(z / radius),
               );
             }
             maxR = radius;
@@ -370,7 +370,7 @@ export class JiveXMLLoader extends PhoenixLoader {
               // Now try to find matching hit
               [found, x, y, z] = this.getPositionOfHit(
                 hitIdentifier,
-                eventData
+                eventData,
               );
               if (found) {
                 distance = Math.sqrt(x * x + y * y + z * z);
@@ -386,7 +386,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           // This seems to give pretty poor results, so try to filter.
           // Sort radially (sorry cosmics!)
           const sortedMeasurements = measurementPositions.sort(
-            (a, b) => a[3] - b[3]
+            (a, b) => a[3] - b[3],
           );
           const minDelta = 250; // tweaked by trial and error
           let newHitCount = 0;
@@ -410,7 +410,7 @@ export class JiveXMLLoader extends PhoenixLoader {
               trackCollectionName +
               ' (and rejected ' +
               rejectedHitCount +
-              ')'
+              ')',
           );
         }
 
@@ -424,7 +424,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineCounter != polylineZ.length)
       ) {
         console.log(
-          'ERROR: something has gone wrong with assigning the positions to the tracks!'
+          'ERROR: something has gone wrong with assigning the positions to the tracks!',
         );
       }
 
@@ -437,7 +437,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           badTracks[error] +
             ' tracks had "' +
             error +
-            '" and were marked as bad.'
+            '" and were marked as bad.',
         );
     }
   }
@@ -528,7 +528,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     const threshold = this.getNumberArrayFromHTML(dcHTML, 'threshold');
     const timeOverThreshold = this.getNumberArrayFromHTML(
       dcHTML,
-      'timeOverThreshold'
+      'timeOverThreshold',
     );
 
     eventData.Hits.TRT = [];
@@ -588,7 +588,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   public getMuonPRD(
     firstEvent: Element,
     name: string,
-    eventData: { Hits: any }
+    eventData: { Hits: any },
   ) {
     if (firstEvent.getElementsByTagName(name).length === 0) {
       return;
@@ -682,7 +682,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     x: number[],
     y: number[],
     z: number[],
-    length: number[]
+    length: number[],
   ) {
     const radius = Math.sqrt(x[i] * x[i] + y[i] * y[i]);
     const scaling = length[i] / radius;
@@ -736,7 +736,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getCaloClusters(
     firstEvent: Element,
-    eventData: { CaloClusters: any }
+    eventData: { CaloClusters: any },
   ) {
     const clustersHTML = firstEvent.getElementsByTagName('Cluster');
     const clusterCollections = Array.from(clustersHTML);
@@ -764,7 +764,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   public getFCALCaloCells(
     firstEvent: Element,
     name: string,
-    eventData: { PlanarCaloCells: any }
+    eventData: { PlanarCaloCells: any },
   ) {
     if (firstEvent.getElementsByTagName(name).length === 0) {
       return;
@@ -808,7 +808,7 @@ export class JiveXMLLoader extends PhoenixLoader {
       eventData.PlanarCaloCells[name].cells.push(cell);
       if (oldZ && oldZ != cellz) {
         console.log(
-          "WARNING - we're assuming that all cells have the same z. This is apparently not correct!"
+          "WARNING - we're assuming that all cells have the same z. This is apparently not correct!",
         );
       }
       oldZ = cellz;
@@ -824,7 +824,7 @@ export class JiveXMLLoader extends PhoenixLoader {
   public getCaloCells(
     firstEvent: Element,
     name: string = 'FCAL',
-    eventData: { CaloCells: any }
+    eventData: { CaloCells: any },
   ) {
     if (firstEvent.getElementsByTagName(name).length === 0) {
       return;
@@ -928,7 +928,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         for (; trackIndex < maxIndex; trackIndex++) {
           if (trackIndex > trackIndices.length) {
             console.log(
-              'Error! TrackIndex exceeds maximum number of track indices.'
+              'Error! TrackIndex exceeds maximum number of track indices.',
             );
           }
           thisTrackIndices.push(trackIndices[trackIndex]);
@@ -1048,7 +1048,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    */
   public getMissingEnergy(
     firstEvent: Element,
-    eventData: { MissingEnergy: any }
+    eventData: { MissingEnergy: any },
   ) {
     const objHTML = firstEvent.getElementsByTagName('ETMis');
     const objCollections = Array.from(objHTML);

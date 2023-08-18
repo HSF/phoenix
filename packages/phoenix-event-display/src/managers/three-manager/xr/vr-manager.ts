@@ -48,7 +48,7 @@ export class VRManager extends XRManager {
   public setXRSession(
     renderer: WebGLRenderer,
     onSessionStarted?: () => void,
-    onSessionEnded?: () => void
+    onSessionEnded?: () => void,
   ) {
     super.setXRSession(renderer, onSessionStarted, onSessionEnded);
     this.setupVRControls();
@@ -63,11 +63,11 @@ export class VRManager extends XRManager {
 
     this.controller1?.removeEventListener(
       'selectstart',
-      this.onControllerSelectStart
+      this.onControllerSelectStart,
     );
     this.controller1?.removeEventListener(
       'selectend',
-      this.onControllerSelectEnd
+      this.onControllerSelectEnd,
     );
   }
 
@@ -84,13 +84,13 @@ export class VRManager extends XRManager {
     const controllerModelFactory = new XRControllerModelFactory();
     this.controllerGrip1 = this.renderer.xr.getControllerGrip(0);
     this.controllerGrip1.add(
-      controllerModelFactory.createControllerModel(this.controllerGrip1)
+      controllerModelFactory.createControllerModel(this.controllerGrip1),
     );
     this.getCameraGroup().add(this.controllerGrip1);
 
     this.controllerGrip2 = this.renderer.xr.getControllerGrip(1);
     this.controllerGrip2.add(
-      controllerModelFactory.createControllerModel(this.controllerGrip2)
+      controllerModelFactory.createControllerModel(this.controllerGrip2),
     );
     this.getCameraGroup().add(this.controllerGrip2);
 
@@ -117,10 +117,10 @@ export class VRManager extends XRManager {
 
     this.onControllerSelectStart = () => {
       console.log(
-        'Select: c1 position ' + this.controller1.position.toArray().join(', ')
+        'Select: c1 position ' + this.controller1.position.toArray().join(', '),
       );
       console.log(
-        'Select: CG position ' + this.cameraGroup.position.toArray().join(', ')
+        'Select: CG position ' + this.cameraGroup.position.toArray().join(', '),
       );
 
       // Start movement in camera direction
@@ -136,7 +136,7 @@ export class VRManager extends XRManager {
 
     this.controller1.addEventListener(
       'selectstart',
-      this.onControllerSelectStart
+      this.onControllerSelectStart,
     );
     this.controller1.addEventListener('selectend', this.onControllerSelectEnd);
   }

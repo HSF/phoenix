@@ -46,7 +46,7 @@ export class PhoenixMenuNode {
     onToggle?: (value: boolean) => void,
     children?: PhoenixMenuNode[],
     configs?: PhoenixMenuConfigs[keyof PhoenixMenuConfigs][],
-    parent?: PhoenixMenuNode
+    parent?: PhoenixMenuNode,
   ) {
     this.name = name;
     this.icon = icon;
@@ -66,7 +66,7 @@ export class PhoenixMenuNode {
   addChild(
     name: string,
     onToggle?: (value: boolean) => void,
-    icon?: string
+    icon?: string,
   ): PhoenixMenuNode {
     const child = new PhoenixMenuNode(name, icon, onToggle);
     child.parent = this;
@@ -94,7 +94,7 @@ export class PhoenixMenuNode {
       this.parent.removeChild(this);
     } else {
       console.error(
-        'Cannot delete root node of phoenix menu. Set it to undefined/null instead.'
+        'Cannot delete root node of phoenix menu. Set it to undefined/null instead.',
       );
     }
   }
@@ -114,7 +114,7 @@ export class PhoenixMenuNode {
    */
   addConfig<T extends keyof PhoenixMenuConfigs>(
     type: T,
-    options: Omit<PhoenixMenuConfigs[T], 'type'>
+    options: Omit<PhoenixMenuConfigs[T], 'type'>,
   ): PhoenixMenuNode {
     const configsLength = this.configs.push({ type, ...options });
     // Apply the values of config
@@ -209,7 +209,7 @@ export class PhoenixMenuNode {
       const nodeConfig = this.configs.find(
         (nodeConfig) =>
           nodeConfig.type === configState['type'] &&
-          nodeConfig.label === configState['label']
+          nodeConfig.label === configState['label'],
       );
 
       if (nodeConfig) {
@@ -225,7 +225,7 @@ export class PhoenixMenuNode {
       const nodeChild = this.children.filter(
         (nodeChild) =>
           nodeChild.name === childState.name &&
-          nodeChild.nodeLevel === childState.nodeLevel
+          nodeChild.nodeLevel === childState.nodeLevel,
       )[0];
 
       if (nodeChild) {
