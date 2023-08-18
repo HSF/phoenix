@@ -5,6 +5,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
 import { MatDialog } from '@angular/material/dialog';
+import { CartesianGridConfigComponent } from 'phoenix-ui-components';
 
 describe('ViewOptionsComponent', () => {
   let component: ViewOptionsComponent;
@@ -16,6 +17,12 @@ describe('ViewOptionsComponent', () => {
     displayView: jest.fn().mockReturnThis(),
     setShowAxis: jest.fn().mockReturnThis(),
     setShowEtaPhiGrid: jest.fn().mockReturnThis(),
+    setShowCartesianGrid: jest.fn().mockReturnThis(),
+    showLabels: jest.fn().mockReturnThis(),
+  };
+
+  const mockMatDialog = {
+    open: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {
@@ -29,9 +36,7 @@ describe('ViewOptionsComponent', () => {
         },
         {
           provide: MatDialog,
-          useValue: {
-            open: jest.fn(),
-          },
+          useValue: mockMatDialog,
         },
       ],
     }).compileComponents();
@@ -48,6 +53,26 @@ describe('ViewOptionsComponent', () => {
   it('should initially get preset views', () => {
     component.ngOnInit();
     expect(mockEventDisplay.getUIManager().getPresetViews).toHaveBeenCalled();
+  });
+
+  it('should open cartesian grid config dialog box', () => {
+    const mockParams = {
+      data: {
+        gridVisible: component.showCartesianGrid,
+        scale: component.scale,
+      },
+      position: {
+        bottom: '5rem',
+        left: '3rem',
+      },
+    };
+
+    component.openCartesianGridConfigDialog();
+
+    expect(mockMatDialog.open).toHaveBeenCalledWith(
+      CartesianGridConfigComponent,
+      mockParams
+    );
   });
 
   it('should display the chosen preset view', () => {
@@ -79,7 +104,7 @@ describe('ViewOptionsComponent', () => {
     );
   });
 
-  it('should set grid', () => {
+  it('should set eta phi grid', () => {
     const VALUE = false;
     const event = new MatCheckboxChange();
     event.checked = VALUE;
@@ -87,7 +112,32 @@ describe('ViewOptionsComponent', () => {
     component.setEtaPhiGrid(event);
 
     expect(
-      mockEventDisplay.getUIManager().setShowEtaPhiGrid,
+      mockEventDisplay.getUIManager().setShowEtaPhiGrid
     ).toHaveBeenCalledWith(VALUE);
+  });
+
+  it('should set cartesian grid', () => {
+    const VALUE = false;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+
+    component.setEtaPhiGrid(event);
+
+    expect(component.showCartesianGrid).toBe(false);
+    expect(
+      mockEventDisplay.getUIManager().setShowCartesianGrid
+    ).toHaveBeenCalledWith(VALUE, component.scale);
+  });
+
+  it('should show labels', () => {
+    const VALUE = false;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+
+    component.showLabels(event);
+
+    expect(mockEventDisplay.getUIManager().showLabels).toHaveBeenCalledWith(
+      VALUE
+    );
   });
 });

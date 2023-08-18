@@ -54,10 +54,6 @@ export class ViewOptionsComponent implements OnInit {
 
   setCartesianGrid(change: MatCheckboxChange) {
     this.showCartesianGrid = change.checked;
-    this.callSetShowCartesianGrid();
-  }
-
-  private callSetShowCartesianGrid() {
     this.eventDisplay
       .getUIManager()
       .setShowCartesianGrid(this.showCartesianGrid, this.scale);
