@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CartesianGridConfigComponent } from './cartesian-grid-config.component';
 import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 describe('CartesianGridConfigComponent', () => {
@@ -17,6 +17,11 @@ describe('CartesianGridConfigComponent', () => {
     getUIManager: jest.fn().mockReturnThis(),
   };
 
+  const mockData = {
+    gridVisible: true,
+    scale: 3000,
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
@@ -28,6 +33,10 @@ describe('CartesianGridConfigComponent', () => {
         {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: mockData,
         },
       ],
       declarations: [CartesianGridConfigComponent],
