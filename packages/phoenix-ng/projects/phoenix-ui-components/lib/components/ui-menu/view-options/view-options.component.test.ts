@@ -71,7 +71,7 @@ describe('ViewOptionsComponent', () => {
 
     expect(mockMatDialog.open).toHaveBeenCalledWith(
       CartesianGridConfigComponent,
-      mockParams
+      mockParams,
     );
   });
 
@@ -83,12 +83,12 @@ describe('ViewOptionsComponent', () => {
       'Test View',
       [0, 0, -12000],
       [0, 0, 0],
-      'left-cube'
+      'left-cube',
     );
     component.displayView(mockEvent, mockPresetView);
 
     expect(mockEventDisplay.getUIManager().displayView).toHaveBeenCalledWith(
-      mockPresetView
+      mockPresetView,
     );
   });
 
@@ -100,7 +100,7 @@ describe('ViewOptionsComponent', () => {
     component.setAxis(event);
 
     expect(mockEventDisplay.getUIManager().setShowAxis).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 
@@ -112,7 +112,7 @@ describe('ViewOptionsComponent', () => {
     component.setEtaPhiGrid(event);
 
     expect(
-      mockEventDisplay.getUIManager().setShowEtaPhiGrid
+      mockEventDisplay.getUIManager().setShowEtaPhiGrid,
     ).toHaveBeenCalledWith(VALUE);
   });
 
@@ -125,7 +125,7 @@ describe('ViewOptionsComponent', () => {
 
     expect(component.showCartesianGrid).toBe(false);
     expect(
-      mockEventDisplay.getUIManager().setShowCartesianGrid
+      mockEventDisplay.getUIManager().setShowCartesianGrid,
     ).toHaveBeenCalledWith(VALUE, component.scale);
   });
 
@@ -137,7 +137,7 @@ describe('ViewOptionsComponent', () => {
     component.showLabels(event);
 
     expect(mockEventDisplay.getUIManager().showLabels).toHaveBeenCalledWith(
-      VALUE
+      VALUE,
     );
   });
 });

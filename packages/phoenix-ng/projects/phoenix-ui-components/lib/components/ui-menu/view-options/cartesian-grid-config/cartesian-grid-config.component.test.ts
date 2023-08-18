@@ -134,11 +134,11 @@ describe('CartesianGridConfigComponent', () => {
     component.callSetShowCartesianGrid();
 
     expect(
-      mockEventDisplay.getUIManager().setShowCartesianGrid
+      mockEventDisplay.getUIManager().setShowCartesianGrid,
     ).toHaveBeenCalledWith(
       component.showCartesianGrid,
       component.scale,
-      component.gridConfig
+      component.gridConfig,
     );
   });
 });

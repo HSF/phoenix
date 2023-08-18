@@ -25,7 +25,7 @@ export class CartesianGridConfigComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { gridVisible: boolean; scale: number },
     private dialogRef: MatDialogRef<CartesianGridConfigComponent>,
-    private eventDisplay: EventDisplayService
+    private eventDisplay: EventDisplayService,
   ) {}
 
   ngOnInit(): void {
