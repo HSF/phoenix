@@ -27,7 +27,7 @@ import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js'
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
-import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { TracksMaterial, TracksMesh } from './tracks';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
 
@@ -472,7 +472,7 @@ export class PhoenixObjects {
       boxGeometry.translate(pointPos[i], pointPos[i + 1], pointPos[i + 2]);
       geometries.push(boxGeometry);
     }
-    const geometry = mergeBufferGeometries(geometries);
+    const geometry = mergeGeometries(geometries);
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
@@ -721,8 +721,8 @@ export class PhoenixObjects {
     });
 
     const outerBox = new Mesh(
-      BufferGeometryUtils.mergeBufferGeometries(geoms),
-      material,
+      BufferGeometryUtils.mergeGeometries(geoms),
+      material
     );
 
     outerBox.userData = Object.assign({}, caloCells[0]);
