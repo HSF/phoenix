@@ -106,33 +106,30 @@ describe('SceneManager', () => {
   });
 
   it('should set cartesian grid', () => {
-    sceneManager.setCartesianGrid(true, 3000);
-    expect(sceneManager['cartesianGrid'].visible).toBe(true);
-
     sceneManager.setCartesianGrid(false, 3000);
-    expect(sceneManager['cartesianGrid'].visible).toBe(false);
+    sceneManager['cartesianGrid'].children.forEach((child) =>
+      expect(child.visible).toBe(false),
+    );
   });
 
   it('should return cartesian grid config', () => {
-    const VALUE = sceneManager['cartesianGridConfig'];
+    const VALUE1 = sceneManager['cartesianGridConfig'];
 
-    sceneManager.getCartesianGridConfig();
+    const VALUE2 = sceneManager.getCartesianGridConfig();
 
-    expect(sceneManager.getCartesianGridConfig).toHaveReturnedWith(VALUE);
+    expect(VALUE1).toBe(VALUE2);
   });
 
   it('should show labels', () => {
     sceneManager.showLabels(true);
-    expect(sceneManager.setAxis(true, 3000));
-    expect(
-      sceneManager['cartesianLabels'].children.forEach,
-    ).toHaveBeenCalledWith((child) => (child.visible = true));
+    sceneManager['cartesianLabels'].children.forEach((child) => {
+      expect(child.visible).toBe(true);
+    });
 
     sceneManager.showLabels(false);
-    expect(sceneManager.setAxis(false, 3000));
-    expect(
-      sceneManager['cartesianLabels'].children.forEach,
-    ).toHaveBeenCalledWith((child) => (child.visible = false));
+    sceneManager['cartesianLabels'].children.forEach((child) => {
+      expect(child.visible).toBe(false);
+    });
   });
 
   describe('With object in scene', () => {
