@@ -52,8 +52,8 @@ describe('CartesianGridConfigComponent', () => {
   });
 
   it('should set initial configuration', () => {
-    const VALUE1 = mockData.gridVisible;
-    const VALUE2 = mockData.scale;
+    const VALUE1 = component.data.gridVisible;
+    const VALUE2 = component.data.scale;
 
     component.ngOnInit();
 
