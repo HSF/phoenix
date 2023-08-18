@@ -121,7 +121,7 @@ describe('ViewOptionsComponent', () => {
     const event = new MatCheckboxChange();
     event.checked = VALUE;
 
-    component.setEtaPhiGrid(event);
+    component.setCartesianGrid(event);
 
     expect(component.showCartesianGrid).toBe(false);
     expect(
