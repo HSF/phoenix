@@ -25,6 +25,7 @@ describe('CartesianGridConfigComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [CartesianGridConfigComponent],
       providers: [
         {
           provide: MatDialogRef<CartesianGridConfigComponent>,
@@ -39,7 +40,6 @@ describe('CartesianGridConfigComponent', () => {
           useValue: mockData,
         },
       ],
-      declarations: [CartesianGridConfigComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CartesianGridConfigComponent);
@@ -54,12 +54,21 @@ describe('CartesianGridConfigComponent', () => {
   it('should set initial configuration', () => {
     const VALUE1 = mockData.gridVisible;
     const VALUE2 = mockData.scale;
-    const VALUE3 = mockEventDisplay.getUIManager().getCartesianGridConfig();
+
     component.ngOnInit();
 
     expect(component.showCartesianGrid).toBe(VALUE1);
     expect(component.scale).toBe(VALUE2);
-    expect(component.gridConfig).toBe(VALUE3);
+
+    expect(
+      mockEventDisplay.getUIManager().getCartesianGridConfig,
+    ).toHaveBeenCalled();
+
+    const VALUE3 = component.gridConfig;
+
+    expect(
+      mockEventDisplay.getUIManager().getCartesianGridConfig,
+    ).toHaveReturnedWith(VALUE3);
   });
 
   it('should close', () => {
