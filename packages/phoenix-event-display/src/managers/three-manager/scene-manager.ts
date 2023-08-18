@@ -346,7 +346,7 @@ export class SceneManager {
     this.getEventData();
   }
 
-  /** Returns a mesh representing the passed text. It will use this.textFont. */
+  /** @returns a mesh representing the passed text. It will use this.textFont. */
   public getText(text: string, colour: Color): Mesh {
     const textGeometry = new TextGeometry(text, {
       font: this.textFont,
@@ -617,7 +617,7 @@ export class SceneManager {
   }
 
   /**
-   * returns the cartesian grid configuration
+   * @returns the cartesian grid configuration
    */
   public getCartesianGridConfig() {
     return this.cartesianGridConfig;
