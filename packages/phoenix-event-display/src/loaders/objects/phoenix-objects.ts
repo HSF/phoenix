@@ -141,12 +141,12 @@ export class PhoenixObjects {
 
     for (let i = 0; i < positions.length; i++) {
       points.push(
-        new Vector3(positions[i][0], positions[i][1], positions[i][2])
+        new Vector3(positions[i][0], positions[i][1], positions[i][2]),
       );
       const radius = Math.sqrt(
         positions[i][0] * positions[i][0] +
           positions[i][1] * positions[i][1] +
-          positions[i][2] * positions[i][2]
+          positions[i][2] * positions[i][2],
       );
       const thetaFromPos = Math.acos(positions[i][2] / radius);
       // const deltaTheta = Math.abs(trackParams.dparams[3]-thetaFromPos);
@@ -213,7 +213,7 @@ export class PhoenixObjects {
     const translation = new Vector3(
       0.5 * length * cphi * stheta,
       0.5 * length * sphi * stheta,
-      0.5 * length * ctheta
+      0.5 * length * ctheta,
     );
 
     const width = jetParams.coneR
@@ -312,25 +312,25 @@ export class PhoenixObjects {
         return PhoenixObjects.hitsToPoints(
           pointPos,
           hitsParams,
-          hitsParamsClone
+          hitsParamsClone,
         );
       case 'CircularPoint':
         return PhoenixObjects.hitsToCircularPoints(
           pointPos,
           hitsParams,
-          hitsParamsClone
+          hitsParamsClone,
         );
       case 'Line':
         return PhoenixObjects.hitsToLines(
           pointPos,
           hitsParams,
-          hitsParamsClone
+          hitsParamsClone,
         );
       case 'Box':
         return PhoenixObjects.hitsToBoxes(
           pointPos,
           hitsParams,
-          hitsParamsClone
+          hitsParamsClone,
         );
       default:
         console.log('ERROR: Unknown hit type!');
@@ -348,7 +348,7 @@ export class PhoenixObjects {
   private static hitsToPoints(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any
+    _hitParamsClone: any,
   ): Object3D {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
@@ -380,7 +380,7 @@ export class PhoenixObjects {
   private static hitsToCircularPoints(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any
+    _hitParamsClone: any,
   ): Object3D {
     const geometry = new BufferGeometry();
     geometry.setAttribute('position', new BufferAttribute(pointPos, 3));
@@ -426,7 +426,7 @@ export class PhoenixObjects {
   private static hitsToLines(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any
+    _hitParamsClone: any,
   ): Object3D {
     // geometry
     const geometry = new BufferGeometry();
@@ -459,7 +459,7 @@ export class PhoenixObjects {
   private static hitsToBoxes(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any
+    _hitParamsClone: any,
   ): Object3D {
     // geometry
     const geometries = [];
@@ -467,7 +467,7 @@ export class PhoenixObjects {
       const boxGeometry = new BoxGeometry(
         pointPos[i + 3],
         pointPos[i + 4],
-        pointPos[i + 5]
+        pointPos[i + 5],
       );
       boxGeometry.translate(pointPos[i], pointPos[i + 1], pointPos[i + 2]);
       geometries.push(boxGeometry);
@@ -514,7 +514,7 @@ export class PhoenixObjects {
     },
     defaultRadius: number = 1800,
     defaultZ: number = 3600,
-    energyScaling: number = 0.03
+    energyScaling: number = 0.03,
   ): Object3D {
     const clusterLength = clusterParams.energy * energyScaling;
     const clusterWidth = clusterParams.side ?? 40;
@@ -523,12 +523,12 @@ export class PhoenixObjects {
     const cube = PhoenixObjects.getCaloCube(
       clusterParams,
       clusterWidth,
-      clusterLength
+      clusterLength,
     );
     const position = PhoenixObjects.getCaloPosition(
       clusterParams,
       defaultRadius,
-      defaultZ
+      defaultZ,
     );
 
     cube.position.copy(position);
@@ -560,7 +560,7 @@ export class PhoenixObjects {
     },
     defaultRadius: number = 1800,
     defaultZ: number = 3600,
-    cylindrical: boolean = true
+    cylindrical: boolean = true,
   ) {
     const theta =
       clusterParams.theta ?? CoordinateHelper.etaToTheta(clusterParams.eta);
@@ -573,26 +573,26 @@ export class PhoenixObjects {
     const position = CoordinateHelper.sphericalToCartesian(
       radius,
       theta,
-      clusterParams.phi
+      clusterParams.phi,
     );
 
     if (clusterParams.z) {
       position.setLength(
-        (position.length() * clusterParams.z) / Math.abs(position.z)
+        (position.length() * clusterParams.z) / Math.abs(position.z),
       );
     }
 
     if (!clusterParams.radius && !clusterParams.z) {
       if (Math.abs(position.z) > defaultZ) {
         position.setLength(
-          (position.length() * defaultZ) / Math.abs(position.z)
+          (position.length() * defaultZ) / Math.abs(position.z),
         );
       }
       const cylRadius2 = position.x * position.x + position.y * position.y;
       const maxR2 = defaultRadius * defaultRadius;
       if (cylRadius2 > maxR2) {
         position.setLength(
-          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
+          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2),
         );
       }
     }
@@ -614,7 +614,7 @@ export class PhoenixObjects {
       color?: string;
     },
     defaultCellWidth: number = 30,
-    defaultCellLength: number = 30
+    defaultCellLength: number = 30,
   ) {
     const cellWidth = clusterParams.side ?? defaultCellWidth;
     let cellLength = clusterParams.length ?? defaultCellLength;
@@ -661,12 +661,12 @@ export class PhoenixObjects {
     const cube = PhoenixObjects.getCaloCube(
       caloCellParams,
       defaultSide,
-      defaultLength
+      defaultLength,
     );
     const position = PhoenixObjects.getCaloPosition(
       caloCellParams,
       defaultRadius,
-      defaultZ
+      defaultZ,
     );
     cube.position.copy(position);
 
@@ -710,7 +710,7 @@ export class PhoenixObjects {
       const qrot = new Quaternion();
       qrot.setFromUnitVectors(
         new Vector3(0, 0, 1),
-        new Vector3(...plane.slice(0, 3))
+        new Vector3(...plane.slice(0, 3)),
       );
       geometry.applyQuaternion(qrot);
       geoms.push(geometry);
@@ -722,7 +722,7 @@ export class PhoenixObjects {
 
     const outerBox = new Mesh(
       BufferGeometryUtils.mergeGeometries(geoms),
-      material
+      material,
     );
 
     outerBox.userData = Object.assign({}, caloCells[0]);
@@ -768,7 +768,7 @@ export class PhoenixObjects {
     // creating the box in the z direction, and moving it by d, along the z
     const boxPosition = new Vector3(
       ...position.slice(0, 2),
-      plane[3] + length / 2
+      plane[3] + length / 2,
     );
 
     box.position.copy(boxPosition);
@@ -777,7 +777,7 @@ export class PhoenixObjects {
     const qrot = new Quaternion();
     qrot.setFromUnitVectors(
       new Vector3(0, 0, 1),
-      new Vector3(...plane.slice(0, 3))
+      new Vector3(...plane.slice(0, 3)),
     );
 
     outerBox.quaternion.copy(qrot);
@@ -870,7 +870,7 @@ export class PhoenixObjects {
     const verticesOfCube = [];
     for (let i = 0; i < 24; i += 3) {
       verticesOfCube.push(
-        new Vector3(irrCells.vtx[i], irrCells.vtx[i + 1], irrCells.vtx[i + 2])
+        new Vector3(irrCells.vtx[i], irrCells.vtx[i + 1], irrCells.vtx[i + 2]),
       );
     }
     const geometry = new ConvexGeometry(verticesOfCube);
@@ -881,7 +881,7 @@ export class PhoenixObjects {
         irrCells.color[1].toString() +
         ',' +
         irrCells.color[2].toString() +
-        ')'
+        ')',
     );
 
     // material

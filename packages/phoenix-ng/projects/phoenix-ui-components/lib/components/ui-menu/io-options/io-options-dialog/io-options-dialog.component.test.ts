@@ -82,7 +82,7 @@ describe('IoOptionsDialogComponent', () => {
 
     it('should handle JiveXML event data input', async () => {
       await fetch(
-        'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml'
+        'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
       )
         .then((res) => res.text())
         .then((res) => {
@@ -159,7 +159,7 @@ describe('IoOptionsDialogComponent', () => {
     const zip = new JSZip();
     zip.file('test_data.json', '{ "event": null }');
     const jivexmlData = await fetch(
-      'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml'
+      'https://raw.githubusercontent.com/HSF/phoenix/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files/JiveXML/JiveXML_336567_2327102923.xml',
     );
     zip.file('test_data.xml', jivexmlData.text());
     const zipBlob = await zip.generateAsync({ type: 'blob' });
