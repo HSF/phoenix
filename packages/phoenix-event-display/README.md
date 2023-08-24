@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/npm/v/phoenix-event-display.svg)](https://www.npmjs.com/package/phoenix-event-display)
 [![Downloads](https://img.shields.io/npm/dt/phoenix-event-display.svg)](https://www.npmjs.com/package/phoenix-event-display)
-[![Documentation Coverage](https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
+[![Documentation Coverage](https://raw.github.com/HSF/phoenix/main/docs/api-docs/images/coverage-badge-documentation.svg)](https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html)
 
 A highly modular and API driven experiment independent event display that uses [three.js](https://threejs.org) for processing and presenting detector geometry and event data.
 
@@ -100,5 +100,5 @@ Without building, you can include the bundle directly from [CDN](https://cdn.jsd
 
 ### Examples
 
-- [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
-- [Usage in React](https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31)
+- [Usage in Angular (as a service)](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts)
+- [Usage in React](https://github.com/9inpachi/phoenix-react/blob/main/src/App.js#L6-L31)

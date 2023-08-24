@@ -8,7 +8,7 @@
 [build-img]: https://github.com/HSF/phoenix/actions/workflows/main.yml/badge.svg?branch=master
 [build-link]: https://github.com/HSF/phoenix/actions/workflows/main.yml?query=branch%3Amaster
 [license-img]: https://img.shields.io/github/license/hsf/phoenix.svg
-[license-url]: https://github.com/hsf/phoenix/blob/master/LICENSE
+[license-url]: https://github.com/hsf/phoenix/blob/main/LICENSE
 
 ![Phoenix Logo](https://raw.github.com/HSF/phoenix/master/packages/phoenix-ng/projects/phoenix-app/src/assets/images/logo-text.svg)
 
