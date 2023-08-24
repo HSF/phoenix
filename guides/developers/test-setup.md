@@ -12,7 +12,7 @@
 
 ## Introduction
 
-Phoenix has 2 types of tests: [unit tests](https://en.wikipedia.org/wiki/Unit_testing) and [end-to-end tests](https://www.browserstack.com/guide/end-to-end-testing). In essence, Unit tests are written to test individual components of the project which includes the [phoenix-event-display](https://github.com/HSF/phoenix/blob/master/packages/phoenix-event-display/README.md) library and the Angular components used by the Phoenix application inside [phoenix-ng](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/) package, while the end-to-end tests are used to test user interactions with the [Phoenix application](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/).
+Phoenix has 2 types of tests: [unit tests](https://en.wikipedia.org/wiki/Unit_testing) and [end-to-end tests](https://www.browserstack.com/guide/end-to-end-testing). In essence, Unit tests are written to test individual components of the project which includes the [phoenix-event-display](https://github.com/HSF/phoenix/blob/main/packages/phoenix-event-display/README.md) library and the Angular components used by the Phoenix application inside [phoenix-ng](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/) package, while the end-to-end tests are used to test user interactions with the [Phoenix application](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-app/).
 
 ## Unit Tests in Phoenix
 
@@ -23,7 +23,7 @@ While writing unit tests, we make sure to follow these practices:
 3. We try to keep the tests as simple as possible and you can find them ending with the extension `.test.ts`. We try to avoid using complex logic in the tests as it may be difficult to debug and maintain.
 4. We try to keep the tests as readable as possible. We use the `it('<should work as expected>', () => {})` syntax to write the description of a test and make sure that it is clear enough as to what is being tested. Inside the test cases, you can use either the [AAA (Arrange, Act, Assert)](https://automationpanda.com/2020/07/07/arrange-act-assert-a-pattern-for-writing-good-tests/) or [GWT (Given, When, Then)](https://martinfowler.com/bliki/GivenWhenThen.html) pattern to clearly define the phases of your test case. We should test "what" the function does instead of "how" it does it.  
 5. We have to make sure that the tests are deterministic and not flaky. Flaky tests are tests that fail intermittently and are difficult to debug, i.e., the tests we write should always present the same behavior. For this, each test case has to be isolated and independent of the other test cases.
-6. Since Phoenix uses `WebGLRenderer` extensively, we make sure to mock it whenever we are using it inside our tests. This is because [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) is not supported by [jsdom](https://jestjs.io/docs/configuration#testenvironment-string) due to non-availability of `WebGLContext` in Node.js and the browserless nature of `jsdom` and hence, we mock it using our custom helper [`webgl-mock.ts`](https://github.com/HSF/phoenix/blob/master/packages/phoenix-event-display/src/tests/helpers/webgl-mock.ts). 
+6. Since Phoenix uses `WebGLRenderer` extensively, we make sure to mock it whenever we are using it inside our tests. This is because [WebGLRenderer](https://threejs.org/docs/#api/en/renderers/WebGLRenderer) is not supported by [jsdom](https://jestjs.io/docs/configuration#testenvironment-string) due to non-availability of `WebGLContext` in Node.js and the browserless nature of `jsdom` and hence, we mock it using our custom helper [`webgl-mock.ts`](https://github.com/HSF/phoenix/blob/main/packages/phoenix-event-display/src/tests/helpers/webgl-mock.ts). 
 7. The code we are supposed to test should not be mocked. We should mock the code that is not supposed to be tested. For example, if we are testing the `EventDisplay` class, we should not mock the `EventDisplay` class, but we should mock the `WebGLRenderer` class as it is not supposed to be tested in this case. 
 8. `Constants` are not tested separately. Testing the code that uses those constants should be sufficient. `Types` are not tested as they don't contain any logic that has to be tested.
 9. We should avoid having assertions that have nothing to do with the test case and the code to be tested. Proper usage of assertions is important to make sure that the test case is testing just the right thing. For example, if we are testing a function that returns a [Group](https://threejs.org/docs/#api/en/objects/Group), we can check if the correct objects exist inside it. And then we can check if the objects are instances of the correct class and have the correct properties, etc.
@@ -42,12 +42,12 @@ describe('ClassName', () => {
 ```
 
 Some simple examples of unit tests written in TypeScript using Jest:
-- [info-logger.test.ts](https://github.com/HSF/phoenix/blob/master/packages/phoenix-event-display/src/tests/helpers/info-logger.test.ts)
-- [file-explorer.component.test.ts](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.test.ts)
+- [info-logger.test.ts](https://github.com/HSF/phoenix/blob/main/packages/phoenix-event-display/src/tests/helpers/info-logger.test.ts)
+- [file-explorer.component.test.ts](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.test.ts)
 
 ### Jest Configuration
 
-The configuration file for Jest inside `phoenix-event-display` is [jest.conf.js](https://github.com/HSF/phoenix/blob/master/packages/phoenix-event-display/configs/jest.conf.js) and the configuration file for Jest inside `phoenix-ng` is [jest.conf.js](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/jest.config.js). Both require slightly different configurations so we decided not to merge them. 
+The configuration file for Jest inside `phoenix-event-display` is [jest.conf.js](https://github.com/HSF/phoenix/blob/main/packages/phoenix-event-display/configs/jest.conf.js) and the configuration file for Jest inside `phoenix-ng` is [jest.conf.js](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/jest.config.js). Both require slightly different configurations so we decided not to merge them. 
 
 To learn more about Jest and related documentation, we recommend you check out the following links:
 - [Jest Docs](https://jestjs.io/docs/getting-started)
@@ -77,7 +77,7 @@ describe('CMSComponent', () => {
 
 ### Cypress Configuration
 
-The configuration file for e2e tests is [cypress.config.ts](https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/cypress.config.ts). More examples of e2e tests can be found inside the [phoenix-app/cypress](https://github.com/HSF/phoenix/tree/master/packages/phoenix-ng/projects/phoenix-app/cypress) folder and we recommend you to check out the [official Cypress documentation](https://docs.cypress.io/guides/overview/why-cypress) as it is quite fantastic and more than enough to get started with Cypress.
+The configuration file for e2e tests is [cypress.config.ts](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/cypress.config.ts). More examples of e2e tests can be found inside the [phoenix-app/cypress](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/projects/phoenix-app/cypress) folder and we recommend you to check out the [official Cypress documentation](https://docs.cypress.io/guides/overview/why-cypress) as it is quite fantastic and more than enough to get started with Cypress.
 
 
 # Running the tests locally
