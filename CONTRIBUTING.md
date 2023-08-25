@@ -35,7 +35,11 @@ If you're using Visual Studio Code, you can also add the [prettier plugin](https
 We use [lint-staged](https://github.com/okonet/lint-staged) to make sure we are not committing the usually unwanted linting error on the CI and it helps us to focus on the actual problem if we see a failed CI output. It runs our linters everytime we do a `git commit` and automatically fixes any linting errors it sees inside the project. 
 
 ### CI tests
-We make use of continuous integration (CI) tests for each code change. Please see the [relevant part](./guides/developers/test-setup.md) of the [Developer guide](./guides/developers#readme) for how to fix problems, and run locally.
+We make use of continuous integration (CI) tests for each code change. You can (and should!) run this locally on PRs:
+```sh
+yarn test:ci
+```
+Please see the [relevant part](./guides/developers/test-setup.md) of the [Developer guide](./guides/developers#readme) for more information e.g. how to fix common problems.
 
 ## 3. Commit messages
 
