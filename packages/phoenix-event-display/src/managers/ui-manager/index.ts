@@ -424,7 +424,7 @@ export class UIManager {
   }
 
   /**
-   * @returns the cartesian grid configuration
+   * Returns the cartesian grid configuration
    */
   public getCartesianGridConfig() {
     return this.three.getSceneManager().getCartesianGridConfig();
