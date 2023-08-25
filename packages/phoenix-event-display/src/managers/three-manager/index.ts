@@ -772,6 +772,51 @@ export class ThreeManager {
   })();
 
   /**
+   * crops the size of an image to fit the ratio of the given screen size
+   * That way the final image won't be streched
+   */
+  private croppedSize(width, height, screenWidth, screenHeight) {
+    let croppedHeight = height;
+    let croppedWidth = width;
+    if (screenWidth * height < screenHeight * width) {
+      croppedHeight = (screenHeight * width) / screenWidth;
+    } else {
+      croppedWidth = (screenWidth * height) / screenHeight;
+    }
+    return { width: croppedWidth, height: croppedHeight };
+  }
+
+  /**
+   * checks whether the size of the canvas required to build the required
+   * screenshot (based on the desired size and the fitting parameter) does
+   * matches the maximum allowed canvas size
+   * See makeScreenShot for the description of fitting
+   */
+  public checkScreenShotCanvasSize(
+    width: number,
+    height: number,
+    fitting: string = 'Stretch',
+  ) {
+    // compute actual size of screen shot, based on current view and requested size
+    const mainRenderer = this.rendererManager.getMainRenderer();
+    const originalSize = new Vector2();
+    mainRenderer.getSize(originalSize);
+    const scaledSize = this.croppedSize(
+      width,
+      height,
+      originalSize.width,
+      originalSize.height,
+    );
+    // Deal with devices having special devicePixelRatio (retina screens in particular)
+    const scale = window.devicePixelRatio;
+    const gl = mainRenderer.getContext();
+    const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+    return (
+      scaledSize.width / scale < maxSize && scaledSize.height / scale < maxSize
+    );
+  }
+
+  /**
    * Takes a screen shot of the current view
    * @param width the width of the picture to be created
    * @param height the height of the picture to be created
@@ -787,23 +832,18 @@ export class ThreeManager {
     height: number,
     fitting: string = 'Strech',
   ) {
-    // compute actual size of screen shot, based on current view and reuested size
+    // compute actual size of screen shot, based on current view and requested size
     const mainRenderer = this.rendererManager.getMainRenderer();
     const originalSize = new Vector2();
     mainRenderer.getSize(originalSize);
-    let scaledHeight = height;
-    let scaledWidth = width;
-    if (fitting == 'Crop') {
-      // Massage width and height so that we keep the screen ratio
-      // and thus the image from the screen is not streched
-      if (originalSize.width * height < originalSize.height * width) {
-        scaledHeight = (originalSize.height * width) / originalSize.width;
-      } else {
-        scaledWidth = (originalSize.width * height) / originalSize.height;
-      }
-    }
-    const heightShift = (scaledHeight - height) / 2;
-    const widthShift = (scaledWidth - width) / 2;
+    const scaledSize = this.croppedSize(
+      width,
+      height,
+      originalSize.width,
+      originalSize.height,
+    );
+    const heightShift = (scaledSize.height - height) / 2;
+    const widthShift = (scaledSize.width - width) / 2;
 
     // get background color to be used
     const bkgColor = getComputedStyle(document.body).getPropertyValue(
@@ -825,7 +865,11 @@ export class ThreeManager {
     ctx.fillStyle = bkgColor;
     ctx.fillRect(0, 0, width, height);
     // draw main image on our output canvas, with right size
-    mainRenderer.setSize(scaledWidth / scale, scaledHeight / scale, false);
+    mainRenderer.setSize(
+      scaledSize.width / scale,
+      scaledSize.height / scale,
+      false,
+    );
     this.render();
     ctx.drawImage(
       mainRenderer.domElement,
@@ -846,9 +890,9 @@ export class ThreeManager {
     if (infoPanel != null) {
       // Compute size of info panel on final picture
       const infoHeight =
-        (infoPanel.clientHeight * scaledHeight) / originalSize.height;
+        (infoPanel.clientHeight * scaledSize.height) / originalSize.height;
       const infoWidth =
-        (infoPanel.clientWidth * scaledWidth) / originalSize.width;
+        (infoPanel.clientWidth * scaledSize.width) / originalSize.width;
 
       // Add info panel to output. This is HTML, so first convert it to canvas,
       // and then draw to our output canvas

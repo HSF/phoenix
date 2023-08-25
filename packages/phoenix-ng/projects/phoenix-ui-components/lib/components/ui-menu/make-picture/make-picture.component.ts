@@ -13,16 +13,28 @@ export class MakePictureComponent implements OnInit {
   fitting: string = 'Crop';
   width: number = 3840;
   height: number = 2160;
+  disabled: boolean = false;
   constructor(private eventDisplay: EventDisplayService) {}
   ngOnInit() {}
+  private checkSize() {
+    return this.eventDisplay
+      .getThreeManager()
+      .checkScreenShotCanvasSize(this.width, this.height, this.fitting);
+  }
   setWidth(value) {
     this.width = value;
+    this.disabled = !this.checkSize();
   }
   setHeight(value) {
     this.height = value;
+    this.disabled = !this.checkSize();
   }
-
+  buttonText() {
+    return this.disabled ? 'Size too large' : 'Create picture';
+  }
   makePicture() {
-    this.eventDisplay.makeScreenShot(this.width, this.height, this.fitting);
+    this.eventDisplay
+      .getThreeManager()
+      .makeScreenShot(this.width, this.height, this.fitting);
   }
 }

@@ -10,6 +10,8 @@ describe('MakePictureComponent', () => {
 
   const mockEventDisplay = {
     makeScreenShot: jest.fn(),
+    getThreeManager: jest.fn().mockReturnThis(),
+    checkScreenShotCanvasSize: jest.fn().mockResolvedValue(true),
   };
 
   beforeEach(() => {

@@ -8,6 +8,7 @@
       [value]="3840"
       (change)="setWidth(width.value)"
       (click)="$event.stopPropagation()"
+      [class.badSize]="disabled"
     />
   </button>
   <button mat-menu-item (click)="$event.stopPropagation()" class="size-input">
@@ -19,6 +20,7 @@
       [value]="2610"
       (change)="setHeight(height.value)"
       (click)="$event.stopPropagation()"
+      [class.badSize]="disabled"
     />
   </button>
   <button mat-menu-item (click)="$event.stopPropagation()">
@@ -28,8 +30,13 @@
       </mat-radio-button>
     </mat-radio-group>
   </button>
-  <button mat-menu-item class="make-picture" (click)="makePicture()">
-    Create picture
+  <button
+    mat-menu-item
+    [disabled]="disabled"
+    class="make-picture"
+    (click)="makePicture()"
+  >
+    {{ buttonText() }}
   </button>
 </mat-menu>
 <app-menu-toggle
