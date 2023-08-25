@@ -104,6 +104,18 @@ Once you have fixed it, you can check the CI would succeed with:
 yarn docs:coverage
 ```
 
+## Failures in linting 
 
-
-
+If you see errors like:
+```
+10:43  error  Insert `,`  prettier/prettier
+```
+Then firstly, you should be able to spot them locally by running:
+```sh
+yarn lint
+```
+and you can automatically fix them with:
+```sh
+yarn lint:fix
+```
+(obviously you will then need to commit and push the fixes).
