@@ -1,9 +1,6 @@
 name: phoenix-ci
 
-on:
-  push:
-  pull_request:
-    types: [opened]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   build-and-test:
