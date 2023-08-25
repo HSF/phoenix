@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -8,7 +8,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
   templateUrl: './cartesian-grid-config.component.html',
   styleUrls: ['./cartesian-grid-config.component.scss'],
 })
-export class CartesianGridConfigComponent {
+export class CartesianGridConfigComponent implements OnInit {
   showCartesianGrid: boolean;
   gridConfig: {
     showXY: boolean;
@@ -26,7 +26,9 @@ export class CartesianGridConfigComponent {
     public data: { gridVisible: boolean; scale: number },
     private dialogRef: MatDialogRef<CartesianGridConfigComponent>,
     private eventDisplay: EventDisplayService,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.showCartesianGrid = this.data.gridVisible;
     this.scale = this.data.scale;
     this.gridConfig = this.eventDisplay.getUIManager().getCartesianGridConfig();

@@ -105,6 +105,33 @@ describe('SceneManager', () => {
     expect(sceneManager['etaPhiGrid'].visible).toBe(false);
   });
 
+  it('should set cartesian grid', () => {
+    sceneManager.setCartesianGrid(false, 3000);
+    sceneManager['cartesianGrid'].children.forEach((child) =>
+      expect(child.visible).toBe(false),
+    );
+  });
+
+  it('should return cartesian grid config', () => {
+    const VALUE1 = sceneManager['cartesianGridConfig'];
+
+    const VALUE2 = sceneManager.getCartesianGridConfig();
+
+    expect(VALUE1).toBe(VALUE2);
+  });
+
+  it('should show labels', () => {
+    sceneManager.showLabels(true);
+    sceneManager['cartesianLabels'].children.forEach((child) => {
+      expect(child.visible).toBe(true);
+    });
+
+    sceneManager.showLabels(false);
+    sceneManager['cartesianLabels'].children.forEach((child) => {
+      expect(child.visible).toBe(false);
+    });
+  });
+
   describe('With object in scene', () => {
     let object: Mesh<BufferGeometry, MeshBasicMaterial>;
     const OBJECT_NAME = 'TestCube';

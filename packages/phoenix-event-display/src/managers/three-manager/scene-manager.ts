@@ -617,7 +617,7 @@ export class SceneManager {
   }
 
   /**
-   * returns the cartesian grid configuration
+   * Returns the cartesian grid configuration
    */
   public getCartesianGridConfig() {
     return this.cartesianGridConfig;
