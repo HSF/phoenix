@@ -7,7 +7,7 @@
 export const saveFile = (
   data: string,
   fileName: string,
-  contentType: string = 'application/json'
+  contentType: string = 'application/json',
 ) => {
   const blob = new Blob([data], { type: contentType });
   const tempAnchor = document.createElement('a');
@@ -25,7 +25,7 @@ export const saveFile = (
  */
 export const loadFile = (
   onFileRead: (data: string) => void,
-  contentType: string = 'application/json'
+  contentType: string = 'application/json',
 ) => {
   // Create a mock input file element and use that to read the file
   let inputFile = document.createElement('input');
