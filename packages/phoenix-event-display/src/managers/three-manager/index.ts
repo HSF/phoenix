@@ -795,7 +795,7 @@ export class ThreeManager {
   public checkScreenShotCanvasSize(
     width: number,
     height: number,
-    fitting: string = 'Strech'
+    fitting: string = 'Stretch',
   ) {
     // compute actual size of screen shot, based on current view and requested size
     const mainRenderer = this.rendererManager.getMainRenderer();
@@ -805,7 +805,7 @@ export class ThreeManager {
       width,
       height,
       originalSize.width,
-      originalSize.height
+      originalSize.height,
     );
     // Deal with devices having special devicePixelRatio (retina screens in particular)
     const scale = window.devicePixelRatio;
@@ -840,7 +840,7 @@ export class ThreeManager {
       width,
       height,
       originalSize.width,
-      originalSize.height
+      originalSize.height,
     );
     const heightShift = (scaledSize.height - height) / 2;
     const widthShift = (scaledSize.width - width) / 2;
@@ -868,7 +868,7 @@ export class ThreeManager {
     mainRenderer.setSize(
       scaledSize.width / scale,
       scaledSize.height / scale,
-      false
+      false,
     );
     this.render();
     ctx.drawImage(
