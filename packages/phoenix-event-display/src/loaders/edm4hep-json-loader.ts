@@ -427,6 +427,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         const eta = Math.asinh(z / rho);
         const phi = Math.acos(x / rho) * Math.sign(y);
         const cellLightness = this.valToLightness(rawCell.energy, 1e-3, 1);
+        const cellOpacity = this.valToOpacity(rawCell.energy, 1e-3, 1);
 
         const cell = {
           eta: eta,
@@ -436,6 +437,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           side: cellSide,
           length: cellSide, // expecting cells in multiple layers
           color: '#' + this.convHSLtoHEX(cellsHue, 90, cellLightness),
+          opacity: cellOpacity,
         };
         cells.push(cell);
       });
@@ -655,6 +657,19 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
 
     return lightness;
+  }
+
+  /** Return a opacity value from the passed number and range */
+  private valToOpacity(v: number, min: number, max: number): number {
+    let opacity = 0.2 + ((v - min) * 0.65) / (max - min);
+    if (opacity < 0.2) {
+      opacity = 0.2;
+    }
+    if (opacity > 0.8) {
+      opacity = 0.8;
+    }
+
+    return opacity;
   }
 
   /** Get the required collection */
