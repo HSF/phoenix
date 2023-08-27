@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-config-single {
+  display: flex;
+  flex-direction: column;
+
+  .item-config-group {
+    margin: 0.1rem 2rem;
+
+    .item-config-label {
+      display: inline;
+      margin: 1rem;
+    }
+
+    .form-control {
+      width: 60%;
+      display: inline;
+    }
+  }
+
+  button {
+    margin: 0.5rem 4rem;
+  }
+}

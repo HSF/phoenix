@@ -59,6 +59,7 @@ import {
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
+  DistanceComponent,
 } from './ui-menu';
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { EventDisplayService } from '../services/event-display.service';
@@ -75,6 +76,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   UiMenuWrapperComponent,
   UiMenuComponent,
   CollectionsInfoComponent,
+  DistanceComponent,
   MenuToggleComponent,
   CollectionsInfoOverlayComponent,
   IoOptionsComponent,

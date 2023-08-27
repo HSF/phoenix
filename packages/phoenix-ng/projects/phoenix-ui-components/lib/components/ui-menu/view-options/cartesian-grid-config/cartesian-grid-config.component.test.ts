@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick } from '@angular/core/testing';
 
 import { CartesianGridConfigComponent } from './cartesian-grid-config.component';
 import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { ElementRef } from '@angular/core';
+import { Vector3 } from 'three';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('CartesianGridConfigComponent', () => {
   let component: CartesianGridConfigComponent;
@@ -14,8 +15,12 @@ describe('CartesianGridConfigComponent', () => {
     close: jest.fn().mockReturnThis(),
   };
 
+  const gridOrigin = new Vector3(100, 200, 300);
+
   const mockEventDisplay = {
     getUIManager: jest.fn().mockReturnThis(),
+    translateCartesianGrid: jest.fn().mockReturnThis(),
+    translateCartesianLabels: jest.fn().mockReturnThis(),
     getCartesianGridConfig: jest.fn().mockReturnValue({
       showXY: true,
       showYZ: true,
@@ -26,6 +31,12 @@ describe('CartesianGridConfigComponent', () => {
       sparsity: 2,
     }),
     setShowCartesianGrid: jest.fn().mockReturnThis(),
+    shiftCartesianGridByPointer: jest.fn().mockReturnThis(),
+    getThreeManager: jest.fn().mockReturnThis(),
+    originChanged: of(gridOrigin),
+    stopShifting: of(true),
+    origin: new Vector3(0, 0, 0),
+    originChangedEmit: jest.fn().mockReturnThis(),
   };
 
   const mockData = {
@@ -33,8 +44,8 @@ describe('CartesianGridConfigComponent', () => {
     scale: 3000,
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       declarations: [CartesianGridConfigComponent],
       providers: [
@@ -62,7 +73,7 @@ describe('CartesianGridConfigComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set initial configuration', () => {
+  it('should set initial configuration', (done) => {
     const VALUE1 = component.data.gridVisible;
     const VALUE2 = component.data.scale;
 
@@ -80,12 +91,97 @@ describe('CartesianGridConfigComponent', () => {
     expect(
       mockEventDisplay.getUIManager().getCartesianGridConfig,
     ).toHaveReturnedWith(VALUE3);
+
+    expect(mockEventDisplay.getThreeManager).toHaveBeenCalled();
+
+    const VALUE4 = component.cartesianPos;
+
+    expect(mockEventDisplay.getThreeManager().origin).toBe(VALUE4);
+    done();
   });
 
   it('should close', () => {
     component.onClose();
 
     expect(mockDialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should save the updated grid origin', () => {
+    const VALUE1 = 10;
+    const VALUE2 = 20;
+    const VALUE3 = 30;
+
+    const spy = jest.spyOn(component, 'shiftCartesianGridByValues');
+
+    component.onSave(VALUE1, VALUE2, VALUE3);
+
+    expect(spy).toHaveBeenCalledWith(
+      new Vector3(VALUE1 * 10, VALUE2 * 10, VALUE3 * 10),
+    );
+  });
+
+  it('should shift cartesian grid by a mouse click', () => {
+    const event = new MatCheckboxChange();
+    event.checked = true;
+
+    component.shiftCartesianGridByPointer(event);
+
+    mockEventDisplay.getUIManager().shiftCartesianGridByPointer(true);
+
+    mockEventDisplay.getThreeManager().originChanged.subscribe((intersect) => {
+      expect(component.translateGrid).toHaveBeenCalledWith(intersect);
+    });
+
+    const originChangedUnSpy = jest.spyOn(
+      component.originChangedSub,
+      'unsubscribe',
+    );
+    const stopShiftingUnSpy = jest.spyOn(
+      component.stopShiftingSub,
+      'unsubscribe',
+    );
+
+    mockEventDisplay.getThreeManager().stopShifting.subscribe((stop) => {
+      if (stop) {
+        expect(originChangedUnSpy).toHaveBeenCalled();
+        expect(stopShiftingUnSpy).toHaveBeenCalled();
+      }
+    });
+  });
+
+  it('should shift cartesian grid by values', () => {
+    const VALUE = new Vector3(100, 200, 300);
+
+    const spy = jest.spyOn(component, 'translateGrid');
+
+    component.shiftCartesianGridByValues(VALUE);
+
+    expect(spy).toHaveBeenCalledWith(VALUE);
+    expect(
+      mockEventDisplay.getThreeManager().originChangedEmit,
+    ).toHaveBeenCalledWith(VALUE);
+  });
+
+  it('should translate grid', () => {
+    const VALUE1 = new Vector3(100, 200, 300);
+
+    const finalPos = VALUE1;
+    const initialPos = component.cartesianPos;
+    const difference = new Vector3(
+      finalPos.x - initialPos.x,
+      finalPos.y - initialPos.y,
+      finalPos.z - initialPos.z,
+    );
+
+    component['translateGrid'](VALUE1);
+
+    expect(
+      mockEventDisplay.getUIManager().translateCartesianGrid,
+    ).toHaveBeenCalledWith(difference.clone());
+    expect(
+      mockEventDisplay.getUIManager().translateCartesianLabels,
+    ).toHaveBeenCalledWith(difference.clone());
+    expect(component.cartesianPos).toBe(finalPos);
   });
 
   it('should add XY Planes', () => {

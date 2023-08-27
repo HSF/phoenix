@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
 import {
   Group,
@@ -15,6 +16,9 @@ import {
   Euler,
   PerspectiveCamera,
   Vector2,
+  Raycaster,
+  Intersection,
+  Event,
 } from 'three';
 import html2canvas from 'html2canvas';
 import { Configuration } from '../../lib/types/configuration';
@@ -75,10 +79,24 @@ export class ThreeManager {
   private colorManager: ColorManager;
   /** Loading manager for loadable resources. */
   private loadingManager: LoadingManager;
+  /** State manager for managing the scene's state. */
+  private stateManager: StateManager;
   /** Loop to run for each frame of animation. */
   private animationLoop: () => void;
   /** Loop to run for each frame to update stats. */
   private uiLoop: () => void;
+  /** Function to check if the object intersected with raycaster is an event data */
+  private isEventData: (elem: Intersection<Object3D<Event>>) => boolean;
+  /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
+  private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
+  /** 'click' event listener callback to show 3D coordinates of the clicked point */
+  private show3DPointsCallback: (event: MouseEvent) => void;
+  /** 'click' event listener callback to shift the cartesian grid at the clicked point */
+  private shiftCartesianGridCallback: (event: MouseEvent) => void;
+  /** 'click' event listener callback to show 3D distance between two clicked points */
+  private show3DDistanceCallback: (event: MouseEvent) => void;
+  /** Origin of the cartesian grid w.r.t. world origin */
+  public origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */
   private ignoreList = [
     new AmbientLight().type,
@@ -89,6 +107,22 @@ export class ThreeManager {
   private clipPlanes: Plane[];
   /** Status of clipping intersection. */
   private clipIntersection: boolean;
+  /** Store the 3D coordinates of first point to find 3D Distance */
+  private prev3DCoord: Vector3 = null;
+  /** Store the 2D coordinates of first point to find 3D Distance */
+  private prev2DCoord: Vector2;
+  /** Store the name of the object of first intersect while finding 3D Distance */
+  private prevIntersectName: string = null;
+  /** Canvas used for rendering the distance line */
+  private distanceCanvas: HTMLCanvasElement = null;
+  /** Color of the text to be displayed as per dark theme */
+  private displayColor: string = 'black';
+  /** Mousemove callback to draw dynamic distance line */
+  private mousemoveCallback: (MouseEvent) => void;
+  /** Emitting that a new 3D coordinate has been clicked upon */
+  originChanged = new EventEmitter<Vector3>();
+  /** Emitting that shifting the grid by pointer has to be stopped */
+  stopShifting = new EventEmitter<boolean>();
 
   /**
    * Create the three manager for three.js operations.
@@ -160,6 +194,13 @@ export class ThreeManager {
     );
     // Set camera of the event display state
     new StateManager().setCamera(this.controlsManager.getActiveCamera());
+  }
+
+  /**
+   * Sets the color of the text displayed as per dark theme.
+   */
+  public setDarkColor(dark: boolean) {
+    this.displayColor = dark ? 'white' : 'black';
   }
 
   /**
@@ -238,6 +279,366 @@ export class ThreeManager {
    */
   public autoRotate(autoRotate: boolean) {
     this.controlsManager.getActiveControls().autoRotate = autoRotate;
+  }
+
+  /**
+   * Helper function to filter out invalid ray intersect
+   */
+  private filterRayIntersect() {
+    if (this.stateManager == null) {
+      this.stateManager = new StateManager();
+    }
+
+    if (this.isEventData == null) {
+      this.isEventData = (elem) => {
+        let event = false;
+        elem.object.traverseAncestors((elem2) => {
+          if (elem2.name == 'EventData') {
+            event = true;
+          }
+        });
+        return event;
+      };
+    }
+
+    if (this.isVisible == null) {
+      this.isVisible = (elem) => {
+        let visible = false;
+        if (this.clipPlanes.length > 0) {
+          if (this.clipIntersection) {
+            if (
+              !this.clipPlanes.every((elem2) => {
+                return elem2.distanceToPoint(elem.point) < 0;
+              })
+            ) {
+              visible = true;
+            }
+          } else {
+            if (
+              this.clipPlanes.every((elem2) => {
+                return elem2.distanceToPoint(elem.point) > 0;
+              })
+            ) {
+              visible = true;
+            }
+          }
+        }
+        return visible;
+      };
+    }
+  }
+
+  /**
+   * Emit originChanged emitter
+   */
+  public originChangedEmit(origin: Vector3) {
+    this.origin = origin;
+    this.originChanged.emit(origin);
+  }
+
+  /**
+   * Returns the mainIntersect upon clicking a point
+   */
+  private getMainIntersect(event): Intersection<Object3D<Event>> {
+    const camera = this.controlsManager.getMainCamera();
+    const scene = this.sceneManager.getScene();
+    const raycaster = new Raycaster();
+    const mousePosition = new Vector2();
+
+    mousePosition.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(mousePosition, camera);
+    const intersects = raycaster.intersectObjects(scene.children);
+
+    let mainIntersect = null;
+    if (intersects.length > 0 && !this.stateManager.clippingEnabled.value) {
+      for (const intersect of intersects) {
+        if (
+          intersect.object.name == 'gridline' ||
+          intersect.object.name == 'XYZ Labels'
+        ) {
+          continue;
+        } else {
+          mainIntersect = intersect;
+          break;
+        }
+      }
+    } else {
+      for (const intersect of intersects) {
+        if (
+          intersect.object.name == 'gridline' ||
+          intersect.object.name == 'XYZ Labels'
+        ) {
+          continue;
+        } else if (this.isEventData(intersect)) {
+          mainIntersect = intersect;
+          break;
+        } else if (this.isVisible(intersect)) {
+          mainIntersect = intersect;
+          break;
+        }
+      }
+    }
+    return mainIntersect;
+  }
+
+  /**
+   * Show 3D coordinates where the mouse pointer clicks
+   * @param show If the coordinates are to be shown or not.
+   */
+  public show3DMousePoints(show: boolean, origin: Vector3) {
+    // this.origin = origin;
+    this.filterRayIntersect();
+
+    if (this.show3DPointsCallback == null) {
+      this.show3DPointsCallback = (event) => {
+        const mainIntersect = this.getMainIntersect(event);
+        if (mainIntersect != null) {
+          const initialCoord = mainIntersect.point;
+          const finalCoord = new Vector3();
+          finalCoord.subVectors(initialCoord, this.origin);
+
+          const app = document.getElementsByTagName('app-root')[0];
+
+          const p = document.createElement('p');
+          p.id = '3dcoordinates';
+          p.innerHTML = `${mainIntersect.object.name}:\r\n\tx: ${Math.round(
+            finalCoord.x / 10,
+          )} cm\r\n\ty: ${Math.round(
+            finalCoord.y / 10,
+          )} cm\r\n\tz: ${Math.round(finalCoord.z / 10)} cm`;
+          p.style.whiteSpace = 'pre';
+          p.style.color = this.displayColor;
+          p.style.position = 'absolute';
+          p.style.top = `${event.clientY + 10}px`;
+          p.style.left = `${event.clientX + 10}px`;
+
+          const div = document.createElement('div');
+          div.id = 'circledDot';
+          div.style.width = '1rem';
+          div.style.height = '1rem';
+          div.style.position = 'absolute';
+          div.style.top = `calc(${event.clientY}px - 0.5rem)`;
+          div.style.left = `calc(${event.clientX}px - 0.5rem)`;
+          div.style.border = `2px solid ${this.displayColor}`;
+          div.style.borderRadius = '0.5rem';
+          div.innerHTML = `
+            <div 
+              style = "
+                background-color: ${this.displayColor}; 
+                margin-top: calc(0.3rem - 1.5px);
+                margin-left: calc(0.3rem - 1.5px); 
+                width: 0.4rem; 
+                height: 0.4rem; 
+                border-radius: 0.5rem;
+              "
+            ></div>`;
+
+          app?.appendChild(p);
+          app?.appendChild(div);
+
+          setTimeout(() => {
+            document.getElementById('3dcoordinates').remove();
+            document.getElementById('circledDot').remove();
+          }, 3000);
+        }
+      };
+    }
+
+    if (show) {
+      window.addEventListener('click', this.show3DPointsCallback);
+    } else {
+      window.removeEventListener('click', this.show3DPointsCallback);
+    }
+  }
+
+  /**
+   * Show 3D Distance between any two clicked points
+   */
+  public show3DDistance(show: boolean) {
+    this.prev3DCoord = null;
+    this.prev2DCoord = null;
+    this.prevIntersectName = null;
+    this.filterRayIntersect();
+
+    if (this.show3DDistanceCallback == null) {
+      this.mousemoveCallback = this.drawLine.bind(this);
+      this.show3DDistanceCallback = (event) => {
+        const mainIntersect = this.getMainIntersect(event);
+        if (mainIntersect != null) {
+          if (this.prev3DCoord == null) {
+            this.prev3DCoord = mainIntersect.point;
+            this.prev2DCoord = new Vector2(event.clientX, event.clientY);
+            this.prevIntersectName = mainIntersect.object.name;
+
+            // add a new canvas to add distance
+            const app = document.getElementsByTagName('app-root')[0];
+            if (this.distanceCanvas == null) {
+              this.distanceCanvas = document.createElement('canvas');
+              this.distanceCanvas.id = '3Ddistance';
+              this.distanceCanvas.width = window.innerWidth;
+              this.distanceCanvas.height = window.innerHeight;
+              this.distanceCanvas.style.position = 'absolute';
+              this.distanceCanvas.style.bottom = '0';
+            }
+            app?.appendChild(this.distanceCanvas);
+
+            const ctx = this.distanceCanvas.getContext('2d');
+            ctx.strokeStyle = this.displayColor;
+            ctx.lineWidth = 2;
+            ctx.fillStyle = this.displayColor;
+            ctx.beginPath();
+            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+            ctx.fill();
+
+            window.addEventListener('mousemove', this.mousemoveCallback);
+          } else {
+            window.removeEventListener('mousemove', this.mousemoveCallback);
+            const distance =
+              mainIntersect.point.distanceTo(this.prev3DCoord) / 10;
+
+            // draw distance line
+            this.drawLine(event);
+            const ctx = this.distanceCanvas.getContext('2d');
+            ctx.beginPath();
+            ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // render the distance and the names of initial and final intersect
+            ctx.font = '15px Arial';
+
+            let x1 = this.prev2DCoord.x,
+              x2 = event.clientX;
+
+            const y1 = this.prev2DCoord.y,
+              y2 = event.clientY;
+
+            const x_center = (x1 + x2) / 2,
+              y_center = (y1 + y2) / 2;
+            const d = 25;
+            const m = (x1 - x2) / (y2 - y1);
+            const delta_x = d / Math.sqrt(1 + m * m);
+            const delta_y = m * delta_x;
+            const x3 = x_center + delta_x;
+            const y3 = y_center + delta_y;
+
+            if (this.prev2DCoord.x > event.clientX) {
+              x1 = this.prev2DCoord.x + 20;
+              x2 =
+                event.clientX -
+                ctx.measureText(mainIntersect.object.name).width -
+                20;
+            } else {
+              x1 =
+                this.prev2DCoord.x -
+                ctx.measureText(this.prevIntersectName).width -
+                20;
+              x2 = event.clientX + 20;
+            }
+
+            ctx.fillText(this.prevIntersectName, x1, y1);
+            ctx.fillText(mainIntersect.object.name, x2, y2);
+            ctx.fillText(distance.toFixed(2).toString() + 'cm', x3, y3);
+
+            // remove the canvas after some time
+            setTimeout(() => {
+              if (document.getElementById('3Ddistance') != null) {
+                document.getElementById('3Ddistance').remove();
+              }
+              this.distanceCanvas
+                .getContext('2d')
+                .clearRect(
+                  0,
+                  0,
+                  this.distanceCanvas.width,
+                  this.distanceCanvas.height,
+                );
+            }, 3000);
+
+            // reset the parameters for the next pair of clicked points
+            this.prev3DCoord = null;
+            this.prev2DCoord = null;
+            this.prevIntersectName = null;
+          }
+        }
+      };
+    }
+
+    if (show) {
+      window.addEventListener('click', this.show3DDistanceCallback);
+    } else {
+      window.removeEventListener('click', this.show3DDistanceCallback);
+      window.removeEventListener('mousemove', this.mousemoveCallback);
+      if (document.getElementById('3Ddistance') != null) {
+        document.getElementById('3Ddistance').remove();
+      }
+      if (this.distanceCanvas != null) {
+        this.distanceCanvas
+          .getContext('2d')
+          .clearRect(
+            0,
+            0,
+            this.distanceCanvas.width,
+            this.distanceCanvas.height,
+          );
+      }
+    }
+  }
+
+  /**
+   * function to dynamically draw the distance line from the prev2DCoord
+   */
+  private drawLine(finalPoint: MouseEvent) {
+    const ctx = this.distanceCanvas.getContext('2d');
+    ctx.clearRect(0, 0, this.distanceCanvas.width, this.distanceCanvas.height);
+    ctx.beginPath();
+    ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
+    ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  /**
+   * Shifts the cartesian grid at a clicked point
+   */
+  public shiftCartesianGrid(checked: boolean) {
+    if (checked) {
+      this.filterRayIntersect();
+    }
+
+    if (this.shiftCartesianGridCallback == null) {
+      this.shiftCartesianGridCallback = (event) => {
+        const mainIntersect = this.getMainIntersect(event);
+        if (mainIntersect != null) {
+          this.originChangedEmit(mainIntersect.point);
+        }
+      };
+    }
+
+    const rightClickCallback = (event) => {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      this.stopShifting.emit(true);
+      window.removeEventListener('contextmenu', rightClickCallback);
+    };
+
+    if (checked) {
+      window.addEventListener('click', this.shiftCartesianGridCallback);
+      window.addEventListener('contextmenu', rightClickCallback);
+    } else {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      window.removeEventListener('contextmenu', rightClickCallback);
+    }
   }
 
   /**
