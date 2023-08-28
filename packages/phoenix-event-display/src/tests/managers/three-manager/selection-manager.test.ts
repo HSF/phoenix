@@ -92,6 +92,40 @@ describe('SelectionManager', () => {
     expect(selectionManagerPrivate.disableSelecting).toHaveBeenCalled();
   });
 
+  it('should set if highlighting is to be enabled or disabled', () => {
+    selectionManager['isInit'] = true;
+
+    selectionManager['effectsManager'] = new EffectsManager(
+      new PerspectiveCamera(),
+      new Scene(),
+      new THREE.WebGLRenderer(),
+    );
+
+    selectionManager['outlinePass'] = new OutlinePass(
+      new Vector2(100, 100),
+      new Scene(),
+      new PerspectiveCamera(),
+    );
+
+    const VALUE1 = selectionManager['effectsManager'].antialiasing;
+    const spy = jest.spyOn(
+      selectionManager['effectsManager'],
+      'setAntialiasing',
+    );
+
+    selectionManager.enableHighlighting();
+
+    expect(selectionManager['preSelectionAntialias']).toBe(VALUE1);
+    expect(spy).toHaveBeenCalledWith(false);
+
+    const VALUE2 = selectionManager['preSelectionAntialias'];
+
+    selectionManager.disableHighlighting();
+
+    expect(selectionManager['outlinePass'].selectedObjects).toStrictEqual([]);
+    expect(spy).toHaveBeenCalledWith(VALUE2);
+  });
+
   it('should highlight the object with the given uuid by giving it an outline', () => {
     const objectGroup = new Object3D();
     jest.spyOn(objectGroup, 'getObjectByProperty');

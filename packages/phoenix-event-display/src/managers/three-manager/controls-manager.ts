@@ -295,26 +295,28 @@ export class ControlsManager {
    * @param objectsGroup Group of objects to be traversed for finding the object
    * with the given uuid.
    */
-  public lookAtObject(uuid: string, objectsGroup: Object3D) {
+  public lookAtObject(
+    uuid: string,
+    objectsGroup: Object3D,
+    offset: number = 0,
+  ) {
     const origin = new Vector3(0, 0, 0);
 
     const objectPosition = this.getObjectPosition(uuid, objectsGroup);
     if (objectPosition) {
       // Check if the object is away from the origin
-      if (objectPosition.distanceTo(origin) > 0.001) {
-        for (const camera of this.getAllCameras()) {
-          // Moving the camera to the object's position and then zooming out
-          new Tween(camera.position)
-            .to(
-              {
-                x: objectPosition.x * 1.1,
-                y: objectPosition.y * 1.1,
-                z: objectPosition.z * 1.1,
-              },
-              200,
-            )
-            .start();
-        }
+      for (const camera of this.getAllCameras()) {
+        // Moving the camera to the object's position and then zooming out
+        new Tween(camera.position)
+          .to(
+            {
+              x: objectPosition.x * 1.1 + offset,
+              y: objectPosition.y * 1.1 + offset,
+              z: objectPosition.z * 1.1 + offset,
+            },
+            200,
+          )
+          .start();
       }
     }
   }

@@ -76,6 +76,14 @@ export class CollectionsInfoOverlayComponent implements OnInit {
     }
   }
 
+  enableHighlighting() {
+    this.eventDisplay.enableHighlighting();
+  }
+
+  disableHighlighting() {
+    this.eventDisplay.disableHighlighting();
+  }
+
   toggleInvisible(checked: boolean) {
     this.hideInvisible = checked;
   }

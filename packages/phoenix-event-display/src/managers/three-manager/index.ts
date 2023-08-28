@@ -636,12 +636,22 @@ export class ThreeManager {
   /**
    * Move the camera to look at the object with the given uuid.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data
    */
-  public lookAtObject(uuid: string) {
-    this.controlsManager.lookAtObject(
-      uuid,
-      this.getSceneManager().getEventData(),
-    );
+  public lookAtObject(uuid: string, detector: boolean = false) {
+    if (detector == true) {
+      this.controlsManager.lookAtObject(
+        uuid,
+        this.getSceneManager().getGeometries(),
+        1000,
+      );
+    } else {
+      this.controlsManager.lookAtObject(
+        uuid,
+        this.getSceneManager().getEventData(),
+        0,
+      );
+    }
   }
 
   /**
@@ -659,12 +669,34 @@ export class ThreeManager {
   /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data.
    */
-  public highlightObject(uuid: string) {
-    this.selectionManager.highlightObject(
-      uuid,
-      this.getSceneManager().getEventData(),
-    );
+  public highlightObject(uuid: string, detector: boolean = false) {
+    if (detector == true) {
+      this.selectionManager.highlightObject(
+        uuid,
+        this.getSceneManager().getGeometries(),
+      );
+    } else {
+      this.selectionManager.highlightObject(
+        uuid,
+        this.getSceneManager().getEventData(),
+      );
+    }
+  }
+
+  /**
+   * Enable the highlighting of the objects.
+   */
+  public enableHighlighting() {
+    this.selectionManager.enableHighlighting();
+  }
+
+  /**
+   * Disable the highlighting of the objects.
+   */
+  public disableHighlighting() {
+    this.selectionManager.disableHighlighting();
   }
 
   /**
