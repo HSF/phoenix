@@ -121,10 +121,7 @@ describe('CartesianGridConfigComponent', () => {
   });
 
   it('should shift cartesian grid by a mouse click', () => {
-    const event = new MatCheckboxChange();
-    event.checked = true;
-
-    component.shiftCartesianGridByPointer(event);
+    component.shiftCartesianGridByPointer();
 
     mockEventDisplay.getUIManager().shiftCartesianGridByPointer(true);
 

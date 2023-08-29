@@ -167,7 +167,7 @@ describe('ViewOptionsComponent', () => {
     expect(component.show3DPoints).toBe(VALUE);
     expect(
       mockEventDisplay.getUIManager().show3DMousePoints,
-    ).toHaveBeenCalledWith(component.show3DPoints, component.origin);
+    ).toHaveBeenCalledWith(component.show3DPoints);
   });
 
   it('should toggle the show-distance function', () => {

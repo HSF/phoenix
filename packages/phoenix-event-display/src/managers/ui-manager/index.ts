@@ -457,8 +457,8 @@ export class UIManager {
    * Show 3D coordinates where the mouse pointer clicks
    * @param show If the coordinates are to be shown or not.
    */
-  public show3DMousePoints(show: boolean, origin: Vector3) {
-    this.three.show3DMousePoints(show, origin);
+  public show3DMousePoints(show: boolean) {
+    this.three.show3DMousePoints(show);
   }
 
   /**
@@ -471,8 +471,8 @@ export class UIManager {
   /**
    * Shift cartesian grid by a mouse click
    */
-  public shiftCartesianGridByPointer(change: boolean) {
-    this.three.shiftCartesianGrid(change);
+  public shiftCartesianGridByPointer() {
+    this.three.shiftCartesianGrid();
   }
 
   /**

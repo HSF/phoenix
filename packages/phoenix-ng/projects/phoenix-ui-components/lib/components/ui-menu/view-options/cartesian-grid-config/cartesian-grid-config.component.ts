@@ -25,6 +25,7 @@ export class CartesianGridConfigComponent implements OnInit {
     sparsity: number;
   };
   scale: number;
+  shiftGrid: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -34,6 +35,7 @@ export class CartesianGridConfigComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.shiftGrid = this.eventDisplay.getThreeManager().shiftGrid;
     this.showCartesianGrid = this.data.gridVisible;
     this.scale = this.data.scale;
     this.gridConfig = this.eventDisplay.getUIManager().getCartesianGridConfig();
@@ -48,10 +50,9 @@ export class CartesianGridConfigComponent implements OnInit {
     this.shiftCartesianGridByValues(new Vector3(x * 10, y * 10, z * 10));
   }
 
-  shiftCartesianGridByPointer(change: MatCheckboxChange) {
-    this.eventDisplay
-      .getUIManager()
-      .shiftCartesianGridByPointer(change.checked);
+  shiftCartesianGridByPointer() {
+    this.shiftGrid = true;
+    this.eventDisplay.getUIManager().shiftCartesianGridByPointer();
     this.originChangedSub = this.eventDisplay
       .getThreeManager()
       .originChanged.subscribe((intersect) => {

@@ -8,7 +8,7 @@
         <input
           type="number"
           placeholder="Origin X"
-          value="0"
+          [value]="cartesianPos.x / 10 | number: '1.2-2'"
           class="form-control"
           name="xPos"
           id="xPos"
@@ -21,7 +21,7 @@
         <input
           type="number"
           placeholder="Origin Y"
-          value="0"
+          [value]="cartesianPos.y / 10 | number: '1.2-2'"
           class="form-control"
           name="yPos"
           id="yPos"
@@ -34,7 +34,7 @@
         <input
           type="number"
           placeholder="Origin Z"
-          value="0"
+          [value]="cartesianPos.z / 10 | number: '1.2-2'"
           class="form-control"
           name="zPos"
           id="zPos"
@@ -52,17 +52,15 @@
       <button
         style="margin: 0.5rem 0"
         mat-menu-item
-        (click)="
-          $event.stopPropagation();
-          shiftCartesianGridCheckbox._inputElement.nativeElement.click()
-        "
+        class="explain-button"
+        [disabled]="shiftGrid"
+        (click)="$event.stopPropagation(); shiftCartesianGridByPointer()"
       >
-        <mat-checkbox
-          #shiftCartesianGridCheckbox
-          (click)="$event.stopPropagation()"
-          (change)="shiftCartesianGridByPointer($event)"
-          >Shift Cartesian Grid
-        </mat-checkbox>
+        Shift Cartesian Grid on click
+        <p class="explain-text">
+          Click on a point to shift the grid. Keep clicking at various points to
+          continue shifting. Right click to stop.
+        </p>
       </button>
     </div>
 

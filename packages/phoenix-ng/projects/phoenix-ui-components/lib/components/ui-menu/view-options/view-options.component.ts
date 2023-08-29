@@ -77,9 +77,7 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
 
   show3DMousePoints(change: MatCheckboxChange) {
     this.show3DPoints = change.checked;
-    this.eventDisplay
-      .getUIManager()
-      .show3DMousePoints(this.show3DPoints, this.origin);
+    this.eventDisplay.getUIManager().show3DMousePoints(this.show3DPoints);
   }
 
   toggleShowDistance(change: MatCheckboxChange) {

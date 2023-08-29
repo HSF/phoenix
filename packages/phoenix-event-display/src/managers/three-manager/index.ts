@@ -121,6 +121,8 @@ export class ThreeManager {
   private mousemoveCallback: (MouseEvent) => void;
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
+  /** Whether the shifting of the grid is enabled */
+  public shiftGrid: boolean = false;
   /** Emitting that shifting the grid by pointer has to be stopped */
   stopShifting = new EventEmitter<boolean>();
 
@@ -386,7 +388,7 @@ export class ThreeManager {
    * Show 3D coordinates where the mouse pointer clicks
    * @param show If the coordinates are to be shown or not.
    */
-  public show3DMousePoints(show: boolean, origin: Vector3) {
+  public show3DMousePoints(show: boolean) {
     // this.origin = origin;
     this.filterRayIntersect();
 
@@ -402,11 +404,22 @@ export class ThreeManager {
 
           const p = document.createElement('p');
           p.id = '3dcoordinates';
-          p.innerHTML = `${mainIntersect.object.name}:\r\n\tx: ${Math.round(
-            finalCoord.x / 10,
-          )} cm\r\n\ty: ${Math.round(
-            finalCoord.y / 10,
-          )} cm\r\n\tz: ${Math.round(finalCoord.z / 10)} cm`;
+          p.innerHTML = `${
+            mainIntersect.object.name
+          }:\r\n\tOriginal (cm): (${Math.round(
+            initialCoord.x / 10,
+          )}, ${Math.round(initialCoord.y / 10)}, ${Math.round(
+            initialCoord.z / 10,
+          )})`;
+
+          if (this.origin.x != 0 || this.origin.y != 0 || this.origin.z != 0) {
+            p.innerHTML += `\r\n\tCompared to grid (cm): (${Math.round(
+              finalCoord.x / 10,
+            )}, ${Math.round(finalCoord.y / 10)}, ${Math.round(
+              finalCoord.z / 10,
+            )})`;
+          }
+
           p.style.whiteSpace = 'pre';
           p.style.color = this.displayColor;
           p.style.position = 'absolute';
@@ -612,10 +625,9 @@ export class ThreeManager {
   /**
    * Shifts the cartesian grid at a clicked point
    */
-  public shiftCartesianGrid(checked: boolean) {
-    if (checked) {
-      this.filterRayIntersect();
-    }
+  public shiftCartesianGrid() {
+    this.shiftGrid = true;
+    this.filterRayIntersect();
 
     if (this.shiftCartesianGridCallback == null) {
       this.shiftCartesianGridCallback = (event) => {
@@ -626,19 +638,15 @@ export class ThreeManager {
       };
     }
 
-    const rightClickCallback = (event) => {
+    const rightClickCallback = (_event) => {
       window.removeEventListener('click', this.shiftCartesianGridCallback);
       this.stopShifting.emit(true);
+      this.shiftGrid = false;
       window.removeEventListener('contextmenu', rightClickCallback);
     };
 
-    if (checked) {
-      window.addEventListener('click', this.shiftCartesianGridCallback);
-      window.addEventListener('contextmenu', rightClickCallback);
-    } else {
-      window.removeEventListener('click', this.shiftCartesianGridCallback);
-      window.removeEventListener('contextmenu', rightClickCallback);
-    }
+    window.addEventListener('click', this.shiftCartesianGridCallback);
+    window.addEventListener('contextmenu', rightClickCallback);
   }
 
   /**
