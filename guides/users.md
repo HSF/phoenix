@@ -84,7 +84,7 @@ At the bottom of the main view you have the Phoenix iconbar (which can be shown/
 From left to right, you can access the following functions:
 
    * **Zoom** : the plus/minus icons allow you to zoom in and out, respectively
-   * **View options** : clicking on this will allow you to access some preset views, and to view/hide the axes
+   * **View options and Tools** : clicking on this will allow you to access some preset views, and to view/hide the axes
    * **Auto rotate** : clicking on this will set the camera orbiting the origin
    * **Dark/light theme** : switches between dark and light themes
    * **Geometry clipping** : allows you to 'slice' away parts of the geometry in order to view the event data/geometry inside

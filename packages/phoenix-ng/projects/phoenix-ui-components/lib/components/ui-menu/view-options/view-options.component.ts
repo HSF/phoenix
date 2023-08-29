@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PresetView } from 'phoenix-event-display';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';
@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CartesianGridConfigComponent } from './cartesian-grid-config/cartesian-grid-config.component';
 import { Subscription } from 'rxjs';
 import { Vector3 } from 'three';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-view-options',
@@ -13,6 +14,7 @@ import { Vector3 } from 'three';
   styleUrls: ['./view-options.component.scss'],
 })
 export class ViewOptionsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
   showCartesianGrid: boolean = false;
   scale: number = 3000;
   views: PresetView[];
@@ -78,6 +80,11 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
     this.eventDisplay
       .getUIManager()
       .show3DMousePoints(this.show3DPoints, this.origin);
+  }
+
+  toggleShowDistance(change: MatCheckboxChange) {
+    this.trigger.closeMenu();
+    this.eventDisplay.getUIManager().show3DDistance(change.checked);
   }
 
   ngOnDestroy(): void {

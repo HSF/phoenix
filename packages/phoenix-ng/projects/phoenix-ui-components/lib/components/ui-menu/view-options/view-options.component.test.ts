@@ -28,6 +28,7 @@ describe('ViewOptionsComponent', () => {
     setShowCartesianGrid: jest.fn().mockReturnThis(),
     showLabels: jest.fn().mockReturnThis(),
     show3DMousePoints: jest.fn().mockReturnThis(),
+    show3DDistance: jest.fn().mockReturnThis(),
     originChanged: of(origin),
   };
 
@@ -167,6 +168,18 @@ describe('ViewOptionsComponent', () => {
     expect(
       mockEventDisplay.getUIManager().show3DMousePoints,
     ).toHaveBeenCalledWith(component.show3DPoints, component.origin);
+  });
+
+  it('should toggle the show-distance function', () => {
+    const VALUE = true;
+    const event = new MatCheckboxChange();
+    event.checked = VALUE;
+
+    component.toggleShowDistance(event);
+
+    expect(mockEventDisplay.getUIManager().show3DDistance).toHaveBeenCalledWith(
+      VALUE,
+    );
   });
 
   it('should unsubscribe the existing subscriptions', () => {
