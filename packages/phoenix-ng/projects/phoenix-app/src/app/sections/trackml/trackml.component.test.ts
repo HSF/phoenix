@@ -3,13 +3,16 @@ import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { TrackmlComponent } from './trackml.component';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of } from 'rxjs/internal/observable/of';
 import { AppModule } from '../../app.module';
+import { Vector3 } from 'three';
 
 describe('TrackmlComponent', () => {
   let component: TrackmlComponent;
   let http: HttpClient;
   let fixture: ComponentFixture<TrackmlComponent>;
+
+  const origin = new Vector3(100, 200, 300);
 
   const mockEventDisplay = {
     init: jest.fn(),
@@ -27,6 +30,7 @@ describe('TrackmlComponent', () => {
     }),
     listenToLoadedEventsChange: jest.fn(),
     getUIManager: jest.fn().mockReturnThis(),
+    getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
     getDarkTheme: jest.fn().mockReturnThis(),
     buildEventDataFromJSON: jest.fn(),
@@ -34,6 +38,7 @@ describe('TrackmlComponent', () => {
     allowSelection: jest.fn().mockReturnThis(),
     getInfoLogger: jest.fn().mockReturnThis(),
     getInfoLoggerList: jest.fn().mockReturnThis(),
+    originChanged: of(origin),
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();

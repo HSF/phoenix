@@ -120,6 +120,53 @@ describe('SceneManager', () => {
     expect(VALUE1).toBe(VALUE2);
   });
 
+  it('should translate cartesian grid', () => {
+    const VALUE = new Vector3(100, 100, 100);
+
+    const distance = VALUE.length();
+    const unitVector = VALUE.clone().normalize();
+
+    const spy1 = jest.spyOn(
+      SceneManager.prototype as any,
+      'createCartesianGrid',
+    );
+
+    sceneManager.translateCartesianGrid(VALUE.clone());
+
+    expect(spy1).toHaveBeenCalled();
+
+    const spy2 = jest.spyOn(sceneManager['cartesianGrid'], 'translateOnAxis');
+
+    sceneManager.translateCartesianGrid(VALUE.clone());
+    expect(spy2).toHaveBeenCalledWith(unitVector, distance);
+  });
+
+  it('should translate cartesian labels', () => {
+    const VALUE = new Vector3(100, 200, 100);
+
+    const distance = VALUE.length();
+    const unitVector = VALUE.clone().normalize();
+
+    const spy1 = jest.spyOn(
+      SceneManager.prototype as any,
+      'createCartesianLabels',
+    );
+
+    sceneManager.translateCartesianLabels(VALUE.clone());
+
+    expect(spy1).toHaveBeenCalled();
+
+    const spy2 = jest.spyOn(sceneManager['cartesianLabels'], 'translateOnAxis');
+    const spy3 = jest.spyOn(sceneManager['axis'], 'translateOnAxis');
+    const spy4 = jest.spyOn(sceneManager['axisLabels'], 'translateOnAxis');
+
+    sceneManager.translateCartesianLabels(VALUE.clone());
+
+    expect(spy2).toHaveBeenCalledWith(unitVector, distance);
+    expect(spy3).toHaveBeenCalledWith(unitVector, distance);
+    expect(spy4).toHaveBeenCalledWith(unitVector, distance);
+  });
+
   it('should show labels', () => {
     sceneManager.showLabels(true);
     sceneManager['cartesianLabels'].children.forEach((child) => {

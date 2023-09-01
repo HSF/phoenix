@@ -2,10 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { PlaygroundComponent } from './playground.component';
 import { AppModule } from '../../app.module';
+import { Vector3 } from 'three';
+import { of } from 'rxjs/internal/observable/of';
 
 describe('PlaygroundComponent', () => {
   let component: PlaygroundComponent;
   let fixture: ComponentFixture<PlaygroundComponent>;
+
+  const origin = new Vector3(100, 200, 300);
 
   const mockEventDisplay = {
     init: jest.fn(),
@@ -22,12 +26,14 @@ describe('PlaygroundComponent', () => {
     openingClippingAngle: jest.fn().mockReturnThis(),
     listenToLoadedEventsChange: jest.fn(),
     getUIManager: jest.fn().mockReturnThis(),
+    getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
     getDarkTheme: jest.fn().mockReturnThis(),
     setOverlayRenderer: jest.fn().mockReturnThis(),
     allowSelection: jest.fn().mockReturnThis(),
     getInfoLogger: jest.fn().mockReturnThis(),
     getInfoLoggerList: jest.fn().mockReturnThis(),
+    originChanged: of(origin),
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();

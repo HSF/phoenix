@@ -765,6 +765,30 @@ export class SceneManager {
   }
 
   /**
+   * Translate the cartesianGrid
+   */
+  public translateCartesianGrid(translate: Vector3) {
+    this.createCartesianGrid();
+
+    const distance = translate.length();
+    const unitVector = translate.normalize();
+    this.cartesianGrid.translateOnAxis(unitVector, distance);
+  }
+
+  /**
+   * Translate Cartesian labels
+   */
+  public translateCartesianLabels(translate: Vector3) {
+    this.createCartesianLabels();
+
+    const distance = translate.length();
+    const unitVector = translate.normalize();
+    this.cartesianLabels.translateOnAxis(unitVector, distance);
+    this.axis.translateOnAxis(unitVector, distance);
+    this.axisLabels.translateOnAxis(unitVector, distance);
+  }
+
+  /**
    * Adds numbers (coordinates) to the axes.
    * @param scale The maximum length upto which labels are to be shown
    */

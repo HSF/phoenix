@@ -56,6 +56,34 @@
   </button>
   <button
     mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      showMouse3DPointsCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #showMouse3DPointsCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="show3DMousePoints($event)"
+      >Show 3D Coordinates
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
+    (click)="
+      $event.stopPropagation();
+      show3DDistanceCheckbox._inputElement.nativeElement.click()
+    "
+  >
+    <mat-checkbox
+      #show3DDistanceCheckbox
+      (click)="$event.stopPropagation()"
+      (change)="toggleShowDistance($event)"
+      >Show 3D Distance
+    </mat-checkbox>
+  </button>
+  <button
+    mat-menu-item
     *ngFor="let view of views"
     (click)="displayView($event, view)"
   >
@@ -68,7 +96,7 @@
 
 <app-menu-toggle
   [matMenuTriggerFor]="viewOptions"
-  tooltip="View options"
+  tooltip="View options and Tools"
   icon="views"
   [active]="false"
 >
