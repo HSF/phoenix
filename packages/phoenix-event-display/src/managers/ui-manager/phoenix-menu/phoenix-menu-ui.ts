@@ -341,14 +341,15 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       step: 0.1,
       max: 1,
       onChange: (value) => {
-        this.sceneManager.setGeometryOpacity(
-          this.sceneManager
-            .getObjectByName(SceneManager.EVENT_DATA_ID)
-            .getObjectByName(collectionName),
-          value,
-        );
-      },
-    });
+         const eventDataObject = this.sceneManager.getObjectByName(SceneManager.EVENT_DATA_ID);
+           if (eventDataObject) {
+         const collectionObject = eventDataObject.getObjectByName(collectionName);
+           if (collectionObject) {
+        this.sceneManager.setGeometryOpacity(collectionObject, value);
+        }
+      }
+     },
+  });
 
     drawOptionsNode.addConfig('checkbox', {
       label: 'Wireframe',
