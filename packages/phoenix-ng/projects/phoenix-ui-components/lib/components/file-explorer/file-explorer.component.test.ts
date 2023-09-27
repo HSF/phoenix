@@ -1,7 +1,11 @@
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileExplorerComponent, FileNode } from './file-explorer.component';
+import {
+  FileExplorerComponent,
+  FileNode,
+  FileEvent,
+} from './file-explorer.component';
 
 const getMockFileNode = () => {
   const rootNode = new FileNode('RootNode');
@@ -57,9 +61,9 @@ describe('FileExplorerComponent', () => {
 
   it('should emit onFileSelect event on selection of file', () => {
     jest.spyOn(component.onFileSelect, 'emit');
-    component.onSelect('http://example.com/file.json');
+    component.onSelect('http://example.com/file.json', true);
     expect(component.onFileSelect.emit).toHaveBeenCalledWith(
-      'http://example.com/file.json',
+      new FileEvent('http://example.com/file.json', true),
     );
   });
 

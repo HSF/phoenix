@@ -2,7 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EventDisplayService } from '../../../../services/event-display.service';
-import { FileNode } from '../../../file-explorer/file-explorer.component';
+import {
+  FileNode,
+  FileEvent,
+} from '../../../file-explorer/file-explorer.component';
 import { FileLoaderService } from '../../../../services/file-loader.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
 import { EventDataExplorerDialogData } from '../event-data-explorer.component';
@@ -37,14 +40,17 @@ describe.skip('EventDataExplorerDialogComponent', () => {
     {
       name: 'event_data/test.json',
       url: 'https://example.com/event_data/test.json',
+      nocache: false,
     },
     {
       name: 'event_data/test.xml',
       url: 'https://example.com/event_data/test.xml',
+      nocache: true,
     },
     {
       name: 'config_data/test.json',
       url: 'https://example.com/config_data/test.json',
+      nocache: false,
     },
   ];
 
@@ -108,7 +114,9 @@ describe.skip('EventDataExplorerDialogComponent', () => {
       );
 
     jest.spyOn(FileLoaderService.prototype, 'loadEvent');
-    component.loadEvent('https://example.com/event_data/test.json');
+    component.loadEvent(
+      new FileEvent('https://example.com/event_data/test.json', false),
+    );
     expect(mockFileLoaderService.loadEvent).toHaveBeenCalled();
   });
 
@@ -125,7 +133,9 @@ describe.skip('EventDataExplorerDialogComponent', () => {
           return true;
         },
       );
-    component.loadConfig('https://example.com/config_data/test.json');
+    component.loadConfig(
+      new FileEvent('https://example.com/config_data/test.json', false),
+    );
     expect(mockStateManager.loadStateFromJSON).toHaveBeenCalledWith({});
   });
 });

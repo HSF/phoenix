@@ -12,10 +12,20 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 export class FileNode {
   name: string;
   url: string;
+  nocache: boolean;
   children: { [key: string]: FileNode };
 
   constructor(name?: string) {
     this.name = name;
+    this.nocache = false;
+  }
+}
+export class FileEvent {
+  url: string;
+  nocache: boolean;
+  constructor(url: string, nocache: boolean) {
+    this.url = url;
+    this.nocache = nocache;
   }
 }
 
@@ -26,7 +36,8 @@ export class FileNode {
 })
 export class FileExplorerComponent implements OnChanges {
   @Input() rootFileNode: FileNode;
-  @Output() onFileSelect: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onFileSelect: EventEmitter<FileEvent> =
+    new EventEmitter<FileEvent>();
 
   treeControl = new NestedTreeControl<FileNode>(
     this.getSortedChildren.bind(this),
@@ -44,8 +55,8 @@ export class FileExplorerComponent implements OnChanges {
   hasChildren = (_: number, node: FileNode) =>
     !!node.children && Object.keys(node.children).length > 0;
 
-  onSelect(url: string) {
-    this.onFileSelect.emit(url);
+  onSelect(url: string, nocache: boolean) {
+    this.onFileSelect.emit(new FileEvent(url, nocache));
   }
 
   /**
