@@ -80,9 +80,10 @@ Access the app by navigating to [`http://localhost`](http://localhost) on the br
 * [How to contribute](./CONTRIBUTING.md)
 * [API docs](https://hepsoftwarefoundation.org/phoenix/api-docs/)
 
-## Phoenix presentations
+## Phoenix presentations and publications
 
-Phoenix was presented at the [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
+* Phoenix was presented at the 2020 [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
+* Phoenix was shown at CHEP 2021 ([abstract](https://www.epj-conferences.org/articles/epjconf/pdf/2021/05/epjconf_chep2021_01007.pdf)).
 
 ## Examples of Phoenix in use
 
