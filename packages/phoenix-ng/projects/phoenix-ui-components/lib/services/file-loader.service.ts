@@ -11,6 +11,7 @@ import { JiveXMLLoader } from 'phoenix-event-display';
 })
 export class FileLoaderService {
   private lastEventsURL: string = '';
+  private lastEventsOptions: boolean = false;
 
   async unzip(data: ArrayBuffer) {
     const archive = new JSZip();
@@ -35,8 +36,9 @@ export class FileLoaderService {
     urlPath: string,
     responseType: 'json' | 'text' | 'blob',
     onData: (data: any) => void,
+    options: any = {},
   ) {
-    fetch(urlPath)
+    fetch(urlPath, options)
       .then((res) => res[responseType]())
       .then((data) => {
         if (responseType === 'blob') {
@@ -66,25 +68,35 @@ export class FileLoaderService {
     eventDisplay.buildEventDataFromJSON(processedEventData);
   }
 
-  loadEvent(file: string, eventDisplay: EventDisplayService) {
+  loadEvent(
+    file: string,
+    eventDisplay: EventDisplayService,
+    options: any = {},
+  ) {
     this.lastEventsURL = file;
+    this.lastEventsOptions = options;
     const isZip = file.split('.').pop() === 'zip';
     const rawfile = isZip ? file.substring(0, file.length - 4) : file;
-    return this.makeRequest(file, isZip ? 'blob' : 'text', (eventData) => {
-      switch (rawfile.split('.').pop()) {
-        case 'xml':
-          this.loadJiveXMLEvent(eventData, eventDisplay);
-          break;
-        case 'json':
-          this.loadJSONEvent(eventData, eventDisplay);
-          break;
-      }
-    });
+    return this.makeRequest(
+      file,
+      isZip ? 'blob' : 'text',
+      (eventData) => {
+        switch (rawfile.split('.').pop()) {
+          case 'xml':
+            this.loadJiveXMLEvent(eventData, eventDisplay);
+            break;
+          case 'json':
+            this.loadJSONEvent(eventData, eventDisplay);
+            break;
+        }
+      },
+      options,
+    );
   }
 
   reloadLastEvents(eventDisplay: EventDisplayService) {
     if (this.lastEventsURL.length > 0) {
-      this.loadEvent(this.lastEventsURL, eventDisplay);
+      this.loadEvent(this.lastEventsURL, eventDisplay, this.lastEventsOptions);
     }
   }
 }

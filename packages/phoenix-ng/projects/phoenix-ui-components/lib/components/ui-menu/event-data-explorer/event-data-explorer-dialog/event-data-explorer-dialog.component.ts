@@ -1,7 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EventDisplayService } from '../../../../services/event-display.service';
-import { FileNode } from '../../../file-explorer/file-explorer.component';
+import {
+  FileNode,
+  FileEvent,
+} from '../../../file-explorer/file-explorer.component';
 import { FileLoaderService } from '../../../../services/file-loader.service';
 import { EventDataExplorerDialogData } from '../event-data-explorer.component';
 
@@ -10,6 +13,7 @@ const supportFileTypes = ['json', 'xml'];
 export type FileResponse = {
   name: string;
   url: string;
+  nocache: boolean;
 };
 
 @Component({
@@ -56,17 +60,21 @@ export class EventDataExplorerDialogComponent {
     );
   }
 
-  loadEvent(file: string) {
+  loadEvent(file: FileEvent) {
     this.loading = true;
-    this.error = this.fileLoader.loadEvent(file, this.eventDisplay);
+    this.error = this.fileLoader.loadEvent(
+      file.url,
+      this.eventDisplay,
+      file.nocache ? { cache: 'no-cache' } : {},
+    );
     this.loading = false;
     if (!this.error) this.onClose();
   }
 
-  loadConfig(file: string) {
+  loadConfig(file: FileEvent) {
     this.loading = true;
     this.error = this.fileLoader.makeRequest(
-      `${this.dialogData.apiURL}?type=config&f=${file}`,
+      `${this.dialogData.apiURL}?type=config&f=${file.url}`,
       'text',
       (config) => {
         const stateManager = this.eventDisplay.getStateManager();
@@ -94,6 +102,7 @@ export class EventDataExplorerDialogComponent {
       });
 
       fileNode.url = filePath.url;
+      fileNode.nocache = filePath.nocache;
       fileNode = rootNode;
     }
 

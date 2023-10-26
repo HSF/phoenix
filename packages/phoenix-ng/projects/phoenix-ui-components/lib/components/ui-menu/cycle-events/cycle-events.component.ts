@@ -60,7 +60,7 @@ export class CycleEventsComponent implements OnInit {
       // special value -1 is used to denote wrapping of the current set of events
       if (index == -1) {
         if (this.reloading) {
-          // reload the current events
+          // reload the current events, ignoring caches
           this.fileLoader.reloadLastEvents(this.eventDisplay);
         }
         // put back index to 0 to start with first event anyway
