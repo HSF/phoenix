@@ -45,6 +45,7 @@
       <button
         mat-stroked-button
         (click)="onSave(xPos.value, yPos.value, zPos.value)"
+        [disabled]="shiftGrid"
       >
         Save
       </button>
