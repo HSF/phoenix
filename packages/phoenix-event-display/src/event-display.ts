@@ -653,18 +653,43 @@ export class EventDisplay {
    * Move the camera to look at the object with the given uuid
    * and highlight it.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data.
    */
-  public lookAtObject(uuid: string) {
-    this.graphicsLibrary.lookAtObject(uuid);
-    this.graphicsLibrary.highlightObject(uuid);
+  public lookAtObject(uuid: string, detector: boolean = false) {
+    if (detector == true) {
+      this.graphicsLibrary.lookAtObject(uuid, true);
+      this.graphicsLibrary.highlightObject(uuid, true);
+    } else {
+      this.graphicsLibrary.lookAtObject(uuid);
+      this.graphicsLibrary.highlightObject(uuid);
+    }
   }
 
   /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data.
    */
-  public highlightObject(uuid: string) {
-    this.graphicsLibrary.highlightObject(uuid);
+  public highlightObject(uuid: string, detector: boolean = false) {
+    if (detector == true) {
+      this.graphicsLibrary.highlightObject(uuid, true);
+    } else {
+      this.graphicsLibrary.highlightObject(uuid, false);
+    }
+  }
+
+  /**
+   * Enable highlighting of the objects.
+   */
+  public enableHighlighting() {
+    this.graphicsLibrary.enableHighlighting();
+  }
+
+  /**
+   * Disable highlighting of the objects.
+   */
+  public disableHighlighting() {
+    this.graphicsLibrary.disableHighlighting();
   }
 
   /**

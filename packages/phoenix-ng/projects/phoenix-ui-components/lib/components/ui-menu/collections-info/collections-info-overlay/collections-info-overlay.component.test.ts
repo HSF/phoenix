@@ -4,7 +4,6 @@ import { Object3D } from 'three';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay.component';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
-import { ElementRef } from '@angular/core';
 
 describe('CollectionsInfoOverlayComponent', () => {
   let component: CollectionsInfoOverlayComponent;
@@ -20,14 +19,16 @@ describe('CollectionsInfoOverlayComponent', () => {
         callback();
       },
     }),
+    enableHighlighting: jest.fn().mockReturnThis(),
+    disableHighlighting: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
     getSceneManager: jest.fn().mockReturnThis(),
     getScene: jest.fn().mockReturnThis(),
-    getObjectByName: jest.fn(),
-    getCollection: jest.fn(),
-    lookAtObject: jest.fn(),
-    highlightObject: jest.fn(),
-    addLabelToObject: jest.fn(),
+    getObjectByName: jest.fn().mockReturnThis(),
+    getCollection: jest.fn().mockReturnThis(),
+    lookAtObject: jest.fn().mockReturnThis(),
+    highlightObject: jest.fn().mockReturnThis(),
+    addLabelToObject: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {
@@ -119,6 +120,18 @@ describe('CollectionsInfoOverlayComponent', () => {
     jest.spyOn(mockEventDisplay, 'highlightObject');
     component.highlightObject(mockUuid);
     expect(mockEventDisplay.highlightObject).toHaveBeenCalledWith(mockUuid);
+  });
+
+  it('should enable highlighting', () => {
+    component.enableHighlighting();
+
+    expect(mockEventDisplay.enableHighlighting).toHaveBeenCalled();
+  });
+
+  it('should disable highlighting', () => {
+    component.disableHighlighting();
+
+    expect(mockEventDisplay.disableHighlighting).toHaveBeenCalled();
   });
 
   it('should sort collections in ascending order', () => {

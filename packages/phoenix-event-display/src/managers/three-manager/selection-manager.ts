@@ -233,6 +233,14 @@ export class SelectionManager {
   }
 
   /**
+   * Enable highlighting of the objects.
+   */
+  public enableHighlighting() {
+    this.preSelectionAntialias = this.effectsManager.antialiasing;
+    this.effectsManager.setAntialiasing(false);
+  }
+
+  /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
    * @param objectsGroup Group of objects to be traversed for finding the object
@@ -242,6 +250,15 @@ export class SelectionManager {
     const object = objectsGroup.getObjectByProperty('uuid', uuid);
     if (object) {
       this.outlinePass.selectedObjects = [object];
+      this.activeObject.update(object.uuid);
     }
+  }
+
+  /**
+   * Disable highlighting of objects.
+   */
+  public disableHighlighting() {
+    this.outlinePass.selectedObjects = [];
+    this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
 }

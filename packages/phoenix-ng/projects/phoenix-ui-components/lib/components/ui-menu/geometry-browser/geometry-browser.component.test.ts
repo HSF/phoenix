@@ -1,14 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ComponentPortal } from '@angular/cdk/portal';
+
+import { GeometryBrowserComponent } from './geometry-browser.component';
 import { Overlay } from '@angular/cdk/overlay';
+import {
+  GeometryBrowserOverlayComponent,
+  PhoenixUIModule,
+} from 'phoenix-ui-components';
+import { ComponentPortal } from '@angular/cdk/portal';
 
-import { CollectionsInfoComponent } from './collections-info.component';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
-import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
-
-describe('CollectionsInfoComponent', () => {
-  let component: CollectionsInfoComponent;
-  let fixture: ComponentFixture<CollectionsInfoComponent>;
+describe('GeometryBrowserComponent', () => {
+  let component: GeometryBrowserComponent;
+  let fixture: ComponentFixture<GeometryBrowserComponent>;
 
   const mockOverlay = {
     create: jest.fn().mockReturnThis(),
@@ -23,6 +25,7 @@ describe('CollectionsInfoComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [GeometryBrowserComponent, GeometryBrowserOverlayComponent],
       providers: [
         {
           provide: Overlay,
@@ -30,10 +33,8 @@ describe('CollectionsInfoComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionsInfoComponent);
+    fixture = TestBed.createComponent(GeometryBrowserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -42,9 +43,9 @@ describe('CollectionsInfoComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize/create collections info overlay', () => {
+  it('should create and initialise the overlay', () => {
     const overlayRef = mockOverlay.create();
-    const overlayPortal = new ComponentPortal(CollectionsInfoOverlayComponent);
+    const overlayPortal = new ComponentPortal(GeometryBrowserOverlayComponent);
 
     mockOverlay.overlayWindow = overlayRef.attach(overlayPortal);
 
@@ -56,15 +57,15 @@ describe('CollectionsInfoComponent', () => {
     expect(component.overlayWindow.destroy).toHaveBeenCalled();
   });
 
-  it('should toggle collections info overlay', () => {
-    expect(component.showObjectsInfo).toBe(false);
+  it('should toggle geometry browser overlay', () => {
+    expect(component.browseDetectorParts).toBe(false);
 
     component.toggleOverlay();
 
-    expect(component.showObjectsInfo).toBe(true);
+    expect(component.browseDetectorParts).toBe(true);
 
-    // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.showObjectsInfo).toBe(true);
+    // Expect overlay window to be visible
+    expect(component.overlayWindow.instance.browseDetectorParts).toBe(true);
 
     expect(
       component.overlayWindow.instance.enableHighlighting,
