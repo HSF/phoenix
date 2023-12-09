@@ -98,6 +98,9 @@ Phoenix is also used by [Future Circular Collider](https://fcc.web.cern.ch), see
 ### LHCb
 Phoenix is also used by [LHCb](http://lhcb.web.cern.ch), see [here](https://lhcb-eventdisplay.web.cern.ch/)
 
+### Belle II
+Phoenix is also used by [Belle II](https://www.belle2.org), see [here](https://display.belle2.org/)
+
 
 ## Contact
 The best way to contact us is to either open an issue in GitHub, start a [discussion](https://github.com/HSF/phoenix/discussions) or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community) (though this is not used as much these days).
