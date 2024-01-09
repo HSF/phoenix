@@ -33,7 +33,7 @@
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.3",
     "rxjs": "^7.8.1",
-    "three": "^0.155.0",
+    "three": "^0.160.0",
     "tslib": "^2.6.1"
   },
   "devDependencies": {
