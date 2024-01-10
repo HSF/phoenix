@@ -24,9 +24,9 @@ describe('CoordinateHelper', () => {
     const theta = 0.705026843555238;
     const phi = 0.0;
     const vector = CoordinateHelper.sphericalToCartesian(radius, theta, phi);
-    expect(vector.x).toBe(0.6480542736638852);
-    expect(vector.y).toBe(-1.3183898417423734e-16);
-    expect(vector.z).toBe(0.7615941559557646);
+    expect(vector.x).toBe(0.6480542736638853);
+    expect(vector.y).toBe(5.551115123125783e-17);
+    expect(vector.z).toBe(0.7615941559557647);
   });
 
   it('should get cartesian from eta/phi parameters', () => {
@@ -34,9 +34,9 @@ describe('CoordinateHelper', () => {
     const eta = 1.0;
     const phi = 0.0;
     const vector = CoordinateHelper.etaPhiToCartesian(radius, eta, phi);
-    expect(vector.x).toBe(0.6480542736638852);
-    expect(vector.y).toBe(-1.3183898417423734e-16);
-    expect(vector.z).toBe(0.7615941559557646);
+    expect(vector.x).toBe(0.6480542736638853);
+    expect(vector.y).toBe(5.551115123125783e-17);
+    expect(vector.z).toBe(0.7615941559557647);
   });
 
   it('should return the Quaternion to rotate to ATLAS coordinates', () => {

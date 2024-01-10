@@ -45,7 +45,7 @@
     "jsroot": "^7.4.1",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.155.0"
+    "three": "^0.160.0"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.22.5",

@@ -16214,7 +16214,7 @@ cors@latest:
     jsroot: ^7.4.1
     jszip: ^3.10.1
     stats-js: ^1.0.1
-    three: ^0.155.0
+    three: ^0.160.0
     ts-jest: ~29.1.1
     typescript: ~5.1.6
     webpack: ^5.88.2
@@ -16254,7 +16254,7 @@ cors@latest:
     phoenix-ui-components: ^2.14.1
     qrcode: 1.5.3
     rxjs: ^7.8.1
-    three: ^0.155.0
+    three: ^0.160.0
     tslib: ^2.6.1
     typescript: ~5.1.6
     zone.js: ^0.13.1
@@ -16274,7 +16274,7 @@ cors@latest:
     node-fetch: ^3.3.2
     qrcode: 1.5.3
     rxjs: ^7.8.1
-    three: ^0.155.0
+    three: ^0.160.0
     tslib: ^2.6.1
   peerDependencies:
     "@angular/common": "*"
@@ -18743,10 +18743,10 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"three@npm:^0.155.0":
-  version: 0.155.0
-  resolution: "three@npm:0.155.0"
-  checksum: 55de8af716686be2159b2ff407501ce2e6418b7d16a8dc57f3dcf9f08c4a6bedf0623fa8ddb67c1ae6f679d7ca53cfa0c64bab6b0577d6c467618389d5561211
+"three@npm:^0.160.0":
+  version: 0.160.0
+  resolution: "three@npm:0.160.0"
+  checksum: ae9aadbcdfcbf2afdfeebc376abacd980c4cbcd0177dbe56e1420305bcc3dea9115b865932937b74445d937f463623a496e9784c39e238b32f982d6a22c6311d
   languageName: node
   linkType: hard
 
