@@ -182,7 +182,7 @@ http://localhost:4200/#/atlas?file=assets/event_data/data.json&type=json
 
 ## Using Phoenix with your own data
 
-For details on the Phoenix event data format, please see [Phoenix Event Data Format](event_data_format.md)
+For details on the Phoenix event data format, please see [Phoenix Event Data Format](developers/event_data_format.md)
 
 #### 'Jets'
 Jets are a list of Jet objects with the following attributes :
