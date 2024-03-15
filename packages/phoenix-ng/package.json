@@ -35,7 +35,7 @@
     "@angular/platform-browser-dynamic": "^16.1.8",
     "@angular/router": "^16.1.8",
     "css-element-queries": "^1.2.3",
-    "cypress-plugin-snapshots": "^1.4.4",
+    "cypress-plugin-snapshots": "meinaart/cypress-plugin-snapshots#a8bd88380db56905f5df6fe27cb4eddb7b809b9e",
     "phoenix-event-display": "^2.14.1",
     "phoenix-ui-components": "^2.14.1",
     "qrcode": "1.5.3",
