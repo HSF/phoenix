@@ -5722,10 +5722,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tweenjs/tween.js@npm:~18.6.4":
-  version: 18.6.4
-  resolution: "@tweenjs/tween.js@npm:18.6.4"
-  checksum: 47208db3f6c32cde80284a852d0fca016284f90c4798eb4ebb2ebfc2e379504007bf0c031c2c33044df8a0878fd1942ebc4e0b7f5b8bcccf812b532ea1ee73eb
+"@tweenjs/tween.js@npm:~23.1.1":
+  version: 23.1.1
+  resolution: "@tweenjs/tween.js@npm:23.1.1"
+  checksum: a93b331f0c2dc2dd2fce2c08ab9e505cd71ce1b31a3e2218f31da4f2d2af84ac4c4eaab05f9929a7b7884c5e00c5d32e8fd1872e0a3e10e9cca20febc8d263b5
   languageName: node
   linkType: hard
 
@@ -6122,17 +6122,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/three@npm:^0.155.0":
-  version: 0.155.0
-  resolution: "@types/three@npm:0.155.0"
+"@types/three@npm:^0.162.0":
+  version: 0.162.0
+  resolution: "@types/three@npm:0.162.0"
   dependencies:
-    "@tweenjs/tween.js": ~18.6.4
+    "@tweenjs/tween.js": ~23.1.1
     "@types/stats.js": "*"
     "@types/webxr": "*"
-    fflate: ~0.6.9
-    lil-gui: ~0.17.0
+    fflate: ~0.6.10
     meshoptimizer: ~0.18.1
-  checksum: decd966b198ad0f24febcbd16a2c3ff584e7b0f7f89e70c2ecb8c1a7842598a51f79cd0965220aa74d216ab4474ca2f6e4023904aa7ca0f38c93fc8b99e2a0d6
+  checksum: 4a5727506d53228fd24c21ae5e38f0952da09e660870bc58c0d69759433284297f4195aecc7df94a85d8585cc07a3d960f519b0a0c99bece7de2037516880013
   languageName: node
   linkType: hard
 
@@ -10776,7 +10775,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"fflate@npm:~0.6.9":
+"fflate@npm:~0.6.10":
   version: 0.6.10
   resolution: "fflate@npm:0.6.10"
   checksum: 96384bc4090987fe565c0de8204e3830f538144ec950576fea50aee1b42adbe9fc3ed5e7905dfa7979faaa20979def330dbebce548f3dcafc3e118cc9838526d
@@ -13837,13 +13836,6 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"lil-gui@npm:~0.17.0":
-  version: 0.17.0
-  resolution: "lil-gui@npm:0.17.0"
-  checksum: a6f33e90748ea98477f1f7af6d6cbdc4a1b38ce9da86d674d73f7b0bbdc7f3e947d81edee04c32f33fb28c69a108ba04c24270a8398064ffcc56ffeabc0a916e
-  languageName: node
-  linkType: hard
-
 "lilconfig@npm:2.1.0":
   version: 2.1.0
   resolution: "lilconfig@npm:2.1.0"
@@ -16203,7 +16195,7 @@ cors@latest:
     "@compodoc/compodoc": ^1.1.21
     "@tweenjs/tween.js": ^21.0.0
     "@types/dat.gui": ^0.7.10
-    "@types/three": ^0.155.0
+    "@types/three": ^0.162.0
     dat.gui: ^0.7.9
     esbuild-loader: ^3.1.0
     html2canvas: ^1.4.1
@@ -16211,7 +16203,7 @@ cors@latest:
     jsroot: ^7.6.0
     jszip: ^3.10.1
     stats-js: ^1.0.1
-    three: ^0.160.0
+    three: ^0.162.0
     ts-jest: ~29.1.1
     typescript: ~5.1.6
     webpack: ^5.88.2
@@ -16253,7 +16245,7 @@ cors@latest:
     phoenix-ui-components: ^2.14.1
     qrcode: 1.5.3
     rxjs: ^7.8.1
-    three: ^0.160.0
+    three: ^0.162.0
     tslib: ^2.6.1
     typescript: ~5.1.6
     zone.js: ^0.13.1
@@ -16275,7 +16267,7 @@ cors@latest:
     node-fetch: ^3.3.2
     qrcode: 1.5.3
     rxjs: ^7.8.1
-    three: ^0.160.0
+    three: ^0.162.0
     tslib: ^2.6.1
   peerDependencies:
     "@angular/common": "*"
@@ -18753,10 +18745,10 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"three@npm:^0.160.0":
-  version: 0.160.0
-  resolution: "three@npm:0.160.0"
-  checksum: ae9aadbcdfcbf2afdfeebc376abacd980c4cbcd0177dbe56e1420305bcc3dea9115b865932937b74445d937f463623a496e9784c39e238b32f982d6a22c6311d
+"three@npm:^0.162.0":
+  version: 0.162.0
+  resolution: "three@npm:0.162.0"
+  checksum: f3ba4d518f7cb209b6e4f8818177c1230014fc1b3dcd66ab113a9babf8e2b522645a1eb144dfc0900bf194e8890bc5d04f358dd4a7f06ee8aa44db56224f88fc
   languageName: node
   linkType: hard
 
