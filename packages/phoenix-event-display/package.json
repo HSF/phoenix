@@ -42,7 +42,7 @@
     "@tweenjs/tween.js": "^21.0.0",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
-    "jsroot": "^7.4.1",
+    "jsroot": "^7.6.0",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
     "three": "^0.160.0"
@@ -59,5 +59,8 @@
     "typescript": "~5.1.6",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
+  },
+  "peerDependencies": {
+    "jspdf": "*"
   }
 }
