@@ -355,7 +355,6 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const color = hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
-    console.log('color', color);
     const material = new PointsMaterial({
       size: 10,
       color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,

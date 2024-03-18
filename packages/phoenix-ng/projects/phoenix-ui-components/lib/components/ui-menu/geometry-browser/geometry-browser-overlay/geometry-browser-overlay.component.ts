@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActiveVariable } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
-import { Object3D, Event } from 'three';
+import { Object3D, Object3DEventMap } from 'three';
 
 @Component({
   selector: 'app-geometry-browser-overlay',
@@ -13,7 +13,7 @@ export class GeometryBrowserOverlayComponent implements OnInit {
   selectedCollection: string;
   showingCollection: any;
   activeObject: ActiveVariable<string>;
-  children: Object3D<Event>[];
+  children: Object3D<Object3DEventMap>[];
 
   constructor(private eventDisplay: EventDisplayService) {}
 

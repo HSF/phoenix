@@ -3,6 +3,7 @@ import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
 import {
   Group,
   Object3D,
+  Object3DEventMap,
   Vector3,
   Plane,
   Quaternion,
@@ -86,9 +87,13 @@ export class ThreeManager {
   /** Loop to run for each frame to update stats. */
   private uiLoop: () => void;
   /** Function to check if the object intersected with raycaster is an event data */
-  private isEventData: (elem: Intersection<Object3D<Event>>) => boolean;
+  private isEventData: (
+    elem: Intersection<Object3D<Object3DEventMap>>,
+  ) => boolean;
   /** Function to check if the object intersected with raycaster is visible or lies in the clipped region */
-  private isVisible: (elem: Intersection<Object3D<Event>>) => boolean;
+  private isVisible: (
+    elem: Intersection<Object3D<Object3DEventMap>>,
+  ) => boolean;
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
   private show3DPointsCallback: (event: MouseEvent) => void;
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
@@ -341,7 +346,7 @@ export class ThreeManager {
   /**
    * Returns the mainIntersect upon clicking a point
    */
-  private getMainIntersect(event): Intersection<Object3D<Event>> {
+  private getMainIntersect(event): Intersection<Object3D<Object3DEventMap>> {
     const camera = this.controlsManager.getMainCamera();
     const scene = this.sceneManager.getScene();
     const raycaster = new Raycaster();
