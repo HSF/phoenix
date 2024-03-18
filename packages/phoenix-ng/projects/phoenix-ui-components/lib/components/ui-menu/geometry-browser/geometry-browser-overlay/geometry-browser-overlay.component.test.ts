@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GeometryBrowserOverlayComponent } from './geometry-browser-overlay.component';
 import { EventDisplayService, PhoenixUIModule } from 'phoenix-ui-components';
 import { ActiveVariable } from 'phoenix-event-display';
-import { Object3D, Event } from 'three';
+import { Object3D, Object3DEventMap } from 'three';
 
 describe('GeometryBrowserOverlayComponent', () => {
   let component: GeometryBrowserOverlayComponent;
@@ -80,7 +80,7 @@ describe('GeometryBrowserOverlayComponent', () => {
 
     component.changeCollection(mockSelectedValue);
 
-    const children: Object3D<Event>[] = [];
+    const children: Object3D<Object3DEventMap>[] = [];
 
     for (const child of mockChildren) {
       if (child.name === mockSelectedValue) {
