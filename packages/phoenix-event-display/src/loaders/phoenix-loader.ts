@@ -167,7 +167,6 @@ export class PhoenixLoader implements EventDataLoader {
         false,
         cuts,
       );
-      // infoLogger.add('Got ' + Object.keys(eventData.Tracks).length + ' Track collections.');
     }
 
     if (eventData.Jets) {
@@ -333,7 +332,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Muons,
-        this.getCompound,
+        this.getCompoundTrack,
         'Muons',
         false,
         cuts,
@@ -349,7 +348,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Photons,
-        this.getCompound,
+        this.getCompoundCluster,
         'Photons',
         false,
         cuts,
@@ -365,7 +364,7 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Electrons,
-        this.getCompound,
+        this.getCompoundTrack,
         'Electrons',
         false,
         cuts,
@@ -475,6 +474,7 @@ export class PhoenixLoader implements EventDataLoader {
         objectCollection,
         collectionName,
         getObject,
+        typeName,
         objectGroup,
         concatonateObjs,
       );
@@ -510,6 +510,7 @@ export class PhoenixLoader implements EventDataLoader {
     objectCollection: any,
     collectionName: string,
     getObject: (object: any) => Object3D,
+    typeName: string,
     objectGroup: Group,
     concatonateObjs: boolean,
   ) {
@@ -518,13 +519,13 @@ export class PhoenixLoader implements EventDataLoader {
 
     if (concatonateObjs) {
       //in this case, we just pass the entire collection in
-      const object = getObject.bind(this)(objectCollection);
+      const object = getObject.bind(this)(objectCollection, typeName);
       if (object) {
         collscene.add(object);
       }
     } else {
       for (const objectParams of objectCollection) {
-        const object = getObject.bind(this)(objectParams);
+        const object = getObject.bind(this)(objectParams, typeName);
         if (object) {
           collscene.add(object);
         }
@@ -552,15 +553,34 @@ export class PhoenixLoader implements EventDataLoader {
     return collectionsList;
   }
 
+  /** Process the compound object of track type (e.g. Muon, Electron, ..) from the given parameters and get it as a group.
+   */
+  protected getCompoundTrack(params: any, name = ''): Object3D {
+    return this.getCompound(params, name, true, false);
+  }
+
+  /** Process the compound object of cluster type (e.g. Photon, ..) from the given parameters and get it as a group.
+   */
+  protected getCompoundCluster(params: any, name = ''): Object3D {
+    return this.getCompound(params, name, false, true);
+  }
+
   /**
    * Process the compound object (e.g. Muon, Electron, Photon) from the given parameters and get it as a group.
    * FIXME. This is currently here and not in PhoenixObjects because we need to handle linked objects.
    * @param params Parameters of the Muon.
    * @returns Muon group containing Clusters and Tracks.
    */
-  protected getCompound(params: any): Object3D {
+  protected getCompound(
+    params: any,
+    name = '',
+    objectIsTrack: boolean = false,
+    objectIsCluster: boolean = false,
+  ): Object3D {
     const scene = new Group();
-    if ('LinkedClusters' in params) {
+    // Try to find a linked cluster if possible, and draw this.
+    // If not (and if this makes sense), try to make a cluster from the compound object itself
+    if ('LinkedClusters' in params && params.LinkedClusters) {
       for (const clusterID of params.LinkedClusters) {
         const clusterColl = clusterID.split(':')[0];
         const clusterIndex = clusterID.split(':')[1];
@@ -575,13 +595,24 @@ export class PhoenixLoader implements EventDataLoader {
             this.eventData.CaloClusters[clusterColl][clusterIndex];
           if (clusterParams) {
             const cluster = PhoenixObjects.getCluster(clusterParams);
+            cluster.name = name + ' Cluster';
             scene.add(cluster);
           }
         }
       }
+    } else if (objectIsCluster) {
+      const clusterParams = {
+        energy: params?.energy,
+        phi: params?.phi,
+        eta: params?.eta,
+      };
+      const cluster = PhoenixObjects.getCluster(clusterParams);
+      cluster.name = name + ' Cluster';
+      scene.add(cluster);
     }
-    let addedTrack = false;
-    if ('LinkedTracks' in params) {
+    // Try to find a linked track if possible, and draw this.
+    // If not (and if this makes sense), try to extrapolate the compound object itself
+    if ('LinkedTracks' in params && params.LinkedTracks) {
       for (const trackID of params.LinkedTracks) {
         const trackColl = trackID.split(':')[0];
         const trackIndex = trackID.split(':')[1];
@@ -596,17 +627,16 @@ export class PhoenixLoader implements EventDataLoader {
           if (trackParams) {
             const track = PhoenixObjects.getTrack(trackParams);
             if (track) {
+              track.name = name + ' Track';
               scene.add(track);
-              addedTrack = true;
             } else {
               console.log('WARNING: failed to get a track back.');
             }
           }
         }
       }
-    }
-    if (!addedTrack) {
-      // Let's try to extrapolate one.
+    } else if (objectIsTrack) {
+      // We don't have links to any track, but maybe we can extrapolate something reasonable?
       // ATLAS JiveXML have the following: energy, eta, phi, pt
       const startPos = new Vector3(0, 0, 0);
       const theta = CoordinateHelper.etaToTheta(params.eta);
@@ -622,6 +652,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       const track = PhoenixObjects.getTrack(trackparams);
       if (track) {
+        track.name = name + ' Track';
         scene.add(track);
       } else {
         console.log('WARNING: failed to get a track back.');
@@ -629,7 +660,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
     // uuid for selection of compound obj from the collections info panel
     params.uuid = scene.uuid;
-    scene.name = 'CompoundObj';
+    scene.name = name;
     // add to scene
     return scene;
   }
