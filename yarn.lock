@@ -17752,12 +17752,12 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "prettier@npm:3.0.1"
+"prettier@npm:^3.2.5":
+  version: 3.2.5
+  resolution: "prettier@npm:3.2.5"
   bin:
     prettier: bin/prettier.cjs
-  checksum: e1f3f16c7fe0495de3faa182597871f74927d787cce3c52095a66ff5d7eacc05173371d5f58bf12141a0a1b6bfe739a338531d6cf18b92c7256c1319f2c84e73
+  checksum: 2ee4e1417572372afb7a13bb446b34f20f1bf1747db77cf6ccaf57a9be005f2f15c40f903d41a6b79eec3f57fff14d32a20fb6dee1f126da48908926fe43c311
   languageName: node
   linkType: hard
 
@@ -18625,7 +18625,7 @@ proxy-middleware@latest:
     jest-environment-jsdom: ~29.6.2
     lerna: ^7.1.4
     lint-staged: ^13.2.3
-    prettier: ^3.0.1
+    prettier: ^3.2.5
     rimraf: ^5.0.1
     ts-jest-mock-import-meta: ^1.0.0
     typescript: ~5.1.6

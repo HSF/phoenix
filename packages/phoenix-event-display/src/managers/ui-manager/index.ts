@@ -271,8 +271,8 @@ export class UIManager {
       this.addLabelsFolder();
     }
 
-    this.uiMenus.forEach(
-      (menu) => menu?.addLabel(labelId, () => this.removeLabel(labelId)),
+    this.uiMenus.forEach((menu) =>
+      menu?.addLabel(labelId, () => this.removeLabel(labelId)),
     );
   }
 

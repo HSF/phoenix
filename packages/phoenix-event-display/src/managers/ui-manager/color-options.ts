@@ -111,8 +111,8 @@ export class ColorOptions {
       );
 
       this.initColorByOptions();
-      this.colorByOptions.forEach(
-        (colorByOption) => colorByOption.initialize?.(),
+      this.colorByOptions.forEach((colorByOption) =>
+        colorByOption.initialize?.(),
       );
       this.onlySelectedColorByOption();
     }
