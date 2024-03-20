@@ -39,16 +39,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/architect@npm:0.1002.4":
-  version: 0.1002.4
-  resolution: "@angular-devkit/architect@npm:0.1002.4"
-  dependencies:
-    "@angular-devkit/core": 10.2.4
-    rxjs: 6.6.2
-  checksum: d38ece7a04b20f064547a2082210dc2da53540849c68cd046ad36e890036305d214e625a7e791c1e741032d0e3d1c40e3555b062f69b575e8f5c24ae25515ec2
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/architect@npm:0.1601.8":
   version: 0.1601.8
   resolution: "@angular-devkit/architect@npm:0.1601.8"
@@ -166,22 +156,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/build-ng-packagr@npm:~0.1002.4":
-  version: 0.1002.4
-  resolution: "@angular-devkit/build-ng-packagr@npm:0.1002.4"
-  dependencies:
-    "@angular-devkit/architect": 0.1002.4
-    rxjs: 6.6.2
-  peerDependencies:
-    ng-packagr: ^10.0.0
-    tsickle: ~0.39.0
-  peerDependenciesMeta:
-    tsickle:
-      optional: true
-  checksum: 5377a47b6ff741132e9fa4c1c1d0fdae0459d360c33ceee93f37c43449243d93c00b212e14e14dbcd6279f52544b34a1476a6a321873ab1de87f3c03b7898c03
-  languageName: node
-  linkType: hard
-
 "@angular-devkit/build-webpack@npm:0.1601.8":
   version: 0.1601.8
   resolution: "@angular-devkit/build-webpack@npm:0.1601.8"
@@ -192,19 +166,6 @@ __metadata:
     webpack: ^5.30.0
     webpack-dev-server: ^4.0.0
   checksum: a29e0a69974d2241f5e301d0b66126464909ed83259291c27af4cf081d1066f315f133eb4ce69b8114a0ac03bb2cd5f4f7d7edc60a8009d8993763e7204fd98c
-  languageName: node
-  linkType: hard
-
-"@angular-devkit/core@npm:10.2.4":
-  version: 10.2.4
-  resolution: "@angular-devkit/core@npm:10.2.4"
-  dependencies:
-    ajv: 6.12.4
-    fast-json-stable-stringify: 2.1.0
-    magic-string: 0.25.7
-    rxjs: 6.6.2
-    source-map: 0.7.3
-  checksum: ca74bf5a02c0ca2c324d8eb2c2bc5bdbd7929b0b742f75f7a6ff23e3bf5d06ba11ef8c07db306c80f4d5c1a906ac9489efec057ad2709b256ee57851ed8ec99c
   languageName: node
   linkType: hard
 
@@ -7706,18 +7667,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ajv@npm:6.12.4":
-  version: 6.12.4
-  resolution: "ajv@npm:6.12.4"
-  dependencies:
-    fast-deep-equal: ^3.1.1
-    fast-json-stable-stringify: ^2.0.0
-    json-schema-traverse: ^0.4.1
-    uri-js: ^4.2.2
-  checksum: 8713e39b0e29fe0e1d1002438990e78e6804f965218b34bde9651c2c731a44007dae7f7c7136072ca4da4e7ab5ce03c08b806c674d3ad436d808ff363d9c2f9f
-  languageName: node
-  linkType: hard
-
 "ajv@npm:8.11.0":
   version: 8.11.0
   resolution: "ajv@npm:8.11.0"
@@ -11821,7 +11770,7 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"fast-json-stable-stringify@npm:2.1.0, fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0, fast-json-stable-stringify@npm:^2.1.0":
+"fast-json-stable-stringify@npm:2.x, fast-json-stable-stringify@npm:^2.0.0, fast-json-stable-stringify@npm:^2.1.0":
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
   checksum: b191531e36c607977e5b1c47811158733c34ccb3bfde92c44798929e9b4154884378536d26ad90dfecd32e1ffc09c545d23535ad91b3161a27ddbb8ebe0cbecb
@@ -15335,15 +15284,6 @@ cors@latest:
   languageName: node
   linkType: hard
 
-"magic-string@npm:0.25.7":
-  version: 0.25.7
-  resolution: "magic-string@npm:0.25.7"
-  dependencies:
-    sourcemap-codec: ^1.4.4
-  checksum: 727a1fb70f9610304fe384f1df0251eb7d1d9dd779c07ef1225690361b71b216f26f5d934bfb11c919b5b0e7ba50f6240c823a6f2e44cfd33d4a07d7747ca829
-  languageName: node
-  linkType: hard
-
 "magic-string@npm:0.26.2":
   version: 0.26.2
   resolution: "magic-string@npm:0.26.2"
@@ -17421,7 +17361,6 @@ cors@latest:
   resolution: "phoenix-ng@workspace:packages/phoenix-ng"
   dependencies:
     "@angular-devkit/build-angular": ^16.1.8
-    "@angular-devkit/build-ng-packagr": ~0.1002.4
     "@angular/animations": ^16.1.8
     "@angular/cdk": ^16.1.7
     "@angular/cli": ~16.1.8
@@ -18666,15 +18605,6 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"rxjs@npm:6.6.2":
-  version: 6.6.2
-  resolution: "rxjs@npm:6.6.2"
-  dependencies:
-    tslib: ^1.9.0
-  checksum: f3e6d70ed70d8b27539486224806e305dd704c702b62b42c1383fba13b233d892cf81e071039c61e05920fb9e8619caa2096c652b69dd962f5ba8742311f2619
-  languageName: node
-  linkType: hard
-
 "rxjs@npm:6.6.7":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
@@ -19351,13 +19281,6 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"source-map@npm:0.7.3":
-  version: 0.7.3
-  resolution: "source-map@npm:0.7.3"
-  checksum: cd24efb3b8fa69b64bf28e3c1b1a500de77e84260c5b7f2b873f88284df17974157cc88d386ee9b6d081f08fdd8242f3fc05c953685a6ad81aad94c7393dedea
-  languageName: node
-  linkType: hard
-
 "source-map@npm:0.7.4":
   version: 0.7.4
   resolution: "source-map@npm:0.7.4"
@@ -19381,7 +19304,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
+"sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.8":
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: b57981c05611afef31605732b598ccf65124a9fcb03b833532659ac4d29ac0f7bfacbc0d6c5a28a03e84c7510e7e556d758d0bb57786e214660016fb94279316
