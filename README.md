@@ -39,7 +39,7 @@ You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](ht
 
 For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and Yarn.
 
-* **N.B.** There seems to be a problem with node v21 and ARM devices. See #627 for more details.
+* **N.B.** There seems to be a problem with node v21 and ARM devices. See [here](https://github.com/HSF/phoenix/issues/627) for more details.
 
 Once you have Node.js and npm (npm comes with Node.js), install Yarn.
 
