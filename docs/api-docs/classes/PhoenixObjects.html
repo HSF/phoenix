@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -101,27 +43,21 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >PhoenixObjects</li>
+  <li>Classes</li>
+  <li >PhoenixObjects</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -141,7 +77,7 @@
 
 
 
-            <section data-compodoc="block-index">
+            <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -242,7 +178,7 @@
 
 
 
-            <section data-compodoc="block-methods">
+            <section>
     
     <h3 id="methods">
         Methods
@@ -253,7 +189,7 @@
                 <td class="col-md-4">
                     <a name="getCaloCell"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getCaloCell</b></span>
                         <a href="#getCaloCell"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -261,60 +197,62 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCaloCell(caloCellParams: literal type)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="647"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:647</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="643"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:643</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Calorimeter cell object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a Calorimeter cell object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>caloCellParams</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>caloCellParams</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Calorimeter Cell object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Calorimeter Cell object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -325,8 +263,8 @@
                 <td class="col-md-4">
                     <a name="getCaloCube"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getCaloCube</b></span>
                         <a href="#getCaloCube"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -334,106 +272,108 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCaloCube(clusterParams: literal type, defaultCellWidth: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, defaultCellLength: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="611"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:611</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="610"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:610</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the cuboid geometry for a Calorimeter hit</p>
+                    <div class="io-description"><p>Get the cuboid geometry for a Calorimeter hit</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Default value</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>clusterParams</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>clusterParams</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                            </td>
+                                    <td>
+                                    </td>
 
-                                            <td>
-                                                    <p>Parameters for the Cluster (can include color)</p>
+                                    <td>
+                                        <p>Parameters for the Cluster (can include color)</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultCellWidth</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultCellWidth</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>30</code>
-                                            </td>
+                                    <td>
+                                        <code>30</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>width of the cuboid</p>
+                                    <td>
+                                        <p>width of the cuboid</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultCellLength</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultCellLength</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>30</code>
-                                            </td>
+                                    <td>
+                                        <code>30</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>length of the cuboid</p>
+                                    <td>
+                                        <p>length of the cuboid</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Geometry.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Geometry.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -444,8 +384,8 @@
                 <td class="col-md-4">
                     <a name="getCaloPosition"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getCaloPosition</b></span>
                         <a href="#getCaloPosition"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -453,125 +393,127 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCaloPosition(clusterParams: literal type, defaultRadius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, defaultZ: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, cylindrical: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="554"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:554</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="553"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:553</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the position for a Calo hit in cartesian coordinates</p>
+                    <div class="io-description"><p>Get the position for a Calo hit in cartesian coordinates</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Default value</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>clusterParams</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>clusterParams</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                            </td>
+                                    <td>
+                                    </td>
 
-                                            <td>
-                                                    <p>Parameters for the Cluster (which must include theta and phi)</p>
+                                    <td>
+                                        <p>Parameters for the Cluster (which must include theta and phi)</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultRadius</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultRadius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>1800</code>
-                                            </td>
+                                    <td>
+                                        <code>1800</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>Default cylindrical radius (rho) where to draw barrel Clusters. Ignored if clusterParams contains radius.</p>
+                                    <td>
+                                        <p>Default cylindrical radius (rho) where to draw barrel Clusters. Ignored if clusterParams contains radius.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultZ</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultZ</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>3600</code>
-                                            </td>
+                                    <td>
+                                        <code>3600</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>Default position along the z axis. Ignored if clusterParams contains z.</p>
+                                    <td>
+                                        <p>Default position along the z axis. Ignored if clusterParams contains z.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>cylindrical</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cylindrical</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>true</code>
-                                            </td>
+                                    <td>
+                                        <code>true</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>If true, if clusterParams do not contain radius and z, then constrain to a cylinder of radius defaultRadius and length z</p>
+                                    <td>
+                                        <p>If true, if clusterParams do not contain radius and z, then constrain to a cylinder of radius defaultRadius and length z</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Corrected cartesian position.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Corrected cartesian position.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -582,7 +524,7 @@
                 <td class="col-md-4">
                     <a name="getCluster"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getCluster</b></span>
                         <a href="#getCluster"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -590,125 +532,127 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCluster(clusterParams: literal type, defaultRadius: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, defaultZ: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, energyScaling: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="503"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:503</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="502"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:502</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Cluster object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a Cluster object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Default value</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>clusterParams</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>clusterParams</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                            </td>
+                                    <td>
+                                    </td>
 
-                                            <td>
-                                                    <p>Parameters for the Cluster.</p>
+                                    <td>
+                                        <p>Parameters for the Cluster.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultRadius</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultRadius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>1800</code>
-                                            </td>
+                                    <td>
+                                        <code>1800</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>Default cylindrical radius (rho) where to draw barrel Clusters.</p>
+                                    <td>
+                                        <p>Default cylindrical radius (rho) where to draw barrel Clusters.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>defaultZ</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>defaultZ</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>3600</code>
-                                            </td>
+                                    <td>
+                                        <code>3600</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>Default plane in z where to draw endcap Clusters.</p>
+                                    <td>
+                                        <p>Default plane in z where to draw endcap Clusters.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>energyScaling</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>energyScaling</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
-                                            <td>
-                                                    <code>0.03</code>
-                                            </td>
+                                    <td>
+                                        <code>0.03</code>
+                                    </td>
 
-                                            <td>
-                                                    <p>Amount to multiply the energy by to get the depth of the cluster.</p>
+                                    <td>
+                                        <p>Amount to multiply the energy by to get the depth of the cluster.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Cluster object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Cluster object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -719,7 +663,7 @@
                 <td class="col-md-4">
                     <a name="getHits"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getHits</b></span>
                         <a href="#getHits"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -727,69 +671,71 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getHits(hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="257"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:257</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="257"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:257</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Hits object according to the given parameters.
+                    <div class="io-description"><p>Create and return a Hits object according to the given parameters.
 Can optionally contain extraInfo, which will be added to the resultant hit.
 <code>type</code> tells Phoenix how to draw this - currently can be Point (default), or Line.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>hitsParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Either an array of positions, or of Hit objects. If objects, they must contain &#39;pos&#39;, the array of [x,y,z] positions,
+                                    <td>
+                                        <p>Either an array of positions, or of Hit objects. If objects, they must contain &#39;pos&#39;, the array of [x,y,z] positions,
 Can optionally contain extraInfo, which will be added to the resultant hit.
 <code>type</code> tells Phoenix how to draw this - currently can be Point (default), or Line.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Hits object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Hits object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -800,7 +746,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getIrregularCaloCell"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getIrregularCaloCell</b></span>
                         <a href="#getIrregularCaloCell"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -808,65 +754,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getIrregularCaloCell(irrCells: literal type)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="867"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:867</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="863"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:863</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.</p>
+                    <div class="io-description"><p>Type for drawing irregular calorimeter cell comprising 8 xyz vertices in arbitrary geometry.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>irrCells</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>irrCells</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Properties of irregular calo cell.</p>
+                                    <td>
+                                        <p>Properties of irregular calo cell.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>the cell</p>
+                    </div>
+                    <div class="io-description">
+                        <p>the cell</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -877,7 +825,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getJet"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getJet</b></span>
                         <a href="#getJet"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -885,65 +833,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getJet(jetParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="198"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Jet object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a Jet object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>jetParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>jetParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters for the Jet.</p>
+                                    <td>
+                                        <p>Parameters for the Jet.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Jet object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Jet object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -954,7 +904,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getMissingEnergy"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getMissingEnergy</b></span>
                         <a href="#getMissingEnergy"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -962,65 +912,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getMissingEnergy(metParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="833"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:833</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="829"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:829</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a MET object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a MET object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>metParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters for the Vertex.</p>
+                                    <td>
+                                        <p>Parameters for the Vertex.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>MET object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>MET object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1031,7 +983,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getPlanarCaloCell"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getPlanarCaloCell</b></span>
                         <a href="#getPlanarCaloCell"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1039,65 +991,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getPlanarCaloCell(caloCells: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="746"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:746</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="741"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:741</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a PlanarCaloCell object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a PlanarCaloCell object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>caloCells</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>caloCells</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters for the Planar Calorimeter.</p>
+                                    <td>
+                                        <p>Parameters for the Planar Calorimeter.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Planar Calorimeter object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Planar Calorimeter object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1108,7 +1062,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getPlanarCaloCells"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getPlanarCaloCells</b></span>
                         <a href="#getPlanarCaloCells"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1116,65 +1070,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getPlanarCaloCells(caloCells: any[])</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="700"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:700</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="695"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:695</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the planar calo cells from parameters.</p>
+                    <div class="io-description"><p>Get the planar calo cells from parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>caloCells</td>
-                                            <td>
-                                                        <code>any[]</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>caloCells</td>
+                                    <td>
+                                            <code>any[]</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters to build planar calo cells.</p>
+                                    <td>
+                                        <p>Parameters to build planar calo cells.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Geometry.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Geometry.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1185,7 +1141,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getTrack"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getTrack</b></span>
                         <a href="#getTrack"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1193,65 +1149,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getTrack(trackParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:102</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:102</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Track object from the given parameters</p>
+                    <div class="io-description"><p>Create and return a Track object from the given parameters</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>trackParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>trackParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters of the Track.</p>
+                                    <td>
+                                        <p>Parameters of the Track.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Track object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Track object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1262,7 +1220,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getTracks"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getTracks</b></span>
                         <a href="#getTracks"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1270,61 +1228,63 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getTracks(tracks)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:43</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:43</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get tracks as three.js obejct.</p>
+                    <div class="io-description"><p>Get tracks as three.js obejct.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>tracks</td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tracks</td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Tracks params to construct tacks from.</p>
+                                    <td>
+                                        <p>Tracks params to construct tacks from.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>The object containing tracks.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>The object containing tracks.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1335,7 +1295,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="getVertex"></a>
                     <span class="name">
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Static</span>
                         <span ><b>getVertex</b></span>
                         <a href="#getVertex"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1343,65 +1303,67 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getVertex(vertexParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="802"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:802</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="797"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:797</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Create and return a Vertex object from the given parameters.</p>
+                    <div class="io-description"><p>Create and return a Vertex object from the given parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>vertexParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>vertexParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters for the Vertex.</p>
+                                    <td>
+                                        <p>Parameters for the Vertex.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Vertex object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Vertex object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1412,8 +1374,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="hitsToBoxes"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>hitsToBoxes</b></span>
                         <a href="#hitsToBoxes"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1421,95 +1383,97 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hitsToBoxes(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="460"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:460</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="459"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:459</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get a Mesh object from Hits parameters. The Mesh is actually a set of boxes, one per hit</p>
+                    <div class="io-description"><p>Get a Mesh object from Hits parameters. The Mesh is actually a set of boxes, one per hit</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>pointPos</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Positions and dimensions of boxes</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>hitsParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters of the Hit.</p>
+                                    <td>
+                                        <p>Positions and dimensions of boxes</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>_hitParamsClone</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
 
-                        </div>
-                            <div class="io-description">
-                                <p>A 3D object of type <code>Mesh</code>.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>_hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                            </div>
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>Mesh</code>.</p>
+
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1520,8 +1484,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="hitsToCircularPoints"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>hitsToCircularPoints</b></span>
                         <a href="#hitsToCircularPoints"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1529,95 +1493,97 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hitsToCircularPoints(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="381"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:381</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="380"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:380</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get a Circular Points object from Hits parameters.</p>
+                    <div class="io-description"><p>Get a Circular Points object from Hits parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>pointPos</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Position of the point.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>hitsParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters of the Hit.</p>
+                                    <td>
+                                        <p>Position of the point.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>_hitParamsClone</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
 
-                        </div>
-                            <div class="io-description">
-                                <p>A 3D object of type <code>Points</code>.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>_hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                            </div>
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>Points</code>.</p>
+
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1628,8 +1594,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="hitsToLines"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>hitsToLines</b></span>
                         <a href="#hitsToLines"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1637,95 +1603,97 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hitsToLines(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="427"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:427</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="426"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:426</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get a Lines object from Hits parameters.</p>
+                    <div class="io-description"><p>Get a Lines object from Hits parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>pointPos</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Position of the HIt.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>hitsParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters of the Hit.</p>
+                                    <td>
+                                        <p>Position of the HIt.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>_hitParamsClone</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
 
-                        </div>
-                            <div class="io-description">
-                                <p>A 3D object of type <code>LineSegments</code>.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>_hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                            </div>
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>LineSegments</code>.</p>
+
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1736,8 +1704,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                 <td class="col-md-4">
                     <a name="hitsToPoints"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Static</span>
+                        <span class="modifier">Private</span>
+                        <span class="modifier">Static</span>
                         <span ><b>hitsToPoints</b></span>
                         <a href="#hitsToPoints"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1745,95 +1713,97 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>hitsToPoints(pointPos: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, hitsParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, _hitParamsClone: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="348"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:348</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">src/loaders/objects/phoenix-objects.ts:348</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get a Points object from Hits parameters.</p>
+                    <div class="io-description"><p>Get a Points object from Hits parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>pointPos</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pointPos</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Position of the point.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>hitsParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters of the Hit.</p>
+                                    <td>
+                                        <p>Position of the point.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>_hitParamsClone</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>hitsParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    <td>
+                                        <p>Parameters of the Hit.</p>
 
-                        </div>
-                            <div class="io-description">
-                                <p>A 3D object of type <code>Points</code>.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>_hitParamsClone</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                            </div>
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>A 3D object of type <code>Points</code>.</p>
+
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1847,7 +1817,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Vector3,
   Object3D,
@@ -1877,7 +1847,7 @@ import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometr
 import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
 import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
 import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
-import { mergeGeometries } from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
+import { mergeBufferGeometries } from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
 import { TracksMaterial, TracksMesh } from &#x27;./tracks&#x27;;
 import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeometryUtils&#x27;;
 
@@ -1991,12 +1961,12 @@ export class PhoenixObjects {
 
     for (let i &#x3D; 0; i &lt; positions.length; i++) {
       points.push(
-        new Vector3(positions[i][0], positions[i][1], positions[i][2]),
+        new Vector3(positions[i][0], positions[i][1], positions[i][2])
       );
       const radius &#x3D; Math.sqrt(
         positions[i][0] * positions[i][0] +
           positions[i][1] * positions[i][1] +
-          positions[i][2] * positions[i][2],
+          positions[i][2] * positions[i][2]
       );
       const thetaFromPos &#x3D; Math.acos(positions[i][2] / radius);
       // const deltaTheta &#x3D; Math.abs(trackParams.dparams[3]-thetaFromPos);
@@ -2063,7 +2033,7 @@ export class PhoenixObjects {
     const translation &#x3D; new Vector3(
       0.5 * length * cphi * stheta,
       0.5 * length * sphi * stheta,
-      0.5 * length * ctheta,
+      0.5 * length * ctheta
     );
 
     const width &#x3D; jetParams.coneR
@@ -2162,25 +2132,25 @@ export class PhoenixObjects {
         return PhoenixObjects.hitsToPoints(
           pointPos,
           hitsParams,
-          hitsParamsClone,
+          hitsParamsClone
         );
       case &#x27;CircularPoint&#x27;:
         return PhoenixObjects.hitsToCircularPoints(
           pointPos,
           hitsParams,
-          hitsParamsClone,
+          hitsParamsClone
         );
       case &#x27;Line&#x27;:
         return PhoenixObjects.hitsToLines(
           pointPos,
           hitsParams,
-          hitsParamsClone,
+          hitsParamsClone
         );
       case &#x27;Box&#x27;:
         return PhoenixObjects.hitsToBoxes(
           pointPos,
           hitsParams,
-          hitsParamsClone,
+          hitsParamsClone
         );
       default:
         console.log(&#x27;ERROR: Unknown hit type!&#x27;);
@@ -2198,16 +2168,15 @@ export class PhoenixObjects {
   private static hitsToPoints(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any,
+    _hitParamsClone: any
   ): Object3D {
     const geometry &#x3D; new BufferGeometry();
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
     geometry.computeBoundingSphere();
     // material
-    const color &#x3D; hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits;
     const material &#x3D; new PointsMaterial({
       size: 10,
-      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: hitsParams[0].color ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const pointsObj &#x3D; new Points(geometry, material);
@@ -2231,7 +2200,7 @@ export class PhoenixObjects {
   private static hitsToCircularPoints(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any,
+    _hitParamsClone: any
   ): Object3D {
     const geometry &#x3D; new BufferGeometry();
     geometry.setAttribute(&#x27;position&#x27;, new BufferAttribute(pointPos, 3));
@@ -2277,7 +2246,7 @@ export class PhoenixObjects {
   private static hitsToLines(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any,
+    _hitParamsClone: any
   ): Object3D {
     // geometry
     const geometry &#x3D; new BufferGeometry();
@@ -2310,7 +2279,7 @@ export class PhoenixObjects {
   private static hitsToBoxes(
     pointPos: any,
     hitsParams: any,
-    _hitParamsClone: any,
+    _hitParamsClone: any
   ): Object3D {
     // geometry
     const geometries &#x3D; [];
@@ -2318,12 +2287,12 @@ export class PhoenixObjects {
       const boxGeometry &#x3D; new BoxGeometry(
         pointPos[i + 3],
         pointPos[i + 4],
-        pointPos[i + 5],
+        pointPos[i + 5]
       );
       boxGeometry.translate(pointPos[i], pointPos[i + 1], pointPos[i + 2]);
       geometries.push(boxGeometry);
     }
-    const geometry &#x3D; mergeGeometries(geometries);
+    const geometry &#x3D; mergeBufferGeometries(geometries);
     geometry.computeBoundingSphere();
     // material
     const material &#x3D; new MeshPhongMaterial({
@@ -2365,7 +2334,7 @@ export class PhoenixObjects {
     },
     defaultRadius: number &#x3D; 1800,
     defaultZ: number &#x3D; 3600,
-    energyScaling: number &#x3D; 0.03,
+    energyScaling: number &#x3D; 0.03
   ): Object3D {
     const clusterLength &#x3D; clusterParams.energy * energyScaling;
     const clusterWidth &#x3D; clusterParams.side ?? 40;
@@ -2374,12 +2343,12 @@ export class PhoenixObjects {
     const cube &#x3D; PhoenixObjects.getCaloCube(
       clusterParams,
       clusterWidth,
-      clusterLength,
+      clusterLength
     );
     const position &#x3D; PhoenixObjects.getCaloPosition(
       clusterParams,
       defaultRadius,
-      defaultZ,
+      defaultZ
     );
 
     cube.position.copy(position);
@@ -2411,7 +2380,7 @@ export class PhoenixObjects {
     },
     defaultRadius: number &#x3D; 1800,
     defaultZ: number &#x3D; 3600,
-    cylindrical: boolean &#x3D; true,
+    cylindrical: boolean &#x3D; true
   ) {
     const theta &#x3D;
       clusterParams.theta ?? CoordinateHelper.etaToTheta(clusterParams.eta);
@@ -2424,26 +2393,26 @@ export class PhoenixObjects {
     const position &#x3D; CoordinateHelper.sphericalToCartesian(
       radius,
       theta,
-      clusterParams.phi,
+      clusterParams.phi
     );
 
     if (clusterParams.z) {
       position.setLength(
-        (position.length() * clusterParams.z) / Math.abs(position.z),
+        (position.length() * clusterParams.z) / Math.abs(position.z)
       );
     }
 
     if (!clusterParams.radius &amp;&amp; !clusterParams.z) {
       if (Math.abs(position.z) &gt; defaultZ) {
         position.setLength(
-          (position.length() * defaultZ) / Math.abs(position.z),
+          (position.length() * defaultZ) / Math.abs(position.z)
         );
       }
       const cylRadius2 &#x3D; position.x * position.x + position.y * position.y;
       const maxR2 &#x3D; defaultRadius * defaultRadius;
       if (cylRadius2 &gt; maxR2) {
         position.setLength(
-          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2),
+          (position.length() * Math.sqrt(maxR2)) / Math.sqrt(cylRadius2)
         );
       }
     }
@@ -2463,10 +2432,9 @@ export class PhoenixObjects {
       length?: number;
       side?: number;
       color?: string;
-      opacity?: number;
     },
     defaultCellWidth: number &#x3D; 30,
-    defaultCellLength: number &#x3D; 30,
+    defaultCellLength: number &#x3D; 30
   ) {
     const cellWidth &#x3D; clusterParams.side ?? defaultCellWidth;
     let cellLength &#x3D; clusterParams.length ?? defaultCellLength;
@@ -2480,8 +2448,6 @@ export class PhoenixObjects {
     // material
     const material &#x3D; new MeshPhongMaterial({
       color: clusterParams.color ?? EVENT_DATA_TYPE_COLORS.CaloClusters,
-      opacity: clusterParams.opacity ?? 1.0,
-      transparent: (clusterParams.opacity ?? 1.0) &#x3D;&#x3D; 1.0 ? false : true,
     });
 
     // object
@@ -2502,7 +2468,6 @@ export class PhoenixObjects {
     z?: number;
     theta?: number;
     color?: string;
-    opacity?: number;
     side?: number;
     length?: number;
     uuid: string;
@@ -2516,12 +2481,12 @@ export class PhoenixObjects {
     const cube &#x3D; PhoenixObjects.getCaloCube(
       caloCellParams,
       defaultSide,
-      defaultLength,
+      defaultLength
     );
     const position &#x3D; PhoenixObjects.getCaloPosition(
       caloCellParams,
       defaultRadius,
-      defaultZ,
+      defaultZ
     );
     cube.position.copy(position);
 
@@ -2565,7 +2530,7 @@ export class PhoenixObjects {
       const qrot &#x3D; new Quaternion();
       qrot.setFromUnitVectors(
         new Vector3(0, 0, 1),
-        new Vector3(...plane.slice(0, 3)),
+        new Vector3(...plane.slice(0, 3))
       );
       geometry.applyQuaternion(qrot);
       geoms.push(geometry);
@@ -2576,8 +2541,8 @@ export class PhoenixObjects {
     });
 
     const outerBox &#x3D; new Mesh(
-      BufferGeometryUtils.mergeGeometries(geoms),
-      material,
+      BufferGeometryUtils.mergeBufferGeometries(geoms),
+      material
     );
 
     outerBox.userData &#x3D; Object.assign({}, caloCells[0]);
@@ -2623,7 +2588,7 @@ export class PhoenixObjects {
     // creating the box in the z direction, and moving it by d, along the z
     const boxPosition &#x3D; new Vector3(
       ...position.slice(0, 2),
-      plane[3] + length / 2,
+      plane[3] + length / 2
     );
 
     box.position.copy(boxPosition);
@@ -2632,7 +2597,7 @@ export class PhoenixObjects {
     const qrot &#x3D; new Quaternion();
     qrot.setFromUnitVectors(
       new Vector3(0, 0, 1),
-      new Vector3(...plane.slice(0, 3)),
+      new Vector3(...plane.slice(0, 3))
     );
 
     outerBox.quaternion.copy(qrot);
@@ -2652,6 +2617,7 @@ export class PhoenixObjects {
   public static getVertex(vertexParams: any): Object3D {
     // geometry
     const geometry &#x3D; new SphereGeometry(vertexParams.size ?? 3);
+    console.log(geometry);
     // material
     const material &#x3D; new MeshPhongMaterial({
       color: vertexParams.color ?? EVENT_DATA_TYPE_COLORS.Vertices,
@@ -2725,7 +2691,7 @@ export class PhoenixObjects {
     const verticesOfCube &#x3D; [];
     for (let i &#x3D; 0; i &lt; 24; i +&#x3D; 3) {
       verticesOfCube.push(
-        new Vector3(irrCells.vtx[i], irrCells.vtx[i + 1], irrCells.vtx[i + 2]),
+        new Vector3(irrCells.vtx[i], irrCells.vtx[i + 1], irrCells.vtx[i + 2])
       );
     }
     const geometry &#x3D; new ConvexGeometry(verticesOfCube);
@@ -2736,7 +2702,7 @@ export class PhoenixObjects {
         irrCells.color[1].toString() +
         &#x27;,&#x27; +
         irrCells.color[2].toString() +
-        &#x27;)&#x27;,
+        &#x27;)&#x27;
     );
 
     // material

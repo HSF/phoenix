@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -101,27 +43,21 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >PhoenixMenuUI</li>
+  <li>Classes</li>
+  <li >PhoenixMenuUI</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -147,7 +83,7 @@
             </p>
 
 
-            <section data-compodoc="block-index">
+            <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -255,7 +191,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
+            <section>
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -327,7 +263,7 @@
         </table>
 </section>
 
-            <section data-compodoc="block-properties">
+            <section>
     
     <h3 id="inputs">
         Properties
@@ -499,7 +435,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-methods">
+            <section>
     
     <h3 id="methods">
         Methods
@@ -510,7 +446,7 @@
                 <td class="col-md-4">
                     <a name="addCollection"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addCollection</b></span>
                         <a href="#addCollection"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -518,112 +454,114 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addCollection(eventDataType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html" target="_self">Cut[]</a>, collectionColor?: Color)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="219"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:219</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:219</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.</p>
+                    <div class="io-description"><p>Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>eventDataType</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventDataType</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Name of the event data type.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>collectionName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Name of the collection to be added in the type of event data (tracks, hits etc.).</p>
+                                    <td>
+                                        <p>Name of the event data type.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>cuts</td>
-                                            <td>
-                                                            <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    Yes
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Cuts to the collection of event data that are to be made configurable to filter event data.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>collectionColor</td>
-                                            <td>
-                                                        <code>Color</code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Default color of the collection.</p>
+                                    <td>
+                                        <p>Name of the collection to be added in the type of event data (tracks, hits etc.).</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cuts</td>
+                                    <td>
+                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Cuts to the collection of event data that are to be made configurable to filter event data.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionColor</td>
+                                    <td>
+                                            <code>Color</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Default color of the collection.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -634,7 +572,7 @@
                 <td class="col-md-4">
                     <a name="addCutOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>addCutOptions</b></span>
                         <a href="#addCutOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -642,94 +580,96 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addCutOptions(collectionNode: <a href="../classes/PhoenixMenuNode.html" target="_self">PhoenixMenuNode</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts: <a href="../classes/Cut.html" target="_self">Cut[]</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:273</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:273</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add Cut Options folder to the menu.</p>
+                    <div class="io-description"><p>Add Cut Options folder to the menu.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>collectionNode</td>
-                                            <td>
-                                                            <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>collectionNode</td>
+                                    <td>
+                                                <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>The parent node to attach folder to</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>collectionName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>The name of the collection</p>
+                                    <td>
+                                        <p>The parent node to attach folder to</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>cuts</td>
-                                            <td>
-                                                            <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    <td>
+                                        <p>The name of the collection</p>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cuts</td>
+                                    <td>
+                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -740,7 +680,7 @@
                 <td class="col-md-4">
                     <a name="addDrawOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>addDrawOptions</b></span>
                         <a href="#addDrawOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -748,80 +688,82 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addDrawOptions(collectionNode: <a href="../classes/PhoenixMenuNode.html" target="_self">PhoenixMenuNode</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="332"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:332</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="332"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:332</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add Draw Options folder to the menu.</p>
+                    <div class="io-description"><p>Add Draw Options folder to the menu.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>collectionNode</td>
-                                            <td>
-                                                            <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>collectionNode</td>
+                                    <td>
+                                                <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>The parent node to attach folder to</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>collectionName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>The name of the collection</p>
+                                    <td>
+                                        <p>The parent node to attach folder to</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>collectionName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The name of the collection</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -832,7 +774,7 @@
                 <td class="col-md-4">
                     <a name="addEventDataFolder"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addEventDataFolder</b></span>
                         <a href="#addEventDataFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -840,29 +782,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addEventDataFolder()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:175</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:175</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add event data folder with functions for event data toggles like show/hide and depthTest.</p>
+                    <div class="io-description"><p>Add event data folder with functions for event data toggles like show/hide and depthTest.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -873,7 +815,7 @@
                 <td class="col-md-4">
                     <a name="addEventDataTypeFolder"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addEventDataTypeFolder</b></span>
                         <a href="#addEventDataTypeFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -881,64 +823,66 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addEventDataTypeFolder(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="201"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:201</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:201</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add folder for event data type like tracks or hits to the menu.</p>
+                    <div class="io-description"><p>Add folder for event data type like tracks or hits to the menu.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>typeName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Name of the type of event data.</p>
+                                    <td>
+                                        <p>Name of the type of event data.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -949,7 +893,7 @@
                 <td class="col-md-4">
                     <a name="addGeometry"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addGeometry</b></span>
                         <a href="#addGeometry"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -957,80 +901,82 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addGeometry(object: Object3D, menuSubfolder?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="116"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:116</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:116</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add geometry to the menu&#39;s geometry folder and set up its configurable options.</p>
+                    <div class="io-description"><p>Add geometry to the menu&#39;s geometry folder and set up its configurable options.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>object</td>
-                                            <td>
-                                                        <code>Object3D</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                            <code>Object3D</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Object to add to the UI menu.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>menuSubfolder</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Subfolder in the menu to add the geometry to. Example <code>Folder &gt; Subfolder</code>.</p>
+                                    <td>
+                                        <p>Object to add to the UI menu.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>menuSubfolder</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Subfolder in the menu to add the geometry to. Example <code>Folder &gt; Subfolder</code>.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1041,7 +987,7 @@
                 <td class="col-md-4">
                     <a name="addGeometryFolder"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addGeometryFolder</b></span>
                         <a href="#addGeometryFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1049,29 +995,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addGeometryFolder()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="63"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:63</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:63</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add geometry (detector geometry) folder to the menu.</p>
+                    <div class="io-description"><p>Add geometry (detector geometry) folder to the menu.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1082,7 +1028,7 @@
                 <td class="col-md-4">
                     <a name="addLabel"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addLabel</b></span>
                         <a href="#addLabel"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1090,80 +1036,82 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, onRemoveLabel?: () => void)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="423"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:423</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="419"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:419</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add folder for configuration of label.</p>
+                    <div class="io-description"><p>Add folder for configuration of label.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>labelId</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labelId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Unique ID of the label.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>onRemoveLabel</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Function called when label is removed.</p>
+                                    <td>
+                                        <p>Unique ID of the label.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onRemoveLabel</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Function called when label is removed.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1174,7 +1122,7 @@
                 <td class="col-md-4">
                     <a name="addLabelsFolder"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>addLabelsFolder</b></span>
                         <a href="#addLabelsFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1182,64 +1130,66 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addLabelsFolder(configFunctions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:373</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="369"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:369</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Add labels folder to the menu.</p>
+                    <div class="io-description"><p>Add labels folder to the menu.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>configFunctions</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>configFunctions</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Functions to attach to the labels folder configuration.</p>
+                                    <td>
+                                        <p>Functions to attach to the labels folder configuration.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1250,7 +1200,7 @@
                 <td class="col-md-4">
                     <a name="clear"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>clear</b></span>
                         <a href="#clear"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1258,29 +1208,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>clear()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="49"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:49</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:49</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Clear the menu by removing all folders.</p>
+                    <div class="io-description"><p>Clear the menu by removing all folders.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1291,7 +1241,7 @@
                 <td class="col-md-4">
                     <a name="getEventDataTypeFolder"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>getEventDataTypeFolder</b></span>
                         <a href="#getEventDataTypeFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1299,65 +1249,67 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getEventDataTypeFolder(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="479"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:479</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="475"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:475</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the folder of the event data type.</p>
+                    <div class="io-description"><p>Get the folder of the event data type.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>typeName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>typeName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Name of the event data type.</p>
+                                    <td>
+                                        <p>Name of the event data type.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Folder of the event data type.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Folder of the event data type.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1368,7 +1320,7 @@
                 <td class="col-md-4">
                     <a name="loadEventFolderState"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>loadEventFolderState</b></span>
                         <a href="#loadEventFolderState"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1376,29 +1328,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>loadEventFolderState()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="488"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:488</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:484</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Load previous state of the event data folder in Phoenix menu if any.</p>
+                    <div class="io-description"><p>Load previous state of the event data folder in Phoenix menu if any.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1409,7 +1361,7 @@
                 <td class="col-md-4">
                     <a name="removeLabel"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>removeLabel</b></span>
                         <a href="#removeLabel"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1417,78 +1369,80 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>removeLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, labelNode?: <a href="../classes/PhoenixMenuNode.html" target="_self">PhoenixMenuNode</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="464"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:464</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="460"
+                            class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:460</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Remove label from the menu and scene if it exists.</p>
+                    <div class="io-description"><p>Remove label from the menu and scene if it exists.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>labelId</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labelId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>A unique label ID string.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>labelNode</td>
-                                            <td>
-                                                            <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    <td>
+                                        <p>A unique label ID string.</p>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>labelNode</td>
+                                    <td>
+                                                <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1502,7 +1456,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   BufferGeometry,
   Color,
@@ -1540,7 +1494,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   constructor(
     private phoenixMenuRoot: PhoenixMenuNode,
-    private three: ThreeManager,
+    private three: ThreeManager
   ) {
     this.geomFolder &#x3D; null;
     this.eventFolder &#x3D; null;
@@ -1573,7 +1527,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         (value) &#x3D;&gt; {
           this.sceneManager.groupVisibility(SceneManager.GEOMETRIES_ID, value);
         },
-        &#x27;perspective&#x27;,
+        &#x27;perspective&#x27;
       );
     }
 
@@ -1594,7 +1548,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         onChange: (value) &#x3D;&gt; {
           this.sceneManager.setGeometryOpacity(
             this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
-            value,
+            value
           );
         },
       })
@@ -1607,7 +1561,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         onChange: (scale) &#x3D;&gt; {
           this.sceneManager.scaleObject(
             this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
-            scale,
+            scale
           );
         },
       });
@@ -1642,7 +1596,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       name.substring(nameStart),
       (value: boolean) &#x3D;&gt; {
         this.sceneManager.objectVisibility(object, value);
-      },
+      }
     );
 
     objFolder.toggleState &#x3D; visible;
@@ -1688,7 +1642,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       (value: boolean) &#x3D;&gt; {
         this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value);
       },
-      &#x27;event-folder&#x27;,
+      &#x27;event-folder&#x27;
     );
     this.eventFolder.addConfig(&#x27;checkbox&#x27;, {
       label: &#x27;Depth Test&#x27;,
@@ -1709,7 +1663,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(typeName),
-        value,
+        value
       );
     });
   }
@@ -1725,10 +1679,10 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
-    collectionColor?: Color,
+    collectionColor?: Color
   ) {
     const typeFolder &#x3D; this.eventFolder.children.find(
-      (eventDataTypeNode) &#x3D;&gt; eventDataTypeNode.name &#x3D;&#x3D;&#x3D; eventDataType,
+      (eventDataTypeNode) &#x3D;&gt; eventDataTypeNode.name &#x3D;&#x3D;&#x3D; eventDataType
     );
 
     if (!typeFolder) {
@@ -1742,7 +1696,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
         this.sceneManager.objectVisibility(collectionObject, value);
-      },
+      }
     );
 
     this.addDrawOptions(collectionNode, collectionName);
@@ -1758,7 +1712,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       colorByOptions.push(
         ColorByOptionKeys.CHARGE,
         ColorByOptionKeys.MOM,
-        ColorByOptionKeys.VERTEX,
+        ColorByOptionKeys.VERTEX
       );
     }
 
@@ -1766,7 +1720,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       this.three.getColorManager(),
       collectionNode,
       collectionColor,
-      colorByOptions,
+      colorByOptions
     );
   }
 
@@ -1778,7 +1732,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
   private addCutOptions(
     collectionNode: PhoenixMenuNode,
     collectionName: string,
-    cuts: Cut[],
+    cuts: Cut[]
   ) {
     const cutsOptionsNode &#x3D; collectionNode.addChild(&#x27;Cut Options&#x27;);
 
@@ -1792,7 +1746,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
           this.sceneManager.groupVisibility(
             collectionName,
             true,
-            SceneManager.EVENT_DATA_ID,
+            SceneManager.EVENT_DATA_ID
           );
 
           for (const cut of cuts) {
@@ -1836,7 +1790,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   private addDrawOptions(
     collectionNode: PhoenixMenuNode,
-    collectionName: string,
+    collectionName: string
   ) {
     const drawOptionsNode &#x3D; collectionNode.addChild(&#x27;Draw Options&#x27;);
 
@@ -1846,16 +1800,12 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       step: 0.1,
       max: 1,
       onChange: (value) &#x3D;&gt; {
-        const eventDataObject &#x3D; this.sceneManager.getObjectByName(
-          SceneManager.EVENT_DATA_ID,
+        this.sceneManager.setGeometryOpacity(
+          this.sceneManager
+            .getObjectByName(SceneManager.EVENT_DATA_ID)
+            .getObjectByName(collectionName),
+          value
         );
-        if (eventDataObject) {
-          const collectionObject &#x3D;
-            eventDataObject.getObjectByName(collectionName);
-          if (collectionObject) {
-            this.sceneManager.setGeometryOpacity(collectionObject, value);
-          }
-        }
       },
     });
 
@@ -1866,7 +1816,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
             .getObjectByName(collectionName),
-          value,
+          value
         ),
     });
   }
@@ -1891,7 +1841,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     this.labelsFolder &#x3D; this.phoenixMenuRoot.addChild(
       SceneManager.LABELS_ID,
       onToggle,
-      &#x27;info&#x27;,
+      &#x27;info&#x27;
     );
 
     this.labelsFolder.addConfig(&#x27;slider&#x27;, {
@@ -1927,7 +1877,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   public addLabel(labelId: string, onRemoveLabel?: () &#x3D;&gt; void) {
     let labelNode &#x3D; this.labelsFolder.children.find(
-      (phoenixMenuNode) &#x3D;&gt; phoenixMenuNode.name &#x3D;&#x3D;&#x3D; labelId,
+      (phoenixMenuNode) &#x3D;&gt; phoenixMenuNode.name &#x3D;&#x3D;&#x3D; labelId
     );
 
     if (labelNode) {
@@ -1947,7 +1897,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       onChange: (value) &#x3D;&gt; {
         this.sceneManager.changeObjectColor(
           this.sceneManager.getObjectByName(labelId),
-          value,
+          value
         );
       },
     });
@@ -1969,7 +1919,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
   public removeLabel(labelId: string, labelNode?: PhoenixMenuNode) {
     if (!labelNode) {
       labelNode &#x3D; this.labelsFolder?.children.find(
-        (singleLabelNode) &#x3D;&gt; singleLabelNode.name &#x3D;&#x3D;&#x3D; labelId,
+        (singleLabelNode) &#x3D;&gt; singleLabelNode.name &#x3D;&#x3D;&#x3D; labelId
       );
     }
 
@@ -1983,7 +1933,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
     return this.eventFolder.children.find(
-      (eventDataTypeNode) &#x3D;&gt; eventDataTypeNode.name &#x3D;&#x3D;&#x3D; typeName,
+      (eventDataTypeNode) &#x3D;&gt; eventDataTypeNode.name &#x3D;&#x3D;&#x3D; typeName
     );
   }
 

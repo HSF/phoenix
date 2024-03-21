@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -101,27 +43,21 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >SelectionManager</li>
+  <li>Classes</li>
+  <li >SelectionManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -141,7 +77,7 @@
 
 
 
-            <section data-compodoc="block-index">
+            <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -218,16 +154,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#disableHighlighting" >disableHighlighting</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#disableSelecting" >disableSelecting</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#enableHighlighting" >enableHighlighting</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -269,7 +197,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
+            <section>
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -294,7 +222,7 @@
         </table>
 </section>
 
-            <section data-compodoc="block-properties">
+            <section>
     
     <h3 id="inputs">
         Properties
@@ -750,7 +678,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-methods">
+            <section>
     
     <h3 id="methods">
         Methods
@@ -759,50 +687,9 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="disableHighlighting"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>disableHighlighting</b></span>
-                        <a href="#disableHighlighting"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>disableHighlighting()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="260"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:260</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Disable highlighting of objects.</p>
-</div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="disableSelecting"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>disableSelecting</b></span>
                         <a href="#disableSelecting"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -810,70 +697,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>disableSelecting()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="128"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:128</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:128</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Disable selecting of event display elements and remove mouse move and click events.</p>
+                    <div class="io-description"><p>Disable selecting of event display elements and remove mouse move and click events.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="enableHighlighting"></a>
-                    <span class="name">
-                            <span class="modifier">Public</span>
-                        <span ><b>enableHighlighting</b></span>
-                        <a href="#enableHighlighting"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>enableHighlighting()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="238"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:238</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Enable highlighting of the objects.</p>
-</div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -884,7 +730,7 @@
                 <td class="col-md-4">
                     <a name="enableSelecting"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>enableSelecting</b></span>
                         <a href="#enableSelecting"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -892,29 +738,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>enableSelecting()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="111"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:111</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:111</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Enable selecting of event display elements and set mouse move and click events.</p>
+                    <div class="io-description"><p>Enable selecting of event display elements and set mouse move and click events.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -925,7 +771,7 @@
                 <td class="col-md-4">
                     <a name="getActiveObjectId"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>getActiveObjectId</b></span>
                         <a href="#getActiveObjectId"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -933,33 +779,35 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getActiveObjectId()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="94"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:94</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:94</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the uuid of the currently selected object.</p>
+                    <div class="io-description"><p>Get the uuid of the currently selected object.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/ActiveVariable.html" target="_self" >ActiveVariable&lt;string&gt;</a></code>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/ActiveVariable.html" target="_self" >ActiveVariable&lt;string&gt;</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>uuid of the currently selected object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>uuid of the currently selected object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -970,7 +818,7 @@
                 <td class="col-md-4">
                     <a name="highlightObject"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>highlightObject</b></span>
                         <a href="#highlightObject"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -978,82 +826,84 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>highlightObject(uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectsGroup: Object3D)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="249"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:249</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:241</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Highlight the object with the given uuid by giving it an outline.
+                    <div class="io-description"><p>Highlight the object with the given uuid by giving it an outline.
 with the given uuid.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>uuid</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>uuid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>uuid of the object.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>objectsGroup</td>
-                                            <td>
-                                                        <code>Object3D</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Group of objects to be traversed for finding the object
+                                    <td>
+                                        <p>uuid of the object.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>objectsGroup</td>
+                                    <td>
+                                            <code>Object3D</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Group of objects to be traversed for finding the object
 with the given uuid.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1064,7 +914,7 @@ with the given uuid.</p>
                 <td class="col-md-4">
                     <a name="init"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>init</b></span>
                         <a href="#init"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1072,114 +922,116 @@ with the given uuid.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>init(camera: Camera, scene: Scene, effectsManager: <a href="../classes/EffectsManager.html" target="_self">EffectsManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="65"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:65</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:65</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initialize the selection manager.
+                    <div class="io-description"><p>Initialize the selection manager.
 like outline pass and unreal bloom.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>camera</td>
-                                            <td>
-                                                        <code>Camera</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>camera</td>
+                                    <td>
+                                            <code>Camera</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>The camera inside the scene.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>scene</td>
-                                            <td>
-                                                        <code>Scene</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>The scene used for event display.</p>
+                                    <td>
+                                        <p>The camera inside the scene.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>effectsManager</td>
-                                            <td>
-                                                            <code><a href="../classes/EffectsManager.html" target="_self" >EffectsManager</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>scene</td>
+                                    <td>
+                                            <code>Scene</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Manager for managing three.js event display effects
+                                    <td>
+                                        <p>The scene used for event display.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>effectsManager</td>
+                                    <td>
+                                                <code><a href="../classes/EffectsManager.html" target="_self" >EffectsManager</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Manager for managing three.js event display effects
 like outline pass and unreal bloom.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>infoLogger</td>
-                                            <td>
-                                                            <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>infoLogger</td>
+                                    <td>
+                                                <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Service for logging data to the information panel.</p>
+                                    <td>
+                                        <p>Service for logging data to the information panel.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1190,7 +1042,7 @@ like outline pass and unreal bloom.</p>
                 <td class="col-md-4">
                     <a name="intersectObject"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>intersectObject</b></span>
                         <a href="#intersectObject"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1198,65 +1050,67 @@ like outline pass and unreal bloom.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>intersectObject(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:218</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:218</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Check if any object intersects on mouse move.</p>
+                    <div class="io-description"><p>Check if any object intersects on mouse move.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>event</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Event containing data of the mouse move.</p>
+                                    <td>
+                                        <p>Event containing data of the mouse move.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Object3D</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Object3D</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Intersected or hovered over object.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>Intersected or hovered over object.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1267,7 +1121,7 @@ like outline pass and unreal bloom.</p>
                 <td class="col-md-4">
                     <a name="setSelectedObject"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>setSelectedObject</b></span>
                         <a href="#setSelectedObject"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1275,64 +1129,66 @@ like outline pass and unreal bloom.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>setSelectedObject(selectedObject: literal type)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="83"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:83</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:83</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Set the currently selected object.</p>
+                    <div class="io-description"><p>Set the currently selected object.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>selectedObject</td>
-                                            <td>
-                                                        <code>literal type</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selectedObject</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>The currently selected object.</p>
+                                    <td>
+                                        <p>The currently selected object.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1343,7 +1199,7 @@ like outline pass and unreal bloom.</p>
                 <td class="col-md-4">
                     <a name="setSelecting"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>setSelecting</b></span>
                         <a href="#setSelecting"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1351,64 +1207,66 @@ like outline pass and unreal bloom.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>setSelecting(enable: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:102</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">src/managers/three-manager/selection-manager.ts:102</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Set if selecting is to be enabled or disabled.</p>
+                    <div class="io-description"><p>Set if selecting is to be enabled or disabled.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>enable</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>enable</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>If selecting is to be enabled or disabled.</p>
+                                    <td>
+                                        <p>If selecting is to be enabled or disabled.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1422,7 +1280,7 @@ like outline pass and unreal bloom.</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Vector2,
   Raycaster,
@@ -1491,7 +1349,7 @@ export class SelectionManager {
     camera: Camera,
     scene: Scene,
     effectsManager: EffectsManager,
-    infoLogger: InfoLogger,
+    infoLogger: InfoLogger
   ) {
     this.camera &#x3D; camera;
     this.scene &#x3D; scene;
@@ -1586,13 +1444,13 @@ export class SelectionManager {
       this.selectedObject.name &#x3D; intersectedObject.name;
       this.selectedObject.attributes.splice(
         0,
-        this.selectedObject.attributes.length,
+        this.selectedObject.attributes.length
       );
 
       this.activeObject.update(intersectedObject.uuid);
 
       const prettyParams &#x3D; PrettySymbols.getPrettyParams(
-        intersectedObject.userData,
+        intersectedObject.userData
       );
 
       for (const key of Object.keys(prettyParams)) {
@@ -1608,7 +1466,7 @@ export class SelectionManager {
           // Only take properties that are a string or number (no arrays or objects)
           if (
             [&#x27;string&#x27;, &#x27;number&#x27;].includes(
-              typeof intersectedObject.userData[key],
+              typeof intersectedObject.userData[key]
             )
           ) {
             return key + &#x27;&#x3D;&#x27; + intersectedObject.userData[key];
@@ -1658,14 +1516,6 @@ export class SelectionManager {
   }
 
   /**
-   * Enable highlighting of the objects.
-   */
-  public enableHighlighting() {
-    this.preSelectionAntialias &#x3D; this.effectsManager.antialiasing;
-    this.effectsManager.setAntialiasing(false);
-  }
-
-  /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
    * @param objectsGroup Group of objects to be traversed for finding the object
@@ -1675,16 +1525,7 @@ export class SelectionManager {
     const object &#x3D; objectsGroup.getObjectByProperty(&#x27;uuid&#x27;, uuid);
     if (object) {
       this.outlinePass.selectedObjects &#x3D; [object];
-      this.activeObject.update(object.uuid);
     }
-  }
-
-  /**
-   * Disable highlighting of objects.
-   */
-  public disableHighlighting() {
-    this.outlinePass.selectedObjects &#x3D; [];
-    this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
 }
 </code></pre>

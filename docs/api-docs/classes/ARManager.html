@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -101,27 +43,21 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >ARManager</li>
+  <li>Classes</li>
+  <li >ARManager</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -142,12 +78,12 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                            <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+                        <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
             </p>
 
 
 
-            <section data-compodoc="block-index">
+            <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -253,7 +189,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
+            <section>
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -325,7 +261,7 @@
         </table>
 </section>
 
-            <section data-compodoc="block-properties">
+            <section>
     
     <h3 id="inputs">
         Properties
@@ -740,7 +676,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-methods">
+            <section>
     
     <h3 id="methods">
         Methods
@@ -751,7 +687,7 @@
                 <td class="col-md-4">
                     <a name="onXRSessionEnded"></a>
                     <span class="name">
-                            <span class="modifier">Protected</span>
+                        <span class="modifier">Protected</span>
                         <span ><b>onXRSessionEnded</b></span>
                         <a href="#onXRSessionEnded"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -759,35 +695,35 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>onXRSessionEnded()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:67</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:64</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Callback when the AR session ends.</p>
+                    <div class="io-description"><p>Callback when the AR session ends.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -798,8 +734,8 @@
                 <td class="col-md-4">
                     <a name="onXRSessionStarted"></a>
                     <span class="name">
-                            <span class="modifier">Protected</span>
-                            <span class="modifier">Async</span>
+                        <span class="modifier">Protected</span>
+                        <span class="modifier">Async</span>
                         <span ><b>onXRSessionStarted</b></span>
                         <a href="#onXRSessionStarted"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -807,70 +743,72 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>onXRSessionStarted(session: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:53</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:50</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Callback for when the AR session is started.</p>
+                    <div class="io-description"><p>Callback for when the AR session is started.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>session</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>session</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>The AR session.</p>
+                                    <td>
+                                        <p>The AR session.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -881,7 +819,7 @@
                 <td class="col-md-4">
                     <a name="scaleScene"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>scaleScene</b></span>
                         <a href="#scaleScene"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -889,64 +827,66 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>scaleScene(scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="78"
-                                    class="link-to-prism">src/managers/three-manager/xr/ar-manager.ts:78</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">src/managers/three-manager/xr/ar-manager.ts:75</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Scale the three.js scene.</p>
+                    <div class="io-description"><p>Scale the three.js scene.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>scale</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scale</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Number to scale the scene to.</p>
+                                    <td>
+                                        <p>Number to scale the scene to.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -957,7 +897,7 @@
                 <td class="col-md-4">
                     <a name="endXRSession"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>endXRSession</b></span>
                         <a href="#endXRSession"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -965,35 +905,35 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>endXRSession()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:99</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:99</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>End the current XR session.</p>
+                    <div class="io-description"><p>End the current XR session.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1004,7 +944,7 @@
                 <td class="col-md-4">
                     <a name="getCameraGroup"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>getCameraGroup</b></span>
                         <a href="#getCameraGroup"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1012,72 +952,74 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCameraGroup(camera?: Camera)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:109</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:109</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the group containing the camera for XR.
+                    <div class="io-description"><p>Get the group containing the camera for XR.
 XR camera works by adding a Group with Camera to the scene.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>camera</td>
-                                            <td>
-                                                        <code>Camera</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>camera</td>
+                                    <td>
+                                            <code>Camera</code>
+                                    </td>
 
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        Yes
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Camera which is to be cloned for XR use.</p>
+                                    <td>
+                                        <p>Camera which is to be cloned for XR use.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Group</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Group</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>The camera group used in XR mode.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>The camera group used in XR mode.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1088,7 +1030,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
                 <td class="col-md-4">
                     <a name="getXRCamera"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>getXRCamera</b></span>
                         <a href="#getXRCamera"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1096,39 +1038,41 @@ XR camera works by adding a Group with Camera to the scene.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getXRCamera()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:135</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:135</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get the camera used by XR.</p>
+                    <div class="io-description"><p>Get the camera used by XR.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>Camera</code>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Camera</code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>The camera used by XR.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>The camera used by XR.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1139,7 +1083,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
                 <td class="col-md-4">
                     <a name="setXRSession"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                        <span class="modifier">Public</span>
                         <span ><b>setXRSession</b></span>
                         <a href="#setXRSession"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1147,102 +1091,104 @@ XR camera works by adding a Group with Camera to the scene.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>setXRSession(renderer: WebGLRenderer, onSessionStarted?: () => void, onSessionEnded?: () => void)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/XRManager.html" target="_self" >XRManager</a></code>
 </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:53</a></code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/XRManager.html#source" target="_self" >XRManager:53</a></code>
 </div>
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Set and configure the XR session.</p>
+                    <div class="io-description"><p>Set and configure the XR session.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>renderer</td>
-                                            <td>
-                                                        <code>WebGLRenderer</code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>renderer</td>
+                                    <td>
+                                            <code>WebGLRenderer</code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Renderer to set the XR session for.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>onSessionStarted</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                            </td>
-
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Callback to call when the XR session starts.</p>
+                                    <td>
+                                        <p>Renderer to set the XR session for.</p>
 
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>onSessionEnded</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                            </td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onSessionStarted</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
 
-                                            <td>
-                                                    Yes
-                                            </td>
+                                    <td>
+                                        Yes
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Callback to call when the XR session ends.</p>
+                                    <td>
+                                        <p>Callback to call when the XR session starts.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>onSessionEnded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Callback to call when the XR session ends.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1256,7 +1202,7 @@ XR camera works by adding a Group with Camera to the scene.</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PerspectiveCamera, Scene } from &#x27;three&#x27;;
 import { SceneManager } from &#x27;../scene-manager&#x27;;
 import { XRManager, XRSessionType } from &#x27;./xr-manager&#x27;;
@@ -1286,10 +1232,7 @@ export class ARManager extends XRManager {
    * @param camera Camera in the scene.
    * @override
    */
-  constructor(
-    private scene: Scene,
-    private camera: PerspectiveCamera,
-  ) {
+  constructor(private scene: Scene, private camera: PerspectiveCamera) {
     super(XRSessionType.AR);
 
     this.previousValues.sceneScale &#x3D; scene.scale.x;

@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="./" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -89,18 +31,18 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<h1>Phoenix event display</h1>
+<h1 id="phoenix-event-display">Phoenix event display</h1>
 <p><a href="https://www.npmjs.com/package/phoenix-event-display"><img src="https://img.shields.io/npm/v/phoenix-event-display.svg" alt="Version" class="img-responsive"></a>
 <a href="https://www.npmjs.com/package/phoenix-event-display"><img src="https://img.shields.io/npm/dt/phoenix-event-display.svg" alt="Downloads" class="img-responsive"></a>
-<a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/main/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a></p>
+<a href="https://hepsoftwarefoundation.org/phoenix/api-docs/coverage.html"><img src="https://raw.github.com/HSF/phoenix/master/docs/api-docs/images/coverage-badge-documentation.svg" alt="Documentation Coverage" class="img-responsive"></a></p>
 <p>A highly modular and API driven experiment independent event display that uses <a href="https://threejs.org">three.js</a> for processing and presenting detector geometry and event data.</p>
 <p>To use in your application, install the package.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">npm install phoenix-event-display
+<div><pre class="line-numbers"><code class="language-sh">npm install phoenix-event-display
 # or
-yarn add phoenix-event-display</code></pre></div><h2>Usage</h2>
-<h3>As a module</h3>
+yarn add phoenix-event-display</code></pre></div><h2 id="usage">Usage</h2>
+<h3 id="as-a-module">As a module</h3>
 <p>To create a simple event display.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-js">// Import required classes
+<div><pre class="line-numbers"><code class="language-js">// Import required classes
 import { EventDisplay, PhoenixLoader } from &#39;phoenix-event-display&#39;;
 
 // Create the event display
@@ -127,13 +69,13 @@ fetch(&#39;path/to/event-data.json&#39;)
 eventDisplay.loadOBJGeometry(
   &#39;path/to/geometry.obj&#39;,
   &#39;Detector OBJ&#39;,
-  0x8c8c8c /* color */,
-);</code></pre></div><h3>As a standalone bundle</h3>
+  0x8c8c8c /* color */
+);</code></pre></div><h3 id="as-a-standalone-bundle">As a standalone bundle</h3>
 <p>Phoenix can be bundled and used directly in the HTML as a script along with <a href="https://threejs.org">three.js</a>. You can either use the <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a> or build from source.</p>
 <p>To build Phoenix as a bundle.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-sh">yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix.min.js</code> in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
+<div><pre class="line-numbers"><code class="language-sh">yarn build:bundle</code></pre></div><p>This will generate a file <code>phoenix.min.js</code> in the <a href="./dist/bundle">./dist/bundle</a> directory which can be included in your HTML code.</p>
 <p>Without building, you can include the bundle directly from <a href="https://cdn.jsdelivr.net/npm/phoenix-event-display/dist/bundle/phoenix.min.js">CDN</a>.</p>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-html">&lt;html lang=&quot;en&quot;&gt;
+<div><pre class="line-numbers"><code class="language-html">&lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
     ...
   &lt;/head&gt;
@@ -161,10 +103,10 @@ eventDisplay.loadOBJGeometry(
       // ... other event display functions
     &lt;/script&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre></div><h3>Examples</h3>
+&lt;/html&gt;</code></pre></div><h3 id="examples">Examples</h3>
 <ul>
-<li><a href="https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
-<li><a href="https://github.com/9inpachi/phoenix-react/blob/main/src/App.js#L6-L31">Usage in React</a></li>
+<li><a href="https://github.com/HSF/phoenix/blob/master/packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts">Usage in Angular (as a service)</a></li>
+<li><a href="https://github.com/9inpachi/phoenix-react/blob/master/src/App.js#L6-L31">Usage in React</a></li>
 </ul>
 
 

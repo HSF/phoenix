@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="./styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="./" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -108,7 +50,7 @@
 
 
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Documentation coverage</li>
+    <li>Documentation coverage</li>
 </ol>
 
 <div>
@@ -134,7 +76,7 @@
             <td>EventDisplay</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(59/59)</span>
+                <span class="coverage-count">(58/58)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -374,7 +316,7 @@
             <td>CMSLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(35/35)</span>
+                <span class="coverage-count">(33/33)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -386,7 +328,7 @@
             <td>Edm4hepJsonLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(43/43)</span>
+                <span class="coverage-count">(40/40)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -410,7 +352,7 @@
             <td>JiveXMLLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(45/45)</span>
+                <span class="coverage-count">(43/43)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -422,7 +364,7 @@
             <td>JSRootEventLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(30/30)</span>
+                <span class="coverage-count">(28/28)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -482,7 +424,7 @@
             <td>PhoenixLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(23/23)</span>
+                <span class="coverage-count">(21/21)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -506,7 +448,7 @@
             <td>TrackmlLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(30/30)</span>
+                <span class="coverage-count">(28/28)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -626,7 +568,7 @@
             <td>ThreeManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(96/96)</span>
+                <span class="coverage-count">(68/68)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -650,7 +592,7 @@
             <td>SceneManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(54/54)</span>
+                <span class="coverage-count">(42/42)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -662,7 +604,7 @@
             <td>SelectionManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(25/25)</span>
+                <span class="coverage-count">(23/23)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -734,7 +676,7 @@
             <td>UIManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(48/48)</span>
+                <span class="coverage-count">(40/40)</span>
             </td>
         </tr>
         <tr class="very-good">

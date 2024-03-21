@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -101,27 +43,21 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Classes</li>
-  <li class="breadcrumb-item" >ColorOptions</li>
+  <li>Classes</li>
+  <li >ColorOptions</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -141,7 +77,7 @@
 
 
 
-            <section data-compodoc="block-index">
+            <section>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -245,7 +181,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-constructor">
+            <section>
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -347,7 +283,7 @@
         </table>
 </section>
 
-            <section data-compodoc="block-properties">
+            <section>
     
     <h3 id="inputs">
         Properties
@@ -610,7 +546,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#ColorByOptionKeys" target="_self" >ColorByOptionKeys</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ColorByOption" target="_self" >ColorByOptionKeys</a></code>
 
                     </td>
                 </tr>
@@ -631,7 +567,7 @@
     </table>
 </section>
 
-            <section data-compodoc="block-methods">
+            <section>
     
     <h3 id="methods">
         Methods
@@ -642,7 +578,7 @@
                 <td class="col-md-4">
                     <a name="applyChargeColorOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>applyChargeColorOptions</b></span>
                         <a href="#applyChargeColorOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -650,29 +586,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>applyChargeColorOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:176</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:176</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Apply charge color options.</p>
+                    <div class="io-description"><p>Apply charge color options.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -683,7 +619,7 @@
                 <td class="col-md-4">
                     <a name="applyMomColorOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>applyMomColorOptions</b></span>
                         <a href="#applyMomColorOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -691,29 +627,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>applyMomColorOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="246"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:246</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="246"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:246</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Apply momentum color options.</p>
+                    <div class="io-description"><p>Apply momentum color options.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -724,7 +660,7 @@
                 <td class="col-md-4">
                     <a name="applyVertexColorOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>applyVertexColorOptions</b></span>
                         <a href="#applyVertexColorOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -732,29 +668,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>applyVertexColorOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="293"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:293</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="293"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:293</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Apply color by vertex to tracks.</p>
+                    <div class="io-description"><p>Apply color by vertex to tracks.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -765,7 +701,7 @@
                 <td class="col-md-4">
                     <a name="colorByMomentum"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>colorByMomentum</b></span>
                         <a href="#colorByMomentum"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -773,66 +709,68 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>colorByMomentum(minOrMax: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="256"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:256</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:256</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Color event data based on the momentum property of each object.
+                    <div class="io-description"><p>Color event data based on the momentum property of each object.
 This is to apply the stored momentum colors for minimum and maximum separated at the mid value.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>minOrMax</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>minOrMax</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>If the momentum to color objects by is minimum or maximum momentum.
+                                    <td>
+                                        <p>If the momentum to color objects by is minimum or maximum momentum.
 This is to apply the stored momentum colors for minimum and maximum separated at the mid value.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -843,7 +781,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="getMomentum"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>getMomentum</b></span>
                         <a href="#getMomentum"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -851,65 +789,67 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getMomentum(objectParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="282"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:282</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="282"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:282</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Get momentum from object parameters.</p>
+                    <div class="io-description"><p>Get momentum from object parameters.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>objectParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>objectParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Parameters associated to the 3D object.</p>
+                                    <td>
+                                        <p>Parameters associated to the 3D object.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                <p>THe momentum value.</p>
+                    </div>
+                    <div class="io-description">
+                        <p>THe momentum value.</p>
 
-                            </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -920,7 +860,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="initChargeColorOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>initChargeColorOptions</b></span>
                         <a href="#initChargeColorOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -928,29 +868,29 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initChargeColorOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="150"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:150</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:150</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initialize charge color options.</p>
+                    <div class="io-description"><p>Initialize charge color options.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -961,7 +901,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="initColorByOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>initColorByOptions</b></span>
                         <a href="#initColorByOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -969,29 +909,29 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initColorByOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="124"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:124</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:124</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initialize the color options.</p>
+                    <div class="io-description"><p>Initialize the color options.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1002,7 +942,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="initMomColorOptions"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>initMomColorOptions</b></span>
                         <a href="#initMomColorOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1010,29 +950,29 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>initMomColorOptions()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="207"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:207</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:207</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Initialize momentum color options.</p>
+                    <div class="io-description"><p>Initialize momentum color options.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1043,7 +983,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="onlySelectedColorByOption"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>onlySelectedColorByOption</b></span>
                         <a href="#onlySelectedColorByOption"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1051,29 +991,29 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>onlySelectedColorByOption()</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="300"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:300</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:300</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Show configs of only the currently selected color by option.</p>
+                    <div class="io-description"><p>Show configs of only the currently selected color by option.</p>
 </div>
 
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                        </div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1084,7 +1024,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
                 <td class="col-md-4">
                     <a name="shouldColorByCharge"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
+                        <span class="modifier">Private</span>
                         <span ><b>shouldColorByCharge</b></span>
                         <a href="#shouldColorByCharge"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1092,81 +1032,83 @@ This is to apply the stored momentum colors for minimum and maximum separated at
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>shouldColorByCharge(objectParams: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, chargeValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="193"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:193</a></div>
-                        </td>
-                    </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">src/managers/ui-manager/color-options.ts:193</a></div>
+                </td>
+            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Check if object should be colored based on charge value.</p>
+                    <div class="io-description"><p>Check if object should be colored based on charge value.</p>
 </div>
 
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                                <td>Description</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>objectParams</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>objectParams</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
 
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Object parameters associated to the 3D object.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>chargeValue</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
+                                    <td>
+                                        No
+                                    </td>
 
 
-                                            <td>
-                                                    <p>Value of charge (-1, 0, 1).</p>
+                                    <td>
+                                        <p>Object parameters associated to the 3D object.</p>
 
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>chargeValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
 
-                        </div>
-                            <div class="io-description">
-                                <p>Whether the charge is equal to the value.</p>
+                                    <td>
+                                        No
+                                    </td>
 
-                            </div>
+
+                                    <td>
+                                        <p>Value of charge (-1, 0, 1).</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Whether the charge is equal to the value.</p>
+
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -1180,7 +1122,7 @@ This is to apply the stored momentum colors for minimum and maximum separated at
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Color } from &#x27;three&#x27;;
 import { PrettySymbols } from &#x27;../../helpers/pretty-symbols&#x27;;
 import { ColorManager } from &#x27;../three-manager/color-manager&#x27;;
@@ -1266,7 +1208,7 @@ export class ColorOptions {
     private colorManager: ColorManager,
     collectionFolder: PhoenixMenuNode,
     collectionColor: Color,
-    colorByOptionsToInclude?: ColorByOptionKeys[],
+    colorByOptionsToInclude?: ColorByOptionKeys[]
   ) {
     this.collectionName &#x3D; collectionFolder.name;
     this.colorOptionsFolder &#x3D; collectionFolder.addChild(&#x27;Color Options&#x27;);
@@ -1290,12 +1232,12 @@ export class ColorOptions {
 
     if (colorByOptionsToInclude?.length &gt; 0) {
       this.colorByOptions &#x3D; this.allColorByOptions.filter((colorByOption) &#x3D;&gt;
-        colorByOptionsToInclude.includes(colorByOption.key),
+        colorByOptionsToInclude.includes(colorByOption.key)
       );
 
       this.initColorByOptions();
       this.colorByOptions.forEach((colorByOption) &#x3D;&gt;
-        colorByOption.initialize?.(),
+        colorByOption.initialize?.()
       );
       this.onlySelectedColorByOption();
     }
@@ -1314,7 +1256,7 @@ export class ColorOptions {
       options: this.colorByOptions.map((colorByOption) &#x3D;&gt; colorByOption.name),
       onChange: (updatedColorByOption) &#x3D;&gt; {
         const newColorByOption &#x3D; this.colorByOptions.find(
-          (colorByOption) &#x3D;&gt; colorByOption.name &#x3D;&#x3D;&#x3D; updatedColorByOption,
+          (colorByOption) &#x3D;&gt; colorByOption.name &#x3D;&#x3D;&#x3D; updatedColorByOption
         );
 
         this.selectedColorByOption &#x3D; newColorByOption?.key;
@@ -1345,7 +1287,7 @@ export class ColorOptions {
               color,
               this.collectionName,
               (objectUserData) &#x3D;&gt;
-                this.shouldColorByCharge(objectUserData, chargeValue),
+                this.shouldColorByCharge(objectUserData, chargeValue)
             );
           }
         },
@@ -1362,7 +1304,7 @@ export class ColorOptions {
         this.chargeColors[chargeValue],
         this.collectionName,
         (objectUserData) &#x3D;&gt;
-          this.shouldColorByCharge(objectUserData, chargeValue),
+          this.shouldColorByCharge(objectUserData, chargeValue)
       );
     });
   }
@@ -1453,7 +1395,7 @@ export class ColorOptions {
         ) {
           return true;
         }
-      },
+      }
     );
   }
 

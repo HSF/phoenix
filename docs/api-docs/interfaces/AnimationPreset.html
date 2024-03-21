@@ -12,66 +12,8 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avaoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -102,29 +44,23 @@
 
 
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Interfaces</li>
-  <li class="breadcrumb-item"
+  <li>Interfaces</li>
+  <li
   >
   AnimationPreset</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="c-info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -142,7 +78,7 @@
             </p>
 
 
-        <section data-compodoc="block-index">
+        <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -189,7 +125,7 @@
 
 
 
-            <section data-compodoc="block-properties">
+            <section>
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -361,7 +297,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
+    <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Easing, Tween } from &#x27;@tweenjs/tween.js&#x27;;
 import {
   TubeGeometry,
@@ -408,7 +344,7 @@ export class AnimationsManager {
   constructor(
     private scene: Scene,
     private activeCamera: Camera,
-    private rendererManager: RendererManager,
+    private rendererManager: RendererManager
   ) {
     this.animateEvent &#x3D; this.animateEvent.bind(this);
     this.animateEventWithClipping &#x3D; this.animateEventWithClipping.bind(this);
@@ -424,11 +360,11 @@ export class AnimationsManager {
   public getCameraTween(
     pos: number[],
     duration: number &#x3D; 1000,
-    easing?: typeof Easing.Linear.None,
+    easing?: typeof Easing.Linear.None
   ) {
     const tween &#x3D; new Tween(this.activeCamera.position).to(
       { x: pos[0], y: pos[1], z: pos[2] },
-      duration,
+      duration
     );
 
     if (easing) {
@@ -447,7 +383,7 @@ export class AnimationsManager {
   public animateThroughEvent(
     startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () &#x3D;&gt; void,
+    onAnimationEnd?: () &#x3D;&gt; void
   ) {
     // Move to start
     const start &#x3D; this.getCameraTween(startPos, 1000, Easing.Cubic.Out);
@@ -473,7 +409,7 @@ export class AnimationsManager {
     const rotateStart &#x3D; this.getCameraTween(
       [0, 0, radius],
       tweenDuration,
-      Easing.Cubic.Out,
+      Easing.Cubic.Out
     );
 
     let rotate &#x3D; rotateStart;
@@ -492,7 +428,7 @@ export class AnimationsManager {
     const startClone &#x3D; this.getCameraTween(
       startPos,
       tweenDuration,
-      Easing.Cubic.Out,
+      Easing.Cubic.Out
     );
     startClone.onComplete(() &#x3D;&gt; onAnimationEnd?.());
     startClone.delay(500);
@@ -514,7 +450,7 @@ export class AnimationsManager {
   public animateEvent(
     tweenDuration: number,
     onEnd?: () &#x3D;&gt; void,
-    onAnimationStart?: () &#x3D;&gt; void,
+    onAnimationStart?: () &#x3D;&gt; void
   ) {
     const extraAnimationSphereDuration &#x3D; tweenDuration * 0.25;
     tweenDuration *&#x3D; 0.75;
@@ -550,7 +486,7 @@ export class AnimationsManager {
                 {
                   progress: 1,
                 },
-                tweenDuration,
+                tweenDuration
               );
               eventObjectTween.onComplete(() &#x3D;&gt; {
                 eventObject.material.progress &#x3D; 1;
@@ -560,12 +496,12 @@ export class AnimationsManager {
               const oldDrawRangeCount &#x3D; eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
               const eventObjectTween &#x3D; new Tween(
-                eventObject.geometry.drawRange,
+                eventObject.geometry.drawRange
               ).to(
                 {
                   count: geometryPosCount,
                 },
-                tweenDuration,
+                tweenDuration
               );
               eventObjectTween.onComplete(() &#x3D;&gt; {
                 eventObject.geometry.drawRange.count &#x3D; oldDrawRangeCount;
@@ -586,7 +522,7 @@ export class AnimationsManager {
               y: eventObject.scale.y,
               z: eventObject.scale.z,
             },
-            tweenDuration,
+            tweenDuration
           );
           // Manually updating scale since we need to change position
           scaleTween.onUpdate((updatedScale: Vector3) &#x3D;&gt; {
@@ -600,7 +536,7 @@ export class AnimationsManager {
           allTweens.push(scaleTween);
         } else {
           const hasPosition &#x3D; !eventObject.position.equals(
-            new Vector3(0, 0, 0),
+            new Vector3(0, 0, 0)
           );
           let position &#x3D; hasPosition
             ? eventObject.position
@@ -609,7 +545,7 @@ export class AnimationsManager {
           // Edit geometry for hits
           if (eventObject.name &#x3D;&#x3D;&#x3D; &#x27;Hit&#x27;) {
             position &#x3D; Array.from(
-              eventObject.geometry.attributes[&#x27;position&#x27;].array,
+              eventObject.geometry.attributes[&#x27;position&#x27;].array
             );
             eventObject.geometry.deleteAttribute(&#x27;position&#x27;);
             eventObject.geometry.computeBoundingSphere();
@@ -630,7 +566,7 @@ export class AnimationsManager {
     // Tween for the animation sphere
     const animationSphereTween &#x3D; new Tween(animationSphere).to(
       { radius: 3000 },
-      tweenDuration,
+      tweenDuration
     );
 
     const onAnimationSphereUpdate &#x3D; (updateAnimationSphere: Sphere) &#x3D;&gt; {
@@ -641,8 +577,8 @@ export class AnimationsManager {
           const hitsPositions &#x3D; this.getHitsPositions(obj.position);
           const reachedHits &#x3D; hitsPositions.filter((hitPosition) &#x3D;&gt;
             updateAnimationSphere.containsPoint(
-              new Vector3().fromArray(hitPosition),
-            ),
+              new Vector3().fromArray(hitPosition)
+            )
           );
 
           if (reachedHits.length &gt; 0) {
@@ -650,8 +586,8 @@ export class AnimationsManager {
               &#x27;position&#x27;,
               new BufferAttribute(
                 new Float32Array([].concat(...reachedHits)),
-                3,
-              ),
+                3
+              )
             );
             geometry.computeBoundingSphere();
           }
@@ -666,7 +602,7 @@ export class AnimationsManager {
     // Animation sphere tween after covering the tracks
     const animationSphereTweenClone &#x3D; new Tween(animationSphere).to(
       { radius: 10000 },
-      extraAnimationSphereDuration,
+      extraAnimationSphereDuration
     );
     animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
 
@@ -701,7 +637,7 @@ export class AnimationsManager {
     tweenDuration: number,
     onEnd?: () &#x3D;&gt; void,
     onAnimationStart?: () &#x3D;&gt; void,
-    clippingConstant: number &#x3D; 11000,
+    clippingConstant: number &#x3D; 11000
   ) {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
@@ -738,7 +674,7 @@ export class AnimationsManager {
       animationClipPlane.constant &#x3D; 0;
       const tween &#x3D; new Tween(animationClipPlane).to(
         { constant: clippingConstant },
-        tweenDuration,
+        tweenDuration
       );
       allTweens.push(tween);
     }
@@ -779,7 +715,7 @@ export class AnimationsManager {
     particleSize: number &#x3D; 10,
     distanceFromOrigin: number &#x3D; 5000,
     particleColor: Color &#x3D; new Color(0xffffff),
-    onEnd?: () &#x3D;&gt; void,
+    onEnd?: () &#x3D;&gt; void
   ) {
     const particleGeometry &#x3D; new SphereGeometry(particleSize, 32, 32);
     const particleMaterial &#x3D; new MeshBasicMaterial({
@@ -806,7 +742,7 @@ export class AnimationsManager {
           {
             opacity: 1,
           },
-          300,
+          300
         )
         .start();
 
@@ -815,7 +751,7 @@ export class AnimationsManager {
           {
             z: 0,
           },
-          tweenDuration,
+          tweenDuration
         )
         .start();
 
@@ -838,10 +774,10 @@ export class AnimationsManager {
     animationFunction: (
       tweenDuration: number,
       onEnd?: () &#x3D;&gt; void,
-      onAnimationStart?: () &#x3D;&gt; void,
+      onAnimationStart?: () &#x3D;&gt; void
     ) &#x3D;&gt; void,
     tweenDuration: number,
-    onEnd?: () &#x3D;&gt; void,
+    onEnd?: () &#x3D;&gt; void
   ) {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
@@ -885,12 +821,12 @@ export class AnimationsManager {
    */
   public animateClippingWithCollision(
     tweenDuration: number,
-    onEnd?: () &#x3D;&gt; void,
+    onEnd?: () &#x3D;&gt; void
   ) {
     this.animateWithCollision(
       this.animateEventWithClipping,
       tweenDuration,
-      onEnd,
+      onEnd
     );
   }
 
@@ -929,7 +865,7 @@ export class AnimationsManager {
     const firstTween &#x3D; this.getCameraTween(
       positions[0].position,
       positions[0].duration ?? 2000,
-      positions[0].easing,
+      positions[0].easing
     );
 
     let previousTween &#x3D; firstTween;
