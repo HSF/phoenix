@@ -20,7 +20,7 @@ export class CycleEventsComponent implements OnInit {
   active: boolean = false;
   reloading: boolean = false;
 
-  private intervalId: NodeJS.Timer;
+  private intervalId: NodeJS.Timeout;
 
   private events: string[];
 
