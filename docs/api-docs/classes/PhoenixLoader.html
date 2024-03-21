@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -43,21 +101,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Classes</li>
-  <li >PhoenixLoader</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >PhoenixLoader</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -83,7 +147,7 @@
             </p>
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -164,6 +228,14 @@
                                 <a href="#getCompound" >getCompound</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getCompoundCluster" >getCompoundCluster</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getCompoundTrack" >getCompoundTrack</a>
+                            </li>
+                            <li>
                                 <a href="#getEventMetadata" >getEventMetadata</a>
                             </li>
                             <li>
@@ -194,7 +266,7 @@
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -219,7 +291,7 @@
         </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -429,7 +501,7 @@
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -440,7 +512,7 @@
                 <td class="col-md-4">
                     <a name="addCollection"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>addCollection</b></span>
                         <a href="#addCollection"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -448,130 +520,142 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="509"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:509</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="509"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:509</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds to the event display all the objects inside a collection.</p>
+                        <div class="io-description"><p>Adds to the event display all the objects inside a collection.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>objectCollection</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>objectCollection</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Contains the params for every object of the collection.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>collectionName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Label to UNIQUELY identify the collection.</p>
+                                            <td>
+                                                    <p>Contains the params for every object of the collection.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>getObject</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>collectionName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Handles reconstructing the objects of the collection.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>objectGroup</td>
-                                    <td>
-                                            <code>Group</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Group containing the collections of the same object type.</p>
+                                            <td>
+                                                    <p>Label to UNIQUELY identify the collection.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>concatonateObjs</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>getObject</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits).</p>
+                                            <td>
+                                                    <p>Handles reconstructing the objects of the collection.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>typeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>objectGroup</td>
+                                            <td>
+                                                        <code>Group</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Group containing the collections of the same object type.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>concatonateObjs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits).</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -582,7 +666,7 @@
                 <td class="col-md-4">
                     <a name="addLabelToEventObject"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addLabelToEventObject</b></span>
                         <a href="#addLabelToEventObject"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -590,99 +674,97 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addLabelToEventObject(label: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, collection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, indexInCollection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="695"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:695</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="726"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:726</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add label of event object to the labels object.</p>
+                        <div class="io-description"><p>Add label of event object to the labels object.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>label</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>label</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Label to be saved.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>collection</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Collection the event object is a part of.</p>
+                                            <td>
+                                                    <p>Label to be saved.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>indexInCollection</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>collection</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Event object&#39;s index in collection.</p>
+                                            <td>
+                                                    <p>Collection the event object is a part of.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>indexInCollection</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>A unique label ID string.</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>Event object&#39;s index in collection.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A unique label ID string.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -693,7 +775,7 @@
                 <td class="col-md-4">
                     <a name="addObjectType"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>addObjectType</b></span>
                         <a href="#addObjectType"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -701,160 +783,158 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addObjectType(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, getObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, cuts?: <a href="../classes/Cut.html" target="_self">Cut[]</a>, extendEventDataTypeUI?: (typeFolder?: GUI,typeFolderPM?: <a href="../classes/PhoenixMenuNode.html">PhoenixMenuNode</a>) => void)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="447"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:447</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="446"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:446</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Adds to the event display all collections of a given object type.</p>
+                        <div class="io-description"><p>Adds to the event display all collections of a given object type.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Default value</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>object</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Contains all collections of a given type (Tracks, Jets, CaloClusters...).</p>
+                                            <td>
+                                                    <p>Contains all collections of a given type (Tracks, Jets, CaloClusters...).</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>getObject</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>getObject</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Function that handles of reconstructing objects of the given type.</p>
+                                            <td>
+                                                    <p>Function that handles of reconstructing objects of the given type.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>typeName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>typeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Label for naming the object type.</p>
+                                            <td>
+                                                    <p>Label for naming the object type.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>concatonateObjs</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>concatonateObjs</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                        <code>false</code>
-                                    </td>
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
 
-                                    <td>
-                                        <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits). Default is false.</p>
+                                            <td>
+                                                    <p>If true, don&#39;t process objects individually, but process as a group (e.g. for point hits). Default is false.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>cuts</td>
-                                    <td>
-                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>cuts</td>
+                                            <td>
+                                                            <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Filters that can be applied to the objects.</p>
+                                            <td>
+                                                    <p>Filters that can be applied to the objects.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>extendEventDataTypeUI</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>extendEventDataTypeUI</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    Yes
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>A callback to add more options to event data type UI folder.</p>
+                                            <td>
+                                                    <p>A callback to add more options to event data type UI folder.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -865,7 +945,7 @@
                 <td class="col-md-4">
                     <a name="addScaleOptions"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addScaleOptions</b></span>
                         <a href="#addScaleOptions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -873,99 +953,97 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addScaleOptions(configKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, configLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scaleFunction: (value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>) => void)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="729"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:729</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="760"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:760</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get function to add options to scale event object type by.</p>
+                        <div class="io-description"><p>Get function to add options to scale event object type by.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>configKey</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>configKey</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Key of the scale configuration option (for dat.GUI menu).</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>configLabel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Label of the scale configuration option.</p>
+                                            <td>
+                                                    <p>Key of the scale configuration option (for dat.GUI menu).</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>scaleFunction</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>configLabel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Function to scale the objects by.</p>
+                                            <td>
+                                                    <p>Label of the scale configuration option.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >(typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>scaleFunction</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Function which adds scale options to Phoenix menu and dat.GUI menu.</p>
+                                            <td>
+                                                    No
+                                            </td>
 
-                    </div>
+
+                                            <td>
+                                                    <p>Function to scale the objects by.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >(typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Function which adds scale options to Phoenix menu and dat.GUI menu.</p>
+
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -976,7 +1054,7 @@
                 <td class="col-md-4">
                     <a name="buildEventData"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>buildEventData</b></span>
                         <a href="#buildEventData"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -984,115 +1062,113 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>buildEventData(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, graphicsLibrary: <a href="../classes/ThreeManager.html" target="_self">ThreeManager</a>, ui: <a href="../classes/UIManager.html" target="_self">UIManager</a>, infoLogger: <a href="../classes/InfoLogger.html" target="_self">InfoLogger</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:50</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:50</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Takes an object that represents ONE event and takes care of adding
+                        <div class="io-description"><p>Takes an object that represents ONE event and takes care of adding
 the different objects to the graphics library and the UI controls.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventData</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Object representing the event.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>graphicsLibrary</td>
-                                    <td>
-                                                <code><a href="../classes/ThreeManager.html" target="_self" >ThreeManager</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Service containing functionality to draw the 3D objects.</p>
+                                            <td>
+                                                    <p>Object representing the event.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ui</td>
-                                    <td>
-                                                <code><a href="../classes/UIManager.html" target="_self" >UIManager</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>graphicsLibrary</td>
+                                            <td>
+                                                            <code><a href="../classes/ThreeManager.html" target="_self" >ThreeManager</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Service for showing menus and controls to manipulate the geometries.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>infoLogger</td>
-                                    <td>
-                                                <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Service for logging data to the information panel.</p>
+                                            <td>
+                                                    <p>Service containing functionality to draw the 3D objects.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>ui</td>
+                                            <td>
+                                                            <code><a href="../classes/UIManager.html" target="_self" >UIManager</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Service for showing menus and controls to manipulate the geometries.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>infoLogger</td>
+                                            <td>
+                                                            <code><a href="../classes/InfoLogger.html" target="_self" >InfoLogger</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Service for logging data to the information panel.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1103,7 +1179,7 @@ the different objects to the graphics library and the UI controls.</p>
                 <td class="col-md-4">
                     <a name="getCollection"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getCollection</b></span>
                         <a href="#getCollection"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1111,67 +1187,65 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCollection(collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:126</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:126</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get the collection with the given collection name from the event data.</p>
+                        <div class="io-description"><p>Get the collection with the given collection name from the event data.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>collectionName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Name of the collection to get.</p>
+                                            <td>
+                                                    <p>Name of the collection to get.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>An object containing the collection.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>An object containing the collection.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1182,7 +1256,7 @@ the different objects to the graphics library and the UI controls.</p>
                 <td class="col-md-4">
                     <a name="getCollections"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getCollections</b></span>
                         <a href="#getCollections"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1190,35 +1264,33 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getCollections()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:102</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="102"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:102</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get list of collections in the event data.</p>
+                        <div class="io-description"><p>Get list of collections in the event data.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>List of all collection names.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>List of all collection names.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1229,7 +1301,7 @@ the different objects to the graphics library and the UI controls.</p>
                 <td class="col-md-4">
                     <a name="getCompound"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>getCompound</b></span>
                         <a href="#getCompound"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1237,68 +1309,298 @@ the different objects to the graphics library and the UI controls.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCompound(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCompound(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectIsTrack: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, objectIsCluster: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="561"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:561</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="574"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:574</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Process the compound object (e.g. Muon, Electron, Photon) from the given parameters and get it as a group.
+                        <div class="io-description"><p>Process the compound object (e.g. Muon, Electron, Photon) from the given parameters and get it as a group.
 FIXME. This is currently here and not in PhoenixObjects because we need to handle linked objects.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>params</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>Parameters of the Muon.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>objectIsTrack</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>objectIsCluster</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>false</code>
+                                            </td>
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Object3D</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Muon group containing Clusters and Tracks.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCompoundCluster"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>getCompoundCluster</b></span>
+                        <a href="#getCompoundCluster"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCompoundCluster(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
 
 
-                                    <td>
-                                        <p>Parameters of the Muon.</p>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="564"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:564</a></div>
+                        </td>
+                    </tr>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Object3D</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Muon group containing Clusters and Tracks.</p>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Process the compound object of cluster type (e.g. Photon, ..) from the given parameters and get it as a group.</p>
+</div>
 
-                    </div>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Object3D</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCompoundTrack"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>getCompoundTrack</b></span>
+                        <a href="#getCompoundTrack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCompoundTrack(params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="558"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:558</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Process the compound object of track type (e.g. Muon, Electron, ..) from the given parameters and get it as a group.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>params</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Object3D</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1321,29 +1623,27 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="641"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:641</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="672"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:672</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get metadata associated to the event (experiment info, time, run, event...).</p>
+                        <div class="io-description"><p>Get metadata associated to the event (experiment info, time, run, event...).</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>any[]</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>any[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Metadata of the event.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Metadata of the event.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1354,7 +1654,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                 <td class="col-md-4">
                     <a name="getEventsList"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getEventsList</b></span>
                         <a href="#getEventsList"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1362,67 +1662,65 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getEventsList(eventsData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:86</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="86"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:86</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get the list of event names from the event data.</p>
+                        <div class="io-description"><p>Get the list of event names from the event data.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventsData</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventsData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Object containing all event data.</p>
+                                            <td>
+                                                    <p>Object containing all event data.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>List of event names.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>List of event names.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1433,7 +1731,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                 <td class="col-md-4">
                     <a name="getLabelsObject"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getLabelsObject</b></span>
                         <a href="#getLabelsObject"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1441,35 +1739,33 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getLabelsObject()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="718"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:718</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="749"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:749</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get the object containing labels.</p>
+                        <div class="io-description"><p>Get the object containing labels.</p>
 </div>
 
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>The labels object.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>The labels object.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1480,7 +1776,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                 <td class="col-md-4">
                     <a name="getObjectTypeCollections"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>getObjectTypeCollections</b></span>
                         <a href="#getObjectTypeCollections"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1488,67 +1784,65 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getObjectTypeCollections(object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="543"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:543</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="544"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:544</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get collection names of a given object type.</p>
+                        <div class="io-description"><p>Get collection names of a given object type.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>object</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Contains all collections of a given type (Tracks, Jets, CaloClusters etc.).</p>
+                                            <td>
+                                                    <p>Contains all collections of a given type (Tracks, Jets, CaloClusters etc.).</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>List of collection names of an object type (Tracks, Jets, CaloClusters etc.).</p>
+                        </div>
+                            <div class="io-description">
+                                <p>List of collection names of an object type (Tracks, Jets, CaloClusters etc.).</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1559,7 +1853,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                 <td class="col-md-4">
                     <a name="loadObjectTypes"></a>
                     <span class="name">
-                        <span class="modifier">Protected</span>
+                            <span class="modifier">Protected</span>
                         <span ><b>loadObjectTypes</b></span>
                         <a href="#loadObjectTypes"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1567,67 +1861,65 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>loadObjectTypes(eventData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">src/loaders/phoenix-loader.ts:147</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:147</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Receives an object containing the data from an event and parses it
+                        <div class="io-description"><p>Receives an object containing the data from an event and parses it
 to reconstruct the different collections of physics objects.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventData</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventData</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Representing ONE event (expressed in the Phoenix format).</p>
+                                            <td>
+                                                    <p>Representing ONE event (expressed in the Phoenix format).</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1641,7 +1933,7 @@ to reconstruct the different collections of physics objects.</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Group, Object3D, Vector3 } from &#x27;three&#x27;;
 import { GUI } from &#x27;dat.gui&#x27;;
 import { EventDataLoader } from &#x27;./event-data-loader&#x27;;
@@ -1695,7 +1987,7 @@ export class PhoenixLoader implements EventDataLoader {
     eventData: any,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
-    infoLogger: InfoLogger
+    infoLogger: InfoLogger,
   ): void {
     this.graphicsLibrary &#x3D; graphicsLibrary;
     this.ui &#x3D; ui;
@@ -1809,9 +2101,8 @@ export class PhoenixLoader implements EventDataLoader {
         PhoenixObjects.getTrack,
         &#x27;Tracks&#x27;,
         false,
-        cuts
+        cuts,
       );
-      // infoLogger.add(&#x27;Got &#x27; + Object.keys(eventData.Tracks).length + &#x27; Track collections.&#x27;);
     }
 
     if (eventData.Jets) {
@@ -1828,7 +2119,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addJetsSizeOption &#x3D; this.addScaleOptions(
         &#x27;jetsScale&#x27;,
         &#x27;Jets Scale&#x27;,
-        scaleJets
+        scaleJets,
       );
 
       this.addObjectType(
@@ -1837,7 +2128,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;Jets&#x27;,
         false,
         cuts,
-        addJetsSizeOption
+        addJetsSizeOption,
       );
     }
 
@@ -1862,7 +2153,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addCaloClusterOptions &#x3D; this.addScaleOptions(
         &#x27;caloClustersScale&#x27;,
         &#x27;CaloClusters Scale&#x27;,
-        scaleCaloClusters
+        scaleCaloClusters,
       );
 
       this.addObjectType(
@@ -1871,7 +2162,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;CaloClusters&#x27;,
         false,
         cuts,
-        addCaloClusterOptions
+        addCaloClusterOptions,
       );
     }
 
@@ -1891,7 +2182,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addCaloCellOptions &#x3D; this.addScaleOptions(
         &#x27;caloCellsScale&#x27;,
         &#x27;CaloCells Scale&#x27;,
-        scaleCaloCells
+        scaleCaloCells,
       );
 
       // FIXME! Need to pass the radius in.
@@ -1901,7 +2192,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;CaloCells&#x27;,
         false,
         cuts,
-        addCaloCellOptions
+        addCaloCellOptions,
       );
     }
 
@@ -1917,7 +2208,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addPlanarCaloCellsOptions &#x3D; this.addScaleOptions(
         &#x27;planarCaloCellsScale&#x27;,
         &#x27;PlanarCaloCells Scale&#x27;,
-        scalePlanarCaloCells
+        scalePlanarCaloCells,
       );
 
       const collections &#x3D; {};
@@ -1927,7 +2218,7 @@ export class PhoenixLoader implements EventDataLoader {
         const unitVector &#x3D; new Vector3(...plane.slice(0, 3)).normalize();
 
         collection[&#x27;cells&#x27;].forEach(
-          (cell: any) &#x3D;&gt; (cell[&#x27;plane&#x27;] &#x3D; [...unitVector.toArray(), plane[3]])
+          (cell: any) &#x3D;&gt; (cell[&#x27;plane&#x27;] &#x3D; [...unitVector.toArray(), plane[3]]),
         );
 
         collections[collectionName] &#x3D; collection[&#x27;cells&#x27;];
@@ -1939,7 +2230,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;PlanarCaloCells&#x27;,
         false,
         cuts,
-        addPlanarCaloCellsOptions
+        addPlanarCaloCellsOptions,
       );
     }
 
@@ -1955,7 +2246,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addIrregularCaloCellOptions &#x3D; this.addScaleOptions(
         &#x27;IrregularCaloCellsScale&#x27;,
         &#x27;IrregularCaloCells Scale&#x27;,
-        scaleIrregularCaloCells
+        scaleIrregularCaloCells,
       );
 
       this.addObjectType(
@@ -1964,7 +2255,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;IrregularCaloCells&#x27;,
         false,
         cuts,
-        addIrregularCaloCellOptions
+        addIrregularCaloCellOptions,
       );
     }
 
@@ -1977,10 +2268,10 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Muons,
-        this.getCompound,
+        this.getCompoundTrack,
         &#x27;Muons&#x27;,
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -1993,10 +2284,10 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Photons,
-        this.getCompound,
+        this.getCompoundCluster,
         &#x27;Photons&#x27;,
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -2009,10 +2300,10 @@ export class PhoenixLoader implements EventDataLoader {
       ];
       this.addObjectType(
         eventData.Electrons,
-        this.getCompound,
+        this.getCompoundTrack,
         &#x27;Electrons&#x27;,
         false,
-        cuts
+        cuts,
       );
     }
 
@@ -2027,7 +2318,7 @@ export class PhoenixLoader implements EventDataLoader {
       const addVerticesOptions &#x3D; this.addScaleOptions(
         &#x27;verticesScale&#x27;,
         &#x27;Vertices Scale&#x27;,
-        scaleVertices
+        scaleVertices,
       );
 
       this.addObjectType(
@@ -2036,14 +2327,14 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;Vertices&#x27;,
         false,
         cuts,
-        addVerticesOptions
+        addVerticesOptions,
       );
     }
 
     if (eventData.MissingEnergy) {
       const addMETSizeOption &#x3D; (
         typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode
+        typeFolderPM: PhoenixMenuNode,
       ) &#x3D;&gt; {
         const scaleMET &#x3D; (value: number) &#x3D;&gt; {
           this.graphicsLibrary
@@ -2074,7 +2365,7 @@ export class PhoenixLoader implements EventDataLoader {
         &#x27;MissingEnergy&#x27;,
         false,
         [],
-        addMETSizeOption
+        addMETSizeOption,
       );
     }
   }
@@ -2096,8 +2387,8 @@ export class PhoenixLoader implements EventDataLoader {
     cuts?: Cut[],
     extendEventDataTypeUI?: (
       typeFolder?: GUI,
-      typeFolderPM?: PhoenixMenuNode
-    ) &#x3D;&gt; void
+      typeFolderPM?: PhoenixMenuNode,
+    ) &#x3D;&gt; void,
   ) {
     const objectGroup &#x3D; this.graphicsLibrary.addEventDataTypeGroup(typeName);
     const collectionsList: string[] &#x3D; this.getObjectTypeCollections(object);
@@ -2107,7 +2398,7 @@ export class PhoenixLoader implements EventDataLoader {
     for (const collectionName of collectionsList) {
       const objectCollection &#x3D; object[collectionName];
       console.log(
-        &#x60;${typeName} collection ${collectionName} has ${objectCollection.length} constituents.&#x60;
+        &#x60;${typeName} collection ${collectionName} has ${objectCollection.length} constituents.&#x60;,
       );
 
       if (objectCollection.length &#x3D;&#x3D; 0) {
@@ -2119,8 +2410,9 @@ export class PhoenixLoader implements EventDataLoader {
         objectCollection,
         collectionName,
         getObject,
+        typeName,
         objectGroup,
-        concatonateObjs
+        concatonateObjs,
       );
 
       cuts &#x3D; cuts?.filter((cut) &#x3D;&gt; cut.field in objectCollection[0]);
@@ -2138,7 +2430,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     extendEventDataTypeUI?.(
       eventDataTypeFolderDatGUI,
-      eventDataTypeFolderPhoenixMenu
+      eventDataTypeFolderPhoenixMenu,
     );
   }
 
@@ -2154,21 +2446,22 @@ export class PhoenixLoader implements EventDataLoader {
     objectCollection: any,
     collectionName: string,
     getObject: (object: any) &#x3D;&gt; Object3D,
+    typeName: string,
     objectGroup: Group,
-    concatonateObjs: boolean
+    concatonateObjs: boolean,
   ) {
     const collscene &#x3D; new Group();
     collscene.name &#x3D; collectionName;
 
     if (concatonateObjs) {
       //in this case, we just pass the entire collection in
-      const object &#x3D; getObject.bind(this)(objectCollection);
+      const object &#x3D; getObject.bind(this)(objectCollection, typeName);
       if (object) {
         collscene.add(object);
       }
     } else {
       for (const objectParams of objectCollection) {
-        const object &#x3D; getObject.bind(this)(objectParams);
+        const object &#x3D; getObject.bind(this)(objectParams, typeName);
         if (object) {
           collscene.add(object);
         }
@@ -2196,15 +2489,34 @@ export class PhoenixLoader implements EventDataLoader {
     return collectionsList;
   }
 
+  /** Process the compound object of track type (e.g. Muon, Electron, ..) from the given parameters and get it as a group.
+   */
+  protected getCompoundTrack(params: any, name &#x3D; &#x27;&#x27;): Object3D {
+    return this.getCompound(params, name, true, false);
+  }
+
+  /** Process the compound object of cluster type (e.g. Photon, ..) from the given parameters and get it as a group.
+   */
+  protected getCompoundCluster(params: any, name &#x3D; &#x27;&#x27;): Object3D {
+    return this.getCompound(params, name, false, true);
+  }
+
   /**
    * Process the compound object (e.g. Muon, Electron, Photon) from the given parameters and get it as a group.
    * FIXME. This is currently here and not in PhoenixObjects because we need to handle linked objects.
    * @param params Parameters of the Muon.
    * @returns Muon group containing Clusters and Tracks.
    */
-  protected getCompound(params: any): Object3D {
+  protected getCompound(
+    params: any,
+    name &#x3D; &#x27;&#x27;,
+    objectIsTrack: boolean &#x3D; false,
+    objectIsCluster: boolean &#x3D; false,
+  ): Object3D {
     const scene &#x3D; new Group();
-    if (&#x27;LinkedClusters&#x27; in params) {
+    // Try to find a linked cluster if possible, and draw this.
+    // If not (and if this makes sense), try to make a cluster from the compound object itself
+    if (&#x27;LinkedClusters&#x27; in params &amp;&amp; params.LinkedClusters) {
       for (const clusterID of params.LinkedClusters) {
         const clusterColl &#x3D; clusterID.split(&#x27;:&#x27;)[0];
         const clusterIndex &#x3D; clusterID.split(&#x27;:&#x27;)[1];
@@ -2219,13 +2531,24 @@ export class PhoenixLoader implements EventDataLoader {
             this.eventData.CaloClusters[clusterColl][clusterIndex];
           if (clusterParams) {
             const cluster &#x3D; PhoenixObjects.getCluster(clusterParams);
+            cluster.name &#x3D; name + &#x27; Cluster&#x27;;
             scene.add(cluster);
           }
         }
       }
+    } else if (objectIsCluster) {
+      const clusterParams &#x3D; {
+        energy: params?.energy,
+        phi: params?.phi,
+        eta: params?.eta,
+      };
+      const cluster &#x3D; PhoenixObjects.getCluster(clusterParams);
+      cluster.name &#x3D; name + &#x27; Cluster&#x27;;
+      scene.add(cluster);
     }
-    let addedTrack &#x3D; false;
-    if (&#x27;LinkedTracks&#x27; in params) {
+    // Try to find a linked track if possible, and draw this.
+    // If not (and if this makes sense), try to extrapolate the compound object itself
+    if (&#x27;LinkedTracks&#x27; in params &amp;&amp; params.LinkedTracks) {
       for (const trackID of params.LinkedTracks) {
         const trackColl &#x3D; trackID.split(&#x27;:&#x27;)[0];
         const trackIndex &#x3D; trackID.split(&#x27;:&#x27;)[1];
@@ -2240,17 +2563,16 @@ export class PhoenixLoader implements EventDataLoader {
           if (trackParams) {
             const track &#x3D; PhoenixObjects.getTrack(trackParams);
             if (track) {
+              track.name &#x3D; name + &#x27; Track&#x27;;
               scene.add(track);
-              addedTrack &#x3D; true;
             } else {
               console.log(&#x27;WARNING: failed to get a track back.&#x27;);
             }
           }
         }
       }
-    }
-    if (!addedTrack) {
-      // Let&#x27;s try to extrapolate one.
+    } else if (objectIsTrack) {
+      // We don&#x27;t have links to any track, but maybe we can extrapolate something reasonable?
       // ATLAS JiveXML have the following: energy, eta, phi, pt
       const startPos &#x3D; new Vector3(0, 0, 0);
       const theta &#x3D; CoordinateHelper.etaToTheta(params.eta);
@@ -2266,6 +2588,7 @@ export class PhoenixLoader implements EventDataLoader {
 
       const track &#x3D; PhoenixObjects.getTrack(trackparams);
       if (track) {
+        track.name &#x3D; name + &#x27; Track&#x27;;
         scene.add(track);
       } else {
         console.log(&#x27;WARNING: failed to get a track back.&#x27;);
@@ -2273,7 +2596,7 @@ export class PhoenixLoader implements EventDataLoader {
     }
     // uuid for selection of compound obj from the collections info panel
     params.uuid &#x3D; scene.uuid;
-    scene.name &#x3D; &#x27;CompoundObj&#x27;;
+    scene.name &#x3D; name;
     // add to scene
     return scene;
   }
@@ -2339,7 +2662,7 @@ export class PhoenixLoader implements EventDataLoader {
   public addLabelToEventObject(
     label: string,
     collection: string,
-    indexInCollection: number
+    indexInCollection: number,
   ): string {
     for (const eventDataType in this.eventData) {
       if (this.eventData?.[eventDataType]?.[collection]) {
@@ -2373,7 +2696,7 @@ export class PhoenixLoader implements EventDataLoader {
   public addScaleOptions(
     configKey: string,
     configLabel: string,
-    scaleFunction: (value: number) &#x3D;&gt; void
+    scaleFunction: (value: number) &#x3D;&gt; void,
   ) {
     return (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) &#x3D;&gt; {
       // dat.GUI menu
