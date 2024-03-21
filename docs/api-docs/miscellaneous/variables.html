@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -49,11 +107,11 @@
 
 
 <ol class="breadcrumb">
-  <li>Miscellaneous</li>
-  <li>Variables</li>
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
 </ol>
 
-<section>
+<section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -95,7 +153,7 @@
 </section>
 
     <h3>src/managers/ui-manager/index.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -174,7 +232,7 @@
     </table>
 </section>
     <h3>src/helpers/constants.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -218,7 +276,7 @@
     </table>
 </section>
     <h3>src/helpers/browser-storage.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -285,7 +343,7 @@
     </table>
 </section>
     <h3>src/helpers/labels.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -302,7 +360,7 @@
                         <i>Default value : </i><code>(
   eventDataType: string,
   collection: string,
-  index: string | number
+  index: string | number,
 ) &#x3D;&gt; &#x60;${eventDataType} &gt; ${collection} &gt; ${index}&#x60;</code>
                     </td>
                 </tr>
@@ -318,7 +376,7 @@
     </table>
 </section>
     <h3>src/helpers/file.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -334,7 +392,7 @@
                     <td class="col-md-4">
                         <i>Default value : </i><code>(
   onFileRead: (data: string) &#x3D;&gt; void,
-  contentType: string &#x3D; &#x27;application/json&#x27;
+  contentType: string &#x3D; &#x27;application/json&#x27;,
 ) &#x3D;&gt; {
   // Create a mock input file element and use that to read the file
   let inputFile &#x3D; document.createElement(&#x27;input&#x27;);
@@ -352,6 +410,9 @@
     reader.readAsText(configFile);
   };
   inputFile.click();
+  setTimeout(() &#x3D;&gt; {
+    console.log(&#x27;Let us just wait a second&#x27;);
+  }, 1000);
 }</code>
                     </td>
                 </tr>
@@ -381,7 +442,7 @@
                         <i>Default value : </i><code>(
   data: string,
   fileName: string,
-  contentType: string &#x3D; &#x27;application/json&#x27;
+  contentType: string &#x3D; &#x27;application/json&#x27;,
 ) &#x3D;&gt; {
   const blob &#x3D; new Blob([data], { type: contentType });
   const tempAnchor &#x3D; document.createElement(&#x27;a&#x27;);
@@ -405,7 +466,7 @@
     </table>
 </section>
     <h3>src/managers/url-options-manager.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -446,7 +507,7 @@
     </table>
 </section>
     <h3>src/helpers/zip.ts</h3>
-    <section>
+    <section data-compodoc="block-properties">
     <h3></h3>    <table class="table table-sm table-bordered">
         <tbody>
             <tr>

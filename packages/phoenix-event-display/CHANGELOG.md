@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/HSF/phoenix/compare/v2.14.1...v2.15.0) (2024-03-21)
+
+
+### Reverts
+
+* Revert "chore(release): v2.15.0" ([8f018e7](https://github.com/HSF/phoenix/commit/8f018e7c11284d3dfd4290f84e87949b8ac2e9d7))
+
+
+
+
+
 ## 2.14.1 (2023-05-14)
 
 
