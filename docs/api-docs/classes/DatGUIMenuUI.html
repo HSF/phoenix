@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -43,21 +101,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Classes</li>
-  <li >DatGUIMenuUI</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >DatGUIMenuUI</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -83,7 +147,7 @@
             </p>
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -199,7 +263,7 @@
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-constructor">
     <h3 id="constructor">Constructor</h3>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -271,7 +335,7 @@
         </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-properties">
     
     <h3 id="inputs">
         Properties
@@ -602,7 +666,7 @@
     </table>
 </section>
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -613,7 +677,7 @@
                 <td class="col-md-4">
                     <a name="addCollection"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addCollection</b></span>
                         <a href="#addCollection"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -621,114 +685,112 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addCollection(eventDataType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cuts?: <a href="../classes/Cut.html" target="_self">Cut[]</a>, collectionColor?: Color)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="254"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:254</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="257"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:257</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.</p>
+                        <div class="io-description"><p>Add collection folder and its configurable options to the event data type (tracks, hits etc.) folder.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventDataType</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>eventDataType</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Name of the event data type.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>collectionName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Name of the collection to be added in the type of event data (tracks, hits etc.).</p>
+                                            <td>
+                                                    <p>Name of the event data type.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>cuts</td>
-                                    <td>
-                                                <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>collectionName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <p>Cuts to the collection of event data that are to be made configurable to filter event data.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>collectionColor</td>
-                                    <td>
-                                            <code>Color</code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Default color of the collection.</p>
+                                            <td>
+                                                    <p>Name of the collection to be added in the type of event data (tracks, hits etc.).</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>cuts</td>
+                                            <td>
+                                                            <code><a href="../classes/Cut.html" target="_self" >Cut[]</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Cuts to the collection of event data that are to be made configurable to filter event data.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>collectionColor</td>
+                                            <td>
+                                                        <code>Color</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Default color of the collection.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -739,7 +801,7 @@
                 <td class="col-md-4">
                     <a name="addEventDataFolder"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addEventDataFolder</b></span>
                         <a href="#addEventDataFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -747,29 +809,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addEventDataFolder()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:200</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:203</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add event data folder with functions for event data toggles like show/hide and depthTest.</p>
+                        <div class="io-description"><p>Add event data folder with functions for event data toggles like show/hide and depthTest.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -780,7 +842,7 @@
                 <td class="col-md-4">
                     <a name="addEventDataTypeFolder"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addEventDataTypeFolder</b></span>
                         <a href="#addEventDataTypeFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -788,66 +850,64 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addEventDataTypeFolder(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="230"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:230</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="233"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:233</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add folder for event data type like tracks or hits to the menu.</p>
+                        <div class="io-description"><p>Add folder for event data type like tracks or hits to the menu.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>typeName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>typeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Name of the type of event data.</p>
+                                            <td>
+                                                    <p>Name of the type of event data.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -858,7 +918,7 @@
                 <td class="col-md-4">
                     <a name="addGeometry"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addGeometry</b></span>
                         <a href="#addGeometry"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -866,82 +926,80 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addGeometry(object: Object3D, _menuSubfolder?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:109</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:112</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add geometry to the menu&#39;s geometry folder and set up its configurable options.</p>
+                        <div class="io-description"><p>Add geometry to the menu&#39;s geometry folder and set up its configurable options.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>object</td>
-                                    <td>
-                                            <code>Object3D</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Object3D</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Object to add to the UI menu.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>_menuSubfolder</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Subfolder in the menu to add the geometry to. Example <code>Folder &gt; Subfolder</code>.</p>
+                                            <td>
+                                                    <p>Object to add to the UI menu.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>_menuSubfolder</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Subfolder in the menu to add the geometry to. Example <code>Folder &gt; Subfolder</code>.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -952,7 +1010,7 @@
                 <td class="col-md-4">
                     <a name="addGeometryFolder"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addGeometryFolder</b></span>
                         <a href="#addGeometryFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -960,29 +1018,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addGeometryFolder()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:78</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:81</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add geometry (detector geometry) folder to the menu.</p>
+                        <div class="io-description"><p>Add geometry (detector geometry) folder to the menu.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -993,7 +1051,7 @@
                 <td class="col-md-4">
                     <a name="addLabel"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addLabel</b></span>
                         <a href="#addLabel"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1001,82 +1059,80 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, onRemoveLabel?: () => void)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="396"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:396</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="399"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:399</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add folder for configuration of label.</p>
+                        <div class="io-description"><p>Add folder for configuration of label.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>labelId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>labelId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Unique ID of the label.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>onRemoveLabel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Function called when label is removed.</p>
+                                            <td>
+                                                    <p>Unique ID of the label.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>onRemoveLabel</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Function called when label is removed.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1087,7 +1143,7 @@
                 <td class="col-md-4">
                     <a name="addLabelsFolder"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>addLabelsFolder</b></span>
                         <a href="#addLabelsFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1095,66 +1151,64 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>addLabelsFolder(configFunctions: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="344"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:344</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:347</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Add labels folder to the menu.</p>
+                        <div class="io-description"><p>Add labels folder to the menu.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>configFunctions</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>configFunctions</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Functions to attach to the labels folder configuration.</p>
+                                            <td>
+                                                    <p>Functions to attach to the labels folder configuration.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1165,7 +1219,7 @@
                 <td class="col-md-4">
                     <a name="clear"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>clear</b></span>
                         <a href="#clear"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1173,29 +1227,29 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>clear()</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:67</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:70</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Clear the menu by removing all folders.</p>
+                        <div class="io-description"><p>Clear the menu by removing all folders.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
+                        </div>
                 </td>
             </tr>
         </tbody>
@@ -1206,7 +1260,7 @@
                 <td class="col-md-4">
                     <a name="getEventDataTypeFolder"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>getEventDataTypeFolder</b></span>
                         <a href="#getEventDataTypeFolder"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1214,67 +1268,65 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>getEventDataTypeFolder(typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="452"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:452</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="455"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:455</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Get the folder of the event data type.</p>
+                        <div class="io-description"><p>Get the folder of the event data type.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>typeName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>typeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Name of the event data type.</p>
+                                            <td>
+                                                    <p>Name of the event data type.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>GUI</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>GUI</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>Folder of the event data type.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>Folder of the event data type.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1285,7 +1337,7 @@
                 <td class="col-md-4">
                     <a name="removeLabel"></a>
                     <span class="name">
-                        <span class="modifier">Public</span>
+                            <span class="modifier">Public</span>
                         <span ><b>removeLabel</b></span>
                         <a href="#removeLabel"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1293,80 +1345,78 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>removeLabel(labelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, labelItemFolder?: GUI)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="437"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:437</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="440"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:440</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Remove label from the menu and scene if it exists.</p>
+                        <div class="io-description"><p>Remove label from the menu and scene if it exists.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>labelId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>labelId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>A unique label ID string.</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>labelItemFolder</td>
-                                    <td>
-                                            <code>GUI</code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                                            <td>
+                                                    <p>A unique label ID string.</p>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>labelItemFolder</td>
+                                            <td>
+                                                        <code>GUI</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1377,7 +1427,7 @@
                 <td class="col-md-4">
                     <a name="removeOBJ"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
+                            <span class="modifier">Private</span>
                         <span ><b>removeOBJ</b></span>
                         <a href="#removeOBJ"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1385,66 +1435,64 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>removeOBJ(object: Object3D)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:187</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="190"
+                                    class="link-to-prism">src/managers/ui-manager/dat-gui-ui.ts:190</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Remove object from the dat.GUI menu.</p>
+                        <div class="io-description"><p>Remove object from the dat.GUI menu.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>object</td>
-                                    <td>
-                                            <code>Object3D</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>object</td>
+                                            <td>
+                                                        <code>Object3D</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>Geometry object to be removed.</p>
+                                            <td>
+                                                    <p>Geometry object to be removed.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>() &#x3D;&gt; void</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>() &#x3D;&gt; void</code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -1458,7 +1506,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { GUI } from &#x27;dat.gui&#x27;;
 import {
   BufferGeometry,
@@ -1508,7 +1556,10 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
    * @param elementId ID of the wrapper element.
    * @param three The three manager for managing three.js related operations.
    */
-  constructor(elementId: string &#x3D; &#x27;eventDisplay&#x27;, private three: ThreeManager) {
+  constructor(
+    elementId: string &#x3D; &#x27;eventDisplay&#x27;,
+    private three: ThreeManager,
+  ) {
     this.gui &#x3D; new GUI();
     this.gui.domElement.id &#x3D; &#x27;gui&#x27;;
     this.gui.domElement.style.cssText &#x3D;
@@ -1549,7 +1600,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
     showGeometriesMenu.onChange((value) &#x3D;&gt; {
       this.sceneManager.objectVisibility(
         this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
-        value
+        value,
       );
     });
     // A boolean toggle for enabling/disabling the geometries&#x27; wireframing.
@@ -1592,14 +1643,14 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       .addColor(this.guiParameters[name], &#x27;color&#x27;)
       .name(&#x27;Color&#x27;);
     colorMenu.onChange((value) &#x3D;&gt;
-      this.sceneManager.changeObjectColor(object, value)
+      this.sceneManager.changeObjectColor(object, value),
     );
 
     const opacity &#x3D; objFolder
       .add(this.guiParameters[name], &#x27;detectorOpacity&#x27;, 0.0, 1.0)
       .name(&#x27;Opacity&#x27;);
     opacity.onFinishChange((newValue) &#x3D;&gt;
-      this.sceneManager.setGeometryOpacity(object, newValue)
+      this.sceneManager.setGeometryOpacity(object, newValue),
     );
 
     // A boolean toggle for showing/hiding the object is added to its folder
@@ -1608,7 +1659,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       .name(&#x27;Show&#x27;)
       .listen();
     showMenu.onChange((value) &#x3D;&gt;
-      this.sceneManager.objectVisibility(object, value)
+      this.sceneManager.objectVisibility(object, value),
     );
     // Scale slider
     const scaleMenu &#x3D; objFolder
@@ -1623,19 +1674,19 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       .add(this.guiParameters[name], &#x27;x&#x27;, -this.maxPositionX, this.maxPositionX)
       .name(&#x27;X&#x27;)
       .onChange((value) &#x3D;&gt;
-        this.sceneManager.getObjectPosition(name).setX(value)
+        this.sceneManager.getObjectPosition(name).setX(value),
       );
     objFolder
       .add(this.guiParameters[name], &#x27;y&#x27;, -this.maxPositionY, this.maxPositionY)
       .name(&#x27;Y&#x27;)
       .onChange((value) &#x3D;&gt;
-        this.sceneManager.getObjectPosition(name).setY(value)
+        this.sceneManager.getObjectPosition(name).setY(value),
       );
     objFolder
       .add(this.guiParameters[name], &#x27;z&#x27;, -this.maxPositionZ, this.maxPositionZ)
       .name(&#x27;Z&#x27;)
       .onChange((value) &#x3D;&gt;
-        this.sceneManager.getObjectPosition(name).setZ(value)
+        this.sceneManager.getObjectPosition(name).setZ(value),
       );
     // Controls for deleting the obj
     objFolder.add(this.guiParameters[name], &#x27;remove&#x27;).name(&#x27;Remove&#x27;);
@@ -1673,7 +1724,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       .name(&#x27;Show&#x27;)
       .listen();
     menu.onChange((value) &#x3D;&gt;
-      this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value)
+      this.sceneManager.groupVisibility(SceneManager.EVENT_DATA_ID, value),
     );
 
     // A boolean toggle for enabling/disabling depthTest of event data.
@@ -1700,8 +1751,8 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(typeName),
-        value
-      )
+        value,
+      ),
     );
   }
 
@@ -1716,7 +1767,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
     eventDataType: string,
     collectionName: string,
     cuts?: Cut[],
-    collectionColor?: Color
+    collectionColor?: Color,
   ) {
     const typeFolder &#x3D; this.eventFolder.__folders[eventDataType];
     if (!typeFolder) {
@@ -1733,7 +1784,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
         this.sceneManager.groupVisibility(
           collectionName,
           true,
-          SceneManager.EVENT_DATA_ID
+          SceneManager.EVENT_DATA_ID,
         ),
     };
     const collFolder &#x3D; typeFolder.addFolder(collectionName);
@@ -1755,7 +1806,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
       .addColor(this.guiParameters[collectionName], &#x27;color&#x27;)
       .name(&#x27;Color&#x27;);
     colorMenu.onChange((value) &#x3D;&gt;
-      this.three.getColorManager().collectionColor(collectionName, value)
+      this.three.getColorManager().collectionColor(collectionName, value),
     );
     colorMenu.setValue(collectionColor?.getHex());
     collFolder
@@ -1775,7 +1826,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
             { minValue: cut.minValue },
             &#x27;minValue&#x27;,
             cut.minValue,
-            cut.maxValue
+            cut.maxValue,
           )
           .name(&#x27;min &#x27; + cut.field);
         minCut.onChange((value) &#x3D;&gt; {
@@ -1787,7 +1838,7 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
             { maxValue: cut.maxValue },
             &#x27;maxValue&#x27;,
             cut.minValue,
-            cut.maxValue
+            cut.maxValue,
           )
           .name(&#x27;max &#x27; + cut.field);
         maxCut.onChange((value) &#x3D;&gt; {
@@ -1879,8 +1930,8 @@ export class DatGUIMenuUI implements PhoenixUI&lt;GUI&gt; {
     colorMenu.onChange((color) &#x3D;&gt;
       this.sceneManager.changeObjectColor(
         this.sceneManager.getObjectByName(labelId),
-        color
-      )
+        color,
+      ),
     );
 
     this.guiParameters[labelId][&#x27;removeLabel&#x27;] &#x3D; () &#x3D;&gt; {

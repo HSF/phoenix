@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -44,23 +102,29 @@
 
 
 <ol class="breadcrumb">
-  <li>Interfaces</li>
-  <li
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
   >
   Window</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -78,7 +142,7 @@
             </p>
 
 
-        <section>
+        <section data-compodoc="block-index">
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
                 <tbody>
@@ -105,7 +169,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-properties">
                 <h3 id="inputs">Properties</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
@@ -150,7 +214,7 @@
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest } from &#x27;jsroot&#x27;;
 import { settings as jsrootSettings } from &#x27;jsroot&#x27;;
 import { build } from &#x27;jsroot/geom&#x27;;
@@ -250,25 +314,6 @@ export class EventDisplay {
   }
 
   /**
-   * Takes a screen shot of the current view
-   * @param width the width of the picture to be created
-   * @param height the height of the picture to be created
-   * @param fitting the type of fitting to use in case width and height
-   * ratio do not match the current screen ratio. Posible values are
-   *    - Crop : current view is cropped on both side or up and done to fit ratio
-   *             thus it is not stretched, but some parts are lost
-   *    - Stretch : current view is stretched to given format
-   *               this is the default and used also for any other value given to fitting
-   */
-  public makeScreenShot(
-    width: number,
-    height: number,
-    fitting: string &#x3D; &#x27;Stretch&#x27;
-  ) {
-    this.graphicsLibrary.makeScreenShot(width, height, fitting);
-  }
-
-  /**
    * Initialize XR.
    * @param xrSessionType Type of the XR session. Either AR or VR.
    * @param onSessionEnded Callback when the XR session ends.
@@ -322,7 +367,7 @@ export class EventDisplay {
       eventData,
       this.graphicsLibrary,
       this.ui,
-      this.infoLogger
+      this.infoLogger,
     );
     this.onDisplayedEventChange.forEach((callback) &#x3D;&gt; callback(eventData));
     // Reload the event data state in Phoenix menu
@@ -417,7 +462,7 @@ export class EventDisplay {
     menuNodeName?: string,
     doubleSided?: boolean,
     initiallyVisible: boolean &#x3D; true,
-    setFlat: boolean &#x3D; true
+    setFlat: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;obj_geom_${name}&#x60;);
 
@@ -427,7 +472,7 @@ export class EventDisplay {
       color,
       doubleSided,
       initiallyVisible,
-      setFlat
+      setFlat,
     );
     this.ui.addGeometry(object, menuNodeName);
 
@@ -447,13 +492,13 @@ export class EventDisplay {
     content: string,
     name: string,
     menuNodeName?: string,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
   ) {
     this.loadingManager.addLoadableItem(&#x60;parse_obj_${name}&#x60;);
     const { object } &#x3D; this.graphicsLibrary.parseOBJGeometry(
       content,
       name,
-      initiallyVisible
+      initiallyVisible,
     );
     this.ui.addGeometry(object, menuNodeName);
     this.loadingManager.itemLoaded(&#x60;parse_obj_${name}&#x60;);
@@ -506,7 +551,7 @@ export class EventDisplay {
    */
   public async parseGLTFGeometry(
     input: string | ArrayBuffer,
-    name: string
+    name: string,
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
 
@@ -534,7 +579,7 @@ export class EventDisplay {
     name: string | undefined,
     menuNodeName?: string,
     scale?: number,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;gltf_geom_${name}&#x60;);
 
@@ -544,7 +589,7 @@ export class EventDisplay {
         name,
         menuNodeName,
         scale,
-        initiallyVisible
+        initiallyVisible,
       );
     for (const { object, menuNodeName } of allGeometriesUIParameters) {
       this.ui.addGeometry(object, menuNodeName);
@@ -569,7 +614,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;json_geom_${name}&#x60;);
 
@@ -578,7 +623,7 @@ export class EventDisplay {
       name,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
     this.ui.addGeometry(object, menuNodeName);
 
@@ -601,7 +646,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
   ) {
     this.loadingManager.addLoadableItem(&#x27;root_json_geom&#x27;);
 
@@ -612,7 +657,7 @@ export class EventDisplay {
       menuNodeName,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
 
     this.loadingManager.itemLoaded(&#x27;root_json_geom&#x27;);
@@ -635,7 +680,7 @@ export class EventDisplay {
     menuNodeName?: string,
     scale?: number,
     doubleSided?: boolean,
-    initiallyVisible: boolean &#x3D; true
+    initiallyVisible: boolean &#x3D; true,
   ) {
     this.loadingManager.addLoadableItem(&#x27;root_geom&#x27;);
     // See https://github.com/root-project/jsroot/blob/19ce116b68701ab45e0a092c673119bf97ede0c2/modules/core.mjs#L241.
@@ -650,7 +695,7 @@ export class EventDisplay {
       menuNodeName,
       scale,
       doubleSided,
-      initiallyVisible
+      initiallyVisible,
     );
 
     this.loadingManager.itemLoaded(&#x27;root_geom&#x27;);
@@ -754,7 +799,7 @@ export class EventDisplay {
         name: string,
         colour: any,
         menuNodeName: string,
-        doubleSided: boolean
+        doubleSided: boolean,
       ) &#x3D;&gt; {
         this.loadOBJGeometry(filename, name, colour, menuNodeName, doubleSided);
       },
@@ -764,7 +809,7 @@ export class EventDisplay {
         menuNodeName: string,
         scale?: number,
         doubleSided?: boolean,
-        initiallyVisible: boolean &#x3D; true
+        initiallyVisible: boolean &#x3D; true,
       ) &#x3D;&gt; {
         this.loadJSONGeometry(
           json,
@@ -772,7 +817,7 @@ export class EventDisplay {
           menuNodeName,
           scale,
           doubleSided,
-          initiallyVisible
+          initiallyVisible,
         );
       },
       buildGeometryFromParameters: (parameters: { [key: string]: any }) &#x3D;&gt;
@@ -825,18 +870,43 @@ export class EventDisplay {
    * Move the camera to look at the object with the given uuid
    * and highlight it.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data.
    */
-  public lookAtObject(uuid: string) {
-    this.graphicsLibrary.lookAtObject(uuid);
-    this.graphicsLibrary.highlightObject(uuid);
+  public lookAtObject(uuid: string, detector: boolean &#x3D; false) {
+    if (detector &#x3D;&#x3D; true) {
+      this.graphicsLibrary.lookAtObject(uuid, true);
+      this.graphicsLibrary.highlightObject(uuid, true);
+    } else {
+      this.graphicsLibrary.lookAtObject(uuid);
+      this.graphicsLibrary.highlightObject(uuid);
+    }
   }
 
   /**
    * Highlight the object with the given uuid by giving it an outline.
    * @param uuid uuid of the object.
+   * @param detector whether the function is for detector objects or event data.
    */
-  public highlightObject(uuid: string) {
-    this.graphicsLibrary.highlightObject(uuid);
+  public highlightObject(uuid: string, detector: boolean &#x3D; false) {
+    if (detector &#x3D;&#x3D; true) {
+      this.graphicsLibrary.highlightObject(uuid, true);
+    } else {
+      this.graphicsLibrary.highlightObject(uuid, false);
+    }
+  }
+
+  /**
+   * Enable highlighting of the objects.
+   */
+  public enableHighlighting() {
+    this.graphicsLibrary.enableHighlighting();
+  }
+
+  /**
+   * Disable highlighting of the objects.
+   */
+  public disableHighlighting() {
+    this.graphicsLibrary.disableHighlighting();
   }
 
   /**
@@ -856,12 +926,12 @@ export class EventDisplay {
   public animateThroughEvent(
     startPos: number[],
     tweenDuration: number,
-    onAnimationEnd?: () &#x3D;&gt; void
+    onAnimationEnd?: () &#x3D;&gt; void,
   ) {
     this.graphicsLibrary.animateThroughEvent(
       startPos,
       tweenDuration,
-      onAnimationEnd
+      onAnimationEnd,
     );
   }
 
@@ -892,7 +962,7 @@ export class EventDisplay {
    */
   public animateClippingWithCollision(
     tweenDuration: number,
-    onEnd?: () &#x3D;&gt; void
+    onEnd?: () &#x3D;&gt; void,
   ) {
     this.graphicsLibrary.animateClippingWithCollision(tweenDuration, onEnd);
   }
@@ -908,12 +978,12 @@ export class EventDisplay {
     label: string,
     collection: string,
     indexInCollection: number,
-    uuid: string
+    uuid: string,
   ) {
     const labelId &#x3D; this.configuration.eventDataLoader.addLabelToEventObject(
       label,
       collection,
-      indexInCollection
+      indexInCollection,
     );
 
     // Remove the label if the string is empty

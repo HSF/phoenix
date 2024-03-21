@@ -12,8 +12,66 @@
         <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+          <script>
+               // Blocking script to avaoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+
+               if ($darkModeToggles.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
             <a href="../" class="navbar-brand">Phoenix API Docs</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
@@ -43,21 +101,27 @@
 
 
 <ol class="breadcrumb">
-  <li>Classes</li>
-  <li >RungeKutta</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >RungeKutta</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="active">
-            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
         </li>
-        <li >
-            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="c-info">
+    <div class="tab-pane fade active in" id="info">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -77,7 +141,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
@@ -112,7 +176,7 @@
 
 
 
-            <section>
+            <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -123,7 +187,7 @@
                 <td class="col-md-4">
                     <a name="propagate"></a>
                     <span class="name">
-                        <span class="modifier">Static</span>
+                            <span class="modifier">Static</span>
                         <span ><b>propagate</b></span>
                         <a href="#propagate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -131,185 +195,183 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>propagate(startPos: Vector3, startDir: Vector3, p: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, q: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, mss: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, plength: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, inbounds: (pos: Vector3) => void)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">src/helpers/runge-kutta.ts:126</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">src/helpers/runge-kutta.ts:126</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Propagate using the given properties by performing the Runge-Kutta steps.
+                        <div class="io-description"><p>Propagate using the given properties by performing the Runge-Kutta steps.
 is out of bounds, when it returns false.
 through the Runge-Kutta steps.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Default value</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>startPos</td>
-                                    <td>
-                                            <code>Vector3</code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>startPos</td>
+                                            <td>
+                                                        <code>Vector3</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Starting position in 3D space.</p>
+                                            <td>
+                                                    <p>Starting position in 3D space.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>startDir</td>
-                                    <td>
-                                            <code>Vector3</code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>startDir</td>
+                                            <td>
+                                                        <code>Vector3</code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Starting direction in 3D space.</p>
+                                            <td>
+                                                    <p>Starting direction in 3D space.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>p</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>p</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Momentum.</p>
+                                            <td>
+                                                    <p>Momentum.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>q</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>q</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                    </td>
+                                            <td>
+                                            </td>
 
-                                    <td>
-                                        <p>Charge.</p>
+                                            <td>
+                                                    <p>Charge.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>mss</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>mss</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                        <code>-1</code>
-                                    </td>
+                                            <td>
+                                                    <code>-1</code>
+                                            </td>
 
-                                    <td>
-                                        <p>Max step size.</p>
+                                            <td>
+                                                    <p>Max step size.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>plength</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>plength</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                        <code>1000</code>
-                                    </td>
+                                            <td>
+                                                    <code>1000</code>
+                                            </td>
 
-                                    <td>
-                                        <p>Path length.</p>
+                                            <td>
+                                                    <p>Path length.</p>
 
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>inbounds</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>inbounds</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
-                                    <td>
-                                        <code>() &#x3D;&gt; true</code>
-                                    </td>
+                                            <td>
+                                                    <code>() &#x3D;&gt; true</code>
+                                            </td>
 
-                                    <td>
-                                        <p>Function which returns true until the passed position
+                                            <td>
+                                                    <p>Function which returns true until the passed position
 is out of bounds, when it returns false.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>literal type[]</code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type[]</code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>An array containing position and direction at that position calculated
+                        </div>
+                            <div class="io-description">
+                                <p>An array containing position and direction at that position calculated
 through the Runge-Kutta steps.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -320,7 +382,7 @@ through the Runge-Kutta steps.</p>
                 <td class="col-md-4">
                     <a name="step"></a>
                     <span class="name">
-                        <span class="modifier">Static</span>
+                            <span class="modifier">Static</span>
                         <span ><b>step</b></span>
                         <a href="#step"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -328,67 +390,65 @@ through the Runge-Kutta steps.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
+                        <span class="modifier-icon icon ion-ios-reset"></span>
                     <code>step(state: <a href="../classes/State.html" target="_self">State</a>)</code>
                 </td>
             </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/helpers/runge-kutta.ts:12</a></div>
-                </td>
-            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="12"
+                                    class="link-to-prism">src/helpers/runge-kutta.ts:12</a></div>
+                        </td>
+                    </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Perform a Runge-Kutta step for the given state.</p>
+                        <div class="io-description"><p>Perform a Runge-Kutta step for the given state.</p>
 </div>
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                                <code><a href="../classes/State.html" target="_self" >State</a></code>
-                                    </td>
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>state</td>
+                                            <td>
+                                                            <code><a href="../classes/State.html" target="_self" >State</a></code>
+                                            </td>
 
-                                    <td>
-                                        No
-                                    </td>
+                                            <td>
+                                                    No
+                                            </td>
 
 
-                                    <td>
-                                        <p>State at which the step is to be performed.</p>
+                                            <td>
+                                                    <p>State at which the step is to be performed.</p>
 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        <p>The computed step size.</p>
+                        </div>
+                            <div class="io-description">
+                                <p>The computed step size.</p>
 
-                    </div>
+                            </div>
                 </td>
             </tr>
         </tbody>
@@ -402,7 +462,7 @@ through the Runge-Kutta steps.</p>
     </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="c-source">
+    <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Vector3 } from &#x27;three&#x27;;
 
 /**
@@ -499,7 +559,7 @@ export class RungeKutta {
         .clone()
         .add(k2)
         .add(k3)
-        .multiplyScalar(fh2 / 6)
+        .multiplyScalar(fh2 / 6),
     );
     // state.dir +&#x3D; (k1 + k2 * 2 + k3 * 2 + k4) * (fh / 6)
     state.dir.add(
@@ -508,7 +568,7 @@ export class RungeKutta {
         .add(k2.clone().multiplyScalar(2))
         .add(k3.clone().multiplyScalar(2))
         .add(k4)
-        .multiplyScalar(fh / 6)
+        .multiplyScalar(fh / 6),
     );
     state.dir.normalize();
 
@@ -535,7 +595,7 @@ export class RungeKutta {
     q: number,
     mss: number &#x3D; -1,
     plength: number &#x3D; 1000,
-    inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; () &#x3D;&gt; true
+    inbounds: (pos: Vector3) &#x3D;&gt; boolean &#x3D; () &#x3D;&gt; true,
   ): { pos: Vector3; dir: Vector3 }[] {
     const rkState: State &#x3D; new State();
     rkState.pos &#x3D; startPos;
