@@ -17348,7 +17348,7 @@ cors@latest:
     stats-js: ^1.0.1
     three: ^0.162.0
     ts-jest: ~29.1.1
-    typescript: ~5.1.6
+    typescript: ~5.4.3
     webpack: ^5.88.2
     webpack-cli: ^5.1.4
   peerDependencies:
@@ -17390,8 +17390,8 @@ cors@latest:
     three: ^0.162.0
     ts-jest: ^29.1.2
     tslib: ^2.6.1
-    typescript: ~5.1.6
-    zone.js: ^0.13.1
+    typescript: ~5.4.3
+    zone.js: ^0.14.4
   peerDependencies:
     jspdf: "*"
   languageName: unknown
@@ -18567,7 +18567,7 @@ proxy-middleware@latest:
     prettier: ^3.2.5
     rimraf: ^5.0.1
     ts-jest-mock-import-meta: ^1.0.0
-    typescript: ~5.1.6
+    typescript: ~5.4.3
   peerDependencies:
     ts-jest: "*"
   languageName: unknown
@@ -20395,7 +20395,7 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"typescript@npm:>=3 < 6, typescript@npm:^5.0.4, typescript@npm:~5.1.6":
+"typescript@npm:>=3 < 6, typescript@npm:^5.0.4":
   version: 5.1.6
   resolution: "typescript@npm:5.1.6"
   bin:
@@ -20405,13 +20405,33 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@>=3 < 6#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>, typescript@patch:typescript@~5.1.6#~builtin<compat/typescript>":
+"typescript@npm:~5.4.3":
+  version: 5.4.3
+  resolution: "typescript@npm:5.4.3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: d74d731527e35e64d8d2dcf2f897cf8cfbc3428be0ad7c48434218ba4ae41239f53be7c90714089db1068c05cae22436af2ecba71fd36ecc5e7a9118af060198
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@>=3 < 6#~builtin<compat/typescript>, typescript@patch:typescript@^5.0.4#~builtin<compat/typescript>":
   version: 5.1.6
   resolution: "typescript@patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=ad5954"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 21e88b0a0c0226f9cb9fd25b9626fb05b4c0f3fddac521844a13e1f30beb8f14e90bd409a9ac43c812c5946d714d6e0dee12d5d02dfc1c562c5aacfa1f49b606
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@~5.4.3#~builtin<compat/typescript>":
+  version: 5.4.3
+  resolution: "typescript@patch:typescript@npm%3A5.4.3#~builtin<compat/typescript>::version=5.4.3&hash=ad5954"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 3a62fe90aa79d68c9ce38ea5edb2957e62801c733b99f0e5a2b8b50922761f68f7d9a40d28c544b449866e81185cddb93cba2496d0ff3fa52ef5b1f8bcace38c
   languageName: node
   linkType: hard
 
@@ -21652,12 +21672,12 @@ proxy-middleware@latest:
   languageName: node
   linkType: hard
 
-"zone.js@npm:^0.13.1":
-  version: 0.13.1
-  resolution: "zone.js@npm:0.13.1"
+"zone.js@npm:^0.14.4":
+  version: 0.14.4
+  resolution: "zone.js@npm:0.14.4"
   dependencies:
     tslib: ^2.3.0
-  checksum: 35d18f7a3016c5c98d793ef7dd78acd53da7df38f45dc4739c562ff04189682ee8d2f9ee25faf1ac756d97fdb19bbaa73f3dc0acb192e5c56786ff33a31db56f
+  checksum: 6168114b44f3f984c9aa72b1d0a05706b7b3010a38bcb49ef89f338c217279db77be26d1fd79d3eeb59b63b223472b104851be81898094f5eefc550bd69ae68f
   languageName: node
   linkType: hard
 
