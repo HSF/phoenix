@@ -6,9 +6,18 @@ tmp/
 out-tsc/
 # only exists if Bazel was run
 bazel-out/
+docs/
 
 # dependencies
 node_modules/
+# Added as per https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # profiling files
 chrome-profiler-events.json
