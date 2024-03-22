@@ -1,6 +1,6 @@
 {
   "name": "phoenix-ng",
-  "version": "2.15.1",
+  "version": "2.15.2",
   "private": true,
   "scripts": {
     "start": "ng serve phoenix-app",
