@@ -8101,9 +8101,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^13.7.0":
-  version: 13.7.0
-  resolution: "cypress@npm:13.7.0"
+"cypress@npm:^13.7.1":
+  version: 13.7.1
+  resolution: "cypress@npm:13.7.1"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -8149,7 +8149,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: f34ab3c0d65c0dec3a076384370f4396839b6290c9b6d7b47584be75e8a41ce070b854dcf15304abc42db9455bb5077c941cd5fd8f8e9923b751e6261b3fa68b
+  checksum: f6c3cafdc53f5737d3b981c9e8ace574398bc999c47e87bb8c8855052b6aa53c140d8361484b573f600acbcbcc113aad4c97a6953878e8c82f0a43864b58e17c
   languageName: node
   linkType: hard
 
@@ -15076,7 +15076,7 @@ __metadata:
     "@types/qrcode": ^1.5.5
     concurrently: ^8.2.2
     css-element-queries: ^1.2.3
-    cypress: ^13.7.0
+    cypress: ^13.7.1
     cypress-plugin-snapshots: "https://github.com/meinaart/cypress-plugin-snapshots.git"
     jest: ^29.7.0
     jest-preset-angular: ^14.0.3
