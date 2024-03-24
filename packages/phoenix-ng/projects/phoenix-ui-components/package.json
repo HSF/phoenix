@@ -52,6 +52,9 @@
       "esm2022": "./dist/esm2022/phoenix-ui-components.mjs",
       "esm": "./dist/esm2022/phoenix-ui-components.mjs",
       "default": "./dist/fesm2022/phoenix-ui-components.mjs"
+    },
+    "./theming": {
+      "sass": "./_theming.scss"
     }
   }
 }

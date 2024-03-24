@@ -18,13 +18,12 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": {
-              "base": "dist/phoenix-app"
-            },
+            "outputPath": "dist/phoenix-app",
             "index": "projects/phoenix-app/src/index.html",
-            "polyfills": ["projects/phoenix-app/src/polyfills.ts"],
+            "main": "projects/phoenix-app/src/main.ts",
+            "polyfills": "projects/phoenix-app/src/polyfills.ts",
             "tsConfig": "projects/phoenix-app/tsconfig.app.json",
             "assets": [
               "projects/phoenix-app/src/favicon.ico",
@@ -38,14 +37,16 @@
               "qrcode",
               "jszip",
               "detect-passive-events",
-              "stats-js"
+              "stats-js",
+              "core-js"
             ],
             "scripts": [],
+            "vendorChunk": true,
             "extractLicenses": false,
+            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true,
-            "browser": "projects/phoenix-app/src/main.ts"
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -59,6 +60,8 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -82,6 +85,8 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -100,21 +105,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "phoenix-app:build"
+            "buildTarget": "phoenix-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "phoenix-app:build:production"
+              "buildTarget": "phoenix-app:build:production"
             },
             "singleEvent": {
-              "browserTarget": "phoenix-app:build:singleEvent"
+              "buildTarget": "phoenix-app:build:singleEvent"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "phoenix-app:build"
+            "buildTarget": "phoenix-app:build"
           }
         }
       }
