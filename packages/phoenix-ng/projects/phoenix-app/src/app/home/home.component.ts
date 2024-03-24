@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { EventDisplayService } from 'phoenix-ui-components/lib/services/event-display.service';
+import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({
   selector: 'app-home',

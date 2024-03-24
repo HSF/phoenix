@@ -1,4 +1,4 @@
-import * as Stats from 'stats-js';
+import Stats from 'stats-js';
 import { Color, Object3D, Vector3 } from 'three';
 import { ThreeManager } from '../three-manager';
 import { Configuration } from '../../lib/types/configuration';
@@ -134,7 +134,7 @@ export class UIManager {
    * @param elementId ID of the wrapper element.
    */
   private showStats(elementId: string = 'eventDisplay') {
-    this.stats = Stats();
+    this.stats = new Stats();
     this.stats.showPanel(0);
     this.stats.dom.className = 'ui-element';
     this.stats.dom.id = 'statsElement';
