@@ -37,13 +37,21 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "rimraf": "^5.0.5"
   },
-  "module": "dist/fesm2015/phoenix-ui-components.mjs",
-  "es2020": "dist/fesm2020/phoenix-ui-components.mjs",
-  "esm2020": "dist/esm2020/phoenix-ui-components.mjs",
-  "fesm2020": "dist/fesm2020/phoenix-ui-components.mjs",
-  "fesm2015": "dist/fesm2015/phoenix-ui-components.mjs",
+  "module": "dist/fesm2022/phoenix-ui-components.mjs",
   "typings": "dist/index.d.ts",
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "esm2022": "./dist/esm2022/phoenix-ui-components.mjs",
+      "esm": "./dist/esm2022/phoenix-ui-components.mjs",
+      "default": "./dist/fesm2022/phoenix-ui-components.mjs"
+    }
+  }
 }
