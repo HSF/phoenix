@@ -3256,7 +3256,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as Stats from &#x27;stats-js&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import Stats from &#x27;stats-js&#x27;;
 import { Color, Object3D, Vector3 } from &#x27;three&#x27;;
 import { ThreeManager } from &#x27;../three-manager&#x27;;
 import { Configuration } from &#x27;../../lib/types/configuration&#x27;;
@@ -3392,7 +3392,7 @@ export class UIManager {
    * @param elementId ID of the wrapper element.
    */
   private showStats(elementId: string &#x3D; &#x27;eventDisplay&#x27;) {
-    this.stats &#x3D; Stats();
+    this.stats &#x3D; new Stats();
     this.stats.showPanel(0);
     this.stats.dom.className &#x3D; &#x27;ui-element&#x27;;
     this.stats.dom.id &#x3D; &#x27;statsElement&#x27;;
