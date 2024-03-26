@@ -57,7 +57,8 @@ Then run the following commands.
 ```sh
 # Install all the required dependencies
 yarn install
-# For macOS Ventura you may need to specify C++ version, e.g. yarn install -std=c++17
+# For macOS you must install the following:
+# brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
 
 # Run phoenix-event-display and phoenix-app in development/watch mode
 yarn start
