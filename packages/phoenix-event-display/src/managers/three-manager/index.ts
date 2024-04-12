@@ -829,21 +829,18 @@ export class ThreeManager {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
-   * @param name Name given to the geometry.
+   * Parses and loads a geometry in GLTF (.gltf or .glb) format.
+   * also supports zip files of the above
+   * @param file Geometry file in GLTF (.gltf or .glb) format.
    * @returns Promise for loading the geometry.
    */
-  public async parseGLTFGeometry(
-    geometry: any,
-    name: string,
-  ): Promise<GeometryUIParameters[]> {
+  public async parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
     const allGeometriesUIParameters =
-      await this.importManager.parseGLTFGeometry(geometry, name);
+      await this.importManager.parseGLTFGeometry(file);
 
     for (const { object } of allGeometriesUIParameters) {
       this.sceneManager.getGeometries().add(object);
-      this.infoLogger.add(name, 'Parsed GLTF geometry');
+      this.infoLogger.add(file.name, 'Parsed GLTF geometry');
     }
 
     return allGeometriesUIParameters;

@@ -327,21 +327,19 @@ export class EventDisplay {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param input Data of the GLTF (.gltf) file.
-   * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
+   * Parses and loads a geometry in GLTF (.gltf or .glb) format.
+   * also supports zip files of the above
+   * @param file Geometry file in GLTF (.gltf or .glb) format.
    * @returns Promise for loading the geometry.
    */
-  public async parseGLTFGeometry(
-    input: string | ArrayBuffer,
-    name: string,
-  ): Promise<void> {
+  public async parseGLTFGeometry(file: File): Promise<void> {
+    name = file.name.split('/').pop();
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
 
     const allGeometriesUIParameters =
-      await this.graphicsLibrary.parseGLTFGeometry(input, name);
-    for (const { object } of allGeometriesUIParameters) {
-      this.ui.addGeometry(object);
+      await this.graphicsLibrary.parseGLTFGeometry(file);
+    for (const { object, menuNodeName } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object, menuNodeName);
     }
 
     this.loadingManager.itemLoaded(`parse_gltf_${name}`);
