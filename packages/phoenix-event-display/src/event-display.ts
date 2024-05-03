@@ -333,8 +333,8 @@ export class EventDisplay {
    * @returns Promise for loading the geometry.
    */
   public async parseGLTFGeometry(file: File): Promise<void> {
-    name = file.name.split('/').pop();
-    this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
+    const filename = file.name.split('/').pop();
+    this.loadingManager.addLoadableItem(`parse_gltf_${filename}`);
 
     const allGeometriesUIParameters =
       await this.graphicsLibrary.parseGLTFGeometry(file);
@@ -342,7 +342,7 @@ export class EventDisplay {
       this.ui.addGeometry(object, menuNodeName);
     }
 
-    this.loadingManager.itemLoaded(`parse_gltf_${name}`);
+    this.loadingManager.itemLoaded(`parse_gltf_${filename}`);
   }
 
   /**

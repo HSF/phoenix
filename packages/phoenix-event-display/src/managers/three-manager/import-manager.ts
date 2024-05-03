@@ -222,8 +222,8 @@ export class ImportManager {
     callback: (
       fileContent: ArrayBuffer,
       path: string,
-      name: string
-    ) => Promise<GeometryUIParameters[]>
+      name: string,
+    ) => Promise<GeometryUIParameters[]>,
   ): Promise<GeometryUIParameters[]> {
     if (typeof file != 'string') {
       file = file.name;
@@ -235,7 +235,7 @@ export class ImportManager {
           if (file.split('.').pop() == 'zip') {
             try {
               JSZip.loadAsync(data).then((archive) => {
-                const promises: Promise[] = [];
+                const promises: Promise<GeometryUIParameters[]>[] = [];
                 for (const filePath in archive.files) {
                   promises.push(
                     archive
@@ -243,7 +243,7 @@ export class ImportManager {
                       .async('arraybuffer')
                       .then((fileData) => {
                         return callback(fileData, path, filePath.split('.')[0]);
-                      })
+                      }),
                   );
                 }
                 let allGeometriesUIParameters: GeometryUIParameters[] = [];
@@ -256,9 +256,9 @@ export class ImportManager {
                 });
               });
             } catch (error) {
-              this.eventDisplay
-                .getInfoLogger()
-                .add('Could not read zip file', 'Error');
+              // this.eventDisplay
+              //   .getInfoLogger()
+              //   .add('Could not read zip file', 'Error');
               reject(error);
             }
           } else {
@@ -268,7 +268,7 @@ export class ImportManager {
               },
               (error) => {
                 reject(error);
-              }
+              },
             );
           }
         });
@@ -302,9 +302,9 @@ export class ImportManager {
           name,
           menuNodeName,
           scale,
-          initiallyVisible
+          initiallyVisible,
         );
-      }
+      },
     );
   }
 
@@ -324,7 +324,7 @@ export class ImportManager {
     name: string,
     menuNodeName: string,
     scale: number,
-    initiallyVisible: boolean
+    initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
@@ -410,8 +410,11 @@ export class ImportManager {
    * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
    * @returns Promise for loading the geometry.
    */
-  private parseGLTFGeometry(fileName: string): Promise<GeometryUIParameters[]> {
-    return this.zipHandlingWrapper(fileName, parseGLTFGeometryFromArrayBuffer);
+  public parseGLTFGeometry(fileName: string): Promise<GeometryUIParameters[]> {
+    return this.zipHandlingWrapper(
+      fileName,
+      this.parseGLTFGeometryFromArrayBuffer,
+    );
   }
 
   /** Parses and loads a geometry in GLTF (.gltf) format.
