@@ -22,6 +22,8 @@ One big advantage of gltf/glb is Phoenix can use the embedded GLTF scenes to pop
 
 you can instead load _one_ file, and Phoenix will loop over the internal structure and create the appropriate geometry UI entries. See the LHCB interactive example for how this works in practice (specifically, [lhcb.component.ts](lhcb.component.ts) is where the geometry is loaded).
 
+It is also discussed [here](https://github.com/HSF/phoenix/blob/main/guides/users.md#phoenix-menu-definition-in-gltf).
+
 # Creating gltf/glb content
 ## Blender
 [Blender](https://www.blender.org) is an incredibly powerful _free_ tool to create 3D content. It also has an comprehensive set of importers and exporters (including an gltf exporter, obviously) meaning you can load content from almost any format and save it as compressed glb. It also understands scenes (see the Blender [documentation](https://docs.blender.org/manual/en/latest/scene_layout/scene/introduction.html) for more), so you can load many different geometry files, put them in their own scenes and export, and then Phoenix will fill the geometry UI menu for you as described above.
