@@ -256,9 +256,7 @@ export class ImportManager {
                 });
               });
             } catch (error) {
-              // this.eventDisplay
-              //   .getInfoLogger()
-              //   .add('Could not read zip file', 'Error');
+              console.warn('Could not read zip file', 'Error');
               reject(error);
             }
           } else {
