@@ -144,12 +144,10 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   handleGLTFInput(files: FileList) {
-    const callback = (file: File) => {
-      this.eventDisplay.parseGLTFGeometry(file);
+    const callback = (content: any) => {
+      this.eventDisplay.parseGLTFGeometry(content);
     };
-    if (this.isFileOfExtension(files[0].name, 'gltf,glb,gltf.zip,glb.zip')) {
-      callback(files[0]);
-    }
+    this.handleFileInput(files[0], 'gltf,glb,gltf.zip,glb.zip', callback);
   }
 
   handlePhoenixInput(files: FileList) {
