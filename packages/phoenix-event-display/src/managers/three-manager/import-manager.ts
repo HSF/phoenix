@@ -256,9 +256,7 @@ export class ImportManager {
                 });
               });
             } catch (error) {
-              // this.eventDisplay
-              //   .getInfoLogger()
-              //   .add('Could not read zip file', 'Error');
+              console.warn('Could not read zip file', 'Error');
               reject(error);
             }
           } else {
@@ -410,9 +408,9 @@ export class ImportManager {
    * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
+  public parseGLTFGeometry(fileName: string): Promise<GeometryUIParameters[]> {
     return this.zipHandlingWrapper(
-      file.name,
+      fileName,
       this.parseGLTFGeometryFromArrayBuffer,
     );
   }
