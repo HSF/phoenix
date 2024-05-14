@@ -89,7 +89,7 @@ export class LHCbComponent implements OnInit {
 
     try {
       this.eventDisplay.loadGLTFGeometry(
-        'assets/geometry/LHCb/LHCb.glb',
+        'assets/geometry/LHCb/LHCb.glb.zip',
         undefined, // name, ignored when empty
         undefined, // menuNodeName
         1, // scale

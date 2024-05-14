@@ -48,12 +48,12 @@
         type="file"
         tabindex="-1"
         class="file-input"
-        accept=".gltf"
+        accept=".gltf,.glb,.gltf.zip,.glb.zip"
         name="image"
         (change)="handleGLTFInput($event.target.files)"
       />
       <button class="file-input-button" (click)="gltfFileInput.click()">
-        <img src="assets/icons/gltf.svg" alt="" /> Load .gltf
+        <img src="assets/icons/gltf.svg" alt="" /> Load .gltf/.glb
       </button>
 
       <input
