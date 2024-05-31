@@ -19,6 +19,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
+import JSZip from 'jszip';
 
 /**
  * Manager for managing event display's import related functionality.
@@ -209,8 +210,74 @@ export class ImportManager {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
-   * @param sceneUrl URL to the GLTF (.gltf) file.
+   * Wraps a method taking a file and returning a Promise for
+   * loading a Geometry. It deals with zip file cases and then
+   * calls the original method on each file found
+   * @param file the original file
+   * @param callback the orignal mathod
+   * @returns Promise for loading the geometry.
+   */
+  private zipHandlingWrapper(
+    file: File | string,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) => Promise<GeometryUIParameters[]>,
+  ): Promise<GeometryUIParameters[]> {
+    if (typeof file != 'string') {
+      file = file.name;
+    }
+    const path = file.substr(0, file.lastIndexOf('/'));
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
+      fetch(file).then((response) => {
+        return response.arrayBuffer().then((data) => {
+          if (file.split('.').pop() == 'zip') {
+            try {
+              JSZip.loadAsync(data).then((archive) => {
+                const promises: Promise<GeometryUIParameters[]>[] = [];
+                for (const filePath in archive.files) {
+                  promises.push(
+                    archive
+                      .file(filePath)
+                      .async('arraybuffer')
+                      .then((fileData) => {
+                        return callback(fileData, path, filePath.split('.')[0]);
+                      }),
+                  );
+                }
+                let allGeometriesUIParameters: GeometryUIParameters[] = [];
+                Promise.all(promises).then((geos) => {
+                  geos.forEach((geo) => {
+                    allGeometriesUIParameters =
+                      allGeometriesUIParameters.concat(geo);
+                  });
+                  resolve(allGeometriesUIParameters);
+                });
+              });
+            } catch (error) {
+              console.warn('Could not read zip file', 'Error');
+              reject(error);
+            }
+          } else {
+            callback(data, path, file.split('.')[0]).then(
+              (geo) => {
+                resolve(geo);
+              },
+              (error) => {
+                reject(error);
+              },
+            );
+          }
+        });
+      });
+    });
+  }
+
+  /**
+   * Loads a GLTF (.gltf,.glb) scene(s)/geometry from the given URL.
+   * also support zipped versions of the files
+   * @param sceneUrl URL to the GLTF (.gltf/.glb or a zip with such file(s)) file.
    * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
    * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
    * @param scale Scale of the geometry.
@@ -224,6 +291,39 @@ export class ImportManager {
     scale: number,
     initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
+    return this.zipHandlingWrapper(
+      sceneUrl,
+      (data: ArrayBuffer, path: string, ignoredName: string) => {
+        return this.loadGLTFGeometryInternal(
+          data,
+          path,
+          name,
+          menuNodeName,
+          scale,
+          initiallyVisible,
+        );
+      },
+    );
+  }
+
+  /**
+   * Loads a GLTF (.gltf) scene(s)/geometry from the given ArrayBuffer.
+   * @param sceneData ArrayBuffer containing the geometry file's content (gltf or glb data)
+   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use `>` as a separator.
+   * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
+   */
+  private loadGLTFGeometryInternal(
+    sceneData: ArrayBuffer,
+    path: string,
+    name: string,
+    menuNodeName: string,
+    scale: number,
+    initiallyVisible: boolean,
+  ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath(
@@ -232,8 +332,9 @@ export class ImportManager {
     loader.setDRACOLoader(dracoLoader);
 
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
-      loader.load(
-        sceneUrl,
+      loader.parse(
+        sceneData,
+        path,
         (gltf) => {
           const allGeometries: GeometryUIParameters[] = [];
 
@@ -293,10 +394,8 @@ export class ImportManager {
               menuNodeName: menuNodeName ?? sceneName.menuNodeName,
             });
           }
-
           resolve(allGeometries);
         },
-        undefined,
         (error) => {
           reject(error);
         },
@@ -304,14 +403,27 @@ export class ImportManager {
     });
   }
 
-  /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
+  /** Parses and loads a geometry in GLTF (.gltf,.glb) format.
+   * Also supports zip versions of those
+   * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
+   * @returns Promise for loading the geometry.
+   */
+  public parseGLTFGeometry(fileName: string): Promise<GeometryUIParameters[]> {
+    return this.zipHandlingWrapper(
+      fileName,
+      this.parseGLTFGeometryFromArrayBuffer,
+    );
+  }
+
+  /** Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry ArrayBuffer containing the geometry file's content (gltf or glb data)
+   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
-    geometry: string | ArrayBuffer,
+  private parseGLTFGeometryFromArrayBuffer(
+    geometry: ArrayBuffer,
+    path: string,
     name: string,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
@@ -323,17 +435,18 @@ export class ImportManager {
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
         geometry,
-        '',
+        path,
         (gltf) => {
           const allGeometriesUIParameters: GeometryUIParameters[] = [];
 
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, name ?? sceneName.name);
+            this.processGeometry(scene, sceneName.name ?? name);
 
             allGeometriesUIParameters.push({
               object: scene,
+              menuNodeName: sceneName.menuNodeName,
             });
           }
 

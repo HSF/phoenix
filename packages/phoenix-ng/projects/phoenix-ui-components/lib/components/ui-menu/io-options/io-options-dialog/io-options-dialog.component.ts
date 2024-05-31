@@ -144,10 +144,10 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   handleGLTFInput(files: FileList) {
-    const callback = (content: any, name: string) => {
-      this.eventDisplay.parseGLTFGeometry(content, name);
+    const callback = (content: any) => {
+      this.eventDisplay.parseGLTFGeometry(content);
     };
-    this.handleFileInput(files[0], 'gltf', callback);
+    this.handleFileInput(files[0], 'gltf,glb,gltf.zip,glb.zip', callback);
   }
 
   handlePhoenixInput(files: FileList) {
@@ -170,7 +170,7 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   async handleRootJSONInput(files: FileList) {
-    if (!this.isFileOfExtension(files[0], 'gz')) {
+    if (!this.isFileOfExtension(files[0].name, 'gz')) {
       return;
     }
 
@@ -193,7 +193,7 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   async handleZipEventDataInput(files: FileList) {
-    if (!this.isFileOfExtension(files[0], 'zip')) {
+    if (!this.isFileOfExtension(files[0].name, 'zip')) {
       return;
     }
 
@@ -236,23 +236,22 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleFileInput(
     file: File,
-    extension: string,
+    extensions: string,
     callback: (result: string, fileName?: string) => void,
   ) {
     const reader = new FileReader();
 
-    if (this.isFileOfExtension(file, extension)) {
+    if (this.isFileOfExtension(file.name, extensions)) {
       reader.onload = () => {
         callback(reader.result.toString(), file.name.split('.')[0]);
       };
       reader.readAsText(file);
     }
-
     this.onClose();
   }
 
-  private isFileOfExtension(file: File, extension: string): boolean {
-    if (file.name.split('.').pop() === extension) {
+  private isFileOfExtension(fileName: string, extensions: string): boolean {
+    if (extensions.split(',').includes(fileName.split('.', 2).pop())) {
       return true;
     }
 
