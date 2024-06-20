@@ -144,10 +144,12 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   handleGLTFInput(files: FileList) {
-    const callback = (content: any) => {
-      this.eventDisplay.parseGLTFGeometry(content);
+    const callback = (file: File) => {
+      this.eventDisplay.parseGLTFGeometry(file);
     };
-    this.handleFileInput(files[0], 'gltf,glb,gltf.zip,glb.zip', callback);
+    if (this.isFileOfExtension(files[0].name, 'gltf,glb,gltf.zip,glb.zip')) {
+      callback(files[0]);
+    }
   }
 
   handlePhoenixInput(files: FileList) {
@@ -193,7 +195,7 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   async handleZipEventDataInput(files: FileList) {
-    if (!this.isFileOfExtension(files[0].name, 'zip')) {
+    if (!this.isFileOfExtension(files[0].name, 'zip,json.zip')) {
       return;
     }
 
@@ -251,7 +253,9 @@ export class IOOptionsDialogComponent implements OnInit {
   }
 
   private isFileOfExtension(fileName: string, extensions: string): boolean {
-    if (extensions.split(',').includes(fileName.split('.', 2).pop())) {
+    if (
+      extensions.split(',').includes(fileName.slice(fileName.indexOf('.') + 1))
+    ) {
       return true;
     }
 

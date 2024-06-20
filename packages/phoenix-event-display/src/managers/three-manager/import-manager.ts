@@ -210,65 +210,124 @@ export class ImportManager {
   }
 
   /**
+   * handles some file content and loads a Geometry contained..
+   * It deals with zip file cases and then
+   * calls the given method on each file found
+   * @param path path of the original file
+   * @param filename name of the original file
+   * @param data content of the original file
+   * @param callback the method to be called on each file content
+   * @param resolve the method to be called on success
+   * @param reject the method to be called on failure
+   */
+  private zipHandlingInternal(
+    path: string,
+    filename: string,
+    data: ArrayBuffer,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) => Promise<GeometryUIParameters[]>,
+    resolve: any,
+    reject: any,
+  ) {
+    if (filename.split('.').pop() == 'zip') {
+      JSZip.loadAsync(data).then((archive) => {
+        const promises: Promise[] = [];
+        for (const filePath in archive.files) {
+          promises.push(
+            archive
+              .file(filePath)
+              .async('arraybuffer')
+              .then((fileData) => {
+                return callback(fileData, path, filePath.split('.')[0]);
+              }),
+          );
+        }
+        let allGeometriesUIParameters: GeometryUIParameters[] = [];
+        Promise.all(promises).then((geos) => {
+          geos.forEach((geo) => {
+            allGeometriesUIParameters = allGeometriesUIParameters.concat(geo);
+          });
+          resolve(allGeometriesUIParameters);
+        });
+      });
+    } else {
+      callback(data, path, filename.split('.')[0]).then(
+        (geo) => {
+          resolve(geo);
+        },
+        (error) => {
+          reject(error);
+        },
+      );
+    }
+  }
+
+  /**
    * Wraps a method taking a file and returning a Promise for
    * loading a Geometry. It deals with zip file cases and then
    * calls the original method on each file found
    * @param file the original file
-   * @param callback the orignal mathod
+   * @param callback the original method
    * @returns Promise for loading the geometry.
    */
-  private zipHandlingWrapper(
-    file: File | string,
+  private zipHandlingFileWrapper(
+    file: File,
     callback: (
       fileContent: ArrayBuffer,
       path: string,
       name: string,
     ) => Promise<GeometryUIParameters[]>,
   ): Promise<GeometryUIParameters[]> {
-    if (typeof file != 'string') {
-      file = file.name;
-    }
-    const path = file.substr(0, file.lastIndexOf('/'));
+    return new Promise<GeometryUIParameters[]>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => {
+        this.eventDisplay.getInfoLogger().add('Could not read file', 'Error');
+        reject(error);
+      };
+      reader.onload = () => {
+        this.zipHandlingInternal(
+          '',
+          file.name,
+          reader.result,
+          callback,
+          resolve,
+          reject,
+        );
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  /**
+   * Wraps a method taking a URL and returning a Promise for
+   * loading a Geometry. It deals with zip file cases and then
+   * calls the original method on each file found
+   * @param file the original file
+   * @param callback the original method
+   * @returns Promise for loading the geometry.
+   */
+  private zipHandlingURLWrapper(
+    file: string,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) => Promise<GeometryUIParameters[]>,
+  ): Promise<GeometryUIParameters[]> {
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       fetch(file).then((response) => {
         return response.arrayBuffer().then((data) => {
-          if (file.split('.').pop() == 'zip') {
-            try {
-              JSZip.loadAsync(data).then((archive) => {
-                const promises: Promise<GeometryUIParameters[]>[] = [];
-                for (const filePath in archive.files) {
-                  promises.push(
-                    archive
-                      .file(filePath)
-                      .async('arraybuffer')
-                      .then((fileData) => {
-                        return callback(fileData, path, filePath.split('.')[0]);
-                      }),
-                  );
-                }
-                let allGeometriesUIParameters: GeometryUIParameters[] = [];
-                Promise.all(promises).then((geos) => {
-                  geos.forEach((geo) => {
-                    allGeometriesUIParameters =
-                      allGeometriesUIParameters.concat(geo);
-                  });
-                  resolve(allGeometriesUIParameters);
-                });
-              });
-            } catch (error) {
-              console.warn('Could not read zip file', 'Error');
-              reject(error);
-            }
-          } else {
-            callback(data, path, file.split('.')[0]).then(
-              (geo) => {
-                resolve(geo);
-              },
-              (error) => {
-                reject(error);
-              },
-            );
-          }
+          this.zipHandlingInternal(
+            file.substr(0, file.lastIndexOf('/')),
+            file,
+            data,
+            callback,
+            resolve,
+            reject,
+          );
         });
       });
     });
@@ -291,7 +350,7 @@ export class ImportManager {
     scale: number,
     initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
-    return this.zipHandlingWrapper(
+    return this.zipHandlingURLWrapper(
       sceneUrl,
       (data: ArrayBuffer, path: string, ignoredName: string) => {
         return this.loadGLTFGeometryInternal(
@@ -408,10 +467,12 @@ export class ImportManager {
    * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(fileName: string): Promise<GeometryUIParameters[]> {
-    return this.zipHandlingWrapper(
-      fileName,
-      this.parseGLTFGeometryFromArrayBuffer,
+  public parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
+    return this.zipHandlingFileWrapper(
+      file,
+      (data: ArrayBuffer, path: string, name: string) => {
+        return this.parseGLTFGeometryFromArrayBuffer(data, path, name);
+      },
     );
   }
 
@@ -441,6 +502,7 @@ export class ImportManager {
 
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
+            console.log('Dealing with scene ', scene.name);
             const sceneName = this.processGLTFSceneName(scene.name);
             this.processGeometry(scene, sceneName.name ?? name);
 
