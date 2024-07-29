@@ -16800,6 +16800,7 @@ __metadata:
     cypress-plugin-snapshots: "https://github.com/meinaart/cypress-plugin-snapshots.git"
     jest: ^29.7.0
     jest-preset-angular: ^14.1.0
+    jszip: ^3.10.1
     ng-packagr: ^17.3.0
     phoenix-event-display: ^2.16.0
     phoenix-ui-components: ^2.16.0

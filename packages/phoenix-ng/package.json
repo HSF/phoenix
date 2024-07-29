@@ -36,6 +36,7 @@
     "@angular/router": "^17.3.11",
     "css-element-queries": "^1.2.3",
     "cypress-plugin-snapshots": "https://github.com/meinaart/cypress-plugin-snapshots.git",
+    "jszip": "^3.10.1",
     "phoenix-event-display": "^2.16.0",
     "phoenix-ui-components": "^2.16.0",
     "qrcode": "1.5.3",
