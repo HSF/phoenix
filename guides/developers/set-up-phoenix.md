@@ -10,6 +10,10 @@
 * [Setting up the event display](#setting-up-the-event-display)
   * [Create an experiment component](#create-an-experiment-component)
   * [Set up the route](#set-up-the-route)
+* [Resolving problems](#resolving-problems)
+  * [Angular version](#angular-version) 
+  * [npm error gyp ERR](#npm-error-gyp-ERR)
+  * [ng build errors](#ng-build-errors)
 
 ## Introduction
 
@@ -33,13 +37,13 @@ npm install -g @angular/cli
 Now, using the Angular CLI, create a new Angular app.
 
 ```sh
-ng new my-app --style scss --routing true
+ng new event-display-app --style scss --routing true --interactive false
 ```
 
 Make sure the newly created app works.
 
 ```sh
-cd my-app
+cd event-display-app
 ng serve --open
 ```
 
@@ -51,30 +55,10 @@ Now that you have an app set up. Install the `phoenix-ui-components` package to 
 npm install phoenix-ui-components
 ```
 
-#### Import `PhoenixUIModule`
-
-After installing the package, open the `src/app/app.module.ts` file in your app and add `BrowserAnimationsModule` and `PhoenixUIModule` in your module imports.
-
-```ts
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PhoenixUIModule } from 'phoenix-ui-components';
-
-@NgModule({
-  ...
-  imports: [
-    ...
-    BrowserAnimationsModule,
-    PhoenixUIModule,
-    ...
-  ],
-  ...
-})
-export class AppModule { }
-```
 
 #### Import required styles
 
-Since some Phoenix components use Bootstrap, you will need to add the the Bootstrap stylesheet in the `src/index.html` file of your app.
+Add the the Bootstrap stylesheet to the `src/index.html` file of your app.
 
 ```html
 <head>
@@ -84,17 +68,18 @@ Since some Phoenix components use Bootstrap, you will need to add the the Bootst
 </head>
 ```
 
-After this, go to the `src/styles.scss` file of your app and import the global Phoenix styles.
+#### Add Phoenix Theming
+
+
+Go to the `src/styles.scss` file of your app and import the global Phoenix styles.
 
 ```scss
 @import 'phoenix-ui-components/theming';
-
-...
 ```
 
 #### Set up assets
 
-And lastly, download [these assets](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/projects/phoenix-ui-components/lib/assets) (icons and images used by the Phoenix UI components) and put them in the `src/assets` directory of your app.
+Download [these assets](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/projects/phoenix-ui-components/lib/assets) (icons and images used by the Phoenix UI components) and put them in the `src/assets` directory of your app.
 
 With this, the app is ready and we can move onto setting up the event display in this app.
 
@@ -112,12 +97,12 @@ The next step would be to create an Angular component so that we can use the eve
 For this, navigate to the `src/app` directory of your app in the terminal and use the Angular CLI to generate a component.
 
 ```sh
-ng generate component test-experiment
+ng generate component main-display
 ```
 
-This will create a `test-experiment` folder with the component source files.
+This will create a `main-display` folder with the component source files.
 
-Now, open the `test-experiment.component.html` file and use the Phoenix UI components to set up the UI.
+Now, open the `main-display.component.html` file and use the Phoenix UI components to set up the UI.
 
 ```html
 <app-nav></app-nav>
@@ -129,7 +114,7 @@ Now, open the `test-experiment.component.html` file and use the Phoenix UI compo
 <div id="eventDisplay"></div>
 ```
 
-The `[rootNode]="phoenixMenuRoot"` specified here for the Phoenix menu will be a defined in `test-experiment.component.ts`.
+The `[rootNode]="phoenixMenuRoot"` specified here for the Phoenix menu will be a defined in `main-display.component.ts`.
 
 One can easily customize the app-ui-menu. There are 2 main ways :
   - just adding buttons at the end of it by inserting the corresponding components with the `app-ui-menu` declaration :
@@ -148,19 +133,23 @@ One can easily customize the app-ui-menu. There are 2 main ways :
   ```
   This defines a very restricted menu with only the event selector and the event cycling button
 
-Finally, open the `test-experiment.component.ts` file and initialize the Phoenix event display using the intermediate Angular `EventDisplayService`.
+Finally, open the `main-display.component.ts` file and initialize the Phoenix event display using the intermediate Angular `EventDisplayService`.
 
 ```ts
 import { Component, OnInit } from '@angular/core';
-import { EventDisplayService } from 'phoenix-ui-components';
+import {EventDisplayService, PhoenixUIModule} from 'phoenix-ui-components';
 import { Configuration, PhoenixLoader, PresetView, ClippingSetting, PhoenixMenuNode } from 'phoenix-event-display';
 
 @Component({
-  selector: 'app-test-experiment',
-  templateUrl: './test-experiment.component.html',
-  styleUrls: ['./test-experiment.component.scss']
+  selector: 'app-main-display',
+  standalone: true,
+  imports: [
+    PhoenixUIModule
+  ],
+  templateUrl: './main-display.component.html',
+  styleUrl: './main-display.component.scss'
 })
-export class TestExperimentComponent implements OnInit {
+export class MainDisplayComponent implements OnInit {
 
   /** The root Phoenix menu node. */
   phoenixMenuRoot = new PhoenixMenuNode("Phoenix Menu");
@@ -195,11 +184,16 @@ export class TestExperimentComponent implements OnInit {
     // Load detector geometry (assuming the file exists in the `src/assets` directory of the app)
     this.eventDisplay.loadGLTFGeometry('assets/detector.gltf', 'Detector');
   }
-
 }
 ```
 
-### Set up the route
+(!) It is assumed that you use your data and detector geometry instead of links provided in 
+`eventFile` and `loadGLTFGeometry` above. For testing purposes, you may take geometry and events at: 
+
+- [geometry examples](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/projects/phoenix-app/src/assets/geometry)
+- [event examples](https://github.com/HSF/phoenix/tree/main/packages/phoenix-ng/projects/phoenix-app/src/assets/files)
+
+### Set up the router
 
 Once the experiment component is created, you will need to set up a route so it can be served through a URL.
 
@@ -210,23 +204,57 @@ Go to `src/app/app.component.html` and replace all content with this code:
 <router-outlet></router-outlet>
 ```
 
-Now, navigate to `src/app/app.module.ts` and add the routing for the experiment component we created.
+Now, navigate to `src/app/app.routes.ts` and add the routing for the experiment component we created.
 
 ```ts
-import { RouterModule } from '@angular/router';
-import { TestExperimentComponent } from './test-component/test-experiment.component';
+import { Routes } from '@angular/router';
+import {MainDisplayComponent} from "./main-display/main-display.component";
 
-@NgModule({
-  ...
-  imports: [
-    ...
-    RouterModule.forRoot([{ path: '', component: TestExperimentComponent }])
-  ],
-  ...
-})
-export class AppModule { }
+export const routes: Routes = [
+  { path: '', component: MainDisplayComponent }
+];
 ```
 
 This will serve the experiment component through the base URL `/` of the server.
 
 Finally, you can start the app with `npm start` and navigate to `http://localhost:4200` where you will see the experiment component in action.
+
+
+## Resolving problems
+
+### Angular version
+
+Phoenix event display may delay the updates of the Angular framework. Your
+application should have the same version of Angular as `phoenix-ui-components` package
+
+You may check "dependencies" section of 
+[phoenix-ui-components package.json here](https://github.com/HSF/phoenix/blob/main/packages/phoenix-ng/package.json)
+then copy the correct version to your package.json and run `npm install`. 
+
+
+### npm error gyp ERR
+
+What is happening? 
+One of the javascript dependencies may try to build some C++ code on your machine.
+For this it uses node-gyp, which in turn, uses your machine compiler and installed
+libraries. This may cause some errors. 
+
+1. On Windows, you may experience `npm error gyp ERR` 
+   while trying to run ` npm install phoenix-ui-components`. In general, you need
+   to install and make available modern python version and MS C++ redistributable.   
+   The later might be installed standalone or as a bundle of VS Community edition. 
+   [More in this SO answer](https://stackoverflow.com/questions/57879150/how-can-i-solve-error-gypgyp-errerr-find-vsfind-vs-msvs-version-not-set-from)
+
+2. On linux machines you may need libgl and gcc building tools to be installed. E.g. on ubuntu:
+   ```bash
+   sudo apt-get install -y build-essential libgl1-mesa-dev
+   ```
+
+### ng build errors
+
+The provided setup should work while one runs `ng serve` or its alias `npm start`. 
+There is another common command `ng build` or `npm run build` same as `npm run watch`. 
+The later commands my not run falling with multiple errors around `require("...")`.
+One of the options of fixing it is using custom webpack builder configuration in 
+angular.json file. You may look [here as an example](https://github.com/eic/firebird/blob/main/firebird-ng/angular.json)
+and adjust it for your project
