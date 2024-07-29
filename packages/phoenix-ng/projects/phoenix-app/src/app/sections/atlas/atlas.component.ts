@@ -7,7 +7,7 @@ import {
 import {
   PresetView,
   PhoenixMenuNode,
-  PhoenixLoader,
+  JiveXMLLoader,
   StateManager,
 } from 'phoenix-event-display';
 import type { Configuration } from 'phoenix-event-display';
@@ -48,7 +48,7 @@ export class AtlasComponent implements OnInit {
 
     // Define the configuration
     const configuration: Configuration = {
-      eventDataLoader: new PhoenixLoader(),
+      eventDataLoader: new JiveXMLLoader(['CombinedMuonTracks']),
       presetViews: [
         new PresetView('Left View', [0, 0, -12000], [0, 0, 0], 'left-cube'),
         new PresetView('Center View', [-500, 12000, 0], [0, 0, 0], 'top-cube'),

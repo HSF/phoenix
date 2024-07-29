@@ -140,6 +140,7 @@ export class PhoenixObjects {
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
+    const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
     const points = [];
 
     for (let i = 0; i < positions.length; i++) {
@@ -162,7 +163,7 @@ export class PhoenixObjects {
     const curve = new CatmullRomCurve3(points);
 
     // TubeGeometry
-    const geometry = new TubeGeometry(curve, undefined, 2);
+    const geometry = new TubeGeometry(curve, undefined, linewidth);
     const material = new MeshToonMaterial({ color: objectColor });
     const tubeObject = new Mesh(geometry, material);
 
@@ -171,7 +172,7 @@ export class PhoenixObjects {
     const lineGeometry = new BufferGeometry().setFromPoints(vertices);
     const lineMaterial = new LineBasicMaterial({
       color: objectColor,
-      linewidth: 2,
+      linewidth: linewidth,
     });
     const lineObject = new Line(lineGeometry, lineMaterial);
     lineObject.name = 'Track';
