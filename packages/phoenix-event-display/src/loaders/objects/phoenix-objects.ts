@@ -477,7 +477,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
-      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box = new Mesh(geometry, material);
