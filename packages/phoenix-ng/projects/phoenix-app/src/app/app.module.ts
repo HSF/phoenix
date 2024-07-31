@@ -11,7 +11,8 @@ import { VPToggleComponent } from './sections/lhcb/vp-toggle/vp-toggle.component
 import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { PhoenixUIModule } from 'phoenix-ui-components';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import type { Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';

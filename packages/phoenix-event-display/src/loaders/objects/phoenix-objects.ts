@@ -24,12 +24,12 @@ import {
   CanvasTexture,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
-import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
-import { RKHelper } from '../../helpers/rk-helper';
-import { CoordinateHelper } from '../../helpers/coordinate-helper';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants.js';
+import { RKHelper } from '../../helpers/rk-helper.js';
+import { CoordinateHelper } from '../../helpers/coordinate-helper.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { TracksMaterial, TracksMesh } from './tracks';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
+import { TracksMaterial, TracksMesh } from './tracks.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 /**
  * Physics objects that make up an event in Phoenix.

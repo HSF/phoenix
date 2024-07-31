@@ -1,4 +1,4 @@
-import { PhoenixLoader } from './phoenix-loader';
+import { PhoenixLoader } from './phoenix-loader.js';
 
 /**
  * PhoenixLoader for processing and loading an event from TrackML.

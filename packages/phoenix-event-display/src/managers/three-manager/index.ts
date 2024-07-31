@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
+import type { Object3DEventMap, Intersection } from 'three';
 import {
   Group,
   Object3D,
-  Object3DEventMap,
   Vector3,
   Plane,
   Quaternion,
@@ -18,28 +18,29 @@ import {
   PerspectiveCamera,
   Vector2,
   Raycaster,
-  Intersection,
-  Event,
 } from 'three';
 import html2canvas from 'html2canvas';
-import { Configuration } from '../../lib/types/configuration';
-import { ControlsManager } from './controls-manager';
-import { RendererManager } from './renderer-manager';
-import { ExportManager } from './export-manager';
-import { ImportManager } from './import-manager';
-import { SelectionManager } from './selection-manager';
-import { SceneManager } from './scene-manager';
-import { AnimationPreset, AnimationsManager } from './animations-manager';
-import { InfoLogger } from '../../helpers/info-logger';
-import { EffectsManager } from './effects-manager';
-import { StateManager } from '../state-manager';
-import { LoadingManager } from '../loading-manager';
-import { ActiveVariable } from '../../helpers/active-variable';
-import { ColorManager } from './color-manager';
-import { XRManager, XRSessionType } from './xr/xr-manager';
-import { VRManager } from './xr/vr-manager';
-import { ARManager } from './xr/ar-manager';
-import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
+import type { Configuration } from '../../lib/types/configuration.js';
+import { ControlsManager } from './controls-manager.js';
+import { RendererManager } from './renderer-manager.js';
+import { ExportManager } from './export-manager.js';
+import { ImportManager } from './import-manager.js';
+import { SelectionManager } from './selection-manager.js';
+import { SceneManager } from './scene-manager.js';
+import type {
+  AnimationPreset,
+  AnimationsManager,
+} from './animations-manager.js';
+import { InfoLogger } from '../../helpers/info-logger.js';
+import { EffectsManager } from './effects-manager.js';
+import { StateManager } from '../state-manager.js';
+import { LoadingManager } from '../loading-manager.js';
+import { ActiveVariable } from '../../helpers/active-variable.js';
+import { ColorManager } from './color-manager.js';
+import { XRManager, XRSessionType } from './xr/xr-manager.js';
+import { VRManager } from './xr/vr-manager.js';
+import { ARManager } from './xr/ar-manager.js';
+import type { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters.js';
 
 (function () {
   const _updateMatrixWorld = Object3D.prototype.updateMatrixWorld;

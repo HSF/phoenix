@@ -6,10 +6,10 @@ import {
   MeshPhongMaterial,
   Object3D,
 } from 'three';
-import { ThreeManager } from '../three-manager';
-import { SceneManager } from '../three-manager/scene-manager';
-import { Cut } from '../../lib/models/cut.model';
-import { PhoenixUI } from './phoenix-ui';
+import { ThreeManager } from '../three-manager/index.js';
+import { SceneManager } from '../three-manager/scene-manager.js'
+import { Cut } from '../../lib/models/cut.model.js';
+import { PhoenixUI } from './phoenix-ui.js';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.

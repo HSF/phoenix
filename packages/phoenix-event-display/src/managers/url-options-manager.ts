@@ -1,9 +1,9 @@
-import { JiveXMLLoader } from '../loaders/jivexml-loader';
-import { PhoenixLoader } from '../loaders/phoenix-loader';
-import { Configuration } from '../lib/types/configuration';
-import { EventDisplay } from '../event-display';
-import { StateManager } from './state-manager';
-import { readZipFile } from '../helpers/zip';
+import { JiveXMLLoader } from '../loaders/jivexml-loader.js';
+import { PhoenixLoader } from '../loaders/phoenix-loader.js';
+import { Configuration } from '../lib/types/configuration.js';
+import { EventDisplay } from '../event-display.js';
+import { StateManager } from './state-manager.js';
+import { readZipFile } from '../helpers/zip.js';
 
 /**
  * Model for Phoenix URL options.

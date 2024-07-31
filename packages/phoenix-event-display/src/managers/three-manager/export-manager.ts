@@ -1,7 +1,7 @@
-import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter';
+import { OBJExporter } from 'three/examples/jsm/exporters/OBJExporter.js';
 import { Scene, Object3D } from 'three';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
-import { saveFile } from '../../helpers/file';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
+import { saveFile } from '../../helpers/file.js';
 
 /**
  * Manager for managing event display's export related functionality.

@@ -1,7 +1,7 @@
-import { PresetView } from '../models/preset-view.model';
-import { EventDataLoader } from '../../loaders/event-data-loader';
-import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
-import { AnimationPreset } from '../../managers/three-manager/animations-manager';
+import { PresetView } from '../models/preset-view.model.js';
+import { EventDataLoader } from '../../loaders/event-data-loader.js';
+import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node.js';
+import { AnimationPreset } from '../../managers/three-manager/animations-manager.js';
 import { DepthPackingStrategies } from 'three';
 
 /**

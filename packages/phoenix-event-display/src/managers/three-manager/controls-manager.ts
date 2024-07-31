@@ -10,8 +10,8 @@ import {
   Mesh,
   TubeGeometry,
 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RendererManager } from './renderer-manager';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RendererManager } from './renderer-manager.js';
 
 /**
  * Manager for managing event display controls.

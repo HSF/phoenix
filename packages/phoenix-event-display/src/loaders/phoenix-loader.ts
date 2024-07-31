@@ -1,18 +1,18 @@
 import { Group, Object3D, Vector3 } from 'three';
 import { GUI } from 'dat.gui';
-import { EventDataLoader } from './event-data-loader';
-import { UIManager } from '../managers/ui-manager';
-import { ThreeManager } from '../managers/three-manager';
-import { Cut } from '../lib/models/cut.model';
-import { PhoenixObjects } from './objects/phoenix-objects';
-import { InfoLogger } from '../helpers/info-logger';
-import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
-import { LoadingManager } from '../managers/loading-manager';
-import { StateManager } from '../managers/state-manager';
-import { CoordinateHelper } from '../helpers/coordinate-helper';
-import { getLabelTitle } from '../helpers/labels';
-import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
-import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import { EventDataLoader } from './event-data-loader.js';
+import { UIManager } from '../managers/ui-manager/index.js';
+import { ThreeManager } from '../managers/three-manager/index.js';
+import { Cut } from '../lib/models/cut.model.js';
+import { PhoenixObjects } from './objects/phoenix-objects.js';
+import { InfoLogger } from '../helpers/info-logger.js';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node.js';
+import { LoadingManager } from '../managers/loading-manager.js';
+import { StateManager } from '../managers/state-manager.js';
+import { CoordinateHelper } from '../helpers/coordinate-helper.js';
+import { getLabelTitle } from '../helpers/labels.js';
+import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui.js';
+import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui.js';
 
 /**
  * Loader for processing and loading an event.

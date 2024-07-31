@@ -1,4 +1,4 @@
-import { PhoenixMenuConfigs } from './config-types';
+import { PhoenixMenuConfigs } from './config-types.js';
 
 /**
  * A single node of phoenix menu item.

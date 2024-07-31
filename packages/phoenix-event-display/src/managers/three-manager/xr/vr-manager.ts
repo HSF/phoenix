@@ -1,6 +1,6 @@
 import { WebGLRenderer, Vector3, BufferGeometry, Line } from 'three';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
-import { XRManager, XRSessionType } from './xr-manager';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
+import { XRManager, XRSessionType } from './xr-manager.js';
 
 // NOTE: This was created on 29/08/2020
 // It might become outdated given how WebXR is still a work in progress

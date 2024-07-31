@@ -1,5 +1,5 @@
 import { Color, MeshPhongMaterial } from 'three';
-import { SceneManager } from './scene-manager';
+import { SceneManager } from './scene-manager.js';
 
 /**
  * Color manager for three.js functions related to coloring of objects.

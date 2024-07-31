@@ -6,19 +6,23 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2022",
-    "module": "es2020",
+    "target": "esnext",
+    "module": "esnext",
     "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [
         "./projects/phoenix-ui-components/lib/public_api.ts"
       ]
-    }
+    },
+    "noEmit": true, // or `emitDeclarationOnly`
+    "allowImportingTsExtensions": true,
+    "allowArbitraryExtensions": true,
+    "verbatimModuleSyntax": true, // or `isolatedModules`
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
