@@ -1,4 +1,4 @@
-import Stats from 'stats-js';
+import Stats from 'stats.js';
 import { Color, Object3D, Vector3 } from 'three';
 import { ThreeManager } from '../three-manager/index.js';
 import type { Configuration } from '../../lib/types/configuration.js';
@@ -16,8 +16,8 @@ import {
   getFromLocalStorage,
   setToLocalStorage,
 } from '../../helpers/browser-storage.js';
-import { PhoenixUI } from './phoenix-ui.js';
-import { AnimationPreset } from '../../managers/three-manager/animations-manager.js';
+import { type PhoenixUI } from './phoenix-ui.js';
+import { type AnimationPreset } from '../../managers/three-manager/animations-manager.js';
 
 /** If animation presets not passed in configuration, we will use this. */
 const defaultAnimationPresets: AnimationPreset[] = [
@@ -126,7 +126,9 @@ export class UIManager {
     }
     // State manager
     this.stateManager = new StateManager();
-    this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
+    if (configuration.phoenixMenuRoot) {
+      this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
+    }
   }
 
   /**
@@ -480,7 +482,10 @@ export class UIManager {
    * @returns Available preset views.
    */
   public getPresetViews(): PresetView[] {
-    return this.configuration?.presetViews;
+    if (!this.configuration || !this.configuration.presetViews) {
+      return [];
+    }
+    return this.configuration.presetViews;
   }
 
   /**
