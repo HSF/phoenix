@@ -72,5 +72,5 @@ export interface PhoenixUI<T> {
    * @param typeName Name of the event data type.
    * @returns Folder of the event data type.
    */
-  getEventDataTypeFolder(typeName: string): T;
+  getEventDataTypeFolder(typeName: string): T | undefined;
 }

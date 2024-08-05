@@ -37,9 +37,6 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     private phoenixMenuRoot: PhoenixMenuNode,
     private three: ThreeManager,
   ) {
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
     this.sceneManager = three.getSceneManager();
   }
 
@@ -49,12 +46,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   public clear() {
     if (this.phoenixMenuRoot) {
       this.phoenixMenuRoot.truncate();
-      this.phoenixMenuRoot = undefined;
     }
 
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
+    this.eventFolderState = undefined;
   }
 
   /**
@@ -62,7 +56,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addGeometryFolder() {
     // Phoenix menu
-    if (this.geomFolder === null) {
+    if (this.eventFolderState === undefined) {
       this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
@@ -236,7 +230,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         const collectionObject = this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
-        this.sceneManager.objectVisibility(collectionObject, value);
+        if (collectionObject)
+          this.sceneManager.objectVisibility(collectionObject, value);
       },
     );
 
@@ -260,7 +255,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     new ColorOptions(
       this.three.getColorManager(),
       collectionNode,
-      collectionColor,
+      collectionColor ? collectionColor : new Color(),
       colorByOptions,
     );
   }
@@ -348,7 +343,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           const collectionObject =
             eventDataObject.getObjectByName(collectionName);
           if (collectionObject) {
-            this.sceneManager.setGeometryOpacity(collectionObject, value);
+            this.sceneManager.setGeometryOpacity(
+              collectionObject as Mesh,
+              value,
+            );
           }
         }
       },
@@ -360,7 +358,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         this.sceneManager.wireframeObjects(
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
-            .getObjectByName(collectionName),
+            ?.getObjectByName(collectionName) as Object3D,
           value,
         ),
     });
@@ -433,7 +431,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       const labelObject = this.sceneManager
         .getObjectByName(SceneManager.LABELS_ID)
         .getObjectByName(labelId);
-      this.sceneManager.objectVisibility(labelObject, value);
+      if (labelObject) this.sceneManager.objectVisibility(labelObject, value);
     });
 
     labelNode.addConfig('color', {
@@ -476,7 +474,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param typeName Name of the event data type.
    * @returns Folder of the event data type.
    */
-  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
+  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode | undefined {
     return this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === typeName,
     );
