@@ -23,11 +23,13 @@ export class ColorManager {
     customCheck: (objectUserData: any) => boolean,
   ) {
     const objects = this.sceneManager.getScene().getObjectByName(objectsGroup);
-    objects.traverse((object: any) => {
-      if (object.material?.color && customCheck(object.userData)) {
-        object.material.color.set(color);
-      }
-    });
+    if (objects) {
+      objects.traverse((object: any) => {
+        if (object.material?.color && customCheck(object.userData)) {
+          object.material.color.set(color);
+        }
+      });
+    }
   }
 
   /**
@@ -36,15 +38,17 @@ export class ColorManager {
    * @param color Hex value representing the color.
    */
   public collectionColor(collectionName: string, color: any) {
-    const collection = this.sceneManager
+    const eventData = this.sceneManager
       .getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    const collection = eventData?.getObjectByName(collectionName);
 
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object) => {
-        (object['material']?.color as Color)?.set(color);
-      });
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        child.traverse((object) => {
+          (object['material']?.color as Color)?.set(color);
+        });
+      }
     }
   }
 
@@ -53,15 +57,21 @@ export class ColorManager {
    * @param collectionName Name of the collection.
    */
   public collectionColorRandom(collectionName: string) {
-    const collection = this.sceneManager
-      .getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
+    if (!this.sceneManager || !this.sceneManager.getScene()) {
+      return;
+    }
+    const scene = this.sceneManager.getScene();
+    if (scene) {
+      const eventData = scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collection = eventData?.getObjectByName(collectionName);
 
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object) => {
-        (object['material']?.color as Color)?.set(Math.random() * 0xffffff);
-      });
+      if (collection) {
+        for (const child of Object.values(collection.children)) {
+          child.traverse((object) => {
+            (object['material']?.color as Color)?.set(Math.random() * 0xffffff);
+          });
+        }
+      }
     }
   }
 
@@ -72,6 +82,9 @@ export class ColorManager {
   public colorTracksByVertex(collectionName: string) {
     const scene = this.sceneManager.getScene();
     const vertices = scene.getObjectByName('Vertices');
+    if (!vertices) {
+      return;
+    }
     vertices.traverse((object) => {
       const { linkedTrackCollection, linkedTracks } = object.userData;
 
@@ -83,12 +96,13 @@ export class ColorManager {
         const colorForTracksVertex = (object['material'] as MeshPhongMaterial)
           .color;
         const trackCollection = scene.getObjectByName(linkedTrackCollection);
-
-        linkedTracks.forEach((trackIndex: number) => {
-          trackCollection.children[trackIndex].traverse((trackObject) => {
-            trackObject?.['material']?.color?.set(colorForTracksVertex);
+        if (trackCollection) {
+          linkedTracks.forEach((trackIndex: number) => {
+            trackCollection.children[trackIndex].traverse((trackObject) => {
+              trackObject?.['material']?.color?.set(colorForTracksVertex);
+            });
           });
-        });
+        }
       }
     });
   }

@@ -102,13 +102,12 @@ export class TrackmlLoader extends PhoenixLoader {
     const eventData = {
       eventNumber: eventNum,
       runNumber: 0,
-      Hits: undefined,
-      Tracks: undefined,
+      Hits: { Reconstructed: [] as any[] },
+      Tracks: { Particles: [] as any[] },
     };
 
     if (this.hitData) {
-      eventData.Hits = {};
-      eventData.Hits.Reconstructed = [];
+      eventData.Hits.Reconstructed = [] as any[];
       let mod = Math.round(this.hitData.length / 5000);
       if (mod < 1) {
         mod = 1;
@@ -129,7 +128,6 @@ export class TrackmlLoader extends PhoenixLoader {
     );
 
     if (this.truthData) {
-      eventData.Tracks = { Particles: [] };
       if (this.particleData) {
         for (let i = 0; i < this.particleData.length; i++) {
           // Add the relevant data from particle, such as first hit position - we'll add the particle_id because we need it later.
@@ -160,7 +158,7 @@ export class TrackmlLoader extends PhoenixLoader {
           }
         }
         if (i % stepSize === 0) {
-          document.getElementById('info').innerHTML =
+          document.getElementById('info')!.innerHTML =
             'Processed ' +
             (100 * i) / this.truthData.length +
             '% of event data.';
@@ -176,7 +174,7 @@ export class TrackmlLoader extends PhoenixLoader {
         numParticleStubs++;
       }
     }
-    const events = {};
+    const events: { [key: string]: any } = {};
     events[eventNum] = eventData;
     return eventData;
   }

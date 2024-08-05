@@ -41,8 +41,8 @@ export class ControlsManager {
     defaultView: number[] = [0, 0, 200],
   ) {
     this.controls = [];
-    this.mainControls = null;
-    this.overlayControls = null;
+    // this.mainControls = new OrbitControls();
+    // this.overlayControls = null;
 
     const rendererElement = rendererManager.getMainRenderer()?.domElement;
 
@@ -106,7 +106,7 @@ export class ControlsManager {
    */
   private setOrbitControls(
     camera: PerspectiveCamera | OrthographicCamera,
-    domElement?: HTMLElement,
+    domElement: HTMLElement,
   ): OrbitControls {
     const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
@@ -367,7 +367,7 @@ export class ControlsManager {
 
       return objectPosition;
     } else {
-      return undefined;
+      return new Vector3();
     }
   }
 

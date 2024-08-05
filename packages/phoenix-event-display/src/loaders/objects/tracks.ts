@@ -6,7 +6,8 @@ import {
   Vector2,
   Vector3,
   Color,
-  ColorRepresentation,
+  type ColorRepresentation,
+  type ShaderMaterialParameters,
 } from 'three';
 
 /**
@@ -233,7 +234,7 @@ export class TracksMaterial extends ShaderMaterial {
    * Create the tracks material.
    * @param params Params for creating the tracks material.
    */
-  constructor(params) {
+  constructor(params: ShaderMaterialParameters) {
     super({
       uniforms: Object.assign(
         {},

@@ -1,6 +1,6 @@
 import { JiveXMLLoader } from '../loaders/jivexml-loader.js';
 import { PhoenixLoader } from '../loaders/phoenix-loader.js';
-import { Configuration } from '../lib/types/configuration.js';
+import type { Configuration } from '../lib/types/configuration.js';
 import { EventDisplay } from '../event-display.js';
 import { StateManager } from './state-manager.js';
 import { readZipFile } from '../helpers/zip.js';
@@ -57,8 +57,8 @@ export class URLOptionsManager {
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
   public applyEventOptions(
-    defaultEventPath?: string,
-    defaultEventType?: string,
+    defaultEventPath: string = '',
+    defaultEventType: string = '',
   ) {
     if (!('fetch' in window)) {
       return;
@@ -82,8 +82,8 @@ export class URLOptionsManager {
       type = defaultEventType;
     } else {
       console.log('Setting and config from urlOptions');
-      file = this.urlOptions.get('file');
-      type = this.urlOptions.get('type').toLowerCase();
+      file = this.urlOptions.get('file') ?? '';
+      type = this.urlOptions.get('type')?.toLowerCase() ?? '';
     }
 
     console.log('Loading ', file, 'of type', type);
@@ -91,7 +91,7 @@ export class URLOptionsManager {
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
         this.eventDisplay.getLoadingManager().addLoadableItem('url_config');
-        fetch(this.urlOptions.get('config'))
+        fetch(this.urlOptions.get('config') ?? '')
           .then((res) => res.json())
           .then((jsonState) => {
             const stateManager = new StateManager();

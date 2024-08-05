@@ -9,7 +9,7 @@ import {
 import { ThreeManager } from '../three-manager/index.js';
 import { SceneManager } from '../three-manager/scene-manager.js'
 import { Cut } from '../../lib/models/cut.model.js';
-import { PhoenixUI } from './phoenix-ui.js';
+import type { PhoenixUI } from './phoenix-ui.js';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.
@@ -57,9 +57,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       'position: absolute; right: 0; top: 2rem; z-index: 11;';
     const canvas = document.getElementById(elementId) ?? document.body;
     canvas.appendChild(this.gui.domElement);
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
+    // this.geomFolder = null;
+    // this.eventFolder = null;
+    // this.labelsFolder = null;
 
     this.sceneManager = three.getSceneManager();
   }
@@ -72,7 +72,6 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     if (gui != null) {
       gui.remove();
     }
-    this.geomFolder = null;
   }
 
   /**

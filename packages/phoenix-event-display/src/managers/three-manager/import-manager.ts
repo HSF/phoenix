@@ -78,10 +78,9 @@ export class ImportManager {
             doubleSided,
             setFlat,
           );
-
           resolve({ object: processedObject });
         },
-        null,
+        () => {},
         (error) => {
           reject(error);
         },
@@ -180,7 +179,7 @@ export class ImportManager {
    */
   public parsePhnxScene(
     scene: any,
-    callback: (geometries: Object3D, eventData: Object3D) => void,
+    callback: (geometries?: Object3D, eventData?: Object3D) => void,
   ): Promise<void> {
     const loader = new GLTFLoader();
 
@@ -236,15 +235,21 @@ export class ImportManager {
             try {
               JSZip.loadAsync(data).then((archive) => {
                 const promises: Promise<GeometryUIParameters[]>[] = [];
-                for (const filePath in archive.files) {
-                  promises.push(
-                    archive
-                      .file(filePath)
-                      .async('arraybuffer')
-                      .then((fileData) => {
-                        return callback(fileData, path, filePath.split('.')[0]);
-                      }),
-                  );
+                if (archive) {
+                  for (const filePath in archive.files) {
+                    const file = archive.file(filePath);
+                    if (file) {
+                      promises.push(
+                        file.async('arraybuffer').then((fileData) => {
+                          return callback(
+                            fileData,
+                            path,
+                            filePath.split('.')[0],
+                          );
+                        }),
+                      );
+                    }
+                  }
                 }
                 let allGeometriesUIParameters: GeometryUIParameters[] = [];
                 Promise.all(promises).then((geos) => {
@@ -345,7 +350,13 @@ export class ImportManager {
               menuNodeName,
             );
 
-            const materials = {};
+            const materials: {
+              [key: string]: {
+                material: Material;
+                geoms: any[];
+                renderOrder: number;
+              };
+            } = {};
             const findMeshes = (
               node: Object3D,
               parentMatrix: Matrix4,
@@ -376,7 +387,7 @@ export class ImportManager {
             for (const val of Object.values(materials)) {
               const mesh = new Mesh(
                 BufferGeometryUtils.mergeGeometries((val as any).geoms),
-                (val as any).material,
+                (val as any).material[0],
               );
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
@@ -384,14 +395,14 @@ export class ImportManager {
 
             this.processGeometry(
               scene,
-              name ?? sceneName.name,
+              name ?? sceneName?.name,
               scale,
               true, // doublesided
             );
 
             allGeometries.push({
               object: scene,
-              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+              menuNodeName: menuNodeName ?? sceneName?.menuNodeName,
             });
           }
           resolve(allGeometries);
@@ -442,11 +453,11 @@ export class ImportManager {
           for (const scene of gltf.scenes) {
             scene.visible = scene.userData.visible;
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name);
+            this.processGeometry(scene, sceneName?.name ?? name);
 
             allGeometriesUIParameters.push({
               object: scene,
-              menuNodeName: sceneName.menuNodeName,
+              menuNodeName: sceneName?.menuNodeName,
             });
           }
 
@@ -502,7 +513,7 @@ export class ImportManager {
               this.processGeometry(object, name, scale, doubleSided);
               resolve({ object });
             },
-            null,
+            undefined,
             (error) => {
               reject(error);
             },

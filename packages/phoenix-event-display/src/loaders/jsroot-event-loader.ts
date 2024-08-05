@@ -145,8 +145,7 @@ export class JSRootEventLoader extends PhoenixLoader {
   private getTEveTrack(track: any): any {
     if (!track || track.fN <= 0) return false;
 
-    const trackObj = {};
-
+    const trackObj: { [key: string]: any } = {};
     const positions = [];
     for (let i = 0; i < track.fN - 1; i++) {
       positions.push([

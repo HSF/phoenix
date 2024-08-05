@@ -40,7 +40,9 @@ export class ExportManager {
         const output = JSON.stringify(jsonResult, null, 2);
         saveFile(output, 'phoenix-scene.phnx', 'text/plain');
       },
-      null,
+      (error: ErrorEvent) => {
+        console.error('Error exporting scene:', error);
+      },
     );
   }
 
@@ -64,7 +66,7 @@ export class ExportManager {
    * @param eventData Currently loaded event data.
    */
   private saveEventDataConfiguration(eventData: any) {
-    const eventDataConfig = {};
+    const eventDataConfig: { [key: string]: string[] } = {};
     for (const objectType of eventData.children) {
       if (objectType.name) {
         eventDataConfig[objectType.name] = [];
@@ -83,7 +85,7 @@ export class ExportManager {
    * @param geometries Currently loaded geometries.
    */
   private saveGeometriesConfiguration(geometries: Object3D) {
-    const geometriesConfig = [];
+    const geometriesConfig: string[] = [];
     geometries.children.forEach((object) => {
       if (object.name !== 'EventData') {
         geometriesConfig.push(object.name);

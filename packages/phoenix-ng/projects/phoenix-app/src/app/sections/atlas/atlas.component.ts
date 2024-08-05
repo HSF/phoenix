@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import type {
+import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
   EventDisplayService,
 } from 'phoenix-ui-components';
 import {

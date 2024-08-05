@@ -1,5 +1,9 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import {
+  Component,
+  Input,
+  type OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({

@@ -109,15 +109,13 @@ export class SelectionManager {
    * Enable selecting of event display elements and set mouse move and click events.
    */
   private enableSelecting() {
-    document
-      .getElementById('three-canvas')
-      .addEventListener('mousemove', this.onTouchMove, true);
-    document
-      .getElementById('three-canvas')
-      .addEventListener('click', this.onDocumentMouseDown, true);
-    document
-      .getElementById('three-canvas')
-      .addEventListener('touchstart', this.onTouchDown);
+    const canvas = document.getElementById('three-canvas');
+    if (!canvas) {
+      return;
+    }
+    canvas.addEventListener('mousemove', this.onTouchMove, true);
+    canvas.addEventListener('click', this.onDocumentMouseDown, true);
+    canvas.addEventListener('touchstart', this.onTouchDown);
     this.preSelectionAntialias = this.effectsManager.antialiasing;
     this.effectsManager.setAntialiasing(false);
   }
@@ -126,15 +124,13 @@ export class SelectionManager {
    * Disable selecting of event display elements and remove mouse move and click events.
    */
   private disableSelecting() {
-    document
-      .getElementById('three-canvas')
-      .removeEventListener('mousemove', this.onTouchMove, true);
-    document
-      .getElementById('three-canvas')
-      .removeEventListener('click', this.onDocumentMouseDown, true);
-    document
-      .getElementById('three-canvas')
-      .removeEventListener('touchstart', this.onTouchDown);
+    const canvas = document.getElementById('three-canvas');
+    if (!canvas) {
+      return;
+    }
+    canvas.removeEventListener('mousemove', this.onTouchMove, true);
+    canvas.removeEventListener('click', this.onDocumentMouseDown, true);
+    canvas.removeEventListener('touchstart', this.onTouchDown);
     this.outlinePass.selectedObjects = [];
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
@@ -230,6 +226,7 @@ export class SelectionManager {
       // We want the closest one
       return intersects[0].object;
     }
+    return new Object3D();
   }
 
   /**

@@ -156,7 +156,9 @@ export class AnimationsManager {
     tweenDuration *= 0.75;
 
     const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-
+    if (!eventData) {
+      return;
+    }
     const animationSphere = new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: {
       eventObject: Object3D;
@@ -225,14 +227,16 @@ export class AnimationsManager {
             tweenDuration,
           );
           // Manually updating scale since we need to change position
-          scaleTween.onUpdate((updatedScale: Vector3) => {
-            const previousScale = eventObject.scale.x;
-            eventObject.scale.setScalar(updatedScale.x);
-            // Restoring to original position and then moving again with the current value
-            eventObject.position
-              .divideScalar(previousScale)
-              .multiplyScalar(updatedScale.x);
-          });
+          scaleTween.onUpdate(
+            (updatedScale: { x: number; y: number; z: number }) => {
+              const previousScale = eventObject.scale.x;
+              eventObject.scale.setScalar(updatedScale.x);
+              // Restoring to original position and then moving again with the current value
+              eventObject.position
+                .divideScalar(previousScale)
+                .multiplyScalar(updatedScale.x);
+            },
+          );
           allTweens.push(scaleTween);
         } else {
           const hasPosition = !eventObject.position.equals(
@@ -284,10 +288,7 @@ export class AnimationsManager {
           if (reachedHits.length > 0) {
             geometry.setAttribute(
               'position',
-              new BufferAttribute(
-                new Float32Array([].concat(...reachedHits)),
-                3,
-              ),
+              new BufferAttribute(new Float32Array([...reachedHits].flat()), 3),
             );
             geometry.computeBoundingSphere();
           }
@@ -340,6 +341,9 @@ export class AnimationsManager {
     clippingConstant: number = 11000,
   ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!allEventData) {
+      return;
+    }
 
     // Sphere to get spherical set of clipping planes from
     const sphere = new SphereGeometry(1, 8, 8);
@@ -480,7 +484,9 @@ export class AnimationsManager {
     onEnd?: () => void,
   ) {
     const allEventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-
+    if (!allEventData) {
+      return;
+    }
     // Get the color of the first track to use for colliding particles
     const track = allEventData.getObjectByName('Track');
     let trackColor: Color;
@@ -556,7 +562,10 @@ export class AnimationsManager {
 
     if (animateEventAfterInterval && collisionDuration) {
       // Will be made visible after collision animation ends.
-      this.scene.getObjectByName(SceneManager.EVENT_DATA_ID).visible = false;
+      const object = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+      if (object) {
+        object.visible = false;
+      }
       setTimeout(() => {
         this.animateEventWithCollision(collisionDuration);
       }, animateEventAfterInterval);
