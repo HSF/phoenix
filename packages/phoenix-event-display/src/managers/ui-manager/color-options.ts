@@ -62,7 +62,7 @@ export class ColorOptions {
 
   // Momentum options.
   /** Default values for colors and min/max for color by momentum. */
-  private momColors = {
+  private momColors: { [key: string]: { value: number; color: string } } = {
     min: {
       value: 0,
       color: '#ff0000',
@@ -105,7 +105,10 @@ export class ColorOptions {
 
     // Check which color by options are to be included.
 
-    if (colorByOptionsToInclude?.length > 0) {
+    if (
+      colorByOptionsToInclude?.length &&
+      colorByOptionsToInclude?.length > 0
+    ) {
       this.colorByOptions = this.allColorByOptions.filter((colorByOption) =>
         colorByOptionsToInclude.includes(colorByOption.key),
       );
@@ -134,7 +137,8 @@ export class ColorOptions {
           (colorByOption) => colorByOption.name === updatedColorByOption,
         );
 
-        this.selectedColorByOption = newColorByOption?.key;
+        if (newColorByOption?.key)
+          this.selectedColorByOption = newColorByOption.key;
         newColorByOption?.apply?.();
 
         this.onlySelectedColorByOption();
@@ -150,12 +154,14 @@ export class ColorOptions {
   private initChargeColorOptions() {
     // Charge configurations
     [-1, 0, 1].forEach((chargeValue) => {
+      const chargeValueIndex =
+        chargeValue.toString() as keyof typeof this.chargeColors;
       this.colorOptionsFolder.addConfig('color', {
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
         group: ColorByOptionKeys.CHARGE,
-        color: this.chargeColors[chargeValue],
+        color: this.chargeColors[chargeValueIndex],
         onChange: (color) => {
-          this.chargeColors[chargeValue] = color;
+          this.chargeColors[chargeValueIndex] = color;
 
           if (this.selectedColorByOption === ColorByOptionKeys.CHARGE) {
             this.colorManager.colorObjectsByProperty(
@@ -176,7 +182,9 @@ export class ColorOptions {
   private applyChargeColorOptions() {
     [-1, 0, 1].forEach((chargeValue) => {
       this.colorManager.colorObjectsByProperty(
-        this.chargeColors[chargeValue],
+        this.chargeColors[
+          chargeValue.toString() as keyof typeof this.chargeColors
+        ],
         this.collectionName,
         (objectUserData) =>
           this.shouldColorByCharge(objectUserData, chargeValue),
@@ -190,13 +198,14 @@ export class ColorOptions {
    * @param chargeValue Value of charge (-1, 0, 1).
    * @returns Whether the charge is equal to the value.
    */
-  private shouldColorByCharge(objectParams: any, chargeValue: number) {
+  private shouldColorByCharge(objectParams: any, chargeValue: number): boolean {
     // For ATLAS data, the charge is calculated from dparams[4] otherwise it exists as an object's userData
     if (Math.sign(1 / parseInt(objectParams?.dparams?.[4])) === chargeValue) {
       return true;
     } else if (objectParams?.charge === chargeValue) {
       return true;
     }
+    return false;
   }
 
   // Momentum options.
@@ -270,6 +279,7 @@ export class ColorOptions {
         ) {
           return true;
         }
+        return false;
       },
     );
   }

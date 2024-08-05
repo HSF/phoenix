@@ -1,4 +1,4 @@
-import { PhoenixMenuConfigs } from './config-types.js';
+import { type PhoenixMenuConfigs } from './config-types.js';
 
 /**
  * A single node of phoenix menu item.
@@ -24,7 +24,7 @@ export class PhoenixMenuNode {
    * Previous toggle state of child nodes. This is so that the
    * previous state of child can be restored if we toggle the parent back on.
    */
-  private childrenToggleState = {};
+  private childrenToggleState: { [key: string]: boolean } = {};
 
   /** If the node children are active or not. */
   childrenActive: boolean = false;
@@ -49,8 +49,8 @@ export class PhoenixMenuNode {
     parent?: PhoenixMenuNode,
   ) {
     this.name = name;
-    this.icon = icon;
-    this.onToggle = onToggle;
+    if (icon) this.icon = icon;
+    if (onToggle) this.onToggle = onToggle;
     if (children) this.children = children;
     if (configs) this.configs = configs;
     if (parent) this.parent = parent;
@@ -214,7 +214,7 @@ export class PhoenixMenuNode {
 
       if (nodeConfig) {
         for (const prop in configState) {
-          nodeConfig[prop] = configState[prop];
+          nodeConfig[prop as keyof PhoenixMenuConfigs] = configState[prop];
         }
 
         this.applyConfigState(nodeConfig);
