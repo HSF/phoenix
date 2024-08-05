@@ -367,7 +367,7 @@ export class ImportManager {
                 const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...
                 if (!materials[key])
                   materials[key] = {
-                    material: (node as Mesh).material,
+                    material: (node as Mesh).material as Material, // Can be Material[], but not sure this is ever still used.
                     geoms: [],
                     renderOrder: -depth,
                   };
@@ -552,9 +552,9 @@ export class ImportManager {
         child.name = child.userData.name = name;
         child.userData.size = this.getObjectSize(child);
         if (child.material instanceof Material) {
-          const color = child.material['color']
-            ? child.material['color']
-            : 0x2fd691;
+          const mat = child.material as Material;
+          const color =
+            'color' in mat ? (mat.color as Color).getHex() : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
 
           // Disposing of the default material
