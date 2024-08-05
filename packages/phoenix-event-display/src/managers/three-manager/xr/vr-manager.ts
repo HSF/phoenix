@@ -120,7 +120,8 @@ export class VRManager extends XRManager {
         'Select: c1 position ' + this.controller1.position.toArray().join(', '),
       );
       console.log(
-        'Select: CG position ' + this.cameraGroup.position.toArray().join(', '),
+        'Select: CG position ' +
+          this.cameraGroup?.position.toArray().join(', '),
       );
 
       // Start movement in camera direction
@@ -154,7 +155,7 @@ export class VRManager extends XRManager {
     this.xrCamera?.getWorldDirection(direction);
 
     // Move the camera in the given direction
-    this.cameraGroup.position.addScaledVector(direction, stepDistance);
+    this.cameraGroup?.position.addScaledVector(direction, stepDistance);
     this.xrCamera.position.addScaledVector(direction, stepDistance);
   }
 }
