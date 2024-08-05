@@ -876,9 +876,9 @@ export class ThreeManager {
    * @returns Promise for loading the scene.
    */
   public async parsePhnxScene(scene: any): Promise<void> {
-    const callback = (geometries: Object3D, eventData: Object3D) => {
-      this.sceneManager.getScene().add(geometries);
-      this.sceneManager.getScene().add(eventData);
+    const callback = (geometries?: Object3D, eventData?: Object3D) => {
+      if (geometries != null) this.sceneManager.getScene().add(geometries);
+      if (eventData != null) this.sceneManager.getScene().add(eventData);
     };
 
     await this.importManager.parsePhnxScene(scene, callback);
