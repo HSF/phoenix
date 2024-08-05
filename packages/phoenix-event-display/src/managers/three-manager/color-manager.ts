@@ -1,4 +1,11 @@
-import { Color, MeshPhongMaterial } from 'three';
+import {
+  Color,
+  MeshPhongMaterial,
+  Mesh,
+  Object3D,
+  Material,
+  type Object3DEventMap,
+} from 'three';
 import { SceneManager } from './scene-manager.js';
 
 /**
@@ -46,7 +53,7 @@ export class ColorManager {
     if (collection) {
       for (const child of Object.values(collection.children)) {
         child.traverse((object) => {
-          (object['material']?.color as Color)?.set(color);
+          setColorForObject(object, color);
         });
       }
     }
@@ -68,7 +75,8 @@ export class ColorManager {
       if (collection) {
         for (const child of Object.values(collection.children)) {
           child.traverse((object) => {
-            (object['material']?.color as Color)?.set(Math.random() * 0xffffff);
+            const randomColor = Math.random() * 0xffffff;
+            setColorForObject(object, randomColor);
           });
         }
       }
@@ -87,23 +95,38 @@ export class ColorManager {
     }
     vertices.traverse((object) => {
       const { linkedTrackCollection, linkedTracks } = object.userData;
-
       if (
         object.name === 'Vertex' &&
         linkedTrackCollection === collectionName &&
         linkedTracks
       ) {
-        const colorForTracksVertex = (object['material'] as MeshPhongMaterial)
-          .color;
-        const trackCollection = scene.getObjectByName(linkedTrackCollection);
-        if (trackCollection) {
-          linkedTracks.forEach((trackIndex: number) => {
-            trackCollection.children[trackIndex].traverse((trackObject) => {
-              trackObject?.['material']?.color?.set(colorForTracksVertex);
+        const mat = (object as Mesh).material as Material;
+        if ('color' in mat) {
+          // Should always be true, but basetype doesn't have color property
+          const colorForTracksVertex = mat.color;
+          const trackCollection = scene.getObjectByName(linkedTrackCollection);
+          if (trackCollection) {
+            linkedTracks.forEach((trackIndex: number) => {
+              trackCollection.children[trackIndex].traverse((trackObject) => {
+                setColorForObject(trackObject, colorForTracksVertex);
+              });
             });
-          });
+          }
         }
       }
     });
+  }
+}
+function setColorForObject(object: Object3D<Object3DEventMap>, color: any) {
+  if (object instanceof Mesh) {
+    const mesh = object as Mesh;
+    const material = mesh.material;
+    if (Array.isArray(material)) {
+      material.forEach((mat) => {
+        (mat as MeshPhongMaterial)?.color?.set(color);
+      });
+    } else if ('color' in material) {
+      (material.color as Color).set(color);
+    }
   }
 }
