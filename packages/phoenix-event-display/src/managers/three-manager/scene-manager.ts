@@ -163,7 +163,7 @@ export class SceneManager {
       object.traverse((child) => {
         const mesh = child as Mesh;
         if (mesh?.['material']) {
-          if (Array.isArray(mesh.material)){
+          if (Array.isArray(mesh.material)) {
             mesh.material.forEach((material) => {
               material.transparent = true;
               material.opacity = value;
@@ -739,10 +739,18 @@ export class SceneManager {
     if (!object) return;
     object.traverse((objectChild: Object3D) => {
       if (objectChild.children.length === 0) {
-        if (!axis) {
-          objectChild.scale.setScalar(value);
-        } else {
-          objectChild.scale[axis] = value;
+        switch (axis) {
+          case 'x':
+            objectChild.scale.x = value;
+            break;
+          case 'y':
+            objectChild.scale.y = value;
+            break;
+          case 'z':
+            objectChild.scale.z = value;
+            break;
+          default:
+            objectChild.scale.setScalar(value);
         }
       }
     });
