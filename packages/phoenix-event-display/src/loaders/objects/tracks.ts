@@ -166,7 +166,7 @@ export class TracksMesh extends BufferGeometry {
 }
 
 /** Custom vertex shader for tracks. */
-ShaderChunk['tracks_vert'] = [
+const tracks_vert = [
   'attribute vec3 previous;',
   'attribute vec3 next;',
   'attribute int track_id;',
@@ -212,7 +212,7 @@ ShaderChunk['tracks_vert'] = [
 ].join('\n');
 
 /** Custom fragment shadre for track. */
-ShaderChunk['tracks_frag'] = [
+const tracks_frag = [
   'uniform float progress;',
   'varying vec3 v_color;',
   'varying float v_counter;',
@@ -244,8 +244,8 @@ export class TracksMaterial extends ShaderMaterial {
           progress: { value: 1 },
         },
       ),
-      vertexShader: ShaderChunk['tracks_vert'],
-      fragmentShader: ShaderChunk['tracks_vert'],
+      vertexShader: tracks_vert,
+      fragmentShader: tracks_vert,
     });
     this.isTracksMaterial = true;
     this.type = 'TracksMaterial';
