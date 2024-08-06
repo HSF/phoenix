@@ -194,7 +194,7 @@ export class PhoenixMenuNode {
    * @param json JSON containing the phoenix menu node state.
    */
   loadStateFromJSON(json: string | { [key: string]: any }) {
-    let jsonObject: any;
+    let jsonObject;
     if (typeof json === 'string') {
       jsonObject = JSON.parse(json);
     } else {
@@ -206,15 +206,31 @@ export class PhoenixMenuNode {
     this.toggleState !== undefined && this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject['configs']) {
-      const nodeConfig = this.configs.find(
+      const nodeConfigs = this.configs.filter(
         (nodeConfig) =>
           nodeConfig.type === configState['type'] &&
           nodeConfig.label === configState['label'],
       );
 
+      // configs: PhoenixMenuConfigs[keyof PhoenixMenuConfigs][] = [];
+
+      if (nodeConfigs.length > 1) {
+        console.error(
+          'Multiple configs found with same label and type in phoenix menu node.',
+        );
+      }
+
+      if (nodeConfigs.length === 0) {
+        console.error(
+          'No config found with label and type in phoenix menu node. Aborting.',
+        );
+        return;
+      }
+
+      const nodeConfig = nodeConfigs[0];
       if (nodeConfig) {
         for (const prop in configState) {
-          nodeConfig[prop as keyof PhoenixMenuConfigs] = configState[prop];
+          nodeConfig[prop] = configState[prop]; // This does not compile
         }
 
         this.applyConfigState(nodeConfig);
@@ -239,7 +255,7 @@ export class PhoenixMenuNode {
    * @param name Name of the node to find.
    * @returns The found node.
    */
-  findInTree(name: string): PhoenixMenuNode {
+  findInTree(name: string): PhoenixMenuNode | undefined {
     if (this.name === name) {
       return this;
     } else {
