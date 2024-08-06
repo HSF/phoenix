@@ -82,7 +82,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         allowCustomValue: true,
         onChange: (value) => {
           this.sceneManager.setGeometryOpacity(
-            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            this.sceneManager.getObjectByName(
+              SceneManager.GEOMETRIES_ID,
+            ) as Mesh,
             value,
           );
         },
@@ -151,7 +153,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.sceneManager.setGeometryOpacity(object, opacity);
+          this.sceneManager.setGeometryOpacity(object as Mesh, opacity);
         },
       })
       .addConfig('button', {
@@ -197,7 +199,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.sceneManager.objectVisibility(
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(typeName),
+          .getObjectByName(typeName) as Object3D,
         value,
       );
     });
