@@ -10,6 +10,7 @@ export class HomeComponent implements AfterViewInit {
   year: number;
 
   constructor(private eventDisplay: EventDisplayService) {
+    console.log('Home component created');
     this.year = new Date().getFullYear();
     this.eventDisplay.getThreeManager().stopAnimationLoop();
   }
