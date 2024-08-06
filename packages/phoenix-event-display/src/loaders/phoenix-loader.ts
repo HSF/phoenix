@@ -1,18 +1,18 @@
 import { Group, Object3D, Vector3 } from 'three';
 import { GUI } from 'dat.gui';
-import { EventDataLoader } from './event-data-loader';
-import { UIManager } from '../managers/ui-manager';
-import { ThreeManager } from '../managers/three-manager';
-import { Cut } from '../lib/models/cut.model';
-import { PhoenixObjects } from './objects/phoenix-objects';
-import { InfoLogger } from '../helpers/info-logger';
-import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
-import { LoadingManager } from '../managers/loading-manager';
-import { StateManager } from '../managers/state-manager';
-import { CoordinateHelper } from '../helpers/coordinate-helper';
-import { getLabelTitle } from '../helpers/labels';
-import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
-import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import type { EventDataLoader } from './event-data-loader.js';
+import { UIManager } from '../managers/ui-manager/index.js';
+import { ThreeManager } from '../managers/three-manager/index.js';
+import { Cut } from '../lib/models/cut.model.js';
+import { PhoenixObjects } from './objects/phoenix-objects.js';
+import { InfoLogger } from '../helpers/info-logger.js';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node.js';
+import { LoadingManager } from '../managers/loading-manager.js';
+import { StateManager } from '../managers/state-manager.js';
+import { CoordinateHelper } from '../helpers/coordinate-helper.js';
+import { getLabelTitle } from '../helpers/labels.js';
+import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui.js';
+import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui.js';
 
 /**
  * Loader for processing and loading an event.
@@ -101,7 +101,7 @@ export class PhoenixLoader implements EventDataLoader {
    */
   public getCollections(): string[] {
     if (!this.eventData) {
-      return null;
+      return [];
     }
 
     const collections = [];
@@ -275,7 +275,7 @@ export class PhoenixLoader implements EventDataLoader {
         scalePlanarCaloCells,
       );
 
-      const collections = {};
+      const collections: { [key: string]: any } = {};
       for (const collectionName in eventData.PlanarCaloCells) {
         const collection = eventData.PlanarCaloCells[collectionName];
         const plane = collection['plane'];
@@ -450,8 +450,8 @@ export class PhoenixLoader implements EventDataLoader {
     concatonateObjs: boolean = false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
-      typeFolder?: GUI,
-      typeFolderPM?: PhoenixMenuNode,
+      typeFolder: GUI,
+      typeFolderPM: PhoenixMenuNode,
     ) => void,
   ) {
     const objectGroup = this.graphicsLibrary.addEventDataTypeGroup(typeName);
@@ -509,7 +509,7 @@ export class PhoenixLoader implements EventDataLoader {
   private addCollection(
     objectCollection: any,
     collectionName: string,
-    getObject: (object: any) => Object3D,
+    getObject: (object: any, typeName: string) => Object3D,
     typeName: string,
     objectGroup: Group,
     concatonateObjs: boolean,
@@ -688,7 +688,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     // Iterating the group
     for (const eventDataPropGroup of eventDataPropGroups) {
-      const combinedProps = {};
+      const combinedProps: { [key: string]: any } = {};
       // Iterating the props inside a group
       for (const eventDataProp of eventDataPropGroup) {
         // Iterating each possible key of a prop
@@ -740,6 +740,7 @@ export class PhoenixLoader implements EventDataLoader {
         return getLabelTitle(eventDataType, collection, indexInCollection);
       }
     }
+    return 'Unknown';
   }
 
   /**

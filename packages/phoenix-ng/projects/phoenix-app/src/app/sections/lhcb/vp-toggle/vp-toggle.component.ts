@@ -1,4 +1,4 @@
-import { Component, ComponentRef, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({

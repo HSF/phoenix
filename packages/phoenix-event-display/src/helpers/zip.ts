@@ -12,7 +12,8 @@ export const readZipFile = async (file: File | ArrayBuffer) => {
 
   await archive.loadAsync(file);
   for (const filePath in archive.files) {
-    const fileData = await archive.file(filePath).async('string');
+    const fileData =
+      (await archive.file(filePath)?.async('string')) ?? 'Unable to read file';
     filesWithData[filePath] = fileData;
   }
 

@@ -6,10 +6,10 @@ import {
   MeshPhongMaterial,
   Object3D,
 } from 'three';
-import { ThreeManager } from '../three-manager';
-import { SceneManager } from '../three-manager/scene-manager';
-import { Cut } from '../../lib/models/cut.model';
-import { PhoenixUI } from './phoenix-ui';
+import { ThreeManager } from '../three-manager/index.js';
+import { SceneManager } from '../three-manager/scene-manager.js';
+import { Cut } from '../../lib/models/cut.model.js';
+import type { PhoenixUI } from './phoenix-ui.js';
 
 /**
  * A wrapper class for dat.GUI menu to perform UI related operations.
@@ -20,12 +20,12 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   /** dat.GUI menu. */
   private gui: GUI;
   /** Options for the dat.GUI menu. */
-  private guiParameters = {
+  private guiParameters: { [key: string]: any } = {
     rotate: undefined,
     axis: undefined,
     lowRes: undefined,
     eventData: undefined,
-    geometries: undefined,
+    geometries: { show: true, wireframe: false },
     labels: undefined,
   };
   /** dat.GUI menu folder containing geometries data. */
@@ -57,9 +57,9 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       'position: absolute; right: 0; top: 2rem; z-index: 11;';
     const canvas = document.getElementById(elementId) ?? document.body;
     canvas.appendChild(this.gui.domElement);
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
+    // this.geomFolder = null;
+    // this.eventFolder = null;
+    // this.labelsFolder = null;
 
     this.sceneManager = three.getSceneManager();
   }
@@ -72,7 +72,6 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     if (gui != null) {
       gui.remove();
     }
-    this.geomFolder = null;
   }
 
   /**
@@ -141,7 +140,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .add(this.guiParameters[name], 'detectorOpacity', 0.0, 1.0)
       .name('Opacity');
     opacity.onFinishChange((newValue) =>
-      this.sceneManager.setGeometryOpacity(object, newValue),
+      this.sceneManager.setGeometryOpacity(object as Mesh, newValue),
     );
 
     // A boolean toggle for showing/hiding the object is added to its folder
@@ -241,7 +240,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       this.sceneManager.objectVisibility(
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(typeName),
+          .getObjectByName(typeName) as Object3D,
         value,
       ),
     );
@@ -289,7 +288,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       const collectionObject = this.sceneManager
         .getObjectByName(SceneManager.EVENT_DATA_ID)
         .getObjectByName(collectionName);
-      this.sceneManager.objectVisibility(collectionObject, value);
+      if (collectionObject)
+        this.sceneManager.objectVisibility(collectionObject, value);
     });
 
     // A color picker is added to the collection's folder
@@ -412,7 +412,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       const labelObject = this.sceneManager
         .getObjectByName(SceneManager.LABELS_ID)
         .getObjectByName(labelId);
-      this.sceneManager.objectVisibility(labelObject, value);
+      if (labelObject) this.sceneManager.objectVisibility(labelObject, value);
     });
 
     const colorMenu = labelItem

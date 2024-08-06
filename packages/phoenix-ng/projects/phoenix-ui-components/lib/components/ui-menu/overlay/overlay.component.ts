@@ -2,7 +2,7 @@ import {
   Component,
   Input,
   ViewChild,
-  AfterViewInit,
+  type AfterViewInit,
   ViewEncapsulation,
 } from '@angular/core';
 import type { ElementRef } from '@angular/core';

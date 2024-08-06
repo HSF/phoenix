@@ -1,8 +1,8 @@
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { Camera, Scene, WebGLRenderer, Vector2, NormalBlending } from 'three';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-import { Pass } from 'three/examples/jsm/postprocessing/Pass';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { Pass } from 'three/examples/jsm/postprocessing/Pass.js';
 
 /**
  * Manager for managing three.js event display effects like outline pass and unreal bloom.

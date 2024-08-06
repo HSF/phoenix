@@ -33,7 +33,7 @@ export class XRManager {
   /** Callback to call when the XR session ends. */
   protected onSessionEnded: () => void;
   /** Group containing the the camera for XR. */
-  public cameraGroup: Group;
+  public cameraGroup: Group | undefined;
   /** The camera used by XR. */
   public xrCamera: Camera;
 
@@ -56,7 +56,7 @@ export class XRManager {
     onSessionEnded?: () => void,
   ) {
     this.renderer = renderer;
-    this.onSessionEnded = onSessionEnded;
+    if (onSessionEnded) this.onSessionEnded = onSessionEnded;
     const webXR = (navigator as any)?.xr;
     const xrType = this.sessionType === XRSessionType.VR ? 'vr' : 'ar';
 

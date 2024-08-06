@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { AnimationPreset, SceneManager } from 'phoenix-event-display';
+import { type AnimationPreset, SceneManager } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../services/event-display.service';
+import { Mesh } from 'three';
 
 export const defaultAnimationPresets: {
   [key: string]: AnimationPreset;
@@ -89,6 +90,6 @@ export class AnimateCameraComponent {
       SceneManager.GEOMETRIES_ID,
     );
 
-    sceneManager.setGeometryOpacity(geometriesGroup, opacity);
+    sceneManager.setGeometryOpacity(geometriesGroup as Mesh, opacity);
   }
 }

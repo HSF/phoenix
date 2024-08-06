@@ -1,5 +1,10 @@
 import { GeometryBrowserOverlayComponent } from './geometry-browser-overlay/geometry-browser-overlay.component';
-import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  type OnInit,
+  ComponentRef,
+  type OnDestroy,
+} from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 

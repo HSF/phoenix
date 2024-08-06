@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, type OnInit, Input } from '@angular/core';
 import { ActiveVariable } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
-import { Object3D, Object3DEventMap } from 'three';
+import { Object3D, type Object3DEventMap } from 'three';
 
 @Component({
   selector: 'app-geometry-browser-overlay',

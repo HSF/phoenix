@@ -3,13 +3,17 @@
     "baseUrl": "./",
     "rootDir": "src",
     "declaration": true,
-    "target": "es6",
+    "target": "es2020",
     "outDir": "dist",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "node16",
+    "moduleResolution": "node16",
     "sourceMap": true,
+    "declarationMap": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "verbatimModuleSyntax": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]

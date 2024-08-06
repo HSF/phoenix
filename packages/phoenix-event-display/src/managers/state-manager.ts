@@ -1,8 +1,8 @@
-import { EventDisplay } from '../event-display';
+import { EventDisplay } from '../event-display.js';
 import { Camera } from 'three';
-import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node';
-import { loadFile, saveFile } from '../helpers/file';
-import { ActiveVariable } from '../helpers/active-variable';
+import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node.js';
+import { loadFile, saveFile } from '../helpers/file.js';
+import { ActiveVariable } from '../helpers/active-variable.js';
 
 /**
  * A singleton manager for managing the scene's state.
@@ -161,7 +161,7 @@ export class StateManager {
    * @returns The starting angle of clipping.
    */
   getStartClippingAngle(): number {
-    return this.startClippingAngle.value;
+    return this.startClippingAngle.value ?? 0.0;
   }
 
   /**
@@ -177,7 +177,7 @@ export class StateManager {
    * @returns The opening angle of clipping.
    */
   getOpeningClippingAngle(): number {
-    return this.openingClippingAngle.value;
+    return this.openingClippingAngle.value ?? 0.0;
   }
 
   /**
