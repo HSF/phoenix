@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, type AfterViewInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
 

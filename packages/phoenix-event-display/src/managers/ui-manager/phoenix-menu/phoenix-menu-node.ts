@@ -211,6 +211,7 @@ export class PhoenixMenuNode {
           nodeConfig.type === configState['type'] &&
           nodeConfig.label === configState['label'],
       );
+      console.log('nodeConfigs', nodeConfigs);
 
       // configs: PhoenixMenuConfigs[keyof PhoenixMenuConfigs][] = [];
 
@@ -228,9 +229,13 @@ export class PhoenixMenuNode {
       }
 
       const nodeConfig = nodeConfigs[0];
+      console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
-          nodeConfig[prop] = configState[prop]; // This does not compile
+          const key = prop as keyof typeof nodeConfig;
+          const test = typeof nodeConfig;
+          const test2 = configState as typeof nodeConfig;
+          // nodeConfig[key] = test2[key];
         }
 
         this.applyConfigState(nodeConfig);

@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
   EventDisplayService,
-  ImportOption,
 } from 'phoenix-ui-components';
 import {
   PhoenixMenuNode,
-  Configuration,
+  type Configuration,
   PresetView,
   ClippingSetting,
   PhoenixLoader,

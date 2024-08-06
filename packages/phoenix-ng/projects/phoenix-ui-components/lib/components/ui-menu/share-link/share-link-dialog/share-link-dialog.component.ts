@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  type AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActiveVariable, phoenixURLOptions } from 'phoenix-event-display';
 import QRCode from 'qrcode';
