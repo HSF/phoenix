@@ -6,7 +6,7 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "postinstall": "yarn workspace phoenix-event-display prepare && husky install",
+    "postinstall": "yarn workspace phoenix-event-display prepare && husky",
     "start": "lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
