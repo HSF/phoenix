@@ -1,4 +1,4 @@
-import { LoadingManager } from '../managers/loading-manager.js';
+import { LoadingManager } from '../managers/loading-manager';
 
 /**
  * Script loader for dynamically loading external scripts.

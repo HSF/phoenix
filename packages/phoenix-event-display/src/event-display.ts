@@ -1,5 +1,6 @@
-import { httpRequest, build, openFile } from 'jsroot';
+import { httpRequest, openFile } from 'jsroot';
 import { settings as jsrootSettings } from 'jsroot';
+import { build } from 'jsroot/geom';
 import { ThreeManager } from './managers/three-manager/index.js';
 import { UIManager } from './managers/ui-manager/index.js';
 import { InfoLogger } from './helpers/info-logger.js';

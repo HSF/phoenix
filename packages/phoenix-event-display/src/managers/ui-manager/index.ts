@@ -1,4 +1,4 @@
-import Stats from 'stats.js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { Color, Object3D, Vector3 } from 'three';
 import { ThreeManager } from '../three-manager/index.js';
 import type { Configuration } from '../../lib/types/configuration.js';

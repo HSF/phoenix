@@ -120,7 +120,7 @@ export class ThreeManager {
   /** Store the name of the object of first intersect while finding 3D Distance */
   private prevIntersectName: string = '';
   /** Canvas used for rendering the distance line */
-  private distanceCanvas: HTMLCanvasElement = new HTMLCanvasElement();
+  private distanceCanvas: HTMLCanvasElement = document.createElement('canvas');
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */

@@ -1,7 +1,13 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { paths } = require('./tsconfig.json').compilerOptions;
 
-const esModules = ['@angular', '@ngrx', 'three/examples/jsm/', 'jsroot'];
+const esModules = [
+  '@angular',
+  '@ngrx',
+  'three/examples/jsm/',
+  'jsroot',
+  'jsroot/geom',
+];
 
 // eslint-disable-next-line no-undef
 globalThis.ngJest = {

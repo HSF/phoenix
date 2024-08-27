@@ -170,7 +170,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addEventDataFolder() {
     // Phoenix menu
-    if (this.eventFolder !== null) {
+    if (this.eventFolder) {
       this.eventFolderState = this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }

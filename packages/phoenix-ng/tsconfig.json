@@ -6,7 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -18,11 +18,7 @@
       "phoenix-ui-components": [
         "./projects/phoenix-ui-components/lib/public_api.ts"
       ]
-    },
-    "noEmit": true, // or `emitDeclarationOnly`
-    "allowImportingTsExtensions": true,
-    "allowArbitraryExtensions": true,
-    "verbatimModuleSyntax": true, // or `isolatedModules`
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

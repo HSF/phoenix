@@ -572,8 +572,8 @@ export class PhoenixObjects {
 
     // if radius is not part of clusterParams then set it to defaultRadius (if cylindrical is false), or radius+defaultZ otherwise
     const radius = cylindrical
-      ? clusterParams.radius ?? defaultRadius + defaultZ
-      : clusterParams.radius ?? defaultRadius;
+      ? (clusterParams.radius ?? defaultRadius + defaultZ)
+      : (clusterParams.radius ?? defaultRadius);
 
     const position = CoordinateHelper.sphericalToCartesian(
       radius,
