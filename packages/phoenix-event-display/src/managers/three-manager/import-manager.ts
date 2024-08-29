@@ -383,11 +383,13 @@ export class ImportManager {
             };
 
             findMeshes(scene, new Matrix4(), 0);
+
+            // Improve renderorder for transparent materials
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
               const mesh = new Mesh(
                 BufferGeometryUtils.mergeGeometries((val as any).geoms),
-                (val as any).material[0],
+                (val as any).material,
               );
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
