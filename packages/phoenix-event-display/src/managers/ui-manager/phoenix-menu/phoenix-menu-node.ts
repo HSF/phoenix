@@ -211,8 +211,6 @@ export class PhoenixMenuNode {
           nodeConfig.type === configState['type'] &&
           nodeConfig.label === configState['label'],
       );
-      console.log('nodeConfigs', nodeConfigs);
-
       // configs: PhoenixMenuConfigs[keyof PhoenixMenuConfigs][] = [];
 
       if (nodeConfigs.length > 1) {
