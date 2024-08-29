@@ -29,8 +29,6 @@ export class ControlsManager {
   private perspectiveControls: OrbitControls;
   /** Orbit controls for the orthographic view. */
   private orthographicControls: OrbitControls;
-  /** Pairs of camera and their animation for zoom controls. */
-  private zoomCameraAnimPairs: { camera: Camera; anim: any }[];
 
   /**
    * Constructor for setting up all the controls.
@@ -92,8 +90,6 @@ export class ControlsManager {
       this.transformSync();
       this.updateSync();
     });
-    // Initialize the zoom controls
-    this.initializeZoomControls();
     // Modify camera(s) on window resize
     this.setupResize(rendererElement);
   }
@@ -263,29 +259,31 @@ export class ControlsManager {
    * @param zoomTime The time it takes for a zoom animation to complete.
    */
   public zoomTo(zoomFactor: number, zoomTime: number) {
-    for (const zoomCameraAnimPair of this.zoomCameraAnimPairs) {
-      const camera: any = zoomCameraAnimPair.camera;
-      const anim = zoomCameraAnimPair.anim;
-      if (camera.isOrthographicCamera) {
-        anim.to(
-          {
-            zoom: camera.zoom * (1 / zoomFactor),
-          },
-          zoomTime,
-        );
+    for (const camera of this.getAllCameras()) {
+      if (camera instanceof OrthographicCamera) {
+        const animation = new Tween(camera);
+        animation
+          .to(
+            {
+              zoom: camera.zoom * (1 / zoomFactor),
+            },
+            zoomTime,
+          )
+          .start();
         camera.updateProjectionMatrix();
       } else {
-        const cameraPosition = camera.position;
-        anim.to(
-          {
-            x: cameraPosition.x * zoomFactor,
-            y: cameraPosition.y * zoomFactor,
-            z: cameraPosition.z * zoomFactor,
-          },
-          zoomTime,
-        );
+        const animation = new Tween(camera.position);
+        animation
+          .to(
+            {
+              x: camera.position.x * zoomFactor,
+              y: camera.position.y * zoomFactor,
+              z: camera.position.z * zoomFactor,
+            },
+            zoomTime,
+          )
+          .start();
       }
-      anim.start();
     }
   }
 
@@ -406,23 +404,6 @@ export class ControlsManager {
         tracksHidden = false;
       }
     });
-  }
-
-  /**
-   * Initialize the zoom controls by setting up the camera and their animations as pairs.
-   */
-  private initializeZoomControls() {
-    const allCameras: any[] = this.getAllCameras();
-    this.zoomCameraAnimPairs = [];
-    for (const camera of allCameras) {
-      const animation = camera.isOrthographicCamera
-        ? new Tween(camera)
-        : new Tween(camera.position);
-      this.zoomCameraAnimPairs.push({
-        camera: camera,
-        anim: animation,
-      });
-    }
   }
 
   /**
