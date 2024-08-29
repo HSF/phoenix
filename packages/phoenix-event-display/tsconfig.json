@@ -6,7 +6,7 @@
     "target": "es2020",
     "outDir": "dist",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
