@@ -150,7 +150,11 @@ export class PhoenixMenuNode {
     // Apply configs of different config types - manual
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
-    } else if (config.type === 'color' && config?.['color'] && !config.group) {
+    } else if (
+      config.type === 'color' &&
+      config?.['color'] &&
+      config.group !== undefined
+    ) {
       // Ignore color by options with `!config.group`, otherwise the collection color is overridden
       config.onChange?.(config?.['color']);
     } else if (config.type === 'slider' && config?.['value']) {
@@ -227,13 +231,12 @@ export class PhoenixMenuNode {
       }
 
       const nodeConfig = nodeConfigs[0];
-      console.log('nodeConfig', nodeConfig);
+      // console.log('nodeConfig', nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
           const key = prop as keyof typeof nodeConfig;
-          const test = typeof nodeConfig;
-          const test2 = configState as typeof nodeConfig;
-          // nodeConfig[key] = test2[key];
+          // console.log('prop',prop, 'key', key, 'nodeConfig[key]', nodeConfig[key]);
+          (nodeConfig as any)[key] = configState[key];
         }
 
         this.applyConfigState(nodeConfig);
