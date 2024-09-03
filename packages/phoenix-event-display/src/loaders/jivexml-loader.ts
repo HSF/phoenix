@@ -1,5 +1,5 @@
-import { PhoenixLoader } from './phoenix-loader';
-import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { PhoenixLoader } from './phoenix-loader.js';
+import { CoordinateHelper } from '../helpers/coordinate-helper.js';
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.
@@ -137,7 +137,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @returns [found, x, y, z].
    */
   private getPositionOfHit(
-    hitIdentifier,
+    hitIdentifier: number,
     eventData: { Hits: [[{ id: number; pos: any }]] },
   ) {
     for (const hitcollection in eventData.Hits) {
@@ -164,10 +164,11 @@ export class JiveXMLLoader extends PhoenixLoader {
   ): void {
     const tracksHTML = firstEvent.getElementsByTagName('Track');
     const trackCollections = Array.from(tracksHTML);
-    const badTracks = {};
+    const badTracks: { [key: string]: any } = {};
 
     for (const collection of trackCollections) {
-      let trackCollectionName = collection.getAttribute('storeGateKey');
+      let trackCollectionName =
+        collection.getAttribute('storeGateKey') ?? 'Unknown';
       if (trackCollectionName === 'Tracks') {
         trackCollectionName = 'Tracks_'; //We have problems if the name of the collection is a type
       }
@@ -180,8 +181,10 @@ export class JiveXMLLoader extends PhoenixLoader {
       // then convert to array of numbers
       const tmp = collection.getElementsByTagName('numPolyline');
 
-      let polylineX, polylineY, polylineZ;
-      let numPolyline: number[];
+      let polylineX: number[] = [];
+      let polylineY: number[] = [];
+      let polylineZ: number[] = [];
+      let numPolyline: number[] = [];
       if (tmp.length === 0) {
         console.log(
           'WARNING the track collection ' +
@@ -204,10 +207,10 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineZ = this.getNumberArrayFromHTML(collection, 'polylineZ');
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
-          numPolyline = null;
-          polylineX = null;
-          polylineY = null;
-          polylineZ = null;
+          numPolyline = [];
+          polylineX = [];
+          polylineY = [];
+          polylineZ = [];
         }
       }
 
@@ -257,11 +260,11 @@ export class JiveXMLLoader extends PhoenixLoader {
           pT: 0.0,
           phi: 0.0,
           eta: 0.0,
-          pos: [],
-          dparams: [],
+          pos: [] as number[][],
+          dparams: [] as number[], // Explicitly define the type as number[]
           hits: {},
           author: {},
-          badtrack: [],
+          badtrack: [] as string[],
         };
         if (chi2.length >= i) track.chi2 = chi2[i];
         if (numDoF.length >= i) track.dof = numDoF[i];
@@ -354,7 +357,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           // eslint-disable-next-line no-constant-condition
           false &&
           numHits.length > 0 &&
-          trackCollectionName.includes('Muon')
+          trackCollectionName?.includes('Muon')
         ) {
           // Disable for the moment.
 
@@ -463,7 +466,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.Pixel = [];
 
     for (let i = 0; i < numOfClusters; i++) {
-      const pixel = { pos: [], id: 0, energyLoss: 0 };
+      const pixel = { pos: [] as number[], id: 0, energyLoss: 0 };
       pixel.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       pixel.id = id[i];
       pixel.energyLoss = eloss[i];
@@ -497,7 +500,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.SCT = [];
 
     for (let i = 0; i < numOfSCTClusters; i++) {
-      const sct = { pos: [], id: 0, phiModule: 0, side: 0 };
+      const sct = { pos: [] as number[], id: 0, phiModule: 0, side: 0 };
       sct.pos = [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       sct.id = id[i];
       sct.phiModule = phiModule[i];
@@ -536,7 +539,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     // Hardcoding TRT size here. Could maybe think of generalising this?
     for (let i = 0; i < numOfDC; i++) {
       const trt = {
-        pos: [],
+        pos: [] as number[],
         id: 0,
         type: 'Line',
         driftR: 0.0,
@@ -620,13 +623,12 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     for (let i = 0; i < numOfDC; i++) {
       const muonHit = {
-        pos: [],
+        pos: this.getMuonLinePositions(i, x, y, z, length),
         id: id[i],
         type: 'Line',
         identifier: identifier[i],
       };
 
-      muonHit.pos = this.getMuonLinePositions(i, x, y, z, length);
       eventData.Hits[name].push(muonHit);
     }
   }
@@ -657,14 +659,13 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     for (let i = 0; i < numOfDC; i++) {
       const rpcHit = {
-        pos: [],
+        pos: this.getMuonLinePositions(i, x, y, z, length),
         id: id[i],
         type: 'Line',
         identifier: identifier[i],
         width: width[i],
       };
 
-      rpcHit.pos = this.getMuonLinePositions(i, x, y, z, length);
       //TODO - handle phi measurements
       eventData.Hits[name].push(rpcHit);
     }
@@ -725,7 +726,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           energy: energy[i] * 1000.0,
         });
       }
-      eventData.Jets[jetColl.getAttribute('storeGateKey')] = temp;
+      const key = jetColl.getAttribute('storeGateKey');
+      if (key) eventData.Jets[key] = temp;
     }
   }
 
@@ -751,7 +753,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       for (let i = 0; i < numOfClusters; i++) {
         temp.push({ phi: phi[i], eta: eta[i], energy: energy[i] * 1000.0 });
       }
-      eventData.CaloClusters[clusterColl.getAttribute('storeGateKey')] = temp;
+      const key = clusterColl.getAttribute('storeGateKey');
+      if (key) eventData.CaloClusters[key] = temp;
       // }
     }
   }
@@ -944,7 +947,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           linkedTrackCollection: sgkeyOfTracks[i],
         });
       }
-      eventData.Vertices[vertexColl.getAttribute('storeGateKey')] = temp;
+      const key = vertexColl.getAttribute('storeGateKey');
+      if (key) eventData.Vertices[key] = temp;
     }
   }
 
@@ -976,7 +980,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pdgId: pdgId[i],
         });
       }
-      eventData.Muons[collection.getAttribute('storeGateKey')] = temp;
+      const key = collection.getAttribute('storeGateKey');
+      if (key) eventData.Muons[key] = temp;
     }
   }
 
@@ -1008,7 +1013,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pdgId: pdgId[i],
         });
       }
-      eventData.Electrons[collection.getAttribute('storeGateKey')] = temp;
+      const key = collection.getAttribute('storeGateKey');
+      if (key) eventData.Electrons[key] = temp;
     }
   }
 
@@ -1037,7 +1043,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pt: pt[i] * 1000, // JiveXML uses GeV
         });
       }
-      eventData.Photons[collection.getAttribute('storeGateKey')] = temp;
+      const key = collection.getAttribute('storeGateKey');
+      if (key) eventData.Photons[key] = temp;
     }
   }
 
@@ -1066,7 +1073,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           ety: ety[i],
         });
       }
-      eventData.MissingEnergy[collection.getAttribute('storeGateKey')] = temp;
+      const key = collection.getAttribute('storeGateKey');
+      if (key) eventData.MissingEnergy[key] = temp;
     }
   }
 }

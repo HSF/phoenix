@@ -1,19 +1,18 @@
-import { httpRequest } from 'jsroot';
+import { httpRequest, openFile } from 'jsroot';
 import { settings as jsrootSettings } from 'jsroot';
 import { build } from 'jsroot/geom';
-import { openFile } from 'jsroot/io';
-import { ThreeManager } from './managers/three-manager';
-import { UIManager } from './managers/ui-manager';
-import { InfoLogger } from './helpers/info-logger';
-import { Configuration } from './lib/types/configuration';
-import { StateManager } from './managers/state-manager';
-import { LoadingManager } from './managers/loading-manager';
-import { URLOptionsManager } from './managers/url-options-manager';
-import { ActiveVariable } from './helpers/active-variable';
-import { AnimationPreset } from './managers/three-manager/animations-manager';
-import { XRSessionType } from './managers/three-manager/xr/xr-manager';
-import { getLabelTitle } from './helpers/labels';
-import { PhoenixLoader } from './loaders/phoenix-loader';
+import { ThreeManager } from './managers/three-manager/index.js';
+import { UIManager } from './managers/ui-manager/index.js';
+import { InfoLogger } from './helpers/info-logger.js';
+import type { Configuration } from './lib/types/configuration.js';
+import { StateManager } from './managers/state-manager.js';
+import { LoadingManager } from './managers/loading-manager.js';
+import { URLOptionsManager } from './managers/url-options-manager.js';
+import { ActiveVariable } from './helpers/active-variable.js';
+import type { AnimationPreset } from './managers/three-manager/animations-manager.js';
+import { XRSessionType } from './managers/three-manager/xr/xr-manager.js';
+import { getLabelTitle } from './helpers/labels.js';
+import { PhoenixLoader } from './loaders/phoenix-loader.js';
 
 declare global {
   /**
@@ -146,12 +145,14 @@ export class EventDisplay {
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
-    this.configuration.eventDataLoader.buildEventData(
-      eventData,
-      this.graphicsLibrary,
-      this.ui,
-      this.infoLogger,
-    );
+    if (this.configuration.eventDataLoader) {
+      this.configuration.eventDataLoader.buildEventData(
+        eventData,
+        this.graphicsLibrary,
+        this.ui,
+        this.infoLogger,
+      );
+    }
     this.onDisplayedEventChange.forEach((callback) => callback(eventData));
     // Reload the event data state in Phoenix menu
     this.ui.loadEventFolderPhoenixMenuState();
@@ -242,8 +243,8 @@ export class EventDisplay {
     filename: string,
     name: string,
     color: any,
-    menuNodeName?: string,
-    doubleSided?: boolean,
+    menuNodeName: string,
+    doubleSided: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true,
   ): Promise<void> {
@@ -333,7 +334,7 @@ export class EventDisplay {
    * @returns Promise for loading the geometry.
    */
   public async parseGLTFGeometry(file: File): Promise<void> {
-    name = file.name.split('/').pop();
+    const name = file.name.split('/').pop();
     this.loadingManager.addLoadableItem(`parse_gltf_${name}`);
 
     const allGeometriesUIParameters =
@@ -357,9 +358,9 @@ export class EventDisplay {
    */
   public async loadGLTFGeometry(
     url: any,
-    name: string | undefined,
-    menuNodeName?: string,
-    scale?: number,
+    name: string,
+    menuNodeName: string = '',
+    scale: number = 1.0,
     initiallyVisible: boolean = true,
   ): Promise<void> {
     this.loadingManager.addLoadableItem(`gltf_geom_${name}`);
@@ -529,7 +530,10 @@ export class EventDisplay {
    * @returns Object containing all physics objects from the desired collection.
    */
   public getCollection(collectionName: string) {
-    return this.configuration.eventDataLoader.getCollection(collectionName);
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getCollection(collectionName);
+    }
+    return {};
   }
 
   /**
@@ -537,7 +541,10 @@ export class EventDisplay {
    * @returns List of strings, each representing a collection of the event displayed.
    */
   public getCollections(): string[] {
-    return this.configuration.eventDataLoader.getCollections();
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getCollections();
+    }
+    return [];
   }
 
   /**
@@ -545,7 +552,7 @@ export class EventDisplay {
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
    */
-  public listenToDisplayedEventChange(callback: (event) => any) {
+  public listenToDisplayedEventChange(callback: (event: any) => any) {
     this.onDisplayedEventChange.push(callback);
   }
 
@@ -554,7 +561,7 @@ export class EventDisplay {
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
    */
-  public listenToLoadedEventsChange(callback: (events) => any) {
+  public listenToLoadedEventsChange(callback: (events: any) => any) {
     this.onEventsChange.push(callback);
   }
 
@@ -563,7 +570,10 @@ export class EventDisplay {
    * @returns Metadata of the displayed event.
    */
   public getEventMetadata(): any[] {
-    return this.configuration.eventDataLoader.getEventMetadata();
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getEventMetadata();
+    }
+    return [];
   }
 
   /**
@@ -761,6 +771,10 @@ export class EventDisplay {
     indexInCollection: number,
     uuid: string,
   ) {
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
+
     const labelId = this.configuration.eventDataLoader.addLabelToEventObject(
       label,
       collection,
@@ -782,6 +796,9 @@ export class EventDisplay {
    */
   public resetLabels() {
     // labelsObject[EventDataType][Collection][Index]
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
     const labelsObject = this.configuration.eventDataLoader.getLabelsObject();
     for (const eventDataType in labelsObject) {
       for (const collection in labelsObject[eventDataType]) {

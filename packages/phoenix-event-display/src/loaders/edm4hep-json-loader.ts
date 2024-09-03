@@ -1,4 +1,4 @@
-import { PhoenixLoader } from './phoenix-loader';
+import { PhoenixLoader } from './phoenix-loader.js';
 
 /**
  * Edm4hepJsonLoader for loading EDM4hep json dumps
@@ -154,7 +154,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return the vertices */
   private getVertices(event: any) {
-    const allVertices: any[] = [];
+    const allVertices: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -203,7 +203,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return tracks */
   private getTracks(event: any) {
-    const allTracks: any[] = [];
+    const allTracks: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -304,7 +304,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Not implemented */
   private getHits(event: any) {
-    const allHits: any[] = [];
+    const allHits: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -358,7 +358,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Returns the cells */
   private getCells(event: any) {
-    const allCells: any[] = [];
+    const allCells: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -450,7 +450,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return Calo clusters */
   private getCaloClusters(event: any) {
-    const allClusters: any[] = [];
+    const allClusters: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -502,7 +502,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return jets */
   private getJets(event: any) {
-    const allJets: any[] = [];
+    const allJets: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -562,7 +562,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return missing energy */
   private getMissingEnergy(event: any) {
-    const allMETs: any[] = [];
+    const allMETs: { [key: string]: any[] } = {};
 
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -635,7 +635,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   private convHSLtoHEX(h: number, s: number, l: number): string {
     l /= 100;
     const a = (s * Math.min(l, 1 - l)) / 100;
-    const f = (n) => {
+    const f = (n: number) => {
       const k = (n + h / 30) % 12;
       const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
       return Math.round(255 * color)

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   PhoenixMenuNode,
-  Configuration,
+  type Configuration,
   TrackmlLoader,
   PresetView,
 } from 'phoenix-event-display';

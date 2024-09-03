@@ -11,8 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2022",
-    "module": "es2020",
+    "target": "esnext",
+    "module": "esnext",
     "lib": ["es2018", "dom"],
     "paths": {
       "phoenix-ui-components": [

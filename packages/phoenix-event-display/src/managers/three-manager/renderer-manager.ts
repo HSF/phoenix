@@ -5,9 +5,9 @@ import { WebGLRenderer, Scene, Camera } from 'three';
  */
 export class RendererManager {
   /** Main renderer to be used by the event display. */
-  private mainRenderer: WebGLRenderer = null;
+  private mainRenderer: WebGLRenderer;
   /** Overlay renderer for rendering a secondary overlay canvas. */
-  private overlayRenderer: WebGLRenderer = null;
+  private overlayRenderer: WebGLRenderer;
   /** A list of all available/created renderers. */
   private renderers: WebGLRenderer[] = [];
   /** If the overlay is fixed or not. */

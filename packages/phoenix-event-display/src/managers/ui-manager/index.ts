@@ -1,23 +1,23 @@
-import Stats from 'stats-js';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { Color, Object3D, Vector3 } from 'three';
-import { ThreeManager } from '../three-manager';
-import { Configuration } from '../../lib/types/configuration';
+import { ThreeManager } from '../three-manager/index.js';
+import type { Configuration } from '../../lib/types/configuration.js';
 import {
   PresetView,
   ClippingSetting,
-} from '../../lib/models/preset-view.model';
-import { Cut } from '../../lib/models/cut.model';
-import { SceneManager } from '../three-manager/scene-manager';
-import { StateManager } from '../../managers/state-manager';
-import { loadFile, saveFile } from '../../helpers/file';
-import { DatGUIMenuUI } from './dat-gui-ui';
-import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui';
+} from '../../lib/models/preset-view.model.js';
+import { Cut } from '../../lib/models/cut.model.js';
+import { SceneManager } from '../three-manager/scene-manager.js';
+import { StateManager } from '../../managers/state-manager.js';
+import { loadFile, saveFile } from '../../helpers/file.js';
+import { DatGUIMenuUI } from './dat-gui-ui.js';
+import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui.js';
 import {
   getFromLocalStorage,
   setToLocalStorage,
-} from '../../helpers/browser-storage';
-import { PhoenixUI } from './phoenix-ui';
-import { AnimationPreset } from '../../managers/three-manager/animations-manager';
+} from '../../helpers/browser-storage.js';
+import { type PhoenixUI } from './phoenix-ui.js';
+import { type AnimationPreset } from '../../managers/three-manager/animations-manager.js';
 
 /** If animation presets not passed in configuration, we will use this. */
 const defaultAnimationPresets: AnimationPreset[] = [
@@ -126,7 +126,9 @@ export class UIManager {
     }
     // State manager
     this.stateManager = new StateManager();
-    this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
+    if (configuration.phoenixMenuRoot) {
+      this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
+    }
   }
 
   /**
@@ -480,7 +482,10 @@ export class UIManager {
    * @returns Available preset views.
    */
   public getPresetViews(): PresetView[] {
-    return this.configuration?.presetViews;
+    if (!this.configuration || !this.configuration.presetViews) {
+      return [];
+    }
+    return this.configuration.presetViews;
   }
 
   /**

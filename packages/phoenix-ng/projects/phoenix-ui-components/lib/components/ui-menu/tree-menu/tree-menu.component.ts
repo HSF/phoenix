@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { TreeMenuNode } from './tree-menu-item/tree-menu-item.component';
+import { Component, type OnInit } from '@angular/core';
+import { type TreeMenuNode } from './tree-menu-item/tree-menu-item.component';
 
 @Component({
   selector: 'app-tree-menu',

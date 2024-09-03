@@ -20,7 +20,7 @@ import {
   Mesh,
   MeshBasicMaterial,
 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 describe('SceneManager', () => {
   let sceneManager: SceneManager;
@@ -284,8 +284,8 @@ describe('SceneManager', () => {
       sceneManager.scaleChildObjects('object', 1.5);
       expect(objectChild.scale.x).toBe(1.5);
 
-      sceneManager.scaleChildObjects('object', 0.5, 'axis');
-      expect(objectChild.scale['axis']).toBe(0.5);
+      sceneManager.scaleChildObjects('object', 0.5, 'x');
+      expect(objectChild.scale['x']).toBe(0.5);
     });
 
     it('should add label to the three.js object', () => {

@@ -5,13 +5,13 @@ import {
   MeshPhongMaterial,
   Object3D,
 } from 'three';
-import { SceneManager } from '../../three-manager/scene-manager';
-import { ThreeManager } from '../../three-manager';
-import { PhoenixMenuNode } from './phoenix-menu-node';
-import { Cut } from '../../../lib/models/cut.model';
-import { PrettySymbols } from '../../../helpers/pretty-symbols';
-import { ColorByOptionKeys, ColorOptions } from '../color-options';
-import { PhoenixUI } from '../phoenix-ui';
+import { SceneManager } from '../../three-manager/scene-manager.js';
+import { ThreeManager } from '../../three-manager/index.js';
+import { PhoenixMenuNode } from './phoenix-menu-node.js';
+import { Cut } from '../../../lib/models/cut.model.js';
+import { PrettySymbols } from '../../../helpers/pretty-symbols.js';
+import { ColorByOptionKeys, ColorOptions } from '../color-options.js';
+import type { PhoenixUI } from '../phoenix-ui.js';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -37,9 +37,6 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     private phoenixMenuRoot: PhoenixMenuNode,
     private three: ThreeManager,
   ) {
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
     this.sceneManager = three.getSceneManager();
   }
 
@@ -49,12 +46,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   public clear() {
     if (this.phoenixMenuRoot) {
       this.phoenixMenuRoot.truncate();
-      this.phoenixMenuRoot = undefined;
     }
 
-    this.geomFolder = null;
-    this.eventFolder = null;
-    this.labelsFolder = null;
+    this.eventFolderState = undefined;
   }
 
   /**
@@ -62,7 +56,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addGeometryFolder() {
     // Phoenix menu
-    if (this.geomFolder === null) {
+    if (this.eventFolderState === undefined) {
       this.geomFolder = this.phoenixMenuRoot.addChild(
         'Detector',
         (value) => {
@@ -88,7 +82,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         allowCustomValue: true,
         onChange: (value) => {
           this.sceneManager.setGeometryOpacity(
-            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            this.sceneManager.getObjectByName(
+              SceneManager.GEOMETRIES_ID,
+            ) as Mesh,
             value,
           );
         },
@@ -157,7 +153,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) => {
-          this.sceneManager.setGeometryOpacity(object, opacity);
+          this.sceneManager.setGeometryOpacity(object as Mesh, opacity);
         },
       })
       .addConfig('button', {
@@ -174,7 +170,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    */
   public addEventDataFolder() {
     // Phoenix menu
-    if (this.eventFolder !== null) {
+    if (this.eventFolder) {
       this.eventFolderState = this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }
@@ -203,7 +199,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.sceneManager.objectVisibility(
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(typeName),
+          .getObjectByName(typeName) as Object3D,
         value,
       );
     });
@@ -236,7 +232,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         const collectionObject = this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
-        this.sceneManager.objectVisibility(collectionObject, value);
+        if (collectionObject)
+          this.sceneManager.objectVisibility(collectionObject, value);
       },
     );
 
@@ -260,7 +257,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     new ColorOptions(
       this.three.getColorManager(),
       collectionNode,
-      collectionColor,
+      collectionColor ? collectionColor : new Color(),
       colorByOptions,
     );
   }
@@ -348,7 +345,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           const collectionObject =
             eventDataObject.getObjectByName(collectionName);
           if (collectionObject) {
-            this.sceneManager.setGeometryOpacity(collectionObject, value);
+            this.sceneManager.setGeometryOpacity(
+              collectionObject as Mesh,
+              value,
+            );
           }
         }
       },
@@ -360,7 +360,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
         this.sceneManager.wireframeObjects(
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
-            .getObjectByName(collectionName),
+            ?.getObjectByName(collectionName) as Object3D,
           value,
         ),
     });
@@ -371,7 +371,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param configFunctions Functions to attach to the labels folder configuration.
    */
   public addLabelsFolder(configFunctions: any) {
-    if (this.labelsFolder !== null) {
+    if (this.labelsFolder) {
       return;
     }
 
@@ -433,7 +433,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       const labelObject = this.sceneManager
         .getObjectByName(SceneManager.LABELS_ID)
         .getObjectByName(labelId);
-      this.sceneManager.objectVisibility(labelObject, value);
+      if (labelObject) this.sceneManager.objectVisibility(labelObject, value);
     });
 
     labelNode.addConfig('color', {
@@ -476,7 +476,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param typeName Name of the event data type.
    * @returns Folder of the event data type.
    */
-  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
+  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode | undefined {
     return this.eventFolder.children.find(
       (eventDataTypeNode) => eventDataTypeNode.name === typeName,
     );

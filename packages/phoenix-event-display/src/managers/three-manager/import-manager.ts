@@ -14,11 +14,11 @@ import {
   Matrix4,
   REVISION,
 } from 'three';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import type { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import JSZip from 'jszip';
 
 /**
@@ -78,10 +78,9 @@ export class ImportManager {
             doubleSided,
             setFlat,
           );
-
           resolve({ object: processedObject });
         },
-        null,
+        () => {},
         (error) => {
           reject(error);
         },
@@ -180,7 +179,7 @@ export class ImportManager {
    */
   public parsePhnxScene(
     scene: any,
-    callback: (geometries: Object3D, eventData: Object3D) => void,
+    callback: (geometries?: Object3D, eventData?: Object3D) => void,
   ): Promise<void> {
     const loader = new GLTFLoader();
 
@@ -234,7 +233,7 @@ export class ImportManager {
   ) {
     if (filename.split('.').pop() == 'zip') {
       JSZip.loadAsync(data).then((archive) => {
-        const promises: Promise[] = [];
+        const promises: Promise<any>[] = [];
         for (const filePath in archive.files) {
           promises.push(
             archive
@@ -283,15 +282,11 @@ export class ImportManager {
   ): Promise<GeometryUIParameters[]> {
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       const reader = new FileReader();
-      reader.onerror = () => {
-        this.eventDisplay.getInfoLogger().add('Could not read file', 'Error');
-        reject(error);
-      };
       reader.onload = () => {
         this.zipHandlingInternal(
           '',
           file.name,
-          reader.result,
+          reader.result as ArrayBuffer,
           callback,
           resolve,
           reject,
@@ -404,7 +399,13 @@ export class ImportManager {
               menuNodeName,
             );
 
-            const materials = {};
+            const materials: {
+              [key: string]: {
+                material: Material;
+                geoms: any[];
+                renderOrder: number;
+              };
+            } = {};
             const findMeshes = (
               node: Object3D,
               parentMatrix: Matrix4,
@@ -415,7 +416,7 @@ export class ImportManager {
                 const key = ((node as Mesh).material as any).id; // ts don't recognize material and prevent compilation...
                 if (!materials[key])
                   materials[key] = {
-                    material: (node as Mesh).material,
+                    material: (node as Mesh).material as Material, // Can be Material[], but not sure this is ever still used.
                     geoms: [],
                     renderOrder: -depth,
                   };
@@ -431,6 +432,8 @@ export class ImportManager {
             };
 
             findMeshes(scene, new Matrix4(), 0);
+
+            // Improve renderorder for transparent materials
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
               const mesh = new Mesh(
@@ -443,14 +446,14 @@ export class ImportManager {
 
             this.processGeometry(
               scene,
-              name ?? sceneName.name,
+              name ?? sceneName?.name,
               scale,
               true, // doublesided
             );
 
             allGeometries.push({
               object: scene,
-              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+              menuNodeName: menuNodeName ?? sceneName?.menuNodeName,
             });
           }
           resolve(allGeometries);
@@ -504,11 +507,11 @@ export class ImportManager {
             scene.visible = scene.userData.visible;
             console.log('Dealing with scene ', scene.name);
             const sceneName = this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, sceneName.name ?? name);
+            this.processGeometry(scene, sceneName?.name ?? name);
 
             allGeometriesUIParameters.push({
               object: scene,
-              menuNodeName: sceneName.menuNodeName,
+              menuNodeName: sceneName?.menuNodeName,
             });
           }
 
@@ -564,7 +567,7 @@ export class ImportManager {
               this.processGeometry(object, name, scale, doubleSided);
               resolve({ object });
             },
-            null,
+            undefined,
             (error) => {
               reject(error);
             },
@@ -603,9 +606,9 @@ export class ImportManager {
         child.name = child.userData.name = name;
         child.userData.size = this.getObjectSize(child);
         if (child.material instanceof Material) {
-          const color = child.material['color']
-            ? child.material['color']
-            : 0x2fd691;
+          const mat = child.material as Material;
+          const color =
+            'color' in mat ? (mat.color as Color).getHex() : 0x2fd691;
           const side = doubleSided ? DoubleSide : child.material['side'];
 
           // Disposing of the default material

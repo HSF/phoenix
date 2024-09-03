@@ -1,5 +1,5 @@
 import { Color, Object3D } from 'three';
-import { Cut } from '../../lib/models/cut.model';
+import { Cut } from '../../lib/models/cut.model.js';
 
 /**
  * Common interface for implement Phoenix UI menu.
@@ -72,5 +72,5 @@ export interface PhoenixUI<T> {
    * @param typeName Name of the event data type.
    * @returns Folder of the event data type.
    */
-  getEventDataTypeFolder(typeName: string): T;
+  getEventDataTypeFolder(typeName: string): T | undefined;
 }

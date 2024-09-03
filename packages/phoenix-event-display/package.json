@@ -38,26 +38,26 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.24.3",
-    "@tweenjs/tween.js": "^23.1.1",
+    "@babel/core": "^7.24.7",
+    "@tweenjs/tween.js": "^23.1.2",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
-    "jsroot": "^7.5.5",
+    "jsroot": "^7.7.2",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.165.0"
+    "three": "^0.167.0"
   },
   "devDependencies": {
-    "@babel/helper-string-parser": "^7.24.1",
-    "@babel/plugin-transform-runtime": "^7.24.3",
-    "@compodoc/compodoc": "^1.1.23",
-    "@types/dat.gui": "^0.7.12",
-    "@types/three": "^0.165.0",
-    "esbuild-loader": "^4.1.0",
+    "@babel/helper-string-parser": "^7.24.7",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@compodoc/compodoc": "^1.1.25",
+    "@types/dat.gui": "^0.7.13",
+    "@types/three": "^0.167.1",
+    "esbuild-loader": "^4.2.2",
     "jest": "^29.7.0",
-    "ts-jest": "~29.1.2",
-    "typescript": "~5.4.3",
-    "webpack": "^5.91.0",
+    "ts-jest": "~29.2.3",
+    "typescript": "~5.4.5",
+    "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
   },
   "peerDependencies": {

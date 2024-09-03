@@ -1,4 +1,4 @@
-import { OnInit, Component, Input } from '@angular/core';
+import { type OnInit, Component, Input } from '@angular/core';
 import {
   CMSLoader,
   JiveXMLLoader,
@@ -9,7 +9,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 import { MatDialogRef } from '@angular/material/dialog';
 import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
   ImportOption,
 } from '../../../../services/extras/event-data-import';
 

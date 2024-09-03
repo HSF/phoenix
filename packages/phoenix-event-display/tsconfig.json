@@ -3,13 +3,17 @@
     "baseUrl": "./",
     "rootDir": "src",
     "declaration": true,
-    "target": "es6",
+    "target": "es2020",
     "outDir": "dist",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true
+    // "verbatimModuleSyntax": true - Jest CI tests fail if we include this
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
