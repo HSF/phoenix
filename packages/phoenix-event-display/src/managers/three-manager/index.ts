@@ -860,7 +860,7 @@ export class ThreeManager {
    */
   public async parseGLTFGeometry(file: File): Promise<GeometryUIParameters[]> {
     const allGeometriesUIParameters =
-      await this.importManager.parseGLTFGeometry(file.name);
+      await this.importManager.parseGLTFGeometry(file);
 
     for (const { object } of allGeometriesUIParameters) {
       this.sceneManager.getGeometries().add(object);
