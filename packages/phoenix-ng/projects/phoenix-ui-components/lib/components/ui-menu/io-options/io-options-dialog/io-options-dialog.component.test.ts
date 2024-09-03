@@ -75,6 +75,15 @@ describe('IoOptionsDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
+  it('should handle glTF file input', () => {
+    const files = mockFileList([
+      new File(['{}'], 'testfile.gltf', {
+        type: 'application/json',
+      }),
+    ]);
+    component.handleGLTFInput(files);
+  });
+
   describe('handleFileInput', () => {
     beforeEach(() => {
       jest.spyOn(component, 'handleFileInput').mockImplementation(() => {});
@@ -133,15 +142,6 @@ describe('IoOptionsDialogComponent', () => {
           }),
         ]);
         component.handleSceneInput(files);
-      });
-
-      it('should handle glTF file input', () => {
-        const files = mockFileList([
-          new File(['{}'], 'testfile.gltf', {
-            type: 'application/json',
-          }),
-        ]);
-        component.handleGLTFInput(files);
       });
 
       it('should handle phoenix file input', () => {
