@@ -5,7 +5,7 @@ import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import { Object3D, PerspectiveCamera, Scene, Vector2 } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import THREE from '../../helpers/webgl-mock';
 
 describe('SelectionManager', () => {

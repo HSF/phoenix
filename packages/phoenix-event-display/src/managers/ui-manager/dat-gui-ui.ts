@@ -78,15 +78,18 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    * Add geometry (detector geometry) folder to the menu.
    */
   public addGeometryFolder() {
-    if (this.geomFolder === null) {
+    if (this.geomFolder == null) {
       this.geomFolder = this.gui.addFolder(SceneManager.GEOMETRIES_ID);
     }
     this.guiParameters.geometries = { show: true, wireframe: false };
     // A boolean toggle for showing/hiding the geometries is added to the 'Geometry' folder.
-    const showGeometriesMenu = this.geomFolder
-      .add(this.guiParameters.geometries, 'show')
-      .name('Show')
-      .listen();
+    // const showGeometriesMenu = this.geomFolder
+    //   .add(this.guiParameters.geometries, 'show')
+    //   .name('Show')
+    //   .listen();
+    const tmp1 = this.geomFolder;
+    const tmp2 = tmp1.add(this.guiParameters.geometries, 'show');
+    const showGeometriesMenu = tmp2.name('Show').listen();
     showGeometriesMenu.onChange((value) => {
       this.sceneManager.objectVisibility(
         this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
@@ -201,8 +204,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    */
   public addEventDataFolder() {
     // If there is already an event data folder it is deleted and we create a new one.
-    if (this.eventFolder !== null) {
-      this.gui.removeFolder(this.eventFolder);
+    if (this.eventFolder) {
+      this.gui?.removeFolder(this.eventFolder);
     }
 
     // A new folder for the Event Data is added to the GUI.
@@ -345,7 +348,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    * @param configFunctions Functions to attach to the labels folder configuration.
    */
   public addLabelsFolder(configFunctions: any) {
-    if (this.labelsFolder !== null) {
+    if (this.labelsFolder != null) {
       return;
     }
 

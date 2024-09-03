@@ -223,12 +223,12 @@ export class SceneManager {
    * @param name Name of the object.
    * @returns Object position.
    */
-  public getObjectPosition(name: string): Vector3 {
+  public getObjectPosition(name: string): Vector3 | undefined {
     const object = this.scene.getObjectByName(name);
     if (object) {
       return object.position;
     }
-    return new Vector3();
+    return undefined;
   }
 
   /**

@@ -371,7 +371,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
    * @param configFunctions Functions to attach to the labels folder configuration.
    */
   public addLabelsFolder(configFunctions: any) {
-    if (this.labelsFolder !== null) {
+    if (this.labelsFolder) {
       return;
     }
 
