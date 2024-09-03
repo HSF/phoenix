@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PhoenixMenuComponent } from './phoenix-menu.component';
 import { PhoenixMenuNode } from 'phoenix-event-display';
