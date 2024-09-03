@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, type OnInit, Input, ElementRef } from '@angular/core';
 import {
   PrettySymbols,
   ActiveVariable,

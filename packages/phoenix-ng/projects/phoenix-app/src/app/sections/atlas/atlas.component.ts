@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
   EventDisplayService,
 } from 'phoenix-ui-components';
 import {
-  Configuration,
   PresetView,
   PhoenixMenuNode,
   PhoenixLoader,
   StateManager,
 } from 'phoenix-event-display';
+import type { Configuration } from 'phoenix-event-display';
 import { environment } from '../../../environments/environment';
 import eventConfig from '../../../../event-config.json';
 

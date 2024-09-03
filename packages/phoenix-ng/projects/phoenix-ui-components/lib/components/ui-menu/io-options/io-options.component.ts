@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   EventDataFormat,
-  EventDataImportOption,
+  type EventDataImportOption,
 } from '../../../services/extras/event-data-import';
 import { IOOptionsDialogComponent } from './io-options-dialog/io-options-dialog.component';
 

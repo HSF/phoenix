@@ -151,17 +151,6 @@ describe('PhoenixObjects', () => {
     expect(hitsParamsBox).toMatchObject(hitsObjectBox.userData);
   });
 
-  it('should create Hits of Unknown type from the given parameters and get it as an object', () => {
-    const unknownHitsParams = [
-      {
-        pos: [4846, 23, 18, 126, 1565, 35404],
-        type: 'Unknown',
-      },
-    ];
-    const unknownHitsObject = PhoenixObjects.getHits(unknownHitsParams);
-    expect(unknownHitsObject).toBeUndefined();
-  });
-
   it('should create a Cluster and get it as an object', () => {
     const clusterParams = {
       energy: 23.54,

@@ -1,6 +1,6 @@
-import { PhoenixLoader } from './phoenix-loader';
+import { PhoenixLoader } from './phoenix-loader.js';
 import { Vector3, QuadraticBezierCurve3 } from 'three';
-import { CMSObjects } from './objects/cms-objects';
+import { CMSObjects } from './objects/cms-objects.js';
 import JSZip from 'jszip';
 
 /**
@@ -49,7 +49,7 @@ export class CMSLoader extends PhoenixLoader {
   ) {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
-    const eventsDataInIg = [];
+    const eventsDataInIg: any[] = [];
     const readArchive = (res: File | ArrayBuffer) => {
       igArchive.loadAsync(res).then(() => {
         let allFilesPath = Object.keys(igArchive.files);
@@ -64,7 +64,7 @@ export class CMSLoader extends PhoenixLoader {
           // If the files are in the "Events" folder then process them.
           if (filePathInIg.toLowerCase().startsWith('events')) {
             igArchive
-              .file(filePathInIg)
+              ?.file(filePathInIg)!
               .async('string')
               .then((singleEvent: string) => {
                 // The data has some inconsistencies which need to be removed to properly parse JSON
@@ -130,8 +130,18 @@ export class CMSLoader extends PhoenixLoader {
    */
   public getEventData(): any {
     const eventInfo = this.data?.['Collections']?.['Event_V2']?.[0];
-
-    const eventData = {
+    const eventData: {
+      runNumber: any;
+      eventNumber: any;
+      ls: any;
+      time: any;
+      Hits: any;
+      Tracks: any;
+      Jets: any;
+      CaloClusters: any;
+      MuonChambers: any;
+      [key: string]: any; // Add index signature
+    } = {
       runNumber: eventInfo?.[0],
       eventNumber: eventInfo?.[1],
       ls: eventInfo?.[2],
@@ -176,7 +186,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns An object containing event data for all events.
    */
   public getAllEventsData(allEventsDataFromIg: any[]): any {
-    const allEventsData = {};
+    const allEventsData: { [key: string]: any } = {};
     for (const eventData of allEventsDataFromIg) {
       this.data = eventData;
       allEventsData[eventData.eventPath] = this.getEventData();
@@ -308,7 +318,7 @@ export class CMSLoader extends PhoenixLoader {
     processObject?: (objectParams: any) => void,
     cuts?: { attribute: string; min?: number; max?: number }[],
   ): any {
-    const ObjectType = {};
+    const ObjectType: { [key: string]: any[] } = {};
 
     // Filter to check if the provided collections are indeed inside the data
     collections = collections.filter((key) => this.data['Collections'][key]);
@@ -319,11 +329,14 @@ export class CMSLoader extends PhoenixLoader {
       const objectAttributes = this.data['Types'][collection];
       // Iterating a single object collection to process all objects
       for (const physicsObject of this.data['Collections'][collection]) {
-        const objectParams = {};
+        const objectParams: { [key: string]: number } = {};
+
         // Filling object params using the given types
-        objectAttributes.forEach((attribute, attributeIndex) => {
-          objectParams[attribute[0]] = physicsObject[attributeIndex];
-        });
+        objectAttributes.forEach(
+          (attribute: (string | number)[], attributeIndex: string | number) => {
+            objectParams[attribute[0]] = physicsObject[attributeIndex];
+          },
+        );
 
         // Applying cuts to object (if any)
         if (cuts) {
@@ -366,7 +379,7 @@ export class CMSLoader extends PhoenixLoader {
    * @returns Tracks object containing all Tracks collections.
    */
   private getTracks(): any {
-    const Tracks = {};
+    const Tracks: { [key: string]: any[] } = {};
 
     // All collections with tracks
     let tracksCollections = [
@@ -457,16 +470,29 @@ export class CMSLoader extends PhoenixLoader {
       const trackTypes = this.data['Types'][tracksCollection.collection];
 
       // Variables to be used inside the loop
-      let ti, ei, p1, d1, p2, d2, distance, scale, cp1, cp2, curve, trackParams;
+      let ti,
+        ei,
+        p1,
+        d1,
+        p2,
+        d2,
+        distance,
+        scale,
+        cp1,
+        cp2,
+        curve,
+        trackParams: { [x: string]: any; pt?: any; color?: any; pos?: any };
 
       for (let i = 0; i < assocs.length; i++) {
         // Current track info
         trackParams = {};
 
         // Set properties/attributes of track
-        trackTypes.forEach((attribute, attributeIndex) => {
-          trackParams[attribute[0]] = tracks[i][attributeIndex];
-        });
+        trackTypes.forEach(
+          (attribute: (string | number)[], attributeIndex: string | number) => {
+            trackParams[attribute[0]] = tracks[i][attributeIndex];
+          },
+        );
 
         // SKIPPING TRACKS WITH pt < min_pt
         if (trackParams.pt < tracksCollection.min_pt) {

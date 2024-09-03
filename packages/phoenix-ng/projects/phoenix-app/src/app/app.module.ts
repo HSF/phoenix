@@ -11,27 +11,27 @@ import { VPToggleComponent } from './sections/lhcb/vp-toggle/vp-toggle.component
 import { CMSComponent } from './sections/cms/cms.component';
 import { TrackmlComponent } from './sections/trackml/trackml.component';
 import { PhoenixUIModule } from 'phoenix-ui-components';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, type Routes } from '@angular/router';
 import { PlaygroundComponent } from './sections/playground/playground.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 
-let routes: Routes;
-
-if (environment?.singleEvent) {
-  routes = [{ path: '', component: AtlasComponent }];
-} else {
-  routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'geometry', component: GeometryComponent },
-    { path: 'atlas', component: AtlasComponent },
-    { path: 'lhcb', component: LHCbComponent },
-    { path: 'cms', component: CMSComponent },
-    { path: 'trackml', component: TrackmlComponent },
-    { path: 'playground', component: PlaygroundComponent },
-  ];
-}
+// const routes: Routes;
+const singleEvent = environment?.singleEvent;
+// if (singleEvent) {
+//   routes = [{ path: '', component: AtlasComponent }];
+// } else {
+const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'geometry', component: GeometryComponent },
+  { path: 'atlas', component: AtlasComponent },
+  { path: 'lhcb', component: LHCbComponent },
+  { path: 'cms', component: CMSComponent },
+  { path: 'trackml', component: TrackmlComponent },
+  { path: 'playground', component: PlaygroundComponent },
+];
+// }
 
 @NgModule({
   declarations: [
@@ -48,9 +48,7 @@ if (environment?.singleEvent) {
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, {
-      useHash: environment?.singleEvent ? false : true,
-    }),
+    RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     PhoenixUIModule,
   ],

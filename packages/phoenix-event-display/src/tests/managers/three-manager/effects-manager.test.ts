@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import { Camera, Scene, NormalBlending, PerspectiveCamera } from 'three';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import THREE from '../../helpers/webgl-mock';
 

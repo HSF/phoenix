@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import {
+  Component,
+  type OnInit,
+  type OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { PresetView } from 'phoenix-event-display';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';

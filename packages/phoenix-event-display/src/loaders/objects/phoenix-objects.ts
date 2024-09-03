@@ -24,12 +24,12 @@ import {
   CanvasTexture,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
-import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
-import { RKHelper } from '../../helpers/rk-helper';
-import { CoordinateHelper } from '../../helpers/coordinate-helper';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants.js';
+import { RKHelper } from '../../helpers/rk-helper.js';
+import { CoordinateHelper } from '../../helpers/coordinate-helper.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import { TracksMaterial, TracksMesh } from './tracks';
-import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils';
+import { TracksMaterial, TracksMesh } from './tracks.js';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -40,9 +40,9 @@ export class PhoenixObjects {
    * @param tracks Tracks params to construct tacks from.
    * @returns The object containing tracks.
    */
-  public static getTracks(tracks): Object3D {
+  public static getTracks(tracks: any): Object3D {
     const tracksMesh = new TracksMesh();
-    const tracksMaterial = new TracksMaterial({ lineWidth: 2 });
+    const tracksMaterial = new TracksMaterial({ linewidth: 2 });
 
     for (const track of tracks) {
       if (!(track.pos?.length > 2)) {
@@ -73,7 +73,9 @@ export class PhoenixObjects {
         }
       }
 
-      const points = track.pos.map((p) => new Vector3(p[0], p[1], p[2]));
+      const points = track.pos.map(
+        (p: (number | undefined)[]) => new Vector3(p[0], p[1], p[2]),
+      );
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
@@ -109,11 +111,12 @@ export class PhoenixObjects {
     }
 
     const positions = trackParams.pos;
+    const trackObject = new Group();
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length < 2) {
       console.log('Track too short, and extrapolation failed.');
-      return;
+      return trackObject;
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
@@ -174,7 +177,6 @@ export class PhoenixObjects {
     lineObject.name = 'Track';
 
     // Creating a group to add both the Tube curve and the Line
-    const trackObject = new Group();
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 
@@ -334,7 +336,7 @@ export class PhoenixObjects {
         );
       default:
         console.log('ERROR: Unknown hit type!');
-        return;
+        return new Object3D();
     }
   }
 
@@ -391,11 +393,13 @@ export class PhoenixObjects {
     canvas.width = 128;
     canvas.height = 128;
     const context = canvas.getContext('2d');
-    context.clearRect(0, 0, 128, 128);
-    context.fillStyle = 'white';
-    context.beginPath();
-    context.arc(64, 64, 64, 0, 2 * Math.PI);
-    context.fill();
+    if (context) {
+      context.clearRect(0, 0, 128, 128);
+      context.fillStyle = 'white';
+      context.beginPath();
+      context.arc(64, 64, 64, 0, 2 * Math.PI);
+      context.fill();
+    }
     const texture = new CanvasTexture(canvas);
 
     const material = new PointsMaterial({
@@ -746,7 +750,7 @@ export class PhoenixObjects {
   public static getPlanarCaloCell(caloCells: any): Object3D {
     const position = caloCells.pos;
     if (!position) {
-      return;
+      return new Object3D();
     }
 
     const length = caloCells.energy * 0.22;

@@ -35,10 +35,11 @@ export const loadFile = (
     const configFile = e.target?.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
-      onFileRead?.(e.target.result.toString());
-
+      if (e.target && e.target.result) {
+        onFileRead?.(e.target.result.toString());
+      }
       inputFile.remove();
-      inputFile = null;
+      inputFile = new HTMLInputElement();
     };
     reader.readAsText(configFile);
   };

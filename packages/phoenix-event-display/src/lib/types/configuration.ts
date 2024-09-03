@@ -1,8 +1,7 @@
-import { PresetView } from '../models/preset-view.model';
-import { EventDataLoader } from '../../loaders/event-data-loader';
-import { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
-import { AnimationPreset } from '../../managers/three-manager/animations-manager';
-import { DepthPackingStrategies } from 'three';
+import { PresetView } from '../models/preset-view.model.js';
+import type { EventDataLoader } from '../../loaders/event-data-loader.js';
+import type { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node.js';
+import type { AnimationPreset } from '../../managers/three-manager/animations-manager.js';
 
 /**
  * Configuration of the event display.

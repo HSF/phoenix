@@ -10,8 +10,8 @@ import {
   Mesh,
   TubeGeometry,
 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { RendererManager } from './renderer-manager';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RendererManager } from './renderer-manager.js';
 
 /**
  * Manager for managing event display controls.
@@ -39,8 +39,8 @@ export class ControlsManager {
     defaultView: number[] = [0, 0, 200],
   ) {
     this.controls = [];
-    this.mainControls = null;
-    this.overlayControls = null;
+    // this.mainControls = new OrbitControls();
+    // this.overlayControls = null;
 
     const rendererElement = rendererManager.getMainRenderer()?.domElement;
 
@@ -102,7 +102,7 @@ export class ControlsManager {
    */
   private setOrbitControls(
     camera: PerspectiveCamera | OrthographicCamera,
-    domElement?: HTMLElement,
+    domElement: HTMLElement,
   ): OrbitControls {
     const controls: OrbitControls = new OrbitControls(camera, domElement);
     controls.enableDamping = true;
@@ -365,7 +365,7 @@ export class ControlsManager {
 
       return objectPosition;
     } else {
-      return undefined;
+      return new Vector3();
     }
   }
 

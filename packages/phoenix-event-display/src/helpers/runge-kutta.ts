@@ -18,9 +18,9 @@ export class RungeKutta {
       half_h: number,
       B_middle: Vector3,
       B_last: Vector3,
-      k2: Vector3,
-      k3: Vector3,
-      k4: Vector3;
+      k2: Vector3 = new Vector3(),
+      k3: Vector3 = new Vector3(),
+      k4: Vector3 = new Vector3();
 
     // First Runge-Kutta point (at current position)
     const B_first: Vector3 = Field.get(state.pos);

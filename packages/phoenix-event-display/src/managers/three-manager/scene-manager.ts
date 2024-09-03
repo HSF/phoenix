@@ -3,6 +3,7 @@ import {
   Object3D,
   Color,
   LineSegments,
+  Material,
   Mesh,
   MeshPhongMaterial,
   LineBasicMaterial,
@@ -17,12 +18,13 @@ import {
   Quaternion,
   DoubleSide,
   BoxGeometry,
+  type Object3DEventMap,
 } from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
-import { Font } from 'three/examples/jsm/loaders/FontLoader';
-import { Cut } from '../../lib/models/cut.model';
-import { CoordinateHelper } from '../../helpers/coordinate-helper';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
+import { Cut } from '../../lib/models/cut.model.js';
+import { CoordinateHelper } from '../../helpers/coordinate-helper.js';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
@@ -79,7 +81,7 @@ export class SceneManager {
   constructor(ignoreList: string[], useCameraLight: boolean = true) {
     this.getScene();
     this.ignoreList = ignoreList;
-    this.axis = null;
+    this.axis = new Object3D();
     this.setLights(useCameraLight);
   }
 
@@ -138,7 +140,7 @@ export class SceneManager {
    */
   public getCleanScene(): Scene {
     const clearScene = this.scene.clone() as Scene;
-    const removeList = [];
+    const removeList: Object3D<Object3DEventMap>[] = [];
 
     clearScene.traverse((object: Object3D) => {
       if (this.ignoreList.includes(object.type)) {
@@ -156,12 +158,20 @@ export class SceneManager {
    * @param object Object whose opacity needs to be changed.
    * @param value Value of opacity, between 0 (transparent) and 1 (opaque).
    */
-  public setGeometryOpacity(object: Object3D, value: number) {
+  public setGeometryOpacity(object: Mesh, value: number) {
     if (value && object) {
       object.traverse((child) => {
-        if (child?.['material']) {
-          child['material'].transparent = true;
-          child['material'].opacity = value;
+        const mesh = child as Mesh;
+        if (mesh?.['material']) {
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((material) => {
+              material.transparent = true;
+              material.opacity = value;
+            });
+          } else {
+            mesh.material.transparent = true;
+            mesh.material.opacity = value;
+          }
         }
       });
     }
@@ -213,8 +223,12 @@ export class SceneManager {
    * @param name Name of the object.
    * @returns Object position.
    */
-  public getObjectPosition(name: string): Vector3 {
-    return this.scene.getObjectByName(name)?.position;
+  public getObjectPosition(name: string): Vector3 | undefined {
+    const object = this.scene.getObjectByName(name);
+    if (object) {
+      return object.position;
+    }
+    return undefined;
   }
 
   /**
@@ -232,7 +246,10 @@ export class SceneManager {
    */
   public removeLabel(name: string) {
     const object = this.scene.getObjectByName(name);
-    this.getObjectsGroup(SceneManager.LABELS_ID).remove(object);
+    const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
+    if (labelsGroup && object) {
+      labelsGroup.remove(object);
+    }
   }
 
   /**
@@ -266,20 +283,27 @@ export class SceneManager {
    * @param filters Cuts used to filter the objects in the collection.
    */
   public collectionFilter(collectionName: string, filters: Cut[]) {
-    const collection = this.getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
-    for (const child of Object.values(collection.children)) {
-      if (child.userData) {
-        for (const filter of filters) {
-          const value = child.userData[filter.field];
-          if (value) {
-            if (filter.cutPassed(value)) {
-              child.visible = true;
-            } else {
-              child.visible = false;
-              // Break even if one filter hides the object
-              break;
+    const eventData = this.getScene().getObjectByName(
+      SceneManager.EVENT_DATA_ID,
+    );
+    if (!eventData) {
+      return;
+    }
+
+    const collection = eventData.getObjectByName(collectionName);
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        if (child.userData) {
+          for (const filter of filters) {
+            const value = child.userData[filter.field];
+            if (value) {
+              if (filter.cutPassed(value)) {
+                child.visible = true;
+              } else {
+                child.visible = false;
+                // Break even if one filter hides the object
+                break;
+              }
             }
           }
         }
@@ -298,9 +322,14 @@ export class SceneManager {
     const parent = parentName
       ? this.scene.getObjectByName(parentName)
       : this.scene;
+    if (!parent) {
+      return;
+    }
     const collection = parent.getObjectByName(name);
-    for (const child of Object.values(collection.children)) {
-      child.visible = visible;
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        child.visible = visible;
+      }
     }
   }
 
@@ -688,7 +717,7 @@ export class SceneManager {
     if (value <= 0) return;
 
     const jets = this.scene.getObjectByName('Jets');
-
+    if (!jets) return;
     jets.traverse((objectChild: Object3D) => {
       if (objectChild.name === 'Jet') {
         const previousScale = objectChild.scale.x;
@@ -707,13 +736,21 @@ export class SceneManager {
    */
   public scaleChildObjects(groupName: string, value: number, axis?: string) {
     const object = this.scene.getObjectByName(groupName);
-
+    if (!object) return;
     object.traverse((objectChild: Object3D) => {
       if (objectChild.children.length === 0) {
-        if (!axis) {
-          objectChild.scale.setScalar(value);
-        } else {
-          objectChild.scale[axis] = value;
+        switch (axis) {
+          case 'x':
+            objectChild.scale.x = value;
+            break;
+          case 'y':
+            objectChild.scale.y = value;
+            break;
+          case 'z':
+            objectChild.scale.z = value;
+            break;
+          default:
+            objectChild.scale.setScalar(value);
         }
       }
     });
@@ -735,6 +772,7 @@ export class SceneManager {
     cameraControls: OrbitControls,
   ) {
     const object = this.scene.getObjectByProperty('uuid', uuid);
+    if (!object) return;
     object.userData.label = label;
 
     const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
@@ -1008,6 +1046,8 @@ export class SceneManager {
    * @returns The object.
    */
   public getObjectByName(name: string): Object3D {
-    return this.scene.getObjectByName(name);
+    const object = this.scene.getObjectByName(name);
+    if (object) return object;
+    return new Object3D();
   }
 }

@@ -1,4 +1,9 @@
-import { Component, OnInit, ComponentRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  type OnInit,
+  ComponentRef,
+  type OnDestroy,
+} from '@angular/core';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';

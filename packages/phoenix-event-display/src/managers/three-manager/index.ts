@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
+import type { Object3DEventMap, Intersection } from 'three';
 import {
   Group,
   Object3D,
-  Object3DEventMap,
   Vector3,
   Plane,
   Quaternion,
@@ -18,28 +18,29 @@ import {
   PerspectiveCamera,
   Vector2,
   Raycaster,
-  Intersection,
-  Event,
 } from 'three';
 import html2canvas from 'html2canvas';
-import { Configuration } from '../../lib/types/configuration';
-import { ControlsManager } from './controls-manager';
-import { RendererManager } from './renderer-manager';
-import { ExportManager } from './export-manager';
-import { ImportManager } from './import-manager';
-import { SelectionManager } from './selection-manager';
-import { SceneManager } from './scene-manager';
-import { AnimationPreset, AnimationsManager } from './animations-manager';
-import { InfoLogger } from '../../helpers/info-logger';
-import { EffectsManager } from './effects-manager';
-import { StateManager } from '../state-manager';
-import { LoadingManager } from '../loading-manager';
-import { ActiveVariable } from '../../helpers/active-variable';
-import { ColorManager } from './color-manager';
-import { XRManager, XRSessionType } from './xr/xr-manager';
-import { VRManager } from './xr/vr-manager';
-import { ARManager } from './xr/ar-manager';
-import { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters';
+import type { Configuration } from '../../lib/types/configuration.js';
+import { ControlsManager } from './controls-manager.js';
+import { RendererManager } from './renderer-manager.js';
+import { ExportManager } from './export-manager.js';
+import { ImportManager } from './import-manager.js';
+import { SelectionManager } from './selection-manager.js';
+import { SceneManager } from './scene-manager.js';
+import {
+  AnimationsManager,
+  type AnimationPreset,
+} from './animations-manager.js';
+import { InfoLogger } from '../../helpers/info-logger.js';
+import { EffectsManager } from './effects-manager.js';
+import { StateManager } from '../state-manager.js';
+import { LoadingManager } from '../loading-manager.js';
+import { ActiveVariable } from '../../helpers/active-variable.js';
+import { ColorManager } from './color-manager.js';
+import { XRManager, XRSessionType } from './xr/xr-manager.js';
+import { VRManager } from './xr/vr-manager.js';
+import { ARManager } from './xr/ar-manager.js';
+import type { GeometryUIParameters } from '../../lib/types/geometry-ui-parameters.js';
 
 (function () {
   const _updateMatrixWorld = Object3D.prototype.updateMatrixWorld;
@@ -113,17 +114,17 @@ export class ThreeManager {
   /** Status of clipping intersection. */
   private clipIntersection: boolean;
   /** Store the 3D coordinates of first point to find 3D Distance */
-  private prev3DCoord: Vector3 = null;
+  private prev3DCoord: Vector3 = new Vector3();
   /** Store the 2D coordinates of first point to find 3D Distance */
   private prev2DCoord: Vector2;
   /** Store the name of the object of first intersect while finding 3D Distance */
-  private prevIntersectName: string = null;
+  private prevIntersectName: string = '';
   /** Canvas used for rendering the distance line */
-  private distanceCanvas: HTMLCanvasElement = null;
+  private distanceCanvas: HTMLCanvasElement = document.createElement('canvas');
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (MouseEvent) => void;
+  private mousemoveCallback: (event: MouseEvent) => void;
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
@@ -346,7 +347,9 @@ export class ThreeManager {
   /**
    * Returns the mainIntersect upon clicking a point
    */
-  private getMainIntersect(event): Intersection<Object3D<Object3DEventMap>> {
+  private getMainIntersect(
+    event: MouseEvent,
+  ): Intersection<Object3D<Object3DEventMap>> | null {
     const camera = this.controlsManager.getMainCamera();
     const scene = this.sceneManager.getScene();
     const raycaster = new Raycaster();
@@ -456,8 +459,8 @@ export class ThreeManager {
           app?.appendChild(div);
 
           setTimeout(() => {
-            document.getElementById('3dcoordinates').remove();
-            document.getElementById('circledDot').remove();
+            document.getElementById('3dcoordinates')?.remove();
+            document.getElementById('circledDot')?.remove();
           }, 3000);
         }
       };
@@ -474,9 +477,9 @@ export class ThreeManager {
    * Show 3D Distance between any two clicked points
    */
   public show3DDistance(show: boolean) {
-    this.prev3DCoord = null;
-    this.prev2DCoord = null;
-    this.prevIntersectName = null;
+    this.prev3DCoord = new Vector3();
+    this.prev2DCoord = new Vector2();
+    this.prevIntersectName = '';
     this.filterRayIntersect();
 
     if (this.show3DDistanceCallback == null) {
@@ -484,7 +487,7 @@ export class ThreeManager {
       this.show3DDistanceCallback = (event) => {
         const mainIntersect = this.getMainIntersect(event);
         if (mainIntersect != null) {
-          if (this.prev3DCoord == null) {
+          if (!this.prevIntersectName) {
             this.prev3DCoord = mainIntersect.point;
             this.prev2DCoord = new Vector2(event.clientX, event.clientY);
             this.prevIntersectName = mainIntersect.object.name;
@@ -502,15 +505,29 @@ export class ThreeManager {
             app?.appendChild(this.distanceCanvas);
 
             const ctx = this.distanceCanvas.getContext('2d');
-            ctx.strokeStyle = this.displayColor;
-            ctx.lineWidth = 2;
-            ctx.fillStyle = this.displayColor;
-            ctx.beginPath();
-            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
-            ctx.fill();
+            if (ctx) {
+              ctx.strokeStyle = this.displayColor;
+              ctx.lineWidth = 2;
+              ctx.fillStyle = this.displayColor;
+              ctx.beginPath();
+              ctx.arc(
+                this.prev2DCoord.x,
+                this.prev2DCoord.y,
+                7,
+                0,
+                2 * Math.PI,
+              );
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(
+                this.prev2DCoord.x,
+                this.prev2DCoord.y,
+                3,
+                0,
+                2 * Math.PI,
+              );
+              ctx.fill();
+            }
 
             window.addEventListener('mousemove', this.mousemoveCallback);
           } else {
@@ -521,68 +538,68 @@ export class ThreeManager {
             // draw distance line
             this.drawLine(event);
             const ctx = this.distanceCanvas.getContext('2d');
-            ctx.beginPath();
-            ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
-            ctx.fill();
+            if (ctx) {
+              ctx.beginPath();
+              ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
+              ctx.fill();
 
-            // render the distance and the names of initial and final intersect
-            ctx.font = '15px Arial';
+              // render the distance and the names of initial and final intersect
+              ctx.font = '15px Arial';
 
-            let x1 = this.prev2DCoord.x,
-              x2 = event.clientX;
+              let x1 = this.prev2DCoord.x,
+                x2 = event.clientX;
 
-            const y1 = this.prev2DCoord.y,
-              y2 = event.clientY;
+              const y1 = this.prev2DCoord.y,
+                y2 = event.clientY;
 
-            const x_center = (x1 + x2) / 2,
-              y_center = (y1 + y2) / 2;
-            const d = 25;
-            const m = (x1 - x2) / (y2 - y1);
-            const delta_x = d / Math.sqrt(1 + m * m);
-            const delta_y = m * delta_x;
-            const x3 = x_center + delta_x;
-            const y3 = y_center + delta_y;
+              const x_center = (x1 + x2) / 2,
+                y_center = (y1 + y2) / 2;
+              const d = 25;
+              const m = (x1 - x2) / (y2 - y1);
+              const delta_x = d / Math.sqrt(1 + m * m);
+              const delta_y = m * delta_x;
+              const x3 = x_center + delta_x;
+              const y3 = y_center + delta_y;
 
-            if (this.prev2DCoord.x > event.clientX) {
-              x1 = this.prev2DCoord.x + 20;
-              x2 =
-                event.clientX -
-                ctx.measureText(mainIntersect.object.name).width -
-                20;
-            } else {
-              x1 =
-                this.prev2DCoord.x -
-                ctx.measureText(this.prevIntersectName).width -
-                20;
-              x2 = event.clientX + 20;
-            }
-
-            ctx.fillText(this.prevIntersectName, x1, y1);
-            ctx.fillText(mainIntersect.object.name, x2, y2);
-            ctx.fillText(distance.toFixed(2).toString() + 'cm', x3, y3);
-
-            // remove the canvas after some time
-            setTimeout(() => {
-              if (document.getElementById('3Ddistance') != null) {
-                document.getElementById('3Ddistance').remove();
+              if (this.prev2DCoord.x > event.clientX) {
+                x1 = this.prev2DCoord.x + 20;
+                x2 =
+                  event.clientX -
+                  ctx.measureText(mainIntersect.object.name).width -
+                  20;
+              } else {
+                x1 =
+                  this.prev2DCoord.x -
+                  ctx.measureText(this.prevIntersectName).width -
+                  20;
+                x2 = event.clientX + 20;
               }
-              this.distanceCanvas
-                .getContext('2d')
-                .clearRect(
-                  0,
-                  0,
-                  this.distanceCanvas.width,
-                  this.distanceCanvas.height,
-                );
-            }, 3000);
 
-            // reset the parameters for the next pair of clicked points
-            this.prev3DCoord = null;
-            this.prev2DCoord = null;
-            this.prevIntersectName = null;
+              ctx.fillText(this.prevIntersectName, x1, y1);
+              ctx.fillText(mainIntersect.object.name, x2, y2);
+              ctx.fillText(distance.toFixed(2).toString() + 'cm', x3, y3);
+
+              // remove the canvas after some time
+              setTimeout(() => {
+                if (document.getElementById('3Ddistance') != null) {
+                  document.getElementById('3Ddistance')?.remove();
+                }
+                this.distanceCanvas
+                  .getContext('2d')
+                  ?.clearRect(
+                    0,
+                    0,
+                    this.distanceCanvas.width,
+                    this.distanceCanvas.height,
+                  );
+              }, 3000);
+
+              // reset the parameters for the next pair of clicked points
+              this.prevIntersectName = '';
+            }
           }
         }
       };
@@ -594,12 +611,12 @@ export class ThreeManager {
       window.removeEventListener('click', this.show3DDistanceCallback);
       window.removeEventListener('mousemove', this.mousemoveCallback);
       if (document.getElementById('3Ddistance') != null) {
-        document.getElementById('3Ddistance').remove();
+        document.getElementById('3Ddistance')?.remove();
       }
       if (this.distanceCanvas != null) {
         this.distanceCanvas
           .getContext('2d')
-          .clearRect(
+          ?.clearRect(
             0,
             0,
             this.distanceCanvas.width,
@@ -614,17 +631,24 @@ export class ThreeManager {
    */
   private drawLine(finalPoint: MouseEvent) {
     const ctx = this.distanceCanvas.getContext('2d');
-    ctx.clearRect(0, 0, this.distanceCanvas.width, this.distanceCanvas.height);
-    ctx.beginPath();
-    ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
-    ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
-    ctx.fill();
+    if (ctx) {
+      ctx.clearRect(
+        0,
+        0,
+        this.distanceCanvas.width,
+        this.distanceCanvas.height,
+      );
+      ctx.beginPath();
+      ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
+      ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   }
 
   /**
@@ -643,7 +667,7 @@ export class ThreeManager {
       };
     }
 
-    const rightClickCallback = (_event) => {
+    const rightClickCallback = (_event: any) => {
       window.removeEventListener('click', this.shiftCartesianGridCallback);
       this.stopShifting.emit(true);
       this.shiftGrid = false;
@@ -755,7 +779,7 @@ export class ThreeManager {
     filename: string,
     name: string,
     color: any,
-    doubleSided?: boolean,
+    doubleSided: boolean,
     initiallyVisible: boolean = true,
     setFlat: boolean = true,
   ): Promise<GeometryUIParameters> {
@@ -787,9 +811,9 @@ export class ThreeManager {
   public async loadGLTFGeometry(
     sceneUrl: any,
     name: string,
-    menuNodeName?: string,
-    scale?: number,
-    initiallyVisible?: boolean,
+    menuNodeName: string,
+    scale: number,
+    initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
     const geometries = this.sceneManager.getGeometries();
 
@@ -852,9 +876,9 @@ export class ThreeManager {
    * @returns Promise for loading the scene.
    */
   public async parsePhnxScene(scene: any): Promise<void> {
-    const callback = (geometries: Object3D, eventData: Object3D) => {
-      this.sceneManager.getScene().add(geometries);
-      this.sceneManager.getScene().add(eventData);
+    const callback = (geometries?: Object3D, eventData?: Object3D) => {
+      if (geometries != null) this.sceneManager.getScene().add(geometries);
+      if (eventData != null) this.sceneManager.getScene().add(eventData);
     };
 
     await this.importManager.parsePhnxScene(scene, callback);
@@ -1206,7 +1230,7 @@ export class ThreeManager {
     const a = document.createElement('a');
     document.body.appendChild(a);
     a.style.display = 'none';
-    return function saveData(blob, fileName) {
+    return function saveData(blob: Blob | MediaSource, fileName: string) {
       const url = window.URL.createObjectURL(blob);
       a.href = url;
       a.download = fileName;
@@ -1218,7 +1242,12 @@ export class ThreeManager {
    * crops the size of an image to fit the ratio of the given screen size
    * That way the final image won't be streched
    */
-  private croppedSize(width, height, screenWidth, screenHeight) {
+  private croppedSize(
+    width: number,
+    height: number,
+    screenWidth: number,
+    screenHeight: number,
+  ) {
     let croppedHeight = height;
     let croppedWidth = width;
     if (screenWidth * height < screenHeight * width) {
@@ -1305,26 +1334,29 @@ export class ThreeManager {
     outputCanvas.style.width = (width / scale).toString() + 'px';
     outputCanvas.style.height = (height / scale).toString() + 'px';
     const ctx = outputCanvas.getContext('2d');
-    ctx.fillStyle = bkgColor;
-    ctx.fillRect(0, 0, width, height);
-    // draw main image on our output canvas, with right size
-    mainRenderer.setSize(
-      scaledSize.width / scale,
-      scaledSize.height / scale,
-      false,
-    );
-    this.render();
-    ctx.drawImage(
-      mainRenderer.domElement,
-      widthShift,
-      heightShift,
-      width,
-      height,
-      0,
-      0,
-      width,
-      height,
-    );
+    if (ctx) {
+      ctx.fillStyle = bkgColor;
+      ctx.fillRect(0, 0, width, height);
+      // draw main image on our output canvas, with right size
+      mainRenderer.setSize(
+        scaledSize.width / scale,
+        scaledSize.height / scale,
+        false,
+      );
+      this.render();
+      ctx.drawImage(
+        mainRenderer.domElement,
+        widthShift,
+        heightShift,
+        width,
+        height,
+        0,
+        0,
+        width,
+        height,
+      );
+    }
+
     mainRenderer.setSize(originalSize.width, originalSize.height, false);
     this.render();
 
@@ -1339,15 +1371,17 @@ export class ThreeManager {
 
       // Add info panel to output. This is HTML, so first convert it to canvas,
       // and then draw to our output canvas
-      html2canvas(infoPanel, {
+      const h2c: any = html2canvas;
+      // See: https://github.com/niklasvh/html2canvas/issues/1977#issuecomment-529448710 for why this is needed
+      h2c(infoPanel, {
         backgroundColor: bkgColor,
         // avoid cloning canvas in the main page, this is useless and leads to
         // warnings in the javascript console similar to this :
         // "Unable to clone WebGL context as it has preserveDrawingBuffer=false"
         ignoreElements: (element: Element) => element.tagName == 'CANVAS',
-      }).then((canvas) => {
+      }).then((canvas: HTMLCanvasElement) => {
         canvas.toBlob((blob) => {
-          ctx.drawImage(
+          ctx?.drawImage(
             canvas,
             infoHeight / 6,
             infoHeight / 6,
@@ -1356,13 +1390,15 @@ export class ThreeManager {
           );
           // Finally save to png file
           outputCanvas.toBlob((blob) => {
-            const a = document.createElement('a');
-            document.body.appendChild(a);
-            a.style.display = 'none';
-            const url = window.URL.createObjectURL(blob);
-            a.href = url;
-            a.download = `screencapture.png`;
-            a.click();
+            if (blob) {
+              const a = document.createElement('a');
+              document.body.appendChild(a);
+              a.style.display = 'none';
+              const url = window.URL.createObjectURL(blob);
+              a.href = url;
+              a.download = `screencapture.png`;
+              a.click();
+            }
           });
         });
       });
@@ -1423,7 +1459,8 @@ export class ThreeManager {
    * @param objectName Name of the object in scene.
    */
   public getObjectByName(objectName: string): Object3D {
-    return this.getSceneManager().getScene().getObjectByName(objectName);
+    const obj = this.getSceneManager().getScene().getObjectByName(objectName);
+    return obj ? obj : new Object3D();
   }
 
   /**

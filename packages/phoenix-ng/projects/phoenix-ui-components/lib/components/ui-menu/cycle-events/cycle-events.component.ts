@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, type OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { FileLoaderService } from '../../../services/file-loader.service';
 

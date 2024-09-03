@@ -5,6 +5,9 @@ module.exports = {
   rootDir: '../',
   roots: ['<rootDir>/src/tests'],
   preset: 'ts-jest/presets/js-with-ts-legacy',
+  moduleNameMapper: {
+    '^(\\.\\.?\\/.+)\\.js$': '$1',
+  },
   transform: {
     '^.+\\.m?[tj]s$': [
       'ts-jest',
@@ -32,4 +35,5 @@ module.exports = {
   verbose: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
   clearMocks: true,
+  extensionsToTreatAsEsm: ['.ts'],
 };

@@ -74,8 +74,10 @@ describe('PhoenixLoader', () => {
 
   it('should not get the list of collections and collection with the given collection name from the event data', () => {
     phoenixLoader['eventData'] = undefined;
-    expect(phoenixLoader.getCollections()).toBeNull();
-    expect(phoenixLoader.getCollection('hitsCollection')).toBeNull();
+    const tmp = phoenixLoader.getCollections();
+    expect(tmp).toBeInstanceOf(Array);
+    expect(tmp).toHaveLength(0);
+    expect(phoenixLoader.getCollection('hitsCollection')).toBeFalsy();
     phoenixLoader['eventData'] = eventData['Event'];
   });
 
