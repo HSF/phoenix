@@ -2729,6 +2729,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/compat@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@eslint/compat@npm:1.1.1"
+  checksum: c9146b139e52ee4f79e25b97f22d2936c50b876cef8e9c5789600f12d8fabae689d75571a8429e5aae0d5e8067b0628fd87b7e849cee391b485db9557b40b6a4
+  languageName: node
+  linkType: hard
+
 "@eslint/config-array@npm:^0.18.0":
   version: 0.18.0
   resolution: "@eslint/config-array@npm:0.18.0"
@@ -2757,7 +2764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.9.1":
+"@eslint/js@npm:9.9.1, @eslint/js@npm:^9.9.1":
   version: 9.9.1
   resolution: "@eslint/js@npm:9.9.1"
   checksum: 24436d7a1023dbc6c63fd199e45afa9eab8537f7bd808872d9d17dd70c5237f599fe3d08f519d55b40e33bfde02a460861df1c96aa07674090c3f98c83b0c178
@@ -16763,6 +16770,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root@workspace:."
   dependencies:
+    "@eslint/compat": ^1.1.1
+    "@eslint/eslintrc": ^3.1.0
+    "@eslint/js": ^9.9.1
     "@types/jest": ~29.5.12
     "@types/node": ^22.5.2
     "@typescript-eslint/eslint-plugin": ^8.4.0
