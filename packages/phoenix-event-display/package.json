@@ -38,26 +38,26 @@
     "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@babel/core": "^7.24.7",
+    "@babel/core": "^7.25.2",
     "@tweenjs/tween.js": "^23.1.2",
     "dat.gui": "^0.7.9",
     "html2canvas": "^1.4.1",
-    "jsroot": "^7.7.2",
+    "jsroot": "^7.7.3",
     "jszip": "^3.10.1",
     "stats-js": "^1.0.1",
-    "three": "^0.167.0"
+    "three": "^0.168.0"
   },
   "devDependencies": {
-    "@babel/helper-string-parser": "^7.24.7",
-    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/helper-string-parser": "^7.24.8",
+    "@babel/plugin-transform-runtime": "^7.25.4",
     "@compodoc/compodoc": "^1.1.25",
     "@types/dat.gui": "^0.7.13",
-    "@types/three": "^0.167.1",
+    "@types/three": "^0.168.0",
     "esbuild-loader": "^4.2.2",
     "jest": "^29.7.0",
-    "ts-jest": "~29.2.3",
-    "typescript": "~5.4.5",
-    "webpack": "^5.93.0",
+    "ts-jest": "~29.2.5",
+    "typescript": "~5.5.4",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4"
   },
   "peerDependencies": {
