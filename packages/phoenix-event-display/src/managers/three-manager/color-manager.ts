@@ -117,6 +117,11 @@ export class ColorManager {
     });
   }
 }
+/**
+ * Change colour of object.
+ * @param object Object to be update
+ * @param color Color to set for the object.
+ */
 function setColorForObject(object: Object3D<Object3DEventMap>, color: any) {
   if (object instanceof Mesh) {
     const mesh = object as Mesh;
