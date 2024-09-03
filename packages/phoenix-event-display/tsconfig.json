@@ -9,8 +9,8 @@
     "moduleResolution": "bundler",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "verbatimModuleSyntax": true
+    "esModuleInterop": true
+    // "verbatimModuleSyntax": true - Jest CI tests fail if we include this
   },
   "angularCompilerOptions": {
     "strictTemplates": true
