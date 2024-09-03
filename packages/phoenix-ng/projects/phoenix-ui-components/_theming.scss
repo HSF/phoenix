@@ -2,9 +2,9 @@
 @include mat.core();
 
 /* Define an alternate dark theme. */
-$primary: mat.define-palette(mat.$teal-palette);
-$accent: mat.define-palette(mat.$cyan-palette);
-$warn: mat.define-palette(mat.$yellow-palette);
+$primary: mat.m2-define-palette(mat.$m2-teal-palette);
+$accent: mat.m2-define-palette(mat.$m2-cyan-palette);
+$warn: mat.m2-define-palette(mat.$m2-yellow-palette);
 $colors: (
   color: (
     primary: $primary,
@@ -12,8 +12,8 @@ $colors: (
     warn: $warn,
   ),
 );
-$dark-theme: mat.define-dark-theme($colors);
-$light-theme: mat.define-light-theme($colors);
+$dark-theme: mat.m2-define-dark-theme($colors);
+$light-theme: mat.m2-define-light-theme($colors);
 @include mat.core-theme($light-theme);
 @include mat.button-theme($light-theme);
 @include mat.all-component-themes($light-theme);
