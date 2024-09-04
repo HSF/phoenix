@@ -354,7 +354,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.pos = pos;
         }
         if (
-          // eslint-disable-next-line no-constant-condition
+          // eslint-disable-next-line
           false &&
           numHits.length > 0 &&
           trackCollectionName?.includes('Muon')

@@ -33,8 +33,10 @@ export class CollectionsInfoComponent implements OnInit, OnDestroy {
   toggleOverlay() {
     this.showObjectsInfo = !this.showObjectsInfo;
     this.overlayWindow.instance.showObjectsInfo = this.showObjectsInfo;
-    this.showObjectsInfo
-      ? this.overlayWindow.instance.enableHighlighting()
-      : this.overlayWindow.instance.disableHighlighting();
+    if (this.showObjectsInfo) {
+      this.overlayWindow.instance.enableHighlighting();
+    } else {
+      this.overlayWindow.instance.disableHighlighting();
+    }
   }
 }

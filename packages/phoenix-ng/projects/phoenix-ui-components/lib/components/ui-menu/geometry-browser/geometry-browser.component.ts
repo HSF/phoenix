@@ -33,6 +33,7 @@ export class GeometryBrowserComponent implements OnInit, OnDestroy {
   toggleOverlay() {
     this.browseDetectorParts = !this.browseDetectorParts;
     this.overlayWindow.instance.browseDetectorParts = this.browseDetectorParts;
+    // eslint-disable-next-line
     this.browseDetectorParts
       ? this.overlayWindow.instance.enableHighlighting()
       : this.overlayWindow.instance.disableHighlighting();

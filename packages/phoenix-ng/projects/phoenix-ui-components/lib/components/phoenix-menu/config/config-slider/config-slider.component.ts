@@ -16,11 +16,11 @@ export class ConfigSliderComponent {
   @Input() allowCustomValue: boolean = false;
   @Output() onChange: EventEmitter<number> = new EventEmitter<number>();
 
-  onValueChange(value: number) {
-    value && this.onChange.emit(value);
+  onValueChange(value: number): void {
+    if (value) this.onChange.emit(value);
   }
 
-  toggleMinCut(change: MatCheckboxChange) {
+  toggleMinCut(change: MatCheckboxChange): void {
     const value = change.checked;
     if (value) {
       this.min = this.oldMin;
@@ -31,7 +31,7 @@ export class ConfigSliderComponent {
     // We should probably disable the min input too, and change text to be infinity symbol or something?
   }
 
-  toggleMaxCut(change: MatCheckboxChange) {
+  toggleMaxCut(change: MatCheckboxChange): void {
     const value = change.checked;
     if (value) {
       this.max = this.oldMax;
