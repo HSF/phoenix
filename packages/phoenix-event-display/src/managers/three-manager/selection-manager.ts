@@ -101,6 +101,7 @@ export class SelectionManager {
    */
   public setSelecting(enable: boolean) {
     if (this.isInit) {
+      // eslint-disable-next-line
       enable ? this.enableSelecting() : this.disableSelecting();
     }
   }

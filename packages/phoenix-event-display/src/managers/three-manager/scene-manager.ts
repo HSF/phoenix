@@ -665,6 +665,7 @@ export class SceneManager {
         if (objectChild.material) {
           // Changing renderOrder to make event data render on top of geometry
           // Arbitrarily setting a high value of 999
+          // eslint-disable-next-line
           value
             ? (objectChild.renderOrder = 0)
             : (objectChild.renderOrder = 999);

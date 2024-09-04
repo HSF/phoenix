@@ -31,14 +31,14 @@
     "@angular/material": "^18.2.2",
     "@angular/platform-browser": "^18.2.2",
     "css-element-queries": "^1.2.3",
-    "qrcode": "1.5.3",
+    "qrcode": "1.5.4",
     "rxjs": "^7.8.1",
-    "three": "^0.167.0",
-    "tslib": "^2.6.3"
+    "three": "^0.168.0",
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "node-fetch": "^3.3.2",
-    "rimraf": "^5.0.9"
+    "rimraf": "^6.0.1"
   },
   "module": "dist/fesm2022/phoenix-ui-components.mjs",
   "typings": "dist/index.d.ts",

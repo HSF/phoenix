@@ -533,7 +533,7 @@ export class ImportManager {
   private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes = sceneName.split('_>_');
-      menuNodeName && nodes.unshift(menuNodeName);
+      menuNodeName && nodes.unshift(menuNodeName); // eslint-disable-line
       const fullNodeName = nodes.join(' > ');
       nodes.pop();
       const menuName = nodes.join(' > ');
