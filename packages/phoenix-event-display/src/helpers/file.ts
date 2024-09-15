@@ -39,7 +39,8 @@ export const loadFile = (
         onFileRead?.(e.target.result.toString());
       }
       inputFile.remove();
-      inputFile = new HTMLInputElement();
+      inputFile = document.createElement('input');
+      // For explanation, see https://stackoverflow.com/a/26221525
     };
     reader.readAsText(configFile);
   };
