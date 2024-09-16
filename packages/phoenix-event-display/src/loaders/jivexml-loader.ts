@@ -7,13 +7,17 @@ import { CoordinateHelper } from '../helpers/coordinate-helper.js';
 export class JiveXMLLoader extends PhoenixLoader {
   /** Event data in JiveXML data format */
   private data: any;
+  /** List of tracks to draw with thicker tubes */
+  thickTrackCollections: string[];
 
   /**
    * Constructor for the JiveXMLLoader.
+   * @param thickTrackCollections A list of names of track collections which should be drawn thicker
    */
-  constructor() {
+  constructor(thickTrackCollections: string[] = []) {
     super();
     this.data = {};
+    this.thickTrackCollections = thickTrackCollections;
   }
 
   /**
@@ -173,6 +177,15 @@ export class JiveXMLLoader extends PhoenixLoader {
         trackCollectionName = 'Tracks_'; //We have problems if the name of the collection is a type
       }
 
+      let thickTracks = false;
+      if (
+        this.thickTrackCollections.find(
+          (collection) => collection === trackCollectionName,
+        )
+      ) {
+        thickTracks = true;
+      }
+
       // if (!trackCollectionName.includes('MuonSpectrometer')) continue;
       const numOfTracks = Number(collection.getAttribute('count'));
       const jsontracks = [];
@@ -265,6 +278,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           hits: {},
           author: {},
           badtrack: [] as string[],
+          linewidth: thickTracks ? 20.0 : undefined,
         };
         if (chi2.length >= i) track.chi2 = chi2[i];
         if (numDoF.length >= i) track.dof = numDoF[i];

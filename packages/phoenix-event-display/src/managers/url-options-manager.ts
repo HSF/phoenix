@@ -142,9 +142,11 @@ export class URLOptionsManager {
    */
   private async handleJiveXMLEvent(fileURL: string) {
     const fileData = await (await fetch(fileURL)).text();
-    const loader = new JiveXMLLoader();
-    this.configuration.eventDataLoader = loader;
+    if (!this.configuration.eventDataLoader) {
+      this.configuration.eventDataLoader = new JiveXMLLoader();
+    }
     // Parse the XML to extract events and their data
+    const loader = this.configuration.eventDataLoader as JiveXMLLoader;
     loader.process(fileData);
     const eventData = loader.getEventData();
     this.eventDisplay.buildEventDataFromJSON(eventData);
@@ -188,7 +190,10 @@ export class URLOptionsManager {
       });
 
     // JiveXML event data
-    const jiveloader = new JiveXMLLoader();
+    const jiveloader =
+      this.configuration.eventDataLoader instanceof JiveXMLLoader
+        ? (this.configuration.eventDataLoader as JiveXMLLoader)
+        : new JiveXMLLoader();
     Object.keys(filesWithData)
       .filter((fileName) => {
         return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
