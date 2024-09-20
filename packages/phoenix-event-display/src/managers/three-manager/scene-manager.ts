@@ -381,7 +381,7 @@ export class SceneManager {
       font: this.textFont,
       size: 60,
       curveSegments: 1,
-      height: 1,
+      depth: 1,
     });
 
     const mesh = new Mesh(

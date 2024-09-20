@@ -106,11 +106,13 @@ export class StateManager {
       typeof json === 'string' ? JSON.parse(json) : json;
 
     if (jsonData['phoenixMenu'] && this.phoenixMenuRoot) {
+      console.log('StateManager: Processing phoenixMenu configuration');
       this.phoenixMenuRoot.loadStateFromJSON(jsonData['phoenixMenu']);
       this.phoenixMenuRoot.configActive = false;
     }
 
     if (jsonData['eventDisplay']) {
+      console.log('StateManager: Processing eventDisplay configuration');
       this.activeCamera.position.fromArray(
         jsonData['eventDisplay']?.['cameraPosition'],
       );

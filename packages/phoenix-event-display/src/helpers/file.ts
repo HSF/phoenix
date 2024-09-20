@@ -28,10 +28,19 @@ export const loadFile = (
   contentType: string = 'application/json',
 ) => {
   // Create a mock input file element and use that to read the file
-  let inputFile = document.createElement('input');
+  const inputFile = document.createElement('input');
+  document.body.appendChild(inputFile);
   inputFile.type = 'file';
   inputFile.accept = contentType;
-  inputFile.onchange = (e: any) => {
+  inputFile.onclick = (e: any) => {
+    e.target.value = '';
+  };
+
+  inputFile.addEventListener('invalid', (e) => {
+    console.log(JSON.stringify(e));
+  });
+
+  const fileSelected = (e: any) => {
     const configFile = e.target?.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -39,13 +48,11 @@ export const loadFile = (
         onFileRead?.(e.target.result.toString());
       }
       inputFile.remove();
-      inputFile = document.createElement('input');
-      // For explanation, see https://stackoverflow.com/a/26221525
     };
     reader.readAsText(configFile);
   };
+
+  inputFile.oninput = fileSelected;
+  inputFile.onchange = fileSelected;
   inputFile.click();
-  setTimeout(() => {
-    console.log('Let us just wait a second');
-  }, 1000);
 };
