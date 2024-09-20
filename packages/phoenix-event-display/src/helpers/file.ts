@@ -53,6 +53,6 @@ export const loadFile = (
   };
 
   inputFile.oninput = fileSelected;
-  inputFile.onchange = fileSelected;
+  // inputFile.onchange = fileSelected;
   inputFile.click();
 };
