@@ -736,7 +736,9 @@ export class PhoenixLoader implements EventDataLoader {
           this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] = label;
-
+        const tmp =
+          this.eventData[eventDataType][collection][indexInCollection];
+        tmp.labelText = label;
         return getLabelTitle(eventDataType, collection, indexInCollection);
       }
     }

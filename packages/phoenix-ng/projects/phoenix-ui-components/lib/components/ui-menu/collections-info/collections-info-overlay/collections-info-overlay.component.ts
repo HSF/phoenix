@@ -51,7 +51,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
       }));
 
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => !['uuid', 'hits', 'isCut'].includes(column), // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+      (column) => !['uuid', 'hits', 'isCut', 'labelText'].includes(column), // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
     );
   }
 
