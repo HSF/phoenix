@@ -566,10 +566,20 @@ export class UIManager {
     const labelsObject = eventDataLoader?.getLabelsObject();
     if (eventDataLoader && labelsObject) {
       loadFile((data) => {
+        console.log('UIManager: loading Labels');
         const labelsObject = JSON.parse(data);
+        // This contains the names of the labels, but not their colours.
         for (const eventDataType of Object.keys(labelsObject)) {
           for (const collection of Object.keys(labelsObject[eventDataType])) {
             const collectionObject = eventDataLoader.getCollection(collection);
+            if (!collectionObject) {
+              console.log(
+                'WARNING - cannot find ',
+                collection,
+                ' in eventDataLoader. Skipping.',
+              );
+              continue;
+            }
             for (const labelIndex of Object.keys(
               labelsObject[eventDataType][collection],
             )) {
