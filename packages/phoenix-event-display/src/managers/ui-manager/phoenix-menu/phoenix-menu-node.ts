@@ -151,9 +151,11 @@ export class PhoenixMenuNode {
     if (config.type === 'checkbox' && config?.['isChecked']) {
       config.onChange?.(config?.['isChecked']);
     } else if (config.type === 'color' && config?.['color']) {
-      if (config.group !== undefined || this.name === 'Labels') {
+      if (this.name === 'Labels' || this.parent?.name === 'Labels') {
+        // Exception for Labels node (and sub labels), which should always have color applied
+        config.onChange?.(config?.['color']);
+      } else if (config.group !== undefined) {
         // Ignore color by options with `!config.group`, otherwise the collection color is overridden
-        // Exception for Labels node, which should always have color applied
         config.onChange?.(config?.['color']);
       }
     } else if (config.type === 'slider' && config?.['value']) {
@@ -241,6 +243,7 @@ export class PhoenixMenuNode {
       }
     }
 
+    // Now handle children
     for (const childState of jsonObject['children']) {
       const nodeChild = this.children.filter(
         (nodeChild) =>
