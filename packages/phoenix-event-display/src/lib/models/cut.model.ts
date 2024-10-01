@@ -34,12 +34,12 @@ export class Cut {
     this.defaultApplyMaxValue = maxCutActive;
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Sets whether the maximum cut is enabled. */
   enableMaxCut(check: boolean) {
     this.maxCutActive = check;
   }
 
-  /** Returns true if upper cut is valid. */
+  /** Sets whether the minimum cut is enabled. */
   enableMinCut(check: boolean) {
     this.minCutActive = check;
   }
