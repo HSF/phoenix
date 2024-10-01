@@ -92,7 +92,7 @@
               <button
                 *ngSwitchCase="'button'"
                 class="w-100"
-                (click)="config.onClick()"
+                (click)="config.onClick(); viewUpdate()"
                 mat-button
                 mat-stroked-button
               >

@@ -29,6 +29,11 @@ export class PhoenixMenuItemComponent {
     }
   }
 
+  viewUpdate(): void {
+    this.cdr.markForCheck();
+    this.calculateConfigTop();
+  }
+
   // Casting to `any` as a workaround to bypass strict template checks.
   castConfigsToAny(configs: PhoenixMenuNode['configs']) {
     return configs as any[];
