@@ -121,12 +121,22 @@ export class IOOptionsDialogComponent implements OnInit {
 
   handleJiveXMLDataInput(files: FileList) {
     const callback = (content: any) => {
-      const jiveloader = new JiveXMLLoader();
+      const jiveloader = this.getJiveXMLLoader();
       jiveloader.process(content);
       const eventData = jiveloader.getEventData();
       this.eventDisplay.buildEventDataFromJSON(eventData);
     };
     this.handleFileInput(files[0], 'xml', callback);
+  }
+
+  private getJiveXMLLoader(): JiveXMLLoader {
+    if (
+      this.eventDisplay.configuration.eventDataLoader instanceof JiveXMLLoader
+    ) {
+      return this.eventDisplay.configuration.eventDataLoader as JiveXMLLoader;
+    } else {
+      return new JiveXMLLoader();
+    }
   }
 
   handleOBJInput(files: FileList) {
@@ -219,7 +229,8 @@ export class IOOptionsDialogComponent implements OnInit {
       });
 
     // JiveXML event data
-    const jiveloader = new JiveXMLLoader();
+    const jiveloader = this.getJiveXMLLoader();
+
     Object.keys(filesWithData)
       .filter((fileName) => {
         return fileName.endsWith('.xml') || fileName.startsWith('JiveXML');
