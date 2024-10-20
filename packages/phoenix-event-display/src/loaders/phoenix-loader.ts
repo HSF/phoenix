@@ -13,6 +13,7 @@ import { CoordinateHelper } from '../helpers/coordinate-helper.js';
 import { getLabelTitle } from '../helpers/labels.js';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui.js';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui.js';
+import * as _ from 'lodash';
 
 /**
  * Loader for processing and loading an event.
@@ -413,7 +414,8 @@ export class PhoenixLoader implements EventDataLoader {
         }
         // Phoenix menu
         if (typeFolderPM) {
-          typeFolderPM.addConfig('slider', {
+          typeFolderPM.addConfig({
+            type: 'slider',
             label: 'Size (%)',
             value: 100,
             min: 1,
@@ -460,6 +462,8 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui.addEventDataTypeFolder(typeName);
 
     for (const collectionName of collectionsList) {
+      const newCuts = _.cloneDeep(cuts);
+      // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection = object[collectionName];
       console.log(
         `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`,
@@ -479,8 +483,11 @@ export class PhoenixLoader implements EventDataLoader {
         concatonateObjs,
       );
 
-      cuts = cuts?.filter((cut) => cut.field in objectCollection[0]);
-      this.ui.addCollection(typeName, collectionName, cuts);
+      // collectionCuts is shallow copy
+      const collectionCuts = newCuts?.filter(
+        (cut) => cut.field in objectCollection[0],
+      );
+      this.ui.addCollection(typeName, collectionName, collectionCuts);
     }
 
     const eventDataTypeFolderDatGUI = this.ui
@@ -776,7 +783,8 @@ export class PhoenixLoader implements EventDataLoader {
 
       // Phoenix menu
       if (typeFolderPM) {
-        typeFolderPM.addConfig('slider', {
+        typeFolderPM.addConfig({
+          type: 'slider',
           label: configLabel,
           value: 1,
           min: 0.001,
