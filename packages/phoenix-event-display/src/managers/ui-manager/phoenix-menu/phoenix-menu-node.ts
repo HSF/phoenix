@@ -111,7 +111,9 @@ export class PhoenixMenuNode {
    * @param config config to be displayed as a Phoenix Menu item.
    * @returns The current node.
    */
-  addConfig(config: PhoenixMenuConfigs[keyof PhoenixMenuConfigs]): PhoenixMenuNode {
+  addConfig(
+    config: PhoenixMenuConfigs[keyof PhoenixMenuConfigs],
+  ): PhoenixMenuNode {
     this.configs.push(config);
     // Apply the values of config
     this.applyConfigState(config);

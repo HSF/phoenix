@@ -303,7 +303,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     // Add range sliders for cuts
     for (const cut of cuts) {
-      cutsOptionsNode.addConfig(cut.getConfigRangeSlider(() => this.sceneManager.collectionFilter(collectionName, cuts)));
+      cutsOptionsNode.addConfig(
+        cut.getConfigRangeSlider(() =>
+          this.sceneManager.collectionFilter(collectionName, cuts),
+        ),
+      );
     }
   }
 

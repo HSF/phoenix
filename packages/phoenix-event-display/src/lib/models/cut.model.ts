@@ -1,6 +1,5 @@
-import { PrettySymbols } from "../../helpers/pretty-symbols";
-import { ConfigRangeSlider } from "src/managers/ui-manager/phoenix-menu/config-types";
-
+import { PrettySymbols } from '../../helpers/pretty-symbols';
+import { ConfigRangeSlider } from 'src/managers/ui-manager/phoenix-menu/config-types';
 
 /**
  * Cut for specifying filters on event data attribute.
@@ -14,7 +13,7 @@ export class Cut {
   private defaultApplyMaxValue: boolean;
   /** Default if lower bound applied */
   private defaultApplyMinValue: boolean;
-  public configRangeSlider?: ConfigRangeSlider
+  public configRangeSlider?: ConfigRangeSlider;
   /**
    * Create the cut to filter an event data attribute.
    * @param field Name of the event data attribute to be filtered.
@@ -66,7 +65,7 @@ export class Cut {
     this.minCutActive = this.defaultApplyMinValue;
     this.maxCutActive = this.defaultApplyMaxValue;
     // Reset the config range slider
-    if(this.configRangeSlider != undefined) {
+    if (this.configRangeSlider != undefined) {
       this.configRangeSlider.enableMin = true;
       this.configRangeSlider.enableMax = true;
       this.configRangeSlider.value = this.minValue;
@@ -79,9 +78,11 @@ export class Cut {
    * @param collectionFiltering callback function to apply to all objects inside a collection, filtering them given a parameter
    * @returns config range slider for the cut to be used in Phoenix Menu
    */
-  public getConfigRangeSlider(collectionFiltering: () => void): ConfigRangeSlider {
-    if(this.configRangeSlider == undefined) {
-      this.configRangeSlider =  {
+  public getConfigRangeSlider(
+    collectionFiltering: () => void,
+  ): ConfigRangeSlider {
+    if (this.configRangeSlider == undefined) {
+      this.configRangeSlider = {
         type: 'rangeSlider',
         label: PrettySymbols.getPrettySymbol(this.field),
         min: this.minValue,
@@ -103,7 +104,7 @@ export class Cut {
         setEnableMax: (checked: boolean) => {
           this.enableMaxCut(checked);
           collectionFiltering();
-        }
+        },
       };
     }
     return this.configRangeSlider;
