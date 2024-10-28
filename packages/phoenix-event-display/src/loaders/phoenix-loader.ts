@@ -413,7 +413,8 @@ export class PhoenixLoader implements EventDataLoader {
         }
         // Phoenix menu
         if (typeFolderPM) {
-          typeFolderPM.addConfig('slider', {
+          typeFolderPM.addConfig({
+            type: 'slider',
             label: 'Size (%)',
             value: 100,
             min: 1,
@@ -776,7 +777,8 @@ export class PhoenixLoader implements EventDataLoader {
 
       // Phoenix menu
       if (typeFolderPM) {
-        typeFolderPM.addConfig('slider', {
+        typeFolderPM.addConfig({
+          type: 'slider',
           label: configLabel,
           value: 1,
           min: 0.001,

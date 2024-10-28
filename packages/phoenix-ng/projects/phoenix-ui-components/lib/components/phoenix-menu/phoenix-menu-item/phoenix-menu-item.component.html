@@ -113,11 +113,11 @@
               <div *ngSwitchCase="'rangeSlider'" class="range-slider">
                 <div class="range-slider-inputs d-flex justify-content-between">
                   <mat-checkbox
-                    [checked]="config.enableMin"
+                    [(ngModel)]="config.enableMin"
                     (change)="config.setEnableMin($event.checked)"
                   ></mat-checkbox>
                   <mat-checkbox
-                    [checked]="config.enableMax"
+                    [(ngModel)]="config.enableMax"
                     (change)="config.setEnableMax($event.checked)"
                   ></mat-checkbox>
                 </div>
@@ -126,7 +126,7 @@
                     type="number"
                     placeholder="Min"
                     class="form-control form-control-sm"
-                    [value]="config.value"
+                    [(ngModel)]="config.value"
                     (input)="
                       config.value = $event.target.value;
                       config.onChange(config)
@@ -137,7 +137,7 @@
                     type="number"
                     placeholder="Max"
                     class="form-control form-control-sm"
-                    [value]="config.highValue"
+                    [(ngModel)]="config.highValue"
                     (input)="
                       config.highValue = $event.target.value;
                       config.onChange(config)
