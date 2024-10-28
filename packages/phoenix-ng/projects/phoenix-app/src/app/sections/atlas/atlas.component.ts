@@ -48,7 +48,12 @@ export class AtlasComponent implements OnInit {
 
     // Define the configuration
     const configuration: Configuration = {
-      eventDataLoader: new JiveXMLLoader(['CombinedMuonTracks']),
+      eventDataLoader: new JiveXMLLoader([
+        'CombinedMuonTracks',
+        'MuonSpectrometerTracks',
+        'CombinedInDetTracks',
+        'Muons_xAOD',
+      ]),
       presetViews: [
         new PresetView('Left View', [0, 0, -12000], [0, 0, 0], 'left-cube'),
         new PresetView('Center View', [-500, 12000, 0], [0, 0, 0], 'top-cube'),

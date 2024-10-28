@@ -29,7 +29,7 @@ declare global {
  */
 export class EventDisplay {
   /** Configuration for preset views and event data loader. */
-  private configuration: Configuration;
+  public configuration: Configuration;
   /** An object containing event data. */
   private eventsData: any;
   /** Array containing callbacks to be called when events change. */

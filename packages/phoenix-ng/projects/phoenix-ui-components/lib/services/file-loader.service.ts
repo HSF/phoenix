@@ -62,7 +62,15 @@ export class FileLoaderService {
   }
 
   loadJiveXMLEvent(eventData: string, eventDisplay: EventDisplayService) {
-    const jiveXMLLoader = new JiveXMLLoader();
+    let jiveXMLLoader = undefined;
+
+    if (eventDisplay.configuration.eventDataLoader instanceof JiveXMLLoader) {
+      jiveXMLLoader = eventDisplay.configuration
+        .eventDataLoader as JiveXMLLoader;
+    } else {
+      jiveXMLLoader = new JiveXMLLoader();
+    }
+
     jiveXMLLoader.process(eventData);
     const processedEventData = jiveXMLLoader.getEventData();
     eventDisplay.buildEventDataFromJSON(processedEventData);
