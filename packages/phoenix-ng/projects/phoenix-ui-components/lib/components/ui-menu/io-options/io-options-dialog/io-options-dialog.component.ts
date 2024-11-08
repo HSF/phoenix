@@ -131,7 +131,7 @@ export class IOOptionsDialogComponent implements OnInit {
 
   private getJiveXMLLoader(): JiveXMLLoader {
     if (
-      this.eventDisplay.configuration.eventDataLoader instanceof JiveXMLLoader
+      this.eventDisplay?.configuration?.eventDataLoader instanceof JiveXMLLoader
     ) {
       return this.eventDisplay.configuration.eventDataLoader as JiveXMLLoader;
     } else {
