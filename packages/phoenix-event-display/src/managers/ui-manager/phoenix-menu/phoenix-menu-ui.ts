@@ -9,7 +9,6 @@ import { SceneManager } from '../../three-manager/scene-manager.js';
 import { ThreeManager } from '../../three-manager/index.js';
 import { PhoenixMenuNode } from './phoenix-menu-node.js';
 import { Cut } from '../../../lib/models/cut.model.js';
-import { PrettySymbols } from '../../../helpers/pretty-symbols.js';
 import { ColorByOptionKeys, ColorOptions } from '../color-options.js';
 import type { PhoenixUI } from '../phoenix-ui.js';
 
@@ -67,14 +66,16 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     }
 
     this.geomFolder
-      .addConfig('checkbox', {
+      .addConfig({
+        type: 'checkbox',
         label: 'Wireframe',
         isChecked: false,
         onChange: (value) => {
           this.sceneManager.wireframeGeometries(value);
         },
       })
-      .addConfig('slider', {
+      .addConfig({
+        type: 'slider',
         label: 'Opacity',
         min: 0,
         max: 1,
@@ -89,7 +90,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           );
         },
       })
-      .addConfig('slider', {
+      .addConfig({
+        type: 'slider',
         label: 'Scale',
         min: 0,
         max: 20,
@@ -139,14 +141,16 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     objFolder.toggleState = visible;
 
     objFolder
-      .addConfig('color', {
+      .addConfig({
+        type: 'color',
         label: 'Color',
         color: color ? `#${new Color(color).getHexString()}` : undefined,
         onChange: (value) => {
           this.sceneManager.changeObjectColor(object, value);
         },
       })
-      .addConfig('slider', {
+      .addConfig({
+        type: 'slider',
         label: 'Opacity',
         min: 0,
         max: 1,
@@ -156,7 +160,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
           this.sceneManager.setGeometryOpacity(object as Mesh, opacity);
         },
       })
-      .addConfig('button', {
+      .addConfig({
+        type: 'button',
         label: 'Remove',
         onClick: () => {
           objFolder.remove();
@@ -181,7 +186,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       },
       'event-folder',
     );
-    this.eventFolder.addConfig('checkbox', {
+    this.eventFolder.addConfig({
+      type: 'checkbox',
       label: 'Depth Test',
       isChecked: true,
       onChange: (value) => {
@@ -275,10 +281,12 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     const cutsOptionsNode = collectionNode.addChild('Cut Options');
 
     cutsOptionsNode
-      .addConfig('label', {
+      .addConfig({
+        type: 'label',
         label: 'Cuts',
       })
-      .addConfig('button', {
+      .addConfig({
+        type: 'button',
         label: 'Reset cuts',
         onClick: () => {
           this.sceneManager.groupVisibility(
@@ -295,29 +303,11 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
 
     // Add range sliders for cuts
     for (const cut of cuts) {
-      cutsOptionsNode.addConfig('rangeSlider', {
-        label: PrettySymbols.getPrettySymbol(cut.field),
-        min: cut.minValue,
-        max: cut.maxValue,
-        step: cut.step,
-        value: cut.minValue,
-        highValue: cut.maxValue,
-        enableMin: cut.minCutActive,
-        enableMax: cut.maxCutActive,
-        onChange: ({ value, highValue }) => {
-          cut.minValue = value;
-          cut.maxValue = highValue;
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-        setEnableMin: (checked: boolean) => {
-          cut.enableMinCut(checked);
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-        setEnableMax: (checked: boolean) => {
-          cut.enableMaxCut(checked);
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-      });
+      cutsOptionsNode.addConfig(
+        cut.getConfigRangeSlider(() =>
+          this.sceneManager.collectionFilter(collectionName, cuts),
+        ),
+      );
     }
   }
 
@@ -332,7 +322,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   ) {
     const drawOptionsNode = collectionNode.addChild('Draw Options');
 
-    drawOptionsNode.addConfig('slider', {
+    drawOptionsNode.addConfig({
+      type: 'slider',
       label: 'Opacity',
       min: 0.1,
       step: 0.1,
@@ -354,7 +345,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       },
     });
 
-    drawOptionsNode.addConfig('checkbox', {
+    drawOptionsNode.addConfig({
+      type: 'checkbox',
       label: 'Wireframe',
       onChange: (value) =>
         this.sceneManager.wireframeObjects(
@@ -389,7 +381,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       'info',
     );
 
-    this.labelsFolder.addConfig('slider', {
+    this.labelsFolder.addConfig({
+      type: 'slider',
       label: 'Size',
       min: 0,
       max: 10,
@@ -398,18 +391,21 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       onChange: onSizeChange,
     });
 
-    this.labelsFolder.addConfig('color', {
+    this.labelsFolder.addConfig({
+      type: 'color',
       label: 'Color',
       color: '#a8a8a8',
       onChange: onColorChange,
     });
 
-    this.labelsFolder.addConfig('button', {
+    this.labelsFolder.addConfig({
+      type: 'button',
       label: 'Save Labels',
       onClick: onSaveLabels,
     });
 
-    this.labelsFolder.addConfig('button', {
+    this.labelsFolder.addConfig({
+      type: 'button',
       label: 'Load Labels',
       onClick: onLoadLabels,
     });
@@ -436,7 +432,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       if (labelObject) this.sceneManager.objectVisibility(labelObject, value);
     });
 
-    labelNode.addConfig('color', {
+    labelNode.addConfig({
+      type: 'color',
       label: 'Color',
       color: '#a8a8a8',
       onChange: (value) => {
@@ -447,7 +444,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       },
     });
 
-    labelNode.addConfig('button', {
+    labelNode.addConfig({
+      type: 'button',
       label: 'Remove',
       onClick: () => {
         onRemoveLabel?.();

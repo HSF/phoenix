@@ -57,13 +57,15 @@ export class StateManager {
     if (this.phoenixMenuRoot) {
       // Add save and load config buttons to the root node
       this.phoenixMenuRoot
-        .addConfig('button', {
+        .addConfig({
+          type: 'button',
           label: 'Save state',
           onClick: () => {
             this.saveStateAsJSON();
           },
         })
-        .addConfig('button', {
+        .addConfig({
+          type: 'button',
           label: 'Load state',
           onClick: () => {
             loadFile((data) => {

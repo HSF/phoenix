@@ -108,17 +108,15 @@ export class PhoenixMenuNode {
 
   /**
    * Add a config to the phoenix menu item.
-   * @param type Type of configuration.
-   * @param options Options for the config.
+   * @param config config to be displayed as a Phoenix Menu item.
    * @returns The current node.
    */
-  addConfig<T extends keyof PhoenixMenuConfigs>(
-    type: T,
-    options: Omit<PhoenixMenuConfigs[T], 'type'>,
+  addConfig(
+    config: PhoenixMenuConfigs[keyof PhoenixMenuConfigs],
   ): PhoenixMenuNode {
-    const configsLength = this.configs.push({ type, ...options });
+    this.configs.push(config);
     // Apply the values of config
-    this.applyConfigState(this.configs[configsLength - 1]);
+    this.applyConfigState(config);
     return this;
   }
 

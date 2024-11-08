@@ -88,7 +88,8 @@ export class ColorOptions {
     this.collectionName = collectionFolder.name;
     this.colorOptionsFolder = collectionFolder.addChild('Color Options');
 
-    this.colorOptionsFolder.addConfig('color', {
+    this.colorOptionsFolder.addConfig({
+      type: 'color',
       label: 'Color',
       color: collectionColor
         ? `#${collectionColor?.getHexString()}`
@@ -97,7 +98,8 @@ export class ColorOptions {
         this.colorManager.collectionColor(this.collectionName, value),
     });
 
-    this.colorOptionsFolder.addConfig('button', {
+    this.colorOptionsFolder.addConfig({
+      type: 'button',
       label: 'Random',
       onClick: () =>
         this.colorManager.collectionColorRandom(this.collectionName),
@@ -129,7 +131,8 @@ export class ColorOptions {
 
     // Configurations
 
-    this.colorOptionsFolder.addConfig('select', {
+    this.colorOptionsFolder.addConfig({
+      type: 'select',
       label: 'Color by',
       options: this.colorByOptions.map((colorByOption) => colorByOption.name),
       onChange: (updatedColorByOption) => {
@@ -156,7 +159,8 @@ export class ColorOptions {
     [-1, 0, 1].forEach((chargeValue) => {
       const chargeValueIndex =
         chargeValue.toString() as keyof typeof this.chargeColors;
-      this.colorOptionsFolder.addConfig('color', {
+      this.colorOptionsFolder.addConfig({
+        type: 'color',
         label: `${PrettySymbols.getPrettySymbol('charge')}=${chargeValue}`,
         group: ColorByOptionKeys.CHARGE,
         color: this.chargeColors[chargeValueIndex],
@@ -216,7 +220,8 @@ export class ColorOptions {
   private initMomColorOptions() {
     // Momentum configurations
     Object.entries(this.momColors).forEach(([key, momValue]) => {
-      this.colorOptionsFolder.addConfig('slider', {
+      this.colorOptionsFolder.addConfig({
+        type: 'slider',
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key,
         group: ColorByOptionKeys.MOM,
         min: this.momColors.min.value,
@@ -234,7 +239,8 @@ export class ColorOptions {
         },
       });
 
-      this.colorOptionsFolder.addConfig('color', {
+      this.colorOptionsFolder.addConfig({
+        type: 'color',
         label: PrettySymbols.getPrettySymbol('mom') + ' ' + key + ' color',
         group: ColorByOptionKeys.MOM,
         color: momValue.color,
