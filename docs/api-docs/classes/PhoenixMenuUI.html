@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -266,7 +259,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -352,7 +345,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -385,7 +378,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -418,7 +411,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -451,7 +444,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -484,7 +477,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -526,8 +519,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="219"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:219</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:221</a></div>
                         </td>
                     </tr>
 
@@ -650,8 +643,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:273</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="276"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:276</a></div>
                         </td>
                     </tr>
 
@@ -756,8 +749,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="332"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:332</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="319"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:319</a></div>
                         </td>
                     </tr>
 
@@ -848,8 +841,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:175</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:176</a></div>
                         </td>
                     </tr>
 
@@ -889,8 +882,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="201"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:201</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="203"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:203</a></div>
                         </td>
                     </tr>
 
@@ -965,8 +958,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="116"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:116</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -1057,8 +1050,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="63"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:63</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -1098,8 +1091,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="423"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:423</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="419"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:419</a></div>
                         </td>
                     </tr>
 
@@ -1190,8 +1183,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:373</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="365"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:365</a></div>
                         </td>
                     </tr>
 
@@ -1266,8 +1259,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="49"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:49</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1307,8 +1300,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="479"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:479</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="477"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:477</a></div>
                         </td>
                     </tr>
 
@@ -1351,7 +1344,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode | undefined</a></code>
 
                         </div>
                             <div class="io-description">
@@ -1384,8 +1377,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="488"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:488</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="486"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:486</a></div>
                         </td>
                     </tr>
 
@@ -1425,8 +1418,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="464"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:464</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="462"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-ui.ts:462</a></div>
                         </td>
                     </tr>
 
@@ -1510,13 +1503,12 @@
   MeshPhongMaterial,
   Object3D,
 } from &#x27;three&#x27;;
-import { SceneManager } from &#x27;../../three-manager/scene-manager&#x27;;
-import { ThreeManager } from &#x27;../../three-manager&#x27;;
-import { PhoenixMenuNode } from &#x27;./phoenix-menu-node&#x27;;
-import { Cut } from &#x27;../../../lib/models/cut.model&#x27;;
-import { PrettySymbols } from &#x27;../../../helpers/pretty-symbols&#x27;;
-import { ColorByOptionKeys, ColorOptions } from &#x27;../color-options&#x27;;
-import { PhoenixUI } from &#x27;../phoenix-ui&#x27;;
+import { SceneManager } from &#x27;../../three-manager/scene-manager.js&#x27;;
+import { ThreeManager } from &#x27;../../three-manager/index.js&#x27;;
+import { PhoenixMenuNode } from &#x27;./phoenix-menu-node.js&#x27;;
+import { Cut } from &#x27;../../../lib/models/cut.model.js&#x27;;
+import { ColorByOptionKeys, ColorOptions } from &#x27;../color-options.js&#x27;;
+import type { PhoenixUI } from &#x27;../phoenix-ui.js&#x27;;
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.
@@ -1542,9 +1534,6 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     private phoenixMenuRoot: PhoenixMenuNode,
     private three: ThreeManager,
   ) {
-    this.geomFolder &#x3D; null;
-    this.eventFolder &#x3D; null;
-    this.labelsFolder &#x3D; null;
     this.sceneManager &#x3D; three.getSceneManager();
   }
 
@@ -1554,12 +1543,9 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
   public clear() {
     if (this.phoenixMenuRoot) {
       this.phoenixMenuRoot.truncate();
-      this.phoenixMenuRoot &#x3D; undefined;
     }
 
-    this.geomFolder &#x3D; null;
-    this.eventFolder &#x3D; null;
-    this.labelsFolder &#x3D; null;
+    this.eventFolderState &#x3D; undefined;
   }
 
   /**
@@ -1567,7 +1553,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   public addGeometryFolder() {
     // Phoenix menu
-    if (this.geomFolder &#x3D;&#x3D;&#x3D; null) {
+    if (this.eventFolderState &#x3D;&#x3D;&#x3D; undefined) {
       this.geomFolder &#x3D; this.phoenixMenuRoot.addChild(
         &#x27;Detector&#x27;,
         (value) &#x3D;&gt; {
@@ -1578,14 +1564,16 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     }
 
     this.geomFolder
-      .addConfig(&#x27;checkbox&#x27;, {
+      .addConfig({
+        type: &#x27;checkbox&#x27;,
         label: &#x27;Wireframe&#x27;,
         isChecked: false,
         onChange: (value) &#x3D;&gt; {
           this.sceneManager.wireframeGeometries(value);
         },
       })
-      .addConfig(&#x27;slider&#x27;, {
+      .addConfig({
+        type: &#x27;slider&#x27;,
         label: &#x27;Opacity&#x27;,
         min: 0,
         max: 1,
@@ -1593,12 +1581,15 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         allowCustomValue: true,
         onChange: (value) &#x3D;&gt; {
           this.sceneManager.setGeometryOpacity(
-            this.sceneManager.getObjectByName(SceneManager.GEOMETRIES_ID),
+            this.sceneManager.getObjectByName(
+              SceneManager.GEOMETRIES_ID,
+            ) as Mesh,
             value,
           );
         },
       })
-      .addConfig(&#x27;slider&#x27;, {
+      .addConfig({
+        type: &#x27;slider&#x27;,
         label: &#x27;Scale&#x27;,
         min: 0,
         max: 20,
@@ -1648,24 +1639,27 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     objFolder.toggleState &#x3D; visible;
 
     objFolder
-      .addConfig(&#x27;color&#x27;, {
+      .addConfig({
+        type: &#x27;color&#x27;,
         label: &#x27;Color&#x27;,
         color: color ? &#x60;#${new Color(color).getHexString()}&#x60; : undefined,
         onChange: (value) &#x3D;&gt; {
           this.sceneManager.changeObjectColor(object, value);
         },
       })
-      .addConfig(&#x27;slider&#x27;, {
+      .addConfig({
+        type: &#x27;slider&#x27;,
         label: &#x27;Opacity&#x27;,
         min: 0,
         max: 1,
         step: 0.05,
         allowCustomValue: true,
         onChange: (opacity) &#x3D;&gt; {
-          this.sceneManager.setGeometryOpacity(object, opacity);
+          this.sceneManager.setGeometryOpacity(object as Mesh, opacity);
         },
       })
-      .addConfig(&#x27;button&#x27;, {
+      .addConfig({
+        type: &#x27;button&#x27;,
         label: &#x27;Remove&#x27;,
         onClick: () &#x3D;&gt; {
           objFolder.remove();
@@ -1679,7 +1673,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    */
   public addEventDataFolder() {
     // Phoenix menu
-    if (this.eventFolder !&#x3D;&#x3D; null) {
+    if (this.eventFolder) {
       this.eventFolderState &#x3D; this.eventFolder.getNodeState();
       this.eventFolder.remove();
     }
@@ -1690,7 +1684,8 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       },
       &#x27;event-folder&#x27;,
     );
-    this.eventFolder.addConfig(&#x27;checkbox&#x27;, {
+    this.eventFolder.addConfig({
+      type: &#x27;checkbox&#x27;,
       label: &#x27;Depth Test&#x27;,
       isChecked: true,
       onChange: (value) &#x3D;&gt; {
@@ -1708,7 +1703,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       this.sceneManager.objectVisibility(
         this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
-          .getObjectByName(typeName),
+          .getObjectByName(typeName) as Object3D,
         value,
       );
     });
@@ -1741,7 +1736,8 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
         const collectionObject &#x3D; this.sceneManager
           .getObjectByName(SceneManager.EVENT_DATA_ID)
           .getObjectByName(collectionName);
-        this.sceneManager.objectVisibility(collectionObject, value);
+        if (collectionObject)
+          this.sceneManager.objectVisibility(collectionObject, value);
       },
     );
 
@@ -1765,7 +1761,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     new ColorOptions(
       this.three.getColorManager(),
       collectionNode,
-      collectionColor,
+      collectionColor ? collectionColor : new Color(),
       colorByOptions,
     );
   }
@@ -1783,10 +1779,12 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
     const cutsOptionsNode &#x3D; collectionNode.addChild(&#x27;Cut Options&#x27;);
 
     cutsOptionsNode
-      .addConfig(&#x27;label&#x27;, {
+      .addConfig({
+        type: &#x27;label&#x27;,
         label: &#x27;Cuts&#x27;,
       })
-      .addConfig(&#x27;button&#x27;, {
+      .addConfig({
+        type: &#x27;button&#x27;,
         label: &#x27;Reset cuts&#x27;,
         onClick: () &#x3D;&gt; {
           this.sceneManager.groupVisibility(
@@ -1803,29 +1801,11 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
 
     // Add range sliders for cuts
     for (const cut of cuts) {
-      cutsOptionsNode.addConfig(&#x27;rangeSlider&#x27;, {
-        label: PrettySymbols.getPrettySymbol(cut.field),
-        min: cut.minValue,
-        max: cut.maxValue,
-        step: cut.step,
-        value: cut.minValue,
-        highValue: cut.maxValue,
-        enableMin: cut.minCutActive,
-        enableMax: cut.maxCutActive,
-        onChange: ({ value, highValue }) &#x3D;&gt; {
-          cut.minValue &#x3D; value;
-          cut.maxValue &#x3D; highValue;
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-        setEnableMin: (checked: boolean) &#x3D;&gt; {
-          cut.enableMinCut(checked);
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-        setEnableMax: (checked: boolean) &#x3D;&gt; {
-          cut.enableMaxCut(checked);
-          this.sceneManager.collectionFilter(collectionName, cuts);
-        },
-      });
+      cutsOptionsNode.addConfig(
+        cut.getConfigRangeSlider(() &#x3D;&gt;
+          this.sceneManager.collectionFilter(collectionName, cuts),
+        ),
+      );
     }
   }
 
@@ -1840,7 +1820,8 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
   ) {
     const drawOptionsNode &#x3D; collectionNode.addChild(&#x27;Draw Options&#x27;);
 
-    drawOptionsNode.addConfig(&#x27;slider&#x27;, {
+    drawOptionsNode.addConfig({
+      type: &#x27;slider&#x27;,
       label: &#x27;Opacity&#x27;,
       min: 0.1,
       step: 0.1,
@@ -1853,19 +1834,23 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
           const collectionObject &#x3D;
             eventDataObject.getObjectByName(collectionName);
           if (collectionObject) {
-            this.sceneManager.setGeometryOpacity(collectionObject, value);
+            this.sceneManager.setGeometryOpacity(
+              collectionObject as Mesh,
+              value,
+            );
           }
         }
       },
     });
 
-    drawOptionsNode.addConfig(&#x27;checkbox&#x27;, {
+    drawOptionsNode.addConfig({
+      type: &#x27;checkbox&#x27;,
       label: &#x27;Wireframe&#x27;,
       onChange: (value) &#x3D;&gt;
         this.sceneManager.wireframeObjects(
           this.sceneManager
             .getObjectByName(SceneManager.EVENT_DATA_ID)
-            .getObjectByName(collectionName),
+            ?.getObjectByName(collectionName) as Object3D,
           value,
         ),
     });
@@ -1876,7 +1861,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    * @param configFunctions Functions to attach to the labels folder configuration.
    */
   public addLabelsFolder(configFunctions: any) {
-    if (this.labelsFolder !&#x3D;&#x3D; null) {
+    if (this.labelsFolder) {
       return;
     }
 
@@ -1894,7 +1879,8 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       &#x27;info&#x27;,
     );
 
-    this.labelsFolder.addConfig(&#x27;slider&#x27;, {
+    this.labelsFolder.addConfig({
+      type: &#x27;slider&#x27;,
       label: &#x27;Size&#x27;,
       min: 0,
       max: 10,
@@ -1903,18 +1889,21 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       onChange: onSizeChange,
     });
 
-    this.labelsFolder.addConfig(&#x27;color&#x27;, {
+    this.labelsFolder.addConfig({
+      type: &#x27;color&#x27;,
       label: &#x27;Color&#x27;,
       color: &#x27;#a8a8a8&#x27;,
       onChange: onColorChange,
     });
 
-    this.labelsFolder.addConfig(&#x27;button&#x27;, {
+    this.labelsFolder.addConfig({
+      type: &#x27;button&#x27;,
       label: &#x27;Save Labels&#x27;,
       onClick: onSaveLabels,
     });
 
-    this.labelsFolder.addConfig(&#x27;button&#x27;, {
+    this.labelsFolder.addConfig({
+      type: &#x27;button&#x27;,
       label: &#x27;Load Labels&#x27;,
       onClick: onLoadLabels,
     });
@@ -1938,10 +1927,11 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       const labelObject &#x3D; this.sceneManager
         .getObjectByName(SceneManager.LABELS_ID)
         .getObjectByName(labelId);
-      this.sceneManager.objectVisibility(labelObject, value);
+      if (labelObject) this.sceneManager.objectVisibility(labelObject, value);
     });
 
-    labelNode.addConfig(&#x27;color&#x27;, {
+    labelNode.addConfig({
+      type: &#x27;color&#x27;,
       label: &#x27;Color&#x27;,
       color: &#x27;#a8a8a8&#x27;,
       onChange: (value) &#x3D;&gt; {
@@ -1952,7 +1942,8 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
       },
     });
 
-    labelNode.addConfig(&#x27;button&#x27;, {
+    labelNode.addConfig({
+      type: &#x27;button&#x27;,
       label: &#x27;Remove&#x27;,
       onClick: () &#x3D;&gt; {
         onRemoveLabel?.();
@@ -1981,7 +1972,7 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
    * @param typeName Name of the event data type.
    * @returns Folder of the event data type.
    */
-  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode {
+  public getEventDataTypeFolder(typeName: string): PhoenixMenuNode | undefined {
     return this.eventFolder.children.find(
       (eventDataTypeNode) &#x3D;&gt; eventDataTypeNode.name &#x3D;&#x3D;&#x3D; typeName,
     );
@@ -2037,6 +2028,19 @@ export class PhoenixMenuUI implements PhoenixUI&lt;PhoenixMenuNode&gt; {
             var COMPODOC_CURRENT_PAGE_URL = 'PhoenixMenuUI.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

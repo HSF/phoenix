@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -322,8 +315,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="522"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:522</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="528"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:528</a></div>
                         </td>
                     </tr>
 
@@ -523,8 +516,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="336"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:336</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="337"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:337</a></div>
                         </td>
                     </tr>
 
@@ -657,8 +650,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="512"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:512</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="518"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:518</a></div>
                         </td>
                     </tr>
 
@@ -749,8 +742,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="553"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:553</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="559"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:559</a></div>
                         </td>
                     </tr>
 
@@ -951,8 +944,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="473"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:473</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="477"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:477</a></div>
                         </td>
                     </tr>
 
@@ -1059,8 +1052,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="413"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:413</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="417"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:417</a></div>
                         </td>
                     </tr>
 
@@ -1329,8 +1322,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="539"
-                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:539</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="545"
+                                    class="link-to-prism">src/managers/three-manager/animations-manager.ts:545</a></div>
                         </td>
                     </tr>
 
@@ -1412,9 +1405,9 @@ import {
   Plane,
   Group,
 } from &#x27;three&#x27;;
-import { SceneManager } from &#x27;./scene-manager&#x27;;
-import { RendererManager } from &#x27;./renderer-manager&#x27;;
-import { TracksMesh } from &#x27;../../loaders/objects/tracks&#x27;;
+import { SceneManager } from &#x27;./scene-manager.js&#x27;;
+import { RendererManager } from &#x27;./renderer-manager.js&#x27;;
+import { TracksMesh } from &#x27;../../loaders/objects/tracks.js&#x27;;
 
 /** Type for animation preset. */
 export interface AnimationPreset {
@@ -1553,7 +1546,9 @@ export class AnimationsManager {
     tweenDuration *&#x3D; 0.75;
 
     const eventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-
+    if (!eventData) {
+      return;
+    }
     const animationSphere &#x3D; new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: {
       eventObject: Object3D;
@@ -1622,14 +1617,16 @@ export class AnimationsManager {
             tweenDuration,
           );
           // Manually updating scale since we need to change position
-          scaleTween.onUpdate((updatedScale: Vector3) &#x3D;&gt; {
-            const previousScale &#x3D; eventObject.scale.x;
-            eventObject.scale.setScalar(updatedScale.x);
-            // Restoring to original position and then moving again with the current value
-            eventObject.position
-              .divideScalar(previousScale)
-              .multiplyScalar(updatedScale.x);
-          });
+          scaleTween.onUpdate(
+            (updatedScale: { x: number; y: number; z: number }) &#x3D;&gt; {
+              const previousScale &#x3D; eventObject.scale.x;
+              eventObject.scale.setScalar(updatedScale.x);
+              // Restoring to original position and then moving again with the current value
+              eventObject.position
+                .divideScalar(previousScale)
+                .multiplyScalar(updatedScale.x);
+            },
+          );
           allTweens.push(scaleTween);
         } else {
           const hasPosition &#x3D; !eventObject.position.equals(
@@ -1681,10 +1678,7 @@ export class AnimationsManager {
           if (reachedHits.length &gt; 0) {
             geometry.setAttribute(
               &#x27;position&#x27;,
-              new BufferAttribute(
-                new Float32Array([].concat(...reachedHits)),
-                3,
-              ),
+              new BufferAttribute(new Float32Array([...reachedHits].flat()), 3),
             );
             geometry.computeBoundingSphere();
           }
@@ -1737,6 +1731,9 @@ export class AnimationsManager {
     clippingConstant: number &#x3D; 11000,
   ) {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+    if (!allEventData) {
+      return;
+    }
 
     // Sphere to get spherical set of clipping planes from
     const sphere &#x3D; new SphereGeometry(1, 8, 8);
@@ -1877,7 +1874,9 @@ export class AnimationsManager {
     onEnd?: () &#x3D;&gt; void,
   ) {
     const allEventData &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
-
+    if (!allEventData) {
+      return;
+    }
     // Get the color of the first track to use for colliding particles
     const track &#x3D; allEventData.getObjectByName(&#x27;Track&#x27;);
     let trackColor: Color;
@@ -1953,7 +1952,10 @@ export class AnimationsManager {
 
     if (animateEventAfterInterval &amp;&amp; collisionDuration) {
       // Will be made visible after collision animation ends.
-      this.scene.getObjectByName(SceneManager.EVENT_DATA_ID).visible &#x3D; false;
+      const object &#x3D; this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+      if (object) {
+        object.visible &#x3D; false;
+      }
       setTimeout(() &#x3D;&gt; {
         this.animateEventWithCollision(collisionDuration);
       }, animateEventAfterInterval);
@@ -2017,6 +2019,19 @@ export class AnimationsManager {
             var COMPODOC_CURRENT_PAGE_URL = 'AnimationsManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

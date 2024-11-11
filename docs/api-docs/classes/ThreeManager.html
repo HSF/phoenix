@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -565,7 +558,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/managers/three-manager/index.ts:132</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/managers/three-manager/index.ts:133</a></div>
                             </td>
                         </tr>
 
@@ -635,7 +628,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">src/managers/three-manager/index.ts:86</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/managers/three-manager/index.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -668,7 +661,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/managers/three-manager/index.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">src/managers/three-manager/index.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -701,7 +694,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">src/managers/three-manager/index.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/managers/three-manager/index.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -734,7 +727,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">src/managers/three-manager/index.ts:114</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">src/managers/three-manager/index.ts:115</a></div>
                         </td>
                     </tr>
 
@@ -767,7 +760,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">src/managers/three-manager/index.ts:112</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">src/managers/three-manager/index.ts:113</a></div>
                         </td>
                     </tr>
 
@@ -800,7 +793,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/managers/three-manager/index.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/managers/three-manager/index.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -833,7 +826,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/managers/three-manager/index.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">src/managers/three-manager/index.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -871,7 +864,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">src/managers/three-manager/index.ts:124</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">src/managers/three-manager/index.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -904,12 +897,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>null</code>
+                        <i>Default value : </i><code>document.createElement(&#x27;canvas&#x27;)</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">src/managers/three-manager/index.ts:122</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">src/managers/three-manager/index.ts:123</a></div>
                         </td>
                     </tr>
 
@@ -942,7 +935,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/three-manager/index.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">src/managers/three-manager/index.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -975,7 +968,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/managers/three-manager/index.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">src/managers/three-manager/index.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1017,7 +1010,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">src/managers/three-manager/index.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">src/managers/three-manager/index.ts:107</a></div>
                         </td>
                     </tr>
 
@@ -1050,7 +1043,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/managers/three-manager/index.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">src/managers/three-manager/index.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -1083,7 +1076,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">src/managers/three-manager/index.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">src/managers/three-manager/index.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -1116,7 +1109,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">src/managers/three-manager/index.ts:94</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">src/managers/three-manager/index.ts:95</a></div>
                         </td>
                     </tr>
 
@@ -1149,7 +1142,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">src/managers/three-manager/index.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">src/managers/three-manager/index.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -1182,7 +1175,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">src/managers/three-manager/index.ts:126</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/managers/three-manager/index.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1220,7 +1213,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">src/managers/three-manager/index.ts:104</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">src/managers/three-manager/index.ts:105</a></div>
                         </td>
                     </tr>
 
@@ -1251,7 +1244,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">src/managers/three-manager/index.ts:128</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">src/managers/three-manager/index.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1284,7 +1277,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">src/managers/three-manager/index.ts:118</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">src/managers/three-manager/index.ts:119</a></div>
                         </td>
                     </tr>
 
@@ -1317,12 +1310,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>null</code>
+                        <i>Default value : </i><code>new Vector3()</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">src/managers/three-manager/index.ts:116</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">src/managers/three-manager/index.ts:117</a></div>
                         </td>
                     </tr>
 
@@ -1355,12 +1348,12 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>null</code>
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">src/managers/three-manager/index.ts:120</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">src/managers/three-manager/index.ts:121</a></div>
                         </td>
                     </tr>
 
@@ -1393,7 +1386,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/managers/three-manager/index.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">src/managers/three-manager/index.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -1423,7 +1416,7 @@
     const a &#x3D; document.createElement(&#x27;a&#x27;);
     document.body.appendChild(a);
     a.style.display &#x3D; &#x27;none&#x27;;
-    return function saveData(blob, fileName) {
+    return function saveData(blob: Blob | MediaSource, fileName: string) {
       const url &#x3D; window.URL.createObjectURL(blob);
       a.href &#x3D; url;
       a.download &#x3D; fileName;
@@ -1434,7 +1427,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="1208" class="link-to-prism">src/managers/three-manager/index.ts:1208</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="1229" class="link-to-prism">src/managers/three-manager/index.ts:1229</a></div>
                         </td>
                     </tr>
 
@@ -1467,7 +1460,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">src/managers/three-manager/index.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">src/managers/three-manager/index.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1500,7 +1493,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/managers/three-manager/index.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">src/managers/three-manager/index.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -1533,7 +1526,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">src/managers/three-manager/index.ts:100</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">src/managers/three-manager/index.ts:101</a></div>
                         </td>
                     </tr>
 
@@ -1571,7 +1564,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">src/managers/three-manager/index.ts:130</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">src/managers/three-manager/index.ts:131</a></div>
                         </td>
                     </tr>
 
@@ -1604,7 +1597,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">src/managers/three-manager/index.ts:102</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">src/managers/three-manager/index.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -1637,7 +1630,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">src/managers/three-manager/index.ts:98</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">src/managers/three-manager/index.ts:99</a></div>
                         </td>
                     </tr>
 
@@ -1670,7 +1663,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">src/managers/three-manager/index.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">src/managers/three-manager/index.ts:85</a></div>
                         </td>
                     </tr>
 
@@ -1701,7 +1694,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">src/managers/three-manager/index.ts:132</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">src/managers/three-manager/index.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -1734,7 +1727,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">src/managers/three-manager/index.ts:88</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">src/managers/three-manager/index.ts:89</a></div>
                         </td>
                     </tr>
 
@@ -1767,7 +1760,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">src/managers/three-manager/index.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">src/managers/three-manager/index.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -1807,8 +1800,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="963"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:963</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="984"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:984</a></div>
                         </td>
                     </tr>
 
@@ -1884,8 +1877,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1443"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1443</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1477"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1477</a></div>
                         </td>
                     </tr>
 
@@ -1960,8 +1953,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1511"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1511</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1545"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1545</a></div>
                         </td>
                     </tr>
 
@@ -2068,8 +2061,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1007"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1007</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1028"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1028</a></div>
                         </td>
                     </tr>
 
@@ -2160,8 +2153,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1027"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1027</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1048"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1048</a></div>
                         </td>
                     </tr>
 
@@ -2252,8 +2245,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="711"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:711</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="735"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:735</a></div>
                         </td>
                     </tr>
 
@@ -2360,8 +2353,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1200"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1200</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1221"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1221</a></div>
                         </td>
                     </tr>
 
@@ -2453,8 +2446,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1190"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1190</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1211"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1211</a></div>
                         </td>
                     </tr>
 
@@ -2545,8 +2538,8 @@ using clipping planes after particle collison.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1181"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1181</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1202"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1202</a></div>
                         </td>
                     </tr>
 
@@ -2639,8 +2632,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1163"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1163</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1184"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1184</a></div>
                         </td>
                     </tr>
 
@@ -2747,8 +2740,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="287"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:287</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="288"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:288</a></div>
                         </td>
                     </tr>
 
@@ -2823,8 +2816,8 @@ event collision animation options.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1241"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1241</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1267"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1267</a></div>
                         </td>
                     </tr>
 
@@ -2929,8 +2922,8 @@ See makeScreenShot for the description of fitting</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="954"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:954</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="975"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:975</a></div>
                         </td>
                     </tr>
 
@@ -2963,15 +2956,15 @@ See makeScreenShot for the description of fitting</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>croppedSize(width, height, screenWidth, screenHeight)</code>
+                    <code>croppedSize(width: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, height: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, screenWidth: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, screenHeight: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1224"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1224</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1245"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1245</a></div>
                         </td>
                     </tr>
 
@@ -2989,12 +2982,16 @@ That way the final image won&#39;t be streched</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>width</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3004,6 +3001,9 @@ That way the final image won&#39;t be streched</p>
                                         </tr>
                                         <tr>
                                                 <td>height</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3013,6 +3013,9 @@ That way the final image won&#39;t be streched</p>
                                         </tr>
                                         <tr>
                                                 <td>screenWidth</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3022,6 +3025,9 @@ That way the final image won&#39;t be streched</p>
                                         </tr>
                                         <tr>
                                                 <td>screenHeight</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3033,7 +3039,7 @@ That way the final image won&#39;t be streched</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>{ width: any; height: any; }</code>
+                            <b>Returns : </b>    <code>{ width: number; height: number; }</code>
 
                         </div>
                             <div class="io-description">
@@ -3065,8 +3071,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1112"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1112</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1133"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1133</a></div>
                         </td>
                     </tr>
 
@@ -3106,8 +3112,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="615"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:615</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="632"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:632</a></div>
                         </td>
                     </tr>
 
@@ -3177,8 +3183,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1105"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1105</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1126"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1126</a></div>
                         </td>
                     </tr>
 
@@ -3218,8 +3224,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1119"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1119</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1140"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1140</a></div>
                         </td>
                     </tr>
 
@@ -3259,8 +3265,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="947"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:947</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="968"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:968</a></div>
                         </td>
                     </tr>
 
@@ -3335,8 +3341,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1412"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1412</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1445"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1445</a></div>
                         </td>
                     </tr>
 
@@ -3411,8 +3417,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="939"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:939</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="960"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:960</a></div>
                         </td>
                     </tr>
 
@@ -3487,8 +3493,8 @@ That way the final image won&#39;t be streched</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="907"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:907</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="928"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:928</a></div>
                         </td>
                     </tr>
 
@@ -3529,8 +3535,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="898"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:898</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="919"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:919</a></div>
                         </td>
                     </tr>
 
@@ -3570,8 +3576,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="294"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:294</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:295</a></div>
                         </td>
                     </tr>
 
@@ -3611,8 +3617,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="920"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:920</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="941"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:941</a></div>
                         </td>
                     </tr>
 
@@ -3687,8 +3693,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1046"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1046</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1067"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1067</a></div>
                         </td>
                     </tr>
 
@@ -3732,8 +3738,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1527"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1527</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1561"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1561</a></div>
                         </td>
                     </tr>
 
@@ -3770,15 +3776,15 @@ load it later and recover the saved configuration.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getMainIntersect(event)</code>
+                    <code>getMainIntersect(event: MouseEvent)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="349"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:349</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="350"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:350</a></div>
                         </td>
                     </tr>
 
@@ -3795,12 +3801,16 @@ load it later and recover the saved configuration.</p>
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                                 <td>event</td>
+                                            <td>
+                                                        <code>MouseEvent</code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -3812,7 +3822,7 @@ load it later and recover the saved configuration.</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Intersection&lt;Object3D&lt;Object3DEventMap&gt;&gt;</code>
+                            <b>Returns : </b>    <code>Intersection | null</code>
 
                         </div>
                             <div class="io-description">
@@ -3844,8 +3854,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1428"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1428</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1461"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1461</a></div>
                         </td>
                     </tr>
 
@@ -3920,8 +3930,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1076"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1076</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1097"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1097</a></div>
                         </td>
                     </tr>
 
@@ -3997,8 +4007,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="276"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:276</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="277"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:277</a></div>
                         </td>
                     </tr>
 
@@ -4042,8 +4052,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="995"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:995</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1016"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1016</a></div>
                         </td>
                     </tr>
 
@@ -4087,8 +4097,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1088"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1088</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1109"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1109</a></div>
                         </td>
                     </tr>
 
@@ -4185,8 +4195,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:148</a></div>
                         </td>
                     </tr>
 
@@ -4261,8 +4271,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1380"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1380</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1413"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1413</a></div>
                         </td>
                     </tr>
 
@@ -4347,15 +4357,15 @@ load it later and recover the saved configuration.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadGLTFGeometry(sceneUrl: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadGLTFGeometry(sceneUrl: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="787"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:787</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="811"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:811</a></div>
                         </td>
                     </tr>
 
@@ -4417,7 +4427,7 @@ load it later and recover the saved configuration.</p>
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
 
@@ -4433,7 +4443,7 @@ load it later and recover the saved configuration.</p>
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
 
@@ -4449,7 +4459,7 @@ load it later and recover the saved configuration.</p>
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
 
@@ -4496,8 +4506,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="875"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:875</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="896"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:896</a></div>
                         </td>
                     </tr>
 
@@ -4643,15 +4653,15 @@ load it later and recover the saved configuration.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>loadOBJGeometry(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, color: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, doubleSided: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, setFlat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="754"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:754</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="778"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:778</a></div>
                         </td>
                     </tr>
 
@@ -4736,7 +4746,7 @@ load it later and recover the saved configuration.</p>
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
                                             <td>
@@ -4822,8 +4832,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1055"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1055</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1076"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1076</a></div>
                         </td>
                     </tr>
 
@@ -4920,8 +4930,8 @@ load it later and recover the saved configuration.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1276"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1276</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1302"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1302</a></div>
                         </td>
                     </tr>
 
@@ -5050,8 +5060,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="341"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:341</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="342"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:342</a></div>
                         </td>
                     </tr>
 
@@ -5115,22 +5125,23 @@ this is the default and used also for any other value given to fitting</li>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseGLTFGeometry(geometry: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>parseGLTFGeometry(file: File)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="837"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:837</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="861"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:861</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Parses and loads a geometry in GLTF (.gltf) format.</p>
+                        <div class="io-description"><p>Parses and loads a geometry in GLTF (.gltf or .glb) format.
+also supports zip files of the above</p>
 </div>
 
                             <div class="io-description">
@@ -5147,9 +5158,9 @@ this is the default and used also for any other value given to fitting</li>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>geometry</td>
+                                                <td>file</td>
                                             <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        <code>File</code>
                                             </td>
 
                                             <td>
@@ -5158,23 +5169,7 @@ this is the default and used also for any other value given to fitting</li>
 
 
                                             <td>
-                                                    <p>Geometry in GLTF (.gltf) format.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>name</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Name given to the geometry.</p>
+                                                    <p>Geometry file in GLTF (.gltf or .glb) format.</p>
 
                                             </td>
                                         </tr>
@@ -5215,8 +5210,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="818"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:818</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="842"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:842</a></div>
                         </td>
                     </tr>
 
@@ -5332,8 +5327,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="857"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:857</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="878"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:878</a></div>
                         </td>
                     </tr>
 
@@ -5409,8 +5404,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="247"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:247</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:248</a></div>
                         </td>
                     </tr>
 
@@ -5450,8 +5445,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="226"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:226</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:227</a></div>
                         </td>
                     </tr>
 
@@ -5526,8 +5521,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1436"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:1436</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1470"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1470</a></div>
                         </td>
                     </tr>
 
@@ -5602,8 +5597,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="661"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:661</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="685"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:685</a></div>
                         </td>
                     </tr>
 
@@ -5678,8 +5673,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="670"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:670</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="694"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:694</a></div>
                         </td>
                     </tr>
 
@@ -5770,8 +5765,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="209"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:209</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:210</a></div>
                         </td>
                     </tr>
 
@@ -5841,8 +5836,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="971"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:971</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="992"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:992</a></div>
                         </td>
                     </tr>
 
@@ -5917,8 +5912,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="928"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:928</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="949"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:949</a></div>
                         </td>
                     </tr>
 
@@ -5993,8 +5988,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="633"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:633</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="657"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:657</a></div>
                         </td>
                     </tr>
 
@@ -6034,8 +6029,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="476"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:476</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="479"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:479</a></div>
                         </td>
                     </tr>
 
@@ -6105,8 +6100,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="396"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:396</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="399"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:399</a></div>
                         </td>
                     </tr>
 
@@ -6181,8 +6176,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="240"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:240</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="241"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:241</a></div>
                         </td>
                     </tr>
 
@@ -6222,8 +6217,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="724"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:724</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="748"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:748</a></div>
                         </td>
                     </tr>
 
@@ -6298,8 +6293,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="216"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:216</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="217"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:217</a></div>
                         </td>
                     </tr>
 
@@ -6339,8 +6334,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="263"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:263</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="264"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:264</a></div>
                         </td>
                     </tr>
 
@@ -6415,8 +6410,8 @@ this is the default and used also for any other value given to fitting</li>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="983"
-                                    class="link-to-prism">src/managers/three-manager/index.ts:983</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1004"
+                                    class="link-to-prism">src/managers/three-manager/index.ts:1004</a></div>
                         </td>
                     </tr>
 
@@ -6498,10 +6493,10 @@ The factor may either be greater (zoom in) or smaller (zoom out) than 1.</p>
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEmitter } from &#x27;@angular/core&#x27;;
 import { Tween, update as tweenUpdate } from &#x27;@tweenjs/tween.js&#x27;;
+import type { Object3DEventMap, Intersection } from &#x27;three&#x27;;
 import {
   Group,
   Object3D,
-  Object3DEventMap,
   Vector3,
   Plane,
   Quaternion,
@@ -6516,28 +6511,29 @@ import {
   PerspectiveCamera,
   Vector2,
   Raycaster,
-  Intersection,
-  Event,
 } from &#x27;three&#x27;;
 import html2canvas from &#x27;html2canvas&#x27;;
-import { Configuration } from &#x27;../../lib/types/configuration&#x27;;
-import { ControlsManager } from &#x27;./controls-manager&#x27;;
-import { RendererManager } from &#x27;./renderer-manager&#x27;;
-import { ExportManager } from &#x27;./export-manager&#x27;;
-import { ImportManager } from &#x27;./import-manager&#x27;;
-import { SelectionManager } from &#x27;./selection-manager&#x27;;
-import { SceneManager } from &#x27;./scene-manager&#x27;;
-import { AnimationPreset, AnimationsManager } from &#x27;./animations-manager&#x27;;
-import { InfoLogger } from &#x27;../../helpers/info-logger&#x27;;
-import { EffectsManager } from &#x27;./effects-manager&#x27;;
-import { StateManager } from &#x27;../state-manager&#x27;;
-import { LoadingManager } from &#x27;../loading-manager&#x27;;
-import { ActiveVariable } from &#x27;../../helpers/active-variable&#x27;;
-import { ColorManager } from &#x27;./color-manager&#x27;;
-import { XRManager, XRSessionType } from &#x27;./xr/xr-manager&#x27;;
-import { VRManager } from &#x27;./xr/vr-manager&#x27;;
-import { ARManager } from &#x27;./xr/ar-manager&#x27;;
-import { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters&#x27;;
+import type { Configuration } from &#x27;../../lib/types/configuration.js&#x27;;
+import { ControlsManager } from &#x27;./controls-manager.js&#x27;;
+import { RendererManager } from &#x27;./renderer-manager.js&#x27;;
+import { ExportManager } from &#x27;./export-manager.js&#x27;;
+import { ImportManager } from &#x27;./import-manager.js&#x27;;
+import { SelectionManager } from &#x27;./selection-manager.js&#x27;;
+import { SceneManager } from &#x27;./scene-manager.js&#x27;;
+import {
+  AnimationsManager,
+  type AnimationPreset,
+} from &#x27;./animations-manager.js&#x27;;
+import { InfoLogger } from &#x27;../../helpers/info-logger.js&#x27;;
+import { EffectsManager } from &#x27;./effects-manager.js&#x27;;
+import { StateManager } from &#x27;../state-manager.js&#x27;;
+import { LoadingManager } from &#x27;../loading-manager.js&#x27;;
+import { ActiveVariable } from &#x27;../../helpers/active-variable.js&#x27;;
+import { ColorManager } from &#x27;./color-manager.js&#x27;;
+import { XRManager, XRSessionType } from &#x27;./xr/xr-manager.js&#x27;;
+import { VRManager } from &#x27;./xr/vr-manager.js&#x27;;
+import { ARManager } from &#x27;./xr/ar-manager.js&#x27;;
+import type { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters.js&#x27;;
 
 (function () {
   const _updateMatrixWorld &#x3D; Object3D.prototype.updateMatrixWorld;
@@ -6611,17 +6607,17 @@ export class ThreeManager {
   /** Status of clipping intersection. */
   private clipIntersection: boolean;
   /** Store the 3D coordinates of first point to find 3D Distance */
-  private prev3DCoord: Vector3 &#x3D; null;
+  private prev3DCoord: Vector3 &#x3D; new Vector3();
   /** Store the 2D coordinates of first point to find 3D Distance */
   private prev2DCoord: Vector2;
   /** Store the name of the object of first intersect while finding 3D Distance */
-  private prevIntersectName: string &#x3D; null;
+  private prevIntersectName: string &#x3D; &#x27;&#x27;;
   /** Canvas used for rendering the distance line */
-  private distanceCanvas: HTMLCanvasElement &#x3D; null;
+  private distanceCanvas: HTMLCanvasElement &#x3D; document.createElement(&#x27;canvas&#x27;);
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string &#x3D; &#x27;black&#x27;;
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (MouseEvent) &#x3D;&gt; void;
+  private mousemoveCallback: (event: MouseEvent) &#x3D;&gt; void;
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged &#x3D; new EventEmitter&lt;Vector3&gt;();
   /** Whether the shifting of the grid is enabled */
@@ -6844,7 +6840,9 @@ export class ThreeManager {
   /**
    * Returns the mainIntersect upon clicking a point
    */
-  private getMainIntersect(event): Intersection&lt;Object3D&lt;Object3DEventMap&gt;&gt; {
+  private getMainIntersect(
+    event: MouseEvent,
+  ): Intersection&lt;Object3D&lt;Object3DEventMap&gt;&gt; | null {
     const camera &#x3D; this.controlsManager.getMainCamera();
     const scene &#x3D; this.sceneManager.getScene();
     const raycaster &#x3D; new Raycaster();
@@ -6954,8 +6952,8 @@ export class ThreeManager {
           app?.appendChild(div);
 
           setTimeout(() &#x3D;&gt; {
-            document.getElementById(&#x27;3dcoordinates&#x27;).remove();
-            document.getElementById(&#x27;circledDot&#x27;).remove();
+            document.getElementById(&#x27;3dcoordinates&#x27;)?.remove();
+            document.getElementById(&#x27;circledDot&#x27;)?.remove();
           }, 3000);
         }
       };
@@ -6972,9 +6970,9 @@ export class ThreeManager {
    * Show 3D Distance between any two clicked points
    */
   public show3DDistance(show: boolean) {
-    this.prev3DCoord &#x3D; null;
-    this.prev2DCoord &#x3D; null;
-    this.prevIntersectName &#x3D; null;
+    this.prev3DCoord &#x3D; new Vector3();
+    this.prev2DCoord &#x3D; new Vector2();
+    this.prevIntersectName &#x3D; &#x27;&#x27;;
     this.filterRayIntersect();
 
     if (this.show3DDistanceCallback &#x3D;&#x3D; null) {
@@ -6982,7 +6980,7 @@ export class ThreeManager {
       this.show3DDistanceCallback &#x3D; (event) &#x3D;&gt; {
         const mainIntersect &#x3D; this.getMainIntersect(event);
         if (mainIntersect !&#x3D; null) {
-          if (this.prev3DCoord &#x3D;&#x3D; null) {
+          if (!this.prevIntersectName) {
             this.prev3DCoord &#x3D; mainIntersect.point;
             this.prev2DCoord &#x3D; new Vector2(event.clientX, event.clientY);
             this.prevIntersectName &#x3D; mainIntersect.object.name;
@@ -7000,15 +6998,29 @@ export class ThreeManager {
             app?.appendChild(this.distanceCanvas);
 
             const ctx &#x3D; this.distanceCanvas.getContext(&#x27;2d&#x27;);
-            ctx.strokeStyle &#x3D; this.displayColor;
-            ctx.lineWidth &#x3D; 2;
-            ctx.fillStyle &#x3D; this.displayColor;
-            ctx.beginPath();
-            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
-            ctx.fill();
+            if (ctx) {
+              ctx.strokeStyle &#x3D; this.displayColor;
+              ctx.lineWidth &#x3D; 2;
+              ctx.fillStyle &#x3D; this.displayColor;
+              ctx.beginPath();
+              ctx.arc(
+                this.prev2DCoord.x,
+                this.prev2DCoord.y,
+                7,
+                0,
+                2 * Math.PI,
+              );
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(
+                this.prev2DCoord.x,
+                this.prev2DCoord.y,
+                3,
+                0,
+                2 * Math.PI,
+              );
+              ctx.fill();
+            }
 
             window.addEventListener(&#x27;mousemove&#x27;, this.mousemoveCallback);
           } else {
@@ -7019,68 +7031,68 @@ export class ThreeManager {
             // draw distance line
             this.drawLine(event);
             const ctx &#x3D; this.distanceCanvas.getContext(&#x27;2d&#x27;);
-            ctx.beginPath();
-            ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
-            ctx.fill();
+            if (ctx) {
+              ctx.beginPath();
+              ctx.arc(event.clientX, event.clientY, 7, 0, 2 * Math.PI);
+              ctx.stroke();
+              ctx.beginPath();
+              ctx.arc(event.clientX, event.clientY, 3, 0, 2 * Math.PI);
+              ctx.fill();
 
-            // render the distance and the names of initial and final intersect
-            ctx.font &#x3D; &#x27;15px Arial&#x27;;
+              // render the distance and the names of initial and final intersect
+              ctx.font &#x3D; &#x27;15px Arial&#x27;;
 
-            let x1 &#x3D; this.prev2DCoord.x,
-              x2 &#x3D; event.clientX;
+              let x1 &#x3D; this.prev2DCoord.x,
+                x2 &#x3D; event.clientX;
 
-            const y1 &#x3D; this.prev2DCoord.y,
-              y2 &#x3D; event.clientY;
+              const y1 &#x3D; this.prev2DCoord.y,
+                y2 &#x3D; event.clientY;
 
-            const x_center &#x3D; (x1 + x2) / 2,
-              y_center &#x3D; (y1 + y2) / 2;
-            const d &#x3D; 25;
-            const m &#x3D; (x1 - x2) / (y2 - y1);
-            const delta_x &#x3D; d / Math.sqrt(1 + m * m);
-            const delta_y &#x3D; m * delta_x;
-            const x3 &#x3D; x_center + delta_x;
-            const y3 &#x3D; y_center + delta_y;
+              const x_center &#x3D; (x1 + x2) / 2,
+                y_center &#x3D; (y1 + y2) / 2;
+              const d &#x3D; 25;
+              const m &#x3D; (x1 - x2) / (y2 - y1);
+              const delta_x &#x3D; d / Math.sqrt(1 + m * m);
+              const delta_y &#x3D; m * delta_x;
+              const x3 &#x3D; x_center + delta_x;
+              const y3 &#x3D; y_center + delta_y;
 
-            if (this.prev2DCoord.x &gt; event.clientX) {
-              x1 &#x3D; this.prev2DCoord.x + 20;
-              x2 &#x3D;
-                event.clientX -
-                ctx.measureText(mainIntersect.object.name).width -
-                20;
-            } else {
-              x1 &#x3D;
-                this.prev2DCoord.x -
-                ctx.measureText(this.prevIntersectName).width -
-                20;
-              x2 &#x3D; event.clientX + 20;
-            }
-
-            ctx.fillText(this.prevIntersectName, x1, y1);
-            ctx.fillText(mainIntersect.object.name, x2, y2);
-            ctx.fillText(distance.toFixed(2).toString() + &#x27;cm&#x27;, x3, y3);
-
-            // remove the canvas after some time
-            setTimeout(() &#x3D;&gt; {
-              if (document.getElementById(&#x27;3Ddistance&#x27;) !&#x3D; null) {
-                document.getElementById(&#x27;3Ddistance&#x27;).remove();
+              if (this.prev2DCoord.x &gt; event.clientX) {
+                x1 &#x3D; this.prev2DCoord.x + 20;
+                x2 &#x3D;
+                  event.clientX -
+                  ctx.measureText(mainIntersect.object.name).width -
+                  20;
+              } else {
+                x1 &#x3D;
+                  this.prev2DCoord.x -
+                  ctx.measureText(this.prevIntersectName).width -
+                  20;
+                x2 &#x3D; event.clientX + 20;
               }
-              this.distanceCanvas
-                .getContext(&#x27;2d&#x27;)
-                .clearRect(
-                  0,
-                  0,
-                  this.distanceCanvas.width,
-                  this.distanceCanvas.height,
-                );
-            }, 3000);
 
-            // reset the parameters for the next pair of clicked points
-            this.prev3DCoord &#x3D; null;
-            this.prev2DCoord &#x3D; null;
-            this.prevIntersectName &#x3D; null;
+              ctx.fillText(this.prevIntersectName, x1, y1);
+              ctx.fillText(mainIntersect.object.name, x2, y2);
+              ctx.fillText(distance.toFixed(2).toString() + &#x27;cm&#x27;, x3, y3);
+
+              // remove the canvas after some time
+              setTimeout(() &#x3D;&gt; {
+                if (document.getElementById(&#x27;3Ddistance&#x27;) !&#x3D; null) {
+                  document.getElementById(&#x27;3Ddistance&#x27;)?.remove();
+                }
+                this.distanceCanvas
+                  .getContext(&#x27;2d&#x27;)
+                  ?.clearRect(
+                    0,
+                    0,
+                    this.distanceCanvas.width,
+                    this.distanceCanvas.height,
+                  );
+              }, 3000);
+
+              // reset the parameters for the next pair of clicked points
+              this.prevIntersectName &#x3D; &#x27;&#x27;;
+            }
           }
         }
       };
@@ -7092,12 +7104,12 @@ export class ThreeManager {
       window.removeEventListener(&#x27;click&#x27;, this.show3DDistanceCallback);
       window.removeEventListener(&#x27;mousemove&#x27;, this.mousemoveCallback);
       if (document.getElementById(&#x27;3Ddistance&#x27;) !&#x3D; null) {
-        document.getElementById(&#x27;3Ddistance&#x27;).remove();
+        document.getElementById(&#x27;3Ddistance&#x27;)?.remove();
       }
       if (this.distanceCanvas !&#x3D; null) {
         this.distanceCanvas
           .getContext(&#x27;2d&#x27;)
-          .clearRect(
+          ?.clearRect(
             0,
             0,
             this.distanceCanvas.width,
@@ -7112,17 +7124,24 @@ export class ThreeManager {
    */
   private drawLine(finalPoint: MouseEvent) {
     const ctx &#x3D; this.distanceCanvas.getContext(&#x27;2d&#x27;);
-    ctx.clearRect(0, 0, this.distanceCanvas.width, this.distanceCanvas.height);
-    ctx.beginPath();
-    ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
-    ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
-    ctx.fill();
+    if (ctx) {
+      ctx.clearRect(
+        0,
+        0,
+        this.distanceCanvas.width,
+        this.distanceCanvas.height,
+      );
+      ctx.beginPath();
+      ctx.moveTo(this.prev2DCoord.x, this.prev2DCoord.y);
+      ctx.lineTo(finalPoint.clientX, finalPoint.clientY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 7, 0, 2 * Math.PI);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.prev2DCoord.x, this.prev2DCoord.y, 3, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   }
 
   /**
@@ -7141,7 +7160,7 @@ export class ThreeManager {
       };
     }
 
-    const rightClickCallback &#x3D; (_event) &#x3D;&gt; {
+    const rightClickCallback &#x3D; (_event: any) &#x3D;&gt; {
       window.removeEventListener(&#x27;click&#x27;, this.shiftCartesianGridCallback);
       this.stopShifting.emit(true);
       this.shiftGrid &#x3D; false;
@@ -7253,7 +7272,7 @@ export class ThreeManager {
     filename: string,
     name: string,
     color: any,
-    doubleSided?: boolean,
+    doubleSided: boolean,
     initiallyVisible: boolean &#x3D; true,
     setFlat: boolean &#x3D; true,
   ): Promise&lt;GeometryUIParameters&gt; {
@@ -7285,9 +7304,9 @@ export class ThreeManager {
   public async loadGLTFGeometry(
     sceneUrl: any,
     name: string,
-    menuNodeName?: string,
-    scale?: number,
-    initiallyVisible?: boolean,
+    menuNodeName: string,
+    scale: number,
+    initiallyVisible: boolean,
   ): Promise&lt;GeometryUIParameters[]&gt; {
     const geometries &#x3D; this.sceneManager.getGeometries();
 
@@ -7327,21 +7346,18 @@ export class ThreeManager {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
-   * @param name Name given to the geometry.
+   * Parses and loads a geometry in GLTF (.gltf or .glb) format.
+   * also supports zip files of the above
+   * @param file Geometry file in GLTF (.gltf or .glb) format.
    * @returns Promise for loading the geometry.
    */
-  public async parseGLTFGeometry(
-    geometry: any,
-    name: string,
-  ): Promise&lt;GeometryUIParameters[]&gt; {
+  public async parseGLTFGeometry(file: File): Promise&lt;GeometryUIParameters[]&gt; {
     const allGeometriesUIParameters &#x3D;
-      await this.importManager.parseGLTFGeometry(geometry, name);
+      await this.importManager.parseGLTFGeometry(file);
 
     for (const { object } of allGeometriesUIParameters) {
       this.sceneManager.getGeometries().add(object);
-      this.infoLogger.add(name, &#x27;Parsed GLTF geometry&#x27;);
+      this.infoLogger.add(file.name, &#x27;Parsed GLTF geometry&#x27;);
     }
 
     return allGeometriesUIParameters;
@@ -7353,9 +7369,9 @@ export class ThreeManager {
    * @returns Promise for loading the scene.
    */
   public async parsePhnxScene(scene: any): Promise&lt;void&gt; {
-    const callback &#x3D; (geometries: Object3D, eventData: Object3D) &#x3D;&gt; {
-      this.sceneManager.getScene().add(geometries);
-      this.sceneManager.getScene().add(eventData);
+    const callback &#x3D; (geometries?: Object3D, eventData?: Object3D) &#x3D;&gt; {
+      if (geometries !&#x3D; null) this.sceneManager.getScene().add(geometries);
+      if (eventData !&#x3D; null) this.sceneManager.getScene().add(eventData);
     };
 
     await this.importManager.parsePhnxScene(scene, callback);
@@ -7707,7 +7723,7 @@ export class ThreeManager {
     const a &#x3D; document.createElement(&#x27;a&#x27;);
     document.body.appendChild(a);
     a.style.display &#x3D; &#x27;none&#x27;;
-    return function saveData(blob, fileName) {
+    return function saveData(blob: Blob | MediaSource, fileName: string) {
       const url &#x3D; window.URL.createObjectURL(blob);
       a.href &#x3D; url;
       a.download &#x3D; fileName;
@@ -7719,7 +7735,12 @@ export class ThreeManager {
    * crops the size of an image to fit the ratio of the given screen size
    * That way the final image won&#x27;t be streched
    */
-  private croppedSize(width, height, screenWidth, screenHeight) {
+  private croppedSize(
+    width: number,
+    height: number,
+    screenWidth: number,
+    screenHeight: number,
+  ) {
     let croppedHeight &#x3D; height;
     let croppedWidth &#x3D; width;
     if (screenWidth * height &lt; screenHeight * width) {
@@ -7806,26 +7827,29 @@ export class ThreeManager {
     outputCanvas.style.width &#x3D; (width / scale).toString() + &#x27;px&#x27;;
     outputCanvas.style.height &#x3D; (height / scale).toString() + &#x27;px&#x27;;
     const ctx &#x3D; outputCanvas.getContext(&#x27;2d&#x27;);
-    ctx.fillStyle &#x3D; bkgColor;
-    ctx.fillRect(0, 0, width, height);
-    // draw main image on our output canvas, with right size
-    mainRenderer.setSize(
-      scaledSize.width / scale,
-      scaledSize.height / scale,
-      false,
-    );
-    this.render();
-    ctx.drawImage(
-      mainRenderer.domElement,
-      widthShift,
-      heightShift,
-      width,
-      height,
-      0,
-      0,
-      width,
-      height,
-    );
+    if (ctx) {
+      ctx.fillStyle &#x3D; bkgColor;
+      ctx.fillRect(0, 0, width, height);
+      // draw main image on our output canvas, with right size
+      mainRenderer.setSize(
+        scaledSize.width / scale,
+        scaledSize.height / scale,
+        false,
+      );
+      this.render();
+      ctx.drawImage(
+        mainRenderer.domElement,
+        widthShift,
+        heightShift,
+        width,
+        height,
+        0,
+        0,
+        width,
+        height,
+      );
+    }
+
     mainRenderer.setSize(originalSize.width, originalSize.height, false);
     this.render();
 
@@ -7840,15 +7864,17 @@ export class ThreeManager {
 
       // Add info panel to output. This is HTML, so first convert it to canvas,
       // and then draw to our output canvas
-      html2canvas(infoPanel, {
+      const h2c: any &#x3D; html2canvas;
+      // See: https://github.com/niklasvh/html2canvas/issues/1977#issuecomment-529448710 for why this is needed
+      h2c(infoPanel, {
         backgroundColor: bkgColor,
         // avoid cloning canvas in the main page, this is useless and leads to
         // warnings in the javascript console similar to this :
         // &quot;Unable to clone WebGL context as it has preserveDrawingBuffer&#x3D;false&quot;
         ignoreElements: (element: Element) &#x3D;&gt; element.tagName &#x3D;&#x3D; &#x27;CANVAS&#x27;,
-      }).then((canvas) &#x3D;&gt; {
+      }).then((canvas: HTMLCanvasElement) &#x3D;&gt; {
         canvas.toBlob((blob) &#x3D;&gt; {
-          ctx.drawImage(
+          ctx?.drawImage(
             canvas,
             infoHeight / 6,
             infoHeight / 6,
@@ -7857,13 +7883,15 @@ export class ThreeManager {
           );
           // Finally save to png file
           outputCanvas.toBlob((blob) &#x3D;&gt; {
-            const a &#x3D; document.createElement(&#x27;a&#x27;);
-            document.body.appendChild(a);
-            a.style.display &#x3D; &#x27;none&#x27;;
-            const url &#x3D; window.URL.createObjectURL(blob);
-            a.href &#x3D; url;
-            a.download &#x3D; &#x60;screencapture.png&#x60;;
-            a.click();
+            if (blob) {
+              const a &#x3D; document.createElement(&#x27;a&#x27;);
+              document.body.appendChild(a);
+              a.style.display &#x3D; &#x27;none&#x27;;
+              const url &#x3D; window.URL.createObjectURL(blob);
+              a.href &#x3D; url;
+              a.download &#x3D; &#x60;screencapture.png&#x60;;
+              a.click();
+            }
           });
         });
       });
@@ -7924,7 +7952,8 @@ export class ThreeManager {
    * @param objectName Name of the object in scene.
    */
   public getObjectByName(objectName: string): Object3D {
-    return this.getSceneManager().getScene().getObjectByName(objectName);
+    const obj &#x3D; this.getSceneManager().getScene().getObjectByName(objectName);
+    return obj ? obj : new Object3D();
   }
 
   /**
@@ -8067,6 +8096,19 @@ export class ThreeManager {
             var COMPODOC_CURRENT_PAGE_URL = 'ThreeManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

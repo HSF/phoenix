@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -269,8 +262,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="647"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:647</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="652"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:652</a></div>
                         </td>
                     </tr>
 
@@ -342,8 +335,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="611"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:611</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="616"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:616</a></div>
                         </td>
                     </tr>
 
@@ -461,8 +454,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="554"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:554</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="559"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:559</a></div>
                         </td>
                     </tr>
 
@@ -598,8 +591,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="503"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:503</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="508"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:508</a></div>
                         </td>
                     </tr>
 
@@ -735,8 +728,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="257"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:257</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="260"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:260</a></div>
                         </td>
                     </tr>
 
@@ -816,8 +809,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="867"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:867</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="872"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:872</a></div>
                         </td>
                     </tr>
 
@@ -893,8 +886,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="198"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:198</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:201</a></div>
                         </td>
                     </tr>
 
@@ -970,8 +963,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="833"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:833</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="838"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:838</a></div>
                         </td>
                     </tr>
 
@@ -1047,8 +1040,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="746"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:746</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="751"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:751</a></div>
                         </td>
                     </tr>
 
@@ -1124,8 +1117,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="700"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:700</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="705"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:705</a></div>
                         </td>
                     </tr>
 
@@ -1201,8 +1194,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:102</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:104</a></div>
                         </td>
                     </tr>
 
@@ -1271,7 +1264,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getTracks(tracks)</code>
+                    <code>getTracks(tracks: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -1296,6 +1289,7 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                                     <thead>
                                         <tr>
                                             <td>Name</td>
+                                                <td>Type</td>
                                             <td>Optional</td>
                                                 <td>Description</td>
                                         </tr>
@@ -1303,6 +1297,9 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
                                     <tbody>
                                         <tr>
                                                 <td>tracks</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
 
                                             <td>
                                                     No
@@ -1351,8 +1348,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="802"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:802</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="807"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:807</a></div>
                         </td>
                     </tr>
 
@@ -1429,8 +1426,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="460"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:460</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="465"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:465</a></div>
                         </td>
                     </tr>
 
@@ -1537,8 +1534,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="381"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:381</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="384"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:384</a></div>
                         </td>
                     </tr>
 
@@ -1645,8 +1642,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="427"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:427</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="432"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:432</a></div>
                         </td>
                     </tr>
 
@@ -1753,8 +1750,8 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="348"
-                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:348</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="351"
+                                    class="link-to-prism">src/loaders/objects/phoenix-objects.ts:351</a></div>
                         </td>
                     </tr>
 
@@ -1874,12 +1871,12 @@ Can optionally contain extraInfo, which will be added to the resultant hit.
   CanvasTexture,
 } from &#x27;three&#x27;;
 import { ConvexGeometry } from &#x27;three/examples/jsm/geometries/ConvexGeometry.js&#x27;;
-import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants&#x27;;
-import { RKHelper } from &#x27;../../helpers/rk-helper&#x27;;
-import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
+import { EVENT_DATA_TYPE_COLORS } from &#x27;../../helpers/constants.js&#x27;;
+import { RKHelper } from &#x27;../../helpers/rk-helper.js&#x27;;
+import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper.js&#x27;;
 import { mergeGeometries } from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
-import { TracksMaterial, TracksMesh } from &#x27;./tracks&#x27;;
-import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeometryUtils&#x27;;
+import { TracksMaterial, TracksMesh } from &#x27;./tracks.js&#x27;;
+import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
 
 /**
  * Physics objects that make up an event in Phoenix.
@@ -1890,9 +1887,9 @@ export class PhoenixObjects {
    * @param tracks Tracks params to construct tacks from.
    * @returns The object containing tracks.
    */
-  public static getTracks(tracks): Object3D {
+  public static getTracks(tracks: any): Object3D {
     const tracksMesh &#x3D; new TracksMesh();
-    const tracksMaterial &#x3D; new TracksMaterial({ lineWidth: 2 });
+    const tracksMaterial &#x3D; new TracksMaterial({ linewidth: 2 });
 
     for (const track of tracks) {
       if (!(track.pos?.length &gt; 2)) {
@@ -1923,7 +1920,9 @@ export class PhoenixObjects {
         }
       }
 
-      const points &#x3D; track.pos.map((p) &#x3D;&gt; new Vector3(p[0], p[1], p[2]));
+      const points &#x3D; track.pos.map(
+        (p: (number | undefined)[]) &#x3D;&gt; new Vector3(p[0], p[1], p[2]),
+      );
       const curve &#x3D; new CatmullRomCurve3(points);
       const vertices &#x3D; curve.getPoints(50);
 
@@ -1959,11 +1958,12 @@ export class PhoenixObjects {
     }
 
     const positions &#x3D; trackParams.pos;
+    const trackObject &#x3D; new Group();
 
     // Check again, in case there was an issue with the extrapolation.
     if (positions.length &lt; 2) {
       console.log(&#x27;Track too short, and extrapolation failed.&#x27;);
-      return;
+      return trackObject;
     }
 
     // For cuts etc we currently need to have the cut parameters on the track
@@ -1987,6 +1987,7 @@ export class PhoenixObjects {
       ? parseInt(trackParams.color, 16)
       : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
+    const linewidth &#x3D; trackParams.linewidth ? trackParams.linewidth : 2;
     const points &#x3D; [];
 
     for (let i &#x3D; 0; i &lt; positions.length; i++) {
@@ -2009,7 +2010,7 @@ export class PhoenixObjects {
     const curve &#x3D; new CatmullRomCurve3(points);
 
     // TubeGeometry
-    const geometry &#x3D; new TubeGeometry(curve, undefined, 2);
+    const geometry &#x3D; new TubeGeometry(curve, undefined, linewidth);
     const material &#x3D; new MeshToonMaterial({ color: objectColor });
     const tubeObject &#x3D; new Mesh(geometry, material);
 
@@ -2018,13 +2019,12 @@ export class PhoenixObjects {
     const lineGeometry &#x3D; new BufferGeometry().setFromPoints(vertices);
     const lineMaterial &#x3D; new LineBasicMaterial({
       color: objectColor,
-      linewidth: 2,
+      linewidth: linewidth,
     });
     const lineObject &#x3D; new Line(lineGeometry, lineMaterial);
     lineObject.name &#x3D; &#x27;Track&#x27;;
 
     // Creating a group to add both the Tube curve and the Line
-    const trackObject &#x3D; new Group();
     trackObject.add(tubeObject);
     trackObject.add(lineObject);
 
@@ -2184,7 +2184,7 @@ export class PhoenixObjects {
         );
       default:
         console.log(&#x27;ERROR: Unknown hit type!&#x27;);
-        return;
+        return new Object3D();
     }
   }
 
@@ -2241,11 +2241,13 @@ export class PhoenixObjects {
     canvas.width &#x3D; 128;
     canvas.height &#x3D; 128;
     const context &#x3D; canvas.getContext(&#x27;2d&#x27;);
-    context.clearRect(0, 0, 128, 128);
-    context.fillStyle &#x3D; &#x27;white&#x27;;
-    context.beginPath();
-    context.arc(64, 64, 64, 0, 2 * Math.PI);
-    context.fill();
+    if (context) {
+      context.clearRect(0, 0, 128, 128);
+      context.fillStyle &#x3D; &#x27;white&#x27;;
+      context.beginPath();
+      context.arc(64, 64, 64, 0, 2 * Math.PI);
+      context.fill();
+    }
     const texture &#x3D; new CanvasTexture(canvas);
 
     const material &#x3D; new PointsMaterial({
@@ -2327,7 +2329,7 @@ export class PhoenixObjects {
     geometry.computeBoundingSphere();
     // material
     const material &#x3D; new MeshPhongMaterial({
-      color: hitsParams.color ?? EVENT_DATA_TYPE_COLORS.Hits,
+      color: parseInt(hitsParams[0].color) ?? EVENT_DATA_TYPE_COLORS.Hits,
     });
     // object
     const box &#x3D; new Mesh(geometry, material);
@@ -2418,8 +2420,8 @@ export class PhoenixObjects {
 
     // if radius is not part of clusterParams then set it to defaultRadius (if cylindrical is false), or radius+defaultZ otherwise
     const radius &#x3D; cylindrical
-      ? clusterParams.radius ?? defaultRadius + defaultZ
-      : clusterParams.radius ?? defaultRadius;
+      ? (clusterParams.radius ?? defaultRadius + defaultZ)
+      : (clusterParams.radius ?? defaultRadius);
 
     const position &#x3D; CoordinateHelper.sphericalToCartesian(
       radius,
@@ -2596,7 +2598,7 @@ export class PhoenixObjects {
   public static getPlanarCaloCell(caloCells: any): Object3D {
     const position &#x3D; caloCells.pos;
     if (!position) {
-      return;
+      return new Object3D();
     }
 
     const length &#x3D; caloCells.energy * 0.22;
@@ -2798,6 +2800,19 @@ export class PhoenixObjects {
             var COMPODOC_CURRENT_PAGE_URL = 'PhoenixObjects.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

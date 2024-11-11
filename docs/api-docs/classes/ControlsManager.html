@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -177,10 +170,6 @@
                                     <span class="modifier">Private</span>
                                 <a href="#perspectiveControls" >perspectiveControls</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#zoomCameraAnimPairs" >zoomCameraAnimPairs</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -229,10 +218,6 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#hideTubeTracksOnZoom" >hideTubeTracksOnZoom</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#initializeZoomControls" >initializeZoomControls</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -314,7 +299,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/controls-manager.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/controls-manager.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -576,39 +561,6 @@
 
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="zoomCameraAnimPairs"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>zoomCameraAnimPairs</b></span>
-                        <a href="#zoomCameraAnimPairs"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>literal type[]</code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/controls-manager.ts:33</a></div>
-                        </td>
-                    </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Pairs of camera and their animation for zoom controls.</p>
-</div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
 </section>
 
             <section data-compodoc="block-methods">
@@ -638,8 +590,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="199"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:199</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="195"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:195</a></div>
                         </td>
                     </tr>
 
@@ -714,8 +666,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="456"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:456</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="437"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:437</a></div>
                         </td>
                     </tr>
 
@@ -805,8 +757,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="168"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:168</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:164</a></div>
                         </td>
                     </tr>
 
@@ -848,8 +800,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:143</a></div>
                         </td>
                     </tr>
 
@@ -891,8 +843,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="189"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:189</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:185</a></div>
                         </td>
                     </tr>
 
@@ -934,8 +886,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:175</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:171</a></div>
                         </td>
                     </tr>
 
@@ -977,8 +929,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="154"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:154</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="150"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:150</a></div>
                         </td>
                     </tr>
 
@@ -1022,8 +974,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="330"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:330</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="328"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:328</a></div>
                         </td>
                     </tr>
 
@@ -1113,8 +1065,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="182"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:182</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -1156,8 +1108,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="161"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:161</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -1201,8 +1153,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="380"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:380</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="378"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:378</a></div>
                         </td>
                     </tr>
 
@@ -1276,47 +1228,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="initializeZoomControls"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>initializeZoomControls</b></span>
-                        <a href="#initializeZoomControls"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initializeZoomControls()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="414"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:414</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-description"><p>Initialize the zoom controls by setting up the camera and their animations as pairs.</p>
-</div>
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="lookAtObject"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
@@ -1335,8 +1246,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="298"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:298</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="296"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:296</a></div>
                         </td>
                     </tr>
 
@@ -1451,8 +1362,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="495"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:495</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="476"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:476</a></div>
                         </td>
                     </tr>
 
@@ -1544,8 +1455,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="432"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:432</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="413"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:413</a></div>
                         </td>
                     </tr>
 
@@ -1620,8 +1531,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="209"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:209</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="205"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:205</a></div>
                         </td>
                     </tr>
 
@@ -1696,8 +1607,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="445"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:445</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="426"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:426</a></div>
                         </td>
                     </tr>
 
@@ -1770,8 +1681,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="126"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:126</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -1844,8 +1755,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="133"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:133</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1913,15 +1824,15 @@ with the given uuid.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setOrbitControls(camera: PerspectiveCamera | OrthographicCamera, domElement?: HTMLElement)</code>
+                    <code>setOrbitControls(camera: PerspectiveCamera | OrthographicCamera, domElement: HTMLElement)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="107"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:107</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -1967,7 +1878,7 @@ with the given uuid.</p>
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
 
@@ -2011,8 +1922,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="140"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:140</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:136</a></div>
                         </td>
                     </tr>
 
@@ -2087,8 +1998,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="470"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:470</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="451"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:451</a></div>
                         </td>
                     </tr>
 
@@ -2163,8 +2074,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="219"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:219</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:215</a></div>
                         </td>
                     </tr>
 
@@ -2204,8 +2115,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="249"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:249</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="245"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:245</a></div>
                         </td>
                     </tr>
 
@@ -2245,8 +2156,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="242"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:242</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:238</a></div>
                         </td>
                     </tr>
 
@@ -2321,8 +2232,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="229"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:229</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="225"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:225</a></div>
                         </td>
                     </tr>
 
@@ -2362,8 +2273,8 @@ with the given uuid.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="265"
-                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:265</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="261"
+                                    class="link-to-prism">src/managers/three-manager/controls-manager.ts:261</a></div>
                         </td>
                     </tr>
 
@@ -2455,8 +2366,8 @@ import {
   Mesh,
   TubeGeometry,
 } from &#x27;three&#x27;;
-import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
-import { RendererManager } from &#x27;./renderer-manager&#x27;;
+import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls.js&#x27;;
+import { RendererManager } from &#x27;./renderer-manager.js&#x27;;
 
 /**
  * Manager for managing event display controls.
@@ -2474,8 +2385,6 @@ export class ControlsManager {
   private perspectiveControls: OrbitControls;
   /** Orbit controls for the orthographic view. */
   private orthographicControls: OrbitControls;
-  /** Pairs of camera and their animation for zoom controls. */
-  private zoomCameraAnimPairs: { camera: Camera; anim: any }[];
 
   /**
    * Constructor for setting up all the controls.
@@ -2486,8 +2395,8 @@ export class ControlsManager {
     defaultView: number[] &#x3D; [0, 0, 200],
   ) {
     this.controls &#x3D; [];
-    this.mainControls &#x3D; null;
-    this.overlayControls &#x3D; null;
+    // this.mainControls &#x3D; new OrbitControls();
+    // this.overlayControls &#x3D; null;
 
     const rendererElement &#x3D; rendererManager.getMainRenderer()?.domElement;
 
@@ -2537,8 +2446,6 @@ export class ControlsManager {
       this.transformSync();
       this.updateSync();
     });
-    // Initialize the zoom controls
-    this.initializeZoomControls();
     // Modify camera(s) on window resize
     this.setupResize(rendererElement);
   }
@@ -2551,7 +2458,7 @@ export class ControlsManager {
    */
   private setOrbitControls(
     camera: PerspectiveCamera | OrthographicCamera,
-    domElement?: HTMLElement,
+    domElement: HTMLElement,
   ): OrbitControls {
     const controls: OrbitControls &#x3D; new OrbitControls(camera, domElement);
     controls.enableDamping &#x3D; true;
@@ -2708,29 +2615,31 @@ export class ControlsManager {
    * @param zoomTime The time it takes for a zoom animation to complete.
    */
   public zoomTo(zoomFactor: number, zoomTime: number) {
-    for (const zoomCameraAnimPair of this.zoomCameraAnimPairs) {
-      const camera: any &#x3D; zoomCameraAnimPair.camera;
-      const anim &#x3D; zoomCameraAnimPair.anim;
-      if (camera.isOrthographicCamera) {
-        anim.to(
-          {
-            zoom: camera.zoom * (1 / zoomFactor),
-          },
-          zoomTime,
-        );
+    for (const camera of this.getAllCameras()) {
+      if (camera instanceof OrthographicCamera) {
+        const animation &#x3D; new Tween(camera);
+        animation
+          .to(
+            {
+              zoom: camera.zoom * (1 / zoomFactor),
+            },
+            zoomTime,
+          )
+          .start();
         camera.updateProjectionMatrix();
       } else {
-        const cameraPosition &#x3D; camera.position;
-        anim.to(
-          {
-            x: cameraPosition.x * zoomFactor,
-            y: cameraPosition.y * zoomFactor,
-            z: cameraPosition.z * zoomFactor,
-          },
-          zoomTime,
-        );
+        const animation &#x3D; new Tween(camera.position);
+        animation
+          .to(
+            {
+              x: camera.position.x * zoomFactor,
+              y: camera.position.y * zoomFactor,
+              z: camera.position.z * zoomFactor,
+            },
+            zoomTime,
+          )
+          .start();
       }
-      anim.start();
     }
   }
 
@@ -2812,7 +2721,7 @@ export class ControlsManager {
 
       return objectPosition;
     } else {
-      return undefined;
+      return new Vector3();
     }
   }
 
@@ -2851,23 +2760,6 @@ export class ControlsManager {
         tracksHidden &#x3D; false;
       }
     });
-  }
-
-  /**
-   * Initialize the zoom controls by setting up the camera and their animations as pairs.
-   */
-  private initializeZoomControls() {
-    const allCameras: any[] &#x3D; this.getAllCameras();
-    this.zoomCameraAnimPairs &#x3D; [];
-    for (const camera of allCameras) {
-      const animation &#x3D; camera.isOrthographicCamera
-        ? new Tween(camera)
-        : new Tween(camera.position);
-      this.zoomCameraAnimPairs.push({
-        camera: camera,
-        anim: animation,
-      });
-    }
   }
 
   /**
@@ -2988,6 +2880,19 @@ export class ControlsManager {
             var COMPODOC_CURRENT_PAGE_URL = 'ControlsManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

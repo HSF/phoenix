@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -162,6 +155,9 @@
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#thickTrackCollections" >thickTrackCollections</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -360,12 +356,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(thickTrackCollections: string[])</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/loaders/jivexml-loader.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/loaders/jivexml-loader.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -373,6 +369,37 @@
                     <td class="col-md-4">
                             <div class="io-description"><p>Constructor for the JiveXMLLoader.</p>
 </div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>thickTrackCollections</td>
+                                                  
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>A list of names of track collections which should be drawn thicker</p>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
                     </td>
                 </tr>
             </tbody>
@@ -421,6 +448,38 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="thickTrackCollections"></a>
+                    <span class="name">
+                        <span ><b>thickTrackCollections</b></span>
+                        <a href="#thickTrackCollections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/loaders/jivexml-loader.ts:11</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>List of tracks to draw with thicker tubes</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="eventData"></a>
                     <span class="name">
                             <span class="modifier">Protected</span>
@@ -443,7 +502,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:26</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:27</a></code>
 </div>
                         </td>
                     </tr>
@@ -483,7 +542,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:22</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -528,7 +587,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:32</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
 </div>
                         </td>
                     </tr>
@@ -568,7 +627,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:28</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -608,7 +667,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
 </div>
                         </td>
                     </tr>
@@ -648,7 +707,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:24</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -691,8 +750,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="824"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:824</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="841"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:841</a></div>
                         </td>
                     </tr>
 
@@ -805,8 +864,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="737"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:737</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="753"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:753</a></div>
                         </td>
                     </tr>
 
@@ -897,8 +956,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="988"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:988</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1007"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:1007</a></div>
                         </td>
                     </tr>
 
@@ -989,8 +1048,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -1034,8 +1093,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="764"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:764</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="781"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:781</a></div>
                         </td>
                     </tr>
 
@@ -1140,8 +1199,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="707"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:707</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="722"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:722</a></div>
                         </td>
                     </tr>
 
@@ -1232,8 +1291,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1049"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:1049</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1070"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:1070</a></div>
                         </td>
                     </tr>
 
@@ -1324,8 +1383,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="680"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:680</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="695"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:695</a></div>
                         </td>
                     </tr>
 
@@ -1464,8 +1523,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="588"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:588</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="605"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:605</a></div>
                         </td>
                     </tr>
 
@@ -1572,8 +1631,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="956"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:956</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="974"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:974</a></div>
                         </td>
                     </tr>
 
@@ -1664,8 +1723,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="105"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:105</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="109"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:109</a></div>
                         </td>
                     </tr>
 
@@ -1757,8 +1816,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1020"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:1020</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1040"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:1040</a></div>
                         </td>
                     </tr>
 
@@ -1849,8 +1908,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="450"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:450</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="467"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:467</a></div>
                         </td>
                     </tr>
 
@@ -1934,15 +1993,15 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getPositionOfHit(hitIdentifier, eventData: literal type)</code>
+                    <code>getPositionOfHit(hitIdentifier: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, eventData: literal type)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="139"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:139</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:143</a></div>
                         </td>
                     </tr>
 
@@ -1968,6 +2027,7 @@
                                         <tr>
                                                 <td>hitIdentifier</td>
                                             <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                             </td>
 
                                             <td>
@@ -2033,8 +2093,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="639"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:639</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="655"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:655</a></div>
                         </td>
                     </tr>
 
@@ -2125,8 +2185,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="479"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:479</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="496"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:496</a></div>
                         </td>
                     </tr>
 
@@ -2217,8 +2277,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="125"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:125</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -2310,8 +2370,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="161"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:161</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="165"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:165</a></div>
                         </td>
                     </tr>
 
@@ -2402,8 +2462,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="514"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:514</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="531"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:531</a></div>
                         </td>
                     </tr>
 
@@ -2494,8 +2554,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="861"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:861</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="878"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:878</a></div>
                         </td>
                     </tr>
 
@@ -2586,8 +2646,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="23"
-                                    class="link-to-prism">src/loaders/jivexml-loader.ts:23</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="27"
+                                    class="link-to-prism">src/loaders/jivexml-loader.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -2655,7 +2715,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -2668,7 +2728,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:509</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:516</a></code>
 </div>
                         </td>
                     </tr>
@@ -2828,7 +2888,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:726</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:733</a></code>
 </div>
                         </td>
                     </tr>
@@ -2943,7 +3003,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:446</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:448</a></code>
 </div>
                         </td>
                     </tr>
@@ -3119,7 +3179,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:760</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:770</a></code>
 </div>
                         </td>
                     </tr>
@@ -3234,7 +3294,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:50</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:51</a></code>
 </div>
                         </td>
                     </tr>
@@ -3365,7 +3425,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:126</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:127</a></code>
 </div>
                         </td>
                     </tr>
@@ -3448,7 +3508,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:102</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:103</a></code>
 </div>
                         </td>
                     </tr>
@@ -3499,7 +3559,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:574</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:581</a></code>
 </div>
                         </td>
                     </tr>
@@ -3637,7 +3697,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:564</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:571</a></code>
 </div>
                         </td>
                     </tr>
@@ -3732,7 +3792,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:558</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:565</a></code>
 </div>
                         </td>
                     </tr>
@@ -3825,7 +3885,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:672</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:679</a></code>
 </div>
                         </td>
                     </tr>
@@ -3876,7 +3936,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:86</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:87</a></code>
 </div>
                         </td>
                     </tr>
@@ -3959,7 +4019,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:749</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:759</a></code>
 </div>
                         </td>
                     </tr>
@@ -4010,7 +4070,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:544</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:551</a></code>
 </div>
                         </td>
                     </tr>
@@ -4093,7 +4153,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:147</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:148</a></code>
 </div>
                         </td>
                     </tr>
@@ -4158,8 +4218,8 @@ to reconstruct the different collections of physics objects.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixLoader } from &#x27;./phoenix-loader&#x27;;
-import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixLoader } from &#x27;./phoenix-loader.js&#x27;;
+import { CoordinateHelper } from &#x27;../helpers/coordinate-helper.js&#x27;;
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.
@@ -4167,13 +4227,17 @@ import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
 export class JiveXMLLoader extends PhoenixLoader {
   /** Event data in JiveXML data format */
   private data: any;
+  /** List of tracks to draw with thicker tubes */
+  thickTrackCollections: string[];
 
   /**
    * Constructor for the JiveXMLLoader.
+   * @param thickTrackCollections A list of names of track collections which should be drawn thicker
    */
-  constructor() {
+  constructor(thickTrackCollections: string[] &#x3D; []) {
     super();
     this.data &#x3D; {};
+    this.thickTrackCollections &#x3D; thickTrackCollections;
   }
 
   /**
@@ -4297,7 +4361,7 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @returns [found, x, y, z].
    */
   private getPositionOfHit(
-    hitIdentifier,
+    hitIdentifier: number,
     eventData: { Hits: [[{ id: number; pos: any }]] },
   ) {
     for (const hitcollection in eventData.Hits) {
@@ -4324,12 +4388,22 @@ export class JiveXMLLoader extends PhoenixLoader {
   ): void {
     const tracksHTML &#x3D; firstEvent.getElementsByTagName(&#x27;Track&#x27;);
     const trackCollections &#x3D; Array.from(tracksHTML);
-    const badTracks &#x3D; {};
+    const badTracks: { [key: string]: any } &#x3D; {};
 
     for (const collection of trackCollections) {
-      let trackCollectionName &#x3D; collection.getAttribute(&#x27;storeGateKey&#x27;);
+      let trackCollectionName &#x3D;
+        collection.getAttribute(&#x27;storeGateKey&#x27;) ?? &#x27;Unknown&#x27;;
       if (trackCollectionName &#x3D;&#x3D;&#x3D; &#x27;Tracks&#x27;) {
         trackCollectionName &#x3D; &#x27;Tracks_&#x27;; //We have problems if the name of the collection is a type
+      }
+
+      let thickTracks &#x3D; false;
+      if (
+        this.thickTrackCollections.find(
+          (collection) &#x3D;&gt; collection &#x3D;&#x3D;&#x3D; trackCollectionName,
+        )
+      ) {
+        thickTracks &#x3D; true;
       }
 
       // if (!trackCollectionName.includes(&#x27;MuonSpectrometer&#x27;)) continue;
@@ -4340,8 +4414,10 @@ export class JiveXMLLoader extends PhoenixLoader {
       // then convert to array of numbers
       const tmp &#x3D; collection.getElementsByTagName(&#x27;numPolyline&#x27;);
 
-      let polylineX, polylineY, polylineZ;
-      let numPolyline: number[];
+      let polylineX: number[] &#x3D; [];
+      let polylineY: number[] &#x3D; [];
+      let polylineZ: number[] &#x3D; [];
+      let numPolyline: number[] &#x3D; [];
       if (tmp.length &#x3D;&#x3D;&#x3D; 0) {
         console.log(
           &#x27;WARNING the track collection &#x27; +
@@ -4364,10 +4440,10 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineZ &#x3D; this.getNumberArrayFromHTML(collection, &#x27;polylineZ&#x27;);
         } else {
           // unset numPolyline so check later is simple (it will all be zeros anyway)
-          numPolyline &#x3D; null;
-          polylineX &#x3D; null;
-          polylineY &#x3D; null;
-          polylineZ &#x3D; null;
+          numPolyline &#x3D; [];
+          polylineX &#x3D; [];
+          polylineY &#x3D; [];
+          polylineZ &#x3D; [];
         }
       }
 
@@ -4417,11 +4493,12 @@ export class JiveXMLLoader extends PhoenixLoader {
           pT: 0.0,
           phi: 0.0,
           eta: 0.0,
-          pos: [],
-          dparams: [],
+          pos: [] as number[][],
+          dparams: [] as number[], // Explicitly define the type as number[]
           hits: {},
           author: {},
-          badtrack: [],
+          badtrack: [] as string[],
+          linewidth: thickTracks ? 20.0 : undefined,
         };
         if (chi2.length &gt;&#x3D; i) track.chi2 &#x3D; chi2[i];
         if (numDoF.length &gt;&#x3D; i) track.dof &#x3D; numDoF[i];
@@ -4511,10 +4588,10 @@ export class JiveXMLLoader extends PhoenixLoader {
           track.pos &#x3D; pos;
         }
         if (
-          // eslint-disable-next-line no-constant-condition
+          // eslint-disable-next-line
           false &amp;&amp;
           numHits.length &gt; 0 &amp;&amp;
-          trackCollectionName.includes(&#x27;Muon&#x27;)
+          trackCollectionName?.includes(&#x27;Muon&#x27;)
         ) {
           // Disable for the moment.
 
@@ -4623,7 +4700,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.Pixel &#x3D; [];
 
     for (let i &#x3D; 0; i &lt; numOfClusters; i++) {
-      const pixel &#x3D; { pos: [], id: 0, energyLoss: 0 };
+      const pixel &#x3D; { pos: [] as number[], id: 0, energyLoss: 0 };
       pixel.pos &#x3D; [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       pixel.id &#x3D; id[i];
       pixel.energyLoss &#x3D; eloss[i];
@@ -4657,7 +4734,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     eventData.Hits.SCT &#x3D; [];
 
     for (let i &#x3D; 0; i &lt; numOfSCTClusters; i++) {
-      const sct &#x3D; { pos: [], id: 0, phiModule: 0, side: 0 };
+      const sct &#x3D; { pos: [] as number[], id: 0, phiModule: 0, side: 0 };
       sct.pos &#x3D; [x0[i] * 10.0, y0[i] * 10.0, z0[i] * 10.0];
       sct.id &#x3D; id[i];
       sct.phiModule &#x3D; phiModule[i];
@@ -4696,7 +4773,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     // Hardcoding TRT size here. Could maybe think of generalising this?
     for (let i &#x3D; 0; i &lt; numOfDC; i++) {
       const trt &#x3D; {
-        pos: [],
+        pos: [] as number[],
         id: 0,
         type: &#x27;Line&#x27;,
         driftR: 0.0,
@@ -4780,13 +4857,12 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     for (let i &#x3D; 0; i &lt; numOfDC; i++) {
       const muonHit &#x3D; {
-        pos: [],
+        pos: this.getMuonLinePositions(i, x, y, z, length),
         id: id[i],
         type: &#x27;Line&#x27;,
         identifier: identifier[i],
       };
 
-      muonHit.pos &#x3D; this.getMuonLinePositions(i, x, y, z, length);
       eventData.Hits[name].push(muonHit);
     }
   }
@@ -4817,14 +4893,13 @@ export class JiveXMLLoader extends PhoenixLoader {
 
     for (let i &#x3D; 0; i &lt; numOfDC; i++) {
       const rpcHit &#x3D; {
-        pos: [],
+        pos: this.getMuonLinePositions(i, x, y, z, length),
         id: id[i],
         type: &#x27;Line&#x27;,
         identifier: identifier[i],
         width: width[i],
       };
 
-      rpcHit.pos &#x3D; this.getMuonLinePositions(i, x, y, z, length);
       //TODO - handle phi measurements
       eventData.Hits[name].push(rpcHit);
     }
@@ -4885,7 +4960,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           energy: energy[i] * 1000.0,
         });
       }
-      eventData.Jets[jetColl.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; jetColl.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.Jets[key] &#x3D; temp;
     }
   }
 
@@ -4911,7 +4987,8 @@ export class JiveXMLLoader extends PhoenixLoader {
       for (let i &#x3D; 0; i &lt; numOfClusters; i++) {
         temp.push({ phi: phi[i], eta: eta[i], energy: energy[i] * 1000.0 });
       }
-      eventData.CaloClusters[clusterColl.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; clusterColl.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.CaloClusters[key] &#x3D; temp;
       // }
     }
   }
@@ -5104,7 +5181,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           linkedTrackCollection: sgkeyOfTracks[i],
         });
       }
-      eventData.Vertices[vertexColl.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; vertexColl.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.Vertices[key] &#x3D; temp;
     }
   }
 
@@ -5136,7 +5214,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pdgId: pdgId[i],
         });
       }
-      eventData.Muons[collection.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; collection.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.Muons[key] &#x3D; temp;
     }
   }
 
@@ -5168,7 +5247,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pdgId: pdgId[i],
         });
       }
-      eventData.Electrons[collection.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; collection.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.Electrons[key] &#x3D; temp;
     }
   }
 
@@ -5197,7 +5277,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           pt: pt[i] * 1000, // JiveXML uses GeV
         });
       }
-      eventData.Photons[collection.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; collection.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.Photons[key] &#x3D; temp;
     }
   }
 
@@ -5226,7 +5307,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           ety: ety[i],
         });
       }
-      eventData.MissingEnergy[collection.getAttribute(&#x27;storeGateKey&#x27;)] &#x3D; temp;
+      const key &#x3D; collection.getAttribute(&#x27;storeGateKey&#x27;);
+      if (key) eventData.MissingEnergy[key] &#x3D; temp;
     }
   }
 }
@@ -5271,6 +5353,19 @@ export class JiveXMLLoader extends PhoenixLoader {
             var COMPODOC_CURRENT_PAGE_URL = 'JiveXMLLoader.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

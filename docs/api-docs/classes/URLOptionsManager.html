@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -359,8 +352,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="227"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:227</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="232"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:232</a></div>
                         </td>
                     </tr>
 
@@ -393,7 +386,7 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>applyEventOptions(defaultEventPath?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, defaultEventType?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>applyEventOptions(defaultEventPath: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, defaultEventType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -421,6 +414,7 @@
                                             <td>Name</td>
                                                 <td>Type</td>
                                             <td>Optional</td>
+                                                <td>Default value</td>
                                                 <td>Description</td>
                                         </tr>
                                     </thead>
@@ -432,9 +426,12 @@
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
 
                                             <td>
                                                     <p>Default event path to fallback to if none in URL.</p>
@@ -448,9 +445,12 @@
                                             </td>
 
                                             <td>
-                                                    Yes
+                                                    No
                                             </td>
 
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
 
                                             <td>
                                                     <p>Default event type to fallback to if none in URL.</p>
@@ -493,8 +493,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="209"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:209</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="214"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:214</a></div>
                         </td>
                     </tr>
 
@@ -575,8 +575,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="268"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:268</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="273"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:273</a></div>
                         </td>
                     </tr>
 
@@ -699,8 +699,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="158"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:158</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="160"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:160</a></div>
                         </td>
                     </tr>
 
@@ -777,8 +777,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="169"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:169</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="171"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:171</a></div>
                         </td>
                     </tr>
 
@@ -854,8 +854,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="252"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:252</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="257"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:257</a></div>
                         </td>
                     </tr>
 
@@ -918,12 +918,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { JiveXMLLoader } from &#x27;../loaders/jivexml-loader&#x27;;
-import { PhoenixLoader } from &#x27;../loaders/phoenix-loader&#x27;;
-import { Configuration } from &#x27;../lib/types/configuration&#x27;;
-import { EventDisplay } from &#x27;../event-display&#x27;;
-import { StateManager } from &#x27;./state-manager&#x27;;
-import { readZipFile } from &#x27;../helpers/zip&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { JiveXMLLoader } from &#x27;../loaders/jivexml-loader.js&#x27;;
+import { PhoenixLoader } from &#x27;../loaders/phoenix-loader.js&#x27;;
+import type { Configuration } from &#x27;../lib/types/configuration.js&#x27;;
+import { EventDisplay } from &#x27;../event-display.js&#x27;;
+import { StateManager } from &#x27;./state-manager.js&#x27;;
+import { readZipFile } from &#x27;../helpers/zip.js&#x27;;
 
 /**
  * Model for Phoenix URL options.
@@ -977,8 +977,8 @@ export class URLOptionsManager {
    * @param defaultEventType Default event type to fallback to if none in URL.
    */
   public applyEventOptions(
-    defaultEventPath?: string,
-    defaultEventType?: string,
+    defaultEventPath: string &#x3D; &#x27;&#x27;,
+    defaultEventType: string &#x3D; &#x27;&#x27;,
   ) {
     if (!(&#x27;fetch&#x27; in window)) {
       return;
@@ -1002,8 +1002,8 @@ export class URLOptionsManager {
       type &#x3D; defaultEventType;
     } else {
       console.log(&#x27;Setting and config from urlOptions&#x27;);
-      file &#x3D; this.urlOptions.get(&#x27;file&#x27;);
-      type &#x3D; this.urlOptions.get(&#x27;type&#x27;).toLowerCase();
+      file &#x3D; this.urlOptions.get(&#x27;file&#x27;) ?? &#x27;&#x27;;
+      type &#x3D; this.urlOptions.get(&#x27;type&#x27;)?.toLowerCase() ?? &#x27;&#x27;;
     }
 
     console.log(&#x27;Loading &#x27;, file, &#x27;of type&#x27;, type);
@@ -1011,7 +1011,7 @@ export class URLOptionsManager {
     const loadConfig &#x3D; () &#x3D;&gt; {
       if (this.urlOptions.get(&#x27;config&#x27;)) {
         this.eventDisplay.getLoadingManager().addLoadableItem(&#x27;url_config&#x27;);
-        fetch(this.urlOptions.get(&#x27;config&#x27;))
+        fetch(this.urlOptions.get(&#x27;config&#x27;) ?? &#x27;&#x27;)
           .then((res) &#x3D;&gt; res.json())
           .then((jsonState) &#x3D;&gt; {
             const stateManager &#x3D; new StateManager();
@@ -1062,9 +1062,11 @@ export class URLOptionsManager {
    */
   private async handleJiveXMLEvent(fileURL: string) {
     const fileData &#x3D; await (await fetch(fileURL)).text();
-    const loader &#x3D; new JiveXMLLoader();
-    this.configuration.eventDataLoader &#x3D; loader;
+    if (!this.configuration.eventDataLoader) {
+      this.configuration.eventDataLoader &#x3D; new JiveXMLLoader();
+    }
     // Parse the XML to extract events and their data
+    const loader &#x3D; this.configuration.eventDataLoader as JiveXMLLoader;
     loader.process(fileData);
     const eventData &#x3D; loader.getEventData();
     this.eventDisplay.buildEventDataFromJSON(eventData);
@@ -1108,7 +1110,10 @@ export class URLOptionsManager {
       });
 
     // JiveXML event data
-    const jiveloader &#x3D; new JiveXMLLoader();
+    const jiveloader &#x3D;
+      this.configuration.eventDataLoader instanceof JiveXMLLoader
+        ? (this.configuration.eventDataLoader as JiveXMLLoader)
+        : new JiveXMLLoader();
     Object.keys(filesWithData)
       .filter((fileName) &#x3D;&gt; {
         return fileName.endsWith(&#x27;.xml&#x27;) || fileName.startsWith(&#x27;JiveXML&#x27;);
@@ -1230,6 +1235,19 @@ export class URLOptionsManager {
             var COMPODOC_CURRENT_PAGE_URL = 'URLOptionsManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

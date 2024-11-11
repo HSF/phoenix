@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -396,7 +389,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/managers/three-manager/scene-manager.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/three-manager/scene-manager.ts:74</a></div>
                             </td>
                         </tr>
 
@@ -487,7 +480,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/managers/three-manager/scene-manager.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">src/managers/three-manager/scene-manager.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -520,7 +513,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/scene-manager.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/three-manager/scene-manager.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -553,7 +546,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/managers/three-manager/scene-manager.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/managers/three-manager/scene-manager.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -586,7 +579,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/managers/three-manager/scene-manager.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/managers/three-manager/scene-manager.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -619,7 +612,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/managers/three-manager/scene-manager.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/managers/three-manager/scene-manager.ts:52</a></div>
                         </td>
                     </tr>
 
@@ -665,7 +658,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/managers/three-manager/scene-manager.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/managers/three-manager/scene-manager.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -698,7 +691,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/managers/three-manager/scene-manager.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/managers/three-manager/scene-manager.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -731,7 +724,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/managers/three-manager/scene-manager.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/managers/three-manager/scene-manager.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -769,7 +762,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/scene-manager.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/three-manager/scene-manager.ts:35</a></div>
                         </td>
                     </tr>
 
@@ -807,7 +800,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/managers/three-manager/scene-manager.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/managers/three-manager/scene-manager.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -840,7 +833,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/three-manager/scene-manager.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/managers/three-manager/scene-manager.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -878,7 +871,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/managers/three-manager/scene-manager.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/managers/three-manager/scene-manager.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -916,7 +909,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/managers/three-manager/scene-manager.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">src/managers/three-manager/scene-manager.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -949,7 +942,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/managers/three-manager/scene-manager.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/managers/three-manager/scene-manager.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -987,7 +980,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">src/managers/three-manager/scene-manager.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">src/managers/three-manager/scene-manager.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -1025,7 +1018,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">src/managers/three-manager/scene-manager.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">src/managers/three-manager/scene-manager.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -1067,8 +1060,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="252"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:252</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:269</a></div>
                         </td>
                     </tr>
 
@@ -1144,8 +1137,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="730"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:730</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="768"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:768</a></div>
                         </td>
                     </tr>
 
@@ -1284,8 +1277,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="866"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:866</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="905"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:905</a></div>
                         </td>
                     </tr>
 
@@ -1355,8 +1348,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:175</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:185</a></div>
                         </td>
                     </tr>
 
@@ -1447,8 +1440,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="341"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:341</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="370"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:370</a></div>
                         </td>
                     </tr>
 
@@ -1488,8 +1481,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="268"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:268</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:285</a></div>
                         </td>
                     </tr>
 
@@ -1580,8 +1573,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="438"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:438</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="467"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:467</a></div>
                         </td>
                     </tr>
 
@@ -1660,8 +1653,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="795"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:795</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="834"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:834</a></div>
                         </td>
                     </tr>
 
@@ -1740,8 +1733,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="630"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:630</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="659"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:659</a></div>
                         </td>
                     </tr>
 
@@ -1816,8 +1809,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="622"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:622</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="651"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:651</a></div>
                         </td>
                     </tr>
 
@@ -1857,8 +1850,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="139"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:139</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="141"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:141</a></div>
                         </td>
                     </tr>
 
@@ -1902,8 +1895,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="326"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:326</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="355"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:355</a></div>
                         </td>
                     </tr>
 
@@ -1947,8 +1940,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="334"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:334</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="363"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:363</a></div>
                         </td>
                     </tr>
 
@@ -1992,8 +1985,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="1010"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1010</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="1049"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:1049</a></div>
                         </td>
                     </tr>
 
@@ -2069,8 +2062,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="216"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:216</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="226"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:226</a></div>
                         </td>
                     </tr>
 
@@ -2113,7 +2106,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Vector3</code>
+                            <b>Returns : </b>    <code>Vector3 | undefined</code>
 
                         </div>
                             <div class="io-description">
@@ -2146,8 +2139,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="312"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:312</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="341"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:341</a></div>
                         </td>
                     </tr>
 
@@ -2223,8 +2216,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="128"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:128</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:130</a></div>
                         </td>
                     </tr>
 
@@ -2268,8 +2261,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="350"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:350</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="379"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:379</a></div>
                         </td>
                     </tr>
 
@@ -2351,8 +2344,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="297"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:297</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="321"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:321</a></div>
                         </td>
                     </tr>
 
@@ -2461,8 +2454,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="196"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:196</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="206"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:206</a></div>
                         </td>
                     </tr>
 
@@ -2553,8 +2546,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="224"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:224</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="238"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:238</a></div>
                         </td>
                     </tr>
 
@@ -2629,8 +2622,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="233"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:233</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -2705,8 +2698,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="708"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:708</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="738"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:738</a></div>
                         </td>
                     </tr>
 
@@ -2813,8 +2806,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="687"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:687</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="717"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:717</a></div>
                         </td>
                     </tr>
 
@@ -2889,8 +2882,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="243"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:243</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="260"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:260</a></div>
                         </td>
                     </tr>
 
@@ -2981,8 +2974,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="373"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:373</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="402"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:402</a></div>
                         </td>
                     </tr>
 
@@ -3098,8 +3091,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="568"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:568</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="597"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:597</a></div>
                         </td>
                     </tr>
 
@@ -3204,8 +3197,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="893"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:893</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="932"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:932</a></div>
                         </td>
                     </tr>
 
@@ -3295,15 +3288,15 @@ whose visibility is to be toggled.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setGeometryOpacity(object: Object3D, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>setGeometryOpacity(object: Mesh, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="159"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:159</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="161"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:161</a></div>
                         </td>
                     </tr>
 
@@ -3329,7 +3322,7 @@ whose visibility is to be toggled.</p>
                                         <tr>
                                                 <td>object</td>
                                             <td>
-                                                        <code>Object3D</code>
+                                                        <code>Mesh</code>
                                             </td>
 
                                             <td>
@@ -3394,8 +3387,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="90"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:90</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -3474,8 +3467,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="882"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:882</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="921"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:921</a></div>
                         </td>
                     </tr>
 
@@ -3545,8 +3538,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="770"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:770</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="809"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:809</a></div>
                         </td>
                     </tr>
 
@@ -3616,8 +3609,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="781"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:781</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="820"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:820</a></div>
                         </td>
                     </tr>
 
@@ -3687,8 +3680,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="118"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:118</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:120</a></div>
                         </td>
                     </tr>
 
@@ -3763,8 +3756,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="653"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:653</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="683"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:683</a></div>
                         </td>
                     </tr>
 
@@ -3839,8 +3832,8 @@ whose visibility is to be toggled.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="675"
-                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:675</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="705"
+                                    class="link-to-prism">src/managers/three-manager/scene-manager.ts:705</a></div>
                         </td>
                     </tr>
 
@@ -3924,6 +3917,7 @@ whose visibility is to be toggled.</p>
   Object3D,
   Color,
   LineSegments,
+  Material,
   Mesh,
   MeshPhongMaterial,
   LineBasicMaterial,
@@ -3938,12 +3932,13 @@ whose visibility is to be toggled.</p>
   Quaternion,
   DoubleSide,
   BoxGeometry,
+  type Object3DEventMap,
 } from &#x27;three&#x27;;
-import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls&#x27;;
-import { TextGeometry } from &#x27;three/examples/jsm/geometries/TextGeometry&#x27;;
-import { Font } from &#x27;three/examples/jsm/loaders/FontLoader&#x27;;
-import { Cut } from &#x27;../../lib/models/cut.model&#x27;;
-import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper&#x27;;
+import { OrbitControls } from &#x27;three/examples/jsm/controls/OrbitControls.js&#x27;;
+import { TextGeometry } from &#x27;three/examples/jsm/geometries/TextGeometry.js&#x27;;
+import { Font } from &#x27;three/examples/jsm/loaders/FontLoader.js&#x27;;
+import { Cut } from &#x27;../../lib/models/cut.model.js&#x27;;
+import { CoordinateHelper } from &#x27;../../helpers/coordinate-helper.js&#x27;;
 import HelvetikerFont from &#x27;./fonts/helvetiker_regular.typeface.json&#x27;;
 
 /**
@@ -4000,7 +3995,7 @@ export class SceneManager {
   constructor(ignoreList: string[], useCameraLight: boolean &#x3D; true) {
     this.getScene();
     this.ignoreList &#x3D; ignoreList;
-    this.axis &#x3D; null;
+    this.axis &#x3D; new Object3D();
     this.setLights(useCameraLight);
   }
 
@@ -4059,7 +4054,7 @@ export class SceneManager {
    */
   public getCleanScene(): Scene {
     const clearScene &#x3D; this.scene.clone() as Scene;
-    const removeList &#x3D; [];
+    const removeList: Object3D&lt;Object3DEventMap&gt;[] &#x3D; [];
 
     clearScene.traverse((object: Object3D) &#x3D;&gt; {
       if (this.ignoreList.includes(object.type)) {
@@ -4077,12 +4072,20 @@ export class SceneManager {
    * @param object Object whose opacity needs to be changed.
    * @param value Value of opacity, between 0 (transparent) and 1 (opaque).
    */
-  public setGeometryOpacity(object: Object3D, value: number) {
+  public setGeometryOpacity(object: Mesh, value: number) {
     if (value &amp;&amp; object) {
       object.traverse((child) &#x3D;&gt; {
-        if (child?.[&#x27;material&#x27;]) {
-          child[&#x27;material&#x27;].transparent &#x3D; true;
-          child[&#x27;material&#x27;].opacity &#x3D; value;
+        const mesh &#x3D; child as Mesh;
+        if (mesh?.[&#x27;material&#x27;]) {
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((material) &#x3D;&gt; {
+              material.transparent &#x3D; true;
+              material.opacity &#x3D; value;
+            });
+          } else {
+            mesh.material.transparent &#x3D; true;
+            mesh.material.opacity &#x3D; value;
+          }
         }
       });
     }
@@ -4134,8 +4137,12 @@ export class SceneManager {
    * @param name Name of the object.
    * @returns Object position.
    */
-  public getObjectPosition(name: string): Vector3 {
-    return this.scene.getObjectByName(name)?.position;
+  public getObjectPosition(name: string): Vector3 | undefined {
+    const object &#x3D; this.scene.getObjectByName(name);
+    if (object) {
+      return object.position;
+    }
+    return undefined;
   }
 
   /**
@@ -4153,7 +4160,10 @@ export class SceneManager {
    */
   public removeLabel(name: string) {
     const object &#x3D; this.scene.getObjectByName(name);
-    this.getObjectsGroup(SceneManager.LABELS_ID).remove(object);
+    const labelsGroup &#x3D; this.getObjectsGroup(SceneManager.LABELS_ID);
+    if (labelsGroup &amp;&amp; object) {
+      labelsGroup.remove(object);
+    }
   }
 
   /**
@@ -4187,20 +4197,27 @@ export class SceneManager {
    * @param filters Cuts used to filter the objects in the collection.
    */
   public collectionFilter(collectionName: string, filters: Cut[]) {
-    const collection &#x3D; this.getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
-    for (const child of Object.values(collection.children)) {
-      if (child.userData) {
-        for (const filter of filters) {
-          const value &#x3D; child.userData[filter.field];
-          if (value) {
-            if (filter.cutPassed(value)) {
-              child.visible &#x3D; true;
-            } else {
-              child.visible &#x3D; false;
-              // Break even if one filter hides the object
-              break;
+    const eventData &#x3D; this.getScene().getObjectByName(
+      SceneManager.EVENT_DATA_ID,
+    );
+    if (!eventData) {
+      return;
+    }
+
+    const collection &#x3D; eventData.getObjectByName(collectionName);
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        if (child.userData) {
+          for (const filter of filters) {
+            const value &#x3D; child.userData[filter.field];
+            if (value) {
+              if (filter.cutPassed(value)) {
+                child.visible &#x3D; true;
+              } else {
+                child.visible &#x3D; false;
+                // Break even if one filter hides the object
+                break;
+              }
             }
           }
         }
@@ -4219,9 +4236,14 @@ export class SceneManager {
     const parent &#x3D; parentName
       ? this.scene.getObjectByName(parentName)
       : this.scene;
+    if (!parent) {
+      return;
+    }
     const collection &#x3D; parent.getObjectByName(name);
-    for (const child of Object.values(collection.children)) {
-      child.visible &#x3D; visible;
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        child.visible &#x3D; visible;
+      }
     }
   }
 
@@ -4273,7 +4295,7 @@ export class SceneManager {
       font: this.textFont,
       size: 60,
       curveSegments: 1,
-      height: 1,
+      depth: 1,
     });
 
     const mesh &#x3D; new Mesh(
@@ -4557,6 +4579,7 @@ export class SceneManager {
         if (objectChild.material) {
           // Changing renderOrder to make event data render on top of geometry
           // Arbitrarily setting a high value of 999
+          // eslint-disable-next-line
           value
             ? (objectChild.renderOrder &#x3D; 0)
             : (objectChild.renderOrder &#x3D; 999);
@@ -4609,7 +4632,7 @@ export class SceneManager {
     if (value &lt;&#x3D; 0) return;
 
     const jets &#x3D; this.scene.getObjectByName(&#x27;Jets&#x27;);
-
+    if (!jets) return;
     jets.traverse((objectChild: Object3D) &#x3D;&gt; {
       if (objectChild.name &#x3D;&#x3D;&#x3D; &#x27;Jet&#x27;) {
         const previousScale &#x3D; objectChild.scale.x;
@@ -4628,13 +4651,21 @@ export class SceneManager {
    */
   public scaleChildObjects(groupName: string, value: number, axis?: string) {
     const object &#x3D; this.scene.getObjectByName(groupName);
-
+    if (!object) return;
     object.traverse((objectChild: Object3D) &#x3D;&gt; {
       if (objectChild.children.length &#x3D;&#x3D;&#x3D; 0) {
-        if (!axis) {
-          objectChild.scale.setScalar(value);
-        } else {
-          objectChild.scale[axis] &#x3D; value;
+        switch (axis) {
+          case &#x27;x&#x27;:
+            objectChild.scale.x &#x3D; value;
+            break;
+          case &#x27;y&#x27;:
+            objectChild.scale.y &#x3D; value;
+            break;
+          case &#x27;z&#x27;:
+            objectChild.scale.z &#x3D; value;
+            break;
+          default:
+            objectChild.scale.setScalar(value);
         }
       }
     });
@@ -4656,6 +4687,7 @@ export class SceneManager {
     cameraControls: OrbitControls,
   ) {
     const object &#x3D; this.scene.getObjectByProperty(&#x27;uuid&#x27;, uuid);
+    if (!object) return;
     object.userData.label &#x3D; label;
 
     const labelsGroup &#x3D; this.getObjectsGroup(SceneManager.LABELS_ID);
@@ -4929,7 +4961,9 @@ export class SceneManager {
    * @returns The object.
    */
   public getObjectByName(name: string): Object3D {
-    return this.scene.getObjectByName(name);
+    const object &#x3D; this.scene.getObjectByName(name);
+    if (object) return object;
+    return new Object3D();
   }
 }
 </code></pre>
@@ -4973,6 +5007,19 @@ export class SceneManager {
             var COMPODOC_CURRENT_PAGE_URL = 'SceneManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

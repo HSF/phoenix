@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -602,8 +595,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="179"
-                                    class="link-to-prism">src/managers/state-manager.ts:179</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="183"
+                                    class="link-to-prism">src/managers/state-manager.ts:183</a></div>
                         </td>
                     </tr>
 
@@ -645,8 +638,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="163"
-                                    class="link-to-prism">src/managers/state-manager.ts:163</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="167"
+                                    class="link-to-prism">src/managers/state-manager.ts:167</a></div>
                         </td>
                     </tr>
 
@@ -688,8 +681,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="104"
-                                    class="link-to-prism">src/managers/state-manager.ts:104</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">src/managers/state-manager.ts:106</a></div>
                         </td>
                     </tr>
 
@@ -762,8 +755,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="80"
-                                    class="link-to-prism">src/managers/state-manager.ts:80</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/managers/state-manager.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -801,8 +794,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="187"
-                                    class="link-to-prism">src/managers/state-manager.ts:187</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="191"
+                                    class="link-to-prism">src/managers/state-manager.ts:191</a></div>
                         </td>
                     </tr>
 
@@ -875,8 +868,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/managers/state-manager.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">src/managers/state-manager.ts:151</a></div>
                         </td>
                     </tr>
 
@@ -949,8 +942,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="195"
-                                    class="link-to-prism">src/managers/state-manager.ts:195</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/managers/state-manager.ts:199</a></div>
                         </td>
                     </tr>
 
@@ -1023,8 +1016,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="171"
-                                    class="link-to-prism">src/managers/state-manager.ts:171</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="175"
+                                    class="link-to-prism">src/managers/state-manager.ts:175</a></div>
                         </td>
                     </tr>
 
@@ -1171,8 +1164,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="155"
-                                    class="link-to-prism">src/managers/state-manager.ts:155</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="159"
+                                    class="link-to-prism">src/managers/state-manager.ts:159</a></div>
                         </td>
                     </tr>
 
@@ -1235,11 +1228,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventDisplay } from &#x27;../event-display&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventDisplay } from &#x27;../event-display.js&#x27;;
 import { Camera } from &#x27;three&#x27;;
-import { PhoenixMenuNode } from &#x27;./ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
-import { loadFile, saveFile } from &#x27;../helpers/file&#x27;;
-import { ActiveVariable } from &#x27;../helpers/active-variable&#x27;;
+import { PhoenixMenuNode } from &#x27;./ui-manager/phoenix-menu/phoenix-menu-node.js&#x27;;
+import { loadFile, saveFile } from &#x27;../helpers/file.js&#x27;;
+import { ActiveVariable } from &#x27;../helpers/active-variable.js&#x27;;
 
 /**
  * A singleton manager for managing the scene&#x27;s state.
@@ -1294,13 +1287,15 @@ export class StateManager {
     if (this.phoenixMenuRoot) {
       // Add save and load config buttons to the root node
       this.phoenixMenuRoot
-        .addConfig(&#x27;button&#x27;, {
+        .addConfig({
+          type: &#x27;button&#x27;,
           label: &#x27;Save state&#x27;,
           onClick: () &#x3D;&gt; {
             this.saveStateAsJSON();
           },
         })
-        .addConfig(&#x27;button&#x27;, {
+        .addConfig({
+          type: &#x27;button&#x27;,
           label: &#x27;Load state&#x27;,
           onClick: () &#x3D;&gt; {
             loadFile((data) &#x3D;&gt; {
@@ -1343,11 +1338,13 @@ export class StateManager {
       typeof json &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? JSON.parse(json) : json;
 
     if (jsonData[&#x27;phoenixMenu&#x27;] &amp;&amp; this.phoenixMenuRoot) {
+      console.log(&#x27;StateManager: Processing phoenixMenu configuration&#x27;);
       this.phoenixMenuRoot.loadStateFromJSON(jsonData[&#x27;phoenixMenu&#x27;]);
       this.phoenixMenuRoot.configActive &#x3D; false;
     }
 
     if (jsonData[&#x27;eventDisplay&#x27;]) {
+      console.log(&#x27;StateManager: Processing eventDisplay configuration&#x27;);
       this.activeCamera.position.fromArray(
         jsonData[&#x27;eventDisplay&#x27;]?.[&#x27;cameraPosition&#x27;],
       );
@@ -1398,7 +1395,7 @@ export class StateManager {
    * @returns The starting angle of clipping.
    */
   getStartClippingAngle(): number {
-    return this.startClippingAngle.value;
+    return this.startClippingAngle.value ?? 0.0;
   }
 
   /**
@@ -1414,7 +1411,7 @@ export class StateManager {
    * @returns The opening angle of clipping.
    */
   getOpeningClippingAngle(): number {
-    return this.openingClippingAngle.value;
+    return this.openingClippingAngle.value ?? 0.0;
   }
 
   /**
@@ -1474,6 +1471,19 @@ export class StateManager {
             var COMPODOC_CURRENT_PAGE_URL = 'StateManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -305,7 +298,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Group</code>
+                        <i>Type : </i>    <code>Group | undefined</code>
 
                     </td>
                 </tr>
@@ -974,7 +967,7 @@ export class XRManager {
   /** Callback to call when the XR session ends. */
   protected onSessionEnded: () &#x3D;&gt; void;
   /** Group containing the the camera for XR. */
-  public cameraGroup: Group;
+  public cameraGroup: Group | undefined;
   /** The camera used by XR. */
   public xrCamera: Camera;
 
@@ -997,7 +990,7 @@ export class XRManager {
     onSessionEnded?: () &#x3D;&gt; void,
   ) {
     this.renderer &#x3D; renderer;
-    this.onSessionEnded &#x3D; onSessionEnded;
+    if (onSessionEnded) this.onSessionEnded &#x3D; onSessionEnded;
     const webXR &#x3D; (navigator as any)?.xr;
     const xrType &#x3D; this.sessionType &#x3D;&#x3D;&#x3D; XRSessionType.VR ? &#x27;vr&#x27; : &#x27;ar&#x27;;
 
@@ -1118,6 +1111,19 @@ export class XRManager {
             var COMPODOC_CURRENT_PAGE_URL = 'XRManager.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

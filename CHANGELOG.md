@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/HSF/phoenix/compare/v2.16.0...v3.0.0) (2024-11-11)
+
+
+### Reverts
+
+* Revert "Be consistent about interface of parseGLTFGeometry" ([2c2645a](https://github.com/HSF/phoenix/commit/2c2645a99d17c32aa570876376cab30454a2cfe1))
+
+
+
+
+
 # 2.16.0 (2024-03-24)
 
 **Note:** Version bump only for package root

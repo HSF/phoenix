@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -230,7 +223,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/loaders/objects/tracks.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/loaders/objects/tracks.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -268,7 +261,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/loaders/objects/tracks.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/loaders/objects/tracks.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -300,7 +293,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/loaders/objects/tracks.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/loaders/objects/tracks.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -332,7 +325,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/loaders/objects/tracks.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/loaders/objects/tracks.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -364,7 +357,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/objects/tracks.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/loaders/objects/tracks.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -396,7 +389,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/loaders/objects/tracks.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/loaders/objects/tracks.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -428,7 +421,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/loaders/objects/tracks.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/loaders/objects/tracks.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -460,7 +453,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/loaders/objects/tracks.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/loaders/objects/tracks.ts:20</a></div>
                         </td>
                     </tr>
 
@@ -492,7 +485,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/loaders/objects/tracks.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/loaders/objects/tracks.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -524,7 +517,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/loaders/objects/tracks.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/loaders/objects/tracks.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -556,7 +549,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/loaders/objects/tracks.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/loaders/objects/tracks.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -596,8 +589,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="60"
-                                    class="link-to-prism">src/loaders/objects/tracks.ts:60</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">src/loaders/objects/tracks.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -687,8 +680,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/loaders/objects/tracks.ts:102</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/loaders/objects/tracks.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -724,7 +717,8 @@
   Vector2,
   Vector3,
   Color,
-  ColorRepresentation,
+  type ColorRepresentation,
+  type ShaderMaterialParameters,
 } from &#x27;three&#x27;;
 
 /**
@@ -883,7 +877,7 @@ export class TracksMesh extends BufferGeometry {
 }
 
 /** Custom vertex shader for tracks. */
-ShaderChunk[&#x27;tracks_vert&#x27;] &#x3D; [
+const tracks_vert &#x3D; [
   &#x27;attribute vec3 previous;&#x27;,
   &#x27;attribute vec3 next;&#x27;,
   &#x27;attribute int track_id;&#x27;,
@@ -929,7 +923,7 @@ ShaderChunk[&#x27;tracks_vert&#x27;] &#x3D; [
 ].join(&#x27;\n&#x27;);
 
 /** Custom fragment shadre for track. */
-ShaderChunk[&#x27;tracks_frag&#x27;] &#x3D; [
+const tracks_frag &#x3D; [
   &#x27;uniform float progress;&#x27;,
   &#x27;varying vec3 v_color;&#x27;,
   &#x27;varying float v_counter;&#x27;,
@@ -951,7 +945,7 @@ export class TracksMaterial extends ShaderMaterial {
    * Create the tracks material.
    * @param params Params for creating the tracks material.
    */
-  constructor(params) {
+  constructor(params: ShaderMaterialParameters) {
     super({
       uniforms: Object.assign(
         {},
@@ -961,8 +955,8 @@ export class TracksMaterial extends ShaderMaterial {
           progress: { value: 1 },
         },
       ),
-      vertexShader: ShaderChunk[&#x27;tracks_vert&#x27;],
-      fragmentShader: ShaderChunk[&#x27;tracks_vert&#x27;],
+      vertexShader: tracks_vert,
+      fragmentShader: tracks_vert,
     });
     this.isTracksMaterial &#x3D; true;
     this.type &#x3D; &#x27;TracksMaterial&#x27;;
@@ -1041,6 +1035,19 @@ export class TracksMaterial extends ShaderMaterial {
             var COMPODOC_CURRENT_PAGE_URL = 'TracksMesh.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

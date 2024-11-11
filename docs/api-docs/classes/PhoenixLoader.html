@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -277,7 +270,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/loaders/phoenix-loader.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/phoenix-loader.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -316,7 +309,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/loaders/phoenix-loader.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/loaders/phoenix-loader.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -349,7 +342,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/loaders/phoenix-loader.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/loaders/phoenix-loader.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -387,7 +380,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/loaders/phoenix-loader.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/loaders/phoenix-loader.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -420,7 +413,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/loaders/phoenix-loader.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/loaders/phoenix-loader.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -453,7 +446,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/loaders/phoenix-loader.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/loaders/phoenix-loader.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -486,7 +479,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/loaders/phoenix-loader.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/loaders/phoenix-loader.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -521,15 +514,15 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="509"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:509</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="516"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:516</a></div>
                         </td>
                     </tr>
 
@@ -682,8 +675,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="726"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:726</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="733"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:733</a></div>
                         </td>
                     </tr>
 
@@ -791,8 +784,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="446"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:446</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="448"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:448</a></div>
                         </td>
                     </tr>
 
@@ -961,8 +954,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="760"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:760</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="770"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:770</a></div>
                         </td>
                     </tr>
 
@@ -1070,8 +1063,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="50"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:50</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="51"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -1195,8 +1188,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="126"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:126</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1272,8 +1265,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="102"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:102</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:103</a></div>
                         </td>
                     </tr>
 
@@ -1317,8 +1310,8 @@ the different objects to the graphics library and the UI controls.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="574"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:574</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="581"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:581</a></div>
                         </td>
                     </tr>
 
@@ -1449,8 +1442,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="564"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:564</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="571"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:571</a></div>
                         </td>
                     </tr>
 
@@ -1538,8 +1531,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="558"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:558</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="565"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:565</a></div>
                         </td>
                     </tr>
 
@@ -1625,8 +1618,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="672"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:672</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="679"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:679</a></div>
                         </td>
                     </tr>
 
@@ -1670,8 +1663,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="86"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:86</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -1747,8 +1740,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="749"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:749</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="759"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:759</a></div>
                         </td>
                     </tr>
 
@@ -1792,8 +1785,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="544"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:544</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="551"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:551</a></div>
                         </td>
                     </tr>
 
@@ -1869,8 +1862,8 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="147"
-                                    class="link-to-prism">src/loaders/phoenix-loader.ts:147</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/loaders/phoenix-loader.ts:148</a></div>
                         </td>
                     </tr>
 
@@ -1936,19 +1929,20 @@ to reconstruct the different collections of physics objects.</p>
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Group, Object3D, Vector3 } from &#x27;three&#x27;;
 import { GUI } from &#x27;dat.gui&#x27;;
-import { EventDataLoader } from &#x27;./event-data-loader&#x27;;
-import { UIManager } from &#x27;../managers/ui-manager&#x27;;
-import { ThreeManager } from &#x27;../managers/three-manager&#x27;;
-import { Cut } from &#x27;../lib/models/cut.model&#x27;;
-import { PhoenixObjects } from &#x27;./objects/phoenix-objects&#x27;;
-import { InfoLogger } from &#x27;../helpers/info-logger&#x27;;
-import { PhoenixMenuNode } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-node&#x27;;
-import { LoadingManager } from &#x27;../managers/loading-manager&#x27;;
-import { StateManager } from &#x27;../managers/state-manager&#x27;;
-import { CoordinateHelper } from &#x27;../helpers/coordinate-helper&#x27;;
-import { getLabelTitle } from &#x27;../helpers/labels&#x27;;
-import { DatGUIMenuUI } from &#x27;../managers/ui-manager/dat-gui-ui&#x27;;
-import { PhoenixMenuUI } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-ui&#x27;;
+import type { EventDataLoader } from &#x27;./event-data-loader.js&#x27;;
+import { UIManager } from &#x27;../managers/ui-manager/index.js&#x27;;
+import { ThreeManager } from &#x27;../managers/three-manager/index.js&#x27;;
+import { Cut } from &#x27;../lib/models/cut.model.js&#x27;;
+import { PhoenixObjects } from &#x27;./objects/phoenix-objects.js&#x27;;
+import { InfoLogger } from &#x27;../helpers/info-logger.js&#x27;;
+import { PhoenixMenuNode } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-node.js&#x27;;
+import { LoadingManager } from &#x27;../managers/loading-manager.js&#x27;;
+import { StateManager } from &#x27;../managers/state-manager.js&#x27;;
+import { CoordinateHelper } from &#x27;../helpers/coordinate-helper.js&#x27;;
+import { getLabelTitle } from &#x27;../helpers/labels.js&#x27;;
+import { DatGUIMenuUI } from &#x27;../managers/ui-manager/dat-gui-ui.js&#x27;;
+import { PhoenixMenuUI } from &#x27;../managers/ui-manager/phoenix-menu/phoenix-menu-ui.js&#x27;;
+import * as _ from &#x27;lodash&#x27;;
 
 /**
  * Loader for processing and loading an event.
@@ -2037,7 +2031,7 @@ export class PhoenixLoader implements EventDataLoader {
    */
   public getCollections(): string[] {
     if (!this.eventData) {
-      return null;
+      return [];
     }
 
     const collections &#x3D; [];
@@ -2211,7 +2205,7 @@ export class PhoenixLoader implements EventDataLoader {
         scalePlanarCaloCells,
       );
 
-      const collections &#x3D; {};
+      const collections: { [key: string]: any } &#x3D; {};
       for (const collectionName in eventData.PlanarCaloCells) {
         const collection &#x3D; eventData.PlanarCaloCells[collectionName];
         const plane &#x3D; collection[&#x27;plane&#x27;];
@@ -2349,7 +2343,8 @@ export class PhoenixLoader implements EventDataLoader {
         }
         // Phoenix menu
         if (typeFolderPM) {
-          typeFolderPM.addConfig(&#x27;slider&#x27;, {
+          typeFolderPM.addConfig({
+            type: &#x27;slider&#x27;,
             label: &#x27;Size (%)&#x27;,
             value: 100,
             min: 1,
@@ -2386,8 +2381,8 @@ export class PhoenixLoader implements EventDataLoader {
     concatonateObjs: boolean &#x3D; false,
     cuts?: Cut[],
     extendEventDataTypeUI?: (
-      typeFolder?: GUI,
-      typeFolderPM?: PhoenixMenuNode,
+      typeFolder: GUI,
+      typeFolderPM: PhoenixMenuNode,
     ) &#x3D;&gt; void,
   ) {
     const objectGroup &#x3D; this.graphicsLibrary.addEventDataTypeGroup(typeName);
@@ -2396,6 +2391,8 @@ export class PhoenixLoader implements EventDataLoader {
     this.ui.addEventDataTypeFolder(typeName);
 
     for (const collectionName of collectionsList) {
+      const newCuts &#x3D; _.cloneDeep(cuts);
+      // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection &#x3D; object[collectionName];
       console.log(
         &#x60;${typeName} collection ${collectionName} has ${objectCollection.length} constituents.&#x60;,
@@ -2415,8 +2412,11 @@ export class PhoenixLoader implements EventDataLoader {
         concatonateObjs,
       );
 
-      cuts &#x3D; cuts?.filter((cut) &#x3D;&gt; cut.field in objectCollection[0]);
-      this.ui.addCollection(typeName, collectionName, cuts);
+      // collectionCuts is shallow copy
+      const collectionCuts &#x3D; newCuts?.filter(
+        (cut) &#x3D;&gt; cut.field in objectCollection[0],
+      );
+      this.ui.addCollection(typeName, collectionName, collectionCuts);
     }
 
     const eventDataTypeFolderDatGUI &#x3D; this.ui
@@ -2445,7 +2445,7 @@ export class PhoenixLoader implements EventDataLoader {
   private addCollection(
     objectCollection: any,
     collectionName: string,
-    getObject: (object: any) &#x3D;&gt; Object3D,
+    getObject: (object: any, typeName: string) &#x3D;&gt; Object3D,
     typeName: string,
     objectGroup: Group,
     concatonateObjs: boolean,
@@ -2624,7 +2624,7 @@ export class PhoenixLoader implements EventDataLoader {
 
     // Iterating the group
     for (const eventDataPropGroup of eventDataPropGroups) {
-      const combinedProps &#x3D; {};
+      const combinedProps: { [key: string]: any } &#x3D; {};
       // Iterating the props inside a group
       for (const eventDataProp of eventDataPropGroup) {
         // Iterating each possible key of a prop
@@ -2672,10 +2672,13 @@ export class PhoenixLoader implements EventDataLoader {
           this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] &#x3D; label;
-
+        const tmp &#x3D;
+          this.eventData[eventDataType][collection][indexInCollection];
+        tmp.labelText &#x3D; label;
         return getLabelTitle(eventDataType, collection, indexInCollection);
       }
     }
+    return &#x27;Unknown&#x27;;
   }
 
   /**
@@ -2709,7 +2712,8 @@ export class PhoenixLoader implements EventDataLoader {
 
       // Phoenix menu
       if (typeFolderPM) {
-        typeFolderPM.addConfig(&#x27;slider&#x27;, {
+        typeFolderPM.addConfig({
+          type: &#x27;slider&#x27;,
           label: configLabel,
           value: 1,
           min: 0.001,
@@ -2763,6 +2767,19 @@ export class PhoenixLoader implements EventDataLoader {
             var COMPODOC_CURRENT_PAGE_URL = 'PhoenixLoader.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>

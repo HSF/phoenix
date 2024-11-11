@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -154,6 +147,11 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#configRangeSlider" >configRangeSlider</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#defaultApplyMaxValue" >defaultApplyMaxValue</a>
                             </li>
@@ -215,6 +213,10 @@
                                 <a href="#enableMinCut" >enableMinCut</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getConfigRangeSlider" >getConfigRangeSlider</a>
+                            </li>
+                            <li>
                                 <a href="#reset" >reset</a>
                             </li>
                         </ul>
@@ -240,7 +242,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/lib/models/cut.model.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/lib/models/cut.model.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -374,6 +376,40 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="configRangeSlider"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>configRangeSlider</b></span>
+                        <a href="#configRangeSlider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ConfigRangeSlider" target="_self" >ConfigRangeSlider</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/lib/models/cut.model.ts:17</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Range slider for Cut</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="defaultApplyMaxValue"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -390,7 +426,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/lib/models/cut.model.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/lib/models/cut.model.ts:13</a></div>
                         </td>
                     </tr>
 
@@ -423,7 +459,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/lib/models/cut.model.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/lib/models/cut.model.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -456,7 +492,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/lib/models/cut.model.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/lib/models/cut.model.ts:11</a></div>
                         </td>
                     </tr>
 
@@ -489,7 +525,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/lib/models/cut.model.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/lib/models/cut.model.ts:9</a></div>
                         </td>
                     </tr>
 
@@ -522,7 +558,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/lib/models/cut.model.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/lib/models/cut.model.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -559,7 +595,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/lib/models/cut.model.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/lib/models/cut.model.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -591,7 +627,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/lib/models/cut.model.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/lib/models/cut.model.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -628,7 +664,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/lib/models/cut.model.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/lib/models/cut.model.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -660,7 +696,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/lib/models/cut.model.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/lib/models/cut.model.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -697,7 +733,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/lib/models/cut.model.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/lib/models/cut.model.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -736,8 +772,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="48"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:48</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="53"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -805,8 +841,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="43"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -874,8 +910,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="48"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -927,6 +963,83 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getConfigRangeSlider"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getConfigRangeSlider</b></span>
+                        <a href="#getConfigRangeSlider"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getConfigRangeSlider(collectionFiltering: () => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Builds a config range slider for the cut to be used in Phoenix Menu</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>collectionFiltering</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>callback function to apply to all objects inside a collection, filtering them given a parameter</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#ConfigRangeSlider" target="_self" >ConfigRangeSlider</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>config range slider for the cut to be used in Phoenix Menu</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="reset"></a>
                     <span class="name">
                         <span ><b>reset</b></span>
@@ -943,8 +1056,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="58"
-                                    class="link-to-prism">src/lib/models/cut.model.ts:58</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="63"
+                                    class="link-to-prism">src/lib/models/cut.model.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -972,7 +1085,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class Cut {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PrettySymbols } from &#x27;../../helpers/pretty-symbols&#x27;;
+import { ConfigRangeSlider } from &#x27;src/managers/ui-manager/phoenix-menu/config-types&#x27;;
+
+/**
+ * Cut for specifying filters on event data attribute.
+ */
+export class Cut {
   /** Default minimum allowed value of the event data attribute. */
   private defaultMinValue: number;
   /** Default maximum allowed value of the event data attribute. */
@@ -981,6 +1100,8 @@
   private defaultApplyMaxValue: boolean;
   /** Default if lower bound applied */
   private defaultApplyMinValue: boolean;
+  /** Range slider for Cut */
+  public configRangeSlider?: ConfigRangeSlider;
   /**
    * Create the cut to filter an event data attribute.
    * @param field Name of the event data attribute to be filtered.
@@ -1031,6 +1152,50 @@
     this.maxValue &#x3D; this.defaultMaxValue;
     this.minCutActive &#x3D; this.defaultApplyMinValue;
     this.maxCutActive &#x3D; this.defaultApplyMaxValue;
+    // Reset the config range slider
+    if (this.configRangeSlider !&#x3D; undefined) {
+      this.configRangeSlider.enableMin &#x3D; true;
+      this.configRangeSlider.enableMax &#x3D; true;
+      this.configRangeSlider.value &#x3D; this.minValue;
+      this.configRangeSlider.highValue &#x3D; this.maxValue;
+    }
+  }
+
+  /**
+   * Builds a config range slider for the cut to be used in Phoenix Menu
+   * @param collectionFiltering callback function to apply to all objects inside a collection, filtering them given a parameter
+   * @returns config range slider for the cut to be used in Phoenix Menu
+   */
+  public getConfigRangeSlider(
+    collectionFiltering: () &#x3D;&gt; void,
+  ): ConfigRangeSlider {
+    if (this.configRangeSlider &#x3D;&#x3D; undefined) {
+      this.configRangeSlider &#x3D; {
+        type: &#x27;rangeSlider&#x27;,
+        label: PrettySymbols.getPrettySymbol(this.field),
+        min: this.minValue,
+        max: this.maxValue,
+        step: this.step,
+        value: this.minValue,
+        highValue: this.maxValue,
+        enableMin: this.minCutActive,
+        enableMax: this.maxCutActive,
+        onChange: ({ value, highValue }) &#x3D;&gt; {
+          this.minValue &#x3D; value;
+          this.maxValue &#x3D; highValue;
+          collectionFiltering();
+        },
+        setEnableMin: (checked: boolean) &#x3D;&gt; {
+          this.enableMinCut(checked);
+          collectionFiltering();
+        },
+        setEnableMax: (checked: boolean) &#x3D;&gt; {
+          this.enableMaxCut(checked);
+          collectionFiltering();
+        },
+      };
+    }
+    return this.configRangeSlider;
   }
 }
 </code></pre>
@@ -1074,6 +1239,19 @@
             var COMPODOC_CURRENT_PAGE_URL = 'Cut.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
