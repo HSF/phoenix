@@ -7,18 +7,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.[jt]sx?$/,
         loader: 'esbuild-loader',
         exclude: /node_modules/,
         options: {
-          loader: 'ts',
-          target: 'es2018',
+          target: 'es2020',
         },
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '...'],
   },
   output: {
     filename: `phoenix.min.js`,
