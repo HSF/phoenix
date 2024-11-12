@@ -18,12 +18,13 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/phoenix-app",
+            "outputPath": {
+              "base": "dist/phoenix-app"
+            },
             "index": "projects/phoenix-app/src/index.html",
-            "main": "projects/phoenix-app/src/main.ts",
-            "polyfills": "projects/phoenix-app/src/polyfills.ts",
+            "polyfills": ["projects/phoenix-app/src/polyfills.ts"],
             "tsConfig": "projects/phoenix-app/tsconfig.app.json",
             "assets": [
               "projects/phoenix-app/src/favicon.ico",
@@ -41,12 +42,11 @@
               "core-js"
             ],
             "scripts": [],
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "projects/phoenix-app/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -60,8 +60,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -85,8 +83,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
