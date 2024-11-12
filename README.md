@@ -60,8 +60,15 @@ yarn install
 # For macOS you must install the following:
 # brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
 
+# For Ubuntu, you may need to install:
+# sudo apt-get install xserver-xorg-dev libxi-dev libxext-dev -y
+# Also, if gyp fails with not being able to find python:
+# sudo ln -s  /usr/bin/python2 /usr/bin/python
+
 # Run phoenix-event-display and phoenix-app in development/watch mode
 yarn start
+# If this does not do anything, make sure you have not missed a warning.
+# e.g. if you are using an older version of node (we are currently using v20), then it may not work
 ```
 
 Now both the `phoenix-event-display` and `phoenix-app` will start in development/watch mode. Any changes made to the `phoenix-event-display` will rebuild and hot reload the `phoenix-app`. You can access the app by navigating to [`http://localhost:4200`](http://localhost:4200) on the browser.
