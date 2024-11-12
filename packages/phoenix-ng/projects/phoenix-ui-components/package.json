@@ -25,11 +25,11 @@
     "zone.js": "*"
   },
   "dependencies": {
-    "@angular/animations": "^18.2.2",
-    "@angular/cdk": "^18.2.2",
-    "@angular/forms": "^18.2.2",
-    "@angular/material": "^18.2.2",
-    "@angular/platform-browser": "^18.2.2",
+    "@angular/animations": "^18.2.11",
+    "@angular/cdk": "^18.2.12",
+    "@angular/forms": "^18.2.11",
+    "@angular/material": "^18.2.12",
+    "@angular/platform-browser": "^18.2.11",
     "css-element-queries": "^1.2.3",
     "qrcode": "1.5.4",
     "rxjs": "^7.8.1",
