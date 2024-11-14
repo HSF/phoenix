@@ -162,21 +162,21 @@ export class ControlsManager {
    * @returns Currently active camera.
    */
   getActiveCamera(): Camera {
-    return this.activeControls.object;
+    return this.activeControls.object as Camera;
   }
   /**
    * Get the main camera.
    * @returns Main camera.
    */
   getMainCamera(): Camera {
-    return this.mainControls.object;
+    return this.mainControls.object as Camera;
   }
   /**
    * Get the camera for overlay.
    * @returns The camera for overlay.
    */
   getOverlayCamera(): Camera {
-    return this.overlayControls.object;
+    return this.overlayControls.object as Camera;
   }
   /**
    * Get the main and overlay cameras.

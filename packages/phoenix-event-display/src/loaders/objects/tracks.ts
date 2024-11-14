@@ -230,6 +230,10 @@ export class TracksMaterial extends ShaderMaterial {
   /** If the material is of track. */
   isTracksMaterial: boolean;
 
+  static get type() {
+    return 'TracksMaterial';
+  }
+
   /**
    * Create the tracks material.
    * @param params Params for creating the tracks material.
@@ -248,7 +252,6 @@ export class TracksMaterial extends ShaderMaterial {
       fragmentShader: tracks_vert,
     });
     this.isTracksMaterial = true;
-    this.type = 'TracksMaterial';
 
     Object.defineProperties(this, {
       lineWidth: {
