@@ -10,7 +10,7 @@ import {
   BufferGeometry,
   BufferAttribute,
 } from 'three';
-import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants.js';
+import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 
 /**
  * Physics objects that make up an event in CMS that are not a part of {@link PhoenixObjects}.

@@ -1,8 +1,8 @@
-import { EventDisplay } from '../event-display.js';
+import { EventDisplay } from '../event-display';
 import { Camera } from 'three';
-import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node.js';
-import { loadFile, saveFile } from '../helpers/file.js';
-import { ActiveVariable } from '../helpers/active-variable.js';
+import { PhoenixMenuNode } from './ui-manager/phoenix-menu/phoenix-menu-node';
+import { loadFile, saveFile } from '../helpers/file';
+import { ActiveVariable } from '../helpers/active-variable';
 
 /**
  * A singleton manager for managing the scene's state.

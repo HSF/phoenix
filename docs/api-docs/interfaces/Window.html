@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -215,19 +208,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest } from &#x27;jsroot&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { httpRequest, openFile } from &#x27;jsroot&#x27;;
 import { settings as jsrootSettings } from &#x27;jsroot&#x27;;
 import { build } from &#x27;jsroot/geom&#x27;;
-import { openFile } from &#x27;jsroot/io&#x27;;
-import { ThreeManager } from &#x27;./managers/three-manager&#x27;;
-import { UIManager } from &#x27;./managers/ui-manager&#x27;;
+import { ThreeManager } from &#x27;./managers/three-manager/index&#x27;;
+import { UIManager } from &#x27;./managers/ui-manager/index&#x27;;
 import { InfoLogger } from &#x27;./helpers/info-logger&#x27;;
-import { Configuration } from &#x27;./lib/types/configuration&#x27;;
+import type { Configuration } from &#x27;./lib/types/configuration&#x27;;
 import { StateManager } from &#x27;./managers/state-manager&#x27;;
 import { LoadingManager } from &#x27;./managers/loading-manager&#x27;;
 import { URLOptionsManager } from &#x27;./managers/url-options-manager&#x27;;
 import { ActiveVariable } from &#x27;./helpers/active-variable&#x27;;
-import { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
+import type { AnimationPreset } from &#x27;./managers/three-manager/animations-manager&#x27;;
 import { XRSessionType } from &#x27;./managers/three-manager/xr/xr-manager&#x27;;
 import { getLabelTitle } from &#x27;./helpers/labels&#x27;;
 import { PhoenixLoader } from &#x27;./loaders/phoenix-loader&#x27;;
@@ -247,7 +239,7 @@ declare global {
  */
 export class EventDisplay {
   /** Configuration for preset views and event data loader. */
-  private configuration: Configuration;
+  public configuration: Configuration;
   /** An object containing event data. */
   private eventsData: any;
   /** Array containing callbacks to be called when events change. */
@@ -363,12 +355,14 @@ export class EventDisplay {
     // Clearing existing event data
     this.graphicsLibrary.clearEventData();
     // Build data and add to scene
-    this.configuration.eventDataLoader.buildEventData(
-      eventData,
-      this.graphicsLibrary,
-      this.ui,
-      this.infoLogger,
-    );
+    if (this.configuration.eventDataLoader) {
+      this.configuration.eventDataLoader.buildEventData(
+        eventData,
+        this.graphicsLibrary,
+        this.ui,
+        this.infoLogger,
+      );
+    }
     this.onDisplayedEventChange.forEach((callback) &#x3D;&gt; callback(eventData));
     // Reload the event data state in Phoenix menu
     this.ui.loadEventFolderPhoenixMenuState();
@@ -459,8 +453,8 @@ export class EventDisplay {
     filename: string,
     name: string,
     color: any,
-    menuNodeName?: string,
-    doubleSided?: boolean,
+    menuNodeName: string,
+    doubleSided: boolean,
     initiallyVisible: boolean &#x3D; true,
     setFlat: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
@@ -544,21 +538,19 @@ export class EventDisplay {
   }
 
   /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param input Data of the GLTF (.gltf) file.
-   * @param name Name given to the geometry. If empty Name will be taken from the geometry itself
+   * Parses and loads a geometry in GLTF (.gltf or .glb) format.
+   * also supports zip files of the above
+   * @param file Geometry file in GLTF (.gltf or .glb) format.
    * @returns Promise for loading the geometry.
    */
-  public async parseGLTFGeometry(
-    input: string | ArrayBuffer,
-    name: string,
-  ): Promise&lt;void&gt; {
+  public async parseGLTFGeometry(file: File): Promise&lt;void&gt; {
+    const name &#x3D; file.name.split(&#x27;/&#x27;).pop();
     this.loadingManager.addLoadableItem(&#x60;parse_gltf_${name}&#x60;);
 
     const allGeometriesUIParameters &#x3D;
-      await this.graphicsLibrary.parseGLTFGeometry(input, name);
-    for (const { object } of allGeometriesUIParameters) {
-      this.ui.addGeometry(object);
+      await this.graphicsLibrary.parseGLTFGeometry(file);
+    for (const { object, menuNodeName } of allGeometriesUIParameters) {
+      this.ui.addGeometry(object, menuNodeName);
     }
 
     this.loadingManager.itemLoaded(&#x60;parse_gltf_${name}&#x60;);
@@ -576,9 +568,9 @@ export class EventDisplay {
    */
   public async loadGLTFGeometry(
     url: any,
-    name: string | undefined,
-    menuNodeName?: string,
-    scale?: number,
+    name: string,
+    menuNodeName: string &#x3D; &#x27;&#x27;,
+    scale: number &#x3D; 1.0,
     initiallyVisible: boolean &#x3D; true,
   ): Promise&lt;void&gt; {
     this.loadingManager.addLoadableItem(&#x60;gltf_geom_${name}&#x60;);
@@ -748,7 +740,10 @@ export class EventDisplay {
    * @returns Object containing all physics objects from the desired collection.
    */
   public getCollection(collectionName: string) {
-    return this.configuration.eventDataLoader.getCollection(collectionName);
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getCollection(collectionName);
+    }
+    return {};
   }
 
   /**
@@ -756,7 +751,10 @@ export class EventDisplay {
    * @returns List of strings, each representing a collection of the event displayed.
    */
   public getCollections(): string[] {
-    return this.configuration.eventDataLoader.getCollections();
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getCollections();
+    }
+    return [];
   }
 
   /**
@@ -764,7 +762,7 @@ export class EventDisplay {
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
    */
-  public listenToDisplayedEventChange(callback: (event) &#x3D;&gt; any) {
+  public listenToDisplayedEventChange(callback: (event: any) &#x3D;&gt; any) {
     this.onDisplayedEventChange.push(callback);
   }
 
@@ -773,7 +771,7 @@ export class EventDisplay {
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
    */
-  public listenToLoadedEventsChange(callback: (events) &#x3D;&gt; any) {
+  public listenToLoadedEventsChange(callback: (events: any) &#x3D;&gt; any) {
     this.onEventsChange.push(callback);
   }
 
@@ -782,7 +780,10 @@ export class EventDisplay {
    * @returns Metadata of the displayed event.
    */
   public getEventMetadata(): any[] {
-    return this.configuration.eventDataLoader.getEventMetadata();
+    if (this.configuration.eventDataLoader) {
+      return this.configuration.eventDataLoader.getEventMetadata();
+    }
+    return [];
   }
 
   /**
@@ -980,6 +981,10 @@ export class EventDisplay {
     indexInCollection: number,
     uuid: string,
   ) {
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
+
     const labelId &#x3D; this.configuration.eventDataLoader.addLabelToEventObject(
       label,
       collection,
@@ -1001,6 +1006,9 @@ export class EventDisplay {
    */
   public resetLabels() {
     // labelsObject[EventDataType][Collection][Index]
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
     const labelsObject &#x3D; this.configuration.eventDataLoader.getLabelsObject();
     for (const eventDataType in labelsObject) {
       for (const collection in labelsObject[eventDataType]) {
@@ -1055,6 +1063,19 @@ export class EventDisplay {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1066,7 +1087,6 @@ export class EventDisplay {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

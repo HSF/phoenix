@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -515,7 +508,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">src/managers/three-manager/selection-manager.ts:158</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">src/managers/three-manager/selection-manager.ts:155</a></div>
                         </td>
                     </tr>
 
@@ -547,7 +540,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">src/managers/three-manager/selection-manager.ts:207</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="204" class="link-to-prism">src/managers/three-manager/selection-manager.ts:204</a></div>
                         </td>
                     </tr>
 
@@ -603,7 +596,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">src/managers/three-manager/selection-manager.ts:145</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">src/managers/three-manager/selection-manager.ts:142</a></div>
                         </td>
                     </tr>
 
@@ -777,8 +770,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="260"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:260</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="258"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:258</a></div>
                         </td>
                     </tr>
 
@@ -818,8 +811,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="128"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:128</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -859,8 +852,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="238"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:238</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="236"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:236</a></div>
                         </td>
                     </tr>
 
@@ -900,8 +893,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="111"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:111</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:112</a></div>
                         </td>
                     </tr>
 
@@ -986,8 +979,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="249"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:249</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="247"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -1206,8 +1199,8 @@ like outline pass and unreal bloom.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="218"
-                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:218</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="215"
+                                    class="link-to-prism">src/managers/three-manager/selection-manager.ts:215</a></div>
                         </td>
                     </tr>
 
@@ -1526,6 +1519,7 @@ export class SelectionManager {
    */
   public setSelecting(enable: boolean) {
     if (this.isInit) {
+      // eslint-disable-next-line
       enable ? this.enableSelecting() : this.disableSelecting();
     }
   }
@@ -1534,15 +1528,13 @@ export class SelectionManager {
    * Enable selecting of event display elements and set mouse move and click events.
    */
   private enableSelecting() {
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .addEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .addEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .addEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
+    const canvas &#x3D; document.getElementById(&#x27;three-canvas&#x27;);
+    if (!canvas) {
+      return;
+    }
+    canvas.addEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
+    canvas.addEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
+    canvas.addEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
     this.preSelectionAntialias &#x3D; this.effectsManager.antialiasing;
     this.effectsManager.setAntialiasing(false);
   }
@@ -1551,15 +1543,13 @@ export class SelectionManager {
    * Disable selecting of event display elements and remove mouse move and click events.
    */
   private disableSelecting() {
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .removeEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .removeEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
-    document
-      .getElementById(&#x27;three-canvas&#x27;)
-      .removeEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
+    const canvas &#x3D; document.getElementById(&#x27;three-canvas&#x27;);
+    if (!canvas) {
+      return;
+    }
+    canvas.removeEventListener(&#x27;mousemove&#x27;, this.onTouchMove, true);
+    canvas.removeEventListener(&#x27;click&#x27;, this.onDocumentMouseDown, true);
+    canvas.removeEventListener(&#x27;touchstart&#x27;, this.onTouchDown);
     this.outlinePass.selectedObjects &#x3D; [];
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
   }
@@ -1655,6 +1645,7 @@ export class SelectionManager {
       // We want the closest one
       return intersects[0].object;
     }
+    return new Object3D();
   }
 
   /**
@@ -1729,6 +1720,19 @@ export class SelectionManager {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1740,7 +1744,6 @@ export class SelectionManager {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

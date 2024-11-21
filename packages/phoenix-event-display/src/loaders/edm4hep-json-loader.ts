@@ -1,4 +1,4 @@
-import { PhoenixLoader } from './phoenix-loader.js';
+import { PhoenixLoader } from './phoenix-loader';
 
 /**
  * Edm4hepJsonLoader for loading EDM4hep json dumps

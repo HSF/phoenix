@@ -1,23 +1,23 @@
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { Color, Object3D, Vector3 } from 'three';
-import { ThreeManager } from '../three-manager/index.js';
-import type { Configuration } from '../../lib/types/configuration.js';
+import { ThreeManager } from '../three-manager/index';
+import type { Configuration } from '../../lib/types/configuration';
 import {
   PresetView,
   ClippingSetting,
-} from '../../lib/models/preset-view.model.js';
-import { Cut } from '../../lib/models/cut.model.js';
-import { SceneManager } from '../three-manager/scene-manager.js';
-import { StateManager } from '../../managers/state-manager.js';
-import { loadFile, saveFile } from '../../helpers/file.js';
-import { DatGUIMenuUI } from './dat-gui-ui.js';
-import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui.js';
+} from '../../lib/models/preset-view.model';
+import { Cut } from '../../lib/models/cut.model';
+import { SceneManager } from '../three-manager/scene-manager';
+import { StateManager } from '../../managers/state-manager';
+import { loadFile, saveFile } from '../../helpers/file';
+import { DatGUIMenuUI } from './dat-gui-ui';
+import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui';
 import {
   getFromLocalStorage,
   setToLocalStorage,
-} from '../../helpers/browser-storage.js';
-import { type PhoenixUI } from './phoenix-ui.js';
-import { type AnimationPreset } from '../../managers/three-manager/animations-manager.js';
+} from '../../helpers/browser-storage';
+import { type PhoenixUI } from './phoenix-ui';
+import { type AnimationPreset } from '../../managers/three-manager/animations-manager';
 
 /** If animation presets not passed in configuration, we will use this. */
 const defaultAnimationPresets: AnimationPreset[] = [

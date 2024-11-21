@@ -1,6 +1,6 @@
 import { PerspectiveCamera, Scene } from 'three';
-import { SceneManager } from '../scene-manager.js';
-import { XRManager, XRSessionType } from './xr-manager.js';
+import { SceneManager } from '../scene-manager';
+import { XRManager, XRSessionType } from './xr-manager';
 
 // NOTE: This was created on 28/06/2021
 // It might become outdated given how WebXR is still a work in progress

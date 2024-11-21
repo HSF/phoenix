@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -144,6 +137,12 @@
                         </li>
                         <li>
                             <a href="#setToLocalStorage" title="src/helpers/browser-storage.ts" ><b>setToLocalStorage</b>&nbsp;&nbsp;&nbsp;(src/.../browser-storage.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#tracks_frag" title="src/loaders/objects/tracks.ts" ><b>tracks_frag</b>&nbsp;&nbsp;&nbsp;(src/.../tracks.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#tracks_vert" title="src/loaders/objects/tracks.ts" ><b>tracks_vert</b>&nbsp;&nbsp;&nbsp;(src/.../tracks.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -395,24 +394,33 @@
   contentType: string &#x3D; &#x27;application/json&#x27;,
 ) &#x3D;&gt; {
   // Create a mock input file element and use that to read the file
-  let inputFile &#x3D; document.createElement(&#x27;input&#x27;);
+  const inputFile &#x3D; document.createElement(&#x27;input&#x27;);
+  document.body.appendChild(inputFile);
   inputFile.type &#x3D; &#x27;file&#x27;;
   inputFile.accept &#x3D; contentType;
-  inputFile.onchange &#x3D; (e: any) &#x3D;&gt; {
+  inputFile.onclick &#x3D; (e: any) &#x3D;&gt; {
+    e.target.value &#x3D; &#x27;&#x27;;
+  };
+
+  inputFile.addEventListener(&#x27;invalid&#x27;, (e) &#x3D;&gt; {
+    console.log(JSON.stringify(e));
+  });
+
+  const fileSelected &#x3D; (e: any) &#x3D;&gt; {
     const configFile &#x3D; e.target?.files[0];
     const reader &#x3D; new FileReader();
     reader.onload &#x3D; (e) &#x3D;&gt; {
-      onFileRead?.(e.target.result.toString());
-
+      if (e.target &amp;&amp; e.target.result) {
+        onFileRead?.(e.target.result.toString());
+      }
       inputFile.remove();
-      inputFile &#x3D; null;
     };
     reader.readAsText(configFile);
   };
+
+  inputFile.oninput &#x3D; fileSelected;
+  // inputFile.onchange &#x3D; fileSelected;
   inputFile.click();
-  setTimeout(() &#x3D;&gt; {
-    console.log(&#x27;Let us just wait a second&#x27;);
-  }, 1000);
 }</code>
                     </td>
                 </tr>
@@ -527,7 +535,8 @@
 
   await archive.loadAsync(file);
   for (const filePath in archive.files) {
-    const fileData &#x3D; await archive.file(filePath).async(&#x27;string&#x27;);
+    const fileData &#x3D;
+      (await archive.file(filePath)?.async(&#x27;string&#x27;)) ?? &#x27;Unable to read file&#x27;;
     filesWithData[filePath] &#x3D; fileData;
   }
 
@@ -539,6 +548,113 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Read a zip file and return its contents as an object.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/loaders/objects/tracks.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tracks_frag"></a>
+                    <span class="name">
+                        <span ><b>tracks_frag</b></span>
+                        <a href="#tracks_frag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &#x27;uniform float progress;&#x27;,
+  &#x27;varying vec3 v_color;&#x27;,
+  &#x27;varying float v_counter;&#x27;,
+  &#x27;flat varying int v_track_id;&#x27;,
+  &#x27;void main() {&#x27;,
+  &#x27;  if (v_counter &gt; progress) discard;&#x27;,
+  &#x27;  gl_FragColor &#x3D; vec4(v_color, 1.0);&#x27;,
+  &#x27;}&#x27;,
+].join(&#x27;\n&#x27;)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom fragment shadre for track.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tracks_vert"></a>
+                    <span class="name">
+                        <span ><b>tracks_vert</b></span>
+                        <a href="#tracks_vert"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  &#x27;attribute vec3 previous;&#x27;,
+  &#x27;attribute vec3 next;&#x27;,
+  &#x27;attribute int track_id;&#x27;,
+  &#x27;attribute float side;&#x27;,
+  &#x27;attribute vec3 color;&#x27;,
+  &#x27;attribute float counter;&#x27;,
+
+  &#x27;varying vec3 v_color;&#x27;,
+  &#x27;varying float v_counter;&#x27;,
+  &#x27;flat varying int v_track_id;&#x27;,
+
+  &#x27;uniform vec2 resolution;&#x27;,
+  &#x27;uniform float lineWidth;&#x27;,
+  &#x27;void main() {&#x27;,
+  &#x27;  vec2 aspect &#x3D; vec2(resolution.x / resolution.y, 1.0);&#x27;,
+  &#x27;&#x27;,
+  &#x27;  v_color &#x3D; color;&#x27;,
+  &#x27;  v_counter &#x3D; counter;&#x27;,
+  &#x27;  v_track_id &#x3D; track_id;&#x27;,
+  &#x27;&#x27;,
+  &#x27;  mat4 m &#x3D; projectionMatrix * modelViewMatrix;&#x27;,
+  &#x27;  vec4 finalPosition &#x3D; m * vec4(position, 1.0);&#x27;,
+  &#x27;  vec4 prevPos &#x3D; m * vec4(previous, 1.0);&#x27;,
+  &#x27;  vec4 nextPos &#x3D; m * vec4(next, 1.0);&#x27;,
+  &#x27;&#x27;,
+  &#x27;  vec2 curP &#x3D; finalPosition.xy / finalPosition.w * aspect;&#x27;,
+  &#x27;  vec2 prevP &#x3D; prevPos.xy / prevPos.w * aspect;&#x27;,
+  &#x27;  vec2 nextP &#x3D; nextPos.xy / nextPos.w * aspect;&#x27;,
+  &#x27;&#x27;,
+  &#x27;  vec2 dir;&#x27;,
+  &#x27;  if (curP &#x3D;&#x3D; prevP) dir &#x3D; normalize(nextP - curP);&#x27;,
+  &#x27;  else if (curP &#x3D;&#x3D; nextP) dir &#x3D; normalize(curP - prevP);&#x27;,
+  &#x27;  else dir &#x3D; normalize(curP - prevP);&#x27;,
+  &#x27;&#x27;,
+  &#x27;  vec2 normal &#x3D; vec2(-dir.y, dir.x);&#x27;,
+  &#x27;  normal.xy *&#x3D; .5 * lineWidth;&#x27;,
+  &#x27;  normal.x /&#x3D; aspect.x;&#x27;,
+  &#x27;  normal.xy *&#x3D; finalPosition.w * 0.001;&#x27;,
+
+  &#x27;  finalPosition.xy +&#x3D; normal.xy * side;&#x27;,
+  &#x27;  gl_Position &#x3D; finalPosition;&#x27;,
+  &#x27;}&#x27;,
+].join(&#x27;\n&#x27;)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Custom vertex shader for tracks.</p>
 </div>
                 </td>
             </tr>
@@ -579,6 +695,19 @@
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -590,7 +719,6 @@
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

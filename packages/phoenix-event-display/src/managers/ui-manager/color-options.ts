@@ -1,7 +1,7 @@
 import { Color } from 'three';
-import { PrettySymbols } from '../../helpers/pretty-symbols.js';
-import { ColorManager } from '../three-manager/color-manager.js';
-import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node.js';
+import { PrettySymbols } from '../../helpers/pretty-symbols';
+import { ColorManager } from '../three-manager/color-manager';
+import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 
 /** Keys for options available for coloring event data by. */
 export enum ColorByOptionKeys {

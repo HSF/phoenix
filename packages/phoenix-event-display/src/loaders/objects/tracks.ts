@@ -2,7 +2,6 @@ import {
   BufferGeometry,
   BufferAttribute,
   ShaderMaterial,
-  ShaderChunk,
   Vector2,
   Vector3,
   Color,

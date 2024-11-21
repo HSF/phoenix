@@ -5,12 +5,12 @@ import {
   MeshPhongMaterial,
   Object3D,
 } from 'three';
-import { SceneManager } from '../../three-manager/scene-manager.js';
-import { ThreeManager } from '../../three-manager/index.js';
-import { PhoenixMenuNode } from './phoenix-menu-node.js';
-import { Cut } from '../../../lib/models/cut.model.js';
-import { ColorByOptionKeys, ColorOptions } from '../color-options.js';
-import type { PhoenixUI } from '../phoenix-ui.js';
+import { SceneManager } from '../../three-manager/scene-manager';
+import { ThreeManager } from '../../three-manager/index';
+import { PhoenixMenuNode } from './phoenix-menu-node';
+import { Cut } from '../../../lib/models/cut.model';
+import { ColorByOptionKeys, ColorOptions } from '../color-options';
+import type { PhoenixUI } from '../phoenix-ui';
 
 /**
  * A wrapper class for Phoenix menu to perform UI related operations.

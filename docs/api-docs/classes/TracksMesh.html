@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -720,11 +713,11 @@
   BufferGeometry,
   BufferAttribute,
   ShaderMaterial,
-  ShaderChunk,
   Vector2,
   Vector3,
   Color,
-  ColorRepresentation,
+  type ColorRepresentation,
+  type ShaderMaterialParameters,
 } from &#x27;three&#x27;;
 
 /**
@@ -883,7 +876,7 @@ export class TracksMesh extends BufferGeometry {
 }
 
 /** Custom vertex shader for tracks. */
-ShaderChunk[&#x27;tracks_vert&#x27;] &#x3D; [
+const tracks_vert &#x3D; [
   &#x27;attribute vec3 previous;&#x27;,
   &#x27;attribute vec3 next;&#x27;,
   &#x27;attribute int track_id;&#x27;,
@@ -929,7 +922,7 @@ ShaderChunk[&#x27;tracks_vert&#x27;] &#x3D; [
 ].join(&#x27;\n&#x27;);
 
 /** Custom fragment shadre for track. */
-ShaderChunk[&#x27;tracks_frag&#x27;] &#x3D; [
+const tracks_frag &#x3D; [
   &#x27;uniform float progress;&#x27;,
   &#x27;varying vec3 v_color;&#x27;,
   &#x27;varying float v_counter;&#x27;,
@@ -947,11 +940,15 @@ export class TracksMaterial extends ShaderMaterial {
   /** If the material is of track. */
   isTracksMaterial: boolean;
 
+  static get type() {
+    return &#x27;TracksMaterial&#x27;;
+  }
+
   /**
    * Create the tracks material.
    * @param params Params for creating the tracks material.
    */
-  constructor(params) {
+  constructor(params: ShaderMaterialParameters) {
     super({
       uniforms: Object.assign(
         {},
@@ -961,11 +958,10 @@ export class TracksMaterial extends ShaderMaterial {
           progress: { value: 1 },
         },
       ),
-      vertexShader: ShaderChunk[&#x27;tracks_vert&#x27;],
-      fragmentShader: ShaderChunk[&#x27;tracks_vert&#x27;],
+      vertexShader: tracks_vert,
+      fragmentShader: tracks_vert,
     });
     this.isTracksMaterial &#x3D; true;
-    this.type &#x3D; &#x27;TracksMaterial&#x27;;
 
     Object.defineProperties(this, {
       lineWidth: {
@@ -1042,6 +1038,19 @@ export class TracksMaterial extends ShaderMaterial {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1053,7 +1062,6 @@ export class TracksMaterial extends ShaderMaterial {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 
