@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -186,6 +179,10 @@
                                 <a href="#loadGLTFGeometry" >loadGLTFGeometry</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#loadGLTFGeometryInternal" >loadGLTFGeometryInternal</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#loadJSONGeometry" >loadJSONGeometry</a>
                             </li>
@@ -196,6 +193,10 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#parseGLTFGeometry" >parseGLTFGeometry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parseGLTFGeometryFromArrayBuffer" >parseGLTFGeometryFromArrayBuffer</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -221,6 +222,18 @@
                                     <span class="modifier">Private</span>
                                 <a href="#setObjFlat" >setObjFlat</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#zipHandlingFileWrapper" >zipHandlingFileWrapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#zipHandlingInternal" >zipHandlingInternal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#zipHandlingURLWrapper" >zipHandlingURLWrapper</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -244,7 +257,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/three-manager/import-manager.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/import-manager.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -346,7 +359,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/managers/three-manager/import-manager.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/managers/three-manager/import-manager.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -379,7 +392,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/managers/three-manager/import-manager.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/managers/three-manager/import-manager.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -412,7 +425,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/managers/three-manager/import-manager.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/managers/three-manager/import-manager.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -454,8 +467,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="468"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:468</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="646"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:646</a></div>
                         </td>
                     </tr>
 
@@ -531,15 +544,16 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="220"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:220</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="341"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:341</a></div>
                         </td>
                     </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                        <div class="io-description"><p>Loads a GLTF (.gltf) scene(s)/geometry from the given URL.</p>
+                        <div class="io-description"><p>Loads a GLTF (.gltf,.glb) scene(s)/geometry from the given URL.
+also support zipped versions of the files</p>
 </div>
 
                             <div class="io-description">
@@ -567,7 +581,164 @@
 
 
                                             <td>
-                                                    <p>URL to the GLTF (.gltf) file.</p>
+                                                    <p>URL to the GLTF (.gltf/.glb or a zip with such file(s)) file.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>name</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>menuNodeName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Path to the node in Phoenix menu to add the geometry to. Use <code>&gt;</code> as a separator.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>scale</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Scale of the geometry.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>initiallyVisible</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>Whether the geometry is initially visible or not.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise for loading the geometry.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadGLTFGeometryInternal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>loadGLTFGeometryInternal</b></span>
+                        <a href="#loadGLTFGeometryInternal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadGLTFGeometryInternal(sceneData: ArrayBuffer, path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, menuNodeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scale: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, initiallyVisible: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="373"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:373</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Loads a GLTF (.gltf) scene(s)/geometry from the given ArrayBuffer.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sceneData</td>
+                                            <td>
+                                                        <code>ArrayBuffer</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>ArrayBuffer containing the geometry file&#39;s content (gltf or glb data)</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>path</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The base path from which to find subsequent glTF resources such as textures and .bin data files</p>
 
                                             </td>
                                         </tr>
@@ -672,8 +843,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="375"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:375</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="553"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:553</a></div>
                         </td>
                     </tr>
 
@@ -797,8 +968,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="59"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:59</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:60</a></div>
                         </td>
                     </tr>
 
@@ -931,15 +1102,88 @@
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parseGLTFGeometry(geometry: string | ArrayBuffer, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>parseGLTFGeometry(file: File)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="313"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:313</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="473"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:473</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Parses and loads a geometry in GLTF (.gltf,.glb) format.
+Also supports zip versions of those</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                        <code>File</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise for loading the geometry.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseGLTFGeometryFromArrayBuffer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>parseGLTFGeometryFromArrayBuffer</b></span>
+                        <a href="#parseGLTFGeometryFromArrayBuffer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>parseGLTFGeometryFromArrayBuffer(geometry: ArrayBuffer, path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="488"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:488</a></div>
                         </td>
                     </tr>
 
@@ -965,7 +1209,7 @@
                                         <tr>
                                                 <td>geometry</td>
                                             <td>
-                                                        <code>string | ArrayBuffer</code>
+                                                        <code>ArrayBuffer</code>
                                             </td>
 
                                             <td>
@@ -974,7 +1218,23 @@
 
 
                                             <td>
-                                                    <p>Geometry in GLTF (.gltf) format.</p>
+                                                    <p>ArrayBuffer containing the geometry file&#39;s content (gltf or glb data)</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>path</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The base path from which to find subsequent glTF resources such as textures and .bin data files</p>
 
                                             </td>
                                         </tr>
@@ -1217,8 +1477,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="415"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:415</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="593"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:593</a></div>
                         </td>
                     </tr>
 
@@ -1341,8 +1601,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="355"
-                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:355</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="533"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:533</a></div>
                         </td>
                     </tr>
 
@@ -1678,6 +1938,354 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zipHandlingFileWrapper"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zipHandlingFileWrapper</b></span>
+                        <a href="#zipHandlingFileWrapper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>zipHandlingFileWrapper(file: File, callback: (fileContent: ArrayBuffer,path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Wraps a method taking a file and returning a Promise for
+loading a Geometry. It deals with zip file cases and then
+calls the original method on each file found</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                        <code>File</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the original file</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>callback</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the original method</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise for loading the geometry.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zipHandlingInternal"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zipHandlingInternal</b></span>
+                        <a href="#zipHandlingInternal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>zipHandlingInternal(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: ArrayBuffer, callback: (fileContent: ArrayBuffer,path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void, resolve: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, reject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="222"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:222</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>handles some file content and loads a Geometry contained..
+It deals with zip file cases and then
+calls the given method on each file found</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>path</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>path of the original file</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>name of the original file</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>ArrayBuffer</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>content of the original file</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>callback</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the method to be called on each file content</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>resolve</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the method to be called on success</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>reject</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the method to be called on failure</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zipHandlingURLWrapper"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zipHandlingURLWrapper</b></span>
+                        <a href="#zipHandlingURLWrapper"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>zipHandlingURLWrapper(file: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (fileContent: ArrayBuffer,path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="307"
+                                    class="link-to-prism">src/managers/three-manager/import-manager.ts:307</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Wraps a method taking a URL and returning a Promise for
+loading a Geometry. It deals with zip file cases and then
+calls the original method on each file found</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the original file</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>callback</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the original method</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#GeometryUIParameters" target="_self" >Promise&lt;GeometryUIParameters[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Promise for loading the geometry.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -1704,11 +2312,12 @@
   Matrix4,
   REVISION,
 } from &#x27;three&#x27;;
-import { OBJLoader } from &#x27;three/examples/jsm/loaders/OBJLoader&#x27;;
-import { GLTFLoader } from &#x27;three/examples/jsm/loaders/GLTFLoader&#x27;;
-import { DRACOLoader } from &#x27;three/examples/jsm/loaders/DRACOLoader&#x27;;
-import { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters&#x27;;
-import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeometryUtils&#x27;;
+import { OBJLoader } from &#x27;three/examples/jsm/loaders/OBJLoader.js&#x27;;
+import { GLTFLoader } from &#x27;three/examples/jsm/loaders/GLTFLoader.js&#x27;;
+import { DRACOLoader } from &#x27;three/examples/jsm/loaders/DRACOLoader.js&#x27;;
+import type { GeometryUIParameters } from &#x27;../../lib/types/geometry-ui-parameters&#x27;;
+import * as BufferGeometryUtils from &#x27;three/examples/jsm/utils/BufferGeometryUtils.js&#x27;;
+import JSZip from &#x27;jszip&#x27;;
 
 /**
  * Manager for managing event display&#x27;s import related functionality.
@@ -1767,10 +2376,9 @@ export class ImportManager {
             doubleSided,
             setFlat,
           );
-
           resolve({ object: processedObject });
         },
-        null,
+        () &#x3D;&gt; {},
         (error) &#x3D;&gt; {
           reject(error);
         },
@@ -1869,7 +2477,7 @@ export class ImportManager {
    */
   public parsePhnxScene(
     scene: any,
-    callback: (geometries: Object3D, eventData: Object3D) &#x3D;&gt; void,
+    callback: (geometries?: Object3D, eventData?: Object3D) &#x3D;&gt; void,
   ): Promise&lt;void&gt; {
     const loader &#x3D; new GLTFLoader();
 
@@ -1899,8 +2507,129 @@ export class ImportManager {
   }
 
   /**
-   * Loads a GLTF (.gltf) scene(s)/geometry from the given URL.
-   * @param sceneUrl URL to the GLTF (.gltf) file.
+   * handles some file content and loads a Geometry contained..
+   * It deals with zip file cases and then
+   * calls the given method on each file found
+   * @param path path of the original file
+   * @param filename name of the original file
+   * @param data content of the original file
+   * @param callback the method to be called on each file content
+   * @param resolve the method to be called on success
+   * @param reject the method to be called on failure
+   */
+  private zipHandlingInternal(
+    path: string,
+    filename: string,
+    data: ArrayBuffer,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) &#x3D;&gt; Promise&lt;GeometryUIParameters[]&gt;,
+    resolve: any,
+    reject: any,
+  ) {
+    if (filename.split(&#x27;.&#x27;).pop() &#x3D;&#x3D; &#x27;zip&#x27;) {
+      JSZip.loadAsync(data).then((archive) &#x3D;&gt; {
+        const promises: Promise&lt;any&gt;[] &#x3D; [];
+        for (const filePath in archive.files) {
+          promises.push(
+            archive
+              .file(filePath)
+              .async(&#x27;arraybuffer&#x27;)
+              .then((fileData) &#x3D;&gt; {
+                return callback(fileData, path, filePath.split(&#x27;.&#x27;)[0]);
+              }),
+          );
+        }
+        let allGeometriesUIParameters: GeometryUIParameters[] &#x3D; [];
+        Promise.all(promises).then((geos) &#x3D;&gt; {
+          geos.forEach((geo) &#x3D;&gt; {
+            allGeometriesUIParameters &#x3D; allGeometriesUIParameters.concat(geo);
+          });
+          resolve(allGeometriesUIParameters);
+        });
+      });
+    } else {
+      callback(data, path, filename.split(&#x27;.&#x27;)[0]).then(
+        (geo) &#x3D;&gt; {
+          resolve(geo);
+        },
+        (error) &#x3D;&gt; {
+          reject(error);
+        },
+      );
+    }
+  }
+
+  /**
+   * Wraps a method taking a file and returning a Promise for
+   * loading a Geometry. It deals with zip file cases and then
+   * calls the original method on each file found
+   * @param file the original file
+   * @param callback the original method
+   * @returns Promise for loading the geometry.
+   */
+  private zipHandlingFileWrapper(
+    file: File,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) &#x3D;&gt; Promise&lt;GeometryUIParameters[]&gt;,
+  ): Promise&lt;GeometryUIParameters[]&gt; {
+    return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
+      const reader &#x3D; new FileReader();
+      reader.onload &#x3D; () &#x3D;&gt; {
+        this.zipHandlingInternal(
+          &#x27;&#x27;,
+          file.name,
+          reader.result as ArrayBuffer,
+          callback,
+          resolve,
+          reject,
+        );
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  /**
+   * Wraps a method taking a URL and returning a Promise for
+   * loading a Geometry. It deals with zip file cases and then
+   * calls the original method on each file found
+   * @param file the original file
+   * @param callback the original method
+   * @returns Promise for loading the geometry.
+   */
+  private zipHandlingURLWrapper(
+    file: string,
+    callback: (
+      fileContent: ArrayBuffer,
+      path: string,
+      name: string,
+    ) &#x3D;&gt; Promise&lt;GeometryUIParameters[]&gt;,
+  ): Promise&lt;GeometryUIParameters[]&gt; {
+    return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
+      fetch(file).then((response) &#x3D;&gt; {
+        return response.arrayBuffer().then((data) &#x3D;&gt; {
+          this.zipHandlingInternal(
+            file.substr(0, file.lastIndexOf(&#x27;/&#x27;)),
+            file,
+            data,
+            callback,
+            resolve,
+            reject,
+          );
+        });
+      });
+    });
+  }
+
+  /**
+   * Loads a GLTF (.gltf,.glb) scene(s)/geometry from the given URL.
+   * also support zipped versions of the files
+   * @param sceneUrl URL to the GLTF (.gltf/.glb or a zip with such file(s)) file.
    * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
    * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use &#x60;&gt;&#x60; as a separator.
    * @param scale Scale of the geometry.
@@ -1914,6 +2643,39 @@ export class ImportManager {
     scale: number,
     initiallyVisible: boolean,
   ): Promise&lt;GeometryUIParameters[]&gt; {
+    return this.zipHandlingURLWrapper(
+      sceneUrl,
+      (data: ArrayBuffer, path: string, ignoredName: string) &#x3D;&gt; {
+        return this.loadGLTFGeometryInternal(
+          data,
+          path,
+          name,
+          menuNodeName,
+          scale,
+          initiallyVisible,
+        );
+      },
+    );
+  }
+
+  /**
+   * Loads a GLTF (.gltf) scene(s)/geometry from the given ArrayBuffer.
+   * @param sceneData ArrayBuffer containing the geometry file&#x27;s content (gltf or glb data)
+   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
+   * @param name Name of the loaded scene/geometry if a single scene is present, ignored if several scenes are present.
+   * @param menuNodeName Path to the node in Phoenix menu to add the geometry to. Use &#x60;&gt;&#x60; as a separator.
+   * @param scale Scale of the geometry.
+   * @param initiallyVisible Whether the geometry is initially visible or not.
+   * @returns Promise for loading the geometry.
+   */
+  private loadGLTFGeometryInternal(
+    sceneData: ArrayBuffer,
+    path: string,
+    name: string,
+    menuNodeName: string,
+    scale: number,
+    initiallyVisible: boolean,
+  ): Promise&lt;GeometryUIParameters[]&gt; {
     const loader &#x3D; new GLTFLoader();
     const dracoLoader &#x3D; new DRACOLoader();
     dracoLoader.setDecoderPath(
@@ -1922,8 +2684,9 @@ export class ImportManager {
     loader.setDRACOLoader(dracoLoader);
 
     return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
-      loader.load(
-        sceneUrl,
+      loader.parse(
+        sceneData,
+        path,
         (gltf) &#x3D;&gt; {
           const allGeometries: GeometryUIParameters[] &#x3D; [];
 
@@ -1934,7 +2697,13 @@ export class ImportManager {
               menuNodeName,
             );
 
-            const materials &#x3D; {};
+            const materials: {
+              [key: string]: {
+                material: Material;
+                geoms: any[];
+                renderOrder: number;
+              };
+            } &#x3D; {};
             const findMeshes &#x3D; (
               node: Object3D,
               parentMatrix: Matrix4,
@@ -1945,7 +2714,7 @@ export class ImportManager {
                 const key &#x3D; ((node as Mesh).material as any).id; // ts don&#x27;t recognize material and prevent compilation...
                 if (!materials[key])
                   materials[key] &#x3D; {
-                    material: (node as Mesh).material,
+                    material: (node as Mesh).material as Material, // Can be Material[], but not sure this is ever still used.
                     geoms: [],
                     renderOrder: -depth,
                   };
@@ -1961,6 +2730,8 @@ export class ImportManager {
             };
 
             findMeshes(scene, new Matrix4(), 0);
+
+            // Improve renderorder for transparent materials
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
               const mesh &#x3D; new Mesh(
@@ -1973,20 +2744,18 @@ export class ImportManager {
 
             this.processGeometry(
               scene,
-              name ?? sceneName.name,
+              name ?? sceneName?.name,
               scale,
               true, // doublesided
             );
 
             allGeometries.push({
               object: scene,
-              menuNodeName: menuNodeName ?? sceneName.menuNodeName,
+              menuNodeName: menuNodeName ?? sceneName?.menuNodeName,
             });
           }
-
           resolve(allGeometries);
         },
-        undefined,
         (error) &#x3D;&gt; {
           reject(error);
         },
@@ -1994,14 +2763,29 @@ export class ImportManager {
     });
   }
 
-  /**
-   * Parses and loads a geometry in GLTF (.gltf) format.
-   * @param geometry Geometry in GLTF (.gltf) format.
+  /** Parses and loads a geometry in GLTF (.gltf,.glb) format.
+   * Also supports zip versions of those
+   * @param fileName of the geometry file (.gltf,.glb or a zip with such file(s))
+   * @returns Promise for loading the geometry.
+   */
+  public parseGLTFGeometry(file: File): Promise&lt;GeometryUIParameters[]&gt; {
+    return this.zipHandlingFileWrapper(
+      file,
+      (data: ArrayBuffer, path: string, name: string) &#x3D;&gt; {
+        return this.parseGLTFGeometryFromArrayBuffer(data, path, name);
+      },
+    );
+  }
+
+  /** Parses and loads a geometry in GLTF (.gltf) format.
+   * @param geometry ArrayBuffer containing the geometry file&#x27;s content (gltf or glb data)
+   * @param path The base path from which to find subsequent glTF resources such as textures and .bin data files
    * @param name Name given to the geometry.
    * @returns Promise for loading the geometry.
    */
-  public parseGLTFGeometry(
-    geometry: string | ArrayBuffer,
+  private parseGLTFGeometryFromArrayBuffer(
+    geometry: ArrayBuffer,
+    path: string,
     name: string,
   ): Promise&lt;GeometryUIParameters[]&gt; {
     const loader &#x3D; new GLTFLoader();
@@ -2013,17 +2797,19 @@ export class ImportManager {
     return new Promise&lt;GeometryUIParameters[]&gt;((resolve, reject) &#x3D;&gt; {
       loader.parse(
         geometry,
-        &#x27;&#x27;,
+        path,
         (gltf) &#x3D;&gt; {
           const allGeometriesUIParameters: GeometryUIParameters[] &#x3D; [];
 
           for (const scene of gltf.scenes) {
             scene.visible &#x3D; scene.userData.visible;
+            console.log(&#x27;Dealing with scene &#x27;, scene.name);
             const sceneName &#x3D; this.processGLTFSceneName(scene.name);
-            this.processGeometry(scene, name ?? sceneName.name);
+            this.processGeometry(scene, sceneName?.name ?? name);
 
             allGeometriesUIParameters.push({
               object: scene,
+              menuNodeName: sceneName?.menuNodeName,
             });
           }
 
@@ -2045,7 +2831,7 @@ export class ImportManager {
   private processGLTFSceneName(sceneName?: string, menuNodeName?: string) {
     if (sceneName) {
       const nodes &#x3D; sceneName.split(&#x27;_&gt;_&#x27;);
-      menuNodeName &amp;&amp; nodes.unshift(menuNodeName);
+      menuNodeName &amp;&amp; nodes.unshift(menuNodeName); // eslint-disable-line
       const fullNodeName &#x3D; nodes.join(&#x27; &gt; &#x27;);
       nodes.pop();
       const menuName &#x3D; nodes.join(&#x27; &gt; &#x27;);
@@ -2079,7 +2865,7 @@ export class ImportManager {
               this.processGeometry(object, name, scale, doubleSided);
               resolve({ object });
             },
-            null,
+            undefined,
             (error) &#x3D;&gt; {
               reject(error);
             },
@@ -2118,9 +2904,9 @@ export class ImportManager {
         child.name &#x3D; child.userData.name &#x3D; name;
         child.userData.size &#x3D; this.getObjectSize(child);
         if (child.material instanceof Material) {
-          const color &#x3D; child.material[&#x27;color&#x27;]
-            ? child.material[&#x27;color&#x27;]
-            : 0x2fd691;
+          const mat &#x3D; child.material as Material;
+          const color &#x3D;
+            &#x27;color&#x27; in mat ? (mat.color as Color).getHex() : 0x2fd691;
           const side &#x3D; doubleSided ? DoubleSide : child.material[&#x27;side&#x27;];
 
           // Disposing of the default material
@@ -2204,6 +2990,19 @@ export class ImportManager {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -2215,7 +3014,6 @@ export class ImportManager {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

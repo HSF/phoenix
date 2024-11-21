@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -192,7 +185,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">src/managers/three-manager/color-manager.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/three-manager/color-manager.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -265,8 +258,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:38</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="47"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -357,8 +350,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="55"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:55</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:66</a></div>
                         </td>
                     </tr>
 
@@ -431,8 +424,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="20"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:20</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="27"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -539,8 +532,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="72"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:72</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -603,7 +596,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Color, MeshPhongMaterial } from &#x27;three&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Color,
+  MeshPhongMaterial,
+  Mesh,
+  Object3D,
+  Material,
+  type Object3DEventMap,
+} from &#x27;three&#x27;;
 import { SceneManager } from &#x27;./scene-manager&#x27;;
 
 /**
@@ -628,11 +628,13 @@ export class ColorManager {
     customCheck: (objectUserData: any) &#x3D;&gt; boolean,
   ) {
     const objects &#x3D; this.sceneManager.getScene().getObjectByName(objectsGroup);
-    objects.traverse((object: any) &#x3D;&gt; {
-      if (object.material?.color &amp;&amp; customCheck(object.userData)) {
-        object.material.color.set(color);
-      }
-    });
+    if (objects) {
+      objects.traverse((object: any) &#x3D;&gt; {
+        if (object.material?.color &amp;&amp; customCheck(object.userData)) {
+          object.material.color.set(color);
+        }
+      });
+    }
   }
 
   /**
@@ -641,15 +643,17 @@ export class ColorManager {
    * @param color Hex value representing the color.
    */
   public collectionColor(collectionName: string, color: any) {
-    const collection &#x3D; this.sceneManager
+    const eventData &#x3D; this.sceneManager
       .getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+    const collection &#x3D; eventData?.getObjectByName(collectionName);
 
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object) &#x3D;&gt; {
-        (object[&#x27;material&#x27;]?.color as Color)?.set(color);
-      });
+    if (collection) {
+      for (const child of Object.values(collection.children)) {
+        child.traverse((object) &#x3D;&gt; {
+          setColorForObject(object, color);
+        });
+      }
     }
   }
 
@@ -658,15 +662,22 @@ export class ColorManager {
    * @param collectionName Name of the collection.
    */
   public collectionColorRandom(collectionName: string) {
-    const collection &#x3D; this.sceneManager
-      .getScene()
-      .getObjectByName(SceneManager.EVENT_DATA_ID)
-      .getObjectByName(collectionName);
+    if (!this.sceneManager || !this.sceneManager.getScene()) {
+      return;
+    }
+    const scene &#x3D; this.sceneManager.getScene();
+    if (scene) {
+      const eventData &#x3D; scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+      const collection &#x3D; eventData?.getObjectByName(collectionName);
 
-    for (const child of Object.values(collection.children)) {
-      child.traverse((object) &#x3D;&gt; {
-        (object[&#x27;material&#x27;]?.color as Color)?.set(Math.random() * 0xffffff);
-      });
+      if (collection) {
+        for (const child of Object.values(collection.children)) {
+          child.traverse((object) &#x3D;&gt; {
+            const randomColor &#x3D; Math.random() * 0xffffff;
+            setColorForObject(object, randomColor);
+          });
+        }
+      }
     }
   }
 
@@ -677,25 +688,49 @@ export class ColorManager {
   public colorTracksByVertex(collectionName: string) {
     const scene &#x3D; this.sceneManager.getScene();
     const vertices &#x3D; scene.getObjectByName(&#x27;Vertices&#x27;);
+    if (!vertices) {
+      return;
+    }
     vertices.traverse((object) &#x3D;&gt; {
       const { linkedTrackCollection, linkedTracks } &#x3D; object.userData;
-
       if (
         object.name &#x3D;&#x3D;&#x3D; &#x27;Vertex&#x27; &amp;&amp;
         linkedTrackCollection &#x3D;&#x3D;&#x3D; collectionName &amp;&amp;
         linkedTracks
       ) {
-        const colorForTracksVertex &#x3D; (object[&#x27;material&#x27;] as MeshPhongMaterial)
-          .color;
-        const trackCollection &#x3D; scene.getObjectByName(linkedTrackCollection);
-
-        linkedTracks.forEach((trackIndex: number) &#x3D;&gt; {
-          trackCollection.children[trackIndex].traverse((trackObject) &#x3D;&gt; {
-            trackObject?.[&#x27;material&#x27;]?.color?.set(colorForTracksVertex);
-          });
-        });
+        const mat &#x3D; (object as Mesh).material as Material;
+        if (&#x27;color&#x27; in mat) {
+          // Should always be true, but basetype doesn&#x27;t have color property
+          const colorForTracksVertex &#x3D; mat.color;
+          const trackCollection &#x3D; scene.getObjectByName(linkedTrackCollection);
+          if (trackCollection) {
+            linkedTracks.forEach((trackIndex: number) &#x3D;&gt; {
+              trackCollection.children[trackIndex].traverse((trackObject) &#x3D;&gt; {
+                setColorForObject(trackObject, colorForTracksVertex);
+              });
+            });
+          }
+        }
       }
     });
+  }
+}
+/**
+ * Change colour of object.
+ * @param object Object to be update
+ * @param color Color to set for the object.
+ */
+function setColorForObject(object: Object3D&lt;Object3DEventMap&gt;, color: any) {
+  if (object instanceof Mesh) {
+    const mesh &#x3D; object as Mesh;
+    const material &#x3D; mesh.material;
+    if (Array.isArray(material)) {
+      material.forEach((mat) &#x3D;&gt; {
+        (mat as MeshPhongMaterial)?.color?.set(color);
+      });
+    } else if (&#x27;color&#x27; in material) {
+      (material.color as Color).set(color);
+    }
   }
 }
 </code></pre>
@@ -740,6 +775,19 @@ export class ColorManager {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -751,7 +799,6 @@ export class ColorManager {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

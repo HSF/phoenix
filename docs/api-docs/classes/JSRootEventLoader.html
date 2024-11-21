@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -447,7 +440,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:26</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:27</a></code>
 </div>
                         </td>
                     </tr>
@@ -487,7 +480,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:22</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:23</a></code>
 </div>
                         </td>
                     </tr>
@@ -532,7 +525,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:32</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:33</a></code>
 </div>
                         </td>
                     </tr>
@@ -572,7 +565,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:28</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -612,7 +605,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:31</a></code>
 </div>
                         </td>
                     </tr>
@@ -652,7 +645,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:24</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:25</a></code>
 </div>
                         </td>
                     </tr>
@@ -788,8 +781,8 @@ from the currently loaded &quot;.root&quot; file.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/loaders/jsroot-event-loader.ts:176</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="175"
+                                    class="link-to-prism">src/loaders/jsroot-event-loader.ts:175</a></div>
                         </td>
                     </tr>
 
@@ -1088,7 +1081,7 @@ from the currently loaded &quot;.root&quot; file.</p>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>addCollection(objectCollection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, collectionName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, getObject: (object: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>,typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void, typeName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, objectGroup: Group, concatonateObjs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -1101,7 +1094,7 @@ from the currently loaded &quot;.root&quot; file.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:509</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:516</a></code>
 </div>
                         </td>
                     </tr>
@@ -1261,7 +1254,7 @@ from the currently loaded &quot;.root&quot; file.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:726</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:733</a></code>
 </div>
                         </td>
                     </tr>
@@ -1376,7 +1369,7 @@ from the currently loaded &quot;.root&quot; file.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:446</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:448</a></code>
 </div>
                         </td>
                     </tr>
@@ -1552,7 +1545,7 @@ from the currently loaded &quot;.root&quot; file.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:760</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:770</a></code>
 </div>
                         </td>
                     </tr>
@@ -1667,7 +1660,7 @@ from the currently loaded &quot;.root&quot; file.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:50</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:51</a></code>
 </div>
                         </td>
                     </tr>
@@ -1798,7 +1791,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:126</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:127</a></code>
 </div>
                         </td>
                     </tr>
@@ -1881,7 +1874,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:102</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:103</a></code>
 </div>
                         </td>
                     </tr>
@@ -1932,7 +1925,7 @@ the different objects to the graphics library and the UI controls.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:574</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:581</a></code>
 </div>
                         </td>
                     </tr>
@@ -2070,7 +2063,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:564</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:571</a></code>
 </div>
                         </td>
                     </tr>
@@ -2165,7 +2158,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:558</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:565</a></code>
 </div>
                         </td>
                     </tr>
@@ -2258,7 +2251,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:672</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:679</a></code>
 </div>
                         </td>
                     </tr>
@@ -2309,7 +2302,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:86</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:87</a></code>
 </div>
                         </td>
                     </tr>
@@ -2392,7 +2385,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:749</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:759</a></code>
 </div>
                         </td>
                     </tr>
@@ -2443,7 +2436,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:544</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:551</a></code>
 </div>
                         </td>
                     </tr>
@@ -2526,7 +2519,7 @@ FIXME. This is currently here and not in PhoenixObjects because we need to handl
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:147</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PhoenixLoader.html#source" target="_self" >PhoenixLoader:148</a></code>
 </div>
                         </td>
                     </tr>
@@ -2738,8 +2731,7 @@ export class JSRootEventLoader extends PhoenixLoader {
   private getTEveTrack(track: any): any {
     if (!track || track.fN &lt;&#x3D; 0) return false;
 
-    const trackObj &#x3D; {};
-
+    const trackObj: { [key: string]: any } &#x3D; {};
     const positions &#x3D; [];
     for (let i &#x3D; 0; i &lt; track.fN - 1; i++) {
       positions.push([
@@ -2820,6 +2812,19 @@ export class JSRootEventLoader extends PhoenixLoader {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -2831,7 +2836,6 @@ export class JSRootEventLoader extends PhoenixLoader {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

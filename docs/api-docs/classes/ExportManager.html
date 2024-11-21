@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -399,8 +392,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="66"
-                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:66</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -443,7 +436,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>{}</code>
+                            <b>Returns : </b>    <code>{ [key: string]: {}; }</code>
 
                         </div>
                             <div class="io-description">
@@ -475,8 +468,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="85"
-                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:85</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:87</a></div>
                         </td>
                     </tr>
 
@@ -551,8 +544,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="52"
-                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:52</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">src/managers/three-manager/export-manager.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -611,7 +604,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>{ eventData: {}; geometries: {}; }</code>
+                            <b>Returns : </b>    <code>{ eventData: { [key: string]: {}; }; geometries: {}; }</code>
 
                         </div>
                             <div class="io-description">
@@ -631,9 +624,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OBJExporter } from &#x27;three/examples/jsm/exporters/OBJExporter&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OBJExporter } from &#x27;three/examples/jsm/exporters/OBJExporter.js&#x27;;
 import { Scene, Object3D } from &#x27;three&#x27;;
-import { GLTFExporter } from &#x27;three/examples/jsm/exporters/GLTFExporter&#x27;;
+import { GLTFExporter } from &#x27;three/examples/jsm/exporters/GLTFExporter.js&#x27;;
 import { saveFile } from &#x27;../../helpers/file&#x27;;
 
 /**
@@ -673,7 +666,9 @@ export class ExportManager {
         const output &#x3D; JSON.stringify(jsonResult, null, 2);
         saveFile(output, &#x27;phoenix-scene.phnx&#x27;, &#x27;text/plain&#x27;);
       },
-      null,
+      (error: ErrorEvent) &#x3D;&gt; {
+        console.error(&#x27;Error exporting scene:&#x27;, error);
+      },
     );
   }
 
@@ -697,7 +692,7 @@ export class ExportManager {
    * @param eventData Currently loaded event data.
    */
   private saveEventDataConfiguration(eventData: any) {
-    const eventDataConfig &#x3D; {};
+    const eventDataConfig: { [key: string]: string[] } &#x3D; {};
     for (const objectType of eventData.children) {
       if (objectType.name) {
         eventDataConfig[objectType.name] &#x3D; [];
@@ -716,7 +711,7 @@ export class ExportManager {
    * @param geometries Currently loaded geometries.
    */
   private saveGeometriesConfiguration(geometries: Object3D) {
-    const geometriesConfig &#x3D; [];
+    const geometriesConfig: string[] &#x3D; [];
     geometries.children.forEach((object) &#x3D;&gt; {
       if (object.name !&#x3D;&#x3D; &#x27;EventData&#x27;) {
         geometriesConfig.push(object.name);
@@ -767,6 +762,19 @@ export class ExportManager {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -778,7 +786,6 @@ export class ExportManager {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

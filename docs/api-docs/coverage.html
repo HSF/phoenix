@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="./" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -164,7 +157,19 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#getFromLocalStorage">src/helpers/browser-storage.ts</a>
+                        <a href="./miscellaneous/typealiases.html#CallbackFunction">src/helpers/active-variable.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>CallbackFunction</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#getFromLocalStorage">src/helpers/browser-storage.ts</a>
             </td>
             <td>variable</td>
             <td>getFromLocalStorage</td>
@@ -176,7 +181,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#setToLocalStorage">src/helpers/browser-storage.ts</a>
+                        <a href="./miscellaneous/variables.html#setToLocalStorage">src/helpers/browser-storage.ts</a>
             </td>
             <td>variable</td>
             <td>setToLocalStorage</td>
@@ -188,7 +193,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#EVENT_DATA_TYPE_COLORS">src/helpers/constants.ts</a>
+                        <a href="./miscellaneous/variables.html#EVENT_DATA_TYPE_COLORS">src/helpers/constants.ts</a>
             </td>
             <td>variable</td>
             <td>EVENT_DATA_TYPE_COLORS</td>
@@ -212,7 +217,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#loadFile">src/helpers/file.ts</a>
+                        <a href="./miscellaneous/variables.html#loadFile">src/helpers/file.ts</a>
             </td>
             <td>variable</td>
             <td>loadFile</td>
@@ -224,7 +229,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#saveFile">src/helpers/file.ts</a>
+                        <a href="./miscellaneous/variables.html#saveFile">src/helpers/file.ts</a>
             </td>
             <td>variable</td>
             <td>saveFile</td>
@@ -248,7 +253,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#getLabelTitle">src/helpers/labels.ts</a>
+                        <a href="./miscellaneous/variables.html#getLabelTitle">src/helpers/labels.ts</a>
             </td>
             <td>variable</td>
             <td>getLabelTitle</td>
@@ -320,7 +325,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#readZipFile">src/helpers/zip.ts</a>
+                        <a href="./miscellaneous/variables.html#readZipFile">src/helpers/zip.ts</a>
             </td>
             <td>variable</td>
             <td>readZipFile</td>
@@ -338,7 +343,7 @@
             <td>Cut</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(16/16)</span>
+                <span class="coverage-count">(18/18)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -363,6 +368,18 @@
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(11/11)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#GeometryUIParameters">src/lib/types/geometry-ui-parameters.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>GeometryUIParameters</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -410,7 +427,7 @@
             <td>JiveXMLLoader</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(45/45)</span>
+                <span class="coverage-count">(46/46)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -471,6 +488,30 @@
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(14/14)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#tracks_frag">src/loaders/objects/tracks.ts</a>
+            </td>
+            <td>variable</td>
+            <td>tracks_frag</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#tracks_vert">src/loaders/objects/tracks.ts</a>
+            </td>
+            <td>variable</td>
+            <td>tracks_vert</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -572,13 +613,25 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#setColorForObject">src/managers/three-manager/color-manager.ts</a>
+            </td>
+            <td>function</td>
+            <td>setColorForObject</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./classes/ControlsManager.html">src/managers/three-manager/controls-manager.ts</a>
             </td>
             <td>class</td>
             <td>ControlsManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(36/36)</span>
+                <span class="coverage-count">(34/34)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -614,7 +667,7 @@
             <td>ImportManager</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
-                <span class="coverage-count">(16/16)</span>
+                <span class="coverage-count">(21/21)</span>
             </td>
         </tr>
         <tr class="very-good">
@@ -716,6 +769,18 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ColorByOption">src/managers/ui-manager/color-options.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ColorByOption</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
                 <a href="./classes/DatGUIMenuUI.html">src/managers/ui-manager/dat-gui-ui.ts</a>
             </td>
             <td>class</td>
@@ -740,10 +805,106 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#defaultAnimationPresets">src/managers/ui-manager/index.ts</a>
+                        <a href="./miscellaneous/variables.html#defaultAnimationPresets">src/managers/ui-manager/index.ts</a>
             </td>
             <td>variable</td>
             <td>defaultAnimationPresets</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigButton">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigButton</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigCheckbox">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigCheckbox</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigColor">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigColor</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigLabel">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigLabel</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigRangeSlider">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigRangeSlider</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigSelect">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigSelect</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#ConfigSlider">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>ConfigSlider</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#PhoenixMenuConfigs">src/managers/ui-manager/phoenix-menu/config-types.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>PhoenixMenuConfigs</td>
             <td align="right" data-sort="100">
                 <span class="coverage-percent">100 %</span>
                 <span class="coverage-count">(1/1)</span>
@@ -800,7 +961,7 @@
         <tr class="very-good">
             <td>
                 <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#phoenixURLOptions">src/managers/url-options-manager.ts</a>
+                        <a href="./miscellaneous/variables.html#phoenixURLOptions">src/managers/url-options-manager.ts</a>
             </td>
             <td>variable</td>
             <td>phoenixURLOptions</td>
@@ -848,6 +1009,19 @@
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="./js/libs/custom-elements.min.js"></script>
        <script src="./js/libs/lit-html.js"></script>
 
@@ -859,7 +1033,6 @@
        <script src="./js/libs/es6-shim.min.js"></script>
        <script src="./js/libs/EventDispatcher.js"></script>
        <script src="./js/libs/promise.min.js"></script>
-       <script src="./js/libs/zepto.min.js"></script>
 
        <script src="./js/compodoc.js"></script>
 

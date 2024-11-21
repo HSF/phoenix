@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -563,7 +556,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>    <code>literal type</code>
 
                     </td>
                 </tr>
@@ -658,8 +651,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="176"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:176</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:186</a></div>
                         </td>
                     </tr>
 
@@ -699,8 +692,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="246"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:246</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="261"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:261</a></div>
                         </td>
                     </tr>
 
@@ -740,8 +733,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="293"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:293</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="309"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:309</a></div>
                         </td>
                     </tr>
 
@@ -781,8 +774,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="256"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:256</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="271"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:271</a></div>
                         </td>
                     </tr>
 
@@ -859,8 +852,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="282"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:282</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="298"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:298</a></div>
                         </td>
                     </tr>
 
@@ -936,8 +929,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="150"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:150</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:157</a></div>
                         </td>
                     </tr>
 
@@ -977,8 +970,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="124"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:124</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="129"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:129</a></div>
                         </td>
                     </tr>
 
@@ -1018,8 +1011,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="207"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:207</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="220"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:220</a></div>
                         </td>
                     </tr>
 
@@ -1059,8 +1052,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="300"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:300</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="316"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:316</a></div>
                         </td>
                     </tr>
 
@@ -1100,8 +1093,8 @@ This is to apply the stored momentum colors for minimum and maximum separated at
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="193"
-                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:193</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="205"
+                                    class="link-to-prism">src/managers/ui-manager/color-options.ts:205</a></div>
                         </td>
                     </tr>
 
@@ -1245,7 +1238,7 @@ export class ColorOptions {
 
   // Momentum options.
   /** Default values for colors and min/max for color by momentum. */
-  private momColors &#x3D; {
+  private momColors: { [key: string]: { value: number; color: string } } &#x3D; {
     min: {
       value: 0,
       color: &#x27;#ff0000&#x27;,
@@ -1271,7 +1264,8 @@ export class ColorOptions {
     this.collectionName &#x3D; collectionFolder.name;
     this.colorOptionsFolder &#x3D; collectionFolder.addChild(&#x27;Color Options&#x27;);
 
-    this.colorOptionsFolder.addConfig(&#x27;color&#x27;, {
+    this.colorOptionsFolder.addConfig({
+      type: &#x27;color&#x27;,
       label: &#x27;Color&#x27;,
       color: collectionColor
         ? &#x60;#${collectionColor?.getHexString()}&#x60;
@@ -1280,7 +1274,8 @@ export class ColorOptions {
         this.colorManager.collectionColor(this.collectionName, value),
     });
 
-    this.colorOptionsFolder.addConfig(&#x27;button&#x27;, {
+    this.colorOptionsFolder.addConfig({
+      type: &#x27;button&#x27;,
       label: &#x27;Random&#x27;,
       onClick: () &#x3D;&gt;
         this.colorManager.collectionColorRandom(this.collectionName),
@@ -1288,7 +1283,10 @@ export class ColorOptions {
 
     // Check which color by options are to be included.
 
-    if (colorByOptionsToInclude?.length &gt; 0) {
+    if (
+      colorByOptionsToInclude?.length &amp;&amp;
+      colorByOptionsToInclude?.length &gt; 0
+    ) {
       this.colorByOptions &#x3D; this.allColorByOptions.filter((colorByOption) &#x3D;&gt;
         colorByOptionsToInclude.includes(colorByOption.key),
       );
@@ -1309,7 +1307,8 @@ export class ColorOptions {
 
     // Configurations
 
-    this.colorOptionsFolder.addConfig(&#x27;select&#x27;, {
+    this.colorOptionsFolder.addConfig({
+      type: &#x27;select&#x27;,
       label: &#x27;Color by&#x27;,
       options: this.colorByOptions.map((colorByOption) &#x3D;&gt; colorByOption.name),
       onChange: (updatedColorByOption) &#x3D;&gt; {
@@ -1317,7 +1316,8 @@ export class ColorOptions {
           (colorByOption) &#x3D;&gt; colorByOption.name &#x3D;&#x3D;&#x3D; updatedColorByOption,
         );
 
-        this.selectedColorByOption &#x3D; newColorByOption?.key;
+        if (newColorByOption?.key)
+          this.selectedColorByOption &#x3D; newColorByOption.key;
         newColorByOption?.apply?.();
 
         this.onlySelectedColorByOption();
@@ -1333,12 +1333,15 @@ export class ColorOptions {
   private initChargeColorOptions() {
     // Charge configurations
     [-1, 0, 1].forEach((chargeValue) &#x3D;&gt; {
-      this.colorOptionsFolder.addConfig(&#x27;color&#x27;, {
+      const chargeValueIndex &#x3D;
+        chargeValue.toString() as keyof typeof this.chargeColors;
+      this.colorOptionsFolder.addConfig({
+        type: &#x27;color&#x27;,
         label: &#x60;${PrettySymbols.getPrettySymbol(&#x27;charge&#x27;)}&#x3D;${chargeValue}&#x60;,
         group: ColorByOptionKeys.CHARGE,
-        color: this.chargeColors[chargeValue],
+        color: this.chargeColors[chargeValueIndex],
         onChange: (color) &#x3D;&gt; {
-          this.chargeColors[chargeValue] &#x3D; color;
+          this.chargeColors[chargeValueIndex] &#x3D; color;
 
           if (this.selectedColorByOption &#x3D;&#x3D;&#x3D; ColorByOptionKeys.CHARGE) {
             this.colorManager.colorObjectsByProperty(
@@ -1359,7 +1362,9 @@ export class ColorOptions {
   private applyChargeColorOptions() {
     [-1, 0, 1].forEach((chargeValue) &#x3D;&gt; {
       this.colorManager.colorObjectsByProperty(
-        this.chargeColors[chargeValue],
+        this.chargeColors[
+          chargeValue.toString() as keyof typeof this.chargeColors
+        ],
         this.collectionName,
         (objectUserData) &#x3D;&gt;
           this.shouldColorByCharge(objectUserData, chargeValue),
@@ -1373,13 +1378,14 @@ export class ColorOptions {
    * @param chargeValue Value of charge (-1, 0, 1).
    * @returns Whether the charge is equal to the value.
    */
-  private shouldColorByCharge(objectParams: any, chargeValue: number) {
+  private shouldColorByCharge(objectParams: any, chargeValue: number): boolean {
     // For ATLAS data, the charge is calculated from dparams[4] otherwise it exists as an object&#x27;s userData
     if (Math.sign(1 / parseInt(objectParams?.dparams?.[4])) &#x3D;&#x3D;&#x3D; chargeValue) {
       return true;
     } else if (objectParams?.charge &#x3D;&#x3D;&#x3D; chargeValue) {
       return true;
     }
+    return false;
   }
 
   // Momentum options.
@@ -1390,7 +1396,8 @@ export class ColorOptions {
   private initMomColorOptions() {
     // Momentum configurations
     Object.entries(this.momColors).forEach(([key, momValue]) &#x3D;&gt; {
-      this.colorOptionsFolder.addConfig(&#x27;slider&#x27;, {
+      this.colorOptionsFolder.addConfig({
+        type: &#x27;slider&#x27;,
         label: PrettySymbols.getPrettySymbol(&#x27;mom&#x27;) + &#x27; &#x27; + key,
         group: ColorByOptionKeys.MOM,
         min: this.momColors.min.value,
@@ -1408,7 +1415,8 @@ export class ColorOptions {
         },
       });
 
-      this.colorOptionsFolder.addConfig(&#x27;color&#x27;, {
+      this.colorOptionsFolder.addConfig({
+        type: &#x27;color&#x27;,
         label: PrettySymbols.getPrettySymbol(&#x27;mom&#x27;) + &#x27; &#x27; + key + &#x27; color&#x27;,
         group: ColorByOptionKeys.MOM,
         color: momValue.color,
@@ -1453,6 +1461,7 @@ export class ColorOptions {
         ) {
           return true;
         }
+        return false;
       },
     );
   }
@@ -1532,6 +1541,19 @@ export class ColorOptions {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1543,7 +1565,6 @@ export class ColorOptions {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 

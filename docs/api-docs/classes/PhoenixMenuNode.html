@@ -13,7 +13,7 @@
     </head>
     <body>
           <script>
-               // Blocking script to avaoid flickering dark mode
+               // Blocking script to avoid flickering dark mode
                // Dark mode toggle button
                var useDark = window.matchMedia('(prefers-color-scheme: dark)');
                var darkModeState = useDark.matches;
@@ -60,20 +60,13 @@
                     darkModeState = darkModeStateLocal === 'true';
                }
                toggleDarkMode(darkModeState);
-
-               if ($darkModeToggles.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
           </script>
 
-        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
-            <a href="../" class="navbar-brand">Phoenix API Docs</a>
-            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Phoenix API Docs</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
@@ -82,7 +75,7 @@
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="hidden-xs menu">
+               <div class="d-none d-md-block menu">
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
@@ -474,7 +467,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                        <i>Type : </i>    <code>literal type</code>
 
                     </td>
                 </tr>
@@ -903,26 +896,18 @@ previous state of child can be restored if we toggle the parent back on.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addConfig(type: T, options: Omit< | type>)</code>
+<code>addConfig(config: <a href="../undefineds/PhoenixMenuConfigs.html" target="_self">PhoenixMenuConfigs</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="115"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:115</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:114</a></div>
                         </td>
                     </tr>
 
-                    <tr>
-                        <td class="col-md-4">
-                            <b>Type parameters :</b>
-                            <ul class="type-parameters">
-                                    <li>T</li>
-                            </ul>
-                        </td>
-                    </tr>
 
             <tr>
                 <td class="col-md-4">
@@ -943,9 +928,9 @@ previous state of child can be restored if we toggle the parent back on.</p>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>type</td>
+                                                <td>config</td>
                                             <td>
-                                                        <code>T</code>
+                                                            <code><a href="../miscellaneous/typealiases.html#PhoenixMenuConfigs" target="_self" >PhoenixMenuConfigs</a></code>
                                             </td>
 
                                             <td>
@@ -954,23 +939,7 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
 
                                             <td>
-                                                    <p>Type of configuration.</p>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                                <td>options</td>
-                                            <td>
-                                                        <code>Omit&lt; | type&gt;</code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                            <td>
-                                                    <p>Options for the config.</p>
+                                                    <p>config to be displayed as a Phoenix Menu item.</p>
 
                                             </td>
                                         </tr>
@@ -1009,8 +978,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="149"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:149</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:147</a></div>
                         </td>
                     </tr>
 
@@ -1083,8 +1052,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="242"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:242</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:263</a></div>
                         </td>
                     </tr>
 
@@ -1127,7 +1096,7 @@ previous state of child can be restored if we toggle the parent back on.</p>
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode</a></code>
+                            <b>Returns : </b>        <code><a href="../classes/PhoenixMenuNode.html" target="_self" >PhoenixMenuNode | undefined</a></code>
 
                         </div>
                             <div class="io-description">
@@ -1158,8 +1127,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="260"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:260</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="281"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:281</a></div>
                         </td>
                     </tr>
 
@@ -1233,8 +1202,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="175"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:175</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="178"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:178</a></div>
                         </td>
                     </tr>
 
@@ -1276,8 +1245,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="196"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:196</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:199</a></div>
                         </td>
                     </tr>
 
@@ -1464,8 +1433,8 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="129"
-                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:129</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">src/managers/ui-manager/phoenix-menu/phoenix-menu-node.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -1567,7 +1536,7 @@ previous state of child can be restored if we toggle the parent back on.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PhoenixMenuConfigs } from &#x27;./config-types&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { type PhoenixMenuConfigs } from &#x27;./config-types&#x27;;
 
 /**
  * A single node of phoenix menu item.
@@ -1593,7 +1562,7 @@ export class PhoenixMenuNode {
    * Previous toggle state of child nodes. This is so that the
    * previous state of child can be restored if we toggle the parent back on.
    */
-  private childrenToggleState &#x3D; {};
+  private childrenToggleState: { [key: string]: boolean } &#x3D; {};
 
   /** If the node children are active or not. */
   childrenActive: boolean &#x3D; false;
@@ -1618,8 +1587,8 @@ export class PhoenixMenuNode {
     parent?: PhoenixMenuNode,
   ) {
     this.name &#x3D; name;
-    this.icon &#x3D; icon;
-    this.onToggle &#x3D; onToggle;
+    if (icon) this.icon &#x3D; icon;
+    if (onToggle) this.onToggle &#x3D; onToggle;
     if (children) this.children &#x3D; children;
     if (configs) this.configs &#x3D; configs;
     if (parent) this.parent &#x3D; parent;
@@ -1677,17 +1646,15 @@ export class PhoenixMenuNode {
 
   /**
    * Add a config to the phoenix menu item.
-   * @param type Type of configuration.
-   * @param options Options for the config.
+   * @param config config to be displayed as a Phoenix Menu item.
    * @returns The current node.
    */
-  addConfig&lt;T extends keyof PhoenixMenuConfigs&gt;(
-    type: T,
-    options: Omit&lt;PhoenixMenuConfigs[T], &#x27;type&#x27;&gt;,
+  addConfig(
+    config: PhoenixMenuConfigs[keyof PhoenixMenuConfigs],
   ): PhoenixMenuNode {
-    const configsLength &#x3D; this.configs.push({ type, ...options });
+    this.configs.push(config);
     // Apply the values of config
-    this.applyConfigState(this.configs[configsLength - 1]);
+    this.applyConfigState(config);
     return this;
   }
 
@@ -1719,9 +1686,14 @@ export class PhoenixMenuNode {
     // Apply configs of different config types - manual
     if (config.type &#x3D;&#x3D;&#x3D; &#x27;checkbox&#x27; &amp;&amp; config?.[&#x27;isChecked&#x27;]) {
       config.onChange?.(config?.[&#x27;isChecked&#x27;]);
-    } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;color&#x27; &amp;&amp; config?.[&#x27;color&#x27;] &amp;&amp; !config.group) {
-      // Ignore color by options with &#x60;!config.group&#x60;, otherwise the collection color is overridden
-      config.onChange?.(config?.[&#x27;color&#x27;]);
+    } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;color&#x27; &amp;&amp; config?.[&#x27;color&#x27;]) {
+      if (this.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27; || this.parent?.name &#x3D;&#x3D;&#x3D; &#x27;Labels&#x27;) {
+        // Exception for Labels node (and sub labels), which should always have color applied
+        config.onChange?.(config?.[&#x27;color&#x27;]);
+      } else if (config.group !&#x3D;&#x3D; undefined) {
+        // Ignore color by options with &#x60;!config.group&#x60;, otherwise the collection color is overridden
+        config.onChange?.(config?.[&#x27;color&#x27;]);
+      }
     } else if (config.type &#x3D;&#x3D;&#x3D; &#x27;slider&#x27; &amp;&amp; config?.[&#x27;value&#x27;]) {
       config.onChange?.(config?.[&#x27;value&#x27;]);
     } else if (
@@ -1763,7 +1735,7 @@ export class PhoenixMenuNode {
    * @param json JSON containing the phoenix menu node state.
    */
   loadStateFromJSON(json: string | { [key: string]: any }) {
-    let jsonObject: any;
+    let jsonObject;
     if (typeof json &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
       jsonObject &#x3D; JSON.parse(json);
     } else {
@@ -1772,24 +1744,42 @@ export class PhoenixMenuNode {
 
     this.childrenActive &#x3D; jsonObject[&#x27;childrenActive&#x27;];
     this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
+    // eslint-disable-next-line
     this.toggleState !&#x3D;&#x3D; undefined &amp;&amp; this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject[&#x27;configs&#x27;]) {
-      const nodeConfig &#x3D; this.configs.find(
+      const nodeConfigs &#x3D; this.configs.filter(
         (nodeConfig) &#x3D;&gt;
           nodeConfig.type &#x3D;&#x3D;&#x3D; configState[&#x27;type&#x27;] &amp;&amp;
           nodeConfig.label &#x3D;&#x3D;&#x3D; configState[&#x27;label&#x27;],
       );
+      if (nodeConfigs.length &gt; 1) {
+        console.error(
+          &#x27;Multiple configs found with same label and type in phoenix menu node.&#x27;,
+        );
+      }
 
+      if (nodeConfigs.length &#x3D;&#x3D;&#x3D; 0) {
+        console.error(
+          &#x27;No config found with label and type in phoenix menu node. Aborting.&#x27;,
+        );
+        return;
+      }
+
+      const nodeConfig &#x3D; nodeConfigs[0];
+      // console.log(&#x27;nodeConfig&#x27;, nodeConfig);
       if (nodeConfig) {
         for (const prop in configState) {
-          nodeConfig[prop] &#x3D; configState[prop];
+          const key &#x3D; prop as keyof typeof nodeConfig;
+          // console.log(&#x27;prop&#x27;,prop, &#x27;key&#x27;, key, &#x27;nodeConfig[key]&#x27;, nodeConfig[key]);
+          (nodeConfig as any)[key] &#x3D; configState[key];
         }
 
         this.applyConfigState(nodeConfig);
       }
     }
 
+    // Now handle children
     for (const childState of jsonObject[&#x27;children&#x27;]) {
       const nodeChild &#x3D; this.children.filter(
         (nodeChild) &#x3D;&gt;
@@ -1808,7 +1798,7 @@ export class PhoenixMenuNode {
    * @param name Name of the node to find.
    * @returns The found node.
    */
-  findInTree(name: string): PhoenixMenuNode {
+  findInTree(name: string): PhoenixMenuNode | undefined {
     if (this.name &#x3D;&#x3D;&#x3D; name) {
       return this;
     } else {
@@ -1880,6 +1870,19 @@ export class PhoenixMenuNode {
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
 
@@ -1891,7 +1894,6 @@ export class PhoenixMenuNode {
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 
