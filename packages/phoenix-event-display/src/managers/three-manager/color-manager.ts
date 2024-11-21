@@ -6,7 +6,7 @@ import {
   Material,
   type Object3DEventMap,
 } from 'three';
-import { SceneManager } from './scene-manager.js';
+import { SceneManager } from './scene-manager';
 
 /**
  * Color manager for three.js functions related to coloring of objects.

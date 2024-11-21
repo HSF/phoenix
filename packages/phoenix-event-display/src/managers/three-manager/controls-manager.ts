@@ -11,7 +11,7 @@ import {
   TubeGeometry,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { RendererManager } from './renderer-manager.js';
+import { RendererManager } from './renderer-manager';
 
 /**
  * Manager for managing event display controls.

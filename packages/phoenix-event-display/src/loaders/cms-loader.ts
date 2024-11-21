@@ -1,6 +1,6 @@
-import { PhoenixLoader } from './phoenix-loader.js';
+import { PhoenixLoader } from './phoenix-loader';
 import { Vector3, QuadraticBezierCurve3 } from 'three';
-import { CMSObjects } from './objects/cms-objects.js';
+import { CMSObjects } from './objects/cms-objects';
 import JSZip from 'jszip';
 
 /**

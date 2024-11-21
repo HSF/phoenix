@@ -1,4 +1,4 @@
-import { PhoenixLoader } from './phoenix-loader.js';
+import { PhoenixLoader } from './phoenix-loader';
 import { openFile } from 'jsroot';
 
 /**

@@ -1,6 +1,6 @@
-import { RungeKutta } from './runge-kutta.js';
+import { RungeKutta } from './runge-kutta';
 import { Vector3 } from 'three';
-import { CoordinateHelper } from './coordinate-helper.js';
+import { CoordinateHelper } from './coordinate-helper';
 
 /**
  * Helper methods for RungeKutta functions.

@@ -1,5 +1,5 @@
-import { PhoenixLoader } from './phoenix-loader.js';
-import { CoordinateHelper } from '../helpers/coordinate-helper.js';
+import { PhoenixLoader } from './phoenix-loader';
+import { CoordinateHelper } from '../helpers/coordinate-helper';
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.

@@ -23,8 +23,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
-import { Cut } from '../../lib/models/cut.model.js';
-import { CoordinateHelper } from '../../helpers/coordinate-helper.js';
+import { Cut } from '../../lib/models/cut.model';
+import { CoordinateHelper } from '../../helpers/coordinate-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**

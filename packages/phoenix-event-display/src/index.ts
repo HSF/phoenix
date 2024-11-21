@@ -1,50 +1,50 @@
 // Event display
-export * from './event-display.js';
+export * from './event-display';
 
 // Three
-export * from './managers/three-manager/index.js';
-export * from './managers/three-manager/animations-manager.js';
-export * from './managers/three-manager/controls-manager.js';
-export * from './managers/three-manager/effects-manager.js';
-export * from './managers/three-manager/export-manager.js';
-export * from './managers/three-manager/import-manager.js';
-export * from './managers/three-manager/renderer-manager.js';
-export * from './managers/three-manager/scene-manager.js';
-export * from './managers/three-manager/selection-manager.js';
-export * from './managers/three-manager/xr/xr-manager.js';
-export * from './managers/three-manager/xr/vr-manager.js';
-export * from './managers/three-manager/xr/ar-manager.js';
+export * from './managers/three-manager/index';
+export * from './managers/three-manager/animations-manager';
+export * from './managers/three-manager/controls-manager';
+export * from './managers/three-manager/effects-manager';
+export * from './managers/three-manager/export-manager';
+export * from './managers/three-manager/import-manager';
+export * from './managers/three-manager/renderer-manager';
+export * from './managers/three-manager/scene-manager';
+export * from './managers/three-manager/selection-manager';
+export * from './managers/three-manager/xr/xr-manager';
+export * from './managers/three-manager/xr/vr-manager';
+export * from './managers/three-manager/xr/ar-manager';
 
 // UI
-export * from './managers/ui-manager/index.js';
-export * from './managers/ui-manager/phoenix-menu/phoenix-menu-node.js';
+export * from './managers/ui-manager/index';
+export * from './managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 // Extras
-export * from './lib/types/configuration.js';
-export * from './lib/models/cut.model.js';
-export * from './lib/models/preset-view.model.js';
+export * from './lib/types/configuration';
+export * from './lib/models/cut.model';
+export * from './lib/models/preset-view.model';
 
 // Helpers
-export * from './helpers/info-logger.js';
-export * from './helpers/rk-helper.js';
-export * from './helpers/runge-kutta.js';
-export * from './helpers/pretty-symbols.js';
-export * from './helpers/active-variable.js';
-export * from './helpers/zip.js';
+export * from './helpers/info-logger';
+export * from './helpers/rk-helper';
+export * from './helpers/runge-kutta';
+export * from './helpers/pretty-symbols';
+export * from './helpers/active-variable';
+export * from './helpers/zip';
 
 // Loaders
-export * from './loaders/event-data-loader.js';
-export * from './loaders/cms-loader.js';
-export * from './loaders/jivexml-loader.js';
-export * from './loaders/jsroot-event-loader.js';
-export * from './loaders/phoenix-loader.js';
-export * from './loaders/edm4hep-json-loader.js';
-export * from './loaders/script-loader.js';
-export * from './loaders/trackml-loader.js';
-export * from './loaders/objects/cms-objects.js';
-export * from './loaders/objects/phoenix-objects.js';
+export * from './loaders/event-data-loader';
+export * from './loaders/cms-loader';
+export * from './loaders/jivexml-loader';
+export * from './loaders/jsroot-event-loader';
+export * from './loaders/phoenix-loader';
+export * from './loaders/edm4hep-json-loader';
+export * from './loaders/script-loader';
+export * from './loaders/trackml-loader';
+export * from './loaders/objects/cms-objects';
+export * from './loaders/objects/phoenix-objects';
 
 // Managers
-export * from './managers/state-manager.js';
-export * from './managers/loading-manager.js';
-export * from './managers/url-options-manager.js';
+export * from './managers/state-manager';
+export * from './managers/loading-manager';
+export * from './managers/url-options-manager';

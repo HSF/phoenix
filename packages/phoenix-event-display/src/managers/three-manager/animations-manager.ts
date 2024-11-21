@@ -15,9 +15,9 @@ import {
   Plane,
   Group,
 } from 'three';
-import { SceneManager } from './scene-manager.js';
-import { RendererManager } from './renderer-manager.js';
-import { TracksMesh } from '../../loaders/objects/tracks.js';
+import { SceneManager } from './scene-manager';
+import { RendererManager } from './renderer-manager';
+import { TracksMesh } from '../../loaders/objects/tracks';
 
 /** Type for animation preset. */
 export interface AnimationPreset {

@@ -1,18 +1,18 @@
 import { httpRequest, openFile } from 'jsroot';
 import { settings as jsrootSettings } from 'jsroot';
 import { build } from 'jsroot/geom';
-import { ThreeManager } from './managers/three-manager/index.js';
-import { UIManager } from './managers/ui-manager/index.js';
-import { InfoLogger } from './helpers/info-logger.js';
-import type { Configuration } from './lib/types/configuration.js';
-import { StateManager } from './managers/state-manager.js';
-import { LoadingManager } from './managers/loading-manager.js';
-import { URLOptionsManager } from './managers/url-options-manager.js';
-import { ActiveVariable } from './helpers/active-variable.js';
-import type { AnimationPreset } from './managers/three-manager/animations-manager.js';
-import { XRSessionType } from './managers/three-manager/xr/xr-manager.js';
-import { getLabelTitle } from './helpers/labels.js';
-import { PhoenixLoader } from './loaders/phoenix-loader.js';
+import { ThreeManager } from './managers/three-manager/index';
+import { UIManager } from './managers/ui-manager/index';
+import { InfoLogger } from './helpers/info-logger';
+import type { Configuration } from './lib/types/configuration';
+import { StateManager } from './managers/state-manager';
+import { LoadingManager } from './managers/loading-manager';
+import { URLOptionsManager } from './managers/url-options-manager';
+import { ActiveVariable } from './helpers/active-variable';
+import type { AnimationPreset } from './managers/three-manager/animations-manager';
+import { XRSessionType } from './managers/three-manager/xr/xr-manager';
+import { getLabelTitle } from './helpers/labels';
+import { PhoenixLoader } from './loaders/phoenix-loader';
 
 declare global {
   /**

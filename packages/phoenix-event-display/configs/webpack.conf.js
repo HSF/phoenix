@@ -12,7 +12,7 @@ module.exports = {
         exclude: /node_modules/,
         options: {
           loader: 'ts',
-          target: 'es2018',
+          target: 'es2020',
         },
       },
     ],
