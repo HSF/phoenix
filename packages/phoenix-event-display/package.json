@@ -1,6 +1,6 @@
 {
   "name": "phoenix-event-display",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "API for web-based experiment independent event display.",
   "main": "dist/index",
   "types": "dist/index",
