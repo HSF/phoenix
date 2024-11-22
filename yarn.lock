@@ -16078,6 +16078,7 @@ __metadata:
     jest: ^29.7.0
     jsroot: ^7.8.0
     jszip: ^3.10.1
+    lodash: ^4.17.21
     stats-js: ^1.0.1
     three: ~0.170.0
     ts-jest: ~29.2.5
