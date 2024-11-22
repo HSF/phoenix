@@ -1,5 +1,5 @@
 import { PrettySymbols } from '../../helpers/pretty-symbols';
-import { ConfigRangeSlider } from 'src/managers/ui-manager/phoenix-menu/config-types';
+import { ConfigRangeSlider } from '../../managers/ui-manager/phoenix-menu/config-types';
 
 /**
  * Cut for specifying filters on event data attribute.
