@@ -9,6 +9,8 @@ There are two ways to make a release.
 
 ## Automated release using GitHub Actions
 
+***CURRENTLY NOT WORKING***
+
 1. Go to the "Actions" tab of the Phoenix repository.
 2. Navigate to the `phoenix-release` workflow.
 3. Click on the "Run workflow" menu.
