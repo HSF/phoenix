@@ -82,8 +82,12 @@ export class URLOptionsManager {
     } else {
       file = this.urlOptions.get('file') ?? '';
       type = this.urlOptions.get('type')?.toLowerCase() ?? '';
-      console.log('Default file(',defaultEventPath,') was overridden by URL options to: ', file );
-
+      console.log(
+        'Default file(',
+        defaultEventPath,
+        ') was overridden by URL options to: ',
+        file,
+      );
     }
 
     console.log('Try to load event file: ', file, 'of type', type);
@@ -94,7 +98,11 @@ export class URLOptionsManager {
         fetch(this.urlOptions.get('config') ?? '')
           .then((res) => res.json())
           .then((jsonState) => {
-            console.log("Applying configuration ", this.urlOptions.get('config'), "  from urlOptions");
+            console.log(
+              'Applying configuration ',
+              this.urlOptions.get('config'),
+              '  from urlOptions',
+            );
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -142,12 +150,14 @@ export class URLOptionsManager {
    * @returns An empty promise. ;(
    */
   private async handleJiveXMLEvent(fileURL: string) {
-    const fileData = await (await fetch(fileURL).then((response) => {
-      if (response.status >= 400 && response.status < 600) {
-        throw new Error("Bad response from server");
-      }
-      return response;
-  })).text();
+    const fileData = await (
+      await fetch(fileURL).then((response) => {
+        if (response.status >= 400 && response.status < 600) {
+          throw new Error('Bad response from server');
+        }
+        return response;
+      })
+    ).text();
     if (!this.configuration.eventDataLoader) {
       this.configuration.eventDataLoader = new JiveXMLLoader();
     }
