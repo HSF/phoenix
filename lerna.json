@@ -1,5 +1,5 @@
 {
-  "version": "3.0.3",
+  "version": "3.0.4",
   "npmClient": "yarn",
   "packages": ["packages/*", "packages/phoenix-ng/projects/*"],
   "command": {

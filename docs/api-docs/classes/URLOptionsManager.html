@@ -352,8 +352,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="232"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:232</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="248"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:248</a></div>
                         </td>
                     </tr>
 
@@ -493,8 +493,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="214"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:214</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="230"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:230</a></div>
                         </td>
                     </tr>
 
@@ -575,8 +575,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="273"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:273</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:289</a></div>
                         </td>
                     </tr>
 
@@ -621,8 +621,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="143"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:143</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="152"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:152</a></div>
                         </td>
                     </tr>
 
@@ -699,8 +699,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="160"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:160</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:176</a></div>
                         </td>
                     </tr>
 
@@ -777,8 +777,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="171"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:171</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:187</a></div>
                         </td>
                     </tr>
 
@@ -854,8 +854,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="257"
-                                    class="link-to-prism">src/managers/url-options-manager.ts:257</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="273"
+                                    class="link-to-prism">src/managers/url-options-manager.ts:273</a></div>
                         </td>
                     </tr>
 
@@ -997,23 +997,32 @@ export class URLOptionsManager {
     }
 
     if (!this.urlOptions.get(&#x27;file&#x27;) || !this.urlOptions.get(&#x27;type&#x27;)) {
-      console.log(&#x27;Setting and config from defaults&#x27;);
       file &#x3D; defaultEventPath;
       type &#x3D; defaultEventType;
     } else {
-      console.log(&#x27;Setting and config from urlOptions&#x27;);
       file &#x3D; this.urlOptions.get(&#x27;file&#x27;) ?? &#x27;&#x27;;
       type &#x3D; this.urlOptions.get(&#x27;type&#x27;)?.toLowerCase() ?? &#x27;&#x27;;
+      console.log(
+        &#x27;Default file(&#x27;,
+        defaultEventPath,
+        &#x27;) was overridden by URL options to: &#x27;,
+        file,
+      );
     }
 
-    console.log(&#x27;Loading &#x27;, file, &#x27;of type&#x27;, type);
-    // Load config from URL
+    console.log(&#x27;Try to load event file: &#x27;, file, &#x27;of type&#x27;, type);
+    // Try to load config from URL
     const loadConfig &#x3D; () &#x3D;&gt; {
       if (this.urlOptions.get(&#x27;config&#x27;)) {
         this.eventDisplay.getLoadingManager().addLoadableItem(&#x27;url_config&#x27;);
         fetch(this.urlOptions.get(&#x27;config&#x27;) ?? &#x27;&#x27;)
           .then((res) &#x3D;&gt; res.json())
           .then((jsonState) &#x3D;&gt; {
+            console.log(
+              &#x27;Applying configuration &#x27;,
+              this.urlOptions.get(&#x27;config&#x27;),
+              &#x27;  from urlOptions&#x27;,
+            );
             const stateManager &#x3D; new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -1061,7 +1070,14 @@ export class URLOptionsManager {
    * @returns An empty promise. ;(
    */
   private async handleJiveXMLEvent(fileURL: string) {
-    const fileData &#x3D; await (await fetch(fileURL)).text();
+    const fileData &#x3D; await (
+      await fetch(fileURL).then((response) &#x3D;&gt; {
+        if (response.status &gt;&#x3D; 400 &amp;&amp; response.status &lt; 600) {
+          throw new Error(&#x27;Bad response from server&#x27;);
+        }
+        return response;
+      })
+    ).text();
     if (!this.configuration.eventDataLoader) {
       this.configuration.eventDataLoader &#x3D; new JiveXMLLoader();
     }

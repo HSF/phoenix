@@ -1744,8 +1744,8 @@ export class PhoenixMenuNode {
 
     this.childrenActive &#x3D; jsonObject[&#x27;childrenActive&#x27;];
     this.toggleState &#x3D; jsonObject[&#x27;toggleState&#x27;];
-    // eslint-disable-next-line
-    this.toggleState !&#x3D;&#x3D; undefined &amp;&amp; this.onToggle?.(this.toggleState);
+
+    this.onToggle?.(this.toggleState);
 
     for (const configState of jsonObject[&#x27;configs&#x27;]) {
       const nodeConfigs &#x3D; this.configs.filter(
