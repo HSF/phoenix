@@ -1,10 +1,12 @@
 import {
   Color,
   MeshPhongMaterial,
+  LineBasicMaterial,
   Mesh,
   Object3D,
   Material,
   type Object3DEventMap,
+  Line,
 } from 'three';
 import { SceneManager } from './scene-manager';
 
@@ -131,6 +133,12 @@ function setColorForObject(object: Object3D<Object3DEventMap>, color: any) {
         (mat as MeshPhongMaterial)?.color?.set(color);
       });
     } else if ('color' in material) {
+      (material.color as Color).set(color);
+    }
+  } else if (object instanceof Line) {
+    const line = object as Line;
+    const material = line.material;
+    if ('color' in material) {
       (material.color as Color).set(color);
     }
   }
