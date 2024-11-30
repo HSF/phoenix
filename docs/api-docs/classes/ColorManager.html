@@ -185,7 +185,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/managers/three-manager/color-manager.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/managers/three-manager/color-manager.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -258,8 +258,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="47"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:47</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="49"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -350,8 +350,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="66"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:66</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -424,8 +424,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="27"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:27</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="29"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -532,8 +532,8 @@
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="90"
-                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:90</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="92"
+                                    class="link-to-prism">src/managers/three-manager/color-manager.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -599,10 +599,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   Color,
   MeshPhongMaterial,
+  LineBasicMaterial,
   Mesh,
   Object3D,
   Material,
   type Object3DEventMap,
+  Line,
 } from &#x27;three&#x27;;
 import { SceneManager } from &#x27;./scene-manager&#x27;;
 
@@ -729,6 +731,12 @@ function setColorForObject(object: Object3D&lt;Object3DEventMap&gt;, color: any)
         (mat as MeshPhongMaterial)?.color?.set(color);
       });
     } else if (&#x27;color&#x27; in material) {
+      (material.color as Color).set(color);
+    }
+  } else if (object instanceof Line) {
+    const line &#x3D; object as Line;
+    const material &#x3D; line.material;
+    if (&#x27;color&#x27; in material) {
       (material.color as Color).set(color);
     }
   }
