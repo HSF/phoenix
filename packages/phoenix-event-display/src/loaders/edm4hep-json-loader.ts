@@ -89,7 +89,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
-  /** Assign default color to Tracks*/
+  /** Assign default color to Tracks */
   private colorTracks(event: any) {
     let recoParticles: any[];
     if ('ReconstructedParticles' in event) {
@@ -302,7 +302,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allTracks;
   }
 
-  /** Not implemented */
+  /** Return tracker hits */
   private getHits(event: any) {
     const allHits: { [key: string]: any[] } = {};
 
@@ -331,7 +331,11 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       const rawHits = collDict['collection'];
       const hits: any[] = [];
+      const hitsOverlay: any[] = [];
+      const hitsProdBySecondary: any[] = [];
       const hitColor = this.randomColor();
+      const hitColorOverlay = this.randomColor();
+      const hitColorProdBySecondary = this.randomColor();
 
       rawHits.forEach((rawHit: any) => {
         const position: any[] = [];
@@ -341,16 +345,46 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           position.push(rawHit['position']['z'] * 0.1);
         }
 
-        const hit = {
-          type: 'CircularPoint',
-          pos: position,
-          color: '#' + hitColor,
-          size: 2,
-        };
-        hits.push(hit);
+        /* BITOverlay = 31
+         * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
+         */
+        if ((rawHit['quality'] & (1 << 31)) !== 0) {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColorOverlay,
+            size: 1,
+          };
+          hitsOverlay.push(hit);
+          /* BITProducedBySecondary = 30
+           * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
+           */
+        } else if ((rawHit['quality'] & (1 << 30)) !== 0) {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColorProdBySecondary,
+            size: 1,
+          };
+          hitsProdBySecondary.push(hit);
+        } else {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColor,
+            size: 2,
+          };
+          hits.push(hit);
+        }
       });
 
       allHits[collName] = hits;
+      if (hitsOverlay.length > 0) {
+        allHits[collName + ' | From Overlay'] = hitsOverlay;
+      }
+      if (hitsProdBySecondary.length > 0) {
+        allHits[collName + ' | Produced by Secondary'] = hitsProdBySecondary;
+      }
     }
 
     return allHits;
