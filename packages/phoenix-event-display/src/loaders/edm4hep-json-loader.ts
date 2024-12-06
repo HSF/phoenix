@@ -89,7 +89,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
-  /** Assign default color to Tracks */
+  /** Find PDG of the particle associated with the hit */
   private getPDG(event: any, collectionID: number, index: number) {
     for (const collName in event) {
       if (event[collName].constructor != Object) {
@@ -97,9 +97,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const collDict = event[collName];
-      //console.log(collDict);
-      //console.log(collectionID);
-      //console.log(index);
 
       if (!('collID' in collDict)) {
         continue;
@@ -461,8 +458,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
               };
               hitsProton.push(hit);
               other = false;
-            } else {
-              console.log(pdg);
             }
           }
           if (other) {
@@ -502,8 +497,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         allHits[collName + ' | Proton'] = hitsProton;
       }
     }
-
-    console.log(allHits);
 
     return allHits;
   }
