@@ -90,6 +90,36 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
   /** Assign default color to Tracks */
+  private getPDG(event: any, collectionID: number, index: number) {
+    for (const collName in event) {
+      if (event[collName].constructor != Object) {
+        continue;
+      }
+
+      const collDict = event[collName];
+      //console.log(collDict);
+      //console.log(collectionID);
+      //console.log(index);
+
+      if (!('collID' in collDict)) {
+        continue;
+      }
+
+      if (collDict['collID'] !== collectionID) {
+        continue;
+      }
+
+      if (collDict['collection'].length <= index) {
+        continue;
+      }
+
+      return collDict['collection'][index]['PDG'];
+    }
+
+    return 0;
+  }
+
+  /** Assign default color to Tracks */
   private colorTracks(event: any) {
     let recoParticles: any[];
     if ('ReconstructedParticles' in event) {
@@ -312,6 +342,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const collDict = event[collName];
+      // console.log(collDict);
 
       if (!('collType' in collDict)) {
         continue;
@@ -333,9 +364,19 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       const hits: any[] = [];
       const hitsOverlay: any[] = [];
       const hitsProdBySecondary: any[] = [];
+      const hitsElectron: any[] = [];
+      const hitsMuon: any[] = [];
+      const hitsPion: any[] = [];
+      const hitsKaon: any[] = [];
+      const hitsProton: any[] = [];
       const hitColor = this.randomColor();
       const hitColorOverlay = this.randomColor();
       const hitColorProdBySecondary = this.randomColor();
+      const hitColorElectron = this.randomColor();
+      const hitColorMuon = this.randomColor();
+      const hitColorPion = this.randomColor();
+      const hitColorKaon = this.randomColor();
+      const hitColorProton = this.randomColor();
 
       rawHits.forEach((rawHit: any) => {
         const position: any[] = [];
@@ -353,7 +394,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
             type: 'CircularPoint',
             pos: position,
             color: '#' + hitColorOverlay,
-            size: 1,
+            size: 2,
           };
           hitsOverlay.push(hit);
           /* BITProducedBySecondary = 30
@@ -364,28 +405,105 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
             type: 'CircularPoint',
             pos: position,
             color: '#' + hitColorProdBySecondary,
-            size: 1,
+            size: 2,
           };
           hitsProdBySecondary.push(hit);
         } else {
-          const hit = {
-            type: 'CircularPoint',
-            pos: position,
-            color: '#' + hitColor,
-            size: 2,
-          };
-          hits.push(hit);
+          let other = true;
+          if (rawHit['particle'].length > 0) {
+            const pdg = this.getPDG(
+              event,
+              rawHit['particle'][0]['collectionID'],
+              rawHit['particle'][0]['index'],
+            );
+            if (Math.abs(pdg) === 11) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorElectron,
+                size: 2,
+              };
+              hitsElectron.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 13) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorMuon,
+                size: 2,
+              };
+              hitsMuon.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 211) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorPion,
+                size: 2,
+              };
+              hitsPion.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 321) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorKaon,
+                size: 2,
+              };
+              hitsKaon.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 2212) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorProton,
+                size: 2,
+              };
+              hitsProton.push(hit);
+              other = false;
+            } else {
+              console.log(pdg);
+            }
+          }
+          if (other) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColor,
+              size: 2,
+            };
+            hits.push(hit);
+          }
         }
       });
 
-      allHits[collName] = hits;
+      if (hits.length > 0) {
+        allHits[collName + ' | Other'] = hits;
+      }
       if (hitsOverlay.length > 0) {
-        allHits[collName + ' | From Overlay'] = hitsOverlay;
+        allHits[collName + ' | Overlay'] = hitsOverlay;
       }
       if (hitsProdBySecondary.length > 0) {
-        allHits[collName + ' | Produced by Secondary'] = hitsProdBySecondary;
+        allHits[collName + ' | Secondary'] = hitsProdBySecondary;
+      }
+      if (hitsElectron.length > 0) {
+        allHits[collName + ' | Electron'] = hitsElectron;
+      }
+      if (hitsMuon.length > 0) {
+        allHits[collName + ' | Muon'] = hitsMuon;
+      }
+      if (hitsPion.length > 0) {
+        allHits[collName + ' | Pion'] = hitsPion;
+      }
+      if (hitsKaon.length > 0) {
+        allHits[collName + ' | Kaon'] = hitsKaon;
+      }
+      if (hitsProton.length > 0) {
+        allHits[collName + ' | Proton'] = hitsProton;
       }
     }
+
+    console.log(allHits);
 
     return allHits;
   }
