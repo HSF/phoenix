@@ -43,7 +43,7 @@
     "ts-jest-mock-import-meta": "^1.2.1",
     "typescript": "~5.5.4"
   },
-  "packageManager": "yarn@3.3.1",
+  "packageManager": "yarn@4.5.3",
   "peerDependencies": {
     "ts-jest": "*"
   }
