@@ -1,3 +1,42 @@
+@media screen and (max-width: 400px) {
+  .collectionsInfo table,
+  .collectionsInfo thead,
+  .collectionsInfo tbody,
+  .collectionsInfo th,
+  .collectionsInfo td,
+  .collectionsInfo tr {
+    display: block;
+  }
+
+  .collectionsInfo thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .collectionsInfo tr {
+    margin: 0 0 1rem 0;
+  }
+
+  .collectionsInfo td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+  }
+
+  .collectionsInfo td::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
+
 .collectionsInfo {
   height: 95%;
 
@@ -105,6 +144,8 @@
   }
 
   td {
+    min-height: 20px;
+
     .object-select {
       position: relative;
       width: 1.6rem;
