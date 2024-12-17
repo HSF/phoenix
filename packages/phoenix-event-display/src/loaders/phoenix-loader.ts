@@ -1,19 +1,19 @@
-import { Group, Object3D, Vector3 } from 'three';
 import { GUI } from 'dat.gui';
-import type { EventDataLoader } from './event-data-loader';
-import { UIManager } from '../managers/ui-manager/index';
-import { ThreeManager } from '../managers/three-manager/index';
-import { Cut } from '../lib/models/cut.model';
-import { PhoenixObjects } from './objects/phoenix-objects';
+import * as _ from 'lodash';
+import { Group, Object3D, Vector3 } from 'three';
+import { CoordinateHelper } from '../helpers/coordinate-helper';
 import { InfoLogger } from '../helpers/info-logger';
-import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
+import { getLabelTitle } from '../helpers/labels';
+import { Cut } from '../lib/models/cut.model';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
-import { CoordinateHelper } from '../helpers/coordinate-helper';
-import { getLabelTitle } from '../helpers/labels';
+import { ThreeManager } from '../managers/three-manager/index';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
+import { UIManager } from '../managers/ui-manager/index';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
-import * as _ from 'lodash';
+import type { EventDataLoader } from './event-data-loader';
+import { PhoenixObjects } from './objects/phoenix-objects';
 
 /**
  * Loader for processing and loading an event.
@@ -100,23 +100,24 @@ export class PhoenixLoader implements EventDataLoader {
    * Get list of collections in the event data.
    * @returns List of all collection names.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (!this.eventData) {
-      return [];
+      return {};
     }
 
-    const collections = [];
+    const collectionsByType: { [key: string]: string[] } = {};
+
     for (const objectType in this.eventData) {
       if (
         this.eventData[objectType] &&
-        typeof this.eventData[objectType] === 'object'
+        typeof this.eventData[objectType] == 'object'
       ) {
-        for (const collection in this.eventData[objectType]) {
-          collections.push(collection);
-        }
+        collectionsByType[objectType] = Object.keys(
+          this.eventData[objectType],
+        ).sort();
       }
     }
-    return collections;
+    return collectionsByType;
   }
 
   /**
