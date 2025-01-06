@@ -1,5 +1,6 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { openFile } from 'jsroot';
+import { decompress } from 'some-compression-library'; // Add the necessary import for the compression library
 
 /**
  * PhoenixLoader for processing and loading an event from ".root".
@@ -59,7 +60,56 @@ export class JSRootEventLoader extends PhoenixLoader {
           }
         });
       }
+    }).catch((error: any) => {
+      if (error.message.includes('unsupported compression')) {
+        this.handleUnsupportedCompression(objects, onEventData);
+      } else {
+        console.error('Error opening file:', error);
+      }
     });
+  }
+
+  /**
+   * Handle unsupported compression method for ATLAS AOD files.
+   * @param objects An array identifying objects inside the ".root" file.
+   * @param onEventData Callback when event data is extracted and available for use.
+   */
+  private handleUnsupportedCompression(
+    objects: string[],
+    onEventData: (eventData: any) => void,
+  ) {
+    fetch(this.rootFileURL)
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => {
+        const decompressedData = decompress(buffer); // Decompress the data using the specific compression method
+        openFile(decompressedData).then((file: any) => {
+          let i = 0;
+          for (const objectName of objects) {
+            file.readObject(objectName).then((object: any) => {
+              i++;
+              if (object) {
+                this.processItemsList(object);
+              }
+              if (i === objects.length) {
+                for (const objectType of [
+                  'Hits',
+                  'Tracks',
+                  'Jets',
+                  'CaloClusters',
+                ]) {
+                  if (Object.keys(this.fileEventData[objectType]).length === 0) {
+                    this.fileEventData[objectType] = undefined;
+                  }
+                }
+                onEventData(this.fileEventData);
+              }
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.error('Error handling unsupported compression:', error);
+      });
   }
 
   /**
