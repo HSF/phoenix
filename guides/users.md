@@ -192,6 +192,7 @@ Jets are a list of Jet objects with the following attributes :
 * `energy`, `et` (opt) - energy of the Jets, used to set its length
 * `coneR` (opt) - the radius of the jet cone. If not given, radius is 10% of the length
 * `color` (opt) - Hexadecimal string representing the color to draw the jet.
+* `origin_X`, `origin_Y`, `origin_Z` (opt) - Origin of the jet
 
 #### 'Hits'
 Hits can be defined in 2 ways. Either as an array of positions or as an array of Hit objects.
