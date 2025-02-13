@@ -10,25 +10,25 @@ describe('CollectionsInfoOverlayComponent', () => {
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
 
   const mockEventDisplay = {
-    listenToDisplayedEventChange: (callback) => {
-      callback();
-    },
-    getCollections: jest.fn(),
-    getActiveObjectId: () => ({
-      onUpdate: (callback) => {
-        callback();
-      },
+    listenToDisplayedEventChange: jest.fn((callback) => callback()),
+    getCollections: jest.fn().mockReturnValue({
+      Hits: ['hitsCollection1', 'hitsCollection2'],
+      Tracks: ['trackCollection1'],
     }),
-    enableHighlighting: jest.fn().mockReturnThis(),
-    disableHighlighting: jest.fn().mockReturnThis(),
+    getActiveObjectId: jest.fn().mockReturnValue({
+      value: '',
+      onUpdate: jest.fn((callback) => callback('1234')),
+    }),
+    enableHighlighting: jest.fn(),
+    disableHighlighting: jest.fn(),
     getThreeManager: jest.fn().mockReturnThis(),
     getSceneManager: jest.fn().mockReturnThis(),
     getScene: jest.fn().mockReturnThis(),
-    getObjectByName: jest.fn().mockReturnThis(),
-    getCollection: jest.fn().mockReturnThis(),
-    lookAtObject: jest.fn().mockReturnThis(),
-    highlightObject: jest.fn().mockReturnThis(),
-    addLabelToObject: jest.fn().mockReturnThis(),
+    getObjectByName: jest.fn(),
+    getCollection: jest.fn().mockReturnValue([{ uuid: '1234', labelText: 'test' }]),
+    lookAtObject: jest.fn(),
+    highlightObject: jest.fn(),
+    addLabelToObject: jest.fn(),
   };
 
   beforeEach(() => {
@@ -49,7 +49,11 @@ describe('CollectionsInfoOverlayComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    component.activeObject.update = jest.fn();
+    component.activeObject = {
+      value: '',
+      update: jest.fn(),
+      onUpdate: jest.fn(),
+    } as any;
   });
 
   it('should create', () => {
@@ -60,50 +64,29 @@ describe('CollectionsInfoOverlayComponent', () => {
     jest.spyOn(mockEventDisplay, 'listenToDisplayedEventChange');
     component.ngOnInit();
 
-    // Expect to start listening to changes in the currently displayed event
     expect(mockEventDisplay.listenToDisplayedEventChange).toHaveBeenCalled();
+    expect(component.collections).toEqual([
+      { type: 'Hits', collections: ['hitsCollection1', 'hitsCollection2'] },
+      { type: 'Tracks', collections: ['trackCollection1'] },
+    ]);
   });
 
   it('should initially get active object ID', () => {
-    // Adding an element with the ID of the collections info row
-    const ROW_ID = '1234';
-    const activeObjectRow = document.createElement('div');
-    activeObjectRow.setAttribute('id', ROW_ID);
-    document.body.appendChild(activeObjectRow);
-
-    // Return mocked row ID from the getActiveObjectId function same as the element we added above
     jest.spyOn(mockEventDisplay, 'getActiveObjectId');
-
     component.ngOnInit();
-    component.activeObject.value = ROW_ID;
 
     expect(mockEventDisplay.getActiveObjectId).toHaveBeenCalled();
+    expect(component.activeObject.value).toBe('1234');
   });
 
   it('should change collection', () => {
-    const uuid = '1234';
-    const group = new Object3D();
-    const object = new Object3D();
-    object.uuid = uuid;
+    const mockSelectedValue = 'hitsCollection1';
 
-    jest
-      .spyOn(
-        mockEventDisplay.getThreeManager().getSceneManager().getScene(),
-        'getObjectByName',
-      )
-      .mockImplementation(() => group);
-
-    jest
-      .spyOn(mockEventDisplay, 'getCollection')
-      .mockImplementation(() => [{ uuid, otherProp: 'testPropValue' }]);
-
-    const mockSelectedValue = 'TestCollection';
-
+    jest.spyOn(mockEventDisplay, 'getCollection');
     component.changeCollection(mockSelectedValue);
 
-    expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(
-      mockSelectedValue,
-    );
+    expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(mockSelectedValue);
+    expect(component.showingCollection).toEqual([{ uuid: '1234', labelText: 'test', isCut: true }]);
   });
 
   it('should look at object through event display', () => {
@@ -111,14 +94,16 @@ describe('CollectionsInfoOverlayComponent', () => {
 
     jest.spyOn(mockEventDisplay, 'lookAtObject');
     component.lookAtObject(mockUuid);
+
     expect(mockEventDisplay.lookAtObject).toHaveBeenCalledWith(mockUuid);
   });
 
   it('should highlight object through event display', () => {
-    const mockUuid = '123'; // Wrong uuid to cover else
+    const mockUuid = '1234';
 
     jest.spyOn(mockEventDisplay, 'highlightObject');
     component.highlightObject(mockUuid);
+
     expect(mockEventDisplay.highlightObject).toHaveBeenCalledWith(mockUuid);
   });
 
@@ -135,57 +120,50 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should sort collections in ascending order', () => {
-    const mockCollections = [
-      ['1235', 'testPropValue'],
-      ['1236', 'testPropValue'],
+    component.showingCollection = [
+      { uuid: '2', labelText: 'b' },
+      { uuid: '1', labelText: 'a' },
     ];
 
-    component.showingCollection = mockCollections;
-
-    component.sort('mockCollections', 'asc');
-
+    component.sort('labelText', 'asc');
     expect(component.showingCollection).toEqual([
-      ['1235', 'testPropValue'],
-      ['1236', 'testPropValue'],
+      { uuid: '1', labelText: 'a' },
+      { uuid: '2', labelText: 'b' },
     ]);
 
-    component.sort('mockCollections', 'desc');
-
-    // TODO: why did this fail?
-    expect(component.showingCollection).not.toEqual([
-      ['1236', 'testPropValue'],
-      ['1235', 'testPropValue'],
+    component.sort('labelText', 'desc');
+    expect(component.showingCollection).toEqual([
+      { uuid: '2', labelText: 'b' },
+      { uuid: '1', labelText: 'a' },
     ]);
   });
 
   it('should toggle invisibility', () => {
     component.hideInvisible = false;
+
     component.toggleInvisible(true);
-    expect(component.hideInvisible).toBeTruthy();
+    expect(component.hideInvisible).toBe(true);
 
     component.toggleInvisible(false);
-    expect(component.hideInvisible).toBeFalsy();
+    expect(component.hideInvisible).toBe(false);
   });
 
   it('should add label to object', () => {
     const mockUuid = '1234';
     const mockLabel = 'testLabel';
 
-    component.selectedCollection = mockLabel;
-    component['elementRef'].nativeElement.querySelector = jest
-      .fn()
-      .mockImplementation(() => ({
-        innerHTML: '',
-      }));
+    component.selectedCollection = 'hitsCollection1';
+    component['elementRef'].nativeElement.querySelector = jest.fn().mockReturnValue({
+      value: mockLabel,
+    });
 
     jest.spyOn(mockEventDisplay, 'addLabelToObject');
-
-    component.addLabel(1, mockUuid);
+    component.addLabel(0, mockUuid);
 
     expect(mockEventDisplay.addLabelToObject).toHaveBeenCalledWith(
-      undefined,
       mockLabel,
-      1,
+      'hitsCollection1',
+      0,
       mockUuid,
     );
   });
