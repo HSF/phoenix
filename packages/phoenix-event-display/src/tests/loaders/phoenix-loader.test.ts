@@ -73,13 +73,21 @@ describe('PhoenixLoader', () => {
   });
 
   it('should not get the list of collections and collection with the given collection name from the event data', () => {
+    // Set eventData to undefined to simulate no data available
     phoenixLoader['eventData'] = undefined;
-    const tmp = phoenixLoader.getCollections();
-    expect(tmp).toBeInstanceOf(Array);
-    expect(tmp).toHaveLength(0);
-    expect(phoenixLoader.getCollection('hitsCollection')).toBeFalsy();
+  
+    // Test getCollections()
+    const collections = phoenixLoader.getCollections();
+    expect(collections).toEqual({}); // Expect an empty object instead of an array
+  
+    // Test getCollection() for a specific collection name
+    const collection = phoenixLoader.getCollection('hitsCollection');
+    expect(collection).toBeFalsy(); // Ensure it doesn't return a valid collection
+  
+    // Restore eventData for other tests
     phoenixLoader['eventData'] = eventData['Event'];
   });
+  
 
   it('should get the list of event names from the event data', () => {
     const eventsList = phoenixLoader.getEventsList(eventData);
@@ -91,9 +99,12 @@ describe('PhoenixLoader', () => {
 
   it('should get list of collections in the event data', () => {
     const collectionList = phoenixLoader.getCollections();
-
-    expect(collectionList).toEqual(['hitsCollection']);
+  
+    expect(collectionList).toEqual({
+      Hits: ['hitsCollection'],
+    });
   });
+  
 
   it('should get the collection with the given collection name from the event data', () => {
     const expectedCollection = eventData['Event']['Hits']['hitsCollection'];

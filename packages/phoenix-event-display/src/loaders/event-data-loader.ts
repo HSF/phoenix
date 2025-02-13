@@ -1,6 +1,6 @@
+import { InfoLogger } from '../helpers/info-logger';
 import { ThreeManager } from '../managers/three-manager/index';
 import { UIManager } from '../managers/ui-manager/index';
-import { InfoLogger } from '../helpers/info-logger';
 
 /**
  * Event data loader for implementing different event data loaders.
@@ -32,7 +32,7 @@ export interface EventDataLoader {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  getCollections(): string[];
+  getCollections(): { [key: string]: string[] };
 
   /**
    * Get all the objects inside a collection.
