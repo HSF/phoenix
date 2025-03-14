@@ -25,7 +25,9 @@ describe('CollectionsInfoOverlayComponent', () => {
     getSceneManager: jest.fn().mockReturnThis(),
     getScene: jest.fn().mockReturnThis(),
     getObjectByName: jest.fn(),
-    getCollection: jest.fn().mockReturnValue([{ uuid: '1234', labelText: 'test' }]),
+    getCollection: jest
+      .fn()
+      .mockReturnValue([{ uuid: '1234', labelText: 'test' }]),
     lookAtObject: jest.fn(),
     highlightObject: jest.fn(),
     addLabelToObject: jest.fn(),
@@ -85,8 +87,12 @@ describe('CollectionsInfoOverlayComponent', () => {
     jest.spyOn(mockEventDisplay, 'getCollection');
     component.changeCollection(mockSelectedValue);
 
-    expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(mockSelectedValue);
-    expect(component.showingCollection).toEqual([{ uuid: '1234', labelText: 'test', isCut: true }]);
+    expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(
+      mockSelectedValue,
+    );
+    expect(component.showingCollection).toEqual([
+      { uuid: '1234', labelText: 'test', isCut: true },
+    ]);
   });
 
   it('should look at object through event display', () => {
@@ -153,9 +159,11 @@ describe('CollectionsInfoOverlayComponent', () => {
     const mockLabel = 'testLabel';
 
     component.selectedCollection = 'hitsCollection1';
-    component['elementRef'].nativeElement.querySelector = jest.fn().mockReturnValue({
-      value: mockLabel,
-    });
+    component['elementRef'].nativeElement.querySelector = jest
+      .fn()
+      .mockReturnValue({
+        value: mockLabel,
+      });
 
     jest.spyOn(mockEventDisplay, 'addLabelToObject');
     component.addLabel(0, mockUuid);
