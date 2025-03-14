@@ -21,9 +21,14 @@
             (change)="changeCollection($event.target.value)"
           >
             <option value="" selected disabled hidden>Choose Collection</option>
-            <option *ngFor="let collection of collections" [value]="collection">
-              {{ collection }}
-            </option>
+            <optgroup *ngFor="let group of collections" [label]="group.type">
+              <option
+                *ngFor="let collection of group.collections"
+                [value]="collection"
+              >
+                {{ collection }}
+              </option>
+            </optgroup>
           </select>
         </div>
         <mat-checkbox
