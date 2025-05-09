@@ -2,6 +2,7 @@ import { Component, type AfterViewInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],

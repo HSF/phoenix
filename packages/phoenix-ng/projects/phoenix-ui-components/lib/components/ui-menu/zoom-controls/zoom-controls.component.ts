@@ -5,6 +5,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
  * Component for adding zoom controls for the main and overlay cameras.
  */
 @Component({
+  standalone: false,
   selector: 'app-zoom-controls',
   templateUrl: './zoom-controls.component.html',
   styleUrls: ['./zoom-controls.component.scss'],

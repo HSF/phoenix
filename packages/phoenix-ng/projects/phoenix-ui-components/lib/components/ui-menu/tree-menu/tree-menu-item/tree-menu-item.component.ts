@@ -9,6 +9,7 @@ export type TreeMenuNode = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-tree-menu-item',
   templateUrl: './tree-menu-item.component.html',
   styleUrls: ['./tree-menu-item.component.scss'],

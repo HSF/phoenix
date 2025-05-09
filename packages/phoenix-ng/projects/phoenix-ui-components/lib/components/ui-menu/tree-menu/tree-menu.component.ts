@@ -2,6 +2,7 @@ import { Component, type OnInit } from '@angular/core';
 import { type TreeMenuNode } from './tree-menu-item/tree-menu-item.component';
 
 @Component({
+  standalone: false,
   selector: 'app-tree-menu',
   templateUrl: './tree-menu.component.html',
   styleUrls: ['./tree-menu.component.scss'],

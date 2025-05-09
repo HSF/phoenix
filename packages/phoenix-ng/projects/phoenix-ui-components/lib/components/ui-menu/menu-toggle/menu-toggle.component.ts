@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-menu-toggle',
   templateUrl: './menu-toggle.component.html',
   styleUrls: ['./menu-toggle.component.scss'],

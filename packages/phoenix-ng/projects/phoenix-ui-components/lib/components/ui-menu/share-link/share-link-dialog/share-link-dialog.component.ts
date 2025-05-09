@@ -9,6 +9,7 @@ import { ActiveVariable, phoenixURLOptions } from 'phoenix-event-display';
 import QRCode from 'qrcode';
 
 @Component({
+  standalone: false,
   selector: 'app-share-link-dialog',
   templateUrl: './share-link-dialog.component.html',
   styleUrls: ['./share-link-dialog.component.scss'],

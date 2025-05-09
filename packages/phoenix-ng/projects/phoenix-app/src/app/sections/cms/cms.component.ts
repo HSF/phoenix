@@ -12,6 +12,7 @@ import {
 } from 'phoenix-ui-components';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-cms',
   templateUrl: './cms.component.html',
   styleUrls: ['./cms.component.scss'],

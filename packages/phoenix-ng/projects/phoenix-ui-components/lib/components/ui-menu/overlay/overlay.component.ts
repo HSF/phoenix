@@ -12,6 +12,7 @@ import { ResizeSensor } from 'css-element-queries';
  * Component for overlay panel.
  */
 @Component({
+  standalone: false,
   selector: 'app-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],

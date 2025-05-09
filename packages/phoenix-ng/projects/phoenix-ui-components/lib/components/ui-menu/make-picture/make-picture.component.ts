@@ -7,6 +7,7 @@ import {
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-make-picture',
   templateUrl: './make-picture.component.html',
   styleUrls: ['./make-picture.component.scss'],

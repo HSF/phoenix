@@ -9,6 +9,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { CollectionsInfoOverlayComponent } from './collections-info-overlay/collections-info-overlay.component';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-collections-info',
   templateUrl: './collections-info.component.html',
   styleUrls: ['./collections-info.component.scss'],

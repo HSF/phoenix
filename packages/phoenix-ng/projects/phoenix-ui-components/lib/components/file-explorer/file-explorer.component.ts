@@ -30,6 +30,7 @@ export class FileEvent {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-file-explorer',
   templateUrl: './file-explorer.component.html',
   styleUrls: ['./file-explorer.component.scss'],

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ShareLinkDialogComponent } from './share-link-dialog/share-link-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-share-link',
   templateUrl: './share-link.component.html',
   styleUrls: ['./share-link.component.scss'],

@@ -3,6 +3,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
 import { ARManager, XRSessionType } from 'phoenix-event-display';
 
 @Component({
+  standalone: false,
   selector: 'app-ar-toggle',
   templateUrl: './ar-toggle.component.html',
   styleUrls: ['./ar-toggle.component.scss'],

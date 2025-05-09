@@ -52,6 +52,7 @@ export const defaultAnimationPresets: {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-animate-camera',
   templateUrl: './animate-camera.component.html',
   styleUrls: ['./animate-camera.component.scss'],

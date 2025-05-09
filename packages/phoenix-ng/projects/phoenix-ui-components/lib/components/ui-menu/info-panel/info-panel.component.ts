@@ -12,6 +12,7 @@ import { InfoPanelOverlayComponent } from './info-panel-overlay/info-panel-overl
  * Component for toggling info panel overlay
  */
 @Component({
+  standalone: false,
   selector: 'app-info-panel',
   templateUrl: './info-panel.component.html',
   styleUrls: ['./info-panel.component.scss'],

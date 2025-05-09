@@ -3,6 +3,7 @@ import type { ElementRef } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-overlay-view-window',
   templateUrl: './overlay-view-window.component.html',
   styleUrls: ['./overlay-view-window.component.scss'],

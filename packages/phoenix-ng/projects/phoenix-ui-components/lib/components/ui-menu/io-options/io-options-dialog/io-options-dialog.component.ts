@@ -14,6 +14,7 @@ import {
 } from '../../../../services/extras/event-data-import';
 
 @Component({
+  standalone: false,
   selector: 'app-io-options-dialog',
   templateUrl: './io-options-dialog.component.html',
   styleUrls: ['./io-options-dialog.component.scss'],
