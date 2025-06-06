@@ -7,8 +7,11 @@ import {
   Material,
   type Object3DEventMap,
   Line,
+  Points,
 } from 'three';
 import { SceneManager } from './scene-manager';
+import { PhoenixMenuNode } from '../ui-manager/phoenix-menu/phoenix-menu-node';
+import { type ConfigColor } from '../ui-manager/phoenix-menu/config-types';
 
 /**
  * Color manager for three.js functions related to coloring of objects.
@@ -64,8 +67,12 @@ export class ColorManager {
   /**
    * Changes the color of all objects inside an event data collection to some random color.
    * @param collectionName Name of the collection.
+   * @param optionsFolder Reporting random color back to the menu color box.
    */
-  public collectionColorRandom(collectionName: string) {
+  public collectionColorRandom(
+    collectionName: string,
+    optionsFolder?: PhoenixMenuNode,
+  ) {
     if (!this.sceneManager || !this.sceneManager.getScene()) {
       return;
     }
@@ -77,8 +84,19 @@ export class ColorManager {
       if (collection) {
         for (const child of Object.values(collection.children)) {
           child.traverse((object) => {
-            const randomColor = Math.random() * 0xffffff;
+            const randomColor = Math.floor(Math.random() * 0xffffff);
             setColorForObject(object, randomColor);
+            if (typeof optionsFolder === 'undefined') {
+              return;
+            }
+            if (optionsFolder.configs.length < 1) {
+              return;
+            }
+            if (optionsFolder.configs[0].type !== 'color') {
+              return;
+            }
+            const configColor = optionsFolder.configs[0] as ConfigColor;
+            configColor.color = `#${randomColor.toString(16)}`;
           });
         }
       }
@@ -138,6 +156,12 @@ function setColorForObject(object: Object3D<Object3DEventMap>, color: any) {
   } else if (object instanceof Line) {
     const line = object as Line;
     const material = line.material;
+    if ('color' in material) {
+      (material.color as Color).set(color);
+    }
+  } else if (object instanceof Points) {
+    const points = object as Points;
+    const material = points.material;
     if ('color' in material) {
       (material.color as Color).set(color);
     }
