@@ -41,22 +41,21 @@ For running both the event display and the Angular app, you will need [Node.js](
 
 * **N.B.** There seems to be a problem with node v21 and ARM devices. See [here](https://github.com/HSF/phoenix/issues/627) for more details.
 
-Once you have Node.js and npm (npm comes with Node.js), install Yarn.
+Once you have Node.js and npm (npm comes with the Node.js), install `corepack`
+(see [Yarn installation instructions](https://yarnpkg.com/getting-started/install))
 
 ```sh
-npm install --global yarn
+npm install --global corepack
 ```
-
-> You might need to set your Yarn version to Yarn 2 and beyond with
-> ```
-> yarn set version berry
-> ```
 
 Then run the following commands.
 
 ```sh
 # Install all the required dependencies
 yarn install
+
+# Will prompt you to confirm yarn installation
+
 # For macOS you must install the following:
 # brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman
 
