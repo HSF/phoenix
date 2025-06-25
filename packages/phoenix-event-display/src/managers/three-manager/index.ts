@@ -18,6 +18,7 @@ import {
   PerspectiveCamera,
   Vector2,
   Raycaster,
+  OrthographicCamera,
 } from 'three';
 import html2canvas from 'html2canvas';
 import type { Configuration } from '../../lib/types/configuration';
@@ -178,7 +179,7 @@ export class ThreeManager {
     // Animations manager
     this.animationsManager = new AnimationsManager(
       this.sceneManager.getScene(),
-      this.controlsManager.getActiveCamera(),
+      this.controlsManager.getMainCamera(),
       this.rendererManager,
     );
     // VR manager
@@ -198,7 +199,9 @@ export class ThreeManager {
       this.infoLogger,
     );
     // Set camera of the event display state
-    new StateManager().setCamera(this.controlsManager.getActiveCamera());
+    new StateManager().setCamera(this.controlsManager.getMainCamera());
+
+    this.controlsManager.initOverlayControls();
   }
 
   /**
@@ -212,8 +215,9 @@ export class ThreeManager {
    * Updates controls
    */
   public updateControls() {
-    this.controlsManager.getActiveControls().update();
-    this.controlsManager.updateSync();
+    this.controlsManager.getMainControls().update();
+    this.controlsManager.getOverlayControls()?.update();
+    // this.controlsManager.updateSync();
     tweenUpdate();
   }
 
@@ -243,15 +247,21 @@ export class ThreeManager {
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    this.rendererManager.render(
-      this.sceneManager.getScene(),
-      this.controlsManager.getOverlayCamera(),
-    );
+    if (this.controlsManager.isOverlayLinked())
+      this.controlsManager.syncOverlayFromMain();
+
+    if (this.controlsManager.getOverlayCamera()) {
+      this.sceneManager.updateLights(this.controlsManager.getOverlayCamera());
+      this.rendererManager.render(
+        this.sceneManager.getScene(),
+        this.controlsManager.getOverlayCamera(),
+      );
+    }
+    this.sceneManager.updateLights(this.controlsManager.getMainCamera());
     this.effectsManager.render(
       this.sceneManager.getScene(),
       this.controlsManager.getMainCamera(),
     );
-    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
   }
 
   /**
@@ -283,7 +293,7 @@ export class ThreeManager {
    * @param autoRotate If the controls are to be automatically rotated or not.
    */
   public autoRotate(autoRotate: boolean) {
-    this.controlsManager.getActiveControls().autoRotate = autoRotate;
+    this.controlsManager.getMainControls().autoRotate = autoRotate;
   }
 
   /**
@@ -738,24 +748,91 @@ export class ThreeManager {
     this.animateCameraTarget(cameraTarget, duration);
   }
 
+  // *************************************
+  // * Functions redirection From ControlsManager. *
+  // *************************************
+
   /**
-   * Swaps cameras.
-   * @param useOrthographic Whether to use orthographic or perspective camera.
+   * Reverts the main camera type between PerspectiveCamera and OrthographicCamera.
+   * @returns True if the camera is now an OrthographicCamera, false if it's a PerspectiveCamera.
    */
-  public swapCameras(useOrthographic: boolean) {
-    let cameraType: string;
+  public revertMainCamera(): boolean {
+    this.controlsManager.revertCameraType(this.controlsManager.getMainCamera());
+    return this.controlsManager.getMainCamera() instanceof OrthographicCamera;
+  }
 
-    if (useOrthographic) {
-      // perspective -> ortho
-      cameraType = 'OrthographicCamera';
-    } else {
-      // ortho -> perspective
-      cameraType = 'PerspectiveCamera';
-    }
+  /**
+   * Reverts the overlay camera type between PerspectiveCamera and OrthographicCamera.
+   * @returns True if the camera is now an OrthographicCamera, false if it's a PerspectiveCamera.
+   */
+  public revertOverlayCamera(): boolean {
+    this.controlsManager.revertCameraType(
+      this.controlsManager.getOverlayCamera(),
+    );
+    return (
+      this.controlsManager.getOverlayCamera() instanceof OrthographicCamera
+    );
+  }
 
-    if (this.controlsManager.getMainCamera().type !== cameraType) {
-      this.controlsManager.swapControls();
-    }
+  /**
+   * Links the overlay camera controls to follow the main camera controls.
+   * When linked, the overlay camera will mirror the main camera's position and orientation.
+   */
+  public linkOverlayToMain() {
+    this.controlsManager.linkOverlayToMain();
+  }
+
+  /**
+   * Checks if the overlay camera is currently linked to the main camera.
+   * @returns True if the overlay is linked to the main camera, false otherwise.
+   */
+  public isOverlayLinked(): boolean {
+    return this.controlsManager.isOverlayLinked();
+  }
+
+  /**
+   * Initializes the overlay camera controls.
+   * Sets up the necessary controls for the overlay camera view.
+   */
+  public initOverlayControls() {
+    this.controlsManager.initOverlayControls();
+  }
+
+  /**
+   * Readapts the overlay camera's aspect ratio to match new dimensions.
+   * @param ratio The new aspect ratio to apply to the overlay camera.
+   */
+  public readaptOverlayAspectRatio(ratio: number) {
+    this.controlsManager.readaptOverlayAspectRatio(ratio);
+  }
+
+  /**
+   * Synchronizes the overlay camera viewport with the specified ratios.
+   * @param widthRatio The width ratio for the overlay viewport.
+   * @param heightRatio The height ratio for the overlay viewport.
+   */
+  public syncOverlayViewPort(widthRatio: number, heightRatio: number) {
+    this.controlsManager.syncOverlayViewPort(
+      widthRatio,
+      heightRatio,
+      !this.isOverlayLinked(),
+    );
+  }
+
+  /**
+   * Switches the contexts between main and overlay cameras.
+   * Allows toggling focus between the main view and overlay view.
+   */
+  public switchContexts() {
+    this.controlsManager.switchContexts();
+  }
+
+  /**
+   * Synchronizes the overlay camera view from the main camera.
+   * Updates the overlay camera to match the main camera's current state.
+   */
+  public syncOverlayFromMain() {
+    this.controlsManager.syncOverlayFromMain();
   }
 
   // *************************************
@@ -993,6 +1070,14 @@ export class ThreeManager {
   }
 
   /**
+   * get the renderer to be used to render the event display on the overlayed canvas.
+   * @returns renderer responsible for the overlay. Should not be called before setting it.
+   */
+  public getOverlayRenderer() {
+    return this.rendererManager.getOverlayRenderer();
+  }
+
+  /**
    * Zoom all the cameras by a specific zoom factor.
    * The factor may either be greater (zoom in) or smaller (zoom out) than 1.
    * @param zoomFactor The factor to zoom by.
@@ -1024,7 +1109,7 @@ export class ThreeManager {
    */
   private animateCameraPosition(cameraPosition: number[], duration: number) {
     const posAnimation = new Tween(
-      this.controlsManager.getActiveCamera().position,
+      this.controlsManager.getMainCamera().position,
     );
     posAnimation.to(
       {
@@ -1044,7 +1129,7 @@ export class ThreeManager {
    */
   private animateCameraTarget(cameraTarget: number[], duration: number) {
     const rotAnimation = new Tween(
-      this.controlsManager.getActiveControls().target,
+      this.controlsManager.getMainControls().target,
     );
     rotAnimation.to(
       {
@@ -1143,9 +1228,7 @@ export class ThreeManager {
       if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
-            this.autoRotate(
-              !this.controlsManager.getActiveControls().autoRotate,
-            );
+            this.autoRotate(!this.controlsManager.getMainControls().autoRotate);
             break;
           case 'Equal': // shift + "+"
             this.zoomTo(1 / 1.2, 100);
@@ -1160,11 +1243,7 @@ export class ThreeManager {
             }
             break;
           case 'KeyV': {
-            // shift + "v"
-            const isOrthographicView =
-              this.controlsManager.getMainCamera().type ===
-              'OrthographicCamera';
-            this.swapCameras(!isOrthographicView);
+            this.revertMainCamera();
             break;
           }
         }
@@ -1540,7 +1619,7 @@ export class ThreeManager {
    * @param labelId Unique ID of the label.
    */
   public addLabelToObject(label: string, uuid: string, labelId: string) {
-    const cameraControls = this.controlsManager.getActiveControls();
+    const cameraControls = this.controlsManager.getMainControls();
     const objectPosition = this.getObjectPosition(uuid);
     this.getSceneManager().addLabelToObject(
       label,
