@@ -27,10 +27,12 @@ export class ControlsManager {
   /** The renderer manager instance for accessing main and overlay renderers. */
   private renderr: any;
 
+  /** Whether the overlay controls are linked to the main controls. */
   private _isOverlayLinked: boolean = false;
   /**
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
+   * @param defaultView The default camera position as [x, y, z] coordinates.
    */
   constructor(
     rendererManager: RendererManager,
