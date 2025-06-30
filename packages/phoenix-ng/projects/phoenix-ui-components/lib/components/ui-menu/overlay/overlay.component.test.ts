@@ -3,14 +3,32 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OverlayComponent } from './overlay.component';
 import { ElementRef } from '@angular/core';
 import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { EventDisplayService } from '../../../services/event-display.service';
 
 describe('OverlayComponent', () => {
   let component: OverlayComponent;
   let fixture: ComponentFixture<OverlayComponent>;
 
+  const mockEventDisplay = {
+    getThreeManager: jest.fn().mockReturnValue({
+      initOverlayControls: jest.fn(),
+      revertMainCamera: jest.fn().mockReturnValue(false),
+    }),
+    setOverlayRenderer: jest.fn(),
+    fixOverlayView: jest.fn(),
+    getUIManager: jest.fn().mockReturnThis(),
+    toggleOrthographicView: jest.fn().mockReturnThis(),
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      providers: [
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
+        },
+      ],
       declarations: [OverlayComponent],
     }).compileComponents();
   });
