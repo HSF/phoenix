@@ -42,8 +42,9 @@ export class ZoomControlsComponent {
    * Zoom the camera in.
    * @param leftClick Whether the mouse click is left or not.
    */
-  zoomIn(leftClick: boolean) {
-    if (leftClick) {
+  zoomIn(event: Event | boolean) {
+    if (event instanceof Event) event.preventDefault();
+    if (event instanceof Event || event) {
       this.zoomTo(1 / this.zoomFactor);
     }
   }
@@ -52,8 +53,9 @@ export class ZoomControlsComponent {
    * Zoom the camera out.
    * @param leftClick Whether the mouse click is left or not.s
    */
-  zoomOut(leftClick: boolean) {
-    if (leftClick) {
+  zoomOut(event: Event | boolean) {
+    if (event instanceof Event) event.preventDefault();
+    if (event instanceof Event || event) {
       this.zoomTo(this.zoomFactor);
     }
   }
