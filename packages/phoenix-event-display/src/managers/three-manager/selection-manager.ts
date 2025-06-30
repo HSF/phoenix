@@ -520,7 +520,7 @@ export class SelectionManager {
     } else if (fps > this.FPS_THRESHOLDS.TO_LOW_SKIP && currentSkip > 3) {
       newSkip = 3; // Low skipping for medium-good FPS
     }
-    newSkip = 2;
+
     // Only change if it's different and log the decision
     if (newSkip !== currentSkip) {
       this.framesToSkip = newSkip;
