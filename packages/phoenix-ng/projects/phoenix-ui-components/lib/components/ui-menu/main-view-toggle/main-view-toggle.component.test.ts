@@ -11,6 +11,9 @@ describe('MainViewToggleComponent', () => {
   const mockEventDisplay = {
     getUIManager: jest.fn().mockReturnThis(),
     toggleOrthographicView: jest.fn().mockReturnThis(),
+    getThreeManager: jest.fn().mockReturnValue({
+      revertMainCamera: jest.fn().mockReturnValue(true),
+    }),
   };
 
   beforeEach(() => {
@@ -43,7 +46,7 @@ describe('MainViewToggleComponent', () => {
 
     expect(component.orthographicView).toBe(true);
     expect(
-      mockEventDisplay.getUIManager().toggleOrthographicView,
+      mockEventDisplay.getThreeManager().revertMainCamera,
     ).toHaveBeenCalled();
   });
 });

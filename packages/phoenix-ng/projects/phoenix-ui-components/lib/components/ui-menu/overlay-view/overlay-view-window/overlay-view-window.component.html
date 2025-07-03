@@ -4,7 +4,7 @@
   [resizable]="true"
   [transparentBody]="transparentBody"
   [active]="showOverlay"
-  [keepAspectRatioFixed]="true"
+  [keepAspectRatioFixed]="false"
 >
   <div class="overlay-view-wrapper">
     <canvas #overlayWindow id="overlay-canvas" [hidden]="!showOverlay">
@@ -34,6 +34,33 @@
           ' view'
         "
         (click)="switchOverlayView()"
+      >
+      </app-menu-toggle>
+
+      <app-menu-toggle
+        class="overlay-view-control"
+        [icon]="overlayViewLinked ? 'link2' : 'unlink'"
+        [matTooltip]="
+          (overlayViewLinked ? 'UnLink' : 'Link') + ' overlay view to main'
+        "
+        [active]="overlayViewLinked"
+        (click)="LinkOverlayView()"
+      >
+      </app-menu-toggle>
+
+      <app-menu-toggle
+        class="overlay-view-control"
+        icon="arrow-path-pointing-out"
+        [matTooltip]="'Switch Windows'"
+        (click)="switchContexts()"
+      >
+      </app-menu-toggle>
+
+      <app-menu-toggle
+        class="overlay-view-control"
+        icon="arrow-path-rounded"
+        [matTooltip]="'Sync Overlay from Main'"
+        (click)="syncOverlayFromMain()"
       >
       </app-menu-toggle>
     </div>

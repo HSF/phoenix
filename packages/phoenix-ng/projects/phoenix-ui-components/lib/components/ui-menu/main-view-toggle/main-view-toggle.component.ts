@@ -13,9 +13,8 @@ export class MainViewToggleComponent {
   constructor(private eventDisplay: EventDisplayService) {}
 
   switchMainView() {
-    this.orthographicView = !this.orthographicView;
-    this.eventDisplay
-      .getUIManager()
-      .toggleOrthographicView(this.orthographicView);
+    this.orthographicView = this.eventDisplay
+      .getThreeManager()
+      .revertMainCamera();
   }
 }
