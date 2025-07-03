@@ -39,12 +39,8 @@ export class EffectsManager {
   /** Whether antialiasing is enabled or disabled. */
   public antialiasing: boolean = true;
 
-  /** Currently outlined object (legacy compatibility) */
-  private currentOutlineObject: Mesh | null = null;
   /** WebGL renderer reference for custom outline rendering */
   private renderer: WebGLRenderer;
-  /** Simple line outline object (legacy compatibility) */
-  private outlineHelper: LineSegments | null = null;
 
   // Multi-selection support
   /** Map of selected objects to their outline helpers */
@@ -56,6 +52,7 @@ export class EffectsManager {
   public render: (scene: Scene, camera: Camera) => void;
 
   // Shared shader code for reuse
+  /** Shared vertex shader code for outline rendering. */
   private static readonly VERTEX_SHADER = `
     uniform float time;
     varying vec3 vPosition;
@@ -68,6 +65,7 @@ export class EffectsManager {
     }
   `;
 
+  /** Shared rainbow color function for reuse across shaders. */
   private static readonly RAINBOW_FUNCTION = `
     // Enhanced rainbow function - reused from main outline material
     vec3 rainbow(float t) {
@@ -92,6 +90,7 @@ export class EffectsManager {
     }
   `;
 
+  /** Fragment shader for hover outline effects (clean blue outline). */
   private static readonly HOVER_FRAGMENT_SHADER = `
     // Hover outline shader - clean blue outline
     uniform float time;
@@ -105,6 +104,7 @@ export class EffectsManager {
     }
   `;
 
+  /** Fragment shader for selection outline effects (animated rainbow outline). */
   private static readonly SELECTION_FRAGMENT_SHADER = `
     // Selection outline shader - reuses rainbow function
     uniform float time;
@@ -166,11 +166,7 @@ export class EffectsManager {
       }
 
       // Always update time uniforms if we have any outlines (new multi-selection system)
-      if (
-        this.currentOutlineObject ||
-        this.selectedOutlines.size > 0 ||
-        this.hoverOutline
-      ) {
+      if (this.selectedOutlines.size > 0 || this.hoverOutline) {
         this.renderWithRainbowOutline(scene, camera);
       } else {
         // Normal rendering without outline
@@ -186,11 +182,7 @@ export class EffectsManager {
    */
   private antialiasRender(scene: Scene, camera: Camera) {
     // Always update time uniforms if we have any outlines (new multi-selection system)
-    if (
-      this.currentOutlineObject ||
-      this.selectedOutlines.size > 0 ||
-      this.hoverOutline
-    ) {
+    if (this.selectedOutlines.size > 0 || this.hoverOutline) {
       this.renderWithRainbowOutline(scene, camera);
     } else {
       // Normal rendering without outline
@@ -247,66 +239,6 @@ export class EffectsManager {
   }
 
   /**
-   * Set an object to be outlined using simple line outline.
-   * @param object The mesh object to be outlined.
-   */
-  public outlineObject(object: Mesh) {
-    // Clear any existing outline first
-    if (this.outlineHelper) {
-      this.clearOutline();
-    }
-
-    this.currentOutlineObject = object;
-
-    // Create animated rainbow line outline using shared shader components
-    const edges = new EdgesGeometry(object.geometry, 0.1); // Use same edge detection as selection outlines
-    const lineMaterial = new ShaderMaterial({
-      vertexShader: EffectsManager.VERTEX_SHADER,
-      fragmentShader: EffectsManager.SELECTION_FRAGMENT_SHADER,
-      uniforms: {
-        time: { value: 0.0 },
-        opacity: { value: 1.0 },
-      },
-      transparent: true,
-      depthTest: true,
-      polygonOffset: true,
-      polygonOffsetFactor: -1,
-      polygonOffsetUnits: -1,
-    });
-
-    this.outlineHelper = new LineSegments(edges, lineMaterial);
-
-    // Copy the object's transformation exactly - no scaling
-    this.outlineHelper.position.copy(object.position);
-    this.outlineHelper.rotation.copy(object.rotation);
-    this.outlineHelper.scale.copy(object.scale);
-    // No scaling - keep it exactly the same size as the object
-
-    // Add to scene
-    this.scene.add(this.outlineHelper);
-  }
-
-  /**
-   * Clear the current outline.
-   */
-  public clearOutline() {
-    if (this.outlineHelper) {
-      // Remove the outline helper from the scene
-      this.scene.remove(this.outlineHelper);
-
-      // Clean up geometry and material
-      this.outlineHelper.geometry.dispose();
-      (this.outlineHelper.material as ShaderMaterial).dispose();
-
-      this.outlineHelper = null;
-    }
-
-    if (this.currentOutlineObject) {
-      this.currentOutlineObject = null;
-    }
-  }
-
-  /**
    * Perform dual-pass rendering: rainbow outline + original object.
    * @param scene The scene to render.
    * @param camera The camera to render with.
@@ -327,12 +259,6 @@ export class EffectsManager {
       material.uniforms.time.value = time;
     }
 
-    // Update legacy single outline (for backward compatibility)
-    if (this.outlineHelper) {
-      const material = this.outlineHelper.material as ShaderMaterial;
-      material.uniforms.time.value = time;
-    }
-
     // Normal rendering - all outlines are already in the scene
     if (this.antialiasing) {
       this.renderer.render(scene, camera);
@@ -347,14 +273,9 @@ export class EffectsManager {
    */
   public getOutlinePerformanceStats() {
     return {
-      hasLegacyOutline: !!this.currentOutlineObject,
-      legacyOutlinedObjectName: this.currentOutlineObject?.name || 'none',
       selectedObjectsCount: this.selectedOutlines.size,
       hasHoverOutline: !!this.hoverOutline,
-      totalOutlines:
-        this.selectedOutlines.size +
-        (this.hoverOutline ? 1 : 0) +
-        (this.currentOutlineObject ? 1 : 0),
+      totalOutlines: this.selectedOutlines.size + (this.hoverOutline ? 1 : 0),
     };
   }
 

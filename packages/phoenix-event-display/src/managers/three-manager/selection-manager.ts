@@ -1,5 +1,6 @@
 import {
   Vector2,
+  Vector3,
   Raycaster,
   Camera,
   Scene,
@@ -9,6 +10,7 @@ import {
   AxesHelper,
   Mesh,
 } from 'three';
+import * as TWEEN from '@tweenjs/tween.js';
 import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
 import { PrettySymbols } from '../../helpers/pretty-symbols';
@@ -27,10 +29,12 @@ import { ActiveVariable } from '../../helpers/active-variable';
 export class SelectionManager {
   /** Is initialized. */
   private isInit: boolean;
-  /** The camera inside the scene. */
-  // private camera: Camera;
-
-  private getCamera: () => Camera;
+  /** Function to get the current controls. */
+  private getControls: () => any;
+  /** Function to get the current overlay controls (optional). */
+  private getOverlayControls: (() => any) | undefined;
+  /** Function to get the overlay canvas DOM element (optional). */
+  private getOverlayCanvas: (() => HTMLCanvasElement | undefined) | undefined;
 
   /** The scene used for event display. */
   private scene: Scene;
@@ -63,12 +67,22 @@ export class SelectionManager {
   private hoveredObject: Mesh | null = null;
 
   // Drag detection to prevent accidental selection during orbit controls
-  /** Mouse down position for drag detection */
-  private mouseDownPosition: { x: number; y: number } | null = null;
+  /** Mouse down position for drag detection (selection system) */
+  private selectionMouseDownPosition: { x: number; y: number } | null = null;
   /** Maximum pixel distance to consider as a click (not drag) */
   private clickThreshold = 5;
-  /** Whether the user is currently dragging */
-  private isDragging = false;
+  /** Whether the user is currently dragging (selection system) */
+  private selectionIsDragging = false;
+
+  // Double-click detection for collision coordinates
+  /** Timestamp of the last click for double-click detection */
+  private lastClickTime = 0;
+  /** Maximum time between clicks to consider as double-click (ms) */
+  private doubleClickThreshold = 300;
+  /** Position of the last click for double-click validation */
+  private lastClickPosition: { x: number; y: number } | null = null;
+  /** Mouse down position for passive double-click detection */
+  private passiveMouseDownPosition: { x: number; y: number } | null = null;
 
   /** Frame counter for intersection processing */
   private frameCounter = 0;
@@ -80,6 +94,7 @@ export class SelectionManager {
   private readonly FPS_SMOOTHING = 0.1;
 
   // Hysteresis thresholds to prevent oscillation
+  /** Performance thresholds for dynamic frame skipping to maintain stable FPS. */
   private readonly FPS_THRESHOLDS = {
     // Going to more aggressive skipping (when performance drops)
     TO_HIGH_SKIP: 25, // FPS drops below 25 → skip 8 frames
@@ -103,24 +118,40 @@ export class SelectionManager {
 
   /**
    * Initialize the selection manager.
-   * @param getCamera Function to get the current camera.
+   *
+   * Features enabled:
+   * - Passive double-click detection on both main and overlay canvases
+   * - Smooth Tween.js-based orbit target transitions
+   * - Automatic canvas detection and appropriate controls routing
+   * - Detailed collision information logging
+   *
+   * @param getControls Function to get the current main controls.
+   * @param getOverlayControls Function to get the current overlay controls (optional).
+   * @param getOverlayCanvas Function to get the overlay canvas DOM element (optional).
    * @param scene The scene used for event display.
    * @param effectsManager Manager for managing three.js event display effects
    * like outline pass and unreal bloom.
    * @param infoLogger Service for logging data to the information panel.
    */
   public init(
-    getCamera: () => Camera,
+    getControls: () => any,
+    getOverlayControls: (() => any) | undefined,
+    getOverlayCanvas: (() => HTMLCanvasElement | undefined) | undefined,
     scene: Scene,
     effectsManager: EffectsManager,
     infoLogger: InfoLogger,
   ) {
-    this.getCamera = getCamera;
+    this.getControls = getControls;
+    this.getOverlayControls = getOverlayControls;
+    this.getOverlayCanvas = getOverlayCanvas;
     this.scene = scene;
     this.isInit = true;
     this.infoLogger = infoLogger;
     this.effectsManager = effectsManager;
     // Custom outline system is now used instead of OutlinePass
+
+    // Always enable passive double-click detection for both canvases
+    this.enablePassiveDoubleClick();
   }
 
   /**
@@ -152,6 +183,267 @@ export class SelectionManager {
       enable ? this.enableSelecting() : this.disableSelecting();
     }
   }
+
+  /**
+   * Enable passive double-click detection (always active, independent of selection).
+   * Sets up event listeners for both main and overlay canvases.
+   */
+  private enablePassiveDoubleClick() {
+    // Main canvas (always available)
+    const mainCanvas = document.getElementById('three-canvas');
+    if (mainCanvas) {
+      mainCanvas.addEventListener('mousedown', this.onPassiveMouseDown, true);
+      mainCanvas.addEventListener('mouseup', this.onPassiveMouseUp, true);
+    }
+
+    // Overlay canvas (available when overlay is created)
+    this.setupOverlayListeners();
+  }
+
+  /**
+   * Set up event listeners for overlay canvas if it exists.
+   * This method can be called multiple times safely.
+   */
+  private setupOverlayListeners() {
+    if (this.getOverlayCanvas) {
+      const overlayCanvas = this.getOverlayCanvas();
+
+      if (overlayCanvas) {
+        // Remove existing listeners to avoid duplicates
+        overlayCanvas.removeEventListener(
+          'mousedown',
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.removeEventListener(
+          'mouseup',
+          this.onPassiveMouseUp,
+          true,
+        );
+
+        // Add new listeners
+        overlayCanvas.addEventListener(
+          'mousedown',
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.addEventListener('mouseup', this.onPassiveMouseUp, true);
+      }
+    }
+  }
+
+  /**
+   * Disable passive double-click detection for both canvases.
+   */
+  private disablePassiveDoubleClick() {
+    // Main canvas
+    const mainCanvas = document.getElementById('three-canvas');
+    if (mainCanvas) {
+      mainCanvas.removeEventListener(
+        'mousedown',
+        this.onPassiveMouseDown,
+        true,
+      );
+      mainCanvas.removeEventListener('mouseup', this.onPassiveMouseUp, true);
+    }
+
+    // Overlay canvas
+    if (this.getOverlayCanvas) {
+      const overlayCanvas = this.getOverlayCanvas();
+
+      if (overlayCanvas) {
+        overlayCanvas.removeEventListener(
+          'mousedown',
+          this.onPassiveMouseDown,
+          true,
+        );
+        overlayCanvas.removeEventListener(
+          'mouseup',
+          this.onPassiveMouseUp,
+          true,
+        );
+      }
+    }
+
+    // Reset double-click state
+    this.lastClickTime = 0;
+    this.lastClickPosition = null;
+    this.passiveMouseDownPosition = null;
+  }
+
+  /**
+   * Passive mouse down handler for double-click detection only.
+   */
+  private onPassiveMouseDown = (event: MouseEvent) => {
+    // Only track for double-click detection, don't interfere with selection
+    // Using different variable names to avoid conflicts with selection system
+    this.passiveMouseDownPosition = { x: event.clientX, y: event.clientY };
+  };
+
+  /**
+   * Passive mouse up handler for double-click detection only.
+   */
+  private onPassiveMouseUp = (event: MouseEvent) => {
+    if (!this.passiveMouseDownPosition) {
+      return;
+    }
+
+    // Calculate distance moved (same logic as selection)
+    const deltaX = event.clientX - this.passiveMouseDownPosition.x;
+    const deltaY = event.clientY - this.passiveMouseDownPosition.y;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // Only process if it's a click (not a drag)
+    if (distance <= this.clickThreshold) {
+      // Check for double-click
+      const currentTime = Date.now();
+      const timeDelta = currentTime - this.lastClickTime;
+      const clickPosition = { x: event.clientX, y: event.clientY };
+
+      let isDoubleClick = false;
+      if (this.lastClickPosition && timeDelta <= this.doubleClickThreshold) {
+        const positionDelta = Math.sqrt(
+          Math.pow(clickPosition.x - this.lastClickPosition.x, 2) +
+            Math.pow(clickPosition.y - this.lastClickPosition.y, 2),
+        );
+
+        if (positionDelta <= this.clickThreshold) {
+          isDoubleClick = true;
+        }
+      }
+
+      if (isDoubleClick) {
+        // Handle double-click without triggering selection
+        this.handlePassiveDoubleClick(event);
+      }
+
+      // Update last click tracking
+      this.lastClickTime = currentTime;
+      this.lastClickPosition = clickPosition;
+    }
+
+    // Reset mouse down position
+    this.passiveMouseDownPosition = null;
+  };
+
+  /**
+   * Handle passive double-click events (works independently of selection state).
+   * Automatically determines which canvas/controls to use based on the event target.
+   * @param event The mouse event for collision detection
+   */
+  private handlePassiveDoubleClick = (event: MouseEvent) => {
+    // Determine which canvas the event came from
+    const isOverlayCanvas = this.isEventFromOverlayCanvas(event);
+    const canvasType = isOverlayCanvas ? 'Overlay' : 'Main';
+
+    console.log(`=== DOUBLE-CLICK ON ${canvasType.toUpperCase()} CANVAS ===`);
+
+    const collision = this.getDetailedIntersection(event, isOverlayCanvas);
+
+    if (collision) {
+      const { object, point, face, faceIndex, uv } = collision;
+
+      // Print detailed collision information
+      console.log('=== DOUBLE-CLICK COLLISION DETECTED ===');
+      console.log('Canvas:', canvasType);
+      console.log('Object:', object.name || 'unnamed');
+      console.log('Object UUID:', object.uuid);
+      console.log('Collision Point (World):', {
+        x: point.x.toFixed(4),
+        y: point.y.toFixed(4),
+        z: point.z.toFixed(4),
+      });
+
+      if (face) {
+        console.log('Face Index:', faceIndex);
+        console.log('Face Normal:', {
+          x: face.normal.x.toFixed(4),
+          y: face.normal.y.toFixed(4),
+          z: face.normal.z.toFixed(4),
+        });
+      }
+
+      if (uv) {
+        console.log('UV Coordinates:', {
+          u: uv.x.toFixed(4),
+          v: uv.y.toFixed(4),
+        });
+      }
+
+      console.log('Distance from Camera:', collision.distance.toFixed(4));
+      console.log('=====================================');
+
+      // Smoothly animate orbit target to the collision point using appropriate controls
+      const controls = isOverlayCanvas
+        ? this.getOverlayControls?.()
+        : this.getControls();
+      const controlsType = isOverlayCanvas ? 'overlay' : 'main';
+
+      console.log(`Using ${controlsType} controls for orbit target animation`);
+      console.log('Controls object:', controls);
+      console.log('Controls.object (camera):', controls?.object);
+
+      if (controls && controls.target) {
+        // Store current target position for animation
+        const currentTarget = {
+          x: controls.target.x,
+          y: controls.target.y,
+          z: controls.target.z,
+        };
+
+        // Create tween for smooth transition
+        const targetTween = new TWEEN.Tween(currentTarget)
+          .to(
+            {
+              x: point.x,
+              y: point.y,
+              z: point.z,
+            },
+            1000,
+          ) // 1 second duration
+          .easing(TWEEN.Easing.Cubic.Out) // Smooth easing
+          .onUpdate(() => {
+            // Update controls target during animation
+            controls.target.set(
+              currentTarget.x,
+              currentTarget.y,
+              currentTarget.z,
+            );
+            controls.update();
+          })
+          .onComplete(() => {
+            // Ensure final position is exact
+            controls.target.copy(point);
+            controls.update();
+            console.log(
+              `${controlsType} orbit target smoothly animated to collision point`,
+            );
+          });
+
+        // Start the animation
+        targetTween.start();
+        console.log('Starting smooth orbit target animation');
+      } else {
+        console.warn(
+          `${controlsType} controls or controls.target not available for orbit target update`,
+        );
+      }
+
+      // Also log to the info logger for UI feedback
+      this.infoLogger.add(
+        `[${canvasType}] Collision at (${point.x.toFixed(2)}, ${point.y.toFixed(2)}, ${point.z.toFixed(2)}) on ${object.name || 'unnamed'} - Smoothly animating ${controlsType} orbit target`,
+        'Double-Click',
+      );
+    } else {
+      console.log(
+        `Double-click detected on ${canvasType} canvas but no collision found`,
+      );
+      this.infoLogger.add(
+        `[${canvasType}] Double-click detected (no collision)`,
+        'Double-Click',
+      );
+    }
+  };
 
   /**
    * Enable selecting of event display elements and set mouse move and click events.
@@ -189,8 +481,8 @@ export class SelectionManager {
     this.smoothedFPS = 60;
 
     // Clean up drag detection
-    this.mouseDownPosition = null;
-    this.isDragging = false;
+    this.selectionMouseDownPosition = null;
+    this.selectionIsDragging = false;
 
     // Clear all outlines and selections
     this.effectsManager.clearAllSelections();
@@ -211,13 +503,13 @@ export class SelectionManager {
     this.latestMouseEvent = event;
 
     // Check if this is a drag operation
-    if (this.mouseDownPosition && !this.isDragging) {
-      const deltaX = event.clientX - this.mouseDownPosition.x;
-      const deltaY = event.clientY - this.mouseDownPosition.y;
+    if (this.selectionMouseDownPosition && !this.selectionIsDragging) {
+      const deltaX = event.clientX - this.selectionMouseDownPosition.x;
+      const deltaY = event.clientY - this.selectionMouseDownPosition.y;
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
       if (distance > this.clickThreshold) {
-        this.isDragging = true;
+        this.selectionIsDragging = true;
 
         // Clear hover outline when drag starts to provide immediate visual feedback
         this.effectsManager.setHoverOutline(null);
@@ -234,7 +526,7 @@ export class SelectionManager {
    */
   public applyIntersectionResult(intersectedObject: Object3D | null) {
     // Skip hover outline updates during drag operations
-    if (this.isDragging) {
+    if (this.selectionIsDragging) {
       return;
     }
 
@@ -256,6 +548,9 @@ export class SelectionManager {
       // Set hover outline (this is separate from sticky selections)
       this.effectsManager.setHoverOutline(targetObject);
 
+      // Update info panel for hovered object (immediate feedback)
+      this.updateInfoPanelForHover(targetObject);
+
       // Also update the currently outlined object for backwards compatibility
       this.currentlyOutlinedObject = targetObject;
     }
@@ -265,34 +560,41 @@ export class SelectionManager {
    * Function to call on mouse down to start drag detection.
    */
   private onMouseDown = (event: MouseEvent) => {
-    this.mouseDownPosition = { x: event.clientX, y: event.clientY };
-    this.isDragging = false;
+    this.selectionMouseDownPosition = { x: event.clientX, y: event.clientY };
+    this.selectionIsDragging = false;
   };
 
   /**
-   * Function to call on mouse up to detect clicks vs drags.
+   * Function to call on mouse up to detect clicks vs drags and double-clicks.
    * Only triggers selection if the mouse hasn't moved significantly (not a drag).
+   * Detects double-clicks for collision coordinate display.
    */
   private onMouseUp = (event: MouseEvent) => {
-    if (!this.mouseDownPosition) {
+    if (!this.selectionMouseDownPosition) {
       return; // No mousedown recorded
     }
 
     // Calculate distance moved
-    const deltaX = event.clientX - this.mouseDownPosition.x;
-    const deltaY = event.clientY - this.mouseDownPosition.y;
+    const deltaX = event.clientX - this.selectionMouseDownPosition.x;
+    const deltaY = event.clientY - this.selectionMouseDownPosition.y;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
     // Reset drag detection
-    this.mouseDownPosition = null;
-    this.isDragging = false;
+    this.selectionMouseDownPosition = null;
+    this.selectionIsDragging = false;
 
     // Only process as a click if movement was minimal (not a drag)
     if (distance <= this.clickThreshold) {
+      // Handle single click for selection
       this.handleClick();
     }
   };
 
+  /**
+   * Handle double-click events with precise collision detection.
+   * Performs detailed intersection and prints collision coordinates.
+   * @param event The mouse event for collision detection
+   */
   /**
    * Function to call on mouse click when object selection is enabled.
    * Implements sticky multi-selection behavior:
@@ -314,24 +616,79 @@ export class SelectionManager {
         this.selectedObjects.delete(intersectedObject);
       }
 
-      // Update the info panel for the newly selected/deselected object
-      this.updateInfoPanel(intersectedObject, isNowSelected);
+      // Log the selection/deselection (no info panel update)
+      this.logSelectionAction(intersectedObject, isNowSelected);
     } else {
       // Clicked on empty space - clear all selections
       if (this.selectedObjects.size > 0) {
         this.effectsManager.clearAllSelections();
         this.selectedObjects.clear();
 
-        // Clear the info panel
-        this.selectedObject.name = '';
-        this.selectedObject.attributes.splice(
-          0,
-          this.selectedObject.attributes.length,
-        );
-        this.activeObject.update('');
+        // Log that selections were cleared
+        this.infoLogger.add('All selections cleared', 'Selection');
       }
     }
   };
+
+  /**
+   * Update the info panel for a hovered object (hover-only info display).
+   * @param object The object being hovered, or null to clear
+   */
+  private updateInfoPanelForHover(object: Mesh | null) {
+    if (object) {
+      // Object is being hovered - update info panel
+      this.selectedObject.name = object.name;
+      this.selectedObject.attributes.splice(
+        0,
+        this.selectedObject.attributes.length,
+      );
+      this.activeObject.update(object.uuid);
+
+      const prettyParams = PrettySymbols.getPrettyParams(object.userData);
+
+      for (const key of Object.keys(prettyParams)) {
+        this.selectedObject.attributes.push({
+          attributeName: key,
+          attributeValue: prettyParams[key],
+        });
+      }
+    } else {
+      // No object being hovered - clear info panel
+      this.selectedObject.name = '';
+      this.selectedObject.attributes.splice(
+        0,
+        this.selectedObject.attributes.length,
+      );
+      this.activeObject.update('');
+    }
+  }
+
+  /**
+   * Log a selection/deselection action without updating the info panel.
+   * @param object The object that was selected/deselected
+   * @param isSelected Whether the object is now selected
+   */
+  private logSelectionAction(object: Mesh, isSelected: boolean) {
+    // Process properties of the object for logging
+    const props = Object.keys(object.userData)
+      .map((key) => {
+        // Only take properties that are a string or number (no arrays or objects)
+        if (['string', 'number'].includes(typeof object.userData[key])) {
+          return key + '=' + object.userData[key];
+        }
+      })
+      .filter((val) => val);
+
+    // Build the log text and add to the logger
+    const log =
+      object.name + (props.length > 0 ? ' with ' + props.join(', ') : '');
+
+    if (isSelected) {
+      this.infoLogger.add(log || 'unnamed object', 'Selected');
+    } else {
+      this.infoLogger.add(log || 'unnamed object', 'Deselected');
+    }
+  }
 
   /**
    * Update the info panel for a selected/deselected object.
@@ -416,7 +773,17 @@ export class SelectionManager {
     mouse.y = -(event.clientY / rendererElement.clientHeight) * 2 + 1;
 
     // Set up raycaster
-    raycaster.setFromCamera(mouse, this.getCamera());
+    const controls = this.getControls();
+    const camera = controls?.object as Camera;
+
+    if (!camera) {
+      console.warn(
+        'SelectionManager: Camera not available from controls in intersectObject',
+      );
+      return null;
+    }
+
+    raycaster.setFromCamera(mouse, camera);
 
     // Get all intersectable objects from the scene
     const intersectableObjects: Object3D[] = [];
@@ -437,6 +804,95 @@ export class SelectionManager {
   }
 
   /**
+   * Perform detailed intersection calculation with complete collision information.
+   * @param event Mouse event containing coordinates
+   * @returns Detailed intersection data or null
+   */
+  private getDetailedIntersection(
+    event: MouseEvent,
+    useOverlay: boolean = false,
+  ): {
+    object: Mesh;
+    point: Vector3;
+    face: any | null; // Face type varies between Three.js versions
+    faceIndex: number;
+    distance: number;
+    uv?: Vector2;
+  } | null {
+    const mouse = new Vector2();
+    const raycaster = new Raycaster();
+
+    // Get the appropriate controls and renderer based on canvas type
+    let controls: any;
+    let rendererElement: HTMLElement;
+
+    if (useOverlay && this.getOverlayControls) {
+      controls = this.getOverlayControls();
+      const overlayCanvas = this.getOverlayCanvas?.();
+
+      if (!controls || !overlayCanvas) {
+        console.warn(
+          'SelectionManager: Overlay controls or canvas not available',
+        );
+        return null;
+      }
+
+      rendererElement = overlayCanvas;
+    } else {
+      controls = this.getControls();
+      rendererElement = this.effectsManager.composer.renderer.domElement;
+    }
+
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
+    mouse.x = (event.clientX / rendererElement.clientWidth) * 2 - 1;
+    mouse.y = -(event.clientY / rendererElement.clientHeight) * 2 + 1;
+
+    // Set up raycaster
+    const camera = controls?.object as Camera;
+
+    if (!camera) {
+      const canvasType = useOverlay ? 'overlay' : 'main';
+      console.warn(
+        `SelectionManager: Camera not available from ${canvasType} controls in getDetailedIntersection`,
+      );
+      return null;
+    }
+
+    raycaster.setFromCamera(mouse, camera);
+
+    // Get all intersectable objects from the scene
+    const intersectableObjects: Object3D[] = [];
+    this.scene.traverse((obj) => {
+      // Skip objects in ignore list
+      if (this.ignoreList.includes(obj.type)) return;
+
+      // Only include objects with geometry that are visible
+      if ((obj as any).geometry && obj.visible) {
+        intersectableObjects.push(obj);
+      }
+    });
+
+    // Perform intersection test with detailed results
+    const intersects = raycaster.intersectObjects(intersectableObjects, false);
+
+    if (intersects.length > 0) {
+      const intersection = intersects[0];
+
+      // Return detailed collision information
+      return {
+        object: intersection.object as Mesh,
+        point: intersection.point,
+        face: intersection.face || null,
+        faceIndex: intersection.faceIndex || -1,
+        distance: intersection.distance,
+        uv: intersection.uv,
+      };
+    }
+
+    return null;
+  }
+
+  /**
    * Enable highlighting of the objects.
    */
   public enableHighlighting() {
@@ -445,7 +901,7 @@ export class SelectionManager {
   }
 
   /**
-   * Highlight the object with the given uuid by giving it an outline.
+   * Highlight the object with the given uuid by selecting it.
    * @param uuid uuid of the object.
    * @param objectsGroup Group of objects to be traversed for finding the object
    * with the given uuid.
@@ -453,9 +909,12 @@ export class SelectionManager {
   public highlightObject(uuid: string, objectsGroup: Object3D) {
     const object = objectsGroup.getObjectByProperty('uuid', uuid);
     if (object && object instanceof Mesh) {
-      this.effectsManager.outlineObject(object);
+      // Use the modern selection system instead of legacy outline
+      this.effectsManager.selectObject(object);
+      this.selectedObjects.add(object);
       this.currentlyOutlinedObject = object;
-      this.activeObject.update(object.uuid);
+      // Note: No info panel update - info panel is now hover-only
+      this.logSelectionAction(object, true);
     }
   }
 
@@ -463,9 +922,14 @@ export class SelectionManager {
    * Disable highlighting of objects.
    */
   public disableHighlighting() {
-    this.effectsManager.clearOutline();
+    // Clear all selections instead of just the legacy outline
+    this.effectsManager.clearAllSelections();
+    this.selectedObjects.clear();
     this.currentlyOutlinedObject = null;
     this.effectsManager.setAntialiasing(this.preSelectionAntialias);
+
+    // Note: No info panel clearing - info panel is now hover-controlled
+    this.infoLogger.add('All selections cleared', 'Selection');
   }
 
   /**
@@ -566,7 +1030,7 @@ export class SelectionManager {
 
     this.effectsManager.selectObject(object);
     this.selectedObjects.add(object);
-    this.updateInfoPanel(object, true);
+    this.logSelectionAction(object, true);
     return true;
   }
 
@@ -582,7 +1046,7 @@ export class SelectionManager {
 
     this.effectsManager.deselectObject(object);
     this.selectedObjects.delete(object);
-    this.updateInfoPanel(object, false);
+    this.logSelectionAction(object, false);
     return true;
   }
 
@@ -609,13 +1073,8 @@ export class SelectionManager {
       this.effectsManager.clearAllSelections();
       this.selectedObjects.clear();
 
-      // Clear the info panel
-      this.selectedObject.name = '';
-      this.selectedObject.attributes.splice(
-        0,
-        this.selectedObject.attributes.length,
-      );
-      this.activeObject.update('');
+      // Note: No info panel clearing - info panel is now hover-controlled
+      this.infoLogger.add('All selections cleared', 'Selection');
     }
   }
 
@@ -635,5 +1094,51 @@ export class SelectionManager {
    */
   public getClickThreshold(): number {
     return this.clickThreshold;
+  }
+
+  /**
+   * Set the double-click time threshold.
+   * @param threshold Maximum time between clicks to consider as double-click (ms)
+   */
+  public setDoubleClickThreshold(threshold: number): void {
+    if (threshold > 0) {
+      this.doubleClickThreshold = threshold;
+    }
+  }
+
+  /**
+   * Get the current double-click time threshold.
+   * @returns Current double-click threshold in milliseconds
+   */
+  public getDoubleClickThreshold(): number {
+    return this.doubleClickThreshold;
+  }
+
+  /**
+   * Update overlay event listeners when overlay canvas becomes available.
+   * Called by ThreeManager when setOverlayRenderer is invoked.
+   */
+  public updateOverlayListeners() {
+    this.setupOverlayListeners();
+  }
+
+  /**
+   * Determine if a mouse event came from the overlay canvas.
+   * @param event The mouse event to check
+   * @returns true if the event came from the overlay canvas, false if from main canvas
+   */
+  private isEventFromOverlayCanvas(event: MouseEvent): boolean {
+    const target = event.target as HTMLElement;
+
+    // Check if the target is the overlay canvas
+    if (this.getOverlayCanvas) {
+      const overlayCanvas = this.getOverlayCanvas();
+
+      if (overlayCanvas && target === overlayCanvas) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
