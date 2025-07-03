@@ -3,9 +3,8 @@
  */
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
-import { Object3D, PerspectiveCamera, Scene, Vector2 } from 'three';
+import { Object3D, PerspectiveCamera, Scene, Vector2, Vector3 } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 import THREE from '../../helpers/webgl-mock';
 
 describe('SelectionManager', () => {
@@ -32,9 +31,21 @@ describe('SelectionManager', () => {
     const effectsManager = new EffectsManager(camera, scene, renderer);
     const infoLogger = new InfoLogger();
 
-    selectionManager.init(camera, scene, effectsManager, infoLogger);
+    // Mock controls functions
+    const mockControls = { object: camera, target: new Vector3() };
+    const getControls = () => mockControls;
+    const getOverlayControls = () => undefined;
+    const getOverlayCanvas = () => undefined;
 
-    expect(selectionManagerPrivate.camera).toBe(camera);
+    selectionManager.init(
+      getControls,
+      getOverlayControls,
+      getOverlayCanvas,
+      scene,
+      effectsManager,
+      infoLogger,
+    );
+
     expect(selectionManagerPrivate.scene).toBe(scene);
     expect(selectionManagerPrivate.effectsManager).toBe(effectsManager);
     expect(selectionManagerPrivate.infoLogger).toBe(infoLogger);
@@ -81,12 +92,6 @@ describe('SelectionManager', () => {
       removeEventListener: jest.fn(),
     });
 
-    selectionManager['outlinePass'] = new OutlinePass(
-      new Vector2(100, 100),
-      new Scene(),
-      new PerspectiveCamera(),
-    );
-
     selectionManager.setSelecting(false);
 
     expect(selectionManagerPrivate.disableSelecting).toHaveBeenCalled();
@@ -101,11 +106,7 @@ describe('SelectionManager', () => {
       new THREE.WebGLRenderer(),
     );
 
-    selectionManager['outlinePass'] = new OutlinePass(
-      new Vector2(100, 100),
-      new Scene(),
-      new PerspectiveCamera(),
-    );
+    selectionManager['infoLogger'] = new InfoLogger();
 
     const VALUE1 = selectionManager['effectsManager'].antialiasing;
     const spy = jest.spyOn(
@@ -122,7 +123,7 @@ describe('SelectionManager', () => {
 
     selectionManager.disableHighlighting();
 
-    expect(selectionManager['outlinePass'].selectedObjects).toStrictEqual([]);
+    expect(selectionManager['selectedObjects'].size).toBe(0);
     expect(spy).toHaveBeenCalledWith(VALUE2);
   });
 
