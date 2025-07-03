@@ -194,7 +194,13 @@ export class ThreeManager {
     // Selection manager
     this.getSelectionManager().init(
       () => {
-        return this.controlsManager.getMainCamera();
+        return this.controlsManager.getMainControls();
+      },
+      () => {
+        return this.controlsManager.getOverlayControls();
+      },
+      () => {
+        return this.rendererManager.getOverlayRenderer()?.domElement;
       },
       this.sceneManager.getScene(),
       this.effectsManager,
@@ -245,13 +251,19 @@ export class ThreeManager {
     this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
+  /** Previous timestamp for frame time calculation. */
   now_0: any = null;
+  /** Frame time delta calculation value. */
   vzl: any = null;
   /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
     const now = performance.now();
+
+    // Update TWEEN animations
+    tweenUpdate(now);
+
     if (this.controlsManager.isOverlayLinked())
       this.controlsManager.syncOverlayFromMain();
 
@@ -1081,6 +1093,9 @@ export class ThreeManager {
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     if (this.rendererManager) {
       this.rendererManager.setOverlayRenderer(overlayCanvas);
+
+      // Update selection manager to handle overlay canvas events
+      this.getSelectionManager().updateOverlayListeners();
     }
   }
 
