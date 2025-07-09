@@ -53,7 +53,7 @@
     "@angular/language-service": "^19.2.14",
     "@types/qrcode": "^1.5.5",
     "concurrently": "^8.2.2",
-    "cypress": "^13.16.0",
+    "cypress": "^13.17.0",
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.3.2",
     "ng-packagr": "^19.2.2",
