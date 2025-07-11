@@ -193,7 +193,15 @@ export class ThreeManager {
     this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
     this.getSelectionManager().init(
-      this.controlsManager.getMainCamera(),
+      () => {
+        return this.controlsManager.getMainControls();
+      },
+      () => {
+        return this.controlsManager.getOverlayControls();
+      },
+      () => {
+        return this.rendererManager.getOverlayRenderer()?.domElement;
+      },
       this.sceneManager.getScene(),
       this.effectsManager,
       this.infoLogger,
@@ -243,10 +251,19 @@ export class ThreeManager {
     this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
+  /** Previous timestamp for frame time calculation. */
+  now_0: any = null;
+  /** Frame time delta calculation value. */
+  vzl: any = null;
   /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
+    const now = performance.now();
+
+    // Update TWEEN animations
+    tweenUpdate(now);
+
     if (this.controlsManager.isOverlayLinked())
       this.controlsManager.syncOverlayFromMain();
 
@@ -262,6 +279,16 @@ export class ThreeManager {
       this.sceneManager.getScene(),
       this.controlsManager.getMainCamera(),
     );
+
+    // Process stacked intersection events with dynamic frame skipping
+    const selectionManager = this.getSelectionManager();
+    if (selectionManager) {
+      const deltaTime = this.vzl || 16; // Use calculated delta or fallback to ~60fps
+      selectionManager.processStackedIntersection(deltaTime);
+    }
+
+    if (this.now_0) this.vzl = now - this.now_0;
+    this.now_0 = now;
   }
 
   /**
@@ -1066,6 +1093,9 @@ export class ThreeManager {
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     if (this.rendererManager) {
       this.rendererManager.setOverlayRenderer(overlayCanvas);
+
+      // Update selection manager to handle overlay canvas events
+      this.getSelectionManager().updateOverlayListeners();
     }
   }
 
