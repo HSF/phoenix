@@ -1,4 +1,10 @@
-import { Component, ViewChild, type AfterViewInit, Input } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  type AfterViewInit,
+  Input,
+  Renderer2,
+} from '@angular/core';
 import type { ElementRef } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
@@ -13,6 +19,7 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   transparentBody = false;
   orthographicView = false;
   overlayViewFixed = false;
+  overlayViewLinked = false;
   @ViewChild('overlayWindow') overlayWindow: ElementRef<HTMLCanvasElement>;
 
   constructor(private eventDisplay: EventDisplayService) {}
@@ -20,11 +27,17 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     const canvas = this.initializeCanvas(this.overlayWindow.nativeElement);
     this.eventDisplay.setOverlayRenderer(canvas);
+    this.eventDisplay.getThreeManager().initOverlayControls(); // Initialize Controls Only after the effective creation of the canva.
   }
 
-  initializeCanvas(canvas: HTMLCanvasElement): HTMLCanvasElement {
-    const width = window.innerWidth / 2.5;
-    const height = window.innerHeight / 2.5;
+  initializeCanvas(
+    canvas: HTMLCanvasElement,
+    x: number = window.innerWidth / 2.5,
+    y: number = window.innerHeight / 2.5,
+  ): HTMLCanvasElement {
+    console.log('doneee');
+    const width = x;
+    const height = y;
     canvas.width = width;
     canvas.height = height;
     canvas.style.width = width.toString() + ' px';
@@ -33,10 +46,9 @@ export class OverlayViewWindowComponent implements AfterViewInit {
   }
 
   switchOverlayView() {
-    this.orthographicView = !this.orthographicView;
-    this.eventDisplay
-      .getUIManager()
-      .toggleOrthographicView(this.orthographicView);
+    this.orthographicView = this.eventDisplay
+      .getThreeManager()
+      .revertOverlayCamera();
   }
 
   fixOverlayView() {
@@ -46,5 +58,20 @@ export class OverlayViewWindowComponent implements AfterViewInit {
 
   toggleBgTransparency() {
     this.transparentBody = !this.transparentBody;
+  }
+
+  LinkOverlayView() {
+    this.eventDisplay.getThreeManager().linkOverlayToMain();
+    this.overlayViewLinked = this.eventDisplay
+      .getThreeManager()
+      .isOverlayLinked();
+  }
+
+  switchContexts() {
+    this.eventDisplay.getThreeManager().switchContexts();
+  }
+
+  syncOverlayFromMain() {
+    this.eventDisplay.getThreeManager().syncOverlayFromMain();
   }
 }

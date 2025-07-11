@@ -515,14 +515,6 @@ export class UIManager {
   }
 
   /**
-   * Toggle orthographic/perspective view.
-   * @param orthographic If the camera is to be orthographic or perspective.
-   */
-  public toggleOrthographicView(orthographic: boolean) {
-    this.three.swapCameras(orthographic);
-  }
-
-  /**
    * Set the renderer for the secondary overlay canvas.
    * @param overlayCanvas Canvas for which the overlay renderer is to be set.
    */
