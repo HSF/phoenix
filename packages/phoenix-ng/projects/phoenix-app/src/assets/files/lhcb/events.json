@@ -1,0 +1,13 @@
+[
+    {"name":"Live events.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/liveEvents.json.zip", "nocache":"true"},
+    {"name":"2024/Early Collisions 2024.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2024Selection\/selectedEvents-20240406-0.json.zip", "nocache":"true"},
+    {"name":"2024/May 2024.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2024Selection\/selectedEvents-20240529-24.json.zip", "nocache":"true"},
+    {"name":"2024/June 2024.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2024Selection\/selectedEvents-20240623-1.json.zip", "nocache":"true"},
+    {"name":"2023/FirstCollisions2023.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2023Selection\/FirstCollisions2023.json.zip"},
+    {"name":"2023/First 2400 bunches.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2023Selection\/First2400Bunches.json.zip"},
+    {"name":"2022/Simulation_Proton-Proton.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2022Selection\/MC_ProtonCollisions.json.zip"},
+    {"name":"2022/Lead-Argon.json", "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2022Selection\/LeadArgonCollisions.json.zip"},
+    {"name":"2022/Lead-Lead.json",  "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2022Selection\/LeadLeadCollisions.json.zip"},
+    {"name":"2022/Proton-Argon.json", "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2022Selection\/ProtonArgonCollisions.json.zip"},
+    {"name":"2022/Proton-Proton.json", "url":"https:\/\/lhcb-media.web.cern.ch\/lhcb-media\/EventDisplay\/2022Selection\/ProtonProtonCollisions.json.zip"}
+]

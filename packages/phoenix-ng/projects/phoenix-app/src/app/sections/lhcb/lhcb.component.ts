@@ -20,6 +20,7 @@ import { Plane, Vector3 } from 'three';
   styleUrls: ['./lhcb.component.scss'],
 })
 export class LHCbComponent implements OnInit {
+  dataURL = '../assets/files/lhcb/events.json';
   events: any;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
@@ -80,8 +81,9 @@ export class LHCbComponent implements OnInit {
       defaultView: [-8000, 6000, 0, 0, 0, 8000], // x,y,z of position followed by x,y,z of target
       phoenixMenuRoot: this.phoenixMenuRoot,
       defaultEventFile: {
-        eventFile: 'assets/files/lhcb/LHCbEventData.json',
-        eventType: 'json',
+        eventFile:
+          'https://lhcb-media.web.cern.ch/lhcb-media/EventDisplay/liveEvents.json.zip',
+        eventType: 'zip',
       },
     };
 
