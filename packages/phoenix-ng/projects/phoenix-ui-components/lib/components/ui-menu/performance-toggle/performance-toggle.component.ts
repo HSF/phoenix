@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-performance-toggle',
   templateUrl: './performance-toggle.component.html',
   styleUrls: ['./performance-toggle.component.scss'],

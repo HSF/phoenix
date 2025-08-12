@@ -2,6 +2,7 @@ import { type OnInit } from '@angular/core';
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-ss-mode',
   templateUrl: './ss-mode.component.html',
   styleUrls: ['./ss-mode.component.scss'],

@@ -120,8 +120,14 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
 
     mcRecoAssocs.forEach((mcRecoAssoc: any) => {
-      const recoIndex = mcRecoAssoc['rec']['index'];
-      const mcIndex = mcRecoAssoc['sim']['index'];
+      const recoIndex =
+        typeof mcRecoAssoc['rec'] !== 'undefined'
+          ? mcRecoAssoc['rec']['index']
+          : mcRecoAssoc['from']['index'];
+      const mcIndex =
+        typeof mcRecoAssoc['sim'] !== 'undefined'
+          ? mcRecoAssoc['sim']['index']
+          : mcRecoAssoc['to']['index'];
 
       const pdgid = mcParticles[mcIndex]['PDG'];
       const trackRefs = recoParticles[recoIndex]['tracks'];

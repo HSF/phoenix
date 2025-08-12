@@ -2,6 +2,7 @@ import { Component, type OnInit } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-geometry',
   templateUrl: './geometry.component.html',
   styleUrls: ['./geometry.component.scss'],

@@ -14,6 +14,7 @@ import {
 import { Plane, Vector3 } from 'three';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-lhcb',
   templateUrl: './lhcb.component.html',
   styleUrls: ['./lhcb.component.scss'],

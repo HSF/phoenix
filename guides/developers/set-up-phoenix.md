@@ -142,7 +142,6 @@ import { Configuration, PhoenixLoader, PresetView, ClippingSetting, PhoenixMenuN
 
 @Component({
   selector: 'app-main-display',
-  standalone: true,
   imports: [
     PhoenixUIModule
   ],

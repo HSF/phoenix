@@ -3,6 +3,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
 import { VRManager, XRSessionType } from 'phoenix-event-display';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-vr-toggle',
   templateUrl: './vr-toggle.component.html',
   styleUrls: ['./vr-toggle.component.scss'],

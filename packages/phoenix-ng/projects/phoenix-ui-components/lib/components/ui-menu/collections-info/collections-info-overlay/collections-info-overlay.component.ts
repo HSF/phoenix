@@ -7,6 +7,7 @@ import {
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-collections-info-overlay',
   templateUrl: './collections-info-overlay.component.html',
   styleUrls: ['./collections-info-overlay.component.scss'],

@@ -9,6 +9,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { OverlayViewWindowComponent } from './overlay-view-window/overlay-view-window.component';
 
 @Component({
+  standalone: false,
   selector: 'app-overlay-view',
   templateUrl: './overlay-view.component.html',
   styleUrls: ['./overlay-view.component.scss'],

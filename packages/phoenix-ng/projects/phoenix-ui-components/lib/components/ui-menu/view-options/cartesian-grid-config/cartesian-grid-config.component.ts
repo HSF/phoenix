@@ -6,6 +6,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-cartesian-grid-config',
   templateUrl: './cartesian-grid-config.component.html',
   styleUrls: ['./cartesian-grid-config.component.scss'],

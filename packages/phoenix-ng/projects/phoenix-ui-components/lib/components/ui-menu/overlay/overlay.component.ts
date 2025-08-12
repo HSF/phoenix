@@ -1,5 +1,6 @@
 import {
   Component,
+  ContentChild,
   Input,
   ViewChild,
   type AfterViewInit,
@@ -8,10 +9,13 @@ import {
 import type { ElementRef } from '@angular/core';
 import { ResizeSensor } from 'css-element-queries';
 
+import { EventDisplayService } from '../../../services/event-display.service';
+
 /**
  * Component for overlay panel.
  */
 @Component({
+  standalone: false,
   selector: 'app-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
@@ -43,11 +47,16 @@ export class OverlayComponent implements AfterViewInit {
   @ViewChild('overlayCard') overlayCard: ElementRef;
   /** Handle for resizing the overlay. */
   @ViewChild('resizeHandleCorner') resizeHandleCorner: ElementRef;
+
+  /** reference for the overlay. picked from ng-content */
+  @ContentChild('overlayWindow') overlayWindow!: ElementRef<HTMLCanvasElement>;
+
   /** Minimum resizable width. */
   private MIN_RES_WIDTH: number = 300;
   /** Minimum resizable height */
   private MIN_RES_HEIGHT: number = 100;
 
+  constructor(private eventDisplay: EventDisplayService) {}
   /**
    * Move the resizable handle to the bottom right after the component is created.
    */
@@ -78,17 +87,24 @@ export class OverlayComponent implements AfterViewInit {
     const overlayRect = overlayCardElement.getBoundingClientRect();
 
     const width = dragRect.left - overlayRect.left + dragRect.width;
-    const height = dragRect.top - overlayRect.top + dragRect.height;
+    let height = dragRect.top - overlayRect.top + dragRect.height;
 
     this.setHandleTransform(overlayRect, dragRect);
 
     if (width > this.MIN_RES_WIDTH && height > this.MIN_RES_HEIGHT) {
-      overlayCardElement.style.width = width + 'px';
       if (this.keepAspectRatioFixed) {
-        overlayCardElement.style.height = width / this.aspectRatio + 30 + 'px';
-      } else {
-        overlayCardElement.style.height = height + 'px';
+        height = width / this.aspectRatio;
       }
+
+      const oldratioW = width / this.overlayWindow.nativeElement.width;
+      const oldratioH = height / this.overlayWindow.nativeElement.height;
+      this.eventDisplay
+        .getThreeManager()
+        .getOverlayRenderer()
+        .setSize(width, height);
+      this.eventDisplay
+        .getThreeManager()
+        .syncOverlayViewPort(oldratioW, oldratioH);
     }
   }
 

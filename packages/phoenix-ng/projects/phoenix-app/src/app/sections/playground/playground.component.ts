@@ -4,6 +4,7 @@ import { type Configuration, PresetView } from 'phoenix-event-display';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
+  standalone: false,
   selector: 'app-playground',
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss'],

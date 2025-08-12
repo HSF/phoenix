@@ -77,6 +77,7 @@ export class ColorOptions {
    * Create the color options.
    * @param colorManager Color manager for three.js functions related to coloring of objects.
    * @param collectionFolder Collection folder to add the color by options to.
+   * @param collectionColor Initial collection color.
    * @param colorByOptionsToInclude Options to include for this collection to color event data by.
    */
   constructor(
@@ -102,7 +103,10 @@ export class ColorOptions {
       type: 'button',
       label: 'Random',
       onClick: () =>
-        this.colorManager.collectionColorRandom(this.collectionName),
+        this.colorManager.collectionColorRandom(
+          this.collectionName,
+          this.colorOptionsFolder,
+        ),
     });
 
     // Check which color by options are to be included.
@@ -293,7 +297,7 @@ export class ColorOptions {
   /**
    * Get momentum from object parameters.
    * @param objectParams Parameters associated to the 3D object.
-   * @returns THe momentum value.
+   * @returns The momentum value.
    */
   private getMomentum(objectParams: any) {
     return objectParams?.dparams?.[4]

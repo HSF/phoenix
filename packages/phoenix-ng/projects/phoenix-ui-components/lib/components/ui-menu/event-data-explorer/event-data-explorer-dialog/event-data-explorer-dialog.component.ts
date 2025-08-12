@@ -17,6 +17,7 @@ export type FileResponse = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-event-data-explorer-dialog',
   templateUrl: './event-data-explorer-dialog.component.html',
   styleUrls: ['./event-data-explorer-dialog.component.scss'],

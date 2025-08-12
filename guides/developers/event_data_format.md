@@ -50,10 +50,10 @@ Where:
   * `time` : will be printed for `Data recorded` entry
   
 
-You can find various examples in the [files folder](../packages/phoenix-ng/projects/phoenix-app/src/assets/files):
+You can find various examples in the [files folder](../../docs/assets/files):
 
-* [atlas.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/event_data/event.json) is an ATLAS file containing two simulated events.
-* [LHCbEventData.json](../packages/phoenix-ng/projects/phoenix-app/src/assets/files/lhcb/LHCbEventData.json) is a large file containing LHCb simulated events.
+* [atlas.json](../../docs/assets/files/event_data/ATLAS_calibration.json) is an ATLAS Calibration file containing a single event.
+* [LHCbEventData.json](../../docs/assets/files/lhcb/LHCbEventData.json) is a large file containing LHCb simulated events.
 
 
 #### Supported object types

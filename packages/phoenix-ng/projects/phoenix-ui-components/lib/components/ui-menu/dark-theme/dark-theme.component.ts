@@ -2,6 +2,7 @@ import { Component, type OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-dark-theme',
   templateUrl: './dark-theme.component.html',
   styleUrls: ['./dark-theme.component.scss'],

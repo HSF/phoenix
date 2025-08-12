@@ -2,6 +2,7 @@ import { Component, type OnInit, Input } from '@angular/core';
 import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-selection-overlay',
   templateUrl: './object-selection-overlay.component.html',
   styleUrls: ['./object-selection-overlay.component.scss'],

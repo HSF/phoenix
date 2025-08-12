@@ -4,6 +4,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 import { Object3D, type Object3DEventMap } from 'three';
 
 @Component({
+  standalone: false,
   selector: 'app-geometry-browser-overlay',
   templateUrl: './geometry-browser-overlay.component.html',
   styleUrls: ['./geometry-browser-overlay.component.scss'],

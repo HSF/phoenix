@@ -208,6 +208,7 @@ export class UIManager {
    * @param eventDataType Name of the event data type.
    * @param collectionName Name of the collection to be added in the type of event data (tracks, hits etc.).
    * @param cuts Cuts to the collection of event data that are to be made configurable to filter event data.
+   * @param collectionColor initial color of the collection.
    */
   public addCollection(
     eventDataType: string,
@@ -511,14 +512,6 @@ export class UIManager {
       this.rotateOpeningAngleClipping(view.clippingOpeningAngle);
       this.setClipping(view.clipping == ClippingSetting.On);
     }
-  }
-
-  /**
-   * Toggle orthographic/perspective view.
-   * @param orthographic If the camera is to be orthographic or perspective.
-   */
-  public toggleOrthographicView(orthographic: boolean) {
-    this.three.swapCameras(orthographic);
   }
 
   /**

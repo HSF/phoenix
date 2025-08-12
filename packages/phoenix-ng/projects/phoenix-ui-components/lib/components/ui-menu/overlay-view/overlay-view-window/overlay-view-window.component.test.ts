@@ -14,6 +14,11 @@ describe('OverlayViewWindowComponent', () => {
     toggleOrthographicView: jest.fn().mockReturnThis(),
     fixOverlayView: jest.fn(),
     setOverlayRenderer: jest.fn(),
+    getThreeManager: jest.fn().mockReturnValue({
+      initOverlayControls: jest.fn(),
+      revertMainCamera: jest.fn().mockReturnValue(false),
+      revertOverlayCamera: jest.fn().mockReturnValue(true),
+    }),
   };
 
   beforeEach(() => {

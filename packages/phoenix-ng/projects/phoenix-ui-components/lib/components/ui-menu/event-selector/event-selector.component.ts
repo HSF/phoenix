@@ -2,6 +2,7 @@ import { Component, type OnInit } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-event-selector',
   templateUrl: './event-selector.component.html',
   styleUrls: ['./event-selector.component.scss'],
