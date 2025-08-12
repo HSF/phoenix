@@ -1,4 +1,3 @@
-import { Group, Object3D, Vector3, Color } from 'three';
 import { GUI } from 'dat.gui';
 import type { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager/index';
