@@ -25,7 +25,7 @@
     "zone.js": "*"
   },
   "dependencies": {
-    "@angular/animations": "^19.2.14",
+    "@angular/animations": "^19.2.15",
     "@angular/cdk": "^19.2.19",
     "@angular/forms": "^19.2.14",
     "@angular/material": "^19.2.19",

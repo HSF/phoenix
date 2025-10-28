@@ -226,15 +226,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/animations@npm:^19.2.14":
-  version: 19.2.14
-  resolution: "@angular/animations@npm:19.2.14"
+"@angular/animations@npm:^19.2.15":
+  version: 19.2.15
+  resolution: "@angular/animations@npm:19.2.15"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": 19.2.14
-    "@angular/core": 19.2.14
-  checksum: d9e1831037b53dcbff7950f0ca5d8916d9a0d2bc6bc9f1d2cd02cd9b56f87a7e3a6f0be4a7b91d9c0fe5ba7f5351092b628393f0f7159f97c1793bee1930dd70
+    "@angular/common": 19.2.15
+    "@angular/core": 19.2.15
+  checksum: 73464f6cc037ecb1abf0ff8489b98476c93eb2980f91046794acb9724705bdb6ffd0454657207b17b18c778d3c4e6daf93d701fbafb08085bd89776e974dd8c9
   languageName: node
   linkType: hard
 
@@ -7863,6 +7863,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64id@npm:2.0.0":
+  version: 2.0.0
+  resolution: "base64id@npm:2.0.0"
+  checksum: 581b1d37e6cf3738b7ccdd4d14fe2bfc5c238e696e2720ee6c44c183b838655842e22034e53ffd783f872a539915c51b0d4728a49c7cc678ac5a758e00d62168
+  languageName: node
+  linkType: hard
+
+"baseline-browser-mapping@npm:^2.8.19":
+  version: 2.8.20
+  resolution: "baseline-browser-mapping@npm:2.8.20"
+  bin:
+    baseline-browser-mapping: dist/cli.js
+  checksum: 38120f7a081fea53a795961675a5c37e4f12671d6ff0525a2ae174f8c70acb35336a94f6ad6308c963cc895a0a0e03824571399d6c79a5ec2effa30be4251c4c
+  languageName: node
+  linkType: hard
+
 "basic-auth@npm:~2.0.1":
   version: 2.0.1
   resolution: "basic-auth@npm:2.0.1"
@@ -8100,6 +8116,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"browserslist@npm:^4.26.3":
+  version: 4.27.0
+  resolution: "browserslist@npm:4.27.0"
+  dependencies:
+    baseline-browser-mapping: ^2.8.19
+    caniuse-lite: ^1.0.30001751
+    electron-to-chromium: ^1.5.238
+    node-releases: ^2.0.26
+    update-browserslist-db: ^1.1.4
+  bin:
+    browserslist: cli.js
+  checksum: 01dc8428f5deb018bf99d3d8da1dd41bb0ca8a65af0b371e3b5386f5eef11f0c15ec741fc0686ca0d85aafc8f20036c4330e37bcc6b448a7424012128ded8c96
+  languageName: node
+  linkType: hard
+
 "bs-logger@npm:^0.2.6":
   version: 0.2.6
   resolution: "bs-logger@npm:0.2.6"
@@ -8305,6 +8336,13 @@ __metadata:
   version: 1.0.30001727
   resolution: "caniuse-lite@npm:1.0.30001727"
   checksum: 2bc6112f242701198a99c17713d4409be9b404d09005f34f351ec29a4ea46c054e7aa4982bc16f06b81b7a375cbc61c937e89650170cbce84db772a376ed3963
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001751":
+  version: 1.0.30001751
+  resolution: "caniuse-lite@npm:1.0.30001751"
+  checksum: d11e25c44e40c21e7b7492a25c9fd60f4c04e94aa265573f7c487666f5e1b5ca3ed09d09560336f959237063616255cb294d415511bb6cf0486eb2cb6a3a4318
   languageName: node
   linkType: hard
 
@@ -9884,6 +9922,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"electron-to-chromium@npm:^1.5.238":
+  version: 1.5.241
+  resolution: "electron-to-chromium@npm:1.5.241"
+  checksum: 68fda2968f25687742920f390ceeac3a5d1bc9472553020a9531ad6060dfacd0f2089c1fa66e89b3e99ac2bc421082eb1605f4a7ec334dd5d88e38e535e7c233
+  languageName: node
+  linkType: hard
+
 "electron-to-chromium@npm:^1.5.4":
   version: 1.5.13
   resolution: "electron-to-chromium@npm:1.5.13"
@@ -9982,13 +10027,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.17.2":
-  version: 5.18.2
-  resolution: "enhanced-resolve@npm:5.18.2"
+"enhanced-resolve@npm:^5.17.3":
+  version: 5.18.3
+  resolution: "enhanced-resolve@npm:5.18.3"
   dependencies:
     graceful-fs: ^4.2.4
     tapable: ^2.2.0
-  checksum: af8c0f19cc414f69d7595507576db470c7435f550e7aa1d46292c40aaf1fe03c4d714c495bc31aa927f90887faa8880db428c8bca4dc1595844853ab2195ee25
+  checksum: e2b2188a7f9b68616984b5ce1f43b97bef3c5fde4d193c24ea4cfdb4eb784a700093f049f14155733a3cb3ae1204550590aa37dda7e742022c8f447f618a4816
   languageName: node
   linkType: hard
 
@@ -15194,6 +15239,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-releases@npm:^2.0.26":
+  version: 2.0.26
+  resolution: "node-releases@npm:2.0.26"
+  checksum: c20b82e5d51356e04c343816d53a9500d16cf6cb7d0f4e68f265ed7bd45b489fd8ba907ea959afa866cf7f71bf83994c17a778875c8cb3efc3243d0d0420daca
+  languageName: node
+  linkType: hard
+
+"nopt@npm:1.0.10":
+  version: 1.0.10
+  resolution: "nopt@npm:1.0.10"
+  dependencies:
+    abbrev: 1
+  bin:
+    nopt: ./bin/nopt.js
+  checksum: f62575aceaa3be43f365bf37a596b89bbac2e796b001b6d2e2a85c2140a4e378ff919e2753ccba959c4fd344776fc88c29b393bc167fa939fb1513f126f4cd45
+  languageName: node
+  linkType: hard
+
 "nopt@npm:^7.0.0, nopt@npm:^7.2.1":
   version: 7.2.1
   resolution: "nopt@npm:7.2.1"
@@ -16229,7 +16292,7 @@ __metadata:
     three: ~0.178.0
     ts-jest: ~29.2.6
     typescript: ~5.9.3
-    webpack: ^5.100.0
+    webpack: ^5.102.1
     webpack-cli: ^6.0.1
   peerDependencies:
     jspdf: "*"
@@ -16241,7 +16304,7 @@ __metadata:
   resolution: "phoenix-ng@workspace:packages/phoenix-ng"
   dependencies:
     "@angular-devkit/build-angular": ^19.2.15
-    "@angular/animations": ^19.2.14
+    "@angular/animations": ^19.2.15
     "@angular/cdk": ^19.2.19
     "@angular/cli": ~19.2.15
     "@angular/common": ^19.2.14
@@ -16281,7 +16344,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "phoenix-ui-components@workspace:packages/phoenix-ng/projects/phoenix-ui-components"
   dependencies:
-    "@angular/animations": ^19.2.14
+    "@angular/animations": ^19.2.15
     "@angular/cdk": ^19.2.19
     "@angular/forms": ^19.2.14
     "@angular/material": ^19.2.19
@@ -17737,7 +17800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^4.3.0, schema-utils@npm:^4.3.2":
+"schema-utils@npm:^4.3.0":
   version: 4.3.2
   resolution: "schema-utils@npm:4.3.2"
   dependencies:
@@ -17746,6 +17809,18 @@ __metadata:
     ajv-formats: ^2.1.1
     ajv-keywords: ^5.1.0
   checksum: d798b341ffa1371f8471629e8861af3aa99e8e15b89da2c0db28c5a80a02ee8c6ffc7daefbe28a2b8c1bc8e3f3e02d028775145d7ab3d9d1a413a9651a835466
+  languageName: node
+  linkType: hard
+
+"schema-utils@npm:^4.3.3":
+  version: 4.3.3
+  resolution: "schema-utils@npm:4.3.3"
+  dependencies:
+    "@types/json-schema": ^7.0.9
+    ajv: ^8.9.0
+    ajv-formats: ^2.1.1
+    ajv-keywords: ^5.1.0
+  checksum: 4e20404962fd45d5feb5942f7c9ab334a3d3dab94e15001049bd49e2959015f2c59089353953d4976fe664462c79121dea50392968182d4e2c4b75803f822fa3
   languageName: node
   linkType: hard
 
@@ -18679,6 +18754,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tapable@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "tapable@npm:2.3.0"
+  checksum: ada1194219ad550e3626d15019d87a2b8e77521d8463ab1135f46356e987a4c37eff1e87ffdd5acd573590962e519cc81e8ea6f7ed632c66bb58c0f12bd772a4
+  languageName: node
+  linkType: hard
+
 "tar-fs@npm:^2.0.0":
   version: 2.1.3
   resolution: "tar-fs@npm:2.1.3"
@@ -19571,6 +19653,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"update-browserslist-db@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "update-browserslist-db@npm:1.1.4"
+  dependencies:
+    escalade: ^3.2.0
+    picocolors: ^1.1.1
+  peerDependencies:
+    browserslist: ">= 4.21.0"
+  bin:
+    update-browserslist-db: cli.js
+  checksum: b757805a63d7954985753c97a48e313abd2d35f2bb10d2bffa65d73a4b81ec9e1305a7b06296819bac8a6b4db8e7be88582487fae2ad7e24731e4ee372b919a6
+  languageName: node
+  linkType: hard
+
 "uri-js@npm:^4.2.2":
   version: 4.4.1
   resolution: "uri-js@npm:4.4.1"
@@ -19790,6 +19886,16 @@ __metadata:
     glob-to-regexp: ^0.4.1
     graceful-fs: ^4.1.2
   checksum: 92d9d52ce3d16fd83ed6994d1dd66a4d146998882f4c362d37adfea9ab77748a5b4d1e0c65fa104797928b2d40f635efa8f9b925a6265428a69f1e1852ca3441
+  languageName: node
+  linkType: hard
+
+"watchpack@npm:^2.4.4":
+  version: 2.4.4
+  resolution: "watchpack@npm:2.4.4"
+  dependencies:
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.1.2
+  checksum: 469514a04bcdd7ea77d4b3c62d1f087eafbce64cbc728c89355d5710ee01311533456122da7c585d3654d5bfcf09e6085db1a6eb274c4762a18e370526d17561
   languageName: node
   linkType: hard
 
@@ -20019,9 +20125,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.100.0":
-  version: 5.100.0
-  resolution: "webpack@npm:5.100.0"
+"webpack@npm:^5.102.1":
+  version: 5.102.1
+  resolution: "webpack@npm:5.102.1"
   dependencies:
     "@types/eslint-scope": ^3.7.7
     "@types/estree": ^1.0.8
@@ -20031,9 +20137,9 @@ __metadata:
     "@webassemblyjs/wasm-parser": ^1.14.1
     acorn: ^8.15.0
     acorn-import-phases: ^1.0.3
-    browserslist: ^4.24.0
+    browserslist: ^4.26.3
     chrome-trace-event: ^1.0.2
-    enhanced-resolve: ^5.17.2
+    enhanced-resolve: ^5.17.3
     es-module-lexer: ^1.2.1
     eslint-scope: 5.1.1
     events: ^3.2.0
@@ -20043,17 +20149,17 @@ __metadata:
     loader-runner: ^4.2.0
     mime-types: ^2.1.27
     neo-async: ^2.6.2
-    schema-utils: ^4.3.2
-    tapable: ^2.1.1
+    schema-utils: ^4.3.3
+    tapable: ^2.3.0
     terser-webpack-plugin: ^5.3.11
-    watchpack: ^2.4.1
+    watchpack: ^2.4.4
     webpack-sources: ^3.3.3
   peerDependenciesMeta:
     webpack-cli:
       optional: true
   bin:
     webpack: bin/webpack.js
-  checksum: 421eab6cb594f9e322102870578e8b69340ffa5ca9988b668653fe1de239b69ba063aecc26530fc864334dc6d5b836da1c1bff16b7dd9ebfcb76533c833c3d6c
+  checksum: b43be23872e6743b47a2b9840bb3494ec512a9fa012b5e04d47d210f16462db0f741f29b3aa42d83f3859f8965a9a7990e33134e71402df19c6f78480e80c12c
   languageName: node
   linkType: hard
 

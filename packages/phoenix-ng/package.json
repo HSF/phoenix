@@ -24,7 +24,7 @@
     "deploy:web:single": "ng build phoenix-app --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
-    "@angular/animations": "^19.2.14",
+    "@angular/animations": "^19.2.15",
     "@angular/cdk": "^19.2.19",
     "@angular/common": "^19.2.14",
     "@angular/compiler": "^19.2.14",
