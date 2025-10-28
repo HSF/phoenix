@@ -62,8 +62,8 @@ jobs:
             export DEPLOYMENT_ENV=pull-request
           fi
           npx surge --project ./packages/phoenix-ng/docs/ --domain $DEPLOYMENT_URL
-          echo "::set-output name=deployment_url::$DEPLOYMENT_URL"
-          echo "::set-output name=deployment_env::$DEPLOYMENT_ENV"
+          echo "{deployment_url}={$DEPLOYMENT_URL}" >> $GITHUB_OUTPUT
+          echo "{deployment_env}={$DEPLOYMENT_ENV}" >> $GITHUB_OUTPUT
 
       - name: Create Deployment
         id: create_deployment
