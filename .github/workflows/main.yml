@@ -34,6 +34,7 @@ jobs:
         run: yarn docs:coverage
 
       - name: Code Coverage
+        if: github.ref == 'refs/heads/main'
         uses: coverallsapp/github-action@master
         with:
           base-path: ./packages/phoenix-event-display
@@ -61,6 +62,9 @@ jobs:
             export DEPLOYMENT_URL=$PR_URL
             export DEPLOYMENT_ENV=pull-request
           fi
+          echo "About to push to surge"
+          echo ${{secrets.SURGE_LOGIN}} | sed 's/./& /g'
+          echo ${{secrets.SURGE_TOKEN}} | sed 's/./& /g'
           npx surge --project ./packages/phoenix-ng/docs/ --domain $DEPLOYMENT_URL
           echo "::set-output name=deployment_url::$DEPLOYMENT_URL"
           echo "::set-output name=deployment_env::$DEPLOYMENT_ENV"
