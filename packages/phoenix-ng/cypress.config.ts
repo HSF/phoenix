@@ -1,6 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { defineConfig } from 'cypress';
-const { initPlugin } = require('cypress-plugin-snapshots/plugin');
+import {
+  initPlugin,
+  type Options,
+} from '@frsource/cypress-plugin-visual-regression-diff/plugins';
 
 export default defineConfig({
   e2e: {
@@ -18,18 +20,14 @@ export default defineConfig({
     specPattern: './projects/phoenix-app/cypress/e2e/**/*.test.{js,ts}',
     excludeSpecPattern: ['**/__snapshots__/*', '**/__image_snapshots__/*'],
     env: {
-      'cypress-plugin-snapshots': {
+      pluginVisualRegressionDiffConfig: {
         screenshotConfig: {
-          // See https://docs.cypress.io/api/commands/screenshot.html#Arguments
           blackout: [],
           capture: 'fullPage',
-          clip: null,
           disableTimersAndAnimations: true,
-          log: true,
-          scale: false,
           timeout: 30000,
         },
-      },
+      } satisfies Options,
     },
   },
 });
