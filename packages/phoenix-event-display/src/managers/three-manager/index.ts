@@ -1,5 +1,5 @@
-import { EventEmitter } from '@angular/core';
 import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
+import { EventEmitter } from '../../helpers/event-emitter';
 import type { Object3DEventMap, Intersection } from 'three';
 import {
   Group,
