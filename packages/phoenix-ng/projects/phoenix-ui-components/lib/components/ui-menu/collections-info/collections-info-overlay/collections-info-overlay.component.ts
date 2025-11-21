@@ -1,7 +1,7 @@
-import { Component, type OnInit, Input, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, type OnInit } from '@angular/core';
 import {
-  PrettySymbols,
   ActiveVariable,
+  PrettySymbols,
   SceneManager,
 } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
@@ -15,7 +15,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 export class CollectionsInfoOverlayComponent implements OnInit {
   @Input() showObjectsInfo: boolean;
   hideInvisible: boolean;
-  collections: string[];
+  collections: { type: string; collections: string[] }[];
   selectedCollection: string;
   showingCollection: any;
   collectionColumns: string[];
@@ -28,9 +28,17 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToDisplayedEventChange(
-      (_event) => (this.collections = this.eventDisplay.getCollections()),
-    );
+    this.eventDisplay.listenToDisplayedEventChange(() => {
+      const collectionsGrouped: { [key: string]: string[] } =
+        this.eventDisplay.getCollections();
+      this.collections = Object.entries(collectionsGrouped).map(
+        ([type, collections]: [string, string[]]) => ({
+          type,
+          collections,
+        }),
+      );
+    });
+
     this.activeObject = this.eventDisplay.getActiveObjectId();
     this.activeObject.onUpdate((value: string) => {
       if (document.getElementById(value)) {
