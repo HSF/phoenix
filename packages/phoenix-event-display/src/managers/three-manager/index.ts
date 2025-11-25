@@ -1405,110 +1405,89 @@ export class ThreeManager {
    *    - Strech : current view is streched to given format
    *               this is the default and used also for any other value given to fitting
    */
-  public makeScreenShot(
+  /**
+   * Takes a very large screenshot safely by tiling renders
+   */
+  public async makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Strech',
+    fitting: string = 'Stretch',
   ) {
-    // compute actual size of screen shot, based on current view and requested size
-    const mainRenderer = this.rendererManager.getMainRenderer();
-    const originalSize = new Vector2();
-    mainRenderer.getSize(originalSize);
-    const scaledSize = this.croppedSize(
-      width,
-      height,
-      originalSize.width,
-      originalSize.height,
-    );
-    const heightShift = (scaledSize.height - height) / 2;
-    const widthShift = (scaledSize.width - width) / 2;
+    const renderer = this.rendererManager.getMainRenderer();
+    const camera = this.controlsManager.getMainCamera();
 
-    // get background color to be used
+    // Save original renderer size
+    const originalSize = new Vector2();
+    renderer.getSize(originalSize);
+
+    const scale = window.devicePixelRatio;
+    const gl = renderer.getContext();
+    const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+
+    // Tile size (safe)
+    const tileW = Math.min(width, maxSize);
+    const tileH = Math.min(height, maxSize);
+
+    const tilesX = Math.ceil(width / tileW);
+    const tilesY = Math.ceil(height / tileH);
+
+    // Output canvas
+    const output = document.getElementById(
+      'screenshotCanvas',
+    ) as HTMLCanvasElement;
+    output.width = width;
+    output.height = height;
+    const ctxOut = output.getContext('2d')!;
+
     const bkgColor = getComputedStyle(document.body).getPropertyValue(
       '--phoenix-background-color',
     );
 
-    // Deal with devices having special devicePixelRatio (retina screens in particular)
-    const scale = window.devicePixelRatio;
+    ctxOut.fillStyle = bkgColor;
+    ctxOut.fillRect(0, 0, width, height);
 
-    // grab output canvas on which we will draw, and set size
-    const outputCanvas = document.getElementById(
-      'screenshotCanvas',
-    ) as HTMLCanvasElement;
-    outputCanvas.width = width;
-    outputCanvas.height = height;
-    outputCanvas.style.width = (width / scale).toString() + 'px';
-    outputCanvas.style.height = (height / scale).toString() + 'px';
-    const ctx = outputCanvas.getContext('2d');
-    if (ctx) {
-      ctx.fillStyle = bkgColor;
-      ctx.fillRect(0, 0, width, height);
-      // draw main image on our output canvas, with right size
-      mainRenderer.setSize(
-        scaledSize.width / scale,
-        scaledSize.height / scale,
-        false,
-      );
-      this.render();
-      ctx.drawImage(
-        mainRenderer.domElement,
-        widthShift,
-        heightShift,
-        width,
-        height,
-        0,
-        0,
-        width,
-        height,
-      );
+    // Render each tile and stitch
+    for (let y = 0; y < tilesY; y++) {
+      for (let x = 0; x < tilesX; x++) {
+        const offsetX = x * tileW;
+        const offsetY = y * tileH;
+
+        const w = Math.min(tileW, width - offsetX);
+        const h = Math.min(tileH, height - offsetY);
+
+        camera.setViewOffset(width, height, offsetX, offsetY, w, h);
+
+        renderer.setSize(w / scale, h / scale, false);
+        this.render();
+
+        ctxOut.drawImage(
+          renderer.domElement,
+          0,
+          0,
+          w,
+          h,
+          offsetX,
+          offsetY,
+          w,
+          h,
+        );
+      }
     }
 
-    mainRenderer.setSize(originalSize.width, originalSize.height, false);
+    camera.clearViewOffset();
+
+    // Restore original renderer size
+    renderer.setSize(originalSize.width, originalSize.height, false);
     this.render();
 
-    // Get info panel
-    const infoPanel = document.getElementById('experimentInfo');
-    if (infoPanel != null) {
-      // Compute size of info panel on final picture
-      const infoHeight =
-        (infoPanel.clientHeight * scaledSize.height) / originalSize.height;
-      const infoWidth =
-        (infoPanel.clientWidth * scaledSize.width) / originalSize.width;
-
-      // Add info panel to output. This is HTML, so first convert it to canvas,
-      // and then draw to our output canvas
-      const h2c: any = html2canvas;
-      // See: https://github.com/niklasvh/html2canvas/issues/1977#issuecomment-529448710 for why this is needed
-      h2c(infoPanel, {
-        backgroundColor: bkgColor,
-        // avoid cloning canvas in the main page, this is useless and leads to
-        // warnings in the javascript console similar to this :
-        // "Unable to clone WebGL context as it has preserveDrawingBuffer=false"
-        ignoreElements: (element: Element) => element.tagName == 'CANVAS',
-      }).then((canvas: HTMLCanvasElement) => {
-        canvas.toBlob((blob) => {
-          ctx?.drawImage(
-            canvas,
-            infoHeight / 6,
-            infoHeight / 6,
-            infoWidth,
-            infoHeight,
-          );
-          // Finally save to png file
-          outputCanvas.toBlob((blob) => {
-            if (blob) {
-              const a = document.createElement('a');
-              document.body.appendChild(a);
-              a.style.display = 'none';
-              const url = window.URL.createObjectURL(blob);
-              a.href = url;
-              a.download = `screencapture.png`;
-              a.click();
-            }
-          });
-        });
-      });
-    }
+    // Save final PNG
+    output.toBlob((blob) => {
+      if (!blob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'screencapture.png';
+      a.click();
+    });
   }
 
   /**
