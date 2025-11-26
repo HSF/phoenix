@@ -39,7 +39,11 @@ describe('TrackmlComponent', () => {
     allowSelection: jest.fn().mockReturnThis(),
     getInfoLogger: jest.fn().mockReturnThis(),
     getInfoLoggerList: jest.fn().mockReturnThis(),
-    originChanged: of(origin),
+    originChanged: {
+      subscribe: () => {
+        return () => {};
+      },
+    },
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
