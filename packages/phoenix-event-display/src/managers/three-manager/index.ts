@@ -1416,7 +1416,6 @@ export class ThreeManager {
     const renderer = this.rendererManager.getMainRenderer();
     const camera = this.controlsManager.getMainCamera();
 
-    // Save original renderer size
     const originalSize = new Vector2();
     renderer.getSize(originalSize);
 
@@ -1424,21 +1423,19 @@ export class ThreeManager {
     const gl = renderer.getContext();
     const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
 
-    // Tile size (safe)
     const tileW = Math.min(width, maxSize);
     const tileH = Math.min(height, maxSize);
 
     const tilesX = Math.ceil(width / tileW);
     const tilesY = Math.ceil(height / tileH);
 
-    // Output canvas
     const output = document.getElementById(
       'screenshotCanvas',
     ) as HTMLCanvasElement;
     output.width = width;
     output.height = height;
-    const ctxOut = output.getContext('2d')!;
 
+    const ctxOut = output.getContext('2d')!;
     const bkgColor = getComputedStyle(document.body).getPropertyValue(
       '--phoenix-background-color',
     );
@@ -1446,7 +1443,6 @@ export class ThreeManager {
     ctxOut.fillStyle = bkgColor;
     ctxOut.fillRect(0, 0, width, height);
 
-    // Render each tile and stitch
     for (let y = 0; y < tilesY; y++) {
       for (let x = 0; x < tilesX; x++) {
         const offsetX = x * tileW;
@@ -1455,7 +1451,17 @@ export class ThreeManager {
         const w = Math.min(tileW, width - offsetX);
         const h = Math.min(tileH, height - offsetY);
 
-        camera.setViewOffset(width, height, offsetX, offsetY, w, h);
+        // SAFE type guard (no quotes!)
+        if ('setViewOffset' in camera) {
+          (camera as PerspectiveCamera | OrthographicCamera).setViewOffset(
+            width,
+            height,
+            offsetX,
+            offsetY,
+            w,
+            h,
+          );
+        }
 
         renderer.setSize(w / scale, h / scale, false);
         this.render();
@@ -1474,13 +1480,14 @@ export class ThreeManager {
       }
     }
 
-    camera.clearViewOffset();
+    // SAFE clear
+    if ('clearViewOffset' in camera) {
+      (camera as PerspectiveCamera | OrthographicCamera).clearViewOffset();
+    }
 
-    // Restore original renderer size
     renderer.setSize(originalSize.width, originalSize.height, false);
     this.render();
 
-    // Save final PNG
     output.toBlob((blob) => {
       if (!blob) return;
       const a = document.createElement('a');
