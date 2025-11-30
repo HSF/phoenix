@@ -3,6 +3,7 @@
  * This replaces Angular's EventEmitter to keep the library framework-agnostic.
  */
 export class EventEmitter<T = any> {
+  /** List of event listeners. */
   private listeners: Array<(value: T) => void> = [];
 
   /**
