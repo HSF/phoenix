@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { TrackmlComponent } from './trackml.component';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { AppModule } from '../../app.module';
 import { Vector3 } from 'three';
@@ -38,7 +39,11 @@ describe('TrackmlComponent', () => {
     allowSelection: jest.fn().mockReturnThis(),
     getInfoLogger: jest.fn().mockReturnThis(),
     getInfoLoggerList: jest.fn().mockReturnThis(),
-    originChanged: of(origin),
+    originChanged: {
+      subscribe: () => {
+        return () => {};
+      },
+    },
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
@@ -48,7 +53,7 @@ describe('TrackmlComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule],
+      imports: [HttpClientTestingModule, AppModule],
       providers: [
         {
           provide: EventDisplayService,
@@ -56,7 +61,7 @@ describe('TrackmlComponent', () => {
         },
       ],
     }).compileComponents();
-    http = TestBed.get(HttpClient);
+    http = TestBed.inject(HttpClient);
   });
 
   beforeEach(() => {
