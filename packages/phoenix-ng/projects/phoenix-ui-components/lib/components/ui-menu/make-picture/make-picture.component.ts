@@ -22,17 +22,15 @@ export class MakePictureComponent implements OnInit {
   constructor(private eventDisplay: EventDisplayService) {}
   ngOnInit() {}
   private checkSize() {
-    return this.eventDisplay
-      .getThreeManager()
-      .checkScreenShotCanvasSize(this.width, this.height, this.fitting);
+    return true; // Tiled rendering supports arbitrarily large sizes
   }
   setWidth(value) {
     this.width = value;
-    this.disabled = !this.checkSize();
+    this.disabled = false;
   }
   setHeight(value) {
     this.height = value;
-    this.disabled = !this.checkSize();
+    this.disabled = false;
   }
   buttonText() {
     return this.disabled ? 'Size too large' : 'Create picture';
