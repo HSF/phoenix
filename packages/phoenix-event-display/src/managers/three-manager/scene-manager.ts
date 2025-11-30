@@ -1051,18 +1051,4 @@ export class SceneManager {
     if (object) return object;
     return new Object3D();
   }
-  /**
-   * Toggle visibility of all labels in the scene.
-   * @param visible If the labels will be visible (true) or hidden (false).
-   */
-  public toggleLables(visible: boolean): void {
-    const labelsGroup = this.getObjectsGroup(SceneManager.LABELS_ID);
-    if (labelsGroup) {
-      labelsGroup.visible = visible;
-
-      labelsGroup.traverse((child: Object3D) => {
-        child.visible = visible;
-      });
-    }
-  }
 }

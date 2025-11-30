@@ -152,10 +152,6 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
-    // 🔥 Hide labels at the start of the animation
-    const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-    if (labelsGroup) labelsGroup.visible = false;
-
     const extraAnimationSphereDuration = tweenDuration * 0.25;
     tweenDuration *= 0.75;
 
@@ -163,7 +159,6 @@ export class AnimationsManager {
     if (!eventData) {
       return;
     }
-
     const animationSphere = new Sphere(new Vector3(), 0);
     const objectsToAnimateWithSphere: {
       eventObject: Object3D;
@@ -171,16 +166,18 @@ export class AnimationsManager {
     }[] = [];
 
     const allTweens = [];
-
     // Traverse over all event data
     eventData.traverse((eventObject: any) => {
       if (eventObject.geometry) {
         // Animation for extrapolating tracks without changing scale
         if (eventObject.name === 'Track' || eventObject.name === 'LineHit') {
+          // Check if geometry drawRange count exists
           let geometryPosCount =
             eventObject.geometry?.attributes?.position?.count;
-
           if (geometryPosCount) {
+            // WORKAROUND
+            // Changing position count for TubeGeometry because
+            // what we get is not the actual and it has Infinity drawRange count
             if (eventObject.geometry instanceof TubeGeometry) {
               geometryPosCount *= 6;
             }
@@ -188,7 +185,9 @@ export class AnimationsManager {
             if (eventObject.geometry instanceof TracksMesh) {
               eventObject.material.progress = 0;
               const eventObjectTween = new Tween(eventObject.material).to(
-                { progress: 1 },
+                {
+                  progress: 1,
+                },
                 tweenDuration,
               );
               eventObjectTween.onComplete(() => {
@@ -198,10 +197,14 @@ export class AnimationsManager {
             } else if (eventObject.geometry instanceof BufferGeometry) {
               const oldDrawRangeCount = eventObject.geometry.drawRange.count;
               eventObject.geometry.setDrawRange(0, 0);
-
               const eventObjectTween = new Tween(
                 eventObject.geometry.drawRange,
-              ).to({ count: geometryPosCount }, tweenDuration);
+              ).to(
+                {
+                  count: geometryPosCount,
+                },
+                tweenDuration,
+              );
               eventObjectTween.onComplete(() => {
                 eventObject.geometry.drawRange.count = oldDrawRangeCount;
               });
@@ -209,7 +212,7 @@ export class AnimationsManager {
             }
           }
         }
-        // Animation for Jets
+        // Animation for scaling out objects with or without position
         else if (eventObject.name === 'Jet') {
           const scaleTween = new Tween({
             x: 0.01,
@@ -223,28 +226,27 @@ export class AnimationsManager {
             },
             tweenDuration,
           );
-
+          // Manually updating scale since we need to change position
           scaleTween.onUpdate(
             (updatedScale: { x: number; y: number; z: number }) => {
               const previousScale = eventObject.scale.x;
               eventObject.scale.setScalar(updatedScale.x);
+              // Restoring to original position and then moving again with the current value
               eventObject.position
                 .divideScalar(previousScale)
                 .multiplyScalar(updatedScale.x);
             },
           );
           allTweens.push(scaleTween);
-        }
-        // Hits and generic objects
-        else {
+        } else {
           const hasPosition = !eventObject.position.equals(
             new Vector3(0, 0, 0),
           );
-
           let position = hasPosition
             ? eventObject.position
             : eventObject.geometry.boundingSphere.center;
 
+          // Edit geometry for hits
           if (eventObject.name === 'Hit') {
             position = Array.from(
               eventObject.geometry.attributes['position'].array,
@@ -252,6 +254,8 @@ export class AnimationsManager {
             eventObject.geometry.deleteAttribute('position');
             eventObject.geometry.computeBoundingSphere();
           } else {
+            // Making the object invisible and will make visible
+            // once the animation sphere reaches the object
             eventObject.visible = false;
           }
 
@@ -263,7 +267,7 @@ export class AnimationsManager {
       }
     });
 
-    // Tween for animation sphere
+    // Tween for the animation sphere
     const animationSphereTween = new Tween(animationSphere).to(
       { radius: 3000 },
       tweenDuration,
@@ -296,6 +300,7 @@ export class AnimationsManager {
 
     animationSphereTween.onUpdate(onAnimationSphereUpdate);
 
+    // Animation sphere tween after covering the tracks
     const animationSphereTweenClone = new Tween(animationSphere).to(
       { radius: 10000 },
       extraAnimationSphereDuration,
@@ -306,7 +311,7 @@ export class AnimationsManager {
 
     allTweens.push(animationSphereTween);
 
-    // onStart callback
+    // Call onAnimationStart when the first tween starts
     allTweens[0].onStart(() => onAnimationStart?.());
 
     // Start all tweens
@@ -314,14 +319,10 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // 🔥 FINAL animation end handler
+    // Call onEnd when the last tween completes
     animationSphereTweenClone.onComplete(() => {
+      // Restore all remaining event data items
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
-
-      // 🔥 Show labels again when the animation ends
-      const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-      if (labelsGroup) labelsGroup.visible = true;
-
       onEnd?.();
     });
   }
@@ -343,10 +344,6 @@ export class AnimationsManager {
     if (!allEventData) {
       return;
     }
-
-    // 🔥 Hide labels at the start of the animation
-    const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-    if (labelsGroup) labelsGroup.visible = false;
 
     // Sphere to get spherical set of clipping planes from
     const sphere = new SphereGeometry(1, 8, 8);
@@ -399,14 +396,12 @@ export class AnimationsManager {
         this.rendererManager.getMainRenderer().localClippingEnabled =
           prevLocalClipping /* false */;
       }
-
       // Remove the applied clipping planes from the event data objects
       allEventData.traverse((eventObject: any) => {
         if (eventObject.geometry && eventObject.material) {
           eventObject.material.clippingPlanes = null;
         }
       });
-
       onEnd?.();
     });
   }
@@ -565,10 +560,6 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
-    // 🔥 Hide labels at the start of the preset animation
-    const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-    if (labelsGroup) labelsGroup.visible = false;
-
     if (animateEventAfterInterval && collisionDuration) {
       // Will be made visible after collision animation ends.
       const object = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
@@ -592,14 +583,7 @@ export class AnimationsManager {
       previousTween.chain(tween);
       previousTween = tween;
     });
-
-    // 🔥 When animation finishes, show labels again
-    previousTween.onComplete(() => {
-      const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
-      if (labelsGroup) labelsGroup.visible = true;
-
-      onEnd?.(); // Call original callback
-    });
+    previousTween.onComplete(onEnd);
 
     firstTween.start();
   }
