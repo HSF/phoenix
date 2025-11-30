@@ -29,7 +29,12 @@ describe('ViewOptionsComponent', () => {
     showLabels: jest.fn().mockReturnThis(),
     show3DMousePoints: jest.fn().mockReturnThis(),
     show3DDistance: jest.fn().mockReturnThis(),
-    originChanged: of(origin),
+    originChanged: {
+      subscribe: (callback) => {
+        callback(origin);
+        return () => {};
+      },
+    },
   };
 
   const mockMatDialog = {
@@ -183,11 +188,10 @@ describe('ViewOptionsComponent', () => {
   });
 
   it('should unsubscribe the existing subscriptions', () => {
-    component.sub = new Subscription();
-    const spy = jest.spyOn(component.sub, 'unsubscribe');
+    component.sub = jest.fn();
 
     component.ngOnDestroy();
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    expect(component.sub).toHaveBeenCalledTimes(1);
   });
 });

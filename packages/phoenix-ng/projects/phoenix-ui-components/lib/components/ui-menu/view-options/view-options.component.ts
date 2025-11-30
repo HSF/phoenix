@@ -26,7 +26,7 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
   views: PresetView[];
   show3DPoints: boolean;
   origin: Vector3 = new Vector3(0, 0, 0);
-  sub: Subscription;
+  sub: () => void = () => {};
 
   constructor(
     private eventDisplay: EventDisplayService,
@@ -92,6 +92,6 @@ export class ViewOptionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub();
   }
 }

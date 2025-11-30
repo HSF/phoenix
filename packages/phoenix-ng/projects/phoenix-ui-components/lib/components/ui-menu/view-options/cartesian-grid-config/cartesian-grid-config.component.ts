@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class CartesianGridConfigComponent implements OnInit {
   cartesianPos = new Vector3();
-  originChangedSub: Subscription = null;
-  stopShiftingSub: Subscription = null;
+  originChangedSub: () => void = () => {};
+  stopShiftingSub: () => void = () => {};
   showCartesianGrid: boolean;
   gridConfig: {
     showXY: boolean;
@@ -63,8 +63,8 @@ export class CartesianGridConfigComponent implements OnInit {
       .getThreeManager()
       .stopShifting.subscribe((stop) => {
         if (stop) {
-          this.originChangedSub.unsubscribe();
-          this.stopShiftingSub.unsubscribe();
+          this.originChangedSub();
+          this.stopShiftingSub();
         }
       });
     this.onClose();

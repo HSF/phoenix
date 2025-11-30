@@ -33,8 +33,18 @@ describe('CartesianGridConfigComponent', () => {
     setShowCartesianGrid: jest.fn().mockReturnThis(),
     shiftCartesianGridByPointer: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
-    originChanged: of(gridOrigin),
-    stopShifting: of(true),
+    originChanged: {
+      subscribe: (callback) => {
+        callback(gridOrigin);
+        return () => {};
+      },
+    },
+    stopShifting: {
+      subscribe: (callback) => {
+        callback(true);
+        return () => {};
+      },
+    },
     origin: new Vector3(0, 0, 0),
     originChangedEmit: jest.fn().mockReturnThis(),
   };
@@ -121,29 +131,31 @@ describe('CartesianGridConfigComponent', () => {
   });
 
   it('should shift cartesian grid by a mouse click', () => {
+    jest.spyOn(component, 'translateGrid');
+    const mockUnsubscribe = jest.fn();
+
+    let originChangedCallback: (val: any) => void;
+    let stopShiftingCallback: (val: any) => void;
+
+    mockEventDisplay.originChanged.subscribe = jest.fn((cb) => {
+      originChangedCallback = cb;
+      return mockUnsubscribe;
+    });
+    mockEventDisplay.stopShifting.subscribe = jest.fn((cb) => {
+      stopShiftingCallback = cb;
+      return mockUnsubscribe;
+    });
+
     component.shiftCartesianGridByPointer();
 
     mockEventDisplay.getUIManager().shiftCartesianGridByPointer(true);
 
-    mockEventDisplay.getThreeManager().originChanged.subscribe((intersect) => {
-      expect(component.translateGrid).toHaveBeenCalledWith(intersect);
-    });
+    // Trigger callbacks
+    if (originChangedCallback) originChangedCallback(gridOrigin);
+    if (stopShiftingCallback) stopShiftingCallback(true);
 
-    const originChangedUnSpy = jest.spyOn(
-      component.originChangedSub,
-      'unsubscribe',
-    );
-    const stopShiftingUnSpy = jest.spyOn(
-      component.stopShiftingSub,
-      'unsubscribe',
-    );
-
-    mockEventDisplay.getThreeManager().stopShifting.subscribe((stop) => {
-      if (stop) {
-        expect(originChangedUnSpy).toHaveBeenCalled();
-        expect(stopShiftingUnSpy).toHaveBeenCalled();
-      }
-    });
+    expect(component.translateGrid).toHaveBeenCalledWith(gridOrigin);
+    expect(mockUnsubscribe).toHaveBeenCalledTimes(2);
   });
 
   it('should shift cartesian grid by values', () => {

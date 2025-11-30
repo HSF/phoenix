@@ -26,7 +26,7 @@
     "prepublishOnly": "yarn build:bundle",
     "docs": "node scripts/gen-api-docs.js",
     "docs:coverage": "yarn compodoc -p configs/compodoc.conf.json --coverageTest 100",
-    "test": "jest --config configs/jest.conf.js",
+    "test": "jest --config configs/jest.conf.cjs",
     "test:coverage": "yarn test --coverage",
     "test:ci": "yarn test:coverage --maxWorkers=2 --silent",
     "test:debug": "yarn test --runInBand",
