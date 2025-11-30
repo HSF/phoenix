@@ -350,14 +350,14 @@ __metadata:
   linkType: hard
 
 "@angular/common@npm:^19.2.14":
-  version: 19.2.14
-  resolution: "@angular/common@npm:19.2.14"
+  version: 19.2.16
+  resolution: "@angular/common@npm:19.2.16"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/core": 19.2.14
+    "@angular/core": 19.2.16
     rxjs: ^6.5.3 || ^7.4.0
-  checksum: 5682a7b8af9ff7911b2bdded657b7aec4317942a3b299c2c14ff3c1edfd591dd6ecb4f73ed0b0d23053747fcf6693a431dfee6c6cd1554639b8f208e39de5960
+  checksum: e8fe8de10f5de7e1d035e6789b418e0e5cb59e30e2f8374dfcc77db7ea96d0448f37055c237f45249123bc4bbbe27807d7d2a230412c49152545f4a18b94beb0
   languageName: node
   linkType: hard
 
