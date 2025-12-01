@@ -21,9 +21,7 @@ export class MakePictureComponent implements OnInit {
   disabled: boolean = false;
   constructor(private eventDisplay: EventDisplayService) {}
   ngOnInit() {}
-  private checkSize() {
-    return true; // Tiled rendering supports arbitrarily large sizes
-  }
+
   setWidth(value) {
     this.width = value;
     this.disabled = false;
@@ -33,7 +31,7 @@ export class MakePictureComponent implements OnInit {
     this.disabled = false;
   }
   buttonText() {
-    return this.disabled ? 'Size too large' : 'Create picture';
+    return 'Create picture';
   }
   makePicture() {
     this.eventDisplay
