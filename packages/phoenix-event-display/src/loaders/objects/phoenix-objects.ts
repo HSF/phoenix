@@ -83,7 +83,7 @@ export class PhoenixObjects {
         ? parseInt(track.color, 16)
         : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
-      track.tid = tracksMesh.addTrack(vertices, color);
+      track.tid = tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material = tracksMaterial;
     }
     tracksMesh.process();
