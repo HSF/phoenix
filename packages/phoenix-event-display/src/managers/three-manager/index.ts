@@ -1416,9 +1416,45 @@ export class ThreeManager {
     const renderer = this.rendererManager.getMainRenderer();
     const camera = this.controlsManager.getMainCamera();
 
+    // Save original renderer size
     const originalSize = new Vector2();
     renderer.getSize(originalSize);
 
+    const originalWidth = originalSize.width;
+    const originalHeight = originalSize.height;
+
+    // Restore original crop/stretch logic
+    const scaledSize = this.croppedSize(
+      width,
+      height,
+      originalWidth,
+      originalHeight,
+    );
+
+    const widthShift = fitting === 'Crop' ? (scaledSize.width - width) / 2 : 0;
+    const heightShift =
+      fitting === 'Crop' ? (scaledSize.height - height) / 2 : 0;
+
+    const scaleX = fitting === 'Stretch' ? scaledSize.width / originalWidth : 1;
+    const scaleY =
+      fitting === 'Stretch' ? scaledSize.height / originalHeight : 1;
+
+    // Prepare output canvas
+    const output = document.getElementById(
+      'screenshotCanvas',
+    ) as HTMLCanvasElement;
+    output.width = width;
+    output.height = height;
+    const ctxOut = output.getContext('2d')!;
+
+    const bkgColor = getComputedStyle(document.body).getPropertyValue(
+      '--phoenix-background-color',
+    );
+
+    ctxOut.fillStyle = bkgColor;
+    ctxOut.fillRect(0, 0, width, height);
+
+    // Tiling logic
     const scale = window.devicePixelRatio;
     const gl = renderer.getContext();
     const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
@@ -1429,20 +1465,6 @@ export class ThreeManager {
     const tilesX = Math.ceil(width / tileW);
     const tilesY = Math.ceil(height / tileH);
 
-    const output = document.getElementById(
-      'screenshotCanvas',
-    ) as HTMLCanvasElement;
-    output.width = width;
-    output.height = height;
-
-    const ctxOut = output.getContext('2d')!;
-    const bkgColor = getComputedStyle(document.body).getPropertyValue(
-      '--phoenix-background-color',
-    );
-
-    ctxOut.fillStyle = bkgColor;
-    ctxOut.fillRect(0, 0, width, height);
-
     for (let y = 0; y < tilesY; y++) {
       for (let x = 0; x < tilesX; x++) {
         const offsetX = x * tileW;
@@ -1451,13 +1473,17 @@ export class ThreeManager {
         const w = Math.min(tileW, width - offsetX);
         const h = Math.min(tileH, height - offsetY);
 
-        // SAFE type guard (no quotes!)
+        // Apply crop/stretch offsets
+        const effX = (offsetX + widthShift) * scaleX;
+        const effY = (offsetY + heightShift) * scaleY;
+
+        // Safe camera offsets
         if ('setViewOffset' in camera) {
           (camera as PerspectiveCamera | OrthographicCamera).setViewOffset(
-            width,
-            height,
-            offsetX,
-            offsetY,
+            scaledSize.width,
+            scaledSize.height,
+            effX,
+            effY,
             w,
             h,
           );
@@ -1480,12 +1506,13 @@ export class ThreeManager {
       }
     }
 
-    // SAFE clear
+    // Clear offset after render
     if ('clearViewOffset' in camera) {
       (camera as PerspectiveCamera | OrthographicCamera).clearViewOffset();
     }
 
-    renderer.setSize(originalSize.width, originalSize.height, false);
+    // Restore original size
+    renderer.setSize(originalWidth, originalHeight, false);
     this.render();
 
     output.toBlob((blob) => {
