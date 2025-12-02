@@ -385,11 +385,11 @@ __metadata:
   linkType: hard
 
 "@angular/compiler@npm:^19.2.14":
-  version: 19.2.14
-  resolution: "@angular/compiler@npm:19.2.14"
+  version: 19.2.17
+  resolution: "@angular/compiler@npm:19.2.17"
   dependencies:
     tslib: ^2.3.0
-  checksum: f8b22a5e0fbb0c0ded681ae237a05216fa07111d341ac7c1b5a18f868bb737d433501a4a9fbbee22ca0035296b389208c7996e936ed5b79db483e079b914469a
+  checksum: d0cfa0c00d0ae59441decd417965039b0b2a327e3ddc06e11144ed35b60734d3adc57f1f11fec21290db607a405cb77bcb5184693015a1b90413c3893e2b08f8
   languageName: node
   linkType: hard
 
