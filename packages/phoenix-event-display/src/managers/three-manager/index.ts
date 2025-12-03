@@ -1439,6 +1439,17 @@ export class ThreeManager {
     const scaleY =
       fitting === 'Stretch' ? scaledSize.height / originalHeight : 1;
 
+    // ------------------------------
+    // FIX: Stretch requires aspect ratio update
+    // ------------------------------
+    let originalAspect: number | undefined;
+
+    if (fitting === 'Stretch' && 'aspect' in camera) {
+      originalAspect = camera.aspect;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
     // Prepare output canvas
     const output = document.getElementById(
       'screenshotCanvas',
@@ -1477,7 +1488,7 @@ export class ThreeManager {
         const effX = (offsetX + widthShift) * scaleX;
         const effY = (offsetY + heightShift) * scaleY;
 
-        // Safe camera offsets
+        // SAFE camera offsets
         if ('setViewOffset' in camera) {
           (camera as PerspectiveCamera | OrthographicCamera).setViewOffset(
             scaledSize.width,
@@ -1506,12 +1517,20 @@ export class ThreeManager {
       }
     }
 
-    // Clear offset after render
+    // Clear view offset after render
     if ('clearViewOffset' in camera) {
       (camera as PerspectiveCamera | OrthographicCamera).clearViewOffset();
     }
 
-    // Restore original size
+    // ------------------------------
+    // FIX: Restore original aspect
+    // ------------------------------
+    if (fitting === 'Stretch' && originalAspect !== undefined) {
+      camera.aspect = originalAspect;
+      camera.updateProjectionMatrix();
+    }
+
+    // Restore renderer size
     renderer.setSize(originalWidth, originalHeight, false);
     this.render();
 
