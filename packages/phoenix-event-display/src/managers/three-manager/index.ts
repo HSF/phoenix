@@ -1416,58 +1416,70 @@ export class ThreeManager {
     const renderer = this.rendererManager.getMainRenderer();
     const camera = this.controlsManager.getMainCamera();
 
-    // Save original renderer size
+    // ORIGINAL SCREEN SIZE
     const originalSize = new Vector2();
     renderer.getSize(originalSize);
-
     const originalWidth = originalSize.width;
     const originalHeight = originalSize.height;
 
-    // Compute scaled size using original Crop logic
-    const scaledSize = this.croppedSize(
-      width,
-      height,
-      originalWidth,
-      originalHeight,
-    );
+    // ---------------------------
+    // 1. CROP & STRETCH LOGIC
+    // ---------------------------
+    let targetWidth = width;
+    let targetHeight = height;
+    let shiftX = 0;
+    let shiftY = 0;
 
-    const widthShift = fitting === 'Crop' ? (scaledSize.width - width) / 2 : 0;
-    const heightShift =
-      fitting === 'Crop' ? (scaledSize.height - height) / 2 : 0;
+    if (fitting === 'Crop') {
+      const scaled = this.croppedSize(
+        width,
+        height,
+        originalWidth,
+        originalHeight,
+      );
 
-    // Stretch scaling factors
-    const scaleX = fitting === 'Stretch' ? scaledSize.width / originalWidth : 1;
-    const scaleY =
-      fitting === 'Stretch' ? scaledSize.height / originalHeight : 1;
+      targetWidth = scaled.width;
+      targetHeight = scaled.height;
 
-    // ------------------------------
-    // SAFE: Only PerspectiveCamera has aspect + updateProjectionMatrix()
-    // ------------------------------
+      shiftX = (scaled.width - width) / 2;
+      shiftY = (scaled.height - height) / 2;
+    }
+
+    // Stretch → KEEP exact width/height (NO crop, NO shift)
+    if (fitting === 'Stretch') {
+      shiftX = 0;
+      shiftY = 0;
+      targetWidth = width;
+      targetHeight = height;
+    }
+
+    // Fix aspect only for PerspectiveCamera
     let originalAspect: number | undefined;
-
     if (fitting === 'Stretch' && camera instanceof PerspectiveCamera) {
       originalAspect = camera.aspect;
-      camera.aspect = width / height; // apply stretched aspect ratio
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
     }
 
-    // Prepare output canvas
+    // ---------------------------
+    // 2. Prepare output canvas
+    // ---------------------------
     const output = document.getElementById(
       'screenshotCanvas',
     ) as HTMLCanvasElement;
-
     output.width = width;
     output.height = height;
 
     const ctxOut = output.getContext('2d')!;
-    const bkgColor = getComputedStyle(document.body).getPropertyValue(
+    const bg = getComputedStyle(document.body).getPropertyValue(
       '--phoenix-background-color',
     );
-
-    ctxOut.fillStyle = bkgColor;
+    ctxOut.fillStyle = bg;
     ctxOut.fillRect(0, 0, width, height);
 
-    // Tiling logic
+    // ---------------------------
+    // 3. TILE RENDERING
+    // ---------------------------
     const scale = window.devicePixelRatio;
     const gl = renderer.getContext();
     const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
@@ -1478,23 +1490,22 @@ export class ThreeManager {
     const tilesX = Math.ceil(width / tileW);
     const tilesY = Math.ceil(height / tileH);
 
-    for (let y = 0; y < tilesY; y++) {
-      for (let x = 0; x < tilesX; x++) {
-        const offsetX = x * tileW;
-        const offsetY = y * tileH;
+    for (let ty = 0; ty < tilesY; ty++) {
+      for (let tx = 0; tx < tilesX; tx++) {
+        const offsetX = tx * tileW;
+        const offsetY = ty * tileH;
 
         const w = Math.min(tileW, width - offsetX);
         const h = Math.min(tileH, height - offsetY);
 
-        // Apply crop/stretch offset calculations
-        const effX = (offsetX + widthShift) * scaleX;
-        const effY = (offsetY + heightShift) * scaleY;
+        // FINAL effective offsets for camera
+        const effX = offsetX + shiftX;
+        const effY = offsetY + shiftY;
 
-        // SAFE camera offset
         if ('setViewOffset' in camera) {
           (camera as PerspectiveCamera | OrthographicCamera).setViewOffset(
-            scaledSize.width,
-            scaledSize.height,
+            targetWidth,
+            targetHeight,
             effX,
             effY,
             w,
@@ -1519,22 +1530,18 @@ export class ThreeManager {
       }
     }
 
-    // Clear offset
+    // Clear camera offset
     if ('clearViewOffset' in camera) {
-      (camera as PerspectiveCamera | OrthographicCamera).clearViewOffset();
+      camera.clearViewOffset();
     }
 
-    // Restore aspect ratio
-    if (
-      fitting === 'Stretch' &&
-      originalAspect !== undefined &&
-      camera instanceof PerspectiveCamera
-    ) {
+    // Restore original aspect if changed
+    if (originalAspect !== undefined && camera instanceof PerspectiveCamera) {
       camera.aspect = originalAspect;
       camera.updateProjectionMatrix();
     }
 
-    // Restore original renderer size
+    // Reset renderer size
     renderer.setSize(originalWidth, originalHeight, false);
     this.render();
 
