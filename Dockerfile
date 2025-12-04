@@ -19,14 +19,23 @@ WORKDIR /phoenix
 
 COPY . .
 
+# Install yarn globally
 RUN npm install yarn --global --silent
 
-# Force native modules (lmdb) to build from source, avoiding incompatible binaries
+# Force native modules (lmdb) to build from source
 ENV npm_config_build_from_source=true
 
-# Install with verbose output so CI logs become clear
+# CI environment variables (keep from main)
+ENV CI=1
+ENV CYPRESS_INSTALL_BINARY=0
+
+# Enable corepack (needed for Yarn 3 in repo)
+RUN corepack enable
+
+# Install dependencies with verbose logs so CI errors become visible
 RUN yarn install --silent --verbose
 
+# Build the web app
 RUN yarn deploy:web
 
 
