@@ -20,8 +20,15 @@ WORKDIR /phoenix
 COPY . .
 
 RUN npm install yarn --global --silent
-RUN yarn install --silent
+
+# Force native modules (lmdb) to build from source, avoiding incompatible binaries
+ENV npm_config_build_from_source=true
+
+# Install with verbose output so CI logs become clear
+RUN yarn install --silent --verbose
+
 RUN yarn deploy:web
+
 
 # Remove all node_modules folders
 RUN find . -name "node_modules" -type d -exec rm -rf "{}" +
