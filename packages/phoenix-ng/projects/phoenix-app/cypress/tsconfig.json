@@ -1,8 +1,9 @@
 {
+  "//": "Cypress-specific TS config to isolate Cypress types from Jest.",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "dom"],
-    "types": ["cypress", "node", "cypress-plugin-snapshots"]
+    "types": ["cypress"]
   },
-  "include": ["**/*.ts"]
+  "include": ["e2e/**/*.ts", "support/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

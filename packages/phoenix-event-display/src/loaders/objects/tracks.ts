@@ -25,6 +25,8 @@ export class TracksMesh extends BufferGeometry {
   colors: number[];
   /** Counter. */
   counter: number[];
+  /** Linewidths. */
+  linewidths: number[];
   /** Track ID. */
   track_id: any[];
   /** Side. */
@@ -47,6 +49,7 @@ export class TracksMesh extends BufferGeometry {
     this.counter = [];
     this.track_id = [];
     this.colors = [];
+    this.linewidths = [];
     this.indices_array = [];
     this.next_track_id = 0;
   }
@@ -55,9 +58,14 @@ export class TracksMesh extends BufferGeometry {
    * Add a track to the tracks mesh.
    * @param points Points for constructing the track.
    * @param color Color of the track.
+   * @param linewidth Width of the track line.
    * @returns ID of the track.
    */
-  addTrack(points: Vector3[], color: ColorRepresentation) {
+  addTrack(
+    points: Vector3[],
+    color: ColorRepresentation,
+    linewidth: number = 1.0,
+  ) {
     const id = this.next_track_id++;
 
     const col = new Color(color);
@@ -75,6 +83,8 @@ export class TracksMesh extends BufferGeometry {
       this.track_id.push(id, id);
       this.colors.push(col.r, col.g, col.b);
       this.colors.push(col.r, col.g, col.b);
+      this.colors.push(col.r, col.g, col.b);
+      this.linewidths.push(linewidth, linewidth);
       this.counter.push(i / points.length, i / points.length);
 
       if (i < points.length - 1) {
@@ -111,6 +121,7 @@ export class TracksMesh extends BufferGeometry {
         side: new BufferAttribute(new Float32Array(this.side), 1),
         track_id: new BufferAttribute(new Int32Array(this.track_id), 1),
         color: new BufferAttribute(new Float32Array(this.colors), 3),
+        linewidth: new BufferAttribute(new Float32Array(this.linewidths), 1),
         counter: new BufferAttribute(new Float32Array(this.counter), 1),
         index: new BufferAttribute(new Uint32Array(this.indices_array), 1),
       };
@@ -139,6 +150,10 @@ export class TracksMesh extends BufferGeometry {
         new Float32Array(this.colors),
       );
       this._attributes.color.needsUpdate = true;
+      (this._attributes.linewidth as BufferAttribute).copyArray(
+        new Float32Array(this.linewidths),
+      );
+      this._attributes.linewidth.needsUpdate = true;
       (this._attributes.counter as BufferAttribute).copyArray(
         new Float32Array(this.counter),
       );
@@ -155,6 +170,7 @@ export class TracksMesh extends BufferGeometry {
     this.setAttribute('side', this._attributes.side);
     this.setAttribute('track_id', this._attributes.track_id);
     this.setAttribute('color', this._attributes.color);
+    this.setAttribute('linewidth', this._attributes.linewidth);
     this.setAttribute('counter', this._attributes.counter);
 
     this.setIndex(this._attributes.index as BufferAttribute);
@@ -171,6 +187,7 @@ const tracks_vert = [
   'attribute int track_id;',
   'attribute float side;',
   'attribute vec3 color;',
+  'attribute float linewidth;',
   'attribute float counter;',
 
   'varying vec3 v_color;',
@@ -178,7 +195,7 @@ const tracks_vert = [
   'flat varying int v_track_id;',
 
   'uniform vec2 resolution;',
-  'uniform float lineWidth;',
+  // 'uniform float lineWidth;',
   'void main() {',
   '  vec2 aspect = vec2(resolution.x / resolution.y, 1.0);',
   '',
@@ -201,7 +218,7 @@ const tracks_vert = [
   '  else dir = normalize(curP - prevP);',
   '',
   '  vec2 normal = vec2(-dir.y, dir.x);',
-  '  normal.xy *= .5 * lineWidth;',
+  '  normal.xy *= .5 * linewidth;',
   '  normal.x /= aspect.x;',
   '  normal.xy *= finalPosition.w * 0.001;',
 
@@ -242,7 +259,7 @@ export class TracksMaterial extends ShaderMaterial {
       uniforms: Object.assign(
         {},
         {
-          lineWidth: { value: 1 },
+          // lineWidth: { value: 1 },
           resolution: { value: new Vector2(1, 1) },
           progress: { value: 1 },
         },
@@ -253,15 +270,15 @@ export class TracksMaterial extends ShaderMaterial {
     this.isTracksMaterial = true;
 
     Object.defineProperties(this, {
-      lineWidth: {
-        enumerable: true,
-        get: function () {
-          return this.uniforms.lineWidth.value;
-        },
-        set: function (value) {
-          this.uniforms.lineWidth.value = value;
-        },
-      },
+      // lineWidth: {
+      //   enumerable: true,
+      //   get: function () {
+      //     return this.uniforms.lineWidth.value;
+      //   },
+      //   set: function (value) {
+      //     this.uniforms.lineWidth.value = value;
+      //   },
+      // },
       resolution: {
         enumerable: true,
         get: function () {
