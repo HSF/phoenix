@@ -1,3 +1,4 @@
+import { Group, Object3D, Vector3, Color } from 'three';
 import { GUI } from 'dat.gui';
 import type { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager/index';
@@ -5,17 +6,14 @@ import { ThreeManager } from '../managers/three-manager/index';
 import { Cut } from '../lib/models/cut.model';
 import { PhoenixObjects } from './objects/phoenix-objects';
 import { InfoLogger } from '../helpers/info-logger';
-import { getLabelTitle } from '../helpers/labels';
-import { Cut } from '../lib/models/cut.model';
+import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { LoadingManager } from '../managers/loading-manager';
 import { StateManager } from '../managers/state-manager';
-import { ThreeManager } from '../managers/three-manager/index';
+import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { getLabelTitle } from '../helpers/labels';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
-import { UIManager } from '../managers/ui-manager/index';
-import { PhoenixMenuNode } from '../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
-import type { EventDataLoader } from './event-data-loader';
-import { PhoenixObjects } from './objects/phoenix-objects';
+import * as _ from 'lodash';
 
 /**
  * Loader for processing and loading an event.

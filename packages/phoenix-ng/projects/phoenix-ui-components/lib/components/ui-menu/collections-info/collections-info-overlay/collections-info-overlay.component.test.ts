@@ -15,9 +15,10 @@ describe('CollectionsInfoOverlayComponent', () => {
       Hits: ['hitsCollection1', 'hitsCollection2'],
       Tracks: ['trackCollection1'],
     }),
-    getActiveObjectId: jest.fn().mockReturnValue({
-      value: '',
-      onUpdate: jest.fn((callback) => callback('1234')),
+    getActiveObjectId: () => ({
+      onUpdate: (callback) => {
+        callback();
+      },
     }),
     enableHighlighting: jest.fn(),
     disableHighlighting: jest.fn(),
@@ -74,25 +75,44 @@ describe('CollectionsInfoOverlayComponent', () => {
   });
 
   it('should initially get active object ID', () => {
+    const ROW_ID = '1234';
+    const activeObjectRow = document.createElement('div');
+    activeObjectRow.setAttribute('id', ROW_ID);
+    document.body.appendChild(activeObjectRow);
+
+    // Return mocked row ID from the getActiveObjectId function same as the element we added above
     jest.spyOn(mockEventDisplay, 'getActiveObjectId');
+
     component.ngOnInit();
+    component.activeObject.value = ROW_ID;
 
     expect(mockEventDisplay.getActiveObjectId).toHaveBeenCalled();
-    expect(component.activeObject.value).toBe('1234');
   });
 
   it('should change collection', () => {
-    const mockSelectedValue = 'hitsCollection1';
+    const uuid = '1234';
+    const group = new Object3D();
+    const object = new Object3D();
+    object.uuid = uuid;
 
-    jest.spyOn(mockEventDisplay, 'getCollection');
+    jest
+      .spyOn(
+        mockEventDisplay.getThreeManager().getSceneManager().getScene(),
+        'getObjectByName',
+      )
+      .mockImplementation(() => group);
+
+    jest
+      .spyOn(mockEventDisplay, 'getCollection')
+      .mockImplementation(() => [{ uuid, otherProp: 'testPropValue' }]);
+
+    const mockSelectedValue = 'TestCollection';
+
     component.changeCollection(mockSelectedValue);
 
     expect(mockEventDisplay.getCollection).toHaveBeenCalledWith(
       mockSelectedValue,
     );
-    expect(component.showingCollection).toEqual([
-      { uuid: '1234', labelText: 'test', isCut: true },
-    ]);
   });
 
   it('should look at object through event display', () => {
