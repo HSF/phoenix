@@ -100,23 +100,24 @@ export class PhoenixLoader implements EventDataLoader {
    * Get list of collections in the event data.
    * @returns List of all collection names.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (!this.eventData) {
-      return [];
+      return {};
     }
 
-    const collections = [];
+    const collectionsByType: { [key: string]: string[] } = {};
+
     for (const objectType in this.eventData) {
       if (
         this.eventData[objectType] &&
-        typeof this.eventData[objectType] === 'object'
+        typeof this.eventData[objectType] == 'object'
       ) {
-        for (const collection in this.eventData[objectType]) {
-          collections.push(collection);
-        }
+        collectionsByType[objectType] = Object.keys(
+          this.eventData[objectType],
+        ).sort();
       }
     }
-    return collections;
+    return collectionsByType;
   }
 
   /**
