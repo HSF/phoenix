@@ -94,11 +94,12 @@ export class ThreeManager {
     elem: Intersection<Object3D<Object3DEventMap>>,
   ) => boolean;
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
-  private show3DPointsCallback: (ev?: any) => void = () => {};
+  private show3DPointsCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
-  private shiftCartesianGridCallback: (ev?: any) => void = () => {};
+  private shiftCartesianGridCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to show 3D distance between two clicked points */
-  private show3DDistanceCallback: (ev?: any) => void = () => {};
+  private show3DDistanceCallback: (event: MouseEvent) => void = () => {};
+
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */

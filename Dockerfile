@@ -1,32 +1,46 @@
-FROM nvidia/opengl:1.0-glvnd-devel-ubuntu20.04 AS build
+FROM nvidia/opengl:1.0-glvnd-devel-ubuntu22.04 AS build
 
 # 1. System dependencies needed by native Node modules (canvas, headless-gl)
 RUN apt-get update -y
+# Install node 18.0
 RUN apt-get install -y curl gnupg ca-certificates && \
     curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
+# See: https://github.com/stackgl/headless-gl#ubuntudebian
 RUN apt-get install -y build-essential python libxi-dev libglu-dev libglew-dev pkg-config git
+# See: https://github.com/Automattic/node-canvas
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
 
-# 2. Project workspace
+# 2. Build Phoenix
+
 WORKDIR /phoenix
 COPY . .
 
-# 3. Environment: mark CI + skip Cypress binary (we only build static docs here)
+# Install yarn globally
+RUN npm install yarn --global --silent
+
+# Force native modules (lmdb) to build from source
+ENV npm_config_build_from_source=true
+
+# CI environment variables (keep from main)
 ENV CI=1
 ENV CYPRESS_INSTALL_BINARY=0
 
-# 4. Use Yarn via Corepack (honors yarnPath -> Yarn 3 committed in repo)
+# Enable corepack (needed for Yarn 3 in repo)
 RUN corepack enable
 
-# 5. Install dependencies & build the web/docs
-RUN yarn install --silent
+# Install dependencies with verbose logs so CI errors become visible
+RUN yarn install --silent --verbose
+
+# Build the web app
 RUN yarn deploy:web
 
-# 6. Remove node_modules to keep final image lean
+
+# Remove all node_modules folders
 RUN find . -name "node_modules" -type d -exec rm -rf "{}" +
 
-# 7. Runtime stage: just serve the built docs
+# 3. Serve the build through NGINX
+
 FROM nginx:alpine
 COPY --from=build /phoenix/packages/phoenix-ng/docs /usr/share/nginx/html
