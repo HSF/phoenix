@@ -1503,15 +1503,11 @@ export class ThreeManager {
         const effX = offsetX + shiftX;
         const effY = offsetY + shiftY;
 
-        if ('setViewOffset' in camera) {
-          (camera as PerspectiveCamera | OrthographicCamera).setViewOffset(
-            targetWidth,
-            targetHeight,
-            effX,
-            effY,
-            w,
-            h,
-          );
+        if (
+          camera instanceof PerspectiveCamera ||
+          camera instanceof OrthographicCamera
+        ) {
+          camera.setViewOffset(targetWidth, targetHeight, effX, effY, w, h);
         }
 
         renderer.setSize(w / scale, h / scale, false);
@@ -1532,7 +1528,10 @@ export class ThreeManager {
     }
 
     // Clear camera offset
-    if ('clearViewOffset' in camera) {
+    if (
+      camera instanceof PerspectiveCamera ||
+      camera instanceof OrthographicCamera
+    ) {
       camera.clearViewOffset();
     }
 
