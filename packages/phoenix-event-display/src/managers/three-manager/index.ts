@@ -123,7 +123,7 @@ export class ThreeManager {
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (event: MouseEvent) => void;
+  private mousemoveCallback: (event: MouseEvent) => void = () => {};
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
