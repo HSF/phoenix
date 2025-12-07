@@ -49,7 +49,7 @@ ENV CI=1
 ENV CYPRESS_INSTALL_BINARY=0
 
 # Install dependencies (verbose so you can see if python errors occur)
-RUN yarn install --silent --verbose
+RUN yarn install --silent
 
 # Build the web app
 RUN yarn deploy:web
