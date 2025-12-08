@@ -21,21 +21,17 @@ export class MakePictureComponent implements OnInit {
   disabled: boolean = false;
   constructor(private eventDisplay: EventDisplayService) {}
   ngOnInit() {}
-  private checkSize() {
-    return this.eventDisplay
-      .getThreeManager()
-      .checkScreenShotCanvasSize(this.width, this.height, this.fitting);
-  }
+
   setWidth(value) {
     this.width = value;
-    this.disabled = !this.checkSize();
+    this.disabled = false;
   }
   setHeight(value) {
     this.height = value;
-    this.disabled = !this.checkSize();
+    this.disabled = false;
   }
   buttonText() {
-    return this.disabled ? 'Size too large' : 'Create picture';
+    return 'Create picture';
   }
   makePicture() {
     this.eventDisplay

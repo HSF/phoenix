@@ -94,11 +94,12 @@ export class ThreeManager {
     elem: Intersection<Object3D<Object3DEventMap>>,
   ) => boolean;
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
-  private show3DPointsCallback: (event: MouseEvent) => void;
+  private show3DPointsCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
-  private shiftCartesianGridCallback: (event: MouseEvent) => void;
+  private shiftCartesianGridCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to show 3D distance between two clicked points */
-  private show3DDistanceCallback: (event: MouseEvent) => void;
+  private show3DDistanceCallback: (event: MouseEvent) => void = () => {};
+
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */
@@ -122,7 +123,7 @@ export class ThreeManager {
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (event: MouseEvent) => void;
+  private mousemoveCallback: (event: MouseEvent) => void = () => {};
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
@@ -1405,110 +1406,152 @@ export class ThreeManager {
    *    - Strech : current view is streched to given format
    *               this is the default and used also for any other value given to fitting
    */
-  public makeScreenShot(
+  /**
+   * Takes a very large screenshot safely by tiling renders
+   */
+  public async makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Strech',
+    fitting: string = 'Stretch',
   ) {
-    // compute actual size of screen shot, based on current view and requested size
-    const mainRenderer = this.rendererManager.getMainRenderer();
+    const renderer = this.rendererManager.getMainRenderer();
+    const camera = this.controlsManager.getMainCamera();
+
+    // ORIGINAL SCREEN SIZE
     const originalSize = new Vector2();
-    mainRenderer.getSize(originalSize);
-    const scaledSize = this.croppedSize(
-      width,
-      height,
-      originalSize.width,
-      originalSize.height,
-    );
-    const heightShift = (scaledSize.height - height) / 2;
-    const widthShift = (scaledSize.width - width) / 2;
+    renderer.getSize(originalSize);
+    const originalWidth = originalSize.width;
+    const originalHeight = originalSize.height;
 
-    // get background color to be used
-    const bkgColor = getComputedStyle(document.body).getPropertyValue(
-      '--phoenix-background-color',
-    );
+    // ---------------------------
+    // 1. CROP & STRETCH LOGIC
+    // ---------------------------
+    let targetWidth = width;
+    let targetHeight = height;
+    let shiftX = 0;
+    let shiftY = 0;
 
-    // Deal with devices having special devicePixelRatio (retina screens in particular)
-    const scale = window.devicePixelRatio;
+    if (fitting === 'Crop') {
+      const scaled = this.croppedSize(
+        width,
+        height,
+        originalWidth,
+        originalHeight,
+      );
 
-    // grab output canvas on which we will draw, and set size
-    const outputCanvas = document.getElementById(
+      targetWidth = scaled.width;
+      targetHeight = scaled.height;
+
+      shiftX = (scaled.width - width) / 2;
+      shiftY = (scaled.height - height) / 2;
+    }
+
+    // Stretch → KEEP exact width/height (NO crop, NO shift)
+    if (fitting === 'Stretch') {
+      shiftX = 0;
+      shiftY = 0;
+      targetWidth = width;
+      targetHeight = height;
+    }
+
+    // Fix aspect only for PerspectiveCamera
+    let originalAspect: number | undefined;
+    if (fitting === 'Stretch' && camera instanceof PerspectiveCamera) {
+      originalAspect = camera.aspect;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    // ---------------------------
+    // 2. Prepare output canvas
+    // ---------------------------
+    const output = document.getElementById(
       'screenshotCanvas',
     ) as HTMLCanvasElement;
-    outputCanvas.width = width;
-    outputCanvas.height = height;
-    outputCanvas.style.width = (width / scale).toString() + 'px';
-    outputCanvas.style.height = (height / scale).toString() + 'px';
-    const ctx = outputCanvas.getContext('2d');
-    if (ctx) {
-      ctx.fillStyle = bkgColor;
-      ctx.fillRect(0, 0, width, height);
-      // draw main image on our output canvas, with right size
-      mainRenderer.setSize(
-        scaledSize.width / scale,
-        scaledSize.height / scale,
-        false,
-      );
-      this.render();
-      ctx.drawImage(
-        mainRenderer.domElement,
-        widthShift,
-        heightShift,
-        width,
-        height,
-        0,
-        0,
-        width,
-        height,
-      );
+    output.width = width;
+    output.height = height;
+
+    const ctxOut = output.getContext('2d')!;
+    const bg = getComputedStyle(document.body).getPropertyValue(
+      '--phoenix-background-color',
+    );
+    ctxOut.fillStyle = bg;
+    ctxOut.fillRect(0, 0, width, height);
+
+    // ---------------------------
+    // 3. TILE RENDERING
+    // ---------------------------
+    const scale = window.devicePixelRatio;
+    const gl = renderer.getContext();
+    const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+
+    const tileW = Math.min(width, maxSize);
+    const tileH = Math.min(height, maxSize);
+
+    const tilesX = Math.ceil(width / tileW);
+    const tilesY = Math.ceil(height / tileH);
+
+    for (let ty = 0; ty < tilesY; ty++) {
+      for (let tx = 0; tx < tilesX; tx++) {
+        const offsetX = tx * tileW;
+        const offsetY = ty * tileH;
+
+        const w = Math.min(tileW, width - offsetX);
+        const h = Math.min(tileH, height - offsetY);
+
+        // FINAL effective offsets for camera
+        const effX = offsetX + shiftX;
+        const effY = offsetY + shiftY;
+
+        if (
+          camera instanceof PerspectiveCamera ||
+          camera instanceof OrthographicCamera
+        ) {
+          camera.setViewOffset(targetWidth, targetHeight, effX, effY, w, h);
+        }
+
+        renderer.setSize(w / scale, h / scale, false);
+        this.render();
+
+        ctxOut.drawImage(
+          renderer.domElement,
+          0,
+          0,
+          w,
+          h,
+          offsetX,
+          offsetY,
+          w,
+          h,
+        );
+      }
     }
 
-    mainRenderer.setSize(originalSize.width, originalSize.height, false);
+    // Clear camera offset
+    if (
+      camera instanceof PerspectiveCamera ||
+      camera instanceof OrthographicCamera
+    ) {
+      camera.clearViewOffset();
+    }
+
+    // Restore original aspect if changed
+    if (originalAspect !== undefined && camera instanceof PerspectiveCamera) {
+      camera.aspect = originalAspect;
+      camera.updateProjectionMatrix();
+    }
+
+    // Reset renderer size
+    renderer.setSize(originalWidth, originalHeight, false);
     this.render();
 
-    // Get info panel
-    const infoPanel = document.getElementById('experimentInfo');
-    if (infoPanel != null) {
-      // Compute size of info panel on final picture
-      const infoHeight =
-        (infoPanel.clientHeight * scaledSize.height) / originalSize.height;
-      const infoWidth =
-        (infoPanel.clientWidth * scaledSize.width) / originalSize.width;
-
-      // Add info panel to output. This is HTML, so first convert it to canvas,
-      // and then draw to our output canvas
-      const h2c: any = html2canvas;
-      // See: https://github.com/niklasvh/html2canvas/issues/1977#issuecomment-529448710 for why this is needed
-      h2c(infoPanel, {
-        backgroundColor: bkgColor,
-        // avoid cloning canvas in the main page, this is useless and leads to
-        // warnings in the javascript console similar to this :
-        // "Unable to clone WebGL context as it has preserveDrawingBuffer=false"
-        ignoreElements: (element: Element) => element.tagName == 'CANVAS',
-      }).then((canvas: HTMLCanvasElement) => {
-        canvas.toBlob((blob) => {
-          ctx?.drawImage(
-            canvas,
-            infoHeight / 6,
-            infoHeight / 6,
-            infoWidth,
-            infoHeight,
-          );
-          // Finally save to png file
-          outputCanvas.toBlob((blob) => {
-            if (blob) {
-              const a = document.createElement('a');
-              document.body.appendChild(a);
-              a.style.display = 'none';
-              const url = window.URL.createObjectURL(blob);
-              a.href = url;
-              a.download = `screencapture.png`;
-              a.click();
-            }
-          });
-        });
-      });
-    }
+    output.toBlob((blob) => {
+      if (!blob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'screencapture.png';
+      a.click();
+    });
   }
 
   /**
