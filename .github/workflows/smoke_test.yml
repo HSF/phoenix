@@ -13,26 +13,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Build Docker image
-      run: docker build -t phoenix-app .
+      - name: Build Docker image
+        run: docker build -t phoenix-app .
 
-    - name: Run Docker container
-      run: |
-        docker run -d --name phoenix-container -p 3000:80 phoenix-app
-        sleep 10  # Give some time for the container to start
+      - name: Run Docker container
+        run: |
+          docker run -d --name phoenix-container -p 3000:80 phoenix-app
+          sleep 10  # Give some time for the container to start
 
-    - name: Smoke test
-      run: |
-        # Example smoke test using curl
-        curl --fail http://localhost:3000/ || (docker logs phoenix-container && exit 1)
+      - name: Smoke test
+        run: |
+          # Example smoke test using curl
+          curl --fail http://localhost:3000/ || (docker logs phoenix-container && exit 1)
 
-    - name: Cleanup
-      run: |
-        docker stop phoenix-container
-        docker rm phoenix-container
+      - name: Cleanup
+        run: |
+          docker stop phoenix-container
+          docker rm phoenix-container
