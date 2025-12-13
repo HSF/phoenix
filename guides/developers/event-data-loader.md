@@ -1,11 +1,11 @@
 # Event data loader
 
-* [Introduction](#introduction)
-* [Example loaders](#example-loaders)
-* [Creating a custom event data loader](#creating-a-custom-event-data-loader)
-  * [Handling new physics objects](#handling-new-physics-objects)
-  * [Coding a custom loader](#coding-a-custom-loader)
-  * [Using the custom loader](#using-the-custom-loader)
+- [Introduction](#introduction)
+- [Example loaders](#example-loaders)
+- [Creating a custom event data loader](#creating-a-custom-event-data-loader)
+  - [Handling new physics objects](#handling-new-physics-objects)
+  - [Coding a custom loader](#coding-a-custom-loader)
+  - [Using the custom loader](#using-the-custom-loader)
 
 ## Introduction
 
@@ -17,10 +17,10 @@ The [`EventDataLoader`](../../packages/phoenix-event-display/src/loaders/event-d
 
 ## Example loaders
 
-* [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
-* Extended from `PhoenixLoader`
-  * [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
-  * [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
+- [`PhoenixLoader`](../../packages/phoenix-event-display/src/loaders/phoenix-loader.ts)
+- Extended from `PhoenixLoader`
+  - [`JiveXMLLoader`](../../packages/phoenix-event-display/src/loaders/jivexml-loader.ts)
+  - [`CMSLoader`](../../packages/phoenix-event-display/src/loaders/cms-loader.ts)
 
 ## Creating a custom event data loader
 
@@ -35,14 +35,14 @@ For constructing physics object(s) currently not a part of [`PhoenixObjects`](..
 Currently supported physics objects are:
 
 1. [`PhoenixObjects`](../../packages/phoenix-event-display/src/loaders/objects/phoenix-objects.ts) (processed and loaded through `PhoenixLoader`)
-    1. Tracks
-    1. Jets
-    1. Hits
-    1. CaloClusters
-    1. Muons
-    1. Vertices
+   1. Tracks
+   1. Jets
+   1. Hits
+   1. CaloClusters
+   1. Muons
+   1. Vertices
 1. [`CMSObjects`](../../packages/phoenix-event-display/src/loaders/objects/cms-objects.ts) (processed and loaded through `CMSLoader`)
-    1. MuonChambers
+   1. MuonChambers
 
 The following code defines a mechanism to contruct a custom object which is later sent to the event display by the custom loader in the next section.
 
@@ -55,7 +55,9 @@ export class CustomObjects {
   /**
    * Get the 3D custom object contructed from the given parameters.
    */
-  public static getCustomPhysicsObject(customPhysicsObjectParams: any): Object3D {
+  public static getCustomPhysicsObject(
+    customPhysicsObjectParams: any,
+  ): Object3D {
     let customObject: Object3D;
 
     // Logic to construct the 3D object from the given parameters
@@ -120,7 +122,7 @@ export class CustomLoader extends PhoenixLoader {
       this.addObjectType(
         eventData.CustomPhysicsObject,
         CustomObjects.getCustomPhysicsObject,
-        'CustomPhysicsObject'
+        'CustomPhysicsObject',
       );
     }
   }
@@ -160,8 +162,8 @@ const customLoader = new CustomLoader();
 // Specify the configuration and use your custom loader as the event data loader
 const configuration = {
   elementId: '<wrapper_element_id>',
-  eventDataLoader: customLoader
-}
+  eventDataLoader: customLoader,
+};
 
 // Create the event display
 const eventDisplay = new EventDisplay(configuration);
@@ -170,13 +172,11 @@ const eventDisplay = new EventDisplay(configuration);
 fetch('path/to/your/event/file.custom')
   .then((res) => res.text())
   .then((rawEventData) => {
-
     // Set the raw event data in the custom loader
     customLoader.setRawEventData(rawEventData);
     // Process the raw event data and get it in Phoenix format
     const eventData = customLoader.getEventData();
     // Process the converted event data and display it
     eventDisplay.buildEventDataFromJSON(eventData);
-
   });
 ```
