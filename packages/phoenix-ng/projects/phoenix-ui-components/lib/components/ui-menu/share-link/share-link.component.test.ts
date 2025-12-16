@@ -1,23 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
-
 import { ShareLinkComponent } from './share-link.component';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
 
 describe('ShareLinkComponent', () => {
   let component: ShareLinkComponent;
   let fixture: ComponentFixture<ShareLinkComponent>;
 
-  let dialog: MatDialog;
+  const mockDialog = {
+    open: jest.fn(),
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, PhoenixUIModule],
-      providers: [MatDialog],
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [PhoenixUIModule],
       declarations: [ShareLinkComponent],
+      providers: [
+        {
+          provide: MatDialog,
+          useValue: mockDialog,
+        },
+      ],
     }).compileComponents();
-    dialog = TestBed.inject(MatDialog);
   });
 
   beforeEach(() => {
@@ -31,9 +35,8 @@ describe('ShareLinkComponent', () => {
   });
 
   it('should open share link dialog', () => {
-    jest.spyOn(dialog, 'open');
-
+    const dialogSpy = jest.spyOn(mockDialog, 'open');
     component.openShareLinkDialog();
-    expect(dialog.open).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
   });
 });

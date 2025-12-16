@@ -56,7 +56,7 @@ describe('TrackmlComponent', () => {
         },
       ],
     }).compileComponents();
-    http = TestBed.get(HttpClient);
+    http = TestBed.inject(HttpClient);
   });
 
   beforeEach(() => {

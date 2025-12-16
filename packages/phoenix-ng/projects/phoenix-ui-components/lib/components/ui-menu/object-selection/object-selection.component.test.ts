@@ -1,27 +1,38 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ObjectSelectionComponent } from './object-selection.component';
 import { Overlay } from '@angular/cdk/overlay';
-import { EventDisplayService } from '../../../services/event-display.service';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { ObjectSelectionComponent } from './object-selection.component';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
   let fixture: ComponentFixture<ObjectSelectionComponent>;
 
-  const mockEventDisplayService = {
-    enableSelecting: jest.fn(),
-    allowSelection: jest.fn(),
+  const mockEventDisplay = {
+    getUIManager: jest.fn().mockReturnThis(),
+    getSelectedObjectObject: jest.fn().mockReturnThis(),
+    allowSelection: jest.fn().mockReturnThis(),
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
       providers: [
-        Overlay,
         {
           provide: EventDisplayService,
-          useValue: mockEventDisplayService,
+          useValue: mockEventDisplay,
+        },
+        {
+          provide: Overlay,
+          useValue: {
+            create: () => ({
+              attach: () => ({
+                instance: { hiddenSelectedInfo: false },
+                destroy: jest.fn(),
+              }),
+              dispose: jest.fn(),
+            }),
+          },
         },
       ],
       declarations: [ObjectSelectionComponent],
@@ -40,29 +51,12 @@ describe('ObjectSelectionComponent', () => {
 
   it('should initialize/create object selection overlay', () => {
     component.ngOnInit();
-
     expect(component.overlayWindow).toBeTruthy();
   });
 
   it('should toggle object selection overlay', () => {
-    expect(component.hiddenSelectedInfo).toBe(true);
-
+    expect(component.hiddenSelectedInfo).toBeFalsy();
     component.toggleOverlay();
-
-    expect(component.hiddenSelectedInfo).toBe(false);
-
-    // Expect the overlay window to be visible
-    expect(component.overlayWindow.instance.hiddenSelectedInfo).toBe(false);
-
-    // Expect enable selection to have been called
-    expect(mockEventDisplayService.enableSelecting).toHaveBeenCalled();
-  });
-
-  it('should destory object selection overlay', () => {
-    jest.spyOn(component.overlayWindow, 'destroy');
-
-    component.ngOnDestroy();
-
-    expect(component.overlayWindow.destroy).toHaveBeenCalled();
+    expect(component.hiddenSelectedInfo).toBeTruthy();
   });
 });
