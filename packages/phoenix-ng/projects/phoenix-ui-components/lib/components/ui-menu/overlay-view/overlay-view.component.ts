@@ -28,7 +28,7 @@ export class OverlayViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.overlayWindow.destroy();
+    this.overlayWindow?.destroy();
   }
 
   toggleOverlay() {

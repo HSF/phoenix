@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDataFormat } from '../../services/extras/event-data-import';
 import { PhoenixUIModule } from '../phoenix-ui.module';
@@ -51,6 +52,25 @@ describe('UiMenuComponent', () => {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
         },
+        // --- ADDED MOCK FOR OVERLAY BELOW ---
+        {
+          provide: Overlay,
+          useValue: {
+            create: () => ({
+              attach: () => ({
+                instance: { showOverlay: false },
+                destroy: jest.fn(),
+              }),
+              dispose: jest.fn(),
+            }),
+            position: () => ({
+              global: () => ({
+                centerHorizontally: () => ({ centerVertically: () => {} }),
+              }),
+            }),
+          },
+        },
+        // -------------------------------------
       ],
       imports: [PhoenixUIModule],
     }).compileComponents();

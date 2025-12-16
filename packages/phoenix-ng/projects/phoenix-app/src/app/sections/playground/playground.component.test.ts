@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { PlaygroundComponent } from './playground.component';
@@ -49,6 +50,20 @@ describe('PlaygroundComponent', () => {
           provide: EventDisplayService,
           useValue: mockEventDisplay,
         },
+        // --- ADDED MOCK FOR OVERLAY BELOW ---
+        {
+          provide: Overlay,
+          useValue: {
+            create: () => ({
+              attach: () => ({
+                instance: { showOverlay: false },
+                destroy: jest.fn(),
+              }),
+              dispose: jest.fn(),
+            }),
+          },
+        },
+        // -------------------------------------
       ],
     }).compileComponents();
   });
