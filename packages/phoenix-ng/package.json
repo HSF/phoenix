@@ -17,47 +17,47 @@
     "prettier:check": "yarn prettier --check .",
     "prettier:write": "yarn prettier --write .",
     "eslint": "eslint projects/**/*.ts",
-    "eslint:fix": "yarn eslint --fix",
-    "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:app --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
-    "version": "yarn deploy",
-    "deploy:web": "yarn build:app --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
-    "deploy:web:single": "ng build phoenix-app --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
+    "eslint:fix": "yarn eslint --fix"
   },
   "dependencies": {
-    "@angular/animations": "^20.0.0",
-    "@angular/cdk": "^20.0.0",
-    "@angular/common": "^20.0.0",
-    "@angular/compiler": "^20.0.0",
-    "@angular/core": "^20.0.0",
-    "@angular/forms": "^20.0.0",
-    "@angular/material": "^20.0.0",
-    "@angular/platform-browser": "^20.0.0",
-    "@angular/platform-browser-dynamic": "^20.0.0",
-    "@angular/router": "^20.0.0",
+    "@angular/animations": "~20.0.0",
+    "@angular/cdk": "~20.0.0",
+    "@angular/common": "~20.0.0",
+    "@angular/compiler": "~20.0.0",
+    "@angular/core": "~20.0.0",
+    "@angular/forms": "~20.0.0",
+    "@angular/material": "~20.0.0",
+    "@angular/platform-browser": "~20.0.0",
+    "@angular/platform-browser-dynamic": "~20.0.0",
+    "@angular/router": "~20.0.0",
+
+    "rxjs": "^7.8.2",
+    "zone.js": "~0.15.0",
+    "tslib": "^2.8.1",
+
+    "three": "~0.178.0",
     "css-element-queries": "^1.2.3",
     "jszip": "^3.10.1",
-    "phoenix-event-display": "^3.0.5",
-    "phoenix-ui-components": "^3.0.4",
     "qrcode": "1.5.4",
-    "rxjs": "^7.8.2",
-    "three": "~0.178.0",
-    "tslib": "^2.8.1",
-    "typescript": "~5.5.4",
-    "zone.js": "^0.16.0"
+    "phoenix-event-display": "^3.0.5",
+    "phoenix-ui-components": "^3.0.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^20.0.0",
-    "@angular/cli": "^20.0.0",
-    "@angular/compiler-cli": "^20.0.0",
-    "@angular/language-service": "^20.0.0",
-    "@frsource/cypress-plugin-visual-regression-diff": "^3.3.10",
-    "@types/qrcode": "^1.5.6",
-    "concurrently": "^9.2.1",
-    "cypress": "^15.7.1",
+    "@angular-devkit/build-angular": "~20.0.0",
+    "@angular/cli": "~20.0.0",
+    "@angular/compiler-cli": "~20.0.0",
+    "@angular/language-service": "~20.0.0",
+
+    "typescript": "~5.5.4",
+    "ng-packagr": "~20.0.0",
+
     "jest": "^29.7.0",
     "jest-preset-angular": "^14.3.2",
-    "ng-packagr": "^20.0.0",
-    "ts-jest": "^29.3.4"
+    "ts-jest": "^29.3.4",
+
+    "cypress": "^13.17.0",
+    "@types/qrcode": "^1.5.6",
+    "concurrently": "^8.2.2"
   },
   "peerDependencies": {
     "jspdf": "*"
