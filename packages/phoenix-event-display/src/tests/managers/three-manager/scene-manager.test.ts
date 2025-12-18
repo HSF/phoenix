@@ -389,5 +389,39 @@ describe('SceneManager', () => {
       expect(objName.name).toBe('TestCube');
       expect(objName.parent.type).toBe('Scene');
     });
+
+    it('should extend collection tracks to a radius and persist extension state', () => {
+      // Create mock track collection
+      const eventData = sceneManager.getEventData();
+      const tracksTypeGroup = sceneManager.addEventDataTypeGroup('Tracks');
+      const collection = new Group();
+      collection.name = 'TestTracks';
+      tracksTypeGroup.add(collection);
+
+      // Add a mock track with pos and dparams
+      const trackGroup = new Group();
+      trackGroup.name = 'Track';
+      const trackParams = {
+        pos: [[0, 0, 0], [100, 0, 0], [200, 0, 0]],
+        dparams: [0, 0, 0, 1.5707963705062866, 0.001],
+      };
+      (trackGroup as any).userData = trackParams;
+      collection.add(trackGroup);
+
+      // Enable extension to radius 500
+      sceneManager.extendCollectionTracks('TestTracks', 500, true);
+
+      // Verify extension state is persisted in userData
+      const updatedParams = (trackGroup as any).userData;
+      expect(updatedParams.extendedToRadius).toBe(true);
+      expect(updatedParams.extendRadius).toBe(500);
+      expect(Array.isArray(updatedParams.extendedPos)).toBe(true);
+
+      // Disable extension
+      sceneManager.extendCollectionTracks('TestTracks', 500, false);
+      const disabledParams = (trackGroup as any).userData;
+      expect(disabledParams.extendedToRadius).toBe(false);
+      expect(disabledParams.extendedPos.length).toBe(0);
+    });
   });
 });

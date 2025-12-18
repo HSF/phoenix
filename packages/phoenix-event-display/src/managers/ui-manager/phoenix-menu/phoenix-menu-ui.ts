@@ -26,6 +26,8 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   private labelsFolder: PhoenixMenuNode;
   /** Manager for managing functions of the three.js scene. */
   private sceneManager: SceneManager;
+  /** Track per-collection extend-to-radius state for Phoenix menu */
+  private collectionExtendState: { [key: string]: { enabled: boolean; radius: number } } = {};
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -355,6 +357,37 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
             ?.getObjectByName(collectionName) as Object3D,
           value,
         ),
+    });
+
+    // Extension controls for tracks: add checkbox and radius slider
+    // Maintain state in this.collectionExtendState
+    if (!this.collectionExtendState[collectionName]) {
+      this.collectionExtendState[collectionName] = { enabled: false, radius: 1500 };
+    }
+    drawOptionsNode.addConfig({
+      type: 'checkbox',
+      label: 'Extend to radius',
+      isChecked: this.collectionExtendState[collectionName].enabled,
+      onChange: (value: boolean) => {
+        this.collectionExtendState[collectionName].enabled = value;
+        const radius = this.collectionExtendState[collectionName].radius;
+        this.sceneManager.extendCollectionTracks(collectionName, radius, value);
+      },
+    });
+
+    drawOptionsNode.addConfig({
+      type: 'slider',
+      label: 'Extend radius',
+      min: 100,
+      max: 5000,
+      step: 10,
+      allowCustomValue: true,
+      onChange: (value: number) => {
+        this.collectionExtendState[collectionName].radius = value;
+        if (this.collectionExtendState[collectionName].enabled) {
+          this.sceneManager.extendCollectionTracks(collectionName, value, true);
+        }
+      },
     });
   }
 

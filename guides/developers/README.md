@@ -12,6 +12,7 @@
 * [Phoenix event display](./event-display.md)
 * [Event data format](./event_data_format.md)
 * [Event data loader](./event-data-loader.md)
+* [Track extension to radius](./track-extension.md)
 * [Using JSROOT](./using-jsroot.md)
 * [Running with XR (AR/VR) support](./running-with-xr-support.md)
 * [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)

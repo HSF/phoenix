@@ -7,6 +7,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package root
 
+## Unreleased
+
+- Add per-collection "Extend to radius" option for tracks (#177)
+	- New helper: `RKHelper.extrapolateFromLastPosition(track, radius)`
+	- UI: dat.GUI and Phoenix menu controls to toggle extension and set radius
+	- Scene update: `SceneManager.extendCollectionTracks(collectionName, radius, enable)`
+
 
 
 

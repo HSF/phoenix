@@ -18,6 +18,10 @@ import {
   Quaternion,
   DoubleSide,
   BoxGeometry,
+  CatmullRomCurve3,
+  TubeGeometry,
+  MeshToonMaterial,
+  Line,
   type Object3DEventMap,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -25,6 +29,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 import { Cut } from '../../lib/models/cut.model';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
+import { RKHelper } from '../../helpers/rk-helper';
 import HelvetikerFont from './fonts/helvetiker_regular.typeface.json';
 
 /**
@@ -354,6 +359,87 @@ export class SceneManager {
    */
   public getEventData(): Object3D {
     return this.getObjectsGroup(SceneManager.EVENT_DATA_ID);
+  }
+
+  /**
+   * Optionally extend all tracks in a named collection out to a transverse radius.
+   * Rebuilds the per-track geometries (tube + line) by appending RK extrapolated points.
+   * NOTE: For large collections, consider throttling this method or computing on a worker thread.
+   * @param collectionName name of the collection group under EventData
+   * @param radius transverse radius in mm to extend to
+   * @param enable whether to enable (append extrapolated points) or disable (revert to measured only)
+   */
+  public extendCollectionTracks(
+    collectionName: string,
+    radius: number,
+    enable: boolean,
+  ) {
+    const eventData = this.getEventData();
+    if (!eventData) return;
+    const collection = eventData.getObjectByName(collectionName) as Group;
+    if (!collection) return;
+
+    for (const child of Object.values(collection.children)) {
+      const trackGroup = child as Group;
+      const trackParams = (trackGroup as any).userData;
+      if (!trackParams) continue;
+      if (!trackParams.pos || !trackParams.dparams) continue;
+
+      const basePos: number[][] = trackParams.pos;
+      let positions: number[][] = basePos;
+      let extendedPos: number[][] = [];
+
+      if (enable) {
+        const extra = RKHelper.extrapolateFromLastPosition(trackParams, radius);
+        if (extra && extra.length) {
+          positions = basePos.concat(extra);
+          extendedPos = extra;
+        }
+      }
+
+      // Persist extension state in userData for downstream code/export
+      trackParams.extendedToRadius = enable;
+      trackParams.extendRadius = radius;
+      trackParams.extendedPos = extendedPos;
+
+      // Build new geometries from positions
+      const points: Vector3[] = positions.map((p) => new Vector3(p[0], p[1], p[2]));
+      const curve = new CatmullRomCurve3(points);
+      const vertices = curve.getPoints(50);
+
+      // Find tube (Mesh) and line (Line) children
+      let tubeObject: Mesh | undefined;
+      let lineObject: Line | undefined;
+      for (const obj of trackGroup.children) {
+        if ((obj as any).type === 'Mesh' && (obj as any).material && (obj as any).name !== 'Track') {
+          tubeObject = obj as Mesh;
+        }
+        if ((obj as any).type === 'Line') {
+          lineObject = obj as Line;
+        }
+      }
+
+      const linewidth = trackParams.linewidth ? trackParams.linewidth : 2;
+
+      if (tubeObject) {
+        try {
+          const newGeo: any = new TubeGeometry(curve, undefined, linewidth);
+          if (tubeObject.geometry) tubeObject.geometry.dispose?.();
+          tubeObject.geometry = newGeo;
+        } catch (e) {
+          // Fall back silently if TubeGeometry not available
+        }
+      }
+
+      if (lineObject) {
+        const newLineGeom = new BufferGeometry().setFromPoints(vertices);
+        if (lineObject.geometry) lineObject.geometry.dispose?.();
+        lineObject.geometry = newLineGeom;
+      }
+
+      // Update trackGroup userData to reflect current state
+      (trackGroup as any).userData = trackParams;
+    }
   }
 
   /**
