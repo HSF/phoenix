@@ -59,4 +59,5 @@ RUN find . -name "node_modules" -type d -exec rm -rf "{}" +
 
 # 3. Serve the build through NGINX
 FROM nginx:alpine
-COPY --from=build /phoenix/packages/phoenix-ng/docs /usr/share/nginx/html
+EXPOSE 80
+COPY --from=build /phoenix/packages/phoenix-ng/docs/ /usr/share/nginx/html
