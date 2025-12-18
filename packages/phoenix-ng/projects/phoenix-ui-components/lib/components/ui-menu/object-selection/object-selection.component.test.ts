@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Overlay } from '@angular/cdk/overlay';
-import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { PhoenixUIModule, EventDisplayService } from 'phoenix-ui-components';
 import { ObjectSelectionComponent } from './object-selection.component';
-import { EventDisplayService } from '../../../../services/event-display.service';
 
 describe('ObjectSelectionComponent', () => {
   let component: ObjectSelectionComponent;
@@ -12,11 +11,15 @@ describe('ObjectSelectionComponent', () => {
     getUIManager: jest.fn().mockReturnThis(),
     getSelectedObjectObject: jest.fn().mockReturnThis(),
     allowSelection: jest.fn().mockReturnThis(),
+
+    //  REQUIRED: used in toggleOverlay()
+    enableSelecting: jest.fn(),
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [PhoenixUIModule],
+      declarations: [ObjectSelectionComponent],
       providers: [
         {
           provide: EventDisplayService,
@@ -27,7 +30,10 @@ describe('ObjectSelectionComponent', () => {
           useValue: {
             create: () => ({
               attach: () => ({
-                instance: { hiddenSelectedInfo: false },
+                instance: {
+                  //  matches real component default
+                  hiddenSelectedInfo: true,
+                },
                 destroy: jest.fn(),
               }),
               dispose: jest.fn(),
@@ -35,7 +41,6 @@ describe('ObjectSelectionComponent', () => {
           },
         },
       ],
-      declarations: [ObjectSelectionComponent],
     }).compileComponents();
   });
 
@@ -55,8 +60,15 @@ describe('ObjectSelectionComponent', () => {
   });
 
   it('should toggle object selection overlay', () => {
-    expect(component.hiddenSelectedInfo).toBeFalsy();
-    component.toggleOverlay();
+    //  correct initial state
     expect(component.hiddenSelectedInfo).toBeTruthy();
+
+    component.toggleOverlay();
+
+    //  toggled state
+    expect(component.hiddenSelectedInfo).toBeFalsy();
+
+    //  verify interaction with EventDisplayService
+    expect(mockEventDisplay.enableSelecting).toHaveBeenCalledWith(true);
   });
 });

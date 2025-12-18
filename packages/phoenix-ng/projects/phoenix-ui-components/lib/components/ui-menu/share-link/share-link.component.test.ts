@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
 import { ShareLinkComponent } from './share-link.component';
-import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { PhoenixUIModule } from 'phoenix-ui-components';
 
 describe('ShareLinkComponent', () => {
   let component: ShareLinkComponent;
