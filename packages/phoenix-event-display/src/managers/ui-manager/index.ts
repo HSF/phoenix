@@ -124,6 +124,8 @@ export class UIManager {
         configuration.forceColourTheme.toLocaleLowerCase() == 'dark',
       );
     }
+    // XR controls (VR/AR) in both menus if present
+    this.uiMenus.forEach((menu) => menu.addXRControls?.());
     // State manager
     this.stateManager = new StateManager();
     if (configuration.phoenixMenuRoot) {
