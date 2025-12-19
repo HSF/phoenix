@@ -2,45 +2,54 @@ import 'jest-preset-angular/setup-jest';
 import './jest-global-mocks';
 
 /* =========================================================
- * Angular + CDK + Jest compatibility fixes
+ * Angular 20 + Jest compatibility fixes
  * ========================================================= */
 
 /**
- * Fix: Angular CDK uses `afterRender`
- * Jest / JSDOM environment does not expose it
+ * Fix 1: Angular core `afterRender`
  */
 jest.mock('@angular/core', () => {
-  const actual =
-    jest.requireActual<typeof import('@angular/core')>('@angular/core');
+  const actual = jest.requireActual('@angular/core');
+  return {
+    ...actual,
+    afterRender: (fn: () => void) => fn(),
+  };
+});
+
+/**
+ * Fix 2: Disable CDK style injection (SharedStylesHost replacement)
+ * Angular 20-safe
+ */
+jest.mock('@angular/platform-browser', () => {
+  const actual = jest.requireActual('@angular/platform-browser');
 
   return {
     ...actual,
-    afterRender: (fn: () => void): void => {
-      fn();
+    SharedStylesHost: class {
+      addStyles() {}
+      addUsage() {}
+      addElement() {}
+      removeUsage() {}
     },
   };
 });
 
 /**
- * Fix: Disable CDK style injection
- * Prevents JSDOM crash on `@layer` CSS
+ * Fix 3: Disable CDK private style loader
  */
 jest.mock('@angular/cdk/private', () => ({
   _CdkPrivateStyleLoader: class {
-    load(): void {}
+    load() {}
   },
 }));
 
 /**
- * Fix: Fully mock CDK Overlay
- * Applies globally (AppModule + phoenix-ui-components)
+ * Fix 4: Mock CDK Overlay globally
  */
 jest.mock('@angular/cdk/overlay', () => ({
   Overlay: jest.fn().mockImplementation(() => ({
     create: jest.fn(() => ({
-      attach: jest.fn(() => ({
-        instance: {},
-      })),
+      attach: jest.fn(() => ({ instance: {} })),
       detach: jest.fn(),
       dispose: jest.fn(),
     })),
