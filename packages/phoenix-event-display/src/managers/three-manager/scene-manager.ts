@@ -403,7 +403,9 @@ export class SceneManager {
       trackParams.extendedPos = extendedPos;
 
       // Build new geometries from positions
-      const points: Vector3[] = positions.map((p) => new Vector3(p[0], p[1], p[2]));
+      const points: Vector3[] = positions.map(
+        (p) => new Vector3(p[0], p[1], p[2]),
+      );
       const curve = new CatmullRomCurve3(points);
       const vertices = curve.getPoints(50);
 
@@ -411,7 +413,11 @@ export class SceneManager {
       let tubeObject: Mesh | undefined;
       let lineObject: Line | undefined;
       for (const obj of trackGroup.children) {
-        if ((obj as any).type === 'Mesh' && (obj as any).material && (obj as any).name !== 'Track') {
+        if (
+          (obj as any).type === 'Mesh' &&
+          (obj as any).material &&
+          (obj as any).name !== 'Track'
+        ) {
           tubeObject = obj as Mesh;
         }
         if ((obj as any).type === 'Line') {

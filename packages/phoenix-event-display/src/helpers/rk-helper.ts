@@ -107,7 +107,8 @@ export class RKHelper {
   ): number[][] {
     if (!track?.dparams) return [];
 
-    const lastPosArr = track.pos && track.pos.length ? track.pos[track.pos.length - 1] : null;
+    const lastPosArr =
+      track.pos && track.pos.length ? track.pos[track.pos.length - 1] : null;
     if (!lastPosArr) return [];
 
     const lastPos = new Vector3(lastPosArr[0], lastPosArr[1], lastPosArr[2]);
@@ -130,16 +131,35 @@ export class RKHelper {
     if (theta < 0) theta += Math.PI;
 
     let p: number;
-    if (qop !== 0) p = Math.abs(1 / qop); else p = Number.MAX_VALUE;
+    if (qop !== 0) p = Math.abs(1 / qop);
+    else p = Number.MAX_VALUE;
     const q = Math.round(p * qop);
 
-    if (!startDir) startDir = CoordinateHelper.sphericalToCartesian(p, theta, phi).normalize();
+    if (!startDir)
+      startDir = CoordinateHelper.sphericalToCartesian(
+        p,
+        theta,
+        phi,
+      ).normalize();
 
-    const inbounds = (pos: Vector3) => Math.sqrt(pos.x * pos.x + pos.y * pos.y) <= radius;
+    const inbounds = (pos: Vector3) =>
+      Math.sqrt(pos.x * pos.x + pos.y * pos.y) <= radius;
 
-    const traj = RungeKutta.propagate(lastPos, startDir, p, q, 5, 1500, inbounds);
+    const traj = RungeKutta.propagate(
+      lastPos,
+      startDir,
+      p,
+      q,
+      5,
+      1500,
+      inbounds,
+    );
 
-    const extrapolatedPos = traj.map((val) => [val.pos.x, val.pos.y, val.pos.z]);
+    const extrapolatedPos = traj.map((val) => [
+      val.pos.x,
+      val.pos.y,
+      val.pos.z,
+    ]);
 
     // Remove any point equal to lastPos (first point of traj may be identical)
     const eps = 1e-6;
