@@ -27,7 +27,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   /** Manager for managing functions of the three.js scene. */
   private sceneManager: SceneManager;
   /** Track per-collection extend-to-radius state for Phoenix menu */
-  private collectionExtendState: { [key: string]: { enabled: boolean; radius: number } } = {};
+  private collectionExtendState: {
+    [key: string]: { enabled: boolean; radius: number };
+  } = {};
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -362,7 +364,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     // Extension controls for tracks: add checkbox and radius slider
     // Maintain state in this.collectionExtendState
     if (!this.collectionExtendState[collectionName]) {
-      this.collectionExtendState[collectionName] = { enabled: false, radius: 1500 };
+      this.collectionExtendState[collectionName] = {
+        enabled: false,
+        radius: 1500,
+      };
     }
     drawOptionsNode.addConfig({
       type: 'checkbox',
