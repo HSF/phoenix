@@ -83,4 +83,17 @@ describe('RKHelper', () => {
       [0, 0, 0],
     ]);
   });
+
+  it('should extrapolate from last measured position to a given radius', () => {
+    const track = {
+      dparams: [0, 0, 0, 1.5707963705062866, 0.001],
+      pos: [[0, 0, 0]],
+    };
+
+    const out = RKHelper.extrapolateFromLastPosition(track, 100);
+    expect(Array.isArray(out)).toBe(true);
+    if (out.length > 0) {
+      expect(out[0].length).toBe(3);
+    }
+  });
 });

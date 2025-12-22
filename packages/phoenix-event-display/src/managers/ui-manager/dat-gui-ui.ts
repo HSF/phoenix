@@ -271,6 +271,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     this.guiParameters[collectionName] = {
       show: true,
       color: 0x000000,
+      extendTracks: false,
+      extendRadius: 1500,
       randomColor: () =>
         this.three.getColorManager().collectionColorRandom(collectionName),
       resetCut: () =>
@@ -303,6 +305,23 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       this.three.getColorManager().collectionColor(collectionName, value),
     );
     colorMenu.setValue(collectionColor?.getHex());
+    // Option to optionally extend measured tracks to a radius
+    collFolder
+      .add(this.guiParameters[collectionName], 'extendTracks')
+      .name('Extend to radius')
+      .onChange((value: boolean) => {
+        const radius = this.guiParameters[collectionName].extendRadius;
+        this.sceneManager.extendCollectionTracks(collectionName, radius, value);
+      });
+    collFolder
+      .add(this.guiParameters[collectionName], 'extendRadius', 100, 5000)
+      .name('Radius')
+      .onFinishChange((value: number) => {
+        const enabled = this.guiParameters[collectionName].extendTracks;
+        if (enabled) {
+          this.sceneManager.extendCollectionTracks(collectionName, value, true);
+        }
+      });
     collFolder
       .add(this.guiParameters[collectionName], 'randomColor')
       .name('Random Color');
