@@ -4,6 +4,7 @@ import {
   Input,
   ViewChild,
   type AfterViewInit,
+  type OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 import type { ElementRef } from '@angular/core';
@@ -21,7 +22,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
   styleUrls: ['./overlay.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class OverlayComponent implements AfterViewInit {
+export class OverlayComponent implements AfterViewInit, OnDestroy {
   /** Title of the overlay. */
   @Input() overlayTitle: string;
   /** If the overlay is open or not. */
@@ -38,6 +39,9 @@ export class OverlayComponent implements AfterViewInit {
   showBody: boolean = true;
   /** Aspect ratio of the overlay view. */
   aspectRatio: number = window.innerWidth / window.innerHeight;
+
+  /** Bound resize handler for cleanup. */
+  private resizeHandler = () => this.resetHandlePosition();
 
   // ********************************************************************************
   // * Below code is specific to the overlay resize feature. (LOOK INTO CSS RESIZE) *
@@ -70,10 +74,15 @@ export class OverlayComponent implements AfterViewInit {
         this.resetHandlePosition();
       });
 
-      window.addEventListener('resize', () => {
-        this.resetHandlePosition();
-      });
+      window.addEventListener('resize', this.resizeHandler);
     }
+  }
+
+  /**
+   * Clean up event listeners when the component is destroyed.
+   */
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.resizeHandler);
   }
 
   /**
