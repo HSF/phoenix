@@ -8,6 +8,8 @@ import {
 } from 'three';
 import { ThreeManager } from '../three-manager/index';
 import { SceneManager } from '../three-manager/scene-manager';
+import { XRSessionType } from '../three-manager/xr/xr-manager';
+import { ARManager } from '../three-manager/xr/ar-manager';
 import { Cut } from '../../lib/models/cut.model';
 import type { PhoenixUI } from './phoenix-ui';
 
@@ -476,5 +478,39 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    */
   public getEventDataTypeFolder(typeName: string): GUI {
     return this.eventFolder.__folders[typeName];
+  }
+
+  /** Add XR (VR/AR) controls to dat.GUI */
+  public addXRControls(): void {
+    const xrFolder = this.gui.addFolder('XR');
+
+    const params = {
+      enterVR: () =>
+        this.three.initXRSession(XRSessionType.VR, () => {
+          // No-op on end for dat.GUI
+        }),
+      enterAR: () =>
+        this.three.initXRSession(XRSessionType.AR, () => {
+          // No-op on end for dat.GUI
+        }),
+      exitXR: () => {
+        // Try ending both in case we don't know which one is active
+        this.three.endXRSession(XRSessionType.VR);
+        this.three.endXRSession(XRSessionType.AR);
+      },
+      arDomOverlay: ARManager.enableDomOverlay,
+    };
+
+    xrFolder
+      .add({ note: 'Requires HTTPS/WebXR capable browser' }, 'note')
+      .name('Info');
+
+    xrFolder.add(params, 'enterVR').name('Enter VR');
+    xrFolder.add(params, 'enterAR').name('Enter AR');
+    xrFolder
+      .add(params, 'arDomOverlay')
+      .name('AR DOM overlay')
+      .onChange((v: boolean) => (ARManager.enableDomOverlay = v));
+    xrFolder.add(params, 'exitXR').name('Exit XR');
   }
 }

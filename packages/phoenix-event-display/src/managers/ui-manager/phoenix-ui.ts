@@ -73,4 +73,9 @@ export interface PhoenixUI<T> {
    * @returns Folder of the event data type.
    */
   getEventDataTypeFolder(typeName: string): T | undefined;
+
+  /**
+   * Add XR (VR/AR) controls to the UI.
+   */
+  addXRControls(): void;
 }
