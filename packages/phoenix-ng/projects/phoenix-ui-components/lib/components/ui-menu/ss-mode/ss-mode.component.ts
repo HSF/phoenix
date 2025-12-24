@@ -1,4 +1,9 @@
-import { Component, ViewEncapsulation, type OnDestroy, type OnInit } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  type OnDestroy,
+  type OnInit,
+} from '@angular/core';
 
 @Component({
   standalone: false,
