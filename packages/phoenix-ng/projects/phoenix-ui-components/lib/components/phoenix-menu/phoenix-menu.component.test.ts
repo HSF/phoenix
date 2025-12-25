@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestModule } from '../testing/test.module';
 
 import { PhoenixMenuComponent } from './phoenix-menu.component';
 import { PhoenixMenuNode } from 'phoenix-event-display';
-import { PhoenixUIModule } from '../phoenix-ui.module';
 
 describe('PhoenixMenuComponent', () => {
   let component: PhoenixMenuComponent;
   let fixture: ComponentFixture<PhoenixMenuComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       declarations: [PhoenixMenuComponent],
+      imports: [TestModule],
     }).compileComponents();
   });
 

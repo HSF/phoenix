@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { UiMenuWrapperComponent } from './ui-menu-wrapper.component';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('UiMenuWrapperComponent', () => {
   let component: UiMenuWrapperComponent;
@@ -9,8 +14,14 @@ describe('UiMenuWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
       declarations: [UiMenuWrapperComponent],
+      imports: [
+        CommonModule,
+        NoopAnimationsModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatIconModule,
+      ],
     }).compileComponents();
   });
 

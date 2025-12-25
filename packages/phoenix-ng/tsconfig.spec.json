@@ -1,16 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "outDir": "../out-tsc/spec",
-    "allowJs": true,
+    "outDir": "./out-tsc/spec",
     "types": ["jest", "node"],
-    "paths": {
-      "phoenix-ui-components": [
-        "./projects/phoenix-ui-components/lib/public_api.ts"
-      ]
-    }
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.test.ts", "src/**/*.d.ts"],
-  "exclude": ["cypress"]
+  "include": [
+    "projects/phoenix-ui-components/lib/**/*.spec.ts",
+    "projects/phoenix-ui-components/lib/**/*.ts"
+  ]
 }

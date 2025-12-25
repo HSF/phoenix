@@ -1,7 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { ExperimentLinkComponent } from './experiment-link.component';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 describe('ExperimentLinkComponent', () => {
   let component: ExperimentLinkComponent;
@@ -9,8 +13,13 @@ describe('ExperimentLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
       declarations: [ExperimentLinkComponent],
+      imports: [
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatIconModule,
+        RouterTestingModule,
+      ],
     }).compileComponents();
   });
 
@@ -26,9 +35,7 @@ describe('ExperimentLinkComponent', () => {
   });
 
   it('should go to experiment link', () => {
-    window.open = jest.fn().mockReturnValue({
-      focus: jest.fn(),
-    });
+    window.open = jest.fn().mockReturnValue({ focus: jest.fn() } as any);
     jest.spyOn(window, 'open');
     component.goToExperiment();
     expect(window.open).toHaveBeenCalled();

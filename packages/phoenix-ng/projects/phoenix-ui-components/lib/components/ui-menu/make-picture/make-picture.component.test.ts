@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
 import { EventDisplayService } from '../../../services/event-display.service';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
 
 import { MakePictureComponent } from './make-picture.component';
 
@@ -14,9 +14,10 @@ describe('MakePictureComponent', () => {
     checkScreenShotCanvasSize: jest.fn().mockResolvedValue(true),
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [MakePictureComponent],
+      imports: [CommonModule], // Explicitly import base module; add others (e.g., FormsModule) if component uses them
       providers: [
         {
           provide: EventDisplayService,
