@@ -1,4 +1,3 @@
-import { AttributePipe } from '../services/extras/attribute.pipe';
 import { ErrorHandler, NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -133,7 +132,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
 @NgModule({
   declarations: PHOENIX_COMPONENTS,
   imports: [
-    AttributePipe,
+    AttributePipe, // Correct: standalone items must be in imports
     CommonModule,
     RouterModule,
     DragDropModule,
@@ -152,7 +151,10 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     CdkTreeModule,
     MatTabsModule,
   ],
-  exports: PHOENIX_COMPONENTS,
+  exports: [
+    ...PHOENIX_COMPONENTS,
+    AttributePipe, // Export it so components in other modules can use it
+  ],
   providers: [
     EventDisplayService,
     ErrorMessageService,
