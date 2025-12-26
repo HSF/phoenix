@@ -9,6 +9,7 @@ import {
 import { ThreeManager } from '../three-manager/index';
 import { SceneManager } from '../three-manager/scene-manager';
 import { Cut } from '../../lib/models/cut.model';
+import { XRSessionType } from '../three-manager/xr/xr-manager';
 import type { PhoenixUI } from './phoenix-ui';
 
 /**
@@ -476,5 +477,84 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    */
   public getEventDataTypeFolder(typeName: string): GUI {
     return this.eventFolder.__folders[typeName];
+  }
+
+  /**
+   * Add XR (VR/AR) controls to the menu.
+   */
+  public addXRControls(): void {
+    const xrFolder = this.gui.addFolder('XR Controls');
+
+    const xrParams = {
+      enterVR: () => {
+        this.three.initXRSession(XRSessionType.VR);
+      },
+      enterAR: () => {
+        this.three.initXRSession(XRSessionType.AR);
+      },
+      exitXR: () => {
+        try {
+          this.three.endXRSession(XRSessionType.VR);
+        } catch (e) {
+          // VR session may not be active
+        }
+        try {
+          this.three.endXRSession(XRSessionType.AR);
+        } catch (e) {
+          // AR session may not be active
+        }
+      },
+    };
+
+    xrFolder.add(xrParams, 'enterVR').name('Enter VR');
+    xrFolder.add(xrParams, 'enterAR').name('Enter AR');
+    xrFolder.add(xrParams, 'exitXR').name('Exit XR');
+  }
+
+  /**
+   * Add event URL loader controls to the menu.
+   * @param eventDisplay The event display instance for loading events from URL.
+   */
+  public addEventURLLoader(eventDisplay: any): void {
+    const loaderFolder = this.gui.addFolder('Load from URL');
+
+    const params = {
+      url: 'https://example.com/events.json',
+      loadFromURL: () => {
+        if (params.url) {
+          eventDisplay
+            .loadEventsFromURL(params.url)
+            .then(() => {
+              alert('Events loaded successfully from URL');
+            })
+            .catch((error: Error) => {
+              alert(`Failed to load: ${error.message}`);
+            });
+        }
+      },
+      refreshURL: () => {
+        eventDisplay
+          .refreshEventsFromURL()
+          .then(() => {
+            alert('Events refreshed from URL');
+          })
+          .catch((error: Error) => {
+            alert(`Refresh failed: ${error.message}`);
+          });
+      },
+      liveStatus: () => {
+        const isLive = eventDisplay.isLoadedFromURL();
+        const url = eventDisplay.getEventSourceURL();
+        return isLive ? `Live: ${url}` : 'Not loaded from URL';
+      },
+    };
+
+    loaderFolder.add(params, 'url').name('Event URL');
+    loaderFolder.add(params, 'loadFromURL').name('Load from URL');
+    loaderFolder.add(params, 'refreshURL').name('Refresh from URL');
+    loaderFolder
+      .add({ status: params.liveStatus() }, 'status')
+      .name('Status')
+      .listen();
   }
 }

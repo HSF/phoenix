@@ -88,6 +88,9 @@ export class UIManager {
   /** State manager for managing the event display's state. */
   private stateManager: StateManager;
 
+  /** Event display instance for URL loading functionality. */
+  private eventDisplay: any;
+
   /**
    * Constructor for the UI manager.
    * @param three Three manager to perform three.js related operations.
@@ -128,6 +131,28 @@ export class UIManager {
     this.stateManager = new StateManager();
     if (configuration.phoenixMenuRoot) {
       this.stateManager.setPhoenixMenuRoot(configuration.phoenixMenuRoot);
+    }
+    // Add XR controls to UI menus
+    this.uiMenus.forEach((menu) => menu.addXRControls?.());
+    // Add URL event loader if EventDisplay instance is set
+    if (this.eventDisplay) {
+      this.uiMenus.forEach((menu) =>
+        menu.addEventURLLoader?.(this.eventDisplay),
+      );
+    }
+  }
+
+  /**
+   * Set the event display instance (for URL loading functionality).
+   * @param eventDisplay The event display instance.
+   */
+  public setEventDisplay(eventDisplay: any) {
+    this.eventDisplay = eventDisplay;
+    // Add URL loader UI if menus are already initialized
+    if (this.uiMenus.length > 0) {
+      this.uiMenus.forEach((menu) =>
+        menu.addEventURLLoader?.(this.eventDisplay),
+      );
     }
   }
 
