@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventDataFormat } from '../../services/extras/event-data-import';
-import { PhoenixUIModule } from '../phoenix-ui.module';
 
 import { UiMenuComponent } from './ui-menu.component';
 import { EventDisplayService } from '../../services/event-display.service';
@@ -42,6 +44,7 @@ describe('UiMenuComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UiMenuComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: EventDataFormat,
@@ -52,7 +55,7 @@ describe('UiMenuComponent', () => {
           useValue: mockEventDisplay,
         },
       ],
-      imports: [PhoenixUIModule],
+      imports: [CommonModule, FormsModule, ReactiveFormsModule],
     }).compileComponents();
   });
 

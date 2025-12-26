@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { SSModeComponent } from './ss-mode.component';
 
@@ -7,15 +11,20 @@ describe('SSModeComponent', () => {
   let component: SSModeComponent;
   let fixture: ComponentFixture<SSModeComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [PhoenixUIModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SSModeComponent],
+      imports: [
+        BrowserAnimationsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSlideToggleModule,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SSModeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.ngOnInit();
   });
 
   it('should create', () => {
