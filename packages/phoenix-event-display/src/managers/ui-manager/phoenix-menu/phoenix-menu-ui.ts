@@ -10,6 +10,7 @@ import { ThreeManager } from '../../three-manager/index';
 import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Cut } from '../../../lib/models/cut.model';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
+import { XRSessionType } from '../../three-manager/xr/xr-manager';
 import type { PhoenixUI } from '../phoenix-ui';
 
 /**
@@ -27,7 +28,9 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
   /** Manager for managing functions of the three.js scene. */
   private sceneManager: SceneManager;
   /** Track per-collection extend-to-radius state for Phoenix menu */
-  private collectionExtendState: { [key: string]: { enabled: boolean; radius: number } } = {};
+  private collectionExtendState: {
+    [key: string]: { enabled: boolean; radius: number };
+  } = {};
 
   /**
    * Create Phoenix menu UI with different controls related to detector geometry and event data.
@@ -362,7 +365,10 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     // Extension controls for tracks: add checkbox and radius slider
     // Maintain state in this.collectionExtendState
     if (!this.collectionExtendState[collectionName]) {
-      this.collectionExtendState[collectionName] = { enabled: false, radius: 1500 };
+      this.collectionExtendState[collectionName] = {
+        enabled: false,
+        radius: 1500,
+      };
     }
     drawOptionsNode.addConfig({
       type: 'checkbox',
@@ -520,5 +526,114 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     if (this.eventFolderState) {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
+  }
+
+  /**
+   * Add XR (VR/AR) controls to the Phoenix menu.
+   */
+  public addXRControls(): void {
+    const xrNode = this.phoenixMenuRoot.addChild(
+      'XR Controls',
+      undefined,
+      'view_in_ar',
+    );
+
+    xrNode.addConfig({
+      type: 'button',
+      label: 'Enter VR',
+      onClick: () => {
+        this.three.initXRSession(XRSessionType.VR);
+      },
+    });
+
+    xrNode.addConfig({
+      type: 'button',
+      label: 'Enter AR',
+      onClick: () => {
+        this.three.initXRSession(XRSessionType.AR);
+      },
+    });
+
+    xrNode.addConfig({
+      type: 'button',
+      label: 'Exit XR',
+      onClick: () => {
+        try {
+          this.three.endXRSession(XRSessionType.VR);
+        } catch (e) {
+          // VR session may not be active
+        }
+        try {
+          this.three.endXRSession(XRSessionType.AR);
+        } catch (e) {
+          // AR session may not be active
+        }
+      },
+    });
+  }
+
+  /**
+   * Add event URL loader controls to the Phoenix menu.
+   * @param eventDisplay The event display instance for loading events from URL.
+   */
+  public addEventURLLoader(eventDisplay: any): void {
+    const urlLoaderNode = this.phoenixMenuRoot.addChild(
+      'Load from URL',
+      undefined,
+      'cloud',
+    );
+
+    // URL input field (simulated as label + button since we can't directly input)
+    let eventURL = 'https://example.com/events.json';
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Set URL (prompt)',
+      onClick: () => {
+        const url = prompt('Enter event data URL:', eventURL);
+        if (url) {
+          eventURL = url;
+        }
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Load from URL',
+      onClick: () => {
+        if (eventURL) {
+          eventDisplay
+            .loadEventsFromURL(eventURL)
+            .then(() => {
+              alert('Events loaded successfully from URL');
+            })
+            .catch((error: Error) => {
+              alert(`Failed to load: ${error.message}`);
+            });
+        }
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Refresh from URL',
+      onClick: () => {
+        eventDisplay
+          .refreshEventsFromURL()
+          .then(() => {
+            alert('Events refreshed from URL');
+          })
+          .catch((error: Error) => {
+            alert(`Refresh failed: ${error.message}`);
+          });
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'label',
+      label: eventDisplay.isLoadedFromURL()
+        ? `Live: ${eventDisplay.getEventSourceURL()}`
+        : 'Not loaded from URL',
+    });
   }
 }

@@ -73,4 +73,15 @@ export interface PhoenixUI<T> {
    * @returns Folder of the event data type.
    */
   getEventDataTypeFolder(typeName: string): T | undefined;
+
+  /**
+   * Add XR (VR/AR) controls to the UI.
+   */
+  addXRControls(): void;
+
+  /**
+   * Add event URL loader controls to the UI.
+   * @param eventDisplay The event display instance for loading events from URL.
+   */
+  addEventURLLoader(eventDisplay: any): void;
 }

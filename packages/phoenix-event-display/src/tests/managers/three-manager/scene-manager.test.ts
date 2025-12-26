@@ -402,7 +402,11 @@ describe('SceneManager', () => {
       const trackGroup = new Group();
       trackGroup.name = 'Track';
       const trackParams = {
-        pos: [[0, 0, 0], [100, 0, 0], [200, 0, 0]],
+        pos: [
+          [0, 0, 0],
+          [100, 0, 0],
+          [200, 0, 0],
+        ],
         dparams: [0, 0, 0, 1.5707963705062866, 0.001],
       };
       (trackGroup as any).userData = trackParams;
