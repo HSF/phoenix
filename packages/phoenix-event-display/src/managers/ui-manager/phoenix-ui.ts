@@ -73,4 +73,10 @@ export interface PhoenixUI<T> {
    * @returns Folder of the event data type.
    */
   getEventDataTypeFolder(typeName: string): T | undefined;
+
+  /**
+   * Add JiveXML track extension controls to the UI.
+   * @param eventDisplay The event display instance.
+   */
+  addJiveXMLTrackExtension?(eventDisplay: any): void;
 }

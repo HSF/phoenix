@@ -477,4 +477,53 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
   public getEventDataTypeFolder(typeName: string): GUI {
     return this.eventFolder.__folders[typeName];
   }
+
+  /**
+   * Add JiveXML track extension controls to the menu.
+   * @param eventDisplay The event display instance.
+   */
+  public addJiveXMLTrackExtension(eventDisplay: any): void {
+    const jiveFolder = this.gui.addFolder('JiveXML Track Extension');
+
+    const jiveParams = {
+      useExtraHits: false,
+      extraHitsMinDelta: 250,
+      useRKExtrapolation: false,
+      rkRadius: 1500,
+    };
+
+    jiveFolder
+      .add(jiveParams, 'useExtraHits')
+      .name('Use Extra Hits')
+      .onChange((value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({ useExtraHits: value });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'extraHitsMinDelta', 50, 500)
+      .name('Extra Hits Min Delta (mm)')
+      .onChange((value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          extraHitsMinDelta: value,
+        });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'useRKExtrapolation')
+      .name('Use RK Extrapolation')
+      .onChange((value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          useRKExtrapolation: value,
+        });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'rkRadius', 100, 5000)
+      .name('RK Radius (mm)')
+      .onChange((value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          rkExtrapolationRadius: value,
+        });
+      });
+  }
 }
