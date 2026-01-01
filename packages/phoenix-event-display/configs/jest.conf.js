@@ -29,7 +29,7 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!three/examples/jsm)'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/(?!three/examples/jsm/.*)'],
   testRegex: '\\.test.ts$',
   moduleFileExtensions: ['ts', 'js', 'json'],
   verbose: true,

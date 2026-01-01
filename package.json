@@ -42,7 +42,7 @@
     "rimraf": "^6.1.2",
     "ts-jest-mock-import-meta": "^1.2.1",
     "ts-node": "^10.9.2",
-    "typescript": "~5.5.4"
+    "typescript": "~5.6.0"
   },
   "packageManager": "yarn@3.3.1",
   "peerDependencies": {
