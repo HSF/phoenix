@@ -259,6 +259,11 @@ export class IOOptionsDialogComponent implements OnInit {
       reader.onload = () => {
         callback(reader.result.toString(), file.name.split('.')[0]);
       };
+      reader.onerror = () => {
+        const errorMessage = `Failed to read file "${file.name}". The file may be corrupted, too large, or inaccessible.`;
+        console.error('FileReader error:', reader.error);
+        this.eventDisplay.getInfoLogger().add(errorMessage, 'Error');
+      };
       reader.readAsText(file);
     }
     this.onClose();
