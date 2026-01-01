@@ -73,4 +73,10 @@ export interface PhoenixUI<T> {
    * @returns Folder of the event data type.
    */
   getEventDataTypeFolder(typeName: string): T | undefined;
+
+  /**
+   * Add event URL loader controls to the menu.
+   * @param eventDisplay The event display instance for loading events from URL.
+   */
+  addEventURLLoader?(eventDisplay: any): void;
 }

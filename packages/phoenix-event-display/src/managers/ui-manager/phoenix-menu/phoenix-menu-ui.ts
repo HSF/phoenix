@@ -488,4 +488,69 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
   }
+
+  /**
+   * Add event URL loader controls to the Phoenix menu.
+   * @param eventDisplay The event display instance for loading events from URL.
+   */
+  public addEventURLLoader(eventDisplay: any): void {
+    const urlLoaderNode = this.phoenixMenuRoot.addChild(
+      'Load from URL',
+      undefined,
+      'cloud',
+    );
+
+    // URL input field (simulated as label + button since we can't directly input)
+    let eventURL = 'https://example.com/events.json';
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Set URL (prompt)',
+      onClick: () => {
+        const url = prompt('Enter event data URL:', eventURL);
+        if (url) {
+          eventURL = url;
+        }
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Load from URL',
+      onClick: () => {
+        if (eventURL) {
+          eventDisplay
+            .loadEventsFromURL(eventURL)
+            .then(() => {
+              alert('Events loaded successfully from URL');
+            })
+            .catch((error: Error) => {
+              alert(`Failed to load: ${error.message}`);
+            });
+        }
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'button',
+      label: 'Refresh from URL',
+      onClick: () => {
+        eventDisplay
+          .refreshEventsFromURL()
+          .then(() => {
+            alert('Events refreshed from URL');
+          })
+          .catch((error: Error) => {
+            alert(`Refresh failed: ${error.message}`);
+          });
+      },
+    });
+
+    urlLoaderNode.addConfig({
+      type: 'label',
+      label: eventDisplay.isLoadedFromURL()
+        ? `Live: ${eventDisplay.getEventSourceURL()}`
+        : 'Not loaded from URL',
+    });
+  }
 }
