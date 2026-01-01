@@ -73,6 +73,16 @@ export class EventDisplay {
     this.graphicsLibrary.init(configuration);
     // Initialize the UI with configuration
     this.ui.init(configuration);
+    // Apply JiveXML track extension configuration and surface UI controls when available
+    const loaderWithTrackExtension = this.configuration.eventDataLoader as any;
+    if (loaderWithTrackExtension?.setTrackExtensionConfig) {
+      if (this.configuration.jiveXMLTrackExtension) {
+        loaderWithTrackExtension.setTrackExtensionConfig(
+          this.configuration.jiveXMLTrackExtension,
+        );
+      }
+      this.ui.addJiveXMLTrackExtensionUI(this);
+    }
     // Set up for the state manager
     this.getStateManager().setEventDisplay(this);
 
@@ -809,5 +819,44 @@ export class EventDisplay {
         }
       }
     }
+  }
+
+  /**
+   * Set JiveXML track extension configuration.
+   * @param config Partial configuration for JiveXML track extension.
+   */
+  public setJiveXMLTrackExtensionConfig(config: any) {
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
+    // Check if the loader has the setTrackExtensionConfig method (JiveXMLLoader)
+    if (
+      typeof (this.configuration.eventDataLoader as any)
+        .setTrackExtensionConfig === 'function'
+    ) {
+      (this.configuration.eventDataLoader as any).setTrackExtensionConfig(
+        config,
+      );
+    }
+  }
+
+  /**
+   * Get JiveXML track extension configuration.
+   * @returns Current JiveXML track extension configuration or undefined if not available.
+   */
+  public getJiveXMLTrackExtensionConfig(): any {
+    if (!this.configuration.eventDataLoader) {
+      return undefined;
+    }
+    // Check if the loader has the getTrackExtensionConfig method (JiveXMLLoader)
+    if (
+      typeof (this.configuration.eventDataLoader as any)
+        .getTrackExtensionConfig === 'function'
+    ) {
+      return (
+        this.configuration.eventDataLoader as any
+      ).getTrackExtensionConfig();
+    }
+    return undefined;
   }
 }

@@ -609,4 +609,16 @@ export class UIManager {
   public getUIMenus(): PhoenixUI<unknown>[] {
     return this.uiMenus;
   }
+
+  /**
+   * Add JiveXML track extension controls to the UI if available.
+   * @param eventDisplay Reference to the EventDisplay instance for configuration callbacks.
+   */
+  public addJiveXMLTrackExtensionUI(eventDisplay: any) {
+    this.uiMenus.forEach((menu) => {
+      if (menu.addJiveXMLTrackExtension) {
+        menu.addJiveXMLTrackExtension(eventDisplay);
+      }
+    });
+  }
 }

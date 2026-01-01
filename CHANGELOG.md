@@ -13,6 +13,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 	- New helper: `RKHelper.extrapolateFromLastPosition(track, radius)`
 	- UI: dat.GUI and Phoenix menu controls to toggle extension and set radius
 	- Scene update: `SceneManager.extendCollectionTracks(collectionName, radius, enable)`
+- Improve JiveXML extra hits handling with UI controls and RK extrapolation (#268)
+	- New configuration interface: `JiveXMLTrackExtensionConfig` with options for extra hits and RK extrapolation
+	- Improved extra hits filtering algorithm with angular consistency checks (theta/phi within 0.5 radians)
+	- Configurable `minDelta` parameter for hit distance filtering (default 250mm)
+	- Integration with RK extrapolation from #177 for truncated track extension
+	- UI controls in both dat.GUI and Phoenix menu for all configuration options
+	- Methods: `EventDisplay.setJiveXMLTrackExtensionConfig()`, `EventDisplay.getJiveXMLTrackExtensionConfig()`
 
 
 

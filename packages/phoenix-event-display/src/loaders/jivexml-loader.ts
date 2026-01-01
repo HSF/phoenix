@@ -1,5 +1,22 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { CoordinateHelper } from '../helpers/coordinate-helper';
+import { RKHelper } from '../helpers/rk-helper';
+
+/**
+ * Configuration options for JiveXML track extension.
+ */
+export interface JiveXMLTrackExtensionConfig {
+  /** Enable using extra hits for truncated tracks */
+  useExtraHits: boolean;
+  /** Minimum delta distance for filtering extra hits (in mm) */
+  extraHitsMinDelta: number;
+  /** Enable RK extrapolation for truncated tracks */
+  useRKExtrapolation: boolean;
+  /** Radius for RK extrapolation (in mm) */
+  rkExtrapolationRadius: number;
+  /** Track collections to apply extension to (empty means all) */
+  trackCollectionsToExtend: string[];
+}
 
 /**
  * PhoenixLoader for processing and loading an event from the JiveXML data format.
@@ -9,15 +26,48 @@ export class JiveXMLLoader extends PhoenixLoader {
   private data: any;
   /** List of tracks to draw with thicker tubes */
   thickTrackCollections: string[];
+  /** Configuration for track extension options */
+  private trackExtensionConfig: JiveXMLTrackExtensionConfig;
 
   /**
    * Constructor for the JiveXMLLoader.
    * @param thickTrackCollections A list of names of track collections which should be drawn thicker
+   * @param trackExtensionConfig Configuration for track extension behavior
    */
-  constructor(thickTrackCollections: string[] = []) {
+  constructor(
+    thickTrackCollections: string[] = [],
+    trackExtensionConfig?: Partial<JiveXMLTrackExtensionConfig>,
+  ) {
     super();
     this.data = {};
     this.thickTrackCollections = thickTrackCollections;
+    // Set default configuration
+    this.trackExtensionConfig = {
+      useExtraHits: false, // Disabled by default as per issue
+      extraHitsMinDelta: 250, // Current default value
+      useRKExtrapolation: false,
+      rkExtrapolationRadius: 1500,
+      trackCollectionsToExtend: [], // Empty means all collections
+      ...trackExtensionConfig, // Override with provided config
+    };
+  }
+
+  /**
+   * Update track extension configuration.
+   * @param config Partial configuration to update
+   */
+  public setTrackExtensionConfig(
+    config: Partial<JiveXMLTrackExtensionConfig>,
+  ): void {
+    this.trackExtensionConfig = { ...this.trackExtensionConfig, ...config };
+  }
+
+  /**
+   * Get current track extension configuration.
+   * @returns Current configuration
+   */
+  public getTrackExtensionConfig(): JiveXMLTrackExtensionConfig {
+    return { ...this.trackExtensionConfig };
   }
 
   /**
@@ -367,14 +417,22 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineCounter += numPolyline[i];
           track.pos = pos;
         }
-        if (
-          // eslint-disable-next-line
-          false &&
-          numHits.length > 0 &&
-          trackCollectionName?.includes('Muon')
-        ) {
-          // Disable for the moment.
 
+        // Check if we should extend this track collection
+        const shouldExtendTrack =
+          (this.trackExtensionConfig.useExtraHits ||
+            this.trackExtensionConfig.useRKExtrapolation) &&
+          (this.trackExtensionConfig.trackCollectionsToExtend.length === 0 ||
+            this.trackExtensionConfig.trackCollectionsToExtend.includes(
+              trackCollectionName,
+            ));
+
+        // IMPROVED: Extra hits extension with better filtering
+        if (
+          shouldExtendTrack &&
+          this.trackExtensionConfig.useExtraHits &&
+          numHits.length > 0
+        ) {
           // Now loop over hits, and if possible, see if we can extend the track
           const measurementPositions = [];
           if (numHits.length > 0) {
@@ -400,35 +458,84 @@ export class JiveXMLLoader extends PhoenixLoader {
             track.hits = listOfHits;
           }
 
-          // This seems to give pretty poor results, so try to filter.
+          // IMPROVED: Better filtering logic
           // Sort radially (sorry cosmics!)
           const sortedMeasurements = measurementPositions.sort(
             (a, b) => a[3] - b[3],
           );
-          const minDelta = 250; // tweaked by trial and error
+          const minDelta = this.trackExtensionConfig.extraHitsMinDelta;
           let newHitCount = 0;
           let rejectedHitCount = 0;
           let lastDistance = maxR + minDelta;
+
           if (sortedMeasurements.length) {
             for (const meas of sortedMeasurements) {
+              // Better filtering: check distance AND angular consistency
               if (meas[3] > lastDistance + minDelta) {
-                track.pos.push([meas[0], meas[1], meas[2]]);
-                lastDistance = meas[3] + minDelta;
-                newHitCount++;
+                // Check angular consistency with track direction
+                const measTheta = Math.acos(meas[2] / meas[3]);
+                const measPhi = Math.atan2(meas[1], meas[0]);
+                const thetaDiff = Math.abs(measTheta - theta);
+                const phiDiff = Math.abs(measPhi - track.phi);
+
+                // Only add if angles are reasonably close (within 0.5 radians ~= 28 degrees)
+                if (thetaDiff < 0.5 && phiDiff < 0.5) {
+                  track.pos.push([meas[0], meas[1], meas[2]]);
+                  lastDistance = meas[3];
+                  newHitCount++;
+                } else {
+                  rejectedHitCount++;
+                }
               } else {
                 rejectedHitCount++;
               }
             }
           }
-          console.log(
-            'Added ' +
-              newHitCount +
-              ' hits to ' +
-              trackCollectionName +
-              ' (and rejected ' +
-              rejectedHitCount +
-              ')',
+
+          if (newHitCount > 0) {
+            console.log(
+              `Extended ${trackCollectionName} with ${newHitCount} extra hits (rejected ${rejectedHitCount})`,
+            );
+          }
+        }
+
+        // NEW: RK Extrapolation for truncated tracks
+        if (
+          shouldExtendTrack &&
+          this.trackExtensionConfig.useRKExtrapolation &&
+          track.pos.length > 0 &&
+          track.dparams.length === 5
+        ) {
+          const lastPos = track.pos[track.pos.length - 1];
+          const currentRadius = Math.sqrt(
+            lastPos[0] * lastPos[0] +
+              lastPos[1] * lastPos[1] +
+              lastPos[2] * lastPos[2],
           );
+          const targetRadius = this.trackExtensionConfig.rkExtrapolationRadius;
+
+          // Only extrapolate if we're not already beyond target radius
+          if (currentRadius < targetRadius) {
+            try {
+              const extrapolatedPoints = RKHelper.extrapolateFromLastPosition(
+                track,
+                targetRadius,
+              );
+
+              if (extrapolatedPoints.length > 0) {
+                // Add extrapolated points to track
+                track.pos.push(...extrapolatedPoints);
+                console.log(
+                  `Extended ${trackCollectionName} with ${extrapolatedPoints.length} RK extrapolated points to radius ${targetRadius}mm`,
+                );
+              }
+            } catch (error) {
+              console.warn(
+                `Failed to RK extrapolate track in ${trackCollectionName}:`,
+                error,
+              );
+            }
+          }
         }
 
         if (storeTrack) jsontracks.push(track);
