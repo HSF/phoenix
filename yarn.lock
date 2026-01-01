@@ -16558,7 +16558,6 @@ __metadata:
     webpack-cli: ^6.0.1
   peerDependencies:
     jspdf: "*"
-    typescript: ~5.6.0
   languageName: unknown
   linkType: soft
 
@@ -16599,7 +16598,6 @@ __metadata:
     zone.js: ^0.16.0
   peerDependencies:
     jspdf: "*"
-    typescript: ~5.6.0
   languageName: unknown
   linkType: soft
 
