@@ -7,6 +7,7 @@ module.exports = {
   preset: 'ts-jest/presets/js-with-ts-legacy',
   moduleNameMapper: {
     '^(\\.\\.?\\/.+)\\.js$': '$1',
+    '^three/examples/jsm/.*$': '<rootDir>/__mocks__/three-jsm.js',
   },
   transform: {
     '^.+\\.m?[tj]s$': [
