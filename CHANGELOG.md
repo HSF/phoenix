@@ -9,6 +9,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## Unreleased
 
+- Add VR/AR controls in UI to start/end WebXR sessions and toggle AR DOM overlay (#558)
+  - dat.GUI: new `XR` folder with `Enter VR`, `Enter AR`, `AR DOM overlay`, `Exit XR`
+  - Phoenix menu: new `XR` section exposing the same actions
+  - Angular UI: `VR` and `AR` toggles wired to `EventDisplay` XR handlers
+
 - Add per-collection "Extend to radius" option for tracks (#177)
 	- New helper: `RKHelper.extrapolateFromLastPosition(track, radius)`
 	- UI: dat.GUI and Phoenix menu controls to toggle extension and set radius

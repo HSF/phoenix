@@ -7,6 +7,8 @@ import {
 } from 'three';
 import { SceneManager } from '../../three-manager/scene-manager';
 import { ThreeManager } from '../../three-manager/index';
+import { XRSessionType } from '../../three-manager/xr/xr-manager';
+import { ARManager } from '../../three-manager/xr/ar-manager';
 import { PhoenixMenuNode } from './phoenix-menu-node';
 import { Cut } from '../../../lib/models/cut.model';
 import { ColorByOptionKeys, ColorOptions } from '../color-options';
@@ -525,5 +527,47 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
     if (this.eventFolderState) {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
+  }
+
+  /** Add XR (VR/AR) controls to the Phoenix menu */
+  public addXRControls(): void {
+    const xrRoot = this.phoenixMenuRoot.addChild('XR', undefined, 'vr');
+
+    // Enter VR / AR
+    xrRoot.addConfig({
+      type: 'button',
+      label: 'Enter VR',
+      onClick: () =>
+        this.three.initXRSession(XRSessionType.VR, () => {
+          // Session ended callback - nothing special here
+        }),
+    });
+
+    xrRoot.addConfig({
+      type: 'button',
+      label: 'Enter AR',
+      onClick: () =>
+        this.three.initXRSession(XRSessionType.AR, () => {
+          // Session ended callback - nothing special here
+        }),
+    });
+
+    // AR DOM overlay toggle
+    xrRoot.addConfig({
+      type: 'checkbox',
+      label: 'AR DOM overlay',
+      isChecked: ARManager.enableDomOverlay,
+      onChange: (v: boolean) => (ARManager.enableDomOverlay = v),
+    });
+
+    // Exit XR (attempt both types)
+    xrRoot.addConfig({
+      type: 'button',
+      label: 'Exit XR',
+      onClick: () => {
+        this.three.endXRSession(XRSessionType.VR);
+        this.three.endXRSession(XRSessionType.AR);
+      },
+    });
   }
 }
