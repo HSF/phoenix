@@ -20,7 +20,7 @@ It consists of two packages: a plain TypeScript core library ([phoenix-event-dis
 
 Phoenix is supported by the [HEP Software Foundation](https://hepsoftwarefoundation.org) and is the official web event display of the [ATLAS experiment](https://atlas.cern).
 
-It was selected for Google Summer of Code support in 2019, 2020 and 2021.
+It was selected for Google Summer of Code support in 2019, 2020, 2021, 2022, 2023, 2024 and 2025.
 
 You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](https://hepsoftwarefoundation.org/phoenix/) and the development version at [http://phoenix-dev.surge.sh](http://phoenix-dev.surge.sh).
 
