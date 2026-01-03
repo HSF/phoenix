@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CdkTreeModule } from '@angular/cdk/tree';
+
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -13,14 +15,16 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatTabsModule } from '@angular/material/tabs';
+
 import { NavComponent } from './nav/nav.component';
+
 import {
   PhoenixMenuComponent,
   PhoenixMenuItemComponent,
   ConfigSliderComponent,
 } from './phoenix-menu';
+
 import {
   UiMenuWrapperComponent,
   UiMenuComponent,
@@ -62,10 +66,12 @@ import {
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
 } from './ui-menu';
+
 import { AttributePipe } from '../services/extras/attribute.pipe';
 import { EventDisplayService } from '../services/event-display.service';
 import { ErrorMessageService } from '../services/error-message-service';
 import { GlobalErrorHandler } from '../services/global-error-handler';
+
 import { LoaderComponent } from './loader/loader.component';
 import { EmbedMenuComponent } from './embed-menu/embed-menu.component';
 import { ExperimentLinkComponent } from './embed-menu/experiment-link/experiment-link.component';
@@ -126,6 +132,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
 @NgModule({
   declarations: PHOENIX_COMPONENTS,
   imports: [
+    AttributePipe, // Correct: standalone items must be in imports
     CommonModule,
     RouterModule,
     DragDropModule,
@@ -143,9 +150,11 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatIconModule,
     CdkTreeModule,
     MatTabsModule,
-    AttributePipe,
   ],
-  exports: PHOENIX_COMPONENTS,
+  exports: [
+    ...PHOENIX_COMPONENTS,
+    AttributePipe, // Export it so components in other modules can use it
+  ],
   providers: [
     EventDisplayService,
     ErrorMessageService,

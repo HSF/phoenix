@@ -1,28 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PhoenixUIModule } from '../../phoenix-ui.module';
+import { CommonModule } from '@angular/common';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ShareLinkComponent } from './share-link.component';
 
 describe('ShareLinkComponent', () => {
   let component: ShareLinkComponent;
   let fixture: ComponentFixture<ShareLinkComponent>;
-
   let dialog: MatDialog;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, PhoenixUIModule],
-      providers: [MatDialog],
       declarations: [ShareLinkComponent],
+      imports: [
+        CommonModule,
+        NoopAnimationsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+      ],
     }).compileComponents();
-    dialog = TestBed.inject(MatDialog);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ShareLinkComponent);
     component = fixture.componentInstance;
+    dialog = TestBed.inject(MatDialog); // Inject after TestBed is configured
     fixture.detectChanges();
   });
 
@@ -31,9 +40,8 @@ describe('ShareLinkComponent', () => {
   });
 
   it('should open share link dialog', () => {
-    jest.spyOn(dialog, 'open');
-
+    const spy = jest.spyOn(dialog, 'open');
     component.openShareLinkDialog();
-    expect(dialog.open).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });
