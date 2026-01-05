@@ -13683,8 +13683,8 @@ __metadata:
   linkType: hard
 
 "jspdf@npm:*":
-  version: 3.0.4
-  resolution: "jspdf@npm:3.0.4"
+  version: 4.0.0
+  resolution: "jspdf@npm:4.0.0"
   dependencies:
     "@babel/runtime": ^7.28.4
     canvg: ^3.0.11
@@ -13702,7 +13702,7 @@ __metadata:
       optional: true
     html2canvas:
       optional: true
-  checksum: 42f5ac74472d4e51b5880d418098f61e656ef57f76edff6fcc9d2e6878fbdd81dc43b5a8eab0d8605f10fdfcb145af5d056dbe368c59b8f6ddbde8973f9c51af
+  checksum: de3a8e068cadb45b3ee436c8d7ba5f8c414f339f0bc35a1c39bb69a2850b3ee0827117680023ccb842355ef4d493900241a630b91546af8139c88bfd423f13f6
   languageName: node
   linkType: hard
 
