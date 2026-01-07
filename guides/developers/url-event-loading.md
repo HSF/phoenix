@@ -2,12 +2,12 @@
 
 ## Overview
 
-The URL Event Loading feature enables loading event data directly from a URL with automatic refresh capability when cycling back to the first event. This is useful for live event displays where new events are continuously being generated and published to a server.
+The URL Event Loading feature enables loading event data directly from a URL. Automatic refresh is supported only when using the cycling flow (cycle-events component) and wrapping from the last event back to the first, making it useful for live event displays where new events are continuously being generated.
 
 ## Features
 
 - **Load events from URL**: Fetch event data from any HTTP/HTTPS endpoint returning Phoenix JSON format
-- **Auto-refresh on loop-back**: Automatically refresh events when cycling back to the first event for live data
+- **Auto-refresh on loop-back (cycling only)**: Automatically refresh events when the cycling flow wraps from last → first. Manual selection does not trigger refresh.
 - **Manual refresh**: Manually refresh events from the current URL source at any time
 - **Live status display**: Visual indicator showing if events are loaded from URL and the current source
 - **Error handling**: Graceful error handling with logging to the info logger
@@ -58,16 +58,9 @@ try {
 }
 ```
 
-## Auto-Refresh Behavior
+## Auto-Refresh Behavior (Cycling Flow)
 
-The feature automatically detects when the user cycles back to the first event from the last event. When this happens:
-
-1. The system checks if events were loaded from a URL
-2. If yes, it automatically fetches the latest events from that URL
-3. The new events replace the old ones
-4. An info log message is generated: "Looped back to start - refreshing events from URL"
-
-This is useful for live event monitoring where you want to refresh the event list after viewing all current events.
+Auto-refresh is performed only by the cycling component. When cycling is active and configured to reload, wrapping from the last event to the first triggers `fileLoader.reloadLastEvents()` which re-fetches the last loaded URL with `cache: 'no-store'` to bypass caches. Manual navigation (including selecting last then first) does not trigger refresh.
 
 ### Example Workflow
 

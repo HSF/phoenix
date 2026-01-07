@@ -11,7 +11,7 @@ import { JiveXMLLoader } from 'phoenix-event-display';
 })
 export class FileLoaderService {
   private lastEventsURL: string = '';
-  private lastEventsOptions: boolean = false;
+  private lastEventsOptions: any = {};
 
   async unzip(data: ArrayBuffer) {
     const archive = new JSZip();
@@ -104,7 +104,12 @@ export class FileLoaderService {
 
   reloadLastEvents(eventDisplay: EventDisplayService) {
     if (this.lastEventsURL.length > 0) {
-      this.loadEvent(this.lastEventsURL, eventDisplay, this.lastEventsOptions);
+      // Force ignoring caches when reloading for live cycling
+      const reloadOptions = {
+        ...(this.lastEventsOptions || {}),
+        cache: 'no-store',
+      };
+      this.loadEvent(this.lastEventsURL, eventDisplay, reloadOptions);
     }
   }
 }

@@ -175,28 +175,8 @@ export class EventDisplay {
    * @param eventKey String that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
-    const newIndex = this.eventKeys.indexOf(eventKey);
-
-    // Detect loop-back to start: if we were at last event and now at first
-    const loopedBackToStart =
-      this.currentEventIndex === this.eventKeys.length - 1 && newIndex === 0;
-
-    // If we looped back and loaded from URL, re-fetch to get latest data
-    if (loopedBackToStart && this.eventSourceURL) {
-      this.infoLogger.add(
-        'Looped back to start - refreshing events from URL',
-        'Event',
-      );
-      this.loadEventsFromURL(this.eventSourceURL).catch((error) => {
-        this.infoLogger.add(
-          `Failed to refresh from URL: ${error.message}`,
-          'Event',
-        );
-      });
-    }
-
-    // Update current index
-    this.currentEventIndex = newIndex;
+    // Update current index for navigation tracking only
+    this.currentEventIndex = this.eventKeys.indexOf(eventKey);
 
     const event = this.eventsData[eventKey];
 
