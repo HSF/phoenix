@@ -47,12 +47,6 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
-  /** URL of the currently loaded event source (if loaded from URL). */
-  private eventSourceURL: string | null = null;
-  /** Current event index for detecting loop-back to start. */
-  private currentEventIndex: number = 0;
-  /** Event keys array for navigation tracking. */
-  private eventKeys: string[] = [];
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -81,8 +75,6 @@ export class EventDisplay {
     this.ui.init(configuration);
     // Set up for the state manager
     this.getStateManager().setEventDisplay(this);
-    // Pass this EventDisplay instance to UI for URL loader functionality
-    this.ui.setEventDisplay(this);
 
     // Animate loop
     const uiLoop = () => {
@@ -132,10 +124,6 @@ export class EventDisplay {
     }
     const eventKeys =
       this.configuration.eventDataLoader.getEventsList(eventsData);
-    // Track event keys for loop-back detection
-    this.eventKeys = eventKeys;
-    // Reset index when loading new events
-    this.currentEventIndex = 0;
     this.loadEvent(eventKeys[0]);
     this.onEventsChange.forEach((callback) => callback(eventKeys));
 
@@ -175,9 +163,6 @@ export class EventDisplay {
    * @param eventKey String that represents the event in the eventsData object.
    */
   public loadEvent(eventKey: any) {
-    // Update current index for navigation tracking only
-    this.currentEventIndex = this.eventKeys.indexOf(eventKey);
-
     const event = this.eventsData[eventKey];
 
     if (event) {
@@ -207,80 +192,6 @@ export class EventDisplay {
    */
   public getInfoLogger() {
     return this.infoLogger;
-  }
-
-  /**
-   * Load event data from a URL. Automatically refreshes when looping back to start.
-   * @param url URL of the event data file (should return Phoenix JSON format).
-   * @returns Promise that resolves when events are loaded.
-   */
-  public async loadEventsFromURL(url: string): Promise<string[]> {
-    try {
-      this.infoLogger.add(`Loading events from URL: ${url}`, 'Event');
-      this.loadingManager.addLoadableItem(`url_events_${url}`);
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        // No caching to always get fresh data on refresh
-        cache: 'no-store',
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `HTTP error! status: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const eventsData = await response.json();
-
-      // Store URL for auto-refresh on loop-back
-      this.eventSourceURL = url;
-
-      this.loadingManager.itemLoaded(`url_events_${url}`);
-      this.infoLogger.add('Events loaded successfully from URL', 'Event');
-
-      // Parse and load events
-      return this.parsePhoenixEvents(eventsData);
-    } catch (error) {
-      this.loadingManager.itemLoaded(`url_events_${url}`);
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      this.infoLogger.add(
-        `Failed to load events from URL: ${errorMessage}`,
-        'Event',
-      );
-      throw error;
-    }
-  }
-
-  /**
-   * Check if events are currently loaded from a URL (for live display).
-   * @returns True if events are from a URL, false otherwise.
-   */
-  public isLoadedFromURL(): boolean {
-    return this.eventSourceURL !== null;
-  }
-
-  /**
-   * Get the current event source URL if loaded from URL.
-   * @returns The URL or null if not loaded from URL.
-   */
-  public getEventSourceURL(): string | null {
-    return this.eventSourceURL;
-  }
-
-  /**
-   * Manually refresh events from the current URL source.
-   * @returns Promise that resolves when refresh completes, or rejects if not loaded from URL.
-   */
-  public async refreshEventsFromURL(): Promise<string[]> {
-    if (!this.eventSourceURL) {
-      throw new Error('No URL source to refresh from');
-    }
-    return this.loadEventsFromURL(this.eventSourceURL);
   }
 
   /**

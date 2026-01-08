@@ -88,9 +88,6 @@ export class UIManager {
   /** State manager for managing the event display's state. */
   private stateManager: StateManager;
 
-  /** Event display instance for URL loading functionality. */
-  private eventDisplay: any;
-
   /**
    * Constructor for the UI manager.
    * @param three Three manager to perform three.js related operations.
@@ -170,19 +167,6 @@ export class UIManager {
   }
 
   /**
-   * Set the event display instance (for URL loading functionality).
-   * @param eventDisplay The event display instance.
-   */
-  public setEventDisplay(eventDisplay: any): void {
-    this.eventDisplay = eventDisplay;
-    // Add URL loader to all UI menus
-    this.uiMenus.forEach((menu) => {
-      if (menu.addEventURLLoader) {
-        menu.addEventURLLoader(eventDisplay);
-      }
-    });
-  }
-
   /**
    * Add geometry (detector geometry) folder to the dat.GUI and Phoenix menu.
    */

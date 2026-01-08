@@ -2,106 +2,102 @@
 
 ## Overview
 
-The URL Event Loading feature enables loading event data directly from a URL. Automatic refresh is supported only when using the cycling flow (cycle-events component) and wrapping from the last event back to the first, making it useful for live event displays where new events are continuously being generated.
+The URL Event Loading feature enables loading event data directly from a URL. When using the cycling component with reloading enabled, events automatically refresh when wrapping from the last event back to the first. This is useful for live event displays where new events are continuously being generated.
+
+## Important Limitations
+
+**CORS (Cross-Origin Resource Sharing)**: Due to browser security, loading events from URLs will fail unless the server hosting the event data explicitly allows your Phoenix deployment's origin. For live displays, ensure the server includes appropriate CORS headers. This limitation makes the feature most practical for:
+- Same-origin deployments (Phoenix and events on the same server)
+- Servers you control where CORS headers can be configured
+- Development/testing environments with CORS disabled
 
 ## Features
 
-- **Load events from URL**: Fetch event data from any HTTP/HTTPS endpoint returning Phoenix JSON format
-- **Auto-refresh on loop-back (cycling only)**: Automatically refresh events when the cycling flow wraps from last → first. Manual selection does not trigger refresh.
-- **Manual refresh**: Manually refresh events from the current URL source at any time
-- **Live status display**: Visual indicator showing if events are loaded from URL and the current source
-- **Error handling**: Graceful error handling with logging to the info logger
+- **Load events from URL**: Use the existing file loader to fetch event data from HTTP/HTTPS endpoints
+- **Auto-refresh on cycling**: When cycling is active with reloading enabled, automatically refresh events when wrapping from last → first
+- **Multiple format support**: Works with JSON, JiveXML, and zipped files (via existing fileLoader)
+- **Error handling**: Graceful error handling with logging
 
 ## Usage
 
-### Dat.GUI Controls
+### Via Cycling Component
 
-When dat.GUI menu is enabled, a "Load from URL" folder is automatically added with:
+The way to use URL loading is through the cycling component in phoenix-ng:
 
-- **Event URL**: Text input field for the URL of the event data file
-- **Load from URL**: Button to load events from the specified URL
-- **Refresh from URL**: Button to manually refresh events
-- **Status**: Display showing "Live: [URL]" or "Not loaded from URL"
+1. Load events from a URL using the file loader (same as loading local files)
+2. Enable cycling mode
+3. Toggle reload mode (click cycle button additional times)
+4. When cycling wraps from last event to first, events automatically refresh with `cache: 'no-store'`
 
-### Phoenix Menu Controls
-
-When Phoenix menu is enabled, a "Load from URL" node is automatically added with:
-
-- **Set URL (prompt)**: Button that prompts for a new URL
-- **Load from URL**: Button to load events from the specified URL
-- **Refresh from URL**: Button to manually refresh events
-- **Status**: Label showing current load status
-
-### Programmatic API
+### Programmatic API (phoenix-ng)
 
 ```typescript
-// Load events from a URL
-try {
-  const eventKeys = await eventDisplay.loadEventsFromURL('https://example.com/events.json');
-  console.log('Loaded events:', eventKeys);
-} catch (error) {
-  console.error('Failed to load events:', error);
-}
+// Load events from URL using file loader service
+fileLoaderService.loadEvent('https://example.com/events.json', eventDisplay);
 
-// Check if currently loaded from URL
-if (eventDisplay.isLoadedFromURL()) {
-  const url = eventDisplay.getEventSourceURL();
-  console.log('Currently loading from:', url);
-}
-
-// Manually refresh from the current URL source
-try {
-  await eventDisplay.refreshEventsFromURL();
-  console.log('Events refreshed');
-} catch (error) {
-  console.error('Refresh failed:', error);
-}
+// Reload last events (used internally by cycling component)
+fileLoaderService.reloadLastEvents(eventDisplay);
 ```
 
-## Auto-Refresh Behavior (Cycling Flow)
+## Auto-Refresh Behavior (Cycling Flow Only)
 
-Auto-refresh is performed only by the cycling component. When cycling is active and configured to reload, wrapping from the last event to the first triggers `fileLoader.reloadLastEvents()` which re-fetches the last loaded URL with `cache: 'no-store'` to bypass caches. Manual navigation (including selecting last then first) does not trigger refresh.
+Auto-refresh is triggered only when:
+1. The cycling component is active
+2. Reload mode is enabled (indicated by cycling UI state)
+3. The cycle wraps from the last event to the first event
+
+When these conditions are met, `fileLoader.reloadLastEvents()` is called, which re-fetches the last loaded URL with `cache: 'no-store'` to bypass browser caches.
+
+**Manual navigation does not trigger auto-refresh**. If you manually select the last event then first event, no refresh occurs.
 
 ### Example Workflow
 
-1. User loads 10 events from `https://example.com/events.json`
-2. User navigates through events: 1 → 2 → 3 → ... → 10
-3. User clicks next while on event 10, returning to event 1
-4. System automatically refreshes from the URL (e.g., now there are 15 events)
-5. User continues viewing the newly loaded events
+1. User loads events from URL via file loader: `https://example.com/events.json` (10 events)
+2. User enables cycling mode in the cycle-events component
+3. User enables reload mode (toggle cycle button additional times until reloading = true)
+4. Cycling runs: event 1 → 2 → 3 → ... → 10
+5. When cycling wraps (10 → 1), `fileLoader.reloadLastEvents()` is automatically called
+6. Fresh events are fetched with `cache: 'no-store'` (e.g., now 15 events available)
+7. Cycling continues with the newly loaded events
 
 ## Expected URL Format
 
-The URL should return a JSON object matching the Phoenix event data format:
+The URL should return event data in a format supported by Phoenix loaders:
 
+**JSON format:**
 ```json
 {
   "event_0": {
     "RunNumber": 123,
     "EventNumber": 1,
     "collections": {
-      "Tracks": [
-        // track data...
-      ],
-      "Hits": [
-        // hit data...
-      ]
+      "Tracks": [ /* track data */ ],
+      "Hits": [ /* hit data */ ]
     }
   },
-  "event_1": {
-    // event data...
-  }
+  "event_1": { /* event data */ }
 }
 ```
 
+**JiveXML format:** Standard JiveXML event data format (`.xml` extension)
+
+**Zipped files:** Any supported format compressed as `.zip`
+
+## Technical Implementation
+
+- URLs are loaded through the existing `FileLoaderService.loadEvent()` method
+- The last loaded URL is tracked in `fileLoaderService.lastEventsURL`
+- On reload, `cache: 'no-store'` is passed to the fetch options to bypass caches
+- The cycling component calls `fileLoader.reloadLastEvents()` when wrapping with reload enabled
+- All existing format parsing (JSON, JiveXML, zip) works transparently with URLs
+
 ## Error Handling
 
-- Invalid URLs result in fetch errors logged to the info logger
-- Failed refreshes during auto-refresh are logged but don't interrupt event navigation
-- Network errors are captured and displayed to the user via alerts (in UI controls)
-- The system gracefully falls back to cached events if refresh fails
+- Invalid URLs result in fetch errors logged to console
+- Failed refreshes are logged but don't interrupt cycling
+- Network errors are captured and reported
+- CORS errors will prevent loading entirely - ensure proper server configuration
 
 ## Related Issues
 
-- #448: Main feature implementation
-- #177: Track extension (merged, affects rk-helper.ts)
+- #448: Main feature implementation (URL loading with auto-refresh in cycling)
