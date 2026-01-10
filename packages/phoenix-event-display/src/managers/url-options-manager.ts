@@ -70,10 +70,10 @@ export class URLOptionsManager {
       (!this.urlOptions.get('file') && this.urlOptions.get('type')) ||
       (this.urlOptions.get('file') && !this.urlOptions.get('type'))
     ) {
-      console.log(
+      console.warn(
         'WARNING - if you set one of type or file, then you need to set both!',
       );
-      console.log('WARNING - reverting to defaults!');
+      console.warn('WARNING - reverting to defaults!');
     }
 
     if (!this.urlOptions.get('file') || !this.urlOptions.get('type')) {
@@ -82,15 +82,8 @@ export class URLOptionsManager {
     } else {
       file = this.urlOptions.get('file') ?? '';
       type = this.urlOptions.get('type')?.toLowerCase() ?? '';
-      console.log(
-        'Default file(',
-        defaultEventPath,
-        ') was overridden by URL options to: ',
-        file,
-      );
     }
 
-    console.log('Try to load event file: ', file, 'of type', type);
     // Try to load config from URL
     const loadConfig = () => {
       if (this.urlOptions.get('config')) {
@@ -98,11 +91,6 @@ export class URLOptionsManager {
         fetch(this.urlOptions.get('config') ?? '')
           .then((res) => res.json())
           .then((jsonState) => {
-            console.log(
-              'Applying configuration ',
-              this.urlOptions.get('config'),
-              '  from urlOptions',
-            );
             const stateManager = new StateManager();
             stateManager.loadStateFromJSON(jsonState);
           })
@@ -114,10 +102,8 @@ export class URLOptionsManager {
 
     const processEventFile = (fileURL: string) => {
       if (type === 'jivexml') {
-        console.log('Opening JiveXML');
         return this.handleJiveXMLEvent(fileURL);
       } else if (type === 'zip') {
-        console.log('Opening zip file');
         return this.handleZipFileEvents(fileURL);
       } else {
         return this.handleJSONEvent(fileURL);
