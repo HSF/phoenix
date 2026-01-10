@@ -2,6 +2,7 @@ import { PresetView } from '../models/preset-view.model';
 import type { EventDataLoader } from '../../loaders/event-data-loader';
 import type { PhoenixMenuNode } from '../../managers/ui-manager/phoenix-menu/phoenix-menu-node';
 import type { AnimationPreset } from '../../managers/three-manager/animations-manager';
+import type { JiveXMLTrackExtensionConfig } from '../../loaders/jivexml-loader';
 
 /**
  * Configuration of the event display.
@@ -27,4 +28,6 @@ export interface Configuration {
   allowUrlOptions?: boolean;
   /** Whether to force a theme ('dark' or 'light' are current options) */
   forceColourTheme?: string;
+  /** Optional configuration for JiveXML track extension controls */
+  jiveXMLTrackExtension?: Partial<JiveXMLTrackExtensionConfig>;
 }

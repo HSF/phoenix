@@ -526,4 +526,64 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       this.eventFolder.loadStateFromJSON(this.eventFolderState);
     }
   }
+
+  /**
+   * Add JiveXML track extension controls to the Phoenix menu.
+   * @param eventDisplay The event display instance.
+   */
+  public addJiveXMLTrackExtension(eventDisplay: any): void {
+    const jiveNode = this.phoenixMenuRoot.addChild(
+      'JiveXML Track Extension',
+      undefined,
+      'settings',
+    );
+
+    jiveNode.addConfig({
+      type: 'checkbox',
+      label: 'Use Extra Hits',
+      isChecked: false,
+      onChange: (value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({ useExtraHits: value });
+      },
+    });
+
+    jiveNode.addConfig({
+      type: 'slider',
+      label: 'Extra Hits Min Delta (mm)',
+      min: 50,
+      max: 500,
+      step: 10,
+      allowCustomValue: true,
+      onChange: (value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          extraHitsMinDelta: value,
+        });
+      },
+    });
+
+    jiveNode.addConfig({
+      type: 'checkbox',
+      label: 'Use RK Extrapolation',
+      isChecked: false,
+      onChange: (value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          useRKExtrapolation: value,
+        });
+      },
+    });
+
+    jiveNode.addConfig({
+      type: 'slider',
+      label: 'RK Radius (mm)',
+      min: 100,
+      max: 5000,
+      step: 50,
+      allowCustomValue: true,
+      onChange: (value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          rkExtrapolationRadius: value,
+        });
+      },
+    });
+  }
 }
