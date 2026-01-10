@@ -75,7 +75,6 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @param data Event data in JiveXML data format.
    */
   public process(data: any) {
-    console.log('Processing JiveXML event data');
     this.data = data;
   }
 
@@ -146,7 +145,6 @@ export class JiveXMLLoader extends PhoenixLoader {
     this.getMuons(firstEvent, eventData);
     this.getPhotons(firstEvent, eventData);
 
-    // console.log('Got this eventdata', eventData);
     return eventData;
   }
 
@@ -157,7 +155,6 @@ export class JiveXMLLoader extends PhoenixLoader {
    * @returns Number array.
    */
   private getNumberArrayFromHTML(collection: Element, key: any) {
-    // console.log(collection);
     let array = [];
     const elements = collection.getElementsByTagName(key);
     if (elements.length) {
@@ -197,7 +194,7 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const hitcollection in eventData.Hits) {
       for (const hit of eventData.Hits[hitcollection]) {
         if (hit == null) {
-          console.log('Empty hit');
+          // Empty hit
         } else {
           if ('id' in hit && hit.id == hitIdentifier)
             return [true, hit.pos[0], hit.pos[1], hit.pos[2]];
@@ -249,10 +246,10 @@ export class JiveXMLLoader extends PhoenixLoader {
       let polylineZ: number[] = [];
       let numPolyline: number[] = [];
       if (tmp.length === 0) {
-        console.log(
+        console.warn(
           'WARNING the track collection ' +
-            trackCollectionName +
-            ' has no line information. Will rely on Phoenix to extrapolate.',
+          trackCollectionName +
+          ' has no line information. Will rely on Phoenix to extrapolate.',
         );
       } else {
         numPolyline = this.getNumberArrayFromHTML(collection, 'numPolyline');
@@ -294,7 +291,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         numOfTracks != z0.length ||
         numOfTracks != cotTheta.length
       ) {
-        console.log(
+        console.warn(
           'ERROR: Wrong number of some track variables. Corrupted JiveXML?',
         );
       }
@@ -308,7 +305,7 @@ export class JiveXMLLoader extends PhoenixLoader {
         hitsCounter = 0; // Both of these need to persist throughout the track collection.
       // Sanity check:
       if (numPolyline && numPolyline.length != numOfTracks)
-        console.log(
+        console.warn(
           'numPolyline ',
           numPolyline.length,
           'numOfTracks',
@@ -386,7 +383,7 @@ export class JiveXMLLoader extends PhoenixLoader {
             polylineCounter + numPolyline[i] > polylineY.length ||
             polylineCounter + numPolyline[i] > polylineZ.length
           ) {
-            console.log(
+            console.warn(
               'ERROR: not enough points left for this track. Corrupted JiveXML?',
             );
           }
@@ -397,20 +394,20 @@ export class JiveXMLLoader extends PhoenixLoader {
             pos.push([x, y, z]);
             radius = Math.sqrt(x * x + y * y + z * z);
             if (radius < maxR) {
-              console.log(
+              console.warn(
                 'WARNING: track positions do not seem to be sorted radially',
               );
               badTracks['Hits not sorted']++;
               track.badtrack.push('Hits not sorted');
             }
             if (debugTrack) {
-              console.log('pos: ', p, '/', numPolyline[i], ':', pos);
-              console.log(
-                'theta:',
-                theta,
-                'theta from hit',
-                Math.acos(z / radius),
-              );
+              // console.log('pos: ', p, '/', numPolyline[i], ':', pos);
+              // console.log(
+              //   'theta:',
+              //   theta,
+              //   'theta from hit',
+              //   Math.acos(z / radius),
+              // );
             }
             maxR = radius;
           }
@@ -509,8 +506,8 @@ export class JiveXMLLoader extends PhoenixLoader {
           const lastPos = track.pos[track.pos.length - 1];
           const currentRadius = Math.sqrt(
             lastPos[0] * lastPos[0] +
-              lastPos[1] * lastPos[1] +
-              lastPos[2] * lastPos[2],
+            lastPos[1] * lastPos[1] +
+            lastPos[2] * lastPos[2],
           );
           const targetRadius = this.trackExtensionConfig.rkExtrapolationRadius;
 
@@ -547,7 +544,7 @@ export class JiveXMLLoader extends PhoenixLoader {
           polylineCounter != polylineY.length ||
           polylineCounter != polylineZ.length)
       ) {
-        console.log(
+        console.warn(
           'ERROR: something has gone wrong with assigning the positions to the tracks!',
         );
       }
@@ -557,11 +554,11 @@ export class JiveXMLLoader extends PhoenixLoader {
     }
     for (const error in badTracks) {
       if (badTracks[error] > 0)
-        console.log(
+        console.warn(
           badTracks[error] +
-            ' tracks had "' +
-            error +
-            '" and were marked as bad.',
+          ' tracks had "' +
+          error +
+          '" and were marked as bad.',
         );
     }
   }
