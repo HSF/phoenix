@@ -46,7 +46,8 @@
     "jszip": "^3.10.1",
     "lodash": "^4.17.21",
     "stats-js": "^1.0.1",
-    "three": "~0.178.0"
+    "three": "~0.178.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@babel/helper-string-parser": "^7.27.1",
