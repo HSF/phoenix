@@ -1,4 +1,4 @@
-import { Component, Input, type OnInit } from '@angular/core';
+import { Component, Input, type OnInit, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 import { FileLoaderService } from '../../../services/file-loader.service';
 
@@ -8,7 +8,7 @@ import { FileLoaderService } from '../../../services/file-loader.service';
   templateUrl: './cycle-events.component.html',
   styleUrls: ['./cycle-events.component.scss'],
 })
-export class CycleEventsComponent implements OnInit {
+export class CycleEventsComponent implements OnInit, OnDestroy {
   @Input() interval: number;
   @Input() tooltip: string;
   @Input() icon: string;
@@ -24,6 +24,7 @@ export class CycleEventsComponent implements OnInit {
   private intervalId: NodeJS.Timeout;
 
   private events: string[];
+  private eventsChangeCallback: (events: string[]) => void;
 
   constructor(
     private eventDisplay: EventDisplayService,
@@ -31,14 +32,23 @@ export class CycleEventsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToLoadedEventsChange((events) => {
+    this.eventsChangeCallback = (events) => {
       this.events = events;
       if (this.active) {
         // restart cycling from first event
         clearInterval(this.intervalId);
         this.startCycleInterval();
       }
-    });
+    };
+    this.eventDisplay.listenToLoadedEventsChange(this.eventsChangeCallback);
+  }
+
+  ngOnDestroy(): void {
+    // Clear the interval to prevent memory leaks
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 
   toggleCycle() {
@@ -52,6 +62,18 @@ export class CycleEventsComponent implements OnInit {
   }
 
   private startCycleInterval(startIndex: number = 0) {
+    // Guard against multiple intervals - clear any existing interval first
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+
+    // Check if events are available before starting cycle
+    if (!this.events || this.events.length === 0) {
+      console.warn('Cycle Events: No events available to cycle through');
+      this.active = false;
+      return;
+    }
+
     // load immediately first event
     let index = startIndex;
     this.eventDisplay.loadEvent(this.events[index]);
