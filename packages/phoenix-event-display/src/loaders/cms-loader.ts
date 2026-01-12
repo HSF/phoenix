@@ -22,7 +22,9 @@ export class CMSLoader extends PhoenixLoader {
     this.data = {};
     // Initialize Web Worker
     // Note: This relies on bundler support (Webpack 5+) for new Worker(new URL(...))
-    this.worker = new Worker(new URL('../workers/cms-loader.worker', import.meta.url));
+    this.worker = new Worker(
+      new URL('../workers/cms-loader.worker', import.meta.url),
+    );
   }
 
   /**
@@ -80,9 +82,14 @@ export class CMSLoader extends PhoenixLoader {
           // If the files are in the "Events" folder then process them.
           if (filePathInIg.toLowerCase().startsWith('events')) {
             try {
-              const singleEvent = await igArchive.file(filePathInIg)!.async('string');
+              const singleEvent = await igArchive
+                .file(filePathInIg)!
+                .async('string');
               // Use Web Worker to parse
-              const eventJSON = await this.parseWithWorker(singleEvent, filePathInIg);
+              const eventJSON = await this.parseWithWorker(
+                singleEvent,
+                filePathInIg,
+              );
               eventJSON.eventPath = filePathInIg;
               eventsDataInIg.push(eventJSON);
             } catch (error) {
@@ -603,4 +610,3 @@ export class CMSLoader extends PhoenixLoader {
     return metadata;
   }
 }
-

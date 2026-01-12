@@ -15,6 +15,10 @@ module.exports = {
         tsconfig: {
           rootDir: null,
           allowJs: true,
+          module: 'esnext',
+        },
+        diagnostics: {
+          ignoreCodes: [1343],
         },
         astTransformers: {
           before: [
