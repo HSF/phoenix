@@ -124,6 +124,8 @@ export class ThreeManager {
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
   private mousemoveCallback: (event: MouseEvent) => void = () => {};
+  /** Stored keydown handler for cleanup. */
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
@@ -1251,7 +1253,13 @@ export class ThreeManager {
    * Enable keyboard controls for some Three service operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    // Remove previous keydown listener if exists
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+    }
+
+    // Store and add new keydown listener
+    this.keydownHandler = (e: KeyboardEvent) => {
       const isTyping = ['input', 'textarea'].includes(
         (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
@@ -1279,7 +1287,8 @@ export class ThreeManager {
           }
         }
       }
-    });
+    };
+    document.addEventListener('keydown', this.keydownHandler);
   }
 
   /**
@@ -1709,5 +1718,24 @@ export class ThreeManager {
    */
   public getColorManager() {
     return this.colorManager;
+  }
+
+  /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    // Remove keyboard listener
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+      this.keydownHandler = null;
+    }
+
+    // Cleanup sub-managers
+    if (this.rendererManager) {
+      this.rendererManager.cleanup();
+    }
+    if (this.controlsManager) {
+      this.controlsManager.cleanup();
+    }
   }
 }
