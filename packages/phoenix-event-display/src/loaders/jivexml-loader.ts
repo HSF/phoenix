@@ -171,18 +171,21 @@ export class JiveXMLLoader extends PhoenixLoader {
   }
 
   /**
-   * Get the number array from a collection in XML DOM.
+   * Get the string array from a collection in XML DOM.
    * @param collection Collection in XML DOM of JiveXML format.
    * @param key Tag name of the string array.
-   * @returns String array.
+   * @returns String array, or empty array if tag not found.
    */
-  private getStringArrayFromHTML(collection: Element, key: any) {
-    return collection
-      .getElementsByTagName(key)[0]
-      .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-      .trim()
-      .split(' ')
-      .map(String);
+  private getStringArrayFromHTML(collection: Element, key: any): string[] {
+    const elements = collection.getElementsByTagName(key);
+    if (elements.length) {
+      return elements[0].innerHTML
+        .replace(/\r\n|\n|\r/gm, ' ')
+        .trim()
+        .split(' ')
+        .map(String);
+    }
+    return [];
   }
   /**
    * Try to get the position of a hit (i.e. linked from a track)
@@ -988,72 +991,34 @@ export class JiveXMLLoader extends PhoenixLoader {
     for (const vertexColl of vertexCollections) {
       const numOfObjects = Number(vertexColl.getAttribute('count'));
 
-      // The nodes are big strings of numbers, and contain carriage returns. So need to strip all of this, make to array of strings,
-      // then convert to array of numbers
-      const x = vertexColl
-        .getElementsByTagName('x')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const y = vertexColl
-        .getElementsByTagName('y')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const z = vertexColl
-        .getElementsByTagName('z')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const chi2 = vertexColl
-        .getElementsByTagName('chi2')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const primVxCand = vertexColl
-        .getElementsByTagName('primVxCand')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const vertexType = vertexColl
-        .getElementsByTagName('vertexType')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const numTracks = vertexColl
-        .getElementsByTagName('numTracks')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const sgkeyOfTracks = vertexColl
-        .getElementsByTagName('sgkey')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(String);
-      const trackIndices = vertexColl
-        .getElementsByTagName('tracks')[0]
-        .innerHTML.replace(/\r\n|\n|\r/gm, ' ')
-        .trim()
-        .split(' ')
-        .map(Number);
-      const temp = []; // Ugh
+      // Use safe helper methods to extract arrays - returns empty array if tag not found
+      const x = this.getNumberArrayFromHTML(vertexColl, 'x');
+      const y = this.getNumberArrayFromHTML(vertexColl, 'y');
+      const z = this.getNumberArrayFromHTML(vertexColl, 'z');
+      const chi2 = this.getNumberArrayFromHTML(vertexColl, 'chi2');
+      const primVxCand = this.getNumberArrayFromHTML(vertexColl, 'primVxCand');
+      const vertexType = this.getNumberArrayFromHTML(vertexColl, 'vertexType');
+      const numTracks = this.getNumberArrayFromHTML(vertexColl, 'numTracks');
+      const sgkeyOfTracks = this.getStringArrayFromHTML(vertexColl, 'sgkey');
+      const trackIndices = this.getNumberArrayFromHTML(vertexColl, 'tracks');
+
+      // Skip this collection if required vertex position data is missing
+      if (x.length === 0 || y.length === 0 || z.length === 0) {
+        console.warn(
+          `Skipping vertex collection: missing required x/y/z data for ${vertexColl.getAttribute('storeGateKey')}`,
+        );
+        continue;
+      }
+
+      const temp = [];
       let trackIndex = 0;
       for (let i = 0; i < numOfObjects; i++) {
-        const maxIndex = trackIndex + numTracks[i];
+        const maxIndex = trackIndex + (numTracks[i] || 0);
         const thisTrackIndices = [];
         for (; trackIndex < maxIndex; trackIndex++) {
-          if (trackIndex > trackIndices.length) {
-            console.log(
-              'Error! TrackIndex exceeds maximum number of track indices.',
-            );
+          if (trackIndex >= trackIndices.length) {
+            console.warn('TrackIndex exceeds maximum number of track indices.');
+            break;
           }
           thisTrackIndices.push(trackIndices[trackIndex]);
         }
