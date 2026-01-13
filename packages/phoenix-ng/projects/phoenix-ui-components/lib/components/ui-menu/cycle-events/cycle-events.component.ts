@@ -25,6 +25,7 @@ export class CycleEventsComponent implements OnInit, OnDestroy {
 
   private events: string[];
   private eventsChangeCallback: (events: string[]) => void;
+  private unsubscribe: () => void;
 
   constructor(
     private eventDisplay: EventDisplayService,
@@ -40,7 +41,9 @@ export class CycleEventsComponent implements OnInit, OnDestroy {
         this.startCycleInterval();
       }
     };
-    this.eventDisplay.listenToLoadedEventsChange(this.eventsChangeCallback);
+    this.unsubscribe = this.eventDisplay.listenToLoadedEventsChange(
+      this.eventsChangeCallback,
+    );
   }
 
   ngOnDestroy(): void {
@@ -49,6 +52,8 @@ export class CycleEventsComponent implements OnInit, OnDestroy {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+    // Unsubscribe from events change listener
+    this.unsubscribe?.();
   }
 
   toggleCycle() {

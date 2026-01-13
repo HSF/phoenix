@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
@@ -7,16 +7,21 @@ import { EventDisplayService } from '../../../services/event-display.service';
   templateUrl: './event-selector.component.html',
   styleUrls: ['./event-selector.component.scss'],
 })
-export class EventSelectorComponent implements OnInit {
+export class EventSelectorComponent implements OnInit, OnDestroy {
   // Array containing the keys of the multiple loaded events
   events: string[];
+  private unsubscribe: () => void;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToLoadedEventsChange(
+    this.unsubscribe = this.eventDisplay.listenToLoadedEventsChange(
       (events) => (this.events = events),
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe?.();
   }
 
   changeEvent(selected: any) {

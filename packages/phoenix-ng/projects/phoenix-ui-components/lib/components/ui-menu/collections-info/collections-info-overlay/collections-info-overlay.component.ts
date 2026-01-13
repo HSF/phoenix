@@ -1,4 +1,10 @@
-import { Component, ElementRef, Input, type OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  type OnInit,
+  type OnDestroy,
+} from '@angular/core';
 import {
   ActiveVariable,
   PrettySymbols,
@@ -12,7 +18,7 @@ import { EventDisplayService } from '../../../../services/event-display.service'
   templateUrl: './collections-info-overlay.component.html',
   styleUrls: ['./collections-info-overlay.component.scss'],
 })
-export class CollectionsInfoOverlayComponent implements OnInit {
+export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   @Input() showObjectsInfo: boolean;
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
@@ -21,6 +27,7 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   collectionColumns: string[];
   getPrettySymbol = PrettySymbols.getPrettySymbol;
   activeObject: ActiveVariable<string>;
+  private unsubscribes: (() => void)[] = [];
 
   constructor(
     private elementRef: ElementRef,
@@ -28,23 +35,31 @@ export class CollectionsInfoOverlayComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToDisplayedEventChange(() => {
-      const collectionsGrouped: { [key: string]: string[] } =
-        this.eventDisplay.getCollections();
-      this.collections = Object.entries(collectionsGrouped).map(
-        ([type, collections]: [string, string[]]) => ({
-          type,
-          collections,
-        }),
-      );
-    });
+    this.unsubscribes.push(
+      this.eventDisplay.listenToDisplayedEventChange(() => {
+        const collectionsGrouped: { [key: string]: string[] } =
+          this.eventDisplay.getCollections();
+        this.collections = Object.entries(collectionsGrouped).map(
+          ([type, collections]: [string, string[]]) => ({
+            type,
+            collections,
+          }),
+        );
+      }),
+    );
 
     this.activeObject = this.eventDisplay.getActiveObjectId();
-    this.activeObject.onUpdate((value: string) => {
-      if (document.getElementById(value)) {
-        document.getElementById(value).scrollIntoView(false);
-      }
-    });
+    this.unsubscribes.push(
+      this.activeObject.onUpdate((value: string) => {
+        if (document.getElementById(value)) {
+          document.getElementById(value).scrollIntoView(false);
+        }
+      }),
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribes.forEach((unsubscribe) => unsubscribe?.());
   }
 
   changeCollection(selectedCollection: string) {

@@ -23,7 +23,7 @@ describe('UiMenuComponent', () => {
     clippingEnabled: jest.fn().mockReturnThis(),
     startClippingAngle: jest.fn().mockReturnThis(),
     openingClippingAngle: jest.fn().mockReturnThis(),
-    listenToLoadedEventsChange: jest.fn(),
+    listenToLoadedEventsChange: jest.fn(() => jest.fn()),
     getUIManager: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
@@ -37,9 +37,9 @@ describe('UiMenuComponent', () => {
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
-  mockStateManager.clippingEnabled.onUpdate = jest.fn();
-  mockStateManager.startClippingAngle.onUpdate = jest.fn();
-  mockStateManager.openingClippingAngle.onUpdate = jest.fn();
+  mockStateManager.clippingEnabled.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.startClippingAngle.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.openingClippingAngle.onUpdate = jest.fn(() => jest.fn());
 
   beforeEach(() => {
     TestBed.configureTestingModule({

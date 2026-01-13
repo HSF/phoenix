@@ -29,7 +29,7 @@ describe('TrackmlComponent', () => {
     addLoadListenerWithCheck: jest.fn().mockImplementation(() => {
       component.loaded = true;
     }),
-    listenToLoadedEventsChange: jest.fn(),
+    listenToLoadedEventsChange: jest.fn(() => jest.fn()),
     getUIManager: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnValue([]),
@@ -43,9 +43,9 @@ describe('TrackmlComponent', () => {
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
-  mockStateManager.clippingEnabled.onUpdate = jest.fn();
-  mockStateManager.startClippingAngle.onUpdate = jest.fn();
-  mockStateManager.openingClippingAngle.onUpdate = jest.fn();
+  mockStateManager.clippingEnabled.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.startClippingAngle.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.openingClippingAngle.onUpdate = jest.fn(() => jest.fn());
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

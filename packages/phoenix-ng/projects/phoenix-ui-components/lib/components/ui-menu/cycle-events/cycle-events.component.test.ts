@@ -9,9 +9,10 @@ describe('CycleEventsComponent', () => {
   let fixture: ComponentFixture<CycleEventsComponent>;
 
   const mockEventDisplay = {
-    listenToLoadedEventsChange: jest.fn((callback) =>
-      callback(['eventKey1', 'eventKey2']),
-    ),
+    listenToLoadedEventsChange: jest.fn((callback) => {
+      callback(['eventKey1', 'eventKey2']);
+      return jest.fn();
+    }),
     loadEvent: jest.fn(),
   };
 

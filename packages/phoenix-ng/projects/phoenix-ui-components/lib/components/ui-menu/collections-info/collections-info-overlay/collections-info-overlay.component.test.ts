@@ -10,7 +10,10 @@ describe('CollectionsInfoOverlayComponent', () => {
   let fixture: ComponentFixture<CollectionsInfoOverlayComponent>;
 
   const mockEventDisplay = {
-    listenToDisplayedEventChange: jest.fn((callback) => callback()),
+    listenToDisplayedEventChange: jest.fn((callback) => {
+      callback();
+      return jest.fn();
+    }),
     getCollections: jest.fn().mockReturnValue({
       Hits: ['hitsCollection1', 'hitsCollection2'],
       Tracks: ['trackCollection1'],
@@ -18,6 +21,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     getActiveObjectId: () => ({
       onUpdate: (callback) => {
         callback();
+        return jest.fn();
       },
     }),
     enableHighlighting: jest.fn(),
@@ -55,7 +59,7 @@ describe('CollectionsInfoOverlayComponent', () => {
     component.activeObject = {
       value: '',
       update: jest.fn(),
-      onUpdate: jest.fn(),
+      onUpdate: jest.fn(() => jest.fn()),
     } as any;
   });
 

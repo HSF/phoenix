@@ -2,6 +2,7 @@ import {
   type AfterViewInit,
   Component,
   ElementRef,
+  type OnDestroy,
   ViewChild,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -14,12 +15,13 @@ import QRCode from 'qrcode';
   templateUrl: './share-link-dialog.component.html',
   styleUrls: ['./share-link-dialog.component.scss'],
 })
-export class ShareLinkDialogComponent implements AfterViewInit {
+export class ShareLinkDialogComponent implements AfterViewInit, OnDestroy {
   baseLink: string;
   shareLink: ActiveVariable<string>;
   embedLink: string;
   urlOptions = Object.assign({}, phoenixURLOptions);
   @ViewChild('qrcodeCanvas') qrcodeCanvas: ElementRef<HTMLCanvasElement>;
+  private unsubscribe: () => void;
 
   constructor(private dialogRef: MatDialogRef<ShareLinkDialogComponent>) {
     const locationHref = window.location.href;
@@ -35,7 +37,11 @@ export class ShareLinkDialogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.updateQRCode(this.shareLink.value);
-    this.shareLink.onUpdate(this.updateQRCode.bind(this));
+    this.unsubscribe = this.shareLink.onUpdate(this.updateQRCode.bind(this));
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe?.();
   }
 
   onClose() {

@@ -28,8 +28,15 @@ export class ActiveVariable<T = any> {
   /**
    * Call a function on updating the value of variable.
    * @param callback Callback to call with updated value when the variable is updated.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public onUpdate(callback: CallbackFunction<T>) {
+  public onUpdate(callback: CallbackFunction<T>): () => void {
     this.callbacks.push(callback);
+    return () => {
+      const index = this.callbacks.indexOf(callback);
+      if (index > -1) {
+        this.callbacks.splice(index, 1);
+      }
+    };
   }
 }
