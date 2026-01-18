@@ -47,6 +47,8 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
+  /** Flag to track if EventDisplay has been initialized. */
+  private isInitialized: boolean = false;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -67,6 +69,10 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    if (this.isInitialized) {
+      this.cleanup();
+    }
+    this.isInitialized = true;
     this.configuration = configuration;
 
     // Initialize the three manager with configuration
@@ -102,6 +108,18 @@ export class EventDisplay {
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
+  }
+
+  /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    if (this.graphicsLibrary) {
+      this.graphicsLibrary.cleanup();
+    }
+    if (this.ui) {
+      this.ui.cleanup();
+    }
   }
 
   /**

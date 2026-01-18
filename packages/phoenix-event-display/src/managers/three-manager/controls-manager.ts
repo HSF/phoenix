@@ -29,6 +29,12 @@ export class ControlsManager {
 
   /** Whether the overlay controls are linked to the main controls. */
   private _isOverlayLinked: boolean = false;
+  /** Stored window resize handler for cleanup. */
+  private resizeHandler: (() => void) | null = null;
+  /** Stored OrbitControls change handler for cleanup. */
+  private controlsChangeHandler: ((event: any) => void) | null = null;
+  /** Track state for hideTubeTracksOnZoom. */
+  private tracksHidden: boolean = false;
   /**
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
@@ -102,7 +108,13 @@ export class ControlsManager {
    * @param rendererElement Canvas element of the main renderer.
    */
   private setupResize(rendererElement: HTMLCanvasElement) {
-    window.addEventListener('resize', () => {
+    // Remove previous resize listener if exists
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+    }
+
+    // Store and add new resize listener
+    this.resizeHandler = () => {
       const mainCamera = this.getMainCamera() as any;
       if (mainCamera instanceof OrthographicCamera) {
         const ratio =
@@ -115,7 +127,8 @@ export class ControlsManager {
           rendererElement.offsetWidth / rendererElement.offsetHeight;
         mainCamera.updateProjectionMatrix();
       }
-    });
+    };
+    window.addEventListener('resize', this.resizeHandler);
   }
 
   // ====================================
@@ -707,13 +720,24 @@ export class ControlsManager {
    * @param minRadius Radius after which the tube tracks should be invisible.
    */
   public hideTubeTracksOnZoom(scene: Scene, minRadius: number) {
-    let tracksHidden = false;
+    // Remove previous change listener if exists
+    if (this.controlsChangeHandler) {
+      this.mainControls.removeEventListener(
+        'change',
+        this.controlsChangeHandler,
+      );
+    }
+
+    // Reset tracks hidden state
+    this.tracksHidden = false;
     const origin = new Vector3();
-    this.mainControls.addEventListener('change', (event) => {
+
+    // Store and add new change listener
+    this.controlsChangeHandler = (event: any) => {
       const isCameraClose =
         (event?.target?.object?.position as Vector3).distanceTo(origin) <
         minRadius;
-      if (isCameraClose && !tracksHidden) {
+      if (isCameraClose && !this.tracksHidden) {
         scene.getObjectByName('Tracks')?.traverse((track) => {
           if (
             track.name === 'Track' &&
@@ -722,8 +746,8 @@ export class ControlsManager {
             track.visible = false;
           }
         });
-        tracksHidden = true;
-      } else if (!isCameraClose && tracksHidden) {
+        this.tracksHidden = true;
+      } else if (!isCameraClose && this.tracksHidden) {
         scene.getObjectByName('Tracks')?.traverse((track) => {
           if (
             track.name === 'Track' &&
@@ -732,9 +756,10 @@ export class ControlsManager {
             track.visible = true;
           }
         });
-        tracksHidden = false;
+        this.tracksHidden = false;
       }
-    });
+    };
+    this.mainControls.addEventListener('change', this.controlsChangeHandler);
   }
 
   // ====================================
@@ -771,5 +796,22 @@ export class ControlsManager {
     }
 
     return -1;
+  }
+
+  /**
+   * Cleanup event listeners before re-initialization.
+   */
+  public cleanup() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
+    if (this.controlsChangeHandler && this.mainControls) {
+      this.mainControls.removeEventListener(
+        'change',
+        this.controlsChangeHandler,
+      );
+      this.controlsChangeHandler = null;
+    }
   }
 }
