@@ -120,6 +120,12 @@ export class EventDisplay {
     if (this.ui) {
       this.ui.cleanup();
     }
+    // Clear accumulated callbacks
+    this.onEventsChange = [];
+    this.onDisplayedEventChange = [];
+    // Reset singletons for clean view transition
+    this.loadingManager?.reset();
+    this.stateManager?.resetForViewTransition();
   }
 
   /**

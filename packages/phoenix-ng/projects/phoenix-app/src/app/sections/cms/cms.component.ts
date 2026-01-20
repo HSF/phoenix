@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import {
   type Configuration,
   PresetView,
@@ -17,7 +17,7 @@ import {
   templateUrl: './cms.component.html',
   styleUrls: ['./cms.component.scss'],
 })
-export class CMSComponent implements OnInit {
+export class CMSComponent implements OnInit, OnDestroy {
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
     'phoenix-menu',
@@ -29,7 +29,14 @@ export class CMSComponent implements OnInit {
     EventDataFormat.IG,
   ];
 
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
+
   constructor(private eventDisplay: EventDisplayService) {}
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
+  }
 
   ngOnInit(): void {
     const cmsLoader = new CMSLoader();
@@ -63,12 +70,16 @@ export class CMSComponent implements OnInit {
       },
     );
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addLoadListenerWithCheck(() => (this.loaded = true));
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (!this.isDestroyed) {
+        this.loaded = true;
+      }
+    });
   }
 }

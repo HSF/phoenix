@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { type Configuration, PresetView } from 'phoenix-event-display';
 import { HttpClient } from '@angular/common/http';
@@ -9,9 +9,12 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss'],
 })
-export class PlaygroundComponent implements OnInit {
+export class PlaygroundComponent implements OnInit, OnDestroy {
   loaded = false;
   loadingProgress = 0;
+
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
 
   constructor(
     protected eventDisplay: EventDisplayService,
@@ -28,12 +31,20 @@ export class PlaygroundComponent implements OnInit {
     };
     this.eventDisplay.init(configuration);
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addLoadListenerWithCheck(() => (this.loaded = true));
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (!this.isDestroyed) {
+        this.loaded = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
   }
 }

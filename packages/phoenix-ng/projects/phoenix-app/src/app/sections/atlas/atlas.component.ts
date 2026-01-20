@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import {
   EventDataFormat,
   type EventDataImportOption,
@@ -23,7 +23,7 @@ import phoenixMenuConfig from '../../../assets/files/config/atlas-config.json';
   templateUrl: './atlas.component.html',
   styleUrls: ['./atlas.component.scss'],
 })
-export class AtlasComponent implements OnInit {
+export class AtlasComponent implements OnInit, OnDestroy {
   phoenixMenuRoot = new PhoenixMenuNode('Phoenix Menu', 'phoenix-menu');
   eventDataImportOptions: EventDataImportOption[] = [
     EventDataFormat.JSON,
@@ -33,7 +33,14 @@ export class AtlasComponent implements OnInit {
   loaded = false;
   loadingProgress = 0;
 
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
+
   constructor(private eventDisplay: EventDisplayService) {}
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
+  }
 
   ngOnInit() {
     let defaultEvent: { eventFile: string; eventType: string };
@@ -252,12 +259,16 @@ export class AtlasComponent implements OnInit {
       1000,
     );
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
     // Load the default configuration
     this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (this.isDestroyed) return;
+
       console.log('Loading default configuration.');
       this.loaded = true;
 
