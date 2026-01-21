@@ -458,13 +458,79 @@ export class SceneManager {
 
   /**
    * Clears event data of the scene.
+   * Properly disposes of all GPU resources (geometries, materials, textures)
+   * to prevent memory leaks during event switching.
    */
   public clearEventData() {
     const eventData = this.getEventData();
     if (eventData != null) {
+      this.disposeObject3D(eventData);
       this.scene.remove(eventData);
     }
     this.getEventData();
+  }
+
+  /**
+   * Recursively disposes of all GPU resources in an Object3D hierarchy.
+   * @param object The Object3D to dispose.
+   */
+  private disposeObject3D(object: Object3D) {
+    object.traverse((child: Object3D) => {
+      const mesh = child as Mesh | LineSegments | Line;
+
+      // Dispose geometry
+      if (mesh.geometry) {
+        mesh.geometry.dispose();
+      }
+
+      // Dispose material(s)
+      if (mesh.material) {
+        const materials = Array.isArray(mesh.material)
+          ? mesh.material
+          : [mesh.material];
+
+        for (const material of materials) {
+          // Dispose any textures attached to the material
+          if ((material as any).map) {
+            (material as any).map.dispose();
+          }
+          if ((material as any).alphaMap) {
+            (material as any).alphaMap.dispose();
+          }
+          if ((material as any).aoMap) {
+            (material as any).aoMap.dispose();
+          }
+          if ((material as any).bumpMap) {
+            (material as any).bumpMap.dispose();
+          }
+          if ((material as any).displacementMap) {
+            (material as any).displacementMap.dispose();
+          }
+          if ((material as any).emissiveMap) {
+            (material as any).emissiveMap.dispose();
+          }
+          if ((material as any).envMap) {
+            (material as any).envMap.dispose();
+          }
+          if ((material as any).lightMap) {
+            (material as any).lightMap.dispose();
+          }
+          if ((material as any).metalnessMap) {
+            (material as any).metalnessMap.dispose();
+          }
+          if ((material as any).normalMap) {
+            (material as any).normalMap.dispose();
+          }
+          if ((material as any).roughnessMap) {
+            (material as any).roughnessMap.dispose();
+          }
+          if ((material as any).specularMap) {
+            (material as any).specularMap.dispose();
+          }
+          material.dispose();
+        }
+      }
+    });
   }
 
   /** Returns a mesh representing the passed text. It will use this.textFont. */
