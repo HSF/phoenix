@@ -1066,14 +1066,23 @@ export class SelectionManager {
   }
 
   /**
-   * Programmatically clear all selections.
+   * Programmatically clear all selections and reset internal state.
+   * This method is called when event data is cleared to prevent stale references.
    */
   public clearAllSelections(): void {
-    if (this.selectedObjects.size > 0) {
-      this.effectsManager.clearAllSelections();
-      this.selectedObjects.clear();
+    const hadSelections = this.selectedObjects.size > 0;
 
-      // Note: No info panel clearing - info panel is now hover-controlled
+    // Clear all selected outlines from the effects manager (if initialized)
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+    }
+    this.selectedObjects.clear();
+
+    // Reset internal tracking to prevent stale references to disposed meshes
+    this.hoveredObject = null;
+    this.currentlyOutlinedObject = null;
+
+    if (hadSelections && this.infoLogger) {
       this.infoLogger.add('All selections cleared', 'Selection');
     }
   }
