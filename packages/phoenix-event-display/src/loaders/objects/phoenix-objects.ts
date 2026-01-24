@@ -7,6 +7,7 @@ import {
   MeshToonMaterial,
   Mesh,
   BufferGeometry,
+  ConeGeometry,
   LineBasicMaterial,
   Line,
   Group,
@@ -24,6 +25,9 @@ import {
   CanvasTexture,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
+import HelvetikerFont from '../../managers/three-manager/fonts/helvetiker_regular.typeface.json';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
 import { RKHelper } from '../../helpers/rk-helper';
 import { CoordinateHelper } from '../../helpers/coordinate-helper';
@@ -918,5 +922,187 @@ export class PhoenixObjects {
     irrCells.uuid = cell.uuid;
 
     return cell;
+  }
+
+  /**
+   * Create and return a Monte Carlo particle arrow from the given parameters.
+   * @param mcParticleParams  MCParticle parameters.
+   * @returns  Calorimeter MCParticle object.
+   */
+  public static getMCParticle(mcParticleParams: {
+    origin: number[];
+    momentum: number[];
+    pdgid: number;
+    status?: number;
+    color?: string;
+    uuid: string;
+  }): Object3D {
+    const defaultColor: string = '#ffff00';
+
+    const origin = new Vector3(
+      mcParticleParams.origin[0],
+      mcParticleParams.origin[1],
+      mcParticleParams.origin[2],
+    );
+
+    const direction = new Vector3(
+      mcParticleParams.momentum[0],
+      mcParticleParams.momentum[1],
+      mcParticleParams.momentum[2],
+    );
+    const length = direction.length();
+    direction.normalize();
+
+    const lineLength = 0.85 * length;
+    let lineWidth = Math.log(length * 1000) / 100;
+    if (lineWidth < 0) {
+      lineWidth = 0.00001;
+    }
+    if (lineWidth > 0.1) {
+      lineWidth = 0.1;
+    }
+    const coneLength = 0.15 * length;
+    const coneWidth = 2.5 * lineWidth;
+
+    const lineGeometry = new CylinderGeometry(
+      lineWidth,
+      lineWidth,
+      lineLength,
+      16,
+    );
+    lineGeometry.rotateZ(Math.PI / 2);
+    lineGeometry.translate(lineLength / 2, 0, 0);
+
+    const coneGeometry = new ConeGeometry(coneWidth, coneLength, 16);
+    coneGeometry.rotateZ(-Math.PI / 2);
+    coneGeometry.translate(length - coneLength / 2, 0, 0);
+
+    const geometries = [lineGeometry, coneGeometry];
+    const mergedGeometry = mergeGeometries(geometries, false);
+
+    const buildDirection = new Vector3(1, 0, 0).normalize();
+
+    const quaternion = new Quaternion();
+    quaternion.setFromUnitVectors(buildDirection, direction);
+    mergedGeometry.applyQuaternion(quaternion);
+
+    const material = new MeshPhongMaterial({
+      color: mcParticleParams.color ?? defaultColor,
+    });
+
+    const arrowObject = new Mesh(mergedGeometry, material);
+
+    const font = new Font(HelvetikerFont);
+    const labelGeometry = new TextGeometry(
+      PhoenixObjects.getMCParticleName(mcParticleParams.pdgid),
+      {
+        font: font,
+        size: 100,
+        height: 15,
+      },
+    );
+    labelGeometry.scale(0.01, 0.01, 0.01);
+
+    labelGeometry.rotateX(Math.PI / 2);
+    labelGeometry.translate(length, 0, 0);
+
+    labelGeometry.applyQuaternion(quaternion);
+
+    const labelObject = new Mesh(labelGeometry, material);
+
+    const arrowContainer = new Group();
+    arrowContainer.position.x = origin.x;
+    arrowContainer.position.y = origin.y;
+    arrowContainer.position.z = origin.z;
+
+    arrowContainer.add(arrowObject);
+    arrowContainer.add(labelObject);
+
+    mcParticleParams.uuid = arrowContainer.uuid;
+    arrowContainer.userData = Object.assign({}, mcParticleParams);
+
+    arrowContainer.name = 'MCParticle';
+
+    return arrowContainer;
+  }
+
+  /**
+   * Return a Monte Carlo particle name from PDG ID.
+   * @param mcParticlePDGid  PDG ID.
+   * @returns  MCParticle name.
+   */
+  public static getMCParticleName(mcParticlePDGid: number): string {
+    switch (mcParticlePDGid) {
+      case 1:
+        return 'd';
+      case -1:
+        return '!d';
+      case 2:
+        return 'u';
+      case -2:
+        return '!u';
+      case 3:
+        return 's';
+      case -3:
+        return '!s';
+      case 4:
+        return 'c';
+      case -4:
+        return '!c';
+      case 5:
+        return 'b';
+      case -5:
+        return '!b';
+      case 6:
+        return 't';
+      case -6:
+        return '!t';
+      case 11:
+        return 'e-';
+      case -11:
+        return 'e+';
+      case 12:
+        return 'νe';
+      case 13:
+        return 'μ-';
+      case -13:
+        return 'μ+';
+      case 14:
+        return 'νμ';
+      case 15:
+        return 'τ';
+      case -15:
+        return 'τ-';
+      case 16:
+        return 'ντ';
+      case 21:
+        return 'g';
+      case 22:
+        return 'γ';
+      case 23:
+        return 'Z';
+      case 24:
+        return 'W+';
+      case -24:
+        return 'W-';
+      case 25:
+        return 'H';
+      case 111:
+        return 'π0';
+      case 211:
+        return 'π+';
+      case -211:
+        return 'π-';
+      case 221:
+        return 'η';
+      case 311:
+        return 'K0';
+      case 321:
+        return 'K+';
+      case -321:
+        return 'K-';
+      default:
+        return mcParticlePDGid.toString();
+    }
   }
 }

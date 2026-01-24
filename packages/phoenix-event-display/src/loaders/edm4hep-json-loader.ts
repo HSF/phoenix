@@ -29,6 +29,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         CaloClusters: {},
         Jets: {},
         MissingEnergy: {},
+        MCParticles: {},
         'event number': this.getEventNumber(event),
         'run number': this.getRunNumber(event),
       };
@@ -42,6 +43,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       oneEventData.CaloClusters = this.getCaloClusters(event);
       oneEventData.Jets = this.getJets(event);
       oneEventData.MissingEnergy = this.getMissingEnergy(event);
+      oneEventData.MCParticles = this.getMCParticles(event);
 
       this.eventData[eventName] = oneEventData;
     });
@@ -774,12 +776,104 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allMETs;
   }
 
-  /** Return a random colour */
+  /** Returns Monte Carlo particles */
+  private getMCParticles(event: any) {
+    const allParticles: any[] = [];
+
+    for (const collName in event) {
+      if (event[collName].constructor != Object) {
+        continue;
+      }
+
+      const collDict = event[collName];
+
+      if (!('collType' in collDict)) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('edm4hep::')) {
+        continue;
+      }
+
+      if (!collDict['collType'].includes('MCParticleCollection')) {
+        continue;
+      }
+
+      if (!('collection' in collDict)) {
+        continue;
+      }
+
+      const rawParticles = collDict['collection'];
+      const particles: any[] = [];
+
+      rawParticles.forEach((rawParticle: any) => {
+        const origin: number[] = [];
+        origin.push(rawParticle.vertex.x * 0.1);
+        origin.push(rawParticle.vertex.y * 0.1);
+        origin.push(rawParticle.vertex.z * 0.1);
+
+        const momentum: number[] = [];
+        momentum.push(rawParticle.momentum.x);
+        momentum.push(rawParticle.momentum.y);
+        momentum.push(rawParticle.momentum.z);
+
+        const particle = {
+          origin: origin,
+          momentum: momentum,
+          pdgid: rawParticle.PDG,
+          status: rawParticle.generatorStatus,
+          color: this.mcParticleColor(rawParticle.PDG),
+        };
+        particles.push(particle);
+      });
+
+      allParticles[collName] = particles;
+    }
+
+    return allParticles;
+  }
+
+  /** Return a random color */
   private randomColor() {
     return Math.floor(Math.random() * 16777215)
       .toString(16)
       .padStart(6, '0')
       .toUpperCase();
+  }
+
+  /** Return color depending on the particle type */
+  private mcParticleColor(mcParticlePDGid) {
+    switch (Math.abs(mcParticlePDGid)) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+        return '#aa0000';
+      case 11:
+      case 12:
+      case 13:
+      case 14:
+      case 15:
+      case 16:
+        return '#00aa00';
+      case 21:
+      case 22:
+      case 23:
+      case 24:
+        return '#0000aa';
+      case 25:
+        return '#00aaaa';
+      case 111:
+      case 211:
+      case 221:
+      case 311:
+      case 321:
+        return '#aa00aa';
+      default:
+        return '#aaaa00';
+    }
   }
 
   /** Helper conversion of HSL to hexadecimal */
