@@ -12,15 +12,23 @@ export class EventSelectorComponent implements OnInit, OnDestroy {
   events: string[];
   private unsubscribe: () => void;
 
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
+
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
     this.unsubscribe = this.eventDisplay.listenToLoadedEventsChange(
-      (events) => (this.events = events),
+      (events) => {
+        if (!this.isDestroyed) {
+          this.events = events;
+        }
+      },
     );
   }
 
   ngOnDestroy() {
+    this.isDestroyed = true;
     this.unsubscribe?.();
   }
 
