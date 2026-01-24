@@ -96,7 +96,8 @@ export class ThreeManager {
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
   private show3DPointsCallback: ((event: MouseEvent) => void) | null = null;
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
-  private shiftCartesianGridCallback: ((event: MouseEvent) => void) | null = null;
+  private shiftCartesianGridCallback: ((event: MouseEvent) => void) | null =
+    null;
   /** 'click' event listener callback to show 3D distance between two clicked points */
   private show3DDistanceCallback: ((event: MouseEvent) => void) | null = null;
 
