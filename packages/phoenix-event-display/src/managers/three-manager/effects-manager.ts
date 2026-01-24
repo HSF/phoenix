@@ -398,4 +398,33 @@ export class EffectsManager {
 
     return outlineHelper;
   }
+
+  /**
+   * Cleanup and dispose all WebGL resources to prevent memory leaks.
+   * Must be called before re-initialization or when destroying the event display.
+   */
+  public cleanup() {
+    // Clear all selection outlines (disposes geometry and materials)
+    this.clearAllSelections();
+
+    // Clear hover outline (disposes geometry and material)
+    this.setHoverOutline(null);
+
+    // Dispose and remove all outline passes
+    for (const pass of this.outlinePasses) {
+      if (pass.dispose) {
+        pass.dispose();
+      }
+      const passIndex = this.composer.passes.indexOf(pass);
+      if (passIndex > -1) {
+        this.composer.passes.splice(passIndex, 1);
+      }
+    }
+    this.outlinePasses = [];
+
+    // Dispose the effect composer (frees render targets/framebuffers)
+    if (this.composer) {
+      this.composer.dispose();
+    }
+  }
 }

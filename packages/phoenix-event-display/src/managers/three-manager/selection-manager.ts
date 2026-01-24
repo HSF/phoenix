@@ -1141,4 +1141,28 @@ export class SelectionManager {
 
     return false;
   }
+
+  /**
+   * Cleanup all event listeners and resources before re-initialization.
+   * Must be called before destroying the SelectionManager or re-initializing.
+   */
+  public cleanup() {
+    // Disable selecting (removes selection event listeners)
+    this.disableSelecting();
+
+    // Remove passive double-click listeners from both canvases
+    this.disablePassiveDoubleClick();
+
+    // Clear all selections and outlines
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+      this.effectsManager.setHoverOutline(null);
+    }
+    this.selectedObjects.clear();
+    this.hoveredObject = null;
+    this.currentlyOutlinedObject = null;
+
+    // Reset initialization state
+    this.isInit = false;
+  }
 }
