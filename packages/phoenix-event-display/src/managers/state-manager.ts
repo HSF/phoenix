@@ -199,4 +199,16 @@ export class StateManager {
   setEventDisplay(eventDisplay: EventDisplay) {
     this.eventDisplay = eventDisplay;
   }
+
+  /**
+   * Reset state manager for view transitions. Clears stale references.
+   */
+  resetForViewTransition() {
+    this.phoenixMenuRoot = undefined;
+    this.activeCamera = undefined;
+    this.clippingEnabled = new ActiveVariable(false);
+    this.startClippingAngle = new ActiveVariable(0);
+    this.openingClippingAngle = new ActiveVariable(0);
+    this.eventMetadata = { runNumber: '000', eventNumber: '000' };
+  }
 }
