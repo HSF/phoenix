@@ -1088,8 +1088,23 @@ export class ThreeManager {
 
   /**
    * Clears event data of the scene.
+   * Also clears all selections and hover outlines to prevent stale references
+   * and orphaned outline helpers when event data is disposed.
    */
   public clearEventData() {
+    // Clear all selections before disposing event data to avoid:
+    // 1. Memory leak from orphaned outline helpers remaining in the scene
+    // 2. Visual artifacts from old selection outlines persisting
+    // 3. Stale references to disposed mesh objects in selectedOutlines Map
+    if (this.selectionManager) {
+      this.selectionManager.clearAllSelections();
+    }
+
+    // Clear hover outline separately as it's not included in clearAllSelections
+    if (this.effectsManager) {
+      this.effectsManager.setHoverOutline(null);
+    }
+
     this.sceneManager.clearEventData();
   }
 
