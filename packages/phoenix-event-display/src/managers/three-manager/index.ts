@@ -1788,5 +1788,11 @@ export class ThreeManager {
     if (this.controlsManager) {
       this.controlsManager.cleanup();
     }
+    if (this.effectsManager) {
+      this.effectsManager.cleanup();
+    }
+    if (this.selectionManager) {
+      this.selectionManager.cleanup();
+    }
   }
 }
