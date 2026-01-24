@@ -5,6 +5,7 @@ module.exports = {
   rootDir: '../',
   roots: ['<rootDir>/src/tests'],
   preset: 'ts-jest/presets/js-with-ts-legacy',
+  setupFilesAfterEnv: ['<rootDir>/configs/jest.setup.js'],
   moduleNameMapper: {
     '^(\\.\\.?\\/.+)\\.js$': '$1',
   },

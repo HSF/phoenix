@@ -11,8 +11,6 @@ export class CMSLoader extends PhoenixLoader {
   private data: any;
   /** Scale factor for resizing geometry to fit Phoenix event display. */
   private geometryScale: number = 1000;
-  /** Web Worker for off-main-thread parsing. */
-  private worker: Worker;
 
   /**
    * Constructor for the CMS loader.
@@ -20,11 +18,6 @@ export class CMSLoader extends PhoenixLoader {
   constructor() {
     super();
     this.data = {};
-    // Initialize Web Worker
-    // Note: This relies on bundler support (Webpack 5+) for new Worker(new URL(...))
-    this.worker = new Worker(
-      new URL('../workers/cms-loader.worker', import.meta.url),
-    );
   }
 
   /**
@@ -118,22 +111,32 @@ export class CMSLoader extends PhoenixLoader {
   }
 
   /**
-   * Helper to send data to worker and await response.
+   * Parse event data. Currently uses main-thread parsing.
+   * @param data Raw string data to parse
+   * @param id Identifier for the event (unused, kept for signature compatibility)
    */
   private parseWithWorker(data: string, id: string): Promise<any> {
+    return this.parseOnMainThread(data);
+  }
+
+  /**
+   * Fallback parser for environments where Web Worker is not available.
+   * Parses the event data on the main thread.
+   */
+  private parseOnMainThread(data: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      const handler = (event: MessageEvent) => {
-        if (event.data.id === id) {
-          this.worker.removeEventListener('message', handler);
-          if (event.data.type === 'parseCMSResult') {
-            resolve(event.data.data);
-          } else {
-            reject(event.data.error);
-          }
-        }
-      };
-      this.worker.addEventListener('message', handler);
-      this.worker.postMessage({ type: 'parseCMS', data, id });
+      try {
+        // Clean the data (same logic as worker)
+        const cleanedData = data
+          .replace(/'/g, '"')
+          .replace(/\(/g, '[')
+          .replace(/\)/g, ']')
+          .replace(/nan/gi, '0');
+        const eventJSON = JSON.parse(cleanedData);
+        resolve(eventJSON);
+      } catch (error) {
+        reject(error instanceof Error ? error.message : String(error));
+      }
     });
   }
 

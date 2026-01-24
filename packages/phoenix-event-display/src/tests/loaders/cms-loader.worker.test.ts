@@ -22,7 +22,7 @@ jest.mock('../../loaders/phoenix-loader', () => {
 
 jest.mock('three', () => ({
   Vector3: class {
-    constructor(x, y, z) {}
+    constructor(x: number, y: number, z: number) {}
   },
   QuadraticBezierCurve3: class {
     constructor() {}
@@ -41,25 +41,14 @@ jest.mock('../../loaders/objects/cms-objects', () => ({
 
 const mockJSZipInstance = {
   loadAsync: jest.fn().mockReturnThis(),
-  files: {},
+  files: {} as Record<string, any>,
   file: jest.fn(),
 };
 jest.mock('jszip', () => {
   return jest.fn(() => mockJSZipInstance);
 });
 
-// Mock Worker globally
-const mockWorker = {
-  postMessage: jest.fn(),
-  addEventListener: jest.fn(),
-  removeEventListener: jest.fn(),
-  terminate: jest.fn(),
-};
-
-global.Worker = jest.fn(() => mockWorker) as any;
-global.URL = jest.fn() as any;
-
-describe('CMSLoader Web Worker Integration', () => {
+describe('CMSLoader Main-Thread Parsing', () => {
   let cmsLoader: CMSLoader;
 
   beforeEach(() => {
@@ -75,13 +64,49 @@ describe('CMSLoader Web Worker Integration', () => {
     cmsLoader = new CMSLoader();
   });
 
-  it('should initialize Web Worker in constructor', () => {
-    expect(global.Worker).toHaveBeenCalledTimes(1);
+  it('should create a CMSLoader instance', () => {
+    expect(cmsLoader).toBeDefined();
   });
 
-  it('should use worker for parsing when reading ig archive', async () => {
-    // Setup mock data
-    const eventData = JSON.stringify({ Collections: {}, Types: {} });
+  it('should parse valid JSON on main thread', async () => {
+    const validData = "{'Collections': {}, 'Types': {}}";
+    const result = await (cmsLoader as any).parseOnMainThread(validData);
+    expect(result).toEqual({ Collections: {}, Types: {} });
+  });
+
+  it('should handle nan replacement during parsing', async () => {
+    const dataWithNan = "{'value': nan}";
+    const result = await (cmsLoader as any).parseOnMainThread(dataWithNan);
+    expect(result).toEqual({ value: 0 });
+  });
+
+  it('should handle parentheses replacement during parsing', async () => {
+    const dataWithParens = "{'arr': (1, 2, 3)}";
+    const result = await (cmsLoader as any).parseOnMainThread(dataWithParens);
+    expect(result).toEqual({ arr: [1, 2, 3] });
+  });
+
+  it('should reject invalid JSON', async () => {
+    const invalidData = 'this is not valid json at all';
+    await expect(
+      (cmsLoader as any).parseOnMainThread(invalidData),
+    ).rejects.toBeDefined();
+  });
+
+  it('should use parseWithWorker which delegates to main thread', async () => {
+    const validData = "{'test': 'value'}";
+    const parseOnMainThreadSpy = jest.spyOn(
+      cmsLoader as any,
+      'parseOnMainThread',
+    );
+
+    await (cmsLoader as any).parseWithWorker(validData, 'test-id');
+
+    expect(parseOnMainThreadSpy).toHaveBeenCalledWith(validData);
+  });
+
+  it('should process ig archive and call callback with parsed events', async () => {
+    const eventData = "{'Collections': {}, 'Types': {}}";
     const mockFile = {
       async: jest.fn().mockResolvedValue(eventData),
     };
@@ -90,19 +115,7 @@ describe('CMSLoader Web Worker Integration', () => {
     };
     mockJSZipInstance.file.mockReturnValue(mockFile);
 
-    // Access private method helper via type casting or invoke public method
     const onRead = jest.fn();
-
-    // This is async internally but returns void. We need to wait for the async operations.
-    // Since we can't easily await the internal promise chain of readIgArchive without refactoring,
-    // we will test the `parseWithWorker` method directly if possible, or use timers.
-    // OR we can spy on `parseWithWorker` if we cast to any.
-
-    const parseWithWorkerSpy = jest.spyOn(cmsLoader as any, 'parseWithWorker');
-    parseWithWorkerSpy.mockResolvedValue({
-      eventPath: 'Events/Run_1/Event_1',
-      successful: true,
-    });
 
     cmsLoader.readIgArchive('dummy.ig', onRead);
 
@@ -110,54 +123,14 @@ describe('CMSLoader Web Worker Integration', () => {
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     expect(mockJSZipInstance.loadAsync).toHaveBeenCalled();
-    expect(parseWithWorkerSpy).toHaveBeenCalledWith(
-      eventData,
-      'Events/Run_1/Event_1',
-    );
     expect(onRead).toHaveBeenCalledWith(
       expect.arrayContaining([
-        { eventPath: 'Events/Run_1/Event_1', successful: true },
+        expect.objectContaining({
+          Collections: {},
+          Types: {},
+          eventPath: 'Events/Run_1/Event_1',
+        }),
       ]),
     );
-  });
-
-  it('should handle worker messages correctly in parseWithWorker', async () => {
-    const promise = (cmsLoader as any).parseWithWorker('{}', 'test-id');
-
-    expect(mockWorker.postMessage).toHaveBeenCalledWith({
-      type: 'parseCMS',
-      data: '{}',
-      id: 'test-id',
-    });
-
-    // Simulate successful response
-    const messageHandler = (mockWorker.addEventListener as jest.Mock).mock
-      .calls[0][1];
-    messageHandler({
-      data: {
-        type: 'parseCMSResult',
-        id: 'test-id',
-        data: { result: 'ok' },
-      },
-    });
-
-    const result = await promise;
-    expect(result).toEqual({ result: 'ok' });
-  });
-
-  it('should reject when worker returns error', async () => {
-    const promise = (cmsLoader as any).parseWithWorker('bad-json', 'error-id');
-
-    const messageHandler = (mockWorker.addEventListener as jest.Mock).mock
-      .calls[0][1];
-    messageHandler({
-      data: {
-        type: 'parseCMSError',
-        id: 'error-id',
-        error: 'Invalid JSON',
-      },
-    });
-
-    await expect(promise).rejects.toEqual('Invalid JSON');
   });
 });
