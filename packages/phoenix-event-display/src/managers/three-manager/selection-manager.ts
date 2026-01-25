@@ -187,11 +187,21 @@ export class SelectionManager {
   /**
    * Enable passive double-click detection (always active, independent of selection).
    * Sets up event listeners for both main and overlay canvases.
+   * This method can be called multiple times safely due to listener deduplication.
    */
   private enablePassiveDoubleClick() {
     // Main canvas (always available)
     const mainCanvas = document.getElementById('three-canvas');
     if (mainCanvas) {
+      // Remove existing listeners to avoid duplicates on re-initialization
+      mainCanvas.removeEventListener(
+        'mousedown',
+        this.onPassiveMouseDown,
+        true,
+      );
+      mainCanvas.removeEventListener('mouseup', this.onPassiveMouseUp, true);
+
+      // Add listeners
       mainCanvas.addEventListener('mousedown', this.onPassiveMouseDown, true);
       mainCanvas.addEventListener('mouseup', this.onPassiveMouseUp, true);
     }
