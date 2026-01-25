@@ -442,6 +442,11 @@ export class ImportManager {
               );
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
+
+              // Dispose intermediate geometries to free GPU memory
+              for (const geom of (val as any).geoms) {
+                geom.dispose();
+              }
             }
 
             this.processGeometry(
