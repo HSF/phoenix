@@ -376,7 +376,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       onChange: (value: boolean) => {
         this.collectionExtendState[collectionName].enabled = value;
         const radius = this.collectionExtendState[collectionName].radius;
-        this.sceneManager.extendCollectionTracks(collectionName, radius, value);
+        this.three.extendCollectionTracks(collectionName, radius, value);
       },
     });
 
@@ -390,7 +390,7 @@ export class PhoenixMenuUI implements PhoenixUI<PhoenixMenuNode> {
       onChange: (value: number) => {
         this.collectionExtendState[collectionName].radius = value;
         if (this.collectionExtendState[collectionName].enabled) {
-          this.sceneManager.extendCollectionTracks(collectionName, value, true);
+          this.three.extendCollectionTracks(collectionName, value, true);
         }
       },
     });

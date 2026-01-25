@@ -311,7 +311,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .name('Extend to radius')
       .onChange((value: boolean) => {
         const radius = this.guiParameters[collectionName].extendRadius;
-        this.sceneManager.extendCollectionTracks(collectionName, radius, value);
+        this.three.extendCollectionTracks(collectionName, radius, value);
       });
     collFolder
       .add(this.guiParameters[collectionName], 'extendRadius', 100, 5000)
@@ -319,7 +319,7 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       .onFinishChange((value: number) => {
         const enabled = this.guiParameters[collectionName].extendTracks;
         if (enabled) {
-          this.sceneManager.extendCollectionTracks(collectionName, value, true);
+          this.three.extendCollectionTracks(collectionName, value, true);
         }
       });
     collFolder

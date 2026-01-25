@@ -1118,6 +1118,35 @@ export class ThreeManager {
   }
 
   /**
+   * Extend or reset track collection geometries to a specified radius.
+   * This method clears all selections before modifying track geometries to prevent
+   * stale outline helpers that reference old geometry data.
+   *
+   * @param collectionName Name of the track collection to extend.
+   * @param radius The radius to extend tracks to.
+   * @param enable Whether to enable extension (true) or reset to original (false).
+   */
+  public extendCollectionTracks(
+    collectionName: string,
+    radius: number,
+    enable: boolean,
+  ) {
+    // Clear all selections before modifying geometries to prevent:
+    // 1. Stale EdgesGeometry in outline helpers (outlines showing old track length)
+    // 2. Visual desynchronization between track and its selection outline
+    // 3. Orphaned outline helpers referencing disposed geometry data
+    if (this.selectionManager) {
+      this.selectionManager.clearAllSelections();
+    }
+    if (this.effectsManager) {
+      this.effectsManager.setHoverOutline(null);
+    }
+
+    // Now safe to modify track geometries
+    this.sceneManager.extendCollectionTracks(collectionName, radius, enable);
+  }
+
+  /**
    * Sets the renderer to be used to render the event display on the overlayed canvas.
    * @param overlayCanvas An HTML canvas on which the overlay renderer is to be set.
    */
