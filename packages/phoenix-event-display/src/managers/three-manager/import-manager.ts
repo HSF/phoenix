@@ -436,12 +436,17 @@ export class ImportManager {
             // Improve renderorder for transparent materials
             scene.remove(...scene.children);
             for (const val of Object.values(materials)) {
-              const mesh = new Mesh(
-                BufferGeometryUtils.mergeGeometries((val as any).geoms),
-                (val as any).material,
-              );
+              const intermediateGeoms = (val as any).geoms;
+              const mergedGeometry =
+                BufferGeometryUtils.mergeGeometries(intermediateGeoms);
+              const mesh = new Mesh(mergedGeometry, (val as any).material);
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
+
+              // Dispose intermediate geometries to free GPU memory
+              for (const geom of intermediateGeoms) {
+                geom.dispose();
+              }
             }
 
             this.processGeometry(
