@@ -31,6 +31,12 @@ export class ImportManager {
   private EVENT_DATA_ID: string;
   /** Object group ID containing detector geometries. */
   private GEOMETRIES_ID: string;
+  /**
+   * Shared DRACOLoader instance for GLTF loading.
+   * Reused across all GLTF load operations to prevent Web Worker leaks.
+   * Must be disposed via cleanup() when the ImportManager is no longer needed.
+   */
+  private dracoLoader: DRACOLoader | null = null;
 
   /**
    * Constructor for the import manager.
@@ -46,6 +52,33 @@ export class ImportManager {
     this.clipPlanes = clipPlanes;
     this.EVENT_DATA_ID = EVENT_DATA_ID;
     this.GEOMETRIES_ID = GEOMETRIES_ID;
+  }
+
+  /**
+   * Get or create the shared DRACOLoader instance.
+   * Lazily initializes the loader on first use to avoid unnecessary resource allocation.
+   * @returns The shared DRACOLoader instance.
+   */
+  private getDRACOLoader(): DRACOLoader {
+    if (!this.dracoLoader) {
+      this.dracoLoader = new DRACOLoader();
+      this.dracoLoader.setDecoderPath(
+        `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
+      );
+    }
+    return this.dracoLoader;
+  }
+
+  /**
+   * Cleanup and dispose all resources held by the ImportManager.
+   * Must be called when the ImportManager is no longer needed to prevent memory leaks.
+   * Specifically disposes the shared DRACOLoader which holds Web Worker threads.
+   */
+  public cleanup(): void {
+    if (this.dracoLoader) {
+      this.dracoLoader.dispose();
+      this.dracoLoader = null;
+    }
   }
 
   /**
@@ -182,12 +215,7 @@ export class ImportManager {
     callback: (geometries?: Object3D, eventData?: Object3D) => void,
   ): Promise<void> {
     const loader = new GLTFLoader();
-
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
+    loader.setDRACOLoader(this.getDRACOLoader());
 
     const sceneString = JSON.stringify(scene, null, 2);
 
@@ -379,11 +407,7 @@ export class ImportManager {
     initiallyVisible: boolean,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
+    loader.setDRACOLoader(this.getDRACOLoader());
 
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
@@ -491,11 +515,8 @@ export class ImportManager {
     name: string,
   ): Promise<GeometryUIParameters[]> {
     const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath(
-      `https://cdn.jsdelivr.net/npm/three@0.${REVISION}.0/examples/jsm/libs/draco/`,
-    );
-    loader.setDRACOLoader(dracoLoader);
+    loader.setDRACOLoader(this.getDRACOLoader());
+
     return new Promise<GeometryUIParameters[]>((resolve, reject) => {
       loader.parse(
         geometry,
