@@ -2,7 +2,7 @@
 
 ## Overview
 
-The URL Event Loading feature enables loading event data directly from a URL. When using the cycling component with reloading enabled, events automatically refresh when wrapping from the last event back to the first. This is useful for live event displays where new events are continuously being generated.
+Phoenix already supports loading event data from a URL via the existing file loader. This update focuses on the cycling flow: when reloading is enabled, the URL is re-fetched with `cache: 'no-store'` when cycling wraps from the last event back to the first. This is useful for live event displays where new events are continuously being generated.
 
 ## Important Limitations
 
@@ -13,8 +13,8 @@ The URL Event Loading feature enables loading event data directly from a URL. Wh
 
 ## Features
 
-- **Load events from URL**: Use the existing file loader to fetch event data from HTTP/HTTPS endpoints
 - **Auto-refresh on cycling**: When cycling is active with reloading enabled, automatically refresh events when wrapping from last → first
+- **Cache bypass on reload**: Uses `cache: 'no-store'` to avoid stale URL responses
 - **Multiple format support**: Works with JSON, JiveXML, and zipped files (via existing fileLoader)
 - **Error handling**: Graceful error handling with logging
 
@@ -90,6 +90,7 @@ The URL should return event data in a format supported by Phoenix loaders:
 - On reload, `cache: 'no-store'` is passed to the fetch options to bypass caches
 - The cycling component calls `fileLoader.reloadLastEvents()` when wrapping with reload enabled
 - All existing format parsing (JSON, JiveXML, zip) works transparently with URLs
+- No new EventDisplay URL APIs or UI controls are introduced in this change
 
 ## Error Handling
 
