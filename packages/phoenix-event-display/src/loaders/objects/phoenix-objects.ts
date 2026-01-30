@@ -52,7 +52,7 @@ export class PhoenixObjects {
         track.extended = true;
       }
 
-      if (track.pos.length < 2) {
+      if (!track.pos || track.pos.length < 2) {
         console.log('Track too short, and extrapolation failed.');
         continue;
       }
@@ -114,7 +114,7 @@ export class PhoenixObjects {
     const trackObject = new Group();
 
     // Check again, in case there was an issue with the extrapolation.
-    if (positions.length < 2) {
+    if (!positions || positions.length < 2) {
       console.log('Track too short, and extrapolation failed.');
       return trackObject;
     }
