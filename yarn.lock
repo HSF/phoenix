@@ -9854,15 +9854,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.2.4":
-  version: 3.3.0
-  resolution: "dompurify@npm:3.3.0"
+"dompurify@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "dompurify@npm:3.3.1"
   dependencies:
     "@types/trusted-types": ^2.0.7
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 425c181ac531cb15f93be85dc6efb1eb535d7c53ad0752b305043fe43e76c5ef144c2aa3670da2a52bec253c0aa302c06545cd04012396dc81d52cf86529097b
+  checksum: 884fe0acc21a9a2e5aa1b8ce4cecc8f9a71217423b389f760fca7b44595d3c9376d234f1c4ba16d79824789762b3d611d10653c4a90a7e23b351b71e5ef7dd33
   languageName: node
   linkType: hard
 
@@ -13672,13 +13672,13 @@ __metadata:
   linkType: hard
 
 "jspdf@npm:*":
-  version: 4.0.0
-  resolution: "jspdf@npm:4.0.0"
+  version: 4.1.0
+  resolution: "jspdf@npm:4.1.0"
   dependencies:
     "@babel/runtime": ^7.28.4
     canvg: ^3.0.11
     core-js: ^3.6.0
-    dompurify: ^3.2.4
+    dompurify: ^3.3.1
     fast-png: ^6.2.0
     fflate: ^0.8.1
     html2canvas: ^1.0.0-rc.5
@@ -13691,7 +13691,7 @@ __metadata:
       optional: true
     html2canvas:
       optional: true
-  checksum: de3a8e068cadb45b3ee436c8d7ba5f8c414f339f0bc35a1c39bb69a2850b3ee0827117680023ccb842355ef4d493900241a630b91546af8139c88bfd423f13f6
+  checksum: 01635631eb5bf60420a219a6cfab09a33d4901197f7bf19d345b636111d4538f7aa6593320d3c8d1cebfecba2db8d1a22b417651a8841a741360e7197a115056
   languageName: node
   linkType: hard
 
