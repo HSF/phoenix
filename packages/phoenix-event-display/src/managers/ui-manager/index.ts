@@ -167,7 +167,6 @@ export class UIManager {
   }
 
   /**
-  /**
    * Add geometry (detector geometry) folder to the dat.GUI and Phoenix menu.
    */
   public addGeomFolder() {
