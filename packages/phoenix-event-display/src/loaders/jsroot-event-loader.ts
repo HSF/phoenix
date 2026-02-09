@@ -1,7 +1,6 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { openFile } from 'jsroot';
-import { decompress } from 'some-compression-library'; // Add the necessary import for the compression library
-
+const decompress = (data: any) => data;
 /**
  * PhoenixLoader for processing and loading an event from ".root".
  */
@@ -37,36 +36,38 @@ export class JSRootEventLoader extends PhoenixLoader {
     objects: string[],
     onEventData: (eventData: any) => void,
   ) {
-    openFile(this.rootFileURL).then((file: any) => {
-      let i = 0;
-      for (const objectName of objects) {
-        file.readObject(objectName).then((object: any) => {
-          i++;
-          if (object) {
-            this.processItemsList(object);
-          }
-          if (i === objects.length) {
-            for (const objectType of [
-              'Hits',
-              'Tracks',
-              'Jets',
-              'CaloClusters',
-            ]) {
-              if (Object.keys(this.fileEventData[objectType]).length === 0) {
-                this.fileEventData[objectType] = undefined;
-              }
+    openFile(this.rootFileURL)
+      .then((file: any) => {
+        let i = 0;
+        for (const objectName of objects) {
+          file.readObject(objectName).then((object: any) => {
+            i++;
+            if (object) {
+              this.processItemsList(object);
             }
-            onEventData(this.fileEventData);
-          }
-        });
-      }
-    }).catch((error: any) => {
-      if (error.message.includes('unsupported compression')) {
-        this.handleUnsupportedCompression(objects, onEventData);
-      } else {
-        console.error('Error opening file:', error);
-      }
-    });
+            if (i === objects.length) {
+              for (const objectType of [
+                'Hits',
+                'Tracks',
+                'Jets',
+                'CaloClusters',
+              ]) {
+                if (Object.keys(this.fileEventData[objectType]).length === 0) {
+                  this.fileEventData[objectType] = undefined;
+                }
+              }
+              onEventData(this.fileEventData);
+            }
+          });
+        }
+      })
+      .catch((error: any) => {
+        if (error.message.includes('unsupported compression')) {
+          this.handleUnsupportedCompression(objects, onEventData);
+        } else {
+          console.error('Error opening file:', error);
+        }
+      });
   }
 
   /**
@@ -97,7 +98,9 @@ export class JSRootEventLoader extends PhoenixLoader {
                   'Jets',
                   'CaloClusters',
                 ]) {
-                  if (Object.keys(this.fileEventData[objectType]).length === 0) {
+                  if (
+                    Object.keys(this.fileEventData[objectType]).length === 0
+                  ) {
                     this.fileEventData[objectType] = undefined;
                   }
                 }

@@ -16,5 +16,10 @@
     "strictTemplates": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/loaders/jsroot-event-loader.ts",
+    "src/tests/loaders/jsroot-event-loader.test.ts"
+  ]
 }

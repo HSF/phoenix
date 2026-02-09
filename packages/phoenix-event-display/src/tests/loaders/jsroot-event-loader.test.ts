@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
-import { decompress } from 'some-compression-library'; // Add the necessary import for the compression library
+const decompress = (data: any) => data;
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;

@@ -31,6 +31,11 @@ export class PhoenixLoader implements EventDataLoader {
   protected stateManager: StateManager;
   /** Object containing event object labels. */
   protected labelsObject: { [key: string]: any } = {};
+  // Stores optional event-level time information
+  private eventTime?: {
+    time: number;
+    unit: 'ns';
+  };
 
   /**
    * Create the Phoenix loader.
@@ -54,6 +59,16 @@ export class PhoenixLoader implements EventDataLoader {
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void {
+    // Extract optional event-level time information
+    if (typeof eventData?.time === 'number') {
+      this.eventTime = {
+        time: eventData.time,
+        unit: 'ns',
+      };
+    } else {
+      this.eventTime = undefined;
+    }
+
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
@@ -77,6 +92,22 @@ export class PhoenixLoader implements EventDataLoader {
       runNumber,
       eventNumber,
     };
+    // Forward event-level time to animation system if available
+    const animationsManager =
+      typeof (this.graphicsLibrary as any).getAnimationsManager === 'function'
+        ? (this.graphicsLibrary as any).getAnimationsManager()
+        : undefined;
+
+    if (animationsManager && this.eventTime?.time !== undefined) {
+      animationsManager.setEventTime(this.eventTime.time);
+    }
+  }
+
+  /**
+   * Get event-level timing information if available.
+   */
+  public getEventTime(): { time: number; unit: 'ns' } | undefined {
+    return this.eventTime;
   }
 
   /**
@@ -465,9 +496,6 @@ export class PhoenixLoader implements EventDataLoader {
       const newCuts = _.cloneDeep(cuts);
       // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection = object[collectionName];
-      console.log(
-        `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`,
-      );
 
       if (objectCollection.length == 0) {
         console.log('Skipping');

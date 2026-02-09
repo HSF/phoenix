@@ -50,6 +50,12 @@ export class AnimationsManager {
     this.animateEventWithClipping = this.animateEventWithClipping.bind(this);
   }
 
+  /** Optional event-level time in nanoseconds */
+  private eventTimeNs?: number;
+
+  /** Current animation time in nanoseconds */
+  private currentTimeNs = 0;
+
   /**
    * Get the camera tween for animating camera to a position.
    * @param pos End position of the camera tween.
@@ -586,5 +592,46 @@ export class AnimationsManager {
     previousTween.onComplete(onEnd);
 
     firstTween.start();
+  }
+
+  /**
+   * Set event-level time (in nanoseconds) for time-driven animations.
+   */
+  public setEventTime(timeNs?: number): void {
+    if (typeof timeNs === 'number' && timeNs > 0) {
+      this.eventTimeNs = timeNs;
+      this.currentTimeNs = 0;
+    } else {
+      this.eventTimeNs = undefined;
+      this.currentTimeNs = 0;
+    }
+  }
+
+  /**
+   * Get normalized animation progress based on event time.
+   * Returns value in range [0, 1].
+   */
+  public getTimeProgress(): number {
+    if (!this.eventTimeNs || this.eventTimeNs <= 0) {
+      return 0;
+    }
+
+    return Math.min(this.currentTimeNs / this.eventTimeNs, 1);
+  }
+
+  /**
+   * Update the animation state.
+   * @param deltaSeconds Time delta since last update in seconds.
+   */
+  public update(deltaSeconds: number) {
+    // Advance time-driven animation
+    if (this.eventTimeNs) {
+      this.currentTimeNs += deltaSeconds * 1e9; // seconds → nanoseconds
+    }
+
+    const progress = this.getTimeProgress();
+
+    // Apply progress to animation target (minimal)
+    // Placeholder; connect to actual camera or scene if available
   }
 }
