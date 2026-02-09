@@ -442,6 +442,10 @@ export class ImportManager {
               );
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
+
+              for (const intermediateGeom of (val as any).geoms) {
+                intermediateGeom.dispose();
+              }
             }
 
             this.processGeometry(
