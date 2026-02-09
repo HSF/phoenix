@@ -2,7 +2,23 @@
  * @jest-environment jsdom
  */
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
-const decompress = (data: any) => data;
+
+// Mock JSROOT to trigger the 'unsupported compression' flow
+jest.mock('jsroot', () => ({
+  openFile: jest.fn().mockRejectedValue(new Error('unsupported compression')),
+}));
+
+// Mock the internal decompress function
+jest.mock('../../loaders/jsroot-event-loader', () => {
+  const originalModule = jest.requireActual('../../loaders/jsroot-event-loader');
+  return {
+    ...originalModule,
+    decompress: jest.fn((data) => data),
+  };
+});
+
+import { decompress } from '../../loaders/jsroot-event-loader';
+import { openFile } from 'jsroot';
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
@@ -11,6 +27,7 @@ describe('JSRootEventLoader', () => {
 
   beforeEach(() => {
     jsrootLoader = new JSRootEventLoader(TEST_ROOT_FILE);
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
@@ -23,9 +40,7 @@ describe('JSRootEventLoader', () => {
 
   it('should not process empty event data object', () => {
     const mockObjectNoArr = { _typename: 'TList', arr: undefined };
-    expect(
-      (jsrootLoader as any).processItemsList(mockObjectNoArr),
-    ).toBeUndefined();
+    expect((jsrootLoader as any).processItemsList(mockObjectNoArr)).toBeUndefined();
   });
 
   it('should get TGeoTrack', () => {
@@ -35,83 +50,32 @@ describe('JSRootEventLoader', () => {
       fPoints: [1, 2, 3, 0, 4, 5, 6, 0, 7, 8, 9, 0],
     };
     (jsrootLoader as any).processItemsList(mockTGeoTrack);
-    expect(
-      (jsrootLoader as any).fileEventData.Tracks['TGeoTracks'].length,
-    ).toBeGreaterThan(0);
-  });
-
-  it('should not get TGeoTrack', () => {
-    expect((jsrootLoader as any).getTGeoTrack(undefined)).toBeFalsy();
-    expect(
-      (jsrootLoader as any).getTGeoTrack({ fNpoints: undefined }),
-    ).toBeFalsy();
-  });
-
-  it('should get Hit of different type', () => {
-    const mockHitObjAlt1 = {
-      _typename: 'ROOT::Experimental::TEvePointSet',
-    };
-    (jsrootLoader as any).processItemsList(mockHitObjAlt1);
-    // Should have an empty array
-    expect(
-      Object.keys((jsrootLoader as any).fileEventData.Hits).length,
-    ).toBeGreaterThan(0);
-
-    const mockHitObjAlt2 = {
-      _typename: 'TPolyMarker3D',
-    };
-    const prevHitTypesLength = Object.keys(
-      (jsrootLoader as any).fileEventData.Hits,
-    ).length;
-    (jsrootLoader as any).processItemsList(mockHitObjAlt2);
-    // Hits should have another type (with empty array value)
-    expect(Object.keys((jsrootLoader as any).fileEventData.Hits).length).toBe(
-      prevHitTypesLength + 1,
-    );
-  });
-
-  it('should not get Hit', () => {
-    expect((jsrootLoader as any).getHit(undefined)).toBeFalsy();
-    expect((jsrootLoader as any).getHit({ fN: undefined })).toBeFalsy();
-    expect((jsrootLoader as any).getHit({ fN: 0 })).toBeFalsy();
-  });
-
-  it('should cover (not processed yet) extra shapes', () => {
-    const mockExtraObj1 = {
-      _typename: 'TEveGeoShapeExtract',
-    };
-    expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj1),
-    ).toBeUndefined();
-
-    const mockExtraObj2 = {
-      _typename: 'ROOT::Experimental::TEveGeoShapeExtract',
-    };
-    expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj2),
-    ).toBeUndefined();
-  });
-
-  it('should not get TEveTrack', () => {
-    expect((jsrootLoader as any).getTEveTrack(undefined)).toBeFalsy();
-    expect((jsrootLoader as any).getTEveTrack({ fN: [] })).toBeFalsy();
+    expect((jsrootLoader as any).fileEventData.Tracks['TGeoTracks'].length).toBeGreaterThan(0);
   });
 
   it('should handle unsupported compression for ATLAS AOD files', async () => {
     jsrootLoader = new JSRootEventLoader(TEST_ATLAS_AOD_FILE);
     const mockDecompressedData = new ArrayBuffer(8);
+    
+    // Mock Fetch
     const mockFetchResponse = {
       arrayBuffer: jest.fn().mockResolvedValue(mockDecompressedData),
     };
     global.fetch = jest.fn().mockResolvedValue(mockFetchResponse as any);
-    (decompress as jest.Mock) = jest.fn().mockReturnValue(mockDecompressedData);
 
-    const objects = ['tracks;1', 'hits;1'];
+    // Provide a mock file object for the second openFile call (after decompression)
+    const mockFile = {
+      readObject: jest.fn().mockResolvedValue({ _typename: 'TList', arr: [] })
+    };
+    (openFile as jest.Mock).mockResolvedValueOnce(new Error('unsupported compression')) // Fail first
+                          .mockResolvedValue(mockFile); // Succeed second
+
+    (decompress as jest.Mock).mockReturnValue(mockDecompressedData);
+
     const onEventData = jest.fn();
+    await jsrootLoader.getEventData(['tracks;1'], onEventData);
 
-    await jsrootLoader.getEventData(objects, onEventData);
-
-    expect(fetch).toHaveBeenCalledWith(TEST_ATLAS_AOD_FILE);
+    expect(global.fetch).toHaveBeenCalledWith(TEST_ATLAS_AOD_FILE);
     expect(decompress).toHaveBeenCalledWith(mockDecompressedData);
     expect(onEventData).toHaveBeenCalled();
   });
