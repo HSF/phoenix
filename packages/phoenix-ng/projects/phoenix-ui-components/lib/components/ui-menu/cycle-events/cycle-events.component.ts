@@ -3,6 +3,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
 import { FileLoaderService } from '../../../services/file-loader.service';
 
 @Component({
+  standalone: false,
   selector: 'app-cycle-events',
   templateUrl: './cycle-events.component.html',
   styleUrls: ['./cycle-events.component.scss'],

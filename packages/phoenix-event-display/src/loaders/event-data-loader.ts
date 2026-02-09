@@ -1,6 +1,6 @@
+import { InfoLogger } from '../helpers/info-logger';
 import { ThreeManager } from '../managers/three-manager/index';
 import { UIManager } from '../managers/ui-manager/index';
-import { InfoLogger } from '../helpers/info-logger';
 
 /**
  * Event metadata information.
@@ -11,7 +11,6 @@ export interface EventMetadata {
   label: string;
   value: string | number;
   unit?: string;
-  time?: number; // ns
 }
 
 /**
@@ -19,7 +18,8 @@ export interface EventMetadata {
  * Time unit: nanoseconds (ns)
  */
 export interface EventTime {
-  time?: number; // ns
+  time: number; // ns
+  unit: 'ns';
 }
 
 /**
@@ -33,24 +33,43 @@ export interface EventDataLoader {
     infoLogger: InfoLogger,
   ): void;
 
+  /**
+   * Get list of available event names.
+   */
   getEventsList(eventsData: any): string[];
 
-  getCollections(): string[];
+  /**
+   * Get the different collections for the current stored event.
+   * @returns Object mapping collection groups to collection names.
+   */
+  getCollections(): { [key: string]: string[] };
 
+  /**
+   * Get a specific collection by name.
+   */
   getCollection(collectionName: string): any;
 
+  /**
+   * Get metadata associated with the event.
+   */
   getEventMetadata(): EventMetadata[];
 
   /**
-   * THIS is what completes EDM time support
+   * Optional event-level time support (EDM time).
    */
   getEventTime?(): EventTime;
 
+  /**
+   * Add label to an event object.
+   */
   addLabelToEventObject(
     label: string,
     collection: string,
     indexInCollection: number,
   ): string;
 
+  /**
+   * Get all labels for the event.
+   */
   getLabelsObject(): { [key: string]: any };
 }

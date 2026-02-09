@@ -3,6 +3,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-clipping',
   templateUrl: './object-clipping.component.html',
   styleUrls: ['./object-clipping.component.scss'],

@@ -14,6 +14,7 @@ import {
 } from '../../../../services/extras/event-data-import';
 
 @Component({
+  standalone: false,
   selector: 'app-io-options-dialog',
   templateUrl: './io-options-dialog.component.html',
   styleUrls: ['./io-options-dialog.component.scss'],
@@ -116,7 +117,7 @@ export class IOOptionsDialogComponent implements OnInit {
       edm4hepJsonLoader.processEventData();
       this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
     };
-    this.handleFileInput(files[0], 'json', callback);
+    this.handleFileInput(files[0], 'edm4hep.json', callback);
   }
 
   handleJiveXMLDataInput(files: FileList) {

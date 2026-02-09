@@ -9,6 +9,7 @@ import {
 } from 'phoenix-event-display';
 
 @Component({
+  standalone: false,
   selector: 'app-trackml',
   templateUrl: './trackml.component.html',
   styleUrls: ['./trackml.component.scss'],

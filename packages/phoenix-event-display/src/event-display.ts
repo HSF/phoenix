@@ -1,18 +1,17 @@
-import { httpRequest, openFile } from 'jsroot';
-import { settings as jsrootSettings } from 'jsroot';
+import { httpRequest, settings as jsrootSettings, openFile } from 'jsroot';
 import { build } from 'jsroot/geom';
-import { ThreeManager } from './managers/three-manager/index';
-import { UIManager } from './managers/ui-manager/index';
-import { InfoLogger } from './helpers/info-logger';
-import type { Configuration } from './lib/types/configuration';
-import { StateManager } from './managers/state-manager';
-import { LoadingManager } from './managers/loading-manager';
-import { URLOptionsManager } from './managers/url-options-manager';
 import { ActiveVariable } from './helpers/active-variable';
-import type { AnimationPreset } from './managers/three-manager/animations-manager';
-import { XRSessionType } from './managers/three-manager/xr/xr-manager';
+import { InfoLogger } from './helpers/info-logger';
 import { getLabelTitle } from './helpers/labels';
+import type { Configuration } from './lib/types/configuration';
 import { PhoenixLoader } from './loaders/phoenix-loader';
+import { LoadingManager } from './managers/loading-manager';
+import { StateManager } from './managers/state-manager';
+import type { AnimationPreset } from './managers/three-manager/animations-manager';
+import { ThreeManager } from './managers/three-manager/index';
+import { XRSessionType } from './managers/three-manager/xr/xr-manager';
+import { UIManager } from './managers/ui-manager/index';
+import { URLOptionsManager } from './managers/url-options-manager';
 
 declare global {
   /**
@@ -359,7 +358,7 @@ export class EventDisplay {
   public async loadGLTFGeometry(
     url: any,
     name: string,
-    menuNodeName: string = '',
+    menuNodeName?: string | undefined,
     scale: number = 1.0,
     initiallyVisible: boolean = true,
   ): Promise<void> {
@@ -540,11 +539,11 @@ export class EventDisplay {
    * Get the different collections for the current stored event.
    * @returns List of strings, each representing a collection of the event displayed.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (this.configuration.eventDataLoader) {
       return this.configuration.eventDataLoader.getCollections();
     }
-    return [];
+    return {};
   }
 
   /**

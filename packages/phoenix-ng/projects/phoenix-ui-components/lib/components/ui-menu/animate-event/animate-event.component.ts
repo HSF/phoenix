@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-animate-event',
   templateUrl: './animate-event.component.html',
   styleUrls: ['./animate-event.component.scss'],

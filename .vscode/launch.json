@@ -10,6 +10,12 @@
       "name": "Launch FF against localhost",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 9229
     }
   ]
 }

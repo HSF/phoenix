@@ -89,7 +89,34 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return 0;
   }
 
-  /** Assign default color to Tracks*/
+  /** Find PDG of the particle associated with the hit */
+  private getPDG(event: any, collectionID: number, index: number) {
+    for (const collName in event) {
+      if (event[collName].constructor != Object) {
+        continue;
+      }
+
+      const collDict = event[collName];
+
+      if (!('collID' in collDict)) {
+        continue;
+      }
+
+      if (collDict['collID'] !== collectionID) {
+        continue;
+      }
+
+      if (collDict['collection'].length <= index) {
+        continue;
+      }
+
+      return collDict['collection'][index]['PDG'];
+    }
+
+    return 0;
+  }
+
+  /** Assign default color to Tracks */
   private colorTracks(event: any) {
     let recoParticles: any[];
     if ('ReconstructedParticles' in event) {
@@ -120,8 +147,14 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     }
 
     mcRecoAssocs.forEach((mcRecoAssoc: any) => {
-      const recoIndex = mcRecoAssoc['rec']['index'];
-      const mcIndex = mcRecoAssoc['sim']['index'];
+      const recoIndex =
+        typeof mcRecoAssoc['rec'] !== 'undefined'
+          ? mcRecoAssoc['rec']['index']
+          : mcRecoAssoc['from']['index'];
+      const mcIndex =
+        typeof mcRecoAssoc['sim'] !== 'undefined'
+          ? mcRecoAssoc['sim']['index']
+          : mcRecoAssoc['to']['index'];
 
       const pdgid = mcParticles[mcIndex]['PDG'];
       const trackRefs = recoParticles[recoIndex]['tracks'];
@@ -302,7 +335,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return allTracks;
   }
 
-  /** Not implemented */
+  /** Return tracker hits */
   private getHits(event: any) {
     const allHits: { [key: string]: any[] } = {};
 
@@ -312,6 +345,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       }
 
       const collDict = event[collName];
+      // console.log(collDict);
 
       if (!('collType' in collDict)) {
         continue;
@@ -331,7 +365,21 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       const rawHits = collDict['collection'];
       const hits: any[] = [];
+      const hitsOverlay: any[] = [];
+      const hitsProdBySecondary: any[] = [];
+      const hitsElectron: any[] = [];
+      const hitsMuon: any[] = [];
+      const hitsPion: any[] = [];
+      const hitsKaon: any[] = [];
+      const hitsProton: any[] = [];
       const hitColor = this.randomColor();
+      const hitColorOverlay = this.randomColor();
+      const hitColorProdBySecondary = this.randomColor();
+      const hitColorElectron = this.randomColor();
+      const hitColorMuon = this.randomColor();
+      const hitColorPion = this.randomColor();
+      const hitColorKaon = this.randomColor();
+      const hitColorProton = this.randomColor();
 
       rawHits.forEach((rawHit: any) => {
         const position: any[] = [];
@@ -341,16 +389,119 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           position.push(rawHit['position']['z'] * 0.1);
         }
 
-        const hit = {
-          type: 'CircularPoint',
-          pos: position,
-          color: '#' + hitColor,
-          size: 2,
-        };
-        hits.push(hit);
+        /* BITOverlay = 31
+         * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
+         */
+        if ((rawHit['quality'] & (1 << 31)) !== 0) {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColorOverlay,
+            size: 2,
+          };
+          hitsOverlay.push(hit);
+          /* BITProducedBySecondary = 30
+           * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
+           */
+        } else if ((rawHit['quality'] & (1 << 30)) !== 0) {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColorProdBySecondary,
+            size: 2,
+          };
+          hitsProdBySecondary.push(hit);
+        } else {
+          let other = true;
+          if (rawHit['particle'].length > 0) {
+            const pdg = this.getPDG(
+              event,
+              rawHit['particle'][0]['collectionID'],
+              rawHit['particle'][0]['index'],
+            );
+            if (Math.abs(pdg) === 11) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorElectron,
+                size: 2,
+              };
+              hitsElectron.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 13) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorMuon,
+                size: 2,
+              };
+              hitsMuon.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 211) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorPion,
+                size: 2,
+              };
+              hitsPion.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 321) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorKaon,
+                size: 2,
+              };
+              hitsKaon.push(hit);
+              other = false;
+            } else if (Math.abs(pdg) === 2212) {
+              const hit = {
+                type: 'CircularPoint',
+                pos: position,
+                color: '#' + hitColorProton,
+                size: 2,
+              };
+              hitsProton.push(hit);
+              other = false;
+            }
+          }
+          if (other) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColor,
+              size: 2,
+            };
+            hits.push(hit);
+          }
+        }
       });
 
-      allHits[collName] = hits;
+      if (hits.length > 0) {
+        allHits[collName + ' | Other'] = hits;
+      }
+      if (hitsOverlay.length > 0) {
+        allHits[collName + ' | Overlay'] = hitsOverlay;
+      }
+      if (hitsProdBySecondary.length > 0) {
+        allHits[collName + ' | Secondary'] = hitsProdBySecondary;
+      }
+      if (hitsElectron.length > 0) {
+        allHits[collName + ' | Electron'] = hitsElectron;
+      }
+      if (hitsMuon.length > 0) {
+        allHits[collName + ' | Muon'] = hitsMuon;
+      }
+      if (hitsPion.length > 0) {
+        allHits[collName + ' | Pion'] = hitsPion;
+      }
+      if (hitsKaon.length > 0) {
+        allHits[collName + ' | Kaon'] = hitsKaon;
+      }
+      if (hitsProton.length > 0) {
+        allHits[collName + ' | Proton'] = hitsProton;
+      }
     }
 
     return allHits;

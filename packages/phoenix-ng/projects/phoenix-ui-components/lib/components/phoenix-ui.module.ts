@@ -84,7 +84,6 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   IoOptionsComponent,
   IOOptionsDialogComponent,
   OverlayViewComponent,
-  AttributePipe,
   ObjectSelectionComponent,
   ObjectSelectionOverlayComponent,
   EventSelectorComponent,
@@ -144,6 +143,7 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
     MatIconModule,
     CdkTreeModule,
     MatTabsModule,
+    AttributePipe,
   ],
   exports: PHOENIX_COMPONENTS,
   providers: [

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ErrorMessageService } from '../../services/error-message-service';
 
 @Component({
+  standalone: false,
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.scss'],

@@ -14,6 +14,7 @@ import { Vector3 } from 'three';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
+  standalone: false,
   selector: 'app-view-options',
   templateUrl: './view-options.component.html',
   styleUrls: ['./view-options.component.scss'],

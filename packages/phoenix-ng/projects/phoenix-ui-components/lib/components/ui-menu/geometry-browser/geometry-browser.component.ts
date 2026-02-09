@@ -9,6 +9,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
 @Component({
+  standalone: false,
   selector: 'app-geometry-browser',
   templateUrl: './geometry-browser.component.html',
   styleUrls: ['./geometry-browser.component.scss'],

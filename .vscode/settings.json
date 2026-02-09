@@ -1,0 +1,5 @@
+{
+  "nxConsole.generateAiAgentRules": true,
+  "jestrunner.configPath": "packages/phoenix-ng/jest.config.js",
+  "jestrunner.jestPath": "node_modules/jest/bin/jest.js"
+}

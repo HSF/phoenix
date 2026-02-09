@@ -9,14 +9,18 @@ import { PhoenixUIModule } from '../../../phoenix-ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const mockFileList = (files: File[]): FileList => {
-  const fileList: FileList = {
+  const fileList: any = {
     length: files.length,
-    item: (index) => files[index],
-    [Symbol.iterator]: files[Symbol.iterator],
+    item: (index: number) => files[index] || null,
+    [Symbol.iterator]: () => files[Symbol.iterator](),
   };
-  Object.assign(fileList, files);
 
-  return fileList;
+  // Add array-like access
+  files.forEach((file, index) => {
+    fileList[index] = file;
+  });
+
+  return fileList as FileList;
 };
 
 describe('IoOptionsDialogComponent', () => {

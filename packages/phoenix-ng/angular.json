@@ -38,7 +38,9 @@
               "jszip",
               "detect-passive-events",
               "stats-js",
-              "core-js"
+              "core-js",
+              "lodash",
+              "html2canvas"
             ],
             "scripts": [],
             "vendorChunk": true,

@@ -7,6 +7,7 @@ export type EventDataExplorerDialogData = {
 };
 
 @Component({
+  standalone: false,
   selector: 'app-event-data-explorer',
   templateUrl: './event-data-explorer.component.html',
   styleUrls: ['./event-data-explorer.component.scss'],

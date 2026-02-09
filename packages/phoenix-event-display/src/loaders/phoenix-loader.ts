@@ -1,4 +1,4 @@
-import { Group, Object3D, Vector3 } from 'three';
+import { Group, Object3D, Vector3, Color } from 'three';
 import { GUI } from 'dat.gui';
 import type { EventDataLoader } from './event-data-loader';
 import { UIManager } from '../managers/ui-manager/index';
@@ -131,23 +131,24 @@ export class PhoenixLoader implements EventDataLoader {
    * Get list of collections in the event data.
    * @returns List of all collection names.
    */
-  public getCollections(): string[] {
+  public getCollections(): { [key: string]: string[] } {
     if (!this.eventData) {
-      return [];
+      return {};
     }
 
-    const collections = [];
+    const collectionsByType: { [key: string]: string[] } = {};
+
     for (const objectType in this.eventData) {
       if (
         this.eventData[objectType] &&
-        typeof this.eventData[objectType] === 'object'
+        typeof this.eventData[objectType] == 'object'
       ) {
-        for (const collection in this.eventData[objectType]) {
-          collections.push(collection);
-        }
+        collectionsByType[objectType] = Object.keys(
+          this.eventData[objectType],
+        ).sort();
       }
     }
-    return collections;
+    return collectionsByType;
   }
 
   /**
@@ -498,7 +499,9 @@ export class PhoenixLoader implements EventDataLoader {
       const objectCollection = object[collectionName];
 
       if (objectCollection.length == 0) {
-        console.log('Skipping');
+        console.log(
+          `Skipping ${typeName} collection ${collectionName} since it is empty.`,
+        );
         continue;
       }
 
@@ -515,7 +518,18 @@ export class PhoenixLoader implements EventDataLoader {
       const collectionCuts = newCuts?.filter(
         (cut) => cut.field in objectCollection[0],
       );
-      this.ui.addCollection(typeName, collectionName, collectionCuts);
+
+      const collectionColor = new Color(
+        object[collectionName][0].color
+          ? object[collectionName][0].color
+          : 0xffffff,
+      );
+      this.ui.addCollection(
+        typeName,
+        collectionName,
+        collectionCuts,
+        collectionColor,
+      );
     }
 
     const eventDataTypeFolderDatGUI = this.ui

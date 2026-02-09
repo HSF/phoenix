@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
+  standalone: false,
+
   selector: 'app-config-slider',
   templateUrl: './config-slider.component.html',
   styleUrls: ['./config-slider.component.scss'],

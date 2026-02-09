@@ -6,6 +6,7 @@ import {
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
 
 @Component({
+  standalone: false, // this is now required when using NgModule
   selector: 'app-ui-menu',
   templateUrl: './ui-menu.component.html',
   styleUrls: ['./ui-menu.component.scss'],

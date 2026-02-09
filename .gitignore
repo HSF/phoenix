@@ -64,3 +64,6 @@ packages/phoenix-ng/projects/phoenix-app/cypress/downloads
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

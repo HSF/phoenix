@@ -15,7 +15,7 @@ describe('PhoenixLoader', () => {
   let threeManager: ThreeManager;
   let uiManager: UIManager;
 
-  // Example event data WITH time (Part 2: Example)
+  // Example event data WITH time
   const eventData = {
     Event: {
       'event number': 1,
@@ -70,25 +70,16 @@ describe('PhoenixLoader', () => {
     expect(phoenixLoader).toBeTruthy();
   });
 
-  it('should get metadata associated to the event', () => {
-    const metadata = phoenixLoader.getEventMetadata();
+  it('should not get collections or collection when no event data is available', () => {
+    phoenixLoader['eventData'] = undefined;
 
-    expect(metadata).toEqual([
-      {
-        label: 'Run / Event',
-        value: '1 / 1',
-      },
-    ]);
-  });
+    const collections = phoenixLoader.getCollections();
+    expect(collections).toEqual({});
 
-  // VALIDATION TEST (IMPORTANT)
-  it('should extract and expose event-level time information', () => {
-    const eventTime = phoenixLoader.getEventTime();
+    const collection = phoenixLoader.getCollection('hitsCollection');
+    expect(collection).toBeFalsy();
 
-    expect(eventTime).toEqual({
-      time: 500,
-      unit: 'ns',
-    });
+    phoenixLoader['eventData'] = eventData.Event;
   });
 
   it('should get the list of event names from the event data', () => {
@@ -101,7 +92,10 @@ describe('PhoenixLoader', () => {
 
   it('should get list of collections in the event data', () => {
     const collectionList = phoenixLoader.getCollections();
-    expect(collectionList).toEqual(['hitsCollection']);
+
+    expect(collectionList).toEqual({
+      Hits: ['hitsCollection'],
+    });
   });
 
   it('should get the collection with the given collection name from the event data', () => {

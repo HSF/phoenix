@@ -10,6 +10,7 @@ import { ObjectSelectionOverlayComponent } from './object-selection-overlay/obje
 import { EventDisplayService } from '../../../services/event-display.service';
 
 @Component({
+  standalone: false,
   selector: 'app-object-selection',
   templateUrl: './object-selection.component.html',
   styleUrls: ['./object-selection.component.scss'],

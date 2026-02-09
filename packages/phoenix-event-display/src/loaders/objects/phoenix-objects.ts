@@ -83,7 +83,7 @@ export class PhoenixObjects {
         ? parseInt(track.color, 16)
         : EVENT_DATA_TYPE_COLORS.Tracks.getHex();
 
-      track.tid = tracksMesh.addTrack(vertices, color);
+      track.tid = tracksMesh.addTrack(vertices, color, track.linewidth);
       track.material = tracksMaterial;
     }
     tracksMesh.process();
@@ -208,15 +208,23 @@ export class PhoenixObjects {
     // Jet energy parameter can either be 'energy' or 'et'
     const length = (jetParams.energy ? jetParams.energy : jetParams.et) * 0.2;
 
+    // Add displacement of the origin of the jet
+    // If x is given else jet is at origin
+    const origin_X = jetParams.origin_X ? jetParams.origin_X : 0;
+    // If y is given else jet is at origin
+    const origin_Y = jetParams.origin_Y ? jetParams.origin_Y : 0;
+    // If z is given else jet is at origin
+    const origin_Z = jetParams.origin_Z ? jetParams.origin_Z : 0;
+
     const sphi = Math.sin(phi);
     const cphi = Math.cos(phi);
     const stheta = Math.sin(theta);
     const ctheta = Math.cos(theta);
     //
     const translation = new Vector3(
-      0.5 * length * cphi * stheta,
-      0.5 * length * sphi * stheta,
-      0.5 * length * ctheta,
+      0.5 * length * cphi * stheta + origin_X,
+      0.5 * length * sphi * stheta + origin_Y,
+      0.5 * length * ctheta + origin_Z,
     );
 
     const width = jetParams.coneR

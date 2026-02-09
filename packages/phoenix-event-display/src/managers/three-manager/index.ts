@@ -18,6 +18,7 @@ import {
   PerspectiveCamera,
   Vector2,
   Raycaster,
+  OrthographicCamera,
 } from 'three';
 import html2canvas from 'html2canvas';
 import type { Configuration } from '../../lib/types/configuration';
@@ -93,11 +94,12 @@ export class ThreeManager {
     elem: Intersection<Object3D<Object3DEventMap>>,
   ) => boolean;
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
-  private show3DPointsCallback: (event: MouseEvent) => void;
+  private show3DPointsCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
-  private shiftCartesianGridCallback: (event: MouseEvent) => void;
+  private shiftCartesianGridCallback: (event: MouseEvent) => void = () => {};
   /** 'click' event listener callback to show 3D distance between two clicked points */
-  private show3DDistanceCallback: (event: MouseEvent) => void;
+  private show3DDistanceCallback: (event: MouseEvent) => void = () => {};
+
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
   /** Scene export ignore list. */
@@ -121,7 +123,7 @@ export class ThreeManager {
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (event: MouseEvent) => void;
+  private mousemoveCallback: (event: MouseEvent) => void = () => {};
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
@@ -178,7 +180,7 @@ export class ThreeManager {
     // Animations manager
     this.animationsManager = new AnimationsManager(
       this.sceneManager.getScene(),
-      this.controlsManager.getActiveCamera(),
+      this.controlsManager.getMainCamera(),
       this.rendererManager,
     );
     // VR manager
@@ -192,13 +194,23 @@ export class ThreeManager {
     this.colorManager = new ColorManager(this.sceneManager);
     // Selection manager
     this.getSelectionManager().init(
-      this.controlsManager.getMainCamera(),
+      () => {
+        return this.controlsManager.getMainControls();
+      },
+      () => {
+        return this.controlsManager.getOverlayControls();
+      },
+      () => {
+        return this.rendererManager.getOverlayRenderer()?.domElement;
+      },
       this.sceneManager.getScene(),
       this.effectsManager,
       this.infoLogger,
     );
     // Set camera of the event display state
-    new StateManager().setCamera(this.controlsManager.getActiveCamera());
+    new StateManager().setCamera(this.controlsManager.getMainCamera());
+
+    this.controlsManager.initOverlayControls();
   }
 
   /**
@@ -212,8 +224,9 @@ export class ThreeManager {
    * Updates controls
    */
   public updateControls() {
-    this.controlsManager.getActiveControls().update();
-    this.controlsManager.updateSync();
+    this.controlsManager.getMainControls().update();
+    this.controlsManager.getOverlayControls()?.update();
+    // this.controlsManager.updateSync();
     tweenUpdate();
   }
 
@@ -239,19 +252,44 @@ export class ThreeManager {
     this.rendererManager.getMainRenderer().setAnimationLoop(null);
   }
 
+  /** Previous timestamp for frame time calculation. */
+  now_0: any = null;
+  /** Frame time delta calculation value. */
+  vzl: any = null;
   /**
    * Render overlay renderer and effect composer, and update lights.
    */
   public render() {
-    this.rendererManager.render(
-      this.sceneManager.getScene(),
-      this.controlsManager.getOverlayCamera(),
-    );
+    const now = performance.now();
+
+    // Update TWEEN animations
+    tweenUpdate(now);
+
+    if (this.controlsManager.isOverlayLinked())
+      this.controlsManager.syncOverlayFromMain();
+
+    if (this.controlsManager.getOverlayCamera()) {
+      this.sceneManager.updateLights(this.controlsManager.getOverlayCamera());
+      this.rendererManager.render(
+        this.sceneManager.getScene(),
+        this.controlsManager.getOverlayCamera(),
+      );
+    }
+    this.sceneManager.updateLights(this.controlsManager.getMainCamera());
     this.effectsManager.render(
       this.sceneManager.getScene(),
       this.controlsManager.getMainCamera(),
     );
-    this.sceneManager.updateLights(this.controlsManager.getActiveCamera());
+
+    // Process stacked intersection events with dynamic frame skipping
+    const selectionManager = this.getSelectionManager();
+    if (selectionManager) {
+      const deltaTime = this.vzl || 16; // Use calculated delta or fallback to ~60fps
+      selectionManager.processStackedIntersection(deltaTime);
+    }
+
+    if (this.now_0) this.vzl = now - this.now_0;
+    this.now_0 = now;
   }
 
   /**
@@ -283,7 +321,7 @@ export class ThreeManager {
    * @param autoRotate If the controls are to be automatically rotated or not.
    */
   public autoRotate(autoRotate: boolean) {
-    this.controlsManager.getActiveControls().autoRotate = autoRotate;
+    this.controlsManager.getMainControls().autoRotate = autoRotate;
   }
 
   /**
@@ -738,24 +776,91 @@ export class ThreeManager {
     this.animateCameraTarget(cameraTarget, duration);
   }
 
+  // *************************************
+  // * Functions redirection From ControlsManager. *
+  // *************************************
+
   /**
-   * Swaps cameras.
-   * @param useOrthographic Whether to use orthographic or perspective camera.
+   * Reverts the main camera type between PerspectiveCamera and OrthographicCamera.
+   * @returns True if the camera is now an OrthographicCamera, false if it's a PerspectiveCamera.
    */
-  public swapCameras(useOrthographic: boolean) {
-    let cameraType: string;
+  public revertMainCamera(): boolean {
+    this.controlsManager.revertCameraType(this.controlsManager.getMainCamera());
+    return this.controlsManager.getMainCamera() instanceof OrthographicCamera;
+  }
 
-    if (useOrthographic) {
-      // perspective -> ortho
-      cameraType = 'OrthographicCamera';
-    } else {
-      // ortho -> perspective
-      cameraType = 'PerspectiveCamera';
-    }
+  /**
+   * Reverts the overlay camera type between PerspectiveCamera and OrthographicCamera.
+   * @returns True if the camera is now an OrthographicCamera, false if it's a PerspectiveCamera.
+   */
+  public revertOverlayCamera(): boolean {
+    this.controlsManager.revertCameraType(
+      this.controlsManager.getOverlayCamera(),
+    );
+    return (
+      this.controlsManager.getOverlayCamera() instanceof OrthographicCamera
+    );
+  }
 
-    if (this.controlsManager.getMainCamera().type !== cameraType) {
-      this.controlsManager.swapControls();
-    }
+  /**
+   * Links the overlay camera controls to follow the main camera controls.
+   * When linked, the overlay camera will mirror the main camera's position and orientation.
+   */
+  public linkOverlayToMain() {
+    this.controlsManager.linkOverlayToMain();
+  }
+
+  /**
+   * Checks if the overlay camera is currently linked to the main camera.
+   * @returns True if the overlay is linked to the main camera, false otherwise.
+   */
+  public isOverlayLinked(): boolean {
+    return this.controlsManager.isOverlayLinked();
+  }
+
+  /**
+   * Initializes the overlay camera controls.
+   * Sets up the necessary controls for the overlay camera view.
+   */
+  public initOverlayControls() {
+    this.controlsManager.initOverlayControls();
+  }
+
+  /**
+   * Readapts the overlay camera's aspect ratio to match new dimensions.
+   * @param ratio The new aspect ratio to apply to the overlay camera.
+   */
+  public readaptOverlayAspectRatio(ratio: number) {
+    this.controlsManager.readaptOverlayAspectRatio(ratio);
+  }
+
+  /**
+   * Synchronizes the overlay camera viewport with the specified ratios.
+   * @param widthRatio The width ratio for the overlay viewport.
+   * @param heightRatio The height ratio for the overlay viewport.
+   */
+  public syncOverlayViewPort(widthRatio: number, heightRatio: number) {
+    this.controlsManager.syncOverlayViewPort(
+      widthRatio,
+      heightRatio,
+      !this.isOverlayLinked(),
+    );
+  }
+
+  /**
+   * Switches the contexts between main and overlay cameras.
+   * Allows toggling focus between the main view and overlay view.
+   */
+  public switchContexts() {
+    this.controlsManager.switchContexts();
+  }
+
+  /**
+   * Synchronizes the overlay camera view from the main camera.
+   * Updates the overlay camera to match the main camera's current state.
+   */
+  public syncOverlayFromMain() {
+    this.controlsManager.syncOverlayFromMain();
   }
 
   // *************************************
@@ -989,7 +1094,18 @@ export class ThreeManager {
   public setOverlayRenderer(overlayCanvas: HTMLCanvasElement) {
     if (this.rendererManager) {
       this.rendererManager.setOverlayRenderer(overlayCanvas);
+
+      // Update selection manager to handle overlay canvas events
+      this.getSelectionManager().updateOverlayListeners();
     }
+  }
+
+  /**
+   * get the renderer to be used to render the event display on the overlayed canvas.
+   * @returns renderer responsible for the overlay. Should not be called before setting it.
+   */
+  public getOverlayRenderer() {
+    return this.rendererManager.getOverlayRenderer();
   }
 
   /**
@@ -1024,7 +1140,7 @@ export class ThreeManager {
    */
   private animateCameraPosition(cameraPosition: number[], duration: number) {
     const posAnimation = new Tween(
-      this.controlsManager.getActiveCamera().position,
+      this.controlsManager.getMainCamera().position,
     );
     posAnimation.to(
       {
@@ -1044,7 +1160,7 @@ export class ThreeManager {
    */
   private animateCameraTarget(cameraTarget: number[], duration: number) {
     const rotAnimation = new Tween(
-      this.controlsManager.getActiveControls().target,
+      this.controlsManager.getMainControls().target,
     );
     rotAnimation.to(
       {
@@ -1143,9 +1259,7 @@ export class ThreeManager {
       if (!isTyping && e.shiftKey) {
         switch (e.code) {
           case 'KeyR': // shift + "r"
-            this.autoRotate(
-              !this.controlsManager.getActiveControls().autoRotate,
-            );
+            this.autoRotate(!this.controlsManager.getMainControls().autoRotate);
             break;
           case 'Equal': // shift + "+"
             this.zoomTo(1 / 1.2, 100);
@@ -1160,11 +1274,7 @@ export class ThreeManager {
             }
             break;
           case 'KeyV': {
-            // shift + "v"
-            const isOrthographicView =
-              this.controlsManager.getMainCamera().type ===
-              'OrthographicCamera';
-            this.swapCameras(!isOrthographicView);
+            this.revertMainCamera();
             break;
           }
         }
@@ -1296,110 +1406,152 @@ export class ThreeManager {
    *    - Strech : current view is streched to given format
    *               this is the default and used also for any other value given to fitting
    */
-  public makeScreenShot(
+  /**
+   * Takes a very large screenshot safely by tiling renders
+   */
+  public async makeScreenShot(
     width: number,
     height: number,
-    fitting: string = 'Strech',
+    fitting: string = 'Stretch',
   ) {
-    // compute actual size of screen shot, based on current view and requested size
-    const mainRenderer = this.rendererManager.getMainRenderer();
+    const renderer = this.rendererManager.getMainRenderer();
+    const camera = this.controlsManager.getMainCamera();
+
+    // ORIGINAL SCREEN SIZE
     const originalSize = new Vector2();
-    mainRenderer.getSize(originalSize);
-    const scaledSize = this.croppedSize(
-      width,
-      height,
-      originalSize.width,
-      originalSize.height,
-    );
-    const heightShift = (scaledSize.height - height) / 2;
-    const widthShift = (scaledSize.width - width) / 2;
+    renderer.getSize(originalSize);
+    const originalWidth = originalSize.width;
+    const originalHeight = originalSize.height;
 
-    // get background color to be used
-    const bkgColor = getComputedStyle(document.body).getPropertyValue(
-      '--phoenix-background-color',
-    );
+    // ---------------------------
+    // 1. CROP & STRETCH LOGIC
+    // ---------------------------
+    let targetWidth = width;
+    let targetHeight = height;
+    let shiftX = 0;
+    let shiftY = 0;
 
-    // Deal with devices having special devicePixelRatio (retina screens in particular)
-    const scale = window.devicePixelRatio;
+    if (fitting === 'Crop') {
+      const scaled = this.croppedSize(
+        width,
+        height,
+        originalWidth,
+        originalHeight,
+      );
 
-    // grab output canvas on which we will draw, and set size
-    const outputCanvas = document.getElementById(
+      targetWidth = scaled.width;
+      targetHeight = scaled.height;
+
+      shiftX = (scaled.width - width) / 2;
+      shiftY = (scaled.height - height) / 2;
+    }
+
+    // Stretch → KEEP exact width/height (NO crop, NO shift)
+    if (fitting === 'Stretch') {
+      shiftX = 0;
+      shiftY = 0;
+      targetWidth = width;
+      targetHeight = height;
+    }
+
+    // Fix aspect only for PerspectiveCamera
+    let originalAspect: number | undefined;
+    if (fitting === 'Stretch' && camera instanceof PerspectiveCamera) {
+      originalAspect = camera.aspect;
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+    }
+
+    // ---------------------------
+    // 2. Prepare output canvas
+    // ---------------------------
+    const output = document.getElementById(
       'screenshotCanvas',
     ) as HTMLCanvasElement;
-    outputCanvas.width = width;
-    outputCanvas.height = height;
-    outputCanvas.style.width = (width / scale).toString() + 'px';
-    outputCanvas.style.height = (height / scale).toString() + 'px';
-    const ctx = outputCanvas.getContext('2d');
-    if (ctx) {
-      ctx.fillStyle = bkgColor;
-      ctx.fillRect(0, 0, width, height);
-      // draw main image on our output canvas, with right size
-      mainRenderer.setSize(
-        scaledSize.width / scale,
-        scaledSize.height / scale,
-        false,
-      );
-      this.render();
-      ctx.drawImage(
-        mainRenderer.domElement,
-        widthShift,
-        heightShift,
-        width,
-        height,
-        0,
-        0,
-        width,
-        height,
-      );
+    output.width = width;
+    output.height = height;
+
+    const ctxOut = output.getContext('2d')!;
+    const bg = getComputedStyle(document.body).getPropertyValue(
+      '--phoenix-background-color',
+    );
+    ctxOut.fillStyle = bg;
+    ctxOut.fillRect(0, 0, width, height);
+
+    // ---------------------------
+    // 3. TILE RENDERING
+    // ---------------------------
+    const scale = window.devicePixelRatio;
+    const gl = renderer.getContext();
+    const maxSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
+
+    const tileW = Math.min(width, maxSize);
+    const tileH = Math.min(height, maxSize);
+
+    const tilesX = Math.ceil(width / tileW);
+    const tilesY = Math.ceil(height / tileH);
+
+    for (let ty = 0; ty < tilesY; ty++) {
+      for (let tx = 0; tx < tilesX; tx++) {
+        const offsetX = tx * tileW;
+        const offsetY = ty * tileH;
+
+        const w = Math.min(tileW, width - offsetX);
+        const h = Math.min(tileH, height - offsetY);
+
+        // FINAL effective offsets for camera
+        const effX = offsetX + shiftX;
+        const effY = offsetY + shiftY;
+
+        if (
+          camera instanceof PerspectiveCamera ||
+          camera instanceof OrthographicCamera
+        ) {
+          camera.setViewOffset(targetWidth, targetHeight, effX, effY, w, h);
+        }
+
+        renderer.setSize(w / scale, h / scale, false);
+        this.render();
+
+        ctxOut.drawImage(
+          renderer.domElement,
+          0,
+          0,
+          w,
+          h,
+          offsetX,
+          offsetY,
+          w,
+          h,
+        );
+      }
     }
 
-    mainRenderer.setSize(originalSize.width, originalSize.height, false);
+    // Clear camera offset
+    if (
+      camera instanceof PerspectiveCamera ||
+      camera instanceof OrthographicCamera
+    ) {
+      camera.clearViewOffset();
+    }
+
+    // Restore original aspect if changed
+    if (originalAspect !== undefined && camera instanceof PerspectiveCamera) {
+      camera.aspect = originalAspect;
+      camera.updateProjectionMatrix();
+    }
+
+    // Reset renderer size
+    renderer.setSize(originalWidth, originalHeight, false);
     this.render();
 
-    // Get info panel
-    const infoPanel = document.getElementById('experimentInfo');
-    if (infoPanel != null) {
-      // Compute size of info panel on final picture
-      const infoHeight =
-        (infoPanel.clientHeight * scaledSize.height) / originalSize.height;
-      const infoWidth =
-        (infoPanel.clientWidth * scaledSize.width) / originalSize.width;
-
-      // Add info panel to output. This is HTML, so first convert it to canvas,
-      // and then draw to our output canvas
-      const h2c: any = html2canvas;
-      // See: https://github.com/niklasvh/html2canvas/issues/1977#issuecomment-529448710 for why this is needed
-      h2c(infoPanel, {
-        backgroundColor: bkgColor,
-        // avoid cloning canvas in the main page, this is useless and leads to
-        // warnings in the javascript console similar to this :
-        // "Unable to clone WebGL context as it has preserveDrawingBuffer=false"
-        ignoreElements: (element: Element) => element.tagName == 'CANVAS',
-      }).then((canvas: HTMLCanvasElement) => {
-        canvas.toBlob((blob) => {
-          ctx?.drawImage(
-            canvas,
-            infoHeight / 6,
-            infoHeight / 6,
-            infoWidth,
-            infoHeight,
-          );
-          // Finally save to png file
-          outputCanvas.toBlob((blob) => {
-            if (blob) {
-              const a = document.createElement('a');
-              document.body.appendChild(a);
-              a.style.display = 'none';
-              const url = window.URL.createObjectURL(blob);
-              a.href = url;
-              a.download = `screencapture.png`;
-              a.click();
-            }
-          });
-        });
-      });
-    }
+    output.toBlob((blob) => {
+      if (!blob) return;
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'screencapture.png';
+      a.click();
+    });
   }
 
   /**
@@ -1540,7 +1692,7 @@ export class ThreeManager {
    * @param labelId Unique ID of the label.
    */
   public addLabelToObject(label: string, uuid: string, labelId: string) {
-    const cameraControls = this.controlsManager.getActiveControls();
+    const cameraControls = this.controlsManager.getMainControls();
     const objectPosition = this.getObjectPosition(uuid);
     this.getSceneManager().addLabelToObject(
       label,

@@ -18,6 +18,7 @@ import eventConfig from '../../../../event-config.json';
 import phoenixMenuConfig from '../../../assets/files/config/atlas-config.json';
 
 @Component({
+  standalone: false,
   selector: 'app-atlas',
   templateUrl: './atlas.component.html',
   styleUrls: ['./atlas.component.scss'],

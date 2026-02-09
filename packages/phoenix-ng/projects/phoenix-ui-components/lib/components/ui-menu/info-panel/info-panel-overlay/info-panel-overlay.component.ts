@@ -6,6 +6,7 @@ import packageJson from 'phoenix-event-display/package.json';
  * Component for displaying information from the logger
  */
 @Component({
+  standalone: false,
   selector: 'app-info-panel-overlay',
   templateUrl: './info-panel-overlay.component.html',
   styleUrls: ['./info-panel-overlay.component.scss'],
