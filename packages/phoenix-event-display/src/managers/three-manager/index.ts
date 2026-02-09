@@ -1794,5 +1794,8 @@ export class ThreeManager {
     if (this.selectionManager) {
       this.selectionManager.cleanup();
     }
+    if (this.importManager) {
+      this.importManager.cleanup();
+    }
   }
 }
