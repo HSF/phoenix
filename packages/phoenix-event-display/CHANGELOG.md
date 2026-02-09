@@ -7,114 +7,59 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 ## 3.0.4 (2024-11-29)
 
 **Note:** Version bump only for package phoenix-event-display
-
-
-
-
 
 ## [3.0.3](https://github.com/HSF/phoenix/compare/v3.0.2...v3.0.3) (2024-11-22)
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 ## [3.0.2](https://github.com/HSF/phoenix/compare/v3.0.1...v3.0.2) (2024-11-22)
 
 **Note:** Version bump only for package phoenix-event-display
-
-
-
-
 
 ## [3.0.1](https://github.com/HSF/phoenix/compare/v2.17.0...v3.0.1) (2024-11-22)
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 # 3.0.0 (2024-11-21)
 
 **Note:** Version bump only for package phoenix-event-display
-
-
-
-
 
 # 2.17.0 (2024-11-21)
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 # 2.16.0 (2024-03-24)
 
 **Note:** Version bump only for package phoenix-event-display
-
-
-
-
 
 ## 2.15.1 (2024-03-22)
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 # [2.15.0](https://github.com/HSF/phoenix/compare/v2.14.1...v2.15.0) (2024-03-21)
-
 
 ### Reverts
 
-* Revert "chore(release): v2.15.0" ([8f018e7](https://github.com/HSF/phoenix/commit/8f018e7c11284d3dfd4290f84e87949b8ac2e9d7))
-
-
-
-
+- Revert "chore(release): v2.15.0" ([8f018e7](https://github.com/HSF/phoenix/commit/8f018e7c11284d3dfd4290f84e87949b8ac2e9d7))
 
 ## 2.14.1 (2023-05-14)
 
-
 ### Bug Fixes
 
-* configure git when trying to release ([fc4ae96](https://github.com/HSF/phoenix/commit/fc4ae96efdb5ce47db09c0e026fce4561a42ec24))
-
-
-
-
+- configure git when trying to release ([fc4ae96](https://github.com/HSF/phoenix/commit/fc4ae96efdb5ce47db09c0e026fce4561a42ec24))
 
 # [2.14.0](https://github.com/HSF/phoenix/compare/v2.13.0...v2.14.0) (2023-03-22)
 
 **Note:** Version bump only for package phoenix-event-display
 
-
-
-
-
 # [2.13.0](https://github.com/HSF/phoenix/compare/v2.12.0...v2.13.0) (2023-03-02)
-
 
 ### Reverts
 
-* Revert "Updated versions to try to reduce yarn warnings" ([477845f](https://github.com/HSF/phoenix/commit/477845f916b9da939a8fbe8c3eb7278684255813))
-
-
-
-
+- Revert "Updated versions to try to reduce yarn warnings" ([477845f](https://github.com/HSF/phoenix/commit/477845f916b9da939a8fbe8c3eb7278684255813))
 
 # [2.12.0](https://github.com/HSF/phoenix/compare/v2.11.4...v2.12.0) (2023-01-13)
 

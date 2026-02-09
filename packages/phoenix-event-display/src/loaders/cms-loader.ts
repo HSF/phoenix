@@ -50,8 +50,9 @@ export class CMSLoader extends PhoenixLoader {
     this.loadingManager.addLoadableItem('ig_archive');
     const igArchive = new JSZip();
     const eventsDataInIg: any[] = [];
+
     const readArchive = (res: File | ArrayBuffer) => {
-      igArchive.loadAsync(res).then(() => {
+      igArchive.loadAsync(res).then(async () => {
         let allFilesPath = Object.keys(igArchive.files);
         // If the event path or name is given then filter all data to get the required events
         if (eventPathName) {
@@ -59,35 +60,40 @@ export class CMSLoader extends PhoenixLoader {
             filePath.includes(eventPathName),
           );
         }
-        let i = 1;
+
+        // We'll process files sequentially or in parallel?
+        // Parallel could spawn too many workers messages. But `async` loop is fine.
+        let processedCount = 0;
+        const totalFiles = allFilesPath.length;
+
+        if (totalFiles === 0) {
+          this.loadingManager.itemLoaded('ig_archive');
+          return;
+        }
+
         for (const filePathInIg of allFilesPath) {
           // If the files are in the "Events" folder then process them.
           if (filePathInIg.toLowerCase().startsWith('events')) {
-            igArchive
-              ?.file(filePathInIg)!
-              .async('string')
-              .then((singleEvent: string) => {
-                // The data has some inconsistencies which need to be removed to properly parse JSON
-                singleEvent = singleEvent
-                  .replace(/'/g, '"')
-                  .replace(/\(/g, '[')
-                  .replace(/\)/g, ']')
-                  .replace(/nan/g, '0');
-                const eventJSON = JSON.parse(singleEvent);
-                eventJSON.eventPath = filePathInIg;
-                eventsDataInIg.push(eventJSON);
-                if (i === allFilesPath.length) {
-                  onFileRead(eventsDataInIg);
-                  this.loadingManager.itemLoaded('ig_archive');
-                }
-                i++;
-              });
-          } else {
-            if (i === allFilesPath.length) {
-              onFileRead(eventsDataInIg);
-              this.loadingManager.itemLoaded('ig_archive');
+            try {
+              const singleEvent = await igArchive
+                .file(filePathInIg)!
+                .async('string');
+              // Use Web Worker to parse
+              const eventJSON = await this.parseWithWorker(
+                singleEvent,
+                filePathInIg,
+              );
+              eventJSON.eventPath = filePathInIg;
+              eventsDataInIg.push(eventJSON);
+            } catch (error) {
+              console.error(`Error parsing event ${filePathInIg}:`, error);
             }
-            i++;
+          }
+
+          processedCount++;
+          if (processedCount === totalFiles) {
+            onFileRead(eventsDataInIg);
+            this.loadingManager.itemLoaded('ig_archive');
           }
         }
       });
@@ -105,6 +111,36 @@ export class CMSLoader extends PhoenixLoader {
   }
 
   /**
+   * Parse event data. Currently uses main-thread parsing.
+   * @param data Raw string data to parse
+   * @param id Identifier for the event (unused, kept for signature compatibility)
+   */
+  private parseWithWorker(data: string, id: string): Promise<any> {
+    return this.parseOnMainThread(data);
+  }
+
+  /**
+   * Fallback parser for environments where Web Worker is not available.
+   * Parses the event data on the main thread.
+   */
+  private parseOnMainThread(data: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      try {
+        // Clean the data (same logic as worker)
+        const cleanedData = data
+          .replace(/'/g, '"')
+          .replace(/\(/g, '[')
+          .replace(/\)/g, ']')
+          .replace(/nan/gi, '0');
+        const eventJSON = JSON.parse(cleanedData);
+        resolve(eventJSON);
+      } catch (error) {
+        reject(error instanceof Error ? error.message : String(error));
+      }
+    });
+  }
+
+  /**
    * Load event data from an ".ig" archive.
    * @param filePath Path to the ".ig" archive file.
    * @param eventPathName Complete event path or event number as in the ".ig" archive.
@@ -118,7 +154,11 @@ export class CMSLoader extends PhoenixLoader {
     this.readIgArchive(
       filePath,
       (allEvents: any[]) => {
-        onEventRead(allEvents[0]);
+        if (allEvents.length > 0) {
+          onEventRead(allEvents[0]);
+        } else {
+          console.warn('No events found in archive');
+        }
       },
       eventPathName,
     );

@@ -5,6 +5,7 @@ module.exports = {
   rootDir: '../',
   roots: ['<rootDir>/src/tests'],
   preset: 'ts-jest/presets/js-with-ts-legacy',
+  setupFilesAfterEnv: ['<rootDir>/configs/jest.setup.js'],
   moduleNameMapper: {
     '^(\\.\\.?\\/.+)\\.js$': '$1',
   },
@@ -15,6 +16,10 @@ module.exports = {
         tsconfig: {
           rootDir: null,
           allowJs: true,
+          module: 'esnext',
+        },
+        diagnostics: {
+          ignoreCodes: [1343],
         },
         astTransformers: {
           before: [
