@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { EventDisplayService } from '../../../services/event-display.service';
 
@@ -8,22 +8,35 @@ import { EventDisplayService } from '../../../services/event-display.service';
   templateUrl: './object-clipping.component.html',
   styleUrls: ['./object-clipping.component.scss'],
 })
-export class ObjectClippingComponent {
+export class ObjectClippingComponent implements OnInit, OnDestroy {
   clippingEnabled: boolean;
   startClippingAngle: number;
   openingClippingAngle: number;
+  private unsubscribes: (() => void)[] = [];
 
-  constructor(private eventDisplay: EventDisplayService) {
+  constructor(private eventDisplay: EventDisplayService) {}
+
+  ngOnInit() {
     const stateManager = this.eventDisplay.getStateManager();
-    stateManager.clippingEnabled.onUpdate(
-      (clippingValue) => (this.clippingEnabled = clippingValue),
+    this.unsubscribes.push(
+      stateManager.clippingEnabled.onUpdate(
+        (clippingValue) => (this.clippingEnabled = clippingValue),
+      ),
     );
-    stateManager.startClippingAngle.onUpdate(
-      (value) => (this.startClippingAngle = value),
+    this.unsubscribes.push(
+      stateManager.startClippingAngle.onUpdate(
+        (value) => (this.startClippingAngle = value),
+      ),
     );
-    stateManager.openingClippingAngle.onUpdate(
-      (value) => (this.openingClippingAngle = value),
+    this.unsubscribes.push(
+      stateManager.openingClippingAngle.onUpdate(
+        (value) => (this.openingClippingAngle = value),
+      ),
     );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribes.forEach((unsubscribe) => unsubscribe?.());
   }
 
   changeStartClippingAngle(startingAngle: number) {

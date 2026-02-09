@@ -584,18 +584,36 @@ export class EventDisplay {
    * Add a callback to onDisplayedEventChange array to call
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToDisplayedEventChange(callback: (event: any) => any) {
+  public listenToDisplayedEventChange(
+    callback: (event: any) => any,
+  ): () => void {
     this.onDisplayedEventChange.push(callback);
+    return () => {
+      const index = this.onDisplayedEventChange.indexOf(callback);
+      if (index > -1) {
+        this.onDisplayedEventChange.splice(index, 1);
+      }
+    };
   }
 
   /**
    * Add a callback to onEventsChange array to call
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToLoadedEventsChange(callback: (events: any) => any) {
+  public listenToLoadedEventsChange(
+    callback: (events: any) => any,
+  ): () => void {
     this.onEventsChange.push(callback);
+    return () => {
+      const index = this.onEventsChange.indexOf(callback);
+      if (index > -1) {
+        this.onEventsChange.splice(index, 1);
+      }
+    };
   }
 
   /**

@@ -10,6 +10,7 @@ import { EventDisplayService } from '../../../services/event-display.service';
 export class EventSelectorComponent implements OnInit, OnDestroy {
   // Array containing the keys of the multiple loaded events
   events: string[];
+  private unsubscribe: () => void;
 
   /** Prevents callbacks on destroyed component */
   private isDestroyed = false;
@@ -17,15 +18,18 @@ export class EventSelectorComponent implements OnInit, OnDestroy {
   constructor(private eventDisplay: EventDisplayService) {}
 
   ngOnInit() {
-    this.eventDisplay.listenToLoadedEventsChange((events) => {
-      if (!this.isDestroyed) {
-        this.events = events;
-      }
-    });
+    this.unsubscribe = this.eventDisplay.listenToLoadedEventsChange(
+      (events) => {
+        if (!this.isDestroyed) {
+          this.events = events;
+        }
+      },
+    );
   }
 
   ngOnDestroy() {
     this.isDestroyed = true;
+    this.unsubscribe?.();
   }
 
   changeEvent(selected: any) {
