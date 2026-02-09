@@ -281,6 +281,8 @@ export class EffectsManager {
 
   /**
    * Add an object to the selected set (sticky selection).
+   * The outline is added as a child of the object so it automatically
+   * inherits all transformations (scale, rotation, position).
    * @param object The mesh object to be selected.
    */
   public selectObject(object: Mesh) {
@@ -291,7 +293,8 @@ export class EffectsManager {
     // Create outline helper for this object
     const outlineHelper = this.createOutlineHelper(object);
     this.selectedOutlines.set(object, outlineHelper);
-    this.scene.add(outlineHelper);
+    // Add as child of the object so outline inherits all transformations
+    object.add(outlineHelper);
   }
 
   /**
@@ -301,7 +304,8 @@ export class EffectsManager {
   public deselectObject(object: Mesh) {
     const outlineHelper = this.selectedOutlines.get(object);
     if (outlineHelper) {
-      this.scene.remove(outlineHelper);
+      // Remove from parent (the selected object) rather than scene
+      outlineHelper.removeFromParent();
       outlineHelper.geometry.dispose();
       (outlineHelper.material as ShaderMaterial).dispose();
       this.selectedOutlines.delete(object);
@@ -327,37 +331,49 @@ export class EffectsManager {
    * Clear all selected objects.
    */
   public clearAllSelections() {
-    const count = this.selectedOutlines.size;
     for (const [object, outlineHelper] of this.selectedOutlines) {
-      this.scene.remove(outlineHelper);
+      // Remove from parent (the selected object) rather than scene
+      outlineHelper.removeFromParent();
       outlineHelper.geometry.dispose();
       (outlineHelper.material as ShaderMaterial).dispose();
     }
     this.selectedOutlines.clear();
   }
 
+  /** Reference to the object currently being hovered (for cleanup) */
+  private hoverTarget: Mesh | null = null;
+
   /**
    * Set hover outline for an object (temporary, non-sticky).
+   * The outline is added as a child of the object so it automatically
+   * inherits all transformations (scale, rotation, position).
    * @param object The mesh object to hover outline, or null to clear.
    */
   public setHoverOutline(object: Mesh | null) {
     // Clear existing hover outline
     if (this.hoverOutline) {
-      this.scene.remove(this.hoverOutline);
+      // Remove from parent (the hovered object) rather than scene
+      this.hoverOutline.removeFromParent();
       this.hoverOutline.geometry.dispose();
       (this.hoverOutline.material as ShaderMaterial).dispose();
       this.hoverOutline = null;
+      this.hoverTarget = null;
     }
 
     // Create new hover outline if object provided and not already selected
     if (object && !this.selectedOutlines.has(object)) {
       this.hoverOutline = this.createOutlineHelper(object, true); // Different style for hover
-      this.scene.add(this.hoverOutline);
+      this.hoverTarget = object;
+      // Add as child of the object so outline inherits all transformations
+      object.add(this.hoverOutline);
     }
   }
 
   /**
    * Create an outline helper for an object.
+   * The outline uses identity transforms because it will be added as a child
+   * of the target object, inheriting all transformations automatically.
+   * This ensures outlines stay synchronized when objects are scaled/moved.
    * @param object The mesh object to create outline for.
    * @param isHover Whether this is a hover outline (affects styling).
    * @returns The created outline helper.
@@ -391,10 +407,12 @@ export class EffectsManager {
 
     const outlineHelper = new LineSegments(edges, lineMaterial);
 
-    // Copy the object's transformation exactly
-    outlineHelper.position.copy(object.position);
-    outlineHelper.rotation.copy(object.rotation);
-    outlineHelper.scale.copy(object.scale);
+    // Use identity transform - the outline will be added as a child of the
+    // target object and will automatically inherit all transformations.
+    // This fixes the bug where outlines became desynced after scaling/moving objects.
+    outlineHelper.position.set(0, 0, 0);
+    outlineHelper.rotation.set(0, 0, 0);
+    outlineHelper.scale.set(1, 1, 1);
 
     return outlineHelper;
   }
