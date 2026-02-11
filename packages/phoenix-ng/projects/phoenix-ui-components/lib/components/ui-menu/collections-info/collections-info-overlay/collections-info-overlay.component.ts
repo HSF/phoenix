@@ -20,6 +20,8 @@ import { EventDisplayService } from '../../../../services/event-display.service'
 })
 export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
   @Input() showObjectsInfo: boolean;
+  /** Columns to exclude from the collection info table. */
+  @Input() excludedColumns: string[] = ['uuid', 'hits', 'isCut', 'labelText'];
   hideInvisible: boolean;
   collections: { type: string; collections: string[] }[];
   selectedCollection: string;
@@ -75,7 +77,7 @@ export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
       }));
 
     this.collectionColumns = Object.keys(this.showingCollection[0]).filter(
-      (column) => !['uuid', 'hits', 'isCut', 'labelText'].includes(column), // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+      (column) => !this.excludedColumns.includes(column),
     );
   }
 
