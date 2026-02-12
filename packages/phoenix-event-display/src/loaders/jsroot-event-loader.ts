@@ -34,29 +34,48 @@ export class JSRootEventLoader extends PhoenixLoader {
     objects: string[],
     onEventData: (eventData: any) => void,
   ): Promise<void> {
-    // Return the promise chain so 'await' in tests works correctly
     return openFile(this.rootFileURL)
       .then((file: any) => {
-        let i = 0;
-        for (const objectName of objects) {
-          file.readObject(objectName).then((object: any) => {
-            i++;
-            if (object) {
-              this.processItemsList(object);
-            }
-            if (i === objects.length) {
-              this.finalizeEventData(onEventData);
-            }
-          });
-        }
+        const readPromises = objects.map((objectName) =>
+          file
+            .readObject(objectName)
+            .then((object: any) => {
+              if (object) {
+                this.processItemsList(object);
+              }
+            })
+            .catch((error: any) => {
+              const errorString = String(error);
+
+              if (
+                errorString.includes('unsupported compression') ||
+                errorString.includes('readObject')
+              ) {
+                // IMPORTANT: return fallback promise
+                return this.handleUnsupportedCompression(objects, onEventData);
+              }
+
+              console.error('Error reading object:', error);
+              onEventData(undefined);
+            }),
+        );
+
+        return Promise.all(readPromises).then(() => {
+          this.finalizeEventData(onEventData);
+        });
       })
       .catch((error: any) => {
-        if (error?.message?.includes('unsupported compression')) {
+        const errorString = String(error);
+
+        if (
+          errorString.includes('unsupported compression') ||
+          errorString.includes('readObject')
+        ) {
           return this.handleUnsupportedCompression(objects, onEventData);
-        } else {
-          console.error('Error opening file:', error);
-          onEventData(undefined);
         }
+
+        console.error('Error opening file:', error);
+        onEventData(undefined);
       });
   }
 
@@ -67,26 +86,25 @@ export class JSRootEventLoader extends PhoenixLoader {
     return fetch(this.rootFileURL)
       .then((response) => response.arrayBuffer())
       .then((buffer) => {
-        const decompressedData = decompress(buffer); 
+        const decompressedData = decompress(buffer);
         return openFile(decompressedData);
       })
       .then((file: any) => {
-        let i = 0;
-        for (const objectName of objects) {
+        const readPromises = objects.map((objectName) =>
           file.readObject(objectName).then((object: any) => {
-            i++;
             if (object) {
               this.processItemsList(object);
             }
-            if (i === objects.length) {
-              this.finalizeEventData(onEventData);
-            }
-          });
-        }
+          }),
+        );
+
+        return Promise.all(readPromises).then(() => {
+          this.finalizeEventData(onEventData);
+        });
       })
       .catch((error) => {
-        console.error('Error handling unsupported compression:', error);
-        onEventData(this.fileEventData); 
+        console.error('Error opening file:', error);
+        onEventData(undefined);
       });
   }
 
@@ -122,7 +140,10 @@ export class JSRootEventLoader extends PhoenixLoader {
       if (tEveTrack) {
         this.fileEventData.Tracks[typeName].push(tEveTrack);
       }
-    } else if (obj._typename?.includes('TEvePointSet') || obj._typename === 'TPolyMarker3D') {
+    } else if (
+      obj._typename?.includes('TEvePointSet') ||
+      obj._typename === 'TPolyMarker3D'
+    ) {
       const typeName = obj._typename + '(s)';
       if (!this.fileEventData.Hits[typeName]) {
         this.fileEventData.Hits[typeName] = [];
@@ -139,7 +160,11 @@ export class JSRootEventLoader extends PhoenixLoader {
     const npoints = Math.round(track.fNpoints / 4);
     const positions = [];
     for (let k = 0; k < npoints - 1; ++k) {
-      positions.push([track.fPoints[k * 4], track.fPoints[k * 4 + 1], track.fPoints[k * 4 + 2]]);
+      positions.push([
+        track.fPoints[k * 4],
+        track.fPoints[k * 4 + 1],
+        track.fPoints[k * 4 + 2],
+      ]);
     }
     return { pos: positions };
   }
@@ -149,7 +174,11 @@ export class JSRootEventLoader extends PhoenixLoader {
     const trackObj: { [key: string]: any } = {};
     const positions = [];
     for (let i = 0; i < track.fN - 1; i++) {
-      positions.push([track.fP[i * 3], track.fP[i * 3 + 1], track.fP[i * 3 + 2]]);
+      positions.push([
+        track.fP[i * 3],
+        track.fP[i * 3 + 1],
+        track.fP[i * 3 + 2],
+      ]);
     }
     for (const trackParamLine of track.fTitle.split('\n')) {
       for (const trackParam of trackParamLine.split(/(?!\(.*), (?!.*\))/g)) {

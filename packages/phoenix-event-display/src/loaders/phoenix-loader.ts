@@ -32,10 +32,10 @@ export class PhoenixLoader implements EventDataLoader {
   /** Object containing event object labels. */
   protected labelsObject: { [key: string]: any } = {};
   // Stores optional event-level time information
-  private eventTime?: {
-    time: number;
-    unit: 'ns';
-  };
+  private eventTime?: { time: number; unit: 'ns' };
+  public getEventTime(): { time: number; unit: 'ns' } | undefined {
+    return this.eventTime;
+  }
 
   /**
    * Create the Phoenix loader.
@@ -101,13 +101,6 @@ export class PhoenixLoader implements EventDataLoader {
     if (animationsManager && this.eventTime?.time !== undefined) {
       animationsManager.setEventTime(this.eventTime.time);
     }
-  }
-
-  /**
-   * Get event-level timing information if available.
-   */
-  public getEventTime(): { time: number; unit: 'ns' } | undefined {
-    return this.eventTime;
   }
 
   /**

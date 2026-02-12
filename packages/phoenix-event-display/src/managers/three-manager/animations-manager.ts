@@ -634,6 +634,20 @@ export class AnimationsManager {
 
     return Math.min(this.currentTimeNs / this.eventTimeNs, 1);
   }
+  /**
+   * Set normalized time [0, 1] from UI slider.
+   */
+  public setNormalizedTime(progress: number): void {
+    if (!this.eventTimeNs || this.eventTimeNs <= 0) {
+      return;
+    }
+
+    // Clamp value between 0 and 1
+    const clamped = Math.max(0, Math.min(1, progress));
+
+    // Convert normalized progress to nanoseconds
+    this.currentTimeNs = clamped * this.eventTimeNs;
+  }
 
   /**
    * Update the animation state.
@@ -643,11 +657,22 @@ export class AnimationsManager {
     // Advance time-driven animation
     if (this.eventTimeNs) {
       this.currentTimeNs += deltaSeconds * 1e9; // seconds → nanoseconds
+
+      // Clamp to max event time
+      if (this.currentTimeNs > this.eventTimeNs) {
+        this.currentTimeNs = this.eventTimeNs;
+      }
     }
 
-    const progress = this.getTimeProgress();
+    // Time-driven visibility logic
+    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
 
-    // Apply progress to animation target (minimal)
-    // Placeholder; connect to actual camera or scene if available
+    if (eventData) {
+      eventData.traverse((object: any) => {
+        if (object.userData?.time !== undefined) {
+          object.visible = object.userData.time <= this.currentTimeNs;
+        }
+      });
+    }
   }
 }
