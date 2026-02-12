@@ -67,7 +67,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
     const eventHeader = event['EventHeader']['collection'];
 
-    if (!('runNumber' in eventHeader)) {
+    if ('runNumber' in eventHeader[0]) {
       return eventHeader[0]['runNumber'];
     }
 
@@ -82,7 +82,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
     const eventHeader = event['EventHeader']['collection'];
 
-    if (!('eventNumber' in eventHeader)) {
+    if ('eventNumber' in eventHeader[0]) {
       return eventHeader[0]['eventNumber'];
     }
 

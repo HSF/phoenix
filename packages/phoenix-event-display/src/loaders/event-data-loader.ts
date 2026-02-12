@@ -1,68 +1,42 @@
 import { InfoLogger } from '../helpers/info-logger';
 import { ThreeManager } from '../managers/three-manager/index';
 import { UIManager } from '../managers/ui-manager/index';
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from '../lib/types/event-data';
 
 /**
  * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
-  /**
-   * Takes an object that represents ONE event and takes care of adding
-   * the different objects to the graphic library and the UI controls.
-   * @param eventData Object representing the event.
-   * @param graphicsLibrary Manager containing functionality to draw the 3D objects.
-   * @param ui Manager for showing menus and controls to manipulate the geometries.
-   * @param infoLogger Logger for logging event display data..
-   */
+  /** Load one event into the graphics library and UI. */
   buildEventData(
-    eventData: any,
+    eventData: PhoenixEventData,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void;
 
-  /**
-   * Takes an object containing multiple events and returns the keys of these events.
-   * @param eventsData Object that contains the different events.
-   * @returns List of keys of the different events.
-   */
-  getEventsList(eventsData: any): string[];
+  /** Get keys of all events in the container. */
+  getEventsList(eventsData: PhoenixEventsData): string[];
 
-  /**
-   * Get the different collections for the current stored event.
-   * @returns List of strings, each representing a collection of the event displayed.
-   */
+  /** Get collection names grouped by object type. */
   getCollections(): { [key: string]: string[] };
 
-  /**
-   * Get all the objects inside a collection.
-   * @param collectionName Key of the collection that will be retrieved.
-   * @returns Object containing all physics objects from the desired collection.
-   */
+  /** Get all objects in a collection by name. */
   getCollection(collectionName: string): any;
 
-  /**
-   * Get metadata associated to the displayed event (experiment info, time, run, event...).
-   * @returns Metadata of the displayed event.
-   */
+  /** Get metadata for the current event. */
   getEventMetadata(): any[];
 
-  /**
-   * Add label of event object to the labels object.
-   * @param label Label to add to the event object.
-   * @param collection Collection the event object is a part of.
-   * @param indexInCollection Event object's index in collection.
-   * @returns A unique label ID string.
-   */
+  /** Add a label to an event object. Returns a unique label ID. */
   addLabelToEventObject(
     label: string,
     collection: string,
     indexInCollection: number,
   ): string;
 
-  /**
-   * Get the object containing labels.
-   * @returns The labels object.
-   */
+  /** Get the labels object. */
   getLabelsObject(): { [key: string]: any };
 }
