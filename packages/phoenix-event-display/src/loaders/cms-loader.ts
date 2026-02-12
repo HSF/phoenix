@@ -1,6 +1,7 @@
 import { PhoenixLoader } from './phoenix-loader';
 import { Vector3, QuadraticBezierCurve3 } from 'three';
 import { CMSObjects } from './objects/cms-objects';
+import { ObjectTypeConfig } from './object-type-registry';
 import JSZip from 'jszip';
 
 /**
@@ -20,20 +21,14 @@ export class CMSLoader extends PhoenixLoader {
     this.data = {};
   }
 
-  /**
-   * Loads all the object types and collections of event data.
-   * Overridden from {@link PhoenixLoader}.
-   * @param eventData Event data of a CMS event containing all collections.
-   */
-  protected loadObjectTypes(eventData: any) {
-    super.loadObjectTypes(eventData);
-    if (eventData.MuonChambers) {
-      this.addObjectType(
-        eventData.MuonChambers,
-        CMSObjects.getMuonChamber,
-        'MuonChambers',
-      );
-    }
+  /** Add CMS-specific MuonChambers type to the default configs. */
+  protected getObjectTypeConfigs(): ObjectTypeConfig[] {
+    const configs = super.getObjectTypeConfigs();
+    configs.push({
+      typeName: 'MuonChambers',
+      getObject: CMSObjects.getMuonChamber,
+    });
+    return configs;
   }
 
   /**
