@@ -5,6 +5,12 @@ import { openFile } from 'jsroot';
  * Decompress the data using a specific compression method.
  * Exported so it can be mocked in tests.
  */
+/**
+ * Decompresses raw data from a ROOT file.
+ * This is exported to allow for utility usage and testing.
+ * @param data The raw data buffer to decompress.
+ * @returns The decompressed data.
+ */
 export const decompress = (data: any) => data;
 
 /**
@@ -12,6 +18,11 @@ export const decompress = (data: any) => data;
  */
 export class JSRootEventLoader extends PhoenixLoader {
   /** Event data inside the file. */
+  /**
+   * Processes and loads event data from the specified ROOT objects.
+   * @param objects List of object names to be loaded.
+   * @param onEventData Callback function executed when event data is ready.
+   */
   private fileEventData: any;
   /** URL of the ".root" file to be processed. */
   private rootFileURL: any;

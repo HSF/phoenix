@@ -35,6 +35,12 @@ export interface AnimationPreset {
  * Manager for managing animation related operations using three.js and tween.js.
  */
 export class AnimationsManager {
+  /** Optional event-level time in nanoseconds. */
+  private eventTimeNs?: number;
+
+  /** Current animation time in nanoseconds. */
+  private currentTimeNs = 0;
+
   /**
    * Constructor for the animation manager.
    * @param scene Three.js scene containing all the objects and event data.
@@ -49,12 +55,6 @@ export class AnimationsManager {
     this.animateEvent = this.animateEvent.bind(this);
     this.animateEventWithClipping = this.animateEventWithClipping.bind(this);
   }
-
-  /** Optional event-level time in nanoseconds */
-  private eventTimeNs?: number;
-
-  /** Current animation time in nanoseconds */
-  private currentTimeNs = 0;
 
   /**
    * Get the camera tween for animating camera to a position.
@@ -158,7 +158,7 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -320,11 +320,11 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // 🔥 FINAL animation end handler
+    // FINAL animation end handler
     animationSphereTweenClone.onComplete(() => {
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
 
-      // 🔥 Show labels again when the animation ends
+      // Show labels again when the animation ends
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
 
@@ -350,7 +350,7 @@ export class AnimationsManager {
       return;
     }
 
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -571,7 +571,7 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
-    // 🔥 Hide labels at the start of the preset animation
+    // Hide labels at the start of the preset animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -599,7 +599,7 @@ export class AnimationsManager {
       previousTween = tween;
     });
 
-    // 🔥 When animation finishes, show labels again
+    // When animation finishes, show labels again
     previousTween.onComplete(() => {
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
@@ -612,6 +612,7 @@ export class AnimationsManager {
 
   /**
    * Set event-level time (in nanoseconds) for time-driven animations.
+   * @param timeNs The total duration of the event in nanoseconds.
    */
   public setEventTime(timeNs?: number): void {
     if (typeof timeNs === 'number' && timeNs > 0) {
@@ -625,7 +626,7 @@ export class AnimationsManager {
 
   /**
    * Get normalized animation progress based on event time.
-   * Returns value in range [0, 1].
+   * @returns A value in the range [0, 1] representing the current progress.
    */
   public getTimeProgress(): number {
     if (!this.eventTimeNs || this.eventTimeNs <= 0) {
@@ -634,8 +635,10 @@ export class AnimationsManager {
 
     return Math.min(this.currentTimeNs / this.eventTimeNs, 1);
   }
+
   /**
    * Set normalized time [0, 1] from UI slider.
+   * @param progress Normalized time value between 0 and 1.
    */
   public setNormalizedTime(progress: number): void {
     if (!this.eventTimeNs || this.eventTimeNs <= 0) {

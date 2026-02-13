@@ -33,6 +33,16 @@ export class PhoenixLoader implements EventDataLoader {
   protected labelsObject: { [key: string]: any } = {};
   // Stores optional event-level time information
   private eventTime?: { time: number; unit: 'ns' };
+
+  /**
+   * Returns event time metadata if available.
+   *
+   * This method allows animation systems to synchronize event objects
+   * based on real timing information instead of purely visual animation.
+   *
+   * @returns Event time in nanoseconds or undefined if no time data exists.
+   */
+
   public getEventTime(): { time: number; unit: 'ns' } | undefined {
     return this.eventTime;
   }
