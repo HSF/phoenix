@@ -7,17 +7,18 @@
 
 ## Guides
 
-- [Contribution guidelines](../../CONTRIBUTING.md)
-- [Set up Phoenix for an experiment](./set-up-phoenix.md)
-- [Phoenix event display](./event-display.md)
-- [Event data format](./event_data_format.md)
-- [Event data loader](./event-data-loader.md)
-- [Using JSROOT](./using-jsroot.md)
-- [Running with XR (AR/VR) support](./running-with-xr-support.md)
-- [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
-- [Geometry tips and tricks](./geometry-tips.md)
-- [How to make a Phoenix release](./../release.md)
-- [How Phoenix tests work](./test-setup.md)
+* [Contribution guidelines](../../CONTRIBUTING.md)
+* [Set up Phoenix for an experiment](./set-up-phoenix.md)
+* [Phoenix event display](./event-display.md)
+* [Event data format](./event_data_format.md)
+* [Event data loader](./event-data-loader.md)
+* [Track extension to radius](./track-extension.md)
+* [Using JSROOT](./using-jsroot.md)
+* [Running with XR (AR/VR) support](./running-with-xr-support.md)
+* [Convert GDML/ROOT Geometry to GLTF](./convert-gdml-to-gltf.md)
+* [Geometry tips and tricks](./geometry-tips.md)
+* [How to make a Phoenix release](./../release.md)
+* [How Phoenix tests work](./test-setup.md)
 
 ## Phoenix architecture
 

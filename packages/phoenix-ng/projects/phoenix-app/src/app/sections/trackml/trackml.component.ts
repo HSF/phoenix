@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
@@ -14,7 +14,7 @@ import {
   templateUrl: './trackml.component.html',
   styleUrls: ['./trackml.component.scss'],
 })
-export class TrackmlComponent implements OnInit {
+export class TrackmlComponent implements OnInit, OnDestroy {
   hitsFile = 'assets/files/TrackML/event000001000-hits.csv';
   particlesFile = 'assets/files/TrackML/event000001000-particles.csv';
   truthFile = 'assets/files/TrackML/event000001000-truth.csv';
@@ -32,10 +32,17 @@ export class TrackmlComponent implements OnInit {
   loaded = false;
   loadingProgress = 0;
 
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
+
   constructor(
     private eventDisplay: EventDisplayService,
     private http: HttpClient,
   ) {}
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
+  }
 
   ngOnInit() {
     this.trackMLLoader = new TrackmlLoader();
@@ -89,13 +96,17 @@ export class TrackmlComponent implements OnInit {
     );
     this.loadTrackMLData();
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addLoadListenerWithCheck(() => (this.loaded = true));
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (!this.isDestroyed) {
+        this.loaded = true;
+      }
+    });
   }
 
   private loadTrackMLData() {

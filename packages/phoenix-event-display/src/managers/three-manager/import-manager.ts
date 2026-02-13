@@ -440,8 +440,16 @@ export class ImportManager {
                 BufferGeometryUtils.mergeGeometries((val as any).geoms),
                 (val as any).material,
               );
+              // Dispose intermediate geometries to free GPU memory
+              for (const geom of (val as any).geoms) {
+                geom.dispose();
+              }
               mesh.renderOrder = (val as any).renderOrder;
               scene.add(mesh);
+
+              for (const intermediateGeom of (val as any).geoms) {
+                intermediateGeom.dispose();
+              }
             }
 
             this.processGeometry(

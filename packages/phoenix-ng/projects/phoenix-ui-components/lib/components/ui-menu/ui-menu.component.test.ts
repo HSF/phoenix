@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventDataFormat } from '../../services/extras/event-data-import';
-import { PhoenixUIModule } from '../phoenix-ui.module';
 
 import { UiMenuComponent } from './ui-menu.component';
 import { EventDisplayService } from '../../services/event-display.service';
@@ -21,7 +23,7 @@ describe('UiMenuComponent', () => {
     clippingEnabled: jest.fn().mockReturnThis(),
     startClippingAngle: jest.fn().mockReturnThis(),
     openingClippingAngle: jest.fn().mockReturnThis(),
-    listenToLoadedEventsChange: jest.fn(),
+    listenToLoadedEventsChange: jest.fn(() => jest.fn()),
     getUIManager: jest.fn().mockReturnThis(),
     getThreeManager: jest.fn().mockReturnThis(),
     getPresetViews: jest.fn().mockReturnThis().mockReturnValue([]),
@@ -35,13 +37,14 @@ describe('UiMenuComponent', () => {
   };
 
   const mockStateManager = mockEventDisplay.getStateManager();
-  mockStateManager.clippingEnabled.onUpdate = jest.fn();
-  mockStateManager.startClippingAngle.onUpdate = jest.fn();
-  mockStateManager.openingClippingAngle.onUpdate = jest.fn();
+  mockStateManager.clippingEnabled.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.startClippingAngle.onUpdate = jest.fn(() => jest.fn());
+  mockStateManager.openingClippingAngle.onUpdate = jest.fn(() => jest.fn());
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UiMenuComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: EventDataFormat,
@@ -52,7 +55,7 @@ describe('UiMenuComponent', () => {
           useValue: mockEventDisplay,
         },
       ],
-      imports: [PhoenixUIModule],
+      imports: [CommonModule, FormsModule, ReactiveFormsModule],
     }).compileComponents();
   });
 

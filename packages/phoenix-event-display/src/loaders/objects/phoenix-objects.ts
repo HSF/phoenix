@@ -52,7 +52,7 @@ export class PhoenixObjects {
         track.extended = true;
       }
 
-      if (track.pos.length < 2) {
+      if (!track.pos || track.pos.length < 2) {
         console.log('Track too short, and extrapolation failed.');
         continue;
       }
@@ -114,7 +114,7 @@ export class PhoenixObjects {
     const trackObject = new Group();
 
     // Check again, in case there was an issue with the extrapolation.
-    if (positions.length < 2) {
+    if (!positions || positions.length < 2) {
       console.log('Track too short, and extrapolation failed.');
       return trackObject;
     }
@@ -487,6 +487,10 @@ export class PhoenixObjects {
       geometries.push(boxGeometry);
     }
     const geometry = mergeGeometries(geometries);
+    // Dispose intermediate geometries to free GPU memory
+    for (const geom of geometries) {
+      geom.dispose();
+    }
     geometry.computeBoundingSphere();
     // material
     const material = new MeshPhongMaterial({
@@ -738,10 +742,13 @@ export class PhoenixObjects {
       color: caloCells[0].color ?? EVENT_DATA_TYPE_COLORS.PlanarCaloCells,
     });
 
-    const outerBox = new Mesh(
-      BufferGeometryUtils.mergeGeometries(geoms),
-      material,
-    );
+    const mergedGeometry = BufferGeometryUtils.mergeGeometries(geoms);
+    // Dispose intermediate geometries to free GPU memory
+    for (const geom of geoms) {
+      geom.dispose();
+    }
+
+    const outerBox = new Mesh(mergedGeometry, material);
 
     outerBox.userData = Object.assign({}, caloCells[0]);
     outerBox.name = 'PlanarCaloCell';

@@ -1,4 +1,4 @@
-import { Component, type OnInit, Input } from '@angular/core';
+import { Component, type OnInit, type OnDestroy, Input } from '@angular/core';
 import { ActiveVariable } from 'phoenix-event-display';
 import { EventDisplayService } from '../../../../services/event-display.service';
 import { Object3D, type Object3DEventMap } from 'three';
@@ -9,12 +9,13 @@ import { Object3D, type Object3DEventMap } from 'three';
   templateUrl: './geometry-browser-overlay.component.html',
   styleUrls: ['./geometry-browser-overlay.component.scss'],
 })
-export class GeometryBrowserOverlayComponent implements OnInit {
+export class GeometryBrowserOverlayComponent implements OnInit, OnDestroy {
   @Input() browseDetectorParts: boolean;
   selectedCollection: string;
   showingCollection: any;
   activeObject: ActiveVariable<string>;
   children: Object3D<Object3DEventMap>[];
+  private unsubscribe: () => void;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -25,11 +26,15 @@ export class GeometryBrowserOverlayComponent implements OnInit {
       .getGeometries().children;
 
     this.activeObject = this.eventDisplay.getActiveObjectId();
-    this.activeObject.onUpdate((value: string) => {
+    this.unsubscribe = this.activeObject.onUpdate((value: string) => {
       if (document.getElementById(value)) {
         document.getElementById(value).scrollIntoView(false);
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe?.();
   }
 
   changeCollection(selectedCollection: string) {

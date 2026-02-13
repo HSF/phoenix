@@ -12,6 +12,8 @@ export class RendererManager {
   private renderers: WebGLRenderer[] = [];
   /** If the overlay is fixed or not. */
   private fixedOverlay: boolean;
+  /** Stored resize handler for cleanup. */
+  private resizeHandler: (() => void) | null = null;
 
   /**
    * Create the renderer manager by initializing the main renderer.
@@ -83,9 +85,16 @@ export class RendererManager {
 
     canvasWrapper.appendChild(this.getMainRenderer().domElement);
 
-    window.addEventListener('resize', () => {
+    // Remove previous resize listener if exists
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+    }
+
+    // Store and add new resize listener
+    this.resizeHandler = () => {
       mainRenderer.setSize(rendererWidth(), rendererHeight());
-    });
+    };
+    window.addEventListener('resize', this.resizeHandler);
   }
 
   // SET/GET
@@ -227,5 +236,15 @@ export class RendererManager {
    */
   setFixOverlay(value: boolean) {
     this.fixedOverlay = value;
+  }
+
+  /**
+   * Cleanup event listeners before re-initialization.
+   */
+  public cleanup() {
+    if (this.resizeHandler) {
+      window.removeEventListener('resize', this.resizeHandler);
+      this.resizeHandler = null;
+    }
   }
 }

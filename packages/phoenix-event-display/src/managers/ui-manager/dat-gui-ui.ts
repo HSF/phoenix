@@ -293,6 +293,8 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     this.guiParameters[collectionName] = {
       show: true,
       color: 0x000000,
+      extendTracks: false,
+      extendRadius: 1500,
       randomColor: () =>
         this.three.getColorManager().collectionColorRandom(collectionName),
       resetCut: () =>
@@ -325,6 +327,23 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
       this.three.getColorManager().collectionColor(collectionName, value),
     );
     colorMenu.setValue(collectionColor?.getHex());
+    // Option to optionally extend measured tracks to a radius
+    collFolder
+      .add(this.guiParameters[collectionName], 'extendTracks')
+      .name('Extend to radius')
+      .onChange((value: boolean) => {
+        const radius = this.guiParameters[collectionName].extendRadius;
+        this.three.extendCollectionTracks(collectionName, radius, value);
+      });
+    collFolder
+      .add(this.guiParameters[collectionName], 'extendRadius', 100, 5000)
+      .name('Radius')
+      .onFinishChange((value: number) => {
+        const enabled = this.guiParameters[collectionName].extendTracks;
+        if (enabled) {
+          this.three.extendCollectionTracks(collectionName, value, true);
+        }
+      });
     collFolder
       .add(this.guiParameters[collectionName], 'randomColor')
       .name('Random Color');
@@ -479,5 +498,54 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
    */
   public getEventDataTypeFolder(typeName: string): GUI {
     return this.eventFolder.__folders[typeName];
+  }
+
+  /**
+   * Add JiveXML track extension controls to the menu.
+   * @param eventDisplay The event display instance.
+   */
+  public addJiveXMLTrackExtension(eventDisplay: any): void {
+    const jiveFolder = this.gui.addFolder('JiveXML Track Extension');
+
+    const jiveParams = {
+      useExtraHits: false,
+      extraHitsMinDelta: 250,
+      useRKExtrapolation: false,
+      rkRadius: 1500,
+    };
+
+    jiveFolder
+      .add(jiveParams, 'useExtraHits')
+      .name('Use Extra Hits')
+      .onChange((value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({ useExtraHits: value });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'extraHitsMinDelta', 50, 500)
+      .name('Extra Hits Min Delta (mm)')
+      .onChange((value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          extraHitsMinDelta: value,
+        });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'useRKExtrapolation')
+      .name('Use RK Extrapolation')
+      .onChange((value: boolean) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          useRKExtrapolation: value,
+        });
+      });
+
+    jiveFolder
+      .add(jiveParams, 'rkRadius', 100, 5000)
+      .name('RK Radius (mm)')
+      .onChange((value: number) => {
+        eventDisplay.setJiveXMLTrackExtensionConfig({
+          rkExtrapolationRadius: value,
+        });
+      });
   }
 }

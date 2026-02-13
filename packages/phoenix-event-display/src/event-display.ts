@@ -47,6 +47,8 @@ export class EventDisplay {
   private stateManager: StateManager;
   /** URL manager for managing options given through URL. */
   private urlOptionsManager: URLOptionsManager;
+  /** Flag to track if EventDisplay has been initialized. */
+  private isInitialized: boolean = false;
 
   /**
    * Create the Phoenix event display and intitialize all the elements.
@@ -67,12 +69,26 @@ export class EventDisplay {
    * @param configuration Configuration used to customize different aspects.
    */
   public init(configuration: Configuration) {
+    if (this.isInitialized) {
+      this.cleanup();
+    }
+    this.isInitialized = true;
     this.configuration = configuration;
 
     // Initialize the three manager with configuration
     this.graphicsLibrary.init(configuration);
     // Initialize the UI with configuration
     this.ui.init(configuration);
+    // Apply JiveXML track extension configuration and surface UI controls when available
+    const loaderWithTrackExtension = this.configuration.eventDataLoader as any;
+    if (loaderWithTrackExtension?.setTrackExtensionConfig) {
+      if (this.configuration.jiveXMLTrackExtension) {
+        loaderWithTrackExtension.setTrackExtensionConfig(
+          this.configuration.jiveXMLTrackExtension,
+        );
+      }
+      this.ui.addJiveXMLTrackExtensionUI(this);
+    }
     // Set up for the state manager
     this.getStateManager().setEventDisplay(this);
 
@@ -92,6 +108,24 @@ export class EventDisplay {
     this.enableEventDisplayConsole();
     // Allow keyboard controls
     this.enableKeyboardControls();
+  }
+
+  /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    if (this.graphicsLibrary) {
+      this.graphicsLibrary.cleanup();
+    }
+    if (this.ui) {
+      this.ui.cleanup();
+    }
+    // Clear accumulated callbacks
+    this.onEventsChange = [];
+    this.onDisplayedEventChange = [];
+    // Reset singletons for clean view transition
+    this.loadingManager?.reset();
+    this.stateManager?.resetForViewTransition();
   }
 
   /**
@@ -550,18 +584,36 @@ export class EventDisplay {
    * Add a callback to onDisplayedEventChange array to call
    * the callback on changes to the displayed event.
    * @param callback Callback to be added to the onDisplayedEventChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToDisplayedEventChange(callback: (event: any) => any) {
+  public listenToDisplayedEventChange(
+    callback: (event: any) => any,
+  ): () => void {
     this.onDisplayedEventChange.push(callback);
+    return () => {
+      const index = this.onDisplayedEventChange.indexOf(callback);
+      if (index > -1) {
+        this.onDisplayedEventChange.splice(index, 1);
+      }
+    };
   }
 
   /**
    * Add a callback to onEventsChange array to call
    * the callback on changes to the events.
    * @param callback Callback to be added to the onEventsChange array.
+   * @returns Unsubscribe function to remove the callback.
    */
-  public listenToLoadedEventsChange(callback: (events: any) => any) {
+  public listenToLoadedEventsChange(
+    callback: (events: any) => any,
+  ): () => void {
     this.onEventsChange.push(callback);
+    return () => {
+      const index = this.onEventsChange.indexOf(callback);
+      if (index > -1) {
+        this.onEventsChange.splice(index, 1);
+      }
+    };
   }
 
   /**
@@ -809,5 +861,44 @@ export class EventDisplay {
         }
       }
     }
+  }
+
+  /**
+   * Set JiveXML track extension configuration.
+   * @param config Partial configuration for JiveXML track extension.
+   */
+  public setJiveXMLTrackExtensionConfig(config: any) {
+    if (!this.configuration.eventDataLoader) {
+      return;
+    }
+    // Check if the loader has the setTrackExtensionConfig method (JiveXMLLoader)
+    if (
+      typeof (this.configuration.eventDataLoader as any)
+        .setTrackExtensionConfig === 'function'
+    ) {
+      (this.configuration.eventDataLoader as any).setTrackExtensionConfig(
+        config,
+      );
+    }
+  }
+
+  /**
+   * Get JiveXML track extension configuration.
+   * @returns Current JiveXML track extension configuration or undefined if not available.
+   */
+  public getJiveXMLTrackExtensionConfig(): any {
+    if (!this.configuration.eventDataLoader) {
+      return undefined;
+    }
+    // Check if the loader has the getTrackExtensionConfig method (JiveXMLLoader)
+    if (
+      typeof (this.configuration.eventDataLoader as any)
+        .getTrackExtensionConfig === 'function'
+    ) {
+      return (
+        this.configuration.eventDataLoader as any
+      ).getTrackExtensionConfig();
+    }
+    return undefined;
   }
 }

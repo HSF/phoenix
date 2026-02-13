@@ -1,5 +1,9 @@
-import { type OnInit } from '@angular/core';
-import { Component, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  type OnDestroy,
+  type OnInit,
+} from '@angular/core';
 
 @Component({
   standalone: false,
@@ -8,7 +12,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./ss-mode.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SSModeComponent implements OnInit {
+export class SSModeComponent implements OnInit, OnDestroy {
   ssMode: boolean = false;
 
   ngOnInit() {
@@ -38,4 +42,22 @@ export class SSModeComponent implements OnInit {
   private onDocumentClick = () => {
     document.exitFullscreen?.();
   };
+
+  /**
+   * Clean up event listeners and fullscreen state when the component is destroyed.
+   */
+  ngOnDestroy() {
+    // Prevent any further toggleSSMode calls from fullscreenchange during teardown.
+    document.onfullscreenchange = null;
+    // Remove input event listeners.
+    document.removeEventListener('click', this.onDocumentClick);
+    document.removeEventListener('touchstart', this.onDocumentClick);
+    // If still in fullscreen or ssMode is active, exit fullscreen and reset UI state.
+    if (document.fullscreenElement || this.ssMode) {
+      document.exitFullscreen?.();
+    }
+    // Ensure the ss-mode class and internal state are cleared.
+    document.body.classList.remove('ss-mode');
+    this.ssMode = false;
+  }
 }

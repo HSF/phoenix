@@ -87,6 +87,8 @@ export class UIManager {
 
   /** State manager for managing the event display's state. */
   private stateManager: StateManager;
+  /** Stored keydown handler for cleanup. */
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
 
   /**
    * Constructor for the UI manager.
@@ -526,7 +528,13 @@ export class UIManager {
    * Enable keyboard controls for some UI manager operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    // Remove previous keydown listener if exists
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+    }
+
+    // Store and add new keydown listener
+    this.keydownHandler = (e: KeyboardEvent) => {
       const isTyping = ['input', 'textarea'].includes(
         (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
@@ -548,7 +556,8 @@ export class UIManager {
           }
         }
       }
-    });
+    };
+    document.addEventListener('keydown', this.keydownHandler);
   }
 
   /**
@@ -608,5 +617,27 @@ export class UIManager {
    */
   public getUIMenus(): PhoenixUI<unknown>[] {
     return this.uiMenus;
+  }
+
+  /**
+   * Add JiveXML track extension controls to the UI if available.
+   * @param eventDisplay Reference to the EventDisplay instance for configuration callbacks.
+   */
+  public addJiveXMLTrackExtensionUI(eventDisplay: any) {
+    this.uiMenus.forEach((menu) => {
+      if (menu.addJiveXMLTrackExtension) {
+        menu.addJiveXMLTrackExtension(eventDisplay);
+      }
+    });
+  }
+
+  /**
+   * Cleanup event listeners before re-initialization.
+   */
+  public cleanup() {
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+      this.keydownHandler = null;
+    }
   }
 }

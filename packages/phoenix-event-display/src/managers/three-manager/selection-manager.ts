@@ -187,11 +187,21 @@ export class SelectionManager {
   /**
    * Enable passive double-click detection (always active, independent of selection).
    * Sets up event listeners for both main and overlay canvases.
+   * This method can be called multiple times safely due to listener deduplication.
    */
   private enablePassiveDoubleClick() {
     // Main canvas (always available)
     const mainCanvas = document.getElementById('three-canvas');
     if (mainCanvas) {
+      // Remove existing listeners to avoid duplicates on re-initialization
+      mainCanvas.removeEventListener(
+        'mousedown',
+        this.onPassiveMouseDown,
+        true,
+      );
+      mainCanvas.removeEventListener('mouseup', this.onPassiveMouseUp, true);
+
+      // Add listeners
       mainCanvas.addEventListener('mousedown', this.onPassiveMouseDown, true);
       mainCanvas.addEventListener('mouseup', this.onPassiveMouseUp, true);
     }
@@ -1066,14 +1076,23 @@ export class SelectionManager {
   }
 
   /**
-   * Programmatically clear all selections.
+   * Programmatically clear all selections and reset internal state.
+   * This method is called when event data is cleared to prevent stale references.
    */
   public clearAllSelections(): void {
-    if (this.selectedObjects.size > 0) {
-      this.effectsManager.clearAllSelections();
-      this.selectedObjects.clear();
+    const hadSelections = this.selectedObjects.size > 0;
 
-      // Note: No info panel clearing - info panel is now hover-controlled
+    // Clear all selected outlines from the effects manager (if initialized)
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+    }
+    this.selectedObjects.clear();
+
+    // Reset internal tracking to prevent stale references to disposed meshes
+    this.hoveredObject = null;
+    this.currentlyOutlinedObject = null;
+
+    if (hadSelections && this.infoLogger) {
       this.infoLogger.add('All selections cleared', 'Selection');
     }
   }
@@ -1140,5 +1159,29 @@ export class SelectionManager {
     }
 
     return false;
+  }
+
+  /**
+   * Cleanup all event listeners and resources before re-initialization.
+   * Must be called before destroying the SelectionManager or re-initializing.
+   */
+  public cleanup() {
+    // Disable selecting (removes selection event listeners)
+    this.disableSelecting();
+
+    // Remove passive double-click listeners from both canvases
+    this.disablePassiveDoubleClick();
+
+    // Clear all selections and outlines
+    if (this.effectsManager) {
+      this.effectsManager.clearAllSelections();
+      this.effectsManager.setHoverOutline(null);
+    }
+    this.selectedObjects.clear();
+    this.hoveredObject = null;
+    this.currentlyOutlinedObject = null;
+
+    // Reset initialization state
+    this.isInit = false;
   }
 }

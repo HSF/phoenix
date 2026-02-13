@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import { EventDisplayService } from 'phoenix-ui-components';
 
 @Component({
@@ -7,9 +7,12 @@ import { EventDisplayService } from 'phoenix-ui-components';
   templateUrl: './geometry.component.html',
   styleUrls: ['./geometry.component.scss'],
 })
-export class GeometryComponent implements OnInit {
+export class GeometryComponent implements OnInit, OnDestroy {
   loaded = false;
   loadingProgress = 0;
+
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
 
   constructor(private eventDisplay: EventDisplayService) {}
 
@@ -32,13 +35,21 @@ export class GeometryComponent implements OnInit {
     };
     this.eventDisplay.buildGeometryFromParameters(parameters);
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addLoadListenerWithCheck(() => (this.loaded = true));
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (!this.isDestroyed) {
+        this.loaded = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
   }
 
   copyCode() {

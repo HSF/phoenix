@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, type OnInit, type OnDestroy } from '@angular/core';
 import {
   EventDataFormat,
   type EventDataImportOption,
@@ -19,7 +19,7 @@ import { Plane, Vector3 } from 'three';
   templateUrl: './lhcb.component.html',
   styleUrls: ['./lhcb.component.scss'],
 })
-export class LHCbComponent implements OnInit {
+export class LHCbComponent implements OnInit, OnDestroy {
   events: any;
   phoenixMenuRoot: PhoenixMenuNode = new PhoenixMenuNode(
     'Phoenix Menu',
@@ -33,7 +33,14 @@ export class LHCbComponent implements OnInit {
     EventDataFormat.ZIP,
   ];
 
+  /** Prevents callbacks on destroyed component */
+  private isDestroyed = false;
+
   constructor(private eventDisplay: EventDisplayService) {}
+
+  ngOnDestroy() {
+    this.isDestroyed = true;
+  }
 
   ngOnInit() {
     const configuration: Configuration = {
@@ -99,12 +106,16 @@ export class LHCbComponent implements OnInit {
       console.log('Error:', e);
     }
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addProgressListener((progress) => (this.loadingProgress = progress));
+    this.eventDisplay.getLoadingManager().addProgressListener((progress) => {
+      if (!this.isDestroyed) {
+        this.loadingProgress = progress;
+      }
+    });
 
-    this.eventDisplay
-      .getLoadingManager()
-      .addLoadListenerWithCheck(() => (this.loaded = true));
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      if (!this.isDestroyed) {
+        this.loaded = true;
+      }
+    });
   }
 }

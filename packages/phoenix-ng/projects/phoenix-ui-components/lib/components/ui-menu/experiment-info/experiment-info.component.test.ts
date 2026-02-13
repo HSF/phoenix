@@ -10,7 +10,7 @@ describe('ExperimentInfoComponent', () => {
 
   const mockEventDisplayService = {
     getEventMetadata: jest.fn(),
-    listenToDisplayedEventChange: jest.fn(),
+    listenToDisplayedEventChange: jest.fn(() => jest.fn()),
   };
 
   beforeEach(() => {

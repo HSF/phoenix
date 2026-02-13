@@ -9,7 +9,7 @@ describe('EventSelectorComponent', () => {
   let fixture: ComponentFixture<EventSelectorComponent>;
 
   const mockEventDisplayService = {
-    listenToLoadedEventsChange: jest.fn(),
+    listenToLoadedEventsChange: jest.fn(() => jest.fn()),
     loadEvent: jest.fn(),
   };
 

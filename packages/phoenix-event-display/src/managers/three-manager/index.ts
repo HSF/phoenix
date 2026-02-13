@@ -94,11 +94,12 @@ export class ThreeManager {
     elem: Intersection<Object3D<Object3DEventMap>>,
   ) => boolean;
   /** 'click' event listener callback to show 3D coordinates of the clicked point */
-  private show3DPointsCallback: (event: MouseEvent) => void = () => {};
+  private show3DPointsCallback: ((event: MouseEvent) => void) | null = null;
   /** 'click' event listener callback to shift the cartesian grid at the clicked point */
-  private shiftCartesianGridCallback: (event: MouseEvent) => void = () => {};
+  private shiftCartesianGridCallback: ((event: MouseEvent) => void) | null =
+    null;
   /** 'click' event listener callback to show 3D distance between two clicked points */
-  private show3DDistanceCallback: (event: MouseEvent) => void = () => {};
+  private show3DDistanceCallback: ((event: MouseEvent) => void) | null = null;
 
   /** Origin of the cartesian grid w.r.t. world origin */
   public origin: Vector3 = new Vector3(0, 0, 0);
@@ -123,7 +124,9 @@ export class ThreeManager {
   /** Color of the text to be displayed as per dark theme */
   private displayColor: string = 'black';
   /** Mousemove callback to draw dynamic distance line */
-  private mousemoveCallback: (event: MouseEvent) => void = () => {};
+  private mousemoveCallback: ((event: MouseEvent) => void) | null = null;
+  /** Stored keydown handler for cleanup. */
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
   /** Emitting that a new 3D coordinate has been clicked upon */
   originChanged = new EventEmitter<Vector3>();
   /** Whether the shifting of the grid is enabled */
@@ -501,9 +504,9 @@ export class ThreeManager {
       };
     }
 
-    if (show) {
+    if (show && this.show3DPointsCallback) {
       window.addEventListener('click', this.show3DPointsCallback);
-    } else {
+    } else if (this.show3DPointsCallback) {
       window.removeEventListener('click', this.show3DPointsCallback);
     }
   }
@@ -564,9 +567,13 @@ export class ThreeManager {
               ctx.fill();
             }
 
-            window.addEventListener('mousemove', this.mousemoveCallback);
+            if (this.mousemoveCallback) {
+              window.addEventListener('mousemove', this.mousemoveCallback);
+            }
           } else {
-            window.removeEventListener('mousemove', this.mousemoveCallback);
+            if (this.mousemoveCallback) {
+              window.removeEventListener('mousemove', this.mousemoveCallback);
+            }
             const distance =
               mainIntersect.point.distanceTo(this.prev3DCoord) / 10;
 
@@ -640,11 +647,15 @@ export class ThreeManager {
       };
     }
 
-    if (show) {
+    if (show && this.show3DDistanceCallback) {
       window.addEventListener('click', this.show3DDistanceCallback);
     } else {
-      window.removeEventListener('click', this.show3DDistanceCallback);
-      window.removeEventListener('mousemove', this.mousemoveCallback);
+      if (this.show3DDistanceCallback) {
+        window.removeEventListener('click', this.show3DDistanceCallback);
+      }
+      if (this.mousemoveCallback) {
+        window.removeEventListener('mousemove', this.mousemoveCallback);
+      }
       if (document.getElementById('3Ddistance') != null) {
         document.getElementById('3Ddistance')?.remove();
       }
@@ -703,13 +714,17 @@ export class ThreeManager {
     }
 
     const rightClickCallback = (_event: any) => {
-      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      if (this.shiftCartesianGridCallback) {
+        window.removeEventListener('click', this.shiftCartesianGridCallback);
+      }
       this.stopShifting.emit(true);
       this.shiftGrid = false;
       window.removeEventListener('contextmenu', rightClickCallback);
     };
 
-    window.addEventListener('click', this.shiftCartesianGridCallback);
+    if (this.shiftCartesianGridCallback) {
+      window.addEventListener('click', this.shiftCartesianGridCallback);
+    }
     window.addEventListener('contextmenu', rightClickCallback);
   }
 
@@ -1073,8 +1088,23 @@ export class ThreeManager {
 
   /**
    * Clears event data of the scene.
+   * Also clears all selections and hover outlines to prevent stale references
+   * and orphaned outline helpers when event data is disposed.
    */
   public clearEventData() {
+    // Clear all selections before disposing event data to avoid:
+    // 1. Memory leak from orphaned outline helpers remaining in the scene
+    // 2. Visual artifacts from old selection outlines persisting
+    // 3. Stale references to disposed mesh objects in selectedOutlines Map
+    if (this.selectionManager) {
+      this.selectionManager.clearAllSelections();
+    }
+
+    // Clear hover outline separately as it's not included in clearAllSelections
+    if (this.effectsManager) {
+      this.effectsManager.setHoverOutline(null);
+    }
+
     this.sceneManager.clearEventData();
   }
 
@@ -1085,6 +1115,35 @@ export class ThreeManager {
    */
   addEventDataTypeGroup(typeName: string): Group {
     return this.sceneManager.addEventDataTypeGroup(typeName);
+  }
+
+  /**
+   * Extend or reset track collection geometries to a specified radius.
+   * This method clears all selections before modifying track geometries to prevent
+   * stale outline helpers that reference old geometry data.
+   *
+   * @param collectionName Name of the track collection to extend.
+   * @param radius The radius to extend tracks to.
+   * @param enable Whether to enable extension (true) or reset to original (false).
+   */
+  public extendCollectionTracks(
+    collectionName: string,
+    radius: number,
+    enable: boolean,
+  ) {
+    // Clear all selections before modifying geometries to prevent:
+    // 1. Stale EdgesGeometry in outline helpers (outlines showing old track length)
+    // 2. Visual desynchronization between track and its selection outline
+    // 3. Orphaned outline helpers referencing disposed geometry data
+    if (this.selectionManager) {
+      this.selectionManager.clearAllSelections();
+    }
+    if (this.effectsManager) {
+      this.effectsManager.setHoverOutline(null);
+    }
+
+    // Now safe to modify track geometries
+    this.sceneManager.extendCollectionTracks(collectionName, radius, enable);
   }
 
   /**
@@ -1251,7 +1310,13 @@ export class ThreeManager {
    * Enable keyboard controls for some Three service operations.
    */
   public enableKeyboardControls() {
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
+    // Remove previous keydown listener if exists
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+    }
+
+    // Store and add new keydown listener
+    this.keydownHandler = (e: KeyboardEvent) => {
       const isTyping = ['input', 'textarea'].includes(
         (e.target as HTMLElement)?.tagName.toLowerCase(),
       );
@@ -1279,7 +1344,8 @@ export class ThreeManager {
           }
         }
       }
-    });
+    };
+    document.addEventListener('keydown', this.keydownHandler);
   }
 
   /**
@@ -1709,5 +1775,53 @@ export class ThreeManager {
    */
   public getColorManager() {
     return this.colorManager;
+  }
+
+  /**
+   * Cleanup event listeners and resources before re-initialization.
+   */
+  public cleanup() {
+    // Remove keyboard listener
+    if (this.keydownHandler) {
+      document.removeEventListener('keydown', this.keydownHandler);
+      this.keydownHandler = null;
+    }
+
+    // Remove window event listeners for interactive features
+    if (this.show3DPointsCallback) {
+      window.removeEventListener('click', this.show3DPointsCallback);
+      this.show3DPointsCallback = null;
+    }
+    if (this.show3DDistanceCallback) {
+      window.removeEventListener('click', this.show3DDistanceCallback);
+      this.show3DDistanceCallback = null;
+    }
+    if (this.mousemoveCallback) {
+      window.removeEventListener('mousemove', this.mousemoveCallback);
+      this.mousemoveCallback = null;
+    }
+    if (this.shiftCartesianGridCallback) {
+      window.removeEventListener('click', this.shiftCartesianGridCallback);
+      this.shiftCartesianGridCallback = null;
+    }
+
+    // Clean up any dangling DOM elements from interactive features
+    document.getElementById('3dcoordinates')?.remove();
+    document.getElementById('circledDot')?.remove();
+    document.getElementById('3Ddistance')?.remove();
+
+    // Cleanup sub-managers
+    if (this.rendererManager) {
+      this.rendererManager.cleanup();
+    }
+    if (this.controlsManager) {
+      this.controlsManager.cleanup();
+    }
+    if (this.effectsManager) {
+      this.effectsManager.cleanup();
+    }
+    if (this.selectionManager) {
+      this.selectionManager.cleanup();
+    }
   }
 }
