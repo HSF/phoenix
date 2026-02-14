@@ -25,6 +25,20 @@ export default [
     'prettier',
   ),
   {
+    files: ['packages/phoenix-ng/jest.config.js'],
+    languageOptions: {
+      globals: {
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+
+  {
     plugins: {
       '@typescript-eslint': typescriptEslint,
       prettier,

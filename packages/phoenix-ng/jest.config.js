@@ -1,3 +1,4 @@
+/* eslint-env node */
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { paths } = require('./tsconfig.json').compilerOptions;
 

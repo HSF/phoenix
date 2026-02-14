@@ -35,10 +35,14 @@ export interface AnimationPreset {
  * Manager for managing animation related operations using three.js and tween.js.
  */
 export class AnimationsManager {
-  /** Optional event-level time in nanoseconds. */
+  /**
+   * Optional event-level time in nanoseconds.
+   */
   private eventTimeNs?: number;
 
-  /** Current animation time in nanoseconds. */
+  /**
+   * Current animation time in nanoseconds.
+   */
   private currentTimeNs = 0;
 
   /**
@@ -625,8 +629,8 @@ export class AnimationsManager {
   }
 
   /**
-   * Get normalized animation progress based on event time.
-   * @returns A value in the range [0, 1] representing the current progress.
+   * Returns the current animation progress.
+   * @returns Normalized time progress between 0 and 1.
    */
   public getTimeProgress(): number {
     if (!this.eventTimeNs || this.eventTimeNs <= 0) {
@@ -637,8 +641,8 @@ export class AnimationsManager {
   }
 
   /**
-   * Set normalized time [0, 1] from UI slider.
-   * @param progress Normalized time value between 0 and 1.
+   * Sets the animation time based on normalized value.
+   * @param progress Normalized time between 0 and 1.
    */
   public setNormalizedTime(progress: number): void {
     if (!this.eventTimeNs || this.eventTimeNs <= 0) {

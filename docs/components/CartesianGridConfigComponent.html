@@ -1,0 +1,2025 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CartesianGridConfigComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-cartesian-grid-config</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./cartesian-grid-config.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./cartesian-grid-config.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cartesianPos" >cartesianPos</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Public</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                <a href="#gridConfig" >gridConfig</a>
+                            </li>
+                            <li>
+                                <a href="#originChangedSub" >originChangedSub</a>
+                            </li>
+                            <li>
+                                <a href="#scale" >scale</a>
+                            </li>
+                            <li>
+                                <a href="#shiftGrid" >shiftGrid</a>
+                            </li>
+                            <li>
+                                <a href="#showCartesianGrid" >showCartesianGrid</a>
+                            </li>
+                            <li>
+                                <a href="#stopShiftingSub" >stopShiftingSub</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addXYPlanes" >addXYPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#addYZPlanes" >addYZPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#addZXPlanes" >addZXPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#calcPlanes" >calcPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#callSetShowCartesianGrid" >callSetShowCartesianGrid</a>
+                            </li>
+                            <li>
+                                <a href="#changeSparsity" >changeSparsity</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                            <li>
+                                <a href="#onSave" >onSave</a>
+                            </li>
+                            <li>
+                                <a href="#shiftCartesianGridByPointer" >shiftCartesianGridByPointer</a>
+                            </li>
+                            <li>
+                                <a href="#shiftCartesianGridByValues" >shiftCartesianGridByValues</a>
+                            </li>
+                            <li>
+                                <a href="#showXYPlanes" >showXYPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#showYZPlanes" >showYZPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#showZXPlanes" >showZXPlanes</a>
+                            </li>
+                            <li>
+                                <a href="#translateGrid" >translateGrid</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(data: literal type, dialogRef: <a href="../components/CartesianGridConfigComponent.html" target="_self">MatDialogRef&lt;CartesianGridConfigComponent&gt;</a>, eventDisplay: <a href="../injectables/EventDisplayService.html" target="_self">EventDisplayService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                  
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/CartesianGridConfigComponent.html" target="_self" >MatDialogRef&lt;CartesianGridConfigComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>eventDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventDisplayService.html" target="_self" >EventDisplayService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addXYPlanes"></a>
+                    <span class="name">
+                        <span ><b>addXYPlanes</b></span>
+                        <a href="#addXYPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addXYPlanes(zDistance: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="93"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>zDistance</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addYZPlanes"></a>
+                    <span class="name">
+                        <span ><b>addYZPlanes</b></span>
+                        <a href="#addYZPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addYZPlanes(xDistance: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>xDistance</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addZXPlanes"></a>
+                    <span class="name">
+                        <span ><b>addZXPlanes</b></span>
+                        <a href="#addZXPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addZXPlanes(yDistance: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>yDistance</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcPlanes"></a>
+                    <span class="name">
+                        <span ><b>calcPlanes</b></span>
+                        <a href="#calcPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcPlanes(dis: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="147"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:147</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>dis</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="callSetShowCartesianGrid"></a>
+                    <span class="name">
+                        <span ><b>callSetShowCartesianGrid</b></span>
+                        <a href="#callSetShowCartesianGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>callSetShowCartesianGrid()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeSparsity"></a>
+                    <span class="name">
+                        <span ><b>changeSparsity</b></span>
+                        <a href="#changeSparsity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>changeSparsity(sparsity: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sparsity</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="38"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSave"></a>
+                    <span class="name">
+                        <span ><b>onSave</b></span>
+                        <a href="#onSave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSave(x: unknown, y: unknown, z: unknown)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>x</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>y</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>z</td>
+                                            <td>
+                                                        <code>unknown</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shiftCartesianGridByPointer"></a>
+                    <span class="name">
+                        <span ><b>shiftCartesianGridByPointer</b></span>
+                        <a href="#shiftCartesianGridByPointer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>shiftCartesianGridByPointer()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shiftCartesianGridByValues"></a>
+                    <span class="name">
+                        <span ><b>shiftCartesianGridByValues</b></span>
+                        <a href="#shiftCartesianGridByValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>shiftCartesianGridByValues(position: Vector3)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>position</td>
+                                            <td>
+                                                        <code>Vector3</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showXYPlanes"></a>
+                    <span class="name">
+                        <span ><b>showXYPlanes</b></span>
+                        <a href="#showXYPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showXYPlanes(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="121"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showYZPlanes"></a>
+                    <span class="name">
+                        <span ><b>showYZPlanes</b></span>
+                        <a href="#showYZPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showYZPlanes(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showZXPlanes"></a>
+                    <span class="name">
+                        <span ><b>showZXPlanes</b></span>
+                        <a href="#showZXPlanes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showZXPlanes(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="translateGrid"></a>
+                    <span class="name">
+                        <span ><b>translateGrid</b></span>
+                        <a href="#translateGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>translateGrid(position: Vector3)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>position</td>
+                                            <td>
+                                                        <code>Vector3</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cartesianPos"></a>
+                    <span class="name">
+                        <span ><b>cartesianPos</b></span>
+                        <a href="#cartesianPos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Vector3()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Public</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Inject(MAT_DIALOG_DATA)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="gridConfig"></a>
+                    <span class="name">
+                        <span ><b>gridConfig</b></span>
+                        <a href="#gridConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="originChangedSub"></a>
+                    <span class="name">
+                        <span ><b>originChangedSub</b></span>
+                        <a href="#originChangedSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scale"></a>
+                    <span class="name">
+                        <span ><b>scale</b></span>
+                        <a href="#scale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shiftGrid"></a>
+                    <span class="name">
+                        <span ><b>shiftGrid</b></span>
+                        <a href="#shiftGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCartesianGrid"></a>
+                    <span class="name">
+                        <span ><b>showCartesianGrid</b></span>
+                        <a href="#showCartesianGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stopShiftingSub"></a>
+                    <span class="name">
+                        <span ><b>stopShiftingSub</b></span>
+                        <a href="#stopShiftingSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, type OnInit } from &#x27;@angular/core&#x27;;
+import { Vector3 } from &#x27;three&#x27;;
+import { MatCheckboxChange } from &#x27;@angular/material/checkbox&#x27;;
+import { MAT_DIALOG_DATA, MatDialogRef } from &#x27;@angular/material/dialog&#x27;;
+import { EventDisplayService } from &#x27;../../../../services/event-display.service&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+
+@Component({
+  standalone: false,
+  selector: &#x27;app-cartesian-grid-config&#x27;,
+  templateUrl: &#x27;./cartesian-grid-config.component.html&#x27;,
+  styleUrls: [&#x27;./cartesian-grid-config.component.scss&#x27;],
+})
+export class CartesianGridConfigComponent implements OnInit {
+  cartesianPos &#x3D; new Vector3();
+  originChangedSub: Subscription &#x3D; null;
+  stopShiftingSub: Subscription &#x3D; null;
+  showCartesianGrid: boolean;
+  gridConfig: {
+    showXY: boolean;
+    showYZ: boolean;
+    showZX: boolean;
+    xDistance: number;
+    yDistance: number;
+    zDistance: number;
+    sparsity: number;
+  };
+  scale: number;
+  shiftGrid: boolean;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: { gridVisible: boolean; scale: number },
+    private dialogRef: MatDialogRef&lt;CartesianGridConfigComponent&gt;,
+    private eventDisplay: EventDisplayService,
+  ) {}
+
+  ngOnInit(): void {
+    this.shiftGrid &#x3D; this.eventDisplay.getThreeManager().shiftGrid;
+    this.showCartesianGrid &#x3D; this.data.gridVisible;
+    this.scale &#x3D; this.data.scale;
+    this.gridConfig &#x3D; this.eventDisplay.getUIManager().getCartesianGridConfig();
+    this.cartesianPos &#x3D; this.eventDisplay.getThreeManager().origin;
+  }
+
+  onClose() {
+    this.dialogRef.close();
+  }
+
+  onSave(x, y, z) {
+    this.shiftCartesianGridByValues(new Vector3(x * 10, y * 10, z * 10));
+  }
+
+  shiftCartesianGridByPointer() {
+    this.shiftGrid &#x3D; true;
+    this.eventDisplay.getUIManager().shiftCartesianGridByPointer();
+    this.originChangedSub &#x3D; this.eventDisplay
+      .getThreeManager()
+      .originChanged.subscribe((intersect) &#x3D;&gt; {
+        this.translateGrid(intersect);
+      });
+    this.stopShiftingSub &#x3D; this.eventDisplay
+      .getThreeManager()
+      .stopShifting.subscribe((stop) &#x3D;&gt; {
+        if (stop) {
+          this.originChangedSub.unsubscribe();
+          this.stopShiftingSub.unsubscribe();
+        }
+      });
+    this.onClose();
+  }
+
+  shiftCartesianGridByValues(position: Vector3) {
+    this.translateGrid(position);
+    this.eventDisplay.getThreeManager().originChangedEmit(position);
+  }
+
+  translateGrid(position: Vector3) {
+    const finalPos &#x3D; position;
+    const initialPos &#x3D; this.cartesianPos;
+    const difference &#x3D; new Vector3(
+      finalPos.x - initialPos.x,
+      finalPos.y - initialPos.y,
+      finalPos.z - initialPos.z,
+    );
+    this.eventDisplay.getUIManager().translateCartesianGrid(difference.clone());
+    this.eventDisplay
+      .getUIManager()
+      .translateCartesianLabels(difference.clone());
+    this.cartesianPos &#x3D; finalPos;
+  }
+
+  addXYPlanes(zDistance: Event) {
+    this.gridConfig.zDistance &#x3D; Number(
+      (zDistance.target as HTMLInputElement).value,
+    );
+    this.callSetShowCartesianGrid();
+  }
+
+  addYZPlanes(xDistance: Event) {
+    this.gridConfig.xDistance &#x3D; Number(
+      (xDistance.target as HTMLInputElement).value,
+    );
+    this.callSetShowCartesianGrid();
+  }
+
+  addZXPlanes(yDistance: Event) {
+    this.gridConfig.yDistance &#x3D; Number(
+      (yDistance.target as HTMLInputElement).value,
+    );
+    this.callSetShowCartesianGrid();
+  }
+
+  changeSparsity(sparsity: Event) {
+    this.gridConfig.sparsity &#x3D; Number(
+      (sparsity.target as HTMLInputElement).value,
+    );
+    this.callSetShowCartesianGrid();
+  }
+
+  showXYPlanes(change: MatCheckboxChange) {
+    this.gridConfig.showXY &#x3D; change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  showYZPlanes(change: MatCheckboxChange) {
+    this.gridConfig.showYZ &#x3D; change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  showZXPlanes(change: MatCheckboxChange) {
+    this.gridConfig.showZX &#x3D; change.checked;
+    this.callSetShowCartesianGrid();
+  }
+
+  callSetShowCartesianGrid() {
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(
+        this.showCartesianGrid,
+        this.scale,
+        this.gridConfig,
+      );
+  }
+
+  // helper function to calculate number of planes
+  calcPlanes(dis: number) {
+    return Math.max(
+      0,
+      1 + 2 * Math.floor((dis * 10) / (this.scale * this.gridConfig.sparsity)),
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div&gt;
+  &lt;h1 mat-dialog-title&gt;Customize Cartesian Grid&lt;/h1&gt;
+
+  &lt;div class&#x3D;&quot;container dialog-content&quot; mat-dialog-content&gt;
+    &lt;div class&#x3D;&quot;item-config-single&quot;&gt;
+      &lt;div class&#x3D;&quot;item-config-group&quot;&gt;
+        &lt;label class&#x3D;&quot;item-config-label&quot; for&#x3D;&quot;xPos&quot;&gt;x (cm) : &lt;/label&gt;
+        &lt;input
+          type&#x3D;&quot;number&quot;
+          placeholder&#x3D;&quot;Origin X&quot;
+          [value]&#x3D;&quot;cartesianPos.x / 10 | number: &#x27;1.2-2&#x27;&quot;
+          class&#x3D;&quot;form-control&quot;
+          name&#x3D;&quot;xPos&quot;
+          id&#x3D;&quot;xPos&quot;
+          #xPos
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;item-config-group&quot;&gt;
+        &lt;label class&#x3D;&quot;item-config-label&quot; for&#x3D;&quot;yPos&quot;&gt;y (cm) : &lt;/label&gt;
+        &lt;input
+          type&#x3D;&quot;number&quot;
+          placeholder&#x3D;&quot;Origin Y&quot;
+          [value]&#x3D;&quot;cartesianPos.y / 10 | number: &#x27;1.2-2&#x27;&quot;
+          class&#x3D;&quot;form-control&quot;
+          name&#x3D;&quot;yPos&quot;
+          id&#x3D;&quot;yPos&quot;
+          #yPos
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;div class&#x3D;&quot;item-config-group&quot;&gt;
+        &lt;label class&#x3D;&quot;item-config-label&quot; for&#x3D;&quot;zPos&quot;&gt;z (cm) : &lt;/label&gt;
+        &lt;input
+          type&#x3D;&quot;number&quot;
+          placeholder&#x3D;&quot;Origin Z&quot;
+          [value]&#x3D;&quot;cartesianPos.z / 10 | number: &#x27;1.2-2&#x27;&quot;
+          class&#x3D;&quot;form-control&quot;
+          name&#x3D;&quot;zPos&quot;
+          id&#x3D;&quot;zPos&quot;
+          #zPos
+        /&gt;
+      &lt;/div&gt;
+
+      &lt;button
+        mat-stroked-button
+        (click)&#x3D;&quot;onSave(xPos.value, yPos.value, zPos.value)&quot;
+        [disabled]&#x3D;&quot;shiftGrid&quot;
+      &gt;
+        Save
+      &lt;/button&gt;
+
+      &lt;button
+        style&#x3D;&quot;margin: 0.5rem 0&quot;
+        mat-menu-item
+        class&#x3D;&quot;explain-button&quot;
+        [disabled]&#x3D;&quot;shiftGrid&quot;
+        (click)&#x3D;&quot;$event.stopPropagation(); shiftCartesianGridByPointer()&quot;
+      &gt;
+        Shift Cartesian Grid on click
+        &lt;p class&#x3D;&quot;explain-text&quot;&gt;
+          Click on a point to shift the grid. Keep clicking at various points to
+          continue shifting. Right click to stop.
+        &lt;/p&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;div&gt;
+      &lt;button
+        mat-menu-item
+        (click)&#x3D;&quot;showXYPlanesCheckbox._inputElement.nativeElement.click()&quot;
+      &gt;
+        &lt;mat-checkbox
+          #showXYPlanesCheckbox
+          [(ngModel)]&#x3D;&quot;gridConfig.showXY&quot;
+          (click)&#x3D;&quot;$event.stopPropagation()&quot;
+          (change)&#x3D;&quot;showXYPlanes($event)&quot;
+          &gt;Show XY Planes
+        &lt;/mat-checkbox&gt;
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;slider-btn&quot; mat-menu-item (focus)&#x3D;&quot;xyPlaneSlider.focus()&quot;&gt;
+        &lt;mat-slider min&#x3D;&quot;-300&quot; [max]&#x3D;&quot;scale&quot; step&#x3D;&quot;300&quot; thumbLabel&gt;
+          &lt;input
+            #xyPlaneSlider
+            matSliderThumb
+            [value]&#x3D;&quot;gridConfig.zDistance&quot;
+            (input)&#x3D;&quot;addXYPlanes($event)&quot;
+          /&gt;
+        &lt;/mat-slider&gt;
+        XY Plane ({{ calcPlanes(gridConfig.zDistance) }})
+      &lt;/button&gt;
+      &lt;button
+        mat-menu-item
+        (click)&#x3D;&quot;showYZPlanesCheckbox._inputElement.nativeElement.click()&quot;
+      &gt;
+        &lt;mat-checkbox
+          #showYZPlanesCheckbox
+          [(ngModel)]&#x3D;&quot;gridConfig.showYZ&quot;
+          (click)&#x3D;&quot;$event.stopPropagation()&quot;
+          (change)&#x3D;&quot;showYZPlanes($event)&quot;
+          &gt;Show YZ Planes
+        &lt;/mat-checkbox&gt;
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;slider-btn&quot; mat-menu-item (focus)&#x3D;&quot;yzPlaneSlider.focus()&quot;&gt;
+        &lt;mat-slider min&#x3D;&quot;-300&quot; [max]&#x3D;&quot;scale&quot; step&#x3D;&quot;300&quot; thumbLabel&gt;
+          &lt;input
+            #yzPlaneSlider
+            matSliderThumb
+            [value]&#x3D;&quot;gridConfig.xDistance&quot;
+            (input)&#x3D;&quot;addYZPlanes($event)&quot;
+          /&gt;
+        &lt;/mat-slider&gt;
+        YZ Plane ({{ calcPlanes(gridConfig.xDistance) }})
+      &lt;/button&gt;
+      &lt;button
+        mat-menu-item
+        (click)&#x3D;&quot;showZXPlanesCheckbox._inputElement.nativeElement.click()&quot;
+      &gt;
+        &lt;mat-checkbox
+          #showZXPlanesCheckbox
+          [(ngModel)]&#x3D;&quot;gridConfig.showZX&quot;
+          (click)&#x3D;&quot;$event.stopPropagation()&quot;
+          (change)&#x3D;&quot;showZXPlanes($event)&quot;
+          &gt;Show ZX Planes
+        &lt;/mat-checkbox&gt;
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;slider-btn&quot; mat-menu-item (focus)&#x3D;&quot;zxPlaneSlider.focus()&quot;&gt;
+        &lt;mat-slider min&#x3D;&quot;-300&quot; [max]&#x3D;&quot;scale&quot; step&#x3D;&quot;300&quot; thumbLabel&gt;
+          &lt;input
+            #zxPlaneSlider
+            matSliderThumb
+            [value]&#x3D;&quot;gridConfig.yDistance&quot;
+            (input)&#x3D;&quot;addZXPlanes($event)&quot;
+          /&gt;
+        &lt;/mat-slider&gt;
+        ZX Plane ({{ calcPlanes(gridConfig.yDistance) }})
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;slider-btn&quot; mat-menu-item (focus)&#x3D;&quot;sparsitySlider.focus()&quot;&gt;
+        &lt;mat-slider min&#x3D;&quot;1&quot; max&#x3D;&quot;5&quot; step&#x3D;&quot;1&quot; thumbLabel&gt;
+          &lt;input
+            #sparsitySlider
+            matSliderThumb
+            [value]&#x3D;&quot;gridConfig.sparsity&quot;
+            (input)&#x3D;&quot;changeSparsity($event)&quot;
+          /&gt;
+        &lt;/mat-slider&gt;
+        Sparsity ({{ gridConfig.sparsity }})
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div mat-dialog-actions align&#x3D;&quot;end&quot;&gt;
+    &lt;button mat-flat-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;onClose()&quot; cdkFocusInitial&gt;
+      Close
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./cartesian-grid-config.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.item-config-single {
+  display: flex;
+  flex-direction: column;
+
+  .item-config-group {
+    margin: 0.1rem 2rem;
+
+    .item-config-label {
+      display: inline;
+      margin: 1rem;
+    }
+
+    .form-control {
+      width: 60%;
+      display: inline;
+    }
+  }
+
+  button {
+    margin: 0.5rem 4rem;
+  }
+
+  .explain-button {
+    padding-top: 1rem;
+  }
+
+  .explain-text {
+    width: 20rem;
+    opacity: 0.7;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div>  <h1 mat-dialog-title>Customize Cartesian Grid</h1>  <div class="container dialog-content" mat-dialog-content>    <div class="item-config-single">      <div class="item-config-group">        <label class="item-config-label" for="xPos">x (cm) : </label>        <input          type="number"          placeholder="Origin X"          [value]="cartesianPos.x / 10 | number: \'1.2-2\'"          class="form-control"          name="xPos"          id="xPos"          #xPos        />      </div>      <div class="item-config-group">        <label class="item-config-label" for="yPos">y (cm) : </label>        <input          type="number"          placeholder="Origin Y"          [value]="cartesianPos.y / 10 | number: \'1.2-2\'"          class="form-control"          name="yPos"          id="yPos"          #yPos        />      </div>      <div class="item-config-group">        <label class="item-config-label" for="zPos">z (cm) : </label>        <input          type="number"          placeholder="Origin Z"          [value]="cartesianPos.z / 10 | number: \'1.2-2\'"          class="form-control"          name="zPos"          id="zPos"          #zPos        />      </div>      <button        mat-stroked-button        (click)="onSave(xPos.value, yPos.value, zPos.value)"        [disabled]="shiftGrid"      >        Save      </button>      <button        style="margin: 0.5rem 0"        mat-menu-item        class="explain-button"        [disabled]="shiftGrid"        (click)="$event.stopPropagation(); shiftCartesianGridByPointer()"      >        Shift Cartesian Grid on click        <p class="explain-text">          Click on a point to shift the grid. Keep clicking at various points to          continue shifting. Right click to stop.        </p>      </button>    </div>    <div>      <button        mat-menu-item        (click)="showXYPlanesCheckbox._inputElement.nativeElement.click()"      >        <mat-checkbox          #showXYPlanesCheckbox          [(ngModel)]="gridConfig.showXY"          (click)="$event.stopPropagation()"          (change)="showXYPlanes($event)"          >Show XY Planes        </mat-checkbox>      </button>      <button class="slider-btn" mat-menu-item (focus)="xyPlaneSlider.focus()">        <mat-slider min="-300" [max]="scale" step="300" thumbLabel>          <input            #xyPlaneSlider            matSliderThumb            [value]="gridConfig.zDistance"            (input)="addXYPlanes($event)"          />        </mat-slider>        XY Plane ({{ calcPlanes(gridConfig.zDistance) }})      </button>      <button        mat-menu-item        (click)="showYZPlanesCheckbox._inputElement.nativeElement.click()"      >        <mat-checkbox          #showYZPlanesCheckbox          [(ngModel)]="gridConfig.showYZ"          (click)="$event.stopPropagation()"          (change)="showYZPlanes($event)"          >Show YZ Planes        </mat-checkbox>      </button>      <button class="slider-btn" mat-menu-item (focus)="yzPlaneSlider.focus()">        <mat-slider min="-300" [max]="scale" step="300" thumbLabel>          <input            #yzPlaneSlider            matSliderThumb            [value]="gridConfig.xDistance"            (input)="addYZPlanes($event)"          />        </mat-slider>        YZ Plane ({{ calcPlanes(gridConfig.xDistance) }})      </button>      <button        mat-menu-item        (click)="showZXPlanesCheckbox._inputElement.nativeElement.click()"      >        <mat-checkbox          #showZXPlanesCheckbox          [(ngModel)]="gridConfig.showZX"          (click)="$event.stopPropagation()"          (change)="showZXPlanes($event)"          >Show ZX Planes        </mat-checkbox>      </button>      <button class="slider-btn" mat-menu-item (focus)="zxPlaneSlider.focus()">        <mat-slider min="-300" [max]="scale" step="300" thumbLabel>          <input            #zxPlaneSlider            matSliderThumb            [value]="gridConfig.yDistance"            (input)="addZXPlanes($event)"          />        </mat-slider>        ZX Plane ({{ calcPlanes(gridConfig.yDistance) }})      </button>      <button class="slider-btn" mat-menu-item (focus)="sparsitySlider.focus()">        <mat-slider min="1" max="5" step="1" thumbLabel>          <input            #sparsitySlider            matSliderThumb            [value]="gridConfig.sparsity"            (input)="changeSparsity($event)"          />        </mat-slider>        Sparsity ({{ gridConfig.sparsity }})      </button>    </div>  </div>  <div mat-dialog-actions align="end">    <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>      Close    </button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AnimateCameraComponent', 'selector': 'app-animate-camera'},{'name': 'AnimateEventComponent', 'selector': 'app-animate-event'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArToggleComponent', 'selector': 'app-ar-toggle'},{'name': 'AtlasComponent', 'selector': 'app-atlas'},{'name': 'AutoRotateComponent', 'selector': 'app-auto-rotate'},{'name': 'CartesianGridConfigComponent', 'selector': 'app-cartesian-grid-config'},{'name': 'CMSComponent', 'selector': 'app-cms'},{'name': 'CollectionsInfoComponent', 'selector': 'app-collections-info'},{'name': 'CollectionsInfoOverlayComponent', 'selector': 'app-collections-info-overlay'},{'name': 'ConfigSliderComponent', 'selector': 'app-config-slider'},{'name': 'CycleEventsComponent', 'selector': 'app-cycle-events'},{'name': 'DarkThemeComponent', 'selector': 'app-dark-theme'},{'name': 'EmbedMenuComponent', 'selector': 'app-embed-menu'},{'name': 'EventDataExplorerComponent', 'selector': 'app-event-data-explorer'},{'name': 'EventDataExplorerDialogComponent', 'selector': 'app-event-data-explorer-dialog'},{'name': 'EventSelectorComponent', 'selector': 'app-event-selector'},{'name': 'ExperimentInfoComponent', 'selector': 'app-experiment-info'},{'name': 'ExperimentLinkComponent', 'selector': 'app-experiment-link'},{'name': 'FileExplorerComponent', 'selector': 'app-file-explorer'},{'name': 'GeometryBrowserComponent', 'selector': 'app-geometry-browser'},{'name': 'GeometryBrowserOverlayComponent', 'selector': 'app-geometry-browser-overlay'},{'name': 'GeometryComponent', 'selector': 'app-geometry'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfoPanelComponent', 'selector': 'app-info-panel'},{'name': 'InfoPanelOverlayComponent', 'selector': 'app-info-panel-overlay'},{'name': 'IoOptionsComponent', 'selector': 'app-io-options'},{'name': 'IOOptionsDialogComponent', 'selector': 'app-io-options-dialog'},{'name': 'LHCbComponent', 'selector': 'app-lhcb'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainViewToggleComponent', 'selector': 'app-main-view-toggle'},{'name': 'MakePictureComponent', 'selector': 'app-make-picture'},{'name': 'MenuToggleComponent', 'selector': 'app-menu-toggle'},{'name': 'NavComponent', 'selector': 'app-nav'},{'name': 'ObjectClippingComponent', 'selector': 'app-object-clipping'},{'name': 'ObjectSelectionComponent', 'selector': 'app-object-selection'},{'name': 'ObjectSelectionOverlayComponent', 'selector': 'app-object-selection-overlay'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayViewComponent', 'selector': 'app-overlay-view'},{'name': 'OverlayViewWindowComponent', 'selector': 'app-overlay-view-window'},{'name': 'PerformanceToggleComponent', 'selector': 'app-performance-toggle'},{'name': 'PhoenixMenuComponent', 'selector': 'app-phoenix-menu'},{'name': 'PhoenixMenuItemComponent', 'selector': 'app-phoenix-menu-item'},{'name': 'PlaygroundComponent', 'selector': 'app-playground'},{'name': 'RingLoaderComponent', 'selector': 'app-ring-loader'},{'name': 'ShareLinkComponent', 'selector': 'app-share-link'},{'name': 'ShareLinkDialogComponent', 'selector': 'app-share-link-dialog'},{'name': 'SSModeComponent', 'selector': 'app-ss-mode'},{'name': 'TrackmlComponent', 'selector': 'app-trackml'},{'name': 'TreeMenuComponent', 'selector': 'app-tree-menu'},{'name': 'TreeMenuItemComponent', 'selector': 'app-tree-menu-item'},{'name': 'UiMenuComponent', 'selector': 'app-ui-menu'},{'name': 'UiMenuWrapperComponent', 'selector': 'app-ui-menu-wrapper'},{'name': 'ViewOptionsComponent', 'selector': 'app-view-options'},{'name': 'VPToggleComponent', 'selector': 'app-vp-toggle'},{'name': 'VrToggleComponent', 'selector': 'app-vr-toggle'},{'name': 'ZoomControlsComponent', 'selector': 'app-zoom-controls'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'CartesianGridConfigComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CartesianGridConfigComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

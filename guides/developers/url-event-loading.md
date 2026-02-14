@@ -7,6 +7,7 @@ Phoenix already supports loading event data from a URL via the existing file loa
 ## Important Limitations
 
 **CORS (Cross-Origin Resource Sharing)**: Due to browser security, loading events from URLs will fail unless the server hosting the event data explicitly allows your Phoenix deployment's origin. For live displays, ensure the server includes appropriate CORS headers. This limitation makes the feature most practical for:
+
 - Same-origin deployments (Phoenix and events on the same server)
 - Servers you control where CORS headers can be configured
 - Development/testing environments with CORS disabled
@@ -42,6 +43,7 @@ fileLoaderService.reloadLastEvents(eventDisplay);
 ## Auto-Refresh Behavior (Cycling Flow Only)
 
 Auto-refresh is triggered only when:
+
 1. The cycling component is active
 2. Reload mode is enabled (indicated by cycling UI state)
 3. The cycle wraps from the last event to the first event
@@ -65,17 +67,24 @@ When these conditions are met, `fileLoader.reloadLastEvents()` is called, which 
 The URL should return event data in a format supported by Phoenix loaders:
 
 **JSON format:**
+
 ```json
 {
   "event_0": {
     "RunNumber": 123,
     "EventNumber": 1,
     "collections": {
-      "Tracks": [ /* track data */ ],
-      "Hits": [ /* hit data */ ]
+      "Tracks": [
+        /* track data */
+      ],
+      "Hits": [
+        /* hit data */
+      ]
     }
   },
-  "event_1": { /* event data */ }
+  "event_1": {
+    /* event data */
+  }
 }
 ```
 
