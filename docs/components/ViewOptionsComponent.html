@@ -1,0 +1,1534 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ViewOptionsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-view-options</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./view-options.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./view-options.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#origin" >origin</a>
+                            </li>
+                            <li>
+                                <a href="#scale" >scale</a>
+                            </li>
+                            <li>
+                                <a href="#show3DPoints" >show3DPoints</a>
+                            </li>
+                            <li>
+                                <a href="#showCartesianGrid" >showCartesianGrid</a>
+                            </li>
+                            <li>
+                                <a href="#sub" >sub</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#trigger" >trigger</a>
+                            </li>
+                            <li>
+                                <a href="#views" >views</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#displayView" >displayView</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openCartesianGridConfigDialog" >openCartesianGridConfigDialog</a>
+                            </li>
+                            <li>
+                                <a href="#setAxis" >setAxis</a>
+                            </li>
+                            <li>
+                                <a href="#setCartesianGrid" >setCartesianGrid</a>
+                            </li>
+                            <li>
+                                <a href="#setEtaPhiGrid" >setEtaPhiGrid</a>
+                            </li>
+                            <li>
+                                <a href="#show3DMousePoints" >show3DMousePoints</a>
+                            </li>
+                            <li>
+                                <a href="#showLabels" >showLabels</a>
+                            </li>
+                            <li>
+                                <a href="#toggleShowDistance" >toggleShowDistance</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(eventDisplay: <a href="../injectables/EventDisplayService.html" target="_self">EventDisplayService</a>, dialog: MatDialog)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>eventDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventDisplayService.html" target="_self" >EventDisplayService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayView"></a>
+                    <span class="name">
+                        <span ><b>displayView</b></span>
+                        <a href="#displayView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>displayView($event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, view: PresetView)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="58"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>$event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>view</td>
+                                            <td>
+                                                        <code>PresetView</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openCartesianGridConfigDialog"></a>
+                    <span class="name">
+                        <span ><b>openCartesianGridConfigDialog</b></span>
+                        <a href="#openCartesianGridConfigDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openCartesianGridConfigDialog()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="45"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAxis"></a>
+                    <span class="name">
+                        <span ><b>setAxis</b></span>
+                        <a href="#setAxis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setAxis(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="63"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCartesianGrid"></a>
+                    <span class="name">
+                        <span ><b>setCartesianGrid</b></span>
+                        <a href="#setCartesianGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setCartesianGrid(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setEtaPhiGrid"></a>
+                    <span class="name">
+                        <span ><b>setEtaPhiGrid</b></span>
+                        <a href="#setEtaPhiGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setEtaPhiGrid(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="68"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="show3DMousePoints"></a>
+                    <span class="name">
+                        <span ><b>show3DMousePoints</b></span>
+                        <a href="#show3DMousePoints"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>show3DMousePoints(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showLabels"></a>
+                    <span class="name">
+                        <span ><b>showLabels</b></span>
+                        <a href="#showLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showLabels(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleShowDistance"></a>
+                    <span class="name">
+                        <span ><b>toggleShowDistance</b></span>
+                        <a href="#toggleShowDistance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleShowDistance(change: MatCheckboxChange)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>change</td>
+                                            <td>
+                                                        <code>MatCheckboxChange</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="origin"></a>
+                    <span class="name">
+                        <span ><b>origin</b></span>
+                        <a href="#origin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Vector3</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Vector3(0, 0, 0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scale"></a>
+                    <span class="name">
+                        <span ><b>scale</b></span>
+                        <a href="#scale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>3000</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="show3DPoints"></a>
+                    <span class="name">
+                        <span ><b>show3DPoints</b></span>
+                        <a href="#show3DPoints"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showCartesianGrid"></a>
+                    <span class="name">
+                        <span ><b>showCartesianGrid</b></span>
+                        <a href="#showCartesianGrid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sub"></a>
+                    <span class="name">
+                        <span ><b>sub</b></span>
+                        <a href="#sub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trigger"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>trigger</b></span>
+                        <a href="#trigger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatMenuTrigger</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(MatMenuTrigger)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="views"></a>
+                    <span class="name">
+                        <span ><b>views</b></span>
+                        <a href="#views"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PresetView[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  type OnInit,
+  type OnDestroy,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
+import { PresetView } from &#x27;phoenix-event-display&#x27;;
+import { MatCheckboxChange } from &#x27;@angular/material/checkbox&#x27;;
+import { EventDisplayService } from &#x27;../../../services/event-display.service&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { CartesianGridConfigComponent } from &#x27;./cartesian-grid-config/cartesian-grid-config.component&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { Vector3 } from &#x27;three&#x27;;
+import { MatMenuTrigger } from &#x27;@angular/material/menu&#x27;;
+
+@Component({
+  standalone: false,
+  selector: &#x27;app-view-options&#x27;,
+  templateUrl: &#x27;./view-options.component.html&#x27;,
+  styleUrls: [&#x27;./view-options.component.scss&#x27;],
+})
+export class ViewOptionsComponent implements OnInit, OnDestroy {
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+  showCartesianGrid: boolean &#x3D; false;
+  scale: number &#x3D; 3000;
+  views: PresetView[];
+  show3DPoints: boolean;
+  origin: Vector3 &#x3D; new Vector3(0, 0, 0);
+  sub: Subscription;
+
+  constructor(
+    private eventDisplay: EventDisplayService,
+    private dialog: MatDialog,
+  ) {}
+
+  ngOnInit(): void {
+    this.views &#x3D; this.eventDisplay.getUIManager().getPresetViews();
+    this.sub &#x3D; this.eventDisplay
+      .getThreeManager()
+      .originChanged.subscribe((intersect) &#x3D;&gt; {
+        this.origin &#x3D; intersect;
+      });
+  }
+
+  openCartesianGridConfigDialog() {
+    this.dialog.open(CartesianGridConfigComponent, {
+      data: {
+        gridVisible: this.showCartesianGrid,
+        scale: this.scale,
+      },
+      position: {
+        bottom: &#x27;5rem&#x27;,
+        left: &#x27;3rem&#x27;,
+      },
+    });
+  }
+
+  displayView($event: any, view: PresetView) {
+    $event.stopPropagation();
+    this.eventDisplay.getUIManager().displayView(view);
+  }
+
+  setAxis(change: MatCheckboxChange) {
+    const value &#x3D; change.checked;
+    this.eventDisplay.getUIManager().setShowAxis(value);
+  }
+
+  setEtaPhiGrid(change: MatCheckboxChange) {
+    const value &#x3D; change.checked;
+    this.eventDisplay.getUIManager().setShowEtaPhiGrid(value);
+  }
+
+  setCartesianGrid(change: MatCheckboxChange) {
+    this.showCartesianGrid &#x3D; change.checked;
+    this.eventDisplay
+      .getUIManager()
+      .setShowCartesianGrid(this.showCartesianGrid, this.scale);
+  }
+
+  showLabels(change: MatCheckboxChange) {
+    this.eventDisplay.getUIManager().showLabels(change.checked);
+  }
+
+  show3DMousePoints(change: MatCheckboxChange) {
+    this.show3DPoints &#x3D; change.checked;
+    this.eventDisplay.getUIManager().show3DMousePoints(this.show3DPoints);
+  }
+
+  toggleShowDistance(change: MatCheckboxChange) {
+    this.trigger.closeMenu();
+    this.eventDisplay.getUIManager().show3DDistance(change.checked);
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;mat-menu #viewOptions&gt;
+  &lt;button mat-menu-item&gt;
+    &lt;mat-checkbox
+      #showCartesianGridCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;setCartesianGrid($event)&quot;
+      &gt;Show Cartesian Grid
+    &lt;/mat-checkbox&gt;
+    &lt;button
+      class&#x3D;&quot;icon-wrapper icon-button btn-blank item-settings&quot;
+      (click)&#x3D;&quot;openCartesianGridConfigDialog()&quot;
+    &gt;
+      &lt;svg&gt;
+        &lt;use href&#x3D;&quot;assets/icons/gear.svg#gear&quot;&gt;&lt;/use&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;
+      $event.stopPropagation();
+      showEtaPhiGridCheckbox._inputElement.nativeElement.click()
+    &quot;
+  &gt;
+    &lt;mat-checkbox
+      #showEtaPhiGridCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;setEtaPhiGrid($event)&quot;
+      &gt;Show Eta Phi Grid
+    &lt;/mat-checkbox&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;
+      $event.stopPropagation();
+      showAxisCheckbox._inputElement.nativeElement.click()
+    &quot;
+  &gt;
+    &lt;mat-checkbox
+      #showAxisCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;setAxis($event)&quot;
+      &gt;Show Axis
+    &lt;/mat-checkbox&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;showLabelsCheckbox._inputElement.nativeElement.click()&quot;
+  &gt;
+    &lt;mat-checkbox
+      #showLabelsCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;showLabels($event)&quot;
+      &gt;Show Labels
+    &lt;/mat-checkbox&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;
+      $event.stopPropagation();
+      showMouse3DPointsCheckbox._inputElement.nativeElement.click()
+    &quot;
+  &gt;
+    &lt;mat-checkbox
+      #showMouse3DPointsCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;show3DMousePoints($event)&quot;
+      &gt;Show 3D Coordinates
+    &lt;/mat-checkbox&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    (click)&#x3D;&quot;
+      $event.stopPropagation();
+      show3DDistanceCheckbox._inputElement.nativeElement.click()
+    &quot;
+  &gt;
+    &lt;mat-checkbox
+      #show3DDistanceCheckbox
+      (click)&#x3D;&quot;$event.stopPropagation()&quot;
+      (change)&#x3D;&quot;toggleShowDistance($event)&quot;
+      &gt;Show 3D Distance
+    &lt;/mat-checkbox&gt;
+  &lt;/button&gt;
+  &lt;button
+    mat-menu-item
+    *ngFor&#x3D;&quot;let view of views&quot;
+    (click)&#x3D;&quot;displayView($event, view)&quot;
+  &gt;
+    &lt;svg class&#x3D;&quot;view-icon&quot; *ngIf&#x3D;&quot;view.icon&quot;&gt;
+      &lt;use attr.href&#x3D;&quot;assets/icons/{{ view.icon }}.svg#{{ view.icon }}&quot;&gt;&lt;/use&gt;
+    &lt;/svg&gt;
+    {{ view.name }}
+  &lt;/button&gt;
+&lt;/mat-menu&gt;
+
+&lt;app-menu-toggle
+  [matMenuTriggerFor]&#x3D;&quot;viewOptions&quot;
+  tooltip&#x3D;&quot;View options and Tools&quot;
+  icon&#x3D;&quot;views&quot;
+  [active]&#x3D;&quot;false&quot;
+&gt;
+&lt;/app-menu-toggle&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./view-options.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.view-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.icon-wrapper {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.23rem;
+  transition: all 0.4s;
+  transform: translateY(27%);
+
+  &amp;.icon-button:hover {
+    background: var(--phoenix-options-icon-bg);
+    border-radius: 40%;
+    cursor: pointer;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+  }
+}
+
+.item-settings {
+  margin-right: 0.2rem;
+  margin-left: 0.5rem;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><mat-menu #viewOptions>  <button mat-menu-item>    <mat-checkbox      #showCartesianGridCheckbox      (click)="$event.stopPropagation()"      (change)="setCartesianGrid($event)"      >Show Cartesian Grid    </mat-checkbox>    <button      class="icon-wrapper icon-button btn-blank item-settings"      (click)="openCartesianGridConfigDialog()"    >      <svg>        <use href="assets/icons/gear.svg#gear"></use>      </svg>    </button>  </button>  <button    mat-menu-item    (click)="      $event.stopPropagation();      showEtaPhiGridCheckbox._inputElement.nativeElement.click()    "  >    <mat-checkbox      #showEtaPhiGridCheckbox      (click)="$event.stopPropagation()"      (change)="setEtaPhiGrid($event)"      >Show Eta Phi Grid    </mat-checkbox>  </button>  <button    mat-menu-item    (click)="      $event.stopPropagation();      showAxisCheckbox._inputElement.nativeElement.click()    "  >    <mat-checkbox      #showAxisCheckbox      (click)="$event.stopPropagation()"      (change)="setAxis($event)"      >Show Axis    </mat-checkbox>  </button>  <button    mat-menu-item    (click)="showLabelsCheckbox._inputElement.nativeElement.click()"  >    <mat-checkbox      #showLabelsCheckbox      (click)="$event.stopPropagation()"      (change)="showLabels($event)"      >Show Labels    </mat-checkbox>  </button>  <button    mat-menu-item    (click)="      $event.stopPropagation();      showMouse3DPointsCheckbox._inputElement.nativeElement.click()    "  >    <mat-checkbox      #showMouse3DPointsCheckbox      (click)="$event.stopPropagation()"      (change)="show3DMousePoints($event)"      >Show 3D Coordinates    </mat-checkbox>  </button>  <button    mat-menu-item    (click)="      $event.stopPropagation();      show3DDistanceCheckbox._inputElement.nativeElement.click()    "  >    <mat-checkbox      #show3DDistanceCheckbox      (click)="$event.stopPropagation()"      (change)="toggleShowDistance($event)"      >Show 3D Distance    </mat-checkbox>  </button>  <button    mat-menu-item    *ngFor="let view of views"    (click)="displayView($event, view)"  >    <svg class="view-icon" *ngIf="view.icon">      <use attr.href="assets/icons/{{ view.icon }}.svg#{{ view.icon }}"></use>    </svg>    {{ view.name }}  </button></mat-menu><app-menu-toggle  [matMenuTriggerFor]="viewOptions"  tooltip="View options and Tools"  icon="views"  [active]="false"></app-menu-toggle></div>'
+    var COMPONENTS = [{'name': 'AnimateCameraComponent', 'selector': 'app-animate-camera'},{'name': 'AnimateEventComponent', 'selector': 'app-animate-event'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArToggleComponent', 'selector': 'app-ar-toggle'},{'name': 'AtlasComponent', 'selector': 'app-atlas'},{'name': 'AutoRotateComponent', 'selector': 'app-auto-rotate'},{'name': 'CartesianGridConfigComponent', 'selector': 'app-cartesian-grid-config'},{'name': 'CMSComponent', 'selector': 'app-cms'},{'name': 'CollectionsInfoComponent', 'selector': 'app-collections-info'},{'name': 'CollectionsInfoOverlayComponent', 'selector': 'app-collections-info-overlay'},{'name': 'ConfigSliderComponent', 'selector': 'app-config-slider'},{'name': 'CycleEventsComponent', 'selector': 'app-cycle-events'},{'name': 'DarkThemeComponent', 'selector': 'app-dark-theme'},{'name': 'EmbedMenuComponent', 'selector': 'app-embed-menu'},{'name': 'EventDataExplorerComponent', 'selector': 'app-event-data-explorer'},{'name': 'EventDataExplorerDialogComponent', 'selector': 'app-event-data-explorer-dialog'},{'name': 'EventSelectorComponent', 'selector': 'app-event-selector'},{'name': 'ExperimentInfoComponent', 'selector': 'app-experiment-info'},{'name': 'ExperimentLinkComponent', 'selector': 'app-experiment-link'},{'name': 'FileExplorerComponent', 'selector': 'app-file-explorer'},{'name': 'GeometryBrowserComponent', 'selector': 'app-geometry-browser'},{'name': 'GeometryBrowserOverlayComponent', 'selector': 'app-geometry-browser-overlay'},{'name': 'GeometryComponent', 'selector': 'app-geometry'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfoPanelComponent', 'selector': 'app-info-panel'},{'name': 'InfoPanelOverlayComponent', 'selector': 'app-info-panel-overlay'},{'name': 'IoOptionsComponent', 'selector': 'app-io-options'},{'name': 'IOOptionsDialogComponent', 'selector': 'app-io-options-dialog'},{'name': 'LHCbComponent', 'selector': 'app-lhcb'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainViewToggleComponent', 'selector': 'app-main-view-toggle'},{'name': 'MakePictureComponent', 'selector': 'app-make-picture'},{'name': 'MenuToggleComponent', 'selector': 'app-menu-toggle'},{'name': 'NavComponent', 'selector': 'app-nav'},{'name': 'ObjectClippingComponent', 'selector': 'app-object-clipping'},{'name': 'ObjectSelectionComponent', 'selector': 'app-object-selection'},{'name': 'ObjectSelectionOverlayComponent', 'selector': 'app-object-selection-overlay'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayViewComponent', 'selector': 'app-overlay-view'},{'name': 'OverlayViewWindowComponent', 'selector': 'app-overlay-view-window'},{'name': 'PerformanceToggleComponent', 'selector': 'app-performance-toggle'},{'name': 'PhoenixMenuComponent', 'selector': 'app-phoenix-menu'},{'name': 'PhoenixMenuItemComponent', 'selector': 'app-phoenix-menu-item'},{'name': 'PlaygroundComponent', 'selector': 'app-playground'},{'name': 'RingLoaderComponent', 'selector': 'app-ring-loader'},{'name': 'ShareLinkComponent', 'selector': 'app-share-link'},{'name': 'ShareLinkDialogComponent', 'selector': 'app-share-link-dialog'},{'name': 'SSModeComponent', 'selector': 'app-ss-mode'},{'name': 'TrackmlComponent', 'selector': 'app-trackml'},{'name': 'TreeMenuComponent', 'selector': 'app-tree-menu'},{'name': 'TreeMenuItemComponent', 'selector': 'app-tree-menu-item'},{'name': 'UiMenuComponent', 'selector': 'app-ui-menu'},{'name': 'UiMenuWrapperComponent', 'selector': 'app-ui-menu-wrapper'},{'name': 'ViewOptionsComponent', 'selector': 'app-view-options'},{'name': 'VPToggleComponent', 'selector': 'app-vp-toggle'},{'name': 'VrToggleComponent', 'selector': 'app-vr-toggle'},{'name': 'ZoomControlsComponent', 'selector': 'app-zoom-controls'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ViewOptionsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ViewOptionsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

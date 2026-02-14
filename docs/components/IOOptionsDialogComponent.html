@@ -1,0 +1,2309 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  IOOptionsDialogComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-io-options-dialog</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./io-options-dialog.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./io-options-dialog.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialogRef" >dialogRef</a>
+                            </li>
+                            <li>
+                                <a href="#eventDataOptionsWithHandler" >eventDataOptionsWithHandler</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#supportedEventDataFormats" >supportedEventDataFormats</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#exportOBJ" >exportOBJ</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getJiveXMLLoader" >getJiveXMLLoader</a>
+                            </li>
+                            <li>
+                                <a href="#getSupportedEventDataFormats" >getSupportedEventDataFormats</a>
+                            </li>
+                            <li>
+                                <a href="#handleEDM4HEPJSONEventDataInput" >handleEDM4HEPJSONEventDataInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleFileInput" >handleFileInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleGLTFInput" >handleGLTFInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleIgEventDataInput" >handleIgEventDataInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleJiveXMLDataInput" >handleJiveXMLDataInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleJSONEventDataInput" >handleJSONEventDataInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleOBJInput" >handleOBJInput</a>
+                            </li>
+                            <li>
+                                <a href="#handlePhoenixInput" >handlePhoenixInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleROOTInput" >handleROOTInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleRootJSONInput" >handleRootJSONInput</a>
+                            </li>
+                            <li>
+                                <a href="#handleSceneInput" >handleSceneInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#handleZipEventDataInput" >handleZipEventDataInput</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isFileOfExtension" >isFileOfExtension</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                            <li>
+                                <a href="#saveScene" >saveScene</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#eventDataImportOptions" >eventDataImportOptions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(eventDisplay: <a href="../injectables/EventDisplayService.html" target="_self">EventDisplayService</a>, dialogRef: <a href="../components/IOOptionsDialogComponent.html" target="_self">MatDialogRef&lt;IOOptionsDialogComponent&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>eventDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventDisplayService.html" target="_self" >EventDisplayService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/IOOptionsDialogComponent.html" target="_self" >MatDialogRef&lt;IOOptionsDialogComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="eventDataImportOptions"></a>
+                        <b>eventDataImportOptions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/ImportOption.html" target="_self" >EventDataImportOption[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[EventDataFormat.JSON]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exportOBJ"></a>
+                    <span class="name">
+                        <span ><b>exportOBJ</b></span>
+                        <a href="#exportOBJ"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>exportOBJ()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="289"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:289</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getJiveXMLLoader"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getJiveXMLLoader</b></span>
+                        <a href="#getJiveXMLLoader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getJiveXMLLoader()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>JiveXMLLoader</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSupportedEventDataFormats"></a>
+                    <span class="name">
+                        <span ><b>getSupportedEventDataFormats</b></span>
+                        <a href="#getSupportedEventDataFormats"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSupportedEventDataFormats()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="87"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleEDM4HEPJSONEventDataInput"></a>
+                    <span class="name">
+                        <span ><b>handleEDM4HEPJSONEventDataInput</b></span>
+                        <a href="#handleEDM4HEPJSONEventDataInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleEDM4HEPJSONEventDataInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleFileInput"></a>
+                    <span class="name">
+                        <span ><b>handleFileInput</b></span>
+                        <a href="#handleFileInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleFileInput(file: File, extensions: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, callback: (result: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>,fileName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="251"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:251</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                        <code>File</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>extensions</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>callback</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleGLTFInput"></a>
+                    <span class="name">
+                        <span ><b>handleGLTFInput</b></span>
+                        <a href="#handleGLTFInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleGLTFInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="157"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:157</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleIgEventDataInput"></a>
+                    <span class="name">
+                        <span ><b>handleIgEventDataInput</b></span>
+                        <a href="#handleIgEventDataInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleIgEventDataInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleJiveXMLDataInput"></a>
+                    <span class="name">
+                        <span ><b>handleJiveXMLDataInput</b></span>
+                        <a href="#handleJiveXMLDataInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleJiveXMLDataInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="123"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleJSONEventDataInput"></a>
+                    <span class="name">
+                        <span ><b>handleJSONEventDataInput</b></span>
+                        <a href="#handleJSONEventDataInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleJSONEventDataInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleOBJInput"></a>
+                    <span class="name">
+                        <span ><b>handleOBJInput</b></span>
+                        <a href="#handleOBJInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleOBJInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="143"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:143</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlePhoenixInput"></a>
+                    <span class="name">
+                        <span ><b>handlePhoenixInput</b></span>
+                        <a href="#handlePhoenixInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handlePhoenixInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="166"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:166</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleROOTInput"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>handleROOTInput</b></span>
+                        <a href="#handleROOTInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleROOTInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="173"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:173</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleRootJSONInput"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>handleRootJSONInput</b></span>
+                        <a href="#handleRootJSONInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleRootJSONInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleSceneInput"></a>
+                    <span class="name">
+                        <span ><b>handleSceneInput</b></span>
+                        <a href="#handleSceneInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleSceneInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="150"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:150</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleZipEventDataInput"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>handleZipEventDataInput</b></span>
+                        <a href="#handleZipEventDataInput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleZipEventDataInput(files: FileList)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="208"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:208</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>files</td>
+                                            <td>
+                                                        <code>FileList</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFileOfExtension"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>isFileOfExtension</b></span>
+                        <a href="#isFileOfExtension"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isFileOfExtension(fileName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, extensions: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="272"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:272</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>fileName</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>extensions</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="100"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveScene"></a>
+                    <span class="name">
+                        <span ><b>saveScene</b></span>
+                        <a href="#saveScene"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveScene()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialogRef</b></span>
+                        <a href="#dialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/IOOptionsDialogComponent.html" target="_self" >MatDialogRef&lt;IOOptionsDialogComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventDataOptionsWithHandler"></a>
+                    <span class="name">
+                        <span ><b>eventDataOptionsWithHandler</b></span>
+                        <a href="#eventDataOptionsWithHandler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/ImportOption.html" target="_self" >ImportOption[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="supportedEventDataFormats"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>supportedEventDataFormats</b></span>
+                        <a href="#supportedEventDataFormats"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    new ImportOption(
+      EventDataFormat.JSON,
+      &#x27;.json&#x27;,
+      this.handleJSONEventDataInput.bind(this),
+      &#x27;application/json&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.EDM4HEPJSON,
+      &#x27;.edm4hep.json&#x27;,
+      this.handleEDM4HEPJSONEventDataInput.bind(this),
+      &#x27;application/json&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.JIVEXML,
+      &#x27;.xml&#x27;,
+      this.handleJiveXMLDataInput.bind(this),
+      &#x27;text/xml&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.ZIP,
+      &#x27;.zip&#x27;,
+      this.handleZipEventDataInput.bind(this),
+      &#x27;.zip&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.IG,
+      &#x27;.ig&#x27;,
+      this.handleIgEventDataInput.bind(this),
+      &#x27;.ig&#x27;,
+    ),
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { type OnInit, Component, Input } from &#x27;@angular/core&#x27;;
+import {
+  CMSLoader,
+  JiveXMLLoader,
+  readZipFile,
+  Edm4hepJsonLoader,
+} from &#x27;phoenix-event-display&#x27;;
+import { EventDisplayService } from &#x27;../../../../services/event-display.service&#x27;;
+import { MatDialogRef } from &#x27;@angular/material/dialog&#x27;;
+import {
+  EventDataFormat,
+  type EventDataImportOption,
+  ImportOption,
+} from &#x27;../../../../services/extras/event-data-import&#x27;;
+
+@Component({
+  standalone: false,
+  selector: &#x27;app-io-options-dialog&#x27;,
+  templateUrl: &#x27;./io-options-dialog.component.html&#x27;,
+  styleUrls: [&#x27;./io-options-dialog.component.scss&#x27;],
+})
+export class IOOptionsDialogComponent implements OnInit {
+  @Input()
+  eventDataImportOptions: EventDataImportOption[] &#x3D; [EventDataFormat.JSON];
+
+  eventDataOptionsWithHandler: ImportOption[];
+
+  private supportedEventDataFormats &#x3D; [
+    new ImportOption(
+      EventDataFormat.JSON,
+      &#x27;.json&#x27;,
+      this.handleJSONEventDataInput.bind(this),
+      &#x27;application/json&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.EDM4HEPJSON,
+      &#x27;.edm4hep.json&#x27;,
+      this.handleEDM4HEPJSONEventDataInput.bind(this),
+      &#x27;application/json&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.JIVEXML,
+      &#x27;.xml&#x27;,
+      this.handleJiveXMLDataInput.bind(this),
+      &#x27;text/xml&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.ZIP,
+      &#x27;.zip&#x27;,
+      this.handleZipEventDataInput.bind(this),
+      &#x27;.zip&#x27;,
+    ),
+    new ImportOption(
+      EventDataFormat.IG,
+      &#x27;.ig&#x27;,
+      this.handleIgEventDataInput.bind(this),
+      &#x27;.ig&#x27;,
+    ),
+  ];
+
+  constructor(
+    private eventDisplay: EventDisplayService,
+    public dialogRef: MatDialogRef&lt;IOOptionsDialogComponent&gt;,
+  ) {}
+
+  ngOnInit() {
+    this.eventDataOptionsWithHandler &#x3D; this.supportedEventDataFormats.filter(
+      (eventDataFormat) &#x3D;&gt;
+        this.eventDataImportOptions.includes(
+          eventDataFormat.format as EventDataFormat,
+        ),
+    );
+
+    this.eventDataImportOptions.forEach((eventDataImportOption) &#x3D;&gt; {
+      if (eventDataImportOption instanceof ImportOption) {
+        const importHandler &#x3D; eventDataImportOption.handler.bind(this);
+        eventDataImportOption.handler &#x3D; (files: FileList) &#x3D;&gt; {
+          importHandler(files);
+          this.onClose();
+        };
+
+        this.eventDataOptionsWithHandler.push(eventDataImportOption);
+      }
+    });
+  }
+
+  getSupportedEventDataFormats() {
+    return this.eventDataImportOptions
+      .map((format) &#x3D;&gt; {
+        if (format instanceof ImportOption) {
+          return format.format;
+        }
+
+        return format;
+      })
+      .filter((format) &#x3D;&gt; format !&#x3D;&#x3D; &#x27;ZIP&#x27;)
+      .join(&#x27;, &#x27;);
+  }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
+
+  handleJSONEventDataInput(files: FileList) {
+    const callback &#x3D; (content: any) &#x3D;&gt; {
+      const json &#x3D; typeof content &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? JSON.parse(content) : content;
+      this.eventDisplay.parsePhoenixEvents(json);
+    };
+    this.handleFileInput(files[0], &#x27;json&#x27;, callback);
+  }
+
+  handleEDM4HEPJSONEventDataInput(files: FileList) {
+    const callback &#x3D; (content: any) &#x3D;&gt; {
+      const json &#x3D; typeof content &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? JSON.parse(content) : content;
+      const edm4hepJsonLoader &#x3D; new Edm4hepJsonLoader();
+      edm4hepJsonLoader.setRawEventData(json);
+      edm4hepJsonLoader.processEventData();
+      this.eventDisplay.parsePhoenixEvents(edm4hepJsonLoader.getEventData());
+    };
+    this.handleFileInput(files[0], &#x27;edm4hep.json&#x27;, callback);
+  }
+
+  handleJiveXMLDataInput(files: FileList) {
+    const callback &#x3D; (content: any) &#x3D;&gt; {
+      const jiveloader &#x3D; this.getJiveXMLLoader();
+      jiveloader.process(content);
+      const eventData &#x3D; jiveloader.getEventData();
+      this.eventDisplay.buildEventDataFromJSON(eventData);
+    };
+    this.handleFileInput(files[0], &#x27;xml&#x27;, callback);
+  }
+
+  private getJiveXMLLoader(): JiveXMLLoader {
+    if (
+      this.eventDisplay?.configuration?.eventDataLoader instanceof JiveXMLLoader
+    ) {
+      return this.eventDisplay.configuration.eventDataLoader as JiveXMLLoader;
+    } else {
+      return new JiveXMLLoader();
+    }
+  }
+
+  handleOBJInput(files: FileList) {
+    const callback &#x3D; (content: any, name: string) &#x3D;&gt; {
+      this.eventDisplay.parseOBJGeometry(content, name);
+    };
+    this.handleFileInput(files[0], &#x27;obj&#x27;, callback);
+  }
+
+  handleSceneInput(files: FileList) {
+    const callback &#x3D; (content: any) &#x3D;&gt; {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
+    this.handleFileInput(files[0], &#x27;phnx&#x27;, callback);
+  }
+
+  handleGLTFInput(files: FileList) {
+    const callback &#x3D; (file: File) &#x3D;&gt; {
+      this.eventDisplay.parseGLTFGeometry(file);
+    };
+    if (this.isFileOfExtension(files[0].name, &#x27;gltf,glb,gltf.zip,glb.zip&#x27;)) {
+      callback(files[0]);
+    }
+  }
+
+  handlePhoenixInput(files: FileList) {
+    const callback &#x3D; (content: any) &#x3D;&gt; {
+      this.eventDisplay.parsePhoenixDisplay(content);
+    };
+    this.handleFileInput(files[0], &#x27;phnx&#x27;, callback);
+  }
+
+  async handleROOTInput(files: FileList) {
+    const rootObjectName &#x3D; prompt(&#x27;Enter object name in ROOT file&#x27;);
+
+    await this.eventDisplay.loadRootGeometry(
+      URL.createObjectURL(files[0]),
+      rootObjectName,
+      files[0].name.split(&#x27;.&#x27;)[0],
+    );
+
+    this.onClose();
+  }
+
+  async handleRootJSONInput(files: FileList) {
+    if (!this.isFileOfExtension(files[0].name, &#x27;gz&#x27;)) {
+      return;
+    }
+
+    const name &#x3D; files[0].name.split(&#x27;.&#x27;)[0];
+    await this.eventDisplay.loadRootJSONGeometry(
+      URL.createObjectURL(files[0]),
+      name,
+    );
+
+    this.onClose();
+  }
+
+  handleIgEventDataInput(files: FileList) {
+    const cmsLoader &#x3D; new CMSLoader();
+    cmsLoader.readIgArchive(files[0], (allEvents: any[]) &#x3D;&gt; {
+      const allEventsData &#x3D; cmsLoader.getAllEventsData(allEvents);
+      this.eventDisplay.parsePhoenixEvents(allEventsData);
+      this.onClose();
+    });
+  }
+
+  async handleZipEventDataInput(files: FileList) {
+    if (!this.isFileOfExtension(files[0].name, &#x27;zip,json.zip&#x27;)) {
+      return;
+    }
+
+    const allEventsObject &#x3D; {};
+    let filesWithData: { [fileName: string]: string };
+
+    // Using a try catch block to catch any errors in Promises
+    try {
+      filesWithData &#x3D; await readZipFile(files[0]);
+    } catch (error) {
+      console.error(&#x27;Error while reading zip&#x27;, error);
+      this.eventDisplay.getInfoLogger().add(&#x27;Could not read zip file&#x27;, &#x27;Error&#x27;);
+      return;
+    }
+
+    // JSON event data
+    Object.keys(filesWithData)
+      .filter((fileName) &#x3D;&gt; fileName.endsWith(&#x27;.json&#x27;))
+      .forEach((fileName) &#x3D;&gt; {
+        Object.assign(allEventsObject, JSON.parse(filesWithData[fileName]));
+      });
+
+    // JiveXML event data
+    const jiveloader &#x3D; this.getJiveXMLLoader();
+
+    Object.keys(filesWithData)
+      .filter((fileName) &#x3D;&gt; {
+        return fileName.endsWith(&#x27;.xml&#x27;) || fileName.startsWith(&#x27;JiveXML&#x27;);
+      })
+      .forEach((fileName) &#x3D;&gt; {
+        jiveloader.process(filesWithData[fileName]);
+        const eventData &#x3D; jiveloader.getEventData();
+        Object.assign(allEventsObject, { [fileName]: eventData });
+      });
+    // For some reason the above doesn&#x27;t pick up JiveXML_XXX_YYY.zip
+
+    this.eventDisplay.parsePhoenixEvents(allEventsObject);
+
+    this.onClose();
+  }
+
+  handleFileInput(
+    file: File,
+    extensions: string,
+    callback: (result: string, fileName?: string) &#x3D;&gt; void,
+  ) {
+    const reader &#x3D; new FileReader();
+
+    if (this.isFileOfExtension(file.name, extensions)) {
+      reader.onload &#x3D; () &#x3D;&gt; {
+        callback(reader.result.toString(), file.name.split(&#x27;.&#x27;)[0]);
+      };
+      reader.onerror &#x3D; () &#x3D;&gt; {
+        const errorMessage &#x3D; &#x60;Failed to read file &quot;${file.name}&quot;. The file may be corrupted, too large, or inaccessible.&#x60;;
+        console.error(&#x27;FileReader error:&#x27;, reader.error);
+        this.eventDisplay.getInfoLogger().add(errorMessage, &#x27;Error&#x27;);
+      };
+      reader.readAsText(file);
+    }
+    this.onClose();
+  }
+
+  private isFileOfExtension(fileName: string, extensions: string): boolean {
+    if (
+      extensions.split(&#x27;,&#x27;).includes(fileName.slice(fileName.indexOf(&#x27;.&#x27;) + 1))
+    ) {
+      return true;
+    }
+
+    console.error(&#x27;Error: Invalid file format!&#x27;);
+    this.eventDisplay.getInfoLogger().add(&#x27;Invalid file format!&#x27;, &#x27;Error&#x27;);
+
+    return false;
+  }
+
+  saveScene() {
+    this.eventDisplay.exportPhoenixDisplay();
+  }
+
+  exportOBJ() {
+    this.eventDisplay.exportToOBJ();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;dialog&quot;&gt;
+  &lt;h1 mat-dialog-title&gt;Import and export&lt;/h1&gt;
+  &lt;div mat-dialog-content class&#x3D;&quot;dialog-content&quot;&gt;
+    &lt;div *ngIf&#x3D;&quot;eventDataImportOptions.length &gt; 0&quot;&gt;
+      &lt;p class&#x3D;&quot;text-center&quot;&gt;&lt;b&gt;Event data&lt;/b&gt;&lt;/p&gt;
+
+      &lt;div class&#x3D;&quot;row centered&quot;&gt;
+        &lt;ng-container
+          *ngFor&#x3D;&quot;let eventDataImportOption of eventDataOptionsWithHandler&quot;
+        &gt;
+          &lt;input
+            #eventDataFileInput
+            type&#x3D;&quot;file&quot;
+            tabindex&#x3D;&quot;-1&quot;
+            class&#x3D;&quot;file-input&quot;
+            [accept]&#x3D;&quot;eventDataImportOption.accept&quot;
+            (change)&#x3D;&quot;eventDataImportOption.handler($event.target.files)&quot;
+          /&gt;
+          &lt;button
+            class&#x3D;&quot;file-input-button&quot;
+            (click)&#x3D;&quot;eventDataFileInput.click()&quot;
+          &gt;
+            &lt;img src&#x3D;&quot;assets/icons/eventData.svg&quot; alt&#x3D;&quot;Event data icon&quot; /&gt;
+            Load {{ eventDataImportOption.fileType }}
+          &lt;/button&gt;
+        &lt;/ng-container&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p class&#x3D;&quot;text-center&quot;&gt;&lt;b&gt;Geometries&lt;/b&gt;&lt;/p&gt;
+
+    &lt;div class&#x3D;&quot;row centered&quot;&gt;
+      &lt;input
+        #objFileInput
+        type&#x3D;&quot;file&quot;
+        tabindex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;file-input&quot;
+        accept&#x3D;&quot;.obj&quot;
+        name&#x3D;&quot;image&quot;
+        (change)&#x3D;&quot;handleOBJInput($event.target.files)&quot;
+      /&gt;
+      &lt;button class&#x3D;&quot;file-input-button&quot; (click)&#x3D;&quot;objFileInput.click()&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/icons/obj.svg&quot; alt&#x3D;&quot;OBJ file format icon&quot; /&gt; Load .obj
+      &lt;/button&gt;
+
+      &lt;input
+        #gltfFileInput
+        type&#x3D;&quot;file&quot;
+        tabindex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;file-input&quot;
+        accept&#x3D;&quot;.gltf,.glb,.gltf.zip,.glb.zip&quot;
+        name&#x3D;&quot;image&quot;
+        (change)&#x3D;&quot;handleGLTFInput($event.target.files)&quot;
+      /&gt;
+      &lt;button class&#x3D;&quot;file-input-button&quot; (click)&#x3D;&quot;gltfFileInput.click()&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/icons/gltf.svg&quot; alt&#x3D;&quot;GLTF file format icon&quot; /&gt; Load
+        .gltf/.glb
+      &lt;/button&gt;
+
+      &lt;input
+        #rootFileInput
+        type&#x3D;&quot;file&quot;
+        tabindex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;file-input&quot;
+        accept&#x3D;&quot;.root&quot;
+        (change)&#x3D;&quot;handleROOTInput($event.target.files)&quot;
+      /&gt;
+      &lt;button class&#x3D;&quot;file-input-button&quot; (click)&#x3D;&quot;rootFileInput.click()&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/icons/file-import.svg&quot; alt&#x3D;&quot;&quot; /&gt; Load .root
+      &lt;/button&gt;
+
+      &lt;input
+        #rootJSONFileInput
+        type&#x3D;&quot;file&quot;
+        tabindex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;file-input&quot;
+        accept&#x3D;&quot;.json.gz&quot;
+        (change)&#x3D;&quot;handleRootJSONInput($event.target.files)&quot;
+      /&gt;
+      &lt;button class&#x3D;&quot;file-input-button&quot; (click)&#x3D;&quot;rootJSONFileInput.click()&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/icons/file-import.svg&quot; alt&#x3D;&quot;&quot; /&gt; Load .json.gz
+      &lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;p class&#x3D;&quot;text-center&quot;&gt;&lt;b&gt;Scene&lt;/b&gt;&lt;/p&gt;
+
+    &lt;div class&#x3D;&quot;row centered&quot;&gt;
+      &lt;button
+        class&#x3D;&quot;file-input-button load-export&quot;
+        id&#x3D;&quot;exportScene&quot;
+        (click)&#x3D;&quot;saveScene()&quot;
+      &gt;
+        &lt;img src&#x3D;&quot;assets/icons/save.svg&quot; alt&#x3D;&quot;&quot; /&gt; Save scene
+      &lt;/button&gt;
+
+      &lt;input
+        #loadSceneInput
+        type&#x3D;&quot;file&quot;
+        tabindex&#x3D;&quot;-1&quot;
+        class&#x3D;&quot;file-input&quot;
+        accept&#x3D;&quot;.phnx&quot;
+        name&#x3D;&quot;image&quot;
+        (change)&#x3D;&quot;handlePhoenixInput($event.target.files)&quot;
+      /&gt;
+      &lt;button
+        class&#x3D;&quot;file-input-button load-export&quot;
+        id&#x3D;&quot;importScene&quot;
+        (click)&#x3D;&quot;loadSceneInput.click()&quot;
+      &gt;
+        &lt;img src&#x3D;&quot;assets/icons/upload.svg&quot; alt&#x3D;&quot;&quot; /&gt; Load scene
+      &lt;/button&gt;
+
+      &lt;button
+        class&#x3D;&quot;file-input-button export-button&quot;
+        id&#x3D;&quot;exportOBJ&quot;
+        (click)&#x3D;&quot;exportOBJ()&quot;
+      &gt;
+        &lt;img src&#x3D;&quot;assets/icons/obj.svg&quot; alt&#x3D;&quot;&quot; /&gt; Save OBJ
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div mat-dialog-actions align&#x3D;&quot;end&quot;&gt;
+    &lt;button mat-flat-button color&#x3D;&quot;primary&quot; (click)&#x3D;&quot;onClose()&quot; cdkFocusInitial&gt;
+      Close
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./io-options-dialog.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.row {
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-input-button {
+  font-size: 1em;
+  font-weight: 700;
+  color: white;
+  background-color: #6eaece;
+  padding: 1em 0.5em;
+  border: none;
+  border-radius: 10px;
+  width: 8rem;
+  margin: 0 0.4rem;
+
+  &amp;.load-export {
+    padding: 0.8em 0.2em;
+    width: 7rem;
+
+    img {
+      max-height: 1.2em;
+    }
+  }
+
+  &amp;.export-button {
+    background-color: #cb7133;
+
+    &amp;:hover {
+      background-color: #ad5b2d;
+    }
+  }
+
+  img {
+    max-height: 2em;
+    display: block;
+    width: 100%;
+  }
+
+  &amp;:hover {
+    background-color: #118ab2;
+  }
+}
+
+#exportScene {
+  background-color: #5bd99e;
+
+  &amp;:hover {
+    background-color: #05c292;
+  }
+}
+
+#importScene {
+  background-color: #ecc25e;
+
+  &amp;:hover {
+    background-color: #d6b44d;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="dialog">  <h1 mat-dialog-title>Import and export</h1>  <div mat-dialog-content class="dialog-content">    <div *ngIf="eventDataImportOptions.length > 0">      <p class="text-center"><b>Event data</b></p>      <div class="row centered">        <ng-container          *ngFor="let eventDataImportOption of eventDataOptionsWithHandler"        >          <input            #eventDataFileInput            type="file"            tabindex="-1"            class="file-input"            [accept]="eventDataImportOption.accept"            (change)="eventDataImportOption.handler($event.target.files)"          />          <button            class="file-input-button"            (click)="eventDataFileInput.click()"          >            <img src="assets/icons/eventData.svg" alt="Event data icon" />            Load {{ eventDataImportOption.fileType }}          </button>        </ng-container>      </div>    </div>    <p class="text-center"><b>Geometries</b></p>    <div class="row centered">      <input        #objFileInput        type="file"        tabindex="-1"        class="file-input"        accept=".obj"        name="image"        (change)="handleOBJInput($event.target.files)"      />      <button class="file-input-button" (click)="objFileInput.click()">        <img src="assets/icons/obj.svg" alt="OBJ file format icon" /> Load .obj      </button>      <input        #gltfFileInput        type="file"        tabindex="-1"        class="file-input"        accept=".gltf,.glb,.gltf.zip,.glb.zip"        name="image"        (change)="handleGLTFInput($event.target.files)"      />      <button class="file-input-button" (click)="gltfFileInput.click()">        <img src="assets/icons/gltf.svg" alt="GLTF file format icon" /> Load        .gltf/.glb      </button>      <input        #rootFileInput        type="file"        tabindex="-1"        class="file-input"        accept=".root"        (change)="handleROOTInput($event.target.files)"      />      <button class="file-input-button" (click)="rootFileInput.click()">        <img src="assets/icons/file-import.svg" alt="" /> Load .root      </button>      <input        #rootJSONFileInput        type="file"        tabindex="-1"        class="file-input"        accept=".json.gz"        (change)="handleRootJSONInput($event.target.files)"      />      <button class="file-input-button" (click)="rootJSONFileInput.click()">        <img src="assets/icons/file-import.svg" alt="" /> Load .json.gz      </button>    </div>    <p class="text-center"><b>Scene</b></p>    <div class="row centered">      <button        class="file-input-button load-export"        id="exportScene"        (click)="saveScene()"      >        <img src="assets/icons/save.svg" alt="" /> Save scene      </button>      <input        #loadSceneInput        type="file"        tabindex="-1"        class="file-input"        accept=".phnx"        name="image"        (change)="handlePhoenixInput($event.target.files)"      />      <button        class="file-input-button load-export"        id="importScene"        (click)="loadSceneInput.click()"      >        <img src="assets/icons/upload.svg" alt="" /> Load scene      </button>      <button        class="file-input-button export-button"        id="exportOBJ"        (click)="exportOBJ()"      >        <img src="assets/icons/obj.svg" alt="" /> Save OBJ      </button>    </div>  </div>  <div mat-dialog-actions align="end">    <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>      Close    </button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AnimateCameraComponent', 'selector': 'app-animate-camera'},{'name': 'AnimateEventComponent', 'selector': 'app-animate-event'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArToggleComponent', 'selector': 'app-ar-toggle'},{'name': 'AtlasComponent', 'selector': 'app-atlas'},{'name': 'AutoRotateComponent', 'selector': 'app-auto-rotate'},{'name': 'CartesianGridConfigComponent', 'selector': 'app-cartesian-grid-config'},{'name': 'CMSComponent', 'selector': 'app-cms'},{'name': 'CollectionsInfoComponent', 'selector': 'app-collections-info'},{'name': 'CollectionsInfoOverlayComponent', 'selector': 'app-collections-info-overlay'},{'name': 'ConfigSliderComponent', 'selector': 'app-config-slider'},{'name': 'CycleEventsComponent', 'selector': 'app-cycle-events'},{'name': 'DarkThemeComponent', 'selector': 'app-dark-theme'},{'name': 'EmbedMenuComponent', 'selector': 'app-embed-menu'},{'name': 'EventDataExplorerComponent', 'selector': 'app-event-data-explorer'},{'name': 'EventDataExplorerDialogComponent', 'selector': 'app-event-data-explorer-dialog'},{'name': 'EventSelectorComponent', 'selector': 'app-event-selector'},{'name': 'ExperimentInfoComponent', 'selector': 'app-experiment-info'},{'name': 'ExperimentLinkComponent', 'selector': 'app-experiment-link'},{'name': 'FileExplorerComponent', 'selector': 'app-file-explorer'},{'name': 'GeometryBrowserComponent', 'selector': 'app-geometry-browser'},{'name': 'GeometryBrowserOverlayComponent', 'selector': 'app-geometry-browser-overlay'},{'name': 'GeometryComponent', 'selector': 'app-geometry'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfoPanelComponent', 'selector': 'app-info-panel'},{'name': 'InfoPanelOverlayComponent', 'selector': 'app-info-panel-overlay'},{'name': 'IoOptionsComponent', 'selector': 'app-io-options'},{'name': 'IOOptionsDialogComponent', 'selector': 'app-io-options-dialog'},{'name': 'LHCbComponent', 'selector': 'app-lhcb'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainViewToggleComponent', 'selector': 'app-main-view-toggle'},{'name': 'MakePictureComponent', 'selector': 'app-make-picture'},{'name': 'MenuToggleComponent', 'selector': 'app-menu-toggle'},{'name': 'NavComponent', 'selector': 'app-nav'},{'name': 'ObjectClippingComponent', 'selector': 'app-object-clipping'},{'name': 'ObjectSelectionComponent', 'selector': 'app-object-selection'},{'name': 'ObjectSelectionOverlayComponent', 'selector': 'app-object-selection-overlay'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayViewComponent', 'selector': 'app-overlay-view'},{'name': 'OverlayViewWindowComponent', 'selector': 'app-overlay-view-window'},{'name': 'PerformanceToggleComponent', 'selector': 'app-performance-toggle'},{'name': 'PhoenixMenuComponent', 'selector': 'app-phoenix-menu'},{'name': 'PhoenixMenuItemComponent', 'selector': 'app-phoenix-menu-item'},{'name': 'PlaygroundComponent', 'selector': 'app-playground'},{'name': 'RingLoaderComponent', 'selector': 'app-ring-loader'},{'name': 'ShareLinkComponent', 'selector': 'app-share-link'},{'name': 'ShareLinkDialogComponent', 'selector': 'app-share-link-dialog'},{'name': 'SSModeComponent', 'selector': 'app-ss-mode'},{'name': 'TrackmlComponent', 'selector': 'app-trackml'},{'name': 'TreeMenuComponent', 'selector': 'app-tree-menu'},{'name': 'TreeMenuItemComponent', 'selector': 'app-tree-menu-item'},{'name': 'UiMenuComponent', 'selector': 'app-ui-menu'},{'name': 'UiMenuWrapperComponent', 'selector': 'app-ui-menu-wrapper'},{'name': 'ViewOptionsComponent', 'selector': 'app-view-options'},{'name': 'VPToggleComponent', 'selector': 'app-vp-toggle'},{'name': 'VrToggleComponent', 'selector': 'app-vr-toggle'},{'name': 'ZoomControlsComponent', 'selector': 'app-zoom-controls'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'IOOptionsDialogComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'IOOptionsDialogComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,3 +1,8 @@
+/**
+ * Global Jest setup for Phoenix Angular tests.
+ * Provides mocks and overrides for browser APIs.
+ */
+
 import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
 import { getTestBed } from '@angular/core/testing';
 import './jest-global-mocks';
@@ -14,6 +19,7 @@ setupZoneTestEnv();
  * Angular 20 + Jest compatibility layer
  * ========================================================= */
 
+/** Core testing utilities */
 const core = ngCore as any;
 if (!core.afterRender) {
   Object.defineProperty(core, 'afterRender', {
@@ -22,6 +28,7 @@ if (!core.afterRender) {
   });
 }
 
+/** Public mock configuration */
 const pb = platformBrowser as any;
 if (pb.SharedStylesHost?.prototype) {
   const host = pb.SharedStylesHost.prototype;
@@ -31,11 +38,13 @@ if (pb.SharedStylesHost?.prototype) {
   host.removeUsage = () => {};
 }
 
+/** Private mock configuration */
 const priv = cdkPrivate as any;
 if (priv._CdkPrivateStyleLoader?.prototype) {
   priv._CdkPrivateStyleLoader.prototype.load = () => {};
 }
 
+/** Override configuration */
 const ov = overlay as any;
 if (ov.Overlay?.prototype) {
   const proto = ov.Overlay.prototype;
@@ -127,8 +136,11 @@ afterEach(() => {
  * Silence noisy logs & prevent Jest leaks
  * ========================================================= */
 
+/** Original console.error reference */
 const originalError = console.error;
+/** Original console.warn reference */
 const originalWarn = console.warn;
+/** Original console.log reference */
 const originalLog = console.log;
 
 console.error = (...args: any[]) => {

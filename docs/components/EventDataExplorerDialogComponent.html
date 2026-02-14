@@ -1,0 +1,1023 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  EventDataExplorerDialogComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-event-data-explorer-dialog</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./event-data-explorer-dialog.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./event-data-explorer-dialog.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#configFileNode" >configFileNode</a>
+                            </li>
+                            <li>
+                                <a href="#error" >error</a>
+                            </li>
+                            <li>
+                                <a href="#eventDataFileNode" >eventDataFileNode</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildFileNode" >buildFileNode</a>
+                            </li>
+                            <li>
+                                <a href="#loadConfig" >loadConfig</a>
+                            </li>
+                            <li>
+                                <a href="#loadEvent" >loadEvent</a>
+                            </li>
+                            <li>
+                                <a href="#onClose" >onClose</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(eventDisplay: <a href="../injectables/EventDisplayService.html" target="_self">EventDisplayService</a>, fileLoader: <a href="../injectables/FileLoaderService.html" target="_self">FileLoaderService</a>, dialogRef: <a href="../components/EventDataExplorerDialogComponent.html" target="_self">MatDialogRef&lt;EventDataExplorerDialogComponent&gt;</a>, dialogData: <a href="../undefineds/EventDataExplorerDialogData.html" target="_self">EventDataExplorerDialogData</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>eventDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventDisplayService.html" target="_self" >EventDisplayService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fileLoader</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FileLoaderService.html" target="_self" >FileLoaderService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/EventDataExplorerDialogComponent.html" target="_self" >MatDialogRef&lt;EventDataExplorerDialogComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogData</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/typealiases.html#EventDataExplorerDialogData" target="_self" >EventDataExplorerDialogData</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildFileNode"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>buildFileNode</b></span>
+                        <a href="#buildFileNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildFileNode(filePaths: <a href="../undefineds/FileResponse.html" target="_self">FileResponse[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>filePaths</td>
+                                            <td>
+                                                            <code><a href="../miscellaneous/typealiases.html#FileResponse" target="_self" >FileResponse[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/FileNode.html" target="_self" >FileNode</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadConfig"></a>
+                    <span class="name">
+                        <span ><b>loadConfig</b></span>
+                        <a href="#loadConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadConfig(file: <a href="../classes/FileEvent.html" target="_self">FileEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="75"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                            <code><a href="../classes/FileEvent.html" target="_self" >FileEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadEvent"></a>
+                    <span class="name">
+                        <span ><b>loadEvent</b></span>
+                        <a href="#loadEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadEvent(file: <a href="../classes/FileEvent.html" target="_self">FileEvent</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>file</td>
+                                            <td>
+                                                            <code><a href="../classes/FileEvent.html" target="_self" >FileEvent</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onClose"></a>
+                    <span class="name">
+                        <span ><b>onClose</b></span>
+                        <a href="#onClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onClose()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="90"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="configFileNode"></a>
+                    <span class="name">
+                        <span ><b>configFileNode</b></span>
+                        <a href="#configFileNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/FileNode.html" target="_self" >FileNode</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="error"></a>
+                    <span class="name">
+                        <span ><b>error</b></span>
+                        <a href="#error"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventDataFileNode"></a>
+                    <span class="name">
+                        <span ><b>eventDataFileNode</b></span>
+                        <a href="#eventDataFileNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/FileNode.html" target="_self" >FileNode</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject } from &#x27;@angular/core&#x27;;
+import { MatDialogRef, MAT_DIALOG_DATA } from &#x27;@angular/material/dialog&#x27;;
+import { EventDisplayService } from &#x27;../../../../services/event-display.service&#x27;;
+import {
+  FileNode,
+  FileEvent,
+} from &#x27;../../../file-explorer/file-explorer.component&#x27;;
+import { FileLoaderService } from &#x27;../../../../services/file-loader.service&#x27;;
+import { type EventDataExplorerDialogData } from &#x27;../event-data-explorer.component&#x27;;
+
+const supportFileTypes &#x3D; [&#x27;json&#x27;, &#x27;xml&#x27;];
+
+export type FileResponse &#x3D; {
+  name: string;
+  url: string;
+  nocache: boolean;
+};
+
+@Component({
+  standalone: false,
+  selector: &#x27;app-event-data-explorer-dialog&#x27;,
+  templateUrl: &#x27;./event-data-explorer-dialog.component.html&#x27;,
+  styleUrls: [&#x27;./event-data-explorer-dialog.component.scss&#x27;],
+})
+export class EventDataExplorerDialogComponent {
+  eventDataFileNode: FileNode;
+  configFileNode: FileNode;
+  loading &#x3D; true;
+  error &#x3D; false;
+
+  constructor(
+    private eventDisplay: EventDisplayService,
+    private fileLoader: FileLoaderService,
+    private dialogRef: MatDialogRef&lt;EventDataExplorerDialogComponent&gt;,
+    @Inject(MAT_DIALOG_DATA) private dialogData: EventDataExplorerDialogData,
+  ) {
+    // Event data
+    fileLoader.makeRequest(
+      this.dialogData.apiURL,
+      &#x27;json&#x27;,
+      (res: FileResponse[]) &#x3D;&gt; {
+        const filePaths &#x3D; res.filter((file) &#x3D;&gt;
+          supportFileTypes.includes(file.name.split(&#x27;.&#x27;).pop()),
+        );
+
+        this.eventDataFileNode &#x3D; this.buildFileNode(filePaths);
+      },
+    );
+
+    // Config
+    fileLoader.makeRequest(
+      &#x60;${this.dialogData.apiURL}?type&#x3D;config&#x60;,
+      &#x27;json&#x27;,
+      (res: FileResponse[]) &#x3D;&gt; {
+        const filePaths &#x3D; res.filter(
+          (file) &#x3D;&gt; file.name.split(&#x27;.&#x27;).pop() &#x3D;&#x3D;&#x3D; &#x27;json&#x27;,
+        );
+
+        this.configFileNode &#x3D; this.buildFileNode(filePaths);
+      },
+    );
+  }
+
+  loadEvent(file: FileEvent) {
+    this.loading &#x3D; true;
+    this.error &#x3D; this.fileLoader.loadEvent(
+      file.url,
+      this.eventDisplay,
+      file.nocache ? { cache: &#x27;no-cache&#x27; } : {},
+    );
+    this.loading &#x3D; false;
+    if (!this.error) this.onClose();
+  }
+
+  loadConfig(file: FileEvent) {
+    this.loading &#x3D; true;
+    this.error &#x3D; this.fileLoader.makeRequest(
+      &#x60;${this.dialogData.apiURL}?type&#x3D;config&amp;f&#x3D;${file.url}&#x60;,
+      &#x27;text&#x27;,
+      (config) &#x3D;&gt; {
+        const stateManager &#x3D; this.eventDisplay.getStateManager();
+        stateManager.loadStateFromJSON(JSON.parse(config));
+        this.onClose();
+      },
+    );
+    this.loading &#x3D; false;
+  }
+
+  // Helpers
+  onClose() {
+    this.dialogRef.close();
+  }
+
+  private buildFileNode(filePaths: FileResponse[]): FileNode {
+    const rootNode &#x3D; new FileNode();
+    let fileNode &#x3D; rootNode;
+
+    for (const filePath of filePaths) {
+      filePath.name.split(&#x27;/&#x27;).forEach((name) &#x3D;&gt; {
+        fileNode.children &#x3D; fileNode.children ?? {};
+        fileNode.children[name] &#x3D; fileNode.children[name] ?? new FileNode(name);
+        fileNode &#x3D; fileNode.children[name];
+      });
+
+      fileNode.url &#x3D; filePath.url;
+      fileNode.nocache &#x3D; filePath.nocache;
+      fileNode &#x3D; rootNode;
+    }
+
+    return rootNode;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;dialog&quot;&gt;
+  &lt;div class&#x3D;&quot;d-flex&quot;&gt;
+    &lt;h1 mat-dialog-title&gt;Event data from directory&lt;/h1&gt;
+    &lt;app-ring-loader *ngIf&#x3D;&quot;loading&quot;&gt;&lt;/app-ring-loader&gt;
+  &lt;/div&gt;
+  &lt;div mat-dialog-content class&#x3D;&quot;dialog-content&quot;&gt;
+    &lt;div *ngIf&#x3D;&quot;error&quot;&gt;Error processing request.&lt;/div&gt;
+    &lt;mat-tab-group
+      *ngIf&#x3D;&quot;!error&quot;
+      mat-align-tabs&#x3D;&quot;start&quot;
+      animationDuration&#x3D;&quot;0ms&quot;
+      disableRipple
+      opacity&#x3D;&quot;transparent&quot;
+    &gt;
+      &lt;mat-tab label&#x3D;&quot;Event data&quot;&gt;
+        &lt;div class&#x3D;&quot;py-3&quot;&gt;
+          &lt;app-file-explorer
+            [rootFileNode]&#x3D;&quot;eventDataFileNode&quot;
+            (onFileSelect)&#x3D;&quot;loadEvent($event)&quot;
+          &gt;&lt;/app-file-explorer&gt;
+        &lt;/div&gt;
+      &lt;/mat-tab&gt;
+      &lt;mat-tab label&#x3D;&quot;Config&quot;&gt;
+        &lt;div class&#x3D;&quot;py-3&quot;&gt;
+          &lt;app-file-explorer
+            [rootFileNode]&#x3D;&quot;configFileNode&quot;
+            (onFileSelect)&#x3D;&quot;loadConfig($event)&quot;
+          &gt;&lt;/app-file-explorer&gt;
+        &lt;/div&gt;
+      &lt;/mat-tab&gt;
+    &lt;/mat-tab-group&gt;
+  &lt;/div&gt;
+  &lt;div mat-dialog-actions&gt;
+    &lt;button mat-button (click)&#x3D;&quot;onClose()&quot; cdkFocusInitial&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./event-data-explorer-dialog.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.dialog {
+  width: 30rem;
+  max-width: 95%;
+}
+
+.file-path-button {
+  width: 100%;
+  color: var(--phoenix-text-color);
+  background: var(--phoenix-background-color-tertiary);
+  text-align: left;
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+
+  &amp;:last-child {
+    margin-bottom: 0;
+  }
+
+  &amp;:hover {
+    background: var(--phoenix-background-color-secondary);
+  }
+
+  &amp;:focus {
+    border: 1px solid var(--phoenix-text-color-secondary);
+    box-shadow: none;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="dialog">  <div class="d-flex">    <h1 mat-dialog-title>Event data from directory</h1>    <app-ring-loader *ngIf="loading"></app-ring-loader>  </div>  <div mat-dialog-content class="dialog-content">    <div *ngIf="error">Error processing request.</div>    <mat-tab-group      *ngIf="!error"      mat-align-tabs="start"      animationDuration="0ms"      disableRipple      opacity="transparent"    >      <mat-tab label="Event data">        <div class="py-3">          <app-file-explorer            [rootFileNode]="eventDataFileNode"            (onFileSelect)="loadEvent($event)"          ></app-file-explorer>        </div>      </mat-tab>      <mat-tab label="Config">        <div class="py-3">          <app-file-explorer            [rootFileNode]="configFileNode"            (onFileSelect)="loadConfig($event)"          ></app-file-explorer>        </div>      </mat-tab>    </mat-tab-group>  </div>  <div mat-dialog-actions>    <button mat-button (click)="onClose()" cdkFocusInitial>Close</button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AnimateCameraComponent', 'selector': 'app-animate-camera'},{'name': 'AnimateEventComponent', 'selector': 'app-animate-event'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArToggleComponent', 'selector': 'app-ar-toggle'},{'name': 'AtlasComponent', 'selector': 'app-atlas'},{'name': 'AutoRotateComponent', 'selector': 'app-auto-rotate'},{'name': 'CartesianGridConfigComponent', 'selector': 'app-cartesian-grid-config'},{'name': 'CMSComponent', 'selector': 'app-cms'},{'name': 'CollectionsInfoComponent', 'selector': 'app-collections-info'},{'name': 'CollectionsInfoOverlayComponent', 'selector': 'app-collections-info-overlay'},{'name': 'ConfigSliderComponent', 'selector': 'app-config-slider'},{'name': 'CycleEventsComponent', 'selector': 'app-cycle-events'},{'name': 'DarkThemeComponent', 'selector': 'app-dark-theme'},{'name': 'EmbedMenuComponent', 'selector': 'app-embed-menu'},{'name': 'EventDataExplorerComponent', 'selector': 'app-event-data-explorer'},{'name': 'EventDataExplorerDialogComponent', 'selector': 'app-event-data-explorer-dialog'},{'name': 'EventSelectorComponent', 'selector': 'app-event-selector'},{'name': 'ExperimentInfoComponent', 'selector': 'app-experiment-info'},{'name': 'ExperimentLinkComponent', 'selector': 'app-experiment-link'},{'name': 'FileExplorerComponent', 'selector': 'app-file-explorer'},{'name': 'GeometryBrowserComponent', 'selector': 'app-geometry-browser'},{'name': 'GeometryBrowserOverlayComponent', 'selector': 'app-geometry-browser-overlay'},{'name': 'GeometryComponent', 'selector': 'app-geometry'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfoPanelComponent', 'selector': 'app-info-panel'},{'name': 'InfoPanelOverlayComponent', 'selector': 'app-info-panel-overlay'},{'name': 'IoOptionsComponent', 'selector': 'app-io-options'},{'name': 'IOOptionsDialogComponent', 'selector': 'app-io-options-dialog'},{'name': 'LHCbComponent', 'selector': 'app-lhcb'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainViewToggleComponent', 'selector': 'app-main-view-toggle'},{'name': 'MakePictureComponent', 'selector': 'app-make-picture'},{'name': 'MenuToggleComponent', 'selector': 'app-menu-toggle'},{'name': 'NavComponent', 'selector': 'app-nav'},{'name': 'ObjectClippingComponent', 'selector': 'app-object-clipping'},{'name': 'ObjectSelectionComponent', 'selector': 'app-object-selection'},{'name': 'ObjectSelectionOverlayComponent', 'selector': 'app-object-selection-overlay'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayViewComponent', 'selector': 'app-overlay-view'},{'name': 'OverlayViewWindowComponent', 'selector': 'app-overlay-view-window'},{'name': 'PerformanceToggleComponent', 'selector': 'app-performance-toggle'},{'name': 'PhoenixMenuComponent', 'selector': 'app-phoenix-menu'},{'name': 'PhoenixMenuItemComponent', 'selector': 'app-phoenix-menu-item'},{'name': 'PlaygroundComponent', 'selector': 'app-playground'},{'name': 'RingLoaderComponent', 'selector': 'app-ring-loader'},{'name': 'ShareLinkComponent', 'selector': 'app-share-link'},{'name': 'ShareLinkDialogComponent', 'selector': 'app-share-link-dialog'},{'name': 'SSModeComponent', 'selector': 'app-ss-mode'},{'name': 'TrackmlComponent', 'selector': 'app-trackml'},{'name': 'TreeMenuComponent', 'selector': 'app-tree-menu'},{'name': 'TreeMenuItemComponent', 'selector': 'app-tree-menu-item'},{'name': 'UiMenuComponent', 'selector': 'app-ui-menu'},{'name': 'UiMenuWrapperComponent', 'selector': 'app-ui-menu-wrapper'},{'name': 'ViewOptionsComponent', 'selector': 'app-view-options'},{'name': 'VPToggleComponent', 'selector': 'app-vp-toggle'},{'name': 'VrToggleComponent', 'selector': 'app-vr-toggle'},{'name': 'ZoomControlsComponent', 'selector': 'app-zoom-controls'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'EventDataExplorerDialogComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'EventDataExplorerDialogComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

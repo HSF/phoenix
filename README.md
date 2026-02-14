@@ -30,16 +30,16 @@ You can see the stable version at [https://hepsoftwarefoundation.org/phoenix](ht
 
 ## Packages
 
-* [`phoenix-event-display`](./packages/phoenix-event-display/)  
+- [`phoenix-event-display`](./packages/phoenix-event-display/)  
   Phoenix event display framework
-* [`phoenix-ng`](./packages/phoenix-ng/)  
+- [`phoenix-ng`](./packages/phoenix-ng/)  
   Phoenix Angular application
 
 ## Development
 
 For running both the event display and the Angular app, you will need [Node.js](https://nodejs.org/en/download/) and Yarn.
 
-* **N.B.** There seems to be a problem with node v21 and ARM devices. See [here](https://github.com/HSF/phoenix/issues/627) for more details.
+- **N.B.** There seems to be a problem with node v21 and ARM devices. See [here](https://github.com/HSF/phoenix/issues/627) for more details.
 
 Once you have Node.js and npm (npm comes with the Node.js), install `corepack`
 (see [Yarn installation instructions](https://yarnpkg.com/getting-started/install))
@@ -84,32 +84,36 @@ Access the app by navigating to [`http://localhost`](http://localhost) on the br
 
 ## Documentation
 
-* [User manual](./guides/users.md)
-* [Developer guide](./guides/developers#readme)
-* [How to contribute](./CONTRIBUTING.md)
-* [API docs](https://hepsoftwarefoundation.org/phoenix/api-docs/)
+- [User manual](./guides/users.md)
+- [Developer guide](./guides/developers#readme)
+- [How to contribute](./CONTRIBUTING.md)
+- [API docs](https://hepsoftwarefoundation.org/phoenix/api-docs/)
 
 ## Phoenix presentations and publications
 
-* Phoenix was presented at the 2020 [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
-* Phoenix was shown at CHEP 2021 ([abstract](https://www.epj-conferences.org/articles/epjconf/pdf/2021/05/epjconf_chep2021_01007.pdf)).
+- Phoenix was presented at the 2020 [HSF/WLCG virtual workshop](https://indico.cern.ch/event/941278/contributions/4084836/) and the presentation can be watched on [YouTube](https://www.youtube.com/watch?v=aFvlf9TpyEc&t=347s)
+- Phoenix was shown at CHEP 2021 ([abstract](https://www.epj-conferences.org/articles/epjconf/pdf/2021/05/epjconf_chep2021_01007.pdf)).
 
 ## Examples of Phoenix in use
 
 ### ATLAS
+
 [PhoenixATLAS](https://github.com/ATLAS-experiment/PhoenixATLAS) is the official web event display of the [ATLAS experiment](https://atlas.cern). It can be used to visualise different versions of ATLAS Geometry, and uploaded events.
 
 ATLAS has also used it for embedded events in Physics briefings, e.g. [Heavyweight champions: a search for new heavy W' bosons with the ATLAS detector](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwi5vtnp8Yr8AhWw9LsIHeSPBRoQFnoECCAQAQ&url=https%3A%2F%2Fatlas.cern%2Fupdates%2Fbriefing%2Fsearch-heavy-W-bosons&usg=AOvVaw3RpPlPkM5i4gdk2S27cX-C)
 
 ### FCC
+
 Phoenix is also used by [Future Circular Collider](https://fcc.web.cern.ch), see [here](https://fccsw.web.cern.ch/fccsw/phoenix/).
 
 ### LHCb
+
 Phoenix is also used by [LHCb](http://lhcb.web.cern.ch), see [here](https://lhcb-eventdisplay.web.cern.ch/)
 
 ### Belle II
+
 Phoenix is also used by [Belle II](https://www.belle2.org), see [here](https://display.belle2.org/)
 
-
 ## Contact
+
 The best way to contact us is to either open an issue in GitHub, start a [discussion](https://github.com/HSF/phoenix/discussions) or talk to us on our [gitter channel](https://gitter.im/phoenix-developers/community) (though this is not used as much these days).

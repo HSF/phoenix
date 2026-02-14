@@ -1,0 +1,1286 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content coverage">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Documentation coverage</li>
+</ol>
+
+<div>
+    <img src="./images/coverage-badge-documentation.svg">
+</div>
+
+<table class="table table-bordered coverage" id="coverage-table">
+    <thead class="coverage-header">
+        <tr>
+            <th>File</th>
+            <th>Type</th>
+            <th>Identifier</th>
+            <th style="text-align:right" class="statements" data-sort-default>Statements</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/AppComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/app.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#singleEvent">packages/phoenix-ng/projects/phoenix-app/src/app/app.module.ts</a>
+            </td>
+            <td>variable</td>
+            <td>singleEvent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/HomeComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/home/home.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>HomeComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/AtlasComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/atlas/atlas.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AtlasComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/CMSComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/cms/cms.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CMSComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/GeometryComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/geometry/geometry.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GeometryComponent</td>
+            <td align="right" data-sort="12">
+                <span class="coverage-percent">12 %</span>
+                <span class="coverage-count">(1/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/LHCbComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/lhcb.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>LHCbComponent</td>
+            <td align="right" data-sort="10">
+                <span class="coverage-percent">10 %</span>
+                <span class="coverage-count">(1/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/VPToggleComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/lhcb/vp-toggle/vp-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>VPToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/PlaygroundComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/playground/playground.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PlaygroundComponent</td>
+            <td align="right" data-sort="14">
+                <span class="coverage-percent">14 %</span>
+                <span class="coverage-count">(1/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/TrackmlComponent.html">packages/phoenix-ng/projects/phoenix-app/src/app/sections/trackml/trackml.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TrackmlComponent</td>
+            <td align="right" data-sort="5">
+                <span class="coverage-percent">5 %</span>
+                <span class="coverage-count">(1/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#environment">packages/phoenix-ng/projects/phoenix-app/src/environments/environment.prod.ts</a>
+            </td>
+            <td>variable</td>
+            <td>environment</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#environment">packages/phoenix-ng/projects/phoenix-app/src/environments/environment.single.ts</a>
+            </td>
+            <td>variable</td>
+            <td>environment</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#environment">packages/phoenix-ng/projects/phoenix-app/src/environments/environment.ts</a>
+            </td>
+            <td>variable</td>
+            <td>environment</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#context">packages/phoenix-ng/projects/phoenix-app/src/test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>context</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#require">packages/phoenix-ng/projects/phoenix-app/src/test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>require</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/EmbedMenuComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/embed-menu/embed-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>EmbedMenuComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ExperimentLinkComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/embed-menu/experiment-link/experiment-link.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ExperimentLinkComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#getMockFileNode">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>getMockFileNode</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/FileExplorerComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>FileExplorerComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/FileEvent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.ts</a>
+            </td>
+            <td>class</td>
+            <td>FileEvent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/FileNode.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/file-explorer/file-explorer.component.ts</a>
+            </td>
+            <td>class</td>
+            <td>FileNode</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/LoaderComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/loader/loader.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>LoaderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/NavComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/nav/nav.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>NavComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ConfigSliderComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/phoenix-menu/config/config-slider/config-slider.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ConfigSliderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/PhoenixMenuItemComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/phoenix-menu/phoenix-menu-item/phoenix-menu-item.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PhoenixMenuItemComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/PhoenixMenuComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/phoenix-menu/phoenix-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PhoenixMenuComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#PHOENIX_COMPONENTS">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/phoenix-ui.module.ts</a>
+            </td>
+            <td>variable</td>
+            <td>PHOENIX_COMPONENTS</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/RingLoaderComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ring-loader/ring-loader.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RingLoaderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/AnimateCameraComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/animate-camera/animate-camera.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AnimateCameraComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#defaultAnimationPresets">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/animate-camera/animate-camera.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>defaultAnimationPresets</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/AnimateEventComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/animate-event/animate-event.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AnimateEventComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ArToggleComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/ar-toggle/ar-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ArToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/AutoRotateComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/auto-rotate/auto-rotate.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AutoRotateComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/CollectionsInfoOverlayComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CollectionsInfoOverlayComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/22)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/CollectionsInfoComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CollectionsInfoComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/CycleEventsComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/cycle-events/cycle-events.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CycleEventsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/DarkThemeComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/dark-theme/dark-theme.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DarkThemeComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/EventDataExplorerDialogComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>EventDataExplorerDialogComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/10)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#supportFileTypes">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>supportFileTypes</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#FileResponse">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer-dialog/event-data-explorer-dialog.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>FileResponse</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/EventDataExplorerComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>EventDataExplorerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#EventDataExplorerDialogData">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-data-explorer/event-data-explorer.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>EventDataExplorerDialogData</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/EventSelectorComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/event-selector/event-selector.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>EventSelectorComponent</td>
+            <td align="right" data-sort="12">
+                <span class="coverage-percent">12 %</span>
+                <span class="coverage-count">(1/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ExperimentInfoComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/experiment-info/experiment-info.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ExperimentInfoComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/GeometryBrowserOverlayComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/geometry-browser/geometry-browser-overlay/geometry-browser-overlay.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GeometryBrowserOverlayComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/GeometryBrowserComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/geometry-browser/geometry-browser.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GeometryBrowserComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/InfoPanelOverlayComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/info-panel/info-panel-overlay/info-panel-overlay.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>InfoPanelOverlayComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(5/5)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/InfoPanelComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/info-panel/info-panel.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>InfoPanelComponent</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(6/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#mockFileList">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>mockFileList</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/IOOptionsDialogComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options-dialog/io-options-dialog.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>IOOptionsDialogComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/25)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/IoOptionsComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/io-options/io-options.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>IoOptionsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/MainViewToggleComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/main-view-toggle/main-view-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MainViewToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/MakePictureComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/make-picture/make-picture.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MakePictureComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/MenuToggleComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/menu-toggle/menu-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MenuToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ObjectClippingComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/object-clipping/object-clipping.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ObjectClippingComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ObjectSelectionOverlayComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/object-selection/object-selection-overlay/object-selection-overlay.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ObjectSelectionOverlayComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ObjectSelectionComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/object-selection/object-selection.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ObjectSelectionComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/OverlayViewWindowComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/overlay-view/overlay-view-window/overlay-view-window.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OverlayViewWindowComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/16)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/OverlayViewComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/overlay-view/overlay-view.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OverlayViewComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/OverlayComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/overlay/overlay.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OverlayComponent</td>
+            <td align="right" data-sort="95">
+                <span class="coverage-percent">95 %</span>
+                <span class="coverage-count">(20/21)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/PerformanceToggleComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/performance-toggle/performance-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PerformanceToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ShareLinkDialogComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/share-link/share-link-dialog/share-link-dialog.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ShareLinkDialogComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/16)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ShareLinkComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/share-link/share-link.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ShareLinkComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/SSModeComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/ss-mode/ss-mode.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>SSModeComponent</td>
+            <td align="right" data-sort="16">
+                <span class="coverage-percent">16 %</span>
+                <span class="coverage-count">(1/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/TreeMenuItemComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TreeMenuItemComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#TreeMenuNode">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/tree-menu/tree-menu-item/tree-menu-item.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>TreeMenuNode</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/TreeMenuComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/tree-menu/tree-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TreeMenuComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/UiMenuWrapperComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/ui-menu-wrapper/ui-menu-wrapper.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UiMenuWrapperComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/UiMenuComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/ui-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UiMenuComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/CartesianGridConfigComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/cartesian-grid-config/cartesian-grid-config.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CartesianGridConfigComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/25)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ViewOptionsComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/view-options/view-options.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ViewOptionsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/19)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/VrToggleComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/vr-toggle/vr-toggle.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>VrToggleComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./components/ZoomControlsComponent.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/zoom-controls/zoom-controls.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ZoomControlsComponent</td>
+            <td align="right" data-sort="90">
+                <span class="coverage-percent">90 %</span>
+                <span class="coverage-count">(9/10)</span>
+            </td>
+        </tr>
+        <tr class="good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./injectables/ErrorMessageService.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/error-message-service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>ErrorMessageService</td>
+            <td align="right" data-sort="75">
+                <span class="coverage-percent">75 %</span>
+                <span class="coverage-count">(3/4)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./injectables/EventDisplayService.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/event-display.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>EventDisplayService</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(2/2)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./pipes/AttributePipe.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/extras/attribute.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>AttributePipe</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./classes/ImportOption.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/extras/event-data-import.ts</a>
+            </td>
+            <td>class</td>
+            <td>ImportOption</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#EventDataImportOption">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/extras/event-data-import.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>EventDataImportOption</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./injectables/FileLoaderService.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/file-loader.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>FileLoaderService</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./injectables/GlobalErrorHandler.html">packages/phoenix-ng/projects/phoenix-ui-components/lib/services/global-error-handler.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>GlobalErrorHandler</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(3/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#context">packages/phoenix-ng/projects/phoenix-ui-components/lib/test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>context</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#require">packages/phoenix-ng/projects/phoenix-ui-components/lib/test.ts</a>
+            </td>
+            <td>variable</td>
+            <td>require</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#core">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>core</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#originalError">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>originalError</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#originalLog">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>originalLog</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#originalWarn">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>originalWarn</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#ov">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>ov</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#pb">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>pb</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#priv">packages/phoenix-ng/setup-jest.ts</a>
+            </td>
+            <td>variable</td>
+            <td>priv</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="js/libs/tablesort.min.js"></script>
+<script src="js/libs/tablesort.number.min.js"></script>
+<script>
+    new Tablesort(document.getElementById('coverage-table'));
+</script>
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
+            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

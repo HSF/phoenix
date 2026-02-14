@@ -3,17 +3,29 @@ import { ThreeManager } from '../managers/three-manager/index';
 import { UIManager } from '../managers/ui-manager/index';
 
 /**
+ * Event metadata information.
+ * All fields are optional for backward compatibility.
+ * Time unit: nanoseconds (ns)
+ */
+export interface EventMetadata {
+  label: string;
+  value: string | number;
+  unit?: string;
+}
+
+/**
+ * Event-level timing information.
+ * Time unit: nanoseconds (ns)
+ */
+export interface EventTime {
+  time: number; // ns
+  unit: 'ns';
+}
+
+/**
  * Event data loader for implementing different event data loaders.
  */
 export interface EventDataLoader {
-  /**
-   * Takes an object that represents ONE event and takes care of adding
-   * the different objects to the graphic library and the UI controls.
-   * @param eventData Object representing the event.
-   * @param graphicsLibrary Manager containing functionality to draw the 3D objects.
-   * @param ui Manager for showing menus and controls to manipulate the geometries.
-   * @param infoLogger Logger for logging event display data..
-   */
   buildEventData(
     eventData: any,
     graphicsLibrary: ThreeManager,
@@ -22,37 +34,33 @@ export interface EventDataLoader {
   ): void;
 
   /**
-   * Takes an object containing multiple events and returns the keys of these events.
-   * @param eventsData Object that contains the different events.
-   * @returns List of keys of the different events.
+   * Get list of available event names.
    */
   getEventsList(eventsData: any): string[];
 
   /**
    * Get the different collections for the current stored event.
-   * @returns List of strings, each representing a collection of the event displayed.
+   * @returns Object mapping collection groups to collection names.
    */
   getCollections(): { [key: string]: string[] };
 
   /**
-   * Get all the objects inside a collection.
-   * @param collectionName Key of the collection that will be retrieved.
-   * @returns Object containing all physics objects from the desired collection.
+   * Get a specific collection by name.
    */
   getCollection(collectionName: string): any;
 
   /**
-   * Get metadata associated to the displayed event (experiment info, time, run, event...).
-   * @returns Metadata of the displayed event.
+   * Get metadata associated with the event.
    */
-  getEventMetadata(): any[];
+  getEventMetadata(): EventMetadata[];
 
   /**
-   * Add label of event object to the labels object.
-   * @param label Label to add to the event object.
-   * @param collection Collection the event object is a part of.
-   * @param indexInCollection Event object's index in collection.
-   * @returns A unique label ID string.
+   * Optional event-level time support (EDM time).
+   */
+  getEventTime?(): EventTime;
+
+  /**
+   * Add label to an event object.
    */
   addLabelToEventObject(
     label: string,
@@ -61,8 +69,7 @@ export interface EventDataLoader {
   ): string;
 
   /**
-   * Get the object containing labels.
-   * @returns The labels object.
+   * Get all labels for the event.
    */
   getLabelsObject(): { [key: string]: any };
 }

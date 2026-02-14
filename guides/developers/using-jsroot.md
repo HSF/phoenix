@@ -23,14 +23,14 @@ const eventDisplay = new EventDisplay({});
 // To load `.json.gz` geometry
 eventDisplay.loadRootJSONGeometry(
   'https://root.cern/js/files/geom/cms.json.gz',
-  'CMS Detector'
+  'CMS Detector',
 );
 
 // To load `.root` geometry
 eventDisplay.loadRootGeometry(
   'https://root.cern/js/files/geom/atlas2.root',
   'atlas', // Object name
-  'ATLAS Detector'
+  'ATLAS Detector',
 );
 ```
 
@@ -45,7 +45,7 @@ const eventDisplay = new EventDisplay({});
 
 // Create the JSRootEventLoader and specify URL of the .root event data file
 const jsrootEventLoader = new JSRootEventLoader(
-  'https://root.cern/js/files/geom/tracks_hits.root'
+  'https://root.cern/js/files/geom/tracks_hits.root',
 );
 
 // Get the event data in Phoenix format by specifying an array of objects (e.g "tracks;1", "hits;1") in the .root file
