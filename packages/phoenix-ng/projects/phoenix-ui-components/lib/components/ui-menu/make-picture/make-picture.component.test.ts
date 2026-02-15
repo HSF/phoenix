@@ -31,6 +31,10 @@ describe('MakePictureComponent', () => {
     component.ngOnInit();
   });
 
+  afterEach(() => {
+    document.body.classList.remove('ss-mode');
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -48,5 +52,13 @@ describe('MakePictureComponent', () => {
   it('should call makeScreenShot on eventDisplay', () => {
     component.makePicture();
     expect(mockEventDisplay.makeScreenShot).toHaveBeenCalled();
+  });
+
+  it('should toggle screenshot mode', () => {
+    component.toggleSSMode();
+    expect(component.ssMode).toBe(true);
+    expect(document.body.classList.contains('ss-mode')).toBe(true);
+    component.toggleSSMode();
+    expect(component.ssMode).toBe(false);
   });
 });

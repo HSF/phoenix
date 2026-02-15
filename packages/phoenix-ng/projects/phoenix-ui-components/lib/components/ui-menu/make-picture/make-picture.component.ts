@@ -19,8 +19,15 @@ export class MakePictureComponent implements OnInit {
   width: number = 3840;
   height: number = 2160;
   disabled: boolean = false;
+  ssMode: boolean = false;
   constructor(private eventDisplay: EventDisplayService) {}
-  ngOnInit() {}
+  ngOnInit() {
+    document.onfullscreenchange = () => {
+      if (!document.fullscreenElement && this.ssMode) {
+        this.toggleSSMode();
+      }
+    };
+  }
 
   setWidth(value) {
     this.width = value;
@@ -33,9 +40,28 @@ export class MakePictureComponent implements OnInit {
   buttonText() {
     return 'Create picture';
   }
+  toggleSSMode() {
+    this.ssMode = !this.ssMode;
+    document.body.classList.toggle('ss-mode');
+    if (this.ssMode) {
+      // WORKAROUND - Adding the event listener directly somehow calls it on the first click
+      setTimeout(() => {
+        document.addEventListener('click', this.onDocumentClick);
+        document.addEventListener('touchstart', this.onDocumentClick);
+      }, 1);
+      document.documentElement.requestFullscreen?.();
+    } else {
+      document.removeEventListener('click', this.onDocumentClick);
+      document.removeEventListener('touchstart', this.onDocumentClick);
+    }
+  }
   makePicture() {
     this.eventDisplay
       .getThreeManager()
       .makeScreenShot(this.width, this.height, this.fitting);
   }
+
+  private onDocumentClick = () => {
+    document.exitFullscreen?.();
+  };
 }
