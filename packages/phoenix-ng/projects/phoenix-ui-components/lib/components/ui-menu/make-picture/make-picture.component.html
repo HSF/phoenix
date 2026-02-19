@@ -1,4 +1,7 @@
 <mat-menu class="mat-menu" #menu>
+  <button mat-menu-item (click)="toggleSSMode()">
+    {{ ssMode ? 'Exit screenshot mode' : 'Enter screenshot mode' }}
+  </button>
   <button mat-menu-item (click)="$event.stopPropagation()" class="size-input">
     <label>width</label>
     <input
@@ -41,8 +44,9 @@
 </mat-menu>
 <app-menu-toggle
   [matMenuTriggerFor]="menu"
-  tooltip="Creates a picture from the current view: directly saves a png of arbitrary size from the current view"
-  icon="png"
+  [active]="ssMode"
+  tooltip="Screenshot options: enter screenshot mode or save a picture from the current view"
+  icon="ss-mode"
 >
 </app-menu-toggle>
 <div>
