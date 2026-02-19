@@ -12,6 +12,10 @@ import { ThreeManager } from './managers/three-manager/index';
 import { XRSessionType } from './managers/three-manager/xr/xr-manager';
 import { UIManager } from './managers/ui-manager/index';
 import { URLOptionsManager } from './managers/url-options-manager';
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from './lib/types/event-data';
 
 declare global {
   /**
@@ -30,7 +34,7 @@ export class EventDisplay {
   /** Configuration for preset views and event data loader. */
   public configuration: Configuration;
   /** An object containing event data. */
-  private eventsData: any;
+  private eventsData: PhoenixEventsData;
   /** Array containing callbacks to be called when events change. */
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
@@ -151,7 +155,7 @@ export class EventDisplay {
    * @param eventsData Object containing the event data.
    * @returns Array of strings containing the keys of the eventsData object.
    */
-  public parsePhoenixEvents(eventsData: any): string[] {
+  public parsePhoenixEvents(eventsData: PhoenixEventsData): string[] {
     this.eventsData = eventsData;
     if (typeof this.configuration.eventDataLoader === 'undefined') {
       this.configuration.eventDataLoader = new PhoenixLoader();
@@ -169,7 +173,7 @@ export class EventDisplay {
    * of physics objects.
    * @param eventData Object containing the event data.
    */
-  public buildEventDataFromJSON(eventData: any) {
+  public buildEventDataFromJSON(eventData: PhoenixEventData) {
     // Reset labels
     this.resetLabels();
     // Creating UI folder
@@ -196,7 +200,7 @@ export class EventDisplay {
    * the event associated with that key.
    * @param eventKey String that represents the event in the eventsData object.
    */
-  public loadEvent(eventKey: any) {
+  public loadEvent(eventKey: string) {
     const event = this.eventsData[eventKey];
 
     if (event) {

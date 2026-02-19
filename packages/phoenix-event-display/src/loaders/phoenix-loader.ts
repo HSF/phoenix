@@ -13,6 +13,14 @@ import { CoordinateHelper } from '../helpers/coordinate-helper';
 import { getLabelTitle } from '../helpers/labels';
 import { DatGUIMenuUI } from '../managers/ui-manager/dat-gui-ui';
 import { PhoenixMenuUI } from '../managers/ui-manager/phoenix-menu/phoenix-menu-ui';
+import {
+  getDefaultObjectTypeConfigs,
+  ObjectTypeConfig,
+} from './object-type-registry';
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from '../lib/types/event-data';
 import * as _ from 'lodash';
 
 /**
@@ -24,7 +32,7 @@ export class PhoenixLoader implements EventDataLoader {
   /** UIService to perform UI related functions. */
   private ui: UIManager;
   /** Event data processed by the loader. */
-  protected eventData: any;
+  protected eventData: PhoenixEventData;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
   /** Loading manager for loadable resources */
@@ -49,7 +57,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param infoLogger Service for logging data to the information panel.
    */
   public buildEventData(
-    eventData: any,
+    eventData: PhoenixEventData,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
     infoLogger: InfoLogger,
@@ -65,12 +73,12 @@ export class PhoenixLoader implements EventDataLoader {
     // initiate load
     this.loadObjectTypes(eventData);
 
-    const eventNumber = eventData['event number']
-      ? eventData['event number']
-      : eventData['eventNumber'];
-    const runNumber = eventData['run number']
-      ? eventData['run number']
-      : eventData['runNumber'];
+    const eventNumber = String(
+      eventData['event number'] ?? eventData['eventNumber'] ?? '000',
+    );
+    const runNumber = String(
+      eventData['run number'] ?? eventData['runNumber'] ?? '000',
+    );
     infoLogger.add('Event#' + eventNumber + ' from run#' + runNumber, 'Loaded');
 
     this.stateManager.eventMetadata = {
@@ -84,7 +92,7 @@ export class PhoenixLoader implements EventDataLoader {
    * @param eventsData Object containing all event data.
    * @returns List of event names.
    */
-  public getEventsList(eventsData: any): string[] {
+  public getEventsList(eventsData: PhoenixEventsData): string[] {
     const eventsList: string[] = [];
 
     for (const eventName in eventsData) {
@@ -106,15 +114,11 @@ export class PhoenixLoader implements EventDataLoader {
     }
 
     const collectionsByType: { [key: string]: string[] } = {};
+    const data = this.eventData as Record<string, any>;
 
-    for (const objectType in this.eventData) {
-      if (
-        this.eventData[objectType] &&
-        typeof this.eventData[objectType] == 'object'
-      ) {
-        collectionsByType[objectType] = Object.keys(
-          this.eventData[objectType],
-        ).sort();
+    for (const objectType in data) {
+      if (data[objectType] && typeof data[objectType] == 'object') {
+        collectionsByType[objectType] = Object.keys(data[objectType]).sort();
       }
     }
     return collectionsByType;
@@ -130,11 +134,13 @@ export class PhoenixLoader implements EventDataLoader {
       return null;
     }
 
-    for (const objectType in this.eventData) {
-      if (this.eventData[objectType]) {
-        for (const collection in this.eventData[objectType]) {
+    const data = this.eventData as Record<string, any>;
+
+    for (const objectType in data) {
+      if (data[objectType]) {
+        for (const collection in data[objectType]) {
           if (collection === collectionName) {
-            return this.eventData[objectType][collection];
+            return data[objectType][collection];
           }
         }
       }
@@ -142,297 +148,76 @@ export class PhoenixLoader implements EventDataLoader {
   }
 
   /**
-   * Receives an object containing the data from an event and parses it
-   * to reconstruct the different collections of physics objects.
-   * @param eventData Representing ONE event (expressed in the Phoenix format).
+   * Get the object type configs for this loader. Override in subclasses
+   * to add experiment-specific types or modify defaults.
    */
-  protected loadObjectTypes(eventData: any) {
-    // PI with 2 fraction digits
-    const pi = parseFloat(Math.PI.toFixed(2));
+  protected getObjectTypeConfigs(): ObjectTypeConfig[] {
+    return getDefaultObjectTypeConfigs();
+  }
 
-    if (eventData.Tracks) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts: Cut[] = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4, 0.1),
-        new Cut('chi2', 0, 100),
-        new Cut('dof', 0, 100),
-        new Cut('pT', 0, 50000, 0.1),
-        new Cut('z0', -30, 30, 0.1),
-        new Cut('d0', -30, 30, 0.1),
-      ];
+  /**
+   * Load all object types from event data using the registry configs.
+   * @param eventData One event in Phoenix format.
+   */
+  protected loadObjectTypes(eventData: PhoenixEventData) {
+    const configs = this.getObjectTypeConfigs();
 
-      this.addObjectType(
-        eventData.Tracks,
-        PhoenixObjects.getTrack,
-        'Tracks',
-        false,
-        cuts,
-      );
-    }
+    for (const config of configs) {
+      const rawData = eventData[config.typeName];
+      if (!rawData) continue;
 
-    if (eventData.Jets) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5.0, 5.0, 0.1),
-        new Cut('energy', 0, 600000, 100),
-      ];
+      // Resolve getObject — compound types bind at runtime
+      let getObject = config.getObject;
+      if (!getObject) {
+        if (config.typeName === 'Photons') {
+          getObject = this.getCompoundCluster;
+        } else if (
+          config.typeName === 'Muons' ||
+          config.typeName === 'Electrons'
+        ) {
+          getObject = this.getCompoundTrack;
+        } else {
+          continue;
+        }
+      }
 
-      const scaleJets = (value: number) => {
-        this.graphicsLibrary.getSceneManager().scaleJets(value);
-      };
-      const addJetsSizeOption = this.addScaleOptions(
-        'jetsScale',
-        'Jets Scale',
-        scaleJets,
-      );
+      // Preprocess data if needed (e.g. PlanarCaloCells flattening)
+      const data = config.preprocessData
+        ? config.preprocessData(rawData)
+        : rawData;
 
-      this.addObjectType(
-        eventData.Jets,
-        PhoenixObjects.getJet,
-        'Jets',
-        false,
-        cuts,
-        addJetsSizeOption,
-      );
-    }
-
-    if (eventData.Hits) {
-      // Cannot currently cut on just a position array.
-      this.addObjectType(eventData.Hits, PhoenixObjects.getHits, 'Hits', true);
-    }
-
-    if (eventData.CaloClusters) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5.0, 5.0, 0.1),
-        new Cut('energy', 0, 10000),
-      ];
-
-      const scaleCaloClusters = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('CaloClusters', value, 'z');
-      };
-      const addCaloClusterOptions = this.addScaleOptions(
-        'caloClustersScale',
-        'CaloClusters Scale',
-        scaleCaloClusters,
-      );
-
-      this.addObjectType(
-        eventData.CaloClusters,
-        PhoenixObjects.getCluster,
-        'CaloClusters',
-        false,
-        cuts,
-        addCaloClusterOptions,
-      );
-    }
-
-    if (eventData.CaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -5.0, 5.0, 0.1),
-        new Cut('energy', 0, 10000),
-      ];
-
-      const scaleCaloCells = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('CaloCells', value, 'z');
-      };
-      const addCaloCellOptions = this.addScaleOptions(
-        'caloCellsScale',
-        'CaloCells Scale',
-        scaleCaloCells,
-      );
-
-      // FIXME! Need to pass the radius in.
-      this.addObjectType(
-        eventData.CaloCells,
-        PhoenixObjects.getCaloCell,
-        'CaloCells',
-        false,
-        cuts,
-        addCaloCellOptions,
-      );
-    }
-
-    if (eventData.PlanarCaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts = [new Cut('energy', 0, 10000)];
-
-      const scalePlanarCaloCells = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('PlanarCaloCells', value, 'z');
-      };
-      const addPlanarCaloCellsOptions = this.addScaleOptions(
-        'planarCaloCellsScale',
-        'PlanarCaloCells Scale',
-        scalePlanarCaloCells,
-      );
-
-      const collections: { [key: string]: any } = {};
-      for (const collectionName in eventData.PlanarCaloCells) {
-        const collection = eventData.PlanarCaloCells[collectionName];
-        const plane = collection['plane'];
-        const unitVector = new Vector3(...plane.slice(0, 3)).normalize();
-
-        collection['cells'].forEach(
-          (cell: any) => (cell['plane'] = [...unitVector.toArray(), plane[3]]),
-        );
-
-        collections[collectionName] = collection['cells'];
+      // Build scale UI extension from config
+      let extendUI: ((tf: GUI, pm: PhoenixMenuNode) => void) | undefined;
+      if (config.extendUI) {
+        extendUI = (typeFolder: GUI, typeFolderPM: PhoenixMenuNode) => {
+          config.extendUI(typeFolder, typeFolderPM, (typeName, value) => {
+            this.graphicsLibrary
+              .getSceneManager()
+              .scaleChildObjects(typeName, value);
+          });
+        };
+      } else if (config.scaleConfig) {
+        const sc = config.scaleConfig;
+        let scaleFn: (value: number) => void;
+        if (sc.scaleMethod === 'scaleJets') {
+          scaleFn = (value) =>
+            this.graphicsLibrary.getSceneManager().scaleJets(value);
+        } else {
+          scaleFn = (value) =>
+            this.graphicsLibrary
+              .getSceneManager()
+              .scaleChildObjects(config.typeName, value, sc.scaleAxis);
+        }
+        extendUI = this.addScaleOptions(sc.key, sc.label, scaleFn);
       }
 
       this.addObjectType(
-        collections,
-        PhoenixObjects.getPlanarCaloCell,
-        'PlanarCaloCells',
-        false,
-        cuts,
-        addPlanarCaloCellsOptions,
-      );
-    }
-
-    if (eventData.IrregularCaloCells) {
-      // (Optional) Cuts can be added to any physics object.
-      const cuts = [new Cut('layer', 0, 10), new Cut('energy', 0, 10000)];
-
-      const scaleIrregularCaloCells = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('IrregularCaloCells', value, 'z');
-      };
-      const addIrregularCaloCellOptions = this.addScaleOptions(
-        'IrregularCaloCellsScale',
-        'IrregularCaloCells Scale',
-        scaleIrregularCaloCells,
-      );
-
-      this.addObjectType(
-        eventData.IrregularCaloCells,
-        PhoenixObjects.getIrregularCaloCell,
-        'IrregularCaloCells',
-        false,
-        cuts,
-        addIrregularCaloCellOptions,
-      );
-    }
-
-    if (eventData.Muons) {
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4, 0.1),
-        new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Muons,
-        this.getCompoundTrack,
-        'Muons',
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Photons) {
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4, 0.1),
-        new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Photons,
-        this.getCompoundCluster,
-        'Photons',
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Electrons) {
-      const cuts = [
-        new Cut('phi', -pi, pi, 0.01),
-        new Cut('eta', -4, 4, 0.1),
-        new Cut('energy', 0, 10000),
-        new Cut('pT', 0, 50000),
-      ];
-      this.addObjectType(
-        eventData.Electrons,
-        this.getCompoundTrack,
-        'Electrons',
-        false,
-        cuts,
-      );
-    }
-
-    if (eventData.Vertices) {
-      const cuts = [new Cut('vertexType', 0, 5)];
-
-      const scaleVertices = (value: number) => {
-        this.graphicsLibrary
-          .getSceneManager()
-          .scaleChildObjects('Vertices', value);
-      };
-      const addVerticesOptions = this.addScaleOptions(
-        'verticesScale',
-        'Vertices Scale',
-        scaleVertices,
-      );
-
-      this.addObjectType(
-        eventData.Vertices,
-        PhoenixObjects.getVertex,
-        'Vertices',
-        false,
-        cuts,
-        addVerticesOptions,
-      );
-    }
-
-    if (eventData.MissingEnergy) {
-      const addMETSizeOption = (
-        typeFolder: GUI,
-        typeFolderPM: PhoenixMenuNode,
-      ) => {
-        const scaleMET = (value: number) => {
-          this.graphicsLibrary
-            .getSceneManager()
-            .scaleChildObjects('MissingEnergy', value);
-        };
-        if (typeFolder) {
-          const sizeMenu = typeFolder
-            .add({ jetsScale: 100 }, 'jetsScale', 1, 200)
-            .name('Size (%)');
-          sizeMenu.onChange(scaleMET);
-        }
-        // Phoenix menu
-        if (typeFolderPM) {
-          typeFolderPM.addConfig({
-            type: 'slider',
-            label: 'Size (%)',
-            value: 100,
-            min: 1,
-            max: 200,
-            allowCustomValue: true,
-            onChange: scaleMET,
-          });
-        }
-      };
-      this.addObjectType(
-        eventData.MissingEnergy,
-        PhoenixObjects.getMissingEnergy,
-        'MissingEnergy',
-        false,
-        [],
-        addMETSizeOption,
+        data,
+        getObject,
+        config.typeName,
+        config.concatonateObjs ?? false,
+        config.cuts,
+        extendUI,
       );
     }
   }
@@ -705,7 +490,8 @@ export class PhoenixLoader implements EventDataLoader {
       [{ keys: ['time'], label: 'Data recorded' }],
     ];
 
-    const eventDataKeys = Object.keys(this.eventData);
+    const data = this.eventData as Record<string, any>;
+    const eventDataKeys = Object.keys(data);
 
     // Iterating the group
     for (const eventDataPropGroup of eventDataPropGroups) {
@@ -716,10 +502,9 @@ export class PhoenixLoader implements EventDataLoader {
         for (const eventDataPropKey of eventDataProp.keys) {
           if (
             eventDataKeys.includes(eventDataPropKey) &&
-            eventDataPropKey in this.eventData
+            eventDataPropKey in data
           ) {
-            combinedProps[eventDataProp.label] =
-              this.eventData[eventDataPropKey];
+            combinedProps[eventDataProp.label] = data[eventDataPropKey];
             break;
           }
         }
@@ -749,16 +534,16 @@ export class PhoenixLoader implements EventDataLoader {
     collection: string,
     indexInCollection: number,
   ): string {
-    for (const eventDataType in this.eventData) {
-      if (this.eventData?.[eventDataType]?.[collection]) {
+    const data = this.eventData as Record<string, any>;
+    for (const eventDataType in data) {
+      if (data?.[eventDataType]?.[collection]) {
         this.labelsObject[eventDataType] =
           this.labelsObject[eventDataType] || {};
         this.labelsObject[eventDataType][collection] =
           this.labelsObject[eventDataType][collection] || {};
 
         this.labelsObject[eventDataType][collection][indexInCollection] = label;
-        const tmp =
-          this.eventData[eventDataType][collection][indexInCollection];
+        const tmp = data[eventDataType][collection][indexInCollection];
         tmp.labelText = label;
         return getLabelTitle(eventDataType, collection, indexInCollection);
       }

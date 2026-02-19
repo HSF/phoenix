@@ -21,6 +21,7 @@ export * from './managers/ui-manager/phoenix-menu/phoenix-menu-node';
 
 // Extras
 export * from './lib/types/configuration';
+export * from './lib/types/event-data';
 export * from './lib/models/cut.model';
 export * from './lib/models/preset-view.model';
 
@@ -34,6 +35,7 @@ export * from './helpers/zip';
 
 // Loaders
 export * from './loaders/event-data-loader';
+export * from './loaders/object-type-registry';
 export * from './loaders/cms-loader';
 export * from './loaders/jivexml-loader';
 export * from './loaders/jsroot-event-loader';
