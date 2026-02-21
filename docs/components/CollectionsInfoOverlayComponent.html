@@ -1,0 +1,1870 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>root documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+          <script>
+              // --- Iframe navigation tracking for Template Playground ---
+              function sendCurrentUrlToParent() {
+                  if (window.parent && window.parent !== window) {
+                      window.parent.postMessage({
+                          type: 'compodoc-iframe-navigate',
+                          url: window.location.pathname + window.location.hash
+                      }, '*');
+                  }
+              }
+              window.addEventListener('hashchange', sendCurrentUrlToParent, false);
+              window.addEventListener('popstate', sendCurrentUrlToParent, false);
+              window.addEventListener('DOMContentLoaded', sendCurrentUrlToParent, false);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">root documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CollectionsInfoOverlayComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-collections-info-overlay</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./collections-info-overlay.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./collections-info-overlay.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeObject" >activeObject</a>
+                            </li>
+                            <li>
+                                <a href="#collectionColumns" >collectionColumns</a>
+                            </li>
+                            <li>
+                                <a href="#collections" >collections</a>
+                            </li>
+                            <li>
+                                <a href="#getPrettySymbol" >getPrettySymbol</a>
+                            </li>
+                            <li>
+                                <a href="#hideInvisible" >hideInvisible</a>
+                            </li>
+                            <li>
+                                <a href="#selectedCollection" >selectedCollection</a>
+                            </li>
+                            <li>
+                                <a href="#showingCollection" >showingCollection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unsubscribes" >unsubscribes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addLabel" >addLabel</a>
+                            </li>
+                            <li>
+                                <a href="#changeCollection" >changeCollection</a>
+                            </li>
+                            <li>
+                                <a href="#disableHighlighting" >disableHighlighting</a>
+                            </li>
+                            <li>
+                                <a href="#enableHighlighting" >enableHighlighting</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getEventDataGroup" >getEventDataGroup</a>
+                            </li>
+                            <li>
+                                <a href="#highlightObject" >highlightObject</a>
+                            </li>
+                            <li>
+                                <a href="#lookAtObject" >lookAtObject</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#sort" >sort</a>
+                            </li>
+                            <li>
+                                <a href="#toggleInvisible" >toggleInvisible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#showObjectsInfo" >showObjectsInfo</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementRef: ElementRef, eventDisplay: <a href="../injectables/EventDisplayService.html" target="_self">EventDisplayService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ElementRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>eventDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventDisplayService.html" target="_self" >EventDisplayService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showObjectsInfo"></a>
+                        <b>showObjectsInfo</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addLabel"></a>
+                    <span class="name">
+                        <span ><b>addLabel</b></span>
+                        <a href="#addLabel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addLabel(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>uuid</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="changeCollection"></a>
+                    <span class="name">
+                        <span ><b>changeCollection</b></span>
+                        <a href="#changeCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>changeCollection(selectedCollection: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="65"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selectedCollection</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="disableHighlighting"></a>
+                    <span class="name">
+                        <span ><b>disableHighlighting</b></span>
+                        <a href="#disableHighlighting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>disableHighlighting()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="107"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:107</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableHighlighting"></a>
+                    <span class="name">
+                        <span ><b>enableHighlighting</b></span>
+                        <a href="#enableHighlighting"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>enableHighlighting()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="103"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEventDataGroup"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getEventDataGroup</b></span>
+                        <a href="#getEventDataGroup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEventDataGroup()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="highlightObject"></a>
+                    <span class="name">
+                        <span ><b>highlightObject</b></span>
+                        <a href="#highlightObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>highlightObject(uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>uuid</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lookAtObject"></a>
+                    <span class="name">
+                        <span ><b>lookAtObject</b></span>
+                        <a href="#lookAtObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>lookAtObject(uuid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="89"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>uuid</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="61"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="37"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sort"></a>
+                    <span class="name">
+                        <span ><b>sort</b></span>
+                        <a href="#sort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sort(column: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, order: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="82"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>column</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>order</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleInvisible"></a>
+                    <span class="name">
+                        <span ><b>toggleInvisible</b></span>
+                        <a href="#toggleInvisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleInvisible(checked: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="111"
+                                    class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:111</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>checked</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeObject"></a>
+                    <span class="name">
+                        <span ><b>activeObject</b></span>
+                        <a href="#activeObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ActiveVariable&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collectionColumns"></a>
+                    <span class="name">
+                        <span ><b>collectionColumns</b></span>
+                        <a href="#collectionColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="collections"></a>
+                    <span class="name">
+                        <span ><b>collections</b></span>
+                        <a href="#collections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type[]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPrettySymbol"></a>
+                    <span class="name">
+                        <span ><b>getPrettySymbol</b></span>
+                        <a href="#getPrettySymbol"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>unknown</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>PrettySymbols.getPrettySymbol</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hideInvisible"></a>
+                    <span class="name">
+                        <span ><b>hideInvisible</b></span>
+                        <a href="#hideInvisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedCollection"></a>
+                    <span class="name">
+                        <span ><b>selectedCollection</b></span>
+                        <a href="#selectedCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showingCollection"></a>
+                    <span class="name">
+                        <span ><b>showingCollection</b></span>
+                        <a href="#showingCollection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribes"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>unsubscribes</b></span>
+                        <a href="#unsubscribes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>(function)[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">packages/phoenix-ng/projects/phoenix-ui-components/lib/components/ui-menu/collections-info/collections-info-overlay/collections-info-overlay.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ElementRef,
+  Input,
+  type OnInit,
+  type OnDestroy,
+} from &#x27;@angular/core&#x27;;
+import {
+  ActiveVariable,
+  PrettySymbols,
+  SceneManager,
+} from &#x27;phoenix-event-display&#x27;;
+import { EventDisplayService } from &#x27;../../../../services/event-display.service&#x27;;
+
+@Component({
+  standalone: false,
+  selector: &#x27;app-collections-info-overlay&#x27;,
+  templateUrl: &#x27;./collections-info-overlay.component.html&#x27;,
+  styleUrls: [&#x27;./collections-info-overlay.component.scss&#x27;],
+})
+export class CollectionsInfoOverlayComponent implements OnInit, OnDestroy {
+  @Input() showObjectsInfo: boolean;
+  hideInvisible: boolean;
+  collections: { type: string; collections: string[] }[];
+  selectedCollection: string;
+  showingCollection: any;
+  collectionColumns: string[];
+  getPrettySymbol &#x3D; PrettySymbols.getPrettySymbol;
+  activeObject: ActiveVariable&lt;string&gt;;
+  private unsubscribes: (() &#x3D;&gt; void)[] &#x3D; [];
+
+  constructor(
+    private elementRef: ElementRef,
+    private eventDisplay: EventDisplayService,
+  ) {}
+
+  ngOnInit() {
+    this.unsubscribes.push(
+      this.eventDisplay.listenToDisplayedEventChange(() &#x3D;&gt; {
+        const collectionsGrouped: { [key: string]: string[] } &#x3D;
+          this.eventDisplay.getCollections();
+        this.collections &#x3D; Object.entries(collectionsGrouped).map(
+          ([type, collections]: [string, string[]]) &#x3D;&gt; ({
+            type,
+            collections,
+          }),
+        );
+      }),
+    );
+
+    this.activeObject &#x3D; this.eventDisplay.getActiveObjectId();
+    this.unsubscribes.push(
+      this.activeObject.onUpdate((value: string) &#x3D;&gt; {
+        if (document.getElementById(value)) {
+          document.getElementById(value).scrollIntoView(false);
+        }
+      }),
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribes.forEach((unsubscribe) &#x3D;&gt; unsubscribe?.());
+  }
+
+  changeCollection(selectedCollection: string) {
+    const eventDataGroup &#x3D; this.getEventDataGroup();
+    this.selectedCollection &#x3D; selectedCollection;
+
+    this.showingCollection &#x3D; this.eventDisplay
+      .getCollection(selectedCollection)
+      .map((object: any) &#x3D;&gt; ({
+        ...object,
+        isCut: !eventDataGroup.getObjectByProperty(&#x27;uuid&#x27;, object.uuid)
+          ?.visible,
+      }));
+
+    this.collectionColumns &#x3D; Object.keys(this.showingCollection[0]).filter(
+      (column) &#x3D;&gt; ![&#x27;uuid&#x27;, &#x27;hits&#x27;, &#x27;isCut&#x27;, &#x27;labelText&#x27;].includes(column), // FIXME - this is an ugly hack. But currently hits from tracks make track collections unusable. Better to have exlusion list passed in.
+    );
+  }
+
+  sort(column: string, order: string) {
+    if (order &#x3D;&#x3D;&#x3D; &#x27;asc&#x27;)
+      this.showingCollection.sort((a, b) &#x3D;&gt; (a[column] &lt; b[column] ? -1 : 1));
+    else
+      this.showingCollection.sort((a, b) &#x3D;&gt; (a[column] &gt; b[column] ? -1 : 1));
+  }
+
+  lookAtObject(uuid: string) {
+    if (uuid) {
+      this.activeObject.update(uuid);
+      this.eventDisplay.lookAtObject(uuid);
+    }
+  }
+
+  highlightObject(uuid: string) {
+    if (uuid) {
+      this.activeObject.update(uuid);
+      this.eventDisplay.highlightObject(uuid);
+    }
+  }
+
+  enableHighlighting() {
+    this.eventDisplay.enableHighlighting();
+  }
+
+  disableHighlighting() {
+    this.eventDisplay.disableHighlighting();
+  }
+
+  toggleInvisible(checked: boolean) {
+    this.hideInvisible &#x3D; checked;
+  }
+
+  addLabel(index: number, uuid: string) {
+    const labelValue &#x3D; this.elementRef.nativeElement.querySelector(
+      &#x60;#label${index}&#x60;,
+    ).value;
+    if (this.selectedCollection) {
+      // Empty labelValue will remove the label object
+      this.eventDisplay.addLabelToObject(
+        labelValue,
+        this.selectedCollection,
+        index,
+        uuid,
+      );
+    }
+  }
+
+  private getEventDataGroup() {
+    return this.eventDisplay
+      .getThreeManager()
+      .getSceneManager()
+      .getScene()
+      .getObjectByName(SceneManager.EVENT_DATA_ID);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Show objects --&gt;
+&lt;app-overlay
+  overlayTitle&#x3D;&quot;Collections Info&quot;
+  icon&#x3D;&quot;info&quot;
+  [resizable]&#x3D;&quot;true&quot;
+  [active]&#x3D;&quot;showObjectsInfo&quot;
+&gt;
+  &lt;!-- Using ngIf to remove it from DOM since this panel requires heavy computing --&gt;
+  &lt;div *ngIf&#x3D;&quot;showObjectsInfo&quot; class&#x3D;&quot;collectionsInfo m-2&quot;&gt;
+    &lt;div
+      class&#x3D;&quot;collectionSelector mb-2 d-flex align-items-center&quot;
+      *ngIf&#x3D;&quot;collections !&#x3D; null&quot;
+    &gt;
+      &lt;div class&#x3D;&quot;d-flex align-items-center&quot;&gt;
+        &lt;span&gt;Choose a collection: &lt;/span&gt;
+        &lt;div class&#x3D;&quot;eventSelector&quot;&gt;
+          &lt;label for&#x3D;&quot;event&quot;&gt;Event&lt;/label&gt;
+          &lt;select
+            id&#x3D;&quot;collection&quot;
+            name&#x3D;&quot;collection&quot;
+            (change)&#x3D;&quot;changeCollection($event.target.value)&quot;
+          &gt;
+            &lt;option value&#x3D;&quot;&quot; selected disabled hidden&gt;Choose Collection&lt;/option&gt;
+            &lt;optgroup *ngFor&#x3D;&quot;let group of collections&quot; [label]&#x3D;&quot;group.type&quot;&gt;
+              &lt;option
+                *ngFor&#x3D;&quot;let collection of group.collections&quot;
+                [value]&#x3D;&quot;collection&quot;
+              &gt;
+                {{ collection }}
+              &lt;/option&gt;
+            &lt;/optgroup&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;mat-checkbox
+          *ngIf&#x3D;&quot;showingCollection&quot;
+          (change)&#x3D;&quot;toggleInvisible($event.checked)&quot;
+        &gt;
+          Hide Invisible Objects
+        &lt;/mat-checkbox&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;boxBody table-responsive&quot;&gt;
+      &lt;table
+        id&#x3D;&quot;collectionTable&quot;
+        class&#x3D;&quot;table table-borderless table-sm&quot;
+        *ngIf&#x3D;&quot;showingCollection&quot;
+      &gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;No.&lt;/th&gt;
+            &lt;th&gt;Selection&lt;/th&gt;
+            &lt;th&gt;Label&lt;/th&gt;
+            &lt;th *ngFor&#x3D;&quot;let column of collectionColumns&quot;&gt;
+              &lt;div class&#x3D;&quot;head-wrapper&quot;&gt;
+                &lt;div&gt;
+                  {{ getPrettySymbol(column) }}
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;sort-options&quot;&gt;
+                  &lt;button
+                    class&#x3D;&quot;icon-wrapper icon-button btn-blank up&quot;
+                    (click)&#x3D;&quot;sort(column, &#x27;dec&#x27;)&quot;
+                  &gt;
+                    &lt;svg&gt;
+                      &lt;use href&#x3D;&quot;assets/icons/expand.svg#expand&quot;&gt;&lt;/use&gt;
+                    &lt;/svg&gt;
+                  &lt;/button&gt;
+                  &lt;button
+                    class&#x3D;&quot;icon-wrapper icon-button btn-blank&quot;
+                    (click)&#x3D;&quot;sort(column, &#x27;asc&#x27;)&quot;
+                  &gt;
+                    &lt;svg&gt;
+                      &lt;use href&#x3D;&quot;assets/icons/expand.svg#expand&quot;&gt;&lt;/use&gt;
+                    &lt;/svg&gt;
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr
+            *ngFor&#x3D;&quot;let object of showingCollection; index as i&quot;
+            [attr.id]&#x3D;&quot;object.uuid&quot;
+            [ngClass]&#x3D;&quot;{
+              &#x27;active-object&#x27;:
+                activeObject &amp;&amp; activeObject.value &#x3D;&#x3D;&#x3D; object.uuid,
+              &#x27;is-cut&#x27;: object.isCut,
+              &#x27;d-none&#x27;: object.isCut &amp;&amp; hideInvisible,
+            }&quot;
+          &gt;
+            &lt;td data-label&#x3D;&quot;No.&quot;&gt;#{{ i }}&lt;/td&gt;
+            &lt;td data-label&#x3D;&quot;Selection&quot;&gt;
+              &lt;div
+                *ngIf&#x3D;&quot;object.uuid&quot;
+                class&#x3D;&quot;row justify-content-center icon-wrapper&quot;
+              &gt;
+                &lt;button
+                  class&#x3D;&quot;object-select btn-blank&quot;
+                  matTooltip&#x3D;&quot;Move camera to object&quot;
+                  (click)&#x3D;&quot;lookAtObject(object.uuid)&quot;
+                &gt;
+                  &lt;svg&gt;
+                    &lt;use href&#x3D;&quot;assets/icons/views.svg#views&quot;&gt;&lt;/use&gt;
+                  &lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button
+                  class&#x3D;&quot;object-select btn-blank&quot;
+                  matTooltip&#x3D;&quot;Highlight object&quot;
+                  (click)&#x3D;&quot;highlightObject(object.uuid)&quot;
+                &gt;
+                  &lt;svg&gt;
+                    &lt;use href&#x3D;&quot;assets/icons/cursor.svg#cursor&quot;&gt;&lt;/use&gt;
+                  &lt;/svg&gt;
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td data-label&#x3D;&quot;Label&quot;&gt;
+              &lt;div class&#x3D;&quot;row m-0 add-label&quot;&gt;
+                &lt;div class&#x3D;&quot;col-10 p-0&quot;&gt;
+                  &lt;input
+                    class&#x3D;&quot;form-control form-control-sm&quot;
+                    type&#x3D;&quot;text&quot;
+                    value&#x3D;&quot;{{ object.labelText }}&quot;
+                    [id]&#x3D;&quot;&#x27;label&#x27; + i&quot;
+                  /&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;col-2 p-0 pl-2 text-center icon-wrapper&quot;&gt;
+                  &lt;button
+                    class&#x3D;&quot;object-select btn-blank&quot;
+                    matTooltip&#x3D;&quot;Add, update or remove object label&quot;
+                    (click)&#x3D;&quot;addLabel(i, object.uuid)&quot;
+                  &gt;
+                    &lt;svg&gt;
+                      &lt;use href&#x3D;&quot;assets/icons/update.svg#update&quot;&gt;&lt;/use&gt;
+                    &lt;/svg&gt;
+                  &lt;/button&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td
+              *ngFor&#x3D;&quot;let column of collectionColumns&quot;
+              [attr.data-label]&#x3D;&quot;getPrettySymbol(column)&quot;
+            &gt;
+              {{ object[column] }}
+            &lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+      &lt;p class&#x3D;&quot;emptyBox&quot; *ngIf&#x3D;&quot;!collections&quot;&gt;
+        Load event data to be able to display information about the collections
+        here.
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/app-overlay&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./collections-info-overlay.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@media screen and (max-width: 400px) {
+  .collectionsInfo table,
+  .collectionsInfo thead,
+  .collectionsInfo tbody,
+  .collectionsInfo th,
+  .collectionsInfo td,
+  .collectionsInfo tr {
+    display: block;
+  }
+
+  .collectionsInfo thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .collectionsInfo tr {
+    margin: 0 0 1rem 0;
+  }
+
+  .collectionsInfo td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+  }
+
+  .collectionsInfo td::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    content: attr(data-label);
+    font-weight: bold;
+  }
+}
+
+.collectionsInfo {
+  height: 95%;
+
+  .collectionSelector {
+    height: 15%;
+    min-height: 2rem;
+
+    span {
+      color: var(--phoenix-text-color-secondary);
+      margin-right: 1rem;
+    }
+
+    mat-checkbox {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.boxBody {
+  height: 85%;
+  overflow: scroll;
+
+  p.emptyBox {
+    max-width: 21em;
+  }
+
+  .add-label {
+    min-width: 8rem;
+
+    input {
+      padding: 0.1rem 0.3rem;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+#collectionTable {
+  position: relative;
+  color: var(--phoenix-text-color-secondary);
+
+  thead tr th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--phoenix-background-color-secondary);
+
+    .head-wrapper {
+      display: flex;
+      align-items: center;
+
+      .sort-options {
+        display: flex;
+        flex-direction: row;
+
+        .icon-wrapper {
+          display: flex;
+          width: 1rem;
+          height: 1rem;
+          padding: 0.2rem;
+
+          &amp;.up {
+            transform: rotate(180deg);
+          }
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  tr * {
+    padding-right: 1.2rem;
+
+    &amp;:last-child {
+      padding-right: 0;
+    }
+  }
+
+  tr.is-cut {
+    opacity: 0.5;
+  }
+
+  tr.active-object {
+    color: var(--phoenix-background-color);
+    background: var(--phoenix-text-color);
+    box-shadow: 0 0 15px var(--phoenix-text-color);
+
+    div.icon-wrapper {
+      --phoenix-options-icon-path: var(--phoenix-background-color);
+      --phoenix-options-icon-bg: var(--phoenix-text-color-hover);
+    }
+
+    .add-label {
+      input {
+        --phoenix-text-color: var(--phoenix-background-color);
+        --phoenix-background-color-tertiary: var(
+          --phoenix-text-color-secondary
+        );
+        --phoenix-border: var(--phoenix-background-color);
+      }
+    }
+  }
+
+  td {
+    min-height: 20px;
+
+    .object-select {
+      position: relative;
+      width: 1.6rem;
+      height: 1.6rem;
+      margin-right: 0.4em;
+      text-align: center;
+      background-color: var(--phoenix-options-icon-bg);
+      border-radius: 10px;
+      cursor: pointer;
+
+      &amp;:last-child {
+        margin-right: 0;
+      }
+
+      &amp;:hover {
+        border: 1px solid var(--phoenix-options-icon-path);
+      }
+
+      svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0.4rem;
+        width: 100%;
+        height: 100%;
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+.eventSelector {
+  display: flex;
+
+  label {
+    display: none;
+    color: var(--phoenix-text-color-secondary);
+  }
+
+  select {
+    width: 9rem;
+    padding: 5px 10px;
+    font-size: 12px;
+    border: 1px solid rgba(88, 88, 88, 0.08);
+    box-shadow: var(--phoenix-icon-shadow);
+    background-color: var(--phoenix-background-color-tertiary);
+    color: var(--phoenix-text-color-secondary);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis-network.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!-- Show objects --><app-overlay  overlayTitle="Collections Info"  icon="info"  [resizable]="true"  [active]="showObjectsInfo">  <!-- Using ngIf to remove it from DOM since this panel requires heavy computing -->  <div *ngIf="showObjectsInfo" class="collectionsInfo m-2">    <div      class="collectionSelector mb-2 d-flex align-items-center"      *ngIf="collections != null"    >      <div class="d-flex align-items-center">        <span>Choose a collection: </span>        <div class="eventSelector">          <label for="event">Event</label>          <select            id="collection"            name="collection"            (change)="changeCollection($event.target.value)"          >            <option value="" selected disabled hidden>Choose Collection</option>            <optgroup *ngFor="let group of collections" [label]="group.type">              <option                *ngFor="let collection of group.collections"                [value]="collection"              >                {{ collection }}              </option>            </optgroup>          </select>        </div>        <mat-checkbox          *ngIf="showingCollection"          (change)="toggleInvisible($event.checked)"        >          Hide Invisible Objects        </mat-checkbox>      </div>    </div>    <div class="boxBody table-responsive">      <table        id="collectionTable"        class="table table-borderless table-sm"        *ngIf="showingCollection"      >        <thead>          <tr>            <th>No.</th>            <th>Selection</th>            <th>Label</th>            <th *ngFor="let column of collectionColumns">              <div class="head-wrapper">                <div>                  {{ getPrettySymbol(column) }}                </div>                <div class="sort-options">                  <button                    class="icon-wrapper icon-button btn-blank up"                    (click)="sort(column, \'dec\')"                  >                    <svg>                      <use href="assets/icons/expand.svg#expand"></use>                    </svg>                  </button>                  <button                    class="icon-wrapper icon-button btn-blank"                    (click)="sort(column, \'asc\')"                  >                    <svg>                      <use href="assets/icons/expand.svg#expand"></use>                    </svg>                  </button>                </div>              </div>            </th>          </tr>        </thead>        <tbody>          <tr            *ngFor="let object of showingCollection; index as i"            [attr.id]="object.uuid"            [ngClass]="{              \'active-object\':                activeObject && activeObject.value === object.uuid,              \'is-cut\': object.isCut,              \'d-none\': object.isCut && hideInvisible,            }"          >            <td data-label="No.">#{{ i }}</td>            <td data-label="Selection">              <div                *ngIf="object.uuid"                class="row justify-content-center icon-wrapper"              >                <button                  class="object-select btn-blank"                  matTooltip="Move camera to object"                  (click)="lookAtObject(object.uuid)"                >                  <svg>                    <use href="assets/icons/views.svg#views"></use>                  </svg>                </button>                <button                  class="object-select btn-blank"                  matTooltip="Highlight object"                  (click)="highlightObject(object.uuid)"                >                  <svg>                    <use href="assets/icons/cursor.svg#cursor"></use>                  </svg>                </button>              </div>            </td>            <td data-label="Label">              <div class="row m-0 add-label">                <div class="col-10 p-0">                  <input                    class="form-control form-control-sm"                    type="text"                    value="{{ object.labelText }}"                    [id]="\'label\' + i"                  />                </div>                <div class="col-2 p-0 pl-2 text-center icon-wrapper">                  <button                    class="object-select btn-blank"                    matTooltip="Add, update or remove object label"                    (click)="addLabel(i, object.uuid)"                  >                    <svg>                      <use href="assets/icons/update.svg#update"></use>                    </svg>                  </button>                </div>              </div>            </td>            <td              *ngFor="let column of collectionColumns"              [attr.data-label]="getPrettySymbol(column)"            >              {{ object[column] }}            </td>          </tr>        </tbody>      </table>      <p class="emptyBox" *ngIf="!collections">        Load event data to be able to display information about the collections        here.      </p>    </div>  </div></app-overlay></div>'
+    var COMPONENTS = [{'name': 'AnimateCameraComponent', 'selector': 'app-animate-camera'},{'name': 'AnimateEventComponent', 'selector': 'app-animate-event'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArToggleComponent', 'selector': 'app-ar-toggle'},{'name': 'AtlasComponent', 'selector': 'app-atlas'},{'name': 'AutoRotateComponent', 'selector': 'app-auto-rotate'},{'name': 'CartesianGridConfigComponent', 'selector': 'app-cartesian-grid-config'},{'name': 'CMSComponent', 'selector': 'app-cms'},{'name': 'CollectionsInfoComponent', 'selector': 'app-collections-info'},{'name': 'CollectionsInfoOverlayComponent', 'selector': 'app-collections-info-overlay'},{'name': 'ConfigSliderComponent', 'selector': 'app-config-slider'},{'name': 'CycleEventsComponent', 'selector': 'app-cycle-events'},{'name': 'DarkThemeComponent', 'selector': 'app-dark-theme'},{'name': 'EmbedMenuComponent', 'selector': 'app-embed-menu'},{'name': 'EventDataExplorerComponent', 'selector': 'app-event-data-explorer'},{'name': 'EventDataExplorerDialogComponent', 'selector': 'app-event-data-explorer-dialog'},{'name': 'EventSelectorComponent', 'selector': 'app-event-selector'},{'name': 'ExperimentInfoComponent', 'selector': 'app-experiment-info'},{'name': 'ExperimentLinkComponent', 'selector': 'app-experiment-link'},{'name': 'FileExplorerComponent', 'selector': 'app-file-explorer'},{'name': 'GeometryBrowserComponent', 'selector': 'app-geometry-browser'},{'name': 'GeometryBrowserOverlayComponent', 'selector': 'app-geometry-browser-overlay'},{'name': 'GeometryComponent', 'selector': 'app-geometry'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'InfoPanelComponent', 'selector': 'app-info-panel'},{'name': 'InfoPanelOverlayComponent', 'selector': 'app-info-panel-overlay'},{'name': 'IoOptionsComponent', 'selector': 'app-io-options'},{'name': 'IOOptionsDialogComponent', 'selector': 'app-io-options-dialog'},{'name': 'LHCbComponent', 'selector': 'app-lhcb'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainViewToggleComponent', 'selector': 'app-main-view-toggle'},{'name': 'MakePictureComponent', 'selector': 'app-make-picture'},{'name': 'MenuToggleComponent', 'selector': 'app-menu-toggle'},{'name': 'NavComponent', 'selector': 'app-nav'},{'name': 'ObjectClippingComponent', 'selector': 'app-object-clipping'},{'name': 'ObjectSelectionComponent', 'selector': 'app-object-selection'},{'name': 'ObjectSelectionOverlayComponent', 'selector': 'app-object-selection-overlay'},{'name': 'OverlayComponent', 'selector': 'app-overlay'},{'name': 'OverlayViewComponent', 'selector': 'app-overlay-view'},{'name': 'OverlayViewWindowComponent', 'selector': 'app-overlay-view-window'},{'name': 'PerformanceToggleComponent', 'selector': 'app-performance-toggle'},{'name': 'PhoenixMenuComponent', 'selector': 'app-phoenix-menu'},{'name': 'PhoenixMenuItemComponent', 'selector': 'app-phoenix-menu-item'},{'name': 'PlaygroundComponent', 'selector': 'app-playground'},{'name': 'RingLoaderComponent', 'selector': 'app-ring-loader'},{'name': 'ShareLinkComponent', 'selector': 'app-share-link'},{'name': 'ShareLinkDialogComponent', 'selector': 'app-share-link-dialog'},{'name': 'SSModeComponent', 'selector': 'app-ss-mode'},{'name': 'TrackmlComponent', 'selector': 'app-trackml'},{'name': 'TreeMenuComponent', 'selector': 'app-tree-menu'},{'name': 'TreeMenuItemComponent', 'selector': 'app-tree-menu-item'},{'name': 'UiMenuComponent', 'selector': 'app-ui-menu'},{'name': 'UiMenuWrapperComponent', 'selector': 'app-ui-menu-wrapper'},{'name': 'ViewOptionsComponent', 'selector': 'app-view-options'},{'name': 'VPToggleComponent', 'selector': 'app-vp-toggle'},{'name': 'VrToggleComponent', 'selector': 'app-vr-toggle'},{'name': 'ZoomControlsComponent', 'selector': 'app-zoom-controls'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'CollectionsInfoOverlayComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CollectionsInfoOverlayComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

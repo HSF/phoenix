@@ -29,23 +29,41 @@ import * as _ from 'lodash';
 export class PhoenixLoader implements EventDataLoader {
   /** ThreeService to perform three.js related functions. */
   private graphicsLibrary: ThreeManager;
+
   /** UIService to perform UI related functions. */
   private ui: UIManager;
+
   /** Event data processed by the loader. */
   protected eventData: PhoenixEventData;
   /** Loading manager for loadable resources */
   protected loadingManager: LoadingManager;
+
   /** Loading manager for loadable resources */
   protected stateManager: StateManager;
+
   /** Object containing event object labels. */
   protected labelsObject: { [key: string]: any } = {};
 
   /**
-   * Create the Phoenix loader.
+   * Stores optional event-level time information.
+   */
+  private eventTime?: { time: number; unit: 'ns' };
+
+  /**
+   * Creates an instance of PhoenixLoader.
    */
   constructor() {
     this.loadingManager = new LoadingManager();
     this.stateManager = new StateManager();
+  }
+
+  /**
+   * Gets event time metadata from the loaded event.
+   * Used for time-aware animations.
+   * @returns Event time information or undefined.
+   */
+  public getEventTime(): { time: number; unit: 'ns' } | undefined {
+    return this.eventTime;
   }
 
   /**
@@ -62,13 +80,19 @@ export class PhoenixLoader implements EventDataLoader {
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void {
+    // Extract optional event-level time information
+    if (typeof eventData?.time === 'number') {
+      this.eventTime = {
+        time: eventData.time,
+        unit: 'ns',
+      };
+    } else {
+      this.eventTime = undefined;
+    }
+
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
-
-    // Replacing tracks with tracks through Runge-Kutta
-    // TODO - make this configurable? Or possibly automatic if tracks have <2 positions to draw?
-    // Object.assign(this.eventData.Tracks, this.getTracksWithRungeKutta(this.eventData['Tracks']));
 
     // initiate load
     this.loadObjectTypes(eventData);
@@ -85,6 +109,15 @@ export class PhoenixLoader implements EventDataLoader {
       runNumber,
       eventNumber,
     };
+    // Forward event-level time to animation system if available
+    const animationsManager =
+      typeof (this.graphicsLibrary as any).getAnimationsManager === 'function'
+        ? (this.graphicsLibrary as any).getAnimationsManager()
+        : undefined;
+
+    if (animationsManager && this.eventTime?.time !== undefined) {
+      animationsManager.setEventTime(this.eventTime.time);
+    }
   }
 
   /**
@@ -251,9 +284,6 @@ export class PhoenixLoader implements EventDataLoader {
       const newCuts = _.cloneDeep(cuts);
       // Make a new array ^, otherwise we reuse the same cuts for each collection
       const objectCollection = object[collectionName];
-      console.log(
-        `${typeName} collection ${collectionName} has ${objectCollection.length} constituents.`,
-      );
 
       if (objectCollection.length == 0) {
         console.log(

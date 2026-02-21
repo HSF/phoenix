@@ -36,6 +36,16 @@ export interface AnimationPreset {
  */
 export class AnimationsManager {
   /**
+   * Optional event-level time in nanoseconds.
+   */
+  private eventTimeNs?: number;
+
+  /**
+   * Current animation time in nanoseconds.
+   */
+  private currentTimeNs = 0;
+
+  /**
    * Constructor for the animation manager.
    * @param scene Three.js scene containing all the objects and event data.
    * @param activeCamera Currently active camera.
@@ -152,7 +162,7 @@ export class AnimationsManager {
     onEnd?: () => void,
     onAnimationStart?: () => void,
   ) {
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -314,11 +324,11 @@ export class AnimationsManager {
       tween.easing(Easing.Quartic.Out).start();
     }
 
-    // 🔥 FINAL animation end handler
+    // FINAL animation end handler
     animationSphereTweenClone.onComplete(() => {
       onAnimationSphereUpdate(new Sphere(new Vector3(), Infinity));
 
-      // 🔥 Show labels again when the animation ends
+      // Show labels again when the animation ends
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
 
@@ -344,7 +354,7 @@ export class AnimationsManager {
       return;
     }
 
-    // 🔥 Hide labels at the start of the animation
+    // Hide labels at the start of the animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -565,7 +575,7 @@ export class AnimationsManager {
     const { positions, animateEventAfterInterval, collisionDuration } =
       animationPreset;
 
-    // 🔥 Hide labels at the start of the preset animation
+    // Hide labels at the start of the preset animation
     const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
     if (labelsGroup) labelsGroup.visible = false;
 
@@ -593,7 +603,7 @@ export class AnimationsManager {
       previousTween = tween;
     });
 
-    // 🔥 When animation finishes, show labels again
+    // When animation finishes, show labels again
     previousTween.onComplete(() => {
       const labelsGroup = this.scene.getObjectByName(SceneManager.LABELS_ID);
       if (labelsGroup) labelsGroup.visible = true;
@@ -602,5 +612,74 @@ export class AnimationsManager {
     });
 
     firstTween.start();
+  }
+
+  /**
+   * Set event-level time (in nanoseconds) for time-driven animations.
+   * @param timeNs The total duration of the event in nanoseconds.
+   */
+  public setEventTime(timeNs?: number): void {
+    if (typeof timeNs === 'number' && timeNs > 0) {
+      this.eventTimeNs = timeNs;
+      this.currentTimeNs = 0;
+    } else {
+      this.eventTimeNs = undefined;
+      this.currentTimeNs = 0;
+    }
+  }
+
+  /**
+   * Returns the current animation progress.
+   * @returns Normalized time progress between 0 and 1.
+   */
+  public getTimeProgress(): number {
+    if (!this.eventTimeNs || this.eventTimeNs <= 0) {
+      return 0;
+    }
+
+    return Math.min(this.currentTimeNs / this.eventTimeNs, 1);
+  }
+
+  /**
+   * Sets the animation time based on normalized value.
+   * @param progress Normalized time between 0 and 1.
+   */
+  public setNormalizedTime(progress: number): void {
+    if (!this.eventTimeNs || this.eventTimeNs <= 0) {
+      return;
+    }
+
+    // Clamp value between 0 and 1
+    const clamped = Math.max(0, Math.min(1, progress));
+
+    // Convert normalized progress to nanoseconds
+    this.currentTimeNs = clamped * this.eventTimeNs;
+  }
+
+  /**
+   * Update the animation state.
+   * @param deltaSeconds Time delta since last update in seconds.
+   */
+  public update(deltaSeconds: number) {
+    // Advance time-driven animation
+    if (this.eventTimeNs) {
+      this.currentTimeNs += deltaSeconds * 1e9; // seconds → nanoseconds
+
+      // Clamp to max event time
+      if (this.currentTimeNs > this.eventTimeNs) {
+        this.currentTimeNs = this.eventTimeNs;
+      }
+    }
+
+    // Time-driven visibility logic
+    const eventData = this.scene.getObjectByName(SceneManager.EVENT_DATA_ID);
+
+    if (eventData) {
+      eventData.traverse((object: any) => {
+        if (object.userData?.time !== undefined) {
+          object.visible = object.userData.time <= this.currentTimeNs;
+        }
+      });
+    }
   }
 }

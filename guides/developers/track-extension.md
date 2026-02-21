@@ -11,12 +11,14 @@ The extension feature is available on a **per-collection basis** through both th
 ### dat.GUI
 
 For each track collection, you'll find:
+
 - **Extend to radius** (checkbox): Toggle to enable/disable track extension
 - **Radius** (slider, 100-5000 mm): Set the target transverse radius
 
 ### Phoenix Menu
 
 Under each track collection's "Draw Options":
+
 - **Extend to radius** (checkbox): Toggle extension on/off
 - **Extend radius** (slider, 100-5000 mm): Configure target radius
 
@@ -29,6 +31,7 @@ Changes take effect immediately — toggling or adjusting the radius rebuilds th
 A new method `RKHelper.extrapolateFromLastPosition(track, radius)` extrapolates from the last measured hit outward until the track reaches the specified transverse radius (or propagation limits are hit).
 
 **Parameters:**
+
 - `track`: Track object with `pos` (measured hits) and `dparams` (track parameters)
 - `radius`: Target transverse radius in mm
 
@@ -52,6 +55,7 @@ The `SceneManager.extendCollectionTracks(collectionName, radius, enable)` method
 ### Performance Considerations
 
 For collections with thousands of tracks:
+
 - **Throttling**: Consider debouncing UI slider changes (e.g., only apply on `onFinishChange`)
 - **Worker threads**: For very large datasets, compute extrapolation in a Web Worker to avoid blocking the main thread
 - **Current implementation**: Uses synchronous RK propagation; suitable for typical event sizes (< 1000 tracks per collection)
@@ -77,9 +81,11 @@ if (params.extendedToRadius) {
 ## Testing
 
 Unit test for `RKHelper.extrapolateFromLastPosition`:
+
 - `packages/phoenix-event-display/src/tests/helpers/rk-helper.test.ts`
 
 Integration test for `SceneManager.extendCollectionTracks`:
+
 - `packages/phoenix-event-display/src/tests/managers/three-manager/scene-manager.test.ts`
 
 ## Related Files

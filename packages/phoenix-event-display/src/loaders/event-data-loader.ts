@@ -7,7 +7,35 @@ import type {
 } from '../lib/types/event-data';
 
 /**
- * Event data loader for implementing different event data loaders.
+ * Metadata describing event information.
+ * All fields are optional for backward compatibility.
+ * Time unit: nanoseconds (ns)
+ */
+export interface EventMetadata {
+  /** Name or label of the metadata field */
+  label: string;
+
+  /** Value associated with the metadata */
+  value: string | number;
+
+  /** Optional unit of the metadata value */
+  unit?: string;
+}
+
+/**
+ * Represents time information of an event.
+ * Time unit: nanoseconds (ns)
+ */
+export interface EventTime {
+  /** Time value in nanoseconds */
+  time: number;
+
+  /** Unit of time (nanoseconds) */
+  unit: 'ns';
+}
+
+/**
+ * Interface describing behaviour of event data loaders.
  */
 export interface EventDataLoader {
   /** Load one event into the graphics library and UI. */
@@ -28,7 +56,10 @@ export interface EventDataLoader {
   getCollection(collectionName: string): any;
 
   /** Get metadata for the current event. */
-  getEventMetadata(): any[];
+  getEventMetadata(): EventMetadata[]; // Using your interface instead of any[]
+
+  /** Optional event-level time support (EDM time). */
+  getEventTime?(): EventTime; // REQUIRED for your feature!
 
   /** Add a label to an event object. Returns a unique label ID. */
   addLabelToEventObject(

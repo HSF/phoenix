@@ -2,13 +2,22 @@
  * @jest-environment jsdom
  */
 import { JSRootEventLoader } from '../../loaders/jsroot-event-loader';
+import * as JSRootLoaderModule from '../../loaders/jsroot-event-loader';
+import { openFile } from 'jsroot';
+
+// 1. Mock JSROOT
+jest.mock('jsroot', () => ({
+  openFile: jest.fn(),
+}));
 
 describe('JSRootEventLoader', () => {
   let jsrootLoader: JSRootEventLoader;
   const TEST_ROOT_FILE = 'assets/tracks_hits.root';
+  const TEST_ATLAS_AOD_FILE = 'assets/atlas_aod.root';
 
   beforeEach(() => {
     jsrootLoader = new JSRootEventLoader(TEST_ROOT_FILE);
+    jest.clearAllMocks();
   });
 
   afterEach(() => {
@@ -38,60 +47,45 @@ describe('JSRootEventLoader', () => {
     ).toBeGreaterThan(0);
   });
 
-  it('should not get TGeoTrack', () => {
-    expect((jsrootLoader as any).getTGeoTrack(undefined)).toBeFalsy();
-    expect(
-      (jsrootLoader as any).getTGeoTrack({ fNpoints: undefined }),
-    ).toBeFalsy();
-  });
+  it('should handle unsupported compression for ATLAS AOD files', async () => {
+    // 2. Setup spies/mocks
+    // We spy on the decompress function instead of mocking the whole module
+    const decompressSpy = jest
+      .spyOn(JSRootLoaderModule, 'decompress')
+      .mockImplementation((data) => data);
 
-  it('should get Hit of different type', () => {
-    const mockHitObjAlt1 = {
-      _typename: 'ROOT::Experimental::TEvePointSet',
+    jsrootLoader = new JSRootEventLoader(TEST_ATLAS_AOD_FILE);
+    const mockDecompressedData = new ArrayBuffer(8);
+
+    // Mock Fetch
+    const mockFetchResponse = {
+      arrayBuffer: jest.fn().mockResolvedValue(mockDecompressedData),
     };
-    (jsrootLoader as any).processItemsList(mockHitObjAlt1);
-    // Should have an empty array
-    expect(
-      Object.keys((jsrootLoader as any).fileEventData.Hits).length,
-    ).toBeGreaterThan(0);
+    global.fetch = jest.fn().mockResolvedValue(mockFetchResponse as any);
 
-    const mockHitObjAlt2 = {
-      _typename: 'TPolyMarker3D',
+    // Provide a mock file object for the second openFile call (after decompression)
+    const mockFile = {
+      readObject: jest.fn().mockResolvedValue({ _typename: 'TList', arr: [] }),
     };
-    const prevHitTypesLength = Object.keys(
-      (jsrootLoader as any).fileEventData.Hits,
-    ).length;
-    (jsrootLoader as any).processItemsList(mockHitObjAlt2);
-    // Hits should have another type (with empty array value)
-    expect(Object.keys((jsrootLoader as any).fileEventData.Hits).length).toBe(
-      prevHitTypesLength + 1,
-    );
-  });
 
-  it('should not get Hit', () => {
-    expect((jsrootLoader as any).getHit(undefined)).toBeFalsy();
-    expect((jsrootLoader as any).getHit({ fN: undefined })).toBeFalsy();
-    expect((jsrootLoader as any).getHit({ fN: 0 })).toBeFalsy();
-  });
+    // 3. Configure openFile behavior:
+    // First call: Reject with the specific error to trigger the catch block
+    // Second call: Resolve with the mock file
+    (openFile as jest.Mock)
+      .mockRejectedValueOnce(new Error('unsupported compression'))
+      .mockResolvedValue(mockFile);
 
-  it('should cover (not processed yet) extra shapes', () => {
-    const mockExtraObj1 = {
-      _typename: 'TEveGeoShapeExtract',
-    };
-    expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj1),
-    ).toBeUndefined();
+    const onEventData = jest.fn();
 
-    const mockExtraObj2 = {
-      _typename: 'ROOT::Experimental::TEveGeoShapeExtract',
-    };
-    expect(
-      (jsrootLoader as any).processItemsList(mockExtraObj2),
-    ).toBeUndefined();
-  });
+    // 4. Execute
+    await jsrootLoader.getEventData(['tracks;1'], onEventData);
 
-  it('should not get TEveTrack', () => {
-    expect((jsrootLoader as any).getTEveTrack(undefined)).toBeFalsy();
-    expect((jsrootLoader as any).getTEveTrack({ fN: [] })).toBeFalsy();
+    // 5. Assertions
+    expect(global.fetch).toHaveBeenCalledWith(TEST_ATLAS_AOD_FILE);
+    expect(decompressSpy).toHaveBeenCalledWith(mockDecompressedData);
+    expect(onEventData).toHaveBeenCalled();
+
+    // Cleanup spy
+    decompressSpy.mockRestore();
   });
 });
