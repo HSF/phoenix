@@ -1,6 +1,10 @@
 import { InfoLogger } from '../helpers/info-logger';
 import { ThreeManager } from '../managers/three-manager/index';
 import { UIManager } from '../managers/ui-manager/index';
+import type {
+  PhoenixEventData,
+  PhoenixEventsData,
+} from '../lib/types/event-data';
 
 /**
  * Metadata describing event information.
@@ -34,76 +38,36 @@ export interface EventTime {
  * Interface describing behaviour of event data loaders.
  */
 export interface EventDataLoader {
-  /**
-   * Builds event data using provided graphics and UI managers.
-   *
-   * @param eventData Raw event data input
-   * @param graphicsLibrary Three.js manager instance
-   * @param ui UI manager instance
-   * @param infoLogger Logger for event information
-   */
+  /** Load one event into the graphics library and UI. */
   buildEventData(
-    eventData: any,
+    eventData: PhoenixEventData,
     graphicsLibrary: ThreeManager,
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void;
 
-  /**
-   * Get list of available event names.
-   *
-   * @param eventsData Raw events data
-   * @returns Array of event names
-   */
-  getEventsList(eventsData: any): string[];
+  /** Get keys of all events in the container. */
+  getEventsList(eventsData: PhoenixEventsData): string[];
 
-  /**
-   * Get the different collections for the current stored event.
-   *
-   * @returns Object mapping collection groups to collection names.
-   */
+  /** Get collection names grouped by object type. */
   getCollections(): { [key: string]: string[] };
 
-  /**
-   * Get a specific collection by name.
-   *
-   * @param collectionName Name of the collection
-   * @returns Collection data
-   */
+  /** Get all objects in a collection by name. */
   getCollection(collectionName: string): any;
 
-  /**
-   * Get metadata associated with the event.
-   *
-   * @returns Array of event metadata
-   */
-  getEventMetadata(): EventMetadata[];
+  /** Get metadata for the current event. */
+  getEventMetadata(): EventMetadata[]; // Using your interface instead of any[]
 
-  /**
-   * Optional event-level time support (EDM time).
-   *
-   * @returns Event time information
-   */
-  getEventTime?(): EventTime;
+  /** Optional event-level time support (EDM time). */
+  getEventTime?(): EventTime; // REQUIRED for your feature!
 
-  /**
-   * Add label to an event object.
-   *
-   * @param label Label to add
-   * @param collection Collection name
-   * @param indexInCollection Index of object in collection
-   * @returns Generated label string
-   */
+  /** Add a label to an event object. Returns a unique label ID. */
   addLabelToEventObject(
     label: string,
     collection: string,
     indexInCollection: number,
   ): string;
 
-  /**
-   * Get all labels for the event.
-   *
-   * @returns Object containing labels
-   */
+  /** Get the labels object. */
   getLabelsObject(): { [key: string]: any };
 }
