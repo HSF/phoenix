@@ -35,13 +35,57 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       this.colorTracks(event);
 
-      oneEventData.Vertices = this.getVertices(event);
-      oneEventData.Tracks = this.getTracks(event);
-      oneEventData.Hits = this.getHits(event);
-      oneEventData.CaloCells = this.getCells(event);
-      oneEventData.CaloClusters = this.getCaloClusters(event);
-      oneEventData.Jets = this.getJets(event);
-      oneEventData.MissingEnergy = this.getMissingEnergy(event);
+      for (const collName in <any>event) {
+        const collDict = event[collName];
+
+        if (
+          collDict.constructor === Object &&
+          'collType' in collDict &&
+          'collection' in collDict
+        ) {
+          switch (collDict['collType']) {
+            case 'edm4hep::VertexCollection':
+              oneEventData.Vertices[collName] = this.getVertices(collDict);
+              break;
+            case 'edm4hep::TrackCollection': {
+              this.getTracks(event, collDict)
+                .filter(([, arr]) => arr.length > 0)
+                .forEach(([label, arr]) => {
+                  oneEventData.Tracks[`${collName} | ${label}`] = arr;
+                });
+              break;
+            }
+            case 'edm4hep::TrackerHitCollection':
+            case 'edm4hep::SimTrackerHitCollection': {
+              this.getHits(event, collDict)
+                .filter(([, arr]) => arr.length > 0)
+                .forEach(([label, arr]) => {
+                  oneEventData.Hits[`${collName} | ${label}`] = arr;
+                });
+              break;
+            }
+            case 'edm4hep::CalorimeterHitCollection':
+            case 'edm4hep::SimCalorimeterHitCollection':
+              oneEventData.CaloCells[collName] = this.getCells(collDict);
+              break;
+            case 'edm4hep::ClusterCollection':
+              oneEventData.CaloClusters[collName] =
+                this.getCaloClusters(collDict);
+              break;
+            case 'edm4hep::ReconstructedParticleCollection':
+              if (collName.includes('Jet') || collName.includes('jet')) {
+                oneEventData.Jets[collName] = this.getJets(collDict);
+              } else if (
+                collName.includes('Missing') ||
+                collName.includes('missing')
+              ) {
+                oneEventData.MissingEnergy[collName] =
+                  this.getMissingEnergy(collDict);
+              }
+              break;
+          }
+        }
+      }
 
       this.eventData[eventName] = oneEventData;
     });
@@ -186,592 +230,378 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
   /** Return the vertices */
-  private getVertices(event: any) {
-    const allVertices: { [key: string]: any[] } = {};
+  private getVertices(collDict: any): any[] {
+    const vertices: any[] = [];
+    const rawVertices = collDict['collection'];
+    const vertexColor = this.randomColor();
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
+    rawVertices.forEach((rawVertex: any) => {
+      const position: any[] = [];
+      if ('position' in rawVertex) {
+        position.push(rawVertex['position']['x'] * 0.1);
+        position.push(rawVertex['position']['y'] * 0.1);
+        position.push(rawVertex['position']['z'] * 0.1);
       }
 
-      const collDict = event[collName];
+      const vertex = {
+        pos: position,
+        size: 0.2,
+        color: '#' + vertexColor,
+      };
+      vertices.push(vertex);
+    });
 
-      if (!('collType' in collDict)) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      if (!(collDict['collType'] === 'edm4hep::VertexCollection')) {
-        continue;
-      }
-
-      const vertices: any[] = [];
-      const rawVertices = collDict['collection'];
-      const vertexColor = this.randomColor();
-
-      rawVertices.forEach((rawVertex: any) => {
-        const position: any[] = [];
-        if ('position' in rawVertex) {
-          position.push(rawVertex['position']['x'] * 0.1);
-          position.push(rawVertex['position']['y'] * 0.1);
-          position.push(rawVertex['position']['z'] * 0.1);
-        }
-
-        const vertex = {
-          pos: position,
-          size: 0.2,
-          color: '#' + vertexColor,
-        };
-        vertices.push(vertex);
-      });
-
-      allVertices[collName] = vertices;
-    }
-
-    return allVertices;
+    return vertices;
   }
 
   /** Return tracks */
-  private getTracks(event: any) {
-    const allTracks: { [key: string]: any[] } = {};
+  private getTracks(event: any, collDict: any) {
+    const rawTracks = collDict['collection'];
+    const electrons: any[] = [];
+    const photons: any[] = [];
+    const pions: any[] = [];
+    const protons: any[] = [];
+    const kaons: any[] = [];
+    const other: any[] = [];
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
+    rawTracks.forEach((rawTrack: any) => {
+      const positions: any[] = [];
+      if ('trackerHits' in rawTrack) {
+        const trackerHitRefs = rawTrack['trackerHits'];
+        trackerHitRefs.forEach((trackerHitRef: any) => {
+          const trackerHits = this.getCollByID(
+            event,
+            trackerHitRef['collectionID'],
+          );
+          const trackerHit = trackerHits[trackerHitRef['index']];
+          positions.push([
+            trackerHit['position']['x'] * 0.1,
+            trackerHit['position']['y'] * 0.1,
+            trackerHit['position']['z'] * 0.1,
+          ]);
+        });
       }
-
-      const collDict = event[collName];
-
-      if (!('collType' in collDict)) {
-        continue;
-      }
-
-      if (!(collDict['collType'] === 'edm4hep::TrackCollection')) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const rawTracks = collDict['collection'];
-      const electrons: any[] = [];
-      const photons: any[] = [];
-      const pions: any[] = [];
-      const protons: any[] = [];
-      const kaons: any[] = [];
-      const other: any[] = [];
-
-      rawTracks.forEach((rawTrack: any) => {
-        const positions: any[] = [];
-        if ('trackerHits' in rawTrack) {
-          const trackerHitRefs = rawTrack['trackerHits'];
-          trackerHitRefs.forEach((trackerHitRef: any) => {
-            const trackerHits = this.getCollByID(
-              event,
-              trackerHitRef['collectionID'],
-            );
-            const trackerHit = trackerHits[trackerHitRef['index']];
+      if ('trackStates' in rawTrack && positions.length === 0) {
+        const trackStates = rawTrack['trackStates'];
+        trackStates.forEach((trackState: any) => {
+          if ('referencePoint' in trackState) {
             positions.push([
-              trackerHit['position']['x'] * 0.1,
-              trackerHit['position']['y'] * 0.1,
-              trackerHit['position']['z'] * 0.1,
+              trackState['referencePoint']['x'] * 0.1,
+              trackState['referencePoint']['y'] * 0.1,
+              trackState['referencePoint']['z'] * 0.1,
             ]);
-          });
-        }
-        if ('trackStates' in rawTrack && positions.length === 0) {
-          const trackStates = rawTrack['trackStates'];
-          trackStates.forEach((trackState: any) => {
-            if ('referencePoint' in trackState) {
-              positions.push([
-                trackState['referencePoint']['x'] * 0.1,
-                trackState['referencePoint']['y'] * 0.1,
-                trackState['referencePoint']['z'] * 0.1,
-              ]);
-            }
-          });
-        }
-
-        let trackColor = '0000cd';
-        if ('color' in rawTrack) {
-          trackColor = rawTrack['color'];
-        }
-
-        const track = {
-          pos: positions,
-          color: trackColor,
-        };
-
-        if ('pid' in rawTrack) {
-          if (rawTrack['pid'] == 'electron') {
-            electrons.push(track);
-          } else if (rawTrack['pid'] == 'photon') {
-            photons.push(track);
-          } else if (rawTrack['pid'] == 'pion') {
-            pions.push(track);
-          } else if (rawTrack['pid'] == 'proton') {
-            protons.push(track);
-          } else if (rawTrack['pid'] == 'kaon') {
-            kaons.push(track);
-          } else {
-            other.push(track);
           }
+        });
+      }
+
+      let trackColor = '0000cd';
+      if ('color' in rawTrack) {
+        trackColor = rawTrack['color'];
+      }
+
+      const track = {
+        pos: positions,
+        color: trackColor,
+      };
+
+      if ('pid' in rawTrack) {
+        if (rawTrack['pid'] == 'electron') {
+          electrons.push(track);
+        } else if (rawTrack['pid'] == 'photon') {
+          photons.push(track);
+        } else if (rawTrack['pid'] == 'pion') {
+          pions.push(track);
+        } else if (rawTrack['pid'] == 'proton') {
+          protons.push(track);
+        } else if (rawTrack['pid'] == 'kaon') {
+          kaons.push(track);
         } else {
           other.push(track);
         }
-      });
+      } else {
+        other.push(track);
+      }
+    });
 
-      allTracks[collName + ' | Electrons'] = electrons;
-      allTracks[collName + ' | Photons'] = photons;
-      allTracks[collName + ' | Pions'] = pions;
-      allTracks[collName + ' | Protons'] = protons;
-      allTracks[collName + ' | Kaons'] = kaons;
-      allTracks[collName + ' | Other'] = other;
-    }
-
-    return allTracks;
+    return [
+      ['Electrons', electrons],
+      ['Photons', photons],
+      ['Pions', pions],
+      ['Protons', protons],
+      ['Kaons', kaons],
+      ['Other', other],
+    ];
   }
 
   /** Return tracker hits */
-  private getHits(event: any) {
-    const allHits: { [key: string]: any[] } = {};
+  private getHits(event: any, collDict: any) {
+    const rawHits = collDict['collection'];
+    const hits: any[] = [];
+    const hitsOverlay: any[] = [];
+    const hitsProdBySecondary: any[] = [];
+    const hitsElectron: any[] = [];
+    const hitsMuon: any[] = [];
+    const hitsPion: any[] = [];
+    const hitsKaon: any[] = [];
+    const hitsProton: any[] = [];
+    const hitColor = this.randomColor();
+    const hitColorOverlay = this.randomColor();
+    const hitColorProdBySecondary = this.randomColor();
+    const hitColorElectron = this.randomColor();
+    const hitColorMuon = this.randomColor();
+    const hitColorPion = this.randomColor();
+    const hitColorKaon = this.randomColor();
+    const hitColorProton = this.randomColor();
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
+    rawHits.forEach((rawHit: any) => {
+      const position: any[] = [];
+      if ('position' in rawHit) {
+        position.push(rawHit['position']['x'] * 0.1);
+        position.push(rawHit['position']['y'] * 0.1);
+        position.push(rawHit['position']['z'] * 0.1);
       }
 
-      const collDict = event[collName];
-      // console.log(collDict);
-
-      if (!('collType' in collDict)) {
-        continue;
-      }
-
-      if (!collDict['collType'].includes('edm4hep::')) {
-        continue;
-      }
-
-      if (!collDict['collType'].includes('TrackerHitCollection')) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const rawHits = collDict['collection'];
-      const hits: any[] = [];
-      const hitsOverlay: any[] = [];
-      const hitsProdBySecondary: any[] = [];
-      const hitsElectron: any[] = [];
-      const hitsMuon: any[] = [];
-      const hitsPion: any[] = [];
-      const hitsKaon: any[] = [];
-      const hitsProton: any[] = [];
-      const hitColor = this.randomColor();
-      const hitColorOverlay = this.randomColor();
-      const hitColorProdBySecondary = this.randomColor();
-      const hitColorElectron = this.randomColor();
-      const hitColorMuon = this.randomColor();
-      const hitColorPion = this.randomColor();
-      const hitColorKaon = this.randomColor();
-      const hitColorProton = this.randomColor();
-
-      rawHits.forEach((rawHit: any) => {
-        const position: any[] = [];
-        if ('position' in rawHit) {
-          position.push(rawHit['position']['x'] * 0.1);
-          position.push(rawHit['position']['y'] * 0.1);
-          position.push(rawHit['position']['z'] * 0.1);
-        }
-
-        /* BITOverlay = 31
-         * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
+      /* BITOverlay = 31
+       * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
+       */
+      if ((rawHit['quality'] & (1 << 31)) !== 0) {
+        const hit = {
+          type: 'CircularPoint',
+          pos: position,
+          color: '#' + hitColorOverlay,
+          size: 2,
+        };
+        hitsOverlay.push(hit);
+        /* BITProducedBySecondary = 30
+         * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
          */
-        if ((rawHit['quality'] & (1 << 31)) !== 0) {
-          const hit = {
-            type: 'CircularPoint',
-            pos: position,
-            color: '#' + hitColorOverlay,
-            size: 2,
-          };
-          hitsOverlay.push(hit);
-          /* BITProducedBySecondary = 30
-           * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
-           */
-        } else if ((rawHit['quality'] & (1 << 30)) !== 0) {
-          const hit = {
-            type: 'CircularPoint',
-            pos: position,
-            color: '#' + hitColorProdBySecondary,
-            size: 2,
-          };
-          hitsProdBySecondary.push(hit);
-        } else {
-          let other = true;
-          if (rawHit['particle'].length > 0) {
-            const pdg = this.getPDG(
-              event,
-              rawHit['particle'][0]['collectionID'],
-              rawHit['particle'][0]['index'],
-            );
-            if (Math.abs(pdg) === 11) {
-              const hit = {
-                type: 'CircularPoint',
-                pos: position,
-                color: '#' + hitColorElectron,
-                size: 2,
-              };
-              hitsElectron.push(hit);
-              other = false;
-            } else if (Math.abs(pdg) === 13) {
-              const hit = {
-                type: 'CircularPoint',
-                pos: position,
-                color: '#' + hitColorMuon,
-                size: 2,
-              };
-              hitsMuon.push(hit);
-              other = false;
-            } else if (Math.abs(pdg) === 211) {
-              const hit = {
-                type: 'CircularPoint',
-                pos: position,
-                color: '#' + hitColorPion,
-                size: 2,
-              };
-              hitsPion.push(hit);
-              other = false;
-            } else if (Math.abs(pdg) === 321) {
-              const hit = {
-                type: 'CircularPoint',
-                pos: position,
-                color: '#' + hitColorKaon,
-                size: 2,
-              };
-              hitsKaon.push(hit);
-              other = false;
-            } else if (Math.abs(pdg) === 2212) {
-              const hit = {
-                type: 'CircularPoint',
-                pos: position,
-                color: '#' + hitColorProton,
-                size: 2,
-              };
-              hitsProton.push(hit);
-              other = false;
-            }
-          }
-          if (other) {
+      } else if ((rawHit['quality'] & (1 << 30)) !== 0) {
+        const hit = {
+          type: 'CircularPoint',
+          pos: position,
+          color: '#' + hitColorProdBySecondary,
+          size: 2,
+        };
+        hitsProdBySecondary.push(hit);
+      } else {
+        let other = true;
+        if (rawHit['particle']?.length > 0) {
+          const pdg = this.getPDG(
+            event,
+            rawHit['particle'][0]['collectionID'],
+            rawHit['particle'][0]['index'],
+          );
+          if (Math.abs(pdg) === 11) {
             const hit = {
               type: 'CircularPoint',
               pos: position,
-              color: '#' + hitColor,
+              color: '#' + hitColorElectron,
               size: 2,
             };
-            hits.push(hit);
+            hitsElectron.push(hit);
+            other = false;
+          } else if (Math.abs(pdg) === 13) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColorMuon,
+              size: 2,
+            };
+            hitsMuon.push(hit);
+            other = false;
+          } else if (Math.abs(pdg) === 211) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColorPion,
+              size: 2,
+            };
+            hitsPion.push(hit);
+            other = false;
+          } else if (Math.abs(pdg) === 321) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColorKaon,
+              size: 2,
+            };
+            hitsKaon.push(hit);
+            other = false;
+          } else if (Math.abs(pdg) === 2212) {
+            const hit = {
+              type: 'CircularPoint',
+              pos: position,
+              color: '#' + hitColorProton,
+              size: 2,
+            };
+            hitsProton.push(hit);
+            other = false;
           }
         }
-      });
+        if (other) {
+          const hit = {
+            type: 'CircularPoint',
+            pos: position,
+            color: '#' + hitColor,
+            size: 2,
+          };
+          hits.push(hit);
+        }
+      }
+    });
 
-      if (hits.length > 0) {
-        allHits[collName + ' | Other'] = hits;
-      }
-      if (hitsOverlay.length > 0) {
-        allHits[collName + ' | Overlay'] = hitsOverlay;
-      }
-      if (hitsProdBySecondary.length > 0) {
-        allHits[collName + ' | Secondary'] = hitsProdBySecondary;
-      }
-      if (hitsElectron.length > 0) {
-        allHits[collName + ' | Electron'] = hitsElectron;
-      }
-      if (hitsMuon.length > 0) {
-        allHits[collName + ' | Muon'] = hitsMuon;
-      }
-      if (hitsPion.length > 0) {
-        allHits[collName + ' | Pion'] = hitsPion;
-      }
-      if (hitsKaon.length > 0) {
-        allHits[collName + ' | Kaon'] = hitsKaon;
-      }
-      if (hitsProton.length > 0) {
-        allHits[collName + ' | Proton'] = hitsProton;
-      }
-    }
-
-    return allHits;
+    return [
+      ['Other', hits],
+      ['Overlay', hitsOverlay],
+      ['Secondary', hitsProdBySecondary],
+      ['Electron', hitsElectron],
+      ['Muon', hitsMuon],
+      ['Pion', hitsPion],
+      ['Kaon', hitsKaon],
+      ['Proton', hitsProton],
+    ];
   }
 
   /** Returns the cells */
-  private getCells(event: any) {
-    const allCells: { [key: string]: any[] } = {};
+  private getCells(collDict: any) {
+    const rawCells = collDict['collection'];
+    const cells: any[] = [];
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
+    // Find smallest distance between cell centers and use it as cell size
+    let drmin = 1e9;
+    for (let i = 0; i < 1e4; ++i) {
+      const j = Math.floor(Math.random() * rawCells.length);
+      const k = Math.floor(Math.random() * rawCells.length);
+      if (j === k) {
         continue;
       }
 
-      const collDict = event[collName];
+      const dx2 = Math.pow(rawCells[j].position.x - rawCells[k].position.x, 2);
+      const dy2 = Math.pow(rawCells[j].position.y - rawCells[k].position.y, 2);
+      const dz2 = Math.pow(rawCells[j].position.z - rawCells[k].position.z, 2);
+      const dr = Math.sqrt(dx2 + dy2 + dz2);
 
-      if (!('collType' in collDict)) {
-        continue;
+      if (dr < drmin) {
+        drmin = dr;
       }
-
-      if (!collDict['collType'].includes('edm4hep::')) {
-        continue;
-      }
-
-      if (!collDict['collType'].includes('CalorimeterHitCollection')) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const rawCells = collDict['collection'];
-      const cells: any[] = [];
-
-      // Find smallest distance between cell centers and use it as cell size
-      let drmin = 1e9;
-      for (let i = 0; i < 1e4; ++i) {
-        const j = Math.floor(Math.random() * rawCells.length);
-        const k = Math.floor(Math.random() * rawCells.length);
-        if (j === k) {
-          continue;
-        }
-
-        const dx2 = Math.pow(
-          rawCells[j].position.x - rawCells[k].position.x,
-          2,
-        );
-        const dy2 = Math.pow(
-          rawCells[j].position.y - rawCells[k].position.y,
-          2,
-        );
-        const dz2 = Math.pow(
-          rawCells[j].position.z - rawCells[k].position.z,
-          2,
-        );
-        const dr = Math.sqrt(dx2 + dy2 + dz2);
-
-        if (dr < drmin) {
-          drmin = dr;
-        }
-      }
-      const cellSide =
-        Math.floor(drmin) * 0.1 > 1 ? Math.floor(drmin) * 0.1 : 1;
-      const cellsHue = Math.floor(Math.random() * 358);
-
-      rawCells.forEach((rawCell: any) => {
-        const x = rawCell.position.x * 0.1;
-        const y = rawCell.position.y * 0.1;
-        const z = rawCell.position.z * 0.1;
-
-        const r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-        const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        const eta = Math.asinh(z / rho);
-        const phi = Math.acos(x / rho) * Math.sign(y);
-        const cellLightness = this.valToLightness(rawCell.energy, 1e-3, 1);
-        const cellOpacity = this.valToOpacity(rawCell.energy, 1e-3, 1);
-
-        const cell = {
-          eta: eta,
-          phi: phi,
-          energy: rawCell.energy,
-          radius: r,
-          side: cellSide,
-          length: cellSide, // expecting cells in multiple layers
-          color: '#' + this.convHSLtoHEX(cellsHue, 90, cellLightness),
-          opacity: cellOpacity,
-        };
-        cells.push(cell);
-      });
-
-      allCells[collName] = cells;
     }
+    const cellSide = Math.floor(drmin) * 0.1 > 1 ? Math.floor(drmin) * 0.1 : 1;
+    const cellsHue = Math.floor(Math.random() * 358);
 
-    return allCells;
+    rawCells.forEach((rawCell: any) => {
+      const x = rawCell.position.x * 0.1;
+      const y = rawCell.position.y * 0.1;
+      const z = rawCell.position.z * 0.1;
+
+      const r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+      const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      const eta = Math.asinh(z / rho);
+      const phi = Math.acos(x / rho) * Math.sign(y);
+      const cellLightness = this.valToLightness(rawCell.energy, 1e-3, 1);
+      const cellOpacity = this.valToOpacity(rawCell.energy, 1e-3, 1);
+
+      const cell = {
+        eta: eta,
+        phi: phi,
+        energy: rawCell.energy,
+        radius: r,
+        side: cellSide,
+        length: cellSide, // expecting cells in multiple layers
+        color: '#' + this.convHSLtoHEX(cellsHue, 90, cellLightness),
+        opacity: cellOpacity,
+      };
+      cells.push(cell);
+    });
+
+    return cells;
   }
 
   /** Return Calo clusters */
-  private getCaloClusters(event: any) {
-    const allClusters: { [key: string]: any[] } = {};
+  private getCaloClusters(collDict: any) {
+    const rawClusters = collDict['collection'];
+    const clusters: any[] = [];
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
-      }
+    rawClusters.forEach((rawCluster: any) => {
+      const x = rawCluster.position.x * 0.1;
+      const y = rawCluster.position.y * 0.1;
+      const z = rawCluster.position.z * 0.1;
 
-      const collDict = event[collName];
+      const r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+      const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+      const eta = Math.asinh(z / rho);
+      const phi = Math.acos(x / rho) * Math.sign(y);
 
-      if (!('collType' in collDict)) {
-        continue;
-      }
+      const cluster = {
+        eta: eta,
+        phi: phi,
+        energy: rawCluster.energy * 100,
+        radius: r,
+        side: 4,
+      };
+      clusters.push(cluster);
+    });
 
-      if (!(collDict['collType'] === 'edm4hep::ClusterCollection')) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const rawClusters = collDict['collection'];
-      const clusters: any[] = [];
-
-      rawClusters.forEach((rawCluster: any) => {
-        const x = rawCluster.position.x * 0.1;
-        const y = rawCluster.position.y * 0.1;
-        const z = rawCluster.position.z * 0.1;
-
-        const r = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
-        const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        const eta = Math.asinh(z / rho);
-        const phi = Math.acos(x / rho) * Math.sign(y);
-
-        const cluster = {
-          eta: eta,
-          phi: phi,
-          energy: rawCluster.energy * 100,
-          radius: r,
-          side: 4,
-        };
-        clusters.push(cluster);
-      });
-
-      allClusters[collName] = clusters;
-    }
-
-    return allClusters;
+    return clusters;
   }
 
   /** Return jets */
-  private getJets(event: any) {
-    const allJets: { [key: string]: any[] } = {};
+  private getJets(collDict: any) {
+    const jets: any[] = [];
+    const rawJets = collDict['collection'];
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
+    rawJets.forEach((rawJet: any) => {
+      if (!('momentum' in rawJet)) {
+        return;
       }
-
-      const collDict = event[collName];
-
-      if (!('collType' in collDict)) {
-        continue;
+      if (!('energy' in rawJet)) {
+        return;
       }
+      const px = rawJet['momentum']['x'];
+      const py = rawJet['momentum']['y'];
+      const pz = rawJet['momentum']['z'];
 
-      if (
-        !(collDict['collType'] === 'edm4hep::ReconstructedParticleCollection')
-      ) {
-        continue;
-      }
+      const pt = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
+      const eta = Math.asinh(pz / pt);
+      const phi = Math.acos(px / pt) * Math.sign(py);
 
-      if (!(collName.includes('Jet') || collName.includes('jet'))) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const jets: any[] = [];
-      const rawJets = collDict['collection'];
-
-      rawJets.forEach((rawJet: any) => {
-        if (!('momentum' in rawJet)) {
-          return;
-        }
-        if (!('energy' in rawJet)) {
-          return;
-        }
-        const px = rawJet['momentum']['x'];
-        const py = rawJet['momentum']['y'];
-        const pz = rawJet['momentum']['z'];
-
-        const pt = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
-        const eta = Math.asinh(pz / pt);
-        const phi = Math.acos(px / pt) * Math.sign(py);
-
-        const jet = {
-          eta: eta,
-          phi: phi,
-          energy: 1000 * rawJet.energy,
-        };
-        jets.push(jet);
-      });
-      allJets[collName] = jets;
-    }
-
-    return allJets;
+      const jet = {
+        eta: eta,
+        phi: phi,
+        energy: 1000 * rawJet.energy,
+      };
+      jets.push(jet);
+    });
+    return jets;
   }
 
   /** Return missing energy */
-  private getMissingEnergy(event: any) {
-    const allMETs: { [key: string]: any[] } = {};
+  private getMissingEnergy(collDict: any) {
+    const METs: any[] = [];
+    const rawMETs = collDict['collection'];
 
-    for (const collName in event) {
-      if (event[collName].constructor != Object) {
-        continue;
+    rawMETs.forEach((rawMET: any) => {
+      if (!('momentum' in rawMET)) {
+        return;
       }
-
-      const collDict = event[collName];
-
-      if (!('collType' in collDict)) {
-        continue;
+      if (!('energy' in rawMET)) {
+        return;
       }
+      const px = rawMET['momentum']['x'];
+      const py = rawMET['momentum']['y'];
+      const pz = rawMET['momentum']['z'];
 
-      if (
-        !(collDict['collType'] === 'edm4hep::ReconstructedParticleCollection')
-      ) {
-        continue;
-      }
+      const p = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2));
+      const etx = (rawMET['energy'] * px) / p;
+      const ety = (rawMET['energy'] * py) / p;
 
-      if (!(collName.includes('Missing') || collName.includes('missing'))) {
-        continue;
-      }
-
-      if (!('collection' in collDict)) {
-        continue;
-      }
-
-      const METs: any[] = [];
-      const rawMETs = collDict['collection'];
-      const METColor = '#ff69b4';
-
-      rawMETs.forEach((rawMET: any) => {
-        if (!('momentum' in rawMET)) {
-          return;
-        }
-        if (!('energy' in rawMET)) {
-          return;
-        }
-        const px = rawMET['momentum']['x'];
-        const py = rawMET['momentum']['y'];
-        const pz = rawMET['momentum']['z'];
-
-        const p = Math.sqrt(
-          Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2),
-        );
-        const etx = (rawMET['energy'] * px) / p;
-        const ety = (rawMET['energy'] * py) / p;
-
-        const MET = {
-          etx: etx * 10,
-          ety: ety * 10,
-          color: '#ff69b4',
-        };
-        METs.push(MET);
-      });
-      allMETs[collName] = METs;
-    }
-
-    return allMETs;
+      const MET = {
+        etx: etx * 10,
+        ety: ety * 10,
+        color: '#ff69b4',
+      };
+      METs.push(MET);
+    });
+    return METs;
   }
 
   /** Return a random colour */
