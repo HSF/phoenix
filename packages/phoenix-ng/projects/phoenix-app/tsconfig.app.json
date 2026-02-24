@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/app"
   },
-  "files": ["src/main.ts", "src/polyfills.ts", "src/zone-flags.ts"],
+  "files": ["src/main.ts", "src/zone-flags.ts"],
   "include": ["src/**/*.d.ts", "event-config.json"]
 }

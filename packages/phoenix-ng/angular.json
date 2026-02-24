@@ -18,12 +18,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/phoenix-app",
+            "outputPath": {
+              "base": "dist/phoenix-app",
+              "browser": ""
+            },
             "index": "projects/phoenix-app/src/index.html",
-            "main": "projects/phoenix-app/src/main.ts",
-            "polyfills": "projects/phoenix-app/src/polyfills.ts",
+            "browser": "projects/phoenix-app/src/main.ts",
+            "polyfills": ["projects/phoenix-app/src/zone-flags.ts", "zone.js"],
             "tsConfig": "projects/phoenix-app/tsconfig.app.json",
             "assets": [
               "projects/phoenix-app/src/favicon.ico",
@@ -42,10 +45,19 @@
               "lodash",
               "html2canvas"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
+            "externalDependencies": [
+              "vm",
+              "fs",
+              "os",
+              "path",
+              "crypto",
+              "http",
+              "https",
+              "net",
+              "tls",
+              "url",
+              "assert"
+            ],
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -62,8 +74,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -87,8 +97,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
