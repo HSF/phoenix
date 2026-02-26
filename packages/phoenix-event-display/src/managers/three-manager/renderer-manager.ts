@@ -177,14 +177,33 @@ export class RendererManager {
   }
 
   /**
-   * Swap any two renderers.
+   * Swap any two renderers in the renderers list.
    * @param rendererA Renderer A to be swapped with renderer B.
    * @param rendererB Renderer B to be swapped with renderer A.
    */
   public swapRenderers(rendererA: WebGLRenderer, rendererB: WebGLRenderer) {
-    const temp: WebGLRenderer = rendererA;
-    rendererA = rendererB;
-    rendererB = temp;
+    const indexA = this.renderers.indexOf(rendererA);
+    const indexB = this.renderers.indexOf(rendererB);
+
+    if (indexA === -1 || indexB === -1) {
+      return;
+    }
+
+    this.renderers[indexA] = rendererB;
+    this.renderers[indexB] = rendererA;
+
+    // Update mainRenderer and overlayRenderer references if involved in the swap
+    if (this.mainRenderer === rendererA) {
+      this.mainRenderer = rendererB;
+    } else if (this.mainRenderer === rendererB) {
+      this.mainRenderer = rendererA;
+    }
+
+    if (this.overlayRenderer === rendererA) {
+      this.overlayRenderer = rendererB;
+    } else if (this.overlayRenderer === rendererB) {
+      this.overlayRenderer = rendererA;
+    }
   }
 
   /**
