@@ -23,6 +23,12 @@
   display: block;
 }
 
+.screenshot-mode span {
+  padding: 5px 25px;
+  border: 2px solid var(--phoenix-text-color);
+  border-radius: 8px;
+}
+
 .make-picture span {
   padding: 5px 25px;
   border: 2px solid var(--phoenix-text-color);

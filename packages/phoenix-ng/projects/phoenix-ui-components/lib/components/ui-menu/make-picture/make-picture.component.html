@@ -1,6 +1,6 @@
 <mat-menu class="mat-menu" #menu>
-  <button mat-menu-item (click)="toggleSSMode()">
-    {{ ssMode ? 'Exit screenshot mode' : 'Enter screenshot mode' }}
+  <button mat-menu-item class="screenshot-mode" (click)="toggleSSMode()">
+    <span>{{ ssMode ? 'Exit screenshot mode' : 'Enter screenshot mode' }}</span>
   </button>
   <button mat-menu-item (click)="$event.stopPropagation()" class="size-input">
     <label>width</label>
