@@ -24,9 +24,10 @@
 }
 
 .screenshot-mode span {
-  padding: 5px 25px;
+  padding: 4px 8px;
   border: 2px solid var(--phoenix-text-color);
   border-radius: 8px;
+  display: inline-block;
 }
 
 .make-picture span {
