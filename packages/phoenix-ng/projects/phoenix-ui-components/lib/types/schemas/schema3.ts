@@ -50,7 +50,7 @@ export namespace Schema3 {
   /** Tracker hit interface class */
   // Types: TrackerHit3D, TrackerHitPlane
   interface TrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of the raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
@@ -61,7 +61,7 @@ export namespace Schema3 {
 
   /** Tracker hit */
   interface TrackerHit3D extends TrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
@@ -73,7 +73,7 @@ export namespace Schema3 {
 
   /** Tracker hit plane */
   interface TrackerHitPlane extends TrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
@@ -89,7 +89,7 @@ export namespace Schema3 {
 
   /** Simulated tracker hit */
   type SimTrackerHit = {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     eDep: number; // [GeV] energy deposited in the hit
     time: number; // [ns] proper time of the hit in the lab frame
     pathLength: number; // path length of the particle in the sensitive material that resulted in this hit
@@ -101,7 +101,7 @@ export namespace Schema3 {
 
   /** Calorimeter hit */
   type CalorimeterHit = {
-    cellID: number; // detector specific (geometrical) cell id
+    cellID: bigint; // detector specific (geometrical) cell id
     energy: number; // [GeV] energy of the hit
     energyError: number; // [GeV] error of the hit energy
     time: number; // [ns] time of the hit
@@ -111,7 +111,7 @@ export namespace Schema3 {
 
   /** Simulated calorimeter hit */
   type SimCalorimeterHit = {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     energy: number; // [GeV] energy of the hit
     position: Vector3f; // [mm] position of the hit in world coordinates
     contributions: ObjectID[]; // Monte Carlo step contributions

@@ -46,7 +46,7 @@ export namespace Schema1 {
 
   /** Tracker hit */
   type TrackerHit = {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit, either one of edm4hep::RawTimeSeries, edm4hep::SIMTRACKERHIT - see collection parameters "TrackerHitTypeNames" and "TrackerHitTypeValues".
     quality: number; // quality bit flag of the hit.
     time: number; // time of the hit [ns].
@@ -59,7 +59,7 @@ export namespace Schema1 {
 
   /** Simulated tracker hit */
   type SimTrackerHit = {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     EDep: number; // energy deposited in the hit [GeV].
     time: number; // proper time of the hit in the lab frame in [ns].
     pathLength: number; // path length of the particle in the sensitive material that resulted in this hit.
@@ -71,7 +71,7 @@ export namespace Schema1 {
 
   /** Calorimeter hit */
   type CalorimeterHit = {
-    cellID: number; // detector specific (geometrical) cell id.
+    cellID: bigint; // detector specific (geometrical) cell id.
     energy: number; // energy of the hit in [GeV].
     energyError: number; // error of the hit energy in [GeV].
     time: number; // time of the hit in [ns].
@@ -81,7 +81,7 @@ export namespace Schema1 {
 
   /** Simulated calorimeter hit */
   type SimCalorimeterHit = {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     energy: number; // energy of the hit in [GeV].
     position: Vector3f; // position of the hit in world coordinates in [mm].
     contributions: ObjectID[]; // Monte Carlo step contribution - parallel to particle

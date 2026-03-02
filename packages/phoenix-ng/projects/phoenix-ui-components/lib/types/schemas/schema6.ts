@@ -8,7 +8,7 @@ import {
   ObjectID,
 } from './utils';
 
-export namespace Schema4 {
+export namespace Schema6 {
   /** Parametrized description of a particle track */
   interface TrackState {
     location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
@@ -48,20 +48,20 @@ export namespace Schema4 {
   }
 
   /** Tracker hit interface class */
-  // Types: TrackerHit3D, TrackerHitPlane
+  // Types: TrackerHit3D, TrackerHitPlane, SenseWireHit
   interface TrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of the raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
     eDep: number; // [GeV] energy deposited on the hit
     eDepError: number; // [GeV] error measured on eDep
-    position: Vector3d; // [mm] hit position
+    position: Vector3d; // [mm] hit position as recorded by the sensor. The exact interpretation will depend on the currently held type of the interface
   }
 
   /** Tracker hit */
   interface TrackerHit3D extends TrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
@@ -72,24 +72,41 @@ export namespace Schema4 {
   }
 
   /** Tracker hit plane */
-  interface TrackerHitPlane {
-    cellID: number; // ID of the sensor that created this hit
+  interface TrackerHitPlane extends TrackerHit {
+    cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit
     quality: number; // quality bit flag of the hit
     time: number; // [ns] time of the hit
     eDep: number; // [GeV] energy deposited on the hit
     eDepError: number; // [GeV] error measured on eDep
-    u: Vector2f; // measurement direction vector, u lies in the x-y plane
-    v: Vector2f; // measurement direction vector, v is along z
-    du: number; // measurement error along the direction
-    dv: number; // measurement error along the direction
+    u: Vector2f; // [rad] direction of the first measurement given as (theta, phi) in spherical coordinates
+    v: Vector2f; // [rad] direction of the second measurement given as (theta, phi) in spherical coordinates
+    du: number; // [mm] measurement error along the direction
+    dv: number; // [mm] measurement error along the direction
     position: Vector3d; // [mm] hit position
     covMatrix: CovMatrix3f; // [mm^2] covariance of the position (x,y,z)
   }
 
+  /** Sense wire hit, knowing only the distance to the wire. The circle representing possible positions is parametrized with its center, radius and normal vector (given by the wire direction). */
+  interface SenseWireHit extends TrackerHit {
+    cellID: bigint; // ID of the sensor that created this hit
+    type: number; // type of the raw data hit
+    quality: number; // quality bit flag of the hit
+    time: number; // [ns] time of the hit
+    eDep: number; // [GeV] energy deposited by the hit
+    eDepError: number; // [GeV] error on eDep
+    wireStereoAngle: number; // angle between the sense wire axis and the drift chamber axis (usually the z-axis) - use it together with wireAzimuthalAngle to get the wire direction
+    wireAzimuthalAngle: number; // azimuthal angle at the middle of the sense wire - use it together with wireStereoAngle to get the wire direction
+    position: Vector3d; // [mm] point on the sense wire which is closest to the hit (center of the circle)
+    positionAlongWireError: number; // [mm] error on the hit position along the wire direction
+    distanceToWire: number; // [mm] distance between the hit and the wire (radius of the circle)
+    distanceToWireError: number; // [mm] error on distanceToWire
+    nElectrons: number[]; // number of electrons for each cluster (number of clusters = vector size)
+  }
+
   /** Simulated tracker hit */
   interface SimTrackerHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     eDep: number; // [GeV] energy deposited in the hit
     time: number; // [ns] proper time of the hit in the lab frame
     pathLength: number; // path length of the particle in the sensitive material that resulted in this hit
@@ -101,7 +118,7 @@ export namespace Schema4 {
 
   /** Calorimeter hit */
   interface CalorimeterHit {
-    cellID: number; // detector specific (geometrical) cell id
+    cellID: bigint; // detector specific (geometrical) cell id
     energy: number; // [GeV] energy of the hit
     energyError: number; // [GeV] error of the hit energy
     time: number; // [ns] time of the hit
@@ -111,7 +128,7 @@ export namespace Schema4 {
 
   /** Simulated calorimeter hit */
   interface SimCalorimeterHit {
-    cellID: number; // ID of the sensor that created this hit
+    cellID: bigint; // ID of the sensor that created this hit
     energy: number; // [GeV] energy of the hit
     position: Vector3f; // [mm] position of the hit in world coordinates
     contributions: ObjectID[]; // Monte Carlo step contributions
@@ -125,7 +142,7 @@ export namespace Schema4 {
     position: Vector3f; // [mm] position of the cluster
     positionError: CovMatrix3f; // [mm^2] covariance matrix of the position
     iTheta: number; // [rad] Polar angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
-    phi: number; // [rad] Azimuthal angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
+    iPhi: number; // [rad] Azimuthal angle of the cluster's intrinsic direction (used e.g. for vertexing). Not to be confused with the cluster position seen from IP
     directionError: Vector3f; // [mm^2] covariance matrix of the direction
     shapeParameters: number[]; // shape parameters. The corresponding names of the shape parameters should be stored in the collection named by edm4hep::labels::ShapeParameterNames in the file-level metadata, as a vector of strings in the same order as the parameters.
     subdetectorEnergies: number[]; // energy observed in a particular subdetector
@@ -152,7 +169,7 @@ export namespace Schema4 {
   type TrackStateCollection = TrackState[];
   type VertexCollection = Vertex[];
   type TrackCollection = Track[];
-  type TrackerHitCollection = (TrackerHit3D | TrackerHitPlane)[];
+  type TrackerHitCollection = (TrackerHit3D | TrackerHitPlane | SenseWireHit)[];
   type SimTrackerHitCollection = SimTrackerHit[];
   type CalorimeterHitCollection = CalorimeterHit[];
   type SimCalorimeterHitCollection = SimCalorimeterHit[];
