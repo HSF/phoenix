@@ -1,4 +1,4 @@
-import { Easing, Tween } from '@tweenjs/tween.js';
+import { Easing, Group as TweenGroup, Tween } from '@tweenjs/tween.js';
 import {
   TubeGeometry,
   BufferGeometry,
@@ -45,6 +45,7 @@ export class AnimationsManager {
     private scene: Scene,
     private activeCamera: Camera,
     private rendererManager: RendererManager,
+    private tweenGroup: TweenGroup,
   ) {
     this.animateEvent = this.animateEvent.bind(this);
     this.animateEventWithClipping = this.animateEventWithClipping.bind(this);
@@ -62,7 +63,7 @@ export class AnimationsManager {
     duration: number = 1000,
     easing?: typeof Easing.Linear.None,
   ) {
-    const tween = new Tween(this.activeCamera.position).to(
+    const tween = new Tween(this.activeCamera.position, this.tweenGroup).to(
       { x: pos[0], y: pos[1], z: pos[2] },
       duration,
     );
@@ -187,10 +188,10 @@ export class AnimationsManager {
 
             if (eventObject.geometry instanceof TracksMesh) {
               eventObject.material.progress = 0;
-              const eventObjectTween = new Tween(eventObject.material).to(
-                { progress: 1 },
-                tweenDuration,
-              );
+              const eventObjectTween = new Tween(
+                eventObject.material,
+                this.tweenGroup,
+              ).to({ progress: 1 }, tweenDuration);
               eventObjectTween.onComplete(() => {
                 eventObject.material.progress = 1;
               });
@@ -201,6 +202,7 @@ export class AnimationsManager {
 
               const eventObjectTween = new Tween(
                 eventObject.geometry.drawRange,
+                this.tweenGroup,
               ).to({ count: geometryPosCount }, tweenDuration);
               eventObjectTween.onComplete(() => {
                 eventObject.geometry.drawRange.count = oldDrawRangeCount;
@@ -211,11 +213,14 @@ export class AnimationsManager {
         }
         // Animation for Jets
         else if (eventObject.name === 'Jet') {
-          const scaleTween = new Tween({
-            x: 0.01,
-            y: 0.01,
-            z: 0.01,
-          }).to(
+          const scaleTween = new Tween(
+            {
+              x: 0.01,
+              y: 0.01,
+              z: 0.01,
+            },
+            this.tweenGroup,
+          ).to(
             {
               x: eventObject.scale.x,
               y: eventObject.scale.y,
@@ -264,7 +269,7 @@ export class AnimationsManager {
     });
 
     // Tween for animation sphere
-    const animationSphereTween = new Tween(animationSphere).to(
+    const animationSphereTween = new Tween(animationSphere, this.tweenGroup).to(
       { radius: 3000 },
       tweenDuration,
     );
@@ -296,10 +301,10 @@ export class AnimationsManager {
 
     animationSphereTween.onUpdate(onAnimationSphereUpdate);
 
-    const animationSphereTweenClone = new Tween(animationSphere).to(
-      { radius: 10000 },
-      extraAnimationSphereDuration,
-    );
+    const animationSphereTweenClone = new Tween(
+      animationSphere,
+      this.tweenGroup,
+    ).to({ radius: 10000 }, extraAnimationSphereDuration);
     animationSphereTweenClone.onUpdate(onAnimationSphereUpdate);
 
     animationSphereTween.chain(animationSphereTweenClone);
@@ -379,7 +384,7 @@ export class AnimationsManager {
     // Create tweens for the animation clipping planes
     for (const animationClipPlane of animationClipPlanes) {
       animationClipPlane.constant = 0;
-      const tween = new Tween(animationClipPlane).to(
+      const tween = new Tween(animationClipPlane, this.tweenGroup).to(
         { constant: clippingConstant },
         tweenDuration,
       );
@@ -446,7 +451,7 @@ export class AnimationsManager {
     const particleTweens = [];
 
     for (const particle of particles) {
-      new Tween(particle.material)
+      new Tween(particle.material, this.tweenGroup)
         .to(
           {
             opacity: 1,
@@ -455,7 +460,7 @@ export class AnimationsManager {
         )
         .start();
 
-      const particleToOrigin = new Tween(particle.position)
+      const particleToOrigin = new Tween(particle.position, this.tweenGroup)
         .to(
           {
             z: 0,

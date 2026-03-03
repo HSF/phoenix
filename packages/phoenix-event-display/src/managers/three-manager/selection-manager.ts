@@ -10,7 +10,7 @@ import {
   AxesHelper,
   Mesh,
 } from 'three';
-import * as TWEEN from '@tweenjs/tween.js';
+import { Easing, Group as TweenGroup, Tween } from '@tweenjs/tween.js';
 import { InfoLogger } from '../../helpers/info-logger';
 import { EffectsManager } from './effects-manager';
 import { PrettySymbols } from '../../helpers/pretty-symbols';
@@ -92,6 +92,8 @@ export class SelectionManager {
   private smoothedFPS = 60;
   /** FPS smoothing factor */
   private readonly FPS_SMOOTHING = 0.1;
+  /** Shared tween.js group for animations. */
+  private tweenGroup: TweenGroup;
 
   // Hysteresis thresholds to prevent oscillation
   /** Performance thresholds for dynamic frame skipping to maintain stable FPS. */
@@ -140,6 +142,7 @@ export class SelectionManager {
     scene: Scene,
     effectsManager: EffectsManager,
     infoLogger: InfoLogger,
+    tweenGroup: TweenGroup = new TweenGroup(),
   ) {
     this.getControls = getControls;
     this.getOverlayControls = getOverlayControls;
@@ -148,6 +151,7 @@ export class SelectionManager {
     this.isInit = true;
     this.infoLogger = infoLogger;
     this.effectsManager = effectsManager;
+    this.tweenGroup = tweenGroup;
     // Custom outline system is now used instead of OutlinePass
 
     // Always enable passive double-click detection for both canvases
@@ -402,7 +406,7 @@ export class SelectionManager {
         };
 
         // Create tween for smooth transition
-        const targetTween = new TWEEN.Tween(currentTarget)
+        const targetTween = new Tween(currentTarget, this.tweenGroup)
           .to(
             {
               x: point.x,
@@ -411,7 +415,7 @@ export class SelectionManager {
             },
             1000,
           ) // 1 second duration
-          .easing(TWEEN.Easing.Cubic.Out) // Smooth easing
+          .easing(Easing.Cubic.Out) // Smooth easing
           .onUpdate(() => {
             // Update controls target during animation
             controls.target.set(
