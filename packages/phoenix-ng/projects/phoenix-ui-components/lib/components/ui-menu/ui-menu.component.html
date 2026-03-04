@@ -13,45 +13,56 @@
   <app-dark-theme></app-dark-theme>
 
   <!-- Toggle for clipping geometries -->
-  <app-object-clipping></app-object-clipping>
+  <app-object-clipping
+    *ngIf="uiConfig.showObjectClipping"
+  ></app-object-clipping>
 
   <!-- Main view toggle -->
   <app-main-view-toggle></app-main-view-toggle>
 
   <!-- Toggle for overlay panel -->
-  <app-overlay-view></app-overlay-view>
+  <app-overlay-view *ngIf="uiConfig.showOverlayView"></app-overlay-view>
 
   <!-- Toggle for selected object panel -->
-  <app-object-selection></app-object-selection>
+  <app-object-selection
+    *ngIf="uiConfig.showObjectSelection"
+  ></app-object-selection>
 
   <!-- Info panel -->
-  <app-info-panel></app-info-panel>
+  <app-info-panel *ngIf="uiConfig.showInfoPanel"></app-info-panel>
 
   <!-- Toggle for animating the event data -->
-  <app-animate-event></app-animate-event>
+  <app-animate-event *ngIf="uiConfig.showAnimateEvent"></app-animate-event>
 
   <!-- Toggle for animating camera through event -->
   <app-animate-camera
+    *ngIf="uiConfig.showAnimateCamera"
     [animationPresets]="animationPresets"
   ></app-animate-camera>
 
   <!-- Toggle for collections info -->
-  <app-collections-info></app-collections-info>
+  <app-collections-info
+    *ngIf="uiConfig.showCollectionsInfo"
+  ></app-collections-info>
 
   <!-- Toggle for geometry browser -->
-  <app-geometry-browser></app-geometry-browser>
+  <app-geometry-browser
+    *ngIf="uiConfig.showGeometryBrowser"
+  ></app-geometry-browser>
 
   <!-- Toggle for performance -->
-  <app-performance-toggle></app-performance-toggle>
+  <app-performance-toggle
+    *ngIf="uiConfig.showPerformanceToggle"
+  ></app-performance-toggle>
 
   <!-- Toggle for VR -->
-  <app-vr-toggle></app-vr-toggle>
+  <app-vr-toggle *ngIf="uiConfig.showVRToggle"></app-vr-toggle>
 
   <!-- Toggle for AR -->
-  <app-ar-toggle></app-ar-toggle>
+  <app-ar-toggle *ngIf="uiConfig.showARToggle"></app-ar-toggle>
 
   <!-- Make pictures from scene -->
-  <app-make-picture></app-make-picture>
+  <app-make-picture *ngIf="uiConfig.showMakePicture"></app-make-picture>
 
   <!-- Toggle for loading geometries modal-->
   <app-io-options
@@ -59,7 +70,7 @@
   ></app-io-options>
 
   <!-- Toggle for shareable link constructor modal-->
-  <app-share-link></app-share-link>
+  <app-share-link *ngIf="uiConfig.showShareLink"></app-share-link>
 
   <!-- Extra options -->
   <ng-content></ng-content>
