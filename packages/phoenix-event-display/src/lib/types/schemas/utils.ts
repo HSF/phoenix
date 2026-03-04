@@ -1,0 +1,53 @@
+import { Schema1 } from './schema1';
+import { Schema2 } from './schema2';
+import { Schema3 } from './schema3';
+import { Schema4 } from './schema4';
+import { Schema5 } from './schema5';
+import { Schema6 } from './schema6';
+
+/** A generic 3 dimensional covariance matrix with values stored in lower triangular form */
+export type CovMatrix3f = {
+  values: number[]; // the covariance matrix values
+};
+
+/** A generic 4 dimensional covariance matrix with values stored in lower triangular form */
+export type CovMatrix4f = {
+  values: number[]; // the covariance matrix values
+};
+
+/** A generic 6 dimensional covariance matrix with values stored in lower triangular form */
+export type CovMatrix6f = {
+  values: number[]; // the covariance matrix values
+};
+
+export type Vector2f = {
+  a: number;
+  b: number;
+};
+
+export type Vector3f = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+export type Vector3d = {
+  x: number;
+  y: number;
+  z: number;
+};
+
+export type ObjectID = {
+  collectionID: number;
+  index: number;
+};
+
+export type edm4hepEvent = {
+  [name: string]:
+    | Schema6.Item
+    | Schema5.Item
+    | Schema4.Item
+    | Schema3.Item
+    | Schema2.Item
+    | Schema1.Item;
+};
