@@ -122,6 +122,15 @@ export namespace Schema1 {
     particleIDs: ObjectID[]; // particle Ids (not sorted by their likelihood)
   };
 
+  /** Event Header. Additional parameters are assumed to go into the metadata tree. */
+  type EventHeader = {
+    eventNumber: number; // event number
+    runNumber: number; // run number
+    timeStamp: bigint; // time stamp
+    weight: number; // event weight
+  };
+
+  type EventHeaderCollection = EventHeader[];
   type VertexCollection = Vertex[];
   type TrackCollection = Track[];
   type TrackerHitCollection = TrackerHit[];
@@ -132,6 +141,7 @@ export namespace Schema1 {
   type ReconstructedParticleCollection = ReconstructedParticle[];
 
   export type Item =
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::EventHeaderCollection'; collection: EventHeaderCollection }
     | { collID: number; collSchemaVersion: number; collType: 'edm4hep::VertexCollection'; collection: VertexCollection }
     | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackCollection'; collection: TrackCollection }
     | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackerHitCollection'; collection: TrackerHitCollection }
