@@ -9,6 +9,18 @@ import {
 } from './utils';
 
 export namespace Schema3 {
+  /** Vertex */
+  type Vertex = {
+    type: number; // flagword that defines the type of the vertex, see reserved bits for more information
+    chi2: number; // chi-squared of the vertex fit
+    ndf: number; // number of degrees of freedom of the vertex fit
+    position: Vector3f; // [mm]  position of the vertex
+    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position
+    algorithmType: number; // type code for the algorithm that has been used to create the vertex
+    parameters: number[]; // additional parameters related to this vertex
+    particles: ObjectID[]; // particles that have been used to form this vertex, aka the decay particles emerging from this vertex
+  };
+
   /** Parametrized description of a particle track */
   type TrackState = {
     location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
@@ -20,18 +32,6 @@ export namespace Schema3 {
     time: number; // [ns] time of the track at this trackstate
     referencePoint: Vector3f; // [mm] Reference point of the track parameters, e.g. the origin at the IP, or the position  of the first/last hits or the entry point into the calorimeter
     covMatrix: CovMatrix6f; // covariance matrix of the track parameters.
-  };
-
-  /** Vertex */
-  type Vertex = {
-    type: number; // flagword that defines the type of the vertex, see reserved bits for more information
-    chi2: number; // chi-squared of the vertex fit
-    ndf: number; // number of degrees of freedom of the vertex fit
-    position: Vector3f; // [mm]  position of the vertex
-    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position
-    algorithmType: number; // type code for the algorithm that has been used to create the vertex
-    parameters: number[]; // additional parameters related to this vertex
-    particles: ObjectID[]; // particles that have been used to form this vertex, aka the decay particles emerging from this vertex
   };
 
   /** Reconstructed track */
@@ -149,13 +149,24 @@ export namespace Schema3 {
     particles: ObjectID[]; // reconstructed particles that have been combined to this particle
   };
 
-  type TrackStateCollection = TrackState[];
   type VertexCollection = Vertex[];
   type TrackCollection = Track[];
-  type TrackerHitCollection = (TrackerHit3D | TrackerHitPlane)[];
+  type TrackerHit3DCollection = TrackerHit3D[];
+  type TrackerHitPlaneCollection = TrackerHitPlane[];
   type SimTrackerHitCollection = SimTrackerHit[];
   type CalorimeterHitCollection = CalorimeterHit[];
   type SimCalorimeterHitCollection = SimCalorimeterHit[];
   type ClusterCollection = Cluster[];
   type ReconstructedParticleCollection = ReconstructedParticle[];
+
+  export type Item =
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::VertexCollection'; collection: VertexCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackCollection'; collection: TrackCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackerHit3DCollection'; collection: TrackerHit3DCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackerHitPlaneCollection'; collection: TrackerHitPlaneCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimTrackerHitCollection'; collection: SimTrackerHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::CalorimeterHitCollection'; collection: CalorimeterHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimCalorimeterHitCollection'; collection: SimCalorimeterHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ClusterCollection'; collection: ClusterCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ReconstructedParticleCollection'; collection: ReconstructedParticleCollection };
 }

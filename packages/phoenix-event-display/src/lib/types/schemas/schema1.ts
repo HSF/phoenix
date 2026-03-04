@@ -1,18 +1,6 @@
 import { Vector3f, Vector3d, ObjectID } from './utils';
 
 export namespace Schema1 {
-  type TrackState = {
-    location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
-    D0: number; // transverse impact parameter
-    phi: number; // azimuthal angle
-    omega: number; // is the signed curvature of the track in [1/mm].
-    Z0: number; // longitudinal impact parameter
-    tanLambda: number; // lambda is the dip angle of the track in r-z
-    time: number; // time of the track at this trackstate
-    referencePoint: Vector3f; // Reference point of the track parameters, e.g. the origin at the IP, or the position  of the first/last hits or the entry point into the calorimeter. [mm]
-    covMatrix: number[]; // lower triangular covariance matrix of the track parameters.  the order of parameters is  d0, phi, omega, z0, tan(lambda), time. the array is a row-major flattening of the matrix.
-  };
-
   /** Vertex */
   type Vertex = {
     primary: number; // boolean flag, if vertex is the primary vertex of the event
@@ -23,6 +11,18 @@ export namespace Schema1 {
     algorithmType: number; // type code for the algorithm that has been used to create the vertex - check/set the collection parameters AlgorithmName and AlgorithmType.
     parameters: number[]; // additional parameters related to this vertex - check/set the collection parameter "VertexParameterNames" for the parameters meaning.
     associatedParticle: ObjectID; // reconstructed particle associated to this vertex.
+  };
+
+  type TrackState = {
+    location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
+    D0: number; // transverse impact parameter
+    phi: number; // azimuthal angle
+    omega: number; // is the signed curvature of the track in [1/mm].
+    Z0: number; // longitudinal impact parameter
+    tanLambda: number; // lambda is the dip angle of the track in r-z
+    time: number; // time of the track at this trackstate
+    referencePoint: Vector3f; // Reference point of the track parameters, e.g. the origin at the IP, or the position  of the first/last hits or the entry point into the calorimeter. [mm]
+    covMatrix: number[]; // lower triangular covariance matrix of the track parameters.  the order of parameters is  d0, phi, omega, z0, tan(lambda), time. the array is a row-major flattening of the matrix.
   };
 
   /** Reconstructed track */
@@ -122,7 +122,6 @@ export namespace Schema1 {
     particleIDs: ObjectID[]; // particle Ids (not sorted by their likelihood)
   };
 
-  type TrackStateCollection = TrackState[];
   type VertexCollection = Vertex[];
   type TrackCollection = Track[];
   type TrackerHitCollection = TrackerHit[];
@@ -131,4 +130,14 @@ export namespace Schema1 {
   type SimCalorimeterHitCollection = SimCalorimeterHit[];
   type ClusterCollection = Cluster[];
   type ReconstructedParticleCollection = ReconstructedParticle[];
+
+  export type Item =
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::VertexCollection'; collection: VertexCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackCollection'; collection: TrackCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackerHitCollection'; collection: TrackerHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimTrackerHitCollection'; collection: SimTrackerHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::CalorimeterHitCollection'; collection: CalorimeterHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimCalorimeterHitCollection'; collection: SimCalorimeterHitCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ClusterCollection'; collection: ClusterCollection }
+    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ReconstructedParticleCollection'; collection: ReconstructedParticleCollection };
 }

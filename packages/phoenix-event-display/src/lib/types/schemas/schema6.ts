@@ -9,8 +9,20 @@ import {
 } from './utils';
 
 export namespace Schema6 {
+  /** Vertex */
+  type Vertex = {
+    type: number; // flagword that defines the type of the vertex, see reserved bits for more information
+    chi2: number; // chi-squared of the vertex fit
+    ndf: number; // number of degrees of freedom of the vertex fit
+    position: Vector3f; // [mm]  position of the vertex
+    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position
+    algorithmType: number; // type code for the algorithm that has been used to create the vertex
+    parameters: number[]; // additional parameters related to this vertex
+    particles: ObjectID[]; // particles that have been used to form this vertex, aka the decay particles emerging from this vertex
+  };
+
   /** Parametrized description of a particle track */
-  interface TrackState {
+  type TrackState = {
     location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
     D0: number; // transverse impact parameter
     phi: number; // [rad] azimuthal angle of the track at this location (i.e. not phi0)
@@ -20,22 +32,10 @@ export namespace Schema6 {
     time: number; // [ns] time of the track at this trackstate
     referencePoint: Vector3f; // [mm] Reference point of the track parameters, e.g. the origin at the IP, or the position  of the first/last hits or the entry point into the calorimeter
     covMatrix: CovMatrix6f; // covariance matrix of the track parameters.
-  }
-
-  /** Vertex */
-  interface Vertex {
-    type: number; // flagword that defines the type of the vertex, see reserved bits for more information
-    chi2: number; // chi-squared of the vertex fit
-    ndf: number; // number of degrees of freedom of the vertex fit
-    position: Vector3f; // [mm]  position of the vertex
-    covMatrix: CovMatrix3f; // [mm^2] covariance matrix of the position
-    algorithmType: number; // type code for the algorithm that has been used to create the vertex
-    parameters: number[]; // additional parameters related to this vertex
-    particles: ObjectID[]; // particles that have been used to form this vertex, aka the decay particles emerging from this vertex
-  }
+  };
 
   /** Reconstructed track */
-  interface Track {
+  type Track = {
     type: number; // flagword that defines the type of track
     chi2: number; // chi-squared of the track fit
     ndf: number; // number of degrees of freedom of the track fit
@@ -45,7 +45,7 @@ export namespace Schema6 {
     trackStates: TrackState[]; // track states
     trackerHits: ObjectID[]; // hits that have been used to create this track
     tracks: ObjectID[]; // tracks (segments) that have been combined to create this track
-  }
+  };
 
   /** Tracker hit interface class */
   // Types: TrackerHit3D, TrackerHitPlane, SenseWireHit
@@ -105,7 +105,7 @@ export namespace Schema6 {
   }
 
   /** Simulated tracker hit */
-  interface SimTrackerHit {
+  type SimTrackerHit = {
     cellID: bigint; // ID of the sensor that created this hit
     eDep: number; // [GeV] energy deposited in the hit
     time: number; // [ns] proper time of the hit in the lab frame
@@ -114,28 +114,28 @@ export namespace Schema6 {
     position: Vector3d; // [mm] the hit position
     momentum: Vector3f; // [GeV] the 3-momentum of the particle at the hits position
     particle: ObjectID; // MCParticle that caused the hit
-  }
+  };
 
   /** Calorimeter hit */
-  interface CalorimeterHit {
+  type CalorimeterHit = {
     cellID: bigint; // detector specific (geometrical) cell id
     energy: number; // [GeV] energy of the hit
     energyError: number; // [GeV] error of the hit energy
     time: number; // [ns] time of the hit
     position: Vector3f; // [mm] position of the hit in world coordinates
     type: number; // type of hit
-  }
+  };
 
   /** Simulated calorimeter hit */
-  interface SimCalorimeterHit {
+  type SimCalorimeterHit = {
     cellID: bigint; // ID of the sensor that created this hit
     energy: number; // [GeV] energy of the hit
     position: Vector3f; // [mm] position of the hit in world coordinates
     contributions: ObjectID[]; // Monte Carlo step contributions
-  }
+  };
 
   /** Calorimeter Hit Cluster */
-  interface Cluster {
+  type Cluster = {
     type: number; // flagword that defines the type of cluster
     energy: number; // [GeV] energy of the cluster
     energyError: number; // [GeV] error on the energy
@@ -148,10 +148,10 @@ export namespace Schema6 {
     subdetectorEnergies: number[]; // energy observed in a particular subdetector
     clusters: ObjectID[]; // clusters that have been combined to this cluster
     hits: ObjectID[]; // hits that have been combined to this cluster
-  }
+  };
 
   /** Reconstructed Particle */
-  interface ReconstructedParticle {
+  type ReconstructedParticle = {
     PDG: number; // PDG of the reconstructed particle.
     energy: number; // [GeV] energy of the reconstructed particle. Four momentum state is not kept consistent internally
     momentum: Vector3f; // [GeV]  particle momentum. Four momentum state is not kept consistent internally
@@ -164,15 +164,78 @@ export namespace Schema6 {
     clusters: ObjectID[]; // clusters that have been used for this particle
     tracks: ObjectID[]; // tracks that have been used for this particle
     particles: ObjectID[]; // reconstructed particles that have been combined to this particle
-  }
+  };
 
-  type TrackStateCollection = TrackState[];
-  type VertexCollection = Vertex[];
-  type TrackCollection = Track[];
-  type TrackerHitCollection = (TrackerHit3D | TrackerHitPlane | SenseWireHit)[];
-  type SimTrackerHitCollection = SimTrackerHit[];
-  type CalorimeterHitCollection = CalorimeterHit[];
-  type SimCalorimeterHitCollection = SimCalorimeterHit[];
-  type ClusterCollection = Cluster[];
-  type ReconstructedParticleCollection = ReconstructedParticle[];
+  export type VertexCollection = Vertex[];
+  export type TrackCollection = Track[];
+  export type TrackerHit3DCollection = TrackerHit3D[];
+  export type TrackerHitPlaneCollection = TrackerHitPlane[];
+  export type SenseWireHitCollection = SenseWireHit[];
+  export type SimTrackerHitCollection = SimTrackerHit[];
+  export type CalorimeterHitCollection = CalorimeterHit[];
+  export type SimCalorimeterHitCollection = SimCalorimeterHit[];
+  export type ClusterCollection = Cluster[];
+  export type ReconstructedParticleCollection = ReconstructedParticle[];
+
+  export type Item =
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::VertexCollection';
+        collection: VertexCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::TrackCollection';
+        collection: TrackCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::TrackerHit3DCollection';
+        collection: TrackerHit3DCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::TrackerHitPlaneCollection';
+        collection: TrackerHitPlaneCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::SenseWireHitCollection';
+        collection: SenseWireHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::SimTrackerHitCollection';
+        collection: SimTrackerHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::CalorimeterHitCollection';
+        collection: CalorimeterHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::SimCalorimeterHitCollection';
+        collection: SimCalorimeterHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::ClusterCollection';
+        collection: ClusterCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::ReconstructedParticleCollection';
+        collection: ReconstructedParticleCollection;
+      };
 }
