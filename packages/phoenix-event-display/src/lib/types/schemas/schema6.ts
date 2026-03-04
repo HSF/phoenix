@@ -166,9 +166,8 @@ export namespace Schema6 {
     particles: ObjectID[]; // reconstructed particles that have been combined to this particle
   };
 
-
   /** Event Header. Additional parameters are assumed to go into the metadata tree. */
-  type EventHeader = {
+  export type EventHeader = {
     eventNumber: bigint; // event number
     runNumber: number; // run number
     timeStamp: bigint; // time stamp

@@ -130,24 +130,69 @@ export namespace Schema1 {
     weight: number; // event weight
   };
 
-  type EventHeaderCollection = EventHeader[];
-  type VertexCollection = Vertex[];
-  type TrackCollection = Track[];
-  type TrackerHitCollection = TrackerHit[];
-  type SimTrackerHitCollection = SimTrackerHit[];
-  type CalorimeterHitCollection = CalorimeterHit[];
-  type SimCalorimeterHitCollection = SimCalorimeterHit[];
-  type ClusterCollection = Cluster[];
-  type ReconstructedParticleCollection = ReconstructedParticle[];
+  export type EventHeaderCollection = EventHeader[];
+  export type VertexCollection = Vertex[];
+  export type TrackCollection = Track[];
+  export type TrackerHitCollection = TrackerHit[];
+  export type SimTrackerHitCollection = SimTrackerHit[];
+  export type CalorimeterHitCollection = CalorimeterHit[];
+  export type SimCalorimeterHitCollection = SimCalorimeterHit[];
+  export type ClusterCollection = Cluster[];
+  export type ReconstructedParticleCollection = ReconstructedParticle[];
 
   export type Item =
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::EventHeaderCollection'; collection: EventHeaderCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::VertexCollection'; collection: VertexCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackCollection'; collection: TrackCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::TrackerHitCollection'; collection: TrackerHitCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimTrackerHitCollection'; collection: SimTrackerHitCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::CalorimeterHitCollection'; collection: CalorimeterHitCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::SimCalorimeterHitCollection'; collection: SimCalorimeterHitCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ClusterCollection'; collection: ClusterCollection }
-    | { collID: number; collSchemaVersion: number; collType: 'edm4hep::ReconstructedParticleCollection'; collection: ReconstructedParticleCollection };
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::EventHeaderCollection';
+        collection: EventHeaderCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::VertexCollection';
+        collection: VertexCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::TrackCollection';
+        collection: TrackCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::TrackerHitCollection';
+        collection: TrackerHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::SimTrackerHitCollection';
+        collection: SimTrackerHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::CalorimeterHitCollection';
+        collection: CalorimeterHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::SimCalorimeterHitCollection';
+        collection: SimCalorimeterHitCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::ClusterCollection';
+        collection: ClusterCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::ReconstructedParticleCollection';
+        collection: ReconstructedParticleCollection;
+      };
 }
