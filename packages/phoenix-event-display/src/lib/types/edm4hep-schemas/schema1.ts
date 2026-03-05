@@ -1,4 +1,4 @@
-import { Vector3f, Vector3d, ObjectID } from './utils';
+import { Vector3f, Vector3d, Vector2i, ObjectID } from './utils';
 
 export namespace Schema1 {
   /** Vertex */
@@ -137,6 +137,24 @@ export namespace Schema1 {
     sim: ObjectID; // reference to the Monte-Carlo particle
   };
 
+  /** The Monte Carlo particle - based on the lcio::MCParticle. */
+  export type MCParticle = {
+    PDG: number; // PDG code of the particle
+    generatorStatus: number; // status of the particle as defined by the generator
+    simulatorStatus: number; // status of the particle from the simulation program - use BIT constants below
+    charge: number; // particle charge
+    time: number; // creation time of the particle in [ns] wrt. the event, e.g. for preassigned decays or decays in flight from the simulator.
+    mass: number; // mass of the particle in [GeV]
+    vertex: Vector3d; // production vertex of the particle in [mm].
+    endpoint: Vector3d; // endpoint of the particle in [mm]
+    momentum: Vector3f; // particle 3-momentum at the production vertex in [GeV]
+    momentumAtEndpoint: Vector3f; // particle 3-momentum at the endpoint in [GeV]
+    spin: Vector3f; // spin (helicity) vector of the particle.
+    colorFlow: Vector2i; // color flow as defined by the generator
+    parents: ObjectID[]; // The parents of this particle.
+    daughters: ObjectID[]; // The daughters this particle.
+  };
+
   export type EventHeaderCollection = EventHeader[];
   export type VertexCollection = Vertex[];
   export type TrackCollection = Track[];
@@ -147,6 +165,7 @@ export namespace Schema1 {
   export type ClusterCollection = Cluster[];
   export type ReconstructedParticleCollection = ReconstructedParticle[];
   export type MCRecoParticleAssociationCollection = MCRecoParticleAssociation[];
+  export type MCParticleCollection = MCParticle[];
 
   export type Item =
     | {
@@ -208,5 +227,11 @@ export namespace Schema1 {
         collSchemaVersion: number;
         collType: 'edm4hep::MCRecoParticleAssociation';
         collection: MCRecoParticleAssociationCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::MCParticleCollection';
+        collection: MCParticleCollection;
       };
 }

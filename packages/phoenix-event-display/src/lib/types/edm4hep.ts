@@ -104,8 +104,9 @@ export namespace edm4hep {
     | Schema5.Track[]
     | Schema6.Track[];
 
+  export type MCRecoParticleAssociation = Schema1.MCRecoParticleAssociation[];
+
   export type RecoMCParticleLink =
-    | Schema1.MCRecoParticleAssociation[]
     | Schema2.RecoMCParticleLink[]
     | Schema3.RecoMCParticleLink[]
     | Schema4.RecoMCParticleLink[]
@@ -172,8 +173,26 @@ export namespace edm4hep {
     | Schema5.ReconstructedParticle[]
     | Schema6.ReconstructedParticle[];
 
-  export type RecoMCParticleLinkCollection =
-    | Schema1.MCRecoParticleAssociationCollection[]
+  export type MCParticle =
+    | Schema1.MCParticle
+    | Schema2.MCParticle
+    | Schema3.MCParticle
+    | Schema4.MCParticle
+    | Schema5.MCParticle
+    | Schema6.MCParticle;
+
+  export type MCParticleCollection =
+    | Schema1.MCParticle[]
+    | Schema2.MCParticle[]
+    | Schema3.MCParticle[]
+    | Schema4.MCParticle[]
+    | Schema5.MCParticle[]
+    | Schema6.MCParticle[];
+
+  export type AssociationCollection =
+    Schema1.MCRecoParticleAssociationCollection[];
+
+  export type LinkCollection =
     | Schema2.RecoMCParticleLinkCollection[]
     | Schema3.RecoMCParticleLinkCollection[]
     | Schema4.RecoMCParticleLinkCollection[]

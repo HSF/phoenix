@@ -25,6 +25,11 @@ export type Vector2f = {
   b: number;
 };
 
+export type Vector2i = {
+  a: number;
+  b: number;
+};
+
 export type Vector3f = {
   x: number;
   y: number;

@@ -182,6 +182,23 @@ export namespace Schema5 {
     to: ObjectID; // reference to the Monte-Carlo particle
   };
 
+  /** The Monte Carlo particle - based on the lcio::MCParticle. */
+  export type MCParticle = {
+    PDG: number; // PDG code of the particle
+    generatorStatus: number; // status of the particle as defined by the generator
+    simulatorStatus: number; // status of the particle from the simulation program - use BIT constants below
+    charge: number; // [e] particle charge
+    time: number; // [ns] creation time of the particle in wrt. the event, e.g. for preassigned decays or decays in flight from the simulator
+    mass: number; // [GeV] mass of the particle
+    vertex: Vector3d; // [mm] production vertex of the particle
+    endpoint: Vector3d; // [mm] endpoint of the particle
+    momentum: Vector3d; // [GeV] particle 3-momentum at the production vertex
+    momentumAtEndpoint: Vector3d; // [GeV] particle 3-momentum at the endpoint
+    helicity: number; // particle helicity (9 if unset)
+    parents: ObjectID[]; // The parents of this particle
+    daughters: ObjectID[]; // The daughters this particle
+  };
+
   export type EventHeaderCollection = EventHeader[];
   export type VertexCollection = Vertex[];
   export type TrackCollection = Track[];
@@ -194,6 +211,7 @@ export namespace Schema5 {
   export type ClusterCollection = Cluster[];
   export type ReconstructedParticleCollection = ReconstructedParticle[];
   export type RecoMCParticleLinkCollection = RecoMCParticleLink[];
+  export type MCParticleCollection = MCParticle[];
 
   export type Item =
     | {
@@ -267,5 +285,11 @@ export namespace Schema5 {
         collSchemaVersion: number;
         collType: 'podio::LinkCollection<edm4hep::ReconstructedParticle,edm4hep::MCParticle>';
         collection: RecoMCParticleLinkCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::MCParticleCollection';
+        collection: MCParticleCollection;
       };
 }
