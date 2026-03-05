@@ -2,7 +2,7 @@ import { Vector3f, Vector3d, ObjectID } from './utils';
 
 export namespace Schema1 {
   /** Vertex */
-  type Vertex = {
+  export type Vertex = {
     primary: number; // boolean flag, if vertex is the primary vertex of the event
     chi2: number; // chi-squared of the vertex fit
     probability: number; // probability of the vertex fit
@@ -26,7 +26,7 @@ export namespace Schema1 {
   };
 
   /** Reconstructed track */
-  type Track = {
+  export type Track = {
     type: number; // flagword that defines the type of track.Bits 16-31 are used internally
     chi2: number; // Chi^2 of the track fit
     ndf: number; // number of degrees of freedom of the track fit
@@ -45,7 +45,7 @@ export namespace Schema1 {
   };
 
   /** Tracker hit */
-  type TrackerHit = {
+  export type TrackerHit = {
     cellID: bigint; // ID of the sensor that created this hit
     type: number; // type of raw data hit, either one of edm4hep::RawTimeSeries, edm4hep::SIMTRACKERHIT - see collection parameters "TrackerHitTypeNames" and "TrackerHitTypeValues".
     quality: number; // quality bit flag of the hit.
@@ -58,7 +58,7 @@ export namespace Schema1 {
   };
 
   /** Simulated tracker hit */
-  type SimTrackerHit = {
+  export type SimTrackerHit = {
     cellID: bigint; // ID of the sensor that created this hit
     EDep: number; // energy deposited in the hit [GeV].
     time: number; // proper time of the hit in the lab frame in [ns].
@@ -70,7 +70,7 @@ export namespace Schema1 {
   };
 
   /** Calorimeter hit */
-  type CalorimeterHit = {
+  export type CalorimeterHit = {
     cellID: bigint; // detector specific (geometrical) cell id.
     energy: number; // energy of the hit in [GeV].
     energyError: number; // error of the hit energy in [GeV].
@@ -80,7 +80,7 @@ export namespace Schema1 {
   };
 
   /** Simulated calorimeter hit */
-  type SimCalorimeterHit = {
+  export type SimCalorimeterHit = {
     cellID: bigint; // ID of the sensor that created this hit
     energy: number; // energy of the hit in [GeV].
     position: Vector3f; // position of the hit in world coordinates in [mm].
@@ -88,7 +88,7 @@ export namespace Schema1 {
   };
 
   /** Calorimeter Hit Cluster */
-  type Cluster = {
+  export type Cluster = {
     type: number; // flagword that defines the type of cluster. Bits 16-31 are used internally.
     energy: number; // energy of the cluster [GeV]
     energyError: number; // error on the energy
@@ -105,7 +105,7 @@ export namespace Schema1 {
   };
 
   /** Reconstructed Particle */
-  type ReconstructedParticle = {
+  export type ReconstructedParticle = {
     type: number; // type of reconstructed particle. Check/set collection parameters ReconstructedParticleTypeNames and ReconstructedParticleTypeValues.
     energy: number; // [GeV] energy of the reconstructed particle. Four momentum state is not kept consistent internally.
     momentum: Vector3f; // [GeV] particle momentum. Four momentum state is not kept consistent internally.
@@ -123,7 +123,7 @@ export namespace Schema1 {
   };
 
   /** Event Header. Additional parameters are assumed to go into the metadata tree. */
-  type EventHeader = {
+  export type EventHeader = {
     eventNumber: number; // event number
     runNumber: number; // run number
     timeStamp: bigint; // time stamp

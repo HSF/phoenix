@@ -41,13 +41,3 @@ export type ObjectID = {
   collectionID: number;
   index: number;
 };
-
-export type edm4hepEvent = {
-  [name: string]:
-    | Schema6.Item
-    | Schema5.Item
-    | Schema4.Item
-    | Schema3.Item
-    | Schema2.Item
-    | Schema1.Item;
-};
