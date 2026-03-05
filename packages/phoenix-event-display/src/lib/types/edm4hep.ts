@@ -180,21 +180,13 @@ export namespace edm4hep {
     | Schema5.RecoMCParticleLinkCollection[]
     | Schema6.RecoMCParticleLinkCollection[];
 
-  export type Item =
-    | Schema1.Item[]
-    | Schema2.Item[]
-    | Schema3.Item[]
-    | Schema4.Item[]
-    | Schema5.Item[]
-    | Schema6.Item[];
-
   export type Event = {
     [name: string]:
-      | Schema6.Item
-      | Schema5.Item
-      | Schema4.Item
-      | Schema3.Item
+      | Schema1.Item
       | Schema2.Item
-      | Schema1.Item;
+      | Schema3.Item
+      | Schema4.Item
+      | Schema5.Item
+      | Schema6.Item;
   };
 }
