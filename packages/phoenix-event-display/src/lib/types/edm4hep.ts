@@ -104,6 +104,14 @@ export namespace edm4hep {
     | Schema5.Track[]
     | Schema6.Track[];
 
+  export type RecoMCParticleLink =
+    | Schema1.MCRecoParticleAssociation[]
+    | Schema2.RecoMCParticleLink[]
+    | Schema3.RecoMCParticleLink[]
+    | Schema4.RecoMCParticleLink[]
+    | Schema5.RecoMCParticleLink[]
+    | Schema6.RecoMCParticleLink[];
+
   export type TrackerHitCollection = Schema1.TrackerHit[];
 
   export type TrackerHit3DCollection =
@@ -163,6 +171,14 @@ export namespace edm4hep {
     | Schema4.ReconstructedParticle[]
     | Schema5.ReconstructedParticle[]
     | Schema6.ReconstructedParticle[];
+
+  export type RecoMCParticleLinkCollection =
+    | Schema1.MCRecoParticleAssociationCollection[]
+    | Schema2.RecoMCParticleLinkCollection[]
+    | Schema3.RecoMCParticleLinkCollection[]
+    | Schema4.RecoMCParticleLinkCollection[]
+    | Schema5.RecoMCParticleLinkCollection[]
+    | Schema6.RecoMCParticleLinkCollection[];
 
   export type Item =
     | Schema1.Item[]

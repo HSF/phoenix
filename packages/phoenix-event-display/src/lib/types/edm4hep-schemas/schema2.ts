@@ -158,6 +158,13 @@ export namespace Schema2 {
     weights: number[]; // event weights in case there are multiple. **NOTE that weights[0] might not be the same as weight!** Event weight names should be stored using the edm4hep::EventWeights name in the file level metadata
   };
 
+  /** Link between a ReconstructedParticle and the corresponding MCParticle */
+  export type RecoMCParticleLink = {
+    weight: number; // weight of this link
+    from: ObjectID; // reference to the reconstructed particle
+    to: ObjectID; // reference to the Monte-Carlo particle
+  };
+
   export type EventHeaderCollection = EventHeader[];
   export type VertexCollection = Vertex[];
   export type TrackCollection = Track[];
@@ -168,6 +175,7 @@ export namespace Schema2 {
   export type SimCalorimeterHitCollection = SimCalorimeterHit[];
   export type ClusterCollection = Cluster[];
   export type ReconstructedParticleCollection = ReconstructedParticle[];
+  export type RecoMCParticleLinkCollection = RecoMCParticleLink[];
 
   export type Item =
     | {
@@ -229,5 +237,11 @@ export namespace Schema2 {
         collSchemaVersion: number;
         collType: 'edm4hep::ReconstructedParticleCollection';
         collection: ReconstructedParticleCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::RecoMCParticleLink';
+        collection: RecoMCParticleLinkCollection;
       };
 }

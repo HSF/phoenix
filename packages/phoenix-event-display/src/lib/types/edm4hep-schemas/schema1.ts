@@ -130,6 +130,13 @@ export namespace Schema1 {
     weight: number; // event weight
   };
 
+  /** Used to keep track of the correspondence between MC and reconstructed particles */
+  export type MCRecoParticleAssociation = {
+    weight: number; // weight of this association
+    rec: ObjectID; // reference to the reconstructed particle
+    sim: ObjectID; // reference to the Monte-Carlo particle
+  };
+
   export type EventHeaderCollection = EventHeader[];
   export type VertexCollection = Vertex[];
   export type TrackCollection = Track[];
@@ -139,6 +146,7 @@ export namespace Schema1 {
   export type SimCalorimeterHitCollection = SimCalorimeterHit[];
   export type ClusterCollection = Cluster[];
   export type ReconstructedParticleCollection = ReconstructedParticle[];
+  export type MCRecoParticleAssociationCollection = MCRecoParticleAssociation[];
 
   export type Item =
     | {
@@ -194,5 +202,11 @@ export namespace Schema1 {
         collSchemaVersion: number;
         collType: 'edm4hep::ReconstructedParticleCollection';
         collection: ReconstructedParticleCollection;
+      }
+    | {
+        collID: number;
+        collSchemaVersion: number;
+        collType: 'edm4hep::MCRecoParticleAssociation';
+        collection: MCRecoParticleAssociationCollection;
       };
 }
