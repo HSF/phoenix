@@ -46,6 +46,11 @@ export namespace Schema2 {
     trackStates: TrackState[]; // track states
     trackerHits: ObjectID[]; // hits that have been used to create this track
     tracks: ObjectID[]; // tracks (segments) that have been combined to create this track
+
+    // MUTATED PROPERTIES
+    color: string;
+    pid: string;
+    pdgid: number;
   };
 
   /** Tracker hit interface class */
@@ -263,11 +268,5 @@ export namespace Schema2 {
         collSchemaVersion: number;
         collType: 'edm4hep::RecoMCParticleLink';
         collection: RecoMCParticleLinkCollection;
-      }
-    | {
-        collID: number;
-        collSchemaVersion: number;
-        collType: 'edm4hep::MCParticleCollection';
-        collection: MCParticleCollection;
       };
 }

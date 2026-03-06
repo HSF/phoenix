@@ -3,9 +3,7 @@ import { Vector3d } from './edm4hep-schemas/utils';
 export namespace edmPhoenix {
   export type Vertex = {
     color?: string;
-    x: number;
-    y: number;
-    z: number;
+    pos: Vector3d;
   };
 
   export type Track = {

@@ -261,11 +261,5 @@ export namespace Schema4 {
         collSchemaVersion: number;
         collType: 'podio::LinkCollection<edm4hep::ReconstructedParticle,edm4hep::MCParticle>';
         collection: RecoMCParticleLinkCollection;
-      }
-    | {
-        collID: number;
-        collSchemaVersion: number;
-        collType: 'edm4hep::MCParticleCollection';
-        collection: MCParticleCollection;
       };
 }

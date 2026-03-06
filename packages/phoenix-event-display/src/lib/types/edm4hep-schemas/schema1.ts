@@ -227,11 +227,5 @@ export namespace Schema1 {
         collSchemaVersion: number;
         collType: 'edm4hep::MCRecoParticleAssociation';
         collection: MCRecoParticleAssociationCollection;
-      }
-    | {
-        collID: number;
-        collSchemaVersion: number;
-        collType: 'edm4hep::MCParticleCollection';
-        collection: MCParticleCollection;
       };
 }

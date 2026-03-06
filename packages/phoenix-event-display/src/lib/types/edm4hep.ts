@@ -14,49 +14,56 @@ export namespace edm4hep {
     | Schema5.Vertex
     | Schema6.Vertex;
 
-  export type TrackerHit = Schema1.TrackerHit;
+  export type Track = (
+    | Schema1.Track
+    | Schema2.Track
+    | Schema3.Track
+    | Schema4.Track
+    | Schema5.Track
+    | Schema6.Track
+  ) & {
+    // MUTATED PROPERTIES
+    color: string;
+    pid: string;
+    pdgid: number;
+  };
 
-  export type TrackerHit3D =
-    | Schema2.TrackerHit3D
-    | Schema3.TrackerHit3D
-    | Schema4.TrackerHit3D
-    | Schema5.TrackerHit3D
-    | Schema6.TrackerHit3D;
-
-  export type TrackerHitPlane =
-    | Schema2.TrackerHitPlane
-    | Schema3.TrackerHitPlane
-    | Schema4.TrackerHitPlane
-    | Schema5.TrackerHitPlane
-    | Schema6.TrackerHitPlane;
-
-  export type SenseWireHit = Schema5.SenseWireHit | Schema6.SenseWireHit;
-
-  export type SimTrackerHit =
+  export type Hit =
+    | Schema1.TrackerHit
     | Schema1.SimTrackerHit
+    | Schema2.TrackerHit3D
+    | Schema2.TrackerHitPlane
     | Schema2.SimTrackerHit
+    | Schema3.TrackerHit3D
+    | Schema3.TrackerHitPlane
     | Schema3.SimTrackerHit
+    | Schema4.TrackerHit3D
+    | Schema4.TrackerHitPlane
     | Schema4.SimTrackerHit
+    | Schema5.TrackerHit3D
+    | Schema5.TrackerHitPlane
+    | Schema5.SenseWireHit
     | Schema5.SimTrackerHit
+    | Schema6.TrackerHit3D
+    | Schema6.TrackerHitPlane
+    | Schema6.SenseWireHit
     | Schema6.SimTrackerHit;
 
-  export type CalorimeterHit =
+  export type CaloCell =
     | Schema1.CalorimeterHit
-    | Schema2.CalorimeterHit
-    | Schema3.CalorimeterHit
-    | Schema4.CalorimeterHit
-    | Schema5.CalorimeterHit
-    | Schema6.CalorimeterHit;
-
-  export type SimCalorimeterHit =
     | Schema1.SimCalorimeterHit
+    | Schema2.CalorimeterHit
     | Schema2.SimCalorimeterHit
+    | Schema3.CalorimeterHit
     | Schema3.SimCalorimeterHit
+    | Schema4.CalorimeterHit
     | Schema4.SimCalorimeterHit
+    | Schema5.CalorimeterHit
     | Schema5.SimCalorimeterHit
+    | Schema6.CalorimeterHit
     | Schema6.SimCalorimeterHit;
 
-  export type Cluster =
+  export type CaloCluster =
     | Schema1.Cluster
     | Schema2.Cluster
     | Schema3.Cluster
@@ -97,117 +104,33 @@ export namespace edm4hep {
     | Schema5.RecoMCParticleLink
     | Schema6.RecoMCParticleLink;
 
-  export type EventHeaderCollection =
-    | Schema1.EventHeaderCollection
-    | Schema2.EventHeaderCollection
-    | Schema3.EventHeaderCollection
-    | Schema4.EventHeaderCollection
-    | Schema5.EventHeaderCollection
-    | Schema6.EventHeaderCollection;
+  export type EventHeaderCollection = EventHeader[];
 
-  export type VertexCollection =
-    | Schema1.VertexCollection
-    | Schema2.VertexCollection
-    | Schema3.VertexCollection
-    | Schema4.VertexCollection
-    | Schema5.VertexCollection
-    | Schema6.VertexCollection;
+  export type VertexCollection = Vertex[];
 
-  export type TrackCollection =
-    | Schema1.TrackCollection
-    | Schema2.TrackCollection
-    | Schema3.TrackCollection
-    | Schema4.TrackCollection
-    | Schema5.TrackCollection
-    | Schema6.TrackCollection;
+  export type TrackCollection = Track[];
 
-  export type MCRecoParticleAssociation =
-    Schema1.MCRecoParticleAssociationCollection;
+  export type AssociationCollection = Association[];
 
-  export type RecoMCParticleLink =
-    | Schema2.RecoMCParticleLinkCollection
-    | Schema3.RecoMCParticleLinkCollection
-    | Schema4.RecoMCParticleLinkCollection
-    | Schema5.RecoMCParticleLinkCollection
-    | Schema6.RecoMCParticleLinkCollection;
+  export type HitCollection = Hit[];
 
-  export type TrackerHitCollection = Schema1.TrackerHitCollection;
+  export type caloCellCollection = CaloCell[];
 
-  export type TrackerHit3DCollection =
-    | Schema2.TrackerHit3DCollection
-    | Schema3.TrackerHit3DCollection
-    | Schema4.TrackerHit3DCollection
-    | Schema5.TrackerHit3DCollection
-    | Schema6.TrackerHit3DCollection;
+  export type ClusterCollection = CaloCluster[];
 
-  export type TrackerHitPlaneCollection =
-    | Schema2.TrackerHitPlaneCollection
-    | Schema3.TrackerHitPlaneCollection
-    | Schema4.TrackerHitPlaneCollection
-    | Schema5.TrackerHitPlaneCollection
-    | Schema6.TrackerHitPlaneCollection;
+  export type ReconstructedParticleCollection = ReconstructedParticle[];
 
-  export type SenseWireHitCollection =
-    | Schema5.SenseWireHitCollection
-    | Schema6.SenseWireHitCollection;
+  export type MCParticleCollection = MCParticle[];
 
-  export type SimTrackerHitCollection =
-    | Schema1.SimTrackerHitCollection
-    | Schema2.SimTrackerHitCollection
-    | Schema3.SimTrackerHitCollection
-    | Schema4.SimTrackerHitCollection
-    | Schema5.SimTrackerHitCollection
-    | Schema6.SimTrackerHitCollection;
+  export type LinkCollection = Link[];
 
-  export type CalorimeterHitCollection =
-    | Schema1.CalorimeterHitCollection
-    | Schema2.CalorimeterHitCollection
-    | Schema3.CalorimeterHitCollection
-    | Schema4.CalorimeterHitCollection
-    | Schema5.CalorimeterHitCollection
-    | Schema6.CalorimeterHitCollection;
-
-  export type SimCalorimeterHitCollection =
-    | Schema1.SimCalorimeterHitCollection
-    | Schema2.SimCalorimeterHitCollection
-    | Schema3.SimCalorimeterHitCollection
-    | Schema4.SimCalorimeterHitCollection
-    | Schema5.SimCalorimeterHitCollection
-    | Schema6.SimCalorimeterHitCollection;
-
-  export type ClusterCollection =
-    | Schema1.ClusterCollection
-    | Schema2.ClusterCollection
-    | Schema3.ClusterCollection
-    | Schema4.ClusterCollection
-    | Schema5.ClusterCollection
-    | Schema6.ClusterCollection;
-
-  export type ReconstructedParticleCollection =
-    | Schema1.ReconstructedParticleCollection
-    | Schema2.ReconstructedParticleCollection
-    | Schema3.ReconstructedParticleCollection
-    | Schema4.ReconstructedParticleCollection
-    | Schema5.ReconstructedParticleCollection
-    | Schema6.ReconstructedParticleCollection;
-
-  export type MCParticleCollection =
-    | Schema1.MCParticleCollection
-    | Schema2.MCParticleCollection
-    | Schema3.MCParticleCollection
-    | Schema4.MCParticleCollection
-    | Schema5.MCParticleCollection
-    | Schema6.MCParticleCollection;
-
-  export type AssociationCollection =
-    Schema1.MCRecoParticleAssociationCollection;
-
-  export type LinkCollection =
-    | Schema2.RecoMCParticleLinkCollection
-    | Schema3.RecoMCParticleLinkCollection
-    | Schema4.RecoMCParticleLinkCollection
-    | Schema5.RecoMCParticleLinkCollection
-    | Schema6.RecoMCParticleLinkCollection;
+  export type Item =
+    | Schema1.Item
+    | Schema2.Item
+    | Schema3.Item
+    | Schema4.Item
+    | Schema5.Item
+    | Schema6.Item;
 
   export type Event = {
     [name: string]:
