@@ -46,11 +46,6 @@ export namespace Schema2 {
     trackStates: TrackState[]; // track states
     trackerHits: ObjectID[]; // hits that have been used to create this track
     tracks: ObjectID[]; // tracks (segments) that have been combined to create this track
-
-    // MUTATED PROPERTIES
-    color: string;
-    pid: string;
-    pdgid: number;
   };
 
   /** Tracker hit interface class */
