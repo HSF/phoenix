@@ -384,14 +384,14 @@ __metadata:
   linkType: hard
 
 "@angular/core@npm:^19.2.17":
-  version: 19.2.18
-  resolution: "@angular/core@npm:19.2.18"
+  version: 19.2.19
+  resolution: "@angular/core@npm:19.2.19"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     rxjs: ^6.5.3 || ^7.4.0
     zone.js: ~0.15.0
-  checksum: 27e5c4647c26f8c6ae6550405a019f89b66fd46bfd4744e6c935f265b0de02dc131380ddd152e48d99577ac19e3f9f6650d783cfc364d72c6ffc37742e34deef
+  checksum: 41dfec811750e7f2315b7e7c9e9230bd38b77e0d58a73038831fd6ee224e4021e224cc081ad03c5d460f143879807bed6cccab45814c0a9ad4d68fac85a20cfb
   languageName: node
   linkType: hard
 
