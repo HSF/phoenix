@@ -77,13 +77,20 @@ export class StateManager {
   }
 
   /**
-   * Save the state of the event display as JSON.
+   * Get the current state of the event display as a JSON object.
+   * @returns The state object with menu, camera, and clipping data.
    */
-  saveStateAsJSON() {
-    const state: { [key: string]: any } = {
-      phoenixMenu: this.phoenixMenuRoot.getNodeState(),
+  getStateAsJSON(): { [key: string]: any } {
+    const controls = this.eventDisplay
+      ?.getThreeManager()
+      ?.getControlsManager()
+      ?.getMainControls();
+
+    return {
+      phoenixMenu: this.phoenixMenuRoot?.getNodeState(),
       eventDisplay: {
-        cameraPosition: this.activeCamera.position.toArray(),
+        cameraPosition: this.activeCamera?.position.toArray(),
+        cameraTarget: controls?.target?.toArray(),
         startClippingAngle: this.clippingEnabled.value
           ? this.startClippingAngle.value
           : null,
@@ -92,6 +99,13 @@ export class StateManager {
           : null,
       },
     };
+  }
+
+  /**
+   * Save the state of the event display as JSON.
+   */
+  saveStateAsJSON() {
+    const state = this.getStateAsJSON();
 
     saveFile(
       JSON.stringify(state),
@@ -115,9 +129,22 @@ export class StateManager {
 
     if (jsonData['eventDisplay']) {
       console.log('StateManager: Processing eventDisplay configuration');
-      this.activeCamera.position.fromArray(
-        jsonData['eventDisplay']?.['cameraPosition'],
-      );
+      if (jsonData['eventDisplay']?.['cameraPosition']) {
+        this.activeCamera.position.fromArray(
+          jsonData['eventDisplay']['cameraPosition'],
+        );
+      }
+
+      if (jsonData['eventDisplay']?.['cameraTarget']) {
+        const controls = this.eventDisplay
+          ?.getThreeManager()
+          ?.getControlsManager()
+          ?.getMainControls();
+        if (controls) {
+          controls.target.fromArray(jsonData['eventDisplay']['cameraTarget']);
+          controls.update();
+        }
+      }
 
       const startAngle = jsonData['eventDisplay']?.['startClippingAngle'];
       const openingAngle = jsonData['eventDisplay']?.['openingClippingAngle'];

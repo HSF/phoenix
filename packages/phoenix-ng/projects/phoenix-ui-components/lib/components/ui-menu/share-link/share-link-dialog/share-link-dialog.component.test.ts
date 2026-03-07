@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PhoenixUIModule } from '../../../phoenix-ui.module';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 import { ShareLinkDialogComponent } from './share-link-dialog.component';
 
@@ -13,6 +14,15 @@ describe('ShareLinkDialogComponent', () => {
     close: jest.fn(),
   };
 
+  const mockEventDisplay = {
+    getStateManager: jest.fn().mockReturnValue({
+      getStateAsJSON: jest.fn().mockReturnValue({
+        phoenixMenu: {},
+        eventDisplay: { cameraPosition: [0, 0, 0] },
+      }),
+    }),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule, PhoenixUIModule],
@@ -20,6 +30,10 @@ describe('ShareLinkDialogComponent', () => {
         {
           provide: MatDialogRef,
           useValue: mockDialogRef,
+        },
+        {
+          provide: EventDisplayService,
+          useValue: mockEventDisplay,
         },
       ],
       declarations: [ShareLinkDialogComponent],

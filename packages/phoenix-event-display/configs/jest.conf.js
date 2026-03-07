@@ -6,7 +6,14 @@ module.exports = {
   roots: ['<rootDir>/src/tests'],
   preset: 'ts-jest/presets/js-with-ts-legacy',
   moduleNameMapper: {
-    '^(\\.\\.?\\/.+)\\.js$': '$1',
+    // Mock ESM-only dependencies that break Jest's CommonJS pipeline
+    // with newer TypeScript versions. These modules ship .mjs files
+    // that ts-jest cannot transform on TS 5.6+.
+    '^three/examples/jsm/(.*)$': '<rootDir>/src/tests/helpers/three-jsm-mock',
+    '^jsroot(.*)$': '<rootDir>/src/tests/helpers/jsroot-mock',
+    '^@angular/core$': '<rootDir>/src/tests/helpers/angular-core-mock',
+    // Strip .js extensions from relative TypeScript imports
+    '^(\\.{1,2}/.+)\\.js$': '$1',
   },
   transform: {
     '^.+\\.m?[tj]s$': [

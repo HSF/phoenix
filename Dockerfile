@@ -8,8 +8,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     # Install prerequisites for Node setup
     apt-get install -y --no-install-recommends curl gnupg ca-certificates && \
-    # Setup Node 18 repository
-    curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    # Setup Node 20 repository (Angular 20 requires Node >=20)
+    curl -sL https://deb.nodesource.com/setup_20.x | bash - && \
     # Install Node, Python 3, Build Tools, and Canvas dependencies
     apt-get install -y --no-install-recommends \
     nodejs \

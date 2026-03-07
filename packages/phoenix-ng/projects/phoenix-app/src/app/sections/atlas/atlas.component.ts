@@ -272,12 +272,12 @@ export class AtlasComponent implements OnInit, OnDestroy {
       console.log('Loading default configuration.');
       this.loaded = true;
 
-      const urlConfig = this.eventDisplay
-        .getURLOptionsManager()
-        .getURLOptions()
-        .get('config');
+      const urlOptionsManager = this.eventDisplay.getURLOptionsManager();
+      const urlConfig = urlOptionsManager.getURLOptions().get('config');
+      const urlState = urlOptionsManager.getURLOptions().get('state');
 
-      if (!urlConfig) {
+      // Skip default config if a full view state is provided via URL
+      if (!urlConfig && !urlState) {
         const stateManager = new StateManager();
         stateManager.loadStateFromJSON(phoenixMenuConfig);
       }
