@@ -1,0 +1,61 @@
+<button
+  class="menu-toggle"
+  matTooltip="Command palette ( / )"
+  matTooltipPosition="above"
+  matTooltipTouchGestures="off"
+  (click)="toggle()"
+>
+  <svg class="menu-toggle-icon" [ngClass]="{ 'active-icon': isOpen }">
+    <use href="assets/icons/command.svg#command"></use>
+  </svg>
+</button>
+
+<div class="command-backdrop" *ngIf="isOpen" (click)="close()"></div>
+<div class="command-palette" *ngIf="isOpen" (click)="$event.stopPropagation()">
+  <div class="command-header">
+    <svg class="command-search-icon">
+      <use href="assets/icons/help.svg#help"></use>
+    </svg>
+    <input
+      #searchInput
+      type="text"
+      class="command-input"
+      placeholder="Search collections, actions, shortcuts..."
+      [(ngModel)]="query"
+      (input)="onSearch()"
+      (keydown)="onKeyDown($event)"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <span class="command-hint">esc</span>
+  </div>
+  <div class="command-results" *ngIf="results.length > 0">
+    <div
+      *ngFor="let cmd of results; let i = index"
+      class="command-result"
+      [class.active]="i === activeIndex"
+      (mouseenter)="setActive(i)"
+      (click)="execute(cmd)"
+    >
+      <span class="command-category" [attr.data-category]="cmd.category">
+        {{ cmd.category }}
+      </span>
+      <span class="command-label">{{ cmd.label }}</span>
+      <span class="command-shortcut" *ngIf="cmd.shortcut">
+        {{ cmd.shortcut }}
+      </span>
+    </div>
+  </div>
+  <div class="command-empty" *ngIf="results.length === 0 && query">
+    No results for "<strong>{{ query }}</strong
+    >"
+  </div>
+  <div class="command-footer">
+    <span><kbd>↑↓</kbd> navigate</span>
+    <span><kbd>↵</kbd> select</span>
+    <span><kbd>esc</kbd> close</span>
+    <span class="command-footer-right"
+      ><kbd>/</kbd> or <kbd>Ctrl K</kbd> to open</span
+    >
+  </div>
+</div>

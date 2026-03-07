@@ -12,6 +12,7 @@ import { StateManager } from '../../managers/state-manager';
 import { loadFile, saveFile } from '../../helpers/file';
 import { DatGUIMenuUI } from './dat-gui-ui';
 import { PhoenixMenuUI } from './phoenix-menu/phoenix-menu-ui';
+import { PhoenixMenuNode } from './phoenix-menu/phoenix-menu-node';
 import {
   getFromLocalStorage,
   setToLocalStorage,
@@ -478,6 +479,14 @@ export class UIManager {
    */
   public shiftCartesianGridByPointer() {
     this.three.shiftCartesianGrid();
+  }
+
+  /**
+   * Get the root node of the Phoenix menu tree.
+   * @returns The root PhoenixMenuNode, or undefined if not configured.
+   */
+  public getPhoenixMenuRoot(): PhoenixMenuNode | undefined {
+    return this.configuration?.phoenixMenuRoot;
   }
 
   /**
