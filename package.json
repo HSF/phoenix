@@ -6,7 +6,7 @@
     "packages/phoenix-ng/projects/*"
   ],
   "scripts": {
-    "postinstall": "yarn workspace phoenix-event-display prepare && husky",
+    "postinstall": "node scripts/patch-jsroot-three.js && yarn workspace phoenix-event-display prepare && husky",
     "start": "lerna run start",
     "start:ssl": "yarn workspace phoenix-ng start:ssl",
     "test:ci": "lerna run test:ci",
@@ -43,6 +43,9 @@
     "ts-jest-mock-import-meta": "^1.2.1",
     "ts-node": "^10.9.2",
     "typescript": "~5.5.4"
+  },
+  "resolutions": {
+    "three": "~0.178.0"
   },
   "packageManager": "yarn@3.3.1",
   "peerDependencies": {
