@@ -20,7 +20,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/phoenix-app",
+            "outputPath": {
+              "base": "dist/phoenix-app",
+              "browser": ""
+            },
             "index": "projects/phoenix-app/src/index.html",
             "browser": "projects/phoenix-app/src/main.ts",
             "polyfills": ["projects/phoenix-app/src/zone-flags.ts", "zone.js"],
@@ -118,6 +121,20 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "web": {
+              "outputPath": {
+                "base": "docs",
+                "browser": ""
+              },
+              "baseHref": "./"
+            },
+            "ghpages": {
+              "outputPath": {
+                "base": "../../docs",
+                "browser": ""
+              },
+              "baseHref": "/phoenix/"
             }
           },
           "defaultConfiguration": ""

@@ -18,10 +18,10 @@
     "prettier:write": "yarn prettier --write .",
     "eslint": "eslint projects/**/*.ts",
     "eslint:fix": "yarn eslint --fix",
-    "deploy": "mv ../../docs/api-docs ../../api-docs && yarn build:app --output-path ../../docs --base-href \"/phoenix/\" && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
+    "deploy": "mv ../../docs/api-docs ../../api-docs && ng build phoenix-app --configuration production,ghpages && cp ../../docs/index.html ../../docs/404.html && mv ../../api-docs ../../docs/api-docs",
     "version": "yarn deploy",
-    "deploy:web": "yarn build:app --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html",
-    "deploy:web:single": "ng build phoenix-app --configuration singleEvent --output-path ./docs --base-href \"./\" && cp ./docs/index.html ./docs/404.html"
+    "deploy:web": "ng build phoenix-app --configuration production,web && cp ./docs/index.html ./docs/404.html",
+    "deploy:web:single": "ng build phoenix-app --configuration singleEvent,web && cp ./docs/index.html ./docs/404.html"
   },
   "dependencies": {
     "@angular/animations": "^20.3.16",
