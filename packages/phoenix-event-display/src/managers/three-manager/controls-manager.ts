@@ -1,4 +1,4 @@
-import { Tween } from '@tweenjs/tween.js';
+import { Group as TweenGroup, Tween } from '@tweenjs/tween.js';
 import {
   Camera,
   PerspectiveCamera,
@@ -35,15 +35,20 @@ export class ControlsManager {
   private controlsChangeHandler: ((event: any) => void) | null = null;
   /** Track state for hideTubeTracksOnZoom. */
   private tracksHidden: boolean = false;
+  /** Shared tween.js group for animations. */
+  private tweenGroup: TweenGroup;
   /**
    * Constructor for setting up all the controls.
    * @param rendererManager The renderer manager to get the main renderer.
    * @param defaultView The default camera position as [x, y, z] coordinates.
+   * @param tweenGroup Shared tween.js group for animations.
    */
   constructor(
     rendererManager: RendererManager,
     defaultView: number[] = [0, 0, 200],
+    tweenGroup: TweenGroup = new TweenGroup(),
   ) {
+    this.tweenGroup = tweenGroup;
     this.renderr = rendererManager;
 
     const rendererElement = rendererManager.getMainRenderer()?.domElement;
@@ -650,7 +655,7 @@ export class ControlsManager {
     const objectPosition = this.getObjectPosition(uuid, objectsGroup);
     if (objectPosition) {
       // Moving the camera to the object's position and then zooming out
-      new Tween(this.getMainCamera().position)
+      new Tween(this.getMainCamera().position, this.tweenGroup)
         .to(
           {
             x: objectPosition.x * 1.1 + offset,

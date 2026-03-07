@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { Tween, update as tweenUpdate } from '@tweenjs/tween.js';
+import { Group as TweenGroup, Tween } from '@tweenjs/tween.js';
 import type { Object3DEventMap, Intersection } from 'three';
 import {
   Group,
@@ -77,6 +77,8 @@ export class ThreeManager {
   private arManager: ARManager;
   /** Coloring manager for three.js functions related to coloring of objects. */
   private colorManager: ColorManager;
+  /** Shared tween.js group for all animation tweens. */
+  private tweenGroup = new TweenGroup();
   /** Loading manager for loadable resources. */
   private loadingManager: LoadingManager;
   /** State manager for managing the scene's state. */
@@ -169,6 +171,7 @@ export class ThreeManager {
     this.controlsManager = new ControlsManager(
       this.rendererManager,
       configuration.defaultView,
+      this.tweenGroup,
     );
     this.controlsManager.hideTubeTracksOnZoom(
       this.sceneManager.getScene(),
@@ -185,6 +188,7 @@ export class ThreeManager {
       this.sceneManager.getScene(),
       this.controlsManager.getMainCamera(),
       this.rendererManager,
+      this.tweenGroup,
     );
     // VR manager
     this.vrManager = new VRManager();
@@ -209,6 +213,7 @@ export class ThreeManager {
       this.sceneManager.getScene(),
       this.effectsManager,
       this.infoLogger,
+      this.tweenGroup,
     );
     // Set camera of the event display state
     new StateManager().setCamera(this.controlsManager.getMainCamera());
@@ -230,7 +235,6 @@ export class ThreeManager {
     this.controlsManager.getMainControls().update();
     this.controlsManager.getOverlayControls()?.update();
     // this.controlsManager.updateSync();
-    tweenUpdate();
   }
 
   /**
@@ -266,7 +270,7 @@ export class ThreeManager {
     const now = performance.now();
 
     // Update TWEEN animations
-    tweenUpdate(now);
+    this.tweenGroup.update(now);
 
     if (this.controlsManager.isOverlayLinked())
       this.controlsManager.syncOverlayFromMain();
@@ -1208,6 +1212,7 @@ export class ThreeManager {
   private animateCameraPosition(cameraPosition: number[], duration: number) {
     const posAnimation = new Tween(
       this.controlsManager.getMainCamera().position,
+      this.tweenGroup,
     );
     posAnimation.to(
       {
@@ -1228,6 +1233,7 @@ export class ThreeManager {
   private animateCameraTarget(cameraTarget: number[], duration: number) {
     const rotAnimation = new Tween(
       this.controlsManager.getMainControls().target,
+      this.tweenGroup,
     );
     rotAnimation.to(
       {

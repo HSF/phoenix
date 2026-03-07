@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { Easing } from '@tweenjs/tween.js';
+import { Easing, Group as TweenGroup } from '@tweenjs/tween.js';
 import { Camera, Object3D, PerspectiveCamera, Scene, Vector3 } from 'three';
 import {
   AnimationsManager,
@@ -19,7 +19,12 @@ describe('AnimationsManager', () => {
   beforeEach(() => {
     scene = new Scene();
     camera = new PerspectiveCamera();
-    animationsManager = new AnimationsManager(scene, camera, rendererManager);
+    animationsManager = new AnimationsManager(
+      scene,
+      camera,
+      rendererManager,
+      new TweenGroup(),
+    );
   });
 
   afterEach(() => {
