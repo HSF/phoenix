@@ -1,23 +1,6 @@
 <app-loader [loaded]="loaded" [progress]="loadingProgress"></app-loader>
 <app-nav></app-nav>
-<app-ui-menu
-  [eventDataImportOptions]="eventDataImportOptions"
-  [uiConfig]="{
-    showVRToggle: false,
-    showARToggle: false,
-    showGeometryBrowser: false,
-    showAnimateCamera: false,
-    showObjectClipping: true,
-    showOverlayView: true,
-    showObjectSelection: true,
-    showInfoPanel: true,
-    showAnimateEvent: true,
-    showCollectionsInfo: true,
-    showMakePicture: true,
-    showShareLink: true,
-    showPerformanceToggle: true,
-  }"
->
+<app-ui-menu [eventDataImportOptions]="eventDataImportOptions">
   <!-- LHCb specific VP toggle -->
   <app-cycle-events [interval]="5000"></app-cycle-events>
   <app-vp-toggle></app-vp-toggle>
