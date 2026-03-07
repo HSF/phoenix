@@ -20,10 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": {
-              "base": "dist/phoenix-app",
-              "browser": ""
-            },
+            "outputPath": "dist/phoenix-app",
             "index": "projects/phoenix-app/src/index.html",
             "browser": "projects/phoenix-app/src/main.ts",
             "polyfills": ["projects/phoenix-app/src/zone-flags.ts", "zone.js"],
@@ -47,16 +44,29 @@
             ],
             "externalDependencies": [
               "vm",
+              "node:vm",
               "fs",
+              "node:fs",
               "os",
+              "node:os",
               "path",
+              "node:path",
               "crypto",
+              "node:crypto",
               "http",
+              "node:http",
               "https",
+              "node:https",
               "net",
+              "node:net",
               "tls",
+              "node:tls",
               "url",
-              "assert"
+              "node:url",
+              "assert",
+              "node:assert",
+              "worker_threads",
+              "node:worker_threads"
             ],
             "sourceMap": true,
             "optimization": false,
