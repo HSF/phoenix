@@ -320,6 +320,14 @@ export class ThreeManager {
   }
 
   /**
+   * Get the controls manager for accessing camera controls.
+   * @returns The controls manager.
+   */
+  public getControlsManager(): ControlsManager {
+    return this.controlsManager;
+  }
+
+  /**
    * Sets controls to auto rotate.
    * @param autoRotate If the controls are to be automatically rotated or not.
    */

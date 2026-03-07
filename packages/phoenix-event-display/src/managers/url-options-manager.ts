@@ -12,6 +12,7 @@ export const phoenixURLOptions = {
   file: '',
   type: '',
   config: '',
+  state: '',
   hideWidgets: false,
   embed: false,
 };
@@ -108,7 +109,10 @@ export class URLOptionsManager {
           })
           .finally(() => {
             this.eventDisplay.getLoadingManager().itemLoaded('url_config');
+            this.applyViewStateOption();
           });
+      } else {
+        this.applyViewStateOption();
       }
     };
 
@@ -222,6 +226,42 @@ export class URLOptionsManager {
     // For some reason the above doesn't pick up JiveXML_XXX_YYY.zip
 
     this.eventDisplay.parsePhoenixEvents(allEventsObject);
+  }
+
+  /**
+   * Apply view state from the URL's "state" parameter.
+   * Decodes a Base64-encoded JSON state and restores camera, clipping, and menu visibility.
+   * Uses a load listener to ensure state applies after all other initialization completes.
+   */
+  private applyViewStateOption() {
+    const stateParam = this.urlOptions.get('state');
+    if (!stateParam) {
+      return;
+    }
+
+    const applyState = async () => {
+      try {
+        const binary = atob(stateParam);
+        const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+        // Decompress the deflate-compressed state
+        const stream = new Blob([bytes])
+          .stream()
+          .pipeThrough(new DecompressionStream('deflate'));
+        const decompressed = await new Response(stream).arrayBuffer();
+        const jsonString = new TextDecoder().decode(decompressed);
+        const jsonState = JSON.parse(jsonString);
+        console.log('Applying view state from URL');
+        const stateManager = new StateManager();
+        stateManager.loadStateFromJSON(jsonState);
+      } catch (error) {
+        console.error('Could not parse view state from URL.', error);
+      }
+    };
+
+    this.eventDisplay.getLoadingManager().addLoadListenerWithCheck(() => {
+      // Small delay to ensure experiment component's load listener runs first
+      setTimeout(applyState, 200);
+    });
   }
 
   /**

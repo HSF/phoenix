@@ -8,6 +8,7 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { ActiveVariable, phoenixURLOptions } from 'phoenix-event-display';
 import QRCode from 'qrcode';
+import { EventDisplayService } from '../../../../services/event-display.service';
 
 @Component({
   standalone: false,
@@ -23,7 +24,10 @@ export class ShareLinkDialogComponent implements AfterViewInit, OnDestroy {
   @ViewChild('qrcodeCanvas') qrcodeCanvas: ElementRef<HTMLCanvasElement>;
   private unsubscribe: () => void;
 
-  constructor(private dialogRef: MatDialogRef<ShareLinkDialogComponent>) {
+  constructor(
+    private dialogRef: MatDialogRef<ShareLinkDialogComponent>,
+    private eventDisplay: EventDisplayService,
+  ) {
     const locationHref = window.location.href;
     const lastIndex =
       locationHref.lastIndexOf('?') === -1
@@ -64,7 +68,7 @@ export class ShareLinkDialogComponent implements AfterViewInit, OnDestroy {
       .reduce((filteredOptions: string[], option: string) => {
         if (this.urlOptions[option]) {
           filteredOptions.push(
-            `${option}=${encodeURI(this.urlOptions[option])}`,
+            `${option}=${encodeURIComponent(this.urlOptions[option])}`,
           );
         }
         return filteredOptions;
@@ -75,6 +79,29 @@ export class ShareLinkDialogComponent implements AfterViewInit, OnDestroy {
       this.baseLink + (urlParametersString ? '?' : '') + urlParametersString,
     );
     this.embedLink = this.getEmbedLink(urlParametersString);
+  }
+
+  async toggleViewState(include: boolean) {
+    if (include) {
+      const stateManager = this.eventDisplay.getStateManager();
+      if (stateManager) {
+        const state = stateManager.getStateAsJSON();
+        const jsonStr = JSON.stringify(state);
+        // Compress using built-in deflate to keep URL manageable
+        const stream = new Blob([jsonStr])
+          .stream()
+          .pipeThrough(new CompressionStream('deflate'));
+        const compressed = await new Response(stream).arrayBuffer();
+        const bytes = new Uint8Array(compressed);
+        const binary = Array.from(bytes, (b) => String.fromCharCode(b)).join(
+          '',
+        );
+        this.urlOptions['state'] = btoa(binary);
+      }
+    } else {
+      this.urlOptions['state'] = '';
+    }
+    this.onOptionsChange();
   }
 
   copyText(text: string, element: HTMLElement) {
