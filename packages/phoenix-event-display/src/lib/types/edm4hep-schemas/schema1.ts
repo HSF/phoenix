@@ -13,7 +13,7 @@ export namespace Schema1 {
     associatedParticle: ObjectID; // reconstructed particle associated to this vertex.
   };
 
-  type TrackState = {
+  export type TrackState = {
     location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
     D0: number; // transverse impact parameter
     phi: number; // azimuthal angle

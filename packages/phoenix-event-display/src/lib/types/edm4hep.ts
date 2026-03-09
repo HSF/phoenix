@@ -14,6 +14,14 @@ export namespace edm4hep {
     | Schema5.Vertex
     | Schema6.Vertex;
 
+  export type TrackState =
+    | Schema1.TrackState
+    | Schema2.TrackState
+    | Schema3.TrackState
+    | Schema4.TrackState
+    | Schema5.TrackState
+    | Schema6.TrackState;
+
   export type Track = (
     | Schema1.Track
     | Schema2.Track

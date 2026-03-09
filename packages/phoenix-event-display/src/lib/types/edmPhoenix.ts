@@ -16,35 +16,35 @@ export namespace edmPhoenix {
     qOverP?: number;
   };
 
-  type Hit = {
+  export type Hit = {
     type?: 'Point';
     pos: Vector3d;
     color?: string;
   };
 
-  type CaloCell = {
+  export type CaloCell = {
     energy: number;
     phi: number;
     eta: number;
   };
 
-  type CaloCluster = {
+  export type CaloCluster = {
     energy: number;
     phi: number;
     eta: number;
   };
 
-  type Jet = {
+  export type Jet = {
     eta: number;
     phi: number;
     theta?: number;
     energy?: number;
     et?: number;
-    coneR: number;
+    coneR?: number;
     color?: string;
   };
 
-  type MissingEnegy = {
+  export type MissingEnergy = {
     etx: number;
     ety: number;
     color?: string;
@@ -72,7 +72,7 @@ export namespace edmPhoenix {
       [name: string]: Jet[];
     };
     MissingEnergy?: {
-      [name: string]: MissingEnegy[];
+      [name: string]: MissingEnergy[];
     };
   };
 }

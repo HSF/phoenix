@@ -23,7 +23,7 @@ export namespace Schema2 {
   };
 
   /** Parametrized description of a particle track */
-  type TrackState = {
+  export type TrackState = {
     location: number; // for use with At{Other|IP|FirstHit|LastHit|Calorimeter|Vertex}|LastLocation
     D0: number; // transverse impact parameter
     phi: number; // azimuthal angle
@@ -97,7 +97,7 @@ export namespace Schema2 {
     quality: number; // quality bit flag
     position: Vector3d; // [mm] the hit position
     momentum: Vector3f; // [GeV] the 3-momentum of the particle at the hits position
-    particle: ObjectID; // MCParticle that caused the hit
+    particle: ObjectID[]; // MCParticle that caused the hit
   };
 
   /** Calorimeter hit */
