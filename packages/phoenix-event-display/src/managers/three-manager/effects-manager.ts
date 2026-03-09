@@ -290,6 +290,9 @@ export class EffectsManager {
       return; // Already selected
     }
 
+    // Hide default jet outline while selection outline is active
+    this.setDefaultOutlineVisibility(object, false);
+
     // Create outline helper for this object
     const outlineHelper = this.createOutlineHelper(object);
     this.selectedOutlines.set(object, outlineHelper);
@@ -309,6 +312,9 @@ export class EffectsManager {
       outlineHelper.geometry.dispose();
       (outlineHelper.material as ShaderMaterial).dispose();
       this.selectedOutlines.delete(object);
+
+      // Restore default jet outline
+      this.setDefaultOutlineVisibility(object, true);
     }
   }
 
@@ -336,6 +342,8 @@ export class EffectsManager {
       outlineHelper.removeFromParent();
       outlineHelper.geometry.dispose();
       (outlineHelper.material as ShaderMaterial).dispose();
+      // Restore default jet outline
+      this.setDefaultOutlineVisibility(object, true);
     }
     this.selectedOutlines.clear();
   }
@@ -356,16 +364,33 @@ export class EffectsManager {
       this.hoverOutline.removeFromParent();
       this.hoverOutline.geometry.dispose();
       (this.hoverOutline.material as ShaderMaterial).dispose();
+      // Restore default outline on previous hover target (unless it's selected)
+      if (this.hoverTarget && !this.selectedOutlines.has(this.hoverTarget)) {
+        this.setDefaultOutlineVisibility(this.hoverTarget, true);
+      }
       this.hoverOutline = null;
       this.hoverTarget = null;
     }
 
     // Create new hover outline if object provided and not already selected
     if (object && !this.selectedOutlines.has(object)) {
+      // Hide default outline while hover outline is active
+      this.setDefaultOutlineVisibility(object, false);
       this.hoverOutline = this.createOutlineHelper(object, true); // Different style for hover
       this.hoverTarget = object;
       // Add as child of the object so outline inherits all transformations
       object.add(this.hoverOutline);
+    }
+  }
+
+  /**
+   * Show or hide the default outline (e.g. JetOutline) on an object.
+   * Used to avoid visual conflict between default and selection/hover outlines.
+   */
+  private setDefaultOutlineVisibility(object: Mesh, visible: boolean) {
+    const defaultOutline = object.getObjectByName('JetOutline');
+    if (defaultOutline) {
+      defaultOutline.visible = visible;
     }
   }
 
