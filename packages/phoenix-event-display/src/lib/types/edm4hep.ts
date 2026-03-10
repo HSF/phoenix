@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { Schema1 } from './edm4hep-schemas/schema1';
 import { Schema2 } from './edm4hep-schemas/schema2';
 import { Schema3 } from './edm4hep-schemas/schema3';

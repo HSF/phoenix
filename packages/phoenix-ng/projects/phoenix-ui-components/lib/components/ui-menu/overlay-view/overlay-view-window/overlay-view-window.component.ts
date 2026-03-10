@@ -35,7 +35,6 @@ export class OverlayViewWindowComponent implements AfterViewInit {
     x: number = window.innerWidth / 2.5,
     y: number = window.innerHeight / 2.5,
   ): HTMLCanvasElement {
-    console.log('doneee');
     const width = x;
     const height = y;
     canvas.width = width;

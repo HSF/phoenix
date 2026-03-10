@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { Vector3f, Vector3d, Vector2i, ObjectID } from './utils';
 
 export namespace Schema1 {

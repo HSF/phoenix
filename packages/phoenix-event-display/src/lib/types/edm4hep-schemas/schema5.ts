@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import {
   CovMatrix3f,
   CovMatrix4f,
