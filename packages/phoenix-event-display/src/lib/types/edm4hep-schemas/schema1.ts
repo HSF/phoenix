@@ -167,65 +167,65 @@ export namespace Schema1 {
   export type MCRecoParticleAssociationCollection = MCRecoParticleAssociation[];
   export type MCParticleCollection = MCParticle[];
 
-  export type Item =
+  export type Coll =
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::EventHeaderCollection';
-        collection: EventHeaderCollection;
+        collection: EventHeader[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::VertexCollection';
-        collection: VertexCollection;
+        collection: Vertex[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::TrackCollection';
-        collection: TrackCollection;
+        collection: Track[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::TrackerHitCollection';
-        collection: TrackerHitCollection;
+        collection: TrackerHit[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::SimTrackerHitCollection';
-        collection: SimTrackerHitCollection;
+        collection: SimTrackerHit[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::CalorimeterHitCollection';
-        collection: CalorimeterHitCollection;
+        collection: CalorimeterHit[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::SimCalorimeterHitCollection';
-        collection: SimCalorimeterHitCollection;
+        collection: SimCalorimeterHit[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::ClusterCollection';
-        collection: ClusterCollection;
+        collection: Cluster[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::ReconstructedParticleCollection';
-        collection: ReconstructedParticleCollection;
+        collection: ReconstructedParticle[];
       }
     | {
         collID: number;
         collSchemaVersion: number;
         collType: 'edm4hep::MCRecoParticleAssociation';
-        collection: MCRecoParticleAssociationCollection;
+        collection: MCRecoParticleAssociation[];
       };
 }

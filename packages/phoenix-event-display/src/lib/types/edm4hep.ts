@@ -112,41 +112,21 @@ export namespace edm4hep {
     | Schema5.RecoMCParticleLink
     | Schema6.RecoMCParticleLink;
 
-  export type EventHeaderCollection = EventHeader[];
-
-  export type VertexCollection = Vertex[];
-
-  export type TrackCollection = Track[];
-
-  export type AssociationCollection = Association[];
-
-  export type HitCollection = Hit[];
-
-  export type caloCellCollection = CaloCell[];
-
-  export type ClusterCollection = CaloCluster[];
-
-  export type ReconstructedParticleCollection = ReconstructedParticle[];
-
-  export type MCParticleCollection = MCParticle[];
-
-  export type LinkCollection = Link[];
-
   export type Item =
-    | Schema1.Item
-    | Schema2.Item
-    | Schema3.Item
-    | Schema4.Item
-    | Schema5.Item
-    | Schema6.Item;
+    | Schema1.Coll
+    | Schema2.Coll
+    | Schema3.Coll
+    | Schema4.Coll
+    | Schema5.Coll
+    | Schema6.Coll;
 
   export type Event = {
     [name: string]:
-      | Schema1.Item
-      | Schema2.Item
-      | Schema3.Item
-      | Schema4.Item
-      | Schema5.Item
-      | Schema6.Item;
+      | Schema1.Coll
+      | Schema2.Coll
+      | Schema3.Coll
+      | Schema4.Coll
+      | Schema5.Coll
+      | Schema6.Coll;
   };
 }
