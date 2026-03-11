@@ -82,7 +82,6 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
               case 'edm4hep::ReconstructedParticleCollection':
                 if (collName === 'Jet')
                   newEvent.Jets[collName] = this.getJets(collection);
-                // @todo 'missing' is never present
                 else if (collName.toLowerCase().includes('missing'))
                   newEvent.MissingEnergy[collName] =
                     this.getMissingEnergy(collection);
@@ -185,9 +184,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   private getVertices(vertexCollection: edm4hep.Vertex[]): edmPhoenix.Vertex[] {
     return vertexCollection.map((vertex: edm4hep.Vertex) => ({
       pos: [
-        vertex.position?.x * 0.1,
-        vertex.position?.y * 0.1,
-        vertex.position?.z * 0.1,
+        vertex.position.x * 0.1,
+        vertex.position.y * 0.1,
+        vertex.position.z * 0.1,
       ],
       color: this.randomColor(),
     }));
@@ -220,9 +219,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
           parsedHits.push({
             pos: [
-              trackerHits[trackerHitRef.index].position?.x * 0.1,
-              trackerHits[trackerHitRef.index].position?.y * 0.1,
-              trackerHits[trackerHitRef.index].position?.z * 0.1,
+              trackerHits[trackerHitRef.index].position.x * 0.1,
+              trackerHits[trackerHitRef.index].position.y * 0.1,
+              trackerHits[trackerHitRef.index].position.z * 0.1,
             ],
             color: rawTrack.color ?? '#0000cd',
           });
@@ -238,9 +237,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           // @todo 'trackState' might always be present
           parsedHits.push({
             pos: [
-              trackState.referencePoint?.x * 0.1,
-              trackState.referencePoint?.y * 0.1,
-              trackState.referencePoint?.z * 0.1,
+              trackState.referencePoint.x * 0.1,
+              trackState.referencePoint.y * 0.1,
+              trackState.referencePoint.z * 0.1,
             ],
             color: rawTrack.color ?? '#0000cd',
           });
@@ -289,9 +288,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
     hitCollection.forEach((rawHit) => {
       const pos: edmPhoenix.Position = [
-        rawHit.position?.x * 0.1,
-        rawHit.position?.y * 0.1,
-        rawHit.position?.z * 0.1,
+        rawHit.position.x * 0.1,
+        rawHit.position.y * 0.1,
+        rawHit.position.z * 0.1,
       ];
 
       if ((rawHit.quality & (1 << 31)) !== 0) {
@@ -391,9 +390,9 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     const cells: edmPhoenix.CaloCell[] = [];
 
     caloCellCollection.forEach((rawCell) => {
-      const x = rawCell.position?.x * 0.1;
-      const y = rawCell.position?.y * 0.1;
-      const z = rawCell.position?.z * 0.1;
+      const x = rawCell.position.x * 0.1;
+      const y = rawCell.position.y * 0.1;
+      const z = rawCell.position.z * 0.1;
       const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
       cells.push({
