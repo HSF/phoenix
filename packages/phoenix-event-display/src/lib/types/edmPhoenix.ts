@@ -1,13 +1,14 @@
-import { Vector3d } from './edm4hep-schemas/utils';
-
+/* eslint-disable @typescript-eslint/no-namespace */
 export namespace edmPhoenix {
+  export type Position = [number, number, number];
+
   export type Vertex = {
+    pos: Position;
     color?: string;
-    pos: Vector3d;
   };
 
   export type Track = {
-    pos: Vector3d;
+    pos: Position;
     color?: string;
     d0?: number;
     z0?: number;
@@ -17,8 +18,8 @@ export namespace edmPhoenix {
   };
 
   export type Hit = {
+    pos: Position;
     type?: 'Point';
-    pos: Vector3d;
     color?: string;
   };
 

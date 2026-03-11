@@ -70,18 +70,17 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
                   newEvent.Hits[`${collName} | ${label}`] = arr;
                 });
                 break;
-              case 'edm4hep::CalorimeterHitCollection': //done
+              case 'edm4hep::CalorimeterHitCollection':
               case 'edm4hep::SimCalorimeterHitCollection':
-                newEvent.CaloCells[collName] = this.getCaloCells(collection);
+                newEvent.CaloCells[collName] = this.getCaloCells(collection); // done
                 break;
               case 'edm4hep::ClusterCollection':
-                // @todo highlight optional members in edm4hep
                 newEvent.CaloClusters[collName] =
-                  this.getCaloClusters(collection);
+                  this.getCaloClusters(collection); // done
                 break;
               case 'edm4hep::ReconstructedParticleCollection':
                 if (collName === 'Jet')
-                  newEvent.Jets[collName] = this.getJets(collection);
+                  newEvent.Jets[collName] = this.getJets(collection); // done
                 // @todo 'missing' is never present
                 else if (collName.toLowerCase().includes('missing'))
                   newEvent.MissingEnergy[collName] =
@@ -146,28 +145,28 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
       switch (Math.abs(pdgid)) {
         case 11:
-          color = '00ff00';
+          color = '#00ff00';
           pid = 'electron';
           break;
         case 22:
-          color = 'ff0000';
+          color = '#ff0000';
           pid = 'photon';
           break;
         case 111:
         case 211:
-          color = 'a52a2a';
+          color = '#a52a2a';
           pid = 'pion';
           break;
         case 2212:
-          color = '778899';
+          color = '#778899';
           pid = 'proton';
           break;
         case 321:
-          color = '5f9ea0';
+          color = '#5f9ea0';
           pid = 'kaon';
           break;
         default:
-          color = '0000cd';
+          color = '#0000cd';
           pid = 'other';
       }
 
@@ -184,12 +183,12 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   /** Return vertices */
   private getVertices(vertexCollection: edm4hep.Vertex[]): edmPhoenix.Vertex[] {
     return vertexCollection.map((vertex: edm4hep.Vertex) => ({
-      pos: {
-        x: vertex.position.x * 0.1,
-        y: vertex.position.y * 0.1,
-        z: vertex.position.z * 0.1,
-      },
-      color: `#${this.randomColor()}`,
+      pos: [
+        (vertex.position?.x ?? 0) * 0.1,
+        (vertex.position?.y ?? 0) * 0.1,
+        (vertex.position?.z ?? 0) * 0.1,
+      ],
+      color: this.randomColor(),
     }));
   }
 
@@ -210,7 +209,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     trackCollection.forEach((rawTrack: edm4hep.Track) => {
       const parsedHits: edmPhoenix.Track[] = [];
 
-      if ('trackerHits' in rawTrack) {
+      if ('trackerHits' in rawTrack && rawTrack.trackerHits.length > 0) {
         rawTrack.trackerHits.forEach((trackerHitRef: ObjectID) => {
           // @todo always assumes getCollById will return a collection
           const trackerHits: edm4hep.Hit[] = this.getCollByID(
@@ -219,26 +218,30 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           );
 
           parsedHits.push({
-            pos: {
-              x: trackerHits[trackerHitRef.index].position.x * 0.1,
-              y: trackerHits[trackerHitRef.index].position.y * 0.1,
-              z: trackerHits[trackerHitRef.index].position.z * 0.1,
-            },
-            color: rawTrack.color ?? '0000cd',
+            pos: [
+              (trackerHits[trackerHitRef.index].position?.x ?? 0) * 0.1,
+              (trackerHits[trackerHitRef.index].position?.y ?? 0) * 0.1,
+              (trackerHits[trackerHitRef.index].position?.z ?? 0) * 0.1,
+            ],
+            color: rawTrack.color ?? '#0000cd',
           });
         });
       }
 
-      if (parsedHits.length === 0 && 'trackStates' in rawTrack) {
+      if (
+        parsedHits.length === 0 &&
+        'trackStates' in rawTrack &&
+        rawTrack.trackStates.length > 0
+      ) {
         rawTrack.trackStates.forEach((trackState: edm4hep.TrackState) => {
           // @todo 'trackState' might always be present
           parsedHits.push({
-            pos: {
-              x: trackState.referencePoint.x * 0.1,
-              y: trackState.referencePoint.y * 0.1,
-              z: trackState.referencePoint.z * 0.1,
-            },
-            color: rawTrack.color ?? '0000cd',
+            pos: [
+              (trackState.referencePoint?.x ?? 0) * 0.1,
+              (trackState.referencePoint?.y ?? 0) * 0.1,
+              (trackState.referencePoint?.z ?? 0) * 0.1,
+            ],
+            color: rawTrack.color ?? '#0000cd',
           });
         });
       }
@@ -258,7 +261,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       .filter(([, arr]) => arr.length !== 0);
   }
 
-  /** Find PDG of the particle associated with the hit */
+  /** Return tracker hits */
   private getHits(
     rawEvent: any,
     hitCollection: edm4hep.Hit[],
@@ -284,21 +287,21 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     const colorProton = this.randomColor();
 
     hitCollection.forEach((rawHit) => {
-      // @todo 'position' might always be present
-      const pos: Vector3d = {
-        x: rawHit.position.x * 0.1,
-        y: rawHit.position.y * 0.1,
-        z: rawHit.position.z * 0.1,
-      };
+      const pos: edmPhoenix.Position = [
+        (rawHit.position?.x ?? 0) * 0.1,
+        (rawHit.position?.y ?? 0) * 0.1,
+        (rawHit.position?.z ?? 0) * 0.1,
+      ];
 
       if ((rawHit.quality & (1 << 31)) !== 0) {
+        //@todo quality is always 0
         /* BITOverlay = 31
          * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
          */
         categories.overlay.push({
           type: 'Point',
           pos,
-          color: `#${colorOverlay}`,
+          color: colorOverlay,
         });
       } else if ((rawHit.quality & (1 << 30)) !== 0) {
         /* BITProducedBySecondary = 30
@@ -307,7 +310,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         categories.secondary.push({
           type: 'Point',
           pos,
-          color: `#${colorSecondary}`,
+          color: colorSecondary,
         });
       } else {
         let ref: ObjectID | null = null;
@@ -323,56 +326,59 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         if (ref !== null) {
           const collection = this.getCollByID(rawEvent, ref.collectionID);
           const pdg = Math.abs(collection?.[ref.index]?.PDG ?? 0);
+          console.log('Hits found collection', collection, pdg);
 
           switch (pdg) {
             case 11:
               categories.electron.push({
                 type: 'Point',
                 pos,
-                color: `#${colorElectron}`,
+                color: colorElectron,
               });
               break;
             case 13:
               categories.muon.push({
                 type: 'Point',
                 pos,
-                color: `#${colorMuon}`,
+                color: colorMuon,
               });
               break;
             case 211:
               categories.pion.push({
                 type: 'Point',
                 pos,
-                color: `#${colorPion}`,
+                color: colorPion,
               });
               break;
             case 321:
               categories.kaon.push({
                 type: 'Point',
                 pos,
-                color: `#${colorKaon}`,
+                color: colorKaon,
               });
               break;
             case 2212:
               categories.proton.push({
                 type: 'Point',
                 pos,
-                color: `#${colorProton}`,
+                color: colorProton,
               });
               break;
             default:
               categories.other.push({
                 type: 'Point',
                 pos,
-                color: `#${colorOther}`,
+                color: colorOther,
               });
               break;
           }
         } else {
+          console.log('Hits no ref');
+
           categories.other.push({
             type: 'Point',
             pos,
-            color: `#${colorOther}`,
+            color: colorOther,
           });
         }
       }
@@ -381,22 +387,22 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     return Object.entries(categories).filter(([, arr]) => arr.length !== 0);
   }
 
-  /** Returns the cells */
+  /** Returns Calo cells */
   private getCaloCells(
     caloCellCollection: edm4hep.CaloCell[],
   ): edmPhoenix.CaloCell[] {
     const cells: edmPhoenix.CaloCell[] = [];
 
     caloCellCollection.forEach((rawCell) => {
-      const x = rawCell.position.x * 0.1;
-      const y = rawCell.position.y * 0.1;
-      const z = rawCell.position.z * 0.1;
+      const x = (rawCell.position?.x ?? 0) * 0.1;
+      const y = (rawCell.position?.y ?? 0) * 0.1;
+      const z = (rawCell.position?.z ?? 0) * 0.1;
       const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
       cells.push({
-        eta: Math.asinh(z / rho),
-        phi: Math.acos(x / rho) * Math.sign(y),
-        energy: rawCell.energy,
+        eta: rho === 0 ? 0 : Math.asinh(z / rho), // Check because '0 / 0 = NaN'
+        phi: Math.atan2(y, x), // Safer equivalent to 'Math.acos(x / rho) * Math.sign(y)'
+        energy: rawCell.energy ?? 0,
       });
     });
 
@@ -410,15 +416,15 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     const clusters: edmPhoenix.CaloCluster[] = [];
 
     caloClusterCollection.forEach((rawCluster) => {
-      const x = rawCluster.position.x * 0.1;
-      const y = rawCluster.position.y * 0.1;
-      const z = rawCluster.position.z * 0.1;
+      const x = (rawCluster.position?.x ?? 0) * 0.1;
+      const y = (rawCluster.position?.y ?? 0) * 0.1;
+      const z = (rawCluster.position?.z ?? 0) * 0.1;
       const rho = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 
       clusters.push({
-        eta: Math.asinh(z / rho),
-        phi: Math.acos(x / rho) * Math.sign(y),
-        energy: rawCluster.energy * 100, // @todo no apparent reason to multiply by 10
+        eta: rho === 0 ? 0 : Math.asinh(z / rho), // Check because '0 / 0 = NaN'
+        phi: Math.atan2(y, x), // Safer equivalent to 'Math.acos(x / rho) * Math.sign(y)'
+        energy: rawCluster.energy ?? 0,
       });
     });
 
@@ -432,15 +438,15 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
     const jets: edmPhoenix.Jet[] = [];
 
     jetCollection.forEach((rawJet) => {
-      const px: number = rawJet.momentum.x;
-      const py: number = rawJet.momentum.y;
-      const pz: number = rawJet.momentum.z;
+      const px: number = rawJet.momentum?.x ?? 0;
+      const py: number = rawJet.momentum?.y ?? 0;
+      const pz: number = rawJet.momentum?.z ?? 0;
       const pt = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
 
       jets.push({
-        eta: Math.asinh(pz / pt),
-        phi: Math.acos(px / pt) * Math.sign(py),
-        energy: rawJet.energy * 1000, // @todo this currently converts GeV -> MeV
+        eta: pt === 0 ? 0 : Math.asinh(pz / pt), // Check because '0 / 0 = NaN'
+        phi: Math.atan2(py, px), // Safer equivalent to 'Math.acos(px / pt) * Math.sign(py)'
+        energy: rawJet.energy ?? 0,
       });
     });
 
@@ -471,10 +477,10 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Return a random colour */
   private randomColor() {
-    return Math.floor(Math.random() * 16777215)
+    return `#${Math.floor(Math.random() * 16777215)
       .toString(16)
       .padStart(6, '0')
-      .toUpperCase();
+      .toUpperCase()}`;
   }
 
   /** Get the required collection */
