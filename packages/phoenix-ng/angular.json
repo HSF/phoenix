@@ -18,12 +18,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/phoenix-app",
+            "outputPath": {
+              "base": "dist/phoenix-app",
+              "browser": ""
+            },
             "index": "projects/phoenix-app/src/index.html",
-            "main": "projects/phoenix-app/src/main.ts",
-            "polyfills": "projects/phoenix-app/src/polyfills.ts",
+            "browser": "projects/phoenix-app/src/main.ts",
+            "polyfills": ["projects/phoenix-app/src/zone-flags.ts", "zone.js"],
             "tsConfig": "projects/phoenix-app/tsconfig.app.json",
             "assets": [
               "projects/phoenix-app/src/favicon.ico",
@@ -42,10 +45,32 @@
               "lodash",
               "html2canvas"
             ],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
+            "externalDependencies": [
+              "vm",
+              "node:vm",
+              "fs",
+              "node:fs",
+              "os",
+              "node:os",
+              "path",
+              "node:path",
+              "crypto",
+              "node:crypto",
+              "http",
+              "node:http",
+              "https",
+              "node:https",
+              "net",
+              "node:net",
+              "tls",
+              "node:tls",
+              "url",
+              "node:url",
+              "assert",
+              "node:assert",
+              "worker_threads",
+              "node:worker_threads"
+            ],
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true
@@ -62,8 +87,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -87,8 +110,6 @@
               "outputHashing": "all",
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -100,6 +121,20 @@
                   "maximumWarning": "6kb"
                 }
               ]
+            },
+            "web": {
+              "outputPath": {
+                "base": "docs",
+                "browser": ""
+              },
+              "baseHref": "./"
+            },
+            "ghpages": {
+              "outputPath": {
+                "base": "../../docs",
+                "browser": ""
+              },
+              "baseHref": "/phoenix/"
             }
           },
           "defaultConfiguration": ""

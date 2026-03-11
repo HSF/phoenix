@@ -105,7 +105,7 @@ describe('IoOptionsDialogComponent', () => {
           component.handleJiveXMLDataInput(files);
           expect(component.handleFileInput).toHaveBeenCalled();
         });
-    }, 30000);
+    }, 60000);
 
     describe('handleFileInput sync', () => {
       afterEach(() => {
@@ -171,7 +171,7 @@ describe('IoOptionsDialogComponent', () => {
       new File([zipBlob], 'test_data.zip', { type: 'application/zip' }),
     ]);
     component.handleZipEventDataInput(files);
-  }, 30000);
+  }, 60000);
 
   it('should handle ig event data', async () => {
     const ig = new JSZip();

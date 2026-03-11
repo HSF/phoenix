@@ -8,8 +8,10 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     # Install prerequisites for Node setup
     apt-get install -y --no-install-recommends curl gnupg ca-certificates && \
-    # Setup Node 18 repository
-    curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    # Securely set up Node 20 repository using GPG key and signed-by keyring
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" > /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update -y && \
     # Install Node, Python 3, Build Tools, and Canvas dependencies
     apt-get install -y --no-install-recommends \
     nodejs \

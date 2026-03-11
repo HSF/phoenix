@@ -40,7 +40,7 @@ describe('ShareLinkComponent', () => {
   });
 
   it('should open share link dialog', () => {
-    const spy = jest.spyOn(dialog, 'open');
+    const spy = jest.spyOn(dialog, 'open').mockReturnValue({} as any);
     component.openShareLinkDialog();
     expect(spy).toHaveBeenCalled();
   });

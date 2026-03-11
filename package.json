@@ -42,7 +42,7 @@
     "rimraf": "^6.1.2",
     "ts-jest-mock-import-meta": "^1.2.1",
     "ts-node": "^10.9.2",
-    "typescript": "~5.7.0"
+    "typescript": "~5.8.2"
   },
   "resolutions": {
     "three": "~0.178.0"
