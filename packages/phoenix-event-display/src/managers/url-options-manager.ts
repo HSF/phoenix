@@ -33,8 +33,9 @@ export class URLOptionsManager {
     private eventDisplay: EventDisplay,
     private configuration: Configuration,
   ) {
+    const queryIndex = window.location.href.indexOf('?');
     this.urlOptions = new URLSearchParams(
-      window.location.href.substr(window.location.href.lastIndexOf('?')),
+      queryIndex !== -1 ? window.location.href.substring(queryIndex) : '',
     );
   }
 
