@@ -22,6 +22,7 @@ import {
   LineSegments,
   LineDashedMaterial,
   CanvasTexture,
+  EdgesGeometry,
 } from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry.js';
 import { EVENT_DATA_TYPE_COLORS } from '../../helpers/constants';
@@ -254,6 +255,22 @@ export class PhoenixObjects {
     mesh.name = 'Jet';
     // Setting uuid for selection from collections info
     jetParams.uuid = mesh.uuid;
+
+    // Add wireframe cage outline so overlapping jets are distinguishable.
+    // Use a low-poly cylinder (12 segments) for clean polygonal edges
+    // over the smooth filled cone (50 segments).
+    const outlineGeo = new CylinderGeometry(width, 10, length, 12, 1, false);
+    const edges = new EdgesGeometry(outlineGeo, 1);
+    outlineGeo.dispose();
+    const jetColor = new Color(jetParams.color ?? EVENT_DATA_TYPE_COLORS.Jets);
+    const outlineColor = jetColor.clone().offsetHSL(0, 0, 0.35);
+    const outlineMaterial = new LineBasicMaterial({
+      color: outlineColor,
+      depthTest: true,
+    });
+    const outline = new LineSegments(edges, outlineMaterial);
+    outline.name = 'JetOutline';
+    mesh.add(outline);
 
     return mesh;
   }

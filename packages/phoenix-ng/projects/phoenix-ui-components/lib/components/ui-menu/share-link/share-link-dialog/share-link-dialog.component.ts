@@ -85,7 +85,7 @@ export class ShareLinkDialogComponent implements AfterViewInit, OnDestroy {
     if (include) {
       const stateManager = this.eventDisplay.getStateManager();
       if (stateManager) {
-        const state = stateManager.getStateAsJSON();
+        const state = stateManager.saveStateAsJSON();
         const jsonStr = JSON.stringify(state);
         // Compress using built-in deflate to keep URL manageable
         const stream = new Blob([jsonStr])
