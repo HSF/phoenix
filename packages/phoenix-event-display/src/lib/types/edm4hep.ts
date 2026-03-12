@@ -32,9 +32,7 @@ export namespace edm4hep {
     | Schema6.Track
   ) & {
     // MUTATED PROPERTIES
-    color: string;
     pid: string;
-    pdgid: number;
   };
 
   export type Hit =
@@ -130,4 +128,14 @@ export namespace edm4hep {
       | Schema5.Coll
       | Schema6.Coll;
   };
+
+  export enum ParticleType {
+    Electron = 'electron',
+    Muon = 'muon',
+    Photon = 'photon',
+    Pion = 'pion',
+    Proton = 'proton',
+    Kaon = 'kaon',
+    Other = 'other',
+  }
 }

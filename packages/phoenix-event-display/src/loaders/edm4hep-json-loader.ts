@@ -1,5 +1,14 @@
 import { PhoenixLoader } from './phoenix-loader';
-import { edmPhoenix } from 'src/lib/types/edmPhoenix';
+import {
+  PhoenixEventData,
+  VertexParams,
+  TrackParams,
+  HitParams,
+  CaloCellParams,
+  CaloClusterParams,
+  JetParams,
+  MissingEnergyParams,
+} from 'src/lib/types/event-data';
 import { edm4hep } from 'src/lib/types/edm4hep';
 import { ObjectID, Vector3d } from 'src/lib/types/edm4hep-schemas/utils';
 
@@ -7,6 +16,28 @@ import { ObjectID, Vector3d } from 'src/lib/types/edm4hep-schemas/utils';
  * Edm4hepJsonLoader for loading EDM4hep json dumps
  */
 export class Edm4hepJsonLoader extends PhoenixLoader {
+  /** PDG ID to particle type name */
+  private static readonly pidNames: Record<number, edm4hep.ParticleType> = {
+    11: edm4hep.ParticleType.Electron,
+    13: edm4hep.ParticleType.Muon,
+    22: edm4hep.ParticleType.Photon,
+    111: edm4hep.ParticleType.Pion,
+    211: edm4hep.ParticleType.Pion,
+    2212: edm4hep.ParticleType.Proton,
+    321: edm4hep.ParticleType.Kaon,
+  };
+
+  /** Colors per particle type, shared between tracks and hits */
+  private static readonly pidColors: Record<edm4hep.ParticleType, string> = {
+    [edm4hep.ParticleType.Electron]: '#00ff00',
+    [edm4hep.ParticleType.Muon]: '#ff00ff',
+    [edm4hep.ParticleType.Photon]: '#ff0000',
+    [edm4hep.ParticleType.Pion]: '#a52a2a',
+    [edm4hep.ParticleType.Proton]: '#778899',
+    [edm4hep.ParticleType.Kaon]: '#5f9ea0',
+    [edm4hep.ParticleType.Other]: '#0000cd',
+  };
+
   /**  Event data loaded from EDM4hep JSON file */
   private rawEventData: any;
 
@@ -23,11 +54,10 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
 
   /** Process raw EDM4hep JSON event data into the Phoenix format */
   processEventData(): boolean {
-    console.log('This is a test');
     // Iterate over events
     Object.entries(this.rawEventData).forEach(
       ([eventName, rawEvent]: [string, edm4hep.Event]) => {
-        const newEvent: edmPhoenix.Event = {
+        const newEvent: PhoenixEventData = {
           'event number': 0,
           'run number': 0,
           Vertices: {},
@@ -119,76 +149,48 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       | edm4hep.Association[] // Schema 1
       | edm4hep.Link[]; // From Schema 2 Onwards
 
-    if (!linkCollection) return;
-
     const reconstructedParticleCollection = rawEvent.ReconstructedParticles
       ?.collection as edm4hep.ReconstructedParticle[];
-
-    if (!reconstructedParticleCollection) return;
 
     const mcParticleCollection = rawEvent.Particle
       ?.collection as edm4hep.MCParticle[];
 
-    if (!mcParticleCollection) return;
+    const eFlowTrackCollection = rawEvent.EFlowTrack
+      ?.collection as edm4hep.Track[];
 
-    const trackCollection = rawEvent.EFlowTrack?.collection as edm4hep.Track[];
-
-    if (!trackCollection) return;
+    if (
+      linkCollection &&
+      reconstructedParticleCollection &&
+      mcParticleCollection &&
+      eFlowTrackCollection
+    )
+      return;
 
     linkCollection.forEach((link: edm4hep.Association | edm4hep.Link) => {
       const recIndex = 'rec' in link ? link.rec.index : link.from.index;
       const simIndex = 'sim' in link ? link.sim.index : link.to.index;
       const pdgid = mcParticleCollection[simIndex].PDG;
-      const trackRefs = reconstructedParticleCollection[recIndex].tracks;
 
-      let color: string, pid: string;
-
-      switch (Math.abs(pdgid)) {
-        case 11:
-          color = '#00ff00';
-          pid = 'electron';
-          break;
-        case 22:
-          color = '#ff0000';
-          pid = 'photon';
-          break;
-        case 111:
-        case 211:
-          color = '#a52a2a';
-          pid = 'pion';
-          break;
-        case 2212:
-          color = '#778899';
-          pid = 'proton';
-          break;
-        case 321:
-          color = '#5f9ea0';
-          pid = 'kaon';
-          break;
-        default:
-          color = '#0000cd';
-          pid = 'other';
-      }
-
-      trackRefs.forEach(({ index }) => {
-        const track = trackCollection[index];
-
-        track.color = color;
-        track.pid = pid;
-        track.pdgid = pdgid;
+      reconstructedParticleCollection[recIndex].tracks.forEach(({ index }) => {
+        eFlowTrackCollection[index].pid =
+          Edm4hepJsonLoader.pidNames[pdgid] ?? edm4hep.ParticleType.Other;
       });
     });
   }
 
   /** Return vertices */
-  private getVertices(vertexCollection: edm4hep.Vertex[]): edmPhoenix.Vertex[] {
-    return vertexCollection.map((vertex: edm4hep.Vertex) => ({
+  private getVertices(vertexCollection: edm4hep.Vertex[]): VertexParams[] {
+    const color = this.randomColor();
+
+    return vertexCollection.map((rawVertex: edm4hep.Vertex) => ({
       pos: [
-        vertex.position.x * 0.1,
-        vertex.position.y * 0.1,
-        vertex.position.z * 0.1,
+        rawVertex.position.x * 0.1,
+        rawVertex.position.y * 0.1,
+        rawVertex.position.z * 0.1,
       ],
-      color: this.randomColor(),
+      size: 1,
+      vertexType: 'type' in rawVertex ? rawVertex.type : null,
+      color,
     }));
   }
 
@@ -196,98 +198,82 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   private getTracks(
     rawEvent: any,
     trackCollection: edm4hep.Track[],
-  ): [string, edmPhoenix.Track[]][] {
-    const categories: { [name: string]: edmPhoenix.Track[][] } = {
-      other: [],
-      electron: [],
-      photon: [],
-      pion: [],
-      proton: [],
-      kaon: [],
-    };
+  ): [string, TrackParams[]][] {
+    const categories = Object.fromEntries(
+      Object.keys(Edm4hepJsonLoader.pidColors).map((type) => [
+        type,
+        [] as TrackParams[],
+      ]),
+    ) as Record<string, TrackParams[]>;
 
     trackCollection.forEach((rawTrack: edm4hep.Track) => {
-      const parsedHits: edmPhoenix.Track[] = [];
+      const pos: number[][] = []; // An array of positions is needed to render the tracks as bars
 
       if ('trackerHits' in rawTrack && rawTrack.trackerHits.length > 0) {
         rawTrack.trackerHits.forEach((trackerHitRef: ObjectID) => {
-          // @todo always assumes getCollById will return a collection
           const trackerHits: edm4hep.Hit[] = this.getCollByID(
             rawEvent,
             trackerHitRef.collectionID,
           );
 
-          parsedHits.push({
-            pos: [
-              trackerHits[trackerHitRef.index].position.x * 0.1,
-              trackerHits[trackerHitRef.index].position.y * 0.1,
-              trackerHits[trackerHitRef.index].position.z * 0.1,
-            ],
-            color: rawTrack.color ?? '#0000cd',
-          });
+          pos.push([
+            trackerHits[trackerHitRef.index].position.x * 0.1,
+            trackerHits[trackerHitRef.index].position.y * 0.1,
+            trackerHits[trackerHitRef.index].position.z * 0.1,
+          ]);
         });
-      }
-
-      if (
-        parsedHits.length === 0 &&
-        'trackStates' in rawTrack &&
-        rawTrack.trackStates.length > 0
-      ) {
+      } else {
         rawTrack.trackStates.forEach((trackState: edm4hep.TrackState) => {
-          // @todo 'trackState' might always be present
-          parsedHits.push({
-            pos: [
-              trackState.referencePoint.x * 0.1,
-              trackState.referencePoint.y * 0.1,
-              trackState.referencePoint.z * 0.1,
-            ],
-            color: rawTrack.color ?? '#0000cd',
-          });
+          pos.push([
+            trackState.referencePoint.x * 0.1,
+            trackState.referencePoint.y * 0.1,
+            trackState.referencePoint.z * 0.1,
+          ]);
         });
       }
-
-      // @todo if none of those two properties exist definition will be invalid
 
       const category = rawTrack.pid ?? 'other';
 
-      categories[category].push(parsedHits);
+      categories[category].push({
+        pos,
+        // @todo dparams (helix parameters for Runge-Kutta extrapolation: qOverP requires the magnetic field)
+        // @todo phi (aimuthal angle)
+        // @todo eta (peudorapidity)
+        // @todo d0 (tansverse impact parameter)
+        // @todo z0 (lngitudinal impact parameter)
+        // @todo pt (transverse momentum requires the magnetic field)
+        chi2: rawTrack.chi2, // no use by phoenix-object.ts
+        dof: rawTrack.ndf, // no use by phoenix-object.ts
+        color: Edm4hepJsonLoader.pidColors[rawTrack.pid ?? 'other'],
+        linewidth: 2,
+      });
     });
 
-    return Object.entries(categories)
-      .map(([label, category]): [string, edmPhoenix.Track[]] => [
-        label,
-        category.flat(),
-      ])
-      .filter(([, arr]) => arr.length !== 0);
+    return Object.entries(categories).filter(([, arr]) => arr.length !== 0) as [
+      string,
+      TrackParams[],
+    ][];
   }
 
   /** Return tracker hits */
   private getHits(
     rawEvent: any,
     hitCollection: edm4hep.Hit[],
-  ): [string, edmPhoenix.Hit[]][] {
-    const categories: { [name: string]: edmPhoenix.Hit[] } = {
-      other: [],
-      overlay: [],
-      secondary: [],
-      electron: [],
-      muon: [],
-      pion: [],
-      kaon: [],
-      proton: [],
-    };
+  ): [string, HitParams[]][] {
+    const categories = Object.fromEntries([
+      ...Object.keys(Edm4hepJsonLoader.pidColors).map((type) => [
+        type,
+        [] as HitParams[],
+      ]),
+      ['overlay', [] as HitParams[]],
+      ['secondary', [] as HitParams[]],
+    ]) as Record<string, HitParams[]>;
 
-    const colorOther = this.randomColor();
     const colorOverlay = this.randomColor();
     const colorSecondary = this.randomColor();
-    const colorElectron = this.randomColor();
-    const colorMuon = this.randomColor();
-    const colorPion = this.randomColor();
-    const colorKaon = this.randomColor();
-    const colorProton = this.randomColor();
 
     hitCollection.forEach((rawHit) => {
-      const pos: edmPhoenix.Position = [
+      const pos: [number, number, number] = [
         rawHit.position.x * 0.1,
         rawHit.position.y * 0.1,
         rawHit.position.z * 0.1,
@@ -298,7 +284,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
          * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L349
          */
         categories.overlay.push({
-          type: 'Point',
+          type: 'CircularPoint',
           pos,
           color: colorOverlay,
         });
@@ -307,7 +293,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
          * https://github.com/key4hep/EDM4hep/blob/fe5a54046a91a7e648d0b588960db7841aebc670/edm4hep.yaml#L350
          */
         categories.secondary.push({
-          type: 'Point',
+          type: 'CircularPoint',
           pos,
           color: colorSecondary,
         });
@@ -322,61 +308,20 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
           ref = rawHit.MCParticle;
         }
 
-        if (ref !== null) {
-          const collection = this.getCollByID(rawEvent, ref.collectionID);
-          const pdg = Math.abs(collection?.[ref.index]?.PDG ?? 0);
+        const pdg =
+          ref !== null
+            ? (this.getCollByID(rawEvent, ref.collectionID)?.[ref.index]?.PDG ??
+              null)
+            : null;
 
-          switch (pdg) {
-            case 11:
-              categories.electron.push({
-                type: 'Point',
-                pos,
-                color: colorElectron,
-              });
-              break;
-            case 13:
-              categories.muon.push({
-                type: 'Point',
-                pos,
-                color: colorMuon,
-              });
-              break;
-            case 211:
-              categories.pion.push({
-                type: 'Point',
-                pos,
-                color: colorPion,
-              });
-              break;
-            case 321:
-              categories.kaon.push({
-                type: 'Point',
-                pos,
-                color: colorKaon,
-              });
-              break;
-            case 2212:
-              categories.proton.push({
-                type: 'Point',
-                pos,
-                color: colorProton,
-              });
-              break;
-            default:
-              categories.other.push({
-                type: 'Point',
-                pos,
-                color: colorOther,
-              });
-              break;
-          }
-        } else {
-          categories.other.push({
-            type: 'Point',
-            pos,
-            color: colorOther,
-          });
-        }
+        const particleType =
+          Edm4hepJsonLoader.pidNames[pdg] ?? edm4hep.ParticleType.Other;
+
+        categories[particleType].push({
+          type: 'CircularPoint',
+          pos,
+          color: Edm4hepJsonLoader.pidColors[particleType],
+        });
       }
     });
 
@@ -386,8 +331,39 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   /** Returns Calo cells */
   private getCaloCells(
     caloCellCollection: edm4hep.CaloCell[],
-  ): edmPhoenix.CaloCell[] {
-    const cells: edmPhoenix.CaloCell[] = [];
+  ): CaloCellParams[] {
+    const cells: Omit<CaloCellParams, 'uuid'>[] = [];
+    const hue = Math.floor(Math.random() * 358);
+
+    // Find smallest distance between cell centers and use it as cell size
+    let drmin = 1e9;
+    for (let i = 0; i < 1e4; ++i) {
+      const j = Math.floor(Math.random() * caloCellCollection.length);
+      const k = Math.floor(Math.random() * caloCellCollection.length);
+      if (j === k) {
+        continue;
+      }
+
+      const dx2 = Math.pow(
+        caloCellCollection[j].position.x - caloCellCollection[k].position.x,
+        2,
+      );
+      const dy2 = Math.pow(
+        caloCellCollection[j].position.y - caloCellCollection[k].position.y,
+        2,
+      );
+      const dz2 = Math.pow(
+        caloCellCollection[j].position.z - caloCellCollection[k].position.z,
+        2,
+      );
+      const dr = Math.sqrt(dx2 + dy2 + dz2);
+
+      if (dr < drmin) {
+        drmin = dr;
+      }
+    }
+
+    const side = Math.floor(drmin) * 0.1 > 1 ? Math.floor(drmin) * 0.1 : 1;
 
     caloCellCollection.forEach((rawCell) => {
       const x = rawCell.position.x * 0.1;
@@ -399,17 +375,24 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         eta: rho === 0 ? 0 : Math.asinh(z / rho), // Check because '0 / 0 = NaN'
         phi: Math.atan2(y, x), // Safer equivalent to 'Math.acos(x / rho) * Math.sign(y)'
         energy: rawCell.energy,
+        radius: Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2)),
+        z,
+        color: this.convHSLtoHEX(hue, rawCell.energy),
+        opacity: this.valToOpacity(rawCell.energy, 1e-3, 1),
+        side: side,
+        length: side, // expecting cells in multiple layers
       });
     });
 
-    return cells;
+    return cells as CaloCellParams[];
   }
 
   /** Return Calo clusters */
   private getCaloClusters(
     caloClusterCollection: edm4hep.CaloCluster[],
-  ): edmPhoenix.CaloCluster[] {
-    const clusters: edmPhoenix.CaloCluster[] = [];
+  ): CaloClusterParams[] {
+    const clusters: CaloClusterParams[] = [];
+    const hue = Math.floor(Math.random() * 361);
 
     caloClusterCollection.forEach((rawCluster) => {
       const x = rawCluster.position.x * 0.1;
@@ -421,6 +404,13 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
         eta: rho === 0 ? 0 : Math.asinh(z / rho), // Check because '0 / 0 = NaN'
         phi: Math.atan2(y, x), // Safer equivalent to 'Math.acos(x / rho) * Math.sign(y)'
         energy: rawCluster.energy,
+        radius: Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2)),
+        z,
+        color: this.convHSLtoHEX(hue, rawCluster.energy),
+        theta: rawCluster.iTheta,
+        opacity: this.valToOpacity(rawCluster.energy, 1e-3, 1),
+        // side (overrides side width of the cluster box)
+        // length (overrides length (depth) of the cluster box)
       });
     });
 
@@ -428,21 +418,29 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   }
 
   /** Return jets */
-  private getJets(
-    jetCollection: edm4hep.ReconstructedParticle[],
-  ): edmPhoenix.Jet[] {
-    const jets: edmPhoenix.Jet[] = [];
+  private getJets(jetCollection: edm4hep.ReconstructedParticle[]): JetParams[] {
+    const jets: JetParams[] = [];
+    const hue = Math.floor(Math.random() * 358);
 
     jetCollection.forEach((rawJet) => {
       const px: number = rawJet.momentum.x;
       const py: number = rawJet.momentum.y;
       const pz: number = rawJet.momentum.z;
+      const p = Math.sqrt(px * px + py * py + pz * pz);
       const pt = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2));
+      const eta = pt === 0 ? 0 : Math.asinh(pz / pt);
 
       jets.push({
-        eta: pt === 0 ? 0 : Math.asinh(pz / pt), // Check because '0 / 0 = NaN'
+        eta,
         phi: Math.atan2(py, px), // Safer equivalent to 'Math.acos(px / pt) * Math.sign(py)'
+        theta: 2 * Math.atan(Math.exp(-eta)),
         energy: rawJet.energy,
+        et: p === 0 ? 0 : (rawJet.energy * pt) / p,
+        // coneR (overrides the cone radius for visualization width)
+        origin_X: rawJet.referencePoint.x,
+        origin_Y: rawJet.referencePoint.y,
+        origin_Z: rawJet.referencePoint.z,
+        color: this.convHSLtoHEX(hue, rawJet.energy),
       });
     });
 
@@ -452,8 +450,8 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   /** Return missing energy */
   private getMissingEnergy(
     missingEnergyCollection: edm4hep.ReconstructedParticle[],
-  ): edmPhoenix.MissingEnergy[] {
-    const missingEnergies: edmPhoenix.MissingEnergy[] = [];
+  ): MissingEnergyParams[] {
+    const missingEnergies: MissingEnergyParams[] = [];
 
     missingEnergyCollection.forEach((rawMissingEnergy: any) => {
       const px: number = rawMissingEnergy.momentum.x;
@@ -462,7 +460,7 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
       const p = Math.sqrt(Math.pow(px, 2) + Math.pow(py, 2) + Math.pow(pz, 2));
 
       missingEnergies.push({
-        etx: ((rawMissingEnergy.energy * px) / p) * 10, // @todo no apparent reason to multiply by 10
+        etx: ((rawMissingEnergy.energy * px) / p) * 10,
         ety: ((rawMissingEnergy.energy * py) / p) * 10,
         color: '#ff69b4',
       });
@@ -483,5 +481,49 @@ export class Edm4hepJsonLoader extends PhoenixLoader {
   private getCollByID(event: any, id: number) {
     const coll = Object.values(event).find((c: any) => c?.collID === id) as any;
     return coll?.collection;
+  }
+
+  /** Return a lightness value from the passed number and range */
+  private valToLightness(v: number, min: number, max: number): number {
+    let lightness = 80 - ((v - min) * 65) / (max - min);
+    if (lightness < 20) {
+      lightness = 20;
+    }
+    if (lightness > 85) {
+      lightness = 85;
+    }
+
+    return lightness;
+  }
+
+  /** Return a opacity value from the passed number and range */
+  private valToOpacity(v: number, min: number, max: number): number {
+    let opacity = 0.2 + ((v - min) * 0.65) / (max - min);
+    if (opacity < 0.2) {
+      opacity = 0.2;
+    }
+    if (opacity > 0.8) {
+      opacity = 0.8;
+    }
+
+    return opacity;
+  }
+
+  /** Helper conversion of HSL to hexadecimal */
+  private convHSLtoHEX(h: number, energy: number): string {
+    const s = Math.floor(Math.random() * 101);
+    const l = this.valToLightness(energy, 1e-3, 1) / 100;
+
+    const a = (s * Math.min(l, 1 - l)) / 100;
+
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color)
+        .toString(16)
+        .padStart(2, '0');
+    };
+
+    return `#${f(0)}${f(8)}${f(4)}`;
   }
 }
