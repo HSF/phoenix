@@ -39,6 +39,8 @@ export class PhoenixLoader implements EventDataLoader {
   protected stateManager: StateManager;
   /** Object containing event object labels. */
   protected labelsObject: { [key: string]: any } = {};
+  /** Optional event-level time information in nanoseconds. */
+  private eventTime?: { time: number; unit: 'ns' };
 
   /**
    * Create the Phoenix loader.
@@ -62,6 +64,13 @@ export class PhoenixLoader implements EventDataLoader {
     ui: UIManager,
     infoLogger: InfoLogger,
   ): void {
+    // Extract optional event-level time information
+    if (typeof (eventData as any).time === 'number') {
+      this.eventTime = { time: (eventData as any).time, unit: 'ns' };
+    } else {
+      this.eventTime = undefined;
+    }
+
     this.graphicsLibrary = graphicsLibrary;
     this.ui = ui;
     this.eventData = eventData;
@@ -85,6 +94,23 @@ export class PhoenixLoader implements EventDataLoader {
       runNumber,
       eventNumber,
     };
+
+    // Forward event-level time to animation system if available
+    const animationsManager =
+      typeof (this.graphicsLibrary as any).getAnimationsManager === 'function'
+        ? (this.graphicsLibrary as any).getAnimationsManager()
+        : undefined;
+    if (animationsManager && this.eventTime?.time !== undefined) {
+      animationsManager.setEventTime(this.eventTime.time);
+    }
+  }
+
+  /**
+   * Get event-level timing information if available.
+   * @returns Event time in nanoseconds, or undefined if not present.
+   */
+  public getEventTime(): { time: number; unit: 'ns' } | undefined {
+    return this.eventTime;
   }
 
   /**

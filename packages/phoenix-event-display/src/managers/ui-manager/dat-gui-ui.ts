@@ -62,6 +62,27 @@ export class DatGUIMenuUI implements PhoenixUI<GUI> {
     // this.labelsFolder = null;
 
     this.sceneManager = three.getSceneManager();
+
+    // Add optional Event Time Progress slider if animations manager supports it
+    const animationsManager =
+      typeof (this.three as any).getAnimationsManager === 'function'
+        ? (this.three as any).getAnimationsManager()
+        : undefined;
+
+    if (animationsManager?.getTimeProgress) {
+      const timeControl = { progress: animationsManager.getTimeProgress() };
+
+      const slider = this.gui
+        .add(timeControl, 'progress', 0, 1, 0.001)
+        .name('Event Time Progress');
+
+      slider.onChange((value: number) => {
+        if (animationsManager.eventTimeNs) {
+          animationsManager['currentTimeNs'] =
+            value * animationsManager['eventTimeNs'];
+        }
+      });
+    }
   }
 
   /**
