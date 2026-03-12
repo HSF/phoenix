@@ -9,6 +9,16 @@ import type {
 /**
  * Event data loader for implementing different event data loaders.
  */
+export interface EventMetadata {
+  label: string;
+  value: string | number;
+  unit?: string;
+  time?: number; // ns
+}
+
+export interface EventTime {
+  time?: number; // ns
+}
 export interface EventDataLoader {
   /** Load one event into the graphics library and UI. */
   buildEventData(
@@ -28,8 +38,8 @@ export interface EventDataLoader {
   getCollection(collectionName: string): any;
 
   /** Get metadata for the current event. */
-  getEventMetadata(): any[];
-
+  getEventMetadata(): EventMetadata[];
+  getEventTime?(): EventTime;
   /** Add a label to an event object. Returns a unique label ID. */
   addLabelToEventObject(
     label: string,
