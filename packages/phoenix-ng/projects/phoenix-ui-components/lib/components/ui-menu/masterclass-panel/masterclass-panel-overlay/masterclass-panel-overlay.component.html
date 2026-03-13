@@ -1,0 +1,209 @@
+<app-overlay
+  overlayTitle="Masterclass — Invariant Mass"
+  icon="physics"
+  [resizable]="true"
+  [active]="showPanel"
+>
+  <div *ngIf="showPanel" class="mc">
+    <!-- ───── STEP 1: Pick tracks ───── -->
+    <section class="mc-section">
+      <div class="mc-step-header">
+        <span class="mc-step-num">1</span>
+        <span>Select tracks</span>
+      </div>
+
+      <select
+        class="mc-select"
+        [ngModel]="selectedCollection"
+        (ngModelChange)="selectCollection($event)"
+      >
+        <option *ngFor="let c of collectionNames" [value]="c">{{ c }}</option>
+      </select>
+
+      <div class="mc-track-list" *ngIf="collectionItems.length > 0">
+        <div
+          *ngFor="let item of collectionItems"
+          class="mc-track-row"
+          [class.mc-track-selected]="item.selected"
+          (click)="toggleItem(item)"
+          (mouseenter)="highlightItem(item.uuid)"
+        >
+          <input
+            type="checkbox"
+            [checked]="item.selected"
+            (click)="$event.stopPropagation()"
+            (change)="toggleItem(item)"
+          />
+          <span class="mc-track-id">#{{ item.index }}</span>
+          <span class="mc-track-prop" *ngIf="item.pT">
+            p<sub>T</sub>={{ ptGeV(item.pT) }}
+          </span>
+          <span class="mc-track-prop" *ngIf="item.eta">
+            &eta;={{ item.eta | number: '1.1-1' }}
+          </span>
+        </div>
+      </div>
+      <p class="mc-hint" *ngIf="collectionItems.length === 0">
+        Load an event to see collections.
+      </p>
+    </section>
+
+    <!-- ───── STEP 2: Tag particles ───── -->
+    <section class="mc-section">
+      <div class="mc-step-header">
+        <span class="mc-step-num">2</span>
+        <span>Tag as ({{ selectedCount }} selected)</span>
+      </div>
+
+      <div class="mc-tag-row">
+        <button
+          class="mc-tag-btn mc-tag-e"
+          [disabled]="selectedCount === 0"
+          (click)="tagSelectedAs('electron')"
+        >
+          e&plusmn; <small>electron</small>
+        </button>
+        <button
+          class="mc-tag-btn mc-tag-mu"
+          [disabled]="selectedCount === 0"
+          (click)="tagSelectedAs('muon')"
+        >
+          &mu;&plusmn; <small>muon</small>
+        </button>
+        <button
+          class="mc-tag-btn mc-tag-g"
+          [disabled]="selectedCount === 0"
+          (click)="tagSelectedAs('photon')"
+        >
+          &gamma; <small>photon</small>
+        </button>
+      </div>
+    </section>
+
+    <!-- ───── Status ───── -->
+    <p class="mc-status mc-status-{{ statusType }}" *ngIf="statusMessage">
+      {{ statusMessage }}
+    </p>
+
+    <!-- ───── Tagged Particles Table (HYPATIA-style) ───── -->
+    <section class="mc-section" *ngIf="taggedParticles.length > 0">
+      <div class="mc-step-header">
+        <span class="mc-step-num">3</span>
+        <span>Tagged particles</span>
+      </div>
+
+      <table class="mc-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>p<sub>T</sub> <small>GeV</small></th>
+            <th>&eta;</th>
+            <th>&phi;</th>
+            <th>E <small>GeV</small></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of taggedParticles; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span
+                class="mc-badge"
+                [style.background]="tagColor(p.tag) + '33'"
+                [style.color]="tagColor(p.tag)"
+              >
+                {{ tagSymbol(p.tag) }}
+              </span>
+            </td>
+            <td>{{ ptGeV(p.pT) }}</td>
+            <td>{{ p.eta | number: '1.2-2' }}</td>
+            <td>{{ p.phi | number: '1.2-2' }}</td>
+            <td>{{ massGeV(p.fourMomentum.E) }}</td>
+            <td>
+              <button class="mc-remove" (click)="removeTagged(i)">
+                &times;
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="taggedParticles.length >= 2">
+          <tr class="mc-mass-row">
+            <td [attr.colspan]="5">
+              <strong>M({{ liveEventType }})</strong>
+            </td>
+            <td colspan="2">
+              <strong class="mc-mass-value">{{ massGeV(liveMass) }} GeV</strong>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="mc-actions">
+        <button
+          class="mc-btn mc-btn-primary"
+          [disabled]="taggedParticles.length < 2"
+          (click)="recordResult()"
+        >
+          Record Result
+        </button>
+        <button class="mc-btn mc-btn-ghost" (click)="clearTagged()">
+          Clear
+        </button>
+      </div>
+
+      <!-- Educational hint -->
+      <div class="mc-hint-box" *ngIf="taggedParticles.length >= 2">
+        <strong>Hint:</strong>
+        Z boson &asymp; 91 GeV &middot; Higgs &asymp; 125 GeV &middot; J/&psi;
+        &asymp; 3.1 GeV
+      </div>
+    </section>
+
+    <!-- ───── Results History ───── -->
+    <section class="mc-section" *ngIf="massResults.length > 0">
+      <div class="mc-step-header">
+        <span class="mc-step-num">4</span>
+        <span>Results ({{ massResults.length }})</span>
+      </div>
+
+      <table class="mc-table mc-table-results">
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Type</th>
+            <th>Particles</th>
+            <th>M <small>GeV</small></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of massResults; index as i">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <span class="mc-event-type">{{ r.eventType }}</span>
+            </td>
+            <td>{{ r.particleCount }}</td>
+            <td>
+              <strong>{{ massGeV(r.mass) }}</strong>
+            </td>
+            <td>
+              <button class="mc-remove" (click)="removeResult(i)">
+                &times;
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mc-actions">
+        <button class="mc-btn mc-btn-export" (click)="exportResults()">
+          Export Results
+        </button>
+        <button class="mc-btn mc-btn-ghost" (click)="clearResults()">
+          Clear All
+        </button>
+      </div>
+    </section>
+  </div>
+</app-overlay>
