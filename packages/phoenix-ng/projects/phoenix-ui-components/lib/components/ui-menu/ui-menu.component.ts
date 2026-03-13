@@ -4,6 +4,7 @@ import {
   type EventDataImportOption,
 } from '../../services/extras/event-data-import';
 import { defaultAnimationPresets } from './animate-camera/animate-camera.component';
+import type { MasterclassConfig } from 'phoenix-event-display';
 
 @Component({
   standalone: false, // this is now required when using NgModule
@@ -17,4 +18,6 @@ export class UiMenuComponent {
     Object.values(EventDataFormat);
   @Input()
   animationPresets = defaultAnimationPresets;
+  @Input()
+  masterclassConfig?: MasterclassConfig;
 }

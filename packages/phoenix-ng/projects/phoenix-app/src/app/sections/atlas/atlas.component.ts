@@ -9,8 +9,9 @@ import {
   PhoenixMenuNode,
   JiveXMLLoader,
   StateManager,
+  ATLAS_MASTERCLASS_CONFIG,
 } from 'phoenix-event-display';
-import type { Configuration } from 'phoenix-event-display';
+import type { Configuration, MasterclassConfig } from 'phoenix-event-display';
 import { environment } from '../../../environments/environment';
 import eventConfig from '../../../../event-config.json';
 
@@ -30,6 +31,7 @@ export class AtlasComponent implements OnInit, OnDestroy {
     EventDataFormat.JIVEXML,
     EventDataFormat.ZIP,
   ];
+  masterclassConfig: MasterclassConfig = ATLAS_MASTERCLASS_CONFIG;
   loaded = false;
   loadingProgress = 0;
 

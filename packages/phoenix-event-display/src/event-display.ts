@@ -39,6 +39,8 @@ export class EventDisplay {
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
+  /** Generic event bus for integration with external frameworks. */
+  private eventBus: Map<string, Set<(data: any) => void>> = new Map();
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -127,6 +129,7 @@ export class EventDisplay {
     // Clear accumulated callbacks
     this.onEventsChange = [];
     this.onDisplayedEventChange = [];
+    this.eventBus.clear();
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
@@ -618,6 +621,48 @@ export class EventDisplay {
         this.onEventsChange.splice(index, 1);
       }
     };
+  }
+
+  /**
+   * Subscribe to a named event on the integration event bus.
+   * Allows external frameworks to react to actions like particle tagging
+   * or result recording.
+   *
+   * Standard event names:
+   * - `'particle-tagged'`: Fired when a particle is tagged in the masterclass panel.
+   * - `'particle-untagged'`: Fired when a tagged particle is removed.
+   * - `'result-recorded'`: Fired when an invariant mass result is recorded.
+   *
+   * @param eventName The event name to listen for.
+   * @param callback Callback invoked with event-specific data.
+   * @returns Unsubscribe function to remove the listener.
+   */
+  public on(eventName: string, callback: (data: any) => void): () => void {
+    if (!this.eventBus.has(eventName)) {
+      this.eventBus.set(eventName, new Set());
+    }
+    this.eventBus.get(eventName).add(callback);
+    return () => {
+      const listeners = this.eventBus.get(eventName);
+      if (listeners) {
+        listeners.delete(callback);
+        if (listeners.size === 0) {
+          this.eventBus.delete(eventName);
+        }
+      }
+    };
+  }
+
+  /**
+   * Emit a named event on the integration event bus.
+   * @param eventName The event name to emit.
+   * @param data Data to pass to listeners.
+   */
+  public emit(eventName: string, data?: any): void {
+    const listeners = this.eventBus.get(eventName);
+    if (listeners) {
+      listeners.forEach((cb) => cb(data));
+    }
   }
 
   /**

@@ -1197,7 +1197,7 @@ export class ThreeManager {
    * Get the selection manager.
    * @returns Selection manager responsible for managing selection of 3D objects.
    */
-  private getSelectionManager(): SelectionManager {
+  public getSelectionManager(): SelectionManager {
     if (!this.selectionManager) {
       this.selectionManager = new SelectionManager();
     }
