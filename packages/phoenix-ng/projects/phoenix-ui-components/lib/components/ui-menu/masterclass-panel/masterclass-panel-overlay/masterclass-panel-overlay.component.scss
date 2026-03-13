@@ -1,0 +1,361 @@
+// ── Masterclass Panel ────────────────────────────────────
+// HYPATIA-inspired UI for ATLAS masterclass exercises.
+// Designed for high-school students: clear steps, big targets.
+
+$cyan: #00bcd4;
+$gold: #f0c040;
+$green: #40c060;
+$red: #e04040;
+$bg-card: rgba(255, 255, 255, 0.06);
+$border: rgba(255, 255, 255, 0.12);
+$text: #e0e0e0;
+$muted: rgba(255, 255, 255, 0.5);
+
+.mc {
+  width: 400px;
+  font-size: 0.82rem;
+  color: $text;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 6px;
+}
+
+// ── Sections ──────────────────────────────────────────────
+.mc-section {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.mc-step-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.mc-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: $cyan;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+// ── Collection select ─────────────────────────────────────
+.mc-select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid $border;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: $text;
+  font-size: 0.82rem;
+  margin-bottom: 6px;
+  cursor: pointer;
+
+  option {
+    background: #1a1a1a;
+    color: $text;
+  }
+}
+
+// ── Track list ────────────────────────────────────────────
+.mc-track-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid $border;
+  border-radius: 6px;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+}
+
+.mc-track-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.12s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &.mc-track-selected {
+    background: rgba($cyan, 0.18);
+    border-left: 3px solid $cyan;
+  }
+
+  input[type='checkbox'] {
+    accent-color: $cyan;
+    cursor: pointer;
+  }
+}
+
+.mc-track-id {
+  font-weight: 600;
+  min-width: 28px;
+  color: $text;
+}
+
+.mc-track-prop {
+  font-size: 0.75rem;
+  color: $muted;
+}
+
+// ── Tag buttons ───────────────────────────────────────────
+.mc-tag-row {
+  display: flex;
+  gap: 6px;
+}
+
+.mc-tag-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  border: 2px solid;
+  border-radius: 8px;
+  background: transparent;
+  color: $text;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  small {
+    font-size: 0.6rem;
+    font-weight: 400;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.mc-tag-e {
+  border-color: $gold;
+  &:hover:not(:disabled) {
+    background: rgba($gold, 0.15);
+  }
+}
+.mc-tag-mu {
+  border-color: $green;
+  &:hover:not(:disabled) {
+    background: rgba($green, 0.15);
+  }
+}
+.mc-tag-g {
+  border-color: $red;
+  &:hover:not(:disabled) {
+    background: rgba($red, 0.15);
+  }
+}
+
+// ── Status bar ────────────────────────────────────────────
+.mc-status {
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 0;
+}
+.mc-status-info {
+  background: rgba($cyan, 0.12);
+  color: $cyan;
+}
+.mc-status-success {
+  background: rgba($green, 0.12);
+  color: $green;
+}
+.mc-status-warning {
+  background: rgba($gold, 0.12);
+  color: $gold;
+}
+
+// ── Tables (HYPATIA-style) ────────────────────────────────
+.mc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+
+  th,
+  td {
+    padding: 4px 6px;
+    text-align: left;
+    color: $text;
+  }
+
+  th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: $muted;
+    border-bottom: 1px solid $border;
+    font-weight: 600;
+
+    small {
+      opacity: 0.6;
+      font-size: 0.6rem;
+    }
+  }
+
+  td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.mc-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.mc-mass-row {
+  td {
+    border-top: 2px solid $cyan;
+    padding-top: 6px;
+    border-bottom: none;
+  }
+}
+
+.mc-mass-value {
+  color: $cyan;
+  font-size: 0.95rem;
+}
+
+.mc-event-type {
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: $cyan;
+}
+
+.mc-remove {
+  background: none;
+  border: none;
+  color: $muted;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover {
+    color: $red;
+  }
+}
+
+// ── Buttons ───────────────────────────────────────────────
+.mc-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.mc-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid $border;
+  background: transparent;
+  color: $text;
+  transition: all 0.15s;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.mc-btn-primary {
+  background: rgba($cyan, 0.15);
+  border-color: $cyan;
+  color: $cyan;
+  &:hover:not(:disabled) {
+    background: rgba($cyan, 0.25);
+  }
+}
+
+.mc-btn-export {
+  background: rgba($green, 0.12);
+  border-color: $green;
+  color: $green;
+  &:hover {
+    background: rgba($green, 0.2);
+  }
+}
+
+.mc-btn-ghost {
+  border-color: transparent;
+  color: $muted;
+  &:hover {
+    color: $text;
+  }
+}
+
+// ── Hint box ──────────────────────────────────────────────
+.mc-hint-box {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba($cyan, 0.08);
+  border: 1px dashed rgba($cyan, 0.3);
+  font-size: 0.72rem;
+  color: $muted;
+
+  strong {
+    color: $cyan;
+  }
+}
+
+.mc-hint {
+  font-size: 0.75rem;
+  color: $muted;
+  font-style: italic;
+}
+
+// ── Results table ─────────────────────────────────────────
+.mc-table-results {
+  td strong {
+    color: $cyan;
+  }
+}

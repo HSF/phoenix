@@ -65,6 +65,8 @@ import {
   EventDataExplorerComponent,
   EventDataExplorerDialogComponent,
   CycleEventsComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
 } from './ui-menu';
 
 import { AttributePipe } from '../services/extras/attribute.pipe';
@@ -127,6 +129,8 @@ const PHOENIX_COMPONENTS: Type<any>[] = [
   FileExplorerComponent,
   RingLoaderComponent,
   CycleEventsComponent,
+  MasterclassPanelComponent,
+  MasterclassPanelOverlayComponent,
 ];
 
 @NgModule({
