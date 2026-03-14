@@ -1205,6 +1205,49 @@ export class ThreeManager {
   }
 
   /**
+   * Set selection callbacks on the SelectionManager for EventDisplay integration.
+   * @param onObjectSelectedCallback Called when an object is selected
+   * @param onObjectDeselectedCallback Called when an object is deselected
+   * @param onObjectHoveredCallback Called when an object is hovered
+   * @param onObjectHoverEndCallback Called when hover ends
+   * @param onSelectionChangedCallback Called when selection changes
+   * @internal Used by EventDisplay to integrate selection callbacks
+   */
+  public setSelectionCallbacks(
+    onObjectSelectedCallback?: ((object: any, data?: any) => void) | null,
+    onObjectDeselectedCallback?: ((object: any) => void) | null,
+    onObjectHoveredCallback?: ((object: any, data?: any) => void) | null,
+    onObjectHoverEndCallback?: ((object: any) => void) | null,
+    onSelectionChangedCallback?:
+      | ((selectedObjects: any[], selectionData?: any) => void)
+      | null,
+  ): void {
+    const selectionManager = this.getSelectionManager();
+
+    if (onObjectSelectedCallback !== undefined) {
+      selectionManager.setOnObjectSelectedCallback(onObjectSelectedCallback);
+    }
+    if (onObjectDeselectedCallback !== undefined) {
+      selectionManager.setOnObjectDeselectedCallback(
+        onObjectDeselectedCallback,
+      );
+    }
+    if (onObjectHoveredCallback !== undefined) {
+      selectionManager.setOnObjectHoveredCallback(onObjectHoveredCallback);
+    }
+    if (onObjectHoverEndCallback !== undefined) {
+      selectionManager.setOnObjectHoverEndCallback(onObjectHoverEndCallback);
+    }
+    if (onSelectionChangedCallback !== undefined) {
+      selectionManager.setOnSelectionChangedCallback(
+        onSelectionChangedCallback
+          ? (set, arr) => onSelectionChangedCallback(arr)
+          : null,
+      );
+    }
+  }
+
+  /**
    * Animates camera position.
    * @param cameraPosition End position.
    * @param duration Duration of an animation in seconds.

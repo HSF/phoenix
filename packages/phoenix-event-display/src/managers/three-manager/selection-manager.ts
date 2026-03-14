@@ -106,6 +106,24 @@ export class SelectionManager {
     TO_LOW_SKIP: 45, // FPS above 45 → skip 3 frames
     TO_MINIMAL_SKIP: 90, // FPS above 55 → skip 1 frame
   };
+
+  // External callbacks for integration with EventDisplay and external applications
+  /** Callback function called when an object is selected */
+  private onObjectSelectedCallback:
+    | ((object: Mesh, data?: any) => void)
+    | null = null;
+  /** Callback function called when an object is deselected */
+  private onObjectDeselectedCallback: ((object: Mesh) => void) | null = null;
+  /** Callback function called when an object is hovered */
+  private onObjectHoveredCallback: ((object: Mesh, data?: any) => void) | null =
+    null;
+  /** Callback function called when hover ends */
+  private onObjectHoverEndCallback: ((object: Mesh) => void) | null = null;
+  /** Callback function called when selection changes */
+  private onSelectionChangedCallback:
+    | ((selectedObjects: Set<Mesh>, selectedObjectsArray: Mesh[]) => void)
+    | null = null;
+
   /**
    * Constructor for the selection manager.
    */
@@ -1045,6 +1063,18 @@ export class SelectionManager {
     this.effectsManager.selectObject(object);
     this.selectedObjects.add(object);
     this.logSelectionAction(object, true);
+
+    // Fire callbacks
+    if (this.onObjectSelectedCallback) {
+      this.onObjectSelectedCallback(object);
+    }
+    if (this.onSelectionChangedCallback) {
+      this.onSelectionChangedCallback(
+        this.selectedObjects,
+        Array.from(this.selectedObjects),
+      );
+    }
+
     return true;
   }
 
@@ -1061,6 +1091,18 @@ export class SelectionManager {
     this.effectsManager.deselectObject(object);
     this.selectedObjects.delete(object);
     this.logSelectionAction(object, false);
+
+    // Fire callbacks
+    if (this.onObjectDeselectedCallback) {
+      this.onObjectDeselectedCallback(object);
+    }
+    if (this.onSelectionChangedCallback) {
+      this.onSelectionChangedCallback(
+        this.selectedObjects,
+        Array.from(this.selectedObjects),
+      );
+    }
+
     return true;
   }
 
@@ -1144,6 +1186,67 @@ export class SelectionManager {
   public updateOverlayListeners() {
     this.setupOverlayListeners();
   }
+
+  /**
+   * Set callback for when an object is selected.
+   * @param callback Function to call when object is selected, or null to remove.
+   * @internal Used by EventDisplay to integrate selection callbacks
+   */
+  public setOnObjectSelectedCallback(
+    callback: ((object: Mesh, data?: any) => void) | null,
+  ): void {
+    this.onObjectSelectedCallback = callback;
+  }
+
+  /**
+   * Set callback for when an object is deselected.
+   * @param callback Function to call when object is deselected, or null to remove.
+   * @internal Used by EventDisplay to integrate selection callbacks
+   */
+  public setOnObjectDeselectedCallback(
+    callback: ((object: Mesh) => void) | null,
+  ): void {
+    this.onObjectDeselectedCallback = callback;
+  }
+
+  /**
+   * Set callback for when an object is hovered.
+   * @param callback Function to call when object is hovered, or null to remove.
+   * @internal Used by EventDisplay to integrate hover callbacks
+   */
+  public setOnObjectHoveredCallback(
+    callback: ((object: Mesh, data?: any) => void) | null,
+  ): void {
+    this.onObjectHoveredCallback = callback;
+  }
+
+  /**
+   * Set callback for when hover ends.
+   * @param callback Function to call when hover ends, or null to remove.
+   * @internal Used by EventDisplay to integrate hover callbacks
+   */
+  public setOnObjectHoverEndCallback(
+    callback: ((object: Mesh) => void) | null,
+  ): void {
+    this.onObjectHoverEndCallback = callback;
+  }
+
+  /**
+   * Set callback for when selection changes.
+   * @param callback Function to call when selection changes, or null to remove.
+   * @internal Used by EventDisplay to integrate selection change callbacks
+   */
+  public setOnSelectionChangedCallback(
+    callback:
+      | ((selectedObjects: Set<Mesh>, selectedObjectsArray: Mesh[]) => void)
+      | null,
+  ): void {
+    this.onSelectionChangedCallback = callback;
+  }
+
+  // =====================================
+  // Private methods and event handlers
+  // =====================================
 
   /**
    * Determine if a mouse event came from the overlay canvas.
