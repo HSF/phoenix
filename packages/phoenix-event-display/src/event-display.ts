@@ -39,6 +39,19 @@ export class EventDisplay {
   private onEventsChange: ((events: any) => void)[] = [];
   /** Array containing callbacks to be called when the displayed event changes. */
   private onDisplayedEventChange: ((nowDisplayingEvent: any) => void)[] = [];
+  /** Array containing callbacks to be called when an object is selected. */
+  private onObjectSelectedCallbacks: ((object: any, data: any) => void)[] = [];
+  /** Array containing callbacks to be called when an object is deselected. */
+  private onObjectDeselectedCallbacks: ((object: any) => void)[] = [];
+  /** Array containing callbacks to be called when an object is hovered. */
+  private onObjectHoveredCallbacks: ((object: any, data: any) => void)[] = [];
+  /** Array containing callbacks to be called when object hover ends. */
+  private onObjectHoverEndCallbacks: ((object: any) => void)[] = [];
+  /** Array containing callbacks to be called when selection state changes. */
+  private onSelectionChangedCallbacks: ((
+    selectedObjects: any[],
+    selectionData: any,
+  ) => void)[] = [];
   /** Three manager for three.js operations. */
   private graphicsLibrary: ThreeManager;
   /** Info logger for storing event display logs. */
@@ -83,6 +96,10 @@ export class EventDisplay {
     this.graphicsLibrary.init(configuration);
     // Initialize the UI with configuration
     this.ui.init(configuration);
+
+    // Set up selection callbacks for external integrations
+    this.setupSelectionCallbacks();
+
     // Apply JiveXML track extension configuration and surface UI controls when available
     const loaderWithTrackExtension = this.configuration.eventDataLoader as any;
     if (loaderWithTrackExtension?.setTrackExtensionConfig) {
@@ -127,6 +144,11 @@ export class EventDisplay {
     // Clear accumulated callbacks
     this.onEventsChange = [];
     this.onDisplayedEventChange = [];
+    this.onObjectSelectedCallbacks = [];
+    this.onObjectDeselectedCallbacks = [];
+    this.onObjectHoveredCallbacks = [];
+    this.onObjectHoverEndCallbacks = [];
+    this.onSelectionChangedCallbacks = [];
     // Reset singletons for clean view transition
     this.loadingManager?.reset();
     this.stateManager?.resetForViewTransition();
@@ -618,6 +640,158 @@ export class EventDisplay {
         this.onEventsChange.splice(index, 1);
       }
     };
+  }
+
+  /**
+   * Add a callback to be invoked when an object is selected.
+   * @param callback Callback receiving the selected object and associated data.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public onObjectSelected(
+    callback: (object: any, data?: any) => void,
+  ): () => void {
+    this.onObjectSelectedCallbacks.push(callback);
+    return () => {
+      const index = this.onObjectSelectedCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.onObjectSelectedCallbacks.splice(index, 1);
+      }
+    };
+  }
+
+  /**
+   * Add a callback to be invoked when an object is deselected.
+   * @param callback Callback receiving the deselected object.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public onObjectDeselected(callback: (object: any) => void): () => void {
+    this.onObjectDeselectedCallbacks.push(callback);
+    return () => {
+      const index = this.onObjectDeselectedCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.onObjectDeselectedCallbacks.splice(index, 1);
+      }
+    };
+  }
+
+  /**
+   * Add a callback to be invoked when an object is hovered.
+   * @param callback Callback receiving the hovered object and associated data.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public onObjectHovered(
+    callback: (object: any, data?: any) => void,
+  ): () => void {
+    this.onObjectHoveredCallbacks.push(callback);
+    return () => {
+      const index = this.onObjectHoveredCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.onObjectHoveredCallbacks.splice(index, 1);
+      }
+    };
+  }
+
+  /**
+   * Add a callback to be invoked when object hover ends.
+   * @param callback Callback receiving the object that was hovered.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public onObjectHoverEnd(callback: (object: any) => void): () => void {
+    this.onObjectHoverEndCallbacks.push(callback);
+    return () => {
+      const index = this.onObjectHoverEndCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.onObjectHoverEndCallbacks.splice(index, 1);
+      }
+    };
+  }
+
+  /**
+   * Add a callback to be invoked when the selection state changes.
+   * @param callback Callback receiving the list of selected objects and selection data.
+   * @returns Unsubscribe function to remove the callback.
+   */
+  public onSelectionChanged(
+    callback: (selectedObjects: any[], selectionData?: any) => void,
+  ): () => void {
+    this.onSelectionChangedCallbacks.push(callback);
+    return () => {
+      const index = this.onSelectionChangedCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.onSelectionChangedCallbacks.splice(index, 1);
+      }
+    };
+  }
+
+  /**
+   * Internal method to fire object selected callbacks.
+   * Called by the SelectionManager when an object is selected.
+   * @internal
+   */
+  private fireObjectSelectedCallback(object: any, data?: any) {
+    this.onObjectSelectedCallbacks.forEach((callback) =>
+      callback(object, data),
+    );
+  }
+
+  /**
+   * Internal method to fire object deselected callbacks.
+   * Called by the SelectionManager when an object is deselected.
+   * @internal
+   */
+  private fireObjectDeselectedCallback(object: any, data?: any) {
+    this.onObjectDeselectedCallbacks.forEach((callback) => callback(object));
+  }
+
+  /**
+   * Internal method to fire object hovered callbacks.
+   * Called by the SelectionManager when an object is hovered.
+   * @internal
+   */
+  private fireObjectHoveredCallback(object: any, data?: any) {
+    this.onObjectHoveredCallbacks.forEach((callback) => callback(object, data));
+  }
+
+  /**
+   * Internal method to fire object hover end callbacks.
+   * Called by the SelectionManager when hover ends.
+   * @internal
+   */
+  private fireObjectHoverEndCallback(object: any, data?: any) {
+    this.onObjectHoverEndCallbacks.forEach((callback) => callback(object));
+  }
+
+  /**
+   * Internal method to fire selection changed callbacks.
+   * Called by the SelectionManager when selection state changes.
+   * @internal
+   */
+  private fireSelectionChangedCallback(
+    selectedObjects: any[],
+    selectionData?: any,
+  ) {
+    this.onSelectionChangedCallbacks.forEach((callback) =>
+      callback(selectedObjects, selectionData),
+    );
+  }
+
+  /**
+   * Set up selection callbacks on ThreeManager's SelectionManager.
+   * This connects the internal fire*Callback methods to the SelectionManager.
+   * @private
+   */
+  private setupSelectionCallbacks(): void {
+    this.graphicsLibrary.setSelectionCallbacks(
+      (object: any, data?: any) =>
+        this.fireObjectSelectedCallback(object, data),
+      (object: any, data?: any) =>
+        this.fireObjectDeselectedCallback(object, data),
+      (object: any, data?: any) => this.fireObjectHoveredCallback(object, data),
+      (object: any, data?: any) =>
+        this.fireObjectHoverEndCallback(object, data),
+      (selectedObjects: any[], data?: any) =>
+        this.fireSelectionChangedCallback(selectedObjects, data),
+    );
   }
 
   /**

@@ -6,7 +6,7 @@ import {
   FileEvent,
 } from '../../../file-explorer/file-explorer.component';
 import { FileLoaderService } from '../../../../services/file-loader.service';
-import { type EventDataExplorerDialogData } from '../event-data-explorer.component';
+import type { EventDataExplorerDialogData } from '../event-data-explorer.component';
 
 const supportFileTypes = ['json', 'xml'];
 
@@ -27,13 +27,16 @@ export class EventDataExplorerDialogComponent {
   configFileNode: FileNode;
   loading = true;
   error = false;
+  private dialogData: EventDataExplorerDialogData;
 
   constructor(
     private eventDisplay: EventDisplayService,
     private fileLoader: FileLoaderService,
     private dialogRef: MatDialogRef<EventDataExplorerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private dialogData: EventDataExplorerDialogData,
+    @Inject(MAT_DIALOG_DATA) dialogData: unknown,
   ) {
+    this.dialogData = dialogData as EventDataExplorerDialogData;
+
     // Event data
     fileLoader.makeRequest(
       this.dialogData.apiURL,

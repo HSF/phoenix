@@ -4,6 +4,7 @@
 import { InfoLogger } from '../../../helpers/info-logger';
 import { EffectsManager } from '../../../managers/three-manager/effects-manager';
 import { Object3D, PerspectiveCamera, Scene, Vector2, Vector3 } from 'three';
+import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three';
 import { SelectionManager } from '../../../managers/three-manager/selection-manager';
 import THREE from '../../helpers/webgl-mock';
 
@@ -136,6 +137,87 @@ describe('SelectionManager', () => {
     expect(objectGroup.getObjectByProperty).toHaveBeenCalledWith(
       'uuid',
       'uuid',
+    );
+  });
+
+  it('should fire hover callbacks through applyIntersectionResult path', () => {
+    const hoveredCallback = jest.fn();
+    const hoverEndCallback = jest.fn();
+    const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial());
+
+    selectionManager['effectsManager'] = {
+      setHoverOutline: jest.fn(),
+    } as any;
+    jest
+      .spyOn(selectionManagerPrivate, 'updateInfoPanelForHover')
+      .mockImplementation(() => undefined);
+
+    selectionManager.setOnObjectHoveredCallback(hoveredCallback);
+    selectionManager.setOnObjectHoverEndCallback(hoverEndCallback);
+
+    selectionManager.applyIntersectionResult(mesh);
+
+    expect(hoveredCallback).toHaveBeenCalledWith(
+      mesh,
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+    );
+
+    selectionManager.applyIntersectionResult(null);
+
+    expect(hoverEndCallback).toHaveBeenCalledWith(mesh);
+  });
+
+  it('should fire selection callbacks through handleClick interaction path', () => {
+    const selectedCallback = jest.fn();
+    const deselectedCallback = jest.fn();
+    const selectionChangedCallback = jest.fn();
+    const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial());
+
+    selectionManager['effectsManager'] = {
+      selectObject: jest.fn(),
+      deselectObject: jest.fn(),
+      clearAllSelections: jest.fn(),
+    } as any;
+    selectionManager['infoLogger'] = { add: jest.fn() } as any;
+
+    selectionManager.setOnObjectSelectedCallback(selectedCallback);
+    selectionManager.setOnObjectDeselectedCallback(deselectedCallback);
+    selectionManager.setOnSelectionChangedCallback(selectionChangedCallback);
+
+    selectionManagerPrivate.currentlyOutlinedObject = mesh;
+    selectionManagerPrivate.handleClick();
+
+    expect(selectedCallback).toHaveBeenCalledWith(
+      mesh,
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+    );
+    expect(selectionChangedCallback).toHaveBeenCalledWith(expect.any(Set), [
+      mesh,
+    ]);
+
+    selectionManagerPrivate.currentlyOutlinedObject = null;
+    selectionManagerPrivate.handleClick();
+
+    expect(deselectedCallback).toHaveBeenCalledWith(
+      mesh,
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
+    );
+    expect(selectionChangedCallback).toHaveBeenLastCalledWith(
+      expect.any(Set),
+      [],
+    );
+  });
+
+  it('should provide hover data on immediate hover callback subscription', () => {
+    const hoveredCallback = jest.fn();
+    const mesh = new Mesh(new BoxGeometry(), new MeshBasicMaterial());
+
+    selectionManagerPrivate.hoveredObject = mesh;
+    selectionManager.setOnObjectHoveredCallback(hoveredCallback);
+
+    expect(hoveredCallback).toHaveBeenCalledWith(
+      mesh,
+      expect.objectContaining({ uuid: mesh.uuid, name: mesh.name }),
     );
   });
 });
