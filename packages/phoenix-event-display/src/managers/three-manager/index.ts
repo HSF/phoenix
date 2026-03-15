@@ -1241,7 +1241,11 @@ export class ThreeManager {
     if (onSelectionChangedCallback !== undefined) {
       selectionManager.setOnSelectionChangedCallback(
         onSelectionChangedCallback
-          ? (set, arr) => onSelectionChangedCallback(arr)
+          ? (set, arr) =>
+              onSelectionChangedCallback(arr, {
+                selectionSet: set,
+                selectionArray: arr,
+              })
           : null,
       );
     }

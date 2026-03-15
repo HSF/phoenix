@@ -549,7 +549,7 @@ export class SelectionManager {
 
         // Clear hover outline when drag starts to provide immediate visual feedback
         this.effectsManager.setHoverOutline(null);
-        this.hoveredObject = null;
+        this.setHoveredObject(null);
         this.currentlyOutlinedObject = null;
       }
     }
@@ -579,7 +579,7 @@ export class SelectionManager {
 
     // Only update hover outline if the target object has changed
     if (targetObject !== this.hoveredObject) {
-      this.hoveredObject = targetObject;
+      this.setHoveredObject(targetObject);
 
       // Set hover outline (this is separate from sticky selections)
       this.effectsManager.setHoverOutline(targetObject);
@@ -641,24 +641,26 @@ export class SelectionManager {
     const intersectedObject = this.currentlyOutlinedObject;
 
     if (intersectedObject) {
-      // Toggle selection of the clicked object
-      const wasSelected = this.selectedObjects.has(intersectedObject);
-      const isNowSelected =
-        this.effectsManager.toggleSelection(intersectedObject);
-
-      if (isNowSelected) {
-        this.selectedObjects.add(intersectedObject);
-      } else {
-        this.selectedObjects.delete(intersectedObject);
-      }
-
-      // Log the selection/deselection (no info panel update)
-      this.logSelectionAction(intersectedObject, isNowSelected);
+      // Use unified selection API so normal interactions and programmatic
+      // interactions trigger identical callback behavior.
+      this.toggleObjectSelection(intersectedObject);
     } else {
       // Clicked on empty space - clear all selections
       if (this.selectedObjects.size > 0) {
+        const previouslySelected = Array.from(this.selectedObjects);
         this.effectsManager.clearAllSelections();
         this.selectedObjects.clear();
+
+        if (this.onObjectDeselectedCallback) {
+          previouslySelected.forEach((obj) => {
+            const objectData = { uuid: obj.uuid, name: obj.name };
+            this.onObjectDeselectedCallback(obj, objectData);
+          });
+        }
+
+        if (this.onSelectionChangedCallback) {
+          this.onSelectionChangedCallback(this.selectedObjects, []);
+        }
 
         // Log that selections were cleared
         this.infoLogger.add('All selections cleared', 'Selection');
@@ -1267,7 +1269,11 @@ export class SelectionManager {
     // If a hover callback is registered while an object is already hovered,
     // immediately notify the callback of the current hover state.
     if (callback && this.hoveredObject) {
-      callback(this.hoveredObject);
+      const hoverData = {
+        uuid: this.hoveredObject.uuid,
+        name: this.hoveredObject.name,
+      };
+      callback(this.hoveredObject, hoverData);
     }
   }
 

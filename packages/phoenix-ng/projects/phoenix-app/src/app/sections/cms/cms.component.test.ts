@@ -58,6 +58,10 @@ describe('CMSComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
